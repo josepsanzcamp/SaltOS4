@@ -30,7 +30,7 @@ declare(strict_types=1);
 function get_directory($key, $default = "")
 {
     if (!$default) {
-        $default = getcwd_protected() . "/data/cache";
+        $default = getcwd_protected() . "/data/temp";
     }
     $dir = get_default($key, $default);
     if (is_array($dir)) {
@@ -45,12 +45,12 @@ function get_directory($key, $default = "")
 function get_temp_file($ext = "")
 {
     if ($ext == "") {
-        $ext = ".dat";
+        $ext = ".tmp";
     }
     if (substr($ext, 0, 1) != ".") {
         $ext = "." . $ext;
     }
-    $dir = get_directory("dirs/cachedir");
+    $dir = get_directory("dirs/tempdir", getcwd_protected() . "/data/temp");
     while (1) {
         $uniqid = get_unique_id_md5();
         $file = $dir . $uniqid . $ext;
@@ -58,6 +58,25 @@ function get_temp_file($ext = "")
             break;
         }
     }
+    return $file;
+}
+
+function get_cache_file($data, $ext = "")
+{
+    if (is_array($data)) {
+        $data = serialize($data);
+    }
+    if ($ext == "") {
+        $ext = strtolower(extension($data));
+    }
+    if ($ext == "") {
+        $ext = ".tmp";
+    }
+    if (substr($ext, 0, 1) != ".") {
+        $ext = "." . $ext;
+    }
+    $dir = get_directory("dirs/cachedir", getcwd_protected() . "/data/cache");
+    $file = $dir . md5($data) . $ext;
     return $file;
 }
 
@@ -80,25 +99,6 @@ function cache_exists($cache, $file)
         }
     }
     return 1;
-}
-
-function get_cache_file($data, $ext = "")
-{
-    if (is_array($data)) {
-        $data = serialize($data);
-    }
-    if ($ext == "") {
-        $ext = strtolower(extension($data));
-    }
-    if ($ext == "") {
-        $ext = ".dat";
-    }
-    if (substr($ext, 0, 1) != ".") {
-        $ext = "." . $ext;
-    }
-    $dir = get_directory("dirs/cachedir");
-    $file = $dir . md5($data) . $ext;
-    return $file;
 }
 
 function url_get_contents($url)

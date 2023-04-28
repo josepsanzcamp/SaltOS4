@@ -48,12 +48,13 @@ db_schema();
 db_static();
 
 // COLLECT ALL INPUT DATA
-$_INPUT = array(
+$array = array(
     "headers" => getallheaders(),
-    "data" => json_decode(file_get_contents('php://input'), true),
+    "input" => json_decode(file_get_contents('php://input'), true),
+    "rest" => explode("/", get_server("QUERY_STRING")),
 );
 output_handler(array(
-    "data" => json_encode($_INPUT),
+    "data" => json_encode($array),
     "type" => "application/json",
     "cache" => false
 ));

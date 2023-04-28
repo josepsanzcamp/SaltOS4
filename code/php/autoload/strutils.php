@@ -87,14 +87,17 @@ function prepare_words($cad, $pad = " ")
     return $cad;
 }
 
-function parse_str_protected($querystring, &$result)
+// THIS FUNCTION IS THE SAME THAT THE PHP ORIGINAP PARSE_STR
+// THE MAIN DIFFERENCE IS THAT NOT DEFINE THE KEY IF VALUE IF VOID
+function parse_str_protected($querystring)
 {
     $items = explode("&", $querystring);
     $result = array();
     foreach ($items as $item) {
         $par = explode("=", $item, 2);
         if (!isset($par[1])) {
-            $par[1] = "";
+            // THIS IS THE DIFFERENCE!!!
+            continue;
         }
         $par[1] = rawurldecode($par[1]);
         $result[$par[0]] = $par[1];
