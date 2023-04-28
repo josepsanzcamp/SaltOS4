@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ ____        _ _    ___  ____    _  _    ___
+/ ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+\___ \ / _` | | __| | | \___ \  | || |_| | | |
+ ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+|____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+
+SaltOS: Framework to develop Rich Internet Applications
+Copyright (C) 2007-2023 by Josep Sanz Campderrós
+More information in https://www.saltos.org or info@saltos.org
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <info>
+        <name>SaltOS</name>
+        <version>4.0</version>
+        <revision eval="true">svnversion()</revision>
+        <copyright>Copyright (C) 2007-2023 by Josep Sanz Campderrós</copyright>
+    </info>
+    <db>
+        <type>pdo_mysql</type>
+        <host>localhost</host><!-- for MySQL -->
+        <port>3306</port><!-- for MySQL -->
+        <user>saltos</user><!-- for MySQL -->
+        <pass>saltos</pass><!-- for MySQL -->
+        <name>saltos</name><!-- for MySQL -->
+        <file eval="true">getcwd()."/data/files/saltos.sqlite"</file><!-- for SQLite -->
+        <datatypes>
+            <int>TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER</int>
+            <string>TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR</string>
+            <float>DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE</float>
+            <date>DATE</date>
+            <time>TIME</time>
+            <datetime>DATETIME</datetime>
+        </datatypes>
+        <datasizes>
+            <TINYTEXT>255</TINYTEXT>
+            <TEXT>65535</TEXT>
+            <MEDIUMTEXT>16777215</MEDIUMTEXT>
+            <LONGTEXT>4294967295</LONGTEXT>
+        </datasizes>
+        <dbschema>true</dbschema>
+        <dbstatic>true</dbstatic>
+        <semaphoretimeout>10000000</semaphoretimeout><!-- in microseconds, only for SQLite -->
+        <dbfields>
+            <dbfield>id_aplicacion</dbfield>
+            <dbfield>id_registro</dbfield>
+            <dbfield>id_permiso</dbfield>
+        </dbfields>
+    </db>
+    <sess>
+        <save_path>saltos</save_path>
+        <timeout>3600</timeout><!-- in seconds, 3600 is 1 hour -->
+        <probability>1</probability>
+        <divisor>100</divisor>
+    </sess>
+    <server>
+        <hostname></hostname>
+        <pathname></pathname>
+        <forcessl>false</forcessl>
+        <porthttp>80</porthttp>
+        <porthttps>443</porthttps>
+        <dirindex>index.php</dirindex>
+        <percentstop>90</percentstop><!-- long actions stop when reached the 90% of max_execution_time -->
+        <maxmemorylimit>1G</maxmemorylimit><!-- to be used in some actions that requires more memory -->
+        <maxexecutiontime>3600</maxexecutiontime><!-- to be used in some actions that requires more time -->
+    </server>
+    <default>
+        <lang>es_ES</lang>
+        <semaphoretimeout>100000</semaphoretimeout><!-- in microseconds -->
+        <cachetimeout>10000000</cachetimeout><!-- in microseconds -->
+        <commandtimeout>60</commandtimeout><!-- in seconds, 60 is 1 minute -->
+        <commandexpires>3600</commandexpires><!-- in seconds, 3600 is 1 hour -->
+    </default>
+    <dirs>
+        <logsdir eval="true">getcwd()."/data/logs"</logsdir>
+        <filesdir eval="true">getcwd()."/data/files"</filesdir>
+        <cachedir eval="true">getcwd()."/data/cache"</cachedir>
+        <tempdir eval="true">getcwd()."/data/temp"</tempdir>
+        <uploaddir eval="true">getcwd()."/data/upload"</uploaddir>
+        <inboxdir eval="true">getcwd()."/data/inbox"</inboxdir>
+        <outboxdir eval="true">getcwd()."/data/outbox"</outboxdir>
+    </dirs>
+    <cache>
+        <cachegcenabled>true</cachegcenabled>
+        <cachegctimeout>86400</cachegctimeout><!-- in seconds, 86400 is 1 day -->
+        <cachegcprobability>1</cachegcprobability>
+        <cachegcdivisor>100</cachegcdivisor>
+        <useimginline>true</useimginline>
+    </cache>
+    <commands>
+        <which>which</which><!-- for check commands -->
+        <__which__>which __INPUT__</__which__>
+        <timeout>timeout</timeout><!-- for ocr module -->
+        <__timeout__>timeout __TIMEOUT__ __COMMAND__</__timeout__>
+        <svnversion>svnversion</svnversion>
+        <__svnversion__>cd __DIR__; svnversion</__svnversion__>
+        <gitversion>git</gitversion>
+        <__gitversion__>cd __DIR__; git rev-list HEAD --count</__gitversion__>
+    </commands>
+    <debug>
+        <logfile>saltos.log</logfile>
+        <errorfile>error.log</errorfile>
+        <warningfile>warning.log</warningfile>
+        <deprecatedfile>deprecated.log</deprecatedfile>
+        <phperrorfile>phperror.log</phperrorfile>
+        <xmlerrorfile>xmlerror.log</xmlerrorfile>
+        <dberrorfile>dberror.log</dberrorfile>
+        <jserrorfile>jserror.log</jserrorfile>
+        <phpwarningfile>phpwarning.log</phpwarningfile>
+        <xmlwarningfile>xmlwarning.log</xmlwarningfile>
+        <dbwarningfile>dbwarning.log</dbwarningfile>
+        <jswarningfile>jswarning.log</jswarningfile>
+        <maxfilesize>100M</maxfilesize>
+        <slowquerydebug>true</slowquerydebug>
+        <slowquerytime>5</slowquerytime><!-- in seconds -->
+    </debug>
+    <ini_set>
+        <session.bug_compat_42 ifeval="!isphp(5.4)">On</session.bug_compat_42>
+        <register_globals ifeval="!isphp(5.4)">Off</register_globals>
+        <memory_limit>128M</memory_limit>
+        <max_execution_time>600</max_execution_time><!-- in seconds, 600 are 10 minutes -->
+        <date.timezone>Europe/Madrid</date.timezone>
+        <default_charset>UTF-8</default_charset>
+        <gd.jpeg_ignore_warning ifeval="!ishhvm()">1</gd.jpeg_ignore_warning>
+        <mbstring.internal_encoding>UTF-8</mbstring.internal_encoding>
+        <mbstring.detect_order ifeval="!isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16,Windows-1250,Windows-1251,Windows-1252,Windows-1253,Windows-1254,Windows-1255,Windows-1256,Windows-1257,Windows-1258,CP1256,CP1250,CP1252,CP437,CP737,CP850,CP852,CP855,CP857,CP858,CP860,CP861,CP862,CP863,CP865,CP866,CP869,CP37,CP930,CP1047</mbstring.detect_order>
+        <mbstring.detect_order ifeval="isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16</mbstring.detect_order>
+        <magic_quotes_gpc ifeval="!isphp(5.4)">Off</magic_quotes_gpc>
+    </ini_set>
+    <putenv>
+        <PATH>/bin:/usr/bin:/usr/local/bin</PATH>
+        <LANG>es_ES.UTF-8</LANG>
+        <HOME>/tmp/</HOME>
+    </putenv>
+</root>

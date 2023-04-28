@@ -1,0 +1,2 @@
+
+This library requires to use the error_reporting(0)!!!

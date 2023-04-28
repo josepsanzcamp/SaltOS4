@@ -1,0 +1,7 @@
+Code downloaded from:
+- http://www.phpclasses.org/package/3-PHP-HTTP-client-to-access-Web-site-pages.html
+
+Some changes:
+- lib/phpclasses/httpclient/http.php: replaced the fsockopen by fsockopen_protected
+- lib/phpclasses/httpclient/http.php: add the allow_self_signed option to the stream_context_create
+- lib/phpclasses/httpclient/http.php: define the $content_length_set to prevent the deprecation message in PHP 8.2
