@@ -27,40 +27,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// BEGIN INCLUDING ALL CORE FILES
-foreach (glob("php/autoload/*.php") as $file) {
-    require $file;
+function null2array($arr)
+{
+    if ($arr === null) {
+        return array();
+    }
+    return $arr;
 }
 
-// SOME IMPORTANT ITEMS
-program_handlers();
-time_get_usage(true);
-check_system();
-
-// NORMAL OPERATION
-$_CONFIG = xml2array("xml/config.xml");
-$_CONFIG = eval_attr($_CONFIG);
-eval_iniset(get_default("ini_set"));
-eval_putenv(get_default("putenv"));
-
-db_connect();
-db_schema();
-db_static();
-
-// COLLECT ALL INPUT DATA
-$data = array(
-    //~ "headers" => getallheaders(),
-    "input" => null2array(json_decode(file_get_contents('php://input'), true)),
-    "rest" => array_diff(explode("/", get_server("QUERY_STRING")),array("")),
-);
-//~ output_handler(array(
-    //~ "data" => json_encode($data),
-    //~ "type" => "application/json",
-    //~ "cache" => false
-//~ ));
-
-// TAKE DECISIONS
-if (count($data["input"]) + count($data["rest"]) == 0) {
-    echo "OK";
-    die();
-}
+//~ function is_array_key_val($array)
+//~ {
+    //~ $count = 0;
+    //~ foreach ($array as $key => $val) {
+        //~ if (!is_numeric($key)) {
+            //~ return true;
+        //~ }
+        //~ if ($key != $count) {
+            //~ return true;
+        //~ }
+        //~ $count++;
+    //~ }
+    //~ return false;
+//~ }
