@@ -13,11 +13,11 @@ $buffer = file_get_contents('php://stdin');
 $files = array(
     "lib/bootstrap/bootstrap.min.css",
     "lib/bootstrap/bootstrap.bundle.min.js",
-    "js/bootstrap.min.js",
+    "js/index.min.js",
 );
 $command = "cat __FILE__ | openssl dgst -sha384 -binary | openssl base64 -A";
 foreach ($files as $file) {
-    $sha384 = ob_passthru("cd ..; " . str_replace("__FILE__", $file, $command));
+    $sha384 = ob_passthru(str_replace("__FILE__", $file, $command));
     $buffer = str_replace("sha384-$file", "sha384-$sha384", $buffer);
 }
 echo $buffer;

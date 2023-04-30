@@ -62,7 +62,7 @@ $data = array(
 // TAKE DECISIONS
 if (count($data["input"]) + count($data["rest"]) == 0) {
     output_handler(array(
-        "data" => file_get_contents("htm/bootstrap.min.htm"),
+        "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
         "cache" => false
     ));
