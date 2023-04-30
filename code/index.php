@@ -61,6 +61,9 @@ $data = array(
 
 // TAKE DECISIONS
 if (count($data["input"]) + count($data["rest"]) == 0) {
-    echo "OK";
-    die();
+    output_handler(array(
+        "data" => file_get_contents("htm/bootstrap.min.htm"),
+        "type" => "text/html",
+        "cache" => false
+    ));
 }
