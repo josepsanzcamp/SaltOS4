@@ -53,13 +53,8 @@ $data = array(
     "input" => null2array(json_decode(file_get_contents('php://input'), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")),array("")),
 );
-//~ output_handler(array(
-    //~ "data" => json_encode($data),
-    //~ "type" => "application/json",
-    //~ "cache" => false
-//~ ));
 
-// TAKE DECISIONS
+// CHECK FOR A VOID REQUEST
 if (count($data["input"]) + count($data["rest"]) == 0) {
     output_handler(array(
         "data" => file_get_contents("htm/index.min.htm"),
@@ -67,3 +62,19 @@ if (count($data["input"]) + count($data["rest"]) == 0) {
         "cache" => false
     ));
 }
+
+// CHECK FOR AN ACTION REQUEST
+if (isset($data["input"]["action"])) {
+    $action = "php/action/" . encode_bad_chars($data["input"]["action"]) . ".php";
+    if (file_exists($action)) {
+        require $action;
+    }
+}
+
+// OTHERWISE, WE DON'T KNOW WHAT TO DO WITH THIS REQUEST
+addlog(sprintr($data));
+//~ output_handler(array(
+    //~ "data" => json_encode($data),
+    //~ "type" => "application/json",
+    //~ "cache" => false
+//~ ));

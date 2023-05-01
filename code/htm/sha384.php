@@ -11,6 +11,7 @@ function ob_passthru($cmd)
 
 $buffer = file_get_contents('php://stdin');
 $files = array(
+    "lib/jquery/jquery.min.js",
     "lib/bootstrap/bootstrap.min.css",
     "lib/bootstrap/bootstrap.bundle.min.js",
     "js/index.min.js",

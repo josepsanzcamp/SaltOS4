@@ -1,3 +1,4 @@
+<?php
 
 /*
  ____        _ _    ___  ____    _  _    ___
@@ -24,44 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-"use strict";
+declare(strict_types=1);
 
-var saltos = {};
-
-/* MAIN OBJECT */
-var saltos = {};
-
-/* ERROR MANAGEMENT */
-saltos.init_error = function () {
-    window.onerror = function (msg, file, line, column, error) {
-        var data = {
-            "action":"adderror",
-            "jserror":msg,
-            "details":"Error on file " + file + ":" + line + ":" + column + ", userAgent is " + navigator.userAgent,
-            "backtrace":error.stack
-        };
-        $.ajax({
-            url:"index.php",
-            data:JSON.stringify(data),
-            type:"post"
-        });
-    };
-};
-
-/* LOG MANAGEMENT */
-saltos.addlog = function (msg) {
-    var data = {
-        "action":"addlog",
-        "msg":msg,
-    };
-    $.ajax({
-        url:"index.php",
-        data:JSON.stringify(data),
-        type:"post"
-    });
-};
-
-(function ($) {
-    saltos.init_error();
-
-}(jQuery));
+$array = array_intersect_key($data["input"], array("jserror" => "","details" => "","backtrace" => ""));
+show_php_error($array);
