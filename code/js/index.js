@@ -26,10 +26,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-var saltos = {};
-
 /* MAIN OBJECT */
-var saltos = {};
+var saltos = saltos || {};
 
 /* ERROR MANAGEMENT */
 saltos.init_error = function () {
@@ -61,7 +59,42 @@ saltos.addlog = function (msg) {
     });
 };
 
+/* HELPERS DEL NUEVO SALTOS */
+saltos.check_params = function (obj,params,valor) {
+    if (!isset(valor)) {
+        valor = "";
+    }
+    for (var key in params) {
+        if (!isset(obj[params[key]])) {
+            obj[params[key]] = valor;
+        }
+    }
+};
+
+saltos.uniqid = function () {
+    return "id" + Math.floor(Math.random() * 1000000);
+};
+
 (function ($) {
     saltos.init_error();
+    $("body").append(`
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-md-6">
 
+                </div>
+                <div class="col col-md-6">
+
+                </div>
+            </div>
+        </div>
+    `);
+    $(".col:first").append(saltos.form_field({
+        type:"text",
+        id:"campo1",
+    }));
+    $(".col:last").append(saltos.form_field({
+        type:"text",
+        id:"campo1",
+    }));
 }(jQuery));

@@ -14,7 +14,7 @@ $files = array(
     "lib/jquery/jquery.min.js",
     "lib/bootstrap/bootstrap.min.css",
     "lib/bootstrap/bootstrap.bundle.min.js",
-    "js/index.min.js",
+    "js/saltos.min.js",
 );
 $command = "cat __FILE__ | openssl dgst -sha384 -binary | openssl base64 -A";
 foreach ($files as $file) {
