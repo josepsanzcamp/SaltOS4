@@ -9,16 +9,20 @@ function ob_passthru($cmd)
     return trim(ob_get_clean());
 }
 
-$buffer = file_get_contents('php://stdin');
-$files = array(
-    "lib/jquery/jquery.min.js",
-    "lib/bootstrap/bootstrap.min.css",
-    "lib/bootstrap/bootstrap.bundle.min.js",
-    "js/saltos.min.js",
-);
+$buffer = file_get_contents("php://stdin");
 $command = "cat __FILE__ | openssl dgst -sha384 -binary | openssl base64 -A";
-foreach ($files as $file) {
-    $sha384 = ob_passthru(str_replace("__FILE__", $file, $command));
-    $buffer = str_replace("sha384-$file", "sha384-$sha384", $buffer);
+$buffer = explode("\n", $buffer);
+foreach ($buffer as $key => $val) {
+    if (strpos($val, 'integrity=""') === false) {
+        continue;
+    }
+    $temp = explode(" ", str_replace('"', " ", $val));
+    for ($i = 0; $i < count($temp); $i++) {
+        if (in_array($temp[$i], array("src=","href="))) {
+            $sha384 = ob_passthru(str_replace("__FILE__", $temp[$i + 1], $command));
+            $buffer[$key] = str_replace('integrity=""', "integrity=\"sha384-$sha384\"", $buffer[$key]);
+        }
+    }
 }
+$buffer = implode("\n", $buffer);
 echo $buffer;
