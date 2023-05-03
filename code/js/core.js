@@ -80,21 +80,25 @@ saltos.uniqid = function () {
     $("body").append(`
         <div class="container-fluid">
             <div class="row">
-                <div class="col col-md-6">
+                <div class="col-md-6">
 
                 </div>
-                <div class="col col-md-6">
+                <div class="col-md-6">
 
                 </div>
             </div>
         </div>
     `);
-    $(".col:first").append(saltos.form_field({
+    $(".row > div:eq(0)").append(saltos.form_field({
         type:"text",
         id:"campo1",
+        label:"Campo 1",
+        placeholder:"Escriba aqui",
     }));
-    $(".col:last").append(saltos.form_field({
+    $(".row > div:eq(1)").append(saltos.form_field({
         type:"text",
-        id:"campo1",
+        id:"campo2",
+        label:"Campo 2",
+        placeholder:"Escriba aqui",
     }));
 }(jQuery));

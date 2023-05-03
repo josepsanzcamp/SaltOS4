@@ -64,12 +64,6 @@ saltos.__form_field["text"] = function(field) {
 }
 
 saltos.form_field = function (field) {
-    saltos.check_params(field,["type"]);
-    if (field.type == "textarea" && isset(field.ckeditor) && field.ckeditor == "true") {
-        field.type = "ckeditor";
-    }
-    if (field.type == "textarea" && isset(field.codemirror) && field.codemirror == "true") {
-        field.type = "codemirror";
-    }
+    saltos.check_params(field,["type","id","label","class","placeholder","value"]);
     return saltos.__form_field[field.type](field);
 };
