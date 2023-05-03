@@ -33,113 +33,107 @@ function db_schema()
         return;
     }
     $hash1 = get_config("xml/dbschema.xml");
-    $hash2 = md5(serialize(array(
-        xml2array("xml/dbschema.xml"),
-        xml2array("xml/dbstatic.xml")
-    )));
-    if ($hash1 != $hash2) {
-        if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
-            return;
+    $hash2 = md5(serialize(xml2array("xml/dbschema.xml")));
+    if ($hash1 == $hash2) {
+        return;
+    }
+    if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
+        return;
+    }
+    $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
+    if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
+        $tables1 = get_tables();
+        $tables2 = get_tables_from_dbschema();
+        if (isset($dbschema["excludes"]) && is_array($dbschema["excludes"])) {
+            foreach ($dbschema["excludes"] as $exclude) {
+                foreach ($tables1 as $key => $val) {
+                    if ($exclude["name"] == $val) {
+                        unset($tables1[$key]);
+                    }
+                }
+                foreach ($tables2 as $key => $val) {
+                    if ($exclude["name"] == $val) {
+                        unset($tables2[$key]);
+                    }
+                }
+            }
         }
-        $dbschema = __get_dbschema_with_indexing(
-            eval_attr(xml2array("xml/dbschema.xml")),
-            eval_attr(xml2array("xml/dbstatic.xml"))
-        );
-        if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-            $tables1 = get_tables();
-            $tables2 = get_tables_from_dbschema();
-            if (isset($dbschema["excludes"]) && is_array($dbschema["excludes"])) {
-                foreach ($dbschema["excludes"] as $exclude) {
-                    foreach ($tables1 as $key => $val) {
-                        if ($exclude["name"] == $val) {
-                            unset($tables1[$key]);
-                        }
-                    }
-                    foreach ($tables2 as $key => $val) {
-                        if ($exclude["name"] == $val) {
-                            unset($tables2[$key]);
-                        }
-                    }
-                }
-            }
-            foreach ($tables1 as $table) {
-                $isbackup = (substr($table, 0, 2) == "__" && substr($table, -2, 2) == "__");
-                if (!$isbackup && !in_array($table, $tables2)) {
-                    $backup = "__{$table}__";
-                    db_query(sql_alter_table($table, $backup));
-                }
-            }
-            foreach ($dbschema["tables"] as $tablespec) {
-                $table = $tablespec["name"];
+        foreach ($tables1 as $table) {
+            $isbackup = (substr($table, 0, 2) == "__" && substr($table, -2, 2) == "__");
+            if (!$isbackup && !in_array($table, $tables2)) {
                 $backup = "__{$table}__";
-                if (in_array($table, $tables1)) {
-                    $fields1 = get_fields($table);
-                    $fields2 = get_fields_from_dbschema($table);
-                    $hash3 = md5(serialize($fields1));
-                    $hash4 = md5(serialize($fields2));
-                    if ($hash3 != $hash4) {
-                        db_query(sql_alter_table($table, $backup));
-                        db_query(sql_create_table($tablespec));
-                        db_query(sql_insert_from_select($table, $backup));
-                        db_query(sql_drop_table($backup));
-                    }
-                } elseif (in_array($backup, $tables1)) {
-                    $fields1 = get_fields($backup);
-                    $fields2 = get_fields_from_dbschema($table);
-                    $hash3 = md5(serialize($fields1));
-                    $hash4 = md5(serialize($fields2));
-                    if ($hash3 != $hash4) {
-                        db_query(sql_create_table($tablespec));
-                        db_query(sql_insert_from_select($table, $backup));
-                        db_query(sql_drop_table($backup));
-                    } else {
-                        db_query(sql_alter_table($backup, $table));
-                    }
-                } else {
+                db_query(sql_alter_table($table, $backup));
+            }
+        }
+        foreach ($dbschema["tables"] as $tablespec) {
+            $table = $tablespec["name"];
+            $backup = "__{$table}__";
+            if (in_array($table, $tables1)) {
+                $fields1 = get_fields($table);
+                $fields2 = get_fields_from_dbschema($table);
+                $hash3 = md5(serialize($fields1));
+                $hash4 = md5(serialize($fields2));
+                if ($hash3 != $hash4) {
+                    db_query(sql_alter_table($table, $backup));
                     db_query(sql_create_table($tablespec));
+                    db_query(sql_insert_from_select($table, $backup));
+                    db_query(sql_drop_table($backup));
                 }
-                if (isset($dbschema["indexes"]) && is_array($dbschema["indexes"])) {
-                    $indexes1 = get_indexes($table);
-                    $indexes2 = array();
-                    foreach ($dbschema["indexes"] as $indexspec) {
-                        if ($indexspec["table"] == $table) {
-                            $indexes2[$indexspec["name"]] = array();
-                            foreach ($indexspec["fields"] as $fieldspec) {
-                                $indexes2[$indexspec["name"]][] = $fieldspec["name"];
-                            }
+            } elseif (in_array($backup, $tables1)) {
+                $fields1 = get_fields($backup);
+                $fields2 = get_fields_from_dbschema($table);
+                $hash3 = md5(serialize($fields1));
+                $hash4 = md5(serialize($fields2));
+                if ($hash3 != $hash4) {
+                    db_query(sql_create_table($tablespec));
+                    db_query(sql_insert_from_select($table, $backup));
+                    db_query(sql_drop_table($backup));
+                } else {
+                    db_query(sql_alter_table($backup, $table));
+                }
+            } else {
+                db_query(sql_create_table($tablespec));
+            }
+            if (isset($dbschema["indexes"]) && is_array($dbschema["indexes"])) {
+                $indexes1 = get_indexes($table);
+                $indexes2 = array();
+                foreach ($dbschema["indexes"] as $indexspec) {
+                    if ($indexspec["table"] == $table) {
+                        $indexes2[$indexspec["name"]] = array();
+                        foreach ($indexspec["fields"] as $fieldspec) {
+                            $indexes2[$indexspec["name"]][] = $fieldspec["name"];
                         }
                     }
-                    foreach ($indexes1 as $index => $fields) {
-                        if (!array_key_exists($index, $indexes2)) {
-                            db_query(sql_drop_index($index, $table));
-                        }
+                }
+                foreach ($indexes1 as $index => $fields) {
+                    if (!array_key_exists($index, $indexes2)) {
+                        db_query(sql_drop_index($index, $table));
                     }
-                    foreach ($dbschema["indexes"] as $indexspec) {
-                        if ($indexspec["table"] == $table) {
-                            $index = $indexspec["name"];
-                            if (array_key_exists($index, $indexes1)) {
-                                $fields1 = $indexes1[$index];
-                                $fields2 = $indexes2[$index];
-                                $hash3 = md5(serialize($fields1));
-                                $hash4 = md5(serialize($fields2));
-                                if ($hash3 != $hash4) {
-                                    db_query(sql_drop_index($index, $table));
-                                    db_query(sql_create_index($indexspec));
-                                }
-                            } else {
+                }
+                foreach ($dbschema["indexes"] as $indexspec) {
+                    if ($indexspec["table"] == $table) {
+                        $index = $indexspec["name"];
+                        if (array_key_exists($index, $indexes1)) {
+                            $fields1 = $indexes1[$index];
+                            $fields2 = $indexes2[$index];
+                            $hash3 = md5(serialize($fields1));
+                            $hash4 = md5(serialize($fields2));
+                            if ($hash3 != $hash4) {
+                                db_query(sql_drop_index($index, $table));
                                 db_query(sql_create_index($indexspec));
                             }
+                        } else {
+                            db_query(sql_create_index($indexspec));
                         }
                     }
                 }
             }
         }
-        set_config("xml/dbschema.xml", $hash2);
-        semaphore_release(array("db_schema","db_static"));
     }
+    set_config("xml/dbschema.xml", $hash2);
+    semaphore_release(array("db_schema","db_static"));
 }
 
-// TODO: REVISAR
 function db_static()
 {
     if (!eval_bool(get_default("db/dbstatic"))) {
@@ -147,165 +141,25 @@ function db_static()
     }
     $hash1 = get_config("xml/dbstatic.xml");
     $hash2 = md5(serialize(xml2array("xml/dbstatic.xml")));
-    if ($hash1 != $hash2) {
-        if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
-            return;
-        }
-        $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
-        if (is_array($dbstatic)) {
-            foreach ($dbstatic as $table => $rows) {
-                $query = "DELETE FROM {$table}";
+    if ($hash1 == $hash2) {
+        return;
+    }
+    if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
+        return;
+    }
+    $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
+    if (is_array($dbstatic)) {
+        foreach ($dbstatic as $table => $rows) {
+            $query = "DELETE FROM {$table}";
+            db_query($query);
+            foreach ($rows as $row) {
+                $query = make_insert_query($table, $row);
                 db_query($query);
-                foreach ($rows as $row) {
-                    __db_static_helper($table, $row);
-                }
-            }
-        }
-        __db_static_integrity();
-        set_config("xml/dbstatic.xml", $hash2);
-        semaphore_release(array("db_schema","db_static"));
-    }
-}
-
-// TODO: REVISAR
-function __db_static_helper($table, $row)
-{
-    $fields = get_default("db/dbfields");
-    $found = "";
-    if (is_array($fields)) {
-        foreach ($fields as $field) {
-            if (isset($row[$field]) && strpos($row[$field], ",") !== false) {
-                $found = $field;
-                break;
             }
         }
     }
-    if ($found != "") {
-        $a = explode(",", $row[$field]);
-        foreach ($a as $b) {
-            $row[$field] = $b;
-            __db_static_helper($table, $row);
-        }
-    } else {
-        $query = make_insert_query($table, $row);
-        db_query($query);
-    }
-}
-
-// TODO: REVISAR
-function __db_static_integrity()
-{
-    $query = "SELECT id FROM tbl_aplicaciones WHERE id NOT IN (
-            SELECT id_aplicacion FROM tbl_aplicaciones_i
-            UNION
-            SELECT id_aplicacion FROM tbl_aplicaciones_p)";
-    $ids = execute_query_array($query);
-    if (count($ids)) {
-        show_php_error(array(
-            "phperror" => "Found the following apps without permissions: " . implode(", ", $ids)
-        ));
-    }
-    $query = "SELECT id_aplicacion FROM tbl_aplicaciones_i
-        WHERE id_aplicacion NOT IN (SELECT id FROM tbl_aplicaciones)
-        UNION
-        SELECT id_aplicacion FROM tbl_aplicaciones_p
-        WHERE id_aplicacion NOT IN (SELECT id FROM tbl_aplicaciones)";
-    $ids = execute_query_array($query);
-    if (count($ids)) {
-        show_php_error(array(
-            "phperror" => "Found the following permissions without apps: " . implode(", ", $ids)
-        ));
-    }
-    $query = "SELECT id_aplicacion FROM tbl_aplicaciones_i
-        GROUP BY id_aplicacion,id_permiso HAVING COUNT(*)>1
-        UNION
-        SELECT id_aplicacion FROM tbl_aplicaciones_p
-        GROUP BY id_aplicacion,id_permiso HAVING COUNT(*)>1";
-    $ids = execute_query_array($query);
-    if (count($ids)) {
-        show_php_error(array(
-            "phperror" => "Found the following apps with repeated permissions: " . implode(", ", $ids)
-        ));
-    }
-}
-
-// TODO: REVISAR
-function __get_dbschema_with_indexing($dbschema, $dbstatic)
-{
-    // SOME CHECKS
-    if (!is_array($dbschema)) {
-        return $dbschema;
-    }
-    if (!isset($dbschema["tables"])) {
-        return $dbschema;
-    }
-    if (!is_array($dbschema["tables"])) {
-        return $dbschema;
-    }
-    if (!is_array($dbstatic)) {
-        return $dbschema;
-    }
-    if (!isset($dbstatic["tbl_aplicaciones"])) {
-        return $dbschema;
-    }
-    if (!is_array($dbstatic["tbl_aplicaciones"])) {
-        return $dbschema;
-    }
-    // CONTINUE
-    foreach ($dbstatic["tbl_aplicaciones"] as $row) {
-        if (isset($row["tabla"]) && $row["tabla"] != "") {
-            $codigo = $row["codigo"];
-            set_array($dbschema["tables"], "table", array(
-                "name" => "idx_{$codigo}",
-                "fields" => array(
-                    "field" => array(
-                        "name" => "id",
-                        "type" => "/*MYSQL INT(11) *//*SQLITE INTEGER */",
-                        "pkey" => "true",
-                    ),
-                    "field#2" => array(
-                        "name" => "search",
-                        "type" => "MEDIUMTEXT",
-                    )
-                )
-            ));
-            set_array($dbschema["indexes"], "index", array(
-                "table" => "idx_{$codigo}",
-                "fulltext" => "true",
-                "fields" => array(
-                    "field" => array(
-                        "name" => "search",
-                    )
-                )
-            ));
-        }
-    }
-    if (!isset($dbschema["indexes"])) {
-        return $dbschema;
-    }
-    if (!is_array($dbschema["indexes"])) {
-        return $dbschema;
-    }
-    foreach ($dbschema["indexes"] as $key => $val) {
-        $dbschema["indexes"][$key]["name"] =
-            substr($val["table"] . "_" . implode("_", array_column($val["fields"], "name")), 0, 64);
-    }
-    foreach ($dbschema["tables"] as $tablespec) {
-        foreach ($tablespec["fields"] as $field) {
-            if (isset($field["fkey"]) && $field["fkey"] != "") {
-                set_array($dbschema["indexes"], "index", array(
-                    "name" => $tablespec["name"] . "_" . $field["name"],
-                    "table" => $tablespec["name"],
-                    "fields" => array(
-                        "field" => array(
-                            "name" => $field["name"]
-                        )
-                    )
-                ));
-            }
-        }
-    }
-    return $dbschema;
+    set_config("xml/dbstatic.xml", $hash2);
+    semaphore_release(array("db_schema","db_static"));
 }
 
 function get_tables_from_dbschema()
@@ -322,10 +176,7 @@ function __dbschema_helper($fn, $table)
 {
     static $tables = null;
     if ($tables === null) {
-        $dbschema = __get_dbschema_with_indexing(
-            eval_attr(xml2array("xml/dbschema.xml")),
-            eval_attr(xml2array("xml/dbstatic.xml"))
-        );
+        $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
         $tables = array();
         if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
             foreach ($dbschema["tables"] as $tablespec) {

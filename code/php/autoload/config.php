@@ -30,7 +30,7 @@ declare(strict_types=1);
 function get_config($key)
 {
     $row = array();
-    $query = "SELECT valor FROM tbl_configuracion WHERE clave='{$key}'";
+    $query = "SELECT val FROM tbl_config WHERE _key='{$key}'";
     if (db_check($query)) {
         $config = execute_query($query);
     } else {
@@ -49,19 +49,19 @@ function get_config($key)
 
 function set_config($key, $val)
 {
-    $query = "SELECT valor FROM tbl_configuracion WHERE clave='{$key}'";
+    $query = "SELECT val FROM tbl_config WHERE _key='{$key}'";
     $config = execute_query($query);
     if ($config === null) {
-        $query = make_insert_query("tbl_configuracion", array(
-            "clave" => $key,
-            "valor" => $val
+        $query = make_insert_query("tbl_config", array(
+            "_key" => $key,
+            "val" => $val
         ));
         db_query($query);
     } else {
-        $query = make_update_query("tbl_configuracion", array(
-            "valor" => $val
+        $query = make_update_query("tbl_config", array(
+            "_val" => $val
         ), make_where_query(array(
-            "clave" => $key
+            "key" => $key
         )));
         db_query($query);
     }

@@ -84,9 +84,10 @@ saltos.uniqid = function () {
         type:"row",
     });
     for (var i = 1; i <= 20; i++) {
+        var j = (((i - 1) % 12) + 1);
         var col = saltos.form_field({
             type:"col",
-            col:"col-md-" + (((i - 1) % 12) + 1) + " mb-3",
+            col:"col-md-" + j + " mb-3",
         });
         var campo = saltos.form_field({
             type:"text",

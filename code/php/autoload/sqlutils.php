@@ -418,10 +418,7 @@ function __has_fulltext_index($table)
 {
     static $fulltext = null;
     if ($fulltext === null) {
-        $dbschema = __get_dbschema_with_indexing(
-            eval_attr(xml2array("xml/dbschema.xml")),
-            eval_attr(xml2array("xml/dbstatic.xml"))
-        );
+        $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
         $fulltext = array();
         if (is_array($dbschema) && isset($dbschema["indexes"]) && is_array($dbschema["indexes"])) {
             foreach ($dbschema["indexes"] as $indexspec) {
