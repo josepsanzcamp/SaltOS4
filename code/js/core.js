@@ -77,28 +77,27 @@ saltos.uniqid = function () {
 
 (function ($) {
     saltos.init_error();
-    $("body").append(`
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
+    var container = saltos.form_field({
+        type:"container",
+    });
+    var row = saltos.form_field({
+        type:"row",
+    });
+    for (var i = 1; i <= 20; i++) {
+        var col = saltos.form_field({
+            type:"col",
+            col:"col-md-" + (((i - 1) % 12) + 1) + " mb-3",
+        });
+        var campo = saltos.form_field({
+            type:"text",
+            id:"campo" + i,
+            label:"Campo " + i,
+            placeholder:"Escriba aqui",
+        });
+        $(col).append(campo);
+        $(row).append(col);
+    }
+    container.append(row);
+    $("body").append(container);
 
-                </div>
-                <div class="col-md-6">
-
-                </div>
-            </div>
-        </div>
-    `);
-    $(".row > div:eq(0)").append(saltos.form_field({
-        type:"text",
-        id:"campo1",
-        label:"Campo 1",
-        placeholder:"Escriba aqui",
-    }));
-    $(".row > div:eq(1)").append(saltos.form_field({
-        type:"text",
-        id:"campo2",
-        label:"Campo 2",
-        placeholder:"Escriba aqui",
-    }));
 }(jQuery));

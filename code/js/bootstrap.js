@@ -55,13 +55,49 @@ var saltos = saltos || {};
 
 saltos.__form_field = {};
 
+saltos.__form_field["container"] = function(field) {
+    saltos.check_params(field,["container"]);
+    if (field.container == "") {
+        field.container = "container-fluid";
+    }
+    var obj = $(`
+        <div class="${field.container}">
+        </div>
+    `);
+    return obj;
+};
+
+saltos.__form_field["row"] = function(field) {
+    saltos.check_params(field,["row"]);
+    if (field.row == "") {
+        field.row = "row";
+    }
+    var obj = $(`
+        <div class="${field.row}">
+        </div>
+    `);
+    return obj;
+};
+
+saltos.__form_field["col"] = function(field) {
+    saltos.check_params(field,["col"]);
+    if (field.col == "") {
+        field.col = "col";
+    }
+    var obj = $(`
+        <div class="${field.col}">
+        </div>
+    `);
+    return obj;
+};
+
 saltos.__form_field["text"] = function(field) {
     var obj = $(`
         <label for="${field.id}" class="form-label">${field.label}</label>
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}">
     `);
     return obj;
-}
+};
 
 saltos.form_field = function (field) {
     saltos.check_params(field,["type","id","label","class","placeholder","value"]);
