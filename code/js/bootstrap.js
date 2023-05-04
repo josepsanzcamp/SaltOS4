@@ -216,20 +216,52 @@ saltos.__form_field["codemirror"] = function(field) {
 };
 
 saltos.__form_field["iframe"] = function(field) {
-    // TODO
+    var obj = $(`<div></div>`);
+    if (field.label != "") {
+        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+    }
+    $(obj).append(`
+        <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}"></iframe>
+    `);
+    return obj;
 }
 
-/*
- * TODOS
- * - iframe
- * - select
- * - multiselect
- * - checkbox
- * - button
- * - password
- * - file
- * - link
- * - label
- * - image
- * - excel
- */
+saltos.__form_field["select"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["multiselect"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["checkbox"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["button"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["password"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["file"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["link"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["label"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["image"] = function(field) {
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["excel"] = function(field) {
+    return saltos.__form_field["text"](field);
+}

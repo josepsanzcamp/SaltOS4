@@ -115,8 +115,24 @@ saltos.when_visible = function (obj,fn,args) {
         "textarea",
         "ckeditor",
         "codemirror",
+        "iframe",
+        "select",
+        "multiselect",
+        "checkbox",
+        "button",
+        "password",
+        "file",
+        "link",
+        "label",
+        "image",
+        "excel",
     ];
-    for (var i = 1; i <= 20; i++) {
+    var valores = {
+        9:"Texto de prueba<br/><br/>Adios",
+        10:"for ...\n\thacer algo\nend for",
+        11:"https://www.saltos.org",
+    }
+    for (var i = 1; i <= 24; i++) {
         var j = (((i - 1) % 12) + 1);
         var col = saltos.form_field({
             type:"col",
@@ -126,11 +142,16 @@ saltos.when_visible = function (obj,fn,args) {
         if (isset(tipos[i])) {
             tipo = tipos[i];
         }
+        var valor = "";
+        if (isset(valores[i])) {
+            valor = valores[i];
+        }
         var campo = saltos.form_field({
             type:tipo,
             id:"campo" + i,
             label:"Campo " + i + " (" + tipo + ")",
             placeholder:"Escriba aqui",
+            value:valor,
         });
         $(col).append(campo);
         $(row).append(col);
