@@ -96,9 +96,15 @@ saltos.__form_field["col"] = function(field) {
 };
 
 saltos.__form_field["text"] = function(field) {
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
     var obj = $(`<div>
         <label for="${field.id}" class="form-label">${field.label}</label>
-        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}">
+        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly}>
     </div>`);
     return obj;
 };
@@ -132,6 +138,6 @@ saltos.__form_field["float"] = function(field) {
 };
 
 saltos.form_field = function (field) {
-    saltos.check_params(field,["type","id","label","class","placeholder","value"]);
+    saltos.check_params(field,["type","id","label","class","placeholder","value","disabled","readonly"]);
     return saltos.__form_field[field.type](field);
 };
