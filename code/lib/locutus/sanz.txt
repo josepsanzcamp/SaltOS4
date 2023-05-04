@@ -1,0 +1,2 @@
+
+cat isset.js str_replace.js > locutus.all.min.js

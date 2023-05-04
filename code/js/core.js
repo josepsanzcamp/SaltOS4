@@ -129,7 +129,7 @@ saltos.when_visible = function (obj,fn,args) {
     ];
     var valores = {
         9:"Texto de prueba<br/><br/>Adios",
-        10:"for ...\n\thacer algo\nend for",
+        10:"for\n\thacer algo\ndone",
         11:"https://www.saltos.org",
     }
     for (var i = 1; i <= 24; i++) {

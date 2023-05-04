@@ -115,12 +115,11 @@ saltos.__form_field["integer"] = function(field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
     var element = $("input", obj).get(0);
-    var maskOptions = {
-        mask:Number,
-        signed:true,
-        scale:0,
-    };
-    IMask(element, maskOptions);
+    IMask(element, {
+        mask: Number,
+        signed: true,
+        scale: 0,
+    });
     return obj;
 };
 
@@ -128,14 +127,13 @@ saltos.__form_field["float"] = function(field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
     var element = $("input", obj).get(0);
-    var maskOptions = {
-        mask:Number,
-        signed:true,
-        radix:".",
+    IMask(element, {
+        mask: Number,
+        signed: true,
+        radix: ".",
         mapToRadix: [","],
-        scale:99,
-    };
-    IMask(element, maskOptions);
+        scale: 99,
+    });
     return obj;
 };
 
@@ -171,8 +169,8 @@ saltos.__form_field["textarea"] = function(field) {
     `);
     if (field.type == "textarea") {
         var element = $("textarea", obj);
-        saltos.when_visible(element ,function (args) {
-            args.autogrow();
+        saltos.when_visible(element ,function (element) {
+            element.autogrow();
         },element);
     }
     return obj;
@@ -181,8 +179,8 @@ saltos.__form_field["textarea"] = function(field) {
 saltos.__form_field["ckeditor"] = function(field) {
     var obj = saltos.__form_field["textarea"](field);
     var element = $("textarea", obj).get(0);
-    saltos.when_visible(element ,function (args) {
-        ClassicEditor.create(args).catch(error => {
+    saltos.when_visible(element ,function (element) {
+        ClassicEditor.create(element).catch(error => {
             console.error( error );
         });
     },element);
@@ -190,26 +188,17 @@ saltos.__form_field["ckeditor"] = function(field) {
 };
 
 saltos.__form_field["codemirror"] = function(field) {
+    saltos.check_params(field,["mode"]);
     var obj = saltos.__form_field["textarea"](field);
     var element = $("textarea", obj).get(0);
-    saltos.when_visible(element ,function (args) {
-        var width = $(element).width();
-        var height = $(element).height();
-        var classes = $(element).attr("class");
+    saltos.when_visible(element ,function (element) {
         var cm = CodeMirror.fromTextArea(element,{
-            lineNumbers:true
+            mode: field.mode,
+            styleActiveLine: true,
+            lineNumbers: true,
+            lineWrapping: true,
         });
-        $(element).data("cm",cm);
-        var fnresize = function (cm) {
-            var height2 = Math.max(height,cm.doc.size * 24);
-            if (cm.display.sizerWidth > cm.display.lastWrapWidth) {
-                height2 += 24;
-            }
-            cm.setSize(width + 24,height2 + 24);
-        }
-        fnresize(cm);
-        cm.on("viewportChange",fnresize);
-        $(element).next().addClass(classes).css("margin","1px");
+        $(element).next().addClass("form-control").height("auto");
         cm.on("change",cm.save);
     },element);
     return obj;
