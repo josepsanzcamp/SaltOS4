@@ -32,6 +32,9 @@ var saltos = saltos || {};
 /* ERROR MANAGEMENT */
 saltos.init_error = function () {
     window.onerror = function (msg, file, line, column, error) {
+        if (!isset(error) || !isset(error.stack)) {
+            var error = { stack:"unknown"};
+        }
         var data = {
             "action":"adderror",
             "jserror":msg,
@@ -75,6 +78,23 @@ saltos.uniqid = function () {
     return "id" + Math.floor(Math.random() * 1000000);
 };
 
+saltos.when_visible = function (obj,fn,args) {
+    if (!$(obj).is("[id]")) {
+        $(obj).attr("id","fix" + saltos.uniqid());
+    }
+    var id = "#" + $(obj).attr("id");
+    var interval = setInterval(function () {
+        var obj2 = $(id);
+        if (!$(obj2).length) {
+            clearInterval(interval);
+        } else if ($(obj2).is(":visible")) {
+            clearInterval(interval);
+            fn(args);
+        }
+    },100);
+};
+
+// MAIN CODE
 (function ($) {
     saltos.init_error();
     var container = saltos.form_field({
@@ -83,16 +103,33 @@ saltos.uniqid = function () {
     var row = saltos.form_field({
         type:"row",
     });
+    var tipos = [
+        "",
+        "text",
+        "integer",
+        "float",
+        "color",
+        "date",
+        "time",
+        "datetime",
+        "textarea",
+        "ckeditor",
+        "codemirror",
+    ];
     for (var i = 1; i <= 20; i++) {
         var j = (((i - 1) % 12) + 1);
         var col = saltos.form_field({
             type:"col",
             col:"col-md-" + j + " mb-3",
         });
+        var tipo = "text";
+        if (isset(tipos[i])) {
+            tipo = tipos[i];
+        }
         var campo = saltos.form_field({
-            type:"float",
+            type:tipo,
             id:"campo" + i,
-            label:"Campo " + i,
+            label:"Campo " + i + " (" + tipo + ")",
             placeholder:"Escriba aqui",
         });
         $(col).append(campo);

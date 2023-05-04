@@ -57,6 +57,20 @@ var saltos = saltos || {};
  * - excel
  */
 
+saltos.form_field = function (field) {
+    saltos.check_params(field,["type","id","label","class","placeholder","value","disabled","readonly","required"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
+    return saltos.__form_field[field.type](field);
+};
+
 saltos.__form_field = {};
 
 saltos.__form_field["container"] = function(field) {
@@ -96,15 +110,9 @@ saltos.__form_field["col"] = function(field) {
 };
 
 saltos.__form_field["text"] = function(field) {
-    if (field.disabled) {
-        field.disabled = "disabled";
-    }
-    if (field.readonly) {
-        field.readonly = "readonly";
-    }
     var obj = $(`<div>
         <label for="${field.id}" class="form-label">${field.label}</label>
-        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly}>
+        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
     </div>`);
     return obj;
 };
@@ -137,7 +145,94 @@ saltos.__form_field["float"] = function(field) {
     return obj;
 };
 
-saltos.form_field = function (field) {
-    saltos.check_params(field,["type","id","label","class","placeholder","value","disabled","readonly"]);
-    return saltos.__form_field[field.type](field);
+saltos.__form_field["color"] = function(field) {
+    var obj = saltos.__form_field["text"](field);
+    return obj;
 };
+
+saltos.__form_field["date"] = function(field) {
+    var obj = saltos.__form_field["text"](field);
+    return obj;
+};
+
+saltos.__form_field["time"] = function(field) {
+    var obj = saltos.__form_field["text"](field);
+    return obj;
+};
+
+saltos.__form_field["datetime"] = function(field) {
+    field.type = "datetime-local";
+    var obj = saltos.__form_field["text"](field);
+    return obj;
+};
+
+saltos.__form_field["textarea"] = function(field) {
+    saltos.check_params(field,["rows"]);
+    var obj = $(`<div>
+        <label for="${field.id}" class="form-label">${field.label}</label>
+        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
+    </div>`);
+    var element = $("textarea", obj);
+    saltos.when_visible(element ,function (args) {
+        args.autogrow();
+    },element);
+    return obj;
+};
+
+saltos.__form_field["ckeditor"] = function(field) {
+    var obj = $(`<div>
+        <label for="${field.id}" class="form-label">${field.label}</label>
+        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
+    </div>`);
+    var element = $("textarea", obj).get(0);
+    saltos.when_visible(element ,function (args) {
+        ClassicEditor.create(args).catch(error => {
+            console.error( error );
+        });
+    },element);
+    return obj;
+};
+
+saltos.__form_field["codemirror"] = function(field) {
+    var obj = $(`<div>
+        <label for="${field.id}" class="form-label">${field.label}</label>
+        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
+    </div>`);
+    var element = $("textarea", obj).get(0);
+    saltos.when_visible(element ,function (args) {
+        var width = $(element).width();
+        var height = $(element).height();
+        var classes = $(element).attr("class");
+        var cm = CodeMirror.fromTextArea(element,{
+            lineNumbers:true
+        });
+        $(element).data("cm",cm);
+        var fnresize = function (cm) {
+            var height2 = Math.max(height,cm.doc.size * 24);
+            if (cm.display.sizerWidth > cm.display.lastWrapWidth) {
+                height2 += 24;
+            }
+            cm.setSize(width + 20,height2 + 20);
+        }
+        fnresize(cm);
+        cm.on("viewportChange",fnresize);
+        $(element).next().addClass(classes).css("margin","1px");
+        cm.on("change",cm.save);
+    },element);
+    return obj;
+};
+
+/*
+ * TODOS
+ * - iframe
+ * - select
+ * - multiselect
+ * - checkbox
+ * - button
+ * - password
+ * - file
+ * - link
+ * - label
+ * - image
+ * - excel
+ */
