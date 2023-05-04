@@ -78,10 +78,7 @@ saltos.__form_field["container"] = function(field) {
     if (field.container == "") {
         field.container = "container-fluid";
     }
-    var obj = $(`
-        <div class="${field.container}">
-        </div>
-    `);
+    var obj = $(`<div class="${field.container}"></div>`);
     return obj;
 };
 
@@ -90,10 +87,7 @@ saltos.__form_field["row"] = function(field) {
     if (field.row == "") {
         field.row = "row";
     }
-    var obj = $(`
-        <div class="${field.row}">
-        </div>
-    `);
+    var obj = $(`<div class="${field.row}"></div>`);
     return obj;
 };
 
@@ -102,18 +96,18 @@ saltos.__form_field["col"] = function(field) {
     if (field.col == "") {
         field.col = "col";
     }
-    var obj = $(`
-        <div class="${field.col}">
-        </div>
-    `);
+    var obj = $(`<div class="${field.col}"></div>`);
     return obj;
 };
 
 saltos.__form_field["text"] = function(field) {
-    var obj = $(`<div>
-        <label for="${field.id}" class="form-label">${field.label}</label>
+    var obj = $(`<div></div>`);
+    if (field.label != "") {
+        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+    }
+    $(obj).append(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
-    </div>`);
+    `);
     return obj;
 };
 
@@ -168,22 +162,24 @@ saltos.__form_field["datetime"] = function(field) {
 
 saltos.__form_field["textarea"] = function(field) {
     saltos.check_params(field,["rows"]);
-    var obj = $(`<div>
-        <label for="${field.id}" class="form-label">${field.label}</label>
+    var obj = $(`<div></div>`);
+    if (field.label != "") {
+        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+    }
+    $(obj).append(`
         <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
-    </div>`);
-    var element = $("textarea", obj);
-    saltos.when_visible(element ,function (args) {
-        args.autogrow();
-    },element);
+    `);
+    if (field.type == "textarea") {
+        var element = $("textarea", obj);
+        saltos.when_visible(element ,function (args) {
+            args.autogrow();
+        },element);
+    }
     return obj;
 };
 
 saltos.__form_field["ckeditor"] = function(field) {
-    var obj = $(`<div>
-        <label for="${field.id}" class="form-label">${field.label}</label>
-        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
-    </div>`);
+    var obj = saltos.__form_field["textarea"](field);
     var element = $("textarea", obj).get(0);
     saltos.when_visible(element ,function (args) {
         ClassicEditor.create(args).catch(error => {
@@ -194,10 +190,7 @@ saltos.__form_field["ckeditor"] = function(field) {
 };
 
 saltos.__form_field["codemirror"] = function(field) {
-    var obj = $(`<div>
-        <label for="${field.id}" class="form-label">${field.label}</label>
-        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
-    </div>`);
+    var obj = saltos.__form_field["textarea"](field);
     var element = $("textarea", obj).get(0);
     saltos.when_visible(element ,function (args) {
         var width = $(element).width();
@@ -212,7 +205,7 @@ saltos.__form_field["codemirror"] = function(field) {
             if (cm.display.sizerWidth > cm.display.lastWrapWidth) {
                 height2 += 24;
             }
-            cm.setSize(width + 20,height2 + 20);
+            cm.setSize(width + 24,height2 + 24);
         }
         fnresize(cm);
         cm.on("viewportChange",fnresize);
@@ -221,6 +214,10 @@ saltos.__form_field["codemirror"] = function(field) {
     },element);
     return obj;
 };
+
+saltos.__form_field["iframe"] = function(field) {
+    // TODO
+}
 
 /*
  * TODOS
