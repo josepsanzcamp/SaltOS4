@@ -31,6 +31,9 @@ var saltos = saltos || {};
 
 /*
  * LIST OF SUPPORTED TYPES:
+ * - container
+ * - row
+ * - col
  * - text
  * - integer
  * - float
@@ -41,6 +44,7 @@ var saltos = saltos || {};
  * - textarea
  * - ckeditor
  * - codemirror
+ * - iframe
  * - select
  * - multiselect
  * - checkbox
@@ -92,10 +96,38 @@ saltos.__form_field["col"] = function(field) {
 };
 
 saltos.__form_field["text"] = function(field) {
-    var obj = $(`
+    var obj = $(`<div>
         <label for="${field.id}" class="form-label">${field.label}</label>
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}">
-    `);
+    </div>`);
+    return obj;
+};
+
+saltos.__form_field["integer"] = function(field) {
+    field.type = "text";
+    var obj = saltos.__form_field["text"](field);
+    var element = $("input", obj).get(0);
+    var maskOptions = {
+        mask:Number,
+        signed:true,
+        scale:0,
+    };
+    IMask(element, maskOptions);
+    return obj;
+};
+
+saltos.__form_field["float"] = function(field) {
+    field.type = "text";
+    var obj = saltos.__form_field["text"](field);
+    var element = $("input", obj).get(0);
+    var maskOptions = {
+        mask:Number,
+        signed:true,
+        radix:".",
+        mapToRadix: [","],
+        scale:99,
+    };
+    IMask(element, maskOptions);
     return obj;
 };
 

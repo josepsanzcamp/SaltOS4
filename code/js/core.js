@@ -90,7 +90,7 @@ saltos.uniqid = function () {
             col:"col-md-" + j + " mb-3",
         });
         var campo = saltos.form_field({
-            type:"text",
+            type:"integer",
             id:"campo" + i,
             label:"Campo " + i,
             placeholder:"Escriba aqui",
