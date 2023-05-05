@@ -69,7 +69,7 @@ saltos.form_field = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    if (["container","row","col","label"].includes(field.type)) {
+    if (["container","row","col","label","button"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
     var obj = $(`<div></div>`);
@@ -221,13 +221,81 @@ saltos.__form_field["iframe"] = function(field) {
 }
 
 saltos.__form_field["select"] = function(field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    saltos.check_params(field,["rows","multiple"]);
+    if (field.multiple != "") {
+        field.multiple = "multiple";
+    }
+    var obj = $(`
+        <select class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}></select>
+    `);
+    for (var key in field.rows) {
+        var val = field.rows[key];
+        var selected = "";
+        if (field.value.toString() == val.value.toString()) {
+            selected = "selected";
+        }
+        $(obj).append(`<option value="${val.value}" ${selected}>${val.label}</option>`);
+    }
+    return obj;
 }
 
 saltos.__form_field["multiselect"] = function(field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    saltos.check_params(field,["rows"]);
+    var obj = $(`<div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                </div>
+                <div class="col col-auto">
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+    </div>`);
+    var rows_a = [];
+    var rows_b = [];
+    var values = field.value.split(",");
+    for (var key in field.rows) {
+        var val = field.rows[key];
+        if (values.includes(val.value.toString())) {
+            rows_b.push(val);
+        } else {
+            rows_a.push(val);
+        }
+    }
+    $(".col:eq(0)",obj).append(saltos.__form_field["select"]({
+        class:field.class,
+        id:field.id+"_a",
+        disabled:field.disabled,
+        multiple:true,
+        rows:rows_a,
+        value:"",
+    }));
+    $(".col:eq(1)",obj).append(saltos.__form_field["button"]({
+        class:"btn-primary",
+        id:field.id+"_c",
+        disabled:field.disabled,
+        label:">>>",
+    }));
+    $(".col:eq(1)",obj).append("<br/>");
+    $(".col:eq(1)",obj).append("<br/>");
+    $(".col:eq(1)",obj).append(saltos.__form_field["button"]({
+        class:"btn-primary",
+        id:field.id+"_d",
+        disabled:field.disabled,
+        label:"<<<",
+    }));
+    $(".col:eq(2)",obj).append(saltos.__form_field["select"]({
+        class:field.class,
+        id:field.id+"_b",
+        disabled:field.disabled,
+        multiple:true,
+        rows:rows_b,
+        value:"",
+    }));
+    // TODO
+    return obj;
 }
 
 saltos.__form_field["checkbox"] = function(field) {
@@ -236,8 +304,9 @@ saltos.__form_field["checkbox"] = function(field) {
 }
 
 saltos.__form_field["button"] = function(field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+
+    var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.label}</button>`);
+    return obj;
 }
 
 saltos.__form_field["password"] = function(field) {

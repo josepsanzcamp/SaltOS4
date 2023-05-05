@@ -117,13 +117,13 @@ saltos.when_visible = function (obj,fn,args) {
         "codemirror",
         "iframe",
         "select",
-        "multiselect",
         "checkbox",
         "button",
         "password",
         "file",
         "link",
         "label",
+        "multiselect",
         "image",
         "excel",
         "pdfjs",
@@ -148,6 +148,30 @@ saltos.when_visible = function (obj,fn,args) {
         if (isset(valores[i])) {
             valor = valores[i];
         }
+        var rows = "";
+        if (tipo == "select") {
+            rows = [
+                {label:"Uno",value:1},
+                {label:"Dos",value:2},
+                {label:"Tres",value:3},
+            ];
+            valor = "2";
+        }
+        if (tipo == "multiselect") {
+            rows = [
+                {label:"Uno",value:1},
+                {label:"Dos",value:2},
+                {label:"Tres",value:3},
+                {label:"Cuatro",value:4},
+                {label:"Cinco",value:5},
+                {label:"Seis",value:6},
+            ];
+            valor = "2,5";
+        }
+        var clase = "";
+        if (tipo == "button") {
+            clase = "btn-primary";
+        }
         var campo = saltos.form_field({
             type:tipo,
             id:"campo" + i,
@@ -155,6 +179,8 @@ saltos.when_visible = function (obj,fn,args) {
             placeholder:"Escriba aqui",
             value:valor,
             mode:"xml",
+            rows:rows,
+            class:clase,
         });
         $(col).append(campo);
         $(row).append(col);
