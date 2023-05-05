@@ -221,12 +221,15 @@ saltos.__form_field["iframe"] = function(field) {
 }
 
 saltos.__form_field["select"] = function(field) {
-    saltos.check_params(field,["rows","multiple"]);
+    saltos.check_params(field,["rows","multiple","size"]);
     if (field.multiple != "") {
         field.multiple = "multiple";
     }
+    if (field.size != "") {
+        field.size = `size="${field.size}"`;
+    }
     var obj = $(`
-        <select class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}></select>
+        <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} ${field.size}></select>
     `);
     for (var key in field.rows) {
         var val = field.rows[key];
@@ -240,13 +243,13 @@ saltos.__form_field["select"] = function(field) {
 }
 
 saltos.__form_field["multiselect"] = function(field) {
-    saltos.check_params(field,["rows"]);
+    saltos.check_params(field,["rows","size"]);
     var obj = $(`<div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
                 </div>
-                <div class="col col-auto">
+                <div class="col col-auto my-auto">
                 </div>
                 <div class="col">
                 </div>
@@ -269,6 +272,7 @@ saltos.__form_field["multiselect"] = function(field) {
         id:field.id+"_a",
         disabled:field.disabled,
         multiple:true,
+        size:field.size,
         rows:rows_a,
         value:"",
     }));
@@ -291,6 +295,7 @@ saltos.__form_field["multiselect"] = function(field) {
         id:field.id+"_b",
         disabled:field.disabled,
         multiple:true,
+        size:field.size,
         rows:rows_b,
         value:"",
     }));

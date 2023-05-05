@@ -172,6 +172,10 @@ saltos.when_visible = function (obj,fn,args) {
         if (tipo == "button") {
             clase = "btn-primary";
         }
+        var size = "";
+        if (tipo == "multiselect") {
+            size = 5;
+        }
         var campo = saltos.form_field({
             type:tipo,
             id:"campo" + i,
@@ -179,6 +183,7 @@ saltos.when_visible = function (obj,fn,args) {
             placeholder:"Escriba aqui",
             value:valor,
             mode:"xml",
+            size:size,
             rows:rows,
             class:clase,
         });
