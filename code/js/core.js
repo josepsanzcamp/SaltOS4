@@ -126,10 +126,11 @@ saltos.when_visible = function (obj,fn,args) {
         "label",
         "image",
         "excel",
+        "pdfjs",
     ];
     var valores = {
         9:"Texto de prueba<br/><br/>Adios",
-        10:"for\n\thacer algo\ndone",
+        10:"<xml>\n\t<tag>valor</tag>\n</xmla>",
         11:"https://www.saltos.org",
     }
     for (var i = 1; i <= 24; i++) {
@@ -152,6 +153,7 @@ saltos.when_visible = function (obj,fn,args) {
             label:"Campo " + i + " (" + tipo + ")",
             placeholder:"Escriba aqui",
             value:valor,
+            mode:"xml",
         });
         $(col).append(campo);
         $(row).append(col);

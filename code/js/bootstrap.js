@@ -55,6 +55,7 @@ var saltos = saltos || {};
  * - label
  * - image
  * - excel
+ * - pdfjs
  */
 
 saltos.form_field = function (field) {
@@ -216,41 +217,56 @@ saltos.__form_field["iframe"] = function(field) {
 }
 
 saltos.__form_field["select"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["multiselect"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["checkbox"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["button"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["password"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["file"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["link"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["label"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["image"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
 saltos.__form_field["excel"] = function(field) {
+    field.type = "text";
+    return saltos.__form_field["text"](field);
+}
+
+saltos.__form_field["pdfjs"] = function(field) {
+    field.type = "text";
     return saltos.__form_field["text"](field);
 }
