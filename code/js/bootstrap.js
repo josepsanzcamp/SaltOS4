@@ -273,6 +273,7 @@ saltos.__form_field["multiselect"] = function (field) {
             rows_a.push(val);
         }
     }
+    field.type = "hidden";
     $(".col:eq(0)",obj).append(saltos.__form_field["hidden"](field));
     $(".col:eq(0)",obj).append(saltos.__form_field["select"]({
         class:field.class,
