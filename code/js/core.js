@@ -129,8 +129,9 @@ saltos.when_visible = function (obj,fn,args) {
         "pdfjs",
     ];
     var valores = {
+        8:"Texto de prueba\n\nAdios",
         9:"Texto de prueba<br/><br/>Adios",
-        10:"<xml>\n\t<tag>valor</tag>\n</xmla>",
+        10:"<xml>\n\t<tag>valor</tag>\n</xml>",
         11:"https://www.saltos.org",
     }
     for (var i = 1; i <= 24; i++) {

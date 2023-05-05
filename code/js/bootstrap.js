@@ -69,7 +69,15 @@ saltos.form_field = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    return saltos.__form_field[field.type](field);
+    if (["container","row","col"].includes(field.type)) {
+        return saltos.__form_field[field.type](field);
+    }
+    var obj = $(`<div></div>`);
+    if (field.label != "") {
+        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+    }
+    $(obj).append(saltos.__form_field[field.type](field));
+    return obj;
 };
 
 saltos.__form_field = {};
@@ -102,11 +110,7 @@ saltos.__form_field["col"] = function(field) {
 };
 
 saltos.__form_field["text"] = function(field) {
-    var obj = $(`<div></div>`);
-    if (field.label != "") {
-        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
-    }
-    $(obj).append(`
+    var obj = $(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
     `);
     return obj;
@@ -115,7 +119,7 @@ saltos.__form_field["text"] = function(field) {
 saltos.__form_field["integer"] = function(field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
-    var element = $("input", obj).get(0);
+    var element = $(obj).get(0);
     IMask(element, {
         mask: Number,
         signed: true,
@@ -127,7 +131,7 @@ saltos.__form_field["integer"] = function(field) {
 saltos.__form_field["float"] = function(field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
-    var element = $("input", obj).get(0);
+    var element = $(obj).get(0);
     IMask(element, {
         mask: Number,
         signed: true,
@@ -159,27 +163,26 @@ saltos.__form_field["datetime"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["textarea"] = function(field) {
+saltos.__form_field["__textarea"] = function(field) {
     saltos.check_params(field,["rows"]);
-    var obj = $(`<div></div>`);
-    if (field.label != "") {
-        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
-    }
-    $(obj).append(`
+    var obj = $(`
         <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
     `);
-    if (field.type == "textarea") {
-        var element = $("textarea", obj);
-        saltos.when_visible(element ,function (element) {
-            element.autogrow();
-        },element);
-    }
+    return obj;
+};
+
+saltos.__form_field["textarea"] = function(field) {
+    var obj = saltos.__form_field["__textarea"](field);
+    var element = $(obj).get(0);
+    saltos.when_visible(element ,function (element) {
+        $(element).autogrow();
+    },element);
     return obj;
 };
 
 saltos.__form_field["ckeditor"] = function(field) {
-    var obj = saltos.__form_field["textarea"](field);
-    var element = $("textarea", obj).get(0);
+    var obj = saltos.__form_field["__textarea"](field);
+    var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         ClassicEditor.create(element).catch(error => {
             console.error( error );
@@ -190,8 +193,8 @@ saltos.__form_field["ckeditor"] = function(field) {
 
 saltos.__form_field["codemirror"] = function(field) {
     saltos.check_params(field,["mode"]);
-    var obj = saltos.__form_field["textarea"](field);
-    var element = $("textarea", obj).get(0);
+    var obj = saltos.__form_field["__textarea"](field);
+    var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         var cm = CodeMirror.fromTextArea(element,{
             mode: field.mode,
@@ -206,11 +209,7 @@ saltos.__form_field["codemirror"] = function(field) {
 };
 
 saltos.__form_field["iframe"] = function(field) {
-    var obj = $(`<div></div>`);
-    if (field.label != "") {
-        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
-    }
-    $(obj).append(`
+    var obj = $(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}"></iframe>
     `);
     return obj;
