@@ -8,4 +8,4 @@ wget https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.j
 wget https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js
 wget https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/selection/active-line.min.js
 
-cat codemirror.min.js active-line.min.js javascript.min.js php.min.js xml.min.js > codemirror.all.min.js
+cat js/codemirror.min.js js/active-line.min.js js/javascript.min.js js/php.min.js js/xml.min.js > codemirror.min.js

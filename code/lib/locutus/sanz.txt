@@ -1,2 +1,2 @@
 
-cat isset.js str_replace.js > locutus.all.min.js
+cat js/isset.js js/str_replace.js > locutus.min.js
