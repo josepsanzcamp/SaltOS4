@@ -253,11 +253,11 @@ saltos.__form_field["multiselect"] = function (field) {
     var obj = $(`<div>
         <div class="container-fluid">
             <div class="row">
-                <div class="col">
+                <div class="col px-0">
                 </div>
                 <div class="col col-auto my-auto">
                 </div>
-                <div class="col">
+                <div class="col px-0">
                 </div>
             </div>
         </div>
@@ -285,10 +285,10 @@ saltos.__form_field["multiselect"] = function (field) {
         value:"",
     }));
     $(".col:eq(1)",obj).append(saltos.__form_field["button"]({
-        class:"btn-primary",
+        class:"btn-primary bi-chevron-double-right mb-3",
         id:field.id+"_c",
         disabled:field.disabled,
-        label:">>>",
+        label:"",
         onclick:function() {
             $("#"+field.id+"_a option:selected").each(function() {
                 $("#"+field.id+"_b").append(this);
@@ -301,12 +301,11 @@ saltos.__form_field["multiselect"] = function (field) {
         },
     }));
     $(".col:eq(1)",obj).append("<br/>");
-    $(".col:eq(1)",obj).append("<br/>");
     $(".col:eq(1)",obj).append(saltos.__form_field["button"]({
-        class:"btn-primary",
+        class:"btn-primary bi-chevron-double-left",
         id:field.id+"_d",
         disabled:field.disabled,
-        label:"<<<",
+        label:"",
         onclick:function() {
             $("#"+field.id+"_b option:selected").each(function() {
                 $("#"+field.id+"_a").append(this);
