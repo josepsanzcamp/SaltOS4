@@ -35,6 +35,7 @@ var saltos = saltos || {};
  * - row
  * - col
  * - text
+ * - hidden
  * - integer
  * - float
  * - color
@@ -82,7 +83,7 @@ saltos.form_field = function (field) {
 
 saltos.__form_field = {};
 
-saltos.__form_field["container"] = function(field) {
+saltos.__form_field["container"] = function (field) {
     saltos.check_params(field,["container"]);
     if (field.container == "") {
         field.container = "container-fluid";
@@ -91,7 +92,7 @@ saltos.__form_field["container"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["row"] = function(field) {
+saltos.__form_field["row"] = function (field) {
     saltos.check_params(field,["row"]);
     if (field.row == "") {
         field.row = "row";
@@ -100,7 +101,7 @@ saltos.__form_field["row"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["col"] = function(field) {
+saltos.__form_field["col"] = function (field) {
     saltos.check_params(field,["col"]);
     if (field.col == "") {
         field.col = "col";
@@ -109,19 +110,24 @@ saltos.__form_field["col"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["label"] = function(field) {
+saltos.__form_field["label"] = function (field) {
     var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
     return obj;
 }
 
-saltos.__form_field["text"] = function(field) {
+saltos.__form_field["text"] = function (field) {
     var obj = $(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
     `);
     return obj;
 };
 
-saltos.__form_field["integer"] = function(field) {
+saltos.__form_field["hidden"] = function (field) {
+    var obj = saltos.__form_field["text"](field);
+    return obj;
+};
+
+saltos.__form_field["integer"] = function (field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
     var element = $(obj).get(0);
@@ -133,7 +139,7 @@ saltos.__form_field["integer"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["float"] = function(field) {
+saltos.__form_field["float"] = function (field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
     var element = $(obj).get(0);
@@ -147,28 +153,28 @@ saltos.__form_field["float"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["color"] = function(field) {
+saltos.__form_field["color"] = function (field) {
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
-saltos.__form_field["date"] = function(field) {
+saltos.__form_field["date"] = function (field) {
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
-saltos.__form_field["time"] = function(field) {
+saltos.__form_field["time"] = function (field) {
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
-saltos.__form_field["datetime"] = function(field) {
+saltos.__form_field["datetime"] = function (field) {
     field.type = "datetime-local";
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
-saltos.__form_field["__textarea"] = function(field) {
+saltos.__form_field["__textarea"] = function (field) {
     saltos.check_params(field,["rows"]);
     var obj = $(`
         <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
@@ -176,7 +182,7 @@ saltos.__form_field["__textarea"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["textarea"] = function(field) {
+saltos.__form_field["textarea"] = function (field) {
     var obj = saltos.__form_field["__textarea"](field);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
@@ -185,18 +191,18 @@ saltos.__form_field["textarea"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["ckeditor"] = function(field) {
+saltos.__form_field["ckeditor"] = function (field) {
     var obj = saltos.__form_field["__textarea"](field);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         ClassicEditor.create(element).catch(error => {
-            console.error( error );
+            console.error(error);
         });
     },element);
     return obj;
 };
 
-saltos.__form_field["codemirror"] = function(field) {
+saltos.__form_field["codemirror"] = function (field) {
     saltos.check_params(field,["mode"]);
     var obj = saltos.__form_field["__textarea"](field);
     var element = $(obj).get(0);
@@ -213,14 +219,14 @@ saltos.__form_field["codemirror"] = function(field) {
     return obj;
 };
 
-saltos.__form_field["iframe"] = function(field) {
+saltos.__form_field["iframe"] = function (field) {
     var obj = $(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}"></iframe>
     `);
     return obj;
 }
 
-saltos.__form_field["select"] = function(field) {
+saltos.__form_field["select"] = function (field) {
     saltos.check_params(field,["rows","multiple","size"]);
     if (field.multiple != "") {
         field.multiple = "multiple";
@@ -242,7 +248,7 @@ saltos.__form_field["select"] = function(field) {
     return obj;
 }
 
-saltos.__form_field["multiselect"] = function(field) {
+saltos.__form_field["multiselect"] = function (field) {
     saltos.check_params(field,["rows","size"]);
     var obj = $(`<div>
         <div class="container-fluid">
@@ -267,6 +273,7 @@ saltos.__form_field["multiselect"] = function(field) {
             rows_a.push(val);
         }
     }
+    $(".col:eq(0)",obj).append(saltos.__form_field["hidden"](field));
     $(".col:eq(0)",obj).append(saltos.__form_field["select"]({
         class:field.class,
         id:field.id+"_a",
@@ -281,6 +288,16 @@ saltos.__form_field["multiselect"] = function(field) {
         id:field.id+"_c",
         disabled:field.disabled,
         label:">>>",
+        onclick:function() {
+            $("#"+field.id+"_a option:selected").each(function() {
+                $("#"+field.id+"_b").append(this);
+            });
+            var val = [];
+            $("#campo19_b option").each(function() {
+                val.push($(this).val());
+            });
+            $("#"+field.id).val(val.join(","));
+        },
     }));
     $(".col:eq(1)",obj).append("<br/>");
     $(".col:eq(1)",obj).append("<br/>");
@@ -289,6 +306,16 @@ saltos.__form_field["multiselect"] = function(field) {
         id:field.id+"_d",
         disabled:field.disabled,
         label:"<<<",
+        onclick:function() {
+            $("#"+field.id+"_b option:selected").each(function() {
+                $("#"+field.id+"_a").append(this);
+            });
+            var val = [];
+            $("#campo19_b option").each(function() {
+                val.push($(this).val());
+            });
+            $("#"+field.id).val(val.join(","));
+        },
     }));
     $(".col:eq(2)",obj).append(saltos.__form_field["select"]({
         class:field.class,
@@ -303,43 +330,44 @@ saltos.__form_field["multiselect"] = function(field) {
     return obj;
 }
 
-saltos.__form_field["checkbox"] = function(field) {
+saltos.__form_field["checkbox"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
-saltos.__form_field["button"] = function(field) {
-
+saltos.__form_field["button"] = function (field) {
+    saltos.check_params(field,["onclick"]);
     var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.label}</button>`);
+    $(obj).on("click",field.onclick);
     return obj;
 }
 
-saltos.__form_field["password"] = function(field) {
+saltos.__form_field["password"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
-saltos.__form_field["file"] = function(field) {
+saltos.__form_field["file"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
-saltos.__form_field["link"] = function(field) {
+saltos.__form_field["link"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
-saltos.__form_field["image"] = function(field) {
+saltos.__form_field["image"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
-saltos.__form_field["excel"] = function(field) {
+saltos.__form_field["excel"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
 
-saltos.__form_field["pdfjs"] = function(field) {
+saltos.__form_field["pdfjs"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
