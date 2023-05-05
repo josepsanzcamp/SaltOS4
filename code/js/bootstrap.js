@@ -69,12 +69,12 @@ saltos.form_field = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    if (["container","row","col"].includes(field.type)) {
+    if (["container","row","col","label"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
     var obj = $(`<div></div>`);
     if (field.label != "") {
-        $(obj).append(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+        $(obj).append(saltos.__form_field["label"](field));
     }
     $(obj).append(saltos.__form_field[field.type](field));
     return obj;
@@ -108,6 +108,11 @@ saltos.__form_field["col"] = function(field) {
     var obj = $(`<div class="${field.col}"></div>`);
     return obj;
 };
+
+saltos.__form_field["label"] = function(field) {
+    var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+    return obj;
+}
 
 saltos.__form_field["text"] = function(field) {
     var obj = $(`
@@ -246,11 +251,6 @@ saltos.__form_field["file"] = function(field) {
 }
 
 saltos.__form_field["link"] = function(field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
-}
-
-saltos.__form_field["label"] = function(field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
