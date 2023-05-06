@@ -10,7 +10,8 @@ function ob_passthru($cmd)
 }
 
 $buffer = file_get_contents("php://stdin");
-$command = "cat __FILE__ | openssl dgst -sha384 -binary | openssl base64 -A";
+//$command = "cat __FILE__ | openssl dgst -sha384 -binary | openssl base64 -A";
+$command = "sha384sum __FILE__ | head -c 96 | xxd -r -p | base64";
 $buffer = explode("\n", $buffer);
 foreach ($buffer as $key => $val) {
     if (strpos($val, 'integrity=""') === false) {
