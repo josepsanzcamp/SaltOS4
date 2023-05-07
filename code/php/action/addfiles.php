@@ -47,6 +47,7 @@ if (isset($data["input"]["files"])) {
         $val["hash"] = md5($data);
         $files[$key] = $val;
     }
-    addlog(sprintr($files),"files.log");
+    addlog(sprintr($files), "files.log");
+    // TODO
 }
 die();

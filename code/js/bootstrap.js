@@ -285,12 +285,12 @@ saltos.__form_field["multiselect"] = function (field) {
         id:field.id+"_c",
         disabled:field.disabled,
         label:"",
-        onclick:function() {
-            $("#"+field.id+"_a option:selected").each(function() {
+        onclick:function () {
+            $("#"+field.id+"_a option:selected").each(function () {
                 $("#"+field.id+"_b").append(this);
             });
             var val = [];
-            $("#campo19_b option").each(function() {
+            $("#campo19_b option").each(function () {
                 val.push($(this).val());
             });
             $("#"+field.id).val(val.join(","));
@@ -302,12 +302,12 @@ saltos.__form_field["multiselect"] = function (field) {
         id:field.id+"_d",
         disabled:field.disabled,
         label:"",
-        onclick:function() {
-            $("#"+field.id+"_b option:selected").each(function() {
+        onclick:function () {
+            $("#"+field.id+"_b option:selected").each(function () {
                 $("#"+field.id+"_a").append(this);
             });
             var val = [];
-            $("#campo19_b option").each(function() {
+            $("#campo19_b option").each(function () {
                 val.push($(this).val());
             });
             $("#"+field.id).val(val.join(","));
@@ -341,7 +341,7 @@ saltos.__form_field["checkbox"] = function (field) {
             <label class="form-check-label" for="${field.id}">${field.label}</label>
         </div>
     `);
-    $("input",obj).on("change",function() {
+    $("input",obj).on("change",function () {
         this.value = this.checked ? 1 : 0;
     });
     return obj;
@@ -361,7 +361,7 @@ saltos.__form_field["password"] = function (field) {
             <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_b"></button>
         </div>
     `);
-    $("button",obj).on("click",function() {
+    $("button",obj).on("click",function () {
         var input = $(this).prev().get(0);
         if (input.type == "password") {
             input.type = "text";
@@ -382,7 +382,7 @@ saltos.__form_field["file"] = function (field) {
     var obj = $(`
         <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}>
     `);
-    $(obj).on("change",async function() {
+    $(obj).on("change",async function () {
         var data = {
             action:"addfiles",
             files:[],
@@ -393,12 +393,24 @@ saltos.__form_field["file"] = function (field) {
                 name:files[i].name,
                 size:files[i].size,
                 type:files[i].type,
+                data:"",
+                error:"",
             };
             var reader = new FileReader();
             reader.readAsDataURL(files[i]);
-            while (!reader.result && !reader.error) await new Promise(resolve => setTimeout(resolve, 1));
-            data.files[i].data = reader.result;
-            data.files[i].error = reader.error;
+            while (!reader.result && !reader.error) {
+                await new Promise(resolve => setTimeout(resolve, 1));
+            }
+            if (reader.result) {
+                data.files[i].data = reader.result;
+            }
+            if (reader.error) {
+                data.files[i].error = JSON.stringify({
+                    code: reader.error.code,
+                    name: reader.error.name,
+                    message: reader.error.message,
+                });
+            }
         }
         $.ajax({
             url:"index.php",
@@ -406,9 +418,10 @@ saltos.__form_field["file"] = function (field) {
             type:"post",
             success:function (data,textStatus,XMLHttpRequest) {
                 alert("ok");
+                // TODO
             },
             error:function (XMLHttpRequest,textStatus,errorThrown) {
-                alert(XMLHttpRequest.status + ": " + XMLHttpRequest.statusText);
+                alert("Error " + XMLHttpRequest.status + ": " + XMLHttpRequest.statusText);
             }
         });
     });

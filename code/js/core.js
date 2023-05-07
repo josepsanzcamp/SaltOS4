@@ -182,13 +182,13 @@ saltos.when_visible = function (obj,fn,args) {
             size = 5;
         }
         if (tipo == "button") {
-            onclick = function() {
+            onclick = function () {
                 alert("button onclick");
             };
         }
         if (tipo == "link") {
             valor = "www.saltos.org";
-            onclick = function() {
+            onclick = function () {
                 window.open("https://www.saltos.org");
             };
         }
