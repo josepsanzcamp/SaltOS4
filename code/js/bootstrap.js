@@ -385,8 +385,9 @@ saltos.__form_field["file"] = function (field) {
 }
 
 saltos.__form_field["link"] = function (field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    field.class = "btn-link";
+    field.label = field.value;
+    return saltos.__form_field["button"](field);
 }
 
 saltos.__form_field["image"] = function (field) {

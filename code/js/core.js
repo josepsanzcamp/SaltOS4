@@ -104,7 +104,6 @@ saltos.when_visible = function (obj,fn,args) {
         type:"row",
     });
     var tipos = [
-        "",
         "text",
         "integer",
         "float",
@@ -128,28 +127,32 @@ saltos.when_visible = function (obj,fn,args) {
         "image",
         "excel",
         "pdfjs",
+        "text",
     ];
-    var valores = {
-        8:"Texto de prueba\n\nAdios",
-        9:"Texto de prueba<br/><br/>Adios",
-        10:"<xml>\n\t<tag>valor</tag>\n</xml>",
-        11:"https://www.saltos.org",
-    }
-    for (var i = 1; i <= 24; i++) {
-        var j = (((i - 1) % 12) + 1);
+    for (var i = 0; i < 24; i++) {
+        var j = ((i % 12) + 1);
         var col = saltos.form_field({
             type:"col",
             col:"col-md-" + j + " mb-3",
         });
-        var tipo = "text";
-        if (isset(tipos[i])) {
-            tipo = tipos[i];
-        }
+        var tipo = tipos[i];
         var valor = "";
-        if (isset(valores[i])) {
-            valor = valores[i];
-        }
         var rows = "";
+        var clase = "";
+        var size = "";
+        var onclick = "";
+        if (tipo == "textarea") {
+            valor = "Texto de prueba\n\nAdios";
+        }
+        if (tipo == "ckeditor") {
+            valor = "Texto de prueba<br/><br/>Adios";
+        }
+        if (tipo == "codemirror") {
+            valor = "<xml>\n\t<tag>valor</tag>\n</xml>";
+        }
+        if (tipo == "iframe") {
+            valor = "htm/mozilla.htm";
+        }
         if (tipo == "select") {
             rows = [
                 {label:"Uno",value:1},
@@ -169,13 +172,22 @@ saltos.when_visible = function (obj,fn,args) {
             ];
             valor = "2,5";
         }
-        var clase = "";
         if (tipo == "button") {
             clase = "btn-primary";
         }
-        var size = "";
         if (tipo == "multiselect") {
             size = 5;
+        }
+        if (tipo == "button") {
+            onclick = function() {
+                alert("button press");
+            };
+        }
+        if (tipo == "link") {
+            valor = "www.saltos.org";
+            onclick = function() {
+                alert("https://www.saltos.org");
+            };
         }
         var campo = saltos.form_field({
             type:tipo,
@@ -187,6 +199,7 @@ saltos.when_visible = function (obj,fn,args) {
             size:size,
             rows:rows,
             class:clase,
+            onclick:onclick,
         });
         $(col).append(campo);
         $(row).append(col);
