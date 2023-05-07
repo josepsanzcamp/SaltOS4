@@ -120,9 +120,9 @@ saltos.when_visible = function (obj,fn,args) {
         "button",
         "password",
         "checkbox",
-        "file",
         "link",
         "label",
+        "file",
         "multiselect",
         "image",
         "excel",
@@ -141,6 +141,8 @@ saltos.when_visible = function (obj,fn,args) {
         var clase = "";
         var size = "";
         var onclick = "";
+        var mode = "";
+        var multiple = "";
         if (tipo == "textarea") {
             valor = "Texto de prueba\n\nAdios";
         }
@@ -149,6 +151,7 @@ saltos.when_visible = function (obj,fn,args) {
         }
         if (tipo == "codemirror") {
             valor = "<xml>\n\t<tag>valor</tag>\n</xml>";
+            mode = "xml";
         }
         if (tipo == "iframe") {
             valor = "htm/mozilla.htm";
@@ -170,7 +173,7 @@ saltos.when_visible = function (obj,fn,args) {
                 {label:"Cinco",value:5},
                 {label:"Seis",value:6},
             ];
-            valor = "2,5";
+            valor = "2,3,5";
         }
         if (tipo == "button") {
             clase = "btn-primary";
@@ -180,14 +183,17 @@ saltos.when_visible = function (obj,fn,args) {
         }
         if (tipo == "button") {
             onclick = function() {
-                alert("button press");
+                alert("button onclick");
             };
         }
         if (tipo == "link") {
             valor = "www.saltos.org";
             onclick = function() {
-                alert("https://www.saltos.org");
+                window.open("https://www.saltos.org");
             };
+        }
+        if (tipo == "file") {
+            multiple = true;
         }
         var campo = saltos.form_field({
             type:tipo,
@@ -195,11 +201,12 @@ saltos.when_visible = function (obj,fn,args) {
             label:"Campo " + i + " (" + tipo + ")",
             placeholder:"Escriba aqui",
             value:valor,
-            mode:"xml",
+            mode:mode,
             size:size,
             rows:rows,
             class:clase,
             onclick:onclick,
+            multiple:multiple,
         });
         $(col).append(campo);
         $(row).append(col);

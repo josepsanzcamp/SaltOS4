@@ -110,11 +110,6 @@ saltos.__form_field["col"] = function (field) {
     return obj;
 };
 
-saltos.__form_field["label"] = function (field) {
-    var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
-    return obj;
-}
-
 saltos.__form_field["text"] = function (field) {
     var obj = $(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
@@ -123,6 +118,7 @@ saltos.__form_field["text"] = function (field) {
 };
 
 saltos.__form_field["hidden"] = function (field) {
+    field.type = "hidden";
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
@@ -274,7 +270,6 @@ saltos.__form_field["multiselect"] = function (field) {
             rows_a.push(val);
         }
     }
-    field.type = "hidden";
     $(".col:eq(0)",obj).append(saltos.__form_field["hidden"](field));
     $(".col:eq(0)",obj).append(saltos.__form_field["select"]({
         class:field.class,
@@ -380,14 +375,45 @@ saltos.__form_field["password"] = function (field) {
 }
 
 saltos.__form_field["file"] = function (field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    saltos.check_params(field,["multiple"]);
+    if (field.multiple != "") {
+        field.multiple = "multiple";
+    }
+    var obj = $(`
+        <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}>
+    `);
+    $(obj).on("change",function() {
+        var data = new FormData();
+        var files = obj.get(0).files;
+        for (var i = 0; i < files.length; i++) {
+            data.append(i, files[i]);
+        }
+        $.ajax({
+            url:"index.php",
+            data:data,
+            type:"post",
+            processData:false,
+            contentType:false,
+            success:function (data,textStatus,XMLHttpRequest) {
+                alert("ok");
+            },
+            error:function (XMLHttpRequest,textStatus,errorThrown) {
+                alert(XMLHttpRequest.status + ": " + XMLHttpRequest.statusText);
+            }
+        });
+    });
+    return obj;
 }
 
 saltos.__form_field["link"] = function (field) {
     field.class = "btn-link";
     field.label = field.value;
     return saltos.__form_field["button"](field);
+}
+
+saltos.__form_field["label"] = function (field) {
+    var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+    return obj;
 }
 
 saltos.__form_field["image"] = function (field) {

@@ -52,10 +52,11 @@ $data = array(
     //~ "headers" => getallheaders(),
     "input" => null2array(json_decode(file_get_contents('php://input'), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")),array("")),
+    "files" => $_FILES,
 );
 
 // CHECK FOR A VOID REQUEST
-if (count($data["input"]) + count($data["rest"]) == 0) {
+if (count($data,COUNT_RECURSIVE) - count($data) == 0) {
     output_handler(array(
         "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
