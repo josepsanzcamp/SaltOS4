@@ -70,7 +70,7 @@ saltos.form_field = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    if (["container","row","col","label","button"].includes(field.type)) {
+    if (["container","row","col","label","button","checkbox"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
     var obj = $(`<div></div>`);
@@ -154,6 +154,7 @@ saltos.__form_field["float"] = function (field) {
 };
 
 saltos.__form_field["color"] = function (field) {
+    field.class="form-control-color";
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
@@ -331,8 +332,24 @@ saltos.__form_field["multiselect"] = function (field) {
 }
 
 saltos.__form_field["checkbox"] = function (field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    field.value = parseInt(field.value);
+    if (isNaN(field.value)) {
+        field.value = 0;
+    }
+    var checked = "";
+    if (field.value) {
+        checked = "checked";
+    }
+    var obj = $(`
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="${field.id}" value="${field.value}" ${field.disabled} ${field.readonly} ${checked}>
+            <label class="form-check-label" for="${field.id}">${field.label}</label>
+        </div>
+    `);
+    $("input",obj).on("change",function() {
+        this.value = this.checked ? 1 : 0;
+    });
+    return obj;
 }
 
 saltos.__form_field["button"] = function (field) {
@@ -343,8 +360,23 @@ saltos.__form_field["button"] = function (field) {
 }
 
 saltos.__form_field["password"] = function (field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    var obj = $(`
+        <div class="input-group">
+            <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b">
+            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_b"></button>
+        </div>
+    `);
+    $("button",obj).on("click",function() {
+        var input = $(this).prev().get(0);
+        if (input.type == "password") {
+            input.type = "text";
+            $(this).removeClass("bi-eye-slash").addClass("bi-eye");
+        } else if (input.type == "text") {
+            input.type = "password";
+            $(this).removeClass("bi-eye").addClass("bi-eye-slash");
+        }
+    });
+    return obj;
 }
 
 saltos.__form_field["file"] = function (field) {
@@ -371,3 +403,5 @@ saltos.__form_field["pdfjs"] = function (field) {
     field.type = "text";
     return saltos.__form_field["text"](field);
 }
+
+// TODO DATALIST ???
