@@ -382,18 +382,28 @@ saltos.__form_field["file"] = function (field) {
     var obj = $(`
         <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}>
     `);
-    $(obj).on("change",function() {
-        var data = new FormData();
+    $(obj).on("change",async function() {
+        var data = {
+            action:"addfiles",
+            files:[],
+        };
         var files = obj.get(0).files;
         for (var i = 0; i < files.length; i++) {
-            data.append(i, files[i]);
+            data.files[i] = {
+                name:files[i].name,
+                size:files[i].size,
+                type:files[i].type,
+            };
+            var reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            while (!reader.result && !reader.error) await new Promise(resolve => setTimeout(resolve, 1));
+            data.files[i].data = reader.result;
+            data.files[i].error = reader.error;
         }
         $.ajax({
             url:"index.php",
-            data:data,
+            data:JSON.stringify(data),
             type:"post",
-            processData:false,
-            contentType:false,
             success:function (data,textStatus,XMLHttpRequest) {
                 alert("ok");
             },

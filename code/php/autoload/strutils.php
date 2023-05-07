@@ -121,7 +121,7 @@ function sprintr($array)
 function get_unique_id_md5()
 {
     init_random();
-    return md5(uniqid(rand(), true));
+    return md5(uniqid(strval(rand()), true));
 }
 
 function intelligence_cut($txt, $max, $end = "...")
