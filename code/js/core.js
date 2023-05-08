@@ -154,7 +154,7 @@ saltos.when_visible = function (obj,fn,args) {
             mode = "xml";
         }
         if (tipo == "iframe") {
-            valor = "htm/mozilla.htm";
+            valor = "img/favicon.svg";
         }
         if (tipo == "select") {
             rows = [
@@ -194,6 +194,9 @@ saltos.when_visible = function (obj,fn,args) {
         }
         if (tipo == "file") {
             multiple = true;
+        }
+        if (tipo == "image") {
+            valor = "img/favicon.svg";
         }
         var campo = saltos.form_field({
             type:tipo,

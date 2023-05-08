@@ -508,8 +508,8 @@ saltos.__form_field["label"] = function (field) {
 }
 
 saltos.__form_field["image"] = function (field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    var obj = $(`<img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.label}">`);
+    return obj;
 }
 
 saltos.__form_field["excel"] = function (field) {
