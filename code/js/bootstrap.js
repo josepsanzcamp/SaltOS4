@@ -530,7 +530,7 @@ saltos.__form_field["image"] = function (field) {
 
 saltos.__form_field["excel"] = function (field) {
     saltos.check_params(field,["data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
-    var obj = $(`<div>
+    var obj = $(`<div style="width:100%;height:100%;overflow:auto">
         <div id="${field.id}" class="${field.class}"></div>
     </div>`);
     if (field.data == "") {
