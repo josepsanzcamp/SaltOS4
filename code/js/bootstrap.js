@@ -383,18 +383,20 @@ saltos.__form_field["file"] = function (field) {
         <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}>
     `);
     $(obj).on("change",async function () {
-        var data = {
-            action:"addfiles",
-            files:[],
-        };
         var files = obj.get(0).files;
         for (var i = 0; i < files.length; i++) {
-            data.files[i] = {
+            var data = {
+                action:"addfiles",
+                files:[],
+            };
+            data.files[0] = {
                 name:files[i].name,
                 size:files[i].size,
                 type:files[i].type,
                 data:"",
                 error:"",
+                file:"",
+                hash:"",
             };
             var reader = new FileReader();
             reader.readAsDataURL(files[i]);
@@ -402,28 +404,25 @@ saltos.__form_field["file"] = function (field) {
                 await new Promise(resolve => setTimeout(resolve, 1));
             }
             if (reader.result) {
-                data.files[i].data = reader.result;
+                data.files[0].data = reader.result;
             }
             if (reader.error) {
-                data.files[i].error = JSON.stringify({
-                    code: reader.error.code,
-                    name: reader.error.name,
-                    message: reader.error.message,
-                });
+                data.files[0].error = reader.error.message;
             }
+            $.ajax({
+                url:"index.php",
+                data:JSON.stringify(data),
+                type:"post",
+                success:function (data,textStatus,XMLHttpRequest) {
+                    console.log(data);
+                    // TODO
+                },
+                error:function (XMLHttpRequest,textStatus,errorThrown) {
+                    console.log(XMLHttpRequest.statusText);
+                    // TODO
+                }
+            });
         }
-        $.ajax({
-            url:"index.php",
-            data:JSON.stringify(data),
-            type:"post",
-            success:function (data,textStatus,XMLHttpRequest) {
-                alert("ok");
-                // TODO
-            },
-            error:function (XMLHttpRequest,textStatus,errorThrown) {
-                alert("Error " + XMLHttpRequest.status + ": " + XMLHttpRequest.statusText);
-            }
-        });
     });
     return obj;
 }

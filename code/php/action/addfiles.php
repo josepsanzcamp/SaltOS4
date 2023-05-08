@@ -34,7 +34,8 @@ if (isset($data["input"]["files"])) {
             continue;
         }
         $data = $val["data"];
-        unset($val["data"]);
+        $val["data"] = "";
+        $files[$key] = $val;
         $pre = "data:{$val["type"]};base64,";
         $len = strlen($pre);
         if (strncmp($pre, $data, $len) != 0) {
@@ -47,7 +48,11 @@ if (isset($data["input"]["files"])) {
         $val["hash"] = md5($data);
         $files[$key] = $val;
     }
-    addlog(sprintr($files), "files.log");
-    // TODO
+    //~ addlog(sprintr($files), "files.log");
+    output_handler(array(
+        "data" => json_encode($files),
+        "type" => "application/json",
+        "cache" => false
+    ));
 }
 die();
