@@ -33,19 +33,19 @@ if (isset($data["input"]["files"])) {
         if ($val["error"] != "") {
             continue;
         }
-        $data = $val["data"];
-        $val["data"] = "";
-        $files[$key] = $val;
-        $pre = "data:{$val["type"]};base64,";
-        $len = strlen($pre);
-        if (strncmp($pre, $data, $len) != 0) {
+        if (encode_bad_chars_file($val["file"]) != $val["file"]) {
             continue;
         }
-        $data = base64_decode(substr($data, $len));
-        $val["file"] = time() . "_" . get_unique_id_md5() . "_" . encode_bad_chars_file($val["name"]);
         $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
-        file_put_contents($dir . $val["file"], $data);
-        $val["hash"] = md5($data);
+        if (filesize($dir . $val["file"]) != $val["size"]) {
+            continue;
+        }
+        if (md5_file($dir . $val["file"]) != $val["hash"]) {
+            continue;
+        }
+        unlink($dir . $val["file"]);
+        $val["file"] = "";
+        $val["hash"] = "";
         $files[$key] = $val;
     }
     output_handler(array(

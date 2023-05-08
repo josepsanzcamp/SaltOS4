@@ -379,12 +379,19 @@ saltos.__form_field["file"] = function (field) {
     if (field.multiple != "") {
         field.multiple = "multiple";
     }
-    var obj = $(`
+    var obj = $(`<div>
         <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}>
-    `);
-    $(obj).on("change",async function () {
-        var files = obj.get(0).files;
+        <table class="table table-striped table-hover d-none">
+            <tbody>
+            </tbody>
+        </table>
+    </div>`);
+    // PROGRAM THE AUTOMATIC UPLOAD
+    $("input",obj).on("change",async function () {
+        var files = this.files;
+        var table = $(this).next();
         for (var i = 0; i < files.length; i++) {
+            // PREPARE THE DATA TO SEND
             var data = {
                 action:"addfiles",
                 files:[],
@@ -399,35 +406,86 @@ saltos.__form_field["file"] = function (field) {
                 file:"",
                 hash:"",
             };
-            var reader = new FileReader();
-            reader.readAsDataURL(files[i]);
-            while (!reader.result && !reader.error) {
-                await new Promise(resolve => setTimeout(resolve, 1));
-            }
-            if (reader.result) {
-                data.files[0].data = reader.result;
+            // SHOW THE TABLE
+            $(table).removeClass("d-none");
+            // ADD THE ROW FOR THE NEW FILE
+            var row = $(`
+                <tr id="${data.files[0].id}">
+                    <td>${data.files[0].name}</td>
+                    <td class="w-25 align-middle">
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </td>
+                    <td class="p-0" style="width: 1%"><button class="btn bi-trash" type="button"></button></td>
+                </tr>
+            `);
+            // STORE THE DATA IN THE ROW
+            $(row).data("data",data.files[0]);
+            // PROGRAM DE REMOVE BUTTON
+            $("button",row).on("click",function() {
+                var row = $(this).parent().parent();
+                var table = row.parent().parent();
+                var data = {
+                    action:"delfiles",
+                    files:[],
+                };
+                data.files[0] = row.data("data");
                 $.ajax({
                     url:"index.php",
                     data:JSON.stringify(data),
                     type:"post",
                     success:function (data,textStatus,XMLHttpRequest) {
-                        console.log(data);
-                        // TODO
+                        $(row).data("data",data[0]);
+                        // IF SERVER REMOVE THE FILE, I REMOVE THE ROW
+                        if (data[0].file == "") {
+                            row.remove();
+                        }
+                        // IF NOT THERE ARE FILES, HIDE THE TABLE
+                        if ($("tr",table).length == 0) {
+                            $(table).addClass("d-none");
+                        }
                     },
                     error:function (XMLHttpRequest,textStatus,errorThrown) {
                         console.log(XMLHttpRequest.statusText);
                         // TODO
                     },
-                    progress: function(e) {
-                        if(e.lengthComputable) {
-                            var percent = parseInt((e.loaded / e.total) * 100);
-                            console.log(percent);
-                        } else {
-                            console.log('Content Length not reported!');
-                        }
-                    }
                 });
+            });
+            // ADD THE ROW
+            $("tbody",table).append(row);
+            // GET THE LOCAL FILE USING SYNCRONOUS TECHNIQUES
+            var reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            while (!reader.result && !reader.error) {
+                await new Promise(resolve => setTimeout(resolve, 1));
             }
+            // IF THERE IS A FILE
+            if (reader.result) {
+                data.files[0].data = reader.result;
+                // THIS ALLOW MULTIPLE UPLOADS IN PARALLEL
+                (function(data,row) {
+                    $.ajax({
+                        url:"index.php",
+                        data:JSON.stringify(data),
+                        type:"post",
+                        success:function (data,textStatus,XMLHttpRequest) {
+                            $(row).data("data",data[0]);
+                        },
+                        error:function (XMLHttpRequest,textStatus,errorThrown) {
+                            console.log(XMLHttpRequest.statusText);
+                            // TODO
+                        },
+                        progress: function(e) {
+                            if(e.lengthComputable) {
+                                var percent = parseInt((e.loaded / e.total) * 100);
+                                $(".progress-bar",row).width(percent+"%").attr("aria-valuenow",percent);
+                            }
+                        },
+                    });
+                })(data,row);
+            }
+            // IF THERE IS AN ERROR
             if (reader.error) {
                 data.files[0].error = reader.error.message;
                 console.log(reader.error.message);
