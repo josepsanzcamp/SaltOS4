@@ -387,7 +387,7 @@ saltos.__form_field["file"] = function (field) {
         </table>
     </div>`);
     // THIS HELPER HELPS TO UPDATE THE DATA OF THE INPUT FILE
-    var __update_data = function(input) {
+    var __update_data = function (input) {
         var data = [];
         var tabla = $(input).next();
         $("tr",tabla).each(function () {
@@ -433,7 +433,7 @@ saltos.__form_field["file"] = function (field) {
             // STORE THE DATA IN THE ROW
             $(row).data("data",data.files[0]);
             // PROGRAM DE REMOVE BUTTON
-            $("button",row).on("click",function() {
+            $("button",row).on("click",function () {
                 var row = $(this).parent().parent();
                 var data = {
                     action:"delfiles",
@@ -475,7 +475,7 @@ saltos.__form_field["file"] = function (field) {
             if (reader.result) {
                 data.files[0].data = reader.result;
                 // THIS ALLOW MULTIPLE UPLOADS IN PARALLEL
-                (function(data,row) {
+                (function (data,row) {
                     $.ajax({
                         url:"index.php",
                         data:JSON.stringify(data),
@@ -488,8 +488,8 @@ saltos.__form_field["file"] = function (field) {
                             console.log(XMLHttpRequest.statusText);
                             // TODO
                         },
-                        progress: function(e) {
-                            if(e.lengthComputable) {
+                        progress: function (e) {
+                            if (e.lengthComputable) {
                                 var percent = parseInt((e.loaded / e.total) * 100);
                                 $(".progress-bar",row).width(percent+"%").attr("aria-valuenow",percent);
                             }
@@ -509,9 +509,11 @@ saltos.__form_field["file"] = function (field) {
 }
 
 saltos.__form_field["link"] = function (field) {
+    var obj = $(`<div></div>`);
     field.class = "btn-link";
     field.label = field.value;
-    return saltos.__form_field["button"](field);
+    $(obj).append(saltos.__form_field["button"](field));
+    return obj;
 }
 
 saltos.__form_field["label"] = function (field) {
@@ -520,7 +522,9 @@ saltos.__form_field["label"] = function (field) {
 }
 
 saltos.__form_field["image"] = function (field) {
-    var obj = $(`<img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.label}">`);
+    var obj = $(`<div>
+        <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.label}">
+    </div>`);
     return obj;
 }
 
@@ -605,7 +609,7 @@ saltos.__form_field["pdfjs"] = function (field) {
             });
         },function (message,exception) {
             console.log(message);
-            console.log(exception);
+            // TODO
         });
     },element);
     return obj;

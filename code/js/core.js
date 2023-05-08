@@ -187,9 +187,9 @@ saltos.when_visible = function (obj,fn,args) {
             };
         }
         if (tipo == "link") {
-            valor = "www.saltos.org";
+            valor = "https://www.saltos.org/portal/es/estadisticas";
             onclick = function () {
-                window.open("https://www.saltos.org");
+                window.open("https://www.saltos.org/portal/es/estadisticas");
             };
         }
         if (tipo == "file") {
@@ -199,7 +199,7 @@ saltos.when_visible = function (obj,fn,args) {
             valor = "img/favicon.svg";
         }
         if (tipo == "pdfjs") {
-            valor = "test-josep-4.pdf";
+            valor = "test-josep-2.pdf";
         }
         var campo = saltos.form_field({
             type:tipo,
