@@ -198,6 +198,9 @@ saltos.when_visible = function (obj,fn,args) {
         if (tipo == "image") {
             valor = "img/favicon.svg";
         }
+        if (tipo == "pdfjs") {
+            valor = "test-josep-4.pdf";
+        }
         var campo = saltos.form_field({
             type:tipo,
             id:"campo" + i,

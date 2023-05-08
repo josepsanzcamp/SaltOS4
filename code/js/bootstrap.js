@@ -386,8 +386,18 @@ saltos.__form_field["file"] = function (field) {
             </tbody>
         </table>
     </div>`);
+    // THIS HELPER HELPS TO UPDATE THE DATA OF THE INPUT FILE
+    var __update_data = function(input) {
+        var data = [];
+        var tabla = $(input).next();
+        $("tr",tabla).each(function () {
+            data.push($(this).data("data"));
+        });
+        $(input).data("data",data);
+    };
     // PROGRAM THE AUTOMATIC UPLOAD
     $("input",obj).on("change",async function () {
+        var input = this;
         var files = this.files;
         var table = $(this).next();
         for (var i = 0; i < files.length; i++) {
@@ -425,7 +435,6 @@ saltos.__form_field["file"] = function (field) {
             // PROGRAM DE REMOVE BUTTON
             $("button",row).on("click",function() {
                 var row = $(this).parent().parent();
-                var table = row.parent().parent();
                 var data = {
                     action:"delfiles",
                     files:[],
@@ -437,7 +446,7 @@ saltos.__form_field["file"] = function (field) {
                     type:"post",
                     success:function (data,textStatus,XMLHttpRequest) {
                         $(row).data("data",data[0]);
-                        // IF SERVER REMOVE THE FILE, I REMOVE THE ROW
+                        // IF SERVER REMOVES THE FILE, I REMOVE THE ROW
                         if (data[0].file == "") {
                             row.remove();
                         }
@@ -445,6 +454,7 @@ saltos.__form_field["file"] = function (field) {
                         if ($("tr",table).length == 0) {
                             $(table).addClass("d-none");
                         }
+                        __update_data(input);
                     },
                     error:function (XMLHttpRequest,textStatus,errorThrown) {
                         console.log(XMLHttpRequest.statusText);
@@ -454,6 +464,7 @@ saltos.__form_field["file"] = function (field) {
             });
             // ADD THE ROW
             $("tbody",table).append(row);
+            __update_data(input);
             // GET THE LOCAL FILE USING SYNCRONOUS TECHNIQUES
             var reader = new FileReader();
             reader.readAsDataURL(files[i]);
@@ -471,6 +482,7 @@ saltos.__form_field["file"] = function (field) {
                         type:"post",
                         success:function (data,textStatus,XMLHttpRequest) {
                             $(row).data("data",data[0]);
+                            __update_data(input);
                         },
                         error:function (XMLHttpRequest,textStatus,errorThrown) {
                             console.log(XMLHttpRequest.statusText);
@@ -513,13 +525,88 @@ saltos.__form_field["image"] = function (field) {
 }
 
 saltos.__form_field["excel"] = function (field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    saltos.check_params(field,["data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
+    var obj = $(`<div>
+        <div id="${field.id}" class="${field.class}"></div>
+    </div>`);
+    if (field.data == "") {
+        field.data = [...Array(20)].map(e => Array(26));
+    }
+    if (field.rowHeaders == "") {
+        field.rowHeaders = true;
+    }
+    if (field.colHeaders == "") {
+        field.colHeaders = true;
+    }
+    if (field.minSpareRows == "") {
+        field.minSpareRows = 0;
+    }
+    if (field.contextMenu == "") {
+        field.contextMenu = true;
+    }
+    if (field.rowHeaderWidth == "") {
+        field.rowHeaderWidth = undefined;
+    }
+    if (field.colWidths == "") {
+        field.colWidths = undefined;
+    }
+    var element = $("div",obj).get(0);
+    saltos.when_visible(element ,function (element) {
+        $(element).handsontable({
+            data:field.data,
+            rowHeaders:field.rowHeaders,
+            colHeaders:field.colHeaders,
+            minSpareRows:field.minSpareRows,
+            contextMenu:field.contextMenu,
+            rowHeaderWidth:field.rowHeaderWidth,
+            colWidths:field.colWidths,
+            afterChange:function (changes,source) {
+                $(element).data("data",field.data);
+            }
+        });
+    },element);
+    return obj;
 }
 
 saltos.__form_field["pdfjs"] = function (field) {
-    field.type = "text";
-    return saltos.__form_field["text"](field);
+    var obj = $(`<div>
+        <div id="${field.id}" class="${field.class}"><div class="pdfViewer"></div></div>
+    </div>`);
+    var element = $("div:first",obj).get(0);
+    saltos.when_visible(element ,function (element) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
+        pdfjsLib.getDocument(field.value).promise.then(function (pdfDocument) {
+            if (!pdfDocument.numPages) {
+                return;
+            }
+            $(element).css("position","absolute");
+            var container = element;
+            var eventBus = new pdfjsViewer.EventBus();
+            var pdfViewer = new pdfjsViewer.PDFViewer({
+                container:container,
+                eventBus:eventBus,
+            });
+            var fn1 = function () {
+                pdfViewer.currentScaleValue = "page-width";
+            };
+            var fn2 = function () {
+                $("a",container).each(function () {
+                    $(this).attr("target","_blank");
+                });
+            };
+            eventBus.on("pagesinit",fn1);
+            eventBus.on("annotationlayerrendered",fn2);
+            pdfViewer.removePageBorders = true;
+            pdfViewer.setDocument(pdfDocument);
+            $(element).css("position","relative");
+            $(window).on("resize",function () {
+                pdfViewer.currentScaleValue = pdfViewer.currentScale * 2;
+                pdfViewer.currentScaleValue = "page-width";
+            });
+        },function (message,exception) {
+            console.log(message);
+            console.log(exception);
+        });
+    },element);
+    return obj;
 }
-
-// TODO DATALIST ???
