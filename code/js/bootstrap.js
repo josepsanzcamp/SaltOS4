@@ -390,6 +390,7 @@ saltos.__form_field["file"] = function (field) {
                 files:[],
             };
             data.files[0] = {
+                id:saltos.uniqid(),
                 name:files[i].name,
                 size:files[i].size,
                 type:files[i].type,
@@ -405,23 +406,33 @@ saltos.__form_field["file"] = function (field) {
             }
             if (reader.result) {
                 data.files[0].data = reader.result;
+                $.ajax({
+                    url:"index.php",
+                    data:JSON.stringify(data),
+                    type:"post",
+                    success:function (data,textStatus,XMLHttpRequest) {
+                        console.log(data);
+                        // TODO
+                    },
+                    error:function (XMLHttpRequest,textStatus,errorThrown) {
+                        console.log(XMLHttpRequest.statusText);
+                        // TODO
+                    },
+                    progress: function(e) {
+                        if(e.lengthComputable) {
+                            var percent = parseInt((e.loaded / e.total) * 100);
+                            console.log(percent);
+                        } else {
+                            console.log('Content Length not reported!');
+                        }
+                    }
+                });
             }
             if (reader.error) {
                 data.files[0].error = reader.error.message;
+                console.log(reader.error.message);
+                // TODO
             }
-            $.ajax({
-                url:"index.php",
-                data:JSON.stringify(data),
-                type:"post",
-                success:function (data,textStatus,XMLHttpRequest) {
-                    console.log(data);
-                    // TODO
-                },
-                error:function (XMLHttpRequest,textStatus,errorThrown) {
-                    console.log(XMLHttpRequest.statusText);
-                    // TODO
-                }
-            });
         }
     });
     return obj;
