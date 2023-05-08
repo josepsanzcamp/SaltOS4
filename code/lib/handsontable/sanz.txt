@@ -1,0 +1,4 @@
+
+https://github.com/handsontable/handsontable
+
+https://github.com/handsontable/handsontable/releases/tag/6.2.2
