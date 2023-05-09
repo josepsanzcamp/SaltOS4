@@ -32,42 +32,45 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * This function and their helpers, allow the creation of the interface using the bootstrap
  * widgets, the types that can be called are the follow:
  *
- * - container => has the container argument and by default is container-fluid
- * - row => has the row argument and by default is row
- * - col => has the col argument and by default is col
- * - text => has the follow arguments: class, id, placeholder, value, disabled, readonly, required
- * - hidden => has the follow arguments:
- * - integer
- * - float
- * - color
- * - date
- * - time
- * - datetime
- * - textarea
- * - ckeditor
- * - codemirror
- * - iframe
- * - select
- * - multiselect
- * - checkbox
- * - button
- * - password
- * - file
- * - link
- * - label
- * - image
- * - excel
- * - pdfjs
+ * @container => container
+ * @row => row
+ * @col => col
+ * @text => class, id, placeholder, value, disabled, readonly, required
+ * @hidden => class, id, placeholder, value, disabled, readonly, required
+ * @integer => class, id, placeholder, value, disabled, readonly, required
+ * @float => class, id, placeholder, value, disabled, readonly, required
+ * @color => class, id, placeholder, value, disabled, readonly, required
+ * @date => class, id, placeholder, value, disabled, readonly, required
+ * @time => class, id, placeholder, value, disabled, readonly, required
+ * @datetime => class, id, placeholder, value, disabled, readonly, required
+ * @textarea => class, id, placeholder, value, disabled, readonly, required, rows
+ * @ckeditor => class, id, placeholder, value, disabled, readonly, required, rows
+ * @codemirror => class, id, placeholder, value, disabled, readonly, required, rows, mode
+ * @iframe => value, id, class, height
+ * @select => class, id, disabled, required, rows, multiple, size, value
+ * @multiselect => class, id, disabled, required, rows, multiple, size, value, multiple
+ * @checkbox => id, disabled, readonly, label, value
+ * @button => class, id, disabled, label, onclick
+ * @password => class, id, placeholder, value, disabled, readonly, required
+ * @file => class, id, disabled, required, multiple
+ * @link => id, disabled, value, onclick
+ * @label => id, label
+ * @image => id, value, class, label
+ * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
+ * @pdfjs => id, class, value
  *
  * Notes:
  *
  * The saltos.__form_field object is part of this constructor and act with the constructor
  * as a helper, the idea is that the user must to call the constructor and the helpers are
- * only for internal use
+ * only for internal use.
  *
  * By default, the constructor try to check the parameters that are used commonly in the
  * helpers functions, too, try to convert some "booleans" as disabled, readonly and required to
- * the string that will be used in reality by the bootstrap objects
+ * the string that will be used in reality by the bootstrap objects.
+ *
+ * All widgets add an extra widget label using the label parameter if it is found, only some
+ * widgets have the special case that not includes the label for logical reasons.
  */
 saltos.form_field = function (field) {
     saltos.check_params(field,["type","id","label","class","placeholder","value","disabled","readonly","required"]);
@@ -147,13 +150,13 @@ saltos.__form_field["col"] = function (field) {
  * TEXT CONSTRUCTOR HELPER
  *
  * This function returns an input object of type text, you can pass some arguments as:
- * - class => allow to add more classes to the default form-control
- * - id => the id used by the object
- * - placeholder => the text used as placeholder parameter
- * - value => the value used as value parameter
- * - disabled => this parameter raise the disabled flag
- * - readonly => this parameter raise the readonly flag
- * - required => this parameter raise the required flag
+ * @class => allow to add more classes to the default form-control
+ * @id => the id used by the object
+ * @placeholder => the text used as placeholder parameter
+ * @value => the value used as value parameter
+ * @disabled => this parameter raise the disabled flag
+ * @readonly => this parameter raise the readonly flag
+ * @required => this parameter raise the required flag
  */
 saltos.__form_field["text"] = function (field) {
     var obj = $(`
@@ -262,14 +265,14 @@ saltos.__form_field["datetime"] = function (field) {
  * PRIVATE TEXTAREA CONSTRUCTOR HELPER
  *
  * This function returns a textarea object, you can pass the follow arguments:
- * - class => allow to add more classes to the default form-control
- * - id => the id used by the object
- * - placeholder => the text used as placeholder parameter
- * - rows => the number used as rows parameter
- * - disabled => this parameter raise the disabled flag
- * - readonly => this parameter raise the readonly flag
- * - required => this parameter raise the required flag
- * - value => the value used as value parameter
+ * @class => allow to add more classes to the default form-control
+ * @id => the id used by the object
+ * @placeholder => the text used as placeholder parameter
+ * @rows => the number used as rows parameter
+ * @disabled => this parameter raise the disabled flag
+ * @readonly => this parameter raise the readonly flag
+ * @required => this parameter raise the required flag
+ * @value => the value used as value parameter
  *
  * Notes:
  *
@@ -316,7 +319,8 @@ saltos.__form_field["ckeditor"] = function (field) {
 /*
  * CODEMIRROR CONSTRUCTOR HELPER
  *
- * This function returns a textarea object with the codemirror plugin enabled
+ * This function returns a textarea object with the codemirror plugin enabled, it has
+ * the parameter mode that allow the caller to specify what kind of mode want use
  */
 saltos.__form_field["codemirror"] = function (field) {
     saltos.check_params(field,["mode"]);
@@ -339,10 +343,10 @@ saltos.__form_field["codemirror"] = function (field) {
  * IFRAME CONSTRUCTOR HELPER
  *
  * This function returns an iframe object, you can pass the follow arguments:
- * - value => the value used as src parameter
- * - id => the id used by the object
- * - class => allow to add more classes to the default form-control
- * - height => the height used as height for the style parameter
+ * @value => the value used as src parameter
+ * @id => the id used by the object
+ * @class => allow to add more classes to the default form-control
+ * @height => the height used as height for the style parameter
  */
 saltos.__form_field["iframe"] = function (field) {
     saltos.check_params(field,["height"]);
@@ -355,7 +359,15 @@ saltos.__form_field["iframe"] = function (field) {
 /*
  * SELECT CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns a select object, you can pass the follow arguments:
+ * @class => allow to add more classes to the default form-select
+ * @id => the id used by the object
+ * @disabled => this parameter raise the disabled flag
+ * @required => this parameter raise the required flag
+ * @rows => this parameter contains the list of options, each option must be an object with label and value entries
+ * @multiple => this parameter enables the multiple selection feature of the select
+ * @size => this parameter allow to see the options list opened with n (size) entries
+ * @value => the value used to detect the selected option
  */
 saltos.__form_field["select"] = function (field) {
     saltos.check_params(field,["rows","multiple","size"]);
@@ -382,7 +394,19 @@ saltos.__form_field["select"] = function (field) {
 /*
  * MULTISELECT CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns a multiselect object, you can pass the follow arguments:
+ * @class => allow to add more classes to the default form-select
+ * @id => the id used by the object
+ * @disabled => this parameter raise the disabled flag
+ * @required => this parameter raise the required flag
+ * @rows => this parameter contains the list of options, each option must be an object with label and value entries
+ * @size => this parameter allow to see the options list opened with n (size) entries
+ * @value => the value used as src parameter
+ *
+ * Notes:
+ *
+ * This widget is created joinin 2 selects and 2 buttons, the user must get the value
+ * using the hidden input that is builded using the original id passed by argument.
  */
 saltos.__form_field["multiselect"] = function (field) {
     saltos.check_params(field,["rows","size"]);
@@ -461,14 +485,22 @@ saltos.__form_field["multiselect"] = function (field) {
         rows:rows_b,
         value:"",
     }));
-    // TODO
     return obj;
 }
 
 /*
  * CHECKBOX CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns a checkbox/switch object, you can pass the follow arguments:
+ * @id => the id used by the object
+ * @disabled => this parameter raise the disabled flag
+ * @readonly => this parameter raise the readonly flag
+ * @label => this parameter is used as label for the checkbox/switch
+ * @value => this parameter is used to check or unckeck the checkbox/switch, the value must contain a number that raise as true or false in the if condition
+ *
+ * Notes:
+ *
+ * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
 saltos.__form_field["checkbox"] = function (field) {
     field.value = parseInt(field.value);
@@ -494,7 +526,16 @@ saltos.__form_field["checkbox"] = function (field) {
 /*
  * BUTTON CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns a button object, you can pass the follow arguments:
+ * @class => allow to add more classes to the default form-select
+ * @id => the id used by the object
+ * @disabled => this parameter raise the disabled flag
+ * @label => label to be used in the contents of the buttons
+ * @onclick => callback function that is executed when the button is pressed
+ *
+ * Notes:
+ *
+ * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.__form_field["button"] = function (field) {
     saltos.check_params(field,["onclick"]);
@@ -506,7 +547,20 @@ saltos.__form_field["button"] = function (field) {
 /*
  * PASSWORD CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns an input object of type password, you can pass some arguments as:
+ * @class => allow to add more classes to the default form-control
+ * @id => the id used by the object
+ * @placeholder => the text used as placeholder parameter
+ * @value => the value used as value parameter
+ * @disabled => this parameter raise the disabled flag
+ * @readonly => this parameter raise the readonly flag
+ * @required => this parameter raise the required flag
+ *
+ * Notes:
+ *
+ * This widget add an icon to the end of the widget with an slashed eye, this allow to
+ * see the entered password to verify it, in reality, this button swaps the input between
+ * password and text type, allowing to do visible or not the contents of the input
  */
 saltos.__form_field["password"] = function (field) {
     var obj = $(`
@@ -531,7 +585,25 @@ saltos.__form_field["password"] = function (field) {
 /*
  * FILE CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns an input object of type password, you can pass some arguments as:
+ * @class => allow to add more classes to the default form-control
+ * @id => the id used by the object
+ * @disabled => this parameter raise the disabled flag
+ * @required => this parameter raise the required flag
+ * @multiple => this parameter raise the multiple flag, intended to select more files at time
+ *
+ * Notes:
+ *
+ * This control allow to select file from the tradicional input, and automatically, send it
+ * to the server using the addfiles action, add a row in the widget's table to show information
+ * about the new file and allow too to delete it using the trash button.
+ *
+ * To get the data, the controls store each file information in each added row of the table and
+ * in addition, too join all information in a data structure of the input of type file.
+ *
+ * The difference between this control and the older controls is that they send the files to
+ * the server and store the information related to the file on the server to be processed after
+ * the real upload action.
  */
 saltos.__form_field["file"] = function (field) {
     saltos.check_params(field,["multiple"]);
@@ -670,7 +742,17 @@ saltos.__form_field["file"] = function (field) {
 /*
  * LINK CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function creates a field similar of text but with the appearance of a link using a button,
+ * the object can receive the follow arguments:
+ * @id => the id used by the object
+ * @disabled => this parameter raise the disabled flag
+ * @value => the value is conveted as label to be used in the button with the appearance of a link
+ * @onclick => callback function that is executed when the button is pressed
+ *
+ * Notes:
+ *
+ * This object is not a real link, it's a button that uses the btn-link class to get the link
+ * appearance
  */
 saltos.__form_field["link"] = function (field) {
     var obj = $(`<div></div>`);
@@ -683,7 +765,9 @@ saltos.__form_field["link"] = function (field) {
 /*
  * LABEL CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns a label object, you can pass some arguments as:
+ * @id => the id used to set the reference for to the object
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field["label"] = function (field) {
     var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
@@ -693,7 +777,12 @@ saltos.__form_field["label"] = function (field) {
 /*
  * IMAGE CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function returns an image object, you can pass some arguments as:
+ * @id => the id used to set the reference for to the object
+ * @value => the value used as src parameter
+ * @class => allow to add more classes to the default img-fluid
+ * @label => this parameter is used as text for the alt parameter
+ *
  */
 saltos.__form_field["image"] = function (field) {
     var obj = $(`<div>
@@ -705,7 +794,25 @@ saltos.__form_field["image"] = function (field) {
 /*
  * EXCEL CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function creates and returns an excel object, to do this they use the handsontable library,
+ * currently this library uses a privative license, by this reason, we are using the version 6.2.2
+ * that is the latest release published using the MIT license.
+ *
+ * This widget can receive the following arguments:
+ * @id => the id used to set the reference for to the object
+ * @class => allow to set the class to the div object used to allocate the widget
+ * @data => this parameter must contain a 2D matrix with the data that you want to show in the sheet
+ * @rowHeaders => can be an array with the headers that you want to use instead the defaults numbers
+ * @colHeaders => can be an array with the headers that you want to use instead the defaults letters
+ * @minSpareRows => can be a number with the void rows at the end of the sheet
+ * @contextMenu => can be a boolean with the desired value to allow or not the provided context menu of the widget
+ * @rowHeaderWidth => can be a number with the width of the headers rows
+ * @colWidths => can be an array with the widths of the headers cols
+ *
+ * Notes:
+ *
+ * You can get the values after to do changes by accessing to the data of the div used to create
+ * the widget.
  */
 saltos.__form_field["excel"] = function (field) {
     saltos.check_params(field,["data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
@@ -754,7 +861,11 @@ saltos.__form_field["excel"] = function (field) {
 /*
  * PDFJS CONSTRUCTOR HELPER
  *
- * This function ...
+ * This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
+ *
+ * @id => the id used to set the reference for to the object
+ * @class => allow to set the class to the div object used to allocate the widget
+ * @value => the file or data that contains the pdf document
  */
 saltos.__form_field["pdfjs"] = function (field) {
     var obj = $(`<div>
