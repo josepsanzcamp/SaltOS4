@@ -1,0 +1,158 @@
+
+/*
+ ____        _ _    ___  ____    _  _    ___
+/ ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+\___ \ / _` | | __| | | \___ \  | || |_| | | |
+ ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+|____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+
+SaltOS: Framework to develop Rich Internet Applications
+Copyright (C) 2007-2023 by Josep Sanz Campderrós
+More information in https://www.saltos.org or info@saltos.org
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+"use strict";
+
+// MAIN CODE
+(function ($) {
+    saltos.init_error();
+    var container = saltos.form_field({
+        type:"container",
+    });
+    var row = saltos.form_field({
+        type:"row",
+    });
+    var tipos = [
+        "text",
+        "integer",
+        "float",
+        "color",
+        "date",
+        "time",
+        "datetime",
+        "textarea",
+        "ckeditor",
+        "codemirror",
+        "iframe",
+        "select",
+        "text",
+        "button",
+        "password",
+        "checkbox",
+        "link",
+        "label",
+        "file",
+        "multiselect",
+        "image",
+        "excel",
+        "pdfjs",
+        "text",
+    ];
+    for (var i = 0; i < 24; i++) {
+        var j = ((i % 12) + 1);
+        var col = saltos.form_field({
+            type:"col",
+            col:"col-md-" + j + " mb-3",
+        });
+        var tipo = tipos[i];
+        var valor = "";
+        var rows = "";
+        var clase = "";
+        var size = "";
+        var onclick = "";
+        var mode = "";
+        var multiple = "";
+        var height="";
+        if (tipo == "textarea") {
+            valor = "Texto de prueba\n\nAdios";
+        }
+        if (tipo == "ckeditor") {
+            valor = "Texto de prueba<br/><br/>Adios";
+        }
+        if (tipo == "codemirror") {
+            valor = "<xml>\n\t<tag>valor</tag>\n</xml>";
+            mode = "xml";
+        }
+        if (tipo == "iframe") {
+            valor = "img/favicon.svg";
+            height = "600px";
+        }
+        if (tipo == "select") {
+            rows = [
+                {label:"Uno",value:1},
+                {label:"Dos",value:2},
+                {label:"Tres",value:3},
+            ];
+            valor = "2";
+        }
+        if (tipo == "multiselect") {
+            rows = [
+                {label:"Uno",value:1},
+                {label:"Dos",value:2},
+                {label:"Tres",value:3},
+                {label:"Cuatro",value:4},
+                {label:"Cinco",value:5},
+                {label:"Seis",value:6},
+            ];
+            valor = "2,3,5";
+        }
+        if (tipo == "button") {
+            clase = "btn-primary";
+        }
+        if (tipo == "multiselect") {
+            size = 5;
+        }
+        if (tipo == "button") {
+            onclick = function () {
+                alert("button onclick");
+            };
+        }
+        if (tipo == "link") {
+            valor = "https://www.saltos.org/portal/es/estadisticas";
+            onclick = function () {
+                window.open("https://www.saltos.org/portal/es/estadisticas");
+            };
+        }
+        if (tipo == "file") {
+            multiple = true;
+        }
+        if (tipo == "image") {
+            valor = "img/favicon.svg";
+        }
+        if (tipo == "pdfjs") {
+            valor = "data/files/test-josep-2.pdf";
+        }
+        var campo = saltos.form_field({
+            type:tipo,
+            id:"campo" + i,
+            label:"Campo " + i + " (" + tipo + ")",
+            placeholder:"Escriba aqui",
+            value:valor,
+            mode:mode,
+            size:size,
+            rows:rows,
+            class:clase,
+            onclick:onclick,
+            multiple:multiple,
+            height:height,
+        });
+        $(col).append(campo);
+        $(row).append(col);
+    }
+    container.append(row);
+    $("body").append(container);
+
+}(jQuery));

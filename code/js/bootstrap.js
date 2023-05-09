@@ -26,16 +26,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-/* MAIN OBJECT */
-var saltos = saltos || {};
-
 /*
- * LIST OF SUPPORTED TYPES:
- * - container
- * - row
- * - col
- * - text
- * - hidden
+ * FORM FIELDS CONSTRUCTOR
+ *
+ * This function and their helpers, allow the creation of the interface using the bootstrap
+ * widgets, the types that can be called are the follow:
+ *
+ * - container => has the container argument and by default is container-fluid
+ * - row => has the row argument and by default is row
+ * - col => has the col argument and by default is col
+ * - text => has the follow arguments: class, id, placeholder, value, disabled, readonly, required
+ * - hidden => has the follow arguments:
  * - integer
  * - float
  * - color
@@ -57,8 +58,17 @@ var saltos = saltos || {};
  * - image
  * - excel
  * - pdfjs
+ *
+ * Notes:
+ *
+ * The saltos.__form_field object is part of this constructor and act with the constructor
+ * as a helper, the idea is that the user must to call the constructor and the helpers are
+ * only for internal use
+ *
+ * By default, the constructor try to check the parameters that are used commonly in the
+ * helpers functions, too, try to convert some "booleans" as disabled, readonly and required to
+ * the string that will be used in reality by the bootstrap objects
  */
-
 saltos.form_field = function (field) {
     saltos.check_params(field,["type","id","label","class","placeholder","value","disabled","readonly","required"]);
     if (field.disabled) {
@@ -81,8 +91,19 @@ saltos.form_field = function (field) {
     return obj;
 };
 
+/*
+ * FORM_FIELD CONSTRUCTOR HELPER OBJECT
+ *
+ * This object allow to the constructor to use a rational structure for a quick access of each helper
+ */
 saltos.__form_field = {};
 
+/*
+ * CONTAINER CONSTRUCTOR HELPER
+ *
+ * This function returns an object of the container-fluid class by default, you can pass an argument
+ * in the field object to specify what kind of container do you want to do.
+ */
 saltos.__form_field["container"] = function (field) {
     saltos.check_params(field,["container"]);
     if (field.container == "") {
@@ -92,6 +113,12 @@ saltos.__form_field["container"] = function (field) {
     return obj;
 };
 
+/*
+ * ROW CONSTRUCTOR HELPER
+ *
+ * This function returns an object of the row class by default, you can pass an argument in the field
+ * object to specify what kind of row do you want to do.
+ */
 saltos.__form_field["row"] = function (field) {
     saltos.check_params(field,["row"]);
     if (field.row == "") {
@@ -101,6 +128,12 @@ saltos.__form_field["row"] = function (field) {
     return obj;
 };
 
+/*
+ * COL CONSTRUCTOR HELPER
+ *
+ * This function returns an object of the col class by default, you can pass an argument in the field
+ * object to specify what kind of col do you want to do.
+ */
 saltos.__form_field["col"] = function (field) {
     saltos.check_params(field,["col"]);
     if (field.col == "") {
@@ -110,6 +143,18 @@ saltos.__form_field["col"] = function (field) {
     return obj;
 };
 
+/*
+ * TEXT CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type text, you can pass some arguments as:
+ * - class => allow to add more classes to the default form-control
+ * - id => the id used by the object
+ * - placeholder => the text used as placeholder parameter
+ * - value => the value used as value parameter
+ * - disabled => this parameter raise the disabled flag
+ * - readonly => this parameter raise the readonly flag
+ * - required => this parameter raise the required flag
+ */
 saltos.__form_field["text"] = function (field) {
     var obj = $(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
@@ -117,12 +162,24 @@ saltos.__form_field["text"] = function (field) {
     return obj;
 };
 
+/*
+ * HIDDEN CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type hidden, you can pass the same arguments
+ * that for the input object of type text
+ */
 saltos.__form_field["hidden"] = function (field) {
     field.type = "hidden";
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
+/*
+ * INTEGER CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type integer, you can pass the same arguments
+ * that for the input object of type text
+ */
 saltos.__form_field["integer"] = function (field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
@@ -135,6 +192,12 @@ saltos.__form_field["integer"] = function (field) {
     return obj;
 };
 
+/*
+ * FLOAT CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type float, you can pass the same arguments
+ * that for the input object of type text
+ */
 saltos.__form_field["float"] = function (field) {
     field.type = "text";
     var obj = saltos.__form_field["text"](field);
@@ -149,28 +212,69 @@ saltos.__form_field["float"] = function (field) {
     return obj;
 };
 
+/*
+ * COLOR CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type color, you can pass the same arguments
+ * that for the input object of type text
+ */
 saltos.__form_field["color"] = function (field) {
     field.class="form-control-color";
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
+/*
+ * DATE CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type date, you can pass the same arguments
+ * that for the input object of type text
+ */
 saltos.__form_field["date"] = function (field) {
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
+/*
+ * TIME CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type time, you can pass the same arguments
+ * that for the input object of type text
+ */
 saltos.__form_field["time"] = function (field) {
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
+/*
+ * DATETIME CONSTRUCTOR HELPER
+ *
+ * This function returns an input object of type datetime, you can pass the same arguments
+ * that for the input object of type text
+ */
 saltos.__form_field["datetime"] = function (field) {
     field.type = "datetime-local";
     var obj = saltos.__form_field["text"](field);
     return obj;
 };
 
+/*
+ * PRIVATE TEXTAREA CONSTRUCTOR HELPER
+ *
+ * This function returns a textarea object, you can pass the follow arguments:
+ * - class => allow to add more classes to the default form-control
+ * - id => the id used by the object
+ * - placeholder => the text used as placeholder parameter
+ * - rows => the number used as rows parameter
+ * - disabled => this parameter raise the disabled flag
+ * - readonly => this parameter raise the readonly flag
+ * - required => this parameter raise the required flag
+ * - value => the value used as value parameter
+ *
+ * Notes:
+ *
+ * This function is intended to be used by other helpers of the form_field constructor
+ */
 saltos.__form_field["__textarea"] = function (field) {
     saltos.check_params(field,["rows"]);
     var obj = $(`
@@ -179,6 +283,11 @@ saltos.__form_field["__textarea"] = function (field) {
     return obj;
 };
 
+/*
+ * TEXTAREA CONSTRUCTOR HELPER
+ *
+ * This function returns a textarea object with the autogrow plugin enabled
+ */
 saltos.__form_field["textarea"] = function (field) {
     var obj = saltos.__form_field["__textarea"](field);
     var element = $(obj).get(0);
@@ -188,6 +297,11 @@ saltos.__form_field["textarea"] = function (field) {
     return obj;
 };
 
+/*
+ * CKEDITOR CONSTRUCTOR HELPER
+ *
+ * This function returns a textarea object with the ckeditor plugin enabled
+ */
 saltos.__form_field["ckeditor"] = function (field) {
     var obj = saltos.__form_field["__textarea"](field);
     var element = $(obj).get(0);
@@ -199,6 +313,11 @@ saltos.__form_field["ckeditor"] = function (field) {
     return obj;
 };
 
+/*
+ * CODEMIRROR CONSTRUCTOR HELPER
+ *
+ * This function returns a textarea object with the codemirror plugin enabled
+ */
 saltos.__form_field["codemirror"] = function (field) {
     saltos.check_params(field,["mode"]);
     var obj = saltos.__form_field["__textarea"](field);
@@ -216,13 +335,28 @@ saltos.__form_field["codemirror"] = function (field) {
     return obj;
 };
 
+/*
+ * IFRAME CONSTRUCTOR HELPER
+ *
+ * This function returns an iframe object, you can pass the follow arguments:
+ * - value => the value used as src parameter
+ * - id => the id used by the object
+ * - class => allow to add more classes to the default form-control
+ * - height => the height used as height for the style parameter
+ */
 saltos.__form_field["iframe"] = function (field) {
+    saltos.check_params(field,["height"]);
     var obj = $(`
-        <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}"></iframe>
+        <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}" style="height:${field.height}"></iframe>
     `);
     return obj;
 }
 
+/*
+ * SELECT CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["select"] = function (field) {
     saltos.check_params(field,["rows","multiple","size"]);
     if (field.multiple != "") {
@@ -245,6 +379,11 @@ saltos.__form_field["select"] = function (field) {
     return obj;
 }
 
+/*
+ * MULTISELECT CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["multiselect"] = function (field) {
     saltos.check_params(field,["rows","size"]);
     var obj = $(`<div>
@@ -326,6 +465,11 @@ saltos.__form_field["multiselect"] = function (field) {
     return obj;
 }
 
+/*
+ * CHECKBOX CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["checkbox"] = function (field) {
     field.value = parseInt(field.value);
     if (isNaN(field.value)) {
@@ -347,6 +491,11 @@ saltos.__form_field["checkbox"] = function (field) {
     return obj;
 }
 
+/*
+ * BUTTON CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["button"] = function (field) {
     saltos.check_params(field,["onclick"]);
     var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.label}</button>`);
@@ -354,6 +503,11 @@ saltos.__form_field["button"] = function (field) {
     return obj;
 }
 
+/*
+ * PASSWORD CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["password"] = function (field) {
     var obj = $(`
         <div class="input-group">
@@ -374,6 +528,11 @@ saltos.__form_field["password"] = function (field) {
     return obj;
 }
 
+/*
+ * FILE CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["file"] = function (field) {
     saltos.check_params(field,["multiple"]);
     if (field.multiple != "") {
@@ -508,6 +667,11 @@ saltos.__form_field["file"] = function (field) {
     return obj;
 }
 
+/*
+ * LINK CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["link"] = function (field) {
     var obj = $(`<div></div>`);
     field.class = "btn-link";
@@ -516,11 +680,21 @@ saltos.__form_field["link"] = function (field) {
     return obj;
 }
 
+/*
+ * LABEL CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["label"] = function (field) {
     var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
     return obj;
 }
 
+/*
+ * IMAGE CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["image"] = function (field) {
     var obj = $(`<div>
         <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.label}">
@@ -528,6 +702,11 @@ saltos.__form_field["image"] = function (field) {
     return obj;
 }
 
+/*
+ * EXCEL CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["excel"] = function (field) {
     saltos.check_params(field,["data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
     var obj = $(`<div style="width:100%;height:100%;overflow:auto">
@@ -572,6 +751,11 @@ saltos.__form_field["excel"] = function (field) {
     return obj;
 }
 
+/*
+ * PDFJS CONSTRUCTOR HELPER
+ *
+ * This function ...
+ */
 saltos.__form_field["pdfjs"] = function (field) {
     var obj = $(`<div>
         <div id="${field.id}" class="${field.class}"><div class="pdfViewer"></div></div>
@@ -614,3 +798,13 @@ saltos.__form_field["pdfjs"] = function (field) {
     },element);
     return obj;
 }
+
+// tables
+// input rollo multiples emails
+// modal
+// alert
+// card
+// navbar
+// offcanvas
+// toasts
+// tooltips ???

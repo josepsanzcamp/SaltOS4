@@ -26,10 +26,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-/* MAIN OBJECT */
+/*
+ * MAIN OBJECT
+ *
+ * This object contains all SaltOS code
+ */
 var saltos = saltos || {};
 
-/* ERROR MANAGEMENT */
+/*
+ * ERROR MANAGEMENT
+ *
+ * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
+ */
 saltos.init_error = function () {
     window.onerror = function (msg, file, line, column, error) {
         if (!isset(error) || !isset(error.stack)) {
@@ -49,7 +57,11 @@ saltos.init_error = function () {
     };
 };
 
-/* LOG MANAGEMENT */
+/*
+ * LOG MANAGEMENT
+ *
+ * This function allow to send messages to the addlog function on the server size
+ */
 saltos.addlog = function (msg) {
     var data = {
         "action":"addlog",
@@ -62,22 +74,45 @@ saltos.addlog = function (msg) {
     });
 };
 
-/* HELPERS DEL NUEVO SALTOS */
-saltos.check_params = function (obj,params,valor) {
-    if (!isset(valor)) {
-        valor = "";
+/*
+ * HELPER OF THE NEW SALTOS
+ *
+ * This function allow to prepare parameters to be used by other functions, the main idea
+ * is that the other functions can access to properties of an object without getting errors
+ * caused by the unexistence, to do this, checks for the existence of all params in the obj
+ * and if some param is not found, then define it using the default value passed as thirth
+ * argument
+ */
+saltos.check_params = function (obj,params,value) {
+    if (!isset(value)) {
+        value = "";
     }
     for (var key in params) {
         if (!isset(obj[params[key]])) {
-            obj[params[key]] = valor;
+            obj[params[key]] = value;
         }
     }
 };
 
+
+/*
+ * HELPER OF THE NEW SALTOS
+ *
+ * This function generates an unique id formed by the word "id" and a number that can take
+ * values between 0 and 999999, useful when some widget requires an id and the user don't
+ * provide it to the widget constructor
+ */
 saltos.uniqid = function () {
     return "id" + Math.floor(Math.random() * 1000000);
 };
 
+/*
+ * HELPER OF THE NEW SALTOS
+ *
+ * This function allow to execute some code when the object is visible, useful for third part
+ * widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
+ * code and paint the widget correctly
+ */
 saltos.when_visible = function (obj,fn,args) {
     if (!$(obj).is("[id]")) {
         $(obj).attr("id","fix" + saltos.uniqid());
@@ -94,130 +129,11 @@ saltos.when_visible = function (obj,fn,args) {
     },100);
 };
 
-// MAIN CODE
+/*
+ * MAIN CODE
+ *
+ * This is the code that must to be executed to initialize all requirements of this module
+ */
 (function ($) {
     saltos.init_error();
-    var container = saltos.form_field({
-        type:"container",
-    });
-    var row = saltos.form_field({
-        type:"row",
-    });
-    var tipos = [
-        "text",
-        "integer",
-        "float",
-        "color",
-        "date",
-        "time",
-        "datetime",
-        "textarea",
-        "ckeditor",
-        "codemirror",
-        "iframe",
-        "select",
-        "text",
-        "button",
-        "password",
-        "checkbox",
-        "link",
-        "label",
-        "file",
-        "multiselect",
-        "image",
-        "excel",
-        "pdfjs",
-        "text",
-    ];
-    for (var i = 0; i < 24; i++) {
-        var j = ((i % 12) + 1);
-        var col = saltos.form_field({
-            type:"col",
-            col:"col-md-" + j + " mb-3",
-        });
-        var tipo = tipos[i];
-        var valor = "";
-        var rows = "";
-        var clase = "";
-        var size = "";
-        var onclick = "";
-        var mode = "";
-        var multiple = "";
-        if (tipo == "textarea") {
-            valor = "Texto de prueba\n\nAdios";
-        }
-        if (tipo == "ckeditor") {
-            valor = "Texto de prueba<br/><br/>Adios";
-        }
-        if (tipo == "codemirror") {
-            valor = "<xml>\n\t<tag>valor</tag>\n</xml>";
-            mode = "xml";
-        }
-        if (tipo == "iframe") {
-            valor = "img/favicon.svg";
-        }
-        if (tipo == "select") {
-            rows = [
-                {label:"Uno",value:1},
-                {label:"Dos",value:2},
-                {label:"Tres",value:3},
-            ];
-            valor = "2";
-        }
-        if (tipo == "multiselect") {
-            rows = [
-                {label:"Uno",value:1},
-                {label:"Dos",value:2},
-                {label:"Tres",value:3},
-                {label:"Cuatro",value:4},
-                {label:"Cinco",value:5},
-                {label:"Seis",value:6},
-            ];
-            valor = "2,3,5";
-        }
-        if (tipo == "button") {
-            clase = "btn-primary";
-        }
-        if (tipo == "multiselect") {
-            size = 5;
-        }
-        if (tipo == "button") {
-            onclick = function () {
-                alert("button onclick");
-            };
-        }
-        if (tipo == "link") {
-            valor = "https://www.saltos.org/portal/es/estadisticas";
-            onclick = function () {
-                window.open("https://www.saltos.org/portal/es/estadisticas");
-            };
-        }
-        if (tipo == "file") {
-            multiple = true;
-        }
-        if (tipo == "image") {
-            valor = "img/favicon.svg";
-        }
-        if (tipo == "pdfjs") {
-            valor = "test-josep-2.pdf";
-        }
-        var campo = saltos.form_field({
-            type:tipo,
-            id:"campo" + i,
-            label:"Campo " + i + " (" + tipo + ")",
-            placeholder:"Escriba aqui",
-            value:valor,
-            mode:mode,
-            size:size,
-            rows:rows,
-            class:clase,
-            onclick:onclick,
-            multiple:multiple,
-        });
-        $(col).append(campo);
-        $(row).append(col);
-    }
-    container.append(row);
-    $("body").append(container);
-
 }(jQuery));
