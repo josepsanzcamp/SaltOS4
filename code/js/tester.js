@@ -132,7 +132,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             valor = "img/favicon.svg";
         }
         if (tipo == "pdfjs") {
-            valor = "data/files/test-josep-2.pdf";
+            valor = "data/files/test-josep-1.pdf";
         }
         var campo = saltos.form_field({
             type:tipo,
