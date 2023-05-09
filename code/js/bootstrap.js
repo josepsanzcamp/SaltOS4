@@ -89,7 +89,7 @@ saltos.form_field = function (field) {
     }
     var obj = $(`<div></div>`);
     if (field.label != "") {
-        $(obj).append(saltos.__form_field["label"](field));
+        $(obj).append(saltos.__form_field.label(field));
     }
     $(obj).append(saltos.__form_field[field.type](field));
     return obj;
@@ -108,7 +108,7 @@ saltos.__form_field = {};
  * This function returns an object of the container-fluid class by default, you can pass an argument
  * in the field object to specify what kind of container do you want to do.
  */
-saltos.__form_field["container"] = function (field) {
+saltos.__form_field.container = function (field) {
     saltos.check_params(field,["container"]);
     if (field.container == "") {
         field.container = "container-fluid";
@@ -123,7 +123,7 @@ saltos.__form_field["container"] = function (field) {
  * This function returns an object of the row class by default, you can pass an argument in the field
  * object to specify what kind of row do you want to do.
  */
-saltos.__form_field["row"] = function (field) {
+saltos.__form_field.row = function (field) {
     saltos.check_params(field,["row"]);
     if (field.row == "") {
         field.row = "row";
@@ -138,7 +138,7 @@ saltos.__form_field["row"] = function (field) {
  * This function returns an object of the col class by default, you can pass an argument in the field
  * object to specify what kind of col do you want to do.
  */
-saltos.__form_field["col"] = function (field) {
+saltos.__form_field.col = function (field) {
     saltos.check_params(field,["col"]);
     if (field.col == "") {
         field.col = "col";
@@ -160,7 +160,7 @@ saltos.__form_field["col"] = function (field) {
  * @readonly => this parameter raise the readonly flag
  * @required => this parameter raise the required flag
  */
-saltos.__form_field["text"] = function (field) {
+saltos.__form_field.text = function (field) {
     var obj = $(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
     `);
@@ -173,9 +173,9 @@ saltos.__form_field["text"] = function (field) {
  * This function returns an input object of type hidden, you can pass the same arguments
  * that for the input object of type text
  */
-saltos.__form_field["hidden"] = function (field) {
+saltos.__form_field.hidden = function (field) {
     field.type = "hidden";
-    var obj = saltos.__form_field["text"](field);
+    var obj = saltos.__form_field.text(field);
     return obj;
 };
 
@@ -185,9 +185,9 @@ saltos.__form_field["hidden"] = function (field) {
  * This function returns an input object of type integer, you can pass the same arguments
  * that for the input object of type text
  */
-saltos.__form_field["integer"] = function (field) {
+saltos.__form_field.integer = function (field) {
     field.type = "text";
-    var obj = saltos.__form_field["text"](field);
+    var obj = saltos.__form_field.text(field);
     var element = $(obj).get(0);
     IMask(element, {
         mask: Number,
@@ -203,9 +203,9 @@ saltos.__form_field["integer"] = function (field) {
  * This function returns an input object of type float, you can pass the same arguments
  * that for the input object of type text
  */
-saltos.__form_field["float"] = function (field) {
+saltos.__form_field.float = function (field) {
     field.type = "text";
-    var obj = saltos.__form_field["text"](field);
+    var obj = saltos.__form_field.text(field);
     var element = $(obj).get(0);
     IMask(element, {
         mask: Number,
@@ -223,9 +223,9 @@ saltos.__form_field["float"] = function (field) {
  * This function returns an input object of type color, you can pass the same arguments
  * that for the input object of type text
  */
-saltos.__form_field["color"] = function (field) {
+saltos.__form_field.color = function (field) {
     field.class="form-control-color";
-    var obj = saltos.__form_field["text"](field);
+    var obj = saltos.__form_field.text(field);
     return obj;
 };
 
@@ -235,8 +235,8 @@ saltos.__form_field["color"] = function (field) {
  * This function returns an input object of type date, you can pass the same arguments
  * that for the input object of type text
  */
-saltos.__form_field["date"] = function (field) {
-    var obj = saltos.__form_field["text"](field);
+saltos.__form_field.date = function (field) {
+    var obj = saltos.__form_field.text(field);
     return obj;
 };
 
@@ -246,8 +246,8 @@ saltos.__form_field["date"] = function (field) {
  * This function returns an input object of type time, you can pass the same arguments
  * that for the input object of type text
  */
-saltos.__form_field["time"] = function (field) {
-    var obj = saltos.__form_field["text"](field);
+saltos.__form_field.time = function (field) {
+    var obj = saltos.__form_field.text(field);
     return obj;
 };
 
@@ -257,9 +257,9 @@ saltos.__form_field["time"] = function (field) {
  * This function returns an input object of type datetime, you can pass the same arguments
  * that for the input object of type text
  */
-saltos.__form_field["datetime"] = function (field) {
+saltos.__form_field.datetime = function (field) {
     field.type = "datetime-local";
-    var obj = saltos.__form_field["text"](field);
+    var obj = saltos.__form_field.text(field);
     return obj;
 };
 
@@ -281,7 +281,7 @@ saltos.__form_field["datetime"] = function (field) {
  *
  * This function is intended to be used by other helpers of the form_field constructor
  */
-saltos.__form_field["__textarea"] = function (field) {
+saltos.__form_field.__textarea = function (field) {
     saltos.check_params(field,["rows"]);
     var obj = $(`
         <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
@@ -294,8 +294,8 @@ saltos.__form_field["__textarea"] = function (field) {
  *
  * This function returns a textarea object with the autogrow plugin enabled
  */
-saltos.__form_field["textarea"] = function (field) {
-    var obj = saltos.__form_field["__textarea"](field);
+saltos.__form_field.textarea = function (field) {
+    var obj = saltos.__form_field.__textarea(field);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         $(element).autogrow();
@@ -308,8 +308,8 @@ saltos.__form_field["textarea"] = function (field) {
  *
  * This function returns a textarea object with the ckeditor plugin enabled
  */
-saltos.__form_field["ckeditor"] = function (field) {
-    var obj = saltos.__form_field["__textarea"](field);
+saltos.__form_field.ckeditor = function (field) {
+    var obj = saltos.__form_field.__textarea(field);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         ClassicEditor.create(element).catch(error => {
@@ -325,9 +325,9 @@ saltos.__form_field["ckeditor"] = function (field) {
  * This function returns a textarea object with the codemirror plugin enabled, it has
  * the parameter mode that allow the caller to specify what kind of mode want use
  */
-saltos.__form_field["codemirror"] = function (field) {
+saltos.__form_field.codemirror = function (field) {
     saltos.check_params(field,["mode"]);
-    var obj = saltos.__form_field["__textarea"](field);
+    var obj = saltos.__form_field.__textarea(field);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         var cm = CodeMirror.fromTextArea(element,{
@@ -352,7 +352,7 @@ saltos.__form_field["codemirror"] = function (field) {
  * @class => allow to add more classes to the default form-control
  * @height => the height used as height for the style parameter
  */
-saltos.__form_field["iframe"] = function (field) {
+saltos.__form_field.iframe = function (field) {
     saltos.check_params(field,["height"]);
     var obj = $(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}" style="height:${field.height}"></iframe>
@@ -374,7 +374,7 @@ saltos.__form_field["iframe"] = function (field) {
  * @size => this parameter allow to see the options list opened with n (size) entries
  * @value => the value used to detect the selected option
  */
-saltos.__form_field["select"] = function (field) {
+saltos.__form_field.select = function (field) {
     saltos.check_params(field,["rows","multiple","size"]);
     if (field.multiple != "") {
         field.multiple = "multiple";
@@ -414,7 +414,7 @@ saltos.__form_field["select"] = function (field) {
  * This widget is created joinin 2 selects and 2 buttons, the user must get the value
  * using the hidden input that is builded using the original id passed by argument.
  */
-saltos.__form_field["multiselect"] = function (field) {
+saltos.__form_field.multiselect = function (field) {
     saltos.check_params(field,["rows","size"]);
     var obj = $(`<div>
         <div class="container-fluid">
@@ -439,8 +439,8 @@ saltos.__form_field["multiselect"] = function (field) {
             rows_a.push(val);
         }
     }
-    $(".col:eq(0)",obj).append(saltos.__form_field["hidden"](field));
-    $(".col:eq(0)",obj).append(saltos.__form_field["select"]({
+    $(".col:eq(0)",obj).append(saltos.__form_field.hidden(field));
+    $(".col:eq(0)",obj).append(saltos.__form_field.select({
         class:field.class,
         id:field.id+"_a",
         disabled:field.disabled,
@@ -449,7 +449,7 @@ saltos.__form_field["multiselect"] = function (field) {
         rows:rows_a,
         value:"",
     }));
-    $(".col:eq(1)",obj).append(saltos.__form_field["button"]({
+    $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
         id:field.id+"_c",
         disabled:field.disabled,
@@ -466,7 +466,7 @@ saltos.__form_field["multiselect"] = function (field) {
         },
     }));
     $(".col:eq(1)",obj).append("<br/>");
-    $(".col:eq(1)",obj).append(saltos.__form_field["button"]({
+    $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-left",
         id:field.id+"_d",
         disabled:field.disabled,
@@ -482,7 +482,7 @@ saltos.__form_field["multiselect"] = function (field) {
             $("#"+field.id).val(val.join(","));
         },
     }));
-    $(".col:eq(2)",obj).append(saltos.__form_field["select"]({
+    $(".col:eq(2)",obj).append(saltos.__form_field.select({
         class:field.class,
         id:field.id+"_b",
         disabled:field.disabled,
@@ -513,7 +513,7 @@ saltos.__form_field["multiselect"] = function (field) {
  * from the traditional checkbox into a switch, for some reasone, we decide to maintain the original
  * checkbox and add another function that uses immersion with this function to create the switch.
  */
-saltos.__form_field["checkbox"] = function (field) {
+saltos.__form_field.checkbox = function (field) {
     field.value = parseInt(field.value);
     if (isNaN(field.value)) {
         field.value = 0;
@@ -545,8 +545,8 @@ saltos.__form_field["checkbox"] = function (field) {
  *
  * This function returns a switch object, you can pass the same arguments that for the checknbox object
  */
-saltos.__form_field["switch"] = function (field) {
-    return saltos.__form_field["checkbox"](field);
+saltos.__form_field.switch = function (field) {
+    return saltos.__form_field.checkbox(field);
 };
 
 /*
@@ -564,7 +564,7 @@ saltos.__form_field["switch"] = function (field) {
  *
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
-saltos.__form_field["button"] = function (field) {
+saltos.__form_field.button = function (field) {
     saltos.check_params(field,["onclick"]);
     var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.label}</button>`);
     $(obj).on("click",field.onclick);
@@ -590,7 +590,7 @@ saltos.__form_field["button"] = function (field) {
  * see the entered password to verify it, in reality, this button swaps the input between
  * password and text type, allowing to do visible or not the contents of the input
  */
-saltos.__form_field["password"] = function (field) {
+saltos.__form_field.password = function (field) {
     var obj = $(`
         <div class="input-group">
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b">
@@ -634,7 +634,7 @@ saltos.__form_field["password"] = function (field) {
  * the server and store the information related to the file on the server to be processed after
  * the real upload action.
  */
-saltos.__form_field["file"] = function (field) {
+saltos.__form_field.file = function (field) {
     saltos.check_params(field,["multiple"]);
     if (field.multiple != "") {
         field.multiple = "multiple";
@@ -784,11 +784,11 @@ saltos.__form_field["file"] = function (field) {
  * This object is not a real link, it's a button that uses the btn-link class to get the link
  * appearance
  */
-saltos.__form_field["link"] = function (field) {
+saltos.__form_field.link = function (field) {
     var obj = $(`<div></div>`);
     field.class = "btn-link";
     field.label = field.value;
-    $(obj).append(saltos.__form_field["button"](field));
+    $(obj).append(saltos.__form_field.button(field));
     return obj;
 };
 
@@ -800,7 +800,7 @@ saltos.__form_field["link"] = function (field) {
  * @id => the id used to set the reference for to the object
  * @label => this parameter is used as text for the label
  */
-saltos.__form_field["label"] = function (field) {
+saltos.__form_field.label = function (field) {
     var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
     return obj;
 };
@@ -816,7 +816,7 @@ saltos.__form_field["label"] = function (field) {
  * @label => this parameter is used as text for the alt parameter
  *
  */
-saltos.__form_field["image"] = function (field) {
+saltos.__form_field.image = function (field) {
     var obj = $(`<div>
         <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.label}">
     </div>`);
@@ -847,7 +847,7 @@ saltos.__form_field["image"] = function (field) {
  * You can get the values after to do changes by accessing to the data of the div used to create
  * the widget.
  */
-saltos.__form_field["excel"] = function (field) {
+saltos.__form_field.excel = function (field) {
     saltos.check_params(field,["data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
     var obj = $(`<div style="width:100%;height:100%;overflow:auto">
         <div id="${field.id}" class="${field.class}"></div>
@@ -900,7 +900,7 @@ saltos.__form_field["excel"] = function (field) {
  * @class => allow to set the class to the div object used to allocate the widget
  * @value => the file or data that contains the pdf document
  */
-saltos.__form_field["pdfjs"] = function (field) {
+saltos.__form_field.pdfjs = function (field) {
     var obj = $(`<div>
         <div id="${field.id}" class="${field.class}"><div class="pdfViewer"></div></div>
     </div>`);
@@ -946,7 +946,7 @@ saltos.__form_field["pdfjs"] = function (field) {
 /*
  * TODO
  */
-saltos.__form_field["table"] = function (field) {
+saltos.__form_field.table = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
@@ -954,7 +954,7 @@ saltos.__form_field["table"] = function (field) {
 /*
  * TODO
  */
-saltos.__form_field["modal"] = function (field) {
+saltos.__form_field.modal = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
@@ -962,7 +962,7 @@ saltos.__form_field["modal"] = function (field) {
 /*
  * TODO
  */
-saltos.__form_field["alert"] = function (field) {
+saltos.__form_field.alert = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
@@ -970,7 +970,7 @@ saltos.__form_field["alert"] = function (field) {
 /*
  * TODO
  */
-saltos.__form_field["card"] = function (field) {
+saltos.__form_field.card = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
@@ -978,7 +978,7 @@ saltos.__form_field["card"] = function (field) {
 /*
  * TODO
  */
-saltos.__form_field["navbar"] = function (field) {
+saltos.__form_field.navbar = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
@@ -986,7 +986,7 @@ saltos.__form_field["navbar"] = function (field) {
 /*
  * TODO
  */
-saltos.__form_field["offcanvas"] = function (field) {
+saltos.__form_field.offcanvas = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
@@ -994,7 +994,7 @@ saltos.__form_field["offcanvas"] = function (field) {
 /*
  * TODO
  */
-saltos.__form_field["toasts"] = function (field) {
+saltos.__form_field.toasts = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
