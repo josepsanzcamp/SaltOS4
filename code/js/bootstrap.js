@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 "use strict";
 
 /*
- * FORM FIELDS CONSTRUCTOR
+ * Form fields constructor
  *
  * This function and their helpers, allow the creation of the interface using the bootstrap
  * widgets, the types that can be called are the follow:
@@ -95,14 +95,14 @@ saltos.form_field = function (field) {
 };
 
 /*
- * FORM_FIELD CONSTRUCTOR HELPER OBJECT
+ * Form_field constructor helper object
  *
  * This object allow to the constructor to use a rational structure for a quick access of each helper
  */
 saltos.__form_field = {};
 
 /*
- * CONTAINER CONSTRUCTOR HELPER
+ * Container constructor helper
  *
  * This function returns an object of the container-fluid class by default, you can pass an argument
  * in the field object to specify what kind of container do you want to do.
@@ -117,7 +117,7 @@ saltos.__form_field["container"] = function (field) {
 };
 
 /*
- * ROW CONSTRUCTOR HELPER
+ * Row constructor helper
  *
  * This function returns an object of the row class by default, you can pass an argument in the field
  * object to specify what kind of row do you want to do.
@@ -132,7 +132,7 @@ saltos.__form_field["row"] = function (field) {
 };
 
 /*
- * COL CONSTRUCTOR HELPER
+ * Col constructor helper
  *
  * This function returns an object of the col class by default, you can pass an argument in the field
  * object to specify what kind of col do you want to do.
@@ -147,9 +147,10 @@ saltos.__form_field["col"] = function (field) {
 };
 
 /*
- * TEXT CONSTRUCTOR HELPER
+ * Text constructor helper
  *
  * This function returns an input object of type text, you can pass some arguments as:
+ *
  * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
  * @placeholder => the text used as placeholder parameter
@@ -166,7 +167,7 @@ saltos.__form_field["text"] = function (field) {
 };
 
 /*
- * HIDDEN CONSTRUCTOR HELPER
+ * Hidden constructor helper
  *
  * This function returns an input object of type hidden, you can pass the same arguments
  * that for the input object of type text
@@ -178,7 +179,7 @@ saltos.__form_field["hidden"] = function (field) {
 };
 
 /*
- * INTEGER CONSTRUCTOR HELPER
+ * Integer constructor helper
  *
  * This function returns an input object of type integer, you can pass the same arguments
  * that for the input object of type text
@@ -196,7 +197,7 @@ saltos.__form_field["integer"] = function (field) {
 };
 
 /*
- * FLOAT CONSTRUCTOR HELPER
+ * Float constructor helper
  *
  * This function returns an input object of type float, you can pass the same arguments
  * that for the input object of type text
@@ -216,7 +217,7 @@ saltos.__form_field["float"] = function (field) {
 };
 
 /*
- * COLOR CONSTRUCTOR HELPER
+ * Color constructor helper
  *
  * This function returns an input object of type color, you can pass the same arguments
  * that for the input object of type text
@@ -228,7 +229,7 @@ saltos.__form_field["color"] = function (field) {
 };
 
 /*
- * DATE CONSTRUCTOR HELPER
+ * Date constructor helper
  *
  * This function returns an input object of type date, you can pass the same arguments
  * that for the input object of type text
@@ -239,7 +240,7 @@ saltos.__form_field["date"] = function (field) {
 };
 
 /*
- * TIME CONSTRUCTOR HELPER
+ * Time constructor helper
  *
  * This function returns an input object of type time, you can pass the same arguments
  * that for the input object of type text
@@ -250,7 +251,7 @@ saltos.__form_field["time"] = function (field) {
 };
 
 /*
- * DATETIME CONSTRUCTOR HELPER
+ * Datetime constructor helper
  *
  * This function returns an input object of type datetime, you can pass the same arguments
  * that for the input object of type text
@@ -262,9 +263,10 @@ saltos.__form_field["datetime"] = function (field) {
 };
 
 /*
- * PRIVATE TEXTAREA CONSTRUCTOR HELPER
+ * Private textarea constructor helper
  *
  * This function returns a textarea object, you can pass the follow arguments:
+ *
  * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
  * @placeholder => the text used as placeholder parameter
@@ -287,7 +289,7 @@ saltos.__form_field["__textarea"] = function (field) {
 };
 
 /*
- * TEXTAREA CONSTRUCTOR HELPER
+ * Textarea constructor helper
  *
  * This function returns a textarea object with the autogrow plugin enabled
  */
@@ -301,7 +303,7 @@ saltos.__form_field["textarea"] = function (field) {
 };
 
 /*
- * CKEDITOR CONSTRUCTOR HELPER
+ * Ckeditor constructor helper
  *
  * This function returns a textarea object with the ckeditor plugin enabled
  */
@@ -317,7 +319,7 @@ saltos.__form_field["ckeditor"] = function (field) {
 };
 
 /*
- * CODEMIRROR CONSTRUCTOR HELPER
+ * Codemirror constructor helper
  *
  * This function returns a textarea object with the codemirror plugin enabled, it has
  * the parameter mode that allow the caller to specify what kind of mode want use
@@ -340,9 +342,10 @@ saltos.__form_field["codemirror"] = function (field) {
 };
 
 /*
- * IFRAME CONSTRUCTOR HELPER
+ * Iframe constructor helper
  *
  * This function returns an iframe object, you can pass the follow arguments:
+ *
  * @value => the value used as src parameter
  * @id => the id used by the object
  * @class => allow to add more classes to the default form-control
@@ -357,9 +360,10 @@ saltos.__form_field["iframe"] = function (field) {
 }
 
 /*
- * SELECT CONSTRUCTOR HELPER
+ * Select constructor helper
  *
  * This function returns a select object, you can pass the follow arguments:
+ *
  * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
@@ -392,9 +396,10 @@ saltos.__form_field["select"] = function (field) {
 }
 
 /*
- * MULTISELECT CONSTRUCTOR HELPER
+ * Multiselect constructor helper
  *
  * This function returns a multiselect object, you can pass the follow arguments:
+ *
  * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
@@ -489,9 +494,10 @@ saltos.__form_field["multiselect"] = function (field) {
 }
 
 /*
- * CHECKBOX CONSTRUCTOR HELPER
+ * Checkbox constructor helper
  *
  * This function returns a checkbox/switch object, you can pass the follow arguments:
+ *
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
@@ -524,9 +530,10 @@ saltos.__form_field["checkbox"] = function (field) {
 }
 
 /*
- * BUTTON CONSTRUCTOR HELPER
+ * Button constructor helper
  *
  * This function returns a button object, you can pass the follow arguments:
+ *
  * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
@@ -545,9 +552,10 @@ saltos.__form_field["button"] = function (field) {
 }
 
 /*
- * PASSWORD CONSTRUCTOR HELPER
+ * Password constructor helper
  *
  * This function returns an input object of type password, you can pass some arguments as:
+ *
  * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
  * @placeholder => the text used as placeholder parameter
@@ -583,9 +591,10 @@ saltos.__form_field["password"] = function (field) {
 }
 
 /*
- * FILE CONSTRUCTOR HELPER
+ * File constructor helper
  *
  * This function returns an input object of type password, you can pass some arguments as:
+ *
  * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
@@ -617,7 +626,7 @@ saltos.__form_field["file"] = function (field) {
             </tbody>
         </table>
     </div>`);
-    // THIS HELPER HELPS TO UPDATE THE DATA OF THE INPUT FILE
+    // This helper helps to update the data of the input file
     var __update_data = function (input) {
         var data = [];
         var tabla = $(input).next();
@@ -626,13 +635,13 @@ saltos.__form_field["file"] = function (field) {
         });
         $(input).data("data",data);
     };
-    // PROGRAM THE AUTOMATIC UPLOAD
+    // Program the automatic upload
     $("input",obj).on("change",async function () {
         var input = this;
         var files = this.files;
         var table = $(this).next();
         for (var i = 0; i < files.length; i++) {
-            // PREPARE THE DATA TO SEND
+            // Prepare the data to send
             var data = {
                 action:"addfiles",
                 files:[],
@@ -647,9 +656,9 @@ saltos.__form_field["file"] = function (field) {
                 file:"",
                 hash:"",
             };
-            // SHOW THE TABLE
+            // Show the table
             $(table).removeClass("d-none");
-            // ADD THE ROW FOR THE NEW FILE
+            // Add the row for the new file
             var row = $(`
                 <tr id="${data.files[0].id}">
                     <td>${data.files[0].name}</td>
@@ -661,9 +670,9 @@ saltos.__form_field["file"] = function (field) {
                     <td class="p-0" style="width: 1%"><button class="btn bi-trash" type="button"></button></td>
                 </tr>
             `);
-            // STORE THE DATA IN THE ROW
+            // Store the data in the row
             $(row).data("data",data.files[0]);
-            // PROGRAM DE REMOVE BUTTON
+            // Program de remove button
             $("button",row).on("click",function () {
                 var row = $(this).parent().parent();
                 var data = {
@@ -677,11 +686,11 @@ saltos.__form_field["file"] = function (field) {
                     type:"post",
                     success:function (data,textStatus,XMLHttpRequest) {
                         $(row).data("data",data[0]);
-                        // IF SERVER REMOVES THE FILE, I REMOVE THE ROW
+                        // If server removes the file, i remove the row
                         if (data[0].file == "") {
                             row.remove();
                         }
-                        // IF NOT THERE ARE FILES, HIDE THE TABLE
+                        // If not there are files, hide the table
                         if ($("tr",table).length == 0) {
                             $(table).addClass("d-none");
                         }
@@ -693,19 +702,19 @@ saltos.__form_field["file"] = function (field) {
                     },
                 });
             });
-            // ADD THE ROW
+            // Add the row
             $("tbody",table).append(row);
             __update_data(input);
-            // GET THE LOCAL FILE USING SYNCRONOUS TECHNIQUES
+            // Get the local file using syncronous techniques
             var reader = new FileReader();
             reader.readAsDataURL(files[i]);
             while (!reader.result && !reader.error) {
                 await new Promise(resolve => setTimeout(resolve, 1));
             }
-            // IF THERE IS A FILE
+            // If there is a file
             if (reader.result) {
                 data.files[0].data = reader.result;
-                // THIS ALLOW MULTIPLE UPLOADS IN PARALLEL
+                // This allow multiple uploads in parallel
                 (function (data,row) {
                     $.ajax({
                         url:"index.php",
@@ -728,7 +737,7 @@ saltos.__form_field["file"] = function (field) {
                     });
                 })(data,row);
             }
-            // IF THERE IS AN ERROR
+            // If there is an error
             if (reader.error) {
                 data.files[0].error = reader.error.message;
                 console.log(reader.error.message);
@@ -740,10 +749,11 @@ saltos.__form_field["file"] = function (field) {
 }
 
 /*
- * LINK CONSTRUCTOR HELPER
+ * Link constructor helper
  *
  * This function creates a field similar of text but with the appearance of a link using a button,
  * the object can receive the follow arguments:
+ *
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
  * @value => the value is conveted as label to be used in the button with the appearance of a link
@@ -763,9 +773,10 @@ saltos.__form_field["link"] = function (field) {
 }
 
 /*
- * LABEL CONSTRUCTOR HELPER
+ * Label constructor helper
  *
  * This function returns a label object, you can pass some arguments as:
+ *
  * @id => the id used to set the reference for to the object
  * @label => this parameter is used as text for the label
  */
@@ -775,9 +786,10 @@ saltos.__form_field["label"] = function (field) {
 }
 
 /*
- * IMAGE CONSTRUCTOR HELPER
+ * Image constructor helper
  *
  * This function returns an image object, you can pass some arguments as:
+ *
  * @id => the id used to set the reference for to the object
  * @value => the value used as src parameter
  * @class => allow to add more classes to the default img-fluid
@@ -792,13 +804,14 @@ saltos.__form_field["image"] = function (field) {
 }
 
 /*
- * EXCEL CONSTRUCTOR HELPER
+ * Excel constructor helper
  *
  * This function creates and returns an excel object, to do this they use the handsontable library,
  * currently this library uses a privative license, by this reason, we are using the version 6.2.2
  * that is the latest release published using the MIT license.
  *
  * This widget can receive the following arguments:
+ *
  * @id => the id used to set the reference for to the object
  * @class => allow to set the class to the div object used to allocate the widget
  * @data => this parameter must contain a 2D matrix with the data that you want to show in the sheet
@@ -859,7 +872,7 @@ saltos.__form_field["excel"] = function (field) {
 }
 
 /*
- * PDFJS CONSTRUCTOR HELPER
+ * Pdfjs constructor helper
  *
  * This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
  *

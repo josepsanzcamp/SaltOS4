@@ -27,14 +27,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 "use strict";
 
 /*
- * MAIN OBJECT
+ * Main object
  *
  * This object contains all SaltOS code
  */
 var saltos = saltos || {};
 
 /*
- * ERROR MANAGEMENT
+ * Error management
  *
  * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
  */
@@ -58,9 +58,11 @@ saltos.init_error = function () {
 };
 
 /*
- * LOG MANAGEMENT
+ * Log management
  *
- * This function allow to send messages to the addlog function on the server size
+ * This function allow to send messages to the addlog of the server side, requires an argument:
+ *
+ * @msg => the message that do you want to log on the server log file
  */
 saltos.addlog = function (msg) {
     var data = {
@@ -75,13 +77,16 @@ saltos.addlog = function (msg) {
 };
 
 /*
- * HELPER OF THE NEW SALTOS
+ * Helper of the new saltos
  *
  * This function allow to prepare parameters to be used by other functions, the main idea
  * is that the other functions can access to properties of an object without getting errors
- * caused by the unexistence, to do this, checks for the existence of all params in the obj
- * and if some param is not found, then define it using the default value passed as thirth
- * argument
+ * caused by the nonexistence, to do this, checks for the existence of all params in the obj
+ * and if some param is not found, then define it using the default value passed:
+ *
+ * @obj => the object that contains the arguments, for example
+ * @params => an array with the arguments that must to exists
+ * @value => the default value used if an argument doesn't exists
  */
 saltos.check_params = function (obj,params,value) {
     if (!isset(value)) {
@@ -94,9 +99,8 @@ saltos.check_params = function (obj,params,value) {
     }
 };
 
-
 /*
- * HELPER OF THE NEW SALTOS
+ * Helper of the new saltos
  *
  * This function generates an unique id formed by the word "id" and a number that can take
  * values between 0 and 999999, useful when some widget requires an id and the user don't
@@ -112,6 +116,10 @@ saltos.uniqid = function () {
  * This function allow to execute some code when the object is visible, useful for third part
  * widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
  * code and paint the widget correctly
+ *
+ * @obj => the object that do you want to monitorize the visibility
+ * @fn => the callback that you want to execute
+ * @args => the arguments passed to the callback when execute it
  */
 saltos.when_visible = function (obj,fn,args) {
     if (!$(obj).is("[id]")) {
