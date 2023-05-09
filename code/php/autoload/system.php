@@ -29,10 +29,6 @@ declare(strict_types=1);
 
 function check_system()
 {
-    // GENERAL CHECK
-    //~ if (headers_sent()) {
-        //~ show_php_error(array("phperror" => "Has been detected previous headers sent"));
-    //~ }
     // PACKAGE CHECKS
     $array = array(
         array("class_exists","DomElement","Class","php-xml"),
@@ -48,47 +44,11 @@ function check_system()
             show_php_error(array("phperror" => "$a[2] $a[1] not found","details" => "Try to install $a[3] package"));
         }
     }
-    // TODO: REVISAR EL TEMA INSTALADOR
-    //~ // INSTALL CHECK
-    //~ if (!file_exists("files/config.xml")) {
-        //~ require "install/install.php";
-        //~ die();
-    //~ }
+    // DIRECTORIES CKECKS
+    $dirs = glob("data/*");
+    foreach($dirs as $dir) {
+        if (!file_exists($dir) || !is_dir($dir) || !is_writable($dir)) {
+            show_php_error(array("phperror" => "$dir not writable","details" => "Try to set permissions to do writable the $dir directory"));
+        }
+    }
 }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function check_postlimit()
-//~ {
-    //~ $content_length = get_server("CONTENT_LENGTH");
-    //~ if ($content_length) {
-        //~ $post_max_size = ini_get("post_max_size");
-        //~ if (!$post_max_size && ishhvm()) {
-            //~ $post_max_size = ini_get("hhvm.server.max_post_size");
-        //~ }
-        //~ $post_max_size = normalize_value($post_max_size);
-        //~ if ($content_length > $post_max_size) {
-            //~ session_error(LANG("postlimiterror"));
-            //~ _action_die();
-        //~ }
-    //~ }
-//~ }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function fix_input_vars()
-//~ {
-    //~ if (intval(ini_get("max_input_vars")) > 0) {
-        //~ $temp = get_param("fix_input_vars");
-        //~ if ($temp != "") {
-            //~ $temp2 = array();
-            //~ parse_str_protected(base64_decode($temp), $temp2);
-            //~ if (isset($_GET["fix_input_vars"])) {
-                //~ unset($_GET["fix_input_vars"]);
-                //~ $_GET = array_merge($_GET, $temp2);
-            //~ }
-            //~ if (isset($_POST["fix_input_vars"])) {
-                //~ unset($_POST["fix_input_vars"]);
-                //~ $_POST = array_merge($_POST, $temp2);
-            //~ }
-        //~ }
-    //~ }
-//~ }
