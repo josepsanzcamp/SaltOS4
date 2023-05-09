@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-// MAIN CODE
+// Main code
 (function ($) {
     saltos.init_error();
     var container = saltos.form_field({
@@ -43,29 +43,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "date",
         "time",
         "datetime",
+        "hidden",
         "textarea",
         "ckeditor",
         "codemirror",
-        "iframe",
+        "multiselect",
         "select",
-        "text",
+        "checkbox",
+        "switch",
         "button",
         "password",
-        "checkbox",
+        "file",
         "link",
         "label",
-        "file",
-        "multiselect",
         "image",
         "excel",
         "pdfjs",
-        "text",
+        "iframe",
     ];
     for (var i = 0; i < 24; i++) {
-        var j = ((i % 12) + 1);
         var col = saltos.form_field({
             type:"col",
-            col:"col-md-" + j + " mb-3",
+            col:"col-md-3 mb-3",
         });
         var tipo = tipos[i];
         var valor = "";

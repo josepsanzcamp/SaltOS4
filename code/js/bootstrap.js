@@ -50,6 +50,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @select => class, id, disabled, required, rows, multiple, size, value
  * @multiselect => class, id, disabled, required, rows, multiple, size, value, multiple
  * @checkbox => id, disabled, readonly, label, value
+ * @switch => id, disabled, readonly, label, value
  * @button => class, id, disabled, label, onclick
  * @password => class, id, placeholder, value, disabled, readonly, required
  * @file => class, id, disabled, required, multiple
@@ -83,7 +84,7 @@ saltos.form_field = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    if (["container","row","col","label","button","checkbox"].includes(field.type)) {
+    if (["container","row","col","label","button","checkbox","switch"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
     var obj = $(`<div></div>`);
@@ -357,7 +358,7 @@ saltos.__form_field["iframe"] = function (field) {
         <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}" style="height:${field.height}"></iframe>
     `);
     return obj;
-}
+};
 
 /*
  * Select constructor helper
@@ -393,7 +394,7 @@ saltos.__form_field["select"] = function (field) {
         $(obj).append(`<option value="${val.value}" ${selected}>${val.label}</option>`);
     }
     return obj;
-}
+};
 
 /*
  * Multiselect constructor helper
@@ -491,12 +492,12 @@ saltos.__form_field["multiselect"] = function (field) {
         value:"",
     }));
     return obj;
-}
+};
 
 /*
  * Checkbox constructor helper
  *
- * This function returns a checkbox/switch object, you can pass the follow arguments:
+ * This function returns a checkbox object, you can pass the follow arguments:
  *
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
@@ -507,6 +508,10 @@ saltos.__form_field["multiselect"] = function (field) {
  * Notes:
  *
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
+ *
+ * Using the type argument, the function add some class and role to the object converting the widget
+ * from the traditional checkbox into a switch, for some reasone, we decide to maintain the original
+ * checkbox and add another function that uses immersion with this function to create the switch.
  */
 saltos.__form_field["checkbox"] = function (field) {
     field.value = parseInt(field.value);
@@ -517,9 +522,15 @@ saltos.__form_field["checkbox"] = function (field) {
     if (field.value) {
         checked = "checked";
     }
+    var _class = "";
+    var _role = "";
+    if (field.type == "switch") {
+        _class = "form-switch";
+        _role = `role="switch"`;
+    }
     var obj = $(`
-        <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="${field.id}" value="${field.value}" ${field.disabled} ${field.readonly} ${checked}>
+        <div class="form-check ${_class}">
+            <input class="form-check-input" type="checkbox" ${_role} id="${field.id}" value="${field.value}" ${field.disabled} ${field.readonly} ${checked}>
             <label class="form-check-label" for="${field.id}">${field.label}</label>
         </div>
     `);
@@ -527,7 +538,16 @@ saltos.__form_field["checkbox"] = function (field) {
         this.value = this.checked ? 1 : 0;
     });
     return obj;
-}
+};
+
+/*
+ * Switch constructor helper
+ *
+ * This function returns a switch object, you can pass the same arguments that for the checknbox object
+ */
+saltos.__form_field["switch"] = function (field) {
+    return saltos.__form_field["checkbox"](field);
+};
 
 /*
  * Button constructor helper
@@ -549,7 +569,7 @@ saltos.__form_field["button"] = function (field) {
     var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.label}</button>`);
     $(obj).on("click",field.onclick);
     return obj;
-}
+};
 
 /*
  * Password constructor helper
@@ -588,7 +608,7 @@ saltos.__form_field["password"] = function (field) {
         }
     });
     return obj;
-}
+};
 
 /*
  * File constructor helper
@@ -746,7 +766,7 @@ saltos.__form_field["file"] = function (field) {
         }
     });
     return obj;
-}
+};
 
 /*
  * Link constructor helper
@@ -770,7 +790,7 @@ saltos.__form_field["link"] = function (field) {
     field.label = field.value;
     $(obj).append(saltos.__form_field["button"](field));
     return obj;
-}
+};
 
 /*
  * Label constructor helper
@@ -783,7 +803,7 @@ saltos.__form_field["link"] = function (field) {
 saltos.__form_field["label"] = function (field) {
     var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
     return obj;
-}
+};
 
 /*
  * Image constructor helper
@@ -801,7 +821,7 @@ saltos.__form_field["image"] = function (field) {
         <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.label}">
     </div>`);
     return obj;
-}
+};
 
 /*
  * Excel constructor helper
@@ -869,7 +889,7 @@ saltos.__form_field["excel"] = function (field) {
         });
     },element);
     return obj;
-}
+};
 
 /*
  * Pdfjs constructor helper
@@ -921,14 +941,63 @@ saltos.__form_field["pdfjs"] = function (field) {
         });
     },element);
     return obj;
-}
+};
 
-// tables
-// input rollo multiples emails
-// modal
-// alert
-// card
-// navbar
-// offcanvas
-// toasts
+/*
+ * TODO
+ */
+saltos.__form_field["table"] = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field["modal"] = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field["alert"] = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field["card"] = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field["navbar"] = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field["offcanvas"] = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field["toasts"] = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
 // tooltips ???
+// input rollo multiples emails
