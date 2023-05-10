@@ -61,7 +61,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "pdfjs",
         "iframe",
     ];
-    for (var i = 0; i < 24; i++) {
+    for (var i in tipos) {
         var col = saltos.form_field({
             type:"col",
             col:"col-xl-3 col-md-4 col-sm-6 mb-3",
