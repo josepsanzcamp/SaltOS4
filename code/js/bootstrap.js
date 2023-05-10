@@ -944,10 +944,67 @@ saltos.__form_field.pdfjs = function (field) {
 };
 
 /*
- * TODO
+ * Table constructor helper
+ *
+ * Returns a table using the follow params:
+ *
+ * @class => allow to add more classes to the default table table-striped table-hover
+ * @id => the id used to set the reference for to the object
+ * @header => array with the header to use
+ * @data => 2D array with the data used to mount the body table
+ * @footer => array with the footer to use
+ * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  */
 saltos.__form_field.table = function (field) {
-    var obj = $(`TODO`);
+    saltos.check_params(field,["header","data","footer","divider"]);
+    var obj = $(`
+        <table class="table table-striped table-hover ${field.class}" id="${field.id}">
+        </table>
+    `);
+    if (field.header != "") {
+        $(obj).append(`
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+        `);
+        if (isset(field.divider[0]) && field.divider[0]) {
+            $("thead",obj).addClass("table-group-divider");
+        }
+        for (var key in field.header) {
+            $("thead tr",obj).append(`<th>${field.header[key]}</th>`);
+        }
+    }
+    if (field.data != "") {
+        $(obj).append(`
+            <tbody>
+            </tbody>
+        `);
+        if (isset(field.divider[1]) && field.divider[1]) {
+            $("tbody",obj).addClass("table-group-divider");
+        }
+        for (var key in field.data) {
+            var row = $(`<tr></tr>`);
+            for (var key2 in field.data[key]) {
+                row.append(`<td>${field.data[key][key2]}</td>`);
+            }
+            $("tbody",obj).append(row);
+        }
+    }
+    if (field.footer != "") {
+        $(obj).append(`
+            <tfoot>
+                <tr>
+                </tr>
+            </tfoot>
+        `);
+        if (isset(field.divider[2]) && field.divider[2]) {
+            $("tfoot",obj).addClass("table-group-divider");
+        }
+        for (var key in field.footer) {
+            $("tfoot tr",obj).append(`<td>${field.footer[key]}</td>`);
+        }
+    }
     return obj;
 };
 

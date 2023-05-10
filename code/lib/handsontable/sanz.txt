@@ -2,3 +2,4 @@
 https://github.com/handsontable/handsontable
 https://github.com/handsontable/handsontable/tree/6.2.2
 https://github.com/handsontable/handsontable/releases/tag/6.2.2
+https://handsontable.com/docs/6.2.2/

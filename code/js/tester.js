@@ -60,6 +60,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "excel",
         "pdfjs",
         "iframe",
+        "table",
     ];
     for (var i in tipos) {
         var col = saltos.form_field({
@@ -74,7 +75,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         var onclick = "";
         var mode = "";
         var multiple = "";
-        var height="";
+        var height = "";
+        var data = "";
+        var header = "";
+        var footer = "";
+        var divider = "";
         if (tipo == "textarea") {
             valor = "Texto de prueba\n\nAdios";
         }
@@ -134,6 +139,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         if (tipo == "pdfjs") {
             valor = "data/files/test-josep-1.pdf";
         }
+        if (tipo == "table") {
+            var data = [
+                ["Josep","Sanz",`<a href="#">654 123 789</a>`],
+                ["Jordi","Company","654 123 789"],
+                ["Andres","Diaz","654 123 789"],
+            ];
+            var header = ["Name","Surname","Phone"];
+            var footer = ["","Total","3"];
+            var divider = [false,true,true];
+        }
         var campo = saltos.form_field({
             type:tipo,
             id:"campo" + i,
@@ -147,6 +162,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             onclick:onclick,
             multiple:multiple,
             height:height,
+            data:data,
+            header:header,
+            footer:footer,
+            divider:divider,
         });
         $(col).append(campo);
         $(row).append(col);
