@@ -61,6 +61,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "pdfjs",
         "iframe",
         "table",
+        "alert",
+        "card",
     ];
     for (var i in tipos) {
         var col = saltos.form_field({
@@ -80,6 +82,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         var header = "";
         var footer = "";
         var divider = "";
+        var image = "";
+        var title = "";
+        var text = "";
+        var body = "";
         if (tipo == "textarea") {
             valor = "Texto de prueba\n\nAdios";
         }
@@ -144,10 +150,23 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 ["Josep","Sanz",`<a href="#">654 123 789</a>`],
                 ["Jordi","Company","654 123 789"],
                 ["Andres","Diaz","654 123 789"],
+                ["Montse","Casc","654 123 789"],
+                ["Jordi","Sanz","654 123 789"],
             ];
             var header = ["Name","Surname","Phone"];
             var footer = ["","Total","3"];
             var divider = [false,true,true];
+        }
+        if (tipo == "alert") {
+            clase = "alert-success";
+        }
+        if (tipo == "card") {
+            //~ image = "data/files/card.svg";
+            header = "Cabecera";
+            footer = "Pie";
+            title = "Titulo";
+            text = "Texto del card";
+            body = `<a href="#">hola</a>`;
         }
         var campo = saltos.form_field({
             type:tipo,
@@ -166,6 +185,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             header:header,
             footer:footer,
             divider:divider,
+            image:image,
+            title:title,
+            text:text,
+            body:body,
         });
         $(col).append(campo);
         $(row).append(col);

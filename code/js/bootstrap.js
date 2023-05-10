@@ -59,6 +59,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @image => id, value, class, label
  * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
  * @pdfjs => id, class, value
+ * @table => class, id, header, data, footer, divider
+ * @alert => class, label
+ * @card => image, alt, header, footer, title, text, body
  *
  * Notes:
  *
@@ -84,7 +87,7 @@ saltos.form_field = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    if (["container","row","col","label","button","checkbox","switch"].includes(field.type)) {
+    if (["container","row","col","label","button","checkbox","switch","table","alert","card"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
     var obj = $(`<div></div>`);
@@ -1009,26 +1012,73 @@ saltos.__form_field.table = function (field) {
 };
 
 /*
- * TODO
- */
-saltos.__form_field.modal = function (field) {
-    var obj = $(`TODO`);
-    return obj;
-};
-
-/*
- * TODO
+ * Alert constructor helper
+ *
+ * This component allow to set boxes type alert in the contents, only requires:
+ *
+ * @class => allow to add more classes to the default alert
+ * @label => this parameter is used as text for the alert
  */
 saltos.__form_field.alert = function (field) {
-    var obj = $(`TODO`);
+    var obj = $(`
+        <div class="alert ${field.class}" role="alert">${field.label}</div>
+    `);
     return obj;
 };
 
 /*
- * TODO
+ * Card constructor helper
+ *
+ * This functions creates a card with a lot of options:
+ *
+ * @image => image used as top image in the card, not used if void
+ * @alt => alt text used in the top image if you specify an image
+ * @header => text used in the header, not used if void
+ * @footer => text used in the footer, not used if void
+ * @title => title used in the body of the card, not used if void
+ * @text => text used in the body of the card, not used if void
+ * @body => this option allow to specify an specific html to the body of the card, intended to personalize the body's card
  */
 saltos.__form_field.card = function (field) {
-    var obj = $(`TODO`);
+    saltos.check_params(field,["image","alt","header","footer","title","text","body"]);
+    var obj = $(`
+        <div class="card">
+        </div>
+    `);
+    if (field.image != "") {
+        obj.append(`
+            <img src="${field.image}" class="card-img-top" alt="${field.alt}">
+        `);
+    }
+    if (field.header != "") {
+        obj.append(`
+            <div class="card-header">${field.header}</div>
+        `);
+    }
+    obj.append(`
+        <div class="card-body">
+        </div>
+    `);
+    if (field.title != "") {
+        $(".card-body",obj).append(`
+            <h5 class="card-title">${field.title}</h5>
+        `)
+    }
+    if (field.text != "") {
+        $(".card-body",obj).append(`
+            <p class="card-text">${field.text}</p>
+        `)
+    }
+    if (field.body != "") {
+        $(".card-body",obj).append(`
+            ${field.body}
+        `);
+    }
+    if (field.footer != "") {
+        obj.append(`
+            <div class="card-footer">${field.footer}</div>
+        `);
+    }
     return obj;
 };
 
@@ -1036,6 +1086,14 @@ saltos.__form_field.card = function (field) {
  * TODO
  */
 saltos.__form_field.navbar = function (field) {
+    var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field.modal = function (field) {
     var obj = $(`TODO`);
     return obj;
 };
