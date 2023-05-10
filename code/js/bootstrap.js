@@ -646,8 +646,8 @@ saltos.__form_field.file = function (field) {
             </tbody>
         </table>
     </div>`);
-    // This helper helps to update the data of the input file
-    var __update_data = function (input) {
+    // This helper programs the input file data update
+    var __update_data_input_file = function (input) {
         var data = [];
         var tabla = $(input).next();
         $("tr",tabla).each(function () {
@@ -714,7 +714,7 @@ saltos.__form_field.file = function (field) {
                         if ($("tr",table).length == 0) {
                             $(table).addClass("d-none");
                         }
-                        __update_data(input);
+                        __update_data_input_file(input);
                     },
                     error:function (XMLHttpRequest,textStatus,errorThrown) {
                         console.log(XMLHttpRequest.statusText);
@@ -724,7 +724,7 @@ saltos.__form_field.file = function (field) {
             });
             // Add the row
             $("tbody",table).append(row);
-            __update_data(input);
+            __update_data_input_file(input);
             // Get the local file using syncronous techniques
             var reader = new FileReader();
             reader.readAsDataURL(files[i]);
@@ -742,7 +742,7 @@ saltos.__form_field.file = function (field) {
                         type:"post",
                         success:function (data,textStatus,XMLHttpRequest) {
                             $(row).data("data",data[0]);
-                            __update_data(input);
+                            __update_data_input_file(input);
                         },
                         error:function (XMLHttpRequest,textStatus,errorThrown) {
                             console.log(XMLHttpRequest.statusText);
