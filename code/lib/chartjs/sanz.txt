@@ -1,0 +1,4 @@
+
+https://www.chartjs.org/docs/latest/getting-started/
+
+wget https://cdn.jsdelivr.net/npm/chart.js

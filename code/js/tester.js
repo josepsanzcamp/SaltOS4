@@ -63,6 +63,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "table",
         "alert",
         "card",
+        "chartjs",
     ];
     for (var i in tipos) {
         var col = saltos.form_field({
@@ -121,6 +122,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         }
         if (tipo == "button") {
             clase = "btn-primary";
+            valor = "Button text here";
         }
         if (tipo == "multiselect") {
             size = 5;
@@ -159,6 +161,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         }
         if (tipo == "alert") {
             clase = "alert-success";
+            valor = "The alert message!!!";
         }
         if (tipo == "card") {
             //~ image = "data/files/card.svg";

@@ -51,16 +51,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @multiselect => class, id, disabled, required, rows, multiple, size, value, multiple
  * @checkbox => id, disabled, readonly, label, value
  * @switch => id, disabled, readonly, label, value
- * @button => class, id, disabled, label, onclick
+ * @button => class, id, disabled, value, onclick
  * @password => class, id, placeholder, value, disabled, readonly, required
  * @file => class, id, disabled, required, multiple
  * @link => id, disabled, value, onclick
  * @label => id, label
- * @image => id, value, class, label
+ * @image => id, value, class, alt
  * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
  * @pdfjs => id, class, value
  * @table => class, id, header, data, footer, divider
- * @alert => class, label
+ * @alert => class, value
  * @card => image, alt, header, footer, title, text, body
  *
  * Notes:
@@ -87,14 +87,16 @@ saltos.form_field = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    if (["container","row","col","label","button","checkbox","switch","table","alert","card"].includes(field.type)) {
+    if (["label","checkbox","switch"].includes(field.type)) {
+        return saltos.__form_field[field.type](field);
+    }
+    if (field.label == "") {
         return saltos.__form_field[field.type](field);
     }
     var obj = $(`<div></div>`);
-    if (field.label != "") {
-        $(obj).append(saltos.__form_field.label(field));
-    }
-    $(obj).append(saltos.__form_field[field.type](field));
+    $(obj).append(saltos.__form_field.label(field));
+    $(obj).append(`<div></div>`);
+    $("div:last", obj).append(saltos.__form_field[field.type](field));
     return obj;
 };
 
@@ -419,7 +421,7 @@ saltos.__form_field.select = function (field) {
  */
 saltos.__form_field.multiselect = function (field) {
     saltos.check_params(field,["rows","size"]);
-    var obj = $(`<div>
+    var obj = $(`
         <div class="container-fluid">
             <div class="row">
                 <div class="col px-0">
@@ -430,7 +432,7 @@ saltos.__form_field.multiselect = function (field) {
                 </div>
             </div>
         </div>
-    </div>`);
+    `);
     var rows_a = [];
     var rows_b = [];
     var values = field.value.split(",");
@@ -456,7 +458,7 @@ saltos.__form_field.multiselect = function (field) {
         class:"btn-primary bi-chevron-double-right mb-3",
         id:field.id+"_c",
         disabled:field.disabled,
-        label:"",
+        value:"",
         onclick:function () {
             $("#"+field.id+"_a option:selected").each(function () {
                 $("#"+field.id+"_b").append(this);
@@ -473,7 +475,7 @@ saltos.__form_field.multiselect = function (field) {
         class:"btn-primary bi-chevron-double-left",
         id:field.id+"_d",
         disabled:field.disabled,
-        label:"",
+        value:"",
         onclick:function () {
             $("#"+field.id+"_b option:selected").each(function () {
                 $("#"+field.id+"_a").append(this);
@@ -560,7 +562,7 @@ saltos.__form_field.switch = function (field) {
  * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
- * @label => label to be used in the contents of the buttons
+ * @value => value to be used as text in the contents of the buttons
  * @onclick => callback function that is executed when the button is pressed
  *
  * Notes:
@@ -569,7 +571,7 @@ saltos.__form_field.switch = function (field) {
  */
 saltos.__form_field.button = function (field) {
     saltos.check_params(field,["onclick"]);
-    var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.label}</button>`);
+    var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.value}</button>`);
     $(obj).on("click",field.onclick);
     return obj;
 };
@@ -788,10 +790,8 @@ saltos.__form_field.file = function (field) {
  * appearance
  */
 saltos.__form_field.link = function (field) {
-    var obj = $(`<div></div>`);
     field.class = "btn-link";
-    field.label = field.value;
-    $(obj).append(saltos.__form_field.button(field));
+    var obj = saltos.__form_field.button(field);
     return obj;
 };
 
@@ -816,13 +816,13 @@ saltos.__form_field.label = function (field) {
  * @id => the id used to set the reference for to the object
  * @value => the value used as src parameter
  * @class => allow to add more classes to the default img-fluid
- * @label => this parameter is used as text for the alt parameter
- *
+ * @alt => this parameter is used as text for the alt parameter
  */
 saltos.__form_field.image = function (field) {
-    var obj = $(`<div>
-        <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.label}">
-    </div>`);
+    saltos.check_params(field,["alt"]);
+    var obj = $(`
+        <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}">
+    `);
     return obj;
 };
 
@@ -904,10 +904,10 @@ saltos.__form_field.excel = function (field) {
  * @value => the file or data that contains the pdf document
  */
 saltos.__form_field.pdfjs = function (field) {
-    var obj = $(`<div>
+    var obj = $(`
         <div id="${field.id}" class="${field.class}"><div class="pdfViewer"></div></div>
-    </div>`);
-    var element = $("div:first",obj).get(0);
+    `);
+    var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
         pdfjsLib.getDocument(field.value).promise.then(function (pdfDocument) {
@@ -1017,11 +1017,11 @@ saltos.__form_field.table = function (field) {
  * This component allow to set boxes type alert in the contents, only requires:
  *
  * @class => allow to add more classes to the default alert
- * @label => this parameter is used as text for the alert
+ * @value => this parameter is used as text for the alert
  */
 saltos.__form_field.alert = function (field) {
     var obj = $(`
-        <div class="alert ${field.class}" role="alert">${field.label}</div>
+        <div class="alert ${field.class}" role="alert">${field.value}</div>
     `);
     return obj;
 };
@@ -1111,6 +1111,14 @@ saltos.__form_field.offcanvas = function (field) {
  */
 saltos.__form_field.toasts = function (field) {
     var obj = $(`TODO`);
+    return obj;
+};
+
+/*
+ * TODO
+ */
+saltos.__form_field.chartjs = function (field) {
+    var obj = $(`<canvas id="myChart"></canvas>`);
     return obj;
 };
 
