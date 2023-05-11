@@ -32,9 +32,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * This function and their helpers, allow the creation of the interface using the bootstrap
  * widgets, the types that can be called are the follow:
  *
- * @container => container
- * @row => row
- * @col => col
+ * @container => class
+ * @row => class
+ * @col => class
  * @text => class, id, placeholder, value, disabled, readonly, required
  * @hidden => class, id, placeholder, value, disabled, readonly, required
  * @integer => class, id, placeholder, value, disabled, readonly, required
@@ -78,16 +78,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * widgets have the special case that not includes the label for logical reasons.
  */
 saltos.form_field = function (field) {
-    saltos.check_params(field,["type","id","label","class","placeholder","value","disabled","readonly","required"]);
-    if (field.disabled) {
-        field.disabled = "disabled";
-    }
-    if (field.readonly) {
-        field.readonly = "readonly";
-    }
-    if (field.required) {
-        field.required = "required";
-    }
+    saltos.check_params(field,["label","type"]);
     if (["label","checkbox","switch"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
@@ -111,45 +102,51 @@ saltos.__form_field = {};
 /*
  * Container constructor helper
  *
- * This function returns an object of the container-fluid class by default, you can pass an argument
- * in the field object to specify what kind of container do you want to do.
+ * This function returns an object of the container-fluid class by default, you can pass the class
+ * argument in the field object to specify what kind of container do you want to do.
+ *
+ * @class => the class used in the div object
  */
 saltos.__form_field.container = function (field) {
-    saltos.check_params(field,["container"]);
-    if (field.container == "") {
-        field.container = "container-fluid";
+    saltos.check_params(field,["class"]);
+    if (field.class == "") {
+        field.class = "container-fluid";
     }
-    var obj = $(`<div class="${field.container}"></div>`);
+    var obj = $(`<div class="${field.class}"></div>`);
     return obj;
 };
 
 /*
  * Row constructor helper
  *
- * This function returns an object of the row class by default, you can pass an argument in the field
- * object to specify what kind of row do you want to do.
+ * This function returns an object of the row class by default, you can pass the class argument
+ * in the field object to specify what kind of row do you want to do.
+ *
+ * @class => the class used in the div object
  */
 saltos.__form_field.row = function (field) {
-    saltos.check_params(field,["row"]);
-    if (field.row == "") {
-        field.row = "row";
+    saltos.check_params(field,["class"]);
+    if (field.class == "") {
+        field.class = "row";
     }
-    var obj = $(`<div class="${field.row}"></div>`);
+    var obj = $(`<div class="${field.class}"></div>`);
     return obj;
 };
 
 /*
  * Col constructor helper
  *
- * This function returns an object of the col class by default, you can pass an argument in the field
- * object to specify what kind of col do you want to do.
+ * This function returns an object of the col class by default, you can pass the class argument
+ * in the field object to specify what kind of col do you want to do.
+ *
+ * @class => the class used in the div object
  */
 saltos.__form_field.col = function (field) {
-    saltos.check_params(field,["col"]);
-    if (field.col == "") {
-        field.col = "col";
+    saltos.check_params(field,["class"]);
+    if (field.class == "") {
+        field.class = "col";
     }
-    var obj = $(`<div class="${field.col}"></div>`);
+    var obj = $(`<div class="${field.class}"></div>`);
     return obj;
 };
 
@@ -167,6 +164,16 @@ saltos.__form_field.col = function (field) {
  * @required => this parameter raise the required flag
  */
 saltos.__form_field.text = function (field) {
+    saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
     var obj = $(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
     `);
@@ -288,7 +295,16 @@ saltos.__form_field.datetime = function (field) {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__form_field.__textarea = function (field) {
-    saltos.check_params(field,["rows"]);
+    saltos.check_params(field,["class","id","placeholder","rows","disabled","readonly","required"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
     var obj = $(`
         <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
     `);
@@ -359,7 +375,7 @@ saltos.__form_field.codemirror = function (field) {
  * @height => the height used as height for the style parameter
  */
 saltos.__form_field.iframe = function (field) {
-    saltos.check_params(field,["height"]);
+    saltos.check_params(field,["value","id","class","height"]);
     var obj = $(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}" style="height:${field.height}"></iframe>
     `);
@@ -381,8 +397,14 @@ saltos.__form_field.iframe = function (field) {
  * @value => the value used to detect the selected option
  */
 saltos.__form_field.select = function (field) {
-    saltos.check_params(field,["rows","multiple","size"]);
-    if (field.multiple != "") {
+    saltos.check_params(field,["class","id","disabled","required","multiple","size","rows","value"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
+    if (field.multiple) {
         field.multiple = "multiple";
     }
     if (field.size != "") {
@@ -421,7 +443,10 @@ saltos.__form_field.select = function (field) {
  * using the hidden input that is builded using the original id passed by argument.
  */
 saltos.__form_field.multiselect = function (field) {
-    saltos.check_params(field,["rows","size"]);
+    saltos.check_params(field,["value","rows","class","id","disabled","size"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
     var obj = $(`
         <div class="container-fluid">
             <div class="row">
@@ -453,13 +478,11 @@ saltos.__form_field.multiselect = function (field) {
         multiple:true,
         size:field.size,
         rows:rows_a,
-        value:"",
     }));
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
         id:field.id+"_c",
         disabled:field.disabled,
-        value:"",
         onclick:function () {
             $("#"+field.id+"_a option:selected").each(function () {
                 $("#"+field.id+"_b").append(this);
@@ -476,7 +499,6 @@ saltos.__form_field.multiselect = function (field) {
         class:"btn-primary bi-chevron-double-left",
         id:field.id+"_d",
         disabled:field.disabled,
-        value:"",
         onclick:function () {
             $("#"+field.id+"_b option:selected").each(function () {
                 $("#"+field.id+"_a").append(this);
@@ -495,7 +517,6 @@ saltos.__form_field.multiselect = function (field) {
         multiple:true,
         size:field.size,
         rows:rows_b,
-        value:"",
     }));
     return obj;
 };
@@ -520,8 +541,16 @@ saltos.__form_field.multiselect = function (field) {
  * checkbox and add another function that uses immersion with this function to create the switch.
  */
 saltos.__form_field.checkbox = function (field) {
-    field.value = parseInt(field.value);
-    if (isNaN(field.value)) {
+    saltos.check_params(field,["value","type","id","disabled","readonly","label"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
+    if (field.value) {
+        field.value = 1;
+    } else {
         field.value = 0;
     }
     var checked = "";
@@ -571,7 +600,7 @@ saltos.__form_field.switch = function (field) {
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.__form_field.button = function (field) {
-    saltos.check_params(field,["onclick"]);
+    saltos.check_params(field,["class","id","disabled","value","onclick"]);
     var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.value}</button>`);
     $(obj).on("click",field.onclick);
     return obj;
@@ -597,6 +626,16 @@ saltos.__form_field.button = function (field) {
  * password and text type, allowing to do visible or not the contents of the input
  */
 saltos.__form_field.password = function (field) {
+    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
     var obj = $(`
         <div class="input-group">
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b">
@@ -641,8 +680,14 @@ saltos.__form_field.password = function (field) {
  * the real upload action.
  */
 saltos.__form_field.file = function (field) {
-    saltos.check_params(field,["multiple"]);
-    if (field.multiple != "") {
+    saltos.check_params(field,["class","id","value","disabled","required","multiple"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
+    if (field.multiple) {
         field.multiple = "multiple";
     }
     var obj = $(`<div>
@@ -807,6 +852,7 @@ saltos.__form_field.link = function (field) {
  * @label => this parameter is used as text for the label
  */
 saltos.__form_field.label = function (field) {
+    saltos.check_params(field,["id","label"]);
     var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
     return obj;
 };
@@ -822,7 +868,7 @@ saltos.__form_field.label = function (field) {
  * @alt => this parameter is used as text for the alt parameter
  */
 saltos.__form_field.image = function (field) {
-    saltos.check_params(field,["alt"]);
+    saltos.check_params(field,["id","value","class","alt"]);
     var obj = $(`<img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}">`);
     return obj;
 };
@@ -852,7 +898,7 @@ saltos.__form_field.image = function (field) {
  * the widget.
  */
 saltos.__form_field.excel = function (field) {
-    saltos.check_params(field,["data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
+    saltos.check_params(field,["id","class","data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
     var obj = $(`<div style="width:100%;height:100%;overflow:auto">
         <div id="${field.id}" class="${field.class}"></div>
     </div>`);
@@ -905,6 +951,7 @@ saltos.__form_field.excel = function (field) {
  * @value => the file or data that contains the pdf document
  */
 saltos.__form_field.pdfjs = function (field) {
+    saltos.check_params(field,["id","class","value"]);
     var obj = $(`<div id="${field.id}" class="${field.class}">
         <div class="pdfViewer"></div>
     </div>`);
@@ -960,7 +1007,7 @@ saltos.__form_field.pdfjs = function (field) {
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  */
 saltos.__form_field.table = function (field) {
-    saltos.check_params(field,["header","data","footer","divider"]);
+    saltos.check_params(field,["class","id","header","data","footer","divider"]);
     var obj = $(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>
@@ -1021,6 +1068,7 @@ saltos.__form_field.table = function (field) {
  * @value => this parameter is used as text for the alert
  */
 saltos.__form_field.alert = function (field) {
+    saltos.check_params(field,["class","value"]);
     var obj = $(`
         <div class="alert ${field.class}" role="alert">${field.value}</div>
     `);
@@ -1074,7 +1122,7 @@ saltos.__form_field.card = function (field) {
  * @data => the data used to plot the graph, see the data argument used by the graph.js library
  */
 saltos.__form_field.chartjs = function (field) {
-    saltos.check_params(field,["mode","data"]);
+    saltos.check_params(field,["id","mode","data"]);
     var obj = $(`<canvas id="${field.id}"></canvas>`);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
