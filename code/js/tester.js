@@ -29,6 +29,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // Main code
 (function ($) {
     saltos.init_error();
+    $("body").append(saltos.navbar({
+
+    }));
+
     var container = saltos.form_field({
         type:"container",
     });
@@ -168,7 +172,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         }
         if (tipo == "alert") {
             clase = "alert-success";
-            valor = "The alert message!!!";
+            title = "The alert message!!!";
+            text = "This text can be used as you want";
+            body = `<hr/>More text here`;
         }
         if (tipo == "card") {
             image = "data/files/bootstrap-card.svg";
@@ -176,7 +182,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             footer = "Pie";
             title = "Titulo";
             text = "Texto del card";
-            body = `<a href="#">hola</a>`;
+            body = `<a href="#">More info</a>`;
         }
         if (tipo == "chartjs") {
             mode = modes.shift();

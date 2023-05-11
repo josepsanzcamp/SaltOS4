@@ -60,9 +60,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
  * @pdfjs => id, class, value
  * @table => class, id, header, data, footer, divider
- * @alert => class, value
- * @card => image, alt, header, footer, title, text, body
- * @chartjs => mode, data
+ * @alert => class, id, title, text, body
+ * @card => id, image, alt, header, footer, title, text, body
+ * @chartjs => id, mode, data
  *
  * Notes:
  *
@@ -1064,14 +1064,26 @@ saltos.__form_field.table = function (field) {
  *
  * This component allow to set boxes type alert in the contents, only requires:
  *
+ * @id => the id used to set the reference for to the object
  * @class => allow to add more classes to the default alert
- * @value => this parameter is used as text for the alert
+ * @title => title used in the body of the card, not used if void
+ * @text => text used in the body of the card, not used if void
+ * @body => this option allow to specify an specific html to the body of the card, intended to personalize the body's card
  */
 saltos.__form_field.alert = function (field) {
-    saltos.check_params(field,["class","value"]);
+    saltos.check_params(field,["class","id","title","text","body"]);
     var obj = $(`
-        <div class="alert ${field.class}" role="alert">${field.value}</div>
+        <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
+    if (field.title != "") {
+        $(obj).append(`<h5>${field.title}</h5>`)
+    }
+    if (field.text != "") {
+        $(obj).append(`<p>${field.text}</p>`)
+    }
+    if (field.body != "") {
+        $(obj).append(field.body);
+    }
     return obj;
 };
 
@@ -1080,6 +1092,7 @@ saltos.__form_field.alert = function (field) {
  *
  * This functions creates a card with a lot of options:
  *
+ * @id => the id used to set the reference for to the object
  * @image => image used as top image in the card, not used if void
  * @alt => alt text used in the top image if you specify an image
  * @header => text used in the header, not used if void
@@ -1089,8 +1102,8 @@ saltos.__form_field.alert = function (field) {
  * @body => this option allow to specify an specific html to the body of the card, intended to personalize the body's card
  */
 saltos.__form_field.card = function (field) {
-    saltos.check_params(field,["image","alt","header","footer","title","text","body"]);
-    var obj = $(`<div class="card"></div>`);
+    saltos.check_params(field,["id","image","alt","header","footer","title","text","body"]);
+    var obj = $(`<div class="card" id="${field.id}"></div>`);
     if (field.image != "") {
         obj.append(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`);
     }
@@ -1118,6 +1131,7 @@ saltos.__form_field.card = function (field) {
  *
  * This function creates a chart using the chart.js library, to do this requires de follow arguments:
  *
+ * @id => the id used by the object
  * @mode => to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
  * @data => the data used to plot the graph, see the data argument used by the graph.js library
  */
@@ -1146,7 +1160,7 @@ saltos.__form_field.chartjs = function (field) {
 saltos.navbar = function (args) {
     var obj = $(`
 
-<nav class="navbar navbar-expand-lg bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
                 <img src="img/favicon.svg" alt="SaltOS logo" width="32" height="24" class="d-inline-block align-text-top">
@@ -1216,3 +1230,6 @@ saltos.toasts = function (args) {
 
 // tooltips ???
 // input rollo multiples emails
+// https://fullcalendar.io/
+// https://themes.getbootstrap.com/
+// https://themes.getbootstrap.com/product/falcon-admin-dashboard-webapp-template/
