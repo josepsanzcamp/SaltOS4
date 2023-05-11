@@ -63,6 +63,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "table",
         "alert",
         "card",
+        "navbar",
         "chartjs",
         "chartjs",
         "chartjs",
@@ -71,8 +72,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     var modes = [
         "bar",
         "line",
-        "doughnut",
         "pie",
+        "doughnut",
     ];
     for (var i in tipos) {
         var col = saltos.form_field({
@@ -173,7 +174,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             valor = "The alert message!!!";
         }
         if (tipo == "card") {
-            //~ image = "data/files/card.svg";
+            image = "data/files/bootstrap-card.svg";
             header = "Cabecera";
             footer = "Pie";
             title = "Titulo";

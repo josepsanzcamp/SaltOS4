@@ -646,15 +646,17 @@ saltos.__form_field.file = function (field) {
     }
     var obj = $(`<div>
         <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}>
-        <table class="table table-striped table-hover d-none">
-            <tbody>
-            </tbody>
-        </table>
+        <div class="overflow-auto">
+            <table class="table table-striped table-hover d-none">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>`);
     // This helper programs the input file data update
     var __update_data_input_file = function (input) {
         var data = [];
-        var tabla = $(input).next();
+        var tabla = $(input).next().find("table");
         $("tr",tabla).each(function () {
             data.push($(this).data("data"));
         });
@@ -664,7 +666,7 @@ saltos.__form_field.file = function (field) {
     $("input",obj).on("change",async function () {
         var input = this;
         var files = this.files;
-        var table = $(this).next();
+        var table = $(this).next().find("table");
         for (var i = 0; i < files.length; i++) {
             // Prepare the data to send
             var data = {
@@ -1063,10 +1065,74 @@ saltos.__form_field.card = function (field) {
 };
 
 /*
+ * Chart.js constructor helper
+ *
+ * This function creates a chart using the chart.js library, to do this requires de follow arguments:
+ *
+ * @mode => to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
+ * @data => the data used to plot the graph, see the data argument used by the graph.js library
+ */
+saltos.__form_field.chartjs = function (field) {
+    saltos.check_params(field,["mode","data"]);
+    var obj = $(`<canvas id="${field.id}"></canvas>`);
+    var element = $(obj).get(0);
+    saltos.when_visible(element ,function (element) {
+        new Chart(element, {
+            type: field.mode,
+            data: field.data,
+        });
+    }, element);
+    return obj;
+};
+
+/*
  * TODO
  */
 saltos.__form_field.navbar = function (field) {
-    var obj = $(`TODO`);
+    var obj = $(`
+
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+        <img src="data/files/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        Navbar
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+    `);
     return obj;
 };
 
@@ -1091,27 +1157,6 @@ saltos.__form_field.offcanvas = function (field) {
  */
 saltos.__form_field.toasts = function (field) {
     var obj = $(`TODO`);
-    return obj;
-};
-
-/*
- * Chart.js constructor helper
- *
- * This function creates a chart using the chart.js library, to do this requires de follow arguments:
- *
- * @mode => to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
- * @data => the data used to plot the graph, see the data argument used by the graph.js library
- */
-saltos.__form_field.chartjs = function (field) {
-    saltos.check_params(field,["mode","data"]);
-    var obj = $(`<canvas id="${field.id}"></canvas>`);
-    var element = $(obj).get(0);
-    saltos.when_visible(element ,function (element) {
-        new Chart(element, {
-            type: field.mode,
-            data: field.data,
-        });
-    }, element);
     return obj;
 };
 
