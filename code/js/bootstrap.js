@@ -304,7 +304,7 @@ saltos.__form_field.textarea = function (field) {
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         $(element).autogrow();
-    },element);
+    }, element);
     return obj;
 };
 
@@ -320,7 +320,7 @@ saltos.__form_field.ckeditor = function (field) {
         ClassicEditor.create(element).catch(error => {
             console.error(error);
         });
-    },element);
+    }, element);
     return obj;
 };
 
@@ -343,7 +343,7 @@ saltos.__form_field.codemirror = function (field) {
         });
         $(element).next().addClass("form-control").height("auto");
         cm.on("change",cm.save);
-    },element);
+    }, element);
     return obj;
 };
 
@@ -820,9 +820,7 @@ saltos.__form_field.label = function (field) {
  */
 saltos.__form_field.image = function (field) {
     saltos.check_params(field,["alt"]);
-    var obj = $(`
-        <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}">
-    `);
+    var obj = $(`<img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}">`);
     return obj;
 };
 
@@ -890,7 +888,7 @@ saltos.__form_field.excel = function (field) {
                 $(element).data("data",field.data);
             }
         });
-    },element);
+    }, element);
     return obj;
 };
 
@@ -904,9 +902,9 @@ saltos.__form_field.excel = function (field) {
  * @value => the file or data that contains the pdf document
  */
 saltos.__form_field.pdfjs = function (field) {
-    var obj = $(`
-        <div id="${field.id}" class="${field.class}"><div class="pdfViewer"></div></div>
-    `);
+    var obj = $(`<div id="${field.id}" class="${field.class}">
+        <div class="pdfViewer"></div>
+    </div>`);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
@@ -938,11 +936,11 @@ saltos.__form_field.pdfjs = function (field) {
                 pdfViewer.currentScaleValue = pdfViewer.currentScale * 2;
                 pdfViewer.currentScaleValue = "page-width";
             });
-        },function (message,exception) {
+        }, function (message,exception) {
             console.log(message);
             // TODO
         });
-    },element);
+    }, element);
     return obj;
 };
 
@@ -1041,43 +1039,25 @@ saltos.__form_field.alert = function (field) {
  */
 saltos.__form_field.card = function (field) {
     saltos.check_params(field,["image","alt","header","footer","title","text","body"]);
-    var obj = $(`
-        <div class="card">
-        </div>
-    `);
+    var obj = $(`<div class="card"></div>`);
     if (field.image != "") {
-        obj.append(`
-            <img src="${field.image}" class="card-img-top" alt="${field.alt}">
-        `);
+        obj.append(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`);
     }
     if (field.header != "") {
-        obj.append(`
-            <div class="card-header">${field.header}</div>
-        `);
+        obj.append(`<div class="card-header">${field.header}</div>`);
     }
-    obj.append(`
-        <div class="card-body">
-        </div>
-    `);
+    obj.append(`<div class="card-body"></div>`);
     if (field.title != "") {
-        $(".card-body",obj).append(`
-            <h5 class="card-title">${field.title}</h5>
-        `)
+        $(".card-body",obj).append(`<h5 class="card-title">${field.title}</h5>`)
     }
     if (field.text != "") {
-        $(".card-body",obj).append(`
-            <p class="card-text">${field.text}</p>
-        `)
+        $(".card-body",obj).append(`<p class="card-text">${field.text}</p>`)
     }
     if (field.body != "") {
-        $(".card-body",obj).append(`
-            ${field.body}
-        `);
+        $(".card-body",obj).append(field.body);
     }
     if (field.footer != "") {
-        obj.append(`
-            <div class="card-footer">${field.footer}</div>
-        `);
+        obj.append(`<div class="card-footer">${field.footer}</div>`);
     }
     return obj;
 };
@@ -1115,10 +1095,23 @@ saltos.__form_field.toasts = function (field) {
 };
 
 /*
- * TODO
+ * Chart.js constructor helper
+ *
+ * This function creates a chart using the chart.js library, to do this requires de follow arguments:
+ *
+ * @mode => to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
+ * @data => the data used to plot the graph, see the data argument used by the graph.js library
  */
 saltos.__form_field.chartjs = function (field) {
-    var obj = $(`<canvas id="myChart"></canvas>`);
+    saltos.check_params(field,["mode","data"]);
+    var obj = $(`<canvas id="${field.id}"></canvas>`);
+    var element = $(obj).get(0);
+    saltos.when_visible(element ,function (element) {
+        new Chart(element, {
+            type: field.mode,
+            data: field.data,
+        });
+    }, element);
     return obj;
 };
 

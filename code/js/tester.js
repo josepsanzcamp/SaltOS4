@@ -64,6 +64,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "alert",
         "card",
         "chartjs",
+        "chartjs",
+        "chartjs",
+        "chartjs",
+    ];
+    var modes = [
+        "bar",
+        "line",
+        "doughnut",
+        "pie",
     ];
     for (var i in tipos) {
         var col = saltos.form_field({
@@ -171,6 +180,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             text = "Texto del card";
             body = `<a href="#">hola</a>`;
         }
+        if (tipo == "chartjs") {
+            mode = modes.shift();
+            data = {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: 'First round',
+                    data: [8, 5, 3, 5, 2, 3],
+                    borderWidth: 1
+                },{
+                    label: 'Second round',
+                    data: [7, 6, 4, 6, 9, 6],
+                    borderWidth: 1
+                },{
+                    label: 'Third round',
+                    data: [6, 7, 6, 7, 5, 4],
+                    borderWidth: 1
+                }]
+            };
+        }
         var campo = saltos.form_field({
             type:tipo,
             id:"campo" + i,
@@ -198,5 +226,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
     container.append(row);
     $("body").append(container);
-
 }(jQuery));
