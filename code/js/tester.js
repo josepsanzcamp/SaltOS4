@@ -62,12 +62,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "iframe",
         "table",
         "alert",
+        "chartjs",
+        "chartjs",
+        "chartjs",
+        "chartjs",
         "card",
-        "navbar",
-        "chartjs",
-        "chartjs",
-        "chartjs",
-        "chartjs",
     ];
     var modes = [
         "bar",
@@ -162,8 +161,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 ["Josep","Sanz",`<a href="#">654 123 789</a>`],
                 ["Jordi","Company","654 123 789"],
                 ["Andres","Diaz","654 123 789"],
-                ["Montse","Casc","654 123 789"],
-                ["Jordi","Sanz","654 123 789"],
             ];
             var header = ["Name","Surname","Phone"];
             var footer = ["","Total","3"];
