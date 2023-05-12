@@ -30,9 +30,58 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 (function ($) {
     saltos.init_error();
     $("body").append(saltos.navbar({
-
+        id:saltos.uniqid(),
+        logo:"img/logo.svg",
+        name:"SaltOS",
+        menu:[{
+            active:true,
+            disabled:false,
+            name:"Home",
+            onclick:function () {
+                alert(1);
+            },
+        },{
+            active:false,
+            disabled:false,
+            name:"Link",
+            onclick:function () {
+                alert(2);
+            },
+        },{
+            active:false,
+            disabled:false,
+            name:"Dropdown",
+            menu:[{
+                item:true,
+                name:"Action",
+                onclick:function () {
+                    alert(3);
+                },
+            },{
+                item:true,
+                name:"Another action",
+                onclick:function () {
+                    alert(4);
+                },
+            },{
+                divider:true,
+            },{
+                item:true,
+                name:"Something else here",
+                onclick:function () {
+                    alert(5);
+                },
+            }]
+        },{
+            active:false,
+            disabled:true,
+            name:"Disabled",
+            onclick:function () {
+                alert(6);
+            },
+        }],
     }));
-
+    $("body").append(`<br/><br/><br/>`);
     var container = saltos.form_field({
         type:"container",
     });
