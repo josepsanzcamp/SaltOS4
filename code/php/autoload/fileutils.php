@@ -116,7 +116,7 @@ function url_get_contents($url)
 
 function __url_get_contents($url, $args = array())
 {
-    require_once "lib/phpclasses/httpclient/http.php";
+    require_once "lib/httpclient/http.php";
     $http = new http_class();
     $http->user_agent = get_name_version_revision();
     $http->follow_redirect = 1;
@@ -252,7 +252,7 @@ function chmod_protected($file, $mode)
     }
 }
 
-// ESTA FUNCION SE USA POR LA LIBRERIA PHPCLASSES/HTTPCLIENT
+// ESTA FUNCION SE USA POR LA LIBRERIA HTTPCLIENT
 function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $timeout = null)
 {
     if ($timeout == null) {

@@ -20,14 +20,30 @@ function head($lines,$data) {
 	return $result;
 }
 
-$libs=file_get_contents("../scripts/checklibs.txt");
+function wget($url) {
+	ob_start();
+	passthru("wget -O - -q $url");
+	$buffer=ob_get_clean();
+	return $buffer;
+}
+
+if (!isset($argv[1])) {
+	die("Unknown filename\n");
+}
+$file = $argv[1];
+if (!file_exists($file)) {
+	die("{$file} not found\n");
+}
+$libs=file_get_contents($file);
 $hash1=md5($libs);
 $libs=explode("\n",$libs);
+array_shift($argv);
 array_shift($argv);
 foreach($libs as $key=>$lib) {
 	$lib=explode("|",$lib);
 	if(count($lib)==4 && $lib[0][0]!="#" && (count($argv)==0 || in_array($lib[0],$argv))) {
-		$temp=@file_get_contents($lib[1]);
+		//~ $temp=@file_get_contents($lib[1]);
+		$temp = wget($lib[1]);
 		$iserror=($temp=="")?1:0;
 		$temp=str_replace("</TH>\n<TD>","</TH><TD>",$temp); // FIX FOR WWW.PHPCLASSES.ORG
 		$temp=str_replace("</th>\n<td>","</th><td>",$temp); // FIX FOR WWW.PHPCLASSES.ORG
@@ -51,5 +67,4 @@ foreach($libs as $key=>$lib) {
 }
 $libs=implode("\n",$libs);
 $hash2=md5($libs);
-if($hash1!=$hash2) file_put_contents("../scripts/checklibs.txt",$libs);
-?>
+if($hash1!=$hash2) file_put_contents($file,$libs);

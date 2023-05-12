@@ -27,6 +27,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength
+
 function check_system()
 {
     // PACKAGE CHECKS
@@ -46,7 +48,7 @@ function check_system()
     }
     // DIRECTORIES CKECKS
     $dirs = glob("data/*");
-    foreach($dirs as $dir) {
+    foreach ($dirs as $dir) {
         if (!file_exists($dir) || !is_dir($dir) || !is_writable($dir)) {
             show_php_error(array("phperror" => "$dir not writable","details" => "Try to set permissions to do writable the $dir directory"));
         }
