@@ -237,7 +237,7 @@ saltos.__form_field.float = function (field) {
  * that for the input object of type text
  */
 saltos.__form_field.color = function (field) {
-    field.class="form-control-color";
+    field.class = "form-control-color";
     var obj = saltos.__form_field.text(field);
     return obj;
 };
@@ -473,7 +473,7 @@ saltos.__form_field.multiselect = function (field) {
     $(".col:eq(0)",obj).append(saltos.__form_field.hidden(field));
     $(".col:eq(0)",obj).append(saltos.__form_field.select({
         class:field.class,
-        id:field.id+"_a",
+        id:field.id + "_a",
         disabled:field.disabled,
         multiple:true,
         size:field.size,
@@ -481,38 +481,38 @@ saltos.__form_field.multiselect = function (field) {
     }));
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
-        id:field.id+"_c",
+        id:field.id + "_c",
         disabled:field.disabled,
         onclick:function () {
-            $("#"+field.id+"_a option:selected").each(function () {
-                $("#"+field.id+"_b").append(this);
+            $("#" + field.id + "_a option:selected").each(function () {
+                $("#" + field.id + "_b").append(this);
             });
             var val = [];
             $("#campo19_b option").each(function () {
                 val.push($(this).val());
             });
-            $("#"+field.id).val(val.join(","));
+            $("#" + field.id).val(val.join(","));
         },
     }));
     $(".col:eq(1)",obj).append("<br/>");
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-left",
-        id:field.id+"_d",
+        id:field.id + "_d",
         disabled:field.disabled,
         onclick:function () {
-            $("#"+field.id+"_b option:selected").each(function () {
-                $("#"+field.id+"_a").append(this);
+            $("#" + field.id + "_b option:selected").each(function () {
+                $("#" + field.id + "_a").append(this);
             });
             var val = [];
             $("#campo19_b option").each(function () {
                 val.push($(this).val());
             });
-            $("#"+field.id).val(val.join(","));
+            $("#" + field.id).val(val.join(","));
         },
     }));
     $(".col:eq(2)",obj).append(saltos.__form_field.select({
         class:field.class,
-        id:field.id+"_b",
+        id:field.id + "_b",
         disabled:field.disabled,
         multiple:true,
         size:field.size,
@@ -804,7 +804,7 @@ saltos.__form_field.file = function (field) {
                         progress: function (e) {
                             if (e.lengthComputable) {
                                 var percent = parseInt((e.loaded / e.total) * 100);
-                                $(".progress-bar",row).width(percent+"%").attr("aria-valuenow",percent);
+                                $(".progress-bar",row).width(percent + "%").attr("aria-valuenow",percent);
                             }
                         },
                     });

@@ -11,6 +11,9 @@ debug:
 
 test:
 	phpcs php
+	bash ../scripts/phpcs_js.sh js/core.js
+	bash ../scripts/phpcs_js.sh js/bootstrap.js
+	bash ../scripts/phpcs_js.sh js/tester.js
 
 libs:
 	php ../scripts/checklibs.php ../scripts/checklibs.txt
