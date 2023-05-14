@@ -160,7 +160,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             mode = "xml";
         }
         if (tipo == "iframe") {
-            valor = "img/favicon.svg";
+            valor = "data/files/philips-pm5544.svg";
             height = "600px";
         }
         if (tipo == "select") {
@@ -204,10 +204,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             multiple = true;
         }
         if (tipo == "image") {
-            valor = "img/favicon.svg";
+            valor = "data/files/philips-pm5544.svg";
         }
         if (tipo == "pdfjs") {
-            valor = "data/files/test-josep-1.pdf";
+            valor = "data/files/philips-pm5544.pdf";
         }
         if (tipo == "table") {
             var data = [

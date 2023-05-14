@@ -734,13 +734,13 @@ saltos.__form_field.file = function (field) {
             // Add the row for the new file
             var row = $(`
                 <tr id="${data.files[0].id}">
-                    <td>${data.files[0].name}</td>
+                    <td style="word-wrap:anywhere">${data.files[0].name}</td>
                     <td class="w-25 align-middle">
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </td>
-                    <td class="p-0" style="width: 1%"><button class="btn bi-trash" type="button"></button></td>
+                    <td class="p-0 align-middle" style="width:1%"><button class="btn bi-trash" type="button"></button></td>
                 </tr>
             `);
             // Store the data in the row
