@@ -9,5 +9,3 @@ wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf_viewer.min.js
 #wget https://cdn.jsdelivr.net/npm/pdfjs-dist@3.6.172/build/pdf.worker.min.js
 #wget https://cdn.jsdelivr.net/npm/pdfjs-dist@3.6.172/web/pdf_viewer.min.css
 #wget https://cdn.jsdelivr.net/npm/pdfjs-dist@3.6.172/web/pdf_viewer.min.js
-
-/* BY SANZ */.pdfViewer .canvasWrapper{box-shadow:0 0 4px 4px rgba(0,0,0,0.1)!important;}/* BY SANZ */

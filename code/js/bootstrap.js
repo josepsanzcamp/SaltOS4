@@ -954,6 +954,20 @@ saltos.__form_field.pdfjs = function (field) {
     saltos.check_params(field,["id","class","value"]);
     var obj = $(`<div id="${field.id}" class="${field.class}">
         <div class="pdfViewer"></div>
+        <style>
+            #${field.id} {
+                position: absolute;
+                width: calc(100% - 18px);
+            }
+            #${field.id} .canvasWrapper {
+                box-shadow:0 0 4px 4px rgba(0,0,0,0.1)!important;
+            }
+            #${field.id} *,
+            #${field.id} *::before,
+            #${field.id} *::after {
+                box-sizing: content-box;
+            }
+        </style>
     </div>`);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
@@ -962,7 +976,6 @@ saltos.__form_field.pdfjs = function (field) {
             if (!pdfDocument.numPages) {
                 return;
             }
-            $(element).css("position","absolute");
             var container = element;
             var eventBus = new pdfjsViewer.EventBus();
             var pdfViewer = new pdfjsViewer.PDFViewer({
@@ -981,7 +994,7 @@ saltos.__form_field.pdfjs = function (field) {
             eventBus.on("annotationlayerrendered",fn2);
             pdfViewer.removePageBorders = true;
             pdfViewer.setDocument(pdfDocument);
-            $(element).css("position","relative");
+            $(container).css("position","relative");
             $(window).on("resize",function () {
                 pdfViewer.currentScaleValue = pdfViewer.currentScale * 2;
                 pdfViewer.currentScaleValue = "page-width";
