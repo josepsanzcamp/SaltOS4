@@ -29,59 +29,95 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // Main code
 (function ($) {
     saltos.init_error();
+
     $("body").append(saltos.navbar({
         id:saltos.uniqid(),
         logo:"img/logo.svg",
         name:"SaltOS",
-        menu:[{
-            active:true,
-            disabled:false,
+        left:[{
             name:"Home",
+            disabled:false,
             onclick:function () {
                 alert(1);
             },
         },{
-            active:false,
-            disabled:false,
             name:"Link",
+            disabled:false,
             onclick:function () {
                 alert(2);
             },
         },{
-            active:false,
-            disabled:false,
             name:"Dropdown",
+            disabled:false,
             menu:[{
-                item:true,
                 name:"Action",
+                disabled:false,
                 onclick:function () {
                     alert(3);
                 },
             },{
-                item:true,
                 name:"Another action",
+                disabled:false,
                 onclick:function () {
                     alert(4);
                 },
             },{
                 divider:true,
             },{
-                item:true,
                 name:"Something else here",
+                disabled:false,
                 onclick:function () {
                     alert(5);
                 },
             }]
         },{
-            active:false,
-            disabled:true,
             name:"Disabled",
+            disabled:false,
             onclick:function () {
                 alert(6);
             },
         }],
+        form:[saltos.form_field({
+            type:"text",
+            placeholder:"Search",
+        }),saltos.form_field({
+            type:"button",
+            value:"Search",
+            class:"btn-light mx-1",
+            onclick:function () {
+                alert(7);
+            },
+        })],
+        right:[{
+            name:"Dropdown",
+            disabled:false,
+            "dropdown-menu-end":true,
+            menu:[{
+                name:"Action",
+                disabled:false,
+                onclick:function () {
+                    alert(3);
+                },
+            },{
+                name:"Another action",
+                disabled:false,
+                onclick:function () {
+                    alert(4);
+                },
+            },{
+                divider:true,
+            },{
+                name:"Something else here",
+                disabled:false,
+                onclick:function () {
+                    alert(5);
+                },
+            }]
+        }],
     }));
+
     $("body").append(`<br/><br/><br/>`);
+
     var container = saltos.form_field({
         type:"container",
     });
@@ -96,7 +132,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "date",
         "time",
         "datetime",
-        "hidden",
+        "button",
         "textarea",
         "ckeditor",
         "codemirror",
@@ -104,7 +140,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "label",
         "checkbox",
         "switch",
-        "button",
+        "hidden",
         "password",
         "file",
         "link",
@@ -161,7 +197,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         }
         if (tipo == "iframe") {
             valor = "data/files/philips-pm5544.svg";
-            height = "600px";
+            height = "500px";
         }
         if (tipo == "select") {
             rows = [

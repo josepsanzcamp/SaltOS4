@@ -397,7 +397,8 @@ saltos.__form_field.iframe = function (field) {
  * @value => the value used to detect the selected option
  */
 saltos.__form_field.select = function (field) {
-    saltos.check_params(field,["class","id","disabled","required","multiple","size","rows","value"]);
+    saltos.check_params(field,["class","id","disabled","required","multiple","size","value"]);
+    saltos.check_params(field,["rows"],[]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -443,7 +444,8 @@ saltos.__form_field.select = function (field) {
  * using the hidden input that is builded using the original id passed by argument.
  */
 saltos.__form_field.multiselect = function (field) {
-    saltos.check_params(field,["value","rows","class","id","disabled","size"]);
+    saltos.check_params(field,["value","class","id","disabled","size"]);
+    saltos.check_params(field,["rows"],[]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -808,7 +810,7 @@ saltos.__form_field.file = function (field) {
                             }
                         },
                     });
-                })(data,row);
+                }(data,row));
             }
             // If there is an error
             if (reader.error) {
@@ -1020,12 +1022,13 @@ saltos.__form_field.pdfjs = function (field) {
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  */
 saltos.__form_field.table = function (field) {
-    saltos.check_params(field,["class","id","header","data","footer","divider"]);
+    saltos.check_params(field,["class","id","divider"]);
+    saltos.check_params(field,["header","data","footer"],[]);
     var obj = $(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>
     `);
-    if (field.header != "") {
+    if (field.header.length) {
         $(obj).append(`
             <thead>
                 <tr>
@@ -1039,7 +1042,7 @@ saltos.__form_field.table = function (field) {
             $("thead tr",obj).append(`<th>${field.header[key]}</th>`);
         }
     }
-    if (field.data != "") {
+    if (field.data.length) {
         $(obj).append(`
             <tbody>
             </tbody>
@@ -1055,7 +1058,7 @@ saltos.__form_field.table = function (field) {
             $("tbody",obj).append(row);
         }
     }
-    if (field.footer != "") {
+    if (field.footer.length) {
         $(obj).append(`
             <tfoot>
                 <tr>
@@ -1168,64 +1171,118 @@ saltos.__form_field.chartjs = function (field) {
 };
 
 /*
+ * Menu constructor helper
+ *
+ * This function creates a menu intended to be used in navbar, nabs and tabs
+ *
+ * @class => the class used in the main ul element
+ * @menu => an array with the follow elements:
+ *       @name => name of the menu
+ *       @disabled => this boolean allow to disable this menu entry
+ *       @onclick => the callback used when the user select the menu
+ *       @dropdown-menu-end => this trick allow to open the dropdown menu from the end to start
+ *       @menu => with this option, you can specify an array with the contents of the dropdown menu
+ *             @name => name of the menu
+ *             @disabled => this boolean allow to disable this menu entry
+ *             @onclick => the callback used when the user select the menu
+ *             @divider => you can set this boolean to true to convert the element into a divider
+ */
+saltos.menu = function (args) {
+    saltos.check_params(args,["class"]);
+    saltos.check_params(args,["menu"],[]);
+    var obj = $(`<ul class="${args.class}"></ul>`);
+    for (var key in args.menu) {
+        var val = args.menu[key];
+        saltos.check_params(val,["name","disabled","onclick","dropdown-menu-end"]);
+        saltos.check_params(val,["menu"],[]);
+        if (val.disabled) {
+            val.disabled = "disabled";
+        }
+        if (val.menu.length) {
+            if (val["dropdown-menu-end"]) {
+                val["dropdown-menu-end"] = "dropdown-menu-end";
+            }
+            var temp = $(`
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        ${val.name}
+                    </a>
+                    <ul class="dropdown-menu ${val["dropdown-menu-end"]}">
+                    </ul>
+                </li>
+            `);
+            for (var key2 in val.menu) {
+                var val2 = val.menu[key2];
+                saltos.check_params(val2,["name","disabled","onclick","divider"]);
+                if (val2.disabled) {
+                    val2.disabled = "disabled";
+                }
+                if (val2.divider) {
+                    var temp2 = $(`<li><hr class="dropdown-divider"></li>`);
+                } else {
+                    var temp2 = $(`<li><a class="dropdown-item ${val2.disabled}" href="#">${val2.name}</a></li>`);
+                    if (!val2.disabled) {
+                        $(temp2).on("click",val2.onclick);
+                    }
+                }
+                $("ul",temp).append(temp2);
+            }
+        } else {
+            var temp = $(`
+                <li class="nav-item">
+                    <a class="nav-link ${val.disabled}" href="#">${val.name}</a>
+                </li>
+            `);
+            if (!val.disabled) {
+                $(temp).on("click",val.onclick);
+            }
+        }
+        $(obj).append(temp);
+    }
+    return obj;
+};
+
+/*
+ * Navbar constructor helper
+ *
  * TODO
  */
 saltos.navbar = function (args) {
     saltos.check_params(args,["id","logo","name"]);
+    saltos.check_params(args,["menu","form"],[]);
     var obj = $(`
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container-fluid">
-
+                <a class="navbar-brand" href="#">
+                    <img src="${args.logo}" alt="${args.name}" width="32" height="24" class="d-inline-block align-text-top">
+                    ${args.name}
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="${args.id}">
-
+                    <form class="d-flex">
+                        <!-- FORM PART -->
+                    </form>
                 </div>
             </div>
         </nav>
     `);
-
-    $(".container-fluid",obj).prepend(`
-        <a class="navbar-brand" href="#">
-            <img src="${args.logo}" alt="${args.name}" width="32" height="24" class="d-inline-block align-text-top">
-            ${args.name}
-        </a>
-    `);
-
-
-/*
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-        </a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link disabled">Disabled</a>
-    </li>
-</ul>
-*/
-
-/*
-<form class="d-flex" role="search">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-light" type="submit">Search</button>
-</form>
-*/
-
+    // Add the menu part
+    $(".collapse",obj).prepend(saltos.menu({
+        class:"navbar-nav me-auto mb-2 mb-lg-0",
+        menu:args.left,
+    }));
+    // Add the form part
+    for (var key in args.form) {
+        var val = args.form[key];
+        $(".collapse > form",obj).append(val);
+    }
+    // Add the last menu
+    $(".collapse",obj).append(saltos.menu({
+        class:"navbar-nav mb-2 mb-lg-0",
+        menu:args.right,
+    }));
     return obj;
 };
 
