@@ -1245,17 +1245,22 @@ saltos.menu = function (args) {
 /*
  * Navbar constructor helper
  *
- * TODO
+ * This component creates a navbar intended to be used as header
+ *
+ * TODO: HAY QUE ACABAR DE DEFINIR COMO SE PUEDEN PASAR LOS ARGUMENTOS A ESTA FUNCION
  */
 saltos.navbar = function (args) {
-    saltos.check_params(args,["id","logo","name"]);
-    saltos.check_params(args,["menu","form"],[]);
+    saltos.check_params(args,["id"]);
+    saltos.check_params(args,["brand","start","end"],{});
+    saltos.check_params(args.brand,["name","logo","width","height"]);
+    saltos.check_params(args.start,["menu","form"],[]);
+    saltos.check_params(args.end,["menu","form"],[]);
     var obj = $(`
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="${args.logo}" alt="${args.name}" width="32" height="24" class="d-inline-block align-text-top">
-                    ${args.name}
+                    <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}" height="${args.brand.height}" class="d-inline-block align-text-top">
+                    ${args.brand.name}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -1271,17 +1276,17 @@ saltos.navbar = function (args) {
     // Add the menu part
     $(".collapse",obj).prepend(saltos.menu({
         class:"navbar-nav me-auto mb-2 mb-lg-0",
-        menu:args.left,
+        menu:args.start.menu,
     }));
     // Add the form part
-    for (var key in args.form) {
-        var val = args.form[key];
+    for (var key in args.end.form) {
+        var val = args.end.form[key];
         $(".collapse > form",obj).append(val);
     }
     // Add the last menu
     $(".collapse",obj).append(saltos.menu({
         class:"navbar-nav mb-2 mb-lg-0",
-        menu:args.right,
+        menu:args.end.menu,
     }));
     return obj;
 };

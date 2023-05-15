@@ -32,88 +32,96 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     $("body").append(saltos.navbar({
         id:saltos.uniqid(),
-        logo:"img/logo.svg",
-        name:"SaltOS",
-        left:[{
-            name:"Home",
-            disabled:false,
-            onclick:function () {
-                alert(1);
-            },
-        },{
-            name:"Link",
-            disabled:false,
-            onclick:function () {
-                alert(2);
-            },
-        },{
-            name:"Dropdown",
-            disabled:false,
+        brand:{
+            name:"SaltOS",
+            logo:"img/logo.svg",
+            width:25,
+            height:25,
+        },
+        start:{
             menu:[{
-                name:"Action",
+                name:"Home",
                 disabled:false,
                 onclick:function () {
-                    alert(3);
+                    alert(1);
                 },
             },{
-                name:"Another action",
+                name:"Link",
                 disabled:false,
                 onclick:function () {
-                    alert(4);
+                    alert(2);
                 },
             },{
-                divider:true,
+                name:"Dropdown",
+                disabled:false,
+                menu:[{
+                    name:"Action",
+                    disabled:false,
+                    onclick:function () {
+                        alert(3);
+                    },
+                },{
+                    name:"Another action",
+                    disabled:false,
+                    onclick:function () {
+                        alert(4);
+                    },
+                },{
+                    divider:true,
+                },{
+                    name:"Something else here",
+                    disabled:false,
+                    onclick:function () {
+                        alert(5);
+                    },
+                }]
             },{
-                name:"Something else here",
+                name:"Disabled",
                 disabled:false,
                 onclick:function () {
-                    alert(5);
+                    alert(6);
                 },
-            }]
-        },{
-            name:"Disabled",
-            disabled:false,
-            onclick:function () {
-                alert(6);
-            },
-        }],
-        right:[{
-            name:"Dropdown",
-            disabled:false,
-            "dropdown-menu-end":true,
+            }],
+        },
+        end:{
             menu:[{
-                name:"Action",
+                name:"Dropdown",
                 disabled:false,
+                "dropdown-menu-end":true,
+                menu:[{
+                    name:"Action",
+                    disabled:false,
+                    onclick:function () {
+                        alert(3);
+                    },
+                },{
+                    name:"Another action",
+                    disabled:false,
+                    onclick:function () {
+                        alert(4);
+                    },
+                },{
+                    divider:true,
+                },{
+                    name:"Something else here",
+                    disabled:false,
+                    onclick:function () {
+                        alert(5);
+                    },
+                }]
+            }],
+            form:[saltos.form_field({
+                type:"text",
+                placeholder:"Search",
+            }),saltos.form_field({
+                type:"button",
+                value:"Search",
+                class:"btn-light mx-1",
                 onclick:function () {
-                    alert(3);
+                    alert(7);
                 },
-            },{
-                name:"Another action",
-                disabled:false,
-                onclick:function () {
-                    alert(4);
-                },
-            },{
-                divider:true,
-            },{
-                name:"Something else here",
-                disabled:false,
-                onclick:function () {
-                    alert(5);
-                },
-            }]
-        }],
-        form:[saltos.form_field({
-            type:"text",
-            placeholder:"Search",
-        }),saltos.form_field({
-            type:"button",
-            value:"Search",
-            class:"btn-light mx-1",
-            onclick:function () {
-                alert(7);
-            },
-        })],
+            })],
+        },
     }));
 
     $("body").append(`<br/><br/><br/>`);
