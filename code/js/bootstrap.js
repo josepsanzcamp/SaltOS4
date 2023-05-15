@@ -1180,12 +1180,12 @@ saltos.__form_field.chartjs = function (field) {
  *       @name => name of the menu
  *       @disabled => this boolean allow to disable this menu entry
  *       @onclick => the callback used when the user select the menu
- *       @dropdown-menu-end => this trick allow to open the dropdown menu from the end to start
  *       @menu => with this option, you can specify an array with the contents of the dropdown menu
  *             @name => name of the menu
  *             @disabled => this boolean allow to disable this menu entry
  *             @onclick => the callback used when the user select the menu
  *             @divider => you can set this boolean to true to convert the element into a divider
+ *       @dropdown-menu-end => this trick allow to open the dropdown menu from the end to start
  */
 saltos.menu = function (args) {
     saltos.check_params(args,["class"]);
@@ -1247,14 +1247,15 @@ saltos.menu = function (args) {
  *
  * This component creates a navbar intended to be used as header
  *
- * TODO: HAY QUE ACABAR DE DEFINIR COMO SE PUEDEN PASAR LOS ARGUMENTOS A ESTA FUNCION
+ * @id => the id used by the object
+ * @brand => contains an object with the name, logo, width and height to be used
+ * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.navbar = function (args) {
     saltos.check_params(args,["id"]);
-    saltos.check_params(args,["brand","start","end"],{});
+    saltos.check_params(args,["brand"],{});
     saltos.check_params(args.brand,["name","logo","width","height"]);
-    saltos.check_params(args.start,["menu","form"],[]);
-    saltos.check_params(args.end,["menu","form"],[]);
+    saltos.check_params(args,["items"],[]);
     var obj = $(`
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container-fluid">
@@ -1266,28 +1267,14 @@ saltos.navbar = function (args) {
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="${args.id}">
-                    <form class="d-flex">
-                        <!-- FORM PART -->
-                    </form>
                 </div>
             </div>
         </nav>
     `);
-    // Add the menu part
-    $(".collapse",obj).prepend(saltos.menu({
-        class:"navbar-nav me-auto mb-2 mb-lg-0",
-        menu:args.start.menu,
-    }));
-    // Add the form part
-    for (var key in args.end.form) {
-        var val = args.end.form[key];
-        $(".collapse > form",obj).append(val);
+    for (var key in args.items) {
+        var val = args.items[key];
+        $(".collapse",obj).append(val);
     }
-    // Add the last menu
-    $(".collapse",obj).append(saltos.menu({
-        class:"navbar-nav mb-2 mb-lg-0",
-        menu:args.end.menu,
-    }));
     return obj;
 };
 
@@ -1315,6 +1302,7 @@ saltos.toasts = function (args) {
     return obj;
 };
 
+// autocomplete basado en datalist
 // tooltips ???
 // input rollo multiples emails
 // https://fullcalendar.io/
