@@ -77,17 +77,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 alert(6);
             },
         }],
-        form:[saltos.form_field({
-            type:"text",
-            placeholder:"Search",
-        }),saltos.form_field({
-            type:"button",
-            value:"Search",
-            class:"btn-light mx-1",
-            onclick:function () {
-                alert(7);
-            },
-        })],
         right:[{
             name:"Dropdown",
             disabled:false,
@@ -114,6 +103,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 },
             }]
         }],
+        form:[saltos.form_field({
+            type:"text",
+            placeholder:"Search",
+        }),saltos.form_field({
+            type:"button",
+            value:"Search",
+            class:"btn-light mx-1",
+            onclick:function () {
+                alert(7);
+            },
+        })],
     }));
 
     $("body").append(`<br/><br/><br/>`);

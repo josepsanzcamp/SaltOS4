@@ -358,7 +358,7 @@ saltos.__form_field.codemirror = function (field) {
             lineNumbers: true,
             lineWrapping: true,
         });
-        $(element).next().addClass("form-control").height("auto");
+        $(element).next().addClass("form-control p-0").height("auto");
         cm.on("change",cm.save);
     }, element);
     return obj;
