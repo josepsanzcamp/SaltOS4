@@ -1243,12 +1243,12 @@ saltos.__form_field.tags = function (field) {
     field.value_old = field.value.split(",");
     field.value = "";
     obj.append(saltos.__form_field.text(field));
-    var fn1 = function(val) {
+    var fn1 = function (val) {
         obj.append(`<span class="badge text-bg-primary mt-1 me-1 fs-6 pe-2">${val}<i class="bi bi-x-circle ps-2"></i></span>`);
         $("span:last",obj).data("data",val);
         $("i:last",obj).on("click",fn2);
     };
-    var fn2 = function() {
+    var fn2 = function () {
         var a = $(this).parent();
         var b = a.data("data");
         var input = $("input:first",obj);
