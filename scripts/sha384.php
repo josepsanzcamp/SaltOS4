@@ -22,6 +22,7 @@ foreach ($buffer as $key => $val) {
         if (in_array($temp[$i], array("src=","href="))) {
             $sha384 = ob_passthru(str_replace("__FILE__", $temp[$i + 1], $command));
             $buffer[$key] = str_replace('integrity=""', "integrity=\"sha384-$sha384\"", $buffer[$key]);
+            $buffer[$key] = str_replace($temp[$i + 1], $temp[$i + 1] . "?" . $sha384, $buffer[$key]);
         }
     }
 }

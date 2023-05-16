@@ -86,8 +86,8 @@ saltos.form_field = function (field) {
         return saltos.__form_field[field.type](field);
     }
     var obj = $(`<div></div>`);
-    $(obj).append(saltos.__form_field.label(field));
-    $(obj).append(`<div></div>`);
+    obj.append(saltos.__form_field.label(field));
+    obj.append(`<div></div>`);
     $("div:last", obj).append(saltos.__form_field[field.type](field));
     return obj;
 };
@@ -151,7 +151,7 @@ saltos.__form_field.col = function (field) {
 };
 
 /*
- * Text constructor helper
+ * Private text constructor helper
  *
  * This function returns an input object of type text, you can pass some arguments as:
  *
@@ -162,8 +162,13 @@ saltos.__form_field.col = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
  * @required => this parameter raise the required flag
+ * @datalist => allow to specify an array with options for the datalist, that acts as autocomplete
+ *
+ * Notes:
+ *
+ * This function is intended to be used by other helpers of the form_field constructor
  */
-saltos.__form_field.text = function (field) {
+saltos.__form_field.__text = function (field) {
     saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required"]);
     if (field.disabled) {
         field.disabled = "disabled";
@@ -181,6 +186,31 @@ saltos.__form_field.text = function (field) {
 };
 
 /*
+ * Private text constructor helper
+ *
+ * This function returns an input object of type text, you can pass the same arguments
+ * that for the input object of type text
+ *
+ * @datalist => contains an array for the datalist object used as autocomplete in the text object
+ */
+saltos.__form_field.text = function (field) {
+    saltos.check_params(field,["datalist"],[]);
+    if (!field.datalist.length) {
+        return saltos.__form_field.__text(field);
+    }
+    var obj = $(`<div>
+        <datalist id="${field.id}_b"></datalist>
+    </div>`);
+    obj.prepend(saltos.__form_field.__text(field));
+    $("input",obj).attr("list",field.id + "_b");
+    for (var key in field.datalist) {
+        var val = field.datalist[key];
+        $("datalist",obj).append(`<option value="${val}">`);
+    }
+    return obj;
+};
+
+/*
  * Hidden constructor helper
  *
  * This function returns an input object of type hidden, you can pass the same arguments
@@ -188,7 +218,7 @@ saltos.__form_field.text = function (field) {
  */
 saltos.__form_field.hidden = function (field) {
     field.type = "hidden";
-    var obj = saltos.__form_field.text(field);
+    var obj = saltos.__form_field.__text(field);
     return obj;
 };
 
@@ -200,7 +230,7 @@ saltos.__form_field.hidden = function (field) {
  */
 saltos.__form_field.integer = function (field) {
     field.type = "text";
-    var obj = saltos.__form_field.text(field);
+    var obj = saltos.__form_field.__text(field);
     var element = $(obj).get(0);
     IMask(element, {
         mask: Number,
@@ -218,7 +248,7 @@ saltos.__form_field.integer = function (field) {
  */
 saltos.__form_field.float = function (field) {
     field.type = "text";
-    var obj = saltos.__form_field.text(field);
+    var obj = saltos.__form_field.__text(field);
     var element = $(obj).get(0);
     IMask(element, {
         mask: Number,
@@ -238,7 +268,7 @@ saltos.__form_field.float = function (field) {
  */
 saltos.__form_field.color = function (field) {
     field.class = "form-control-color";
-    var obj = saltos.__form_field.text(field);
+    var obj = saltos.__form_field.__text(field);
     return obj;
 };
 
@@ -249,7 +279,7 @@ saltos.__form_field.color = function (field) {
  * that for the input object of type text
  */
 saltos.__form_field.date = function (field) {
-    var obj = saltos.__form_field.text(field);
+    var obj = saltos.__form_field.__text(field);
     return obj;
 };
 
@@ -260,7 +290,7 @@ saltos.__form_field.date = function (field) {
  * that for the input object of type text
  */
 saltos.__form_field.time = function (field) {
-    var obj = saltos.__form_field.text(field);
+    var obj = saltos.__form_field.__text(field);
     return obj;
 };
 
@@ -272,7 +302,7 @@ saltos.__form_field.time = function (field) {
  */
 saltos.__form_field.datetime = function (field) {
     field.type = "datetime-local";
-    var obj = saltos.__form_field.text(field);
+    var obj = saltos.__form_field.__text(field);
     return obj;
 };
 
@@ -420,7 +450,7 @@ saltos.__form_field.select = function (field) {
         if (field.value.toString() == val.value.toString()) {
             selected = "selected";
         }
-        $(obj).append(`<option value="${val.value}" ${selected}>${val.label}</option>`);
+        obj.append(`<option value="${val.value}" ${selected}>${val.label}</option>`);
     }
     return obj;
 };
@@ -483,7 +513,6 @@ saltos.__form_field.multiselect = function (field) {
     }));
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
-        id:field.id + "_c",
         disabled:field.disabled,
         onclick:function () {
             $("#" + field.id + "_a option:selected").each(function () {
@@ -499,7 +528,6 @@ saltos.__form_field.multiselect = function (field) {
     $(".col:eq(1)",obj).append("<br/>");
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-left",
-        id:field.id + "_d",
         disabled:field.disabled,
         onclick:function () {
             $("#" + field.id + "_b option:selected").each(function () {
@@ -604,7 +632,7 @@ saltos.__form_field.switch = function (field) {
 saltos.__form_field.button = function (field) {
     saltos.check_params(field,["class","id","disabled","value","onclick"]);
     var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.value}</button>`);
-    $(obj).on("click",field.onclick);
+    obj.on("click",field.onclick);
     return obj;
 };
 
@@ -1022,14 +1050,14 @@ saltos.__form_field.pdfjs = function (field) {
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  */
 saltos.__form_field.table = function (field) {
-    saltos.check_params(field,["class","id","divider"]);
-    saltos.check_params(field,["header","data","footer"],[]);
+    saltos.check_params(field,["class","id"]);
+    saltos.check_params(field,["header","data","footer","divider"],[]);
     var obj = $(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>
     `);
     if (field.header.length) {
-        $(obj).append(`
+        obj.append(`
             <thead>
                 <tr>
                 </tr>
@@ -1043,7 +1071,7 @@ saltos.__form_field.table = function (field) {
         }
     }
     if (field.data.length) {
-        $(obj).append(`
+        obj.append(`
             <tbody>
             </tbody>
         `);
@@ -1059,7 +1087,7 @@ saltos.__form_field.table = function (field) {
         }
     }
     if (field.footer.length) {
-        $(obj).append(`
+        obj.append(`
             <tfoot>
                 <tr>
                 </tr>
@@ -1092,13 +1120,13 @@ saltos.__form_field.alert = function (field) {
         <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
     if (field.title != "") {
-        $(obj).append(`<h5>${field.title}</h5>`)
+        obj.append(`<h5>${field.title}</h5>`)
     }
     if (field.text != "") {
-        $(obj).append(`<p>${field.text}</p>`)
+        obj.append(`<p>${field.text}</p>`)
     }
     if (field.body != "") {
-        $(obj).append(field.body);
+        obj.append(field.body);
     }
     return obj;
 };
@@ -1222,7 +1250,7 @@ saltos.menu = function (args) {
                 } else {
                     var temp2 = $(`<li><a class="dropdown-item ${val2.disabled}" href="#">${val2.name}</a></li>`);
                     if (!val2.disabled) {
-                        $(temp2).on("click",val2.onclick);
+                        temp2.on("click",val2.onclick);
                     }
                 }
                 $("ul",temp).append(temp2);
@@ -1234,10 +1262,10 @@ saltos.menu = function (args) {
                 </li>
             `);
             if (!val.disabled) {
-                $(temp).on("click",val.onclick);
+                temp.on("click",val.onclick);
             }
         }
-        $(obj).append(temp);
+        obj.append(temp);
     }
     return obj;
 };

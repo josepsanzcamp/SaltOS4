@@ -187,21 +187,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         });
         var tipo = tipos[i];
         var valor = "";
-        var rows = "";
+        var rows = [];
         var clase = "";
         var size = "";
         var onclick = "";
         var mode = "";
         var multiple = "";
         var height = "";
-        var data = "";
-        var header = "";
-        var footer = "";
-        var divider = "";
+        var data = [];
+        var header = [];
+        var footer = [];
+        var divider = [];
         var image = "";
         var title = "";
         var text = "";
         var body = "";
+        var datalist = [];
+        if (tipo == "text") {
+            datalist = [
+                "Uno",
+                "Dos",
+                "Tres",
+                "Cuatro",
+                "Cinco",
+                "Seis",
+                "Siete",
+                "Ocho",
+                "Nueve",
+                "Diez",
+            ];
+        }
         if (tipo == "textarea") {
             valor = "Texto de prueba\n\nAdios";
         }
@@ -326,6 +341,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             title:title,
             text:text,
             body:body,
+            datalist:datalist,
         });
         $(col).append(campo);
         $(row).append(col);
