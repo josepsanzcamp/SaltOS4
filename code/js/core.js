@@ -77,7 +77,7 @@ saltos.addlog = function (msg) {
 };
 
 /*
- * Helper of the new saltos
+ * Helper of the new SaltOS
  *
  * This function allow to prepare parameters to be used by other functions, the main idea
  * is that the other functions can access to properties of an object without getting errors
@@ -100,7 +100,7 @@ saltos.check_params = function (obj,params,value) {
 };
 
 /*
- * Helper of the new saltos
+ * Helper of the new SaltOS
  *
  * This function generates an unique id formed by the word "id" and a number that can take
  * values between 0 and 999999, useful when some widget requires an id and the user don't
@@ -111,7 +111,7 @@ saltos.uniqid = function () {
 };
 
 /*
- * HELPER OF THE NEW SALTOS
+ * Helper of the new SaltOS
  *
  * This function allow to execute some code when the object is visible, useful for third part
  * widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
@@ -135,6 +135,25 @@ saltos.when_visible = function (obj,fn,args) {
             fn(args);
         }
     },100);
+};
+
+/*
+ * Helper of the new SaltOS
+ *
+ * This function allow to get the keycode of a keyboard event detecting the browser
+ *
+ * @event => the event that contains the keyboard data
+ */
+saltos.get_keycode = function (event) {
+    var keycode = 0;
+    if (event.keyCode) {
+        keycode = event.keyCode;
+    } else if (event.which) {
+        keycode = event.which;
+    } else {
+        keycode = event.charCode;
+    }
+    return keycode;
 };
 
 /*

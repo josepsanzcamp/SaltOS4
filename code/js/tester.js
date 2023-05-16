@@ -173,6 +173,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "chartjs",
         "chartjs",
         "card",
+        "tags",
     ];
     var modes = [
         "bar",
@@ -320,6 +321,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 }]
             };
         }
+        if (tipo == "tags") {
+            datalist = [
+                "PHP",
+                "JS",
+                "CSS",
+                "XML",
+                "JavaScript",
+                "GNU/Linux",
+                "GNU",
+                "Linut",
+                "SaltOS",
+                "RhinOS",
+            ];
+            valor = "SaltOS, PHP, JavaScript";
+        }
         var campo = saltos.form_field({
             type:tipo,
             id:"campo" + i,
@@ -348,4 +364,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
     container.append(row);
     $("body").append(container);
+
 }(jQuery));

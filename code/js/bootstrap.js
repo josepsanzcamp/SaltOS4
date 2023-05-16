@@ -63,6 +63,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @alert => class, id, title, text, body
  * @card => id, image, alt, header, footer, title, text, body
  * @chartjs => id, mode, data
+ * @tags => TODO
  *
  * Notes:
  *
@@ -185,7 +186,7 @@ saltos.__form_field.__text = function (field) {
 };
 
 /*
- * Private text constructor helper
+ * Text constructor helper
  *
  * This function returns an input object of type text, you can pass the same arguments
  * that for the input object of type text
@@ -194,6 +195,7 @@ saltos.__form_field.__text = function (field) {
  */
 saltos.__form_field.text = function (field) {
     saltos.check_params(field,["datalist"],[]);
+    field.type = "text";
     if (!field.datalist.length) {
         return saltos.__form_field.__text(field);
     }
@@ -266,6 +268,7 @@ saltos.__form_field.float = function (field) {
  * that for the input object of type text
  */
 saltos.__form_field.color = function (field) {
+    field.type = "color";
     field.class = "form-control-color";
     var obj = saltos.__form_field.__text(field);
     return obj;
@@ -278,6 +281,7 @@ saltos.__form_field.color = function (field) {
  * that for the input object of type text
  */
 saltos.__form_field.date = function (field) {
+    field.type = "date";
     var obj = saltos.__form_field.__text(field);
     return obj;
 };
@@ -289,6 +293,7 @@ saltos.__form_field.date = function (field) {
  * that for the input object of type text
  */
 saltos.__form_field.time = function (field) {
+    field.type = "time";
     var obj = saltos.__form_field.__text(field);
     return obj;
 };
@@ -766,7 +771,7 @@ saltos.__form_field.file = function (field) {
             // Add the row for the new file
             var row = $(`
                 <tr id="${data.files[0].id}">
-                    <td style="word-wrap:anywhere">${data.files[0].name}</td>
+                    <td class="text-break">${data.files[0].name}</td>
                     <td class="w-25 align-middle">
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -1197,6 +1202,81 @@ saltos.__form_field.chartjs = function (field) {
             "height":"100%",
         });
     });
+    return obj;
+};
+
+/*
+ * Tags constructor helper
+ *
+ * This function creates a text input that allow to manage tags, each tag is paint as a badge
+ * and each tag can be deleted, the result is stored in a text using a comma separated values
+ *
+ * @id => the id used by the object
+ * @value => comma separated values
+ * @datalist => array with options for the datalist, used as autocomplete for the text input
+ *
+ * Notes:
+ *
+ * This object creates a hidden input, a text input with/without a datalist, and a badge for
+ * each value, can use some arguments as the text input
+ */
+saltos.__form_field.tags = function (field) {
+    // TODO: ACABAR LA PARTE DEL CHECK PARAMS
+    var obj = $(`<div></div><style>
+        i.bi.bi-x-circle { cursor:pointer; }
+    </style>`);
+    obj.append(saltos.__form_field.hidden(field));
+    field.id = field.id + "_b";
+    field.value_old = field.value.split(",");
+    field.value = "";
+    obj.append(saltos.__form_field.text(field));
+    var fn1 = function(val) {
+        obj.append(`<span class="badge text-bg-primary mt-1 me-1 fs-6 pe-2">${val}<i class="bi bi-x-circle ps-2"></i></span>`);
+        $("span:last",obj).data("data",val);
+        $("i:last",obj).on("click",fn2);
+    };
+    var fn2 = function() {
+        var a = $(this).parent();
+        var b = a.data("data");
+        var input = $("input:first",obj);
+        var val_old = input.val().split(",");
+        var val_new = [];
+        for (var key in val_old) {
+            val_old[key] = val_old[key].trim();
+            if (val_old[key] != b) {
+                val_new.push(val_old[key]);
+            }
+        }
+        input.val(val_new.join(", "));
+        $(a).remove();
+    };
+    $("input:last",obj).on("keydown",function (event) {
+        if (saltos.get_keycode(event) != 13) {
+            return;
+        }
+        var input_old = $("input:first",obj);
+        var input_new = $("input:last",obj);
+        var val_old = input_old.val().split(",");
+        var val = input_new.val();
+        var val_new = [];
+        for (var key in val_old) {
+            val_old[key] = val_old[key].trim();
+            if (val_old[key] == val) {
+                return;
+            }
+            if (val_old[key] != "") {
+                val_new.push(val_old[key]);
+            }
+        }
+        fn1(val);
+        val_new.push(val);
+        input_old.val(val_new.join(", "));
+        input_new.val("");
+    });
+    for (var key in field.value_old) {
+        var val = field.value_old[key].trim();
+        fn1(val);
+    }
     return obj;
 };
 
