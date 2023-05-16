@@ -162,7 +162,6 @@ saltos.__form_field.col = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
  * @required => this parameter raise the required flag
- * @datalist => allow to specify an array with options for the datalist, that acts as autocomplete
  *
  * Notes:
  *
@@ -191,7 +190,7 @@ saltos.__form_field.__text = function (field) {
  * This function returns an input object of type text, you can pass the same arguments
  * that for the input object of type text
  *
- * @datalist => contains an array for the datalist object used as autocomplete in the text object
+ * @datalist => array with options for the datalist, used as autocomplete for the text input
  */
 saltos.__form_field.text = function (field) {
     saltos.check_params(field,["datalist"],[]);
@@ -314,18 +313,18 @@ saltos.__form_field.datetime = function (field) {
  * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
  * @placeholder => the text used as placeholder parameter
- * @rows => the number used as rows parameter
+ * @value => the value used as value parameter
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
  * @required => this parameter raise the required flag
- * @value => the value used as value parameter
+ * @rows => the number used as rows parameter
  *
  * Notes:
  *
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__form_field.__textarea = function (field) {
-    saltos.check_params(field,["class","id","placeholder","rows","disabled","readonly","required"]);
+    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","rows"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -374,8 +373,9 @@ saltos.__form_field.ckeditor = function (field) {
 /*
  * Codemirror constructor helper
  *
- * This function returns a textarea object with the codemirror plugin enabled, it has
- * the parameter mode that allow the caller to specify what kind of mode want use
+ * This function returns a textarea object with the codemirror plugin enabled
+ *
+ * @mode => used to define the mode parameter of the codemirror
  */
 saltos.__form_field.codemirror = function (field) {
     saltos.check_params(field,["mode"]);
@@ -421,10 +421,10 @@ saltos.__form_field.iframe = function (field) {
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
- * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  * @multiple => this parameter enables the multiple selection feature of the select
  * @size => this parameter allow to see the options list opened with n (size) entries
  * @value => the value used to detect the selected option
+ * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  */
 saltos.__form_field.select = function (field) {
     saltos.check_params(field,["class","id","disabled","required","multiple","size","value"]);
@@ -463,10 +463,9 @@ saltos.__form_field.select = function (field) {
  * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
- * @required => this parameter raise the required flag
- * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  * @size => this parameter allow to see the options list opened with n (size) entries
  * @value => the value used as src parameter
+ * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  *
  * Notes:
  *
@@ -631,6 +630,9 @@ saltos.__form_field.switch = function (field) {
  */
 saltos.__form_field.button = function (field) {
     saltos.check_params(field,["class","id","disabled","value","onclick"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
     var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.value}</button>`);
     obj.on("click",field.onclick);
     return obj;
@@ -1208,12 +1210,12 @@ saltos.__form_field.chartjs = function (field) {
  *       @name => name of the menu
  *       @disabled => this boolean allow to disable this menu entry
  *       @onclick => the callback used when the user select the menu
+ *       @dropdown-menu-end => this trick allow to open the dropdown menu from the end to start
  *       @menu => with this option, you can specify an array with the contents of the dropdown menu
  *             @name => name of the menu
  *             @disabled => this boolean allow to disable this menu entry
  *             @onclick => the callback used when the user select the menu
  *             @divider => you can set this boolean to true to convert the element into a divider
- *       @dropdown-menu-end => this trick allow to open the dropdown menu from the end to start
  */
 saltos.menu = function (args) {
     saltos.check_params(args,["class"]);
@@ -1277,6 +1279,10 @@ saltos.menu = function (args) {
  *
  * @id => the id used by the object
  * @brand => contains an object with the name, logo, width and height to be used
+ *        @name => text used in the brand
+ *        @logo => filename of the brand image
+ *        @width => width of the brand image
+ *        @height => height of the brand image
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.navbar = function (args) {
@@ -1330,7 +1336,6 @@ saltos.toasts = function (args) {
     return obj;
 };
 
-// autocomplete basado en datalist
 // tooltips ???
 // input rollo multiples emails
 // https://fullcalendar.io/
