@@ -1031,16 +1031,14 @@ saltos.__form_field.pdfjs = function (field) {
                 container:container,
                 eventBus:eventBus,
             });
-            var fn1 = function () {
+            eventBus.on("pagesinit",function () {
                 pdfViewer.currentScaleValue = "page-width";
-            };
-            var fn2 = function () {
+            });
+            eventBus.on("annotationlayerrendered",function () {
                 $("a",container).each(function () {
                     $(this).attr("target","_blank");
                 });
-            };
-            eventBus.on("pagesinit",fn1);
-            eventBus.on("annotationlayerrendered",fn2);
+            });
             pdfViewer.removePageBorders = true;
             pdfViewer.setDocument(pdfDocument);
             $(container).css("position","relative");
@@ -1243,25 +1241,24 @@ saltos.__form_field.tags = function (field) {
     field.value_old = field.value.split(",");
     field.value = "";
     obj.append(saltos.__form_field.text(field));
-    var fn1 = function (val) {
-        obj.append(`<span class="badge text-bg-primary mt-1 me-1 fs-6 pe-2">${val}<i class="bi bi-x-circle ps-2"></i></span>`);
+    var fn = function (val) {
+        obj.append(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2">${val}<i class="bi bi-x-circle ps-2"></i></span>`);
         $("span:last",obj).data("data",val);
-        $("i:last",obj).on("click",fn2);
-    };
-    var fn2 = function () {
-        var a = $(this).parent();
-        var b = a.data("data");
-        var input = $("input:first",obj);
-        var val_old = input.val().split(",");
-        var val_new = [];
-        for (var key in val_old) {
-            val_old[key] = val_old[key].trim();
-            if (val_old[key] != b) {
-                val_new.push(val_old[key]);
+        $("i:last",obj).on("click",function () {
+            var a = $(this).parent();
+            var b = a.data("data");
+            var input = $("input:first",obj);
+            var val_old = input.val().split(",");
+            var val_new = [];
+            for (var key in val_old) {
+                val_old[key] = val_old[key].trim();
+                if (val_old[key] != b) {
+                    val_new.push(val_old[key]);
+                }
             }
-        }
-        input.val(val_new.join(", "));
-        $(a).remove();
+            input.val(val_new.join(", "));
+            $(a).remove();
+        });
     };
     $("input:last",obj).on("keydown",function (event) {
         if (saltos.get_keycode(event) != 13) {
@@ -1281,14 +1278,14 @@ saltos.__form_field.tags = function (field) {
                 val_new.push(val_old[key]);
             }
         }
-        fn1(val);
+        fn(val);
         val_new.push(val);
         input_old.val(val_new.join(", "));
         input_new.val("");
     });
     for (var key in field.value_old) {
         var val = field.value_old[key].trim();
-        fn1(val);
+        fn(val);
     }
     return obj;
 };
