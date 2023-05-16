@@ -1233,8 +1233,8 @@ saltos.__form_field.chartjs = function (field) {
  * each value, and requires the arguments of the specific widgets used in this widget
  */
 saltos.__form_field.tags = function (field) {
-    saltos.check_params(args,["id","value"]);
-    saltos.check_params(args,["datalist"],[]);
+    saltos.check_params(field,["id","value"]);
+    saltos.check_params(field,["datalist"],[]);
     var obj = $(`<div></div><style>
         i.bi.bi-x-circle { cursor:pointer; }
     </style>`);
