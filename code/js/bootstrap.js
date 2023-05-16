@@ -163,13 +163,14 @@ saltos.__form_field.col = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
  * @required => this parameter raise the required flag
+ * @tooltip => this parameter raise the title flag
  *
  * Notes:
  *
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__form_field.__text = function (field) {
-    saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required"]);
+    saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -180,7 +181,8 @@ saltos.__form_field.__text = function (field) {
         field.required = "required";
     }
     var obj = $(`
-        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}>
+        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}"
+            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} title="${field.tooltip}">
     `);
     return obj;
 };
@@ -329,7 +331,7 @@ saltos.__form_field.datetime = function (field) {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__form_field.__textarea = function (field) {
-    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","rows"]);
+    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","rows","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -340,7 +342,8 @@ saltos.__form_field.__textarea = function (field) {
         field.required = "required";
     }
     var obj = $(`
-        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}" ${field.disabled} ${field.readonly} ${field.required}>${field.value}</textarea>
+        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}"
+            ${field.disabled} ${field.readonly} ${field.required} title="${field.tooltip}">${field.value}</textarea>
     `);
     return obj;
 };
@@ -432,7 +435,7 @@ saltos.__form_field.iframe = function (field) {
  * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  */
 saltos.__form_field.select = function (field) {
-    saltos.check_params(field,["class","id","disabled","required","multiple","size","value"]);
+    saltos.check_params(field,["class","id","disabled","required","multiple","size","value","tooltip"]);
     saltos.check_params(field,["rows"],[]);
     if (field.disabled) {
         field.disabled = "disabled";
@@ -447,7 +450,8 @@ saltos.__form_field.select = function (field) {
         field.size = `size="${field.size}"`;
     }
     var obj = $(`
-        <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} ${field.size}></select>
+        <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required}
+            ${field.multiple} ${field.size} title="${field.tooltip}"></select>
     `);
     for (var key in field.rows) {
         var val = field.rows[key];
@@ -478,7 +482,7 @@ saltos.__form_field.select = function (field) {
  * using the hidden input that is builded using the original id passed by argument.
  */
 saltos.__form_field.multiselect = function (field) {
-    saltos.check_params(field,["value","class","id","disabled","size"]);
+    saltos.check_params(field,["value","class","id","disabled","size","tooltip"]);
     saltos.check_params(field,["rows"],[]);
     if (field.disabled) {
         field.disabled = "disabled";
@@ -511,6 +515,7 @@ saltos.__form_field.multiselect = function (field) {
         class:field.class,
         id:field.id + "_a",
         disabled:field.disabled,
+        tooltip:field.tooltip,
         multiple:true,
         size:field.size,
         rows:rows_a,
@@ -518,6 +523,7 @@ saltos.__form_field.multiselect = function (field) {
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
         disabled:field.disabled,
+        tooltip:field.tooltip,
         onclick:function () {
             $("#" + field.id + "_a option:selected").each(function () {
                 $("#" + field.id + "_b").append(this);
@@ -533,6 +539,7 @@ saltos.__form_field.multiselect = function (field) {
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-left",
         disabled:field.disabled,
+        tooltip:field.tooltip,
         onclick:function () {
             $("#" + field.id + "_b option:selected").each(function () {
                 $("#" + field.id + "_a").append(this);
@@ -548,6 +555,7 @@ saltos.__form_field.multiselect = function (field) {
         class:field.class,
         id:field.id + "_b",
         disabled:field.disabled,
+        tooltip:field.tooltip,
         multiple:true,
         size:field.size,
         rows:rows_b,
@@ -575,7 +583,7 @@ saltos.__form_field.multiselect = function (field) {
  * checkbox and add another function that uses immersion with this function to create the switch.
  */
 saltos.__form_field.checkbox = function (field) {
-    saltos.check_params(field,["value","type","id","disabled","readonly","label"]);
+    saltos.check_params(field,["value","type","id","disabled","readonly","label","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -599,8 +607,9 @@ saltos.__form_field.checkbox = function (field) {
     }
     var obj = $(`
         <div class="form-check ${_class}">
-            <input class="form-check-input" type="checkbox" ${_role} id="${field.id}" value="${field.value}" ${field.disabled} ${field.readonly} ${checked}>
-            <label class="form-check-label" for="${field.id}">${field.label}</label>
+            <input class="form-check-input" type="checkbox" ${_role} id="${field.id}" value="${field.value}"
+                ${field.disabled} ${field.readonly} ${checked} title="${field.tooltip}">
+            <label class="form-check-label" for="${field.id}" title="${field.tooltip}">${field.label}</label>
         </div>
     `);
     $("input",obj).on("change",function () {
@@ -634,11 +643,13 @@ saltos.__form_field.switch = function (field) {
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.__form_field.button = function (field) {
-    saltos.check_params(field,["class","id","disabled","value","onclick"]);
+    saltos.check_params(field,["class","id","disabled","value","onclick","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
-    var obj = $(`<button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled}>${field.value}</button>`);
+    var obj = $(`
+        <button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled} title="${field.tooltip}">${field.value}</button>
+    `);
     obj.on("click",field.onclick);
     return obj;
 };
@@ -663,7 +674,7 @@ saltos.__form_field.button = function (field) {
  * password and text type, allowing to do visible or not the contents of the input
  */
 saltos.__form_field.password = function (field) {
-    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required"]);
+    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -675,8 +686,9 @@ saltos.__form_field.password = function (field) {
     }
     var obj = $(`
         <div class="input-group">
-            <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b">
-            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_b"></button>
+            <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
+                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b" title="${field.tooltip}" >
+            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_b" title="${field.tooltip}"></button>
         </div>
     `);
     $("button",obj).on("click",function () {
@@ -717,7 +729,7 @@ saltos.__form_field.password = function (field) {
  * the real upload action.
  */
 saltos.__form_field.file = function (field) {
-    saltos.check_params(field,["class","id","value","disabled","required","multiple"]);
+    saltos.check_params(field,["class","id","value","disabled","required","multiple","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -728,7 +740,7 @@ saltos.__form_field.file = function (field) {
         field.multiple = "multiple";
     }
     var obj = $(`<div>
-        <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple}>
+        <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} title="${field.tooltip}">
         <div class="overflow-auto">
             <table class="table table-striped table-hover d-none">
                 <tbody>
@@ -905,8 +917,8 @@ saltos.__form_field.label = function (field) {
  * @alt => this parameter is used as text for the alt parameter
  */
 saltos.__form_field.image = function (field) {
-    saltos.check_params(field,["id","value","class","alt"]);
-    var obj = $(`<img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}">`);
+    saltos.check_params(field,["id","value","class","alt","tooltip"]);
+    var obj = $(`<img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}" title="${field.tooltip}" >`);
     return obj;
 };
 
@@ -1218,10 +1230,11 @@ saltos.__form_field.chartjs = function (field) {
  * Notes:
  *
  * This object creates a hidden input, a text input with/without a datalist, and a badge for
- * each value, can use some arguments as the text input
+ * each value, and requires the arguments of the specific widgets used in this widget
  */
 saltos.__form_field.tags = function (field) {
-    // TODO: ACABAR LA PARTE DEL CHECK PARAMS
+    saltos.check_params(args,["id","value"]);
+    saltos.check_params(args,["datalist"],[]);
     var obj = $(`<div></div><style>
         i.bi.bi-x-circle { cursor:pointer; }
     </style>`);

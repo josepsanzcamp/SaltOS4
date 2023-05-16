@@ -341,6 +341,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             id:"campo" + i,
             label:"Campo " + i + " (" + tipo + ")",
             placeholder:"Escriba aqui",
+            tooltip:"Tooltip " + i + " (" + tipo + ")",
             value:valor,
             mode:mode,
             size:size,
