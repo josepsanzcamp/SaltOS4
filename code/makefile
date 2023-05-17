@@ -11,6 +11,7 @@ devel:
 
 test:
 	phpcs php
+	phpcs ../scripts
 	bash ../scripts/phpcs_js.sh js/core.js
 	bash ../scripts/phpcs_js.sh js/bootstrap.js
 	bash ../scripts/phpcs_js.sh js/tester.js

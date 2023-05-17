@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_roboto_v30_kfolcnqeu92fr1mmsu5vaw_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_roboto_v30_kfomcnqeu92fr1me5q_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_roboto_v30_kfolcnqeu92fr1mmeu9vaw_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_roboto_v30_kfolcnqeu92fr1mmwulvaw_ttf) format('truetype');
+}

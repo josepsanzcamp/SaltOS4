@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_ubuntu_v20_4ics6kvjbnbylgo6ea_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_ubuntu_v20_4icv6kvjbnbylgocxcvttw_ttf) format('truetype');
+}

@@ -107,7 +107,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     name:"Themes",
                     disabled:false,
                     "dropdown-menu-end":true,
-                    menu:function() {
+                    menu:function () {
                         var menu = [
                             "default",
                             "cerulean",

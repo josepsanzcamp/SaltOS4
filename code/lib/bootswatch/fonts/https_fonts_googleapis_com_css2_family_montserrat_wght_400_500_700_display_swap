@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_montserrat_v25_jtuhjig1_i6t8kchkm4532vjot5_qnfgpctr6ew_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_montserrat_v25_jtuhjig1_i6t8kchkm4532vjot5_qnfgpctz6ew_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_montserrat_v25_jtuhjig1_i6t8kchkm4532vjot5_qnfgpcum70w_ttf) format('truetype');
+}

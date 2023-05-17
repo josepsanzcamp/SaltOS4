@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_sourcesanspro_v21_6xkydsbykcsv_lcoeqqfx1ryoo3ik4zaka_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_sourcesanspro_v21_6xk3dsbykcsv_lcoeqqfx1ryoo3apw_ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https_fonts_gstatic_com_s_sourcesanspro_v21_6xkydsbykcsv_lcoeqqfx1ryoo3ig4vaka_ttf) format('truetype');
+}
