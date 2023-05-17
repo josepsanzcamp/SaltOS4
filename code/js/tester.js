@@ -104,30 +104,57 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             saltos.menu({
                 class:"navbar-nav mb-2 mb-lg-0",
                 menu:[{
-                    name:"Dropdown",
+                    name:"Themes",
                     disabled:false,
                     "dropdown-menu-end":true,
-                    menu:[{
-                        name:"Action",
-                        disabled:false,
-                        onclick:function () {
-                            alert(3);
-                        },
-                    },{
-                        name:"Another action",
-                        disabled:false,
-                        onclick:function () {
-                            alert(4);
-                        },
-                    },{
-                        divider:true,
-                    },{
-                        name:"Something else here",
-                        disabled:false,
-                        onclick:function () {
-                            alert(5);
-                        },
-                    }]
+                    menu:function() {
+                        var menu = [
+                            "default",
+                            "cerulean",
+                            "cosmo",
+                            "cyborg",
+                            "darkly",
+                            "flatly",
+                            "journal",
+                            "litera",
+                            "lumen",
+                            "lux",
+                            "materia",
+                            "minty",
+                            "morph",
+                            "pulse",
+                            "quartz",
+                            "sandstone",
+                            "simplex",
+                            "sketchy",
+                            "slate",
+                            "solar",
+                            "spacelab",
+                            "superhero",
+                            "united",
+                            "vapor",
+                            "yeti",
+                            "zephyr"
+                        ];
+                        for (var key in menu) {
+                            var val = menu[key];
+                            menu[key] = {
+                                name:val,
+                                active:(val == "cosmo"), // This is my default theme
+                                onclick:function () {
+                                    var theme = $(this).text();
+                                    if (theme == "default") {
+                                        $("link[theme]").removeAttr("integrity").attr("href","lib/bootstrap/bootstrap.min.css")
+                                    } else {
+                                        $("link[theme]").removeAttr("integrity").attr("href","lib/bootswatch/" + theme + ".min.css")
+                                    }
+                                    $(this).parent().find("a.active").removeClass("active");
+                                    $("a",this).addClass("active");
+                                },
+                            }
+                        }
+                        return menu;
+                    }(),
                 }],
             }),
         ],

@@ -1299,11 +1299,13 @@ saltos.__form_field.tags = function (field) {
  * @menu => an array with the follow elements:
  *       @name => name of the menu
  *       @disabled => this boolean allow to disable this menu entry
+ *       @active => this boolean marks the option as active
  *       @onclick => the callback used when the user select the menu
  *       @dropdown-menu-end => this trick allow to open the dropdown menu from the end to start
  *       @menu => with this option, you can specify an array with the contents of the dropdown menu
  *             @name => name of the menu
  *             @disabled => this boolean allow to disable this menu entry
+ *             @active => this boolean marks the option as active
  *             @onclick => the callback used when the user select the menu
  *             @divider => you can set this boolean to true to convert the element into a divider
  */
@@ -1313,10 +1315,13 @@ saltos.menu = function (args) {
     var obj = $(`<ul class="${args.class}"></ul>`);
     for (var key in args.menu) {
         var val = args.menu[key];
-        saltos.check_params(val,["name","disabled","onclick","dropdown-menu-end"]);
+        saltos.check_params(val,["name","disabled","active","onclick","dropdown-menu-end"]);
         saltos.check_params(val,["menu"],[]);
         if (val.disabled) {
             val.disabled = "disabled";
+        }
+        if (val.active) {
+            val.active = "active";
         }
         if (val.menu.length) {
             if (val["dropdown-menu-end"]) {
@@ -1333,14 +1338,17 @@ saltos.menu = function (args) {
             `);
             for (var key2 in val.menu) {
                 var val2 = val.menu[key2];
-                saltos.check_params(val2,["name","disabled","onclick","divider"]);
+                saltos.check_params(val2,["name","disabled","active","onclick","divider"]);
                 if (val2.disabled) {
                     val2.disabled = "disabled";
+                }
+                if (val2.active) {
+                    val2.active = "active";
                 }
                 if (val2.divider) {
                     var temp2 = $(`<li><hr class="dropdown-divider"></li>`);
                 } else {
-                    var temp2 = $(`<li><a class="dropdown-item ${val2.disabled}" href="#">${val2.name}</a></li>`);
+                    var temp2 = $(`<li><a class="dropdown-item ${val2.disabled} ${val2.active}" href="#">${val2.name}</a></li>`);
                     if (!val2.disabled) {
                         temp2.on("click",val2.onclick);
                     }
@@ -1350,7 +1358,7 @@ saltos.menu = function (args) {
         } else {
             var temp = $(`
                 <li class="nav-item">
-                    <a class="nav-link ${val.disabled}" href="#">${val.name}</a>
+                    <a class="nav-link ${val.disabled} ${val.active}" href="#">${val.name}</a>
                 </li>
             `);
             if (!val.disabled) {
