@@ -285,6 +285,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             onclick = function () {
                 saltos.modal({
                     static:false,
+                    class:"modal-lg",
                     title:"Titulo",
                     close:"Cerrar",
                     body:"Cuerpo",
@@ -295,6 +296,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             value:"Aceptar",
                             class:"btn-primary",
                             onclick:function () {
+                                console.log("OK");
                                 saltos.modal("close");
                             }
                         }));
@@ -303,6 +305,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             value:"Cancelar",
                             class:"btn-primary",
                             onclick:function () {
+                                console.log("KO");
                                 saltos.modal("close");
                             },
                         }));

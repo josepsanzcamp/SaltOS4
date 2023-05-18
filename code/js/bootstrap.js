@@ -1430,6 +1430,7 @@ saltos.__modal = {};
  * 2) you can pass an object with the follow items, intended to open a new modal
  *
  * @id => the id used by the object
+ * @class => allow to add more classes to the default dialog
  * @title => title used by the modal
  * @close => text used in the close button for aria purposes
  * @body => the content used in the modal's body
@@ -1449,14 +1450,14 @@ saltos.modal = function (args) {
         return $(saltos.__modal.element).hasClass("show");
     }
     // NORMAL OPERATION
-    saltos.check_params(args,["id","title","close","body","footer","static"]);
+    saltos.check_params(args,["id","class","title","close","body","footer","static"]);
     var temp = "";
     if (args.static) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     var obj = $(`
         <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_b" aria-hidden="true" ${temp}>
-            <div class="modal-dialog">
+            <div class="modal-dialog ${args.class}">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="${args.id}_b">${args.title}</h1>
