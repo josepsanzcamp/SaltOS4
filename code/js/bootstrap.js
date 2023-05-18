@@ -1586,21 +1586,30 @@ saltos.offcanvas = function (args) {
  * @close => text used in the close button for aria purposes
  * @body => the content used in the toast's body
  *
- * Returns a boolean that indicates if the toast can be created or not
+ * Returns a boolean that indicates if the toast can be created (see the hash note)
  *
  * Notes:
  *
- * The toast will be destroyed (instance and element) when it closes, all toasts are added
- * to a toast-container placed in the body of the document, this container is created automatically
- * if it not exists when the first toast need it.
+ * The toast will be destroyed (instance and element) when it closes.
+ *
+ * All toasts are added to a toast-container placed in the body of the document, this container
+ * is created automatically if it not exists when the first toast need it.
+ *
+ * Each toast includes a hash to prevent the creation of repeated toasts.
  */
 saltos.toast = function (args) {
     saltos.check_params(args,["id","class","close","title","subtitle","body"]);
     if ($(".toast-container").length == 0) {
         $("body").append(`<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>`);
     }
+    // CHECK FOR REPETITIONS
+    var hash = md5(JSON.stringify(args));
+    if ($(".toast-container > .toast").filter(`[hash=${hash}]`).length) {
+        return false;
+    }
+    // CONTINUE
     var obj = $(`
-        <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive" aria-atomic="true" hash="${hash}">
             <div class="toast-header">
                 <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
@@ -1623,5 +1632,3 @@ saltos.toast = function (args) {
 };
 
 // TODO: tooltips ???
-// TODO: añadir md5 para acabar lo de los toasts repetidos
-// TODO: formalizar el uso de locutos con webpack
