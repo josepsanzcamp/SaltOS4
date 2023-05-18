@@ -1437,6 +1437,8 @@ saltos.__modal = {};
  * @footer => the content used in the modal's footer
  * @static => forces the modal to be static (prevent close by clicking outside the modal or by pressing the escape key)
  *
+ * Returns a boolean that indicates if the modal can be open or not
+ *
  * Notes:
  *
  * This modal will be destroyed (instance and element) when it closes, too is important
@@ -1448,7 +1450,11 @@ saltos.modal = function (args) {
         return saltos.__modal.instance.hide();
     }
     if (args == "isopen") {
-        return $(saltos.__modal.element).hasClass("show");
+        return isset(saltos.__modal.obj) && saltos.__modal.obj.hasClass("show");
+    }
+    // ADDITIONAL CHECK
+    if (saltos.modal("isopen")) {
+        return false;
     }
     // NORMAL OPERATION
     saltos.check_params(args,["id","class","title","close","body","footer","static"]);
@@ -1475,17 +1481,19 @@ saltos.modal = function (args) {
     $("body").append(obj);
     $(".modal-body",obj).append(args.body);
     $(".modal-footer",obj).append(args.footer);
-    saltos.__modal.element = obj.get(0);
-    saltos.__modal.instance = new bootstrap.Modal(saltos.__modal.element);
-    saltos.__modal.element.addEventListener("shown.bs.modal", event => {
-        $(".autofocus",saltos.__modal.element).focus();
+    var element = obj.get(0);
+    var instance = new bootstrap.Modal(element);
+    saltos.__modal.obj = obj;
+    saltos.__modal.instance = instance;
+    element.addEventListener("shown.bs.modal", event => {
+        $(".autofocus",element).focus();
     });
-    saltos.__modal.element.addEventListener("hidden.bs.modal", event => {
-        saltos.__modal.instance.dispose();
-        saltos.__modal.element.remove();
+    element.addEventListener("hidden.bs.modal", event => {
+        instance.dispose();
+        element.remove();
     });
-    saltos.__modal.instance.show();
-    return obj;
+    instance.show();
+    return true;
 };
 
 /*
@@ -1514,6 +1522,8 @@ saltos.__offcanvas = {};
  * @body => the content used in the offcanvas's body
  * @static => forces the offcanvas to be static (prevent close by clicking outside the offcanvas or by pressing the escape key)
  *
+ * Returns a boolean that indicates if the offcanvas can be open or not
+ *
  * Notes:
  *
  * This offcanvas will be destroyed (instance and element) when it closes, too is important
@@ -1525,7 +1535,11 @@ saltos.offcanvas = function (args) {
         return saltos.__offcanvas.instance.hide();
     }
     if (args == "isopen") {
-        return $(saltos.__offcanvas.element).hasClass("show");
+        return isset(saltos.__offcanvas.obj) && saltos.__offcanvas.obj.hasClass("show");
+    }
+    // ADDITIONAL CHECK
+    if (saltos.offcanvas("isopen")) {
+        return false;
     }
     // NORMAL OPERATION
     saltos.check_params(args,["id","class","title","close","body","static"]);
@@ -1545,23 +1559,69 @@ saltos.offcanvas = function (args) {
     `);
     $("body").append(obj);
     $(".offcanvas-body",obj).append(args.body);
-    saltos.__offcanvas.element = obj.get(0);
-    saltos.__offcanvas.instance = new bootstrap.Offcanvas(saltos.__offcanvas.element);
-    saltos.__offcanvas.element.addEventListener("shown.bs.offcanvas", event => {
-        $(".autofocus",saltos.__offcanvas.element).focus();
+    var element = obj.get(0);
+    var instance = new bootstrap.Offcanvas(element);
+    saltos.__offcanvas.obj = obj;
+    saltos.__offcanvas.instance = instance;
+    element.addEventListener("shown.bs.offcanvas", event => {
+        $(".autofocus",element).focus();
     });
-    saltos.__offcanvas.element.addEventListener("hidden.bs.offcanvas", event => {
-        saltos.__offcanvas.instance.dispose();
-        saltos.__offcanvas.element.remove();
+    element.addEventListener("hidden.bs.offcanvas", event => {
+        instance.dispose();
+        element.remove();
     });
-    saltos.__offcanvas.instance.show();
-    return obj;
+    instance.show();
+    return true;
 };
 
 /*
- * TODO
+ * Toast constructor helper
+ *
+ * This function creates a bootstrap toast and show it, and can accept the follow params:
+ *
+ * @id => the id used by the object
+ * @class => allow to add more classes to the default toast
+ * @title => title used by the toast
+ * @subtitle => small text used by the toast
+ * @close => text used in the close button for aria purposes
+ * @body => the content used in the toast's body
+ *
+ * Returns a boolean that indicates if the toast can be created or not
+ *
+ * Notes:
+ *
+ * The toast will be destroyed (instance and element) when it closes, all toasts are added
+ * to a toast-container placed in the body of the document, this container is created automatically
+ * if it not exists when the first toast need it.
  */
-saltos.toasts = function (args) {
-    var obj = $(`TODO`);
-    return obj;
+saltos.toast = function (args) {
+    saltos.check_params(args,["id","class","close","title","subtitle","body"]);
+    if ($(".toast-container").length == 0) {
+        $("body").append(`<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>`);
+    }
+    var obj = $(`
+        <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">${args.title}</strong>
+                <small>${args.subtitle}</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="${args.close}"></button>
+            </div>
+            <div class="toast-body">
+            </div>
+        </div>
+    `);
+    $(".toast-container").append(obj);
+    $(".toast-body",obj).append(args.body);
+    var element = obj.get(0);
+    var toast = new bootstrap.Toast(element);
+    element.addEventListener("hidden.bs.toast", event => {
+        toast.dispose();
+        element.remove();
+    });
+    toast.show();
+    return true;
 };
+
+// TODO: tooltips ???
+// TODO: añadir md5 para acabar lo de los toasts repetidos
+// TODO: formalizar el uso de locutos con webpack

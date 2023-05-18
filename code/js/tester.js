@@ -176,11 +176,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "date",
         "time",
         "datetime",
-        "button",
         "tags",
+        "button",
         "modal",
         "offcanvas",
-        "toasts",
+        "toast",
         "textarea",
         "ckeditor",
         "codemirror",
@@ -418,7 +418,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             valor = "Offcanvas test";
             onclick = function () {
                 saltos.offcanvas({
-                    static:true,
+                    static:false,
                     class:"offcanvas-start",
                     title:"Titulo",
                     close:"Cerrar",
@@ -440,12 +440,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 });
             };
         }
-        if (tipo == "toasts") {
+        if (tipo == "toast") {
             tipo = "button";
             clase = "btn-primary";
-            valor = "Toasts test";
+            valor = "Toast test";
             onclick = function () {
-                alert("TODO");
+                saltos.toast({
+                    //class:"text-bg-primary",
+                    close:"Cerrar",
+                    title:"Hola mundo",
+                    subtitle:"pues nada",
+                    body:"Pues eso, hola mundo",
+                });
             };
         }
         var campo = saltos.form_field({
