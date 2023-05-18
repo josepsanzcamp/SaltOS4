@@ -277,17 +277,38 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 {label:"Seis",value:6},
             ];
             valor = "2,3,5";
+            size = 5;
         }
         if (tipo == "button") {
             clase = "btn-primary";
             valor = "Button text here";
-        }
-        if (tipo == "multiselect") {
-            size = 5;
-        }
-        if (tipo == "button") {
             onclick = function () {
-                alert("button onclick");
+                saltos.modal({
+                    static:false,
+                    title:"Titulo",
+                    close:"Cerrar",
+                    body:"Cuerpo",
+                    footer:function () {
+                        var obj = [];
+                        obj.push(saltos.form_field({
+                            type:"button",
+                            value:"Aceptar",
+                            class:"btn-primary",
+                            onclick:function () {
+                                saltos.modal("close");
+                            }
+                        }));
+                        obj.push(saltos.form_field({
+                            type:"button",
+                            value:"Cancelar",
+                            class:"btn-primary",
+                            onclick:function () {
+                                saltos.modal("close");
+                            },
+                        }));
+                        return obj;
+                    }()
+                });
             };
         }
         if (tipo == "link") {
@@ -392,5 +413,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
     container.append(row);
     $("body").append(container);
-
 }(jQuery));

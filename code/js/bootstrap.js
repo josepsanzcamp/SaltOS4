@@ -1411,10 +1411,78 @@ saltos.navbar = function (args) {
 };
 
 /*
- * TODO
+ * Modal constructor helper object
+ *
+ * This object is used to store the element and the instance of the modal
+ */
+saltos.__modal = {};
+
+/*
+ * Modal constructor helper
+ *
+ * This function creates a bootstrap modal and open it, offers two ways of usage:
+ *
+ * 1) you can pass an string to get a quick action
+ *
+ * @close => this string close the current modal
+ * @isopen => this string is used to check if some modal is open at the moment
+ *
+ * 2) you can pass an object with the follow items, intended to open a new modal
+ *
+ * @id => the id used by the object
+ * @title => title used by the modal
+ * @close => text used in the close button for aria purposes
+ * @body => the content used in the modal's body
+ * @footer => the content used in the modal's footer
+ * @static => forces the modal to be static (prevent close by clicking outside the modal or by pressing the escape key)
+ *
+ * Notes:
+ *
+ * This modal will be destroyed (instance and element) when they closes
  */
 saltos.modal = function (args) {
-    var obj = $(`TODO`);
+    // HELPER ACTIONS
+    if (args == "close") {
+        return saltos.__modal.instance.hide();
+    }
+    if (args == "isopen") {
+        return $(saltos.__modal.element).hasClass("show");
+    }
+    // NORMAL OPERATION
+    saltos.check_params(args,["id","title","close","body","footer","static"]);
+    var temp = "";
+    if (args.static) {
+        temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
+    }
+    var obj = $(`
+        <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_b" aria-hidden="true" ${temp}>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="${args.id}_b">${args.title}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="${args.close}"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+    $("body").append(obj);
+    $(".modal-body",obj).append(args.body);
+    $(".modal-footer",obj).append(args.footer);
+    saltos.__modal.element = obj.get(0);
+    saltos.__modal.instance = new bootstrap.Modal(saltos.__modal.element);
+    saltos.__modal.element.addEventListener("shown.bs.modal", event => {
+        $(".autofocus",saltos.__modal.element).focus();
+    });
+    saltos.__modal.element.addEventListener("hidden.bs.modal", event => {
+        saltos.__modal.instance.dispose();
+        saltos.__modal.element.remove();
+    });
+    saltos.__modal.instance.show();
     return obj;
 };
 
@@ -1433,9 +1501,3 @@ saltos.toasts = function (args) {
     var obj = $(`TODO`);
     return obj;
 };
-
-// tooltips ???
-// input rollo multiples emails
-// https://fullcalendar.io/
-// https://themes.getbootstrap.com/
-// https://themes.getbootstrap.com/product/falcon-admin-dashboard-webapp-template/
