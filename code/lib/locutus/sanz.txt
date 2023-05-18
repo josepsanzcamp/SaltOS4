@@ -1,2 +1,4 @@
 
-cat js/isset.js js/str_replace.js > locutus.min.js
+npm install locutus
+browserify main.js -o locutus.js
+minify locutus.js > locutus.min.js
