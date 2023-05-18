@@ -1439,7 +1439,8 @@ saltos.__modal = {};
  *
  * Notes:
  *
- * This modal will be destroyed (instance and element) when they closes
+ * This modal will be destroyed (instance and element) when it closes, too is important
+ * to undestand that only one modal is allowed at each moment.
  */
 saltos.modal = function (args) {
     // HELPER ACTIONS
@@ -1488,10 +1489,72 @@ saltos.modal = function (args) {
 };
 
 /*
- * TODO
+ * Offcanvas constructor helper object
+ *
+ * This object is used to store the element and the instance of the offcanvas
+ */
+saltos.__offcanvas = {};
+
+/*
+ * Offcanvas constructor helper
+ *
+ * This function creates a bootstrap offcanvas and open it, offers two ways of usage:
+ *
+ * 1) you can pass an string to get a quick action
+ *
+ * @close => this string close the current modal
+ * @isopen => this string is used to check if some modal is open at the moment
+ *
+ * 2) you can pass an object with the follow items, intended to open a new modal
+ *
+ * @id => the id used by the object
+ * @class => allow to add more classes to the default offcanvas
+ * @title => title used by the offcanvas
+ * @close => text used in the close button for aria purposes
+ * @body => the content used in the offcanvas's body
+ * @static => forces the offcanvas to be static (prevent close by clicking outside the offcanvas or by pressing the escape key)
+ *
+ * Notes:
+ *
+ * This offcanvas will be destroyed (instance and element) when it closes, too is important
+ * to undestand that only one offcanvas is allowed at each moment.
  */
 saltos.offcanvas = function (args) {
-    var obj = $(`TODO`);
+    // HELPER ACTIONS
+    if (args == "close") {
+        return saltos.__offcanvas.instance.hide();
+    }
+    if (args == "isopen") {
+        return $(saltos.__offcanvas.element).hasClass("show");
+    }
+    // NORMAL OPERATION
+    saltos.check_params(args,["id","class","title","close","body","static"]);
+    var temp = "";
+    if (args.static) {
+        temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
+    }
+    var obj = $(`
+        <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}" aria-labelledby="${args.id}_b" ${temp}>
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="${args.id}_b">${args.title}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="${args.close}"></button>
+            </div>
+            <div class="offcanvas-body">
+            </div>
+        </div>
+    `);
+    $("body").append(obj);
+    $(".offcanvas-body",obj).append(args.body);
+    saltos.__offcanvas.element = obj.get(0);
+    saltos.__offcanvas.instance = new bootstrap.Offcanvas(saltos.__offcanvas.element);
+    saltos.__offcanvas.element.addEventListener("shown.bs.offcanvas", event => {
+        $(".autofocus",saltos.__offcanvas.element).focus();
+    });
+    saltos.__offcanvas.element.addEventListener("hidden.bs.offcanvas", event => {
+        saltos.__offcanvas.instance.dispose();
+        saltos.__offcanvas.element.remove();
+    });
+    saltos.__offcanvas.instance.show();
     return obj;
 };
 

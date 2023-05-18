@@ -177,6 +177,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "time",
         "datetime",
         "button",
+        "tags",
+        "modal",
+        "offcanvas",
+        "toasts",
         "textarea",
         "ckeditor",
         "codemirror",
@@ -200,7 +204,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         "chartjs",
         "chartjs",
         "card",
-        "tags",
     ];
     var modes = [
         "bar",
@@ -283,35 +286,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             clase = "btn-primary";
             valor = "Button text here";
             onclick = function () {
-                saltos.modal({
-                    static:false,
-                    class:"modal-lg",
-                    title:"Titulo",
-                    close:"Cerrar",
-                    body:"Cuerpo",
-                    footer:function () {
-                        var obj = [];
-                        obj.push(saltos.form_field({
-                            type:"button",
-                            value:"Aceptar",
-                            class:"btn-primary",
-                            onclick:function () {
-                                console.log("OK");
-                                saltos.modal("close");
-                            }
-                        }));
-                        obj.push(saltos.form_field({
-                            type:"button",
-                            value:"Cancelar",
-                            class:"btn-primary",
-                            onclick:function () {
-                                console.log("KO");
-                                saltos.modal("close");
-                            },
-                        }));
-                        return obj;
-                    }()
-                });
+                alert("button onclick");
             };
         }
         if (tipo == "link") {
@@ -386,6 +361,92 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 "RhinOS",
             ];
             valor = "SaltOS, PHP, JavaScript";
+        }
+        if (tipo == "modal") {
+            tipo = "button";
+            clase = "btn-primary";
+            valor = "Modal test";
+            onclick = function () {
+                saltos.modal({
+                    static:false,
+                    class:"modal-lg",
+                    title:"Titulo",
+                    close:"Cerrar",
+                    body:`
+                        <div>
+                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                        </div>
+                        <div class="dropdown mt-3">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Dropdown button
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </div>
+                    `,
+                    footer:function () {
+                        var obj = [];
+                        obj.push(saltos.form_field({
+                            type:"button",
+                            value:"Aceptar",
+                            class:"btn-primary",
+                            onclick:function () {
+                                console.log("OK");
+                                saltos.modal("close");
+                            }
+                        }));
+                        obj.push(saltos.form_field({
+                            type:"button",
+                            value:"Cancelar",
+                            class:"btn-primary",
+                            onclick:function () {
+                                console.log("KO");
+                                saltos.modal("close");
+                            },
+                        }));
+                        return obj;
+                    }()
+                });
+            };
+        }
+        if (tipo == "offcanvas") {
+            tipo = "button";
+            clase = "btn-primary";
+            valor = "Offcanvas test";
+            onclick = function () {
+                saltos.offcanvas({
+                    static:true,
+                    class:"offcanvas-start",
+                    title:"Titulo",
+                    close:"Cerrar",
+                    body:`
+                        <div>
+                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                        </div>
+                        <div class="dropdown mt-3">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                Dropdown button
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </div>
+                    `,
+                });
+            };
+        }
+        if (tipo == "toasts") {
+            tipo = "button";
+            clase = "btn-primary";
+            valor = "Toasts test";
+            onclick = function () {
+                alert("TODO");
+            };
         }
         var campo = saltos.form_field({
             type:tipo,
