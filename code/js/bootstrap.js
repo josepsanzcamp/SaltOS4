@@ -205,11 +205,10 @@ saltos.__form_field.text = function (field) {
     if (!field.datalist.length) {
         return saltos.__form_field.__text(field);
     }
-    var obj = $(`<div>
-        <datalist id="${field.id}_b"></datalist>
-    </div>`);
-    obj.prepend(saltos.__form_field.__text(field));
-    $("input",obj).attr("list",field.id + "_b");
+    var obj = $(`<div></div>`);
+    obj.append(saltos.__form_field.__text(field));
+    $("input",obj).attr("list",field.id + "_datalist");
+    obj.append(`<datalist id="${field.id}_datalist"></datalist>`);
     for (var key in field.datalist) {
         var val = field.datalist[key];
         $("datalist",obj).append(`<option value="${val}">`);
@@ -514,37 +513,37 @@ saltos.__form_field.multiselect = function (field) {
             </div>
         </div>
     `);
-    var rows_a = [];
-    var rows_b = [];
+    var rows_abc = [];
+    var rows_xyz = [];
     var values = field.value.split(",");
     for (var key in field.rows) {
         var val = field.rows[key];
         if (values.includes(val.value.toString())) {
-            rows_b.push(val);
+            rows_xyz.push(val);
         } else {
-            rows_a.push(val);
+            rows_abc.push(val);
         }
     }
     $(".col:eq(0)",obj).append(saltos.__form_field.hidden(field));
     $(".col:eq(0)",obj).append(saltos.__form_field.select({
         class:field.class,
-        id:field.id + "_a",
+        id:field.id + "_abc",
         disabled:field.disabled,
         tooltip:field.tooltip,
         multiple:true,
         size:field.size,
-        rows:rows_a,
+        rows:rows_abc,
     }));
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
         disabled:field.disabled,
         tooltip:field.tooltip,
         onclick:function () {
-            $("#" + field.id + "_a option:selected").each(function () {
-                $("#" + field.id + "_b").append(this);
+            $("#" + field.id + "_abc option:selected").each(function () {
+                $("#" + field.id + "_xyz").append(this);
             });
             var val = [];
-            $("#campo19_b option").each(function () {
+            $("#campo19_xyz option").each(function () {
                 val.push($(this).val());
             });
             $("#" + field.id).val(val.join(","));
@@ -556,11 +555,11 @@ saltos.__form_field.multiselect = function (field) {
         disabled:field.disabled,
         tooltip:field.tooltip,
         onclick:function () {
-            $("#" + field.id + "_b option:selected").each(function () {
-                $("#" + field.id + "_a").append(this);
+            $("#" + field.id + "_xyz option:selected").each(function () {
+                $("#" + field.id + "_abc").append(this);
             });
             var val = [];
-            $("#campo19_b option").each(function () {
+            $("#campo19_xyz option").each(function () {
                 val.push($(this).val());
             });
             $("#" + field.id).val(val.join(","));
@@ -568,12 +567,12 @@ saltos.__form_field.multiselect = function (field) {
     }));
     $(".col:eq(2)",obj).append(saltos.__form_field.select({
         class:field.class,
-        id:field.id + "_b",
+        id:field.id + "_xyz",
         disabled:field.disabled,
         tooltip:field.tooltip,
         multiple:true,
         size:field.size,
-        rows:rows_b,
+        rows:rows_xyz,
     }));
     return obj;
 };
@@ -715,8 +714,8 @@ saltos.__form_field.password = function (field) {
     var obj = $(`
         <div class="input-group">
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
-                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b" data-bs-title="${field.tooltip}" >
-            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_b" data-bs-title="${field.tooltip}"></button>
+                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}" >
+            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
         </div>
     `);
     if (field.tooltip != "") {
@@ -1284,13 +1283,16 @@ saltos.__form_field.chartjs = function (field) {
  *
  * This object creates a hidden input, a text input with/without a datalist, and a badge for
  * each value, and requires the arguments of the specific widgets used in this widget
+ *
+ * TODO: fix a problem with autocomplete using datalist,
+ *       detected to fix an error in this widget with the commit r100:101
  */
 saltos.__form_field.tags = function (field) {
     saltos.check_params(field,["id","value"]);
     saltos.check_params(field,["datalist"],[]);
     var obj = $(`<div></div>`);
     obj.append(saltos.__form_field.hidden(field));
-    field.id = field.id + "_b";
+    field.id = field.id + "_tags";
     field.value_old = field.value.split(",");
     field.value = "";
     obj.append(saltos.__form_field.text(field));
@@ -1518,11 +1520,11 @@ saltos.modal = function (args) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     var obj = $(`
-        <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_b" aria-hidden="true" ${temp}>
+        <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label" aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="${args.id}_b">${args.title}</h1>
+                        <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="${args.close}"></button>
                     </div>
                     <div class="modal-body">
@@ -1603,9 +1605,9 @@ saltos.offcanvas = function (args) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     var obj = $(`
-        <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}" aria-labelledby="${args.id}_b" ${temp}>
+        <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}" aria-labelledby="${args.id}_label" ${temp}>
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="${args.id}_b">${args.title}</h5>
+                <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="${args.close}"></button>
             </div>
             <div class="offcanvas-body">
