@@ -699,6 +699,11 @@ saltos.__form_field.button = function (field) {
  * This widget add an icon to the end of the widget with an slashed eye, this allow to
  * see the entered password to verify it, in reality, this button swaps the input between
  * password and text type, allowing to do visible or not the contents of the input
+ *
+ * This widgets add a hidden input text type to fix a bug that causes that some other
+ * fields on the screen will be converted by the password manager to the pair of this
+ * field and will have the password autocomplete feature enabled instead the autocomplete
+ * provided by the datalist
  */
 saltos.__form_field.password = function (field) {
     saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","tooltip"]);
@@ -713,6 +718,7 @@ saltos.__form_field.password = function (field) {
     }
     var obj = $(`
         <div class="input-group">
+            <input type="text" style="display:none"/>
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
                 ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}" >
             <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
@@ -1283,9 +1289,6 @@ saltos.__form_field.chartjs = function (field) {
  *
  * This object creates a hidden input, a text input with/without a datalist, and a badge for
  * each value, and requires the arguments of the specific widgets used in this widget
- *
- * TODO: fix a problem with autocomplete using datalist,
- *       detected to fix an error in this widget with the commit r100:101
  */
 saltos.__form_field.tags = function (field) {
     saltos.check_params(field,["id","value"]);
