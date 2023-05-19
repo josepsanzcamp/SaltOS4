@@ -55,7 +55,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @password => id, class, placeholder, value, disabled, readonly, required, tooltip
  * @file => id, class, disabled, required, multiple, tooltip
  * @link => id, disabled, value, onclick, tooltip
- * @label => id, label
+ * @label => id, label, tooltip
  * @image => id, value, class, alt, tooltip
  * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
  * @pdfjs => id, class, value
@@ -182,8 +182,12 @@ saltos.__form_field.__text = function (field) {
     }
     var obj = $(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}"
-            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} title="${field.tooltip}">
+            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">
     `);
+    if (field.tooltip != "") {
+        var element = obj.get(0);
+        new bootstrap.Tooltip(element);
+    }
     return obj;
 };
 
@@ -324,6 +328,7 @@ saltos.__form_field.datetime = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
  * @required => this parameter raise the required flag
+ * @tooltip => this parameter raise the title flag
  * @rows => the number used as rows parameter
  *
  * Notes:
@@ -343,8 +348,12 @@ saltos.__form_field.__textarea = function (field) {
     }
     var obj = $(`
         <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}"
-            ${field.disabled} ${field.readonly} ${field.required} title="${field.tooltip}">${field.value}</textarea>
+            ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
+    if (field.tooltip != "") {
+        var element = obj.get(0);
+        new bootstrap.Tooltip(element);
+    }
     return obj;
 };
 
@@ -432,6 +441,7 @@ saltos.__form_field.iframe = function (field) {
  * @multiple => this parameter enables the multiple selection feature of the select
  * @size => this parameter allow to see the options list opened with n (size) entries
  * @value => the value used to detect the selected option
+ * @tooltip => this parameter raise the title flag
  * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  */
 saltos.__form_field.select = function (field) {
@@ -451,8 +461,12 @@ saltos.__form_field.select = function (field) {
     }
     var obj = $(`
         <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required}
-            ${field.multiple} ${field.size} title="${field.tooltip}"></select>
+            ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
+    if (field.tooltip != "") {
+        var element = obj.get(0);
+        new bootstrap.Tooltip(element);
+    }
     for (var key in field.rows) {
         var val = field.rows[key];
         var selected = "";
@@ -474,6 +488,7 @@ saltos.__form_field.select = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @size => this parameter allow to see the options list opened with n (size) entries
  * @value => the value used as src parameter
+ * @tooltip => this parameter raise the title flag
  * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  *
  * Notes:
@@ -573,6 +588,8 @@ saltos.__form_field.multiselect = function (field) {
  * @readonly => this parameter raise the readonly flag
  * @label => this parameter is used as label for the checkbox/switch
  * @value => this parameter is used to check or unckeck the checkbox/switch, the value must contain a number that raise as true or false in the if condition
+ * @tooltip => this parameter raise the title flag
+ * @type => this parameter allow to enable the switch feature
  *
  * Notes:
  *
@@ -608,10 +625,15 @@ saltos.__form_field.checkbox = function (field) {
     var obj = $(`
         <div class="form-check ${_class}">
             <input class="form-check-input" type="checkbox" ${_role} id="${field.id}" value="${field.value}"
-                ${field.disabled} ${field.readonly} ${checked} title="${field.tooltip}">
-            <label class="form-check-label" for="${field.id}" title="${field.tooltip}">${field.label}</label>
+                ${field.disabled} ${field.readonly} ${checked} data-bs-title="${field.tooltip}">
+            <label class="form-check-label" for="${field.id}" data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
     `);
+    if (field.tooltip != "") {
+        $("input,label",obj).each(function () {
+            new bootstrap.Tooltip(this);
+        });
+    }
     $("input",obj).on("change",function () {
         this.value = this.checked ? 1 : 0;
     });
@@ -637,6 +659,7 @@ saltos.__form_field.switch = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @value => value to be used as text in the contents of the buttons
  * @onclick => callback function that is executed when the button is pressed
+ * @tooltip => this parameter raise the title flag
  *
  * Notes:
  *
@@ -648,8 +671,12 @@ saltos.__form_field.button = function (field) {
         field.disabled = "disabled";
     }
     var obj = $(`
-        <button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled} title="${field.tooltip}">${field.value}</button>
+        <button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
+    if (field.tooltip != "") {
+        var element = obj.get(0);
+        new bootstrap.Tooltip(element);
+    }
     obj.on("click",field.onclick);
     return obj;
 };
@@ -666,6 +693,7 @@ saltos.__form_field.button = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
  * @required => this parameter raise the required flag
+ * @tooltip => this parameter raise the title flag
  *
  * Notes:
  *
@@ -687,10 +715,15 @@ saltos.__form_field.password = function (field) {
     var obj = $(`
         <div class="input-group">
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
-                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b" title="${field.tooltip}" >
-            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_b" title="${field.tooltip}"></button>
+                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_b" data-bs-title="${field.tooltip}" >
+            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_b" data-bs-title="${field.tooltip}"></button>
         </div>
     `);
+    if (field.tooltip != "") {
+        $("input,button",obj).each(function () {
+            new bootstrap.Tooltip(this);
+        });
+    }
     $("button",obj).on("click",function () {
         var input = $(this).prev().get(0);
         if (input.type == "password") {
@@ -714,6 +747,7 @@ saltos.__form_field.password = function (field) {
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
  * @multiple => this parameter raise the multiple flag, intended to select more files at time
+ * @tooltip => this parameter raise the title flag
  *
  * Notes:
  *
@@ -740,7 +774,7 @@ saltos.__form_field.file = function (field) {
         field.multiple = "multiple";
     }
     var obj = $(`<div>
-        <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} title="${field.tooltip}">
+        <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
         <div class="overflow-auto">
             <table class="table table-striped table-hover d-none">
                 <tbody>
@@ -748,6 +782,11 @@ saltos.__form_field.file = function (field) {
             </table>
         </div>
     </div>`);
+    if (field.tooltip != "") {
+        $("input",obj).each(function () {
+            new bootstrap.Tooltip(this);
+        });
+    }
     // This helper programs the input file data update
     var __update_data_input_file = function (input) {
         var data = [];
@@ -899,10 +938,15 @@ saltos.__form_field.link = function (field) {
  *
  * @id => the id used to set the reference for to the object
  * @label => this parameter is used as text for the label
+ * @tooltip => this parameter raise the title flag
  */
 saltos.__form_field.label = function (field) {
     saltos.check_params(field,["id","label"]);
-    var obj = $(`<label for="${field.id}" class="form-label">${field.label}</label>`);
+    var obj = $(`<label for="${field.id}" class="form-label" data-bs-title="${field.tooltip}">${field.label}</label>`);
+    if (field.tooltip != "") {
+        var element = obj.get(0);
+        new bootstrap.Tooltip(element);
+    }
     return obj;
 };
 
@@ -915,10 +959,17 @@ saltos.__form_field.label = function (field) {
  * @value => the value used as src parameter
  * @class => allow to add more classes to the default img-fluid
  * @alt => this parameter is used as text for the alt parameter
+ * @tooltip => this parameter raise the title flag
  */
 saltos.__form_field.image = function (field) {
     saltos.check_params(field,["id","value","class","alt","tooltip"]);
-    var obj = $(`<img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}" title="${field.tooltip}" >`);
+    var obj = $(`
+        <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}" data-bs-title="${field.tooltip}" >
+    `);
+    if (field.tooltip != "") {
+        var element = obj.get(0);
+        new bootstrap.Tooltip(element);
+    }
     return obj;
 };
 
@@ -948,9 +999,11 @@ saltos.__form_field.image = function (field) {
  */
 saltos.__form_field.excel = function (field) {
     saltos.check_params(field,["id","class","data","rowHeaders","colHeaders","minSpareRows","contextMenu","rowHeaderWidth","colWidths"]);
-    var obj = $(`<div style="width:100%;height:100%;overflow:auto">
-        <div id="${field.id}" class="${field.class}"></div>
-    </div>`);
+    var obj = $(`
+        <div style="width:100%;height:100%;overflow:auto">
+            <div id="${field.id}" class="${field.class}"></div>
+        </div>
+    `);
     if (field.data == "") {
         field.data = [...Array(20)].map(e => Array(26));
     }
@@ -1001,23 +1054,25 @@ saltos.__form_field.excel = function (field) {
  */
 saltos.__form_field.pdfjs = function (field) {
     saltos.check_params(field,["id","class","value"]);
-    var obj = $(`<div id="${field.id}" class="${field.class}">
-        <div class="pdfViewer"></div>
-        <style>
-            #${field.id} {
-                position: absolute;
-                width: calc(100% - 18px);
-            }
-            #${field.id} .canvasWrapper {
-                box-shadow:0 0 4px 4px rgba(0,0,0,0.1)!important;
-            }
-            #${field.id} *,
-            #${field.id} *::before,
-            #${field.id} *::after {
-                box-sizing: content-box;
-            }
-        </style>
-    </div>`);
+    var obj = $(`
+        <div id="${field.id}" class="${field.class}">
+            <div class="pdfViewer"></div>
+            <style>
+                #${field.id} {
+                    position: absolute;
+                    width: calc(100% - 18px);
+                }
+                #${field.id} .canvasWrapper {
+                    box-shadow:0 0 4px 4px rgba(0,0,0,0.1)!important;
+                }
+                #${field.id} *,
+                #${field.id} *::before,
+                #${field.id} *::after {
+                    box-sizing: content-box;
+                }
+            </style>
+        </div>
+    `);
     var element = $(obj).get(0);
     saltos.when_visible(element ,function (element) {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
@@ -1233,16 +1288,16 @@ saltos.__form_field.chartjs = function (field) {
 saltos.__form_field.tags = function (field) {
     saltos.check_params(field,["id","value"]);
     saltos.check_params(field,["datalist"],[]);
-    var obj = $(`<div></div><style>
-        i.bi.bi-x-circle { cursor:pointer; }
-    </style>`);
+    var obj = $(`<div></div>`);
     obj.append(saltos.__form_field.hidden(field));
     field.id = field.id + "_b";
     field.value_old = field.value.split(",");
     field.value = "";
     obj.append(saltos.__form_field.text(field));
     var fn = function (val) {
-        obj.append(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2">${val}<i class="bi bi-x-circle ps-2"></i></span>`);
+        obj.append(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2">
+            ${val} <i class="bi bi-x-circle ps-1" style="cursor:pointer"></i>
+        </span>`);
         $("span:last",obj).data("data",val);
         $("i:last",obj).on("click",function () {
             var a = $(this).parent();
@@ -1630,5 +1685,3 @@ saltos.toast = function (args) {
     toast.show();
     return true;
 };
-
-// TODO: tooltips ???
