@@ -494,6 +494,8 @@ saltos.__form_field.select = function (field) {
  *
  * This widget is created joinin 2 selects and 2 buttons, the user must get the value
  * using the hidden input that is builded using the original id passed by argument.
+ *
+ * TODO: detected a bug with this widget in chrome in mobile browsers
  */
 saltos.__form_field.multiselect = function (field) {
     saltos.check_params(field,["value","class","id","disabled","size","tooltip"]);
@@ -537,7 +539,7 @@ saltos.__form_field.multiselect = function (field) {
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
         disabled:field.disabled,
-        tooltip:field.tooltip,
+        //tooltip:field.tooltip,
         onclick:function () {
             $("#" + field.id + "_abc option:selected").each(function () {
                 $("#" + field.id + "_xyz").append(this);
@@ -553,7 +555,7 @@ saltos.__form_field.multiselect = function (field) {
     $(".col:eq(1)",obj).append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-left",
         disabled:field.disabled,
-        tooltip:field.tooltip,
+        //tooltip:field.tooltip,
         onclick:function () {
             $("#" + field.id + "_xyz option:selected").each(function () {
                 $("#" + field.id + "_abc").append(this);
@@ -700,10 +702,12 @@ saltos.__form_field.button = function (field) {
  * see the entered password to verify it, in reality, this button swaps the input between
  * password and text type, allowing to do visible or not the contents of the input
  *
- * This widgets add a hidden input text type to fix a bug that causes that some other
- * fields on the screen will be converted by the password manager to the pair of this
- * field and will have the password autocomplete feature enabled instead the autocomplete
- * provided by the datalist
+ * This widgets have a problem with the password managers of the browser that convert the
+ * previous field of this to a pair of login/password fields and autocomplete they with
+ * default values, to fix it, I'm using two tricks:
+ *
+ * 1) add the input of type=text with the display:none to fix the bug in firefox
+ * 2) add the autocomplete="new-password" to fix the problem in chrome browsers
  */
 saltos.__form_field.password = function (field) {
     saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","tooltip"]);
@@ -719,7 +723,7 @@ saltos.__form_field.password = function (field) {
     var obj = $(`
         <div class="input-group">
             <input type="text" style="display:none"/>
-            <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
+            <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
                 ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}" >
             <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
         </div>
