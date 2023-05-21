@@ -122,15 +122,15 @@ saltos.uniqid = function () {
  * @args => the arguments passed to the callback when execute it
  */
 saltos.when_visible = function (obj,fn,args) {
-    if (!$(obj).is("[id]")) {
-        $(obj).attr("id","fix" + saltos.uniqid());
+    if (!obj.getAttribute("id")) {
+        obj.setAttribute("id","fix" + saltos.uniqid());
     }
-    var id = "#" + $(obj).attr("id");
+    var id = "#" + obj.getAttribute("id");
     var interval = setInterval(function () {
-        var obj2 = $(id);
-        if (!$(obj2).length) {
+        var obj2 = document.querySelector(id);
+        if (obj2 === null) {
             clearInterval(interval);
-        } else if ($(obj2).is(":visible")) {
+        } else if (obj2.offsetParent !== null) {
             clearInterval(interval);
             fn(args);
         }
@@ -159,10 +159,19 @@ saltos.get_keycode = function (event) {
 /*
  * TODO
  */
-saltos.html = function (args) {
-    var div = document.createElement("div");
-    div.innerHTML = args.trim();
-    //~ console.log(args);
+saltos.html = function () {
+    var type = "div";
+    var html = "";
+    if (arguments.length == 1) {
+        html = arguments[0];
+    }
+    if (arguments.length == 2) {
+        type = arguments[0];
+        html = arguments[1];
+    }
+    var div = document.createElement(type);
+    div.innerHTML = html.trim();
+    //~ console.log(html);
     //~ console.log(div.childNodes.length);
     //~ console.log(div.childNodes);
     if (div.childNodes.length == 1) {

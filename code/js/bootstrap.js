@@ -535,13 +535,13 @@ saltos.__form_field.multiselect = function (field) {
         disabled:field.disabled,
         //tooltip:field.tooltip,
         onclick:function () {
-            Array.from(document.querySelectorAll("#" + field.id + "_abc option")).forEach(function (option) {
+            document.querySelectorAll("#" + field.id + "_abc option").forEach(function (option) {
                 if (option.selected) {
                     document.querySelector("#" + field.id + "_xyz").append(option);
                 }
             });
             var val = [];
-            Array.from(document.querySelectorAll("#" + field.id + "_xyz option")).forEach(function (option) {
+            document.querySelectorAll("#" + field.id + "_xyz option").forEach(function (option) {
                 val.push(option.value);
             });
             document.querySelector("#" + field.id).value = val.join(",");
@@ -553,13 +553,13 @@ saltos.__form_field.multiselect = function (field) {
         disabled:field.disabled,
         //tooltip:field.tooltip,
         onclick:function () {
-            Array.from(document.querySelectorAll("#" + field.id + "_xyz option")).forEach(function (option) {
+            document.querySelectorAll("#" + field.id + "_xyz option").forEach(function (option) {
                 if (option.selected) {
                     document.querySelector("#" + field.id + "_abc").append(option);
                 }
             });
             var val = [];
-            Array.from(document.querySelectorAll("#" + field.id + "_xyz option")).forEach(function (option) {
+            document.querySelectorAll("#" + field.id + "_xyz option").forEach(function (option) {
                 val.push(option.value);
             });
             document.querySelector("#" + field.id).value = val.join(",");
@@ -575,7 +575,9 @@ saltos.__form_field.multiselect = function (field) {
         rows:rows_xyz,
     }));
     saltos.when_visible(obj ,function () {
-        $("label[for='" + field.id + "']").attr("for",field.id + "_abc");
+        document.querySelectorAll("label[for='" + field.id + "']").forEach(function (_this) {
+            _this.setAttribute("for",field.id + "_abc");
+        });
     });
     return obj;
 };
@@ -803,17 +805,17 @@ saltos.__form_field.file = function (field) {
     // This helper programs the input file data update
     var __update_data_input_file = function (input) {
         var data = [];
-        var tabla = $(input).next().find("table");
-        $("tr",tabla).each(function () {
-            data.push($(this).data("data"));
+        var tabla = input.nextSibling.nextSibling.querySelector("table");
+        tabla.querySelectorAll("tr").forEach(function (_this) {
+            data.push(_this._data);
         });
-        $(input).data("data",data);
+        input._data = data;;
     };
     // Program the automatic upload
     obj.querySelector("input").addEventListener("change",async function () {
         var input = this;
         var files = this.files;
-        var table = $(this).next().find("table");
+        var table = this.nextSibling.nextSibling.querySelector("table");
         for (var i = 0; i < files.length; i++) {
             // Prepare the data to send
             var data = {
@@ -831,9 +833,9 @@ saltos.__form_field.file = function (field) {
                 hash:"",
             };
             // Show the table
-            $(table).removeClass("d-none");
+            table.classList.remove("d-none");
             // Add the row for the new file
-            var row = $(`
+            var row = saltos.html("tbody",`
                 <tr id="${data.files[0].id}">
                     <td class="text-break">${data.files[0].name}</td>
                     <td class="w-25 align-middle">
@@ -843,30 +845,30 @@ saltos.__form_field.file = function (field) {
                     </td>
                     <td class="p-0 align-middle" style="width:1%"><button class="btn bi-trash" type="button"></button></td>
                 </tr>
-            `).get(0);
+            `);
             // Store the data in the row
-            $(row).data("data",data.files[0]);
+            row._data = data.files[0];
             // Program de remove button
             row.querySelector("button").addEventListener("click",function () {
-                var row = $(this).parent().parent();
+                var row = this.parentNode.parentNode;
                 var data = {
                     action:"delfiles",
                     files:[],
                 };
-                data.files[0] = row.data("data");
+                data.files[0] = row._data;
                 $.ajax({
                     url:"index.php",
                     data:JSON.stringify(data),
                     type:"post",
                     success:function (data,textStatus,XMLHttpRequest) {
-                        $(row).data("data",data[0]);
+                        row._data = data[0];
                         // If server removes the file, i remove the row
                         if (data[0].file == "") {
                             row.remove();
                         }
                         // If not there are files, hide the table
-                        if ($("tr",table).length == 0) {
-                            $(table).addClass("d-none");
+                        if (table.querySelectorAll("tr").length == 0) {
+                            table.classList.add("d-none");
                         }
                         __update_data_input_file(input);
                     },
@@ -877,7 +879,7 @@ saltos.__form_field.file = function (field) {
                 });
             });
             // Add the row
-            $("tbody",table).append(row);
+            table.querySelector("tbody").append(row);
             __update_data_input_file(input);
             // Get the local file using syncronous techniques
             var reader = new FileReader();
@@ -895,7 +897,7 @@ saltos.__form_field.file = function (field) {
                         data:JSON.stringify(data),
                         type:"post",
                         success:function (data,textStatus,XMLHttpRequest) {
-                            $(row).data("data",data[0]);
+                            row._data = data[0];
                             __update_data_input_file(input);
                         },
                         error:function (XMLHttpRequest,textStatus,errorThrown) {
@@ -905,7 +907,8 @@ saltos.__form_field.file = function (field) {
                         progress: function (e) {
                             if (e.lengthComputable) {
                                 var percent = parseInt((e.loaded / e.total) * 100);
-                                $(".progress-bar",row).width(percent + "%").attr("aria-valuenow",percent);
+                                row.querySelector(".progress-bar").style.width = percent + "%";
+                                row.querySelector(".progress-bar").setAttribute("aria-valuenow",percent);
                             }
                         },
                     });
@@ -1039,8 +1042,8 @@ saltos.__form_field.excel = function (field) {
         field.colWidths = undefined;
     }
     var element = obj.querySelector("div");
-    saltos.when_visible(element ,function (element) {
-        $(element).handsontable({
+    saltos.when_visible(element,function (element) {
+        new Handsontable(element,{
             data:field.data,
             rowHeaders:field.rowHeaders,
             colHeaders:field.colHeaders,
@@ -1049,7 +1052,7 @@ saltos.__form_field.excel = function (field) {
             rowHeaderWidth:field.rowHeaderWidth,
             colWidths:field.colWidths,
             afterChange:function (changes,source) {
-                $(element).data("data",field.data);
+                element._data = field.data;
             }
         });
     }, element);
@@ -1102,13 +1105,13 @@ saltos.__form_field.pdfjs = function (field) {
                 pdfViewer.currentScaleValue = "page-width";
             });
             eventBus.on("annotationlayerrendered",function () {
-                $("a",container).each(function () {
-                    $(this).attr("target","_blank");
+                container.querySelectorAll("a").forEach(function (_this) {
+                    _this.setAttribute("target","_blank");
                 });
             });
             pdfViewer.removePageBorders = true;
             pdfViewer.setDocument(pdfDocument);
-            $(container).css("position","relative");
+            container.style.position = "relative";
             window.addEventListener("resize",function () {
                 pdfViewer.currentScaleValue = pdfViewer.currentScale * 2;
                 pdfViewer.currentScaleValue = "page-width";
@@ -1136,55 +1139,55 @@ saltos.__form_field.pdfjs = function (field) {
 saltos.__form_field.table = function (field) {
     saltos.check_params(field,["class","id"]);
     saltos.check_params(field,["header","data","footer","divider"],[]);
-    var obj = $(`
+    var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>
     `);
     if (field.header.length) {
-        obj.append(`
+        obj.append(saltos.html("table",`
             <thead>
                 <tr>
                 </tr>
             </thead>
-        `);
+        `));
         if (isset(field.divider[0]) && field.divider[0]) {
-            $("thead",obj).addClass("table-group-divider");
+            obj.querySelector("thead").classList.add("table-group-divider");
         }
         for (var key in field.header) {
-            $("thead tr",obj).append(`<th>${field.header[key]}</th>`);
+            obj.querySelector("thead tr").append(saltos.html("tr",`<th>${field.header[key]}</th>`));
         }
     }
     if (field.data.length) {
-        obj.append(`
+        obj.append(saltos.html("table",`
             <tbody>
             </tbody>
-        `);
+        `));
         if (isset(field.divider[1]) && field.divider[1]) {
-            $("tbody",obj).addClass("table-group-divider");
+            obj.querySelector("tbody").classList.add("table-group-divider");
         }
         for (var key in field.data) {
-            var row = $(`<tr></tr>`);
+            var row = saltos.html("tbody",`<tr></tr>`);
             for (var key2 in field.data[key]) {
-                row.append(`<td>${field.data[key][key2]}</td>`);
+                row.append(saltos.html("tr",`<td>${field.data[key][key2]}</td>`));
             }
-            $("tbody",obj).append(row);
+            obj.querySelector("tbody").append(row);
         }
     }
     if (field.footer.length) {
-        obj.append(`
+        obj.append(saltos.html("table",`
             <tfoot>
                 <tr>
                 </tr>
             </tfoot>
-        `);
+        `));
         if (isset(field.divider[2]) && field.divider[2]) {
-            $("tfoot",obj).addClass("table-group-divider");
+            obj.querySelector("tfoot").classList.add("table-group-divider");
         }
         for (var key in field.footer) {
-            $("tfoot tr",obj).append(`<td>${field.footer[key]}</td>`);
+            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
         }
     }
-    return obj.get(0);
+    return obj;
 };
 
 /*
@@ -1353,7 +1356,9 @@ saltos.__form_field.tags = function (field) {
         fn(val);
     }
     saltos.when_visible(obj ,function () {
-        $("label[for='" + field.id_old + "']").attr("for",field.id);
+        document.querySelectorAll("label[for='" + field.id_old + "']").forEach(function (_this) {
+            _this.setAttribute("for",field.id);
+        });
     });
     return obj;
 };
@@ -1674,11 +1679,8 @@ saltos.toast = function (args) {
     }
     // CHECK FOR REPETITIONS
     var hash = md5(JSON.stringify(args));
-    var toasts = Array.from(document.querySelectorAll(".toast-container > .toast"));
-    for (var i in toasts) {
-        if (toasts[i].getAttribute("hash") == hash) {
-            return false;
-        }
+    if (document.querySelector(`.toast[hash=${hash}]`)) {
+        return false;
     }
     // CONTINUE
     var obj = saltos.html(`
