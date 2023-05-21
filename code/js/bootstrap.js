@@ -576,6 +576,9 @@ saltos.__form_field.multiselect = function (field) {
         size:field.size,
         rows:rows_xyz,
     }));
+    saltos.when_visible(obj ,function () {
+        $("label[for='" + field.id + "']").attr("for",field.id + "_abc");
+    });
     return obj;
 };
 
@@ -1299,6 +1302,7 @@ saltos.__form_field.tags = function (field) {
     saltos.check_params(field,["datalist"],[]);
     var obj = $(`<div></div>`);
     obj.append(saltos.__form_field.hidden(field));
+    field.id_old = field.id;
     field.id = field.id + "_tags";
     field.value_old = field.value.split(",");
     field.value = "";
@@ -1320,7 +1324,7 @@ saltos.__form_field.tags = function (field) {
                     val_new.push(val_old[key]);
                 }
             }
-            input.val(val_new.join(", "));
+            input.val(val_new.join(","));
             $(a).remove();
         });
     };
@@ -1344,13 +1348,16 @@ saltos.__form_field.tags = function (field) {
         }
         fn(val);
         val_new.push(val);
-        input_old.val(val_new.join(", "));
+        input_old.val(val_new.join(","));
         input_new.val("");
     });
     for (var key in field.value_old) {
         var val = field.value_old[key].trim();
         fn(val);
     }
+    saltos.when_visible(obj ,function () {
+        $("label[for='" + field.id_old + "']").attr("for",field.id);
+    });
     return obj;
 };
 
