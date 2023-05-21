@@ -30,7 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 (function ($) {
     saltos.init_error();
 
-    $("body").append(saltos.navbar({
+    document.querySelector("body").append(saltos.navbar({
         id:saltos.uniqid(),
         brand:{
             name:"SaltOS",
@@ -86,12 +86,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 }],
             }),
             function () {
-                var obj = $(`<form class="d-flex" onsubmit="return false"></form>`);
-                $(obj).append(saltos.form_field({
+                var obj = saltos.html(`<form class="d-flex" onsubmit="return false"></form>`);
+                obj.append(saltos.form_field({
                     type:"text",
                     placeholder:"Search",
                 }));
-                $(obj).append(saltos.form_field({
+                obj.append(saltos.form_field({
                     type:"button",
                     value:"Search",
                     class:"btn-light mx-1",
@@ -142,14 +142,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                                 name:val,
                                 active:(val == "cosmo"), // This is my default theme
                                 onclick:function () {
-                                    var theme = $(this).text();
+                                    var theme = this.textContent;
                                     if (theme == "default") {
-                                        $("link[theme]").removeAttr("integrity").attr("href","lib/bootstrap/bootstrap.min.css")
+                                        document.querySelector("link[theme]").removeAttribute("integrity");
+                                        document.querySelector("link[theme]").setAttribute("href","lib/bootstrap/bootstrap.min.css");
                                     } else {
-                                        $("link[theme]").removeAttr("integrity").attr("href","lib/bootswatch/" + theme + ".min.css")
+                                        document.querySelector("link[theme]").removeAttribute("integrity");
+                                        document.querySelector("link[theme]").setAttribute("href","lib/bootswatch/" + theme + ".min.css");
                                     }
-                                    $(this).parent().find("a.active").removeClass("active");
-                                    $("a",this).addClass("active");
+                                    this.parentNode.querySelector("a.active").classList.remove("active");
+                                    this.querySelector("a").classList.add("active");
                                 },
                             }
                         }
@@ -160,7 +162,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         ],
     }));
 
-    $("body").append(`<br/><br/><br/>`);
+    document.querySelector("body").append(saltos.html(`<br/><br/><br/>`));
 
     var container = saltos.form_field({
         type:"container",
@@ -388,8 +390,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         </div>
                     `,
                     footer:function () {
-                        var obj = [];
-                        obj.push(saltos.form_field({
+                        var obj = saltos.html("<div></div>");
+                        obj.append(saltos.form_field({
                             type:"button",
                             value:"Aceptar",
                             class:"btn-primary",
@@ -398,10 +400,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                                 saltos.modal("close");
                             }
                         }));
-                        obj.push(saltos.form_field({
+                        obj.append(saltos.form_field({
                             type:"button",
                             value:"Cancelar",
-                            class:"btn-primary",
+                            class:"btn-primary ms-1",
                             onclick:function () {
                                 console.log("KO");
                                 saltos.modal("close");
@@ -478,9 +480,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             body:body,
             datalist:datalist,
         });
-        $(col).append(campo);
-        $(row).append(col);
+        col.append(campo);
+        row.append(col);
     }
     container.append(row);
-    $("body").append(container);
+    document.querySelector("body").append(container);
 }(jQuery));

@@ -134,7 +134,7 @@ saltos.when_visible = function (obj,fn,args) {
             clearInterval(interval);
             fn(args);
         }
-    },100);
+    },1);
 };
 
 /*
@@ -154,6 +154,21 @@ saltos.get_keycode = function (event) {
         keycode = event.charCode;
     }
     return keycode;
+};
+
+/*
+ * TODO
+ */
+saltos.html = function (args) {
+    var div = document.createElement("div");
+    div.innerHTML = args.trim();
+    //~ console.log(args);
+    //~ console.log(div.childNodes.length);
+    //~ console.log(div.childNodes);
+    if (div.childNodes.length == 1) {
+        return div.firstChild;
+    }
+    return div;
 };
 
 /*
