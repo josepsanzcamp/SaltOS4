@@ -1273,8 +1273,8 @@ saltos.__form_field.chartjs = function (field) {
         });
     }, obj);
     window.addEventListener("resize",function () {
-        obj.style.width="100%";
-        obj.style.height="100%";
+        obj.style.width = "100%";
+        obj.style.height = "100%";
     });
     return obj;
 };
