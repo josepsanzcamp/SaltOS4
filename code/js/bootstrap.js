@@ -500,11 +500,11 @@ saltos.__form_field.multiselect = function (field) {
     var obj = saltos.html(`
         <div class="container-fluid">
             <div class="row">
-                <div class="col px-0">
+                <div class="col px-0 one">
                 </div>
-                <div class="col col-auto my-auto">
+                <div class="col col-auto my-auto two">
                 </div>
-                <div class="col px-0">
+                <div class="col px-0 three">
                 </div>
             </div>
         </div>
@@ -520,8 +520,8 @@ saltos.__form_field.multiselect = function (field) {
             rows_abc.push(val);
         }
     }
-    $(".col:eq(0)",obj).append(saltos.__form_field.hidden(field));
-    $(".col:eq(0)",obj).append(saltos.__form_field.select({
+    obj.querySelector(".one").append(saltos.__form_field.hidden(field));
+    obj.querySelector(".one").append(saltos.__form_field.select({
         class:field.class,
         id:field.id + "_abc",
         disabled:field.disabled,
@@ -530,38 +530,42 @@ saltos.__form_field.multiselect = function (field) {
         size:field.size,
         rows:rows_abc,
     }));
-    $(".col:eq(1)",obj).append(saltos.__form_field.button({
+    obj.querySelector(".two").append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-right mb-3",
         disabled:field.disabled,
         //tooltip:field.tooltip,
         onclick:function () {
-            $("#" + field.id + "_abc option:selected").each(function () {
-                $("#" + field.id + "_xyz").append(this);
+            Array.from(document.querySelectorAll("#" + field.id + "_abc option")).forEach(function (option) {
+                if (option.selected) {
+                    document.querySelector("#" + field.id + "_xyz").append(option);
+                }
             });
             var val = [];
-            $("#campo19_xyz option").each(function () {
-                val.push($(this).val());
+            Array.from(document.querySelectorAll("#" + field.id + "_xyz option")).forEach(function (option) {
+                val.push(option.value);
             });
-            $("#" + field.id).val(val.join(","));
+            document.querySelector("#" + field.id).value = val.join(",");
         },
     }));
-    $(".col:eq(1)",obj).append("<br/>");
-    $(".col:eq(1)",obj).append(saltos.__form_field.button({
+    obj.querySelector(".two").append(saltos.html("<br/>"));
+    obj.querySelector(".two").append(saltos.__form_field.button({
         class:"btn-primary bi-chevron-double-left",
         disabled:field.disabled,
         //tooltip:field.tooltip,
         onclick:function () {
-            $("#" + field.id + "_xyz option:selected").each(function () {
-                $("#" + field.id + "_abc").append(this);
+            Array.from(document.querySelectorAll("#" + field.id + "_xyz option")).forEach(function (option) {
+                if (option.selected) {
+                    document.querySelector("#" + field.id + "_abc").append(option);
+                }
             });
             var val = [];
-            $("#campo19_xyz option").each(function () {
-                val.push($(this).val());
+            Array.from(document.querySelectorAll("#" + field.id + "_xyz option")).forEach(function (option) {
+                val.push(option.value);
             });
-            $("#" + field.id).val(val.join(","));
+            document.querySelector("#" + field.id).value = val.join(",");
         },
     }));
-    $(".col:eq(2)",obj).append(saltos.__form_field.select({
+    obj.querySelector(".three").append(saltos.__form_field.select({
         class:field.class,
         id:field.id + "_xyz",
         disabled:field.disabled,
@@ -704,6 +708,8 @@ saltos.__form_field.button = function (field) {
  *
  * 1) add the input of type=text with the display:none to fix the bug in firefox
  * 2) add the autocomplete="new-password" to fix the problem in chrome browsers
+ *
+ * The double previousSibling is caused by the new line and tabs between the input and the button
  */
 saltos.__form_field.password = function (field) {
     saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","tooltip"]);
@@ -720,7 +726,7 @@ saltos.__form_field.password = function (field) {
         <div class="input-group">
             <input type="text" style="display:none"/>
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
-                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}" >
+                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
             <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
         </div>
     `);
@@ -730,13 +736,15 @@ saltos.__form_field.password = function (field) {
         });
     }
     obj.querySelector("button").addEventListener("click",function () {
-        var input = $(this).prev().get(0);
+        var input = this.previousSibling.previousSibling;
         if (input.type == "password") {
             input.type = "text";
-            $(this).removeClass("bi-eye-slash").addClass("bi-eye");
+            this.classList.remove("bi-eye-slash");
+            this.classList.add("bi-eye");
         } else if (input.type == "text") {
             input.type = "password";
-            $(this).removeClass("bi-eye").addClass("bi-eye-slash");
+            this.classList.remove("bi-eye");
+            this.classList.add("bi-eye-slash");
         }
     });
     return obj;
@@ -788,8 +796,8 @@ saltos.__form_field.file = function (field) {
         </div>
     </div>`);
     if (field.tooltip != "") {
-        $("input",obj).each(function () {
-            new bootstrap.Tooltip(this);
+        obj.querySelectorAll("input").forEach(function (_this) {
+            new bootstrap.Tooltip(_this);
         });
     }
     // This helper programs the input file data update
@@ -1030,7 +1038,7 @@ saltos.__form_field.excel = function (field) {
     if (field.colWidths == "") {
         field.colWidths = undefined;
     }
-    var element = $("div",obj).get(0);
+    var element = obj.querySelector("div");
     saltos.when_visible(element ,function (element) {
         $(element).handsontable({
             data:field.data,
@@ -1176,7 +1184,7 @@ saltos.__form_field.table = function (field) {
             $("tfoot tr",obj).append(`<td>${field.footer[key]}</td>`);
         }
     }
-    return obj;
+    return obj.get(0);
 };
 
 /*
