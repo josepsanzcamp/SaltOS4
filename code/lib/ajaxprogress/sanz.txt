@@ -1,4 +1,0 @@
-
-# https://github.com/englercj/jquery-ajax-progress
-wget https://raw.githubusercontent.com/englercj/jquery-ajax-progress/master/js/jquery.ajax-progress.js
-minify jquery.ajax-progress.js > jquery.ajax-progress.min.js

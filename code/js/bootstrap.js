@@ -856,7 +856,7 @@ saltos.__form_field.file = function (field) {
                     files:[],
                 };
                 data.files[0] = row.saltos_data;
-                $.ajax({
+                saltos.ajax({
                     url:"index.php",
                     data:JSON.stringify(data),
                     type:"post",
@@ -892,11 +892,12 @@ saltos.__form_field.file = function (field) {
                 data.files[0].data = reader.result;
                 // This allow multiple uploads in parallel
                 (function (data,row) {
-                    $.ajax({
+                    saltos.ajax({
                         url:"index.php",
                         data:JSON.stringify(data),
                         type:"post",
                         success:function (data,textStatus,XMLHttpRequest) {
+                            console.log(data);
                             row.saltos_data = data[0];
                             __update_data_input_file(input);
                         },
@@ -904,7 +905,7 @@ saltos.__form_field.file = function (field) {
                             console.log(XMLHttpRequest.statusText);
                             // TODO
                         },
-                        progress: function (e) {
+                        progress:function (e) {
                             if (e.lengthComputable) {
                                 var percent = parseInt((e.loaded / e.total) * 100);
                                 row.querySelector(".progress-bar").style.width = percent + "%";

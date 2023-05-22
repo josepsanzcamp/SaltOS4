@@ -49,7 +49,7 @@ saltos.init_error = function () {
             "details":"Error on file " + file + ":" + line + ":" + column + ", userAgent is " + navigator.userAgent,
             "backtrace":error.stack
         };
-        $.ajax({
+        saltos.ajax({
             url:"index.php",
             data:JSON.stringify(data),
             type:"post"
@@ -69,7 +69,7 @@ saltos.addlog = function (msg) {
         "action":"addlog",
         "msg":msg,
     };
-    $.ajax({
+    saltos.ajax({
         url:"index.php",
         data:JSON.stringify(data),
         type:"post"
@@ -77,7 +77,7 @@ saltos.addlog = function (msg) {
 };
 
 /*
- * Helper of the new SaltOS
+ * Check params
  *
  * This function allow to prepare parameters to be used by other functions, the main idea
  * is that the other functions can access to properties of an object without getting errors
@@ -100,7 +100,7 @@ saltos.check_params = function (obj,params,value) {
 };
 
 /*
- * Helper of the new SaltOS
+ * UniqID
  *
  * This function generates an unique id formed by the word "id" and a number that can take
  * values between 0 and 999999, useful when some widget requires an id and the user don't
@@ -111,7 +111,7 @@ saltos.uniqid = function () {
 };
 
 /*
- * Helper of the new SaltOS
+ * When visible
  *
  * This function allow to execute some code when the object is visible, useful for third part
  * widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
@@ -139,7 +139,7 @@ saltos.when_visible = function (obj,fn,args) {
 };
 
 /*
- * Helper of the new SaltOS
+ * Get keycode
  *
  * This function allow to get the keycode of a keyboard event detecting the browser
  *
@@ -158,7 +158,7 @@ saltos.get_keycode = function (event) {
 };
 
 /*
- * Helper of the new SaltOS
+ * HTML builder
  *
  * This function allow to create an DOM fragment from a string that contains html code, can
  * work with one or two arguments:
@@ -196,7 +196,66 @@ saltos.html = function () {
 };
 
 /*
- * MAIN CODE
+ * AJAX
+ *
+ * This function allow to use ajax using the same form that with jQuery without jQuery
+ *
+ * @url => url of the ajax call
+ * @data => data used in the body of the request
+ * @type => the type of the request (can be GET or POST, GET by default)
+ * @success => callback function for the success action (optional)
+ * @error => callback function for the error action (optional)
+ * @progress => callback function to monitorize the progress of the upload/download (optional)
+ * @async => boolean to use the ajax call asynchronously or not, by default is true
+ *
+ * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
+ * way as jQuery do but without using jQuery.
+ */
+saltos.ajax = function (args) {
+    saltos.check_params(args,["url","data","type","success","error","progress","async"]);
+    args.type = args.type.toUpperCase();
+    if (args.type == "") {
+        args.type = "GET";
+    }
+    if (args.async === "") {
+        args.async = true;
+    }
+    if (!["GET","POST"].includes(args.type)) {
+        console.log("unknown " + args.type + " type");
+        return null;
+    }
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function () {
+        if (ajax.readyState == 4) {
+            if (ajax.status == 200) {
+                if (typeof args.success == "function") {
+                    var data = ajax.response;
+                    if (ajax.getResponseHeader("content-type").toUpperCase().includes("JSON")) {
+                        data = JSON.parse(ajax.responseText);
+                    }
+                    if (ajax.getResponseHeader("content-type").toUpperCase().includes("XML")) {
+                        data = ajax.responseXML;
+                    }
+                    args.success(data, ajax.statusText, ajax);
+                }
+            } else {
+                if (typeof args.error == "function") {
+                    args.error(ajax, ajax.status, ajax);
+                }
+            }
+        }
+    }
+    if (typeof args.progress == "function") {
+        ajax.onprogress = args.progress;
+        ajax.upload.onprogress = args.progress;
+    }
+    ajax.open(args.type, args.url, args.async);
+    ajax.send(args.data);
+    return ajax;
+};
+
+/*
+ * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
