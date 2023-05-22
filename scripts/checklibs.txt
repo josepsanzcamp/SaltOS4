@@ -1,4 +1,3 @@
-jquery|https://api.cdnjs.com/libraries/jquery?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5IiwidmVyc2lvbiI6IjMuNy4wIn0=
 ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjM3LjEuMCJ9
 locutus|https://github.com/kvz/locutus/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMi0wOC0xNVQxODoxOToxOVo8L3VwZGF0ZWQ+
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
@@ -8,6 +7,5 @@ httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex--
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|base64:eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMi4zIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjIuMyJ9
-ajaxprogress|https://github.com/englercj/jquery-ajax-progress/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxOC0wMi0yM1QxNzoyNjo0N1o8L3VwZGF0ZWQ+
 chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|base64:eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC4zLjAifQ==
 imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64:eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNi42LjEifQ==
