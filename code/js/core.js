@@ -200,6 +200,6 @@ saltos.html = function () {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-(function ($) {
+(function () {
     saltos.init_error();
-}(jQuery));
+}());

@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 "use strict";
 
 // Main code
-(function ($) {
+(function () {
     saltos.init_error();
 
     document.querySelector("body").append(saltos.navbar({
@@ -485,4 +485,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
     container.append(row);
     document.querySelector("body").append(container);
-}(jQuery));
+}());
