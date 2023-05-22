@@ -79,7 +79,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * widgets have the special case that not includes the label for logical reasons.
  */
 saltos.form_field = function (field) {
-    saltos.check_params(field,["label","type"]);
+    saltos.check_params(field,["id","label","type"]);
+    if (field.id == "") {
+        field.id = saltos.uniqid();
+    }
     if (["label","checkbox","switch"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
@@ -106,14 +109,15 @@ saltos.__form_field = {};
  * This function returns an object of the container-fluid class by default, you can pass the class
  * argument in the field object to specify what kind of container do you want to do.
  *
+ * @id => the id used by the object
  * @class => the class used in the div object
  */
 saltos.__form_field.container = function (field) {
-    saltos.check_params(field,["class"]);
+    saltos.check_params(field,["class","id"]);
     if (field.class == "") {
         field.class = "container-fluid";
     }
-    var obj = saltos.html(`<div class="${field.class}"></div>`);
+    var obj = saltos.html(`<div class="${field.class}" id="${field.id}"></div>`);
     return obj;
 };
 
@@ -123,14 +127,15 @@ saltos.__form_field.container = function (field) {
  * This function returns an object of the row class by default, you can pass the class argument
  * in the field object to specify what kind of row do you want to do.
  *
+ * @id => the id used by the object
  * @class => the class used in the div object
  */
 saltos.__form_field.row = function (field) {
-    saltos.check_params(field,["class"]);
+    saltos.check_params(field,["class","id"]);
     if (field.class == "") {
         field.class = "row";
     }
-    var obj = saltos.html(`<div class="${field.class}"></div>`);
+    var obj = saltos.html(`<div class="${field.class}" id="${field.id}"></div>`);
     return obj;
 };
 
@@ -140,14 +145,15 @@ saltos.__form_field.row = function (field) {
  * This function returns an object of the col class by default, you can pass the class argument
  * in the field object to specify what kind of col do you want to do.
  *
+ * @id => the id used by the object
  * @class => the class used in the div object
  */
 saltos.__form_field.col = function (field) {
-    saltos.check_params(field,["class"]);
+    saltos.check_params(field,["class","id"]);
     if (field.class == "") {
         field.class = "col";
     }
-    var obj = saltos.html(`<div class="${field.class}"></div>`);
+    var obj = saltos.html(`<div class="${field.class}" id="${field.id}"></div>`);
     return obj;
 };
 
@@ -156,8 +162,8 @@ saltos.__form_field.col = function (field) {
  *
  * This function returns an input object of type text, you can pass some arguments as:
  *
- * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
  * @value => the value used as value parameter
  * @disabled => this parameter raise the disabled flag
@@ -317,8 +323,8 @@ saltos.__form_field.datetime = function (field) {
  *
  * This function returns a textarea object, you can pass the follow arguments:
  *
- * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
  * @value => the value used as value parameter
  * @disabled => this parameter raise the disabled flag
@@ -410,8 +416,8 @@ saltos.__form_field.codemirror = function (field) {
  *
  * This function returns an iframe object, you can pass the follow arguments:
  *
- * @value => the value used as src parameter
  * @id => the id used by the object
+ * @value => the value used as src parameter
  * @class => allow to add more classes to the default form-control
  * @height => the height used as height for the style parameter
  */
@@ -428,8 +434,8 @@ saltos.__form_field.iframe = function (field) {
  *
  * This function returns a select object, you can pass the follow arguments:
  *
- * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
  * @multiple => this parameter enables the multiple selection feature of the select
@@ -476,8 +482,8 @@ saltos.__form_field.select = function (field) {
  *
  * This function returns a multiselect object, you can pass the follow arguments:
  *
- * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
  * @size => this parameter allow to see the options list opened with n (size) entries
  * @value => the value used as src parameter
@@ -658,8 +664,8 @@ saltos.__form_field.switch = function (field) {
  *
  * This function returns a button object, you can pass the follow arguments:
  *
- * @class => allow to add more classes to the default form-select
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
  * @value => value to be used as text in the contents of the buttons
  * @onclick => callback function that is executed when the button is pressed
@@ -689,8 +695,8 @@ saltos.__form_field.button = function (field) {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
- * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
  * @value => the value used as value parameter
  * @disabled => this parameter raise the disabled flag
@@ -757,8 +763,8 @@ saltos.__form_field.password = function (field) {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
- * @class => allow to add more classes to the default form-control
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-control
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
  * @multiple => this parameter raise the multiple flag, intended to select more files at time
@@ -897,7 +903,6 @@ saltos.__form_field.file = function (field) {
                         data:JSON.stringify(data),
                         type:"post",
                         success:function (data,textStatus,XMLHttpRequest) {
-                            console.log(data);
                             row.saltos_data = data[0];
                             __update_data_input_file(input);
                         },
@@ -1130,8 +1135,8 @@ saltos.__form_field.pdfjs = function (field) {
  *
  * Returns a table using the follow params:
  *
- * @class => allow to add more classes to the default table table-striped table-hover
  * @id => the id used to set the reference for to the object
+ * @class => allow to add more classes to the default table table-striped table-hover
  * @header => array with the header to use
  * @data => 2D array with the data used to mount the body table
  * @footer => array with the footer to use
