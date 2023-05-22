@@ -28,7 +28,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 // Main code
 (function () {
-    saltos.init_error();
 
     document.querySelector("body").append(saltos.navbar({
         id:saltos.uniqid(),
@@ -485,4 +484,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
     container.append(row);
     document.querySelector("body").append(container);
+
 }());
