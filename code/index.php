@@ -27,17 +27,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// BEGIN INCLUDING ALL CORE FILES
+// Begin including all core files
 foreach (glob("php/autoload/*.php") as $file) {
     require $file;
 }
 
-// SOME IMPORTANT ITEMS
+// Some important items
 program_handlers();
 time_get_usage(true);
 check_system();
 
-// NORMAL OPERATION
+// Normal operation
 $_CONFIG = xml2array("xml/config.xml");
 $_CONFIG = eval_attr($_CONFIG);
 eval_iniset(get_default("ini_set"));
@@ -47,14 +47,14 @@ db_connect();
 db_schema();
 db_static();
 
-// COLLECT ALL INPUT DATA
+// Collect all input data
 $data = array(
     //~ "headers" => getallheaders(),
     "input" => null2array(json_decode(file_get_contents('php://input'), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")), array("")),
 );
 
-// CHECK FOR A VOID REQUEST
+// Check for a void request
 if (count($data, COUNT_RECURSIVE) - count($data) == 0) {
     output_handler(array(
         "data" => file_get_contents("htm/index.min.htm"),
@@ -63,7 +63,7 @@ if (count($data, COUNT_RECURSIVE) - count($data) == 0) {
     ));
 }
 
-// CHECK FOR AN ACTION REQUEST
+// Check for a json action request
 if (isset($data["input"]["action"])) {
     $action = "php/action/" . encode_bad_chars($data["input"]["action"]) . ".php";
     if (file_exists($action)) {
@@ -71,7 +71,15 @@ if (isset($data["input"]["action"])) {
     }
 }
 
-// OTHERWISE, WE DON'T KNOW WHAT TO DO WITH THIS REQUEST
+// Check for a rest action request
+if (isset($data["rest"][0])) {
+    $action = "php/action/" . encode_bad_chars($data["rest"][0]) . ".php";
+    if (file_exists($action)) {
+        require $action;
+    }
+}
+
+// Otherwise, we don't know what to do with this request
 addlog(sprintr($data));
 //~ output_handler(array(
     //~ "data" => json_encode($data),

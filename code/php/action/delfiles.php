@@ -27,31 +27,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-if (isset($data["input"]["files"])) {
-    $files = $data["input"]["files"];
-    foreach ($files as $key => $val) {
-        if ($val["error"] != "") {
-            continue;
-        }
-        if (encode_bad_chars_file($val["file"]) != $val["file"]) {
-            continue;
-        }
-        $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
-        if (filesize($dir . $val["file"]) != $val["size"]) {
-            continue;
-        }
-        if (md5_file($dir . $val["file"]) != $val["hash"]) {
-            continue;
-        }
-        unlink($dir . $val["file"]);
-        $val["file"] = "";
-        $val["hash"] = "";
-        $files[$key] = $val;
-    }
+if (!isset($data["input"]["files"])) {
     output_handler(array(
-        "data" => json_encode($files),
+        "data" => json_encode(array("error"=>"files not found")),
         "type" => "application/json",
         "cache" => false
     ));
 }
-die();
+
+$files = $data["input"]["files"];
+foreach ($files as $key => $val) {
+    if ($val["error"] != "") {
+        continue;
+    }
+    if (encode_bad_chars_file($val["file"]) != $val["file"]) {
+        continue;
+    }
+    $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
+    if (filesize($dir . $val["file"]) != $val["size"]) {
+        continue;
+    }
+    if (md5_file($dir . $val["file"]) != $val["hash"]) {
+        continue;
+    }
+    unlink($dir . $val["file"]);
+    $val["file"] = "";
+    $val["hash"] = "";
+    $files[$key] = $val;
+}
+output_handler(array(
+    "data" => json_encode($files),
+    "type" => "application/json",
+    "cache" => false
+));

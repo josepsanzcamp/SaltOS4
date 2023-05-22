@@ -365,9 +365,9 @@ saltos.__form_field.__textarea = function (field) {
  */
 saltos.__form_field.textarea = function (field) {
     var obj = saltos.__form_field.__textarea(field);
-    saltos.when_visible(obj ,function (element) {
+    saltos.when_visible(obj ,function () {
         autoheight(obj);
-    }, obj);
+    });
     return obj;
 };
 
@@ -378,11 +378,11 @@ saltos.__form_field.textarea = function (field) {
  */
 saltos.__form_field.ckeditor = function (field) {
     var obj = saltos.__form_field.__textarea(field);
-    saltos.when_visible(obj ,function (element) {
+    saltos.when_visible(obj ,function () {
         ClassicEditor.create(obj).catch(error => {
             console.error(error);
         });
-    }, obj);
+    });
     return obj;
 };
 
@@ -396,7 +396,7 @@ saltos.__form_field.ckeditor = function (field) {
 saltos.__form_field.codemirror = function (field) {
     saltos.check_params(field,["mode"]);
     var obj = saltos.__form_field.__textarea(field);
-    saltos.when_visible(obj ,function (element) {
+    saltos.when_visible(obj ,function () {
         var cm = CodeMirror.fromTextArea(obj,{
             mode: field.mode,
             styleActiveLine: true,
@@ -407,7 +407,7 @@ saltos.__form_field.codemirror = function (field) {
         obj.nextSibling.classList.add("p-0");
         obj.nextSibling.style.height = "auto";
         cm.on("change",cm.save);
-    }, obj);
+    });
     return obj;
 };
 
@@ -1048,7 +1048,7 @@ saltos.__form_field.excel = function (field) {
         field.colWidths = undefined;
     }
     var element = obj.querySelector("div");
-    saltos.when_visible(element,function (element) {
+    saltos.when_visible(element,function () {
         new Handsontable(element,{
             data:field.data,
             rowHeaders:field.rowHeaders,
@@ -1061,7 +1061,7 @@ saltos.__form_field.excel = function (field) {
                 element.saltos_data = field.data;
             }
         });
-    }, element);
+    });
     return obj;
 };
 
@@ -1095,7 +1095,7 @@ saltos.__form_field.pdfjs = function (field) {
             </style>
         </div>
     `);
-    saltos.when_visible(obj ,function (obj) {
+    saltos.when_visible(obj ,function () {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
         pdfjsLib.getDocument(field.value).promise.then(function (pdfDocument) {
             if (!pdfDocument.numPages) {
@@ -1126,7 +1126,7 @@ saltos.__form_field.pdfjs = function (field) {
             console.log(message);
             // TODO
         });
-    }, obj);
+    });
     return obj;
 };
 
@@ -1275,12 +1275,12 @@ saltos.__form_field.card = function (field) {
 saltos.__form_field.chartjs = function (field) {
     saltos.check_params(field,["id","mode","data"]);
     var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
-    saltos.when_visible(obj ,function (obj) {
+    saltos.when_visible(obj ,function () {
         new Chart(obj, {
             type: field.mode,
             data: field.data,
         });
-    }, obj);
+    });
     window.addEventListener("resize",function () {
         obj.style.width = "100%";
         obj.style.height = "100%";

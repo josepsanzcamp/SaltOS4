@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 
-/*
+<!--
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -22,17 +23,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+-->
 
-"use strict";
+<root>
 
-// Main code
-(function () {
-
-var token = localStorage.getItem("token");
-if (token === null) {
-
-}
-
-
-}());
+</root>

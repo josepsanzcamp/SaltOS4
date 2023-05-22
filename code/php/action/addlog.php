@@ -27,8 +27,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-if (isset($data["input"]["msg"])) {
-    $msg = $data["input"]["msg"];
-    addlog(sprintr($msg));
+if (!isset($data["input"]["msg"])) {
+    output_handler(array(
+        "data" => json_encode(array("error"=>"msg not found")),
+        "type" => "application/json",
+        "cache" => false
+    ));
 }
+$msg = $data["input"]["msg"];
+addlog(sprintr($msg));
 die();

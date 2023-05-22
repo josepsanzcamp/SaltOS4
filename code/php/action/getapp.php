@@ -1,3 +1,4 @@
+<?php
 
 /*
  ____        _ _    ___  ____    _  _    ___
@@ -24,15 +25,28 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-"use strict";
+declare(strict_types=1);
 
-// Main code
-(function () {
-
-var token = localStorage.getItem("token");
-if (token === null) {
-
+if (!isset($data["rest"][1])) {
+    output_handler(array(
+        "data" => json_encode(array("error"=>"file not found")),
+        "type" => "application/json",
+        "cache" => false
+    ));
 }
 
+$file = "apps/" . encode_bad_chars($data["rest"][1]) . "/app.xml";
+if (!file_exists($file)) {
+    output_handler(array(
+        "data" => json_encode(array("error"=>"file not found")),
+        "type" => "application/json",
+        "cache" => false
+    ));
+}
 
-}());
+output_handler(array(
+    "data" => json_encode(xml2array($file)),
+    "type" => "application/json",
+    "cache" => false
+));
+die();
