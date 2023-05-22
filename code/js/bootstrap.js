@@ -418,7 +418,7 @@ saltos.__form_field.codemirror = function (field) {
 saltos.__form_field.iframe = function (field) {
     saltos.check_params(field,["value","id","class","height"]);
     var obj = saltos.html(`
-        <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control ${field.class}" style="height:${field.height}"></iframe>
+        <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control p-0 ${field.class}" style="height:${field.height}"></iframe>
     `);
     return obj;
 };
