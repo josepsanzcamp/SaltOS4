@@ -106,7 +106,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 menu:[{
                     name:"Themes",
                     disabled:false,
-                    "dropdown-menu-end":true,
+                    dropdown_menu_end:true,
                     menu:function () {
                         var menu = [
                             "default",

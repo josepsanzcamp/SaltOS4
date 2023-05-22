@@ -125,16 +125,17 @@ saltos.when_visible = function (obj,fn,args) {
     if (!obj.getAttribute("id")) {
         obj.setAttribute("id","fix" + saltos.uniqid());
     }
-    var id = "#" + obj.getAttribute("id");
+    var id = obj.getAttribute("id");
     var interval = setInterval(function () {
-        var obj2 = document.querySelector(id);
+        var obj2 = document.getElementById(id);
         if (obj2 === null) {
             clearInterval(interval);
+            console.log("#" + id + " not found");
         } else if (obj2.offsetParent !== null) {
             clearInterval(interval);
             fn(args);
         }
-    },1);
+    },100);
 };
 
 /*
@@ -157,7 +158,21 @@ saltos.get_keycode = function (event) {
 };
 
 /*
- * TODO
+ * Helper of the new SaltOS
+ *
+ * This function allow to create an DOM fragment from a string that contains html code, can
+ * work with one or two arguments:
+ *
+ * @type => the type used when create the container element
+ * @html => contains the html code that you want to use as template
+ *
+ * The main use is only using the html argument and omiting the type, in this case, the
+ * type used will be a div, but if you want to create a fragment of object, for example
+ * as tr or td, you need to specify that the coontainer type used to create the objects
+ * must to be a table or tr, is you don't specify the type, the div container creates
+ * a breaked portion of the element and they don't works as expected because the DOM
+ * builded is bad, you can see this problem in action when work with tables and try to
+ * create separate portions of the table as trs or tds.
  */
 saltos.html = function () {
     var type = "div";

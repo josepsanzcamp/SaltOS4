@@ -88,8 +88,8 @@ saltos.form_field = function (field) {
     }
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__form_field.label(field));
-    obj.append(saltos.html(`<div></div>`));
-    obj.querySelector("div").append(saltos.__form_field[field.type](field));
+    obj.append(saltos.html(`<div class="last"></div>`));
+    obj.querySelector("div.last").append(saltos.__form_field[field.type](field));
     return obj;
 };
 
@@ -807,9 +807,9 @@ saltos.__form_field.file = function (field) {
         var data = [];
         var tabla = input.nextSibling.nextSibling.querySelector("table");
         tabla.querySelectorAll("tr").forEach(function (_this) {
-            data.push(_this._data);
+            data.push(_this.saltos_data);
         });
-        input._data = data;;
+        input.saltos_data = data;;
     };
     // Program the automatic upload
     obj.querySelector("input").addEventListener("change",async function () {
@@ -847,7 +847,7 @@ saltos.__form_field.file = function (field) {
                 </tr>
             `);
             // Store the data in the row
-            row._data = data.files[0];
+            row.saltos_data = data.files[0];
             // Program de remove button
             row.querySelector("button").addEventListener("click",function () {
                 var row = this.parentNode.parentNode;
@@ -855,13 +855,13 @@ saltos.__form_field.file = function (field) {
                     action:"delfiles",
                     files:[],
                 };
-                data.files[0] = row._data;
+                data.files[0] = row.saltos_data;
                 $.ajax({
                     url:"index.php",
                     data:JSON.stringify(data),
                     type:"post",
                     success:function (data,textStatus,XMLHttpRequest) {
-                        row._data = data[0];
+                        row.saltos_data = data[0];
                         // If server removes the file, i remove the row
                         if (data[0].file == "") {
                             row.remove();
@@ -897,7 +897,7 @@ saltos.__form_field.file = function (field) {
                         data:JSON.stringify(data),
                         type:"post",
                         success:function (data,textStatus,XMLHttpRequest) {
-                            row._data = data[0];
+                            row.saltos_data = data[0];
                             __update_data_input_file(input);
                         },
                         error:function (XMLHttpRequest,textStatus,errorThrown) {
@@ -1052,7 +1052,7 @@ saltos.__form_field.excel = function (field) {
             rowHeaderWidth:field.rowHeaderWidth,
             colWidths:field.colWidths,
             afterChange:function (changes,source) {
-                element._data = field.data;
+                element.saltos_data = field.data;
             }
         });
     }, element);
@@ -1301,21 +1301,23 @@ saltos.__form_field.tags = function (field) {
     saltos.check_params(field,["id","value"]);
     saltos.check_params(field,["datalist"],[]);
     var obj = saltos.html(`<div></div>`);
+    field.class = "first";
     obj.append(saltos.__form_field.hidden(field));
     field.id_old = field.id;
     field.id = field.id + "_tags";
     field.value_old = field.value.split(",");
     field.value = "";
+    field.class = "last";
     obj.append(saltos.__form_field.text(field));
     var fn = function (val) {
-        var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2" data="${val}">
+        var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2" saltos-data="${val}">
             ${val} <i class="bi bi-x-circle ps-1" style="cursor:pointer"></i>
         </span>`);
         obj.append(span);
         span.querySelector("i").addEventListener("click",function () {
             var a = this.parentNode;
-            var b = a.getAttribute("data");
-            var input = obj.querySelector("input");
+            var b = a.getAttribute("saltos-data");
+            var input = obj.querySelector("input.first");
             var val_old = input.value.split(",");
             var val_new = [];
             for (var key in val_old) {
@@ -1328,12 +1330,12 @@ saltos.__form_field.tags = function (field) {
             a.remove();
         });
     };
-    Array.from(obj.querySelectorAll("input")).pop().addEventListener("keydown",function (event) {
+    obj.querySelector("input.last").addEventListener("keydown",function (event) {
         if (saltos.get_keycode(event) != 13) {
             return;
         }
-        var input_old = obj.querySelector("input");
-        var input_new = Array.from(obj.querySelectorAll("input")).pop();
+        var input_old = obj.querySelector("input.first");
+        var input_new = obj.querySelector("input.last");
         var val_old = input_old.value.split(",");
         var val = input_new.value;
         var val_new = [];
@@ -1374,7 +1376,7 @@ saltos.__form_field.tags = function (field) {
  *       @disabled => this boolean allow to disable this menu entry
  *       @active => this boolean marks the option as active
  *       @onclick => the callback used when the user select the menu
- *       @dropdown-menu-end => this trick allow to open the dropdown menu from the end to start
+ *       @dropdown_menu_end => this trick allow to open the dropdown menu from the end to start
  *       @menu => with this option, you can specify an array with the contents of the dropdown menu
  *             @name => name of the menu
  *             @disabled => this boolean allow to disable this menu entry
@@ -1388,7 +1390,7 @@ saltos.menu = function (args) {
     var obj = saltos.html(`<ul class="${args.class}"></ul>`);
     for (var key in args.menu) {
         var val = args.menu[key];
-        saltos.check_params(val,["name","disabled","active","onclick","dropdown-menu-end"]);
+        saltos.check_params(val,["name","disabled","active","onclick","dropdown_menu_end"]);
         saltos.check_params(val,["menu"],[]);
         if (val.disabled) {
             val.disabled = "disabled";
@@ -1397,15 +1399,15 @@ saltos.menu = function (args) {
             val.active = "active";
         }
         if (val.menu.length) {
-            if (val["dropdown-menu-end"]) {
-                val["dropdown-menu-end"] = "dropdown-menu-end";
+            if (val.dropdown_menu_end) {
+                val.dropdown_menu_end = "dropdown-menu-end";
             }
             var temp = saltos.html(`
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.name}
                     </a>
-                    <ul class="dropdown-menu ${val["dropdown-menu-end"]}">
+                    <ul class="dropdown-menu ${val.dropdown_menu_end}">
                     </ul>
                 </li>
             `);
