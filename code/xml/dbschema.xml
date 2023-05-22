@@ -27,6 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <root>
     <tables>
+
         <table>
             <name>tbl_config</name>
             <fields>
@@ -45,6 +46,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 </field>
             </fields>
         </table>
+
         <table>
             <name>tbl_correo</name>
             <fields>
@@ -199,8 +201,241 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 </field>
             </fields>
         </table>
+
+        <table>
+            <name>tbl_clientes</name>
+            <fields>
+                <field>
+                    <name>id</name>
+                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
+                    <pkey>true</pkey>
+                </field>
+                <field>
+                    <name>id_campanya</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_campanyas</fkey>
+                </field>
+                <field>
+                    <name>id_tipo</name>
+                    <type>INT(11)</type>
+                </field>
+                <field>
+                    <name>codigo</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre1</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre2</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>cif</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>comentarios</name>
+                    <type>TEXT</type>
+                </field>
+                <field>
+                    <name>corriente</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>contable</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>diapago</name>
+                    <type>INT(11)</type>
+                </field>
+                <field>
+                    <name>direccion</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>id_pais</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_paises</fkey>
+                </field>
+                <field>
+                    <name>id_provincia</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_provincias</fkey>
+                </field>
+                <field>
+                    <name>id_poblacion</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_poblaciones</fkey>
+                </field>
+                <field>
+                    <name>id_codpostal</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_codpostal</fkey>
+                </field>
+                <field>
+                    <name>nombre_pais</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre_provincia</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre_poblacion</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre_codpostal</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>email</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>web</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>tel_fijo</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>tel_movil</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>fax</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>activo</name>
+                    <type>INT(11)</type>
+                </field>
+            </fields>
+        </table>
+
+        <table>
+            <name>tbl_proveedores</name>
+            <fields>
+                <field>
+                    <name>id</name>
+                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
+                    <pkey>true</pkey>
+                </field>
+                <field>
+                    <name>codigo</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre1</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre2</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>cif</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>comentarios</name>
+                    <type>TEXT</type>
+                </field>
+                <field>
+                    <name>corriente</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>contable</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>diapago</name>
+                    <type>INT(11)</type>
+                </field>
+                <field>
+                    <name>direccion</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>id_pais</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_paises</fkey>
+                </field>
+                <field>
+                    <name>id_provincia</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_provincias</fkey>
+                </field>
+                <field>
+                    <name>id_poblacion</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_poblaciones</fkey>
+                </field>
+                <field>
+                    <name>id_codpostal</name>
+                    <type>INT(11)</type>
+                    <fkey>tbl_codpostal</fkey>
+                </field>
+                <field>
+                    <name>nombre_pais</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre_provincia</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre_poblacion</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>nombre_codpostal</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>email</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>web</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>tel_fijo</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>tel_movil</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>fax</name>
+                    <type>VARCHAR(255)</type>
+                </field>
+                <field>
+                    <name>activo</name>
+                    <type>INT(11)</type>
+                </field>
+            </fields>
+        </table>
+
     </tables>
     <indexes>
+
         <index>
             <name>tbl_correo_id_cuenta_state_new_id</name>
             <table>tbl_correo</table>
@@ -282,5 +517,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 </field>
             </fields>
         </index>
+
     </indexes>
 </root>

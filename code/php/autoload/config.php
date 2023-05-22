@@ -59,9 +59,9 @@ function set_config($key, $val)
         db_query($query);
     } else {
         $query = make_update_query("tbl_config", array(
-            "_val" => $val
+            "val" => $val
         ), make_where_query(array(
-            "key" => $key
+            "_key" => $key
         )));
         db_query($query);
     }
