@@ -377,9 +377,19 @@ saltos.__form_field.textarea = function (field) {
  * This function returns a textarea object with the ckeditor plugin enabled
  */
 saltos.__form_field.ckeditor = function (field) {
-    var obj = saltos.__form_field.__textarea(field);
-    saltos.when_visible(obj ,function () {
-        ClassicEditor.create(obj).catch(error => {
+    var obj = saltos.html(`
+        <div>
+            <style>
+                .ck-powered-by-balloon {
+                    display:none!important;
+                }
+            </style>
+        </div>
+    `);
+    obj.append(saltos.__form_field.__textarea(field));
+    var element = obj.querySelector("textarea");
+    saltos.when_visible(element ,function () {
+        ClassicEditor.create(element).catch(error => {
             console.error(error);
         });
     });
@@ -395,17 +405,19 @@ saltos.__form_field.ckeditor = function (field) {
  */
 saltos.__form_field.codemirror = function (field) {
     saltos.check_params(field,["mode"]);
-    var obj = saltos.__form_field.__textarea(field);
-    saltos.when_visible(obj ,function () {
-        var cm = CodeMirror.fromTextArea(obj,{
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__textarea(field));
+    var element = obj.querySelector("textarea");
+    saltos.when_visible(element ,function () {
+        var cm = CodeMirror.fromTextArea(element,{
             mode: field.mode,
             styleActiveLine: true,
             lineNumbers: true,
             lineWrapping: true,
         });
-        obj.nextSibling.classList.add("form-control");
-        obj.nextSibling.classList.add("p-0");
-        obj.nextSibling.style.height = "auto";
+        element.nextSibling.classList.add("form-control");
+        element.nextSibling.classList.add("p-0");
+        element.nextSibling.style.height = "auto";
         cm.on("change",cm.save);
     });
     return obj;
