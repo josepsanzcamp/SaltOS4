@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 if (!isset($data["rest"][1])) {
     output_handler(array(
-        "data" => json_encode(array("error"=>"file not found")),
+        "data" => json_encode(array("error" => "file not found")),
         "type" => "application/json",
         "cache" => false
     ));
@@ -38,7 +38,7 @@ if (!isset($data["rest"][1])) {
 $file = "apps/" . encode_bad_chars($data["rest"][1]) . "/app.xml";
 if (!file_exists($file)) {
     output_handler(array(
-        "data" => json_encode(array("error"=>"file not found")),
+        "data" => json_encode(array("error" => "file not found")),
         "type" => "application/json",
         "cache" => false
     ));

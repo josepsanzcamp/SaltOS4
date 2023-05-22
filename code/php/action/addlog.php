@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 if (!isset($data["input"]["msg"])) {
     output_handler(array(
-        "data" => json_encode(array("error"=>"msg not found")),
+        "data" => json_encode(array("error" => "msg not found")),
         "type" => "application/json",
         "cache" => false
     ));

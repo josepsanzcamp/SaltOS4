@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 if (!isset($data["input"]["files"])) {
     output_handler(array(
-        "data" => json_encode(array("error"=>"files not found")),
+        "data" => json_encode(array("error" => "files not found")),
         "type" => "application/json",
         "cache" => false
     ));

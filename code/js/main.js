@@ -29,10 +29,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // Main code
 (function () {
 
-var token = localStorage.getItem("token");
-if (token === null) {
-
-}
-
+    var token = localStorage.getItem("token");
+    if (token === null) {
+        console.log(main);
+    }
 
 }());
