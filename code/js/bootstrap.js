@@ -360,7 +360,7 @@ saltos.__form_field.__textarea = function (field) {
 saltos.__form_field.textarea = function (field) {
     var obj = saltos.__form_field.__textarea(field);
     saltos.when_visible(obj ,function (element) {
-        $(obj).autogrow();
+        autoheight(obj);
     }, obj);
     return obj;
 };
