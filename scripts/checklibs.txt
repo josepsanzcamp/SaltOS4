@@ -1,8 +1,7 @@
 jquery|https://api.cdnjs.com/libraries/jquery?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5IiwidmVyc2lvbiI6IjMuNy4wIn0=
 ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjM3LjEuMCJ9
 locutus|https://github.com/kvz/locutus/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMi0wOC0xNVQxODoxOToxOVo8L3VwZGF0ZWQ+
-cookie|https://api.cdnjs.com/libraries/jquery-cookie?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5LWNvb2tpZSIsInZlcnNpb24iOiIxLjQuMSJ9
-autogrow|https://github.com/jaz303/jquery-grab-bag/commits/master/javascripts/jquery.autogrow-textarea.js.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wNS0yM1QyMzozNjozMlo8L3VwZGF0ZWQ+
+autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 roundcubemail|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNC0wOVQxMDowNjo1MFo8L3VwZGF0ZWQ+
 pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjMuNi4xNzIifQ==
 httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex-->:|
