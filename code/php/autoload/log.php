@@ -81,8 +81,8 @@ function gettrace($array, $verbose = false)
     if (!isset($array["debug"])) {
         $array["debug"] = session_backtrace($verbose);
     }
-    $msg_text = do_message_error($array, "text");
-    return $msg_text;
+    $msg = do_message_error($array);
+    return $msg["text"];
 }
 
 function session_backtrace($verbose = false)

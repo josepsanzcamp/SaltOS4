@@ -114,7 +114,8 @@ function output_handler($array)
     die();
 }
 
-function output_handler_json($array) {
+function output_handler_json($array)
+{
     output_handler(array(
         "data" => json_encode($array),
         "type" => "application/json",

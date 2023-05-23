@@ -46,7 +46,9 @@ function show_php_error($array)
         $array["debug"] = session_backtrace();
     }
     // CREATE THE MESSAGE ERROR USING HTML ENTITIES AND PLAIN TEXT
-    $msg_text = do_message_error($array, "text");
+    $msg = do_message_error($array);
+    $msg_text = $msg["text"];
+    $msg_json = $msg["json"];
     $hash = md5($msg_text);
     $dir = get_directory("dirs/logsdir", getcwd_protected() . "/data/logs");
     // REFUSE THE DEPRECATED WARNINGS
@@ -85,25 +87,66 @@ function show_php_error($array)
         addlog("***** {$hash} *****", $file);
     }
     // PREPARE THE FINAL REPORT
-    $msg_html = do_message_error($array, "html");
-    $msg_json = do_message_error($array, "json");
     output_handler_json(array(
-        "error" => array(
-            "text" => $msg_text,
-            "html" => $msg_html,
-            "json" => $msg_json,
-            "hash" => $hash,
-        )
+        "error" => $msg_json
     ));
 }
 
-function do_message_error($array, $format)
+function do_message_error($array)
 {
-    static $sep = array(
-        "text" => "\n",
-        "html" => "<br/>",
-        "json" => "|",
+    $json = array(
+        "text" => "",
+        "code" => "",
     );
+    // PREPARE JSON VERSION
+    foreach ($array as $type => $data) {
+        switch ($type) {
+            case "dberror":
+                $privated = array(
+                    get_default("db/host"),
+                    get_default("db/port"),
+                    get_default("db/user"),
+                    get_default("db/pass"),
+                    get_default("db/name")
+                );
+                $data = str_replace($privated, "...", $data);
+                break;
+            case "backtrace":
+                if (is_array($data)) {
+                    $json["code"] = __get_code_from_trace($data, 0);
+                    foreach ($data as $key => $item) {
+                        $temp = $item["function"];
+                        if (isset($item["class"])) {
+                            $temp .= " (in class " . $item["class"] . ")";
+                        }
+                        if (isset($item["file"]) && isset($item["line"])) {
+                            $temp .= " (in file " . basename($item["file"]) . ":" . $item["line"] . ")";
+                        }
+                        $data[$key] = $temp;
+                    }
+                }
+                if (is_string($data)) {
+                    $data = trim($data);
+                }
+                break;
+            case "debug":
+                if (is_string($data)) {
+                    $data = trim($data);
+                }
+                break;
+        }
+        if (is_array($data) && !count($data)) {
+            unset($array[$type]);
+        } elseif (is_string($data) && $data == "") {
+            unset($array[$type]);
+        } else {
+            $array[$type] = $data;
+            if ($json["text"] == "") {
+                $json["text"] = $data;
+            }
+        }
+    }
+    // PREPARE HTML VERSION
     static $types = array(
         "dberror" => "DB Error",
         "phperror" => "PHP Error",
@@ -120,34 +163,15 @@ function do_message_error($array, $format)
         "backtrace" => "Backtrace",
         "debug" => "Debug",
     );
-    $msg = array();
+    $text = array();
     foreach ($array as $type => $data) {
         switch ($type) {
-            case "dberror":
-                $privated = array(
-                    get_default("db/host"),
-                    get_default("db/port"),
-                    get_default("db/user"),
-                    get_default("db/pass"),
-                    get_default("db/name")
-                );
-                $data = str_replace($privated, "...", $data);
-                break;
             case "backtrace":
                 if (is_array($data)) {
                     foreach ($data as $key => $item) {
-                        $temp = $key . " => " . $item["function"];
-                        if (isset($item["class"])) {
-                            $temp .= " (in class " . $item["class"] . ")";
-                        }
-                        if (isset($item["file"]) && isset($item["line"])) {
-                            $temp .= " (in file " . basename($item["file"]) . ":" . $item["line"] . ")";
-                        }
-                        $data[$key] = $temp;
+                        $data[$key] = "{$key} => {$item}";
                     }
-                    $data = implode($sep[$format], $data);
-                } else {
-                    $data = trim($data);
+                    $data = implode("\n", $data);
                 }
                 break;
             case "debug":
@@ -155,36 +179,23 @@ function do_message_error($array, $format)
                     foreach ($data as $key => $item) {
                         $data[$key] = "{$key} => {$item}";
                     }
-                    $data = implode($sep[$format], $data);
-                } else {
-                    $data = trim($data);
+                    $data = implode("\n", $data);
                 }
                 break;
         }
         if (!isset($types[$type])) {
             die("Unknown type $type");
         }
-        if ($data != "") {
-            $msg[] = array($types[$type],$data);
-        }
+        $text[] = array($types[$type],$data);
     }
-    if ($format == "text") {
-        foreach ($msg as $key => $item) {
-            $msg[$key] = "***** " . $item[0] . " *****" . $sep[$format] . $item[1];
-        }
-        $msg = implode($sep[$format], $msg);
-    } elseif ($format == "html") {
-        foreach ($msg as $key => $item) {
-            $msg[$key] = "<h3>" . $item[0] . "</h3><pre>" . $item[1] . "</pre>";
-        }
-        $msg = implode($msg);
-    //~ } elseif ($format == "json") {
-        //~ foreach ($msg as $key => $item) {
-            //~ $msg[$key] = $item[0] . $sep[$format] . $item[1];
-        //~ }
-        //~ $msg = implode($sep[$format], $msg);
+    foreach ($text as $key => $item) {
+        $text[$key] = "***** " . $item[0] . " *****" . "\n" . $item[1];
     }
-    return $msg;
+    $text = implode("\n", $text);
+    return array(
+        "text" => $text,
+        "json" => $json,
+    );
 }
 
 function program_handlers()
@@ -227,23 +238,24 @@ function __shutdown_handler()
     semaphore_shutdown();
 }
 
-function __get_code_from_trace($index) {
-    $code = "unknown/0";
-    $trace = debug_backtrace();
+function __get_code_from_trace($trace, $index = 0)
+{
+    $code = "unknown:0";
     if (isset($trace[$index])) {
         $trace = $trace[$index];
         if (isset($trace["file"]) && isset($trace["line"])) {
-            $code = pathinfo($trace["file"],PATHINFO_FILENAME) . "/" . $trace["line"];
+            $code = pathinfo($trace["file"], PATHINFO_FILENAME) . ":" . $trace["line"];
         }
     }
     return $code;
 }
 
-function show_json_error($msg) {
+function show_json_error($msg)
+{
     output_handler_json(array(
         "error" => array(
             "text" => $msg,
-            "code" => __get_code_from_trace(1),
+            "code" => __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)),
         )
     ));
 }
