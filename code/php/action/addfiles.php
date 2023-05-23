@@ -27,11 +27,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-if (!isset($data["input"]["files"])) {
+if (!isset($data["json"]["files"])) {
     show_json_error("files not found");
 }
 
-$files = $data["input"]["files"];
+$files = $data["json"]["files"];
 foreach ($files as $key => $val) {
     if ($val["error"] != "") {
         continue;

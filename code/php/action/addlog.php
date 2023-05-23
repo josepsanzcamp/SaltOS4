@@ -27,10 +27,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-if (!isset($data["input"]["msg"])) {
+if (!isset($data["json"]["msg"])) {
     show_json_error("msg not found");
 }
 
-$msg = $data["input"]["msg"];
+$msg = $data["json"]["msg"];
 addlog(sprintr($msg));
 die();

@@ -31,7 +31,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
     var token = localStorage.getItem("token");
     if (token === null) {
-        console.log(main);
+        saltos.app = "login";
     }
+
+    saltos.ajax({
+        url:"index.php?getapp/login/default",
+        type:"get",
+        success:function(response) {
+            console.log(response);
+        },
+        headers:{
+            "token":"0123456789",
+        }
+    })
 
 }());

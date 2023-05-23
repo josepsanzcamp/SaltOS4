@@ -43,19 +43,24 @@ $_CONFIG = eval_attr($_CONFIG);
 eval_iniset(get_default("ini_set"));
 eval_putenv(get_default("putenv"));
 
-db_connect();
-db_schema();
-db_static();
+db_connect(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
+db_schema(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
+db_static(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
 
 // Collect all input data
 $data = array(
     //~ "headers" => getallheaders(),
-    "input" => null2array(json_decode(file_get_contents('php://input'), true)),
+    "json" => null2array(json_decode(file_get_contents('php://input'), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")), array("")),
+    "method" => get_server("REQUEST_METHOD"),
+    "token" => get_server("HTTP_TOKEN"),
 );
 
-// Check for a void request
-if (count($data, COUNT_RECURSIVE) - count($data) == 0) {
+//~ addlog(sprintr($data));
+//~ addlog(sprintr($_SERVER));
+
+// Check for an init browser request
+if ($data["method"] == "GET" && count($data["rest"]) == 0) {
     output_handler(array(
         "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
@@ -63,26 +68,21 @@ if (count($data, COUNT_RECURSIVE) - count($data) == 0) {
     ));
 }
 
-// Check for a json action request
-if (isset($data["input"]["action"])) {
-    $action = "php/action/" . encode_bad_chars($data["input"]["action"]) . ".php";
-    if (file_exists($action)) {
-        require $action;
-    }
-}
-
-// Check for a rest action request
-if (isset($data["rest"][0])) {
+// Check for a GET REST action request
+if ($data["method"] == "GET" && isset($data["rest"][0])) {
     $action = "php/action/" . encode_bad_chars($data["rest"][0]) . ".php";
     if (file_exists($action)) {
         require $action;
     }
 }
 
+// Check for a POST JSON action request
+if ($data["method"] == "POST" && isset($data["json"]["action"])) {
+    $action = "php/action/" . encode_bad_chars($data["json"]["action"]) . ".php";
+    if (file_exists($action)) {
+        require $action;
+    }
+}
+
 // Otherwise, we don't know what to do with this request
-addlog(sprintr($data));
-//~ output_handler(array(
-    //~ "data" => json_encode($data),
-    //~ "type" => "application/json",
-    //~ "cache" => false
-//~ ));
+show_json_error("unknown request");

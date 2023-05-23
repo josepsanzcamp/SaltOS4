@@ -28,13 +28,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 foreach (array("jserror","details","backtrace") as $key) {
-    if (!isset($data["input"][$key])) {
+    if (!isset($data["json"][$key])) {
         show_json_error("$key not found");
     }
 }
 
 show_php_error(array(
-    "jserror" => $data["input"]["jserror"],
-    "details" => $data["input"]["details"],
-    "backtrace" => $data["input"]["backtrace"],
+    "jserror" => $data["json"]["jserror"],
+    "details" => $data["json"]["details"],
+    "backtrace" => $data["json"]["backtrace"],
 ));

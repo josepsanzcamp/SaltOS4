@@ -26,6 +26,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
+    <default>
+        <actions>
+            <action>screen</action>
+            <action>login</action>
+            <action>logout</action>
+        </actions>
+    </default>
     <screen>
         <method>json</method>
         <layout>

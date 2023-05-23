@@ -212,16 +212,19 @@ saltos.html = function () {
  * way as jQuery do but without using jQuery.
  */
 saltos.ajax = function (args) {
-    saltos.check_params(args,["url","data","type","success","error","progress","async"]);
-    args.type = args.type.toUpperCase();
-    if (args.type == "") {
-        args.type = "GET";
+    saltos.check_params(args,["url","data","method","success","error","progress","async","headers"]);
+    args.method = args.method.toUpperCase();
+    if (args.method == "") {
+        args.method = "GET";
     }
     if (args.async === "") {
         args.async = true;
     }
-    if (!["GET","POST"].includes(args.type)) {
-        console.log("unknown " + args.type + " type");
+    if (args.headers == "") {
+        args.headers = {};
+    }
+    if (!["GET","POST"].includes(args.method)) {
+        console.log("unknown " + args.method + " type");
         return null;
     }
     var ajax = new XMLHttpRequest();
@@ -249,7 +252,10 @@ saltos.ajax = function (args) {
         ajax.onprogress = args.progress;
         ajax.upload.onprogress = args.progress;
     }
-    ajax.open(args.type, args.url, args.async);
+    ajax.open(args.method, args.url, args.async);
+    for (var i in args.headers) {
+        ajax.setRequestHeader(i,args.headers[i]);
+    }
     ajax.send(args.data);
     return ajax;
 };
