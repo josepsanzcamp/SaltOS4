@@ -37,7 +37,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     saltos.ajax({
         url:"index.php?getapp/login/default",
         type:"get",
-        success:function(response) {
+        success:function (response) {
             console.log(response);
         },
         headers:{
