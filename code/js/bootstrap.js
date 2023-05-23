@@ -377,15 +377,7 @@ saltos.__form_field.textarea = function (field) {
  * This function returns a textarea object with the ckeditor plugin enabled
  */
 saltos.__form_field.ckeditor = function (field) {
-    var obj = saltos.html(`
-        <div>
-            <style>
-                .ck-powered-by-balloon {
-                    display:none!important;
-                }
-            </style>
-        </div>
-    `);
+    var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__form_field.__textarea(field));
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
