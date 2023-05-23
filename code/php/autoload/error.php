@@ -87,20 +87,14 @@ function show_php_error($array)
     // PREPARE THE FINAL REPORT
     $msg_html = do_message_error($array, "html");
     $msg_json = do_message_error($array, "json");
-    $msg = array(
+    output_handler_json(array(
         "error" => array(
             "text" => $msg_text,
             "html" => $msg_html,
             "json" => $msg_json,
             "hash" => $hash,
         )
-    );
-    output_handler(array(
-        "data" => json_encode($msg),
-        "type" => "application/json",
-        "cache" => false
     ));
-    die();
 }
 
 function do_message_error($array, $format)
@@ -231,6 +225,27 @@ function __shutdown_handler()
         ));
     }
     semaphore_shutdown();
+}
+
+function __get_code_from_trace($index) {
+    $code = "unknown/0";
+    $trace = debug_backtrace();
+    if (isset($trace[$index])) {
+        $trace = $trace[$index];
+        if (isset($trace["file"]) && isset($trace["line"])) {
+            $code = pathinfo($trace["file"],PATHINFO_FILENAME) . "/" . $trace["line"];
+        }
+    }
+    return $code;
+}
+
+function show_json_error($msg) {
+    output_handler_json(array(
+        "error" => array(
+            "text" => $msg,
+            "code" => __get_code_from_trace(1),
+        )
+    ));
 }
 
 //~ function pretty_html_error($msg)

@@ -33,7 +33,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         id:saltos.uniqid(),
         brand:{
             name:"SaltOS",
-            logo:"img/logo.svg",
+            logo:"img/logo_white.svg",
             width:25,
             height:25,
         },

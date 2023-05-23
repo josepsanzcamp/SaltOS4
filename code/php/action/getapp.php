@@ -28,25 +28,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 if (!isset($data["rest"][1])) {
-    output_handler(array(
-        "data" => json_encode(array("error" => "file not found")),
-        "type" => "application/json",
-        "cache" => false
-    ));
+    show_json_error("file not found");
 }
 
-$file = "apps/" . encode_bad_chars($data["rest"][1]) . "/app.xml";
+if (!isset($data["rest"][2])) {
+    show_json_error("node not found");
+}
+
+$data["rest"][1] = encode_bad_chars($data["rest"][1]);
+$file = "apps/" . $data["rest"][1] . "/app.xml";
 if (!file_exists($file)) {
-    output_handler(array(
-        "data" => json_encode(array("error" => "file not found")),
-        "type" => "application/json",
-        "cache" => false
-    ));
+    show_json_error("file " . $data["rest"][1] . " not found");
 }
 
-output_handler(array(
-    "data" => json_encode(xml2array($file)),
-    "type" => "application/json",
-    "cache" => false
-));
-die();
+$array = xml2array($file);
+
+$data["rest"][2] = encode_bad_chars($data["rest"][2]);
+if (!isset($array[$data["rest"][2]])) {
+    show_json_error("node " . $data["rest"][2] . " not found");
+}
+
+$array = $array[$data["rest"][2]];
+output_handler_json($array);

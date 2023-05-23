@@ -28,11 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 if (!isset($data["input"]["files"])) {
-    output_handler(array(
-        "data" => json_encode(array("error" => "files not found")),
-        "type" => "application/json",
-        "cache" => false
-    ));
+    show_json_error("files not found");
 }
 
 $files = $data["input"]["files"];
@@ -55,8 +51,4 @@ foreach ($files as $key => $val) {
     $val["hash"] = "";
     $files[$key] = $val;
 }
-output_handler(array(
-    "data" => json_encode($files),
-    "type" => "application/json",
-    "cache" => false
-));
+output_handler_json($files);

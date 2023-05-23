@@ -97,15 +97,6 @@ function output_handler($array)
         header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0, no-transform");
         header("Pragma: no-cache");
     }
-    // EXCEPTION WHEN TYPE IS EXCEL AND NAME DENOTES CSV
-    if ($name != "") {
-        if (strtolower(extension($name)) == "csv") {
-            if ($type == "application/vnd.ms-excel") {
-                $type = "text/csv";
-            }
-        }
-    }
-    // CONTINUE
     header("Content-Type: {$type}");
     header("Content-Length: {$size}");
     if ($name != "") {
@@ -120,7 +111,13 @@ function output_handler($array)
     } else {
         echo $data;
     }
-    if ($die) {
-        die();
-    }
+    die();
+}
+
+function output_handler_json($array) {
+    output_handler(array(
+        "data" => json_encode($array),
+        "type" => "application/json",
+        "cache" => false
+    ));
 }

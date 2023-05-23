@@ -27,5 +27,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-$array = array_intersect_key($data["input"], array("jserror" => "","details" => "","backtrace" => ""));
-show_php_error($array);
+foreach (array("jserror","details","backtrace") as $key) {
+    if (!isset($data["input"][$key])) {
+        show_json_error("$key not found");
+    }
+}
+
+show_php_error(array(
+    "jserror" => $data["input"]["jserror"],
+    "details" => $data["input"]["details"],
+    "backtrace" => $data["input"]["backtrace"],
+));

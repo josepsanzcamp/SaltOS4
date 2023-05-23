@@ -26,12 +26,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-    <action>
-        <name>form</name>
+    <screen>
         <method>json</method>
         <layout>
             <container>
                 <row>
+                    <col>
+                        <field>
+                            <type>image</type>
+                            <value>logo</value>
+                        </field>
+                    </col>
                     <col>
                         <field>
                             <type>text</type>
@@ -58,5 +63,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 </row>
             </container>
         </layout>
-    </action>
+    </screen>
+    <submit>
+        <action>login</action>
+    </submit>
 </root>
