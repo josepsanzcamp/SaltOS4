@@ -52,7 +52,8 @@ saltos.init_error = function () {
         saltos.ajax({
             url:"index.php",
             data:JSON.stringify(data),
-            method:"post"
+            method:"post",
+            content_type:"application/json",
         });
     };
 };
@@ -72,7 +73,8 @@ saltos.addlog = function (msg) {
     saltos.ajax({
         url:"index.php",
         data:JSON.stringify(data),
-        method:"post"
+        method:"post",
+        content_type:"application/json",
     });
 };
 
@@ -202,18 +204,22 @@ saltos.html = function () {
  *
  * @url => url of the ajax call
  * @data => data used in the body of the request
- * @type => the type of the request (can be GET or POST, GET by default)
+ * @method => the method of the request (can be GET or POST, GET by default)
  * @success => callback function for the success action (optional)
  * @error => callback function for the error action (optional)
  * @progress => callback function to monitorize the progress of the upload/download (optional)
  * @async => boolean to use the ajax call asynchronously or not, by default is true
+ * @content_type => the content-type that you want to use in the transfer
+ * @headers => an object with the headers that you want to send
  *
  * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
  * way as jQuery do but without using jQuery.
  */
 saltos.ajax = function (args) {
-    saltos.check_params(args,["url","data","method","success","error","progress","async","headers"]);
-    args.method = args.method.toUpperCase();
+    saltos.check_params(args,["url","data","method","success","error","progress","async","content_type","headers"]);
+    if (args.data == "") {
+        args.data = null;
+    }
     if (args.method == "") {
         args.method = "GET";
     }
@@ -223,6 +229,7 @@ saltos.ajax = function (args) {
     if (args.headers == "") {
         args.headers = {};
     }
+    args.method = args.method.toUpperCase();
     if (!["GET","POST"].includes(args.method)) {
         console.log("unknown " + args.method + " type");
         return null;
@@ -253,6 +260,9 @@ saltos.ajax = function (args) {
         ajax.upload.onprogress = args.progress;
     }
     ajax.open(args.method, args.url, args.async);
+    if (args.content_type != "") {
+        ajax.setRequestHeader("Content-Type",args.content_type);
+    }
     for (var i in args.headers) {
         ajax.setRequestHeader(i,args.headers[i]);
     }

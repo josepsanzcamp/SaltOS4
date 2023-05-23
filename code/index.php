@@ -52,7 +52,8 @@ $data = array(
     //~ "headers" => getallheaders(),
     "json" => null2array(json_decode(file_get_contents('php://input'), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")), array("")),
-    "method" => get_server("REQUEST_METHOD"),
+    "method" => strtoupper(get_server("REQUEST_METHOD")),
+    "content-type" => strtolower(get_server("CONTENT_TYPE")),
     "token" => get_server("HTTP_TOKEN"),
 );
 
@@ -77,7 +78,7 @@ if ($data["method"] == "GET" && isset($data["rest"][0])) {
 }
 
 // Check for a POST JSON action request
-if ($data["method"] == "POST" && isset($data["json"]["action"])) {
+if ($data["method"] == "POST" && $data["content-type"] == "application/json" && isset($data["json"]["action"])) {
     $action = "php/action/" . encode_bad_chars($data["json"]["action"]) . ".php";
     if (file_exists($action)) {
         require $action;
