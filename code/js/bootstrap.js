@@ -869,7 +869,7 @@ saltos.__form_field.file = function (field) {
                 saltos.ajax({
                     url:"index.php",
                     data:JSON.stringify(data),
-                    type:"post",
+                    method:"post",
                     success:function (data,textStatus,XMLHttpRequest) {
                         row.saltos_data = data[0];
                         // If server removes the file, i remove the row
@@ -905,7 +905,7 @@ saltos.__form_field.file = function (field) {
                     saltos.ajax({
                         url:"index.php",
                         data:JSON.stringify(data),
-                        type:"post",
+                        method:"post",
                         success:function (data,textStatus,XMLHttpRequest) {
                             row.saltos_data = data[0];
                             __update_data_input_file(input);

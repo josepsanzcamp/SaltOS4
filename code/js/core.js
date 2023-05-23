@@ -52,7 +52,7 @@ saltos.init_error = function () {
         saltos.ajax({
             url:"index.php",
             data:JSON.stringify(data),
-            type:"post"
+            method:"post"
         });
     };
 };
@@ -72,7 +72,7 @@ saltos.addlog = function (msg) {
     saltos.ajax({
         url:"index.php",
         data:JSON.stringify(data),
-        type:"post"
+        method:"post"
     });
 };
 
