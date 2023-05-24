@@ -49,14 +49,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @iframe => value, id, class, height, tooltip
  * @select => id, class, disabled, required, rows, multiple, size, value, tooltip
  * @multiselect => id, class, disabled, required, rows, multiple, size, value, multiple, tooltip
- * @checkbox => id, disabled, readonly, label, value, tooltip
- * @switch => id, disabled, readonly, label, value, tooltip
+ * @checkbox => id, class, disabled, readonly, label, value, tooltip
+ * @switch => id, class, disabled, readonly, label, value, tooltip
  * @button => id, class, disabled, value, onclick, tooltip
  * @password => id, class, placeholder, value, disabled, readonly, required, tooltip
  * @file => id, class, disabled, required, multiple, tooltip
  * @link => id, disabled, value, onclick, tooltip
- * @label => id, label, tooltip
- * @image => id, value, class, alt, tooltip
+ * @label => id, class, label, tooltip, value
+ * @image => id, class, value, alt, tooltip
  * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
  * @pdfjs => id, class, value
  * @table => id, class, header, data, footer, divider
@@ -598,6 +598,7 @@ saltos.__form_field.multiselect = function (field) {
  * This function returns a checkbox object, you can pass the follow arguments:
  *
  * @id => the id used by the object
+ * @class => allow to add more classes to the default form-check
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
  * @label => this parameter is used as label for the checkbox/switch
@@ -637,7 +638,7 @@ saltos.__form_field.checkbox = function (field) {
         _role = `role="switch"`;
     }
     var obj = saltos.html(`
-        <div class="form-check ${_class}">
+        <div class="form-check ${field.class} ${_class}">
             <input class="form-check-input" type="checkbox" ${_role} id="${field.id}" value="${field.value}"
                 ${field.disabled} ${field.readonly} ${checked} data-bs-title="${field.tooltip}">
             <label class="form-check-label" for="${field.id}" data-bs-title="${field.tooltip}">${field.label}</label>
@@ -965,13 +966,18 @@ saltos.__form_field.link = function (field) {
  * This function returns a label object, you can pass some arguments as:
  *
  * @id => the id used to set the reference for to the object
+ * @class => allow to add more classes to the default form-label
  * @label => this parameter is used as text for the label
  * @tooltip => this parameter raise the title flag
+ * @value => this parameter is used as label when label is void
  */
 saltos.__form_field.label = function (field) {
-    saltos.check_params(field,["id","label"]);
+    saltos.check_params(field,["id","class","label","tooltip","value"]);
+    if (field.label == "") {
+        field.label = field.value;
+    }
     var obj = saltos.html(`
-        <label for="${field.id}" class="form-label" data-bs-title="${field.tooltip}">${field.label}</label>
+        <label for="${field.id}" class="form-label ${field.class}" data-bs-title="${field.tooltip}">${field.label}</label>
     `);
     if (field.tooltip != "") {
         new bootstrap.Tooltip(obj);
@@ -985,13 +991,13 @@ saltos.__form_field.label = function (field) {
  * This function returns an image object, you can pass some arguments as:
  *
  * @id => the id used to set the reference for to the object
- * @value => the value used as src parameter
  * @class => allow to add more classes to the default img-fluid
+ * @value => the value used as src parameter
  * @alt => this parameter is used as text for the alt parameter
  * @tooltip => this parameter raise the title flag
  */
 saltos.__form_field.image = function (field) {
-    saltos.check_params(field,["id","value","class","alt","tooltip","width","height"]);
+    saltos.check_params(field,["id","class","value","alt","tooltip","width","height"]);
     if (field.class == "") {
         field.class = "img-fluid";
     }

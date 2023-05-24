@@ -26,6 +26,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
+saltos.show_error = function (error) {
+    saltos.modal({
+        title:"Error",
+        close:"Cerrar",
+        body:error.text + "<br/><br/>Code " + error.code,
+        footer:function () {
+            var obj = saltos.html("<div></div>");
+            obj.append(saltos.form_field({
+                type:"button",
+                value:"Aceptar",
+                class:"btn-primary",
+                onclick:function () {
+                    saltos.modal("close");
+                }
+            }));
+            return obj;
+        }()
+    });
+};
+
 saltos.form_layout = function(layout) {
     var arr = [];
     for (var key in layout) {
@@ -94,10 +114,18 @@ saltos.form_layout = function(layout) {
     saltos.ajax({
         url:"index.php?getapp/" + saltos.app + "/default",
         success:function (response) {
+            if (typeof response.error == "object") {
+                saltos.show_error(response.error);
+                return;
+            }
             saltos.action = response.actions.action;
             saltos.ajax({
                 url:"index.php?getapp/" + saltos.app + "/" + saltos.action,
                 success:function (response) {
+                    if (typeof response.error == "object") {
+                        saltos.show_error(response.error);
+                        return;
+                    }
                     document.querySelector("body").append(saltos.form_layout(response.layout));
                 },
                 headers:{
