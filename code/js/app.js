@@ -46,7 +46,7 @@ saltos.show_error = function (error) {
     });
 };
 
-saltos.form_layout = function(layout) {
+saltos.form_layout = function (layout) {
     var arr = [];
     for (var key in layout) {
         var val = layout[key];
