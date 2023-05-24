@@ -29,18 +29,29 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // Main code
 (function () {
 
-    var token = localStorage.getItem("token");
-    if (token === null) {
+    saltos.token = localStorage.getItem("token");
+    if (saltos.token === null) {
         saltos.app = "login";
     }
 
     saltos.ajax({
-        url:"index.php?getapp/login/default",
+        url:"index.php?getapp/"+saltos.app+"/default",
         success:function (response) {
-            console.log(response);
+            saltos.action = response.actions.action;
+            saltos.ajax({
+                url:"index.php?getapp/"+saltos.app+"/"+saltos.action,
+                success:function (response) {
+                    console.log(response);
+                    console.log(saltos.limpiar_key("hola#1"));
+                    console.log(saltos.limpiar_key(["hola","hola#1","hola#2"]));
+                },
+                headers:{
+                    "token":saltos.token,
+                }
+            });
         },
         headers:{
-            "token":"0123456789",
+            "token":saltos.token,
         }
     })
 

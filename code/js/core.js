@@ -271,6 +271,35 @@ saltos.ajax = function (args) {
 };
 
 /*
+ * Key cleaner
+ *
+ * This function is intended to clear the keys of the objects, this is caused because you can not
+ * have 2 repeated keys in an object, to have more entries with the same key, SaltOS add a suffix
+ * of the form #num, with this trick, SaltOS is able to process XML files with the same node name
+ * and convert it to an array structure, and when convert this to json, the same problem appear and
+ * for this reason, here we can process keys with the suffix.
+ *
+ * @arg => can be an string or an array of strings and returns the same structure with the keys fixed
+ *
+ * Notes:
+ *
+ * The name of the function is in spanish for historic reasons.
+ */
+saltos.limpiar_key = function (arg) {
+    if (typeof arg == "object") {
+        for (var key in arg) {
+            arg[key] = saltos.limpiar_key(arg[key]);
+        }
+        return arg;
+    }
+    var pos = arg.indexOf("#");
+    if (pos != -1) {
+        arg = arg.substr(0,pos);
+    }
+    return arg;
+};
+
+/*
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
