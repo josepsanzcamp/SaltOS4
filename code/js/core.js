@@ -40,7 +40,7 @@ var saltos = saltos || {};
  */
 saltos.init_error = function () {
     window.onerror = function (msg, file, line, column, error) {
-        if (!isset(error) || !isset(error.stack)) {
+        if (typeof error == "undefined" || typeof error.stack == "undefined") {
             var error = { stack:"unknown"};
         }
         var data = {
@@ -91,11 +91,11 @@ saltos.addlog = function (msg) {
  * @value => the default value used if an argument doesn't exists
  */
 saltos.check_params = function (obj,params,value) {
-    if (!isset(value)) {
+    if (typeof value == "undefined") {
         value = "";
     }
     for (var key in params) {
-        if (!isset(obj[params[key]])) {
+        if (typeof obj[params[key]] == "undefined") {
             obj[params[key]] = value;
         }
     }

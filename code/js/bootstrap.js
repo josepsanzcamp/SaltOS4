@@ -1162,7 +1162,7 @@ saltos.__form_field.table = function (field) {
                 </tr>
             </thead>
         `));
-        if (isset(field.divider[0]) && field.divider[0]) {
+        if (typeof field.divider[0] != "undefined" && field.divider[0]) {
             obj.querySelector("thead").classList.add("table-group-divider");
         }
         for (var key in field.header) {
@@ -1174,7 +1174,7 @@ saltos.__form_field.table = function (field) {
             <tbody>
             </tbody>
         `));
-        if (isset(field.divider[1]) && field.divider[1]) {
+        if (typeof field.divider[1] != "undefined" && field.divider[1]) {
             obj.querySelector("tbody").classList.add("table-group-divider");
         }
         for (var key in field.data) {
@@ -1192,7 +1192,7 @@ saltos.__form_field.table = function (field) {
                 </tr>
             </tfoot>
         `));
-        if (isset(field.divider[2]) && field.divider[2]) {
+        if (typeof field.divider[2] != "undefined" && field.divider[2]) {
             obj.querySelector("tfoot").classList.add("table-group-divider");
         }
         for (var key in field.footer) {
@@ -1534,10 +1534,10 @@ saltos.__modal = {};
 saltos.modal = function (args) {
     // HELPER ACTIONS
     if (args == "close") {
-        return saltos.__modal.instance.hide();
+        return typeof saltos.__modal.instance != "undefined" && saltos.__modal.instance.hide();
     }
     if (args == "isopen") {
-        return isset(saltos.__modal.obj) && saltos.__modal.obj.classList.contains("show");
+        return typeof saltos.__modal.obj != "undefined" && saltos.__modal.obj.classList.contains("show");
     }
     // ADDITIONAL CHECK
     if (saltos.modal("isopen")) {
@@ -1620,10 +1620,10 @@ saltos.__offcanvas = {};
 saltos.offcanvas = function (args) {
     // HELPER ACTIONS
     if (args == "close") {
-        return saltos.__offcanvas.instance.hide();
+        return typeof saltos.__offcanvas.instance != "undefined" && saltos.__offcanvas.instance.hide();
     }
     if (args == "isopen") {
-        return isset(saltos.__offcanvas.obj) && saltos.__offcanvas.obj.classList.contains("show");
+        return typeof saltos.__offcanvas.obj != "undefined" && saltos.__offcanvas.obj.classList.contains("show");
     }
     // ADDITIONAL CHECK
     if (saltos.offcanvas("isopen")) {
