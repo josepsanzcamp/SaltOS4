@@ -27,15 +27,44 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 "use strict";
 
 saltos.form = function(layout) {
+    console.log(arguments.length);
+    var div = saltos.html("<div></div>");
     for (var key in layout) {
         var val = layout[key];
-        console.log("**********");
-        console.log(key);
-        console.log(val);
-        if (typeof val == "object") {
-            saltos.form(val);
+        if (["container","col","row"].includes(key)) {
+            if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
+                var attr = val["#attr"];
+                attr.type = key;
+                var obj = saltos.form_field(attr);
+                obj.append(saltos.form(val.value,1));
+                div.append(obj);
+            } else {
+                var attr = {};
+                attr.type = key;
+                var obj = saltos.form_field(attr);
+                obj.append(saltos.form(val,1));
+                div.append(obj);
+            }
+        } else {
+            if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
+                var attr = val["#attr"];
+                attr.type = key;
+                attr.value = val.value;
+                var obj = saltos.form_field(attr);
+                div.append(obj);
+            } else {
+                var attr = {};
+                attr.type = key;
+                attr.value = val;
+                var obj = saltos.form_field(attr);
+                div.append(obj);
+            }
         }
     }
+    if (div.childNodes.length == 1) {
+        return div.firstChild;
+    }
+    return div;
 };
 
 // Main code
@@ -53,7 +82,7 @@ saltos.form = function(layout) {
             saltos.ajax({
                 url:"index.php?getapp/" + saltos.app + "/" + saltos.action,
                 success:function (response) {
-                    saltos.form(response.layout);
+                    document.querySelector("body").append(saltos.form(response.layout));
                 },
                 headers:{
                     "token":saltos.token,

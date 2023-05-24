@@ -95,7 +95,7 @@ saltos.check_params = function (obj,params,value) {
         value = "";
     }
     for (var key in params) {
-        if (typeof obj[params[key]] == "undefined") {
+        if (!obj.hasOwnProperty(params[key])) {
             obj[params[key]] = value;
         }
     }

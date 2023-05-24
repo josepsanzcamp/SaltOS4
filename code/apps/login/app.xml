@@ -42,7 +42,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         <image>img/logo_red.svg</image>
                         <text name="user" label="Username" required="true"></text>
                         <password name="pass" label="Password" required="true"></password>
-                        <button onclick="alert(1);">Submit</button>
+                        <!--<button onclick="alert(1);">Submit</button>-->
                     </col>
                 </row>
             </container>
