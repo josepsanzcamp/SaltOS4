@@ -34,7 +34,7 @@ function eval_putenv($array)
     }
     if (is_array($array)) {
         foreach ($array as $key => $val) {
-            $key = limpiar_key($key);
+            $key = fix_key($key);
             $current = getenv($key);
             $diff = 0;
             if ($val != $current) {

@@ -102,7 +102,7 @@ function struct2array_include($input)
                 $include = 0;
                 $replace = 0;
                 foreach ($attr as $key => $val) {
-                    $key = limpiar_key($key);
+                    $key = fix_key($key);
                     if ($key == "include") {
                         $value = xml2array($val);
                         $include = 1;
@@ -181,7 +181,7 @@ function struct2array_path($input)
                 $path = "";
                 $action = "";
                 foreach ($attr as $key => $val) {
-                    $key = limpiar_key($key);
+                    $key = fix_key($key);
                     if ($key == "path") {
                         $path = $val;
                     } elseif (
@@ -252,7 +252,7 @@ function __set_array_recursive($array, $keys, $value, $type)
         foreach ($array as $key2 => $val2) {
             $valid = 1;
             $hasattr = (isset($val2["value"]) && isset($val2["#attr"]));
-            if (!in_array($path[0], array("","*",limpiar_key($key2)))) {
+            if (!in_array($path[0], array("","*",fix_key($key2)))) {
                 $valid = 0;
             }
             for ($i = 1; $i < $count && $valid; $i++) {
@@ -295,19 +295,19 @@ function __set_array_recursive($array, $keys, $value, $type)
                 switch ($type) {
                     case "before":
                         foreach ($value as $key3 => $val3) {
-                            set_array($temp, limpiar_key($key3), $val3);
+                            set_array($temp, fix_key($key3), $val3);
                         }
-                        set_array($temp, limpiar_key($key2), $val2);
+                        set_array($temp, fix_key($key2), $val2);
                         break;
                     case "after":
-                        set_array($temp, limpiar_key($key2), $val2);
+                        set_array($temp, fix_key($key2), $val2);
                         foreach ($value as $key3 => $val3) {
-                            set_array($temp, limpiar_key($key3), $val3);
+                            set_array($temp, fix_key($key3), $val3);
                         }
                         break;
                     case "replace":
                         foreach ($value as $key3 => $val3) {
-                            set_array($temp, limpiar_key($key3), $val3);
+                            set_array($temp, fix_key($key3), $val3);
                         }
                         break;
                     case "append":
@@ -318,15 +318,15 @@ function __set_array_recursive($array, $keys, $value, $type)
                                 if (!is_array($val2["value"])) {
                                     xml_error("Can not '$type' the node '$key3' to the node '$key2'");
                                 }
-                                set_array($val2["value"], limpiar_key($key3), $val3);
+                                set_array($val2["value"], fix_key($key3), $val3);
                             } else {
                                 if (!is_array($val2)) {
                                     xml_error("Can not '$type' the node '$key3' to the node '$key2'");
                                 }
-                                set_array($val2, limpiar_key($key3), $val3);
+                                set_array($val2, fix_key($key3), $val3);
                             }
                         }
-                        set_array($temp, limpiar_key($key2), $val2);
+                        set_array($temp, fix_key($key2), $val2);
                         break;
                     case "prepend":
                         $hasattr = (isset($val2["value"]) && isset($val2["#attr"]));
@@ -336,18 +336,18 @@ function __set_array_recursive($array, $keys, $value, $type)
                                     xml_error("Can not '$type' the node '$key3' to the node '$key2'");
                                 }
                                 $val2["value"] = array_reverse($val2["value"]);
-                                set_array($val2["value"], limpiar_key($key3), $val3);
+                                set_array($val2["value"], fix_key($key3), $val3);
                                 $val2["value"] = array_reverse($val2["value"]);
                             } else {
                                 if (!is_array($val2)) {
                                     xml_error("Can not '$type' the node '$key3' to the node '$key2'");
                                 }
                                 $val2 = array_reverse($val2);
-                                set_array($val2, limpiar_key($key3), $val3);
+                                set_array($val2, fix_key($key3), $val3);
                                 $val2 = array_reverse($val2);
                             }
                         }
-                        set_array($temp, limpiar_key($key2), $val2);
+                        set_array($temp, fix_key($key2), $val2);
                         break;
                     case "remove":
                     case "delete":
@@ -358,7 +358,7 @@ function __set_array_recursive($array, $keys, $value, $type)
                         break;
                 }
             } else {
-                set_array($temp, limpiar_key($key2), $val2);
+                set_array($temp, fix_key($key2), $val2);
             }
         }
         $array = count($array_attr) ? array("value" => $temp,"#attr" => $array_attr) : $temp;
@@ -398,11 +398,11 @@ function unset_array(&$array, $name)
 }
 
 // TODO: REVISAR ESTA FUNCION
-function limpiar_key($arg)
+function fix_key($arg)
 {
     if (is_array($arg)) {
         foreach ($arg as $key => $val) {
-            $arg[$key] = limpiar_key($val);
+            $arg[$key] = fix_key($val);
         }
         return $arg;
     }
@@ -710,7 +710,7 @@ function eval_attr($array)
                 $attr = $val["#attr"];
                 $count = 0;
                 foreach ($attr as $key2 => $val2) {
-                    $key2 = limpiar_key($key2);
+                    $key2 = fix_key($key2);
                     switch ($key2) {
                         case "global":
                             $global = $val2;

@@ -38,34 +38,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <layout>
             <container>
                 <row>
-                    <col>
-                        <field>
-                            <type>image</type>
-                            <value>logo</value>
-                        </field>
-                    </col>
-                    <col>
-                        <field>
-                            <type>text</type>
-                            <name>user</name>
-                            <label>Username</label>
-                            <required>true</required>
-                        </field>
-                    </col>
-                    <col>
-                        <field>
-                            <type>password</type>
-                            <name>pass</name>
-                            <label>Password</label>
-                            <required>true</required>
-                        </field>
-                    </col>
-                    <col>
-                        <field>
-                            <type>button</type>
-                            <value>Submit</value>
-                            <onclick>alert(1);</onclick>
-                        </field>
+                    <col foreach="1">
+                        <image>img/logo_red.svg</image>
+                        <text name="user" label="Username" required="true"></text>
+                        <password name="pass" label="Password" required="true"></password>
+                        <button onclick="alert(1);">Submit</button>
                     </col>
                 </row>
             </container>

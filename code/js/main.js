@@ -26,6 +26,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
+saltos.form = function(layout) {
+    for (var key in layout) {
+        var val = layout[key];
+        console.log("**********");
+        console.log(key);
+        console.log(val);
+        if (typeof val == "object") {
+            saltos.form(val);
+        }
+    }
+};
+
 // Main code
 (function () {
 
@@ -41,9 +53,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             saltos.ajax({
                 url:"index.php?getapp/" + saltos.app + "/" + saltos.action,
                 success:function (response) {
-                    console.log(response);
-                    console.log(saltos.limpiar_key("hola#1"));
-                    console.log(saltos.limpiar_key(["hola","hola#1","hola#2"]));
+                    saltos.form(response.layout);
                 },
                 headers:{
                     "token":saltos.token,
