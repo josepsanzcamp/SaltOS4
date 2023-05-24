@@ -26,40 +26,56 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-saltos.form = function(layout) {
-    console.log(arguments.length);
-    var div = saltos.html("<div></div>");
+saltos.form_layout = function(layout) {
+    var arr = [];
     for (var key in layout) {
         var val = layout[key];
+        key = saltos.fix_key(key);
         if (["container","col","row"].includes(key)) {
             if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
                 var attr = val["#attr"];
                 attr.type = key;
                 var obj = saltos.form_field(attr);
-                obj.append(saltos.form(val.value,1));
-                div.append(obj);
+                var temp = saltos.form_layout(val.value,1);
+                for (var i in temp) {
+                    obj.append(temp[i]);
+                }
+                arr.push(obj);
             } else {
                 var attr = {};
                 attr.type = key;
                 var obj = saltos.form_field(attr);
-                obj.append(saltos.form(val,1));
-                div.append(obj);
+                var temp = saltos.form_layout(val,1);
+                for (var i in temp) {
+                    obj.append(temp[i]);
+                }
+                arr.push(obj);
             }
         } else {
             if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
                 var attr = val["#attr"];
                 attr.type = key;
                 attr.value = val.value;
+                if (attr.hasOwnProperty("onclick") && typeof attr.onclick == "string") {
+                    attr.onclick = new Function(attr.onclick);
+                }
                 var obj = saltos.form_field(attr);
-                div.append(obj);
+                arr.push(obj);
             } else {
                 var attr = {};
                 attr.type = key;
                 attr.value = val;
                 var obj = saltos.form_field(attr);
-                div.append(obj);
+                arr.push(obj);
             }
         }
+    }
+    if (arguments.length == 2) {
+        return arr;
+    }
+    var div = saltos.html("<div></div>");
+    for (var i in arr) {
+        div.append(arr[i]);
     }
     if (div.childNodes.length == 1) {
         return div.firstChild;
@@ -82,7 +98,7 @@ saltos.form = function(layout) {
             saltos.ajax({
                 url:"index.php?getapp/" + saltos.app + "/" + saltos.action,
                 success:function (response) {
-                    document.querySelector("body").append(saltos.form(response.layout));
+                    document.querySelector("body").append(saltos.form_layout(response.layout));
                 },
                 headers:{
                     "token":saltos.token,

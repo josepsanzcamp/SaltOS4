@@ -991,9 +991,12 @@ saltos.__form_field.label = function (field) {
  * @tooltip => this parameter raise the title flag
  */
 saltos.__form_field.image = function (field) {
-    saltos.check_params(field,["id","value","class","alt","tooltip"]);
+    saltos.check_params(field,["id","value","class","alt","tooltip","width","height"]);
+    if (field.class == "") {
+        field.class = "img-fluid";
+    }
     var obj = saltos.html(`
-        <img id="${field.id}" src="${field.value}" class="img-fluid ${field.class}" alt="${field.alt}" data-bs-title="${field.tooltip}">
+        <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}" data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
     if (field.tooltip != "") {
         new bootstrap.Tooltip(obj);

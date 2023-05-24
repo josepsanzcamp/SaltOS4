@@ -28,27 +28,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 <root>
     <default>
         <actions>
-            <action>screen</action>
+            <action>layout</action>
             <action>login</action>
             <action>logout</action>
         </actions>
     </default>
-    <screen>
+    <layout>
         <method>json</method>
         <layout>
-            <container>
+            <container class="container">
                 <row>
-                    <col foreach="1">
-                        <image>img/logo_red.svg</image>
+                    <col class="col mb-3 mt-5 text-center">
+                        <image class="nada" width="100px" height="100px">img/logo_red.svg</image>
+                    </col>
+                </row>
+                <row>
+                    <col class="col mb-3">
                         <text name="user" label="Username" required="true"></text>
+                    </col>
+                </row>
+                <row>
+                    <col class="col mb-3">
                         <password name="pass" label="Password" required="true"></password>
-                        <!--<button onclick="alert(1);">Submit</button>-->
+                    </col>
+                </row>
+                <row>
+                    <col class="col mb-3 text-center">
+                        <button class="btn-primary" onclick="alert(1);">Submit</button>
                     </col>
                 </row>
             </container>
         </layout>
-    </screen>
-    <submit>
-        <action>login</action>
-    </submit>
+    </layout>
 </root>
