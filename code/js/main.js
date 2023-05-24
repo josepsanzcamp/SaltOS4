@@ -35,11 +35,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     }
 
     saltos.ajax({
-        url:"index.php?getapp/"+saltos.app+"/default",
+        url:"index.php?getapp/" + saltos.app + "/default",
         success:function (response) {
             saltos.action = response.actions.action;
             saltos.ajax({
-                url:"index.php?getapp/"+saltos.app+"/"+saltos.action,
+                url:"index.php?getapp/" + saltos.app + "/" + saltos.action,
                 success:function (response) {
                     console.log(response);
                     console.log(saltos.limpiar_key("hola#1"));
