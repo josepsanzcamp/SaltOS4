@@ -27,14 +27,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <root>
     <default>
-        <actions>
-            <action>layout</action>
-            <action>login</action>
-            <action>logout</action>
-        </actions>
-    </default>
-    <layout>
-        <method>json</method>
         <layout>
             <div class="bg-light vh-100 d-flex">
                 <div class="container m-auto" style="max-width:330px">
@@ -64,17 +56,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         </col>
                     </row>
                     <row>
-                        <col class="col mb-3">
+                        <col class="col mb-4">
                             <button class="btn-primary w-100" onclick="alert(1);">Login</button>
                         </col>
                     </row>
                     <row>
-                        <col class="col mb-3 mt-5">
+                        <col class="col mb-3 mt-4">
                             <label class="w-100 text-center">(C) 2023 The SaltOS Project</label>
                         </col>
                     </row>
                 </div>
             </div>
         </layout>
-    </layout>
+    </default>
 </root>

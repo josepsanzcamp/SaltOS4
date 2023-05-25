@@ -30,7 +30,7 @@ saltos.show_error = function (error) {
     saltos.modal({
         title:"Error",
         close:"Cerrar",
-        body:error.text + "<br/><br/>Code " + error.code,
+        body:error.text + "<br/>Code " + error.code,
         footer:function () {
             var obj = saltos.html("<div></div>");
             obj.append(saltos.form_field({
@@ -118,20 +118,14 @@ saltos.form_layout = function (layout) {
                 saltos.show_error(response.error);
                 return;
             }
-            saltos.action = response.actions.action;
-            saltos.ajax({
-                url:"index.php?getapp/" + saltos.app + "/" + saltos.action,
-                success:function (response) {
-                    if (typeof response.error == "object") {
-                        saltos.show_error(response.error);
-                        return;
-                    }
-                    document.querySelector("body").append(saltos.form_layout(response.layout));
-                },
-                headers:{
-                    "token":saltos.token,
-                }
-            });
+            if (typeof response.layout == "undefined") {
+                saltos.show_error({
+                    text:"Internal error",
+                    code:"app/124",
+                });
+                return;
+            }
+            document.querySelector("body").append(saltos.form_layout(response.layout));
         },
         headers:{
             "token":saltos.token,
