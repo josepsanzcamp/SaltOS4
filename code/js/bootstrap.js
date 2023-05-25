@@ -137,7 +137,7 @@ saltos.__form_field.div = function (field) {
 saltos.__form_field.container = function (field) {
     saltos.check_params(field,["class"]);
     if (field.class == "") {
-        field.class = "container";
+        field.class = "container-fluid";
     }
     var obj = saltos.__form_field.div(field);
     return obj;
