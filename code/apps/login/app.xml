@@ -42,17 +42,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     </row>
                     <row>
                         <col class="col mb-3">
-                            <text name="user" label="Username" required="true"></text>
+                            <text id="user" label="Username" required="true"></text>
                         </col>
                     </row>
                     <row>
                         <col class="col mb-3">
-                            <password name="pass" label="Password" required="true"></password>
+                            <password id="pass" label="Password" required="true"></password>
                         </col>
                     </row>
                     <row>
                         <col class="col mb-3 text-center">
-                            <checkbox name="remember" label="Remember me" class="form-check-inline"></checkbox>
+                            <checkbox id="remember" label="Remember me" class="form-check-inline"></checkbox>
                         </col>
                     </row>
                     <row>
@@ -61,7 +61,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         </col>
                     </row>
                     <row>
-                        <col class="col mb-3 mt-4">
+                        <col class="col my-4">
                             <label class="w-100 text-center">(C) 2023 The SaltOS Project</label>
                         </col>
                     </row>

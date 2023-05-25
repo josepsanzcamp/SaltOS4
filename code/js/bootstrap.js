@@ -640,7 +640,7 @@ saltos.__form_field.multiselect = function (field) {
  * checkbox and add another function that uses immersion with this function to create the switch.
  */
 saltos.__form_field.checkbox = function (field) {
-    saltos.check_params(field,["value","type","id","disabled","readonly","label","tooltip"]);
+    saltos.check_params(field,["value","type","id","disabled","readonly","label","tooltip","class"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -1582,6 +1582,9 @@ saltos.modal = function (args) {
     var temp = "";
     if (args.static) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
+    }
+    if (args.class == "") {
+        args.class = "modal-dialog-centered";
     }
     var obj = saltos.html(`
         <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label" aria-hidden="true" ${temp}>

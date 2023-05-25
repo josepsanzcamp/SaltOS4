@@ -79,7 +79,8 @@ function struct2array(&$data, $file = "")
         } elseif ($type == "cdata") {
             // NOTHING TO DO
         } else {
-            xml_error("Unknown tag type with name '&lt;/$name&gt;'", $linea, "", $file);
+            $file = basename($file);
+            show_php_error(array("xmlerror" => "Unknown tag type with name '&lt;/$name&gt;' (on file $file at line $linea)"));
         }
     }
     return $array;
@@ -123,7 +124,7 @@ function struct2array_include($input)
                     $include = 0;
                 }
                 if ($replace && !$include) {
-                    xml_error("Attr 'replace' not allowed without attr 'include'");
+                    show_php_error(array("xmlerror" => "Attr 'replace' not allowed without attr 'include'"));
                 }
                 if ($include) {
                     unset_array($attr, "include");
@@ -191,7 +192,7 @@ function struct2array_path($input)
                         )
                     ) {
                         if ($action != "") {
-                            xml_error("Detected '$action' and '$key' attr in the same node");
+                            show_php_error(array("xmlerror" => "Detected '$action' and '$key' attr in the same node"));
                         }
                         $action = $key;
                     }
@@ -203,10 +204,10 @@ function struct2array_path($input)
                     // $action = "";
                 // }
                 if ($path && !$action) {
-                    xml_error("Detected 'path' attr without before, after, replace, append, add, prepend, remove or delete' attr");
+                    show_php_error(array("xmlerror" => "Detected 'path' attr without before, after, replace, append, add, prepend, remove or delete' attr"));
                 }
                 if ($action && !$path) {
-                    xml_error("Detected '$action' attr without 'path' attr");
+                    show_php_error(array("xmlerror" => "Detected '$action' attr without 'path' attr"));
                 }
                 if ($path) {
                     unset_array($attr, "path");
@@ -281,7 +282,7 @@ function __set_array_recursive($array, $keys, $value, $type)
     if (count($keys) > 0) {
         foreach ($key as $key2) {
             if (!isset($array[$key2])) {
-                xml_error("Undefined node: $key2");
+                show_php_error(array("xmlerror" => "Undefined node: $key2"));
             }
             $array[$key2] = __set_array_recursive($array[$key2], $keys, $value, $type);
         }
@@ -316,12 +317,12 @@ function __set_array_recursive($array, $keys, $value, $type)
                         foreach ($value as $key3 => $val3) {
                             if ($hasattr) {
                                 if (!is_array($val2["value"])) {
-                                    xml_error("Can not '$type' the node '$key3' to the node '$key2'");
+                                    show_php_error(array("xmlerror" => "Can not '$type' the node '$key3' to the node '$key2'"));
                                 }
                                 set_array($val2["value"], fix_key($key3), $val3);
                             } else {
                                 if (!is_array($val2)) {
-                                    xml_error("Can not '$type' the node '$key3' to the node '$key2'");
+                                    show_php_error(array("xmlerror" => "Can not '$type' the node '$key3' to the node '$key2'"));
                                 }
                                 set_array($val2, fix_key($key3), $val3);
                             }
@@ -333,14 +334,14 @@ function __set_array_recursive($array, $keys, $value, $type)
                         foreach ($value as $key3 => $val3) {
                             if ($hasattr) {
                                 if (!is_array($val2["value"])) {
-                                    xml_error("Can not '$type' the node '$key3' to the node '$key2'");
+                                    show_php_error(array("xmlerror" => "Can not '$type' the node '$key3' to the node '$key2'"));
                                 }
                                 $val2["value"] = array_reverse($val2["value"]);
                                 set_array($val2["value"], fix_key($key3), $val3);
                                 $val2["value"] = array_reverse($val2["value"]);
                             } else {
                                 if (!is_array($val2)) {
-                                    xml_error("Can not '$type' the node '$key3' to the node '$key2'");
+                                    show_php_error(array("xmlerror" => "Can not '$type' the node '$key3' to the node '$key2'"));
                                 }
                                 $val2 = array_reverse($val2);
                                 set_array($val2, fix_key($key3), $val3);
@@ -354,7 +355,7 @@ function __set_array_recursive($array, $keys, $value, $type)
                         // NOTHING TO DO
                         break;
                     default:
-                        xml_error("Unknown type '$type' in __set_array_recursive");
+                        show_php_error(array("xmlerror" => "Unknown type '$type' in __set_array_recursive"));
                         break;
                 }
             } else {
@@ -479,10 +480,10 @@ function xml2array($file, $usecache = true)
 {
     static $depend = array();
     if (!file_exists($file)) {
-        xml_error("File not found: $file");
+        show_php_error(array("xmlerror" => "File not found: $file"));
     }
     if (!semaphore_acquire($file)) {
-        xml_error("Could not acquire the semaphore");
+        show_php_error(array("xmlerror" => "Could not acquire the semaphore"));
     }
     if ($usecache) {
         if (detect_recursion(__FUNCTION__) == 1) {
@@ -566,7 +567,8 @@ function xml2struct($xml, $file = "")
         $error = xml_error_string($code);
         $linea = xml_get_current_line_number($parser);
         $fila = xml_get_current_column_number($parser);
-        xml_error("Error " . $code . ": " . $error, "", $linea . "," . $fila, $file);
+        $file = basename($file);
+        show_php_error(array("xmlerror" => "Error $code: $error (on file $file at line $linea,$fila)"));
     }
     xml_parser_free($parser);
     return $array;
@@ -721,7 +723,7 @@ function eval_attr($array)
                         case "eval":
                             if (eval_bool($val2)) {
                                 if (!$value) {
-                                    xml_error("Evaluation error: void expression");
+                                    show_php_error(array("xmlerror" => "Evaluation error: void expression"));
                                 }
                                 $value = eval_protected($value, $global);
                             }
@@ -742,7 +744,7 @@ function eval_attr($array)
                             $val2 = explode(",", $val2);
                             foreach ($val2 as $file) {
                                 if (!file_exists($file)) {
-                                    xml_error("Require '$file' not found");
+                                    show_php_error(array("xmlerror" => "Require '$file' not found"));
                                 }
                                 require_once $file;
                             }
@@ -753,7 +755,7 @@ function eval_attr($array)
                             }
                             break;
                         default:
-                            xml_error("Unknown attr '$key2' with value '$val2'");
+                            show_php_error(array("xmlerror" => "Unknown attr '$key2' with value '$val2'"));
                     }
                     $count++;
                     if (isset($stack["cancel"]) || isset($stack["remove"])) {
@@ -793,41 +795,19 @@ function eval_attr($array)
 function eval_bool($arg)
 {
     static $bools = array(
-        "1" => 1, // FOR 1 OR TRUE
-        "0" => 0, // FOR 0
-        "" => 0, // FOR FALSE
+        "1" => 1,
+        "0" => 0,
+        "" => 0,
         "true" => 1,
         "false" => 0,
         "on" => 1,
         "off" => 0,
         "yes" => 1,
-        "no" => 0
+        "no" => 0,
     );
     $bool = strtolower($arg);
     if (isset($bools[$bool])) {
         return $bools[$bool];
     }
-    xml_error("Unknown boolean value '$arg'");
-}
-
-// TODO: REVISAR ESTA FUNCION
-function xml_error($error, $source = "", $count = "", $file = "")
-{
-    $array = array();
-    $array["xmlerror"] = $error;
-    if ($count != "" && $file == "") {
-        $array["xmlerror"] .= " (at line $count)";
-    }
-    if ($count == "" && $file != "") {
-        $array["xmlerror"] .= " (on file " . basename($file) . ")";
-    }
-    if ($count != "" && $file != "") {
-        $array["xmlerror"] .= " (on file " . basename($file) . " at line $count)";
-    }
-    if (is_array($source)) {
-        $array["source"] = htmlentities(sprintr($source), ENT_COMPAT, "UTF-8");
-    } elseif ($source != "") {
-        $array["source"] = htmlentities($source, ENT_COMPAT, "UTF-8");
-    }
-    show_php_error($array);
+    show_php_error(array("xmlerror" => "Unknown boolean value '$arg'"));
 }

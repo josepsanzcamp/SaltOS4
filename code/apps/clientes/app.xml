@@ -26,5 +26,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-
+    <view>
+        <layout auto="true" fields_per_col="1" cols_per_row="2" container_class="container" col_class="col mb-3">
+            <text id="codigo" label="codigo"></text>
+            <text id="nombre" label="nombre"></text>
+            <text id="nombre1" label="nombre1"></text>
+            <text id="nombre2" label="nombre2"></text>
+            <text id="cif" label="cif"></text>
+            <text id="comentarios" label="comentarios"></text>
+            <text id="corriente" label="corriente"></text>
+            <text id="contable" label="contable"></text>
+            <integer id="diapago" label="diapago"></integer>
+            <text id="direccion" label="direccion"></text>
+            <text id="nombre_pais" label="nombre_pais"></text>
+            <text id="nombre_provincia" label="nombre_provincia"></text>
+            <text id="nombre_poblacion" label="nombre_poblacion"></text>
+            <text id="nombre_codpostal" label="nombre_codpostal"></text>
+            <text id="email" label="email"></text>
+            <text id="web" label="web"></text>
+            <integer id="tel_fijo" label="tel_fijo"></integer>
+            <integer id="tel_movil" label="tel_movil"></integer>
+            <integer id="fax" label="fax"></integer>
+            <checkbox id="activo" label="activo"></checkbox>
+        </layout>
+    </view>
 </root>

@@ -47,47 +47,115 @@ saltos.show_error = function (error) {
 };
 
 saltos.form_layout = function (layout) {
+    // CHECK FOR ATTR
+    if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
+        var attr = layout["#attr"];
+        var value = layout.value;
+        saltos.check_params(attr,["auto","fields_per_col","cols_per_row","container_class","row_class","col_class"]);
+        if (attr.fields_per_col == "") {
+            attr.fields_per_col = 1;
+        }
+        if (attr.cols_per_row == "") {
+            attr.cols_per_row = 1;
+        }
+        if (attr.auto == "true") {
+            var temp = [];
+            for (var key in value) {
+                temp.push([key,value[key]]);
+            }
+            var layout = {
+                container:{
+                    "value":{},
+                    "#attr":{
+                        class:attr.container_class
+                    }
+                }
+            };
+            var numrow = 0;
+            var numcol = 0;
+            var numfield = 0;
+            var addrow = 1;
+            var addcol = 1;
+            while (temp.length) {
+                var item = temp.shift(temp);
+
+                if (addrow) {
+                    numrow++;
+                    layout.container.value["row#"+numrow] = {
+                        "value":{},
+                        "#attr":{
+                            class:attr.row_class
+                        }
+                    };
+                }
+
+                if (addcol) {
+                    numcol++;
+                    layout.container.value["row#"+numrow].value["col#"+numcol] = {
+                        "value":{},
+                        "#attr":{
+                            class:attr.col_class
+                        }
+                    };
+                }
+
+                numfield++;
+                layout.container.value["row#"+numrow].value["col#"+numcol].value[item[0]] = item[1];
+
+console.log("**********");
+console.log("numrow = "+numrow);
+console.log("numcol = "+numcol);
+console.log("numfield = "+numfield);
+
+                if (numcol >= attr.cols_per_row && numfield >= attr.fields_per_col) {
+                    numcol = 0;
+                    addrow = 1;
+                } else {
+                    addrow = 0;
+                }
+
+                if (numfield >= attr.fields_per_col) {
+                    numfield = 0;
+                    addcol = 1;
+                } else {
+                    addcol = 0;
+                }
+
+console.log("addcol = "+addcol);
+console.log("addrow = "+addrow);
+
+            }
+        } else {
+            layout = value;
+        }
+    }
+    // CONTINUE
     var arr = [];
     for (var key in layout) {
         var val = layout[key];
         key = saltos.fix_key(key);
-        if (["container","col","row","div"].includes(key)) {
-            if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
-                var attr = val["#attr"];
-                attr.type = key;
-                var obj = saltos.form_field(attr);
-                var temp = saltos.form_layout(val.value,1);
-                for (var i in temp) {
-                    obj.append(temp[i]);
-                }
-                arr.push(obj);
-            } else {
-                var attr = {};
-                attr.type = key;
-                var obj = saltos.form_field(attr);
-                var temp = saltos.form_layout(val,1);
-                for (var i in temp) {
-                    obj.append(temp[i]);
-                }
-                arr.push(obj);
-            }
+        if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
+            var attr = val["#attr"];
+            var value = val.value;
         } else {
-            if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
-                var attr = val["#attr"];
-                attr.type = key;
-                attr.value = val.value;
-                if (attr.hasOwnProperty("onclick") && typeof attr.onclick == "string") {
-                    attr.onclick = new Function(attr.onclick);
-                }
-                var obj = saltos.form_field(attr);
-                arr.push(obj);
-            } else {
-                var attr = {};
-                attr.type = key;
-                attr.value = val;
-                var obj = saltos.form_field(attr);
-                arr.push(obj);
+            var attr = {};
+            var value = val;
+        }
+        attr.type = key;
+        attr.value = value;
+        if (["container","col","row","div"].includes(key)) {
+            var obj = saltos.form_field(attr);
+            var temp = saltos.form_layout(value,1);
+            for (var i in temp) {
+                obj.append(temp[i]);
             }
+            arr.push(obj);
+        } else {
+            if (attr.hasOwnProperty("onclick") && typeof attr.onclick == "string") {
+                attr.onclick = new Function(attr.onclick);
+            }
+            var obj = saltos.form_field(attr);
+            arr.push(obj);
         }
     }
     if (arguments.length == 2) {
@@ -106,30 +174,56 @@ saltos.form_layout = function (layout) {
 // Main code
 (function () {
 
-    saltos.token = localStorage.getItem("token");
-    if (saltos.token === null) {
-        saltos.app = "login";
+    saltos.hash = document.location.hash;
+    if (saltos.hash.substr(0,1) == "#") {
+        saltos.hash = saltos.hash.substr(1);
+    }
+    if (saltos.hash != "") {
+        saltos.ajax({
+            url:"index.php?" + saltos.hash,
+            success:function (response) {
+                if (typeof response.error == "object") {
+                    saltos.show_error(response.error);
+                    return;
+                }
+                if (typeof response.layout == "undefined") {
+                    saltos.show_error({
+                        text:"Internal error",
+                        code:"app/124",
+                    });
+                    return;
+                }
+                document.querySelector("body").append(saltos.form_layout(response.layout));
+            },
+            //~ headers:{
+                //~ "token":saltos.token,
+            //~ }
+        });
     }
 
-    saltos.ajax({
-        url:"index.php?getapp/" + saltos.app + "/default",
-        success:function (response) {
-            if (typeof response.error == "object") {
-                saltos.show_error(response.error);
-                return;
-            }
-            if (typeof response.layout == "undefined") {
-                saltos.show_error({
-                    text:"Internal error",
-                    code:"app/124",
-                });
-                return;
-            }
-            document.querySelector("body").append(saltos.form_layout(response.layout));
-        },
-        headers:{
-            "token":saltos.token,
-        }
-    })
+    //~ saltos.token = localStorage.getItem("token");
+    //~ if (saltos.token === null) {
+        //~ saltos.app = "login";
+        //~ saltos.ajax({
+            //~ url:"index.php?getapp/" + saltos.app + "/default",
+            //~ success:function (response) {
+                //~ if (typeof response.error == "object") {
+                    //~ saltos.show_error(response.error);
+                    //~ return;
+                //~ }
+                //~ if (typeof response.layout == "undefined") {
+                    //~ saltos.show_error({
+                        //~ text:"Internal error",
+                        //~ code:"app/124",
+                    //~ });
+                    //~ return;
+                //~ }
+                //~ document.querySelector("body").append(saltos.form_layout(response.layout));
+            //~ },
+            //~ headers:{
+                //~ "token":saltos.token,
+            //~ }
+        //~ });
+    //~ }
 
 }());

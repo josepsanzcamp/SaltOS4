@@ -437,57 +437,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 </field>
             </fields>
         </table>
-        <table>
-            <name>app_correo_a</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_correo</name>
-                    <type>INT(11)</type>
-                    <fkey>app_correo</fkey>
-                    <fcheck>false</fcheck>
-                </field>
-                <field>
-                    <name>id_tipo</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>nombre</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>valor</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-            </fields>
-        </table>
-        <table>
-            <name>app_correo_d</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_cuenta</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_users_c</fkey>
-                </field>
-                <field>
-                    <name>uidl</name>
-                    <type>VARCHAR(250)</type>
-                </field>
-                <field>
-                    <name>datetime</name>
-                    <type>DATETIME</type>
-                </field>
-            </fields>
-        </table>
 
         <table>
             <name>app_clientes</name>
@@ -496,6 +445,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     <name>id</name>
                     <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
                     <pkey>true</pkey>
+                </field>
+                <field>
+                    <name>id_campanya</name>
+                    <type>INT(11)</type>
                 </field>
                 <field>
                     <name>id_tipo</name>

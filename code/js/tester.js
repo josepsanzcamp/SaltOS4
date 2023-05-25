@@ -370,7 +370,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             onclick = function () {
                 saltos.modal({
                     static:false,
-                    class:"modal-lg",
+                    //~ class:"modal-lg",
                     title:"Titulo",
                     close:"Cerrar",
                     body:`
