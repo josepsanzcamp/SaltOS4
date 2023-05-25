@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <root>
     <view>
-        <layout auto="true" container_class="container" col_class="col-md-6 col-sd-6 mb-3">
+        <layout auto="true" container_class="container" col_class="col-md-6 mb-3">
             <text id="codigo" label="codigo"></text>
             <text id="nombre" label="nombre"></text>
             <text id="nombre1" label="nombre1"></text>

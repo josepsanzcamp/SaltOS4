@@ -26,5 +26,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-
+    <main>
+        <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
+            <card image="data/files/bootstrap-card.svg" title="Clentes" text="Explicacion"/>
+            <card image="data/files/bootstrap-card.svg" header="Proveedores" title="Titulo" text="Explicacion" footer="Pues eso"/>
+            <card image="data/files/bootstrap-card.svg" header="Facturas" title="Titulo" text="Explicacion" footer="Pues eso"/>
+            <card image="data/files/bootstrap-card.svg" header="Gastos" title="Titulo" text="Explicacion" footer="Pues eso"/>
+            <card image="data/files/bootstrap-card.svg" header="Correos" title="Titulo" text="Explicacion" footer="Pues eso"/>
+            <card image="data/files/bootstrap-card.svg" header="Ficheros" title="Titulo" text="Explicacion" footer="Pues eso"/>
+        </layout>
+    </main>
 </root>
