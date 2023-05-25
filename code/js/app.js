@@ -47,22 +47,22 @@ saltos.show_error = function (error) {
 };
 
 saltos.form_layout = function (layout) {
-    // CHECK FOR ATTR
+    // Check for attr auto
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
         var attr = layout["#attr"];
         var value = layout.value;
-        saltos.check_params(attr,["auto","fields_per_col","cols_per_row","container_class","row_class","col_class"]);
-        if (attr.fields_per_col == "") {
-            attr.fields_per_col = 1;
-        }
+        saltos.check_params(attr,["auto","cols_per_row","container_class","row_class","col_class"]);
         if (attr.cols_per_row == "") {
-            attr.cols_per_row = 1;
+            attr.cols_per_row = Infinity;
         }
         if (attr.auto == "true") {
+            // This trick convert all entries of the object in an array with the keys and values
             var temp = [];
             for (var key in value) {
                 temp.push([key,value[key]]);
             }
+            // This is the new layout object created with one container, rows, cols and all original
+            // fields, too can specify what class use in each object created
             var layout = {
                 container:{
                     "value":{},
@@ -71,14 +71,12 @@ saltos.form_layout = function (layout) {
                     }
                 }
             };
+            // this counters and flag are used to add rows using the cols_per_row parameter
             var numrow = 0;
             var numcol = 0;
-            var numfield = 0;
             var addrow = 1;
-            var addcol = 1;
             while (temp.length) {
                 var item = temp.shift(temp);
-
                 if (addrow) {
                     numrow++;
                     layout.container.value["row#"+numrow] = {
@@ -88,48 +86,26 @@ saltos.form_layout = function (layout) {
                         }
                     };
                 }
-
-                if (addcol) {
-                    numcol++;
-                    layout.container.value["row#"+numrow].value["col#"+numcol] = {
-                        "value":{},
-                        "#attr":{
-                            class:attr.col_class
-                        }
-                    };
-                }
-
-                numfield++;
+                numcol++;
+                layout.container.value["row#"+numrow].value["col#"+numcol] = {
+                    "value":{},
+                    "#attr":{
+                        class:attr.col_class
+                    }
+                };
                 layout.container.value["row#"+numrow].value["col#"+numcol].value[item[0]] = item[1];
-
-console.log("**********");
-console.log("numrow = "+numrow);
-console.log("numcol = "+numcol);
-console.log("numfield = "+numfield);
-
-                if (numcol >= attr.cols_per_row && numfield >= attr.fields_per_col) {
+                if (numcol >= attr.cols_per_row) {
                     numcol = 0;
                     addrow = 1;
                 } else {
                     addrow = 0;
                 }
-
-                if (numfield >= attr.fields_per_col) {
-                    numfield = 0;
-                    addcol = 1;
-                } else {
-                    addcol = 0;
-                }
-
-console.log("addcol = "+addcol);
-console.log("addrow = "+addrow);
-
             }
         } else {
             layout = value;
         }
     }
-    // CONTINUE
+    // Continue with original idea of use a entire specified layout
     var arr = [];
     for (var key in layout) {
         var val = layout[key];
