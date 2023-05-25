@@ -26,7 +26,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 declare(strict_types=1);
+
 // TODO
 echo output_handler_json($data);
 // TODO
+
 die();

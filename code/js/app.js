@@ -79,7 +79,7 @@ saltos.form_layout = function (layout) {
                 var item = temp.shift(temp);
                 if (addrow) {
                     numrow++;
-                    layout.container.value["row#"+numrow] = {
+                    layout.container.value["row#" + numrow] = {
                         "value":{},
                         "#attr":{
                             class:attr.row_class
@@ -87,13 +87,13 @@ saltos.form_layout = function (layout) {
                     };
                 }
                 numcol++;
-                layout.container.value["row#"+numrow].value["col#"+numcol] = {
+                layout.container.value["row#" + numrow].value["col#" + numcol] = {
                     "value":{},
                     "#attr":{
                         class:attr.col_class
                     }
                 };
-                layout.container.value["row#"+numrow].value["col#"+numcol].value[item[0]] = item[1];
+                layout.container.value["row#" + numrow].value["col#" + numcol].value[item[0]] = item[1];
                 if (numcol >= attr.cols_per_row) {
                     numcol = 0;
                     addrow = 1;
