@@ -36,38 +36,45 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <layout>
         <method>json</method>
         <layout>
-            <container class="container">
-                <row>
-                    <col class="col mb-3 mt-5 text-center">
-                        <image class="nada" width="100px" height="100px">img/logo_red.svg</image>
-                    </col>
-                </row>
-                <row>
-                    <col class="col">
-                        <label class="fs-1 w-100 text-center">Login form</label>
-                    </col>
-                </row>
-                <row>
-                    <col class="col mb-3">
-                        <text name="user" label="Username" required="true"></text>
-                    </col>
-                </row>
-                <row>
-                    <col class="col mb-3">
-                        <password name="pass" label="Password" required="true"></password>
-                    </col>
-                </row>
-                <row>
-                    <col class="col mb-3 text-center">
-                        <checkbox name="remember" label="Remember" class="form-check-inline"></checkbox>
-                    </col>
-                </row>
-                <row>
-                    <col class="col mb-3 text-center">
-                        <button class="btn-primary" onclick="alert(1);">Submit</button>
-                    </col>
-                </row>
-            </container>
+            <div class="bg-light vh-100 d-flex">
+                <div class="container m-auto" style="max-width:330px">
+                    <row>
+                        <col class="col my-3 text-center">
+                            <image class="nada" width="60px" height="60px">img/logo_red.svg</image>
+                        </col>
+                    </row>
+                    <row>
+                        <col class="col">
+                            <label class="fs-2 w-100 text-center">Please login</label>
+                        </col>
+                    </row>
+                    <row>
+                        <col class="col mb-3">
+                            <text name="user" label="Username" required="true"></text>
+                        </col>
+                    </row>
+                    <row>
+                        <col class="col mb-3">
+                            <password name="pass" label="Password" required="true"></password>
+                        </col>
+                    </row>
+                    <row>
+                        <col class="col mb-3 text-center">
+                            <checkbox name="remember" label="Remember me" class="form-check-inline"></checkbox>
+                        </col>
+                    </row>
+                    <row>
+                        <col class="col mb-3">
+                            <button class="btn-primary w-100" onclick="alert(1);">Login</button>
+                        </col>
+                    </row>
+                    <row>
+                        <col class="col mb-3 mt-5">
+                            <label class="w-100 text-center">(C) 2023 The SaltOS Project</label>
+                        </col>
+                    </row>
+                </div>
+            </div>
         </layout>
     </layout>
 </root>

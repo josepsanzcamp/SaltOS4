@@ -32,9 +32,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * This function and their helpers, allow the creation of the interface using the bootstrap
  * widgets, the types that can be called are the follow:
  *
- * @container => class
- * @row => class
- * @col => class
+ * @div => id, class, style
+ * @container => id, class, style
+ * @row => id, class, style
+ * @col => id, class, style
  * @text => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip
  * @hidden => id, class, placeholder, value, disabled, readonly, required, tooltip
  * @integer => id, class, placeholder, value, disabled, readonly, required, tooltip
@@ -86,6 +87,10 @@ saltos.form_field = function (field) {
     if (["label","checkbox","switch"].includes(field.type)) {
         return saltos.__form_field[field.type](field);
     }
+    if (typeof saltos.__form_field[field.type] != "function") {
+        console.log("type " + field.type + " not found");
+        return null;
+    }
     if (field.label == "") {
         return saltos.__form_field[field.type](field);
     }
@@ -104,6 +109,22 @@ saltos.form_field = function (field) {
 saltos.__form_field = {};
 
 /*
+ * Div constructor helper
+ *
+ * This function returns an object of the type class by default, you can pass the class
+ * argument in the field object to specify what kind of class do you want to use.
+ *
+ * @id => the id used by the object
+ * @class => the class used in the div object
+ * @style => the style used in the div object
+ */
+saltos.__form_field.div = function (field) {
+    saltos.check_params(field,["class","id","style"]);
+    var obj = saltos.html(`<div class="${field.class}" id="${field.id}" style="${field.style}"></div>`);
+    return obj;
+};
+
+/*
  * Container constructor helper
  *
  * This function returns an object of the container-fluid class by default, you can pass the class
@@ -111,13 +132,14 @@ saltos.__form_field = {};
  *
  * @id => the id used by the object
  * @class => the class used in the div object
+ * @style => the style used in the div object
  */
 saltos.__form_field.container = function (field) {
-    saltos.check_params(field,["class","id"]);
+    saltos.check_params(field,["class"]);
     if (field.class == "") {
-        field.class = "container-fluid";
+        field.class = "container";
     }
-    var obj = saltos.html(`<div class="${field.class}" id="${field.id}"></div>`);
+    var obj = saltos.__form_field.div(field);
     return obj;
 };
 
@@ -129,13 +151,14 @@ saltos.__form_field.container = function (field) {
  *
  * @id => the id used by the object
  * @class => the class used in the div object
+ * @style => the style used in the div object
  */
 saltos.__form_field.row = function (field) {
-    saltos.check_params(field,["class","id"]);
+    saltos.check_params(field,["class"]);
     if (field.class == "") {
         field.class = "row";
     }
-    var obj = saltos.html(`<div class="${field.class}" id="${field.id}"></div>`);
+    var obj = saltos.__form_field.div(field);
     return obj;
 };
 
@@ -147,13 +170,14 @@ saltos.__form_field.row = function (field) {
  *
  * @id => the id used by the object
  * @class => the class used in the div object
+ * @style => the style used in the div object
  */
 saltos.__form_field.col = function (field) {
-    saltos.check_params(field,["class","id"]);
+    saltos.check_params(field,["class"]);
     if (field.class == "") {
         field.class = "col";
     }
-    var obj = saltos.html(`<div class="${field.class}" id="${field.id}"></div>`);
+    var obj = saltos.__form_field.div(field);
     return obj;
 };
 
@@ -164,6 +188,7 @@ saltos.__form_field.col = function (field) {
  *
  * @id => the id used by the object
  * @class => allow to add more classes to the default form-control
+ * @style => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value => the value used as value parameter
  * @disabled => this parameter raise the disabled flag
@@ -176,7 +201,7 @@ saltos.__form_field.col = function (field) {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__form_field.__text = function (field) {
-    saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required","tooltip"]);
+    saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required","tooltip","style"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -187,7 +212,7 @@ saltos.__form_field.__text = function (field) {
         field.required = "required";
     }
     var obj = saltos.html(`
-        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}"
+        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" style="${field.style}" placeholder="${field.placeholder}"
             value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">
     `);
     if (field.tooltip != "") {

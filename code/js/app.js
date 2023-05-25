@@ -51,7 +51,7 @@ saltos.form_layout = function (layout) {
     for (var key in layout) {
         var val = layout[key];
         key = saltos.fix_key(key);
-        if (["container","col","row"].includes(key)) {
+        if (["container","col","row","div"].includes(key)) {
             if (typeof val == "object" && val.hasOwnProperty("value") && val.hasOwnProperty("#attr")) {
                 var attr = val["#attr"];
                 attr.type = key;
