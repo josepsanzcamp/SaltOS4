@@ -716,7 +716,9 @@ saltos.__form_field.button = function (field) {
     if (field.tooltip != "") {
         new bootstrap.Tooltip(obj);
     }
-    obj.addEventListener("click",field.onclick);
+    if (typeof field.onclick == "function") {
+        obj.addEventListener("click",field.onclick);
+    }
     return obj;
 };
 

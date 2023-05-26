@@ -296,6 +296,18 @@ saltos.fix_key = function (arg) {
 };
 
 /*
+ * Open window
+ *
+ * This function is intended to open new tabs in the window, at the moment only is a wrapper to
+ * the window.open but in a future, can add more features
+ *
+ * @url => the url of the page to load
+ */
+saltos.open = function (url) {
+    window.open(url);
+};
+
+/*
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module

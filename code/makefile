@@ -5,15 +5,12 @@ all:
 	minimize htm/index.tmp.htm --output htm/index.min.htm 1>/dev/null
 	rm -f htm/index.tmp.htm
 
-devel:
-	cat js/core.js js/bootstrap.js js/app.js > js/index.min.js
-	cat htm/index.htm > htm/index.min.htm
-
 test:
 	phpcs php
 	phpcs ../scripts
 	bash ../scripts/phpcs_js.sh js/core.js
 	bash ../scripts/phpcs_js.sh js/bootstrap.js
+	bash ../scripts/phpcs_js.sh js/tester.js
 	bash ../scripts/phpcs_js.sh js/app.js
 
 libs:
