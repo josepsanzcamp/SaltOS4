@@ -154,34 +154,35 @@ saltos.form_layout = function (layout) {
     if (saltos.hash.substr(0,1) == "#") {
         saltos.hash = saltos.hash.substr(1);
     }
-    if (saltos.hash != "") {
-        saltos.ajax({
-            url:"index.php?" + saltos.hash,
-            success:function (response) {
-                if (typeof response.error == "object") {
-                    saltos.show_error(response.error);
-                    return;
-                }
-                if (typeof response.layout == "undefined") {
-                    saltos.show_error({
-                        text:"Internal error",
-                        code:"app/124",
-                    });
-                    return;
-                }
-                document.querySelector("body").append(saltos.form_layout(response.layout));
-            },
-            //~ headers:{
-                //~ "token":saltos.token,
-            //~ }
-        });
+    if (saltos.hash == "") {
+        saltos.hash = "app/menu";
     }
+    saltos.ajax({
+        url:"index.php?" + saltos.hash,
+        success:function (response) {
+            if (typeof response.error == "object") {
+                saltos.show_error(response.error);
+                return;
+            }
+            if (typeof response.layout == "undefined") {
+                saltos.show_error({
+                    text:"Internal error",
+                    code:"app/124",
+                });
+                return;
+            }
+            document.querySelector("body").append(saltos.form_layout(response.layout));
+        },
+        //~ headers:{
+            //~ "token":saltos.token,
+        //~ }
+    });
 
     //~ saltos.token = localStorage.getItem("token");
     //~ if (saltos.token === null) {
         //~ saltos.app = "login";
         //~ saltos.ajax({
-            //~ url:"index.php?getapp/" + saltos.app + "/default",
+            //~ url:"index.php?app/" + saltos.app + "/default",
             //~ success:function (response) {
                 //~ if (typeof response.error == "object") {
                     //~ saltos.show_error(response.error);

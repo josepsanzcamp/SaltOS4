@@ -27,8 +27,30 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// TODO
-echo output_handler_json($data);
-// TODO
+if (!isset($data["rest"][1])) {
+    show_json_error("file not found");
+}
 
-die();
+$data["rest"][1] = encode_bad_chars($data["rest"][1]);
+$file = "apps/" . $data["rest"][1] . "/app.xml";
+if (!file_exists($file)) {
+    show_json_error("file " . $data["rest"][1] . " not found");
+}
+
+$array = xml2array($file);
+
+if (!isset($data["rest"][2]) && count($array) == 1) {
+    $data["rest"][2] = key($array);
+}
+
+if (!isset($data["rest"][2])) {
+    show_json_error("node not found");
+}
+
+$data["rest"][2] = encode_bad_chars($data["rest"][2]);
+if (!isset($array[$data["rest"][2]])) {
+    show_json_error("node " . $data["rest"][2] . " not found");
+}
+
+$array = $array[$data["rest"][2]];
+output_handler_json($array);

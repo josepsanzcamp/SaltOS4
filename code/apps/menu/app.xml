@@ -26,16 +26,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-    <main>
+    <menu>
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
-            <button class="btn btn-primary bi bi-person-fill fs-1 w-100 h-100" onclick="saltos.open('#getapp/clientes/view')"> Customers</button>
-            <button class="btn btn-secondary bi bi-building-fill fs-1 w-100 h-100" onclick="saltos.open('#getapp/login/default')"> Providers</button>
+            <button class="btn btn-primary bi bi-person-fill fs-1 w-100 h-100" onclick="saltos.open('#app/clientes/view')"> Customers</button>
+            <button class="btn btn-secondary bi bi-building-fill fs-1 w-100 h-100" onclick="saltos.open('#app/login/default')"> Providers</button>
             <button class="btn btn-success bi bi-receipt fs-1 w-100 h-100" onclick="saltos.open('https://www.saltos.org')"> Invoices</button>
-            <button class="btn btn-info bi bi-cash fs-1 w-100 h-100"> Bills</button>
+            <button class="btn btn-info bi bi-cash fs-1 w-100 h-100" onclick="saltos.open('#app/clientes/list')"> Bills</button>
             <button class="btn btn-warning bi bi-person-rolodex fs-1 w-100 h-100"> Contacts</button>
             <button class="btn btn-danger bi bi-envelope fs-1 w-100 h-100"> Emails</button>
             <button class="btn btn-light bi bi-files fs-1 w-100 h-100"> Files</button>
             <button class="btn btn-dark bi bi-file-text fs-1 w-100 h-100"> Documents</button>
         </layout>
-    </main>
+    </menu>
 </root>
