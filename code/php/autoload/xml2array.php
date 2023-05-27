@@ -115,14 +115,6 @@ function struct2array_include($input)
                     $replace = 0;
                     $include = 0;
                 }
-                if (isset($attr["foreach"]) && isset($attr["as"]) && isset($attr["replace"])) {
-                    $replace = 0;
-                    $include = 0;
-                }
-                if (isset($attr["for"]) && isset($attr["from"]) && isset($attr["to"]) && isset($attr["replace"])) {
-                    $replace = 0;
-                    $include = 0;
-                }
                 if ($replace && !$include) {
                     show_php_error(array("xmlerror" => "Attr 'replace' not allowed without attr 'include'"));
                 }
@@ -197,12 +189,6 @@ function struct2array_path($input)
                         $action = $key;
                     }
                 }
-                // if (isset($attr["foreach"]) && isset($attr["as"]) && isset($attr["replace"])) {
-                    // $action = "";
-                // }
-                // if (isset($attr["for"]) && isset($attr["from"]) && isset($attr["to"]) && isset($attr["replace"])) {
-                    // $action = "";
-                // }
                 if ($path && !$action) {
                     show_php_error(array("xmlerror" => "Detected 'path' attr without before, after, replace, append, add, prepend, remove or delete' attr"));
                 }
@@ -755,7 +741,8 @@ function eval_attr($array)
                             }
                             break;
                         default:
-                            show_php_error(array("xmlerror" => "Unknown attr '$key2' with value '$val2'"));
+                            $stack["cancel"] = 1;
+                            //~ show_php_error(array("xmlerror" => "Unknown attr '$key2' with value '$val2'"));
                     }
                     $count++;
                     if (isset($stack["cancel"]) || isset($stack["remove"])) {

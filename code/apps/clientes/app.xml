@@ -50,9 +50,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <checkbox id="activo" label="activo"></checkbox>
         </layout>
     </view>
+    <widget1>
+        <fields><field eval="true">array("Codigo","Nombre","CIF","Dirección","Población","Cod.postal")</field></fields>
+        <rows><row eval="true">execute_query_array("SELECT codigo,nombre,cif,direccion,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC")</row></rows>
+    </widget1>
     <list>
-        <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
-
+        <layout auto="true" container_class="container mt-3" col_class="col mb-3">
+            <widget id="widget1"></widget>
         </layout>
     </list>
 </root>

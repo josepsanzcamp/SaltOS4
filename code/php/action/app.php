@@ -52,5 +52,5 @@ if (!isset($array[$data["rest"][2]])) {
     show_json_error("node " . $data["rest"][2] . " not found");
 }
 
-$array = $array[$data["rest"][2]];
+$array = eval_attr($array[$data["rest"][2]]);
 output_handler_json($array);
