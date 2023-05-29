@@ -60,7 +60,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @image => id, class, value, alt, tooltip
  * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
  * @pdfjs => id, class, value
- * @table => id, class, header, data, footer, divider
+ * @table => id, class, header, data, footer, divider, source, value
  * @alert => id, class, title, text, body
  * @card => id, image, alt, header, footer, title, text, body
  * @chartjs => id, mode, data
@@ -1183,10 +1183,13 @@ saltos.__form_field.pdfjs = function (field) {
  * @data => 2D array with the data used to mount the body table
  * @footer => array with the footer to use
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
+ * @source => data source used to load asynchronously the contents of the table (header, data, footer and divider)
+ * @value => data container used to get synchronously the contents of the table (header, data, footer and divider)
  */
 saltos.__form_field.table = function (field) {
-    saltos.check_params(field,["class","id","source"]);
+    saltos.check_params(field,["class","id","source","value"]);
     saltos.check_params(field,["header","data","footer","divider"],[]);
+    // Check for asynchronous load using the source param
     if (field.source != "") {
         saltos.ajax({
             url:"index.php?" + field.source,
@@ -1206,9 +1209,13 @@ saltos.__form_field.table = function (field) {
             //~ }
         });
     }
-    // TODO: FALTA ACABAR
-    console.log(field);
-
+    // Check for syncronous load using the value param
+    if (field.value != "") {
+        for (var key in field.value) {
+            field[key] = field.value[key];
+        }
+    }
+    // Continue
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>
