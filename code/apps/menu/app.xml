@@ -30,6 +30,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
             <button class="btn btn-primary fs-1 w-100 h-100" onclick="saltos.open('#app/clientes/view')">Customers</button>
             <button class="btn btn-primary fs-1 w-100 h-100" onclick="saltos.open('#app/login/default')">Providers</button>
+            <table source="app/clientes/small_list"></table>
             <button class="btn btn-success fs-1 w-100 h-100" onclick="saltos.open('https://www.saltos.org')">Invoices</button>
             <button class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/clientes/list')">Bills</button>
             <button class="btn btn-info fs-1 w-100 h-100">Contacts</button>

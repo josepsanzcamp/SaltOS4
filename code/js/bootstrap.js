@@ -84,12 +84,12 @@ saltos.form_field = function (field) {
     if (field.id == "") {
         field.id = saltos.uniqid();
     }
-    if (["label","checkbox","switch"].includes(field.type)) {
-        return saltos.__form_field[field.type](field);
-    }
     if (typeof saltos.__form_field[field.type] != "function") {
         console.log("type " + field.type + " not found");
-        return null;
+        return saltos.html("type " + field.type + " not found");
+    }
+    if (["label","checkbox","switch"].includes(field.type)) {
+        return saltos.__form_field[field.type](field);
     }
     if (field.label == "") {
         return saltos.__form_field[field.type](field);
@@ -1185,8 +1185,30 @@ saltos.__form_field.pdfjs = function (field) {
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  */
 saltos.__form_field.table = function (field) {
-    saltos.check_params(field,["class","id"]);
+    saltos.check_params(field,["class","id","source"]);
     saltos.check_params(field,["header","data","footer","divider"],[]);
+    if (field.source != "") {
+        saltos.ajax({
+            url:"index.php?" + field.source,
+            success:function (response) {
+                if (typeof response.error == "object") {
+                    saltos.show_error(response.error);
+                    return;
+                }
+                field.source = "";
+                for (var key in response) {
+                    field[key] = response[key];
+                }
+                document.getElementById(field.id).replaceWith(saltos.__form_field.table(field));
+            },
+            //~ headers:{
+                //~ "token":saltos.token,
+            //~ }
+        });
+    }
+    // TODO: FALTA ACABAR
+    console.log(field);
+
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>

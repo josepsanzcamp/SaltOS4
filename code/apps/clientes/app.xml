@@ -50,13 +50,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <checkbox id="activo" label="activo"></checkbox>
         </layout>
     </view>
-    <widget1>
-        <fields><field eval="true">array("Codigo","Nombre","CIF","Dirección","Población","Cod.postal")</field></fields>
-        <rows><row eval="true">execute_query_array("SELECT codigo,nombre,cif,direccion,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC")</row></rows>
-    </widget1>
+    <small_list>
+        <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
+        <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
+        <footer eval="true">array("","","Total","5")</footer>
+        <divider eval="true">array(false,true,true)</divider>
+    </small_list>
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">
-            <widget id="widget1"></widget>
+            <table>
+                <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
+                <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
+                <footer eval="true">array("","","Total","5")</footer>
+                <divider eval="true">array(false,true,true)</divider>
+            </table>>
         </layout>
     </list>
 </root>
