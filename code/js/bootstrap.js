@@ -1234,6 +1234,14 @@ saltos.__source_helper = function(field) {
  * @footer => array with the footer to use
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  * @checkbox => add a checkbox at the first of each row, for mono or multi selection
+ *
+ * Notes:
+ *
+ * This function defines the yellow color used for the hover and active rows.
+ *
+ * The table-striped has problems with the table-active, the striped rows fails to use the color
+ * of the active rows, to fix this problem, I'm using the solution provided by this link:
+ * https://stackoverflow.com/questions/70903589/#72481261
  */
 saltos.__form_field.table = function (field) {
     saltos.check_params(field,["class","id","checkbox"]);
