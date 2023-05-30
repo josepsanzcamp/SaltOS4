@@ -61,9 +61,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
  * @pdfjs => id, class, value
  * @table => id, class, header, data, footer, divider, source, value
- * @alert => id, class, title, text, body
- * @card => id, image, alt, header, footer, title, text, body
- * @chartjs => id, mode, data
+ * @alert => id, class, title, text, body, source, value
+ * @card => id, image, alt, header, footer, title, text, body, source, value
+ * @chartjs => id, mode, data, source, value
  * @tags => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip
  *
  * Notes:
@@ -1173,22 +1173,27 @@ saltos.__form_field.pdfjs = function (field) {
 };
 
 /*
- * Table constructor helper
+ * Source helper
  *
- * Returns a table using the follow params:
+ * This function is intended to provide multiple sources for a field, they have two modes of work:
+ *
+ * 1) using the source attribute, you can program an asynchronous ajax request to retrieve the data
+ * used to create the field.
+ *
+ * 2) using the value attribute, you can put a lot of data from the value of a xml node to use in
+ * a field as attribute.
+ *
+ * This function is used in the fields of type table, alert, card and chartjs, the call of this function
+ * is private and is intended to be used as a helper from the builders of the previous types opening
+ * another way to pass arguments.
  *
  * @id => the id used to set the reference for to the object
- * @class => allow to add more classes to the default table table-striped table-hover
- * @header => array with the header to use
- * @data => 2D array with the data used to mount the body table
- * @footer => array with the footer to use
- * @divider => array with three booleans to specify to add the divider in header, body and/or footer
+ * @type => the type used to set the type for to the object
  * @source => data source used to load asynchronously the contents of the table (header, data, footer and divider)
  * @value => data container used to get synchronously the contents of the table (header, data, footer and divider)
  */
-saltos.__form_field.table = function (field) {
-    saltos.check_params(field,["class","id","source","value"]);
-    saltos.check_params(field,["header","data","footer","divider"],[]);
+saltos.__source_helper = function(field) {
+    saltos.check_params(field,["id","type","source","value"]);
     // Check for asynchronous load using the source param
     if (field.source != "") {
         saltos.ajax({
@@ -1202,7 +1207,7 @@ saltos.__form_field.table = function (field) {
                 for (var key in response) {
                     field[key] = response[key];
                 }
-                document.getElementById(field.id).replaceWith(saltos.__form_field.table(field));
+                document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
             },
             //~ headers:{
                 //~ "token":saltos.token,
@@ -1215,7 +1220,24 @@ saltos.__form_field.table = function (field) {
             field[key] = field.value[key];
         }
     }
-    // Continue
+}
+
+/*
+ * Table constructor helper
+ *
+ * Returns a table using the follow params:
+ *
+ * @id => the id used to set the reference for to the object
+ * @class => allow to add more classes to the default table table-striped table-hover
+ * @header => array with the header to use
+ * @data => 2D array with the data used to mount the body table
+ * @footer => array with the footer to use
+ * @divider => array with three booleans to specify to add the divider in header, body and/or footer
+ */
+saltos.__form_field.table = function (field) {
+    saltos.check_params(field,["class","id"]);
+    saltos.check_params(field,["header","data","footer","divider"],[]);
+    saltos.__source_helper(field);
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>
@@ -1280,6 +1302,7 @@ saltos.__form_field.table = function (field) {
  */
 saltos.__form_field.alert = function (field) {
     saltos.check_params(field,["class","id","title","text","body"]);
+    saltos.__source_helper(field);
     var obj = saltos.html(`
         <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
@@ -1311,6 +1334,7 @@ saltos.__form_field.alert = function (field) {
  */
 saltos.__form_field.card = function (field) {
     saltos.check_params(field,["id","image","alt","header","footer","title","text","body"]);
+    saltos.__source_helper(field);
     var obj = saltos.html(`<div class="card" id="${field.id}"></div>`);
     if (field.image != "") {
         obj.append(saltos.html(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`));
@@ -1345,6 +1369,7 @@ saltos.__form_field.card = function (field) {
  */
 saltos.__form_field.chartjs = function (field) {
     saltos.check_params(field,["id","mode","data"]);
+    saltos.__source_helper(field);
     var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
     saltos.when_visible(obj ,function () {
         new Chart(obj, {

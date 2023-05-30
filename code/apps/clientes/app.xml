@@ -50,12 +50,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <checkbox id="activo" label="activo"></checkbox>
         </layout>
     </view>
-    <small_list>
-        <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
-        <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
-        <footer eval="true">array("","","Total","5")</footer>
-        <divider eval="true">array(false,true,true)</divider>
-    </small_list>
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">
             <table>
@@ -66,4 +60,40 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             </table>>
         </layout>
     </list>
+    <list2>
+        <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
+        <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
+        <footer eval="true">array("","","Total","5")</footer>
+        <divider eval="true">array(false,true,true)</divider>
+    </list2>
+    <list3>
+        <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
+        <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id ASC LIMIT 0,5")</data>
+        <footer eval="true">array("","","Total","5")</footer>
+        <divider eval="true">array(false,true,true)</divider>
+    </list3>
+    <plot>
+        <data eval="true">[
+            "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            "datasets" => [[
+                    "label" => 'First round',
+                    "data" => [8, 5, 3, 5, 2, 3],
+                ],[
+                    "label" => 'Second round',
+                    "data" => [7, 6, 4, 6, 9, 6],
+                ],[
+                    "label" => 'Third round',
+                    "data" => [6, 7, 6, 7, 5, 4],
+                ]]
+        ]</data>
+    </plot>
+    <plot2>
+        <data eval="true">[
+            "labels" => ['Red', 'Blue', 'Yellow', 'Green'],
+            "datasets" => [[
+                    "label" => 'First round',
+                    "data" => [8, 5, 3, 5],
+                ]]
+        ]</data>
+    </plot2>
 </root>
