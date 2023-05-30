@@ -47,15 +47,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <integer id="tel_fijo" label="tel_fijo"></integer>
             <integer id="tel_movil" label="tel_movil"></integer>
             <integer id="fax" label="fax"></integer>
-            <checkbox id="activo" label="activo"></checkbox>
+            <switch id="activo" label="activo"></switch>
         </layout>
     </view>
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">
-            <table>
+            <table checkbox="true">
                 <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
                 <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC")</data>
-                <footer eval="true">array("","","Total","5")</footer>
+                <footer eval="true">array("","","Total",execute_query_array("SELECT COUNT(*) total FROM app_clientes"))</footer>
                 <divider eval="true">array(false,true,true)</divider>
             </table>>
         </layout>

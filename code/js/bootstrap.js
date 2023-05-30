@@ -1233,13 +1233,24 @@ saltos.__source_helper = function(field) {
  * @data => 2D array with the data used to mount the body table
  * @footer => array with the footer to use
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
+ * @checkbox => add a checkbox at the first of each row, for mono or multi selection
  */
 saltos.__form_field.table = function (field) {
-    saltos.check_params(field,["class","id"]);
+    saltos.check_params(field,["class","id","checkbox"]);
     saltos.check_params(field,["header","data","footer","divider"],[]);
     saltos.__source_helper(field);
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
+            <style>
+            .table {
+                --bs-table-hover-bg:#fff89f;
+                --bs-table-active-bg:#fff89f;
+            }
+            .table-active {
+                --bs-table-striped-bg: var(--bs-table-active-bg);
+                --bs-table-striped-color: var(--bs-table-active-color);
+            }
+            </style>
         </table>
     `);
     if (field.header.length) {
@@ -1251,6 +1262,24 @@ saltos.__form_field.table = function (field) {
         `));
         if (typeof field.divider[0] == "boolean" && field.divider[0]) {
             obj.querySelector("thead").classList.add("table-group-divider");
+        }
+        if (field.checkbox) {
+            obj.querySelector("thead tr").append(saltos.html("tr",`<th width="1%"><input type="checkbox"/></th>`));
+            obj.querySelector("thead input[type=checkbox]").addEventListener("change",function() {
+                var _this = this;
+                obj.querySelectorAll("tbody input[type=checkbox]").forEach(function(_this2) {
+                    if (_this2.checked != _this.checked) {
+                        _this2.click();
+                    }
+                });
+            });
+            obj.querySelector("thead input[type=checkbox]").addEventListener("click",function(e) {
+                e.stopPropagation();
+            });
+            obj.querySelector("thead input[type=checkbox]").parentNode.addEventListener("click",function(e) {
+                this.querySelector("input[type=checkbox]").click();
+                e.stopPropagation();
+            });
         }
         for (var key in field.header) {
             obj.querySelector("thead tr").append(saltos.html("tr",`<th>${field.header[key]}</th>`));
@@ -1266,6 +1295,23 @@ saltos.__form_field.table = function (field) {
         }
         for (var key in field.data) {
             var row = saltos.html("tbody",`<tr></tr>`);
+            if (field.checkbox) {
+                row.append(saltos.html("tr",`<td><input type="checkbox"/></td>`));
+                row.querySelector("input[type=checkbox]").addEventListener("change",function() {
+                    if (this.checked) {
+                        this.parentNode.parentNode.classList.add("table-active");
+                    } else {
+                        this.parentNode.parentNode.classList.remove("table-active");
+                    }
+                });
+                row.querySelector("input[type=checkbox]").addEventListener("click",function(e) {
+                    e.stopPropagation();
+                });
+                row.addEventListener("click",function(e) {
+                    this.querySelector("input[type=checkbox]").click();
+                    e.stopPropagation();
+                });
+            }
             for (var key2 in field.data[key]) {
                 row.append(saltos.html("tr",`<td>${field.data[key][key2]}</td>`));
             }
@@ -1281,6 +1327,9 @@ saltos.__form_field.table = function (field) {
         `));
         if (typeof field.divider[2] == "boolean" && field.divider[2]) {
             obj.querySelector("tfoot").classList.add("table-group-divider");
+        }
+        if (field.checkbox) {
+            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
         }
         for (var key in field.footer) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
