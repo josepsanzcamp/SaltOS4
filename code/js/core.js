@@ -137,7 +137,7 @@ saltos.when_visible = function (obj,fn,args) {
             clearInterval(interval);
             fn(args);
         }
-    },100);
+    },1);
 };
 
 /*

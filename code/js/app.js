@@ -50,7 +50,11 @@ saltos.send_request = function (arg) {
     saltos.ajax({
         url:"index.php?" + arg,
         success:function (response) {
-            saltos.process_response(response);
+            if (typeof response.error == "object") {
+                saltos.show_error(response.error);
+            } else {
+                saltos.process_response(response);
+            }
         },
         //~ headers:{
             //~ "token":saltos.token,
@@ -59,24 +63,22 @@ saltos.send_request = function (arg) {
 };
 
 saltos.process_response = function (response) {
-    if (typeof response.error == "object") {
-        saltos.show_error(response.error);
-        return;
-    }
     for (var key in response) {
         var val = response[key];
         var key = saltos.fix_key(key);
         if (key == "layout") {
             document.querySelector("body").append(saltos.form_layout(val));
         }
-        if (key == "source") {
-            if (typeof val == "string") {
-                saltos.send_request(val);
-            }
-            if (typeof val == "object") {
-                for (var key2 in val) {
-                    var val2 = val[key2];
-                    saltos.send_request(val2);
+        if (key == "data") {
+            for (var key2 in val) {
+                var val2 = val[key2];
+                var obj = document.getElementById(key2);
+                if (obj !== null) {
+                    if(obj.type == "checkbox") {
+                        obj.checked = val2 ? true : false;
+                    } else {
+                        obj.value = val2;
+                    }
                 }
             }
         }
@@ -198,20 +200,7 @@ saltos.form_layout = function (layout) {
 
     //~ saltos.token = localStorage.getItem("token");
     //~ if (saltos.token === null) {
-        //~ saltos.app = "login";
-        //~ saltos.ajax({
-            //~ url:"index.php?app/" + saltos.app + "/default",
-            //~ success:function (response) {
-                //~ if (typeof response.error == "object") {
-                    //~ saltos.show_error(response.error);
-                    //~ return;
-                //~ }
-                //~ document.querySelector("body").append(saltos.form_layout(response.layout));
-            //~ },
-            //~ headers:{
-                //~ "token":saltos.token,
-            //~ }
-        //~ });
+        //~ saltos.send_request("app/login");
     //~ }
 
 }());
