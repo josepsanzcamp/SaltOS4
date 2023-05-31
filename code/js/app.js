@@ -46,6 +46,43 @@ saltos.show_error = function (error) {
     });
 };
 
+saltos.send_request = function (arg) {
+    saltos.ajax({
+        url:"index.php?" + arg,
+        success:function (response) {
+            saltos.process_response(response);
+        },
+        //~ headers:{
+            //~ "token":saltos.token,
+        //~ }
+    });
+};
+
+saltos.process_response = function (response) {
+    if (typeof response.error == "object") {
+        saltos.show_error(response.error);
+        return;
+    }
+    for (var key in response) {
+        var val = response[key];
+        var key = saltos.fix_key(key);
+        if (key == "layout") {
+            document.querySelector("body").append(saltos.form_layout(val));
+        }
+        if (key == "source") {
+            if (typeof val == "string") {
+                saltos.send_request(val);
+            }
+            if (typeof val == "object") {
+                for (var key2 in val) {
+                    var val2 = val[key2];
+                    saltos.send_request(val2);
+                }
+            }
+        }
+    }
+};
+
 saltos.form_layout = function (layout) {
     // Check for attr auto
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
@@ -157,26 +194,7 @@ saltos.form_layout = function (layout) {
     if (saltos.hash == "") {
         saltos.hash = "app/menu";
     }
-    saltos.ajax({
-        url:"index.php?" + saltos.hash,
-        success:function (response) {
-            if (typeof response.error == "object") {
-                saltos.show_error(response.error);
-                return;
-            }
-            if (typeof response.layout == "undefined") {
-                saltos.show_error({
-                    text:"Internal error",
-                    code:"app/124",
-                });
-                return;
-            }
-            document.querySelector("body").append(saltos.form_layout(response.layout));
-        },
-        //~ headers:{
-            //~ "token":saltos.token,
-        //~ }
-    });
+    saltos.send_request(saltos.hash);
 
     //~ saltos.token = localStorage.getItem("token");
     //~ if (saltos.token === null) {
@@ -186,13 +204,6 @@ saltos.form_layout = function (layout) {
             //~ success:function (response) {
                 //~ if (typeof response.error == "object") {
                     //~ saltos.show_error(response.error);
-                    //~ return;
-                //~ }
-                //~ if (typeof response.layout == "undefined") {
-                    //~ saltos.show_error({
-                        //~ text:"Internal error",
-                        //~ code:"app/124",
-                    //~ });
                     //~ return;
                 //~ }
                 //~ document.querySelector("body").append(saltos.form_layout(response.layout));

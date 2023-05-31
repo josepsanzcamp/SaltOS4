@@ -26,7 +26,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
+<!--
+    <view global="data" eval="true">["source"=>["app/clientes/form","app/clientes/data/".$data["rest"][3]]]</view>
+-->
     <view>
+        <source>
+            <source>app/clientes/form</source>
+            <source global="data" eval="true">"app/clientes/data/".$data["rest"][3]</source>
+        ]</source>
+    </view>
+    <form>
         <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
             <text id="codigo" label="codigo"></text>
             <text id="nombre" label="nombre"></text>
@@ -49,28 +58,29 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <integer id="fax" label="fax"></integer>
             <switch id="activo" label="activo"></switch>
         </layout>
-    </view>
+    </form>
+    <data global="data" eval="true">execute_query_array("SELECT * FROM app_clientes WHERE id=".intval($data["rest"][3]))</data>
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">
             <table checkbox="true">
-                <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
+                <header eval="true">["Nombre","CIF","Población","C.P."]</header>
                 <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC")</data>
-                <footer eval="true">array("","","Total",execute_query_array("SELECT COUNT(*) total FROM app_clientes"))</footer>
-                <divider eval="true">array(false,true,true)</divider>
+                <footer eval="true">["","","Total",execute_query_array("SELECT COUNT(*) total FROM app_clientes")]</footer>
+                <divider eval="true">[false,true,true]</divider>
             </table>>
         </layout>
     </list>
     <list2>
-        <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
+        <header eval="true">["Nombre","CIF","Población","C.P."]</header>
         <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
-        <footer eval="true">array("","","Total","5")</footer>
-        <divider eval="true">array(false,true,true)</divider>
+        <footer eval="true">["","","Total","5"]</footer>
+        <divider eval="true">[false,true,true]</divider>
     </list2>
     <list3>
-        <header eval="true">array("Nombre","CIF","Población","C.P.")</header>
+        <header eval="true">["Nombre","CIF","Población","C.P."]</header>
         <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id ASC LIMIT 0,5")</data>
-        <footer eval="true">array("","","Total","5")</footer>
-        <divider eval="true">array(false,true,true)</divider>
+        <footer eval="true">["","","Total","5"]</footer>
+        <divider eval="true">[false,true,true]</divider>
     </list3>
     <plot>
         <data eval="true">[
