@@ -184,8 +184,9 @@ saltos.__form_field.col = function (field) {
 /*
  * Private tooltip constructor helper
  *
- * This function is intended to enable the tooltip in the object, too try to do some
- * extra features as only program the tooltip when hover and hide it when focus
+ * This function is intended to enable the tooltip in the object, too it try to do some
+ * extra features: program that only show the tooltip when hover and hide when will get
+ * the focus or get the click event
  *
  * @obj => the object that you want to enable the tooltip feature
  */
@@ -194,6 +195,9 @@ saltos.tooltip = function(obj) {
         trigger:"hover"
     });
     obj.addEventListener("focus", function () {
+        instance.hide();
+    });
+    obj.addEventListener("click", function () {
         instance.hide();
     });
 };
@@ -1452,11 +1456,18 @@ saltos.__form_field.card = function (field) {
  * @id => the id used by the object
  * @mode => to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
  * @data => the data used to plot the graph, see the data argument used by the graph.js library
+ *
+ * Notes:
+ *
+ * To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
  */
 saltos.__form_field.chartjs = function (field) {
     saltos.check_params(field,["id","mode","data"]);
     saltos.__source_helper(field);
     var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
+    for (var key in field.data.datasets) {
+        field.data.datasets[key].borderWidth = 1;
+    }
     saltos.when_visible(obj ,function () {
         new Chart(obj, {
             type: field.mode,
