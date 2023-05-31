@@ -182,6 +182,23 @@ saltos.__form_field.col = function (field) {
 };
 
 /*
+ * Private tooltip constructor helper
+ *
+ * This function is intended to enable the tooltip in the object, too try to do some
+ * extra features as only program the tooltip when hover and hide it when focus
+ *
+ * @obj => the object that you want to enable the tooltip feature
+ */
+saltos.tooltip = function(obj) {
+    var instance = new bootstrap.Tooltip(obj, {
+        trigger:"hover"
+    });
+    obj.addEventListener("focus", function () {
+        instance.hide();
+    });
+};
+
+/*
  * Private text constructor helper
  *
  * This function returns an input object of type text, you can pass some arguments as:
@@ -216,7 +233,7 @@ saltos.__form_field.__text = function (field) {
             value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">
     `);
     if (field.tooltip != "") {
-        new bootstrap.Tooltip(obj);
+        saltos.tooltip(obj);
     }
     return obj;
 };
@@ -378,7 +395,7 @@ saltos.__form_field.__textarea = function (field) {
             ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != "") {
-        new bootstrap.Tooltip(obj);
+        saltos.tooltip(obj);
     }
     return obj;
 };
@@ -493,7 +510,7 @@ saltos.__form_field.select = function (field) {
             ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
     if (field.tooltip != "") {
-        new bootstrap.Tooltip(obj);
+        saltos.tooltip(obj);
     }
     for (var key in field.rows) {
         var val = field.rows[key];
@@ -669,7 +686,7 @@ saltos.__form_field.checkbox = function (field) {
     }
     if (field.tooltip != "") {
         obj.querySelectorAll("input,label").forEach(function (_this) {
-            new bootstrap.Tooltip(_this);
+            saltos.tooltip(_this);
         });
     }
     obj.querySelector("input").addEventListener("change",function () {
@@ -712,7 +729,7 @@ saltos.__form_field.button = function (field) {
         <button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.tooltip != "") {
-        new bootstrap.Tooltip(obj);
+        saltos.tooltip(obj);
     }
     if (typeof field.onclick == "function") {
         obj.addEventListener("click",field.onclick);
@@ -761,16 +778,16 @@ saltos.__form_field.password = function (field) {
         field.required = "required";
     }
     var obj = saltos.html(`
+        <input type="text" style="display:none"/>
         <div class="input-group">
-            <input type="text" style="display:none"/>
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
                 ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
             <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
         </div>
     `);
     if (field.tooltip != "") {
-        obj.querySelectorAll("input,button").forEach(function (_this) {
-            new bootstrap.Tooltip(_this);
+        obj.querySelectorAll("div input").forEach(function (_this) {
+            saltos.tooltip(_this);
         });
     }
     obj.querySelector("button").addEventListener("click",function () {
@@ -835,7 +852,7 @@ saltos.__form_field.file = function (field) {
     </div>`);
     if (field.tooltip != "") {
         obj.querySelectorAll("input").forEach(function (_this) {
-            new bootstrap.Tooltip(_this);
+            saltos.tooltip(_this);
         });
     }
     // This helper programs the input file data update
@@ -1005,7 +1022,7 @@ saltos.__form_field.label = function (field) {
         <label for="${field.id}" class="form-label ${field.class}" data-bs-title="${field.tooltip}">${field.label}</label>
     `);
     if (field.tooltip != "") {
-        new bootstrap.Tooltip(obj);
+        saltos.tooltip(obj);
     }
     return obj;
 };
@@ -1030,7 +1047,7 @@ saltos.__form_field.image = function (field) {
         <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}" data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
     if (field.tooltip != "") {
-        new bootstrap.Tooltip(obj);
+        saltos.tooltip(obj);
     }
     return obj;
 };
