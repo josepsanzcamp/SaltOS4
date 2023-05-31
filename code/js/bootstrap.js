@@ -190,7 +190,7 @@ saltos.__form_field.col = function (field) {
  *
  * @obj => the object that you want to enable the tooltip feature
  */
-saltos.tooltip = function(obj) {
+saltos.tooltip = function (obj) {
     var instance = new bootstrap.Tooltip(obj, {
         trigger:"hover"
     });
@@ -1211,7 +1211,7 @@ saltos.__form_field.pdfjs = function (field) {
  * @source => data source used to load asynchronously the contents of the table (header, data, footer and divider)
  * @value => data container used to get synchronously the contents of the table (header, data, footer and divider)
  */
-saltos.__source_helper = function(field) {
+saltos.__source_helper = function (field) {
     saltos.check_params(field,["id","type","source","value"]);
     // Check for asynchronous load using the source param
     if (field.source != "") {
@@ -1284,18 +1284,18 @@ saltos.__form_field.table = function (field) {
         }
         if (field.checkbox) {
             obj.querySelector("thead tr").append(saltos.html("tr",`<th width="1%"><input type="checkbox"/></th>`));
-            obj.querySelector("thead input[type=checkbox]").addEventListener("change",function() {
+            obj.querySelector("thead input[type=checkbox]").addEventListener("change",function () {
                 var _this = this;
-                obj.querySelectorAll("tbody input[type=checkbox]").forEach(function(_this2) {
+                obj.querySelectorAll("tbody input[type=checkbox]").forEach(function (_this2) {
                     if (_this2.checked != _this.checked) {
                         _this2.click();
                     }
                 });
             });
-            obj.querySelector("thead input[type=checkbox]").addEventListener("click",function(e) {
+            obj.querySelector("thead input[type=checkbox]").addEventListener("click",function (e) {
                 e.stopPropagation();
             });
-            obj.querySelector("thead input[type=checkbox]").parentNode.addEventListener("click",function(e) {
+            obj.querySelector("thead input[type=checkbox]").parentNode.addEventListener("click",function (e) {
                 this.querySelector("input[type=checkbox]").click();
                 e.stopPropagation();
             });
@@ -1316,17 +1316,17 @@ saltos.__form_field.table = function (field) {
             var row = saltos.html("tbody",`<tr></tr>`);
             if (field.checkbox) {
                 row.append(saltos.html("tr",`<td><input type="checkbox"/></td>`));
-                row.querySelector("input[type=checkbox]").addEventListener("change",function() {
+                row.querySelector("input[type=checkbox]").addEventListener("change",function () {
                     if (this.checked) {
                         this.parentNode.parentNode.classList.add("table-active");
                     } else {
                         this.parentNode.parentNode.classList.remove("table-active");
                     }
                 });
-                row.querySelector("input[type=checkbox]").addEventListener("click",function(e) {
+                row.querySelector("input[type=checkbox]").addEventListener("click",function (e) {
                     e.stopPropagation();
                 });
-                row.addEventListener("click",function(e) {
+                row.addEventListener("click",function (e) {
                     this.querySelector("input[type=checkbox]").click();
                     e.stopPropagation();
                 });
