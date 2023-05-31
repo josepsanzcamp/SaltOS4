@@ -74,7 +74,7 @@ saltos.process_response = function (response) {
                 var val2 = val[key2];
                 var obj = document.getElementById(key2);
                 if (obj !== null) {
-                    if(obj.type == "checkbox") {
+                    if (obj.type == "checkbox") {
                         obj.checked = val2 ? true : false;
                     } else {
                         obj.value = val2;
