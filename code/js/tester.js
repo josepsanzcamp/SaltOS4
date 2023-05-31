@@ -235,6 +235,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         var text = "";
         var body = "";
         var datalist = [];
+        var close = "";
         if (tipo == "text") {
             datalist = [
                 "Uno",
@@ -320,6 +321,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             title = "The alert message!!!";
             text = "This text can be used as you want";
             body = `<hr/>More text here`;
+            close = true;
         }
         if (tipo == "card") {
             image = "data/files/bootstrap-card.svg";
@@ -478,6 +480,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             text:text,
             body:body,
             datalist:datalist,
+            close:close,
         });
         col.append(campo);
         row.append(col);

@@ -656,19 +656,17 @@ saltos.__form_field.checkbox = function (field) {
     if (field.value) {
         checked = "checked";
     }
-    var _class = "";
-    var _role = "";
-    if (field.type == "switch") {
-        _class = "form-switch";
-        _role = `role="switch"`;
-    }
     var obj = saltos.html(`
-        <div class="form-check ${field.class} ${_class}">
-            <input class="form-check-input" type="checkbox" ${_role} id="${field.id}" value="${field.value}"
+        <div class="form-check ${field.class}">
+            <input class="form-check-input" type="checkbox" id="${field.id}" value="${field.value}"
                 ${field.disabled} ${field.readonly} ${checked} data-bs-title="${field.tooltip}">
             <label class="form-check-label" for="${field.id}" data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
     `);
+    if (field.type == "switch") {
+        obj.classList.add("form-switch");
+        obj.querySelector("input").setAttribute("role","switch");
+    }
     if (field.tooltip != "") {
         obj.querySelectorAll("input,label").forEach(function (_this) {
             new bootstrap.Tooltip(_this);
@@ -877,8 +875,8 @@ saltos.__form_field.file = function (field) {
                 <tr id="${data.files[0].id}">
                     <td class="text-break">${data.files[0].name}</td>
                     <td class="w-25 align-middle">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width:0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress" role="progressbar" aria-label="Upload percent" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: 0%"></div>
                         </div>
                     </td>
                     <td class="p-0 align-middle" style="width:1%"><button class="btn bi-trash" type="button"></button></td>
@@ -948,7 +946,7 @@ saltos.__form_field.file = function (field) {
                             if (e.lengthComputable) {
                                 var percent = parseInt((e.loaded / e.total) * 100);
                                 row.querySelector(".progress-bar").style.width = percent + "%";
-                                row.querySelector(".progress-bar").setAttribute("aria-valuenow",percent);
+                                row.querySelector(".progress").setAttribute("aria-valuenow",percent);
                             }
                         },
                     });
@@ -1238,10 +1236,6 @@ saltos.__source_helper = function(field) {
  * Notes:
  *
  * This function defines the yellow color used for the hover and active rows.
- *
- * The table-striped has problems with the table-active, the striped rows fails to use the color
- * of the active rows, to fix this problem, I'm using the solution provided by this link:
- * https://stackoverflow.com/questions/70903589/#72481261
  */
 saltos.__form_field.table = function (field) {
     saltos.check_params(field,["class","id","checkbox"]);
@@ -1250,14 +1244,10 @@ saltos.__form_field.table = function (field) {
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
             <style>
-            .table {
-                --bs-table-hover-bg:#fff89f;
-                --bs-table-active-bg:#fff89f;
-            }
-            .table-active {
-                --bs-table-striped-bg: var(--bs-table-active-bg);
-                --bs-table-striped-color: var(--bs-table-active-color);
-            }
+                .table {
+                    --bs-table-hover-bg:#fff89f;
+                    --bs-table-active-bg:#fff89f;
+                }
             </style>
         </table>
     `);
@@ -1356,21 +1346,43 @@ saltos.__form_field.table = function (field) {
  * @title => title used in the body of the card, not used if void
  * @text => text used in the body of the card, not used if void
  * @body => this option allow to specify an specific html to the body of the card, intended to personalize the body's card
+ * @close => boolean to specify if you want to add the dismissible option to the alert
+ *
+ * Note:
+ *
+ * I have added the dismissible option using the close attribute, too I have added a modification
+ * for the style to allow the content to use the original size of the alert, in a future, I don't
+ * know if I maintain this or I remove it, but at the moment, this is added by default
  */
 saltos.__form_field.alert = function (field) {
-    saltos.check_params(field,["class","id","title","text","body"]);
+    saltos.check_params(field,["class","id","title","text","body","close"]);
     saltos.__source_helper(field);
     var obj = saltos.html(`
         <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
     if (field.title != "") {
-        obj.append(saltos.html(`<h5>${field.title}</h5>`))
+        obj.append(saltos.html(`<h4>${field.title}</h4>`))
     }
     if (field.text != "") {
         obj.append(saltos.html(`<p>${field.text}</p>`))
     }
     if (field.body != "") {
         obj.append(saltos.html(field.body));
+    }
+    if (field.close) {
+        obj.classList.add("alert-dismissible");
+        obj.classList.add("fade");
+        obj.classList.add("show");
+        obj.append(saltos.html(`
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `));
+        obj.append(saltos.html(`
+            <style>
+                .alert-dismissible {
+                    padding-right: var(--bs-alert-padding-x);
+                }
+            </style>
+        `));
     }
     return obj;
 };
