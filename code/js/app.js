@@ -26,6 +26,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
+/*
+ * Show error helper
+ *
+ * This function allow to show a modal dialog with de details of an error
+ */
 saltos.show_error = function (error) {
     saltos.modal({
         title:"Error",
@@ -46,9 +51,14 @@ saltos.show_error = function (error) {
     });
 };
 
-saltos.send_request = function (arg) {
+/*
+ * Send request helper
+ *
+ * This function allow to send requests to the server and process the response
+ */
+saltos.send_request = function (data) {
     saltos.ajax({
-        url:"index.php?" + arg,
+        url:"index.php?" + data,
         success:function (response) {
             if (typeof response.error == "object") {
                 saltos.show_error(response.error);
@@ -62,26 +72,47 @@ saltos.send_request = function (arg) {
     });
 };
 
+/*
+ * Process response helper
+ *
+ * This function process the responses received by the send request
+ */
 saltos.process_response = function (response) {
     for (var key in response) {
         var val = response[key];
         var key = saltos.fix_key(key);
-        if (key == "layout") {
-            document.body.append(saltos.form_layout(val));
+
+        if (typeof saltos.form[key] != "function") {
+            console.log("type " + key + " not found");
+            document.body.append(saltos.html("type " + key + " not found"));
+            return;
         }
-        if (key == "data") {
-            saltos.form_data(val);
-        }
-        if (key == "style") {
-            saltos.form_style(val);
-        }
-        if (key == "javascript") {
-            saltos.form_javascript(val);
-        }
+        saltos.form[key](val);
     }
 };
 
-saltos.form_data = function (data) {
+/*
+ * Form constructor helper object
+ *
+ * This object allow to the constructor to use a rational structure for a quick access of each helper
+ */
+saltos.form = {};
+
+/*
+ * Form source helper
+ *
+ * This function redirects the request to the send request function, allow to define the source command
+ */
+saltos.form.source = function (data) {
+    saltos.send_request(data)
+}
+
+/*
+ * Form data helper
+ *
+ * This function sets the values of the request to the objects placed in the document
+ */
+saltos.form.data = function (data) {
     for (var key in data) {
         var val = data[key];
         var obj = document.getElementById(key);
@@ -95,7 +126,18 @@ saltos.form_data = function (data) {
     }
 };
 
-saltos.form_layout = function (layout) {
+/*
+ * Form layout helper
+ *
+ * This function process the layout command, its able to process nodes as container, row, col and div
+ * and all form_field defined in the bootstrap file, too have 2 modes of work:
+ *
+ * 1) normal mode => requires that the user specify all layout, container, row, col and fields.
+ *
+ * 2) auto mode => only requires set auto="true" to the layout node, and with this, all childrens
+ * of the node are created inside a container, a row, and each field inside a col.
+ */
+saltos.form.layout = function (layout) {
     // Check for attr auto
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
         var attr = layout["#attr"];
@@ -170,7 +212,7 @@ saltos.form_layout = function (layout) {
         attr.value = value;
         if (["container","col","row","div"].includes(key)) {
             var obj = saltos.form_field(attr);
-            var temp = saltos.form_layout(value,1);
+            var temp = saltos.form.layout(value,1);
             for (var i in temp) {
                 obj.append(temp[i]);
             }
@@ -191,12 +233,18 @@ saltos.form_layout = function (layout) {
         div.append(arr[i]);
     }
     if (div.childNodes.length == 1) {
-        return div.firstChild;
+        div = div.firstChild;
     }
-    return div;
+    document.body.append(div);
 };
 
-saltos.form_style = function (data) {
+/*
+ * Form style helper
+ *
+ * This function allow to specify styles, you can use the inline of file key to specify
+ * what kind of usage do you want to do.
+ */
+saltos.form.style = function (data) {
     for (var key in data) {
         var val = data[key];
         var key = saltos.fix_key(key);
@@ -209,7 +257,13 @@ saltos.form_style = function (data) {
     }
 };
 
-saltos.form_javascript = function (data) {
+/*
+ * Form javascript helper
+ *
+ * This function allow to specify scripts, you can use the inline of file key to specify
+ * what kind of usage do you want to do.
+ */
+saltos.form.javascript = function (data) {
     for (var key in data) {
         var val = data[key];
         var key = saltos.fix_key(key);
@@ -226,7 +280,11 @@ saltos.form_javascript = function (data) {
     }
 };
 
-// Main code
+/*
+ * Main code
+ *
+ * This is the code that must to be executed to initialize all requirements of this module
+ */
 (function () {
 
     saltos.hash = document.location.hash;

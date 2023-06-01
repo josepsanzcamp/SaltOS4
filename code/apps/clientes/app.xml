@@ -49,7 +49,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <integer id="fax" label="fax"></integer>
             <switch id="activo" label="activo"></switch>
         </layout>
-        <data global="data" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($data["rest"][3]))</data>
+        <source global="data" eval="true">"app/clientes/data/".intval($data["rest"][3])</source>
     </view>
     <data>
         <data global="data" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($data["rest"][3]))</data>
