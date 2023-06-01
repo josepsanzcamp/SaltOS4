@@ -29,7 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // Main code
 (function () {
 
-    document.querySelector("body").append(saltos.navbar({
+    document.body.append(saltos.navbar({
         id:saltos.uniqid(),
         brand:{
             name:"SaltOS",
@@ -161,7 +161,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         ],
     }));
 
-    document.querySelector("body").append(saltos.html(`<br/><br/><br/>`));
+    document.body.append(saltos.html(`<br/><br/><br/>`));
 
     var container = saltos.form_field({
         type:"container",
@@ -483,6 +483,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         row.append(col);
     }
     container.append(row);
-    document.querySelector("body").append(container);
+    document.body.append(container);
 
 }());

@@ -67,10 +67,16 @@ saltos.process_response = function (response) {
         var val = response[key];
         var key = saltos.fix_key(key);
         if (key == "layout") {
-            document.querySelector("body").append(saltos.form_layout(val));
+            document.body.append(saltos.form_layout(val));
         }
         if (key == "data") {
             saltos.form_data(val);
+        }
+        if (key == "style") {
+            saltos.form_style(val);
+        }
+        if (key == "javascript") {
+            saltos.form_javascript(val);
         }
     }
 };
@@ -87,7 +93,7 @@ saltos.form_data = function (data) {
             }
         }
     }
-}
+};
 
 saltos.form_layout = function (layout) {
     // Check for attr auto
@@ -188,6 +194,36 @@ saltos.form_layout = function (layout) {
         return div.firstChild;
     }
     return div;
+};
+
+saltos.form_style = function (data) {
+    for (var key in data) {
+        var val = data[key];
+        var key = saltos.fix_key(key);
+        if (key == "inline") {
+            document.body.append(saltos.html(`<style>${val}</style>`));
+        }
+        if (key == "file") {
+            document.body.append(saltos.html(`<link href="${val}" rel="stylesheet">`));
+        }
+    }
+};
+
+saltos.form_javascript = function (data) {
+    for (var key in data) {
+        var val = data[key];
+        var key = saltos.fix_key(key);
+        if (key == "inline") {
+            var script = document.createElement("script");
+            script.innerHTML = val;
+            document.body.append(script);
+        }
+        if (key == "file") {
+            var script = document.createElement("script");
+            script.src = val;
+            document.body.append(script);
+        }
+    }
 };
 
 // Main code

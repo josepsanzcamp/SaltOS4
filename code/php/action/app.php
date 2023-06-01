@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 if (!isset($data["rest"][1])) {
-    show_json_error("file not found");
+    show_json_error("app not found");
 }
 
 $data["rest"][1] = encode_bad_chars($data["rest"][1]);

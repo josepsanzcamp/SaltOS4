@@ -1239,7 +1239,7 @@ saltos.__source_helper = function (field) {
             field[key] = field.value[key];
         }
     }
-}
+};
 
 /*
  * Table constructor helper
@@ -1755,7 +1755,7 @@ saltos.modal = function (args) {
             </div>
         </div>
     `);
-    document.querySelector("body").append(obj);
+    document.body.append(obj);
     obj.querySelector(".modal-body").append(saltos.html(args.body));
     obj.querySelector(".modal-footer").append(args.footer);
     var instance = new bootstrap.Modal(obj);
@@ -1835,7 +1835,7 @@ saltos.offcanvas = function (args) {
             </div>
         </div>
     `);
-    document.querySelector("body").append(obj);
+    document.body.append(obj);
     obj.querySelector(".offcanvas-body").append(saltos.html(args.body));
     var instance = new bootstrap.Offcanvas(obj);
     saltos.__offcanvas.obj = obj;
@@ -1879,7 +1879,7 @@ saltos.offcanvas = function (args) {
 saltos.toast = function (args) {
     saltos.check_params(args,["id","class","close","title","subtitle","body"]);
     if (document.querySelectorAll(".toast-container").length == 0) {
-        document.querySelector("body").append(saltos.html(`<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
+        document.body.append(saltos.html(`<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
     }
     // CHECK FOR REPETITIONS
     var hash = md5(JSON.stringify(args));
