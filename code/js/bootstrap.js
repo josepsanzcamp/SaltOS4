@@ -786,7 +786,7 @@ saltos.__form_field.password = function (field) {
         <div class="input-group">
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
                 ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
-            <button class="btn btn-outline-secondary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
+            <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
         </div>
     `);
     if (field.tooltip != "") {

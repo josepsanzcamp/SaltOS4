@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 <root>
     <default>
         <layout>
-            <div class="vh-100 d-flex">
+            <div class="vh-100 d-flex bg-body-tertiary">
                 <div class="container m-auto" style="max-width:330px">
                     <row>
                         <col class="col my-3 text-center">
