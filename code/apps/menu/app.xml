@@ -36,7 +36,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <button class="btn btn-success fs-1 w-100 h-100" onclick="saltos.open('https://www.saltos.org')">www.saltos.org</button>
             <button class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/login')">Please login</button>
             <table source="app/clientes/list3"></table>
-            <button class="btn btn-danger fs-1 w-100 h-100">TODO</button>
+            <button class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/tester')">Tester</button>
             <button class="btn btn-primary fs-1 w-100 h-100">TODO</button>
             <button class="btn btn-success fs-1 w-100 h-100">TODO</button>
             <chartjs source="app/clientes/plot2" mode="pie"></chartjs>
