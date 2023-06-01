@@ -261,7 +261,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             mode = "xml";
         }
         if (tipo == "iframe") {
-            valor = "data/files/philips-pm5544.svg";
+            valor = "apps/tester/files/philips-pm5544.svg";
             height = "500px";
         }
         if (tipo == "select") {
@@ -301,10 +301,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             multiple = true;
         }
         if (tipo == "image") {
-            valor = "data/files/philips-pm5544.svg";
+            valor = "apps/tester/files/philips-pm5544.svg";
         }
         if (tipo == "pdfjs") {
-            valor = "data/files/philips-pm5544.pdf";
+            valor = "apps/tester/files/philips-pm5544.pdf";
         }
         if (tipo == "table") {
             var data = [
@@ -324,7 +324,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             close = true;
         }
         if (tipo == "card") {
-            image = "data/files/bootstrap-card.svg";
+            image = "apps/tester/files/bootstrap-card.svg";
             header = "Cabecera";
             footer = "Pie";
             title = "Titulo";
