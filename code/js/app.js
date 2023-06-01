@@ -70,20 +70,24 @@ saltos.process_response = function (response) {
             document.querySelector("body").append(saltos.form_layout(val));
         }
         if (key == "data") {
-            for (var key2 in val) {
-                var val2 = val[key2];
-                var obj = document.getElementById(key2);
-                if (obj !== null) {
-                    if (obj.type == "checkbox") {
-                        obj.checked = val2 ? true : false;
-                    } else {
-                        obj.value = val2;
-                    }
-                }
-            }
+            saltos.form_data(val);
         }
     }
 };
+
+saltos.form_data = function (data) {
+    for (var key in data) {
+        var val = data[key];
+        var obj = document.getElementById(key);
+        if (obj !== null) {
+            if (obj.type == "checkbox") {
+                obj.checked = val ? true : false;
+            } else {
+                obj.value = val;
+            }
+        }
+    }
+}
 
 saltos.form_layout = function (layout) {
     // Check for attr auto
