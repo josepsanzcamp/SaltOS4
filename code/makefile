@@ -6,11 +6,17 @@ all:
 	rm -f htm/index.tmp.htm
 
 test:
-	phpcs php
-	phpcs ../scripts
-	bash ../scripts/phpcs_js.sh js/core.js
-	bash ../scripts/phpcs_js.sh js/bootstrap.js
-	bash ../scripts/phpcs_js.sh js/app.js
+	$(eval files := $(shell find php ../scripts apps -name \*.php))
+	@for i in ${files}; do \
+		echo $$i; \
+		phpcs $$i; \
+	done
+
+	$(eval files := $(shell find js ../scripts apps -name \*.js | grep -v index.min.js))
+	@for i in ${files}; do \
+		echo $$i; \
+		bash ../scripts/phpcs_js.sh $$i; \
+	done
 
 libs:
 	php ../scripts/checklibs.php ../scripts/checklibs.txt
