@@ -135,11 +135,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             "yeti",
                             "zephyr"
                         ];
+                        var current = document.querySelector("link[theme]").href;
                         for (var key in menu) {
                             var val = menu[key];
                             menu[key] = {
                                 name:val,
-                                active:(val == "cosmo"), // This is my default theme
+                                active:current.includes(val),
                                 onclick:function () {
                                     var theme = this.textContent;
                                     if (theme == "default") {
