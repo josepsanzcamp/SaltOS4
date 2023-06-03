@@ -158,8 +158,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     }()
                 },function() {
                     var theme = document.querySelector("html").getAttribute("data-bs-theme");
+                    var icon = `<i class="bi bi-sun-fill"></i>`;
+                    if (theme == "dark") {
+                        icon = `<i class="bi bi-moon-stars-fill"></i>`;
+                    }
                     return {
-                        name:`<i class="bi bi-sun-fill"></i>`,
+                        name:icon,
                         dropdown_menu_end:true,
                         menu:[{
                             name:`<i class="bi bi-sun-fill"></i> Light`,

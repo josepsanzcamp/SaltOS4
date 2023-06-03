@@ -1603,7 +1603,7 @@ saltos.menu = function (args) {
             }
             var temp = saltos.html(`
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.name}
                     </a>
                     <ul class="dropdown-menu ${val.dropdown_menu_end}">
@@ -1622,7 +1622,7 @@ saltos.menu = function (args) {
                 if (val2.divider) {
                     var temp2 = saltos.html(`<li><hr class="dropdown-divider"></li>`);
                 } else {
-                    var temp2 = saltos.html(`<li><a class="dropdown-item ${val2.disabled} ${val2.active}" href="#">${val2.name}</a></li>`);
+                    var temp2 = saltos.html(`<li><a class="dropdown-item ${val2.disabled} ${val2.active}" href="javascript:void(0);">${val2.name}</a></li>`);
                     if (!val2.disabled) {
                         temp2.addEventListener("click",val2.onclick);
                     }
@@ -1632,7 +1632,7 @@ saltos.menu = function (args) {
         } else {
             var temp = saltos.html(`
                 <li class="nav-item">
-                    <a class="nav-link ${val.disabled} ${val.active}" href="#">${val.name}</a>
+                    <a class="nav-link ${val.disabled} ${val.active}" href="javascript:void(0);">${val.name}</a>
                 </li>
             `);
             if (!val.disabled) {
@@ -1665,7 +1665,7 @@ saltos.navbar = function (args) {
     var obj = saltos.html(`
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="javascript:void(0);">
                     <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}" height="${args.brand.height}" class="d-inline-block align-text-top">
                     ${args.brand.name}
                 </a>
