@@ -81,7 +81,6 @@ saltos.process_response = function (response) {
     for (var key in response) {
         var val = response[key];
         var key = saltos.fix_key(key);
-
         if (typeof saltos.form[key] != "function") {
             console.log("type " + key + " not found");
             document.body.append(saltos.html("type " + key + " not found"));
@@ -218,9 +217,9 @@ saltos.form.layout = function (layout) {
             }
             arr.push(obj);
         } else {
-            if (attr.hasOwnProperty("onclick") && typeof attr.onclick == "string") {
-                attr.onclick = new Function(attr.onclick);
-            }
+            //~ if (attr.hasOwnProperty("onclick") && typeof attr.onclick == "string") {
+                //~ attr.onclick = new Function(attr.onclick);
+            //~ }
             var obj = saltos.form_field(attr);
             arr.push(obj);
         }

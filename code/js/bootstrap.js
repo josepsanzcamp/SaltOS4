@@ -735,6 +735,9 @@ saltos.__form_field.button = function (field) {
     if (field.tooltip != "") {
         saltos.tooltip(obj);
     }
+    if (typeof field.onclick == "string") {
+        obj.addEventListener("click",new Function(field.onclick));
+    }
     if (typeof field.onclick == "function") {
         obj.addEventListener("click",field.onclick);
     }
@@ -1253,14 +1256,20 @@ saltos.__source_helper = function (field) {
  * @footer => array with the footer to use
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  * @checkbox => add a checkbox at the first of each row, for mono or multi selection
+ * @buttons => array with the buttons to be added at the end of each row
  *
  * Notes:
  *
  * This function defines the yellow color used for the hover and active rows.
+ *
+ * The header field can be an array with the labels of each field or can be an object
+ * with pairs of key and val to identify with the key the name of the field and with the
+ * val the label to be used in the field, this is used when the data contains more fields
+ * that the desired fields, for example, to store the id used in the str_replace
  */
 saltos.__form_field.table = function (field) {
     saltos.check_params(field,["class","id","checkbox"]);
-    saltos.check_params(field,["header","data","footer","divider"],[]);
+    saltos.check_params(field,["header","data","footer","divider","buttons"],[]);
     saltos.__source_helper(field);
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
@@ -1272,6 +1281,16 @@ saltos.__form_field.table = function (field) {
             </style>
         </table>
     `);
+    if (!field.header.hasOwnProperty("length")) {
+        var header = [];
+        var fields = [];
+        for (var key in field.header) {
+            header.push(field.header[key]);
+            fields.push(key);
+        }
+        field.header = header;
+        field.fields = fields;
+    }
     if (field.header.length) {
         obj.append(saltos.html("table",`
             <thead>
@@ -1283,7 +1302,7 @@ saltos.__form_field.table = function (field) {
             obj.querySelector("thead").classList.add("table-group-divider");
         }
         if (field.checkbox) {
-            obj.querySelector("thead tr").append(saltos.html("tr",`<th width="1%"><input type="checkbox"/></th>`));
+            obj.querySelector("thead tr").append(saltos.html("tr",`<th style="width:1%"><input type="checkbox"/></th>`));
             obj.querySelector("thead input[type=checkbox]").addEventListener("change",function () {
                 var _this = this;
                 obj.querySelectorAll("tbody input[type=checkbox]").forEach(function (_this2) {
@@ -1302,6 +1321,13 @@ saltos.__form_field.table = function (field) {
         }
         for (var key in field.header) {
             obj.querySelector("thead tr").append(saltos.html("tr",`<th>${field.header[key]}</th>`));
+        }
+        if (field.buttons.length) {
+            var td = saltos.html("tr",`<th style="width:1%" class="p-0 align-middle text-nowrap"></th>`);
+            for (var key in field.buttons) {
+                td.append(saltos.__form_field.button(field.buttons[key]));
+            }
+            obj.querySelector("thead tr").append(td);
         }
     }
     if (field.data.length) {
@@ -1332,7 +1358,21 @@ saltos.__form_field.table = function (field) {
                 });
             }
             for (var key2 in field.data[key]) {
+                if (field.hasOwnProperty("fields") && !field.fields.includes(key2)) {
+                    continue;
+                }
                 row.append(saltos.html("tr",`<td>${field.data[key][key2]}</td>`));
+            }
+            if (field.buttons.length) {
+                var td = saltos.html("tr",`<td class="p-0 align-middle text-nowrap"></td>`);
+                for (var key2 in field.buttons) {
+                    var val2 = JSON.parse(JSON.stringify(field.buttons[key2]));
+                    if (typeof val2.onclick == "string") {
+                        val2.onclick = str_replace("ID",field.data[key].id,val2.onclick);
+                    }
+                    td.append(saltos.__form_field.button(val2));
+                }
+                row.append(td);
             }
             obj.querySelector("tbody").append(row);
         }
@@ -1352,6 +1392,9 @@ saltos.__form_field.table = function (field) {
         }
         for (var key in field.footer) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
+        }
+        if (field.buttons.length) {
+            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
         }
     }
     return obj;

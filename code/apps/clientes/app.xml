@@ -57,10 +57,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">
             <table checkbox="true">
-                <header eval="true">["Nombre","CIF","Población","C.P."]</header>
-                <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC")</data>
+                <header eval="true">[
+                    "nombre"=>"Nombre",
+                    "cif"=>"CIF",
+                    "nombre_poblacion"=>"Población",
+                    "nombre_codpostal"=>"C.P."
+                ]</header>
+                <data eval="true">execute_query_array("SELECT id,nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC")</data>
                 <footer eval="true">["","","Total",execute_query_array("SELECT COUNT(*) total FROM app_clientes")]</footer>
                 <divider eval="true">[false,true,true]</divider>
+                <buttons eval="true">[
+                    ["onclick"=>"saltos.open('#app/clientes/view/ID')","class"=>"bi-search"],
+                    ["onclick"=>"saltos.open('#app/clientes/edit/ID')","class"=>"bi-pencil-fill"],
+                    ["onclick"=>"saltos.open('#app/clientes/delete/ID')","class"=>"bi-trash-fill"]
+                ]</buttons>
             </table>>
         </layout>
     </list>
