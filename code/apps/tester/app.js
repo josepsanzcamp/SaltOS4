@@ -156,7 +156,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         }
                         return menu;
                     }()
-                },function() {
+                },function () {
                     var theme = document.querySelector("html").getAttribute("data-bs-theme");
                     var icon = `<i class="bi bi-sun-fill"></i>`;
                     if (theme == "dark") {
