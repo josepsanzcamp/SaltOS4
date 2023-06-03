@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-    <view>
+    <form>
         <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
             <text id="codigo" label="codigo"></text>
             <text id="nombre" label="nombre"></text>
@@ -49,11 +49,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <integer id="fax" label="fax"></integer>
             <switch id="activo" label="activo"></switch>
         </layout>
-        <source global="data" eval="true">"app/clientes/data/".intval($data["rest"][3])</source>
-    </view>
+    </form>
     <data>
         <data global="data" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($data["rest"][3]))</data>
     </data>
+    <view>
+        <layout eval="true">xml2array("apps/clientes/app.xml")["form"]["layout"]</layout>
+        <data eval="true">xml2array("apps/clientes/app.xml")["data"]["data"]</data>
+    </view>
+    <edit>
+        <layout eval="true">xml2array("apps/clientes/app.xml")["form"]["layout"]</layout>
+        <data eval="true">xml2array("apps/clientes/app.xml")["data"]["data"]</data>
+    </edit>
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">
             <table checkbox="true">
