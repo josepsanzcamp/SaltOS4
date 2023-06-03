@@ -104,11 +104,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 class:"navbar-nav mb-2 mb-lg-0",
                 menu:[{
                     name:"Themes",
-                    disabled:false,
                     dropdown_menu_end:true,
                     menu:function () {
                         var menu = [
-                            "default",
+                            "bootstrap",
                             "cerulean",
                             "cosmo",
                             "cyborg",
@@ -143,7 +142,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                                 active:current.includes(val),
                                 onclick:function () {
                                     var theme = this.textContent;
-                                    if (theme == "default") {
+                                    if (theme == "bootstrap") {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
                                         document.querySelector("link[theme]").setAttribute("href","lib/bootstrap/bootstrap.min.css");
                                     } else {
@@ -156,10 +155,38 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             }
                         }
                         return menu;
-                    }(),
-                }],
+                    }()
+                },function() {
+                    var theme = document.querySelector("html").getAttribute("data-bs-theme");
+                    return {
+                        name:`<i class="bi bi-sun-fill"></i>`,
+                        dropdown_menu_end:true,
+                        menu:[{
+                            name:`<i class="bi bi-sun-fill"></i> Light`,
+                            active:(theme == ""),
+                            onclick:function () {
+                                document.querySelector("html").setAttribute("data-bs-theme","");
+                                this.parentNode.querySelector("a.active").classList.remove("active");
+                                this.querySelector("a").classList.add("active");
+                                this.parentNode.parentNode.querySelector("i").classList.remove("bi-moon-stars-fill");
+                                this.parentNode.parentNode.querySelector("i").classList.add("bi-sun-fill");
+                            },
+                        },{
+                            name:`<i class="bi bi-moon-stars-fill"></i> Dark`,
+                            active:(theme == "dark"),
+                            onclick:function () {
+                                document.querySelector("html").setAttribute("data-bs-theme","dark");
+                                this.parentNode.querySelector("a.active").classList.remove("active");
+                                this.querySelector("a").classList.add("active");
+                                this.parentNode.parentNode.querySelector("i").classList.remove("bi-sun-fill");
+                                this.parentNode.parentNode.querySelector("i").classList.add("bi-moon-stars-fill");
+                            },
+                        }]
+                    };
+
+                }()]
             }),
-        ],
+        ]
     }));
 
     document.body.append(saltos.html(`<br/><br/><br/>`));
