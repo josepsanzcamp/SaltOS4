@@ -149,8 +149,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                                         document.querySelector("link[theme]").removeAttribute("integrity");
                                         document.querySelector("link[theme]").setAttribute("href","lib/bootswatch/" + theme + ".min.css");
                                     }
-                                    this.parentNode.querySelector("a.active").classList.remove("active");
-                                    this.querySelector("a").classList.add("active");
+                                    this.parentNode.querySelector("button.active").classList.remove("active");
+                                    this.querySelector("button").classList.add("active");
                                 },
                             }
                         }
@@ -170,8 +170,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             active:(theme == ""),
                             onclick:function () {
                                 document.querySelector("html").setAttribute("data-bs-theme","");
-                                this.parentNode.querySelector("a.active").classList.remove("active");
-                                this.querySelector("a").classList.add("active");
+                                this.parentNode.querySelector("button.active").classList.remove("active");
+                                this.querySelector("button").classList.add("active");
                                 this.parentNode.parentNode.querySelector("i").classList.remove("bi-moon-stars-fill");
                                 this.parentNode.parentNode.querySelector("i").classList.add("bi-sun-fill");
                             },
@@ -180,8 +180,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             active:(theme == "dark"),
                             onclick:function () {
                                 document.querySelector("html").setAttribute("data-bs-theme","dark");
-                                this.parentNode.querySelector("a.active").classList.remove("active");
-                                this.querySelector("a").classList.add("active");
+                                this.parentNode.querySelector("button.active").classList.remove("active");
+                                this.querySelector("button").classList.add("active");
                                 this.parentNode.parentNode.querySelector("i").classList.remove("bi-sun-fill");
                                 this.parentNode.parentNode.querySelector("i").classList.add("bi-moon-stars-fill");
                             },
