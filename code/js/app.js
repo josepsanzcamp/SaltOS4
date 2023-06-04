@@ -280,23 +280,32 @@ saltos.form.javascript = function (data) {
 };
 
 /*
+ * Hash change management
+ *
+ * This function allow to SaltOS to update the contents when hash change
+ */
+window.onhashchange = function (event) {
+    var hash = document.location.hash;
+    if (hash.substr(0,1) == "#") {
+        hash = hash.substr(1);
+    }
+    if (hash == "") {
+        hash = "app/menu";
+        history.replaceState(null,null,".#" + hash)
+    }
+    document.body.innerHTML = "";
+    saltos.send_request(hash);
+};
+
+/*
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
 (function () {
-
-    saltos.hash = document.location.hash;
-    if (saltos.hash.substr(0,1) == "#") {
-        saltos.hash = saltos.hash.substr(1);
-    }
-    if (saltos.hash == "") {
-        saltos.hash = "app/menu";
-    }
-    saltos.send_request(saltos.hash);
-
-    //~ saltos.token = localStorage.getItem("token");
-    //~ if (saltos.token === null) {
+    window.dispatchEvent(new HashChangeEvent("hashchange"))
+    //~ var token = localStorage.getItem("token");
+    //~ if (token === null) {
         //~ saltos.send_request("app/login");
     //~ }
 

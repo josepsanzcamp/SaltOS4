@@ -38,24 +38,22 @@ var saltos = saltos || {};
  *
  * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
  */
-saltos.init_error = function () {
-    window.onerror = function (msg, file, line, column, error) {
-        if (typeof error == "undefined" || typeof error.stack == "undefined") {
-            var error = { stack:"unknown"};
-        }
-        var data = {
-            "action":"adderror",
-            "jserror":msg,
-            "details":"Error on file " + file + ":" + line + ":" + column + ", userAgent is " + navigator.userAgent,
-            "backtrace":error.stack
-        };
-        saltos.ajax({
-            url:"index.php",
-            data:JSON.stringify(data),
-            method:"post",
-            content_type:"application/json",
-        });
+window.onerror = function (event, source, lineno, colno, error) {
+    if (typeof error == "undefined" || typeof error.stack == "undefined") {
+        var error = { stack:"unknown"};
+    }
+    var data = {
+        "action":"adderror",
+        "jserror":event,
+        "details":"Error on file " + source + ":" + lineno + ":" + colno + ", userAgent is " + navigator.userAgent,
+        "backtrace":error.stack
     };
+    saltos.ajax({
+        url:"index.php",
+        data:JSON.stringify(data),
+        method:"post",
+        content_type:"application/json",
+    });
 };
 
 /*
@@ -306,12 +304,3 @@ saltos.fix_key = function (arg) {
 saltos.open = function (url) {
     window.open(url);
 };
-
-/*
- * Main code
- *
- * This is the code that must to be executed to initialize all requirements of this module
- */
-(function () {
-    saltos.init_error();
-}());
