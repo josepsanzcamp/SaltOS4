@@ -1256,7 +1256,7 @@ saltos.__source_helper = function (field) {
  * @footer => array with the footer to use
  * @divider => array with three booleans to specify to add the divider in header, body and/or footer
  * @checkbox => add a checkbox at the first of each row, for mono or multi selection
- * @buttons => array with the buttons to be added at the end of each row
+ * @actions => each row of the data can contain an array with the actions of each row
  *
  * Notes:
  *
@@ -1269,7 +1269,7 @@ saltos.__source_helper = function (field) {
  */
 saltos.__form_field.table = function (field) {
     saltos.check_params(field,["class","id","checkbox"]);
-    saltos.check_params(field,["header","data","footer","divider","buttons"],[]);
+    saltos.check_params(field,["header","data","footer","divider"],[]);
     saltos.__source_helper(field);
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
@@ -1322,12 +1322,8 @@ saltos.__form_field.table = function (field) {
         for (var key in field.header) {
             obj.querySelector("thead tr").append(saltos.html("tr",`<th>${field.header[key]}</th>`));
         }
-        if (field.buttons.length) {
-            var td = saltos.html("tr",`<th style="width:1%" class="p-0 align-middle text-nowrap"></th>`);
-            for (var key in field.buttons) {
-                td.append(saltos.__form_field.button(field.buttons[key]));
-            }
-            obj.querySelector("thead tr").append(td);
+        if (field.data[0].hasOwnProperty("actions")) {
+            obj.querySelector("thead tr").append(saltos.html("tr",`<th style="width:1%"></th>`));
         }
     }
     if (field.data.length) {
@@ -1363,12 +1359,14 @@ saltos.__form_field.table = function (field) {
                 }
                 row.append(saltos.html("tr",`<td>${field.data[key][key2]}</td>`));
             }
-            if (field.buttons.length) {
+            if (field.data[key].hasOwnProperty("actions")) {
                 var td = saltos.html("tr",`<td class="p-0 align-middle text-nowrap"></td>`);
-                for (var key2 in field.buttons) {
-                    var val2 = JSON.parse(JSON.stringify(field.buttons[key2]));
-                    if (typeof val2.onclick == "string") {
-                        val2.onclick = str_replace("ID",field.data[key].id,val2.onclick);
+                for (var key2 in field.data[key].actions) {
+                    var val2 = field.data[key].actions[key2];
+                    if (val2.url == "") {
+                        val2.disabled = true;
+                    } else {
+                        val2.onclick = `saltos.open("#${val2.url}")`;
                     }
                     td.append(saltos.__form_field.button(val2));
                 }
@@ -1393,7 +1391,7 @@ saltos.__form_field.table = function (field) {
         for (var key in field.footer) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
         }
-        if (field.buttons.length) {
+        if (field.data[0].hasOwnProperty("actions")) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
         }
     }

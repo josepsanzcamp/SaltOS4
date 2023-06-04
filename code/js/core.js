@@ -304,3 +304,12 @@ saltos.fix_key = function (arg) {
 saltos.open = function (url) {
     window.open(url);
 };
+
+/*
+ * Copy object
+ *
+ * This function is intended to do copies of objects using as intermediate a json file
+ */
+saltos.copy_object = function (arg) {
+    return JSON.parse(JSON.stringify(arg));
+};

@@ -70,14 +70,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     "nombre_poblacion"=>"Población",
                     "nombre_codpostal"=>"C.P."
                 ]</header>
-                <data eval="true">execute_query_array("SELECT id,nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC")</data>
+                <data eval="true">add_list_actions(
+                    execute_query_array("SELECT id,nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC"),
+                    [
+                        ["app"=>"clientes","action"=>"view","class"=>"btn-primary bi-search"],
+                        ["app"=>"clientes","action"=>"edit","class"=>"btn-primary bi-pencil-fill"],
+                        ["app"=>"clientes","action"=>"delete","class"=>"btn-primary bi-trash-fill"]
+                    ]
+                )</data>
                 <footer eval="true">["","","Total",execute_query_array("SELECT COUNT(*) total FROM app_clientes")]</footer>
                 <divider eval="true">[false,true,true]</divider>
-                <buttons eval="true">[
-                    ["onclick"=>"saltos.open('#app/clientes/view/ID')","class"=>"bi-search"],
-                    ["onclick"=>"saltos.open('#app/clientes/edit/ID')","class"=>"bi-pencil-fill"],
-                    ["onclick"=>"saltos.open('#app/clientes/delete/ID')","class"=>"bi-trash-fill"]
-                ]</buttons>
             </table>>
         </layout>
     </list>
