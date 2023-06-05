@@ -728,6 +728,7 @@ saltos.__form_field.button = function (field) {
     saltos.check_params(field,["class","id","disabled","value","onclick","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
+        field.class += " opacity-25"
     }
     var obj = saltos.html(`
         <button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
@@ -909,7 +910,7 @@ saltos.__form_field.file = function (field) {
                             <div class="progress-bar" style="width: 0%"></div>
                         </div>
                     </td>
-                    <td class="p-0 align-middle" style="width:1%"><button class="btn bi-trash" type="button"></button></td>
+                    <td class="p-0 align-middle" style="width:1%"><button class="btn bi-trash border-0" type="button"></button></td>
                 </tr>
             `);
             // Store the data in the row

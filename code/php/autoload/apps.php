@@ -48,7 +48,7 @@ function add_list_actions($rows, $actions)
                 "app" => $action["app"],
                 "action" => $action["action"],
                 "class" => $action["class"],
-                "url" => "app/{$action["app"]}/{$action["action"]}/{$row["id"]}",
+                "url" => in_array($action["action"],array("edit","delete")) && $row["id"]%3==0 ? "" : "app/{$action["app"]}/{$action["action"]}/{$row["id"]}",
             );
         }
         $rows[$key] = $row;
