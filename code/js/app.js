@@ -293,7 +293,11 @@ window.onhashchange = function (event) {
         hash = "app/menu";
         history.replaceState(null,null,".#" + hash)
     }
+    // Reset the body interface
+    saltos.modal("close");
+    saltos.offcanvas("close");
     document.body.innerHTML = "";
+    // Do the request
     saltos.send_request(hash);
 };
 
@@ -308,5 +312,4 @@ window.onhashchange = function (event) {
     //~ if (token === null) {
         //~ saltos.send_request("app/login");
     //~ }
-
 }());

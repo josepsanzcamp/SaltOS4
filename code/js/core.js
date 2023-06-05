@@ -309,6 +309,8 @@ saltos.open = function (url) {
  * Copy object
  *
  * This function is intended to do copies of objects using as intermediate a json file
+ *
+ * @arg => the object that you want to copy
  */
 saltos.copy_object = function (arg) {
     return JSON.parse(JSON.stringify(arg));
