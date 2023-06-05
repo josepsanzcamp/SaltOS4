@@ -48,9 +48,21 @@ function add_list_actions($rows, $actions)
                 "app" => $action["app"],
                 "action" => $action["action"],
                 "class" => $action["class"],
-                "url" => in_array($action["action"],array("edit","delete")) && $row["id"]%3==0 ? "" : "app/{$action["app"]}/{$action["action"]}/{$row["id"]}",
+                "url" => "app/{$action["app"]}/{$action["action"]}/{$row["id"]}",
             );
         }
+        // TODO: INICIO CODIGO TEST DISABLED
+        if ($row["id"] == 48) {
+            $row["actions"][2]["url"] = "";
+        }
+        if ($row["id"] == 47) {
+            $row["actions"][1]["url"] = "";
+            $row["actions"][2]["url"] = "";
+        }
+        if ($row["id"] == 46) {
+            $row["actions"][1]["url"] = "";
+        }
+        // TODO: FIN CODIGO TEST DISABLED
         $rows[$key] = $row;
     }
     return $rows;
