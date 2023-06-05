@@ -852,6 +852,12 @@ saltos.__form_field.file = function (field) {
         <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
         <div class="overflow-auto">
             <table class="table table-striped table-hover d-none">
+                <style>
+                    .table {
+                        --bs-table-hover-bg:#fbec88;
+                        --bs-table-active-bg:#fbec88;
+                    }
+                </style>
                 <tbody>
                 </tbody>
             </table>
@@ -1275,8 +1281,8 @@ saltos.__form_field.table = function (field) {
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
             <style>
                 .table {
-                    --bs-table-hover-bg:#fff89f;
-                    --bs-table-active-bg:#fff89f;
+                    --bs-table-hover-bg:#fbec88;
+                    --bs-table-active-bg:#fbec88;
                 }
             </style>
         </table>
