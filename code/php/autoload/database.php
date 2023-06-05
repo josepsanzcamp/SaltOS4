@@ -27,6 +27,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * DB Connect
+ *
+ * This function is intended to stablish the connection to the database
+ *
+ * @args => is an array with key val pairs
+ * @host => the host for the connection
+ * @port => the port used for the connection
+ * @name => name of the database for the connection
+ * @user => user used to stablish the connection
+ * @pass => pass used to stablish the connection
+ * @file => the file that contains the database
+ *
+ * Notes:
+ *
+ * The parameters can be different depending of each database driver, in general the arguments can
+ * be the host, port, name, user and pass for database's servers and only file for the sqlite database
+ *
+ * If the args argument is null, the the function try to use the configuration stored in the config file
+ * and depending of the argument presense, it will return the database object or store it in the config
+ * to be used by the nexts functions of this php file
+ */
 function db_connect($args = null)
 {
     global $_CONFIG;
@@ -51,6 +73,13 @@ function db_connect($args = null)
     }
 }
 
+/*
+ * DB Check
+ *
+ * This function is intended to check that the query execution will not trigger an error
+ *
+ * @query => the query that you want to validate
+ */
 function db_check($query)
 {
     if (!method_exists(get_default("db/obj"), "db_check")) {
@@ -59,6 +88,34 @@ function db_check($query)
     return get_default("db/obj")->db_check($query);
 }
 
+/*
+ * DB Query
+ *
+ * This public function is intended to execute the query and returns the resultset
+ *
+ * @query => the query that you want to execute
+ * @fetch => the type of fetch that you want to use, can be auto, query, column or concat
+ *
+ * Notes:
+ *
+ * The fetch argument can perform an speed up in the execution of the retrieve action, and
+ * can modify how the result is returned
+ *
+ * auto: this fetch method try to detect if the resultset contains one or more columns, and
+ * sets the fetch to column (if the resultset only contains one column) or to query (otherwise)
+ *
+ * query: this fetch method returns all resultset as an array of rows, and each row contain the
+ * pair of key val with the name of the field and the value of the field
+ *
+ * column: this fetch method returns an array where each element is each value of the field of
+ * the each row, this is usefull when for example do you want to get all ids of a query, with
+ * this method you can obtain an array with each value of the array is an id of the resultset
+ *
+ * concat: this fetch method is an special mode intended to speed up the retrieve of large
+ * arrays, this is usefull when you want to get all ids of a query and you want to get a big
+ * sized array, in this case, is more efficient to get an string separated by commas with all
+ * ids instead of an array where each element is an id
+ */
 function db_query($query, $fetch = "query")
 {
     if (!method_exists(get_default("db/obj"), "db_query")) {
@@ -82,6 +139,11 @@ function db_query($query, $fetch = "query")
     return $result;
 }
 
+/*
+ * DB Disconnect
+ *
+ * This function close the database connection and sets the link to null
+ */
 function db_disconnect()
 {
     if (!method_exists(get_default("db/obj"), "db_disconnect")) {
@@ -90,7 +152,14 @@ function db_disconnect()
     get_default("db/obj")->db_disconnect();
 }
 
-// shared functions
+/*
+ * DB Fetch Row
+ *
+ * This function returns the next row of the resultset queue
+ *
+ * @result => this argument is passed by reference and contains the resultset queue
+ *            obtained by the db_query
+ */
 function db_fetch_row(&$result)
 {
     if (!isset($result["__array_reverse__"])) {
@@ -100,26 +169,66 @@ function db_fetch_row(&$result)
     return array_pop($result["rows"]);
 }
 
+/*
+ * DB Fetch All
+ *
+ * This function returns all rows of the resultset queue
+ *
+ * @result => this argument is passed by reference and contains the resultset queue
+ *            obtained by the db_query
+ */
 function db_fetch_all(&$result)
 {
     return $result["rows"];
 }
 
+/*
+ * DB Num Rows
+ *
+ * This function returns the total number of the results in the resultset queue
+ *
+ * @result => this argument is passed by reference and contains the resultset queue
+ *            obtained by the db_query
+ */
 function db_num_rows($result)
 {
     return $result["total"];
 }
 
+/*
+ * DB Free
+ *
+ * This function releases all memory used by the resultset queue
+ *
+ * @result => this argument is passed by reference and contains the resultset queue
+ *            obtained by the db_query
+ */
 function db_free(&$result)
 {
     $result = array("total" => 0,"header" => array(),"rows" => array());
 }
 
+/*
+ * DB Num Fields
+ *
+ * This function returns the number of fields of the resultset queue
+ *
+ * @result => this argument is passed by reference and contains the resultset queue
+ *            obtained by the db_query
+ */
 function db_num_fields($result)
 {
     return count($result["header"]);
 }
 
+/*
+ * DB Field Name
+ *
+ * This function returns the name of the field identified by the index field
+ *
+ * @result => this argument is passed by reference and contains the resultset queue
+ *            obtained by the db_query
+ */
 function db_field_name($result, $index)
 {
     if (!isset($result["header"][$index])) {

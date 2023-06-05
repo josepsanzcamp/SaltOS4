@@ -27,6 +27,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * Null to array converter
+ *
+ * This function convert all nulls into an array, is intended to be
+ * used as helper for example in the glob output, to force to have
+ * an array in all cases
+ *
+ * @arr => the input, generally must to be an array, if a null is passed,
+ *         then a void array will be returned
+ */
 function null2array($arr)
 {
     if ($arr === null) {
@@ -34,18 +44,3 @@ function null2array($arr)
     }
     return $arr;
 }
-
-//~ function is_array_key_val($array)
-//~ {
-    //~ $count = 0;
-    //~ foreach ($array as $key => $val) {
-        //~ if (!is_numeric($key)) {
-            //~ return true;
-        //~ }
-        //~ if ($key != $count) {
-            //~ return true;
-        //~ }
-        //~ $count++;
-    //~ }
-    //~ return false;
-//~ }

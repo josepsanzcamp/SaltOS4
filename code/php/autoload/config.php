@@ -27,6 +27,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * Get config
+ *
+ * This function is intended to be used to retrieve values from the
+ * config system, as first level, the function try to get the value from
+ * the tbl_config, and if it is not found, then the function try to get
+ * the values from the config file.
+ *
+ * @key => the key that you want to retrieve the value
+ */
 function get_config($key)
 {
     $row = array();
@@ -47,6 +57,15 @@ function get_config($key)
     return $row[$key];
 }
 
+/*
+ * Set config
+ *
+ * This function sets a value to a config key, the data will be
+ * stored in the database using the tbl_config
+ *
+ * @key => the key that you want to set
+ * @val => the value that you want to set
+ */
 function set_config($key, $val)
 {
     $query = "SELECT val FROM tbl_config WHERE _key='{$key}'";
@@ -67,17 +86,20 @@ function set_config($key, $val)
     }
 }
 
+/*
+ * Get default
+ *
+ * This function retrieve data from the config file
+ *
+ * @key => the key that you want to retrieve the value
+ * @default => the default value used when the key is not found
+ */
 function get_default($key, $default = "")
 {
     global $_CONFIG;
     $key = explode("/", $key);
     $count = count($key);
     $config = $_CONFIG;
-    // TODO: REVISAR ESTE FRAGMENTO DE CODIGO
-    //~ if ($count == 1 && isset($config["default"][$key[0]])) {
-        //~ $config = $config["default"][$key[0]];
-        //~ $count = 0;
-    //~ }
     while ($count) {
         $key2 = array_shift($key);
         if (!isset($config[$key2])) {

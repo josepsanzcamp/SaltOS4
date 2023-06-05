@@ -31,10 +31,30 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
+/*
+ * Database MySQL improved class
+ *
+ * This class allow to SaltOS to connect to MySQL databases using the MySQL improved driver
+ */
 class database_mysqli
 {
+    /*
+     * This private variable contains the link to the database
+     */
     private $link = null;
 
+    /*
+     * Constructor
+     *
+     * This public function is intended to stablish the connection to the database
+     *
+     * @args => is an array with key val pairs
+     * @host => the host for the connection
+     * @port => the port used for the connection
+     * @name => name of the database for the connection
+     * @user => user used to stablish the connection
+     * @pass => pass used to stablish the connection
+     */
     public function __construct($args)
     {
         if (!function_exists("mysqli_connect")) {
@@ -53,6 +73,13 @@ class database_mysqli
         }
     }
 
+    /*
+     * DB Check
+     *
+     * This public function is intended to check that the query execution will not trigger an error
+     *
+     * @query => the query that you want to validate
+     */
     public function db_check($query)
     {
         try {
@@ -63,6 +90,34 @@ class database_mysqli
         }
     }
 
+    /*
+     * DB Query
+     *
+     * This public function is intended to execute the query and returns the resultset
+     *
+     * @query => the query that you want to execute
+     * @fetch => the type of fetch that you want to use, can be auto, query, column or concat
+     *
+     * Notes:
+     *
+     * The fetch argument can perform an speed up in the execution of the retrieve action, and
+     * can modify how the result is returned
+     *
+     * auto: this fetch method try to detect if the resultset contains one or more columns, and
+     * sets the fetch to column (if the resultset only contains one column) or to query (otherwise)
+     *
+     * query: this fetch method returns all resultset as an array of rows, and each row contain the
+     * pair of key val with the name of the field and the value of the field
+     *
+     * column: this fetch method returns an array where each element is each value of the field of
+     * the each row, this is usefull when for example do you want to get all ids of a query, with
+     * this method you can obtain an array with each value of the array is an id of the resultset
+     *
+     * concat: this fetch method is an special mode intended to speed up the retrieve of large
+     * arrays, this is usefull when you want to get all ids of a query and you want to get a big
+     * sized array, in this case, is more efficient to get an string separated by commas with all
+     * ids instead of an array where each element is an id
+     */
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "MYSQL");
@@ -115,6 +170,11 @@ class database_mysqli
         return $result;
     }
 
+    /*
+     * DB Disconnect
+     *
+     * This function close the database connection and sets the link to null
+     */
     public function db_disconnect()
     {
         mysqli_close($this->link);

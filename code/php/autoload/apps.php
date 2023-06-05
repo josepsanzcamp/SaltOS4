@@ -27,6 +27,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * Add list actions helper
+ *
+ * This function returns the input rows adding to each row an array of actions, to do
+ * this function uses the permissions to check that each register and each action is
+ * allowed by the token
+ *
+ * @rows => the rows used to do the list
+ * @actions => an array with the actions that want to be added in each row
+ *
+ * TODO: THIS FUNCTION IS UNDER DEVELOPMENT
+ */
 function add_list_actions($rows, $actions)
 {
     foreach ($rows as $key => $row) {

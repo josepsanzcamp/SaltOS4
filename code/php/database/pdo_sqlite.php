@@ -34,10 +34,33 @@ declare(strict_types=1);
 
 require_once "php/database/libsqlite.php";
 
+/*
+ * Database PDO SQLite class
+ *
+ * This class allow to SaltOS to connect to SQLite databases using the PDO driver
+ */
 class database_pdo_sqlite
 {
+    /*
+     * This private variable contains the link to the database
+     */
     private $link = null;
 
+    /*
+     * Constructor
+     *
+     * This public function is intended to stablish the connection to the database
+     *
+     * @args => is an array with key val pairs
+     * @file => the file that contains the database
+     *
+     * Notes:
+     *
+     * This database allow to define external functions that can be used from the SQL language,
+     * this is a great feature that allow to use SQLite as MySQL, and using this feature of the
+     * database, this driver uses the libsqlite to add a lot of features found in MySQL and
+     * used in a lot of queries by SaltOS
+     */
     public function __construct($args)
     {
         if (!class_exists("PDO")) {
@@ -98,6 +121,13 @@ class database_pdo_sqlite
         }
     }
 
+    /*
+     * DB Check
+     *
+     * This public function is intended to check that the query execution will not trigger an error
+     *
+     * @query => the query that you want to validate
+     */
     public function db_check($query)
     {
         try {
@@ -108,6 +138,34 @@ class database_pdo_sqlite
         }
     }
 
+    /*
+     * DB Query
+     *
+     * This public function is intended to execute the query and returns the resultset
+     *
+     * @query => the query that you want to execute
+     * @fetch => the type of fetch that you want to use, can be auto, query, column or concat
+     *
+     * Notes:
+     *
+     * The fetch argument can perform an speed up in the execution of the retrieve action, and
+     * can modify how the result is returned
+     *
+     * auto: this fetch method try to detect if the resultset contains one or more columns, and
+     * sets the fetch to column (if the resultset only contains one column) or to query (otherwise)
+     *
+     * query: this fetch method returns all resultset as an array of rows, and each row contain the
+     * pair of key val with the name of the field and the value of the field
+     *
+     * column: this fetch method returns an array where each element is each value of the field of
+     * the each row, this is usefull when for example do you want to get all ids of a query, with
+     * this method you can obtain an array with each value of the array is an id of the resultset
+     *
+     * concat: this fetch method is an special mode intended to speed up the retrieve of large
+     * arrays, this is usefull when you want to get all ids of a query and you want to get a big
+     * sized array, in this case, is more efficient to get an string separated by commas with all
+     * ids instead of an array where each element is an id
+     */
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "SQLITE");
@@ -186,6 +244,11 @@ class database_pdo_sqlite
         return $result;
     }
 
+    /*
+     * DB Disconnect
+     *
+     * This function close the database connection and sets the link to null
+     */
     public function db_disconnect()
     {
         $this->link = null;
