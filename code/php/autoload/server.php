@@ -27,87 +27,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function get_server($index, $default = "")
 {
     return isset($_SERVER[$index]) ? $_SERVER[$index] : $default;
 }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function force_ssl()
-//~ {
-    //~ // SOME CHECKS
-    //~ if (!eval_bool(get_default("server/forcessl"))) {
-        //~ return;
-    //~ }
-    //~ $serverport = get_server("SERVER_PORT");
-    //~ $porthttps = get_default("server/porthttps", 443);
-    //~ if ($serverport == $porthttps) {
-        //~ return;
-    //~ }
-    //~ // MAIN VARIABLES
-    //~ $protocol = "https://";
-    //~ $servername = get_default("server/hostname", get_server("SERVER_NAME"));
-    //~ $addedport = "";
-    //~ $scriptname = get_default("server/pathname", get_server("SCRIPT_NAME"));
-    //~ $querystring = get_server("QUERY_STRING");
-    //~ // SOME CHECKS
-    //~ if (substr($scriptname, 0, 1) != "/") {
-        //~ $scriptname = "/" . $scriptname;
-    //~ }
-    //~ if (basename($scriptname) == get_default("server/dirindex", "index.php")) {
-        //~ $scriptname = dirname($scriptname);
-        //~ if (substr($scriptname, -1, 1) != "/") {
-            //~ $scriptname .= "/";
-        //~ }
-    //~ }
-    //~ // SOME CHECKS
-    //~ if ($querystring) {
-        //~ $querystring = "?" . str_replace("+", "%20", $querystring);
-    //~ }
-    //~ if ($porthttps != 443) {
-        //~ $addedport = ":{$porthttps}";
-    //~ }
-    //~ // CONTINUE
-    //~ $url = $protocol . $servername . $addedport . $scriptname . $querystring;
-    //~ javascript_location($url);
-    //~ die();
-//~ }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function get_base()
-//~ {
-    //~ // MAIN VARIABLES
-    //~ $protocol = "http://";
-    //~ $servername = get_default("server/hostname", get_server("SERVER_NAME"));
-    //~ $addedport = "";
-    //~ $scriptname = get_default("server/pathname", get_server("SCRIPT_NAME"));
-    //~ // SOME CHECKS
-    //~ if (substr($scriptname, 0, 1) != "/") {
-        //~ $scriptname = "/" . $scriptname;
-    //~ }
-    //~ if (basename($scriptname) == get_default("server/dirindex", "index.php")) {
-        //~ $scriptname = dirname($scriptname);
-        //~ if (substr($scriptname, -1, 1) != "/") {
-            //~ $scriptname .= "/";
-        //~ }
-    //~ }
-    //~ // SOME CHECKS
-    //~ $serverport = get_server("SERVER_PORT");
-    //~ $porthttp = get_default("server/porthttp", 80);
-    //~ $porthttps = get_default("server/porthttps", 443);
-    //~ if ($serverport == $porthttp) {
-        //~ $protocol = "http://";
-        //~ if ($porthttp != 80) {
-            //~ $addedport = ":$serverport";
-        //~ }
-    //~ }
-    //~ if ($serverport == $porthttps) {
-        //~ $protocol = "https://";
-        //~ if ($porthttps != 443) {
-            //~ $addedport = ":$serverport";
-        //~ }
-    //~ }
-    //~ // CONTINUE
-    //~ $url = $protocol . $servername . $addedport . $scriptname;
-    //~ return $url;
-//~ }

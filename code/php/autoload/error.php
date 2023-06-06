@@ -29,6 +29,9 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
+/*
+ *
+ */
 function show_php_error($array)
 {
     // TRICK FOR EXHAUSTED MEMORY ERROR
@@ -92,6 +95,9 @@ function show_php_error($array)
     ));
 }
 
+/*
+ *
+ */
 function do_message_error($array)
 {
     $json = array(
@@ -198,6 +204,9 @@ function do_message_error($array)
     );
 }
 
+/*
+ *
+ */
 function program_handlers()
 {
     error_reporting(E_ALL);
@@ -206,6 +215,9 @@ function program_handlers()
     register_shutdown_function("__shutdown_handler");
 }
 
+/*
+ *
+ */
 function __error_handler($type, $message, $file, $line)
 {
     show_php_error(array(
@@ -215,6 +227,9 @@ function __error_handler($type, $message, $file, $line)
     ));
 }
 
+/*
+ *
+ */
 function __exception_handler($e)
 {
     show_php_error(array(
@@ -224,6 +239,9 @@ function __exception_handler($e)
     ));
 }
 
+/*
+ *
+ */
 function __shutdown_handler()
 {
     $error = error_get_last();
@@ -238,6 +256,9 @@ function __shutdown_handler()
     semaphore_shutdown();
 }
 
+/*
+ *
+ */
 function __get_code_from_trace($trace, $index = 0)
 {
     $code = "unknown:0";
@@ -250,6 +271,9 @@ function __get_code_from_trace($trace, $index = 0)
     return $code;
 }
 
+/*
+ *
+ */
 function show_json_error($msg)
 {
     output_handler_json(array(
@@ -259,69 +283,3 @@ function show_json_error($msg)
         )
     ));
 }
-
-//~ function pretty_html_error($msg)
-//~ {
-    //~ $html = "<!DOCTYPE html>";
-    //~ $html .= "<html>";
-    //~ $html .= "<head>";
-    //~ $html .= "<title>" . get_name_version_revision() . "</title>";
-    //~ $html .= "<style>";
-    //~ $html .= ".phperror { color:#fff; background:#00a; margin:0; padding:10px; font-family:monospace; }";
-    //~ $html .= ".phperror form { display:inline; float:right; }";
-    //~ $html .= ".phperror input { background:#fff; color:#00f; font-weight:bold; border:0; ";
-    //~ $html .= "padding:10px 20px; font-family:monospace; margin-left:10px; }";
-    //~ $html .= ".phperror input:hover { background:#000; color:#fff; cursor:pointer; }";
-    //~ $html .= ".phperror h1 { display:inline; }";
-    //~ $html .= ".phperror pre { white-space:normal; }";
-    //~ $html .= "</style>";
-    //~ $html .= "</head>";
-    //~ $html .= "<body class='phperror'>";
-    //~ $html .= "<h1>" . get_name_version_revision() . "</h1>";
-    //~ $html .= $msg;
-    //~ $html .= "</body>";
-    //~ $html .= "</html>";
-    //~ return $html;
-//~ }
-
-//~ function upload_error2string($error)
-//~ {
-    //~ static $errors = array(
-        //~ UPLOAD_ERR_OK => "UPLOAD_ERR_OK",                 // 0
-        //~ UPLOAD_ERR_INI_SIZE => "UPLOAD_ERR_INI_SIZE",     // 1
-        //~ UPLOAD_ERR_FORM_SIZE => "UPLOAD_ERR_FORM_SIZE",   // 2
-        //~ UPLOAD_ERR_PARTIAL => "UPLOAD_ERR_PARTIAL",       // 3
-        //~ UPLOAD_ERR_NO_FILE => "UPLOAD_ERR_NO_FILE",       // 4
-        //~ UPLOAD_ERR_NO_TMP_DIR => "UPLOAD_ERR_NO_TMP_DIR", // 6
-        //~ UPLOAD_ERR_CANT_WRITE => "UPLOAD_ERR_CANT_WRITE", // 7
-        //~ UPLOAD_ERR_EXTENSION => "UPLOAD_ERR_EXTENSION"    // 8
-    //~ );
-    //~ if (isset($errors[$error])) {
-        //~ return $errors[$error];
-    //~ }
-    //~ return "UPLOAD_ERR_UNKWOWN";
-//~ }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function parse_error2array($error)
-//~ {
-    //~ $array = array();
-    //~ $pos = 0;
-    //~ $len = strlen($error);
-    //~ while ($pos < $len) {
-        //~ if (substr($error, $pos, 4) == "<h3>") {
-            //~ $pos = $pos + 4;
-            //~ $pos2 = strpos($error, "</h3>", $pos);
-            //~ $array[] = substr($error, $pos, $pos2 - $pos);
-            //~ $pos = $pos2 + 5;
-        //~ } elseif (substr($error, $pos, 5) == "<pre>") {
-            //~ $pos = $pos + 5;
-            //~ $pos2 = strpos($error, "</pre>", $pos);
-            //~ $array[] = substr($error, $pos, $pos2 - $pos);
-            //~ $pos = $pos2 + 6;
-        //~ } else {
-            //~ break;
-        //~ }
-    //~ }
-    //~ return $array;
-//~ }

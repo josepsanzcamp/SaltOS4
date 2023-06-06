@@ -27,6 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function remove_bad_chars($temp, $pad = "")
 {
     static $bad_chars = null;
@@ -40,6 +43,9 @@ function remove_bad_chars($temp, $pad = "")
     return $temp;
 }
 
+/*
+ *
+ */
 function encode_bad_chars($cad, $pad = "_", $extra = "")
 {
     static $orig = array(
@@ -71,6 +77,9 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
     return $cad;
 }
 
+/*
+ *
+ */
 function prepare_words($cad, $pad = " ")
 {
     $count = 1;
@@ -87,6 +96,9 @@ function prepare_words($cad, $pad = " ")
     return $cad;
 }
 
+/*
+ *
+ */
 // THIS FUNCTION IS THE SAME THAT THE PHP ORIGINAP PARSE_STR
 // THE MAIN DIFFERENCE IS THAT NOT DEFINE THE KEY IF VALUE IF VOID
 function parse_str_protected($querystring)
@@ -105,6 +117,9 @@ function parse_str_protected($querystring)
     return $result;
 }
 
+/*
+ *
+ */
 function sprintr($array)
 {
     $buffer = print_r($array, true);
@@ -118,12 +133,18 @@ function sprintr($array)
     return $buffer;
 }
 
+/*
+ *
+ */
 function get_unique_id_md5()
 {
     init_random();
     return md5(uniqid(strval(rand()), true));
 }
 
+/*
+ *
+ */
 function intelligence_cut($txt, $max, $end = "...")
 {
     $len = strlen($txt);
@@ -148,6 +169,9 @@ function intelligence_cut($txt, $max, $end = "...")
     return $preview;
 }
 
+/*
+ *
+ */
 function normalize_value($value)
 {
     $number = intval(substr($value, 0, -1));
@@ -164,6 +188,9 @@ function normalize_value($value)
     return $value;
 }
 
+/*
+ *
+ */
 function str_word_count_utf8($subject)
 {
     static $pattern = "/\p{L}[\p{L}\p{Mn}\p{Pd}'\x{2019}]*/u";
@@ -172,6 +199,9 @@ function str_word_count_utf8($subject)
     return $matches[0];
 }
 
+/*
+ *
+ */
 // USING ROUNDCUBEMAIL FEATURES
 function html2text($html)
 {
@@ -181,6 +211,9 @@ function html2text($html)
     return $text;
 }
 
+/*
+ *
+ */
 // RETURN THE UTF-8 CONVERTED STRING IF IT'S NEEDED
 function getutf8($str)
 {
@@ -190,6 +223,9 @@ function getutf8($str)
     return $str;
 }
 
+/*
+ *
+ */
 function words_exists($words, $buffer)
 {
     if (!is_array($words)) {
@@ -203,6 +239,9 @@ function words_exists($words, $buffer)
     return true;
 }
 
+/*
+ *
+ */
 // COPIED FROM https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
 function str_replace_first($from, $to, $content)
 {
@@ -210,6 +249,9 @@ function str_replace_first($from, $to, $content)
     return preg_replace($from, $to, $content, 1);
 }
 
+/*
+ *
+ */
 function str_split2($a, $b)
 {
     $c = array();
@@ -221,6 +263,9 @@ function str_split2($a, $b)
     return $c;
 }
 
+/*
+ *
+ */
 function remove_utf8mb4_chars($cad)
 {
     $len = mb_strlen($cad);
@@ -235,11 +280,17 @@ function remove_utf8mb4_chars($cad)
     return $cad;
 }
 
+/*
+ *
+ */
 function str_replace_assoc($array, $cad)
 {
     return str_replace(array_keys($array), array_values($array), $cad);
 }
 
+/*
+ *
+ */
 function null2string($cad)
 {
     if ($cad === null) {
@@ -248,6 +299,9 @@ function null2string($cad)
     return $cad;
 }
 
+/*
+ *
+ */
 function get_part_from_string($input, $delim, $index)
 {
     $temp = explode($delim, $input);

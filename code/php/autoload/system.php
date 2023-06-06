@@ -29,6 +29,9 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
+/*
+ *
+ */
 function check_system()
 {
     // PACKAGE CHECKS

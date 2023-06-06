@@ -27,26 +27,41 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function semaphore_acquire($name = "", $timeout = INF)
 {
     return __semaphore_helper(__FUNCTION__, $name, $timeout);
 }
 
+/*
+ *
+ */
 function semaphore_release($name = "")
 {
     return __semaphore_helper(__FUNCTION__, $name, null);
 }
 
+/*
+ *
+ */
 function semaphore_shutdown()
 {
     return __semaphore_helper(__FUNCTION__, null, null);
 }
 
+/*
+ *
+ */
 function semaphore_file($name = "")
 {
     return __semaphore_helper(__FUNCTION__, $name, null);
 }
 
+/*
+ *
+ */
 function __semaphore_helper($fn, $name, $timeout)
 {
     static $fds = array();
@@ -121,6 +136,9 @@ function __semaphore_helper($fn, $name, $timeout)
     return false;
 }
 
+/*
+ *
+ */
 function __semaphore_usleep($usec)
 {
     if (function_exists("socket_create")) {

@@ -27,6 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function eval_iniset($array)
 {
     if (is_array($array)) {

@@ -27,6 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function ob_passthru($cmd, $expires = 0)
 {
     if ($expires) {
@@ -64,6 +67,9 @@ function ob_passthru($cmd, $expires = 0)
     return $buffer;
 }
 
+/*
+ *
+ */
 function check_commands($commands, $expires = 0)
 {
     if (!is_array($commands)) {
@@ -80,6 +86,9 @@ function check_commands($commands, $expires = 0)
     return $result;
 }
 
+/*
+ *
+ */
 function is_disabled_function($fn = "")
 {
     static $disableds_string = null;
@@ -100,6 +109,9 @@ function is_disabled_function($fn = "")
     return in_array($fn, $disableds_array);
 }
 
+/*
+ *
+ */
 function __exec_timeout($cmd)
 {
     if (check_commands(get_default("commands/timeout"), 60)) {

@@ -27,16 +27,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function sess_open_handler($save_path, $session_name)
 {
     return true;
 }
 
+/*
+ *
+ */
 function sess_close_handler()
 {
     return true;
 }
 
+/*
+ *
+ */
 function sess_read_handler($id)
 {
     global $_CONFIG;
@@ -53,6 +62,9 @@ function sess_read_handler($id)
     return($sess_data);
 }
 
+/*
+ *
+ */
 function sess_write_handler($id, $sess_data)
 {
     $sess_file = session_save_path() . "/" . $id;
@@ -88,6 +100,9 @@ function sess_write_handler($id, $sess_data)
     return true;
 }
 
+/*
+ *
+ */
 function sess_destroy_handler($id)
 {
     $sess_file = session_save_path() . "/" . $id;
@@ -96,6 +111,9 @@ function sess_destroy_handler($id)
     return true ;
 }
 
+/*
+ *
+ */
 function sess_gc_handler($maxlifetime)
 {
     $sess_time = time() - $maxlifetime;
@@ -104,6 +122,9 @@ function sess_gc_handler($maxlifetime)
     return true;
 }
 
+/*
+ *
+ */
 function sess_init()
 {
     $ini_set = array(
@@ -135,11 +156,17 @@ function sess_init()
     session_start();
 }
 
+/*
+ *
+ */
 function sess_close()
 {
     session_write_close();
 }
 
+/*
+ *
+ */
 function current_session()
 {
     $sess_file = session_save_path() . "/" . session_id();
@@ -159,6 +186,9 @@ function current_session()
     return $id;
 }
 
+/*
+ *
+ */
 function get_session($index, $default = "")
 {
     if (isset($_SESSION[$index])) {
@@ -167,54 +197,10 @@ function get_session($index, $default = "")
     return $default;
 }
 
+/*
+ *
+ */
 function set_session($index, $value = "")
 {
     $_SESSION[$index] = $value;
 }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function useSession($name, $value = "", $default = "")
-//~ {
-    //~ if (strval($value) != "") {
-        //~ $_SESSION[$name] = ($value == "null") ? "" : $value;
-    //~ } elseif (isset($_SESSION[$name]) && strval($_SESSION[$name]) != "") {
-        //~ $value = $_SESSION[$name];
-    //~ } else {
-        //~ $value = $default;
-    //~ }
-    //~ return $value;
-//~ }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function session_error($error)
-//~ {
-    //~ sess_init();
-    //~ $hashs = array();
-    //~ if (isset($_SESSION["errors"])) {
-        //~ foreach ($_SESSION["errors"] as $val) {
-            //~ $hashs[] = md5($val);
-        //~ }
-    //~ }
-    //~ $hash = md5($error);
-    //~ if (!in_array($hash, $hashs)) {
-        //~ set_array($_SESSION["errors"], "error", $error);
-    //~ }
-    //~ sess_close();
-//~ }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function session_alert($alert)
-//~ {
-    //~ sess_init();
-    //~ $hashs = array();
-    //~ if (isset($_SESSION["alerts"])) {
-        //~ foreach ($_SESSION["alerts"] as $val) {
-            //~ $hashs[] = md5($val);
-        //~ }
-    //~ }
-    //~ $hash = md5($alert);
-    //~ if (!in_array($hash, $hashs)) {
-        //~ set_array($_SESSION["alerts"], "alert", $alert);
-    //~ }
-    //~ sess_close();
-//~ }

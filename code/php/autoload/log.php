@@ -29,11 +29,17 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
+/*
+ *
+ */
 function __addlog_helper($a)
 {
     return current_datetime_decimals() . ": " . $a;
 }
 
+/*
+ *
+ */
 function checklog($hash, $file)
 {
     $dir = get_directory("dirs/logsdir", getcwd_protected() . "/data/logs");
@@ -46,6 +52,9 @@ function checklog($hash, $file)
     return 0;
 }
 
+/*
+ *
+ */
 function addlog($msg, $file = "")
 {
     if (!$file) {
@@ -68,11 +77,17 @@ function addlog($msg, $file = "")
     chmod_protected($dir . $file, 0666);
 }
 
+/*
+ *
+ */
 function addtrace($array, $file)
 {
     addlog(gettrace($array), $file);
 }
 
+/*
+ *
+ */
 function gettrace($array, $verbose = false)
 {
     if (!isset($array["backtrace"])) {
@@ -85,6 +100,9 @@ function gettrace($array, $verbose = false)
     return $msg["text"];
 }
 
+/*
+ *
+ */
 function session_backtrace($verbose = false)
 {
     $array = array();
@@ -93,14 +111,5 @@ function session_backtrace($verbose = false)
         $array["sessid"] = session_id();
         $array["time"] = current_datetime_decimals();
     }
-    if (get_session("user")) {
-        $array["user"] = get_session("user");
-    }
-    // TODO: REVISAR LA LISTA DE VARIABLES
-    //~ foreach (array("page","action","id") as $item) {
-        //~ if (get_param($item)) {
-            //~ $array[$item] = get_param($item);
-        //~ }
-    //~ }
     return $array;
 }

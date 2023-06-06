@@ -29,6 +29,9 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
+/*
+ *
+ */
 function eval_protected($input, $global = "", $source = "")
 {
     if ($global != "") {
@@ -40,6 +43,9 @@ function eval_protected($input, $global = "", $source = "")
     return $output;
 }
 
+/*
+ *
+ */
 function set_array(&$array, $name, $value)
 {
     if (!isset($array[$name])) {
@@ -55,6 +61,9 @@ function set_array(&$array, $name, $value)
     }
 }
 
+/*
+ *
+ */
 function unset_array(&$array, $name)
 {
     if (isset($array[$name])) {
@@ -69,6 +78,9 @@ function unset_array(&$array, $name)
     }
 }
 
+/*
+ *
+ */
 function fix_key($arg)
 {
     $pos = strpos($arg, "#");
@@ -78,6 +90,9 @@ function fix_key($arg)
     return $arg;
 }
 
+/*
+ *
+ */
 function detect_recursion($fn)
 {
     if (!is_array($fn)) {
@@ -96,6 +111,9 @@ function detect_recursion($fn)
     return count($temp);
 }
 
+/*
+ *
+ */
 function xml2array($file, $usecache = true)
 {
     static $depend = array();
@@ -142,6 +160,9 @@ function xml2array($file, $usecache = true)
     return $array["root"];
 }
 
+/*
+ *
+ */
 function xml2struct($xml, $file = "")
 {
     // DETECT IF ENCODING ATTR IS FOUND
@@ -187,6 +208,9 @@ function xml2struct($xml, $file = "")
     return $array;
 }
 
+/*
+ *
+ */
 function struct2array(&$data, $file = "")
 {
     $array = array();
@@ -228,6 +252,9 @@ function struct2array(&$data, $file = "")
     return $array;
 }
 
+/*
+ *
+ */
 function eval_attr($array)
 {
     if (!is_array($array)) {
@@ -290,6 +317,9 @@ function eval_attr($array)
     return $result;
 }
 
+/*
+ *
+ */
 function eval_bool($arg)
 {
     static $bools = array(

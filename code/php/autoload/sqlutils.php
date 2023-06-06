@@ -29,6 +29,9 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
+/*
+ *
+ */
 function parse_query($query, $type = "")
 {
     if ($type == "") {
@@ -58,6 +61,9 @@ function parse_query($query, $type = "")
     return $query;
 }
 
+/*
+ *
+ */
 function __parse_query_type()
 {
     switch (get_default("db/type")) {
@@ -73,6 +79,9 @@ function __parse_query_type()
     }
 }
 
+/*
+ *
+ */
 function __parse_query_strpos($haystack, $needle, $offset = 0)
 {
     $len = strlen($needle);
@@ -102,124 +111,9 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
     return $pos;
 }
 
-//~ function preeval_insert_query($table, $only = "")
-//~ {
-    //~ $fields = get_fields_from_dbschema($table);
-    //~ if (is_string($only) && $only == "") {
-        //~ $only = array();
-    //~ }
-    //~ if (!is_array($only)) {
-        //~ $only = explode(",", $only);
-    //~ }
-    //~ $list1 = array();
-    //~ $list2 = array();
-    //~ foreach ($fields as $field) {
-        //~ if ($field["name"] == "id") {
-            //~ continue;
-        //~ }
-        //~ if (count($only) && !in_array($field["name"], $only)) {
-            //~ continue;
-        //~ }
-        //~ $list1[] = $field["name"];
-        //~ $type = $field["type"];
-        //~ $type2 = get_field_type($type);
-        //~ $size2 = get_field_size($type);
-        //~ if ($type2 == "int") {
-            //~ $list2[] = "'\".intval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "float") {
-            //~ $list2[] = "'\".floatval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "date") {
-            //~ $list2[] = "'\".dateval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "time") {
-            //~ $list2[] = "'\".timeval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "datetime") {
-            //~ $list2[] = "'\".datetimeval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "string") {
-            //~ $list2[] = "'\".addslashes(substr(get_param(\"" . $field["name"] . "\"),0,$size2)).\"'";
-        //~ } else {
-            //~ show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
-        //~ }
-    //~ }
-    //~ $list1 = implode(",", $list1);
-    //~ $list2 = implode(",", $list2);
-    //~ $query = "\"INSERT INTO $table($list1) VALUES($list2)\"";
-    //~ return $query;
-//~ }
-
-//~ function preeval_update_query($table, $only = "")
-//~ {
-    //~ $fields = get_fields_from_dbschema($table);
-    //~ if (is_string($only) && $only == "") {
-        //~ $only = array();
-    //~ }
-    //~ if (!is_array($only)) {
-        //~ $only = explode(",", $only);
-    //~ }
-    //~ $list = array();
-    //~ foreach ($fields as $field) {
-        //~ if ($field["name"] == "id") {
-            //~ continue;
-        //~ }
-        //~ if (count($only) && !in_array($field["name"], $only)) {
-            //~ continue;
-        //~ }
-        //~ $type = $field["type"];
-        //~ $type2 = get_field_type($type);
-        //~ $size2 = get_field_size($type);
-        //~ if ($type2 == "int") {
-            //~ $list[] = $field["name"] . "='\".intval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "float") {
-            //~ $list[] = $field["name"] . "='\".floatval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "date") {
-            //~ $list[] = $field["name"] . "='\".dateval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "time") {
-            //~ $list[] = $field["name"] . "='\".timeval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "datetime") {
-            //~ $list[] = $field["name"] . "='\".datetimeval(get_param(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "string") {
-            //~ $list[] = $field["name"] . "='\".addslashes(substr(get_param(\"" . $field["name"] . "\"),0,$size2)).\"'";
-        //~ } else {
-            //~ show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
-        //~ }
-    //~ }
-    //~ $list = implode(",", $list);
-    //~ $query = "\"UPDATE $table SET $list WHERE id='\".intval(get_param(\"id\")).\"'\"";
-    //~ return $query;
-//~ }
-
-//~ function preeval_dependencies_query($table, $label)
-//~ {
-    //~ $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
-    //~ if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-        //~ $deps = array();
-        //~ foreach ($dbschema["tables"] as $tablespec) {
-            //~ foreach ($tablespec["fields"] as $field) {
-                //~ if (!isset($field["fkey"])) {
-                    //~ $field["fkey"] = "";
-                //~ }
-                //~ if (!isset($field["fcheck"])) {
-                    //~ $field["fcheck"] = "true";
-                //~ }
-                //~ if ($field["fkey"] == $table && eval_bool($field["fcheck"])) {
-                    //~ $deps[] = array("table" => $tablespec["name"],"field" => $field["name"]);
-                //~ }
-            //~ }
-        //~ }
-        //~ $count = array();
-        //~ foreach ($deps as $dep) {
-            //~ $deptable = $dep["table"];
-            //~ $depfield = $dep["field"];
-            //~ $count[] = "(SELECT COUNT(*) FROM $deptable WHERE $depfield='\".abs(intval(get_param(\"id\"))).\"')";
-        //~ }
-        //~ $count = implode("+", $count);
-        //~ if ($count == "") {
-            //~ $count = "0";
-        //~ }
-        //~ $query = "\"SELECT '$label' action_error,'0' action_commit FROM (SELECT 1) a WHERE $count>0\"";
-    //~ }
-    //~ return $query;
-//~ }
-
+/*
+ *
+ */
 function execute_query($query)
 {
     $result = db_query($query, "auto");
@@ -239,6 +133,9 @@ function execute_query($query)
     return $value;
 }
 
+/*
+ *
+ */
 function execute_query_array($query)
 {
     $result = db_query($query, "auto");
@@ -247,25 +144,9 @@ function execute_query_array($query)
     return $rows;
 }
 
-//~ function execute_query_extra($query, $extra)
-//~ {
-    //~ $result = db_query($query);
-    //~ $rows = array();
-    //~ while ($row = db_fetch_row($result)) {
-        //~ $ok = 1;
-        //~ foreach ($extra as $key => $val) {
-            //~ if ($row[$key] != $val) {
-                //~ $ok = 0;
-            //~ }
-        //~ }
-        //~ if ($ok) {
-            //~ $rows[] = $row;
-        //~ }
-    //~ }
-    //~ db_free($result);
-    //~ return $rows;
-//~ }
-
+/*
+ *
+ */
 function get_fields($table)
 {
     $query = "/*MYSQL SHOW COLUMNS FROM $table *//*SQLITE PRAGMA TABLE_INFO($table) */";
@@ -283,6 +164,9 @@ function get_fields($table)
     return $fields;
 }
 
+/*
+ *
+ */
 function get_indexes($table)
 {
     $indexes = array();
@@ -321,6 +205,9 @@ function get_indexes($table)
     return $indexes;
 }
 
+/*
+ *
+ */
 function get_tables()
 {
     $query = "/*MYSQL SHOW TABLES *//*SQLITE SELECT name
@@ -337,6 +224,9 @@ function get_tables()
     return $tables;
 }
 
+/*
+ *
+ */
 function get_field_type($type)
 {
     $type = parse_query($type);
@@ -350,27 +240,16 @@ function get_field_type($type)
     show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
 }
 
-//~ function get_field_size($type)
-//~ {
-    //~ $type = parse_query($type);
-    //~ $type1 = strtoupper(strtok($type, "("));
-    //~ $type2 = strtok(")");
-    //~ $datasizes = get_default("db/datasizes");
-    //~ foreach ($datasizes as $key => $val) {
-        //~ if ($type1 == $key) {
-            //~ return $val;
-        //~ }
-    //~ }
-    //~ return $type2;
-//~ }
-
+/*
+ *
+ */
 function sql_create_table($tablespec)
 {
-    $table = $tablespec["name"];
+    $table = $tablespec["#attr"]["name"];
     $fields = array();
-    foreach ($tablespec["fields"] as $field) {
-        $name = $field["name"];
-        $type = $field["type"];
+    foreach ($tablespec["value"]["fields"] as $field) {
+        $name = $field["#attr"]["name"];
+        $type = $field["#attr"]["type"];
         $type2 = get_field_type($type);
         if ($type2 == "int") {
             $def = intval(0);
@@ -388,16 +267,16 @@ function sql_create_table($tablespec)
             show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
         }
         $extra = "NOT NULL DEFAULT '{$def}'";
-        if (isset($field["pkey"]) && eval_bool($field["pkey"])) {
+        if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
             $extra = "PRIMARY KEY /*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */";
         }
         $fields[] = "{$name} {$type} {$extra}";
     }
-    // foreach($tablespec["fields"] as $field) {
-        // if(isset($field["fkey"])) {
-            // $fkey=$field["fkey"];
+    // foreach($tablespec["value"]["fields"] as $field) {
+        // if(isset($field["#attr"]["fkey"])) {
+            // $fkey=$field["#attr"]["fkey"];
             // if($fkey!="") {
-                // $name=$field["name"];
+                // $name=$field["#attr"]["name"];
                 // $fields[]="FOREIGN KEY ({$name}) REFERENCES {$fkey} (id)";
             // }
         // }
@@ -414,6 +293,9 @@ function sql_create_table($tablespec)
     return $query;
 }
 
+/*
+ *
+ */
 function __has_fulltext_index($table)
 {
     static $fulltext = null;
@@ -422,8 +304,8 @@ function __has_fulltext_index($table)
         $fulltext = array();
         if (is_array($dbschema) && isset($dbschema["indexes"]) && is_array($dbschema["indexes"])) {
             foreach ($dbschema["indexes"] as $indexspec) {
-                if (isset($indexspec["fulltext"]) && eval_bool($indexspec["fulltext"])) {
-                    $fulltext[$indexspec["table"]] = 1;
+                if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
+                    $fulltext[$indexspec["#attr"]["table"]] = 1;
                 }
             }
         }
@@ -431,6 +313,9 @@ function __has_fulltext_index($table)
     return isset($fulltext[$table]);
 }
 
+/*
+ *
+ */
 function __has_engine($engine)
 {
     static $engines = null;
@@ -450,24 +335,18 @@ function __has_engine($engine)
     return isset($engines[strtolower($engine)]);
 }
 
-//~ function get_engine($table)
-//~ {
-    //~ $query = "/*MYSQL SHOW TABLE STATUS WHERE Name='{$table}' */";
-    //~ $result = db_query($query);
-    //~ $engine = "";
-    //~ while ($row = db_fetch_row($result)) {
-        //~ $engine = $row["Engine"];
-    //~ }
-    //~ db_free($result);
-    //~ return $engine;
-//~ }
-
+/*
+ *
+ */
 function sql_alter_table($orig, $dest)
 {
     $query = "ALTER TABLE {$orig} RENAME TO {$dest}";
     return $query;
 }
 
+/*
+ *
+ */
 function sql_insert_from_select($dest, $orig)
 {
     $fdest = get_fields($dest);
@@ -513,22 +392,28 @@ function sql_insert_from_select($dest, $orig)
     return $query;
 }
 
+/*
+ *
+ */
 function sql_drop_table($table)
 {
     $query = "DROP TABLE {$table}";
     return $query;
 }
 
+/*
+ *
+ */
 function sql_create_index($indexspec)
 {
-    $name = $indexspec["name"];
-    $table = $indexspec["table"];
+    $name = $indexspec["#attr"]["name"];
+    $table = $indexspec["#attr"]["table"];
     $fields = array();
-    foreach ($indexspec["fields"] as $field) {
-        $fields[] = $field["name"];
+    foreach ($indexspec["value"]["fields"] as $field) {
+        $fields[] = $field["#attr"]["name"];
     }
     $fields = implode(",", $fields);
-    if (isset($indexspec["fulltext"]) && eval_bool($indexspec["fulltext"])) {
+    if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
         $pre = "/*MYSQL FULLTEXT */";
     } else {
         $pre = "";
@@ -537,11 +422,84 @@ function sql_create_index($indexspec)
     return $query;
 }
 
+/*
+ *
+ */
 function sql_drop_index($index, $table)
 {
     $query = "/*MYSQL DROP INDEX {$index} ON {$table} *//*SQLITE DROP INDEX {$index} */";
     return $query;
 }
+
+/*
+ *
+ */
+function make_insert_query($table, $array)
+{
+    $list1 = array();
+    $list2 = array();
+    foreach ($array as $key => $val) {
+        $list1[] = $key;
+        $list2[] = "'" . addslashes(null2string($val)) . "'";
+    }
+    $list1 = implode(",", $list1);
+    $list2 = implode(",", $list2);
+    $query = "INSERT INTO {$table}({$list1}) VALUES({$list2})";
+    return $query;
+}
+
+/*
+ *
+ */
+function make_update_query($table, $array, $where)
+{
+    $list1 = array();
+    foreach ($array as $key => $val) {
+        $list1[] = $key . "='" . addslashes(null2string($val)) . "'";
+    }
+    $list1 = implode(",", $list1);
+    $query = "UPDATE {$table} SET {$list1} WHERE {$where}";
+    return $query;
+}
+
+/*
+ *
+ */
+function make_where_query($array)
+{
+    $list1 = array();
+    foreach ($array as $key => $val) {
+        $list1[] = $key . "='" . addslashes(null2string($val)) . "'";
+    }
+    $query = "(" . implode(" AND ", $list1) . ")";
+    return $query;
+}
+
+//~ function get_field_size($type)
+//~ {
+    //~ $type = parse_query($type);
+    //~ $type1 = strtoupper(strtok($type, "("));
+    //~ $type2 = strtok(")");
+    //~ $datasizes = get_default("db/datasizes");
+    //~ foreach ($datasizes as $key => $val) {
+        //~ if ($type1 == $key) {
+            //~ return $val;
+        //~ }
+    //~ }
+    //~ return $type2;
+//~ }
+
+//~ function get_engine($table)
+//~ {
+    //~ $query = "/*MYSQL SHOW TABLE STATUS WHERE Name='{$table}' */";
+    //~ $result = db_query($query);
+    //~ $engine = "";
+    //~ while ($row = db_fetch_row($result)) {
+        //~ $engine = $row["Engine"];
+    //~ }
+    //~ db_free($result);
+    //~ return $engine;
+//~ }
 
 //~ function make_like_query($keys, $values, $minsize = 3, $default = "1=0")
 //~ {
@@ -732,41 +690,6 @@ function sql_drop_index($index, $table)
             //~ AND " . check_sql($page, "list");
     //~ return $query;
 //~ }
-
-function make_insert_query($table, $array)
-{
-    $list1 = array();
-    $list2 = array();
-    foreach ($array as $key => $val) {
-        $list1[] = $key;
-        $list2[] = "'" . addslashes(null2string($val)) . "'";
-    }
-    $list1 = implode(",", $list1);
-    $list2 = implode(",", $list2);
-    $query = "INSERT INTO {$table}({$list1}) VALUES({$list2})";
-    return $query;
-}
-
-function make_update_query($table, $array, $where)
-{
-    $list1 = array();
-    foreach ($array as $key => $val) {
-        $list1[] = $key . "='" . addslashes(null2string($val)) . "'";
-    }
-    $list1 = implode(",", $list1);
-    $query = "UPDATE {$table} SET {$list1} WHERE {$where}";
-    return $query;
-}
-
-function make_where_query($array)
-{
-    $list1 = array();
-    foreach ($array as $key => $val) {
-        $list1[] = $key . "='" . addslashes(null2string($val)) . "'";
-    }
-    $query = "(" . implode(" AND ", $list1) . ")";
-    return $query;
-}
 
 //~ function make_insert_from_select_query($table, $table2, $array, $where2)
 //~ {

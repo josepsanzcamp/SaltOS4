@@ -27,7 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// TODO: REVISAR ESTA FUNCION
+/*
+ *
+ */
 function output_handler($array)
 {
     $file = isset($array["file"]) ? $array["file"] : "";
@@ -114,6 +116,9 @@ function output_handler($array)
     die();
 }
 
+/*
+ *
+ */
 function output_handler_json($array)
 {
     output_handler(array(

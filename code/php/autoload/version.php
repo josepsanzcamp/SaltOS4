@@ -27,6 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function get_name_version_revision($copyright = false)
 {
     $result = get_default("info/name", "SaltOS");
@@ -40,6 +43,9 @@ function get_name_version_revision($copyright = false)
     return $result;
 }
 
+/*
+ *
+ */
 function svnversion($dir = ".")
 {
     if ($dir == "." && file_exists("../code")) {
@@ -61,6 +67,9 @@ function svnversion($dir = ".")
     return 0;
 }
 
+/*
+ *
+ */
 function gitversion($dir = ".")
 {
     if ($dir == "." && file_exists("../code")) {
@@ -82,16 +91,25 @@ function gitversion($dir = ".")
     return 0;
 }
 
+/*
+ *
+ */
 function isphp($version)
 {
     return version_compare(PHP_VERSION, strval($version), ">=");
 }
 
+/*
+ *
+ */
 function ishhvm()
 {
     return defined("HHVM_VERSION");
 }
 
+/*
+ *
+ */
 function ismsie($version = null)
 {
     $useragent = get_server("HTTP_USER_AGENT");

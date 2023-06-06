@@ -27,6 +27,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * DB Schema
+ *
+ * This function try to maintain the database structure, to do it, this feature uses the dbschema.xml
+ * file to store the database structure.
+ */
 function db_schema()
 {
     if (!eval_bool(get_default("db/dbschema"))) {
@@ -47,12 +53,12 @@ function db_schema()
         if (isset($dbschema["excludes"]) && is_array($dbschema["excludes"])) {
             foreach ($dbschema["excludes"] as $exclude) {
                 foreach ($tables1 as $key => $val) {
-                    if ($exclude["name"] == $val) {
+                    if ($exclude["#attr"]["name"] == $val) {
                         unset($tables1[$key]);
                     }
                 }
                 foreach ($tables2 as $key => $val) {
-                    if ($exclude["name"] == $val) {
+                    if ($exclude["#attr"]["name"] == $val) {
                         unset($tables2[$key]);
                     }
                 }
@@ -66,7 +72,7 @@ function db_schema()
             }
         }
         foreach ($dbschema["tables"] as $tablespec) {
-            $table = $tablespec["name"];
+            $table = $tablespec["#attr"]["name"];
             $backup = "__{$table}__";
             if (in_array($table, $tables1)) {
                 $fields1 = get_fields($table);
@@ -95,13 +101,26 @@ function db_schema()
                 db_query(sql_create_table($tablespec));
             }
             if (isset($dbschema["indexes"]) && is_array($dbschema["indexes"])) {
+                // This part allow the auto name of the indexes
+                foreach ($dbschema["indexes"] as $key => $val) {
+                    if (isset($val["#attr"]["name"])) {
+                        continue;
+                    }
+                    $temp = array($val["#attr"]["table"]);
+                    foreach ($val["value"]["fields"] as $val2) {
+                        $temp[] = $val2["#attr"]["name"];
+                    }
+                    $temp = substr(implode("_", $temp), 0, 64);
+                    $dbschema["indexes"][$key]["#attr"]["name"] = $temp;
+                }
+                // Continue with the original code
                 $indexes1 = get_indexes($table);
                 $indexes2 = array();
                 foreach ($dbschema["indexes"] as $indexspec) {
-                    if ($indexspec["table"] == $table) {
-                        $indexes2[$indexspec["name"]] = array();
-                        foreach ($indexspec["fields"] as $fieldspec) {
-                            $indexes2[$indexspec["name"]][] = $fieldspec["name"];
+                    if ($indexspec["#attr"]["table"] == $table) {
+                        $indexes2[$indexspec["#attr"]["name"]] = array();
+                        foreach ($indexspec["value"]["fields"] as $fieldspec) {
+                            $indexes2[$indexspec["#attr"]["name"]][] = $fieldspec["#attr"]["name"];
                         }
                     }
                 }
@@ -111,8 +130,8 @@ function db_schema()
                     }
                 }
                 foreach ($dbschema["indexes"] as $indexspec) {
-                    if ($indexspec["table"] == $table) {
-                        $index = $indexspec["name"];
+                    if ($indexspec["#attr"]["table"] == $table) {
+                        $index = $indexspec["#attr"]["name"];
                         if (array_key_exists($index, $indexes1)) {
                             $fields1 = $indexes1[$index];
                             $fields2 = $indexes2[$index];
@@ -134,6 +153,12 @@ function db_schema()
     semaphore_release(array("db_schema","db_static"));
 }
 
+/*
+ * DB Static
+ *
+ * This function try to maintain the database contents, to do it, this feature uses the dbstatic.xml
+ * file to store the database contents that must to be maintaned.
+ */
 function db_static()
 {
     if (!eval_bool(get_default("db/dbstatic"))) {
@@ -162,16 +187,37 @@ function db_static()
     semaphore_release(array("db_schema","db_static"));
 }
 
+/*
+ * Get Tables from DB Schema
+ *
+ * This function returns the tables from the DB Schema file
+ */
 function get_tables_from_dbschema()
 {
     return __dbschema_helper(__FUNCTION__, "");
 }
 
+/*
+ * Get Fields from DB Schema
+ *
+ * This function returns the fields from the DB Schema file
+ *
+ * @table => the table that you want to request the files
+ */
 function get_fields_from_dbschema($table)
 {
     return __dbschema_helper(__FUNCTION__, $table);
 }
 
+/*
+ * DB Schema helper
+ *
+ * This function is a helper for the previous functions, is intended to be used
+ * to returns the tables of the DB Schema or the fields of a table
+ *
+ * @fn => the caller function name
+ * @table => the table used by some features
+ */
 function __dbschema_helper($fn, $table)
 {
     static $tables = null;
@@ -180,11 +226,11 @@ function __dbschema_helper($fn, $table)
         $tables = array();
         if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
             foreach ($dbschema["tables"] as $tablespec) {
-                $tables[$tablespec["name"]] = array();
-                foreach ($tablespec["fields"] as $fieldspec) {
-                    $tables[$tablespec["name"]][] = array(
-                        "name" => $fieldspec["name"],
-                        "type" => strtoupper(parse_query($fieldspec["type"]))
+                $tables[$tablespec["#attr"]["name"]] = array();
+                foreach ($tablespec["value"]["fields"] as $fieldspec) {
+                    $tables[$tablespec["#attr"]["name"]][] = array(
+                        "name" => $fieldspec["#attr"]["name"],
+                        "type" => strtoupper(parse_query($fieldspec["#attr"]["type"]))
                     );
                 }
             }

@@ -26,6 +26,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 /*
+ * About this file
+ *
+ * SQLite's database allow to define external functions that can be used from the SQL language,
+ * this is a great feature that allow to use SQLite as MySQL, and using this feature of the
+ * database, the SQLite drivers use the libsqlite to add a lot of features found in MySQL and
+ * used in a lot of queries by SaltOS
+ *
+ * More info about this feature by searching:
+ * @PDO => sqliteCreateFunction/sqliteCreateAggregate
+ * @SQLite3 => createFunction/createAggregate
+ */
+
+/*
  * GROUP_CONCAT
  *
  * This function add the GROUP_CONCAT to the SQLite database

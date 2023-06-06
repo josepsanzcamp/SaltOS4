@@ -26,649 +26,233 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-    <tables>
+	<tables>
 
-        <table>
-            <name>tbl_config</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_user</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_users</fkey>
-                </field>
-                <field>
-                    <name>_key</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>val</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-            </fields>
-        </table>
+		<table name="tbl_config">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_user" type="INT(11)" fkey="tbl_users"/>
+				<field name="_key" type="VARCHAR(255)"/>
+				<field name="val" type="VARCHAR(255)"/>
+			</fields>
+		</table>
 
-        <table>
-            <name>tbl_users</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_group</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_groups</fkey>
-                </field>
-                <field>
-                    <name>active</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>login</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>password</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>name</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>description</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>start</name>
-                    <type>TIME</type>
-                </field>
-                <field>
-                    <name>end</name>
-                    <type>TIME</type>
-                </field>
-                <field>
-                    <name>days</name>
-                    <type>VARCHAR(10)</type>
-                </field>
-            </fields>
-        </table>
-        <table>
-            <name>tbl_groups</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>code</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>name</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>description</name>
-                    <type>TEXT</type>
-                </field>
-            </fields>
-        </table>
+		<table name="tbl_users">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_group" type="INT(11)" fkey="tbl_groups"/>
+				<field name="active" type="INT(11)"/>
+				<field name="login" type="VARCHAR(255)"/>
+				<field name="password" type="VARCHAR(255)"/>
+				<field name="name" type="VARCHAR(255)"/>
+				<field name="description" type="TEXT"/>
+				<field name="start" type="TIME"/>
+				<field name="end" type="TIME"/>
+				<field name="days" type="VARCHAR(10)"/>
+			</fields>
+		</table>
+		<table name="tbl_groups">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="code" type="VARCHAR(255)"/>
+				<field name="name" type="VARCHAR(255)"/>
+				<field name="description" type="TEXT"/>
+			</fields>
+		</table>
 
-        <table>
-            <name>tbl_registers</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_app</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_apps</fkey>
-                </field>
-                <field>
-                    <name>id_reg</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>id_user</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_users</fkey>
-                    <fcheck>false</fcheck>
-                </field>
-                <field>
-                    <name>datetime</name>
-                    <type>DATETIME</type>
-                </field>
-                <field>
-                    <name>first</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>_update</name>
-                    <type>TEXT</type>
-                </field>
-            </fields>
-        </table>
-        <table>
-            <name>tbl_security</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_session</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_sessions</fkey>
-                </field>
-                <field>
-                    <name>id_user</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_users</fkey>
-                    <fcheck>false</fcheck>
-                </field>
-                <field>
-                    <name>logout</name>
-                    <type>INT(11)</type>
-                </field>
-            </fields>
-        </table>
-        <table>
-            <name>tbl_security_ip</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_session</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_sessions</fkey>
-                </field>
-                <field>
-                    <name>remote_addr</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>retries</name>
-                    <type>INT(11)</type>
-                </field>
-            </fields>
-        </table>
-        <table>
-            <name>tbl_sessions</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>sess_file</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>sess_data</name>
-                    <type>MEDIUMTEXT</type>
-                </field>
-                <field>
-                    <name>sess_time</name>
-                    <type>INT(11)</type>
-                </field>
-            </fields>
-        </table>
+		<table name="tbl_registers">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_app" type="INT(11)" fkey="tbl_apps"/>
+				<field name="id_reg" type="INT(11)"/>
+				<field name="id_user" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="datetime" type="DATETIME"/>
+				<field name="first" type="INT(11)"/>
+				<field name="_update" type="TEXT"/>
+			</fields>
+		</table>
+		<table name="tbl_security">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_session" type="INT(11)" fkey="tbl_sessions"/>
+				<field name="id_user" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="logout" type="INT(11)"/>
+			</fields>
+		</table>
+		<table name="tbl_security_ip">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_session" type="INT(11)" fkey="tbl_sessions"/>
+				<field name="remote_addr" type="VARCHAR(255)"/>
+				<field name="retries" type="INT(11)"/>
+			</fields>
+		</table>
+		<table name="tbl_sessions">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="sess_file" type="VARCHAR(255)"/>
+				<field name="sess_data" type="MEDIUMTEXT"/>
+				<field name="sess_time" type="INT(11)"/>
+			</fields>
+		</table>
 
-        <table>
-            <name>tbl_apps</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>code</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>name</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>description</name>
-                    <type>TEXT</type>
-                </field>
-            </fields>
-        </table>
-        <table>
-            <name>tbl_perms</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>pos</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>code</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>name</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>description</name>
-                    <type>TEXT</type>
-                </field>
-            </fields>
-        </table>
-        <table>
-            <name>tbl_apps_perms</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_app</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_apps</fkey>
-                </field>
-                <field>
-                    <name>id_perm</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_perms</fkey>
-                </field>
-            </fields>
-        </table>
+		<table name="tbl_apps">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="code" type="VARCHAR(255)"/>
+				<field name="name" type="VARCHAR(255)"/>
+				<field name="description" type="TEXT"/>
+			</fields>
+		</table>
+		<table name="tbl_perms">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="pos" type="INT(11)"/>
+				<field name="code" type="VARCHAR(255)"/>
+				<field name="name" type="VARCHAR(255)"/>
+				<field name="description" type="TEXT"/>
+			</fields>
+		</table>
+		<table name="tbl_apps_perms">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_app" type="INT(11)" fkey="tbl_apps"/>
+				<field name="id_perm" type="INT(11)" fkey="tbl_perms"/>
+			</fields>
+		</table>
+		<table name="tbl_users_apps_perms">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_user" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="id_app" type="INT(11)" fkey="tbl_aplicaciones"/>
+				<field name="id_perm" type="INT(11)" fkey="tbl_perms"/>
+				<field name="allow" type="INT(11)"/>
+				<field name="deny" type="INT(11)"/>
+			</fields>
+		</table>
 
-        <table>
-            <name>tbl_users_apps_perms</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_user</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_users</fkey>
-                    <fcheck>false</fcheck>
-                </field>
-                <field>
-                    <name>id_app</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_aplicaciones</fkey>
-                </field>
-                <field>
-                    <name>id_perm</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_perms</fkey>
-                </field>
-                <field>
-                    <name>allow</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>deny</name>
-                    <type>INT(11)</type>
-                </field>
-            </fields>
-        </table>
+		<table name="app_correo">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_cuenta" type="INT(11)" fkey="tbl_users_c"/>
+				<field name="uidl" type="VARCHAR(250)"/>
+				<field name="datetime" type="DATETIME"/>
+				<field name="size" type="INT(11)"/>
+				<field name="subject" type="TEXT"/>
+				<field name="body" type="MEDIUMTEXT"/>
+				<field name="state_new" type="INT(11)"/>
+				<field name="state_reply" type="INT(11)"/>
+				<field name="state_forward" type="INT(11)"/>
+				<field name="state_wait" type="INT(11)"/>
+				<field name="state_spam" type="INT(11)"/>
+				<field name="id_correo" type="INT(11)"/>
+				<field name="is_outbox" type="INT(11)"/>
+				<field name="state_sent" type="INT(11)"/>
+				<field name="state_error" type="TEXT"/>
+				<field name="state_crt" type="INT(11)"/>
+				<field name="priority" type="INT(11)"/>
+				<field name="sensitivity" type="INT(11)"/>
+				<field name="de" type="TEXT"/>
+				<field name="para" type="TEXT"/>
+				<field name="cc" type="TEXT"/>
+				<field name="bcc" type="TEXT"/>
+				<field name="files" type="INT(11)"/>
+			</fields>
+		</table>
 
-        <table>
-            <name>app_correo</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_cuenta</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_users_c</fkey>
-                </field>
-                <field>
-                    <name>uidl</name>
-                    <type>VARCHAR(250)</type>
-                </field>
-                <field>
-                    <name>datetime</name>
-                    <type>DATETIME</type>
-                </field>
-                <field>
-                    <name>size</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>subject</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>body</name>
-                    <type>MEDIUMTEXT</type>
-                </field>
-                <field>
-                    <name>state_new</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>state_reply</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>state_forward</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>state_wait</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>state_spam</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>id_correo</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>is_outbox</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>state_sent</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>state_error</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>state_crt</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>priority</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>sensitivity</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>de</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>para</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>cc</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>bcc</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>files</name>
-                    <type>INT(11)</type>
-                </field>
-            </fields>
-        </table>
+		<table name="app_clientes">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_campanya" type="INT(11)"/>
+				<field name="id_tipo" type="INT(11)"/>
+				<field name="codigo" type="VARCHAR(255)"/>
+				<field name="nombre" type="VARCHAR(255)"/>
+				<field name="nombre1" type="VARCHAR(255)"/>
+				<field name="nombre2" type="VARCHAR(255)"/>
+				<field name="cif" type="VARCHAR(255)"/>
+				<field name="comentarios" type="TEXT"/>
+				<field name="corriente" type="VARCHAR(255)"/>
+				<field name="contable" type="VARCHAR(255)"/>
+				<field name="diapago" type="INT(11)"/>
+				<field name="direccion" type="VARCHAR(255)"/>
+				<field name="id_pais" type="INT(11)" fkey="tbl_paises"/>
+				<field name="id_provincia" type="INT(11)" fkey="tbl_provincias"/>
+				<field name="id_poblacion" type="INT(11)" fkey="tbl_poblaciones"/>
+				<field name="id_codpostal" type="INT(11)" fkey="tbl_codpostal"/>
+				<field name="nombre_pais" type="VARCHAR(255)"/>
+				<field name="nombre_provincia" type="VARCHAR(255)"/>
+				<field name="nombre_poblacion" type="VARCHAR(255)"/>
+				<field name="nombre_codpostal" type="VARCHAR(255)"/>
+				<field name="email" type="VARCHAR(255)"/>
+				<field name="web" type="VARCHAR(255)"/>
+				<field name="tel_fijo" type="VARCHAR(255)"/>
+				<field name="tel_movil" type="VARCHAR(255)"/>
+				<field name="fax" type="VARCHAR(255)"/>
+				<field name="activo" type="INT(11)"/>
+			</fields>
+		</table>
 
-        <table>
-            <name>app_clientes</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>id_campanya</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>id_tipo</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>codigo</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre1</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre2</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>cif</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>comentarios</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>corriente</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>contable</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>diapago</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>direccion</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>id_pais</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_paises</fkey>
-                </field>
-                <field>
-                    <name>id_provincia</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_provincias</fkey>
-                </field>
-                <field>
-                    <name>id_poblacion</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_poblaciones</fkey>
-                </field>
-                <field>
-                    <name>id_codpostal</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_codpostal</fkey>
-                </field>
-                <field>
-                    <name>nombre_pais</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre_provincia</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre_poblacion</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre_codpostal</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>email</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>web</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>tel_fijo</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>tel_movil</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>fax</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>activo</name>
-                    <type>INT(11)</type>
-                </field>
-            </fields>
-        </table>
+		<table name="app_proveedores">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="codigo" type="VARCHAR(255)"/>
+				<field name="nombre" type="VARCHAR(255)"/>
+				<field name="nombre1" type="VARCHAR(255)"/>
+				<field name="nombre2" type="VARCHAR(255)"/>
+				<field name="cif" type="VARCHAR(255)"/>
+				<field name="comentarios" type="TEXT"/>
+				<field name="corriente" type="VARCHAR(255)"/>
+				<field name="contable" type="VARCHAR(255)"/>
+				<field name="diapago" type="INT(11)"/>
+				<field name="direccion" type="VARCHAR(255)"/>
+				<field name="id_pais" type="INT(11)" fkey="tbl_paises"/>
+				<field name="id_provincia" type="INT(11)" fkey="tbl_provincias"/>
+				<field name="id_poblacion" type="INT(11)" fkey="tbl_poblaciones"/>
+				<field name="id_codpostal" type="INT(11)" fkey="tbl_codpostal"/>
+				<field name="nombre_pais" type="VARCHAR(255)"/>
+				<field name="nombre_provincia" type="VARCHAR(255)"/>
+				<field name="nombre_poblacion" type="VARCHAR(255)"/>
+				<field name="nombre_codpostal" type="VARCHAR(255)"/>
+				<field name="email" type="VARCHAR(255)"/>
+				<field name="web" type="VARCHAR(255)"/>
+				<field name="tel_fijo" type="VARCHAR(255)"/>
+				<field name="tel_movil" type="VARCHAR(255)"/>
+				<field name="fax" type="VARCHAR(255)"/>
+				<field name="activo" type="INT(11)"/>
+			</fields>
+		</table>
 
-        <table>
-            <name>app_proveedores</name>
-            <fields>
-                <field>
-                    <name>id</name>
-                    <type>/*MYSQL INT(11) *//*SQLITE INTEGER */</type>
-                    <pkey>true</pkey>
-                </field>
-                <field>
-                    <name>codigo</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre1</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre2</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>cif</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>comentarios</name>
-                    <type>TEXT</type>
-                </field>
-                <field>
-                    <name>corriente</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>contable</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>diapago</name>
-                    <type>INT(11)</type>
-                </field>
-                <field>
-                    <name>direccion</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>id_pais</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_paises</fkey>
-                </field>
-                <field>
-                    <name>id_provincia</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_provincias</fkey>
-                </field>
-                <field>
-                    <name>id_poblacion</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_poblaciones</fkey>
-                </field>
-                <field>
-                    <name>id_codpostal</name>
-                    <type>INT(11)</type>
-                    <fkey>tbl_codpostal</fkey>
-                </field>
-                <field>
-                    <name>nombre_pais</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre_provincia</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre_poblacion</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>nombre_codpostal</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>email</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>web</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>tel_fijo</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>tel_movil</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>fax</name>
-                    <type>VARCHAR(255)</type>
-                </field>
-                <field>
-                    <name>activo</name>
-                    <type>INT(11)</type>
-                </field>
-            </fields>
-        </table>
+	</tables>
 
-    </tables>
-    <indexes>
-    </indexes>
+	<indexes>
+		<index table="tbl_registers">
+			<fields>
+				<field name="id_app"/>
+				<field name="id_reg"/>
+				<field name="id_user"/>
+				<field name="first"/>
+			</fields>
+		</index>
+		<index table="tbl_registers">
+			<fields>
+				<field name="id_app"/>
+				<field name="id_reg"/>
+				<field name="first"/>
+			</fields>
+		</index>
+		<index table="tbl_registers">
+			<fields>
+				<field name="id_user"/>
+				<field name="first"/>
+			</fields>
+		</index>
+	</indexes>
+
+    <excludes>
+        <exclude name="tbl_one"/>
+        <exclude name="tbl_two"/>
+        <exclude name="tbl_three"/>
+        <exclude name="tbl_four"/>
+        <exclude name="tbl_five"/>
+    </excludes>
 </root>

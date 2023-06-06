@@ -27,6 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function memory_get_free($bytes = false)
 {
     $memory_limit = normalize_value(ini_get("memory_limit"));
@@ -38,16 +41,25 @@ function memory_get_free($bytes = false)
     return $diff;
 }
 
+/*
+ *
+ */
 function time_get_usage($secs = false)
 {
     return __time_get_helper(__FUNCTION__, $secs);
 }
 
+/*
+ *
+ */
 function time_get_free($secs = false)
 {
     return __time_get_helper(__FUNCTION__, $secs);
 }
 
+/*
+ *
+ */
 function __time_get_helper($fn, $secs)
 {
     static $ini = null;
@@ -70,11 +82,17 @@ function __time_get_helper($fn, $secs)
     return $diff;
 }
 
+/*
+ *
+ */
 function max_memory_limit()
 {
     ini_set("memory_limit", get_default("server/maxmemorylimit"));
 }
 
+/*
+ *
+ */
 function max_execution_time()
 {
     ini_set("max_execution_time", get_default("server/maxexecutiontime"));

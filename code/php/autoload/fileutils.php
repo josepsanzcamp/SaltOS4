@@ -27,6 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ *
+ */
 function get_directory($key, $default = "")
 {
     if (!$default) {
@@ -42,6 +45,9 @@ function get_directory($key, $default = "")
     return $dir;
 }
 
+/*
+ *
+ */
 function get_temp_file($ext = "")
 {
     if ($ext == "") {
@@ -61,6 +67,9 @@ function get_temp_file($ext = "")
     return $file;
 }
 
+/*
+ *
+ */
 function get_cache_file($data, $ext = "")
 {
     if (is_array($data)) {
@@ -80,6 +89,9 @@ function get_cache_file($data, $ext = "")
     return $file;
 }
 
+/*
+ *
+ */
 function cache_exists($cache, $file)
 {
     if (!file_exists($cache) || !is_file($cache)) {
@@ -101,6 +113,9 @@ function cache_exists($cache, $file)
     return 1;
 }
 
+/*
+ *
+ */
 function url_get_contents($url)
 {
     // CHECK SCHEME
@@ -114,6 +129,9 @@ function url_get_contents($url)
     return $body;
 }
 
+/*
+ *
+ */
 function __url_get_contents($url, $args = array())
 {
     require_once "lib/httpclient/http.php";
@@ -169,11 +187,17 @@ function __url_get_contents($url, $args = array())
     return array($body,$headers,$cookies);
 }
 
+/*
+ *
+ */
 function extension($file)
 {
     return pathinfo($file, PATHINFO_EXTENSION);
 }
 
+/*
+ *
+ */
 function encode_bad_chars_file($file)
 {
     $file = strrev($file);
@@ -187,6 +211,9 @@ function encode_bad_chars_file($file)
     return $file;
 }
 
+/*
+ *
+ */
 function realpath_protected($path)
 {
     // REALPATH NO RETORNA RES SI EL PATH NO EXISTEIX
@@ -195,41 +222,9 @@ function realpath_protected($path)
     return realpath(dirname($path)) . "/" . basename($path);
 }
 
-// TODO: REVISAR ESTA FUNCION
-//~ function semi_realpath($file)
-//~ {
-    //~ $file = explode("/", $file);
-    //~ $count = count($file);
-    //~ for ($i = 1; $i < $count; $i++) {
-        //~ if ($file[$i] == "..") {
-            //~ for ($j = $i - 1; $j >= 0; $j--) {
-                //~ if (isset($file[$j]) && $file[$j] != "..") {
-                    //~ unset($file[$i]);
-                    //~ unset($file[$j]);
-                    //~ break;
-                //~ }
-            //~ }
-        //~ }
-    //~ }
-    //~ $file = implode("/", $file);
-    //~ return $file;
-//~ }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function truncate_protected($file)
-//~ {
-    //~ $fp = fopen($file, "w");
-    //~ if ($fp) {
-        //~ fclose($fp);
-    //~ }
-//~ }
-
-// TODO: REVISAR ESTA FUNCION
-//~ function extension2($mime)
-//~ {
-    //~ return saltos_content_type1($mime);
-//~ }
-
+/*
+ *
+ */
 function getcwd_protected()
 {
     $dir = getcwd();
@@ -239,19 +234,28 @@ function getcwd_protected()
     return $dir;
 }
 
+/*
+ *
+ */
 function glob_protected($pattern)
 {
     $array = glob($pattern);
     return is_array($array) ? $array : array();
 }
 
+/*
+ *
+ */
 function chmod_protected($file, $mode)
 {
-    if (fileperms($file) & 0777 != $mode) {
+    if ((fileperms($file) & 0777) != $mode) {
         chmod($file, $mode);
     }
 }
 
+/*
+ *
+ */
 // ESTA FUNCION SE USA POR LA LIBRERIA HTTPCLIENT
 function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $timeout = null)
 {
@@ -275,22 +279,3 @@ function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $time
         )
     );
 }
-
-// TODO: REVISAR ESTA FUNCION
-// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
-//~ function gzfilesize($filename)
-//~ {
-    //~ $gzfs = false;
-    //~ if (($zp = fopen($filename, 'r')) !== false) {
-        //~ if (@fread($zp, 2) == "\x1F\x8B") { // this is a gzip'd file
-            //~ fseek($zp, -4, SEEK_END);
-            //~ if (strlen($datum = @fread($zp, 4)) == 4) {
-                //~ extract(unpack('Vgzfs', $datum));
-            //~ }
-        //~ } else { // not a gzip'd file, revert to regular filesize function
-            //~ $gzfs = filesize($filename);
-        //~ }
-        //~ fclose($zp);
-    //~ }
-    //~ return($gzfs);
-//~ }
