@@ -44,12 +44,8 @@ function add_list_actions($rows, $actions)
     foreach ($rows as $key => $row) {
         $row["actions"] = array();
         foreach ($actions as $action) {
-            $row["actions"][] = array(
-                "app" => $action["app"],
-                "action" => $action["action"],
-                "class" => $action["class"],
-                "url" => "app/{$action["app"]}/{$action["action"]}/{$row["id"]}",
-            );
+            $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            $row["actions"][] = $action;
         }
         // TODO: INICIO CODIGO TEST DISABLED
         if ($row["id"] == 48) {

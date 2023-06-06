@@ -73,9 +73,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 <data eval="true">add_list_actions(
                     execute_query_array("SELECT id,nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC"),
                     [
-                        ["app"=>"clientes","action"=>"view","class"=>"bi-search border-0"],
-                        ["app"=>"clientes","action"=>"edit","class"=>"bi-pencil-fill border-0"],
-                        ["app"=>"clientes","action"=>"delete","class"=>"bi-trash-fill border-0"]
+                        ["app"=>"clientes","action"=>"view","class"=>"bi-search border-0","tooltip"=>"Ver detalle cliente"],
+                        ["app"=>"clientes","action"=>"edit","class"=>"bi-pencil-fill border-0","tooltip"=>"Editar cliente"],
+                        ["app"=>"clientes","action"=>"delete","class"=>"bi-trash-fill border-0","tooltip"=>"Borrar cliente"]
                     ]
                 )</data>
                 <footer eval="true">["","","Total",execute_query_array("SELECT COUNT(*) total FROM app_clientes")]</footer>
