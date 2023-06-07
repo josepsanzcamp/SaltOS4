@@ -28,7 +28,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * OB Passthru
  *
+ * This function is a join of ob_start and passthru, the main idea
+ * is to execute a program using the command line and get the
+ * output (only stdout and not stderr) and return the data
+ *
+ * @cmd => the command line that you want to execute
+ * @expires => the expires time used to compute if the cache is valid
+ *
+ * This funtion tryes to execute the command using some of the
+ * provided methods, passthru, system, exec and shell_exec, another
+ * feature is that the function detects what command are available
+ * to use
  */
 function ob_passthru($cmd, $expires = 0)
 {
@@ -68,7 +80,13 @@ function ob_passthru($cmd, $expires = 0)
 }
 
 /*
+ * Check Commands
  *
+ * This function tryes to validate if the commands are available
+ * in the system, to do it, uses the unix command witch
+ *
+ * @commands => the commands that you want to check if are they available
+ * @expires => the expires time used to compute if the cache is valid
  */
 function check_commands($commands, $expires = 0)
 {
@@ -87,7 +105,14 @@ function check_commands($commands, $expires = 0)
 }
 
 /*
+ * Is Disabled Function
  *
+ * This function check if the argument contains a disabled
+ * function, this feature uses the variables disable_functions
+ * and suhosin.executor.func.blacklist to get the list of all
+ * disabled functions
+ *
+ * @fn => the function that you want to check if is it disabled
  */
 function is_disabled_function($fn = "")
 {
@@ -110,7 +135,16 @@ function is_disabled_function($fn = "")
 }
 
 /*
+ * Exec Timeout
  *
+ * This helper function allow to execute commands using the external
+ * command timeout, this unix command allow to define the timeout for
+ * an execution of other command, and when the timeout is reached, then
+ * break the execution killing the process
+ *
+ * @cmd => the command that you want to execute with a timeout control
+ *
+ * Returns the string that contains the command with ths timeout control
  */
 function __exec_timeout($cmd)
 {
