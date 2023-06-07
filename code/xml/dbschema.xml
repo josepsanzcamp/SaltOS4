@@ -31,7 +31,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<table name="tbl_config">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_user" type="INT(11)" fkey="tbl_users"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
 				<field name="_key" type="VARCHAR(255)"/>
 				<field name="val" type="VARCHAR(255)"/>
 			</fields>
@@ -40,7 +40,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<table name="tbl_users">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_group" type="INT(11)" fkey="tbl_groups"/>
+				<field name="group_id" type="INT(11)" fkey="tbl_groups"/>
 				<field name="active" type="INT(11)"/>
 				<field name="login" type="VARCHAR(255)"/>
 				<field name="password" type="VARCHAR(255)"/>
@@ -60,12 +60,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 			</fields>
 		</table>
 
+<!--
 		<table name="tbl_registers">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_app" type="INT(11)" fkey="tbl_apps"/>
-				<field name="id_reg" type="INT(11)"/>
-				<field name="id_user" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="app_id" type="INT(11)" fkey="tbl_apps"/>
+				<field name="reg_id" type="INT(11)"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
 				<field name="datetime" type="DATETIME"/>
 				<field name="first" type="INT(11)"/>
 				<field name="_update" type="TEXT"/>
@@ -74,15 +75,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<table name="tbl_security">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_session" type="INT(11)" fkey="tbl_sessions"/>
-				<field name="id_user" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="session_id" type="INT(11)" fkey="tbl_sessions"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
 				<field name="logout" type="INT(11)"/>
 			</fields>
 		</table>
 		<table name="tbl_security_ip">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_session" type="INT(11)" fkey="tbl_sessions"/>
+				<field name="session_id" type="INT(11)" fkey="tbl_sessions"/>
 				<field name="remote_addr" type="VARCHAR(255)"/>
 				<field name="retries" type="INT(11)"/>
 			</fields>
@@ -95,6 +96,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="sess_time" type="INT(11)"/>
 			</fields>
 		</table>
+-->
 
 		<table name="tbl_apps">
 			<fields>
@@ -107,7 +109,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<table name="tbl_perms">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="pos" type="INT(11)"/>
 				<field name="code" type="VARCHAR(255)"/>
 				<field name="name" type="VARCHAR(255)"/>
 				<field name="description" type="TEXT"/>
@@ -116,16 +117,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<table name="tbl_apps_perms">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_app" type="INT(11)" fkey="tbl_apps"/>
-				<field name="id_perm" type="INT(11)" fkey="tbl_perms"/>
+				<field name="app_id" type="INT(11)" fkey="tbl_apps"/>
+				<field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
+				<field name="allow" type="INT(11)"/>
+				<field name="deny" type="INT(11)"/>
 			</fields>
 		</table>
 		<table name="tbl_users_apps_perms">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_user" type="INT(11)" fkey="tbl_users" fcheck="false"/>
-				<field name="id_app" type="INT(11)" fkey="tbl_aplicaciones"/>
-				<field name="id_perm" type="INT(11)" fkey="tbl_perms"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="app_id" type="INT(11)" fkey="tbl_aplicaciones"/>
+				<field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
 				<field name="allow" type="INT(11)"/>
 				<field name="deny" type="INT(11)"/>
 			</fields>

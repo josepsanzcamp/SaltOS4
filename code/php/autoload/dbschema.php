@@ -158,6 +158,9 @@ function db_schema()
  *
  * This function try to maintain the database contents, to do it, this feature uses the dbstatic.xml
  * file to store the database contents that must to be maintaned.
+ *
+ * This new version of the db_static allow to specify if you want to delete all contents of the table
+ * and too, allow you to use a comma separated values in fields as "id", start by "id_" or end by "_id"
  */
 function db_static()
 {
@@ -175,16 +178,65 @@ function db_static()
     $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
     if (is_array($dbstatic)) {
         foreach ($dbstatic as $table => $rows) {
-            $query = "DELETE FROM {$table}";
-            db_query($query);
-            foreach ($rows as $row) {
-                $query = make_insert_query($table, $row);
+            // To detect delete attribute
+            $delete = true;
+            if (isset($rows["value"]) && isset($rows["#attr"])) {
+                $delete = isset($rows["#attr"]["delete"]) && eval_bool($rows["#attr"]["delete"]);
+                $rows = $rows["value"];
+            }
+            // Continue
+            if ($delete) {
+                $query = "DELETE FROM $table";
                 db_query($query);
+            }
+            foreach ($rows as $row) {
+                __db_static_helper($table, $row["#attr"], $delete);
             }
         }
     }
     set_config("xml/dbstatic.xml", $hash2);
     semaphore_release(array("db_schema","db_static"));
+}
+
+/*
+ * DB Static helper
+ *
+ * This function is a helper of previous function, is intended to be used by db_static and
+ * allow to use a comma separated values in fields as "id", start by "id_" or end by "_id"
+ *
+ * @table => the table that you want to use in the insert process
+ * @row => the row that you want to add in the table
+ * @delete => this field allow to check if the row exists to do an update instead of insert
+ */
+function __db_static_helper($table, $row, $delete)
+{
+    $found = "";
+    foreach ($row as $field => $value) {
+        if ($field == "id" || substr($field, 0, 3) == "id_" || substr($field, -3, 3) == "_id") {
+            if (strpos($value, ",") !== false) {
+                $found = $field;
+                break;
+            }
+        }
+    }
+    if ($found != "") {
+        $a = explode(",", $row[$found]);
+        foreach ($a as $b) {
+            $row[$found] = $b;
+            __db_static_helper($table, $row, $delete);
+        }
+    } else {
+        $query = make_insert_query($table, $row);
+        if (!$delete) {
+            $where = make_where_query(array("id" => $row["id"]));
+            $query = "SELECT id FROM $table WHERE $where";
+            $exists = execute_query($query);
+            if ($exists) {
+                $query = make_update_query($table, $row, $where);
+            }
+        }
+        db_query($query);
+    }
 }
 
 /*
