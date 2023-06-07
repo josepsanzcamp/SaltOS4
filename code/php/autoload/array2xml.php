@@ -28,9 +28,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Check Node Name
  *
+ * This function acts as helper of the array2xml function, is intended to
+ * return if the node name is valid
+ *
+ * @name => the name that you want to validate
  */
-// TODO: REVISAR ESTA FUNCION
 function __array2xml_check_node_name($name)
 {
     try {
@@ -42,9 +46,13 @@ function __array2xml_check_node_name($name)
 }
 
 /*
+ * Check Attr Name
  *
+ * This function acts as helper of the array2xml function, is intended to
+ * return if the attribute name is valid
+ *
+ * @name => the name that you want to validate
  */
-// TODO: REVISAR ESTA FUNCION
 function __array2xml_check_node_attr($name)
 {
     try {
@@ -56,9 +64,14 @@ function __array2xml_check_node_attr($name)
 }
 
 /*
+ * Write Nodes array2xml helper
  *
+ * This function acts as helper of the array2xml function, is intended to
+ * return a string with the tree array
+ *
+ * @array => the tree array that you want to convert to XML
+ * @level => can be null to minify the output zero to indent the XML contents
  */
-// TODO: REVISAR ESTA FUNCION
 function __array2xml_write_nodes(&$array, $level = null)
 {
     if ($level === null) {
@@ -113,9 +126,15 @@ function __array2xml_write_nodes(&$array, $level = null)
 }
 
 /*
+ * Array to XML
  *
+ * This function returns a string with the contents of array converted into a XML
+ * language file, to do it, uses some helpers as __array2xml_* functions
+ *
+ * @array => the array that contains the tree structure that you want to convert to XML
+ * @usecache => a boolean to enable or disable the cache usage
+ * @usexmlminify => a boolean to enable or disable the minify feature
  */
-// TODO: REVISAR ESTA FUNCION
 function array2xml($array, $usecache = true, $usexmlminify = true)
 {
     $array = array("root" => $array);

@@ -30,7 +30,43 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 
 /*
+ * Show PHP Error
  *
+ * This function allow to SaltOS to trigger the errors in a multiple levels:
+ *
+ * 1) Check if the error is caused by a memory allocation error, and in this case, try
+ * to setup more memory to continue executing the error function, sometimes if the system
+ * is using all memory, this function can not do all tasks and don't know whats be happening
+ *
+ * 2) Add some extra traces if they are not found in the input array
+ *
+ * 3) Create a human readable message in text and json format, the text will be used
+ * to log the error using a regular file and the json will be used as stdout response
+ *
+ * 4) If the error is caused by a deprecation, the error will be logged in the log file
+ * but the execution of the code will continue (if it can continue!!!)
+ *
+ * 5) Try to categorize the error and log the text in the specific log file, this part
+ * is optimized to prevent the addition of repeated errors using a hash as a trick
+ *
+ * 6) Send a json to the stdout using the output handler.
+ *
+ * THs input @array can contain pairs of key val:
+ *
+ * @dberror => The text used in the DB Error section
+ * @phperror => The text used in the PHP Error section
+ * @xmlerror => The text used in the XML Error section
+ * @jserror => The text used in the JS Error section
+ * @dbwarning => The text used in the DB Warning section
+ * @phpwarning => The text used in the PHP Warning section
+ * @xmlwarning => The text used in the XML Warning section
+ * @jswarning => The text used in the JS Warning section
+ * @source => The text used in the Source section
+ * @exception => The text used in the Exception section
+ * @details => The text used in the Details section
+ * @query => The text used in the Query section
+ * @backtrace => The text used in the Backtrace section
+ * @debug => The text used in the Debug section
  */
 function show_php_error($array)
 {
@@ -96,7 +132,30 @@ function show_php_error($array)
 }
 
 /*
+ * Do Message Error
  *
+ * This function acts as a helper of the show_php_error, is intended to build
+ * the text and the json messages used to the log file and for the stdout channel
+ *
+ * THs input @array can contain pairs of key val:
+ *
+ * @dberror => The text used in the DB Error section
+ * @phperror => The text used in the PHP Error section
+ * @xmlerror => The text used in the XML Error section
+ * @jserror => The text used in the JS Error section
+ * @dbwarning => The text used in the DB Warning section
+ * @phpwarning => The text used in the PHP Warning section
+ * @xmlwarning => The text used in the XML Warning section
+ * @jswarning => The text used in the JS Warning section
+ * @source => The text used in the Source section
+ * @exception => The text used in the Exception section
+ * @details => The text used in the Details section
+ * @query => The text used in the Query section
+ * @backtrace => The text used in the Backtrace section
+ * @debug => The text used in the Debug section
+ *
+ * Returns an array with the text and the json formated output ready to be used
+ * in the log file and in the stdout channel
  */
 function do_message_error($array)
 {
@@ -205,7 +264,9 @@ function do_message_error($array)
 }
 
 /*
+ * Program Handlers
  *
+ * This function program all error handlers
  */
 function program_handlers()
 {
@@ -216,7 +277,16 @@ function program_handlers()
 }
 
 /*
+ * Error Handler
  *
+ * This function is the callback function used by the set_error_handler
+ *
+ * Ths arguments are defined by the set_error_handler:
+ *
+ * @type => The code of the error
+ * @message => The descriptive message of the error
+ * @file => The filename of the file that trigger the error
+ * @line => The line where the error will occurred
  */
 function __error_handler($type, $message, $file, $line)
 {
@@ -228,7 +298,14 @@ function __error_handler($type, $message, $file, $line)
 }
 
 /*
+ * Exception Handler
  *
+ * This function is the callback function used by the set_exception_handler
+ *
+ * Ths arguments are defined by the set_exception_handler:
+ *
+ * @e => object that contains the getMessage, getCode, getFile, getLine and getTrace
+ *       methods
  */
 function __exception_handler($e)
 {
@@ -240,7 +317,13 @@ function __exception_handler($e)
 }
 
 /*
+ * Shutdown Handler
  *
+ * This function is the callback function used by the register_shutdown_function, try to
+ * detect if an error is the cause of the shutdown of the script, note that a correct
+ * execution will execute this function and only it must to trigger an error if a real
+ * error is in the stack of the errors events, to do it this function uses the error_get_last
+ * to check if the value in in the list of typified errors
  */
 function __shutdown_handler()
 {
@@ -257,7 +340,15 @@ function __shutdown_handler()
 }
 
 /*
+ * Get Code From Trace
  *
+ * This function acts as helper of the show_json_error, and try to get the filename and the line
+ * where the error will be triggered, for example, an error triggered from the index.php at line
+ * 23 will generate a code index:23, this information will be usefull for our technical service
+ * to help the users when live issues with our API
+ *
+ * @trace => the array returned by the debug_backtrace function
+ * @index => the position of the array used to get the filename and the line
  */
 function __get_code_from_trace($trace, $index = 0)
 {
@@ -272,7 +363,14 @@ function __get_code_from_trace($trace, $index = 0)
 }
 
 /*
+ * Show JSON Error
  *
+ * This function is triggered from the code in a controlate errors, the idea is to have
+ * a simple way to send controled errors to the user using a json output channel, and to
+ * do it, we have this function that can be called with a simple message and the code
+ * is created automatically to help the backtrace of the issues
+ *
+ * @msg => this contains a simple text that is used in the json output
  */
 function show_json_error($msg)
 {
