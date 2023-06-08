@@ -28,7 +28,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Remove Bar Chars
  *
+ * This function removes chars from keycodes 0 to 31 except 9, 10, 13 (tab,
+ * newline, return)
+ *
+ * @temp => input string that you want to fix
+ * @pad => padding string used as replacement for bar chars (void by default)
  */
 function remove_bad_chars($temp, $pad = "")
 {
@@ -44,7 +50,20 @@ function remove_bad_chars($temp, $pad = "")
 }
 
 /*
+ * Encode Bar Chars
  *
+ * This function tries to replace accender chars and other extended chars into
+ * an ascii chars, to do it, they define an array with the pairs of chars to
+ * do a quick replace, too is converted all to lower and are removed all chars
+ * that are out of range (valid range are from 0-9 and from a-z), the function
+ * allow to specify an extra parameter to add extra chars that must to be
+ * allowed in the output, all other chars will be converted to the padding
+ * argument, as a bonus extra, all padding repetitions will be removed to
+ * only allow one pading char at time
+ *
+ * @cad => the input string to encode
+ * @pad => the padding char using to replace the bar chars
+ * @extra => the list of chars allowed to appear in the output
  */
 function encode_bad_chars($cad, $pad = "_", $extra = "")
 {
@@ -78,7 +97,17 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
 }
 
 /*
+ * Prepare Words
  *
+ * This function allow to prepare words removing repetitions in the padding char
+ *
+ * @cad => the input string to prepare
+ * @pad => the padding char using to replace the repetitions
+ *
+ * Notes:
+ *
+ * Apart of remove repetitions of the padding char, the function will try to
+ * remove padding chars in the start and in the end of the string
  */
 function prepare_words($cad, $pad = " ")
 {
@@ -97,28 +126,14 @@ function prepare_words($cad, $pad = " ")
 }
 
 /*
+ * Sprintr
  *
- */
-// THIS FUNCTION IS THE SAME THAT THE PHP ORIGINAP PARSE_STR
-// THE MAIN DIFFERENCE IS THAT NOT DEFINE THE KEY IF VALUE IF VOID
-function parse_str_protected($querystring)
-{
-    $items = explode("&", $querystring);
-    $result = array();
-    foreach ($items as $item) {
-        $par = explode("=", $item, 2);
-        if (!isset($par[1])) {
-            // THIS IS THE DIFFERENCE!!!
-            continue;
-        }
-        $par[1] = rawurldecode($par[1]);
-        $result[$par[0]] = $par[1];
-    }
-    return $result;
-}
-
-/*
+ * This function is an improved version of the print_r, allow to convert an
+ * array into a string removing some extra lines that not contain information,
+ * lines that contains only contains an open or close parenthesis, or nothing,
+ * are removed, optimizing the output string
  *
+ * @array => the array that do you want to convert into string
  */
 function sprintr($array)
 {
@@ -134,7 +149,9 @@ function sprintr($array)
 }
 
 /*
+ * Get Unique Id MD5
  *
+ * This function returns an unique hash using the random generator
  */
 function get_unique_id_md5()
 {
@@ -143,7 +160,13 @@ function get_unique_id_md5()
 }
 
 /*
+ * Intelligence Cut
  *
+ * This function allow to cut text by searching spaces to prevent to break words
+ *
+ * @txt => the text that you want to cut
+ * @max => the size of the expected output text
+ * @end => the suffix added if the text is cutted
  */
 function intelligence_cut($txt, $max, $end = "...")
 {
@@ -170,7 +193,13 @@ function intelligence_cut($txt, $max, $end = "...")
 }
 
 /*
+ * Normalize Value
  *
+ * This function allow to detect the last letter to detect what magnitude is
+ * using (K, M or G) and multiply the numeric part by the needed factor to
+ * get the number without factor
+ *
+ * @value => the string that contain the number, for example "123k"
  */
 function normalize_value($value)
 {

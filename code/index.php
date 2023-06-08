@@ -34,7 +34,7 @@ foreach (glob("php/autoload/*.php") as $file) {
 
 // Some important items
 program_handlers();
-time_get_usage(true);
+init_time_get();
 check_system();
 
 // Normal operation

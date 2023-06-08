@@ -37,7 +37,7 @@ declare(strict_types=1);
  * @cmd => the command line that you want to execute
  * @expires => the expires time used to compute if the cache is valid
  *
- * This funtion tryes to execute the command using some of the
+ * This funtion tries to execute the command using some of the
  * provided methods, passthru, system, exec and shell_exec, another
  * feature is that the function detects what command are available
  * to use
@@ -82,7 +82,7 @@ function ob_passthru($cmd, $expires = 0)
 /*
  * Check Commands
  *
- * This function tryes to validate if the commands are available
+ * This function tries to validate if the commands are available
  * in the system, to do it, uses the unix command witch
  *
  * @commands => the commands that you want to check if are they available

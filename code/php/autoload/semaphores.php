@@ -28,7 +28,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Semaphore Acquire
  *
+ * This function implement the acquire of a semaphore
+ *
+ * @name => the name of the semaphore
+ * @timeout => the timeout used in waiting operations
  */
 function semaphore_acquire($name = "", $timeout = INF)
 {
@@ -36,7 +41,11 @@ function semaphore_acquire($name = "", $timeout = INF)
 }
 
 /*
+ * Semaphore Release
  *
+ * This function implement the release of the semaphore
+ *
+ * @name => the name of the semaphore
  */
 function semaphore_release($name = "")
 {
@@ -44,7 +53,11 @@ function semaphore_release($name = "")
 }
 
 /*
+ * Semaphore Shutdown
  *
+ * This function implement the shutdown of all semaphores, to do it,
+ * the function will iterate in each semaphore to release and set to
+ * null the semaphore pointer
  */
 function semaphore_shutdown()
 {
@@ -52,7 +65,12 @@ function semaphore_shutdown()
 }
 
 /*
+ * Semaphore File
  *
+ * This function returns the associated semaphore file used by the
+ * named semaphore, usefull for debug purposes
+ *
+ * @name => the name of the semaphore
  */
 function semaphore_file($name = "")
 {
@@ -60,7 +78,17 @@ function semaphore_file($name = "")
 }
 
 /*
+ * Semaphore helper
  *
+ * This function implements the real semaphore functionalities, includes
+ * the code to do an acquire, the release, the shutdown and to get the
+ * file, is programmed as a function instead of a class by historical
+ * motivation, in reality, the statics fds acts as a properties of a
+ * class and each if stripos acts as a methods of a class
+ *
+ * @fn => the function name that call the helper, to detect the feature
+ * @name => the name of the semaphore
+ * @timeout => the timeout used in waiting operations
  */
 function __semaphore_helper($fn, $name, $timeout)
 {
@@ -137,7 +165,19 @@ function __semaphore_helper($fn, $name, $timeout)
 }
 
 /*
+ * Semaphore USleep helper
  *
+ * This function implements an usleep (micro sleeper) using sockets, this
+ * allow to break the execution of the function if a signal is received by
+ * the process, in reality, the feature is powered by the socket_select that
+ * is allowed to wait for read and write operations with a very precise
+ * timeout.
+ *
+ * The returned value will be the difference between the end less the start,
+ * in other words, the returned value is the ellapsed time sleeped by the
+ * function
+ *
+ * @usec => the micro seconds that you want to sleep
  */
 function __semaphore_usleep($usec)
 {

@@ -30,7 +30,13 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 
 /*
+ * Check System
  *
+ * This function checks the system to detect if all knowed dependencies are found in the system, to do it,
+ * defines an array with the type (class or function), the name and some extra info for the error message
+ * that is triggered if the dependency is not satisfied
+ *
+ * Too, check all directories of the data directory to validate that the process can write inside it
  */
 function check_system()
 {

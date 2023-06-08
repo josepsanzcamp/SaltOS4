@@ -28,7 +28,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Get Server
  *
+ * This function returns the server variable requested by index if it exists
+ *
+ * @index => the index key used to get the value of the server
+ * @default => the default value returned if the key is not found
  */
 function get_server($index, $default = "")
 {

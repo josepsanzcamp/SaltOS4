@@ -28,7 +28,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Memory Get Free
  *
+ * This function returns the free memory in bytes or the percentage of the memory_limit
+ *
+ * @bytes => if true, returns the free bytes, if false, returns the percentage
  */
 function memory_get_free($bytes = false)
 {
@@ -42,7 +46,11 @@ function memory_get_free($bytes = false)
 }
 
 /*
+ * Get Time Usage
  *
+ * This function returns the time usage in seconds or in percentage of the max_execution_time
+ *
+ * @secs => if true, returns the used seconds, if false, returns the percentage
  */
 function time_get_usage($secs = false)
 {
@@ -50,7 +58,11 @@ function time_get_usage($secs = false)
 }
 
 /*
+ * Get Free Time
  *
+ * This function returns the free time in seconds or in percentage of the max_execution_time
+ *
+ * @secs => if true, returns the used seconds, if false, returns the percentage
  */
 function time_get_free($secs = false)
 {
@@ -58,13 +70,29 @@ function time_get_free($secs = false)
 }
 
 /*
+ * Init Time Get
  *
+ * This function call the helper to initialize the static ini to the current microtime
+ */
+function init_time_get()
+{
+    __time_get_helper(__FUNCTION__, false);
+}
+
+/*
+ * Get Time helper
+ *
+ * This function is a helper of the time_get_usage and time_get_free functions, is used to
+ * check the time usage and the free time that remain to finish the execution of the script
  */
 function __time_get_helper($fn, $secs)
 {
     static $ini = null;
     if ($ini === null) {
         $ini = microtime(true);
+    }
+    if (stripos($fn, "init") !== false) {
+        return;
     }
     $cur = microtime(true);
     $max = ini_get("max_execution_time");
@@ -83,17 +111,23 @@ function __time_get_helper($fn, $secs)
 }
 
 /*
+ * Set Max Memory Limit
  *
+ * This function is intended to do a ini_set with a more greather value to allow an
+ * exceptionally amount of memory usage
  */
-function max_memory_limit()
+function set_max_memory_limit()
 {
     ini_set("memory_limit", get_default("server/maxmemorylimit"));
 }
 
 /*
+ * Set Max Execution Time
  *
+ * This function is intended to do a ini_set with a more greather value to allow an
+ * exceptionally amount of execution time
  */
-function max_execution_time()
+function set_max_execution_time()
 {
     ini_set("max_execution_time", get_default("server/maxexecutiontime"));
 }

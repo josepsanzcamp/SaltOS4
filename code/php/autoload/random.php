@@ -28,7 +28,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Init Random
  *
+ * This function initialize the random number generator
  */
 function init_random()
 {

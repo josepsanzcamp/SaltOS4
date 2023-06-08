@@ -27,30 +27,37 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+define("__INFO_NAME__", "SaltOS");
+define("__INFO_VERSION__", "4.0");
+define("__INFO_REVISION__", svnversion());
+define("__INFO_COPYRIGHT__", "Copyright (C) 2007-2023 by Josep Sanz Campderrós");
+
 /*
+ * Get Name Version Revision
  *
+ * This function returns a string with the SaltOS name, version, revision and
+ * copyright if needed
+ *
+ * @copyright => boolean to specify if you want to add the copyright to the output
  */
 function get_name_version_revision($copyright = false)
 {
-    $result = get_default("info/name", "SaltOS");
-    $result .= " v" . get_default("info/version", "4.0");
-    if (!is_array(get_default("info/revision", "SVN"))) {
-        $result .= " r" . get_default("info/revision", "SVN");
-    }
+    $result = __INFO_NAME__ . " v" . __INFO_VERSION__ . " r" . __INFO_REVISION__;
     if ($copyright) {
-        $result .= ", " . get_default("info/copyright", "Copyright (C) 2007-2023 by Josep Sanz Campderrós");
+        $result .= ", " . __INFO_COPYRIGHT__;
     }
     return $result;
 }
 
 /*
+ * SVN Version
  *
+ * This function tries to return the svn version of the project
+ *
+ * @dir => allow to specify where do you want to execute the svnversion command
  */
 function svnversion($dir = ".")
 {
-    if ($dir == "." && file_exists("../code")) {
-        $dir = "../code";
-    }
     // USING REGULAR FILE
     if (file_exists("{$dir}/svnversion")) {
         return intval(file_get_contents("{$dir}/svnversion"));
@@ -68,13 +75,14 @@ function svnversion($dir = ".")
 }
 
 /*
+ * GIT Version
  *
+ * This function tries to return the git version of the project
+ *
+ * @dir => allow to specify where do you want to execute the gitversion command
  */
 function gitversion($dir = ".")
 {
-    if ($dir == "." && file_exists("../code")) {
-        $dir = "../code";
-    }
     // USING REGULAR FILE
     if (file_exists("{$dir}/gitversion")) {
         return intval(file_get_contents("{$dir}/gitversion"));
@@ -92,37 +100,14 @@ function gitversion($dir = ".")
 }
 
 /*
+ * IS PHP
  *
+ * This function returns a boolean as a response about the comparison between the
+ * version requested and the current version.
+ *
+ * @version => the version where do you want to compare
  */
 function isphp($version)
 {
     return version_compare(PHP_VERSION, strval($version), ">=");
-}
-
-/*
- *
- */
-function ishhvm()
-{
-    return defined("HHVM_VERSION");
-}
-
-/*
- *
- */
-function ismsie($version = null)
-{
-    $useragent = get_server("HTTP_USER_AGENT");
-    if ($version === null) {
-        return strpos($useragent, "MSIE") !== false;
-    } elseif (is_string($version)) {
-        return strpos($useragent, "MSIE {$version}") !== false;
-    } elseif (is_array($version)) {
-        foreach ($version as $v) {
-            if (strpos($useragent, "MSIE {$v}") !== false) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

@@ -75,7 +75,7 @@ function show_php_error($array)
         isset($array["phperror"]) &&
         words_exists("allowed memory size bytes exhausted tried allocate", $array["phperror"])
     ) {
-        max_memory_limit();
+        set_max_memory_limit();
     }
     // ADD BACKTRACE AND DEBUG IF NOT FOUND
     if (!isset($array["backtrace"])) {

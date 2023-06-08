@@ -30,9 +30,15 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 
 /*
+ * Eval Protected
  *
+ * This function allow to execute PHP code using the eval function in a controlled
+ * environment, you can specify some global variables to improve the eval execution
+ *
+ * @input => the code to be executed
+ * @global => the list (separated by comma) of global variables that you want to use
  */
-function eval_protected($input, $global = "", $source = "")
+function eval_protected($input, $global = "")
 {
     if ($global != "") {
         foreach (explode(",", $global) as $var) {
@@ -44,7 +50,21 @@ function eval_protected($input, $global = "", $source = "")
 }
 
 /*
+ * Set Array
  *
+ * This function allow to specify multiples entries in an array with the same key,
+ * to do this, the function will add #num where num is a unique number, in reality
+ * if you want to set multiples entries for the key "test", you get in reality an
+ * array with entries as "test", "test#1", "test#2"
+ *
+ * This function works in concordance of the fix_key, that is able to get the key
+ * as "test#1" and return only "test" that is the original key without the suffix
+ * added to allow multiples instances of the same key in an associative array
+ *
+ * @array => array that you want to add the key with the value (by reference)
+ * @name => the key used in the array, if exists, it will try to add the suffix to
+ *          prevent collisions
+ * @value => the value that you want to set in this position of the array
  */
 function set_array(&$array, $name, $value)
 {
@@ -62,7 +82,15 @@ function set_array(&$array, $name, $value)
 }
 
 /*
+ * Unset Array
  *
+ * This function remove all entries of the array that matches with the name of
+ * the key, for example, if you specify the name "test", the function unset all
+ * entries as "test" or begin by "test#", in the example of the previous function
+ * will remove "test", "test#1" and "test#2"
+ *
+ * @array => array that you want to remove the key (by reference)
+ * @name => the key used in the array and as prefix of the entries of the array
  */
 function unset_array(&$array, $name)
 {
@@ -79,7 +107,13 @@ function unset_array(&$array, $name)
 }
 
 /*
+ * Fix Key
  *
+ * This function returns the "real" part of the key removing the suffix added to
+ * prevent collisions in the associative array, for the above example, if you request
+ * the fix_key of the "test#2", the function will returns "test"
+ *
+ * @arg => the name of the key that you want to remove the suffix part (if exists)
  */
 function fix_key($arg)
 {
@@ -91,7 +125,15 @@ function fix_key($arg)
 }
 
 /*
+ * Detect Recursion
  *
+ * This function allow to SaltOS to detect the recursión, to do it, uses the debug_backtrace
+ * function that returns all information about the execution of the current function, the
+ * main idea of this function is to detect in what lines of the backtrace appear the file
+ * or the function, and returns the count of times that appear
+ *
+ * @fn => the name of the function or file, can be multiples functions or files separated
+ *        by a comma
  */
 function detect_recursion($fn)
 {
@@ -112,11 +154,20 @@ function detect_recursion($fn)
 }
 
 /*
+ * XML to Array
  *
+ * This function allow to convert a XML file to an array, allow to use cache to
+ * optimize repetitive calls of the same file
+ *
+ * As an special mention, this function internally uses semaphores to prevent
+ * multiple instances of the same execution with the same file, too uses a cache
+ * management to optimize the usage
+ *
+ * @file => the file that you want to convert from xml to array
+ * @usecache => if do you want to enable the cache feature
  */
 function xml2array($file, $usecache = true)
 {
-    static $depend = array();
     if (!file_exists($file)) {
         show_php_error(array("xmlerror" => "File not found: $file"));
     }
@@ -124,18 +175,12 @@ function xml2array($file, $usecache = true)
         show_php_error(array("xmlerror" => "Could not acquire the semaphore"));
     }
     if ($usecache) {
-        if (detect_recursion(__FUNCTION__) == 1) {
-            $depend = array();
-        }
         $cache = get_cache_file($file, ".arr");
         if (cache_exists($cache, $file)) {
             $array = unserialize(file_get_contents($cache));
-            if (isset($array["depend"]) && isset($array["root"])) {
-                if (cache_exists($cache, $array["depend"])) {
-                    $depend = array_merge($depend, $array["depend"]);
-                    semaphore_release($file);
-                    return $array["root"];
-                }
+            if (isset($array["root"])) {
+                semaphore_release($file);
+                return $array["root"];
             }
         }
     }
@@ -143,16 +188,7 @@ function xml2array($file, $usecache = true)
     $data = xml2struct($xml, $file);
     $data = array_reverse($data);
     $array = struct2array($data, $file);
-    //~ $array = struct2array_include($array);
-    //~ if (detect_recursion(__FUNCTION__) == 1) {
-        //~ $array = struct2array_path($array);
-    //~ }
     if ($usecache) {
-        $depend[] = $file;
-        $array["depend"] = array_unique($depend);
-        if (file_exists($cache)) {
-            unlink($cache);
-        }
         file_put_contents($cache, serialize($array));
         chmod($cache, 0666);
     }
@@ -161,7 +197,27 @@ function xml2array($file, $usecache = true)
 }
 
 /*
+ * XML to Struct
  *
+ * This function is a helper of the xml2array function, the main purpose of this
+ * function is to convert the xml string into a struct to be processed by the
+ * struct2array function
+ *
+ * The motivation to use the xml_parse_into_struct function is that this function
+ * is the more quick to parse xml files, after a lot of tests, the more quickly
+ * execution is to use the xml_parse_into_struct, reverse the array and then
+ * program a simple recursive function that convert a unidimensional array into
+ * a tree
+ *
+ * At the begining of this function, we will try to detect the enconding of the
+ * xml file, the main objective is to convert all xml to UTF-8 that is the default
+ * enconding of SaltOS
+ *
+ * The returned value is the result of the xml_parse_into_struct function, that is
+ * the key of this feature and this function
+ *
+ * @xml => xml fragment that must be converted into struct
+ * @file => the source filename, it is used only to generate error reports
  */
 function xml2struct($xml, $file = "")
 {
@@ -209,7 +265,29 @@ function xml2struct($xml, $file = "")
 }
 
 /*
+ * Struct to Array
  *
+ * This function is the second part in the xml2array convertsion, here, the function
+ * receives an unidimensional array with commands to open, close, and their respective
+ * values and attributes, with this information, this function is able to generate a
+ * tree with the xml converted to an array tree
+ *
+ * @data => the struct array, by reference
+ * @file => the source filename, it is used only to generate error reports
+ *
+ * Notes:
+ *
+ * This function uses recursivity to accomplish the objetive, returns the portion
+ * of xml between the open and close command, in each call, the data array passed
+ * by reference will decrement in size because the array_pop removes the last element
+ * of the array
+ *
+ * Remember that previously of call this function, the array is reversed, this is
+ * because is more efficient to do a reverse and then pops instead of use directly
+ * the array_shift to get the next element, the reason is that array_shift must to
+ * reorder all keys of the resulted array and this add a very big cost if the xml
+ * is big, this problem was detected in 2014 and was optimized by add the reverse
+ * and the pop instead of only shift
  */
 function struct2array(&$data, $file = "")
 {
@@ -253,7 +331,33 @@ function struct2array(&$data, $file = "")
 }
 
 /*
+ * Eval Attributes
  *
+ * This function is very special in SaltOS, is part of the initial code an
+ * is used by a lot of parts of the program, currently are using a simplified
+ * version of the original function and have improvements that allow to return
+ * arrays with attributes without evaluate and without causing an error, this
+ * allow to define xml with attributes that can be used by other processes and
+ * SaltOS only interpret three attributes
+ *
+ * @array => the array that contains a tree representation of the xml
+ *
+ * The three attributes are:
+ *
+ * @global => this attribute allow to SaltOS to prepare what variales must to
+ * be global in the eval_protected call
+ *
+ * @eval => this attribute must be a boolean and allow to evaluate the value
+ * of the node
+ *
+ * @ifeval => this attribute must contains an expression that must evaluate as
+ * true or false, and allow to maintain or remove the entire node thas contains
+ * the ifeval attribute, this is usefull when you need a node in some conditions
+ *
+ * The great change between the eval_attr of the previous versions of SaltOS is
+ * that this version only accepts three internal commands and the other
+ * attributes can be maintained in order to be used by other processes
+ * (internally or externally)
  */
 function eval_attr($array)
 {
@@ -318,7 +422,15 @@ function eval_attr($array)
 }
 
 /*
+ * Eval Bool
  *
+ * This function returns a boolean depending on the input evaluation, the main idea
+ * is to get an string, for example, and determine if must be considered true or false
+ * otherwise will finish in an error
+ *
+ * The valid inputs are the strings one, zero, void, true, false, on, off, yes and no
+ *
+ * @arg => the value that do you want to evaluates as boolean
  */
 function eval_bool($arg)
 {
