@@ -30,7 +30,18 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 
 /*
- * TODO
+ * Parse Query
+ *
+ * This function is intended to apply the query filters defined by the users
+ * when write queries for multiples db engines as MySQL and/or SQLite, for
+ * example, if you want to write a fragment of SQL with one version for MySQL
+ * and another version for SQLite, you can do / *MYSQL ... * // *SQLite ... * /
+ *
+ * Note that the previous example add a spaces between the bar and the asterisc
+ * because we can not put comments inside another comment!!!
+ *
+ * @query => the query that must be parsed
+ * @type => the db type that you want to allow by the filters
  */
 function parse_query($query, $type = "")
 {
@@ -62,7 +73,10 @@ function parse_query($query, $type = "")
 }
 
 /*
- * TODO
+ * Parse Query Type helper
+ *
+ * This function returns the type used by parse_query using as detector the
+ * dbtype of the config file, currently only allow to return MYSQL and/or SQLITE
  */
 function __parse_query_type()
 {
@@ -71,7 +85,6 @@ function __parse_query_type()
         case "sqlite3":
             return "SQLITE";
         case "pdo_mysql":
-        case "mysql":
         case "mysqli":
             return "MYSQL";
         default:
@@ -80,7 +93,18 @@ function __parse_query_type()
 }
 
 /*
- * TODO
+ * Parse Query Strpos helper
+ *
+ * This function is the same that strpos, but with some improvements required
+ * by the parse_query funcion, the idea is to use the strpos functionality, but
+ * controlling that the found position must acomplish some constraints as the
+ * number of simple and double quotes must to be even
+ *
+ * The arguments are the same that the strpos function
+ *
+ * @haystack => string where search the needle
+ * @needle => the needle text that must be found in the haystack
+ * @offset => bias applied to begin the search of the needle
  */
 function __parse_query_strpos($haystack, $needle, $offset = 0)
 {
@@ -335,7 +359,8 @@ function get_field_size($type)
  * @tablespec => the specification for the create table, see the dbschema
  *               file to understand the tablespec structure
  *
- * TODO: ACABAR LA PARTE DEL FINAL
+ * This function creates the table, supports the primary key, supports the
+ * foreign key, and detect fulltext indexes with mroonga engines
  */
 function sql_create_table($tablespec)
 {
@@ -366,15 +391,15 @@ function sql_create_table($tablespec)
         }
         $fields[] = "{$name} {$type} {$extra}";
     }
-    // foreach($tablespec["value"]["fields"] as $field) {
-        // if(isset($field["#attr"]["fkey"])) {
-            // $fkey=$field["#attr"]["fkey"];
-            // if($fkey!="") {
-                // $name=$field["#attr"]["name"];
-                // $fields[]="FOREIGN KEY ({$name}) REFERENCES {$fkey} (id)";
-            // }
-        // }
-    // }
+    foreach ($tablespec["value"]["fields"] as $field) {
+        if (isset($field["#attr"]["fkey"])) {
+            $fkey = $field["#attr"]["fkey"];
+            if ($fkey != "") {
+                $name = $field["#attr"]["name"];
+                $fields[] = "FOREIGN KEY ({$name}) REFERENCES {$fkey} (id)";
+            }
+        }
+    }
     $fields = implode(",", $fields);
     if (__has_fulltext_index($table) && __has_engine("mroonga")) {
         $post = "/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 */";
@@ -388,7 +413,12 @@ function sql_create_table($tablespec)
 }
 
 /*
- * TODO
+ * Has Fulltext Index helper
+ *
+ * This function returns a boolean if the indexes contains the fulltext
+ * enabled attribute for the requested table
+ *
+ * @table => the table that you want to know if contains an fulltext index
  */
 function __has_fulltext_index($table)
 {
@@ -449,7 +479,12 @@ function sql_alter_table($orig, $dest)
 }
 
 /*
- * TODO
+ * SQL Insert From Select
+ *
+ * This function returns the insert from select command
+ *
+ * @orig => source table
+ * @dest => destination table
  */
 function sql_insert_from_select($dest, $orig)
 {
@@ -497,7 +532,11 @@ function sql_insert_from_select($dest, $orig)
 }
 
 /*
- * TODO
+ * SQL Drop Table
+ *
+ * This function returns the drop table command
+ *
+ * @table => table that you want to drop
  */
 function sql_drop_table($table)
 {
@@ -506,7 +545,15 @@ function sql_drop_table($table)
 }
 
 /*
- * TODO
+ * SQL Create Index
+ *
+ * This function returns the SQL needed to create the index defined in the
+ * indexspec argument
+ *
+ * @indexspec => the specification for the create index, see the dbschema
+ *               file to understand the indexspec structure
+ *
+ * This function creates the index, supports fulltext indexes
  */
 function sql_create_index($indexspec)
 {
@@ -527,7 +574,12 @@ function sql_create_index($indexspec)
 }
 
 /*
- * TODO
+ * SQL Drop Index
+ *
+ * This function returns the drop index command
+ *
+ * @index => index that you want to drop
+ * @table => table where the indes is part of
  */
 function sql_drop_index($index, $table)
 {
@@ -536,7 +588,14 @@ function sql_drop_index($index, $table)
 }
 
 /*
- * TODO
+ * Make Insert Query
+ *
+ * Returns the insert query for the table with all fields specified by the
+ * array param
+ *
+ * @table => table where you want to add the register
+ * @array => array with key val pairs that represent the field and the value of
+ *           the field
  */
 function make_insert_query($table, $array)
 {
@@ -553,7 +612,16 @@ function make_insert_query($table, $array)
 }
 
 /*
- * TODO
+ * Make Update Query
+ *
+ * Returns the update query for the table with all fields specified by the
+ * array param and using the specified where
+ *
+ * @table => table where you want to update the register
+ * @array => array with key val pairs that represent the field and the value of
+ *           the field
+ * @where => where clausule used to update only the expected registers, can be
+ *           the output of make_where_query
  */
 function make_update_query($table, $array, $where)
 {
@@ -567,7 +635,12 @@ function make_update_query($table, $array, $where)
 }
 
 /*
- * TODO
+ * Make Where Query
+ *
+ * This function allow to create where sentences joinin all fields by AND
+ *
+ * @array => array with key val pairs that represent the field and the value of
+ *           the field
  */
 function make_where_query($array)
 {
@@ -578,440 +651,3 @@ function make_where_query($array)
     $query = "(" . implode(" AND ", $list1) . ")";
     return $query;
 }
-
-//~ function preeval_insert_query($table, $only = "")
-//~ {
-    //~ $fields = get_fields_from_dbschema($table);
-    //~ if (is_string($only) && $only == "") {
-        //~ $only = array();
-    //~ }
-    //~ if (!is_array($only)) {
-        //~ $only = explode(",", $only);
-    //~ }
-    //~ $list1 = array();
-    //~ $list2 = array();
-    //~ foreach ($fields as $field) {
-        //~ if ($field["name"] == "id") {
-            //~ continue;
-        //~ }
-        //~ if (count($only) && !in_array($field["name"], $only)) {
-            //~ continue;
-        //~ }
-        //~ $list1[] = $field["name"];
-        //~ $type = $field["type"];
-        //~ $type2 = get_field_type($type);
-        //~ $size2 = get_field_size($type);
-        //~ if ($type2 == "int") {
-            //~ $list2[] = "'\".intval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "float") {
-            //~ $list2[] = "'\".floatval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "date") {
-            //~ $list2[] = "'\".dateval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "time") {
-            //~ $list2[] = "'\".timeval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "datetime") {
-            //~ $list2[] = "'\".datetimeval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "string") {
-            //~ $list2[] = "'\".addslashes(substr(getParam(\"" . $field["name"] . "\"),0,$size2)).\"'";
-        //~ } else {
-            //~ show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
-        //~ }
-    //~ }
-    //~ $list1 = implode(",", $list1);
-    //~ $list2 = implode(",", $list2);
-    //~ $query = "\"INSERT INTO $table($list1) VALUES($list2)\"";
-    //~ return $query;
-//~ }
-
-//~ function preeval_update_query($table, $only = "")
-//~ {
-    //~ $fields = get_fields_from_dbschema($table);
-    //~ if (is_string($only) && $only == "") {
-        //~ $only = array();
-    //~ }
-    //~ if (!is_array($only)) {
-        //~ $only = explode(",", $only);
-    //~ }
-    //~ $list = array();
-    //~ foreach ($fields as $field) {
-        //~ if ($field["name"] == "id") {
-            //~ continue;
-        //~ }
-        //~ if (count($only) && !in_array($field["name"], $only)) {
-            //~ continue;
-        //~ }
-        //~ $type = $field["type"];
-        //~ $type2 = get_field_type($type);
-        //~ $size2 = get_field_size($type);
-        //~ if ($type2 == "int") {
-            //~ $list[] = $field["name"] . "='\".intval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "float") {
-            //~ $list[] = $field["name"] . "='\".floatval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "date") {
-            //~ $list[] = $field["name"] . "='\".dateval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "time") {
-            //~ $list[] = $field["name"] . "='\".timeval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "datetime") {
-            //~ $list[] = $field["name"] . "='\".datetimeval(getParam(\"" . $field["name"] . "\")).\"'";
-        //~ } elseif ($type2 == "string") {
-            //~ $list[] = $field["name"] . "='\".addslashes(substr(getParam(\"" . $field["name"] . "\"),0,$size2)).\"'";
-        //~ } else {
-            //~ show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
-        //~ }
-    //~ }
-    //~ $list = implode(",", $list);
-    //~ $query = "\"UPDATE $table SET $list WHERE id='\".intval(getParam(\"id\")).\"'\"";
-    //~ return $query;
-//~ }
-
-//~ function preeval_dependencies_query($table, $label)
-//~ {
-    //~ $dbschema = eval_attr(xml_join(xml2array(detect_apps_files("xml/dbschema.xml"))));
-    //~ if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-        //~ $deps = array();
-        //~ foreach ($dbschema["tables"] as $tablespec) {
-            //~ foreach ($tablespec["fields"] as $field) {
-                //~ if (!isset($field["fkey"])) {
-                    //~ $field["fkey"] = "";
-                //~ }
-                //~ if (!isset($field["fcheck"])) {
-                    //~ $field["fcheck"] = "true";
-                //~ }
-                //~ if ($field["fkey"] == $table && eval_bool($field["fcheck"])) {
-                    //~ $deps[] = array("table" => $tablespec["name"],"field" => $field["name"]);
-                //~ }
-            //~ }
-        //~ }
-        //~ $count = array();
-        //~ foreach ($deps as $dep) {
-            //~ $deptable = $dep["table"];
-            //~ $depfield = $dep["field"];
-            //~ $count[] = "(SELECT COUNT(*) FROM $deptable WHERE $depfield='\".abs(intval(getParam(\"id\"))).\"')";
-        //~ }
-        //~ $count = implode("+", $count);
-        //~ if ($count == "") {
-            //~ $count = "0";
-        //~ }
-        //~ $query = "\"SELECT '$label' action_error,'0' action_commit FROM (SELECT 1) a WHERE $count>0\"";
-    //~ }
-    //~ return $query;
-//~ }
-
-//~ function get_engine($table)
-//~ {
-    //~ $query = "/*MYSQL SHOW TABLE STATUS WHERE Name='{$table}' */";
-    //~ $result = db_query($query);
-    //~ $engine = "";
-    //~ while ($row = db_fetch_row($result)) {
-        //~ $engine = $row["Engine"];
-    //~ }
-    //~ db_free($result);
-    //~ return $engine;
-//~ }
-
-//~ function make_like_query($keys, $values, $minsize = 3, $default = "1=0")
-//~ {
-    //~ $keys = explode(",", $keys);
-    //~ foreach ($keys as $key => $val) {
-        //~ $val = trim($val);
-        //~ if ($val != "") {
-            //~ $keys[$key] = $val;
-        //~ } else {
-            //~ unset($keys[$key]);
-        //~ }
-    //~ }
-    //~ if (!count($keys)) {
-        //~ return $default;
-    //~ }
-    //~ $values = explode(" ", encode_bad_chars($values, " ", "+-"));
-    //~ $types = array();
-    //~ foreach ($values as $key => $val) {
-        //~ $types[$key] = "+";
-        //~ while (isset($val[0]) && in_array($val[0], array("+","-"))) {
-            //~ $types[$key] = $val[0];
-            //~ $val = substr($val, 1);
-        //~ }
-        //~ if (strlen($val) >= $minsize) {
-            //~ $values[$key] = $val;
-        //~ } else {
-            //~ unset($values[$key]);
-        //~ }
-    //~ }
-    //~ if (!count($values)) {
-        //~ return $default;
-    //~ }
-    //~ $query = array();
-    //~ foreach ($values as $key => $val) {
-        //~ if ($types[$key] == "+") {
-            //~ $query2 = array();
-            //~ foreach ($keys as $key2) {
-                //~ $query2[] = "{$key2} LIKE '%{$val}%'";
-            //~ }
-            //~ $query[] = "(" . implode(" OR ", $query2) . ")";
-        //~ } else {
-            //~ $query2 = array();
-            //~ foreach ($keys as $key2) {
-                //~ $query2[] = "{$key2} NOT LIKE '%{$val}%'";
-            //~ }
-            //~ $query[] = "(" . implode(" AND ", $query2) . ")";
-        //~ }
-    //~ }
-    //~ $query = "(" . implode(" AND ", $query) . ")";
-    //~ return $query;
-//~ }
-
-//~ function make_extra_query_with_login($prefix = "")
-//~ {
-    //~ $query = make_extra_query($prefix);
-    //~ $query = "CONCAT({$prefix}login,REPLACE(CONCAT(' (',$query,')'),' ()',''))";
-    //~ return $query;
-//~ }
-
-//~ function make_extra_query($prefix = "")
-//~ {
-    //~ static $stack = array();
-    //~ $hash = md5($prefix);
-    //~ if (!isset($stack[$hash])) {
-        //~ $query = "SELECT * FROM tbl_aplicaciones WHERE islink=1";
-        //~ $rows = execute_query_array($query);
-        //~ if (count($rows) > 0) {
-            //~ $cases = array("CASE {$prefix}id_aplicacion");
-            //~ foreach ($rows as $row) {
-                //~ $cases[] = "WHEN '{$row["id"]}' THEN (
-                    //~ SELECT {$row["campo"]}
-                    //~ FROM {$row["tabla"]}
-                    //~ WHERE id={$prefix}id_registro)";
-            //~ }
-            //~ $cases[] = "ELSE ''";
-            //~ $cases[] = "END";
-            //~ $stack[$hash] = implode(" ", $cases);
-        //~ } else {
-            //~ $stack[$hash] = "''";
-        //~ }
-    //~ }
-    //~ return $stack[$hash];
-//~ }
-
-//~ function make_extra_query_with_field($field, $prefix = "")
-//~ {
-    //~ static $stack = array();
-    //~ $hash = md5(serialize(array($field,$prefix)));
-    //~ if (!isset($stack[$hash])) {
-        //~ $query = "SELECT * FROM tbl_aplicaciones WHERE islink=1";
-        //~ $rows = execute_query_array($query);
-        //~ if (count($rows) > 0) {
-            //~ $cases = array("CASE {$prefix}id_aplicacion");
-            //~ foreach ($rows as $row) {
-                //~ $fields = get_fields_from_dbschema($row["tabla"]);
-                //~ foreach ($fields as $key => $val) {
-                    //~ $fields[$key] = $val["name"];
-                //~ }
-                //~ if (in_array($field, $fields)) {
-                    //~ $cases[] = "WHEN '{$row["id"]}' THEN (
-                        //~ SELECT {$field}
-                        //~ FROM {$row["tabla"]}
-                        //~ WHERE id={$prefix}id_registro)";
-                //~ }
-            //~ }
-            //~ $cases[] = "ELSE ''";
-            //~ $cases[] = "END";
-            //~ $stack[$hash] = implode(" ", $cases);
-        //~ } else {
-            //~ $stack[$hash] = "''";
-        //~ }
-    //~ }
-    //~ return $stack[$hash];
-//~ }
-
-//~ function make_select_appsregs($id = 0)
-//~ {
-    //~ $query = "SELECT * FROM tbl_aplicaciones WHERE islink=1";
-    //~ $rows = execute_query_array($query);
-    //~ if (count($rows) > 0) {
-        //~ $subquery = array();
-        //~ foreach ($rows as $row) {
-            //~ $subquery[] = "SELECT CONCAT('{$row["id"]}','_','-2') id,
-                //~ '{$row["id"]}' id_aplicacion,-2 id_registro,
-                //~ '{$row["nombre"]}' aplicacion,'link:appreg_details(this):" . LANG_ESCAPE("showdetalles") . "' registro,
-                //~ '0' activado,-2 pos
-                //~ FROM (SELECT 1) a
-                //~ WHERE (SELECT COUNT(*) FROM {$row["tabla"]})>0";
-            //~ $subquery[] = "SELECT CONCAT('{$row["id"]}','_','-1') id,
-                //~ '{$row["id"]}' id_aplicacion,-1 id_registro,
-                //~ '{$row["nombre"]}' aplicacion,'link:appreg_details(this):" . LANG_ESCAPE("hidedetalles") . "' registro,
-                //~ '0' activado,-1 pos
-                //~ FROM (SELECT 1) a
-                //~ WHERE (SELECT COUNT(*) FROM {$row["tabla"]})>0";
-            //~ $subquery[] = "SELECT CONCAT('{$row["id"]}','_',a.id) id,
-                //~ '{$row["id"]}' id_aplicacion,a.id id_registro,
-                //~ '{$row["nombre"]}' aplicacion,nombre registro,
-                //~ CASE WHEN ur.id IS NULL THEN 0 ELSE 1 END activado,0 pos
-                //~ FROM {$row["tabla"]} a
-                //~ LEFT JOIN tbl_usuarios_r ur ON ur.id_aplicacion='{$row["id"]}'
-                    //~ AND ur.id_registro=a.id
-                    //~ AND ur.id_usuario='" . abs($id) . "'
-                //~ WHERE (SELECT COUNT(*) FROM {$row["tabla"]})>0";
-        //~ }
-        //~ $query = implode(" UNION ", $subquery) . " ORDER BY aplicacion,pos,registro";
-    //~ } else {
-        //~ $query = "";
-    //~ }
-    //~ return $query;
-//~ }
-
-//~ function make_extra_query_with_perms($page, $table, $field, $arg1 = null, $arg2 = null)
-//~ {
-    //~ // CHECKS FOR OPTIONAL ARGUMENTS
-    //~ $filter = "";
-    //~ $haspos = false;
-    //~ if ($arg1 !== null && is_string($arg1)) {
-        //~ $filter = $arg1;
-    //~ }
-    //~ if ($arg1 !== null && is_bool($arg1)) {
-        //~ $haspos = $arg1;
-    //~ }
-    //~ if ($arg2 !== null && is_string($arg2)) {
-        //~ $filter = $arg2;
-    //~ }
-    //~ if ($arg2 !== null && is_bool($arg2)) {
-        //~ $haspos = $arg2;
-    //~ }
-    //~ // REPARE FIELD LIST FOR SUBQUERY
-    //~ $temp = explode(",", is_array($field) ? $field[1] : $field);
-    //~ foreach ($temp as $key => $val) {
-        //~ $temp[$key] = "a2." . $val . " " . $val;
-    //~ }
-    //~ $temp = implode(",", $temp);
-    //~ // NORMAL CODE
-    //~ $query = "SELECT id value,
-        //~ " . (is_array($field) ? $field[0] : $field) . " label,
-        //~ " . ($haspos ? "" : "'0'") . " pos
-        //~ FROM (
-            //~ SELECT a2.id id," . ($haspos ? "a2.pos pos," : "") . $temp . ",
-                //~ e.id_usuario id_usuario,d.id_grupo id_grupo
-            //~ FROM $table a2
-            //~ LEFT JOIN tbl_registros e ON e.id_aplicacion='" . page2id($page) . "'
-                //~ AND e.id_registro=a2.id AND e.first=1
-            //~ LEFT JOIN tbl_usuarios d ON e.id_usuario=d.id
-        //~ ) a
-        //~ WHERE " . ($filter ? "id IN ($filter)" : "1=1") . "
-            //~ AND " . check_sql($page, "list");
-    //~ return $query;
-//~ }
-
-//~ function make_insert_from_select_query($table, $table2, $array, $where2)
-//~ {
-    //~ $list1 = array();
-    //~ $list2 = array();
-    //~ foreach ($array as $key => $val) {
-        //~ $list1[] = $key;
-        //~ $list2[] = $val;
-    //~ }
-    //~ $list1 = implode(",", $list1);
-    //~ $list2 = implode(",", $list2);
-    //~ $query = "INSERT INTO {$table}({$list1}) SELECT {$list2} FROM {$table2} WHERE {$where2}";
-    //~ return $query;
-//~ }
-
-//~ function make_fulltext_query2($values, $minsize = 3, $default = "1=0")
-//~ {
-    //~ $values = explode(" ", encode_bad_chars($values, " ", "+-"));
-    //~ foreach ($values as $key => $val) {
-        //~ $type = "+";
-        //~ while (isset($val[0]) && in_array($val[0], array("+","-"))) {
-            //~ $type = $val[0];
-            //~ $val = substr($val, 1);
-        //~ }
-        //~ if (strlen($val) >= $minsize) {
-            //~ $values[$key] = $type . '"' . $val . '"';
-        //~ } else {
-            //~ unset($values[$key]);
-        //~ }
-    //~ }
-    //~ if (!count($values)) {
-        //~ return $default;
-    //~ }
-    //~ $query = "MATCH(search) AGAINST('+(" . implode(" ", $values) . ")' IN BOOLEAN MODE)";
-    //~ return $query;
-//~ }
-
-//~ function make_fulltext_query3($values, $page, $prefix = "", $minsize = 3, $default = "1=0")
-//~ {
-    //~ $engine = strtolower(get_engine("idx_{$page}"));
-    //~ if ($engine == "mroonga") {
-        //~ $where = make_fulltext_query2($values, $minsize, $default);
-    //~ } else {
-        //~ $where = make_like_query("search", $values, $minsize, $default);
-    //~ }
-    //~ if ($where == $default) {
-        //~ return $where;
-    //~ }
-    //~ $query = "{$prefix}id IN (SELECT id FROM idx_{$page} WHERE {$where})";
-    //~ return $query;
-//~ }
-
-//~ function make_fulltext_query4($values, $minsize = 3, $default = "1=0")
-//~ {
-    //~ $apps = execute_query("SELECT id,codigo FROM tbl_aplicaciones WHERE tabla!=''");
-    //~ $query = array();
-    //~ foreach ($apps as $app) {
-        //~ $id = $app["id"];
-        //~ $page = $app["codigo"];
-        //~ $engine = strtolower(get_engine("idx_{$page}"));
-        //~ if ($engine == "mroonga") {
-            //~ $where = make_fulltext_query2($values, $minsize, $default);
-        //~ } else {
-            //~ $where = make_like_query("search", $values, $minsize, $default);
-        //~ }
-        //~ if ($where == $default) {
-            //~ return $where;
-        //~ }
-        //~ $count = execute_query("SELECT COUNT(*) FROM idx_{$page} WHERE {$where}");
-        //~ if ($count) {
-            //~ $query[] = "a.id_aplicacion={$id} AND a.id_registro IN (SELECT id FROM idx_{$page} WHERE {$where})";
-        //~ }
-    //~ }
-    //~ if (!count($query)) {
-        //~ return $default;
-    //~ }
-    //~ $query = "((" . implode(") OR (", $query) . "))";
-    //~ return $query;
-//~ }
-
-//~ function make_linktitle_query($prefix = "")
-//~ {
-    //~ return __make_helper_query(__FUNCTION__, $prefix);
-//~ }
-
-//~ function make_actiontitle_query($prefix = "")
-//~ {
-    //~ return __make_helper_query(__FUNCTION__, $prefix);
-//~ }
-
-//~ function __make_helper_query($fn, $prefix = "")
-//~ {
-    //~ $query = "SELECT * FROM tbl_aplicaciones WHERE tabla!='' AND campo!=''";
-    //~ $result = db_query($query);
-    //~ $cases = array("CASE {$prefix}id_aplicacion");
-    //~ while ($row = db_fetch_row($result)) {
-        //~ if (substr($row["campo"], 0, 1) == '"' && substr($row["campo"], -1, 1) == '"') {
-            //~ $row["campo"] = eval_protected($row["campo"]);
-        //~ }
-        //~ if (stripos($fn, "linktitle") !== false) {
-            //~ $cases[] = "WHEN '{$row["id"]}' THEN (
-                //~ SELECT CONCAT('link:openapp(\'{$row["codigo"]}\',',-{$prefix}id_registro,'):',{$row["campo"]})
-                //~ FROM {$row["tabla"]}
-                //~ WHERE id={$prefix}id_registro)";
-        //~ }
-        //~ if (stripos($fn, "actiontitle") !== false) {
-            //~ $cases[] = "WHEN '{$row["id"]}' THEN (
-                //~ SELECT CONCAT(LPAD(id," . intval(get_config("zero_padding_digits")) . ",0),' - ',{$row["campo"]})
-                //~ FROM {$row["tabla"]}
-                //~ WHERE id={$prefix}id_registro)";
-        //~ }
-    //~ }
-    //~ db_free($result);
-    //~ $cases[] = "END";
-    //~ $cases = implode(" ", $cases);
-    //~ return $cases;
-//~ }
