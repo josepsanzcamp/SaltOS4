@@ -27,6 +27,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * About this file
+ *
+ * This file implements the adderror action, requires a POST JSON request
+ * with the follow elements: jserror, details and backtrace, this action
+ * is called from window.onerror in order to store the details of the js
+ * error
+ */
+
 foreach (array("jserror","details","backtrace") as $key) {
     if (!isset($data["json"][$key])) {
         show_json_error("$key not found");

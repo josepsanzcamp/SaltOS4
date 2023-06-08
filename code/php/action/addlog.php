@@ -27,6 +27,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * About this file
+ *
+ * This file implements the addlog action, requires a POST JSON request
+ * with an element in the json that contains the message to be added
+ */
+
 if (!isset($data["json"]["msg"])) {
     show_json_error("msg not found");
 }

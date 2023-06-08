@@ -27,6 +27,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * About this file
+ *
+ * This file implements the app action, requires a GET REST request
+ * and the order of the elements are:
+ *
+ * @[1] => the app that you want to execute
+ * @[2] => the subapp that tou want to use, if the app only contains
+ *         one subapp, this parameter is not necesary
+ * @[3] => the id used in some subapps, for example, to get the data
+ *         of specific customer using the id
+ */
+
 if (!isset($data["rest"][1])) {
     show_json_error("app not found");
 }
@@ -51,6 +64,11 @@ $data["rest"][2] = encode_bad_chars($data["rest"][2]);
 if (!isset($array[$data["rest"][2]])) {
     show_json_error("subapp " . $data["rest"][2] . " not found");
 }
+
+if (!isset($data["rest"][3])) {
+    $data["rest"][3] = 0;
+}
+$data["rest"][3] = intval($data["rest"][3]);
 
 $array = eval_attr($array[$data["rest"][2]]);
 output_handler_json($array);

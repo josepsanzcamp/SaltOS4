@@ -27,6 +27,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * About this file
+ *
+ * This file implements the delete files action, requires a POST JSON request
+ * with an array of files, and each array must contain the follow entries:
+ * id, name, size, type, data, error, file, hash
+ *
+ * This action checks that not error is found, get the data and clear the
+ * data element of the array, check the prefix of the data using the type,
+ * check the size of the data, and then, set the file and hash to the
+ * array and store the file in the upload directory
+ */
+
 if (!isset($data["json"]["files"])) {
     show_json_error("files not found");
 }
@@ -45,6 +58,9 @@ foreach ($files as $key => $val) {
         continue;
     }
     $data = base64_decode(substr($data, $len));
+    if (strlen($data) != $val["size"]) {
+        continue;
+    }
     $val["file"] = time() . "_" . get_unique_id_md5() . "_" . encode_bad_chars_file($val["name"]);
     $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
     file_put_contents($dir . $val["file"], $data);

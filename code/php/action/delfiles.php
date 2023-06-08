@@ -27,6 +27,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * About this file
+ *
+ * This file implements the delete files action, requires a POST JSON request
+ * with an array of files, and each array must contain the follow entries:
+ * id, name, size, type, data, error, file, hash
+ *
+ * This action checks that not error is found, checks the file element, the
+ * size of the file, the hash of the file, and then, remove the file and
+ * clear the file and hash element of the array
+ */
+
 if (!isset($data["json"]["files"])) {
     show_json_error("files not found");
 }
