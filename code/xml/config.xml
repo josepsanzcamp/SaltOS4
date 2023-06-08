@@ -34,23 +34,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <pass>saltos</pass><!-- for MySQL -->
         <name>saltos</name><!-- for MySQL -->
         <file eval="true">getcwd()."/data/files/saltos.sqlite"</file><!-- for SQLite -->
-        <datatypes>
-            <int>TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER</int>
-            <string>TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR</string>
-            <float>DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE</float>
-            <date>DATE</date>
-            <time>TIME</time>
-            <datetime>DATETIME</datetime>
-        </datatypes>
-        <datasizes>
-            <TINYTEXT>255</TINYTEXT>
-            <TEXT>65535</TEXT>
-            <MEDIUMTEXT>16777215</MEDIUMTEXT>
-            <LONGTEXT>4294967295</LONGTEXT>
-        </datasizes>
+        <semaphoretimeout>10000000</semaphoretimeout><!-- in microseconds, for SQLite -->
         <dbschema>true</dbschema>
         <dbstatic>true</dbstatic>
-        <semaphoretimeout>10000000</semaphoretimeout><!-- in microseconds, only for SQLite -->
     </db>
     <sess>
         <save_path>saltos</save_path>

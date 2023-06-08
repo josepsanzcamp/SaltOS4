@@ -218,20 +218,15 @@ function normalize_value($value)
 }
 
 /*
+ * HTML to Text
  *
- */
-function str_word_count_utf8($subject)
-{
-    static $pattern = "/\p{L}[\p{L}\p{Mn}\p{Pd}'\x{2019}]*/u";
-    $matches = array();
-    preg_match_all($pattern, $subject, $matches);
-    return $matches[0];
-}
-
-/*
+ * This function uses the html2text roundcube function to convert html to
+ * plain text, this code have the issue that requires the error_reporting(0)
+ * because it have a lot of errors causes by use nondefined variables, for
+ * example
  *
+ * @html => the html code that you want to convert to plain text
  */
-// USING ROUNDCUBEMAIL FEATURES
 function html2text($html)
 {
     require_once "lib/roundcube/rcube_html2text.php";
@@ -241,9 +236,12 @@ function html2text($html)
 }
 
 /*
+ * Get UTF-8
  *
+ * This function returns the string codified in a UTF-8 encoding
+ *
+ * @str => the input string that you want to covnert to UTF-8
  */
-// RETURN THE UTF-8 CONVERTED STRING IF IT'S NEEDED
 function getutf8($str)
 {
     if ($str != "" && !mb_check_encoding($str, "UTF-8")) {
@@ -253,7 +251,12 @@ function getutf8($str)
 }
 
 /*
+ * Words Exists
  *
+ * This function check that all words exists in the buffer
+ *
+ * @words => the string that contains words separated by spaces
+ * @buffer => the string where we must to found the words
  */
 function words_exists($words, $buffer)
 {
@@ -269,48 +272,14 @@ function words_exists($words, $buffer)
 }
 
 /*
+ * String Replace Assoc
  *
- */
-// COPIED FROM https://stackoverflow.com/questions/1252693/using-str-replace-so-that-it-only-acts-on-the-first-match
-function str_replace_first($from, $to, $content)
-{
-    $from = '/' . preg_quote($from, '/') . '/';
-    return preg_replace($from, $to, $content, 1);
-}
-
-/*
+ * This function do the same that str_replace, but using only one associative
+ * array, using the keys as search and the values as replace, intended only
+ * to do more prerry the code
  *
- */
-function str_split2($a, $b)
-{
-    $c = array();
-    while (count($b)) {
-        $d = array_shift($b);
-        $c[] = substr($a, 0, $d);
-        $a = substr($a, $d);
-    }
-    return $c;
-}
-
-/*
- *
- */
-function remove_utf8mb4_chars($cad)
-{
-    $len = mb_strlen($cad);
-    for ($i = 0; $i < $len; $i++) {
-        $char = mb_substr($cad, $i, 1);
-        if (strlen($char) == 4) {
-            $cad = mb_substr($cad, 0, $i) . mb_substr($cad, $i + 1);
-            $len--;
-            $i--;
-        }
-    }
-    return $cad;
-}
-
-/*
- *
+ * @array => the associative array with the pairs keys vals
+ * @cad => the string that you want to apply the replacement
  */
 function str_replace_assoc($array, $cad)
 {
@@ -318,7 +287,12 @@ function str_replace_assoc($array, $cad)
 }
 
 /*
+ * Null to String
  *
+ * This function convert all nulls to a void string, intended to be used in
+ * parts of the code where a string is expected
+ *
+ * @cad => the input of the function that must to check if is null or not
  */
 function null2string($cad)
 {
@@ -329,7 +303,14 @@ function null2string($cad)
 }
 
 /*
+ * Get Part From String
  *
+ * This function explodes de input using delim and returns the element
+ * of the index position
+ *
+ * @input => the string that you want to cut in parts
+ * @delim => the delimiter char used to cut in parts
+ * @index => the index that you want to request of the explode result
  */
 function get_part_from_string($input, $delim, $index)
 {

@@ -30,7 +30,7 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 
 /*
- *
+ * TODO
  */
 function parse_query($query, $type = "")
 {
@@ -62,7 +62,7 @@ function parse_query($query, $type = "")
 }
 
 /*
- *
+ * TODO
  */
 function __parse_query_type()
 {
@@ -80,7 +80,7 @@ function __parse_query_type()
 }
 
 /*
- *
+ * TODO
  */
 function __parse_query_strpos($haystack, $needle, $offset = 0)
 {
@@ -112,7 +112,12 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
 }
 
 /*
+ * Execute Query
  *
+ * This function executes the query in auto mode, and depending in the result,
+ * returns the resultset trying to do the more good combination
+ *
+ * TODO
  */
 function execute_query($query)
 {
@@ -134,7 +139,7 @@ function execute_query($query)
 }
 
 /*
- *
+ * TODO
  */
 function execute_query_array($query)
 {
@@ -145,7 +150,7 @@ function execute_query_array($query)
 }
 
 /*
- *
+ * TODO
  */
 function get_fields($table)
 {
@@ -165,7 +170,7 @@ function get_fields($table)
 }
 
 /*
- *
+ * TODO
  */
 function get_indexes($table)
 {
@@ -206,7 +211,7 @@ function get_indexes($table)
 }
 
 /*
- *
+ * TODO
  */
 function get_tables()
 {
@@ -225,13 +230,20 @@ function get_tables()
 }
 
 /*
- *
+ * TODO
  */
 function get_field_type($type)
 {
     $type = parse_query($type);
     $type = strtoupper(strtok($type, "("));
-    $datatypes = get_default("db/datatypes");
+    $datatypes = array(
+        "int" => "TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER",
+        "string" => "TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR",
+        "float" => "DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE",
+        "date" => "DATE",
+        "time" => "TIME",
+        "datetime" => "DATETIME",
+    );
     foreach ($datatypes as $key => $val) {
         if (in_array($type, explode(",", $val))) {
             return $key;
@@ -241,7 +253,29 @@ function get_field_type($type)
 }
 
 /*
- *
+ * TODO
+ */
+function get_field_size($type)
+{
+    $type = parse_query($type);
+    $type1 = strtoupper(strtok($type, "("));
+    $type2 = strtok(")");
+    $datasizes = array(
+        "TINYTEXT" => 255,
+        "TEXT" => 65535,
+        "MEDIUMTEXT" => 16777215,
+        "LONGTEXT" => 4294967295,
+    );
+    foreach ($datasizes as $key => $val) {
+        if ($type1 == $key) {
+            return $val;
+        }
+    }
+    return $type2;
+}
+
+/*
+ * TODO
  */
 function sql_create_table($tablespec)
 {
@@ -294,7 +328,7 @@ function sql_create_table($tablespec)
 }
 
 /*
- *
+ * TODO
  */
 function __has_fulltext_index($table)
 {
@@ -314,7 +348,7 @@ function __has_fulltext_index($table)
 }
 
 /*
- *
+ * TODO
  */
 function __has_engine($engine)
 {
@@ -336,7 +370,7 @@ function __has_engine($engine)
 }
 
 /*
- *
+ * TODO
  */
 function sql_alter_table($orig, $dest)
 {
@@ -345,7 +379,7 @@ function sql_alter_table($orig, $dest)
 }
 
 /*
- *
+ * TODO
  */
 function sql_insert_from_select($dest, $orig)
 {
@@ -393,7 +427,7 @@ function sql_insert_from_select($dest, $orig)
 }
 
 /*
- *
+ * TODO
  */
 function sql_drop_table($table)
 {
@@ -402,7 +436,7 @@ function sql_drop_table($table)
 }
 
 /*
- *
+ * TODO
  */
 function sql_create_index($indexspec)
 {
@@ -423,7 +457,7 @@ function sql_create_index($indexspec)
 }
 
 /*
- *
+ * TODO
  */
 function sql_drop_index($index, $table)
 {
@@ -432,7 +466,7 @@ function sql_drop_index($index, $table)
 }
 
 /*
- *
+ * TODO
  */
 function make_insert_query($table, $array)
 {
@@ -449,7 +483,7 @@ function make_insert_query($table, $array)
 }
 
 /*
- *
+ * TODO
  */
 function make_update_query($table, $array, $where)
 {
@@ -463,7 +497,7 @@ function make_update_query($table, $array, $where)
 }
 
 /*
- *
+ * TODO
  */
 function make_where_query($array)
 {
@@ -475,18 +509,122 @@ function make_where_query($array)
     return $query;
 }
 
-//~ function get_field_size($type)
+//~ function preeval_insert_query($table, $only = "")
 //~ {
-    //~ $type = parse_query($type);
-    //~ $type1 = strtoupper(strtok($type, "("));
-    //~ $type2 = strtok(")");
-    //~ $datasizes = get_default("db/datasizes");
-    //~ foreach ($datasizes as $key => $val) {
-        //~ if ($type1 == $key) {
-            //~ return $val;
+    //~ $fields = get_fields_from_dbschema($table);
+    //~ if (is_string($only) && $only == "") {
+        //~ $only = array();
+    //~ }
+    //~ if (!is_array($only)) {
+        //~ $only = explode(",", $only);
+    //~ }
+    //~ $list1 = array();
+    //~ $list2 = array();
+    //~ foreach ($fields as $field) {
+        //~ if ($field["name"] == "id") {
+            //~ continue;
+        //~ }
+        //~ if (count($only) && !in_array($field["name"], $only)) {
+            //~ continue;
+        //~ }
+        //~ $list1[] = $field["name"];
+        //~ $type = $field["type"];
+        //~ $type2 = get_field_type($type);
+        //~ $size2 = get_field_size($type);
+        //~ if ($type2 == "int") {
+            //~ $list2[] = "'\".intval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "float") {
+            //~ $list2[] = "'\".floatval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "date") {
+            //~ $list2[] = "'\".dateval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "time") {
+            //~ $list2[] = "'\".timeval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "datetime") {
+            //~ $list2[] = "'\".datetimeval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "string") {
+            //~ $list2[] = "'\".addslashes(substr(getParam(\"" . $field["name"] . "\"),0,$size2)).\"'";
+        //~ } else {
+            //~ show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
         //~ }
     //~ }
-    //~ return $type2;
+    //~ $list1 = implode(",", $list1);
+    //~ $list2 = implode(",", $list2);
+    //~ $query = "\"INSERT INTO $table($list1) VALUES($list2)\"";
+    //~ return $query;
+//~ }
+
+//~ function preeval_update_query($table, $only = "")
+//~ {
+    //~ $fields = get_fields_from_dbschema($table);
+    //~ if (is_string($only) && $only == "") {
+        //~ $only = array();
+    //~ }
+    //~ if (!is_array($only)) {
+        //~ $only = explode(",", $only);
+    //~ }
+    //~ $list = array();
+    //~ foreach ($fields as $field) {
+        //~ if ($field["name"] == "id") {
+            //~ continue;
+        //~ }
+        //~ if (count($only) && !in_array($field["name"], $only)) {
+            //~ continue;
+        //~ }
+        //~ $type = $field["type"];
+        //~ $type2 = get_field_type($type);
+        //~ $size2 = get_field_size($type);
+        //~ if ($type2 == "int") {
+            //~ $list[] = $field["name"] . "='\".intval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "float") {
+            //~ $list[] = $field["name"] . "='\".floatval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "date") {
+            //~ $list[] = $field["name"] . "='\".dateval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "time") {
+            //~ $list[] = $field["name"] . "='\".timeval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "datetime") {
+            //~ $list[] = $field["name"] . "='\".datetimeval(getParam(\"" . $field["name"] . "\")).\"'";
+        //~ } elseif ($type2 == "string") {
+            //~ $list[] = $field["name"] . "='\".addslashes(substr(getParam(\"" . $field["name"] . "\"),0,$size2)).\"'";
+        //~ } else {
+            //~ show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
+        //~ }
+    //~ }
+    //~ $list = implode(",", $list);
+    //~ $query = "\"UPDATE $table SET $list WHERE id='\".intval(getParam(\"id\")).\"'\"";
+    //~ return $query;
+//~ }
+
+//~ function preeval_dependencies_query($table, $label)
+//~ {
+    //~ $dbschema = eval_attr(xml_join(xml2array(detect_apps_files("xml/dbschema.xml"))));
+    //~ if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
+        //~ $deps = array();
+        //~ foreach ($dbschema["tables"] as $tablespec) {
+            //~ foreach ($tablespec["fields"] as $field) {
+                //~ if (!isset($field["fkey"])) {
+                    //~ $field["fkey"] = "";
+                //~ }
+                //~ if (!isset($field["fcheck"])) {
+                    //~ $field["fcheck"] = "true";
+                //~ }
+                //~ if ($field["fkey"] == $table && eval_bool($field["fcheck"])) {
+                    //~ $deps[] = array("table" => $tablespec["name"],"field" => $field["name"]);
+                //~ }
+            //~ }
+        //~ }
+        //~ $count = array();
+        //~ foreach ($deps as $dep) {
+            //~ $deptable = $dep["table"];
+            //~ $depfield = $dep["field"];
+            //~ $count[] = "(SELECT COUNT(*) FROM $deptable WHERE $depfield='\".abs(intval(getParam(\"id\"))).\"')";
+        //~ }
+        //~ $count = implode("+", $count);
+        //~ if ($count == "") {
+            //~ $count = "0";
+        //~ }
+        //~ $query = "\"SELECT '$label' action_error,'0' action_commit FROM (SELECT 1) a WHERE $count>0\"";
+    //~ }
+    //~ return $query;
 //~ }
 
 //~ function get_engine($table)
