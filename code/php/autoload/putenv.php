@@ -28,7 +28,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Eval Putenv
  *
+ * This function evaluates the putenv section of the config file, is intended
+ * to execute all putenv commands detecting the current values and determining
+ * if is needed to change or not the current setting
+ *
+ * @array => the array with the pairs of keys vals
  */
 function eval_putenv($array)
 {

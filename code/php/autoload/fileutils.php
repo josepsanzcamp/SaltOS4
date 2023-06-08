@@ -28,7 +28,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Get Directory
  *
+ * This function returns the directory configured to the key requested, too can define a default
+ * value, usefull when the configuration still not loaded and SaltOS need some directory to do
+ * something as store data in the log file, for example
+ *
+ * @key => the key used in get_default to request the configured directory
+ * @default => the default value used in case of issues getting the config key
  */
 function get_directory($key, $default = "")
 {
@@ -46,7 +53,17 @@ function get_directory($key, $default = "")
 }
 
 /*
+ * Get Temp File
  *
+ * This function is intended to get a unique temporary file, used for temporary
+ * purposes as put contents to be used as input in a command
+ *
+ * @ext => the extension of the temporary file, usefull for some commands that
+ *         try to detect the contents using the extension
+ *
+ * Notes:
+ *
+ * This function uses the dirs/tempdir config key
  */
 function get_temp_file($ext = "")
 {
@@ -68,7 +85,17 @@ function get_temp_file($ext = "")
 }
 
 /*
+ * Get Cache File
  *
+ * This function is intended to get a cache filename, used for caching purposes
+ *
+ * @data => data used to compute the hash used by the cache, can be an string or
+ *          an array with lot of contents
+ * @ext => extension of the cache filename
+ *
+ * Notes:
+ *
+ * This function uses the dirs/cachedir config key
  */
 function get_cache_file($data, $ext = "")
 {
@@ -90,22 +117,28 @@ function get_cache_file($data, $ext = "")
 }
 
 /*
+ * Cache Exists
  *
+ * This function check the existence of valid cache by comparing the timestamp
+ * of the filemtime between the cache file and all files of the second argument
+ *
+ * @cache => cache filename
+ * @files => array of files that are considered as dependencies of the cache
  */
-function cache_exists($cache, $file)
+function cache_exists($cache, $files)
 {
     if (!file_exists($cache) || !is_file($cache)) {
         return 0;
     }
     $mtime1 = filemtime($cache);
-    if (!is_array($file)) {
-        $file = array($file);
+    if (!is_array($files)) {
+        $files = array($files);
     }
-    foreach ($file as $f) {
-        if (!file_exists($f) || !is_file($f)) {
+    foreach ($files as $file) {
+        if (!file_exists($file) || !is_file($file)) {
             return 0;
         }
-        $mtime2 = filemtime($f);
+        $mtime2 = filemtime($file);
         if ($mtime2 >= $mtime1) {
             return 0;
         }
@@ -114,7 +147,17 @@ function cache_exists($cache, $file)
 }
 
 /*
+ * URL Get Contents
  *
+ * This file is an equivalent of the file_get_contents but intended to be used
+ * for request remote files using protocols as http or https
+ *
+ * @url => the url that you want to retrieve
+ *
+ * Notes:
+ *
+ * This function only returns the body of the request, if you are interested
+ * to get the headers of the request, try to use the __url_get_contents
  */
 function url_get_contents($url)
 {
@@ -130,7 +173,27 @@ function url_get_contents($url)
 }
 
 /*
+ * URL Get Contents helper
  *
+ * This file is an equivalent of the file_get_contents but intended to be used
+ * for request remote files using protocols as http or https
+ *
+ * @url => the url that you want to retrieve
+ * @args => Array of arguments, explained in the follow lines
+ * @cookies => an array with the cookies to be restored before send the request
+ * @method => method used in the request
+ * @values => an array with the post values, usefull when you want to send a POST
+ *            request with pairs of variables and values
+ * @referer => the referer string
+ * @headers => an array with the headers to be send in the request
+ * @body => the full body used of the request, usefull when you want to send a
+ *          json file in the body instead of pairs of keys vals
+ *
+ * This function returns an array with three elements, body, headers and cookies
+ *
+ * Notes:
+ *
+ * This function uses the httpclient library
  */
 function __url_get_contents($url, $args = array())
 {
@@ -188,7 +251,11 @@ function __url_get_contents($url, $args = array())
 }
 
 /*
+ * Extension
  *
+ * This function returns the PATHINFO_EXTENSION of the file
+ *
+ * @file => file used in the pathinfo call
  */
 function extension($file)
 {
@@ -196,14 +263,21 @@ function extension($file)
 }
 
 /*
+ * Encode Bar Chars File
  *
+ * This function is equivalent to encode_bad_chars but intended to be used
+ * with filenames, in this case, the extension and the rest of the filename
+ * will be encoded separately and the return value will contain the dot
+ * separating the filename with the extension
+ *
+ * @file => filename used in the encode process
  */
 function encode_bad_chars_file($file)
 {
     $file = strrev($file);
     $file = explode(".", $file, 2);
     foreach ($file as $key => $val) {
-        // EXISTS MULTIPLE STRREV TO PREVENT UTF8 DATA LOST
+        // Exists multiple strrev to prevent UTF8 data lost
         $file[$key] = strrev(encode_bad_chars(strrev($val)));
     }
     $file = implode(".", $file);
@@ -212,18 +286,28 @@ function encode_bad_chars_file($file)
 }
 
 /*
+ * Realpath Protected
  *
+ * This function returns the realpath of the path, this version of the function
+ * allow to return the path of an unexistent file, this is usefull when do you
+ * want to get the realpath of a unexistent file, for example, to the output of
+ * a command that must to generate the file but at the moment of the execution
+ * of this function the file is not found
+ *
+ * @path => path used in the realpath call
  */
 function realpath_protected($path)
 {
-    // REALPATH NO RETORNA RES SI EL PATH NO EXISTEIX
-    // ES FA SERVIR QUAN ES VOL EL REALPATH D'UN FITXER QUE ENCARA NO EXISTEIX
-    // PER EXEMPLE, PER LA SORTIDA D'UNA COMANDA
     return realpath(dirname($path)) . "/" . basename($path);
 }
 
 /*
+ * Getcwd Protected
  *
+ * This function returns the same result that the getcwd function but checking
+ * that the result is not an slash, this is an issue in some cases caused by
+ * permissions problems, and a good solution for this cases is to get the directory
+ * of the script as current work directory
  */
 function getcwd_protected()
 {
@@ -235,7 +319,15 @@ function getcwd_protected()
 }
 
 /*
+ * Glob Protected
  *
+ * This function returns the same result that the glob function but checking
+ * that the result is an array, if glob fails or not get a files by the pattern,
+ * can return other values that an array, and this can cause problems if you are
+ * expecting an array to iterate in each element, this function prevent this
+ * problem
+ *
+ * @pattern => pattern used in the glob command
  */
 function glob_protected($pattern)
 {
@@ -244,7 +336,13 @@ function glob_protected($pattern)
 }
 
 /*
+ * Chmod Protected
  *
+ * This function tries to change the mode of the file using the chmod function
+ * only if the fileperms of the file are different that the requested mode
+ *
+ * @file => file used by the chmod function
+ * @mode => mode used by the chmod function
  */
 function chmod_protected($file, $mode)
 {
@@ -254,9 +352,14 @@ function chmod_protected($file, $mode)
 }
 
 /*
+ * Fsockopen Protected
  *
+ * This function is only used by the httpclient library to avois problems with
+ * the certificates validations
+ *
+ * Ths arguments is the same that the fsockopen function, in this case, the
+ * function uses the stream_socket_client to emulate the original fsockopen
  */
-// ESTA FUNCION SE USA POR LA LIBRERIA HTTPCLIENT
 function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $timeout = null)
 {
     if ($timeout == null) {

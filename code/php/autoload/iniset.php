@@ -28,7 +28,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Eval Iniset
  *
+ * This function evaluates the ini_set section of the config file, is intended
+ * to execute all ini_set commands detecting the current values and determining
+ * if is needed to change or not the current setting, is able to understand
+ * boolean values as On/Off, and too is able to set keys as mbstring.internal_encoding
+ * or mbstring.detect_order that must to be set by using another mb_* functions
+ *
+ * @array => the array with the pairs of keys vals
  */
 function eval_iniset($array)
 {
