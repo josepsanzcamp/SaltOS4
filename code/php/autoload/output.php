@@ -28,7 +28,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
+ * Output Handler
  *
+ * This function is intended to send data to the output channel, and can have
+ * the follow arguments:
+ *
+ * @array => array with the follow pairs of key val
+ * @file => file that contains the contents that you want to send
+ * @data => contents that you want to send to the output channel
+ * @type => content type header used
+ * @cache => boolean to enable the cache usage, includes the etag algorithm
+ * @name => the filename used in the content disposition attachment header
+ * @extra => headers that you can add to the transfer
  */
 function output_handler($array)
 {
@@ -38,7 +49,6 @@ function output_handler($array)
     $cache = isset($array["cache"]) ? $array["cache"] : "";
     $name = isset($array["name"]) ? $array["name"] : "";
     $extra = isset($array["extra"]) ? $array["extra"] : array();
-    $die = isset($array["die"]) ? $array["die"] : true;
     if ($file != "") {
         if (!file_exists($file) || !is_file($file)) {
             show_php_error(array("phperror" => "file {$file} not found"));
@@ -117,7 +127,12 @@ function output_handler($array)
 }
 
 /*
+ * Output Handler JSON
  *
+ * This function allow to quickly send json output, the unique argument that it
+ * requires is the data that you want to send
+ *
+ * @array => content to convert to json and send to the output channel
  */
 function output_handler_json($array)
 {

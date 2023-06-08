@@ -27,6 +27,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+/*
+ * Defines section
+ *
+ * Defines used to set the version and revision of the SaltOS
+ */
 define("__INFO_NAME__", "SaltOS");
 define("__INFO_VERSION__", "4.0");
 define("__INFO_REVISION__", svnversion());

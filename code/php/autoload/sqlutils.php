@@ -114,10 +114,35 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
 /*
  * Execute Query
  *
- * This function executes the query in auto mode, and depending in the result,
- * returns the resultset trying to do the more good combination
+ * This function executes the query and depending in the result, returns the
+ * resultset trying to do the more good combination in the return data
  *
- * TODO
+ * @query => the SQL query that you want to execute
+ *
+ * Note that the db_query is executed with the "auto" fetch mode, this causes
+ * that the db_query returns an array with one dimension if the query only
+ * generates a resultset with only one column, or returns an array with two
+ * dimensions if the query generates a resultest with more that one column
+ *
+ * To be more practice:
+ *
+ * If you execute a query that select one field and only returns one row,
+ * the return value will be the value of the field
+ *
+ * If you execute a query that select one field and returns more that one
+ * row, the return value will be an array of one dimension with all values
+ * of this field
+ *
+ * If you execute a query that select multiples fields and only return one
+ * row, the return value will be an array of one dimension with all fields
+ *
+ * Ig you execute a query that select multiples fields and returns more that
+ * one row, the return value will be an array of two dimensions with all rows
+ * and each row with all fields
+ *
+ * Be carefully to use the output of this command in an foreach, for example
+ * because you can get for the same query differents output types, if you
+ * need to be more standarized in the output types, see the execute_query_array
  */
 function execute_query($query)
 {
@@ -139,7 +164,14 @@ function execute_query($query)
 }
 
 /*
- * TODO
+ * Execute Query Array
+ *
+ * This function is the same that execute_query but guarantee that for the
+ * same query, you get the same output type if the resultet contains one
+ * row or more rows, usefull is you want to use the output of this function
+ * in a foreach, for example
+ *
+ * @query => the SQL query that you want to execute
  */
 function execute_query_array($query)
 {
@@ -150,7 +182,11 @@ function execute_query_array($query)
 }
 
 /*
- * TODO
+ * Get Fields
+ *
+ * This function returns the fields of the requested table
+ *
+ * @table => the table where that you want to know the fields
  */
 function get_fields($table)
 {
@@ -170,7 +206,11 @@ function get_fields($table)
 }
 
 /*
- * TODO
+ * Get Indexes
+ *
+ * This function returns the indexes of the requested table
+ *
+ * @table => the table where that you want to know the indexes
  */
 function get_indexes($table)
 {
@@ -211,7 +251,9 @@ function get_indexes($table)
 }
 
 /*
- * TODO
+ * Get Tables
+ *
+ * This function returns the tables of the database
  */
 function get_tables()
 {
@@ -230,7 +272,12 @@ function get_tables()
 }
 
 /*
- * TODO
+ * Get Field Type
+ *
+ * This function returns an standarized type for the specific types used in
+ * the real database, for example, returns string if the field is of TEXT type
+ *
+ * @type => the real type in the database
  */
 function get_field_type($type)
 {
@@ -253,7 +300,12 @@ function get_field_type($type)
 }
 
 /*
- * TODO
+ * Get Field Size
+ *
+ * This function returns the size for the types used in the database, for
+ * example, returns 65535 if the field is of TEXT type
+ *
+ * @type => the real type in the database
  */
 function get_field_size($type)
 {
@@ -275,7 +327,15 @@ function get_field_size($type)
 }
 
 /*
- * TODO
+ * SQL Create Table
+ *
+ * This function returns the SQL needed to create the table defined in the
+ * tablespec argument
+ *
+ * @tablespec => the specification for the create table, see the dbschema
+ *               file to understand the tablespec structure
+ *
+ * TODO: ACABAR LA PARTE DEL FINAL
  */
 function sql_create_table($tablespec)
 {
@@ -348,7 +408,12 @@ function __has_fulltext_index($table)
 }
 
 /*
- * TODO
+ * Has Engine
+ *
+ * This function allow to SaltOS to ask to the database if an enxine is
+ * availabie
+ *
+ * @engine => the engine that you want to get information about existence
  */
 function __has_engine($engine)
 {
@@ -370,7 +435,12 @@ function __has_engine($engine)
 }
 
 /*
- * TODO
+ * SQL Alter Table
+ *
+ * This function returns the alter table command
+ *
+ * @orig => source table
+ * @dest => destination table
  */
 function sql_alter_table($orig, $dest)
 {
