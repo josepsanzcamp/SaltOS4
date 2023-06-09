@@ -559,11 +559,7 @@ function sql_create_index($indexspec)
 {
     $name = $indexspec["#attr"]["name"];
     $table = $indexspec["#attr"]["table"];
-    $fields = array();
-    foreach ($indexspec["value"]["fields"] as $field) {
-        $fields[] = $field["#attr"]["name"];
-    }
-    $fields = implode(",", $fields);
+    $fields = $indexspec["#attr"]["fields"];
     if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
         $pre = "/*MYSQL FULLTEXT */";
     } else {

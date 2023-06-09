@@ -139,7 +139,7 @@ function session_backtrace()
 {
     return array(
         "pid" => getmypid(),
-        "sessid" => session_id(),
         "time" => current_datetime_decimals(),
+        "token" => get_server("HTTP_TOKEN"),
     );
 }

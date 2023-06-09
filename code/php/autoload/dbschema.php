@@ -47,17 +47,16 @@ function db_schema()
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
         $tables1 = get_tables();
         $tables2 = get_tables_from_dbschema();
-        if (isset($dbschema["excludes"]) && is_array($dbschema["excludes"])) {
-            foreach ($dbschema["excludes"] as $exclude) {
-                foreach ($tables1 as $key => $val) {
-                    if ($exclude["#attr"]["name"] == $val) {
-                        unset($tables1[$key]);
-                    }
+        $ignores = get_ignores_from_dbschema();
+        foreach ($ignores as $ignore) {
+            foreach ($tables1 as $key => $val) {
+                if ($ignore == $val) {
+                    unset($tables1[$key]);
                 }
-                foreach ($tables2 as $key => $val) {
-                    if ($exclude["#attr"]["name"] == $val) {
-                        unset($tables2[$key]);
-                    }
+            }
+            foreach ($tables2 as $key => $val) {
+                if ($ignore == $val) {
+                    unset($tables2[$key]);
                 }
             }
         }
@@ -70,6 +69,9 @@ function db_schema()
         }
         foreach ($dbschema["tables"] as $tablespec) {
             $table = $tablespec["#attr"]["name"];
+            if (!in_array($table, $tables2)) {
+                continue;
+            }
             $backup = "__{$table}__";
             if (in_array($table, $tables1)) {
                 $fields1 = get_fields($table);
@@ -97,56 +99,42 @@ function db_schema()
             } else {
                 db_query(sql_create_table($tablespec));
             }
-            if (isset($dbschema["indexes"]) && is_array($dbschema["indexes"])) {
-                // This part allow the auto name of the indexes
-                foreach ($dbschema["indexes"] as $key => $val) {
-                    if (isset($val["#attr"]["name"])) {
-                        continue;
-                    }
-                    $temp = array($val["#attr"]["table"]);
-                    foreach ($val["value"]["fields"] as $val2) {
-                        $temp[] = $val2["#attr"]["name"];
-                    }
-                    $temp = substr(implode("_", $temp), 0, 64);
-                    $dbschema["indexes"][$key]["#attr"]["name"] = $temp;
+            $indexes1 = get_indexes($table);
+            $indexes2 = get_indexes_from_dbschema($table);
+            foreach ($indexes1 as $index => $fields) {
+                if (!array_key_exists($index, $indexes2)) {
+                    //~ db_query(sql_drop_index($index, $table));
                 }
-                // Continue with the original code
-                $indexes1 = get_indexes($table);
-                $indexes2 = array();
-                foreach ($dbschema["indexes"] as $indexspec) {
-                    if ($indexspec["#attr"]["table"] == $table) {
-                        $indexes2[$indexspec["#attr"]["name"]] = array();
-                        foreach ($indexspec["value"]["fields"] as $fieldspec) {
-                            $indexes2[$indexspec["#attr"]["name"]][] = $fieldspec["#attr"]["name"];
-                        }
+            }
+            if (isset($tablespec["value"]["indexes"]) && is_array($tablespec["value"]["indexes"])) {
+                foreach ($tablespec["value"]["indexes"] as $indexspec) {
+                    $indexspec["#attr"]["table"] = $table;
+                    // auto name feature
+                    if (!isset($indexspec["#attr"]["name"])) {
+                        $indexspec["#attr"]["name"] = __dbschema_auto_name(
+                            $tablespec["#attr"]["name"],
+                            $indexspec["#attr"]["fields"]
+                        );
                     }
-                }
-                foreach ($indexes1 as $index => $fields) {
-                    if (!array_key_exists($index, $indexes2)) {
-                        db_query(sql_drop_index($index, $table));
-                    }
-                }
-                foreach ($dbschema["indexes"] as $indexspec) {
-                    if ($indexspec["#attr"]["table"] == $table) {
-                        $index = $indexspec["#attr"]["name"];
-                        if (array_key_exists($index, $indexes1)) {
-                            $fields1 = $indexes1[$index];
-                            $fields2 = $indexes2[$index];
-                            $hash3 = md5(serialize($fields1));
-                            $hash4 = md5(serialize($fields2));
-                            if ($hash3 != $hash4) {
-                                db_query(sql_drop_index($index, $table));
-                                db_query(sql_create_index($indexspec));
-                            }
-                        } else {
+                    // continue
+                    $index = $indexspec["#attr"]["name"];
+                    if (array_key_exists($index, $indexes1)) {
+                        $fields1 = $indexes1[$index];
+                        $fields2 = $indexes2[$index];
+                        $hash3 = md5(serialize($fields1));
+                        $hash4 = md5(serialize($fields2));
+                        if ($hash3 != $hash4) {
+                            db_query(sql_drop_index($index, $table));
                             db_query(sql_create_index($indexspec));
                         }
+                    } else {
+                        db_query(sql_create_index($indexspec));
                     }
                 }
             }
         }
     }
-    set_config("xml/dbschema.xml", $hash2);
+    //~ set_config("xml/dbschema.xml", $hash2);
     semaphore_release(array("db_schema","db_static"));
 }
 
@@ -188,7 +176,7 @@ function db_static()
             }
         }
     }
-    set_config("xml/dbstatic.xml", $hash2);
+    //~ set_config("xml/dbstatic.xml", $hash2);
     semaphore_release(array("db_schema","db_static"));
 }
 
@@ -223,8 +211,8 @@ function __db_static_helper($table, $row, $delete)
         $query = make_insert_query($table, $row);
         if (!$delete) {
             $where = make_where_query(array("id" => $row["id"]));
-            $query = "SELECT id FROM $table WHERE $where";
-            $exists = execute_query($query);
+            $query2 = "SELECT id FROM $table WHERE $where";
+            $exists = execute_query($query2);
             if ($exists) {
                 $query = make_update_query($table, $row, $where);
             }
@@ -248,11 +236,33 @@ function get_tables_from_dbschema()
  *
  * This function returns the fields from the DB Schema file
  *
- * @table => the table that you want to request the files
+ * @table => the table that you want to request the fields
  */
 function get_fields_from_dbschema($table)
 {
     return __dbschema_helper(__FUNCTION__, $table);
+}
+
+/*
+ * Get Indexes from DB Schema
+ *
+ * This function returns the indexes from the DB Schema file
+ *
+ * @table => the table that you want to request the indexes
+ */
+function get_indexes_from_dbschema($table)
+{
+    return __dbschema_helper(__FUNCTION__, $table);
+}
+
+/*
+ * Get Ignores from DB Schema
+ *
+ * This function returns the ignores tables from the DB Schema file
+ */
+function get_ignores_from_dbschema()
+{
+    return __dbschema_helper(__FUNCTION__, "");
 }
 
 /*
@@ -267,17 +277,38 @@ function get_fields_from_dbschema($table)
 function __dbschema_helper($fn, $table)
 {
     static $tables = null;
+    static $indexes = null;
+    static $ignores = null;
     if ($tables === null) {
         $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
         $tables = array();
+        $indexes = array();
+        $ignores = array();
         if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
             foreach ($dbschema["tables"] as $tablespec) {
-                $tables[$tablespec["#attr"]["name"]] = array();
-                foreach ($tablespec["value"]["fields"] as $fieldspec) {
-                    $tables[$tablespec["#attr"]["name"]][] = array(
-                        "name" => $fieldspec["#attr"]["name"],
-                        "type" => strtoupper(parse_query($fieldspec["#attr"]["type"]))
-                    );
+                if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
+                    $ignores[$tablespec["#attr"]["name"]] = array();
+                } else {
+                    $tables[$tablespec["#attr"]["name"]] = array();
+                    foreach ($tablespec["value"]["fields"] as $fieldspec) {
+                        $tables[$tablespec["#attr"]["name"]][] = array(
+                            "name" => $fieldspec["#attr"]["name"],
+                            "type" => strtoupper(parse_query($fieldspec["#attr"]["type"]))
+                        );
+                    }
+                    if (isset($tablespec["value"]["indexes"])) {
+                        $indexes[$tablespec["#attr"]["name"]] = array();
+                        foreach ($tablespec["value"]["indexes"] as $indexspec) {
+                            if (!isset($indexspec["#attr"]["name"])) {
+                                $indexspec["#attr"]["name"] = __dbschema_auto_name(
+                                    $tablespec["#attr"]["name"],
+                                    $indexspec["#attr"]["fields"]
+                                );
+                            }
+                            $indexes[$tablespec["#attr"]["name"]]
+                                    [$indexspec["#attr"]["name"]] = explode(",", $indexspec["#attr"]["fields"]);
+                        }
+                    }
                 }
             }
         }
@@ -288,6 +319,25 @@ function __dbschema_helper($fn, $table)
         if (isset($tables[$table])) {
             return $tables[$table];
         }
+    } elseif (stripos($fn, "get_indexes") !== false) {
+        if (isset($indexes[$table])) {
+            return $indexes[$table];
+        }
+    } elseif (stripos($fn, "get_ignores") !== false) {
+        return array_keys($ignores);
     }
     return array();
+}
+
+/*
+ * DB Schema Auto Name
+ *
+ * This function is a helper to the dbschema functions, to auto name the indexes
+ *
+ * @table => the name of the table
+ * @fields => the fields of the index separated by a comma
+ */
+function __dbschema_auto_name($table, $fields)
+{
+    return substr($table . "_" . str_replace(",", "_", $fields), 0, 64);
 }

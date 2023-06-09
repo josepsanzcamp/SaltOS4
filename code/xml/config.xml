@@ -30,33 +30,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <type>pdo_mysql</type>
         <host>localhost</host><!-- for MySQL -->
         <port>3306</port><!-- for MySQL -->
+        <name>saltos</name><!-- for MySQL -->
         <user>saltos</user><!-- for MySQL -->
         <pass>saltos</pass><!-- for MySQL -->
-        <name>saltos</name><!-- for MySQL -->
         <file eval="true">getcwd()."/data/files/saltos.sqlite"</file><!-- for SQLite -->
         <semaphoretimeout>10000000</semaphoretimeout><!-- in microseconds, for SQLite -->
     </db>
-    <sess>
-        <save_path>saltos</save_path>
-        <timeout>3600</timeout><!-- in seconds, 3600 is 1 hour -->
-        <probability>1</probability>
-        <divisor>100</divisor>
-    </sess>
     <server>
-        <hostname></hostname>
-        <pathname></pathname>
-        <forcessl>false</forcessl>
-        <porthttp>80</porthttp>
-        <porthttps>443</porthttps>
-        <dirindex>index.php</dirindex>
-        <percentstop>90</percentstop><!-- long actions stop when reached the 90% of max_execution_time -->
         <maxmemorylimit>1G</maxmemorylimit><!-- to be used in some actions that requires more memory -->
         <maxexecutiontime>3600</maxexecutiontime><!-- to be used in some actions that requires more time -->
     </server>
     <default>
-        <lang>es_ES</lang>
         <semaphoretimeout>100000</semaphoretimeout><!-- in microseconds -->
-        <cachetimeout>10000000</cachetimeout><!-- in microseconds -->
         <commandtimeout>60</commandtimeout><!-- in seconds, 60 is 1 minute -->
         <commandexpires>3600</commandexpires><!-- in seconds, 3600 is 1 hour -->
     </default>
@@ -74,7 +59,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <cachegctimeout>86400</cachegctimeout><!-- in seconds, 86400 is 1 day -->
         <cachegcprobability>1</cachegcprobability>
         <cachegcdivisor>100</cachegcdivisor>
-        <useimginline>true</useimginline>
     </cache>
     <commands>
         <which>which</which><!-- for check commands -->
