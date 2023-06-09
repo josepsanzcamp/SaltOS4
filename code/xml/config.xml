@@ -35,8 +35,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <name>saltos</name><!-- for MySQL -->
         <file eval="true">getcwd()."/data/files/saltos.sqlite"</file><!-- for SQLite -->
         <semaphoretimeout>10000000</semaphoretimeout><!-- in microseconds, for SQLite -->
-        <dbschema>true</dbschema>
-        <dbstatic>true</dbstatic>
     </db>
     <sess>
         <save_path>saltos</save_path>

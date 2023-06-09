@@ -35,9 +35,6 @@ declare(strict_types=1);
  */
 function db_schema()
 {
-    if (!eval_bool(get_default("db/dbschema"))) {
-        return;
-    }
     $hash1 = get_config("xml/dbschema.xml");
     $hash2 = md5(serialize(xml2array("xml/dbschema.xml")));
     if ($hash1 == $hash2) {
@@ -164,9 +161,6 @@ function db_schema()
  */
 function db_static()
 {
-    if (!eval_bool(get_default("db/dbstatic"))) {
-        return;
-    }
     $hash1 = get_config("xml/dbstatic.xml");
     $hash2 = md5(serialize(xml2array("xml/dbstatic.xml")));
     if ($hash1 == $hash2) {

@@ -28,29 +28,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
- * Eval Putenv
+ * About this file
  *
- * This function evaluates the putenv section of the config file, is intended
- * to execute all putenv commands detecting the current values and determining
- * if is needed to change or not the current setting
- *
- * @array => the array with the pairs of keys vals
+ * TODO
  */
-function eval_putenv($array)
-{
-    if (is_array($array)) {
-        foreach ($array as $key => $val) {
-            $key = fix_key($key);
-            $current = getenv($key);
-            $diff = 0;
-            if ($val != $current) {
-                $diff = 1;
-            }
-            if ($diff) {
-                if (putenv($key . "=" . $val) === false) {
-                    show_php_error(array("phperror" => "putenv fails to set '$key' from '$current' to '$val'"));
-                }
-            }
-        }
-    }
-}
+
+$query = make_update_query("tbl_users", array(
+    "group_id" => "",
+    "active" => "",
+    "login" => "",
+    "password" => "",
+    "name" => "",
+    "description" => "",
+    "start" => "",
+    "end" => "1234 56 78",
+    "days" => "12345678901234567890",
+), "id=1");
+echo "<pre>" . sprintr($query) . "</pre>";
+die();

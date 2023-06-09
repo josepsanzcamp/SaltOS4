@@ -240,11 +240,11 @@ function get_indexes($table)
 {
     $indexes = array();
     // FOR SQLITE
-    $query = "/*SQLITE PRAGMA INDEX_LIST({$table}) */";
+    $query = "/*SQLITE PRAGMA INDEX_LIST($table) */";
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
         $index = $row["name"];
-        $query2 = "/*SQLITE PRAGMA INDEX_INFO({$index}) */";
+        $query2 = "/*SQLITE PRAGMA INDEX_INFO($index) */";
         $result2 = db_query($query2);
         $fields = array();
         while ($row2 = db_fetch_row($result2)) {
@@ -255,7 +255,7 @@ function get_indexes($table)
     }
     db_free($result);
     // FOR MYSQL
-    $query = "/*MYSQL SHOW INDEXES FROM {$table} */";
+    $query = "/*MYSQL SHOW INDEXES FROM $table */";
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
         $index = $row["Key_name"];
@@ -320,7 +320,7 @@ function get_field_type($type)
             return $key;
         }
     }
-    show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
+    show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
 }
 
 /*
@@ -344,10 +344,10 @@ function get_field_size($type)
     );
     foreach ($datasizes as $key => $val) {
         if ($type1 == $key) {
-            return $val;
+            return intval($val);
         }
     }
-    return $type2;
+    return intval($type2);
 }
 
 /*
@@ -383,20 +383,20 @@ function sql_create_table($tablespec)
         } elseif ($type2 == "string") {
             $def = "";
         } else {
-            show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
+            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
-        $extra = "NOT NULL DEFAULT '{$def}'";
+        $extra = "NOT NULL DEFAULT '$def'";
         if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
             $extra = "PRIMARY KEY /*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */";
         }
-        $fields[] = "{$name} {$type} {$extra}";
+        $fields[] = "$name $type $extra";
     }
     foreach ($tablespec["value"]["fields"] as $field) {
         if (isset($field["#attr"]["fkey"])) {
             $fkey = $field["#attr"]["fkey"];
             if ($fkey != "") {
                 $name = $field["#attr"]["name"];
-                $fields[] = "FOREIGN KEY ({$name}) REFERENCES {$fkey} (id)";
+                $fields[] = "FOREIGN KEY ($name) REFERENCES $fkey (id)";
             }
         }
     }
@@ -408,7 +408,7 @@ function sql_create_table($tablespec)
     } else {
         $post = "/*MYSQL ENGINE=MyISAM CHARSET=utf8mb4 */";
     }
-    $query = "CREATE TABLE {$table} ({$fields}) {$post}";
+    $query = "CREATE TABLE $table ($fields) $post";
     return $query;
 }
 
@@ -474,7 +474,7 @@ function __has_engine($engine)
  */
 function sql_alter_table($orig, $dest)
 {
-    $query = "ALTER TABLE {$orig} RENAME TO {$dest}";
+    $query = "ALTER TABLE $orig RENAME TO $dest";
     return $query;
 }
 
@@ -515,19 +515,19 @@ function sql_insert_from_select($dest, $orig)
         } elseif ($type2 == "string") {
             $defs[] = "";
         } else {
-            show_php_error(array("phperror" => "Unknown type '{$type}' in " . __FUNCTION__));
+            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
     }
     $keys = array();
     $vals = array();
     foreach ($ldest as $key => $l) {
         $def = $defs[$key];
-        $keys[] = "{$l}";
-        $vals[] = in_array($l, $lorig) ? "{$l}" : "'{$def}'";
+        $keys[] = $l;
+        $vals[] = in_array($l, $lorig) ? $l : "'$def'";
     }
     $keys = implode(",", $keys);
     $vals = implode(",", $vals);
-    $query = "INSERT INTO {$dest}({$keys}) SELECT {$vals} FROM {$orig}";
+    $query = "INSERT INTO $dest($keys) SELECT $vals FROM $orig";
     return $query;
 }
 
@@ -540,7 +540,7 @@ function sql_insert_from_select($dest, $orig)
  */
 function sql_drop_table($table)
 {
-    $query = "DROP TABLE {$table}";
+    $query = "DROP TABLE $table";
     return $query;
 }
 
@@ -569,7 +569,7 @@ function sql_create_index($indexspec)
     } else {
         $pre = "";
     }
-    $query = "CREATE {$pre} INDEX {$name} ON $table ({$fields})";
+    $query = "CREATE $pre INDEX $name ON $table ($fields)";
     return $query;
 }
 
@@ -583,7 +583,7 @@ function sql_create_index($indexspec)
  */
 function sql_drop_index($index, $table)
 {
-    $query = "/*MYSQL DROP INDEX {$index} ON {$table} *//*SQLITE DROP INDEX {$index} */";
+    $query = "/*MYSQL DROP INDEX $index ON $table *//*SQLITE DROP INDEX $index */";
     return $query;
 }
 
@@ -594,20 +594,56 @@ function sql_drop_index($index, $table)
  * array param
  *
  * @table => table where you want to add the register
- * @array => array with key val pairs that represent the field and the value of
- *           the field
+ * @array => array with key val pairs that represent the field and the value
+ *           of the field
+ *
+ * Notes:
+ *
+ * This function tries to cast each value to their data type getting this
+ * information from dbschema config, you can pass in array all fields that
+ * you want and not is needed to put all fields of the table, only the
+ * fields that appear in the array will be used in the insert, if some
+ * field is not a part of the fields of the table, an error will be
+ * triggered
  */
 function make_insert_query($table, $array)
 {
+    $fields = get_fields_from_dbschema($table);
     $list1 = array();
     $list2 = array();
-    foreach ($array as $key => $val) {
-        $list1[] = $key;
-        $list2[] = "'" . addslashes(null2string($val)) . "'";
+    foreach ($fields as $field) {
+        $name = $field["name"];
+        if (!array_key_exists($name, $array)) {
+            continue;
+        }
+        $list1[] = $name;
+        $type = $field["type"];
+        $type2 = get_field_type($type);
+        $size2 = get_field_size($type);
+        if ($type2 == "int") {
+            $list2[] = "'" . intval($array[$name]) . "'";
+        } elseif ($type2 == "float") {
+            $list2[] = "'" . floatval($array[$name]) . "'";
+        } elseif ($type2 == "date") {
+            $list2[] = "'" . dateval($array[$name]) . "'";
+        } elseif ($type2 == "time") {
+            $list2[] = "'" . timeval($array[$name]) . "'";
+        } elseif ($type2 == "datetime") {
+            $list2[] = "'" . datetimeval($array[$name]) . "'";
+        } elseif ($type2 == "string") {
+            $list2[] = "'" . addslashes(substr(null2string($array[$name]), 0, $size2)) . "'";
+        } else {
+            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
+        }
+        unset($array[$name]);
+    }
+    if (count($array)) {
+        $temp = implode(", ", array_keys($array));
+        show_php_error(array("phperror" => "Unused data '$temp' in " . __FUNCTION__));
     }
     $list1 = implode(",", $list1);
     $list2 = implode(",", $list2);
-    $query = "INSERT INTO {$table}({$list1}) VALUES({$list2})";
+    $query = "INSERT INTO $table($list1) VALUES($list2)";
     return $query;
 }
 
@@ -622,15 +658,51 @@ function make_insert_query($table, $array)
  *           the field
  * @where => where clausule used to update only the expected registers, can be
  *           the output of make_where_query
+ *
+ * Notes:
+ *
+ * This function tries to cast each value to their data type getting this
+ * information from dbschema config, you can pass in array all fields that
+ * you want and not is needed to put all fields of the table, only the
+ * fields that appear in the array will be used in the update, if some
+ * field is not a part of the fields of the table, an error will be
+ * triggered
  */
 function make_update_query($table, $array, $where)
 {
-    $list1 = array();
-    foreach ($array as $key => $val) {
-        $list1[] = $key . "='" . addslashes(null2string($val)) . "'";
+    $fields = get_fields_from_dbschema($table);
+    $list = array();
+    foreach ($fields as $field) {
+        $name = $field["name"];
+        if (!array_key_exists($name, $array)) {
+            continue;
+        }
+        $type = $field["type"];
+        $type2 = get_field_type($type);
+        $size2 = get_field_size($type);
+        if ($type2 == "int") {
+            $list[] = $name  .  "='" . intval($array[$name]) . "'";
+        } elseif ($type2 == "float") {
+            $list[] = $name  .  "='" . floatval($array[$name]) . "'";
+        } elseif ($type2 == "date") {
+            $list[] = $name  .  "='" . dateval($array[$name]) . "'";
+        } elseif ($type2 == "time") {
+            $list[] = $name  .  "='" . timeval($array[$name]) . "'";
+        } elseif ($type2 == "datetime") {
+            $list[] = $name  .  "='" . datetimeval($array[$name]) . "'";
+        } elseif ($type2 == "string") {
+            $list[] = $name  .  "='" . addslashes(substr(null2string($array[$name]), 0, $size2)) . "'";
+        } else {
+            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
+        }
+        unset($array[$name]);
     }
-    $list1 = implode(",", $list1);
-    $query = "UPDATE {$table} SET {$list1} WHERE {$where}";
+    if (count($array)) {
+        $temp = implode(", ", array_keys($array));
+        show_php_error(array("phperror" => "Unused data '$temp' in " . __FUNCTION__));
+    }
+    $list = implode(",", $list);
+    $query = "UPDATE $table SET $list WHERE $where";
     return $query;
 }
 
@@ -644,10 +716,10 @@ function make_update_query($table, $array, $where)
  */
 function make_where_query($array)
 {
-    $list1 = array();
+    $list = array();
     foreach ($array as $key => $val) {
-        $list1[] = $key . "='" . addslashes(null2string($val)) . "'";
+        $list[] = $key . "='" . addslashes(null2string($val)) . "'";
     }
-    $query = "(" . implode(" AND ", $list1) . ")";
+    $query = "(" . implode(" AND ", $list) . ")";
     return $query;
 }
