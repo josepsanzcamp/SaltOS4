@@ -26,37 +26,39 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-    <tbl_groups delete="false">
-        <row id="1" code="admin" name="Admin" description="Admin group"/>
-    </tbl_groups>
-    <tbl_users delete="false">
-        <row id="1" group_id="1" active="1" login="admin" password="$2y$10$UOaeeyK5AxxI.TmUk3PpFubWrr8UmtloItALSFMxyX5OJUWmOmxKO" name="Admin" description="Admin user" start="00:00:00" end="24:00:00" days="1111111"/>
-    </tbl_users>
-    <tbl_apps>
-        <row id="1" code="clientes" name="Clientes" description="Aplicacion de clientes" _table="app_clientes" field="nombre"/>
-        <row id="2" code="proveedores" name="Proveedores" description="Aplicacion de proveedores" _table="app_proveedores" field="nombre"/>
-        <row id="3" code="correo" name="Correo" description="Cliente de correo" _table="app_correo" field="CONCAT(de,' - ',subject)" subtables="app_correo_a(id_correo)"/>
-    </tbl_apps>
-    <tbl_perms>
-        <row id="1" code="menu" name="Mostrar entrada en el menú"/>
-        <row id="2" code="create" name="Crear registros"/>
-        <row id="11" code="user_list" name="Listar sólo registros del usuario"/>
-        <row id="12" code="group_list" name="Listar registros del usuario y grupo"/>
-        <row id="13" code="all_list" name="Listar todos los registros"/>
-        <row id="21" code="user_view" name="Ver detalle sólo de los registros del usuario"/>
-        <row id="22" code="group_view" name="Ver detalle de los registros del usuario y grupo"/>
-        <row id="23" code="all_view" name="Ver detalle de todos los registros"/>
-        <row id="31" code="user_edit" name="Modificar sólo los registros del usuario"/>
-        <row id="32" code="group_edit" name="Modificar los registros del usuario y grupo"/>
-        <row id="33" code="all_edit" name="Modificar todos los registros"/>
-        <row id="41" code="user_delete" name="Eliminar sólo los registros del usuario"/>
-        <row id="42" code="group_delete" name="Eliminar los registros del usuario y grupo"/>
-        <row id="43" code="all_delete" name="Eliminar todos los registros"/>
-    </tbl_perms>
-    <tbl_apps_perms>
-        <row app_id="1,2,3" perm_id="1,2,11,12,13,21,22,23,31,32,33,41,42,43" allow="0" deny="0"/>
-    </tbl_apps_perms>
-    <tbl_users_apps_perms>
-        <row user_id="1" app_id="1,2,3" perm_id="1,2,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
-    </tbl_users_apps_perms>
+    <tables>
+        <table name="tbl_groups" delete="false">
+            <row id="1" code="admin" name="Admin" description="Admin group"/>
+        </table>
+        <table name="tbl_users" delete="false">
+            <row id="1" group_id="1" active="1" login="admin" password="$2y$10$UOaeeyK5AxxI.TmUk3PpFubWrr8UmtloItALSFMxyX5OJUWmOmxKO" name="Admin" description="Admin user" start="00:00:00" end="24:00:00" days="1111111"/>
+        </table>
+        <table name="tbl_apps">
+            <row id="1" code="clientes" name="Clientes" description="Aplicacion de clientes" _table="app_clientes" field="nombre"/>
+            <row id="2" code="proveedores" name="Proveedores" description="Aplicacion de proveedores" _table="app_proveedores" field="nombre"/>
+            <row id="3" code="correo" name="Correo" description="Cliente de correo" _table="app_correo" field="CONCAT(de,' - ',subject)" subtables="app_correo_a(id_correo)"/>
+        </table>
+        <table name="tbl_perms">
+            <row id="1" code="menu" name="Mostrar entrada en el menú"/>
+            <row id="2" code="create" name="Crear registros"/>
+            <row id="11" code="user_list" name="Listar sólo registros del usuario"/>
+            <row id="12" code="group_list" name="Listar registros del usuario y grupo"/>
+            <row id="13" code="all_list" name="Listar todos los registros"/>
+            <row id="21" code="user_view" name="Ver detalle sólo de los registros del usuario"/>
+            <row id="22" code="group_view" name="Ver detalle de los registros del usuario y grupo"/>
+            <row id="23" code="all_view" name="Ver detalle de todos los registros"/>
+            <row id="31" code="user_edit" name="Modificar sólo los registros del usuario"/>
+            <row id="32" code="group_edit" name="Modificar los registros del usuario y grupo"/>
+            <row id="33" code="all_edit" name="Modificar todos los registros"/>
+            <row id="41" code="user_delete" name="Eliminar sólo los registros del usuario"/>
+            <row id="42" code="group_delete" name="Eliminar los registros del usuario y grupo"/>
+            <row id="43" code="all_delete" name="Eliminar todos los registros"/>
+        </table>
+        <table name="tbl_apps_perms">
+            <row app_id="1,2,3" perm_id="1,2,11,12,13,21,22,23,31,32,33,41,42,43" allow="0" deny="0"/>
+        </table>
+        <table name="tbl_users_apps_perms">
+            <row user_id="1" app_id="1,2,3" perm_id="1,2,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
+        </table>
+    </tables>
 </root>

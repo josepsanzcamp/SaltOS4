@@ -153,15 +153,14 @@ function db_static()
         return;
     }
     $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
-    if (is_array($dbstatic)) {
-        foreach ($dbstatic as $table => $rows) {
-            // To detect delete attribute
+    if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
+        foreach ($dbstatic["tables"] as $data) {
+            $table = $data["#attr"]["name"];
             $delete = true;
-            if (isset($rows["value"]) && isset($rows["#attr"])) {
-                $delete = isset($rows["#attr"]["delete"]) && eval_bool($rows["#attr"]["delete"]);
-                $rows = $rows["value"];
+            if (isset($data["#attr"]["delete"])) {
+                $delete =  eval_bool($data["#attr"]["delete"]);
             }
-            // Continue
+            $rows = $data["value"];
             if ($delete) {
                 $query = "DELETE FROM $table";
                 db_query($query);
@@ -349,11 +348,13 @@ function __dbschema_auto_apps($dbschema)
 {
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
         $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
-        if (is_array($dbstatic)) {
-            foreach ($dbstatic as $table => $rows) {
+        if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
+            foreach ($dbstatic["tables"] as $data) {
+                $table = $data["#attr"]["name"];
                 if ($table != "tbl_apps") {
                     continue;
                 }
+                $rows = $data["value"];
                 foreach ($rows as $row) {
                     if (isset($row["#attr"]["_table"]) && $row["#attr"]["_table"] != "") {
                         $code = $row["#attr"]["code"];
