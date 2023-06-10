@@ -343,6 +343,12 @@ function __dbschema_helper($fn, $table)
  * This function is a helper to the dbschema functions, to create an indexing table for each app
  *
  * @dbschema => the dbschema array
+ *
+ * Notes:
+ *
+ * This feature creates a table and try to use Mroonga storage engine with one field, the main
+ * idea of this tables is to store all contents of the register to do quick searchs using a
+ * fulltext search engine
  */
 function __dbschema_auto_apps($dbschema)
 {
@@ -405,6 +411,11 @@ function __dbschema_auto_apps($dbschema)
  * This function is a helper to the dbschema functions, to create an index for each fkey
  *
  * @dbschema => the dbschema array
+ *
+ * Notes:
+ *
+ * By default, MariaDB creates an index for each foreing key, but SQLite not does is by default
+ * and for this reason, SaltOS creates an index automatically, to improve the performance
  */
 function __dbschema_auto_fkey($dbschema)
 {
@@ -437,6 +448,13 @@ function __dbschema_auto_fkey($dbschema)
  * This function is a helper to the dbschema functions, to auto name the indexes
  *
  * @dbschema => the dbschema array
+ *
+ * Notes:
+ *
+ * This function allow to specify indexes only specifying the fields that you want
+ * to conform the index, but the engines as MariaDB and SQLite, requires that each
+ * index have a unique name, and for this reason, we add this feature to automate
+ * this part of the process
  */
 function __dbschema_auto_name($dbschema)
 {
