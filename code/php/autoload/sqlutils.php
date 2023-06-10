@@ -401,7 +401,7 @@ function sql_create_table($tablespec)
         }
     }
     $fields = implode(",", $fields);
-    if (in_array($table,get_fulltext_from_dbschema()) && __has_engine("mroonga")) {
+    if (in_array($table, get_fulltext_from_dbschema()) && __has_engine("mroonga")) {
         $post = "/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 */";
     } elseif (__has_engine("aria")) {
         $post = "/*MYSQL ENGINE=Aria CHARSET=utf8mb4 */";
