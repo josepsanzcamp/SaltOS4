@@ -401,7 +401,7 @@ function sql_create_table($tablespec)
         }
     }
     $fields = implode(",", $fields);
-    if (__has_fulltext_index($table) && __has_engine("mroonga")) {
+    if (in_array($table,get_fulltext_from_dbschema()) && __has_engine("mroonga")) {
         $post = "/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 */";
     } elseif (__has_engine("aria")) {
         $post = "/*MYSQL ENGINE=Aria CHARSET=utf8mb4 */";
@@ -410,31 +410,6 @@ function sql_create_table($tablespec)
     }
     $query = "CREATE TABLE $table ($fields) $post";
     return $query;
-}
-
-/*
- * Has Fulltext Index helper
- *
- * This function returns a boolean if the indexes contains the fulltext
- * enabled attribute for the requested table
- *
- * @table => the table that you want to know if contains an fulltext index
- */
-function __has_fulltext_index($table)
-{
-    static $fulltext = null;
-    if ($fulltext === null) {
-        $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
-        $fulltext = array();
-        if (is_array($dbschema) && isset($dbschema["indexes"]) && is_array($dbschema["indexes"])) {
-            foreach ($dbschema["indexes"] as $indexspec) {
-                if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
-                    $fulltext[$indexspec["#attr"]["table"]] = 1;
-                }
-            }
-        }
-    }
-    return isset($fulltext[$table]);
 }
 
 /*

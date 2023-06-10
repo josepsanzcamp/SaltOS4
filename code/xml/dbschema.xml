@@ -112,6 +112,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="code" type="VARCHAR(255)"/>
 				<field name="name" type="VARCHAR(255)"/>
 				<field name="description" type="TEXT"/>
+				<field name="_table" type="VARCHAR(255)"/>
+				<field name="subtables" type="VARCHAR(255)"/>
+				<field name="field" type="VARCHAR(255)"/>
 			</fields>
 		</table>
 		<table name="tbl_perms">
@@ -169,15 +172,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="bcc" type="TEXT"/>
 				<field name="files" type="INT(11)"/>
 			</fields>
-		</table>
-		<table name="idx_correo">
-			<fields>
-				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="search" type="MEDIUMTEXT"/>
-			</fields>
-			<indexes>
-				<index fields="search" fulltext="true"/>
-			</indexes>
 		</table>
 
 		<table name="app_clientes">
