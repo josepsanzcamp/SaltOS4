@@ -457,8 +457,8 @@ function __dbschema_auto_fkey($dbschema)
  * this part of the process
  *
  * You can see how the name of the index is different for MySQL and SQLite, this is
- * because the name can be the same in MySQL but in SQLite, the name of the index
- * must to be unique
+ * because in MySQL, the name can be repeated in different tables, but in SQLite,
+ * the name must be unique in the database
  */
 function __dbschema_auto_name($dbschema)
 {
