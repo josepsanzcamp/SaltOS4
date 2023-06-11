@@ -137,9 +137,11 @@ function gettrace($array)
  */
 function session_backtrace()
 {
-    return array(
+    $array = array(
         "pid" => getmypid(),
         "time" => current_datetime_decimals(),
         "token" => get_server("HTTP_TOKEN"),
     );
+    $array = array_diff($array, array(""));
+    return $array;
 }

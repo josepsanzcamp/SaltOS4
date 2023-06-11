@@ -1329,7 +1329,7 @@ saltos.__form_field.table = function (field) {
         for (var key in field.header) {
             obj.querySelector("thead tr").append(saltos.html("tr",`<th>${field.header[key]}</th>`));
         }
-        if (field.data[0].hasOwnProperty("actions")) {
+        if (field.data.length && field.data[0].hasOwnProperty("actions")) {
             obj.querySelector("thead tr").append(saltos.html("tr",`<th style="width:1%"></th>`));
         }
     }
@@ -1398,7 +1398,7 @@ saltos.__form_field.table = function (field) {
         for (var key in field.footer) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
         }
-        if (field.data[0].hasOwnProperty("actions")) {
+        if (field.data.length && field.data[0].hasOwnProperty("actions")) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
         }
     }

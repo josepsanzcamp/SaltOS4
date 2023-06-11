@@ -455,6 +455,10 @@ function __dbschema_auto_fkey($dbschema)
  * to conform the index, but the engines as MariaDB and SQLite, requires that each
  * index have a unique name, and for this reason, we add this feature to automate
  * this part of the process
+ *
+ * You can see how the name of the index is different for MySQL and SQLite, this is
+ * because the name can be the same in MySQL but in SQLite, the name of the index
+ * must to be unique
  */
 function __dbschema_auto_name($dbschema)
 {
@@ -467,13 +471,11 @@ function __dbschema_auto_name($dbschema)
                 $indexes[$tablespec["#attr"]["name"]] = array();
                 foreach ($tablespec["value"]["indexes"] as $indexkey => $indexspec) {
                     if (!isset($indexspec["#attr"]["name"])) {
-                        //~ $table = $tablespec["#attr"]["name"];
-                        //~ $fields = $indexspec["#attr"]["fields"];
-                        //~ $dbschema["tables"][$tablekey]["value"]["indexes"][$indexkey]["#attr"]["name"] =
-                            //~ substr($table . "_" . str_replace(",", "_", $fields), 0, 64);
+                        $table = $tablespec["#attr"]["name"];
                         $fields = $indexspec["#attr"]["fields"];
                         $dbschema["tables"][$tablekey]["value"]["indexes"][$indexkey]["#attr"]["name"] =
-                            substr(str_replace(",", "_", $fields), 0, 64);
+                            "/*SQLITE " . substr($table . "_" . str_replace(",", "_", $fields), 0, 64) . " */" .
+                            "/*MYSQL " . substr(str_replace(",", "_", $fields), 0, 64) . " */";
                     }
                 }
             }
