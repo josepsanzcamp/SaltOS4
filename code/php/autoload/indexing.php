@@ -134,7 +134,6 @@ function make_indexing($app, $reg_id = null)
     foreach ($queries as $key => $val) {
         $queries[$key] = "IFNULL(($val),'')";
     }
-    echo "<pre>".sprintr($queries)."</pre>";
     $search = "CONCAT(" . implode(",' ',", $queries) . ")";
     // Do the insert or update action to the indexing table
     if ($indexing_id) {
@@ -166,9 +165,9 @@ function __make_indexing_helper($table, $id = "")
     if (isset($cache[$hash])) {
         return $cache[$hash];
     }
-    $fieldnames = array_column(get_fields_from_dbschema($table),"name");
+    $fieldnames = array_column(get_fields_from_dbschema($table), "name");
     if (!count($fieldnames)) {
-        $fieldnames = array_column(get_fields($table),"name");
+        $fieldnames = array_column(get_fields($table), "name");
     }
     $result = $fieldnames;
     $result[] = "LPAD(id," . intval(get_config("zero_padding_digits")) . ",0)";
@@ -180,19 +179,19 @@ function __make_indexing_helper($table, $id = "")
     foreach ($fieldfkeys as $key => $val) {
         $temp = get_field_from_dbstatic($val);
         if ($temp == "") {
-            $temp = implode(",' ',", array_column(get_fields_from_dbschema($val),"name"));
+            $temp = implode(",' ',", array_column(get_fields_from_dbschema($val), "name"));
             if ($temp != "") {
                 $temp = "CONCAT($temp)";
             }
         }
         if ($temp == "") {
-            $temp = implode(",' ',", array_column(get_fields($val),"name"));
+            $temp = implode(",' ',", array_column(get_fields($val), "name"));
             if ($temp != "") {
                 $temp = "CONCAT($temp)";
             }
         }
         $field = $temp;
-        $type = get_field_type(array_column(get_fields_from_dbschema($table),"type","name")[$key]);
+        $type = get_field_type(array_column(get_fields_from_dbschema($table), "type", "name")[$key]);
         if ($type == "int") {
             if ($id == "") {
                 $where = "$val.id=$key";

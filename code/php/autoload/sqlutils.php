@@ -320,7 +320,7 @@ function get_field_type($type)
         $datatypes = array();
         foreach ($temp as $key => $val) {
             $val = explode(",", $val);
-            foreach($val as $key2 => $val2) {
+            foreach ($val as $key2 => $val2) {
                 $datatypes[$val2] = $key;
             }
         }

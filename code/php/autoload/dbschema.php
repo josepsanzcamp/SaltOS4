@@ -27,6 +27,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength
+
 /*
  * DB Schema
  *
@@ -329,8 +331,7 @@ function __dbschema_helper($fn, $table)
                     if (isset($tablespec["value"]["indexes"])) {
                         $indexes[$tablespec["#attr"]["name"]] = array();
                         foreach ($tablespec["value"]["indexes"] as $indexspec) {
-                            $indexes[$tablespec["#attr"]["name"]]
-                                    [parse_query($indexspec["#attr"]["name"])] = explode(",", $indexspec["#attr"]["fields"]);
+                            $indexes[$tablespec["#attr"]["name"]][parse_query($indexspec["#attr"]["name"])] = explode(",", $indexspec["#attr"]["fields"]);
                             if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
                                 $fulltext[$tablespec["#attr"]["name"]] = 1;
                             }
@@ -501,7 +502,10 @@ function __dbschema_auto_name($dbschema)
 }
 
 /*
- * TODO
+ * Get Apps From DBStatic
+ *
+ * This function returns the list of apps that have a table and field defined
+ * in the dbstatic file
  */
 function get_apps_from_dbstatic()
 {
@@ -509,7 +513,12 @@ function get_apps_from_dbstatic()
 }
 
 /*
- * TODO
+ * Get Field From DBStatic
+ *
+ * This function return the field associated to the table in the dbstatic
+ * file and associated to the apps table
+ *
+ * @table => the table of the dbstatic that want to convert to field
  */
 function get_field_from_dbstatic($table)
 {
@@ -517,7 +526,15 @@ function get_field_from_dbstatic($table)
 }
 
 /*
- * TODO
+ * DB Static helper
+ *
+ * This function is intended to act as helper of the dbstatic ecosystem, this
+ * function can return the apps that contain table and field definitions and
+ * too, can return the field associated to a apps table, usefull for the
+ * indexing feature
+ *
+ * @fn => the caller function name
+ * @table => the table used by some features
  */
 function __dbstatic_helper($fn, $table)
 {
