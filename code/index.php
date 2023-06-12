@@ -46,6 +46,9 @@ db_connect(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
 db_schema(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
 db_static(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
 
+make_indexing("correo",1); // TODO TEST
+die();
+
 // Collect all input data
 $data = array(
     //~ "headers" => getallheaders(),

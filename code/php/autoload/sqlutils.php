@@ -306,21 +306,29 @@ function get_tables()
 function get_field_type($type)
 {
     $type = parse_query($type);
-    $type = strtoupper(strtok($type, "("));
-    $datatypes = array(
-        "int" => "TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER",
-        "string" => "TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR",
-        "float" => "DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE",
-        "date" => "DATE",
-        "time" => "TIME",
-        "datetime" => "DATETIME",
-    );
-    foreach ($datatypes as $key => $val) {
-        if (in_array($type, explode(",", $val))) {
-            return $key;
+    $type1 = strtoupper(strtok($type, "("));
+    static $datatypes = null;
+    if ($datatypes === null) {
+        $temp = array(
+            "int" => "TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER",
+            "string" => "TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR",
+            "float" => "DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE",
+            "date" => "DATE",
+            "time" => "TIME",
+            "datetime" => "DATETIME",
+        );
+        $datatypes = array();
+        foreach ($temp as $key => $val) {
+            $val = explode(",", $val);
+            foreach($val as $key2 => $val2) {
+                $datatypes[$val2] = $key;
+            }
         }
     }
-    show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
+    if (isset($datatypes[$type1])) {
+        return $datatypes[$type1];
+    }
+    show_php_error(array("phperror" => "Unknown type '$type1' in " . __FUNCTION__));
 }
 
 /*
@@ -342,12 +350,13 @@ function get_field_size($type)
         "MEDIUMTEXT" => 16777215,
         "LONGTEXT" => 4294967295,
     );
-    foreach ($datasizes as $key => $val) {
-        if ($type1 == $key) {
-            return intval($val);
-        }
+    if (isset($datasizes[$type1])) {
+        return intval($datasizes[$type1]);
     }
-    return intval($type2);
+    if ($type2 != "") {
+        return intval($type2);
+    }
+    show_php_error(array("phperror" => "Unknown type '$type1' in " . __FUNCTION__));
 }
 
 /*

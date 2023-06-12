@@ -148,7 +148,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<table name="app_correo">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_cuenta" type="INT(11)" fkey="tbl_users_c"/>
+				<field name="id_cuenta" type="INT(11)" fkey="tbl_users"/>
 				<field name="uidl" type="VARCHAR(250)"/>
 				<field name="datetime" type="DATETIME"/>
 				<field name="size" type="INT(11)"/>
@@ -173,6 +173,23 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="files" type="INT(11)"/>
 			</fields>
 		</table>
+        <table name="app_correo_a">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id_correo" type="INT(11)" fkey="app_correo" fcheck="false"/>
+                <field name="id_tipo" type="INT(11)"/>
+				<field name="nombre" type="VARCHAR(255)"/>
+				<field name="valor" type="VARCHAR(255)"/>
+			</fields>
+        </table>
+        <table name="app_correo_d">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_cuenta" type="INT(11)" fkey="tbl_users"/>
+				<field name="uidl" type="VARCHAR(250)"/>
+				<field name="datetime" type="DATETIME"/>
+            </fields>
+        </table>
 
 		<table name="app_clientes">
 			<fields>

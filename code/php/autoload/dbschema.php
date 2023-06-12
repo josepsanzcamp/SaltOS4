@@ -168,7 +168,7 @@ function db_static()
                 db_query($query);
             }
             foreach ($rows as $row) {
-                __db_static_helper($table, $row["#attr"], $delete);
+                __dbstatic_insert($table, $row["#attr"], $delete);
             }
         }
     }
@@ -177,7 +177,7 @@ function db_static()
 }
 
 /*
- * DB Static helper
+ * DB Static insert
  *
  * This function is a helper of previous function, is intended to be used by db_static and
  * allow to use a comma separated values in fields as "id", start by "id_" or end by "_id"
@@ -186,7 +186,7 @@ function db_static()
  * @row => the row that you want to add in the table
  * @delete => this field allow to check if the row exists to do an update instead of insert
  */
-function __db_static_helper($table, $row, $delete)
+function __dbstatic_insert($table, $row, $delete)
 {
     $found = "";
     foreach ($row as $field => $value) {
@@ -201,7 +201,7 @@ function __db_static_helper($table, $row, $delete)
         $a = explode(",", $row[$found]);
         foreach ($a as $b) {
             $row[$found] = $b;
-            __db_static_helper($table, $row, $delete);
+            __dbstatic_insert($table, $row, $delete);
         }
     } else {
         $query = make_insert_query($table, $row);
@@ -272,6 +272,18 @@ function get_fulltext_from_dbschema()
 }
 
 /*
+ * Get Fkeys from DB Schema
+ *
+ * This function returns the fkeys from the DB Schema file
+ *
+ * @table => the table that you want to request the fkeys
+ */
+function get_fkeys_from_dbschema($table)
+{
+    return __dbschema_helper(__FUNCTION__, $table);
+}
+
+/*
  * DB Schema helper
  *
  * This function is a helper for the previous functions, is intended to be used
@@ -286,6 +298,7 @@ function __dbschema_helper($fn, $table)
     static $indexes = null;
     static $ignores = null;
     static $fulltext = null;
+    static $fkeys = null;
     if ($tables === null) {
         $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
         $dbschema = __dbschema_auto_apps($dbschema);
@@ -295,6 +308,7 @@ function __dbschema_helper($fn, $table)
         $indexes = array();
         $ignores = array();
         $fulltext = array();
+        $fkeys = array();
         if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
             foreach ($dbschema["tables"] as $tablespec) {
                 if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
@@ -306,6 +320,11 @@ function __dbschema_helper($fn, $table)
                             "name" => $fieldspec["#attr"]["name"],
                             "type" => strtoupper(parse_query($fieldspec["#attr"]["type"]))
                         );
+                        if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
+                            if (!isset($fieldspec["#attr"]["fckeck"]) || eval_bool($fieldspec["#attr"]["fckeck"])) {
+                                $fkeys[$tablespec["#attr"]["name"]][$fieldspec["#attr"]["name"]] = $fieldspec["#attr"]["fkey"];
+                            }
+                        }
                     }
                     if (isset($tablespec["value"]["indexes"])) {
                         $indexes[$tablespec["#attr"]["name"]] = array();
@@ -327,16 +346,23 @@ function __dbschema_helper($fn, $table)
         if (isset($tables[$table])) {
             return $tables[$table];
         }
+        return array();
     } elseif (stripos($fn, "get_indexes") !== false) {
         if (isset($indexes[$table])) {
             return $indexes[$table];
         }
+        return array();
     } elseif (stripos($fn, "get_ignores") !== false) {
         return array_keys($ignores);
     } elseif (stripos($fn, "get_fulltext") !== false) {
         return array_keys($fulltext);
+    } elseif (stripos($fn, "get_fkeys") !== false) {
+        if (isset($fkeys[$table])) {
+            return $fkeys[$table];
+        }
+        return array();
     }
-    return array();
+    show_php_error(array("phperror" => "Unknown fn '$fn' in " . __FUNCTION__));
 }
 
 /*
@@ -355,53 +381,41 @@ function __dbschema_helper($fn, $table)
 function __dbschema_auto_apps($dbschema)
 {
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-        $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
-        if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
-            foreach ($dbstatic["tables"] as $data) {
-                $table = $data["#attr"]["name"];
-                if ($table != "tbl_apps") {
-                    continue;
-                }
-                $rows = $data["value"];
-                foreach ($rows as $row) {
-                    if (isset($row["#attr"]["_table"]) && $row["#attr"]["_table"] != "") {
-                        $code = $row["#attr"]["code"];
-                        set_array($dbschema["tables"], "table", array(
-                            "value" => array(
-                                "fields" => array(
-                                    "field#1" => array(
-                                        "value" => "",
-                                        "#attr" => array(
-                                            "name" => "id",
-                                            "type" => "/*MYSQL INT(11) *//*SQLITE INTEGER */",
-                                            "pkey" => "true",
-                                        )
-                                    ),
-                                    "field#2" => array(
-                                        "value" => "",
-                                        "#attr" => array(
-                                            "name" => "search",
-                                            "type" => "MEDIUMTEXT",
-                                        )
-                                    )
-                                ),
-                                "indexes" => array(
-                                    "index" => array(
-                                        "value" => "",
-                                        "#attr" => array(
-                                            "fulltext" => "true",
-                                            "fields" => "search",
-                                        )
-                                    )
-                                )
-                            ),
+        $apps = get_apps_from_dbstatic();
+        foreach ($apps as $app) {
+            set_array($dbschema["tables"], "table", array(
+                "value" => array(
+                    "fields" => array(
+                        "field#1" => array(
+                            "value" => "",
                             "#attr" => array(
-                                "name" => "idx_$code",
+                                "name" => "id",
+                                "type" => "/*MYSQL INT(11) *//*SQLITE INTEGER */",
+                                "pkey" => "true",
                             )
-                        ));
-                    }
-                }
-            }
+                        ),
+                        "field#2" => array(
+                            "value" => "",
+                            "#attr" => array(
+                                "name" => "search",
+                                "type" => "MEDIUMTEXT",
+                            )
+                        )
+                    ),
+                    "indexes" => array(
+                        "index" => array(
+                            "value" => "",
+                            "#attr" => array(
+                                "fulltext" => "true",
+                                "fields" => "search",
+                            )
+                        )
+                    )
+                ),
+                "#attr" => array(
+                    "name" => "idx_$app",
+                )
+            ));
         }
     }
     return $dbschema;
@@ -416,7 +430,7 @@ function __dbschema_auto_apps($dbschema)
  *
  * Notes:
  *
- * By default, MariaDB creates an index for each foreing key, but SQLite not does is by default
+ * By default, MariaDB creates an index for each foreign key, but SQLite not does is by default
  * and for this reason, SaltOS creates an index automatically, to improve the performance
  */
 function __dbschema_auto_fkey($dbschema)
@@ -484,4 +498,58 @@ function __dbschema_auto_name($dbschema)
         }
     }
     return $dbschema;
+}
+
+/*
+ * TODO
+ */
+function get_apps_from_dbstatic()
+{
+    return __dbstatic_helper(__FUNCTION__, "");
+}
+
+/*
+ * TODO
+ */
+function get_field_from_dbstatic($table)
+{
+    return __dbstatic_helper(__FUNCTION__, $table);
+}
+
+/*
+ * TODO
+ */
+function __dbstatic_helper($fn, $table)
+{
+    static $apps = null;
+    static $tables = array();
+    if ($apps === null) {
+        $apps = array();
+        $tables = array();
+        $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
+        if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
+            foreach ($dbstatic["tables"] as $data) {
+                $table = $data["#attr"]["name"];
+                if ($table != "tbl_apps") {
+                    continue;
+                }
+                $rows = $data["value"];
+                foreach ($rows as $row) {
+                    if (isset($row["#attr"]["_table"]) && $row["#attr"]["_table"] != "") {
+                        $apps[] = $row["#attr"]["code"];
+                        $tables[$row["#attr"]["_table"]] = $row["#attr"]["field"];
+                    }
+                }
+            }
+        }
+    }
+    if (stripos($fn, "get_apps") !== false) {
+        return $apps;
+    } elseif (stripos($fn, "get_field") !== false) {
+        if (isset($tables[$table])) {
+            return $tables[$table];
+        }
+        return "";
+    }
+    show_php_error(array("phperror" => "Unknown fn '$fn' in " . __FUNCTION__));
 }

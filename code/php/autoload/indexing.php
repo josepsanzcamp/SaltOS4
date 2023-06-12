@@ -30,11 +30,34 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 
 /*
- * TODO
+ * Make Indexing main function
+ *
+ * This function implements the make indexing feature of SaltOS, this consists
+ * in a concatenation of fields and subqueries to retrieve all data related to
+ * the tables involved in the desired application and the register reg_id
+ *
+ * @app => code of the application that you want to index
+ * @reg_id => register of the app that you want to index
+ *
+ * Notes:
+ *
+ * This function allow to pass a null reg_id, this trigger a query that get the
+ * last_id used by the table, if the reg_id is an array, the function does
+ * a recursive calls to index all ids of the reg_id array
+ *
+ * This function returns an integer as response about the indexing action:
+ *
+ * 1 => insert executed, this is because the app register exists and the indexing register not exists
+ * 2 => update executed, this is because the app register exists and the indexing register too exists
+ * 3 => delete executed, this is because the app register not exists and the indexing register exists
+ * -1 => app not found, this is because the app requested not have a table configured
+ * -2 => data not found, this is because the app register not exists and the indexting register too not exists
+ *
+ * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
 function make_indexing($app, $reg_id = null)
 {
-    // CHECK PARAMETERS
+    // Check the passed parameters
     $app_id = app2id($app);
     $table = app2table($app);
     if ($table == "") {
@@ -54,10 +77,10 @@ function make_indexing($app, $reg_id = null)
         }
         return $result;
     }
-    // BUSCAR SI EXISTE INDEXACION
+    // Search if index exists
     $query = "SELECT id FROM idx_$app WHERE id='$reg_id'";
     $indexing_id = execute_query($query);
-    // BUSCAR SI EXISTEN DATOS DE LA TABLA PRINCIPAL
+    // Search if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
@@ -69,9 +92,9 @@ function make_indexing($app, $reg_id = null)
             return -2;
         }
     }
-    // CONTINUE
+    // Continue the process after the checks
     $queries = array();
-    // OBTENER DATOS DE LA TABLA PRINCIPAL
+    // This part allow to get all data of the all fields from the main table
     $fields = __make_indexing_helper($table, $reg_id);
     foreach ($fields as $key => $val) {
         $fields[$key] = "IFNULL(($val),'')";
@@ -79,7 +102,7 @@ function make_indexing($app, $reg_id = null)
     $fields = "CONCAT(" . implode(",' ',", $fields) . ")";
     $query = "SELECT $fields FROM $table WHERE id='$reg_id'";
     $queries[] = $query;
-    // OBTENER DATOS DE LAS SUBTABLAS
+    // This part allow to get all data of the all fields from the subtables
     if ($subtables != "") {
         foreach (explode(",", $subtables) as $subtable) {
             $table = strtok($subtable, "(");
@@ -107,24 +130,33 @@ function make_indexing($app, $reg_id = null)
                 //~ AND id_registro='{$id_registro}'";
         //~ $queries[] = $query;
     //~ }
-    // PREPARAR QUERY PRINCIPAL
+    // Prepare the main query
     foreach ($queries as $key => $val) {
         $queries[$key] = "IFNULL(($val),'')";
     }
+    echo "<pre>".sprintr($queries)."</pre>";
     $search = "CONCAT(" . implode(",' ',", $queries) . ")";
-    // AÑADIR A LA TABLA INDEXING
+    // Do the insert or update action to the indexing table
     if ($indexing_id) {
         $query = "UPDATE idx_$app SET search=$search WHERE id=$indexing_id";
         db_query($query);
         return 2;
     } else {
-        $query = "REPLACE INTO idx_$app(id,search) VALUES($reg_id,$search)";
+        $query = "INSERT INTO idx_$app(id,search) VALUES($reg_id,$search)";
         db_query($query);
         return 1;
     }
 }
 
 /*
+ * Make Indexing helper
+ *
+ * This function allow the make_indexing to retrieve all data of the fiels
+ * and all data of the related fields of the related tables, this is done
+ * by using the fkey and fcheck information of the dbschema, this function
+ * uses some features of the dbschema functions to get the fields, types,
+ * fkeys and too, the dbstatic information of the app table
+ *
  * TODO
  */
 function __make_indexing_helper($table, $id = "")
@@ -134,90 +166,51 @@ function __make_indexing_helper($table, $id = "")
     if (isset($cache[$hash])) {
         return $cache[$hash];
     }
-    static $tables = null;
-    static $types = null;
-    static $fields = null;
-    static $campos = null;
-    if ($tables === null) {
-        $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
-        $tables = array();
-        $types = array();
-        $fields = array();
-        if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-            foreach ($dbschema["tables"] as $tablespec) {
-                $tables[$tablespec["name"]] = array();
-                $types[$tablespec["name"]] = array();
-                $fields[$tablespec["name"]] = array();
-                foreach ($tablespec["fields"] as $fieldspec) {
-                    if (!isset($fieldspec["fkey"])) {
-                        $fieldspec["fkey"] = "";
-                    }
-                    if (!isset($fieldspec["fcheck"])) {
-                        $fieldspec["fcheck"] = "true";
-                    }
-                    if ($fieldspec["fkey"] != "" && eval_bool($fieldspec["fcheck"])) {
-                        $tables[$tablespec["name"]][$fieldspec["name"]] = $fieldspec["fkey"];
-                        $types[$tablespec["name"]][$fieldspec["name"]] = get_field_type($fieldspec["type"]);
-                    }
-                    $fields[$tablespec["name"]][] = $fieldspec["name"];
-                }
-            }
-        }
+    $fieldnames = array_column(get_fields_from_dbschema($table),"name");
+    if (!count($fieldnames)) {
+        $fieldnames = array_column(get_fields($table),"name");
     }
-    if ($campos === null) {
-        $dbstatic = eval_attr(xml_join(xml2array(detect_apps_files("xml/dbstatic.xml"))));
-        $campos = array();
-        if (is_array($dbstatic) && isset($dbstatic["tbl_aplicaciones"]) && is_array($dbstatic["tbl_aplicaciones"])) {
-            foreach ($dbstatic["tbl_aplicaciones"] as $row) {
-                if (isset($row["tabla"]) && isset($row["campo"])) {
-                    if (substr($row["campo"], 0, 1) == '"' && substr($row["campo"], -1, 1) == '"') {
-                        $row["campo"] = eval_protected($row["campo"]);
-                    }
-                    $campos[$row["tabla"]] = $row["campo"];
-                }
-            }
-        }
-    }
-    if (!isset($fields[$tabla])) {
-        $fields[$tabla] = array();
-        foreach (get_fields($tabla) as $field) {
-            $fields[$tabla][] = $field["name"];
-        }
-    }
-    $result = $fields[$tabla];
+    $result = $fieldnames;
     $result[] = "LPAD(id," . intval(get_config("zero_padding_digits")) . ",0)";
-    if (isset($campos[$tabla])) {
-        $result[] = $campos[$tabla];
+    $tablefield = get_field_from_dbstatic($table);
+    if ($tablefield != "") {
+        $result[] = $tablefield;
     }
-    if (isset($tables[$tabla])) {
-        foreach ($tables[$tabla] as $key => $val) {
-            if (isset($campos[$val])) {
-                $campo = $campos[$val];
-            } elseif (isset($fields[$val])) {
-                $campo = "CONCAT(" . implode(",' ',", $fields[$val]) . ")";
+    $fieldfkeys = get_fkeys_from_dbschema($table);
+    foreach ($fieldfkeys as $key => $val) {
+        $temp = get_field_from_dbstatic($val);
+        if ($temp == "") {
+            $temp = implode(",' ',", array_column(get_fields_from_dbschema($val),"name"));
+            if ($temp != "") {
+                $temp = "CONCAT($temp)";
+            }
+        }
+        if ($temp == "") {
+            $temp = implode(",' ',", array_column(get_fields($val),"name"));
+            if ($temp != "") {
+                $temp = "CONCAT($temp)";
+            }
+        }
+        $field = $temp;
+        $type = get_field_type(array_column(get_fields_from_dbschema($table),"type","name")[$key]);
+        if ($type == "int") {
+            if ($id == "") {
+                $where = "$val.id=$key";
             } else {
-                $campo = "";
+                $where = "$val.id=(SELECT $key FROM $table WHERE id=$id)";
             }
-            $type = $types[$tabla][$key];
-            if ($type == "int") {
-                if ($id == "") {
-                    $where = "{$val}.id={$key}";
-                } else {
-                    $where = "{$val}.id=(SELECT {$key} FROM {$tabla} WHERE id={$id})";
-                }
-            } elseif ($type == "string") {
-                if ($id == "") {
-                    $where = "FIND_IN_SET({$val}.id,{$key})";
-                } else {
-                    $where = "FIND_IN_SET({$val}.id,(SELECT {$key} FROM {$tabla} WHERE id={$id}))";
-                }
-                $campo = "GROUP_CONCAT({$campo})";
+        } elseif ($type == "string") {
+            if ($id == "") {
+                $where = "FIND_IN_SET($val.id,$key)";
             } else {
-                $where = "";
+                $where = "FIND_IN_SET($val.id,(SELECT $key FROM $table WHERE id=$id))";
             }
-            if ($campo != "" && $where != "") {
-                $result[] = "(SELECT {$campo} FROM {$val} WHERE {$where})";
-            }
+            $field = "GROUP_CONCAT($field)";
+        } else {
+            $where = "";
+        }
+        if ($field != "" && $where != "") {
+            $result[] = "(SELECT $field FROM $val WHERE $where)";
         }
     }
     $cache[$hash] = $result;
