@@ -134,6 +134,12 @@ function gettrace($array)
  * Session Backtrace
  *
  * Returns a string with the pid, sessid and current datetime with decimals
+ *
+ * Notes:
+ *
+ * The fields of this array allow to do low level debug processes, this data is
+ * generally used by the semaphores and some forced addtrace calls, but causes
+ * problems in the error reporting because break the hash and checklog optimization
  */
 function session_backtrace()
 {

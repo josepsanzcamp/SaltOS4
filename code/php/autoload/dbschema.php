@@ -112,7 +112,9 @@ function db_schema()
             if (isset($tablespec["value"]["indexes"]) && is_array($tablespec["value"]["indexes"])) {
                 foreach ($tablespec["value"]["indexes"] as $indexspec) {
                     $indexspec["#attr"]["table"] = $table;
-                    $index = $indexspec["#attr"]["name"];
+                    // This parse_query is important because the name of the index is different
+                    // for MySQL and SQLite and must to be parsed
+                    $index = parse_query($indexspec["#attr"]["name"]);
                     if (array_key_exists($index, $indexes1)) {
                         $fields1 = $indexes1[$index];
                         $fields2 = $indexes2[$index];
@@ -309,7 +311,7 @@ function __dbschema_helper($fn, $table)
                         $indexes[$tablespec["#attr"]["name"]] = array();
                         foreach ($tablespec["value"]["indexes"] as $indexspec) {
                             $indexes[$tablespec["#attr"]["name"]]
-                                    [$indexspec["#attr"]["name"]] = explode(",", $indexspec["#attr"]["fields"]);
+                                    [parse_query($indexspec["#attr"]["name"])] = explode(",", $indexspec["#attr"]["fields"]);
                             if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
                                 $fulltext[$tablespec["#attr"]["name"]] = 1;
                             }
@@ -474,8 +476,8 @@ function __dbschema_auto_name($dbschema)
                         $table = $tablespec["#attr"]["name"];
                         $fields = $indexspec["#attr"]["fields"];
                         $dbschema["tables"][$tablekey]["value"]["indexes"][$indexkey]["#attr"]["name"] =
-                            "/*SQLITE " . substr($table . "_" . str_replace(",", "_", $fields), 0, 64) . " */" .
-                            "/*MYSQL " . substr(str_replace(",", "_", $fields), 0, 64) . " */";
+                            "/*MYSQL " . substr(str_replace(",", "_", $fields), 0, 64) . " */" .
+                            "/*SQLITE " . substr($table . "_" . str_replace(",", "_", $fields), 0, 64) . " */";
                     }
                 }
             }

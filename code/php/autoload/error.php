@@ -67,30 +67,39 @@ declare(strict_types=1);
  * @query => The text used in the Query section
  * @backtrace => The text used in the Backtrace section
  * @debug => The text used in the Debug section
+ *
+ * Notes:
+ *
+ * The unset for the pid and the time keys of the debug array is justificate
+ * because each execution modify the pid and the time entries and break the
+ * optimization of the hash with the checklog to prevent repetitions in the
+ * log file
  */
 function show_php_error($array)
 {
-    // TRICK FOR EXHAUSTED MEMORY ERROR
+    // Trick for exhausted memory error
     if (
         isset($array["phperror"]) &&
         words_exists("allowed memory size bytes exhausted tried allocate", $array["phperror"])
     ) {
         set_max_memory_limit();
     }
-    // ADD BACKTRACE AND DEBUG IF NOT FOUND
+    // Add backtrace and debug if not found
     if (!isset($array["backtrace"])) {
         $array["backtrace"] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
     if (!isset($array["debug"])) {
         $array["debug"] = session_backtrace();
+        unset($array["debug"]["pid"]);
+        unset($array["debug"]["time"]);
     }
-    // CREATE THE MESSAGE ERROR USING HTML ENTITIES AND PLAIN TEXT
+    // Create the message error using html entities and plain text
     $msg = do_message_error($array);
     $msg_text = $msg["text"];
     $msg_json = $msg["json"];
     $hash = md5($msg_text);
     $dir = get_directory("dirs/logsdir", getcwd_protected() . "/data/logs");
-    // REFUSE THE DEPRECATED WARNINGS
+    // Refuse the deprecated warnings
     if (isset($array["phperror"]) && stripos($array["phperror"], "deprecated") !== false) {
         if (is_writable($dir)) {
             $file = get_default("debug/deprecatedfile", "deprecated.log");
@@ -101,7 +110,7 @@ function show_php_error($array)
         }
         return;
     }
-    // ADD THE MSG_TEXT TO THE ERROR LOG FILE
+    // Add the msg_text to the error log file
     if (is_writable($dir)) {
         $file = get_default("debug/errorfile", "error.log");
         static $types = array(
@@ -125,7 +134,7 @@ function show_php_error($array)
         }
         addlog("***** {$hash} *****", $file);
     }
-    // PREPARE THE FINAL REPORT
+    // Prepare the final report
     output_handler_json(array(
         "error" => $msg_json
     ));
@@ -163,7 +172,7 @@ function do_message_error($array)
         "text" => "",
         "code" => "",
     );
-    // PREPARE JSON VERSION
+    // Prepare json version
     foreach ($array as $type => $data) {
         switch ($type) {
             case "dberror":
@@ -211,7 +220,7 @@ function do_message_error($array)
             }
         }
     }
-    // PREPARE HTML VERSION
+    // Prepare html version
     static $types = array(
         "dberror" => "DB Error",
         "phperror" => "PHP Error",

@@ -584,28 +584,29 @@ function make_insert_query($table, $array)
     $list2 = array();
     foreach ($fields as $field) {
         $name = $field["name"];
-        if (!array_key_exists($name, $array)) {
+        if (!isset($array[$name])) {
             continue;
         }
-        $list1[] = $name;
         $type = $field["type"];
         $type2 = get_field_type($type);
         $size2 = get_field_size($type);
         if ($type2 == "int") {
-            $list2[] = "'" . intval($array[$name]) . "'";
+            $temp = intval($array[$name]);
         } elseif ($type2 == "float") {
-            $list2[] = "'" . floatval($array[$name]) . "'";
+            $temp = floatval($array[$name]);
         } elseif ($type2 == "date") {
-            $list2[] = "'" . dateval($array[$name]) . "'";
+            $temp = dateval($array[$name]);
         } elseif ($type2 == "time") {
-            $list2[] = "'" . timeval($array[$name]) . "'";
+            $temp = timeval($array[$name]);
         } elseif ($type2 == "datetime") {
-            $list2[] = "'" . datetimeval($array[$name]) . "'";
+            $temp = datetimeval($array[$name]);
         } elseif ($type2 == "string") {
-            $list2[] = "'" . addslashes(substr(null2string($array[$name]), 0, $size2)) . "'";
+            $temp = addslashes(substr(null2string($array[$name]), 0, $size2));
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
+        $list1[] = $name;
+        $list2[] = "'$temp'";
         unset($array[$name]);
     }
     if (count($array)) {
@@ -645,27 +646,28 @@ function make_update_query($table, $array, $where)
     $list = array();
     foreach ($fields as $field) {
         $name = $field["name"];
-        if (!array_key_exists($name, $array)) {
+        if (!isset($array[$name])) {
             continue;
         }
         $type = $field["type"];
         $type2 = get_field_type($type);
         $size2 = get_field_size($type);
         if ($type2 == "int") {
-            $list[] = $name  .  "='" . intval($array[$name]) . "'";
+            $temp = intval($array[$name]);
         } elseif ($type2 == "float") {
-            $list[] = $name  .  "='" . floatval($array[$name]) . "'";
+            $temp = floatval($array[$name]);
         } elseif ($type2 == "date") {
-            $list[] = $name  .  "='" . dateval($array[$name]) . "'";
+            $temp = dateval($array[$name]);
         } elseif ($type2 == "time") {
-            $list[] = $name  .  "='" . timeval($array[$name]) . "'";
+            $temp = timeval($array[$name]);
         } elseif ($type2 == "datetime") {
-            $list[] = $name  .  "='" . datetimeval($array[$name]) . "'";
+            $temp = datetimeval($array[$name]);
         } elseif ($type2 == "string") {
-            $list[] = $name  .  "='" . addslashes(substr(null2string($array[$name]), 0, $size2)) . "'";
+            $temp = addslashes(substr(null2string($array[$name]), 0, $size2));
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
+        $list[] = "$name='$temp'";
         unset($array[$name]);
     }
     if (count($array)) {
