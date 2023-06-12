@@ -36,8 +36,8 @@ function make_indexing($app, $reg_id = null)
 {
     // CHECK PARAMETERS
     $app_id = app2id($app);
-    $app_table = app2table($app);
-    if ($app_table == "") {
+    $table = app2table($app);
+    if ($table == "") {
         return -1;
     }
     $subtables = app2subtables($app);
@@ -58,7 +58,7 @@ function make_indexing($app, $reg_id = null)
     $query = "SELECT id FROM idx_$app WHERE id='$reg_id'";
     $indexing_id = execute_query($query);
     // BUSCAR SI EXISTEN DATOS DE LA TABLA PRINCIPAL
-    $query = "SELECT id FROM $tabla WHERE id='$reg_id'";
+    $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
         if ($indexing_id) {
@@ -139,7 +139,7 @@ function __make_indexing_helper($table, $id = "")
     static $fields = null;
     static $campos = null;
     if ($tables === null) {
-        $dbschema = eval_attr(xml_join(xml2array(detect_apps_files("xml/dbschema.xml"))));
+        $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
         $tables = array();
         $types = array();
         $fields = array();

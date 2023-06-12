@@ -63,3 +63,85 @@ function add_list_actions($rows, $actions)
     }
     return $rows;
 }
+
+function __aplicaciones($tipo, $dato, $default)
+{
+    static $diccionario = array();
+    if (!count($diccionario)) {
+        $query = "SELECT id,code,_table,subtables FROM tbl_apps";
+        $result = db_query($query);
+        $diccionario["id2app"] = array();
+        $diccionario["app2id"] = array();
+        $diccionario["id2table"] = array();
+        $diccionario["app2table"] = array();
+        $diccionario["table2id"] = array();
+        $diccionario["table2app"] = array();
+        $diccionario["id2subtables"] = array();
+        $diccionario["app2subtables"] = array();
+        $diccionario["table2subtables"] = array();
+        while ($row = db_fetch_row($result)) {
+            $diccionario["id2app"][$row["id"]] = $row["code"];
+            $diccionario["app2id"][$row["code"]] = $row["id"];
+            $diccionario["id2table"][$row["id"]] = $row["_table"];
+            $diccionario["app2table"][$row["code"]] = $row["_table"];
+            $diccionario["table2id"][$row["_table"]] = $row["id"];
+            $diccionario["table2app"][$row["_table"]] = $row["code"];
+            $diccionario["id2subtables"][$row["id"]] = $row["subtables"];
+            $diccionario["app2subtables"][$row["code"]] = $row["subtables"];
+            $diccionario["table2subtables"][$row["_table"]] = $row["subtables"];
+        }
+        db_free($result);
+    }
+    if (!isset($diccionario[$tipo])) {
+        return $default;
+    }
+    if (!isset($diccionario[$tipo][$dato])) {
+        return $default;
+    }
+    return $diccionario[$tipo][$dato];
+}
+
+function id2app($id, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $id, $default);
+}
+
+function app2id($app, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $app, $default);
+}
+
+function id2table($id, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $id, $default);
+}
+
+function app2table($app, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $app, $default);
+}
+
+function table2id($table, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $table, $default);
+}
+
+function table2app($table, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $table, $default);
+}
+
+function id2subtables($id, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $id, $default);
+}
+
+function app2subtables($app, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $app, $default);
+}
+
+function table2subtables($table, $default = "")
+{
+    return __aplicaciones(__FUNCTION__, $table, $default);
+}
