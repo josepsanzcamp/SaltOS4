@@ -54,12 +54,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <data global="data" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($data["rest"][3]))</data>
     </data>
     <view>
-        <layout eval="true">xml2array("apps/clientes/app.xml")["form"]["layout"]</layout>
-        <data eval="true">xml2array("apps/clientes/app.xml")["data"]["data"]</data>
+        <layout eval="true">xmlfile2array("apps/clientes/app.xml")["form"]["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]["data"]</data>
     </view>
     <edit>
-        <layout eval="true">xml2array("apps/clientes/app.xml")["form"]["layout"]</layout>
-        <data eval="true">xml2array("apps/clientes/app.xml")["data"]["data"]</data>
+        <layout eval="true">xmlfile2array("apps/clientes/app.xml")["form"]["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]["data"]</data>
     </edit>
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">

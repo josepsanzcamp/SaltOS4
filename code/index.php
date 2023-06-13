@@ -38,7 +38,7 @@ init_time_get();
 check_system();
 
 // Normal operation
-$_CONFIG = eval_attr(xml2array("xml/config.xml"));
+$_CONFIG = eval_attr(xmlfile2array("xml/config.xml"));
 eval_iniset(get_default("ini_set"));
 eval_putenv(get_default("putenv"));
 

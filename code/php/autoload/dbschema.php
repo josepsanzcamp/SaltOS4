@@ -38,14 +38,14 @@ declare(strict_types=1);
 function db_schema()
 {
     $hash1 = get_config("xml/dbschema.xml");
-    $hash2 = md5(serialize(array(xml2array("xml/dbschema.xml"),xml2array("xml/dbstatic.xml"))));
+    $hash2 = md5(serialize(array(xmlfile2array("xml/dbschema.xml"),xmlfile2array("xml/dbstatic.xml"))));
     if ($hash1 == $hash2) {
         return;
     }
     if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
         return;
     }
-    $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
+    $dbschema = eval_attr(xmlfile2array("xml/dbschema.xml"));
     $dbschema = __dbschema_auto_apps($dbschema);
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
@@ -149,14 +149,14 @@ function db_schema()
 function db_static()
 {
     $hash1 = get_config("xml/dbstatic.xml");
-    $hash2 = md5(serialize(xml2array("xml/dbstatic.xml")));
+    $hash2 = md5(serialize(xmlfile2array("xml/dbstatic.xml")));
     if ($hash1 == $hash2) {
         return;
     }
     if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
         return;
     }
-    $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
+    $dbstatic = eval_attr(xmlfile2array("xml/dbstatic.xml"));
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
@@ -302,7 +302,7 @@ function __dbschema_helper($fn, $table)
     static $fulltext = null;
     static $fkeys = null;
     if ($tables === null) {
-        $dbschema = eval_attr(xml2array("xml/dbschema.xml"));
+        $dbschema = eval_attr(xmlfile2array("xml/dbschema.xml"));
         $dbschema = __dbschema_auto_apps($dbschema);
         $dbschema = __dbschema_auto_fkey($dbschema);
         $dbschema = __dbschema_auto_name($dbschema);
@@ -394,9 +394,7 @@ function __dbschema_auto_apps($dbschema)
                         </indexes>
                     </table>';
             $xml = str_replace("APP", $app, $xml);
-            $data = xml2struct($xml);
-            $data = array_reverse($data);
-            $array = struct2array($data);
+            $array = xml2array($xml);
             set_array($dbschema["tables"], "table", $array["table"]);
         }
     }
@@ -427,12 +425,10 @@ function __dbschema_auto_fkey($dbschema)
                     if (!isset($dbschema["tables"][$tablekey]["value"]["indexes"])) {
                         $dbschema["tables"][$tablekey]["value"]["indexes"] = array();
                     }
-                    set_array($dbschema["tables"][$tablekey]["value"]["indexes"], "index", array(
-                        "value" => "",
-                        "#attr" => array(
-                            "fields" => $fieldspec["#attr"]["name"],
-                        )
-                    ));
+                    $xml = '<index fields="FIELDS"/>';
+                    $xml = str_replace("FIELDS", $fieldspec["#attr"]["name"], $xml);
+                    $array = xml2array($xml);
+                    set_array($dbschema["tables"][$tablekey]["value"]["indexes"], "index", $array["index"]);
                 }
             }
         }
@@ -524,7 +520,7 @@ function __dbstatic_helper($fn, $table)
     if ($apps === null) {
         $apps = array();
         $tables = array();
-        $dbstatic = eval_attr(xml2array("xml/dbstatic.xml"));
+        $dbstatic = eval_attr(xmlfile2array("xml/dbstatic.xml"));
         if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
             foreach ($dbstatic["tables"] as $data) {
                 $table = $data["#attr"]["name"];

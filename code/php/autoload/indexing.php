@@ -160,7 +160,9 @@ function make_indexing($app, $reg_id = null)
  * uses some features of the dbschema functions to get the fields, types,
  * fkeys and too, the dbstatic information of the app table
  *
- * TODO
+ * This function uses a cache technique to improve the performance, returns
+ * an array with all fields and subqueries to allow to retrieve all data
+ * related to the app register
  */
 function __make_indexing_helper($table, $id = "")
 {

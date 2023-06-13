@@ -154,7 +154,7 @@ function detect_recursion($fn)
 }
 
 /*
- * XML to Array
+ * XML File to Array
  *
  * This function allow to convert a XML file to an array, allow to use cache to
  * optimize repetitive calls of the same file
@@ -166,7 +166,7 @@ function detect_recursion($fn)
  * @file => the file that you want to convert from xml to array
  * @usecache => if do you want to enable the cache feature
  */
-function xml2array($file, $usecache = true)
+function xmlfile2array($file, $usecache = true)
 {
     if (!file_exists($file)) {
         show_php_error(array("xmlerror" => "File not found: $file"));
@@ -185,15 +185,29 @@ function xml2array($file, $usecache = true)
         }
     }
     $xml = file_get_contents($file);
-    $data = xml2struct($xml, $file);
-    $data = array_reverse($data);
-    $array = struct2array($data, $file);
+    $array = xml2array($xml, $file);
     if ($usecache) {
         file_put_contents($cache, serialize($array));
         chmod($cache, 0666);
     }
     semaphore_release($file);
     return $array["root"];
+}
+
+/*
+ * XML to Array
+ *
+ * This function allow to convert a XML string to an array
+ *
+ * @xml => xml code to be converted to an array
+ * @file => filename of the contents, only used when an errors occurs
+ */
+function xml2array($xml, $file = "")
+{
+    $data = xml2struct($xml, $file);
+    $data = array_reverse($data);
+    $array = struct2array($data, $file);
+    return $array;
 }
 
 /*

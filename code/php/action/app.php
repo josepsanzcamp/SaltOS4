@@ -50,7 +50,7 @@ if (!file_exists($file)) {
     show_json_error("app " . $data["rest"][1] . " not found");
 }
 
-$array = xml2array($file);
+$array = xmlfile2array($file);
 
 if (!isset($data["rest"][2]) && count($array) == 1) {
     $data["rest"][2] = key($array);
