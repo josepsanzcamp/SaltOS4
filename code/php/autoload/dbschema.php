@@ -384,39 +384,20 @@ function __dbschema_auto_apps($dbschema)
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
         $apps = get_apps_from_dbstatic();
         foreach ($apps as $app) {
-            set_array($dbschema["tables"], "table", array(
-                "value" => array(
-                    "fields" => array(
-                        "field#1" => array(
-                            "value" => "",
-                            "#attr" => array(
-                                "name" => "id",
-                                "type" => "/*MYSQL INT(11) *//*SQLITE INTEGER */",
-                                "pkey" => "true",
-                            )
-                        ),
-                        "field#2" => array(
-                            "value" => "",
-                            "#attr" => array(
-                                "name" => "search",
-                                "type" => "MEDIUMTEXT",
-                            )
-                        )
-                    ),
-                    "indexes" => array(
-                        "index" => array(
-                            "value" => "",
-                            "#attr" => array(
-                                "fulltext" => "true",
-                                "fields" => "search",
-                            )
-                        )
-                    )
-                ),
-                "#attr" => array(
-                    "name" => "idx_$app",
-                )
-            ));
+            $xml = '<table name="idx_APP">
+                        <fields>
+                            <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                            <field name="search" type="MEDIUMTEXT"/>
+                        </fields>
+                        <indexes>
+                            <index fulltext="true" fields="search"/>
+                        </indexes>
+                    </table>';
+            $xml = str_replace("APP",$app,$xml);
+            $data = xml2struct($xml);
+            $data = array_reverse($data);
+            $array = struct2array($data);
+            set_array($dbschema["tables"], "table", $array["table"]);
         }
     }
     return $dbschema;

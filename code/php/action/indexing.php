@@ -33,5 +33,9 @@ declare(strict_types=1);
  * TODO
  */
 
-make_indexing("correo",range(1,1000)); // TODO TEST
+//~ db_query("TRUNCATE TABLE idx_correo");
+
+$ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
+make_indexing("correo", $ids);
+
 die();

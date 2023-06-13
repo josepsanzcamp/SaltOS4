@@ -50,8 +50,9 @@ declare(strict_types=1);
  * 1 => insert executed, this is because the app register exists and the indexing register not exists
  * 2 => update executed, this is because the app register exists and the indexing register too exists
  * 3 => delete executed, this is because the app register not exists and the indexing register exists
- * -1 => app not found, this is because the app requested not have a table configured
- * -2 => data not found, this is because the app register not exists and the indexting register too not exists
+ * -1 => app not found, this is because the app requested not exists in the apps config
+ * -2 => app not found, this is because the app requested not have a table in the apps config
+ * -3 => data not found, this is because the app register not exists and the indexting register too not exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
@@ -59,9 +60,12 @@ function make_indexing($app, $reg_id = null)
 {
     // Check the passed parameters
     $app_id = app2id($app);
+    if (!$app_id) {
+        return -1;
+    }
     $table = app2table($app);
     if ($table == "") {
-        return -1;
+        return -2;
     }
     $subtables = app2subtables($app);
     if ($reg_id === null) {
@@ -85,11 +89,11 @@ function make_indexing($app, $reg_id = null)
     $data_id = execute_query($query);
     if (!$data_id) {
         if ($indexing_id) {
-            $query = "DELETE FROM idx_$app WHERE id='$indexing_id'";
+            $query = "DELETE FROM idx_$app WHERE id='$reg_id'";
             db_query($query);
             return 3;
         } else {
-            return -2;
+            return -3;
         }
     }
     // Continue the process after the checks
@@ -137,7 +141,7 @@ function make_indexing($app, $reg_id = null)
     $search = "CONCAT(" . implode(",' ',", $queries) . ")";
     // Do the insert or update action to the indexing table
     if ($indexing_id) {
-        $query = "UPDATE idx_$app SET search=$search WHERE id=$indexing_id";
+        $query = "UPDATE idx_$app SET search=$search WHERE id=$reg_id";
         db_query($query);
         return 2;
     } else {

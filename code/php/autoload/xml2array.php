@@ -223,25 +223,27 @@ function xml2struct($xml, $file = "")
 {
     // DETECT IF ENCODING ATTR IS FOUND
     $pos1 = strpos($xml, "<?xml");
-    $pos2 = strpos($xml, "?>", $pos1);
-    if ($pos1 !== false && $pos2 !== false) {
-        $tag = substr($xml, $pos1, $pos2 + 2 - $pos1);
-        $pos3 = strpos($tag, "encoding=");
-        if ($pos3 !== false) {
-            $pos4 = $pos3 + 9;
-            if ($tag[$pos4] == '"') {
-                $pos4++;
-                $pos5 = strpos($tag, '"', $pos4);
-            } elseif ($tag[$pos4] == "'") {
-                $pos4++;
-                $pos5 = strpos($tag, "'", $pos4);
-            } else {
-                $pos5 = strpos($tag, " ", $pos4);
-                if ($pos5 > $pos2) {
-                    $pos5 = $pos2;
+    if ($pos1 !== false) {
+        $pos2 = strpos($xml, "?>", $pos1);
+        if ($pos2 !== false) {
+            $tag = substr($xml, $pos1, $pos2 + 2 - $pos1);
+            $pos3 = strpos($tag, "encoding=");
+            if ($pos3 !== false) {
+                $pos4 = $pos3 + 9;
+                if ($tag[$pos4] == '"') {
+                    $pos4++;
+                    $pos5 = strpos($tag, '"', $pos4);
+                } elseif ($tag[$pos4] == "'") {
+                    $pos4++;
+                    $pos5 = strpos($tag, "'", $pos4);
+                } else {
+                    $pos5 = strpos($tag, " ", $pos4);
+                    if ($pos5 > $pos2) {
+                        $pos5 = $pos2;
+                    }
                 }
+                $xml = substr_replace($xml, "UTF-8", $pos1 + $pos4, $pos5 - $pos4);
             }
-            $xml = substr_replace($xml, "UTF-8", $pos1 + $pos4, $pos5 - $pos4);
         }
     }
     $xml = getutf8($xml);

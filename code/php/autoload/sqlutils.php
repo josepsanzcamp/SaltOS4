@@ -598,7 +598,6 @@ function make_insert_query($table, $array)
         }
         $type = $field["type"];
         $type2 = get_field_type($type);
-        $size2 = get_field_size($type);
         if ($type2 == "int") {
             $temp = intval($array[$name]);
         } elseif ($type2 == "float") {
@@ -610,6 +609,7 @@ function make_insert_query($table, $array)
         } elseif ($type2 == "datetime") {
             $temp = datetimeval($array[$name]);
         } elseif ($type2 == "string") {
+            $size2 = get_field_size($type);
             $temp = addslashes(substr(null2string($array[$name]), 0, $size2));
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
@@ -660,7 +660,6 @@ function make_update_query($table, $array, $where)
         }
         $type = $field["type"];
         $type2 = get_field_type($type);
-        $size2 = get_field_size($type);
         if ($type2 == "int") {
             $temp = intval($array[$name]);
         } elseif ($type2 == "float") {
@@ -672,6 +671,7 @@ function make_update_query($table, $array, $where)
         } elseif ($type2 == "datetime") {
             $temp = datetimeval($array[$name]);
         } elseif ($type2 == "string") {
+            $size2 = get_field_size($type);
             $temp = addslashes(substr(null2string($array[$name]), 0, $size2));
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
