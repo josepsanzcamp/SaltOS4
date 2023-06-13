@@ -393,7 +393,7 @@ function __dbschema_auto_apps($dbschema)
                             <index fulltext="true" fields="search"/>
                         </indexes>
                     </table>';
-            $xml = str_replace("APP",$app,$xml);
+            $xml = str_replace("APP", $app, $xml);
             $data = xml2struct($xml);
             $data = array_reverse($data);
             $array = struct2array($data);
