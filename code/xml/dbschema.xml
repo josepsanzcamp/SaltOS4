@@ -121,9 +121,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="_table" type="VARCHAR(255)"/>
 				<field name="subtables" type="VARCHAR(255)"/>
 				<field name="field" type="VARCHAR(255)"/>
-				<field name="indexing" type="VARCHAR(255)"/>
-				<field name="register" type="VARCHAR(255)"/>
-				<field name="version" type="VARCHAR(255)"/>
+				<field name="has_indexing" type="INT(11)"/>
+				<field name="has_register" type="INT(11)"/>
+				<field name="has_version" type="INT(11)"/>
 			</fields>
 		</table>
 		<table name="tbl_perms">

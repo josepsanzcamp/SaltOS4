@@ -34,9 +34,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <row id="1" group_id="1" active="1" login="admin" password="$2y$10$UOaeeyK5AxxI.TmUk3PpFubWrr8UmtloItALSFMxyX5OJUWmOmxKO" name="Admin" description="Admin user" start="00:00:00" end="24:00:00" days="1111111"/>
         </table>
         <table name="tbl_apps">
-            <row id="1" code="clientes" name="Clientes" description="Aplicacion de clientes" _table="app_clientes" field="nombre" indexing="idx_clientes" register="reg_clientes" version="ver_clientes"/>
-            <row id="2" code="proveedores" name="Proveedores" description="Aplicacion de proveedores" _table="app_proveedores" field="nombre" indexing="idx_proveedores" register="reg_proveedores" version="ver_proveedores"/>
-            <row id="3" code="correo" name="Correo" description="Cliente de correo" _table="app_correo" field="CONCAT(de,' - ',subject)" subtables="app_correo_a(id_correo)" indexing="idx_correo" register="reg_correo"/>
+            <row id="1" code="clientes" name="Clientes" description="Aplicacion de clientes" _table="app_clientes" field="nombre" has_indexing="1" has_register="1" has_version="1"/>
+            <row id="2" code="proveedores" name="Proveedores" description="Aplicacion de proveedores" _table="app_proveedores" field="nombre" has_indexing="1" has_register="1" has_version="1"/>
+            <row id="3" code="correo" name="Correo" description="Cliente de correo" _table="app_correo" field="CONCAT(de,' - ',subject)" subtables="app_correo_a(id_correo)" has_indexing="1" has_register="1"/>
         </table>
         <table name="tbl_perms">
             <row id="1" code="menu" name="Mostrar entrada en el menú"/>
