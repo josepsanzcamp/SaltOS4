@@ -944,6 +944,9 @@ saltos.__form_field.file = function (field) {
                         console.log(XMLHttpRequest.statusText);
                         // TODO
                     },
+                    headers:{
+                        "token":saltos.token,
+                    }
                 });
             });
             // Add the row
@@ -980,6 +983,9 @@ saltos.__form_field.file = function (field) {
                                 row.querySelector(".progress").setAttribute("aria-valuenow",percent);
                             }
                         },
+                        headers:{
+                            "token":saltos.token,
+                        }
                     });
                 }(data,row));
             }
@@ -1238,9 +1244,9 @@ saltos.__source_helper = function (field) {
                 }
                 document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
             },
-            //~ headers:{
-                //~ "token":saltos.token,
-            //~ }
+            headers:{
+                "token":saltos.token,
+            }
         });
     }
     // Check for syncronous load using the value param

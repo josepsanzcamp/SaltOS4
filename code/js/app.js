@@ -66,9 +66,9 @@ saltos.send_request = function (data) {
                 saltos.process_response(response);
             }
         },
-        //~ headers:{
-            //~ "token":saltos.token,
-        //~ }
+        headers:{
+            "token":saltos.token,
+        }
     });
 };
 
@@ -307,9 +307,10 @@ window.onhashchange = function (event) {
  * This is the code that must to be executed to initialize all requirements of this module
  */
 (function () {
-    window.dispatchEvent(new HashChangeEvent("hashchange"))
-    //~ var token = localStorage.getItem("token");
-    //~ if (token === null) {
+    saltos.token = localStorage.getItem("token");
+    if (saltos.token === null) {
+        saltos.token = "nadaDeNada";
         //~ saltos.send_request("app/login");
-    //~ }
+    }
+    window.dispatchEvent(new HashChangeEvent("hashchange"));
 }());

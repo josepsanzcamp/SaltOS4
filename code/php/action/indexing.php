@@ -33,9 +33,13 @@ declare(strict_types=1);
  * TODO
  */
 
+
 //~ db_query("TRUNCATE TABLE idx_correo");
 
-$ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
-make_indexing("correo", $ids);
+//~ $ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
+//~ make_indexing("correo", $ids);
+
+//~ set_config("xml/dbschema.xml", "nada");
+//~ set_config("xml/dbstatic.xml", "nada");
 
 die();

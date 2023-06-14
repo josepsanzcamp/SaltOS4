@@ -56,6 +56,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="days" type="VARCHAR(10)"/>
 			</fields>
 		</table>
+		<table name="tbl_users_passwords">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
+				<field name="datetime" type="DATETIME"/>
+				<field name="password" type="VARCHAR(255)"/>
+				<field name="remote_addr" type="VARCHAR(255)"/>
+				<field name="user_agent" type="VARCHAR(255)"/>
+			</fields>
+		</table>
+		<table name="tbl_users_logins">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
+				<field name="datetime" type="DATETIME"/>
+				<field name="remote_addr" type="VARCHAR(255)"/>
+				<field name="user_agent" type="VARCHAR(255)"/>
+			</fields>
+		</table>
 		<table name="tbl_groups">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -65,27 +84,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 			</fields>
 		</table>
 
-		<table name="tbl_registers">
+		<table name="tbl_tokens">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="app_id" type="INT(11)" fkey="tbl_apps"/>
-				<field name="reg_id" type="INT(11)"/>
-				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="token" type="VARCHAR(255)"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
 				<field name="datetime" type="DATETIME"/>
-				<field name="first" type="INT(11)"/>
-				<field name="_update" type="TEXT"/>
+				<field name="renewed_at" type="DATETIME"/>
+				<field name="renewed_times" type="INT(11)"/>
 			</fields>
-			<indexes>
-				<index fields="app_id,reg_id,user_id,first"/>
-				<index fields="app_id,reg_id,first"/>
-				<index fields="user_id,first"/>
-			</indexes>
 		</table>
+
 		<table name="tbl_security">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
 				<field name="session_id" type="INT(11)" fkey="tbl_sessions"/>
-				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
 				<field name="logout" type="INT(11)"/>
 			</fields>
 		</table>
@@ -95,14 +109,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="session_id" type="INT(11)" fkey="tbl_sessions"/>
 				<field name="remote_addr" type="VARCHAR(255)"/>
 				<field name="retries" type="INT(11)"/>
-			</fields>
-		</table>
-		<table name="tbl_sessions">
-			<fields>
-				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="sess_file" type="VARCHAR(255)"/>
-				<field name="sess_data" type="MEDIUMTEXT"/>
-				<field name="sess_time" type="INT(11)"/>
 			</fields>
 		</table>
 
@@ -115,6 +121,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="_table" type="VARCHAR(255)"/>
 				<field name="subtables" type="VARCHAR(255)"/>
 				<field name="field" type="VARCHAR(255)"/>
+				<field name="indexing" type="VARCHAR(255)"/>
+				<field name="register" type="VARCHAR(255)"/>
+				<field name="version" type="VARCHAR(255)"/>
 			</fields>
 		</table>
 		<table name="tbl_perms">
@@ -137,7 +146,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 		<table name="tbl_users_apps_perms">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
 				<field name="app_id" type="INT(11)" fkey="tbl_aplicaciones"/>
 				<field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
 				<field name="allow" type="INT(11)"/>
@@ -176,7 +185,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <table name="app_correo_a">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="id_correo" type="INT(11)" fkey="app_correo" fcheck="false"/>
+                <field name="id_correo" type="INT(11)" fkey="app_correo"/>
                 <field name="id_tipo" type="INT(11)"/>
 				<field name="nombre" type="VARCHAR(255)"/>
 				<field name="valor" type="VARCHAR(255)"/>

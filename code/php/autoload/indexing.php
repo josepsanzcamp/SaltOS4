@@ -156,9 +156,9 @@ function make_indexing($app, $reg_id = null)
  *
  * This function allow the make_indexing to retrieve all data of the fiels
  * and all data of the related fields of the related tables, this is done
- * by using the fkey and fcheck information of the dbschema, this function
- * uses some features of the dbschema functions to get the fields, types,
- * fkeys and too, the dbstatic information of the app table
+ * by using the fkey information of the dbschema, this function uses some
+ * features of the dbschema functions to get the fields, types, fkeys and
+ * too, the dbstatic information of the app table
  *
  * This function uses a cache technique to improve the performance, returns
  * an array with all fields and subqueries to allow to retrieve all data

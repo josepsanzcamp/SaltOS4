@@ -53,6 +53,9 @@ window.onerror = function (event, source, lineno, colno, error) {
         data:JSON.stringify(data),
         method:"post",
         content_type:"application/json",
+        headers:{
+            "token":saltos.token,
+        }
     });
 };
 
@@ -73,6 +76,9 @@ saltos.addlog = function (msg) {
         data:JSON.stringify(data),
         method:"post",
         content_type:"application/json",
+        headers:{
+            "token":saltos.token,
+        }
     });
 };
 

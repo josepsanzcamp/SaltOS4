@@ -384,18 +384,57 @@ function __dbschema_auto_apps($dbschema)
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
         $apps = get_apps_from_dbstatic();
         foreach ($apps as $app) {
-            $xml = '<table name="idx_APP">
-                        <fields>
-                            <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                            <field name="search" type="MEDIUMTEXT"/>
-                        </fields>
-                        <indexes>
-                            <index fulltext="true" fields="search"/>
-                        </indexes>
-                    </table>';
-            $xml = str_replace("APP", $app, $xml);
-            $array = xml2array($xml);
-            set_array($dbschema["tables"], "table", $array["table"]);
+            $table = get_field_from_dbstatic($app, "indexing");
+            if ($table) {
+                $xml = '<table name="__TABLE__">
+                            <fields>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="search" type="MEDIUMTEXT"/>
+                            </fields>
+                            <indexes>
+                                <index fulltext="true" fields="search"/>
+                            </indexes>
+                        </table>';
+                $xml = str_replace("__TABLE__", $table, $xml);
+                $array = xml2array($xml);
+                set_array($dbschema["tables"], "table", $array["table"]);
+            }
+            $table = get_field_from_dbstatic($app, "register");
+            if ($table) {
+                $xml = '<table name="__TABLE__">
+                            <fields>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="datetime" type="DATETIME"/>
+                            </fields>
+                            <indexes>
+                                <index fields="id,user_id"/>
+                            </indexes>
+                        </table>';
+                $xml = str_replace("__TABLE__", $table, $xml);
+                $array = xml2array($xml);
+                set_array($dbschema["tables"], "table", $array["table"]);
+            }
+            $table = get_field_from_dbstatic($app, "version");
+            if ($table) {
+                $xml = '<table name="__TABLE__">
+                            <fields>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="reg_id" type="INT(11)"/>
+                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="datetime" type="DATETIME"/>
+                                <field name="data" type="MEDIUMTEXT"/>
+                            </fields>
+                            <indexes>
+                                <index fields="reg_id,user_id"/>
+                                <index fields="reg_id"/>
+                                <index fields="user_id"/>
+                            </indexes>
+                        </table>';
+                $xml = str_replace("__TABLE__", $table, $xml);
+                $array = xml2array($xml);
+                set_array($dbschema["tables"], "table", $array["table"]);
+            }
         }
     }
     return $dbschema;
@@ -486,7 +525,7 @@ function __dbschema_auto_name($dbschema)
  */
 function get_apps_from_dbstatic()
 {
-    return __dbstatic_helper(__FUNCTION__, "");
+    return __dbstatic_helper(__FUNCTION__, "", "");
 }
 
 /*
@@ -497,9 +536,9 @@ function get_apps_from_dbstatic()
  *
  * @table => the table of the dbstatic that want to convert to field
  */
-function get_field_from_dbstatic($table)
+function get_field_from_dbstatic($table, $field = "field")
 {
-    return __dbstatic_helper(__FUNCTION__, $table);
+    return __dbstatic_helper(__FUNCTION__, $table, $field);
 }
 
 /*
@@ -513,7 +552,7 @@ function get_field_from_dbstatic($table)
  * @fn => the caller function name
  * @table => the table used by some features
  */
-function __dbstatic_helper($fn, $table)
+function __dbstatic_helper($fn, $table, $field)
 {
     static $apps = null;
     static $tables = array();
@@ -523,6 +562,9 @@ function __dbstatic_helper($fn, $table)
         $dbstatic = eval_attr(xmlfile2array("xml/dbstatic.xml"));
         if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
             foreach ($dbstatic["tables"] as $data) {
+                if (!isset($data["#attr"]["name"])) {
+                    continue;
+                }
                 $table = $data["#attr"]["name"];
                 if ($table != "tbl_apps") {
                     continue;
@@ -530,18 +572,21 @@ function __dbstatic_helper($fn, $table)
                 $rows = $data["value"];
                 foreach ($rows as $row) {
                     if (isset($row["#attr"]["_table"]) && $row["#attr"]["_table"] != "") {
-                        $apps[] = $row["#attr"]["code"];
-                        $tables[$row["#attr"]["_table"]] = $row["#attr"]["field"];
+                        $apps[$row["#attr"]["code"]] = $row["#attr"];
+                        $tables[$row["#attr"]["_table"]] = $row["#attr"];
                     }
                 }
             }
         }
     }
     if (stripos($fn, "get_apps") !== false) {
-        return $apps;
+        return array_keys($apps);
     } elseif (stripos($fn, "get_field") !== false) {
-        if (isset($tables[$table])) {
-            return $tables[$table];
+        if (isset($apps[$table][$field])) {
+            return $apps[$table][$field];
+        }
+        if (isset($tables[$table][$field])) {
+            return $tables[$table][$field];
         }
         return "";
     }
