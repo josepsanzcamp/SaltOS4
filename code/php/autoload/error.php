@@ -187,7 +187,7 @@ function do_message_error($array)
                 break;
             case "backtrace":
                 if (is_array($data)) {
-                    $json["code"] = __get_code_from_trace($data, 0);
+                    $json["code"] = __get_code_from_trace($data);
                     foreach ($data as $key => $item) {
                         $temp = $item["function"];
                         if (isset($item["class"])) {

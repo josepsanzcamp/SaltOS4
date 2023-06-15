@@ -53,6 +53,7 @@ declare(strict_types=1);
  * -1 => app not found, this is because the app requested not exists in the apps config
  * -2 => app not found, this is because the app requested not have a table in the apps config
  * -3 => data not found, this is because the app register not exists and the indexting register too not exists
+ * -4 => indexing table not found, this is because the has_indexing feature is disabled by dbstatic
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
@@ -83,6 +84,9 @@ function make_indexing($app, $reg_id = null)
     }
     // Search if index exists
     $query = "SELECT id FROM idx_$app WHERE id='$reg_id'";
+    if (!db_check($query)) {
+        return -4;
+    }
     $indexing_id = execute_query($query);
     // Search if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
