@@ -28,19 +28,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
- * About this file
- *
  * TODO
  */
+function current_user()
+{
+    // TODO
+}
 
-
-//~ db_query("TRUNCATE TABLE idx_correo");
-
-$ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
-//~ echo "<pre>" . sprintr(make_indexing("correo", $ids)) . "</pre>";
-echo "<pre>" . sprintr(make_control("correo", $ids)) . "</pre>";
-
-//~ set_config("xml/dbschema.xml", "nada");
-//~ set_config("xml/dbstatic.xml", "nada");
-
-die();
+/*
+ * TODO
+ */
+function current_group()
+{
+    // TODO
+}

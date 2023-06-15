@@ -28,7 +28,35 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
- * TODO
+ * Make Control function
+ *
+ * This function allow to insert and delete the control registers associacted
+ * to any application and to any register of the application
+ *
+ * @app => code of the application that you want to index
+ * @reg_id => register of the app that you want to index
+ * @user_id => user id of the owner of the app register
+ * @datetime => time mark used as creation time of the app register
+ *
+ * Notes:
+ *
+ * This function allow to pass a null reg_id, this trigger a query that get the
+ * last_id used by the table, if the reg_id is an array, the function does
+ * a recursive calls to add a control register to all ids of the reg_id array
+ *
+ * Too, you can pass a null user_id and/or null datetime, in these cases, the
+ * function will determine the user_id and datetime automatically
+ *
+ * This function returns an integer as response about the control action:
+ *
+ * 1 => insert executed, this is because the app register exists and the indexing register not exists
+ * 2 => delete executed, this is because the app register not exists and the indexing register exists
+ * -1 => app not found, this is because the app requested not exists in the apps config
+ * -2 => app not found, this is because the app requested not have a table in the apps config
+ * -3 => control table not found, this is because the has_control feature is disabled by dbstatic
+ * -4 => data not found, this is because the app register not exists and the control register too not exists
+ * -5 => control exists, this is because the app register exists and the control register too exists
+ *
  */
 function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
 {
@@ -60,55 +88,31 @@ function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
         }
         return $result;
     }
-    // Search if index exists
-    $query = "SELECT id FROM reg_$app WHERE reg_id='$reg_id'";
+    // Search if control exists
+    $query = "SELECT id FROM ctl_$app WHERE id='$reg_id'";
+    if (!db_check($query)) {
+        return -3;
+    }
     $control_id = execute_query($query);
     // Search if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
         if ($control_id) {
-            $query = "DELETE FROM reg_$app WHERE id='$reg_id'";
+            $query = "DELETE FROM ctl_$app WHERE id='$reg_id'";
             db_query($query);
-            return 3;
+            return 2;
         } else {
-            return -3;
-        }
-    }
-
-
-
-    // Buscar si existen datos de la tabla principal
-    $query = "SELECT id FROM {$tabla} WHERE id='{$id_registro}'";
-    $id_data = execute_query($query);
-    if (!$id_data) {
-        if ($id_control) {
-            $query = "DELETE FROM tbl_registros
-                WHERE id_aplicacion='{$id_aplicacion}'
-                    AND id_registro='{$id_registro}'";
-            db_query($query);
-            return 3;
-        } else {
-            return -2;
+            return -4;
         }
     }
     if ($id_control) {
-        $query = make_insert_query("tbl_registros", array(
-            "id_aplicacion" => $id_aplicacion,
-            "id_registro" => $id_registro,
-            "id_usuario" => $id_usuario,
-            "datetime" => $datetime,
-            "first" => 0
-        ));
-        db_query($query);
-        return 2;
+        return -5;
     } else {
-        $query = make_insert_query("tbl_registros", array(
-            "id_aplicacion" => $id_aplicacion,
-            "id_registro" => $id_registro,
-            "id_usuario" => $id_usuario,
+        $query = make_insert_query("ctl_$app", array(
+            "id" => $reg_id,
+            "user_id" => $user_id,
             "datetime" => $datetime,
-            "first" => 1
         ));
         db_query($query);
         return 1;

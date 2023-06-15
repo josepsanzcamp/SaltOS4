@@ -52,8 +52,8 @@ declare(strict_types=1);
  * 3 => delete executed, this is because the app register not exists and the indexing register exists
  * -1 => app not found, this is because the app requested not exists in the apps config
  * -2 => app not found, this is because the app requested not have a table in the apps config
- * -3 => data not found, this is because the app register not exists and the indexting register too not exists
- * -4 => indexing table not found, this is because the has_indexing feature is disabled by dbstatic
+ * -3 => indexing table not found, this is because the has_indexing feature is disabled by dbstatic
+ * -4 => data not found, this is because the app register not exists and the indexting register too not exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
@@ -68,7 +68,6 @@ function make_indexing($app, $reg_id = null)
     if ($table == "") {
         return -2;
     }
-    $subtables = app2subtables($app);
     if ($reg_id === null) {
         $reg_id = execute_query("SELECT MAX(id) FROM $table");
     }
@@ -85,7 +84,7 @@ function make_indexing($app, $reg_id = null)
     // Search if index exists
     $query = "SELECT id FROM idx_$app WHERE id='$reg_id'";
     if (!db_check($query)) {
-        return -4;
+        return -3;
     }
     $indexing_id = execute_query($query);
     // Search if exists data in the main table
@@ -97,7 +96,7 @@ function make_indexing($app, $reg_id = null)
             db_query($query);
             return 3;
         } else {
-            return -3;
+            return -4;
         }
     }
     // Continue the process after the checks
@@ -111,6 +110,7 @@ function make_indexing($app, $reg_id = null)
     $query = "SELECT $fields FROM $table WHERE id='$reg_id'";
     $queries[] = $query;
     // This part allow to get all data of the all fields from the subtables
+    $subtables = app2subtables($app);
     if ($subtables != "") {
         foreach (explode(",", $subtables) as $subtable) {
             $table = strtok($subtable, "(");

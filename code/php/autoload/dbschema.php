@@ -398,7 +398,7 @@ function __dbschema_auto_apps($dbschema)
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
-            if (eval_bool(get_field_from_dbstatic($app, "has_register"))) {
+            if (eval_bool(get_field_from_dbstatic($app, "has_control"))) {
                 $xml = '<table name="__TABLE__">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -410,7 +410,7 @@ function __dbschema_auto_apps($dbschema)
                                 <index fields="id,user_id"/>
                             </indexes>
                         </table>';
-                $xml = str_replace("__TABLE__", "reg_$app", $xml);
+                $xml = str_replace("__TABLE__", "ctl_$app", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
