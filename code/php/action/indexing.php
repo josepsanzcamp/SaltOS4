@@ -67,6 +67,13 @@ declare(strict_types=1);
 //~ ))."</pre>";
 //~ die();
 
+//~ echo "<pre>" . sprintr(get_version("clientes", 51, 0)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("clientes", 51, 1)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("clientes", 51, 2)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("clientes", 51, 3)) . "</pre>";
+
+//~ die();
+
 db_query("DELETE FROM app_clientes WHERE id=51");
 db_query("DELETE FROM ver_clientes WHERE reg_id=51");
 //~ make_version("clientes",51);

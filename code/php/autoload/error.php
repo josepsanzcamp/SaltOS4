@@ -134,6 +134,10 @@ function show_php_error($array)
         }
         addlog("***** {$hash} *****", $file);
     }
+    // Trick to clear previous data
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
     // Prepare the final report
     output_handler_json(array(
         "error" => $msg_json
@@ -383,6 +387,11 @@ function __get_code_from_trace($trace, $index = 0)
  */
 function show_json_error($msg)
 {
+    // Trick to clear previous data
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    // Prepare the final report
     output_handler_json(array(
         "error" => array(
             "text" => $msg,

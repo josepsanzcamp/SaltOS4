@@ -214,6 +214,8 @@ function get_version($app, $reg_id, $ver_id)
     $rows = execute_query_array($query);
     $data = array();
     $hash_old = "";
+    $datetime_old = "";
+    $version_old = "";
     foreach ($rows as $row) {
         if ($row["ver_id"] > $ver_id) {
             break;
@@ -231,9 +233,20 @@ function get_version($app, $reg_id, $ver_id)
             $ver_id = $row["ver_id"];
             show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
         }
+        // Check other vars that must accomplish that new values are greather or equal that old values
+        if ($row["datetime"] < $datetime_old) {
+            $ver_id = $row["ver_id"];
+            show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
+        }
+        if ($row["ver_id"] < $version_old) {
+            $ver_id = $row["ver_id"];
+            show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
+        }
         // Continue
         $data = array_merge($data, unserialize(base64_decode($row["data"])));
         $hash_old = $row["hash"];
+        $datetime_old = $row["datetime"];
+        $version_old = $row["ver_id"];
     }
     return $data;
 }
