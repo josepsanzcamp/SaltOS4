@@ -585,6 +585,10 @@ function sql_drop_index($index, $table)
  * fields that appear in the array will be used in the insert, if some
  * field is not a part of the fields of the table, an error will be
  * triggered
+ *
+ * This function uses the array_key_exists instead of isset because the
+ * check of the $array[$name] fails when the item exists but is false or
+ * null, for example
  */
 function make_insert_query($table, $array)
 {
@@ -593,7 +597,7 @@ function make_insert_query($table, $array)
     $list2 = array();
     foreach ($fields as $field) {
         $name = $field["name"];
-        if (!isset($array[$name])) {
+        if (!array_key_exists($name, $array)) {
             continue;
         }
         $type = $field["type"];
@@ -648,6 +652,10 @@ function make_insert_query($table, $array)
  * fields that appear in the array will be used in the update, if some
  * field is not a part of the fields of the table, an error will be
  * triggered
+ *
+ * This function uses the array_key_exists instead of isset because the
+ * check of the $array[$name] fails when the item exists but is false or
+ * null, for example
  */
 function make_update_query($table, $array, $where)
 {
@@ -655,7 +663,7 @@ function make_update_query($table, $array, $where)
     $list = array();
     foreach ($fields as $field) {
         $name = $field["name"];
-        if (!isset($array[$name])) {
+        if (!array_key_exists($name, $array)) {
             continue;
         }
         $type = $field["type"];

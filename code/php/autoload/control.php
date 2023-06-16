@@ -106,7 +106,7 @@ function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
             return -4;
         }
     }
-    if ($id_control) {
+    if ($control_id) {
         return -5;
     } else {
         $query = make_insert_query("ctl_$app", array(
