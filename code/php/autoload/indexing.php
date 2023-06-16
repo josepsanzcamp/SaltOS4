@@ -41,50 +41,28 @@ declare(strict_types=1);
  *
  * Notes:
  *
- * This function allow to pass a null reg_id, this trigger a query that get the
- * last_id used by the table, if the reg_id is an array, the function does
- * a recursive calls to index all ids of the reg_id array
- *
  * This function returns an integer as response about the indexing action:
  *
  * 1 => insert executed, this is because the app register exists and the indexing register not exists
  * 2 => update executed, this is because the app register exists and the indexing register too exists
  * 3 => delete executed, this is because the app register not exists and the indexing register exists
- * -1 => app not found, this is because the app requested not exists in the apps config
- * -2 => app not found, this is because the app requested not have a table in the apps config
- * -3 => indexing table not found, this is because the has_indexing feature is disabled by dbstatic
- * -4 => data not found, this is because the app register not exists and the indexting register too not exists
+ * -1 => app not found, this is because the app requested not have a table in the apps config
+ * -2 => indexing table not found, this is because the has_indexing feature is disabled by dbstatic
+ * -3 => data not found, this is because the app register not exists and the indexting register too not exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
-function make_indexing($app, $reg_id = null)
+function make_indexing($app, $reg_id)
 {
     // Check the passed parameters
-    $app_id = app2id($app);
-    if (!$app_id) {
-        return -1;
-    }
     $table = app2table($app);
     if ($table == "") {
-        return -2;
-    }
-    if ($reg_id === null) {
-        $reg_id = execute_query("SELECT MAX(id) FROM $table");
-    }
-    if (is_string($reg_id) && strpos($reg_id, ",") !== false) {
-        $reg_id = explode(",", $reg_id);
-    }
-    if (is_array($reg_id)) {
-        $result = array();
-        foreach ($reg_id as $id) {
-            $result[] = make_indexing($app, $id);
-        }
-        return $result;
+        return -1;
     }
     // Search if index exists
     $query = "SELECT id FROM idx_$app WHERE id='$reg_id'";
     if (!db_check($query)) {
-        return -3;
+        return -2;
     }
     $indexing_id = execute_query($query);
     // Search if exists data in the main table
@@ -92,7 +70,7 @@ function make_indexing($app, $reg_id = null)
     $data_id = execute_query($query);
     if (!$data_id) {
         if (!$indexing_id) {
-            return -4;
+            return -3;
         } else {
             $query = "DELETE FROM idx_$app WHERE id='$reg_id'";
             db_query($query);
@@ -144,14 +122,14 @@ function make_indexing($app, $reg_id = null)
     }
     $search = "CONCAT(" . implode(",' ',", $queries) . ")";
     // Do the insert or update action to the indexing table
-    if ($indexing_id) {
-        $query = "UPDATE idx_$app SET search=$search WHERE id=$reg_id";
-        db_query($query);
-        return 2;
-    } else {
+    if (!$indexing_id) {
         $query = "INSERT INTO idx_$app(id,search) VALUES($reg_id,$search)";
         db_query($query);
         return 1;
+    } else {
+        $query = "UPDATE idx_$app SET search=$search WHERE id=$reg_id";
+        db_query($query);
+        return 2;
     }
 }
 

@@ -107,7 +107,7 @@ function __array2xml_write_nodes(&$array, $level = null)
             $buffer .= __array2xml_write_nodes($val, $level);
             $buffer .= "{$prefix}</{$key}>{$postfix}";
         } else {
-            $val = remove_bad_chars(null2string($val));
+            $val = remove_bad_chars(strval($val));
             if (strpos($val, "<") !== false || strpos($val, "&") !== false) {
                 $count = 1;
                 while ($count) {

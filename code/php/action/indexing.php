@@ -37,8 +37,10 @@ declare(strict_types=1);
 //~ db_query("TRUNCATE TABLE idx_correo");
 
 //~ $ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
-//~ echo "<pre>" . sprintr(make_indexing("correo", $ids)) . "</pre>";
-//~ echo "<pre>" . sprintr(make_control("correo", $ids)) . "</pre>";
+//~ foreach($ids as $id) {
+    //~ echo "<pre>" . sprintr(make_indexing("correo", $id)) . "</pre>";
+    //~ echo "<pre>" . sprintr(make_control("correo", $id)) . "</pre>";
+//~ }
 
 //~ set_config("xml/dbschema.xml", "nada");
 //~ set_config("xml/dbstatic.xml", "nada");
@@ -50,5 +52,61 @@ declare(strict_types=1);
 //~ db_query(sql_drop_index("user_id","ver_clientes"));
 //~ set_config("xml/dbschema.xml", "nada");
 //~ db_schema();
-//~ echo "OK";
+
+//~ echo "<pre>".sprintr(array_diff_assoc(
+//~ array(
+//~ "uno" => 1,
+//~ "dos" => 2,
+//~ "tres" => 3,
+//~ ),
+//~ array(
+//~ "uno" => 1,
+//~ "dos" => 3,
+//~ "tres" => 3,
+//~ )
+//~ ))."</pre>";
+//~ die();
+
+db_query("DELETE FROM app_clientes WHERE id=51");
+db_query("DELETE FROM ver_clientes WHERE reg_id=51");
+//~ make_version("clientes",51);
+
+$array1 = array(
+    "id" => 51,
+    "nombre1" => "Josep",
+    "nombre2" => "Sanz",
+    "tel_movil" => "",
+);
+$query = make_insert_query("app_clientes", $array1);
+db_query($query);
+
+add_version("clientes", 51);
+
+$array2 = array(
+    "nombre1" => "Josep",
+    "nombre2" => "Sanz Campderrós",
+    "tel_movil" => "",
+);
+
+$query = make_update_query("app_clientes", $array2, "id=51");
+db_query($query);
+
+add_version("clientes", 51);
+
+$array3 = array(
+    "nombre1" => "Josep",
+    "nombre2" => "Sanz Campderrós",
+    "tel_movil" => "123456789",
+);
+
+$query = make_update_query("app_clientes", $array3, "id=51");
+db_query($query);
+
+add_version("clientes", 51);
+
+echo "<pre>" . sprintr(get_version("clientes", 51, 0)) . "</pre>";
+echo "<pre>" . sprintr(get_version("clientes", 51, 1)) . "</pre>";
+echo "<pre>" . sprintr(get_version("clientes", 51, 2)) . "</pre>";
+echo "<pre>" . sprintr(get_version("clientes", 51, 3)) . "</pre>";
+
 die();

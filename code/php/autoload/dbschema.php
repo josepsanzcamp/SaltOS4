@@ -421,12 +421,15 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="reg_id" type="INT(11)"/>
+                                <field name="ver_id" type="INT(11)"/>
                                 <field name="data" type="MEDIUMTEXT"/>
+                                <field name="hash" type="VARCHAR(255)"/>
                             </fields>
                             <indexes>
-                                <index fields="user_id,reg_id"/>
                                 <index fields="user_id"/>
                                 <index fields="reg_id"/>
+                                <index fields="ver_id"/>
+                                <index fields="reg_id,ver_id"/>
                             </indexes>
                         </table>';
                 $xml = str_replace("__TABLE__", "ver_$app", $xml);

@@ -287,22 +287,6 @@ function str_replace_assoc($array, $cad)
 }
 
 /*
- * Null to String
- *
- * This function convert all nulls to a void string, intended to be used in
- * parts of the code where a string is expected
- *
- * @cad => the input of the function that must to check if is null or not
- */
-function null2string($cad)
-{
-    if ($cad === null) {
-        return "";
-    }
-    return $cad;
-}
-
-/*
  * Get Part From String
  *
  * This function explodes de input using delim and returns the element

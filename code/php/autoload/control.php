@@ -40,38 +40,26 @@ declare(strict_types=1);
  *
  * Notes:
  *
- * This function allow to pass a null reg_id, this trigger a query that get the
- * last_id used by the table, if the reg_id is an array, the function does
- * a recursive calls to add a control register to all ids of the reg_id array
- *
- * Too, you can pass a null user_id and/or null datetime, in these cases, the
+ * You can pass a null user_id and/or null datetime, in these cases, the
  * function will determine the user_id and datetime automatically
  *
  * This function returns an integer as response about the control action:
  *
- * 1 => insert executed, this is because the app register exists and the indexing register not exists
- * 2 => delete executed, this is because the app register not exists and the indexing register exists
- * -1 => app not found, this is because the app requested not exists in the apps config
- * -2 => app not found, this is because the app requested not have a table in the apps config
- * -3 => control table not found, this is because the has_control feature is disabled by dbstatic
- * -4 => data not found, this is because the app register not exists and the control register too not exists
- * -5 => control exists, this is because the app register exists and the control register too exists
+ * 1 => insert executed, this is because the app register exists and the control register not exists
+ * 2 => delete executed, this is because the app register not exists and the control register exists
+ * -1 => app not found, this is because the app requested not have a table in the apps config
+ * -2 => control table not found, this is because the has_control feature is disabled by dbstatic
+ * -3 => data not found, this is because the app register not exists and the control register too not exists
+ * -4 => control exists, this is because the app register exists and the control register too exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
-function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
+function make_control($app, $reg_id, $user_id = null, $datetime = null)
 {
    // Check the passed parameters
-    $app_id = app2id($app);
-    if (!$app_id) {
-        return -1;
-    }
     $table = app2table($app);
     if ($table == "") {
-        return -2;
-    }
-    if ($reg_id === null) {
-        $reg_id = execute_query("SELECT MAX(id) FROM $table");
+        return -1;
     }
     if ($user_id === null) {
         $user_id = current_user();
@@ -79,20 +67,10 @@ function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
     if ($datetime === null) {
         $datetime = current_datetime();
     }
-    if (is_string($reg_id) && strpos($reg_id, ",") !== false) {
-        $reg_id = explode(",", $reg_id);
-    }
-    if (is_array($reg_id)) {
-        $result = array();
-        foreach ($reg_id as $id) {
-            $result[] = make_control($app, $id, $user_id, $datetime);
-        }
-        return $result;
-    }
     // Search if control exists
     $query = "SELECT id FROM ctl_$app WHERE id='$reg_id'";
     if (!db_check($query)) {
-        return -3;
+        return -2;
     }
     $control_id = execute_query($query);
     // Search if exists data in the main table
@@ -100,16 +78,14 @@ function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
     $data_id = execute_query($query);
     if (!$data_id) {
         if (!$control_id) {
-            return -4;
+            return -3;
         } else {
             $query = "DELETE FROM ctl_$app WHERE id='$reg_id'";
             db_query($query);
             return 2;
         }
     }
-    if ($control_id) {
-        return -5;
-    } else {
+    if (!$control_id) {
         $query = make_insert_query("ctl_$app", array(
             "id" => $reg_id,
             "user_id" => $user_id,
@@ -117,16 +93,147 @@ function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
         ));
         db_query($query);
         return 1;
+    } else {
+        return -4;
     }
 }
 
 /*
- * Make Version function
+ * Add Version function
  *
- * TODO
+ * This function allow to add a new version to a reg_id of an app, to do it,
+ * the function requires to specify the app, reg_id, the original data and
+ * the new data to compute the diff patch that must to be stored in the data
+ * field and create the register for the new version
+ *
+ * To do this, the function validate the input data, checks the existence
+ * of registers of data and versions, prepare the data patch to store, get
+ * the old hash to do the blockchain, get the last ver_id and compute all
+ * needed things to do the insert of the new version register
+ *
+ * @app => code of the application that you want to add a new version
+ * @reg_id => register of the app that you want to add a new version
+ * @user_id => user id of the owner of the version register
+ * @datetime => time mark used as creation time of the version register
+ *
+ * Notes:
+ *
+ * You can pass a null user_id and/or null datetime, in these cases, the
+ * function will determine the user_id and datetime automatically
+ *
+ * This function returns an integer as response about the control action:
+ *
+ * 1 => insert executed, this is because the app register exists and they can add a new version register
+ * 2 => delete executed, this is because the app register not exists and the version register exists
+ * -1 => app not found, this is because the app requested not have a table in the apps config
+ * -2 => version table not found, this is because the has_version feature is disabled by dbstatic
+ * -3 => data not found, this is because the app register not exists and the control register too not exists
+ *
+ * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
-function make_version($app, $reg_id = null, $user_id = null, $datetime = null)
+function add_version($app, $reg_id, $user_id = null, $datetime = null)
 {
+   // Check the passed parameters
+    $table = app2table($app);
+    if ($table == "") {
+        return -1;
+    }
+    if ($user_id === null) {
+        $user_id = current_user();
+    }
+    if ($datetime === null) {
+        $datetime = current_datetime();
+        $datetime = "2023-06-16 12:00:00";
+    }
+    // Search if version exists
+    $query = "SELECT MAX(id) FROM ver_$app WHERE reg_id='$reg_id'";
+    if (!db_check($query)) {
+        return -2;
+    }
+    $version_id = execute_query($query);
+    // Search if exists data in the main table
+    $query = "SELECT id FROM $table WHERE id='$reg_id'";
+    $data_id = execute_query($query);
+    if (!$data_id) {
+        if (!$version_id) {
+            return -3;
+        } else {
+            $query = "DELETE FROM ver_$app WHERE reg_id='$reg_id'";
+            db_query($query);
+            return 2;
+        }
+    }
+    // Compute the diff from old data and new data
+    $data_old = get_version($app, $reg_id, INF);
+    $query = "SELECT * FROM $table WHERE id='$reg_id'";
+    $data_new = execute_query($query);
+    $data_new = array_diff_assoc($data_new, $data_old);
+    // Prepare extra data as old hash and last ver_id
+    $query = "SELECT hash FROM ver_$app WHERE id='$version_id'";
+    $hash_old = strval(execute_query($query));
+    $query = "SELECT ver_id FROM ver_$app WHERE id='$version_id'";
+    $ver_id = intval(execute_query($query));
+    // Prepare the array to the insert
+    $array = array(
+        "user_id" => $user_id,
+        "datetime" => $datetime,
+        "reg_id" => $reg_id,
+        "ver_id" => $ver_id + 1,
+        "data" => base64_encode(serialize($data_new)),
+        "hash" => $hash_old,
+    );
+    // Update the hash with the new hash to do the blockchain
+    $array["hash"] = md5(serialize($array));
+    // Do the insert of the new version
+    $query = make_insert_query("ver_$app", $array);
+    db_query($query);
+    return 1;
+}
 
-
+/*
+ * Get Version
+ *
+ * This function allow to get an specific version of a register and app, intended
+ * to get the data used in a specific version to compare with other versions and
+ * to restore data to the requested version
+ *
+ * @app => code of the application that you want to add a new version
+ * @reg_id => register of the app that you want to add a new version
+ * @ver_id => the version that you want to get
+ *
+ * Notes:
+ *
+ * This function is not a simple select of the register that matches with the
+ * ver_id requested, it does an accumulative merge to get the register data
+ * in the moment where the version will be stored, to do it, they must to
+ * restore versions from 1 to ver_id, and must to discard the next versions
+ */
+function get_version($app, $reg_id, $ver_id)
+{
+    $query = "SELECT * FROM ver_$app WHERE reg_id='$reg_id' ORDER BY id ASC";
+    $rows = execute_query_array($query);
+    $data = array();
+    $hash_old = "";
+    foreach ($rows as $row) {
+        if ($row["ver_id"] > $ver_id) {
+            break;
+        }
+        // Check the blockchain integrity
+        $array = array(
+            "user_id" => $row["user_id"],
+            "datetime" => $row["datetime"],
+            "reg_id" => $row["reg_id"],
+            "ver_id" => $row["ver_id"],
+            "data" => $row["data"],
+            "hash" => $hash_old,
+        );
+        if ($row["hash"] != md5(serialize($array))) {
+            $ver_id = $row["ver_id"];
+            show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
+        }
+        // Continue
+        $data = array_merge($data, unserialize(base64_decode($row["data"])));
+        $hash_old = $row["hash"];
+    }
+    return $data;
 }

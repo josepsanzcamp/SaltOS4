@@ -614,7 +614,7 @@ function make_insert_query($table, $array)
             $temp = datetimeval($array[$name]);
         } elseif ($type2 == "string") {
             $size2 = get_field_size($type);
-            $temp = addslashes(substr(null2string($array[$name]), 0, $size2));
+            $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
@@ -680,7 +680,7 @@ function make_update_query($table, $array, $where)
             $temp = datetimeval($array[$name]);
         } elseif ($type2 == "string") {
             $size2 = get_field_size($type);
-            $temp = addslashes(substr(null2string($array[$name]), 0, $size2));
+            $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
@@ -708,7 +708,7 @@ function make_where_query($array)
 {
     $list = array();
     foreach ($array as $key => $val) {
-        $list[] = $key . "='" . addslashes(null2string($val)) . "'";
+        $list[] = $key . "='" . addslashes(strval($val)) . "'";
     }
     $query = "(" . implode(" AND ", $list) . ")";
     return $query;

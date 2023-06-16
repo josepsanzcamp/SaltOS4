@@ -28,17 +28,27 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /*
- * TODO
+ * Current User
+ *
+ * This function returns the id of the current user, this info is retrieved
+ * using the token of the request
  */
 function current_user()
 {
-    // TODO
+    $token = get_server("HTTP_TOKEN");
+    $user_id = execute_query("SELECT user_id FROM tbl_tokens WHERE token='$token'");
+    return intval($user_id);
 }
 
 /*
- * TODO
+ * Current Group
+ *
+ * This function returns the id of the current group, this info is retrieved
+ * using the token of the request
  */
 function current_group()
 {
-    // TODO
+    $user_id = current_user();
+    $group_id = execute_query("SELECT group_id FROM tbl_users WHERE user_id='$user_id'");
+    return intval($group_id);
 }
