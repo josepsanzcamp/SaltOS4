@@ -91,12 +91,12 @@ function make_indexing($app, $reg_id = null)
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
-        if ($indexing_id) {
+        if (!$indexing_id) {
+            return -4;
+        } else {
             $query = "DELETE FROM idx_$app WHERE id='$reg_id'";
             db_query($query);
             return 3;
-        } else {
-            return -4;
         }
     }
     // Continue the process after the checks

@@ -57,6 +57,7 @@ declare(strict_types=1);
  * -4 => data not found, this is because the app register not exists and the control register too not exists
  * -5 => control exists, this is because the app register exists and the control register too exists
  *
+ * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
 function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
 {
@@ -98,12 +99,12 @@ function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
-        if ($control_id) {
+        if (!$control_id) {
+            return -4;
+        } else {
             $query = "DELETE FROM ctl_$app WHERE id='$reg_id'";
             db_query($query);
             return 2;
-        } else {
-            return -4;
         }
     }
     if ($control_id) {
@@ -117,4 +118,15 @@ function make_control($app, $reg_id = null, $user_id = null, $datetime = null)
         db_query($query);
         return 1;
     }
+}
+
+/*
+ * Make Version function
+ *
+ * TODO
+ */
+function make_version($app, $reg_id = null, $user_id = null, $datetime = null)
+{
+
+
 }

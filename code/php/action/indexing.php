@@ -36,11 +36,19 @@ declare(strict_types=1);
 
 //~ db_query("TRUNCATE TABLE idx_correo");
 
-$ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
+//~ $ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
 //~ echo "<pre>" . sprintr(make_indexing("correo", $ids)) . "</pre>";
-echo "<pre>" . sprintr(make_control("correo", $ids)) . "</pre>";
+//~ echo "<pre>" . sprintr(make_control("correo", $ids)) . "</pre>";
 
 //~ set_config("xml/dbschema.xml", "nada");
 //~ set_config("xml/dbstatic.xml", "nada");
+//~ db_schema();
+//~ db_static();
 
+//~ set_config("xml/dbschema.xml", "nada");
+//~ db_schema();
+//~ db_query(sql_drop_index("user_id","ver_clientes"));
+//~ set_config("xml/dbschema.xml", "nada");
+//~ db_schema();
+//~ echo "OK";
 die();

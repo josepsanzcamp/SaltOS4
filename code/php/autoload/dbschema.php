@@ -418,15 +418,15 @@ function __dbschema_auto_apps($dbschema)
                 $xml = '<table name="__TABLE__">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                                <field name="reg_id" type="INT(11)"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
+                                <field name="reg_id" type="INT(11)"/>
                                 <field name="data" type="MEDIUMTEXT"/>
                             </fields>
                             <indexes>
-                                <index fields="reg_id,user_id"/>
-                                <index fields="reg_id"/>
+                                <index fields="user_id,reg_id"/>
                                 <index fields="user_id"/>
+                                <index fields="reg_id"/>
                             </indexes>
                         </table>';
                 $xml = str_replace("__TABLE__", "ver_$app", $xml);
@@ -449,6 +449,9 @@ function __dbschema_auto_apps($dbschema)
  *
  * By default, MariaDB creates an index for each foreign key, but SQLite not does is by default
  * and for this reason, SaltOS creates an index automatically, to improve the performance
+ *
+ * This function checks that the field not exists in the defined indexes to prevent error in duplicates
+ * indexes
  */
 function __dbschema_auto_fkey($dbschema)
 {
@@ -457,8 +460,17 @@ function __dbschema_auto_fkey($dbschema)
             if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
                 continue;
             }
+            $indexes = array();
+            if (isset($dbschema["tables"][$tablekey]["value"]["indexes"])) {
+                foreach ($dbschema["tables"][$tablekey]["value"]["indexes"] as $index) {
+                    $indexes[] = $index["#attr"]["fields"];
+                }
+            }
             foreach ($tablespec["value"]["fields"] as $fieldkey => $fieldspec) {
                 if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
+                    if (in_array($fieldspec["#attr"]["name"], $indexes)) {
+                        continue;
+                    }
                     if (!isset($dbschema["tables"][$tablekey]["value"]["indexes"])) {
                         $dbschema["tables"][$tablekey]["value"]["indexes"] = array();
                     }
