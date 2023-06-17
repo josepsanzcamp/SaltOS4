@@ -262,5 +262,60 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 			</fields>
 		</table>
 
+		<table name="tbl_facturas">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_cliente" type="INT(11)" fkey="tbl_clientes"/>
+				<field name="id_epigrafe" type="INT(11)" fkey="tbl_epigrafes"/>
+				<field name="nombre" type="VARCHAR(255)"/>
+				<field name="direccion" type="VARCHAR(255)"/>
+				<field name="id_pais" type="INT(11)" fkey="tbl_paises"/>
+				<field name="id_provincia" type="INT(11)" fkey="tbl_provincias"/>
+				<field name="id_poblacion" type="INT(11)" fkey="tbl_poblaciones"/>
+				<field name="id_codpostal" type="INT(11)" fkey="tbl_codpostal"/>
+				<field name="nombre_pais" type="VARCHAR(255)"/>
+				<field name="nombre_provincia" type="VARCHAR(255)"/>
+				<field name="nombre_poblacion" type="VARCHAR(255)"/>
+				<field name="nombre_codpostal" type="VARCHAR(255)"/>
+				<field name="cif" type="VARCHAR(255)"/>
+				<field name="num" type="VARCHAR(255)"/>
+				<field name="fecha" type="DATE"/>
+				<field name="iva" type="DECIMAL(9,2)"/>
+				<field name="irpf" type="DECIMAL(9,2)"/>
+				<field name="cerrado" type="INT(11)"/>
+				<field name="cobrado" type="INT(11)"/>
+				<field name="id_cuenta" type="INT(11)" fkey="tbl_cuentas"/>
+				<field name="fecha2" type="DATE"/>
+				<field name="id_proyecto" type="INT(11)" fkey="tbl_proyectos"/>
+				<field name="id_periodica" type="INT(11)" fkey="tbl_periodicas"/>
+				<field name="mes_periodica" type="INT(11)"/>
+				<field name="notas" type="TEXT"/>
+				<field name="id_formapago" type="INT(11)" fkey="tbl_formaspago"/>
+				<field name="id_presupuesto" type="INT(11)" fkey="tbl_presupuestos"/>
+			</fields>
+		</table>
+		<table name="tbl_facturas_c">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_factura" type="INT(11)" fkey="tbl_facturas"/>
+				<field name="id_producto" type="INT(11)" fkey="tbl_productos"/>
+				<field name="concepto" type="TEXT"/>
+				<field name="unidades" type="DECIMAL(9,2)"/>
+				<field name="descuento" type="DECIMAL(9,2)"/>
+				<field name="precio" type="DECIMAL(9,2)"/>
+			</fields>
+		</table>
+		<table name="tbl_facturas_v">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="id_factura" type="INT(11)" fkey="tbl_facturas"/>
+				<field name="fecha" type="DATE"/>
+				<field name="percent" type="DECIMAL(9,2)"/>
+				<field name="importe" type="DECIMAL(9,2)"/>
+				<field name="cobrado" type="INT(11)"/>
+				<field name="fecha2" type="DATE"/>
+			</fields>
+		</table>
+
 	</tables>
 </root>
