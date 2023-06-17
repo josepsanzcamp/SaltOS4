@@ -217,11 +217,14 @@ function do_message_error($array)
             unset($array[$type]);
         } elseif (is_string($data) && $data == "") {
             unset($array[$type]);
+        } elseif ($type == "code") {
+            unset($array[$type]);
+            $json[$type] = $data;
+        } elseif (is_string($data) && $json["text"] == "") {
+            $array[$type] = $data;
+            $json["text"] = $data;
         } else {
             $array[$type] = $data;
-            if ($json["text"] == "") {
-                $json["text"] = $data;
-            }
         }
     }
     // Prepare html version
@@ -306,7 +309,8 @@ function __error_handler($type, $message, $file, $line)
     show_php_error(array(
         "phperror" => "{$message} (code {$type})",
         "details" => "Error on file " . basename($file) . ":" . $line,
-        "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)
+        "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+        "code" => pathinfo($file, PATHINFO_FILENAME) . ":" . $line
     ));
 }
 
@@ -325,7 +329,8 @@ function __exception_handler($e)
     show_php_error(array(
         "exception" => $e->getMessage() . " (code " . $e->getCode() . ")",
         "details" => "Error on file " . basename($e->getFile()) . ":" . $e->getLine(),
-        "backtrace" => $e->getTrace()
+        "backtrace" => $e->getTrace(),
+        "code" => pathinfo($e->getFile(), PATHINFO_FILENAME) . ":" . $e->getLine()
     ));
 }
 
@@ -347,6 +352,7 @@ function __shutdown_handler()
             "phperror" => "{$error["message"]}",
             "details" => "Error on file " . basename($error["file"]) . ":" . $error["line"],
             "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+            "code" => pathinfo($error["file"], PATHINFO_FILENAME) . ":" . $error["line"]
         ));
     }
     semaphore_shutdown();
