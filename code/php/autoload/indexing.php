@@ -91,14 +91,14 @@ function make_indexing($app, $reg_id)
     $subtables = app2subtables($app);
     if ($subtables != "") {
         foreach (explode(",", $subtables) as $subtable) {
-            $table = strtok($subtable, "(");
+            $subtable = strtok($subtable, "(");
             $field = strtok(")");
-            $fields = __make_indexing_helper($table);
+            $fields = __make_indexing_helper($subtable);
             foreach ($fields as $key => $val) {
                 $fields[$key] = "IFNULL(($val),'')";
             }
             $fields = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $fields) . "))";
-            $query = "SELECT {$fields} FROM {$table} WHERE {$field}='{$reg_id}'";
+            $query = "SELECT $fields FROM $subtable WHERE $field='$reg_id'";
             $queries[] = $query;
         }
     }
@@ -107,13 +107,13 @@ function make_indexing($app, $reg_id)
     //~ foreach ($tablas as $tabla) {
         //~ $campos = __make_indexing_helper($tabla);
         //~ foreach ($campos as $key => $val) {
-            //~ $campos[$key] = "IFNULL(({$val}),'')";
+            //~ $campos[$key] = "IFNULL(($val),'')";
         //~ }
         //~ $campos = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $campos) . "))";
-        //~ $query = "SELECT {$campos}
-            //~ FROM {$tabla}
-            //~ WHERE id_aplicacion='{$id_aplicacion}'
-                //~ AND id_registro='{$id_registro}'";
+        //~ $query = "SELECT $campos
+            //~ FROM $tabla
+            //~ WHERE id_aplicacion='$id_aplicacion'
+                //~ AND id_registro='$id_registro'";
         //~ $queries[] = $query;
     //~ }
     // Prepare the main query

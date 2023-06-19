@@ -166,8 +166,37 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     // Compute the diff from old data and new data
     $data_old = get_version($app, $reg_id, INF);
     $query = "SELECT * FROM $table WHERE id='$reg_id'";
-    $data_new = execute_query($query);
-    $data_new = array_diff_assoc($data_new, $data_old);
+    $data_new = array();
+    $data_new[$table] = array();
+    $data_new[$table][$reg_id] = execute_query($query);
+    // Add the data from subtables, if exists
+    $subtables = app2subtables($app);
+    if ($subtables != "") {
+        foreach (explode(",", $subtables) as $subtable) {
+            $subtable = strtok($subtable, "(");
+            $field = strtok(")");
+            $query = "SELECT * FROM $subtable WHERE $field='$reg_id'";
+            $data_new[$subtable] = array();
+            $rows = execute_query_array($query);
+            foreach ($rows as $key => $val) {
+                $data_new[$subtable][$val["id"]] = $val;
+            }
+        }
+    }
+    // Continue computing the diff from old data and new data
+    $data = array();
+    foreach ($data_new as $table => $rows) {
+        $data[$table] = array();
+        if (!isset($data_old[$table])) {
+            $data_old[$table] = array();
+        }
+        foreach ($rows as $key => $val) {
+            if (!isset($data_old[$table][$key])) {
+                $data_old[$table][$key] = array();
+            }
+            $data[$table][$key] = array_diff_assoc($val, $data_old[$table][$key]);
+        }
+    }
     // Prepare extra data as old hash and last ver_id
     $query = "SELECT hash FROM ver_$app WHERE id='$version_id'";
     $hash_old = strval(execute_query($query));
@@ -179,7 +208,7 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
         "datetime" => $datetime,
         "reg_id" => $reg_id,
         "ver_id" => $ver_id + 1,
-        "data" => base64_encode(serialize($data_new)),
+        "data" => base64_encode(serialize($data)),
         "hash" => $hash_old,
     );
     // Update the hash with the new hash to do the blockchain
@@ -242,8 +271,25 @@ function get_version($app, $reg_id, $ver_id)
             $ver_id = $row["ver_id"];
             show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
         }
-        // Continue
-        $data = array_merge($data, unserialize(base64_decode($row["data"])));
+        // Merge the new data with the data of the previous versions
+        $data_new = unserialize(base64_decode($row["data"]));
+        foreach ($data_new as $table => $temp) {
+            if (!isset($data[$table])) {
+                $data[$table] = array();
+            }
+            foreach ($temp as $key => $val) {
+                if (!isset($data[$table][$key])) {
+                    $data[$table][$key] = array();
+                }
+                $data[$table][$key] = array_merge($data[$table][$key], $val);
+            }
+            // This part is to emulate the delete command
+            foreach ($data[$table] as $key => $val) {
+                if (!isset($temp[$key])) {
+                    unset($data[$table][$key]);
+                }
+            }
+        }
         $hash_old = $row["hash"];
         $datetime_old = $row["datetime"];
         $version_old = $row["ver_id"];

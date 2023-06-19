@@ -37,6 +37,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <row id="1" code="clientes" name="Clientes" description="Aplicacion de clientes" _table="app_clientes" field="nombre" has_indexing="1" has_control="1" has_version="1"/>
             <row id="2" code="proveedores" name="Proveedores" description="Aplicacion de proveedores" _table="app_proveedores" field="nombre" has_indexing="1" has_control="1" has_version="1"/>
             <row id="3" code="correo" name="Correo" description="Cliente de correo" _table="app_correo" field="CONCAT(de,' - ',subject)" subtables="app_correo_a(id_correo)" has_indexing="1" has_control="1"/>
+            <row id="4" code="facturas" name="Facturas" description="Aplicación de facturas" _table="app_facturas" field="CONCAT(nombre,' - ',cif,' - ',num)" subtables="app_facturas_c(id_factura),app_facturas_v(id_factura)" has_indexing="1" has_control="1" has_version="1"/>
         </table>
         <table name="tbl_perms">
             <row id="1" code="menu" name="Mostrar entrada en el menú"/>

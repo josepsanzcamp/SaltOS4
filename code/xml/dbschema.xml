@@ -262,7 +262,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 			</fields>
 		</table>
 
-		<table name="tbl_facturas">
+		<table name="app_facturas">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
 				<field name="id_cliente" type="INT(11)" fkey="tbl_clientes"/>
@@ -294,21 +294,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 				<field name="id_presupuesto" type="INT(11)" fkey="tbl_presupuestos"/>
 			</fields>
 		</table>
-		<table name="tbl_facturas_c">
+		<table name="app_facturas_c">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_factura" type="INT(11)" fkey="tbl_facturas"/>
-				<field name="id_producto" type="INT(11)" fkey="tbl_productos"/>
+				<field name="id_factura" type="INT(11)" fkey="app_facturas"/>
+				<field name="id_producto" type="INT(11)" fkey="app_productos"/>
 				<field name="concepto" type="TEXT"/>
 				<field name="unidades" type="DECIMAL(9,2)"/>
 				<field name="descuento" type="DECIMAL(9,2)"/>
 				<field name="precio" type="DECIMAL(9,2)"/>
 			</fields>
 		</table>
-		<table name="tbl_facturas_v">
+		<table name="app_facturas_v">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="id_factura" type="INT(11)" fkey="tbl_facturas"/>
+				<field name="id_factura" type="INT(11)" fkey="app_facturas"/>
 				<field name="fecha" type="DATE"/>
 				<field name="percent" type="DECIMAL(9,2)"/>
 				<field name="importe" type="DECIMAL(9,2)"/>

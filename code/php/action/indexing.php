@@ -67,53 +67,101 @@ declare(strict_types=1);
 //~ ))."</pre>";
 //~ die();
 
-//~ echo "<pre>" . sprintr(get_version("clientes", 51, 0)) . "</pre>";
-//~ echo "<pre>" . sprintr(get_version("clientes", 51, 1)) . "</pre>";
-//~ echo "<pre>" . sprintr(get_version("clientes", 51, 2)) . "</pre>";
-//~ echo "<pre>" . sprintr(get_version("clientes", 51, 3)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("facturas", 1, 0)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("facturas", 1, 1)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("facturas", 1, 2)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("facturas", 1, 3)) . "</pre>";
 
-//~ die();
+db_query("DELETE FROM app_facturas WHERE id=1");
+db_query("DELETE FROM app_facturas_c WHERE id_factura=1");
+db_query("DELETE FROM app_facturas_v WHERE id_factura=1");
+db_query("TRUNCATE TABLE ver_facturas");
+//~ make_version("facturas",1);
 
-db_query("DELETE FROM app_clientes WHERE id=51");
-db_query("DELETE FROM ver_clientes WHERE reg_id=51");
-//~ make_version("clientes",51);
+/*********************************** INICIO PRIMERA VERSION *************************************/
 
-$array1 = array(
-    "id" => 51,
-    "nombre1" => "Josep",
-    "nombre2" => "Sanz",
-    "tel_movil" => "",
+$array = array(
+    "id" => 1,
+    "nombre" => "Josep Sanz",
+    "num" => "",
 );
-$query = make_insert_query("app_clientes", $array1);
+$query = make_insert_query("app_facturas", $array);
 db_query($query);
 
-add_version("clientes", 51);
-
-$array2 = array(
-    "nombre1" => "Josep",
-    "nombre2" => "Sanz Campderrós",
-    "tel_movil" => "",
+$array = array(
+    "id" => 1,
+    "id_factura" => 1,
+    "concepto" => "Reloj",
+    "unidades" => "1",
+    "precio" => "99.99",
 );
-
-$query = make_update_query("app_clientes", $array2, "id=51");
+$query = make_insert_query("app_facturas_c", $array);
 db_query($query);
 
-add_version("clientes", 51);
-
-$array3 = array(
-    "nombre1" => "Josep",
-    "nombre2" => "Sanz Campderrós",
-    "tel_movil" => "123456789",
+$array = array(
+    "id" => 2,
+    "id_factura" => 1,
+    "concepto" => "Correa",
+    "unidades" => "1",
+    "precio" => "19.99",
 );
-
-$query = make_update_query("app_clientes", $array3, "id=51");
+$query = make_insert_query("app_facturas_c", $array);
 db_query($query);
 
-add_version("clientes", 51);
+add_version("facturas", 1);
 
-echo "<pre>" . sprintr(get_version("clientes", 51, 0)) . "</pre>";
-echo "<pre>" . sprintr(get_version("clientes", 51, 1)) . "</pre>";
-echo "<pre>" . sprintr(get_version("clientes", 51, 2)) . "</pre>";
-echo "<pre>" . sprintr(get_version("clientes", 51, 3)) . "</pre>";
+/*********************************** INICIO SEGUNDA VERSION *************************************/
+
+$array = array(
+    "nombre" => "Josep Sanz Campderrós",
+    "num" => "",
+);
+
+$query = make_update_query("app_facturas", $array, "id=1");
+db_query($query);
+
+
+$array = array(
+    "id_factura" => 1,
+    "concepto" => "Correa",
+    "unidades" => "1",
+    "precio" => "29.99",
+);
+$query = make_update_query("app_facturas_c", $array, "id=2");
+db_query($query);
+
+$array = array(
+    "id" => 3,
+    "id_factura" => 1,
+    "concepto" => "Extras",
+    "unidades" => "1",
+    "precio" => "9.99",
+);
+$query = make_insert_query("app_facturas_c", $array);
+db_query($query);
+
+add_version("facturas", 1);
+
+/*********************************** INICIO TERCERA VERSION *************************************/
+
+$array = array(
+    "nombre" => "Josep Sanz Campderrós",
+    "num" => "123456789",
+);
+
+$query = make_update_query("app_facturas", $array, "id=1");
+db_query($query);
+
+$query = "DELETE FROM app_facturas_c WHERE id=1";
+db_query($query);
+
+add_version("facturas", 1);
+
+/*********************************** INICIO DUMP VERSIONES *************************************/
+
+echo "<pre>" . sprintr(get_version("facturas", 1, 0)) . "</pre>";
+echo "<pre>" . sprintr(get_version("facturas", 1, 1)) . "</pre>";
+echo "<pre>" . sprintr(get_version("facturas", 1, 2)) . "</pre>";
+echo "<pre>" . sprintr(get_version("facturas", 1, 3)) . "</pre>";
 
 die();
