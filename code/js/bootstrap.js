@@ -290,7 +290,6 @@ saltos.__form_field.integer = function (field) {
     var obj = saltos.__form_field.__text(field);
     IMask(obj, {
         mask: Number,
-        signed: true,
         scale: 0,
     });
     return obj;
@@ -307,7 +306,6 @@ saltos.__form_field.float = function (field) {
     var obj = saltos.__form_field.__text(field);
     IMask(obj, {
         mask: Number,
-        signed: true,
         radix: ".",
         mapToRadix: [","],
         scale: 99,
