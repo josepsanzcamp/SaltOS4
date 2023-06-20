@@ -40,7 +40,7 @@ declare(strict_types=1);
  * Code copied from the follow web:
  * https://www.php.net/manual/es/function.array-key-last.php#124007
  */
-if (!function_exists('array_key_last')) {
+if (!function_exists("array_key_last")) {
     function array_key_last(array $array)
     {
         if (!empty($array)) {
@@ -62,11 +62,30 @@ if (!function_exists('array_key_last')) {
  * Code copied from the follow web:
  * https://www.php.net/manual/es/function.array-key-last.php#124007
  */
-if (!function_exists('array_key_first')) {
+if (!function_exists("array_key_first")) {
     function array_key_first(array $arr)
     {
         foreach ($arr as $key => $unused) {
             return $key;
         }
+    }
+}
+
+/**
+ * Random Bytes
+ *
+ * This function appear in PHP 7.0, and for previous versions SaltOS
+ * uses this code
+ *
+ * @length => the length of the returned value
+ *
+ * Notes:
+ * Code using ideas from the follow post
+ * https://stackoverflow.com/questions/1846202/how-to-generate-a-random-unique-alphanumeric-string
+ */
+if (!function_exists("random_bytes")) {
+    function random_bytes($length)
+    {
+        return openssl_random_pseudo_bytes($length);
     }
 }
