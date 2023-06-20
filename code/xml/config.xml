@@ -60,6 +60,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <cachegcprobability>1</cachegcprobability>
         <cachegcdivisor>100</cachegcdivisor>
     </cache>
+    <output>
+        <cachegctimeout>86400</cachegctimeout><!-- in seconds, 86400 is 1 day -->
+    </output>
     <commands>
         <which>which</which><!-- for check commands -->
         <__which__>which __INPUT__</__which__>
@@ -88,8 +91,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <slowquerytime>5</slowquerytime><!-- in seconds -->
     </debug>
     <ini_set>
-        <session.bug_compat_42 ifeval="!isphp(5.4)">On</session.bug_compat_42>
-        <register_globals ifeval="!isphp(5.4)">Off</register_globals>
         <memory_limit>128M</memory_limit>
         <max_execution_time>600</max_execution_time><!-- in seconds, 600 are 10 minutes -->
         <date.timezone>Europe/Madrid</date.timezone>
@@ -98,7 +99,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <mbstring.internal_encoding>UTF-8</mbstring.internal_encoding>
         <mbstring.detect_order ifeval="!isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16,Windows-1250,Windows-1251,Windows-1252,Windows-1253,Windows-1254,Windows-1255,Windows-1256,Windows-1257,Windows-1258,CP1256,CP1250,CP1252,CP437,CP737,CP850,CP852,CP855,CP857,CP858,CP860,CP861,CP862,CP863,CP865,CP866,CP869,CP37,CP930,CP1047</mbstring.detect_order>
         <mbstring.detect_order ifeval="isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16</mbstring.detect_order>
-        <magic_quotes_gpc ifeval="!isphp(5.4)">Off</magic_quotes_gpc>
     </ini_set>
     <putenv>
         <PATH>/bin:/usr/bin:/usr/local/bin</PATH>

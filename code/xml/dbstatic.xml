@@ -38,7 +38,10 @@ and the main permissions for the user
             <row id="1" code="admin" name="Admin" description="Admin group"/>
         </table>
         <table name="tbl_users" delete="false">
-            <row id="1" group_id="1" active="1" login="admin" password="$2y$10$UOaeeyK5AxxI.TmUk3PpFubWrr8UmtloItALSFMxyX5OJUWmOmxKO" name="Admin" description="Admin user" start="00:00:00" end="24:00:00" days="1111111"/>
+            <row id="1" group_id="1" active="1" login="admin" name="Admin" description="Admin user" start="00:00:00" end="24:00:00" days="1111111"/>
+        </table>
+        <table name="tbl_users_passwords" delete="false">
+            <row id="1" user_id="1" active="1" remote_addr="dbstatic" user_agent="dbstatic" password="$2y$10$2BJ1gSSnaBIGmKz.4M8iWeMdcC5Y5MmL8LqE8tv.cR1Lx.r8cl9Cy" expires="9999-99-99 99:99:99"/>
         </table>
         <table name="tbl_apps">
             <row id="1" code="clientes" name="Clientes" description="Aplicacion de clientes" _table="app_clientes" field="nombre" has_indexing="1" has_control="1" has_version="1"/>

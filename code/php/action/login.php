@@ -35,35 +35,65 @@ declare(strict_types=1);
  * a valid token to operate in SaltOS
  */
 
+// Check parameters
 foreach (array("user","pass") as $key) {
     if (!isset($data["json"][$key]) || $data["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
 }
 
+// Compute the new pass
 $user = $data["json"]["user"];
 $pass = $data["json"]["pass"];
-$pass = password_remake($user, $pass);
 
+// First check
 $query = "SELECT * FROM tbl_users WHERE " . make_where_query(array(
     "active" => 1,
     "login" => $user,
-    "password" => $pass
 ));
 $result = db_query($query);
 $num_rows = db_num_rows($result);
 $row = db_fetch_row($result);
 db_free($result);
-
-if ($num_rows != 1 || $user != $row["login"] || $pass != $row["password"]) {
+if ($num_rows != 1 || $user != $row["login"]) {
     show_json_error("authentication error");
 }
 
-$query = "DELETE FROM tbl_tokens WHERE " . make_where_query(array(
-    "user_id" => $row["id"]
+// Second check
+$query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
+    "user_id" => $row["id"],
+    "active" => 1,
+    "expires>" => current_datetime(),
 ));
+$result = db_query($query);
+$num_rows = db_num_rows($result);
+$row2 = db_fetch_row($result);
+db_free($result);
+if ($num_rows != 1) {
+    show_json_error("authentication error");
+} elseif (password_verify($pass, $row2["password"])) {
+    // Nothing to do, password is correct!!!
+} elseif (in_array($row2["password"], array(md5($pass),sha1($pass)))) {
+    // Convert from MD5/SHA1 to password_hash format
+    $row2["password"] = password_hash($pass, PASSWORD_DEFAULT);
+    $query = make_update_query("tbl_users_passwords", array(
+        "password" => $row2["password"]
+    ), make_where_query(array(
+        "id" => $row2["id"]
+    )));
+    db_query($query);
+} else {
+    show_json_error("authentication error");
+}
+
+$query = make_update_query("tbl_users_logins", array(
+    "active" => 0
+), make_where_query(array(
+    "user_id" => $row["id"]
+)));
 db_query($query);
 
+$datetime = current_datetime();
 $token = implode("-", array(
     bin2hex(random_bytes(4)),
     bin2hex(random_bytes(2)),
@@ -71,16 +101,34 @@ $token = implode("-", array(
     bin2hex(random_bytes(2)),
     bin2hex(random_bytes(6))
 ));
-$datetime = current_datetime();
-$query = make_insert_query("tbl_tokens",array(
-    "token" => $token,
+$expires_short_term = current_datetime(86400);
+$expires_long_term = current_datetime(86400 * 365);
+$query = make_insert_query("tbl_users_logins", array(
     "user_id" => $row["id"],
+    "active" => 1,
     "datetime" => $datetime,
+    "remote_addr" => get_server("REMOTE_ADDR"),
+    "user_agent" => get_server("HTTP_USER_AGENT"),
+    "token" => $token,
+    "expires_short_term" => $expires_short_term,
+    "expires_long_term" => $expires_long_term,
 ));
 db_query($query);
 
 output_handler_json(array(
     "status" => "ok",
     "token" => $token,
-    "datetime" => $datetime,
+    "created_at" => $datetime,
+    "expires_short_term" => $expires_short_term,
+    "expires_long_term" => $expires_long_term,
 ));
+
+/**
+ * TODO
+ *
+ * Falta guardar registro del login valido
+ * Falta decidir como se guardan los logins fallidos
+ * Falta decidir que se hace para evitar muchos logins seguidos y fallidos rollo ataque
+ * Falta programar el logout, el obtener el score del password y el cambiar de password
+ * Falta programar la parte de comprobar los permisos
+ */

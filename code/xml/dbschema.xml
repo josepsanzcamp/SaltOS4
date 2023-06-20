@@ -68,6 +68,12 @@ that maintain the database using as reference this file
 		This tables store the main information of a user, the times that a user must
 		change their password, the times that user logins to the system, and the groups
 		to allow to put each user in a group
+
+		This table allow the users to connect with SaltOS, in this new release of
+		SaltOS, the users not uses sessions, cookies or other specific browser features,
+		here, the authentication is implemented by sending data in a json format and
+		retrieving a token that must to be used in the headers of next requests to
+        authenticate the communication
 		-->
         <table name="tbl_users">
             <fields>
@@ -75,7 +81,6 @@ that maintain the database using as reference this file
                 <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
                 <field name="active" type="INT(11)"/>
                 <field name="login" type="VARCHAR(255)"/>
-                <field name="password" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
                 <field name="start" type="TIME"/>
@@ -87,44 +92,34 @@ that maintain the database using as reference this file
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                <field name="active" type="INT(11)"/>
                 <field name="datetime" type="DATETIME"/>
-                <field name="password" type="VARCHAR(255)"/>
                 <field name="remote_addr" type="VARCHAR(255)"/>
                 <field name="user_agent" type="VARCHAR(255)"/>
+                <field name="password" type="VARCHAR(255)"/>
+                <field name="expires" type="DATETIME"/>
             </fields>
         </table>
         <table name="tbl_users_logins">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                <field name="active" type="INT(11)"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="remote_addr" type="VARCHAR(255)"/>
                 <field name="user_agent" type="VARCHAR(255)"/>
+                <field name="token" type="VARCHAR(255)"/>
+                <field name="expires_short_term" type="DATETIME"/>
+                <field name="expires_long_term" type="DATETIME"/>
             </fields>
         </table>
         <table name="tbl_groups">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
-            </fields>
-        </table>
-
-		<!--
-		This table allow the users to connect with SaltOS, in this new release of
-		SaltOS, the users not uses sessions, cookies or other specific browser features,
-		here, the authentication is implemented by sending data in a json format and
-		retrieving a token to authenticate the next requests
-		-->
-        <table name="tbl_tokens">
-            <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="token" type="VARCHAR(255)"/>
-                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-                <field name="datetime" type="DATETIME"/>
-                <field name="renewed_at" type="DATETIME"/>
-                <field name="renewed_times" type="INT(11)"/>
             </fields>
         </table>
 

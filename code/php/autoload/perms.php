@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,23 +27,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/**
- * Password Strength
- *
- * This fucntion returns a number between 0 and 100 that try to categorize
- * the quality of the pass checked, this is usefull to known if the new
- * password is a good option or maybe is needed to request another new
- * password
- *
- * @pass => password that do you want to check
- */
-function password_strength($pass)
-{
-    require_once "lib/wolfsoftware/password_strength.class.php";
-    $ps = new Password_Strength();
-    $ps->set_password($pass);
-    $ps->calculate();
-    $score = round($ps->get_score(), 0);
-    unset($ps);
-    return $score;
-}
+// TODO CHECK PERMS

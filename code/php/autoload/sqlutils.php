@@ -703,12 +703,26 @@ function make_update_query($table, $array, $where)
  *
  * @array => array with key val pairs that represent the field and the value of
  *           the field
+ *
+ * Notes:
+ *
+ * The keys normally contains the name of the field, but if you need to use
+ * a different comparison operator, you can use the field name and add the
+ * operator that you want to use in the comparison, the allowed comparison
+ * operators are >, <, =, >=, <=, !=
  */
 function make_where_query($array)
 {
     $list = array();
     foreach ($array as $key => $val) {
-        $list[] = $key . "='" . addslashes(strval($val)) . "'";
+        if (in_array(substr($key, -2, 2), array(">=","<=","!="))) {
+            $cmp = "";
+        } elseif (in_array(substr($key, -1, 1), array(">","<","="))) {
+            $cmp = "";
+        } else {
+            $cmp = "=";
+        }
+        $list[] = $key . $cmp . "'" . addslashes(strval($val)) . "'";
     }
     $query = "(" . implode(" AND ", $list) . ")";
     return $query;

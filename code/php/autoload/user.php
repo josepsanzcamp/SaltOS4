@@ -35,8 +35,11 @@ declare(strict_types=1);
  */
 function current_user()
 {
-    $token = get_server("HTTP_TOKEN");
-    $user_id = execute_query("SELECT user_id FROM tbl_tokens WHERE token='$token'");
+    $user_id = execute_query("SELECT user_id FROM tbl_users_logins WHERE " . make_where_query(array(
+        "token" => get_server("HTTP_TOKEN"),
+        "active" => 1,
+        "expires_short_term>" => current_datetime(),
+    )));
     return intval($user_id);
 }
 
@@ -48,7 +51,9 @@ function current_user()
  */
 function current_group()
 {
-    $user_id = current_user();
-    $group_id = execute_query("SELECT group_id FROM tbl_users WHERE user_id='$user_id'");
+    $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query(array(
+        "user_id" => current_user(),
+        "active" => 1,
+    )));
     return intval($group_id);
 }
