@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * DB Connect
  *
  * This function is intended to stablish the connection to the database
@@ -73,7 +73,7 @@ function db_connect($args = null)
     }
 }
 
-/*
+/**
  * DB Check
  *
  * This function is intended to check that the query execution will not trigger an error
@@ -88,7 +88,7 @@ function db_check($query)
     return get_default("db/obj")->db_check($query);
 }
 
-/*
+/**
  * DB Query
  *
  * This public function is intended to execute the query and returns the resultset
@@ -139,7 +139,7 @@ function db_query($query, $fetch = "query")
     return $result;
 }
 
-/*
+/**
  * DB Disconnect
  *
  * This function close the database connection and sets the link to null
@@ -152,7 +152,7 @@ function db_disconnect()
     get_default("db/obj")->db_disconnect();
 }
 
-/*
+/**
  * DB Fetch Row
  *
  * This function returns the next row of the resultset queue
@@ -169,7 +169,7 @@ function db_fetch_row(&$result)
     return array_pop($result["rows"]);
 }
 
-/*
+/**
  * DB Fetch All
  *
  * This function returns all rows of the resultset queue
@@ -182,7 +182,7 @@ function db_fetch_all(&$result)
     return $result["rows"];
 }
 
-/*
+/**
  * DB Num Rows
  *
  * This function returns the total number of the results in the resultset queue
@@ -195,7 +195,7 @@ function db_num_rows($result)
     return $result["total"];
 }
 
-/*
+/**
  * DB Free
  *
  * This function releases all memory used by the resultset queue
@@ -208,7 +208,7 @@ function db_free(&$result)
     $result = array("total" => 0,"header" => array(),"rows" => array());
 }
 
-/*
+/**
  * DB Num Fields
  *
  * This function returns the number of fields of the resultset queue
@@ -221,7 +221,7 @@ function db_num_fields($result)
     return count($result["header"]);
 }
 
-/*
+/**
  * DB Field Name
  *
  * This function returns the name of the field identified by the index field

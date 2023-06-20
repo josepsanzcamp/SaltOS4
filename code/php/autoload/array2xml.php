@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Check Node Name
  *
  * This function acts as helper of the array2xml function, is intended to
@@ -45,7 +45,7 @@ function __array2xml_check_node_name($name)
     }
 }
 
-/*
+/**
  * Check Attr Name
  *
  * This function acts as helper of the array2xml function, is intended to
@@ -63,7 +63,7 @@ function __array2xml_check_node_attr($name)
     }
 }
 
-/*
+/**
  * Write Nodes array2xml helper
  *
  * This function acts as helper of the array2xml function, is intended to
@@ -125,7 +125,7 @@ function __array2xml_write_nodes(&$array, $level = null)
     return $buffer;
 }
 
-/*
+/**
  * Array to XML
  *
  * This function returns a string with the contents of array converted into a XML

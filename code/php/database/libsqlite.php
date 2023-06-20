@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * About this file
  *
  * SQLite's database allow to define external functions that can be used from the SQL language,
@@ -40,7 +40,7 @@ declare(strict_types=1);
  * @SQLite3 => createFunction/createAggregate
  */
 
-/*
+/**
  * GROUP_CONCAT
  *
  * This function add the GROUP_CONCAT to the SQLite database
@@ -54,7 +54,7 @@ function __libsqlite_group_concat_step($context, $rows, $string, $separator = ",
     return $context;
 }
 
-/*
+/**
  * GROUP_CONCAT
  *
  * This function add the GROUP_CONCAT to the SQLite database
@@ -64,7 +64,7 @@ function __libsqlite_group_concat_finalize($context, $rows)
     return $context;
 }
 
-/*
+/**
  * REPLACE
  *
  * This function add the REPLACE to the SQLite database
@@ -74,7 +74,7 @@ function __libsqlite_replace($subject, $search, $replace)
     return str_replace($search, $replace, $subject);
 }
 
-/*
+/**
  * LPAD
  *
  * This function add the LPAD to the SQLite database
@@ -84,7 +84,7 @@ function __libsqlite_lpad($input, $length, $char)
     return str_pad($input, $length, $char, STR_PAD_LEFT);
 }
 
-/*
+/**
  * CONCAT
  *
  * This function add the CONCAT to the SQLite database
@@ -95,7 +95,7 @@ function __libsqlite_concat()
     return implode("", $array);
 }
 
-/*
+/**
  * UNIX_TIMESTAMP
  *
  * This function add the UNIX_TIMESTAMP to the SQLite database
@@ -105,7 +105,7 @@ function __libsqlite_unix_timestamp($date)
     return strtotime($date);
 }
 
-/*
+/**
  * FROM_UNIXTIME
  *
  * This function add the FROM_UNIXTIME to the SQLite database
@@ -115,7 +115,7 @@ function __libsqlite_from_unixtime($timestamp)
     return date("Y-m-d H:i:s", $timestamp);
 }
 
-/*
+/**
  * YEAR
  *
  * This function add the YEAR to the SQLite database
@@ -125,7 +125,7 @@ function __libsqlite_year($date)
     return date("Y", strtotime($date));
 }
 
-/*
+/**
  * MONTH
  *
  * This function add the MONTH to the SQLite database
@@ -135,7 +135,7 @@ function __libsqlite_month($date)
     return date("m", strtotime($date));
 }
 
-/*
+/**
  * WEEK
  *
  * This function add the WEEK to the SQLite database
@@ -146,7 +146,7 @@ function __libsqlite_week($date, $mode)
     return date("W", strtotime($date) + $mode);
 }
 
-/*
+/**
  * TRUNCATE
  *
  * This function add the TRUNCATE to the SQLite database
@@ -157,7 +157,7 @@ function __libsqlite_truncate($n, $d)
     return intval($n * $d) / $d;
 }
 
-/*
+/**
  * DAY
  *
  * This function add the DAY to the SQLite database
@@ -167,7 +167,7 @@ function __libsqlite_day($date)
     return intval(date("d", strtotime($date)));
 }
 
-/*
+/**
  * DAYOFYEAR
  *
  * This function add the DAYOFYEAR to the SQLite database
@@ -177,7 +177,7 @@ function __libsqlite_dayofyear($date)
     return date("z", strtotime($date)) + 1;
 }
 
-/*
+/**
  * DAYOFWEEK
  *
  * This function add the DAYOFWEEK to the SQLite database
@@ -187,7 +187,7 @@ function __libsqlite_dayofweek($date)
     return date("w", strtotime($date)) + 1;
 }
 
-/*
+/**
  * HOUR
  *
  * This function add the HOUR to the SQLite database
@@ -197,7 +197,7 @@ function __libsqlite_hour($date)
     return intval(date("H", strtotime($date)));
 }
 
-/*
+/**
  * MINUTE
  *
  * This function add the MINUTE to the SQLite database
@@ -207,7 +207,7 @@ function __libsqlite_minute($date)
     return intval(date("i", strtotime($date)));
 }
 
-/*
+/**
  * SECOND
  *
  * This function add the SECOND to the SQLite database
@@ -217,7 +217,7 @@ function __libsqlite_second($date)
     return intval(date("s", strtotime($date)));
 }
 
-/*
+/**
  * MD5
  *
  * This function add the MD5 to the SQLite database
@@ -227,7 +227,7 @@ function __libsqlite_md5($temp)
     return md5($temp);
 }
 
-/*
+/**
  * REPEAT
  *
  * This function add the REPEAT to the SQLite database
@@ -237,7 +237,7 @@ function __libsqlite_repeat($str, $count)
     return str_repeat($str, $count);
 }
 
-/*
+/**
  * FIND_IN_SET
  *
  * This function add the FIND_IN_SET to the SQLite database
@@ -247,7 +247,7 @@ function __libsqlite_find_in_set($str, $strlist)
     return in_array($str, explode(",", $strlist)) ? 1 : 0;
 }
 
-/*
+/**
  * IF
  *
  * This function add the IF to the SQLite database
@@ -257,7 +257,7 @@ function __libsqlite_if($condition, $value_if_true, $value_if_false)
     return $condition ? $value_if_true : $value_if_false;
 }
 
-/*
+/**
  * POW
  *
  * This function add the POW to the SQLite database

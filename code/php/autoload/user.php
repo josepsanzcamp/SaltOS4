@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Current User
  *
  * This function returns the id of the current user, this info is retrieved
@@ -40,7 +40,7 @@ function current_user()
     return intval($user_id);
 }
 
-/*
+/**
  * Current Group
  *
  * This function returns the id of the current group, this info is retrieved

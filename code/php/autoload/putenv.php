@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Eval Putenv
  *
  * This function evaluates the putenv section of the config file, is intended

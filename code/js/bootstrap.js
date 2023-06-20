@@ -1,5 +1,5 @@
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-/*
+/**
  * Form fields constructor
  *
  * This function and their helpers, allow the creation of the interface using the bootstrap
@@ -101,14 +101,14 @@ saltos.form_field = function (field) {
     return obj;
 };
 
-/*
+/**
  * Form_field constructor helper object
  *
  * This object allow to the constructor to use a rational structure for a quick access of each helper
  */
 saltos.__form_field = {};
 
-/*
+/**
  * Div constructor helper
  *
  * This function returns an object of the type class by default, you can pass the class
@@ -124,7 +124,7 @@ saltos.__form_field.div = function (field) {
     return obj;
 };
 
-/*
+/**
  * Container constructor helper
  *
  * This function returns an object of the container-fluid class by default, you can pass the class
@@ -143,7 +143,7 @@ saltos.__form_field.container = function (field) {
     return obj;
 };
 
-/*
+/**
  * Row constructor helper
  *
  * This function returns an object of the row class by default, you can pass the class argument
@@ -162,7 +162,7 @@ saltos.__form_field.row = function (field) {
     return obj;
 };
 
-/*
+/**
  * Col constructor helper
  *
  * This function returns an object of the col class by default, you can pass the class argument
@@ -181,7 +181,7 @@ saltos.__form_field.col = function (field) {
     return obj;
 };
 
-/*
+/**
  * Private tooltip constructor helper
  *
  * This function is intended to enable the tooltip in the object, too it try to do some
@@ -202,7 +202,7 @@ saltos.tooltip = function (obj) {
     });
 };
 
-/*
+/**
  * Private text constructor helper
  *
  * This function returns an input object of type text, you can pass some arguments as:
@@ -242,7 +242,7 @@ saltos.__form_field.__text = function (field) {
     return obj;
 };
 
-/*
+/**
  * Text constructor helper
  *
  * This function returns an input object of type text, you can pass the same arguments
@@ -267,7 +267,7 @@ saltos.__form_field.text = function (field) {
     return obj;
 };
 
-/*
+/**
  * Hidden constructor helper
  *
  * This function returns an input object of type hidden, you can pass the same arguments
@@ -279,7 +279,7 @@ saltos.__form_field.hidden = function (field) {
     return obj;
 };
 
-/*
+/**
  * Integer constructor helper
  *
  * This function returns an input object of type integer, you can pass the same arguments
@@ -295,7 +295,7 @@ saltos.__form_field.integer = function (field) {
     return obj;
 };
 
-/*
+/**
  * Float constructor helper
  *
  * This function returns an input object of type float, you can pass the same arguments
@@ -313,7 +313,7 @@ saltos.__form_field.float = function (field) {
     return obj;
 };
 
-/*
+/**
  * Color constructor helper
  *
  * This function returns an input object of type color, you can pass the same arguments
@@ -326,7 +326,7 @@ saltos.__form_field.color = function (field) {
     return obj;
 };
 
-/*
+/**
  * Date constructor helper
  *
  * This function returns an input object of type date, you can pass the same arguments
@@ -338,7 +338,7 @@ saltos.__form_field.date = function (field) {
     return obj;
 };
 
-/*
+/**
  * Time constructor helper
  *
  * This function returns an input object of type time, you can pass the same arguments
@@ -350,7 +350,7 @@ saltos.__form_field.time = function (field) {
     return obj;
 };
 
-/*
+/**
  * Datetime constructor helper
  *
  * This function returns an input object of type datetime, you can pass the same arguments
@@ -362,7 +362,7 @@ saltos.__form_field.datetime = function (field) {
     return obj;
 };
 
-/*
+/**
  * Private textarea constructor helper
  *
  * This function returns a textarea object, you can pass the follow arguments:
@@ -402,7 +402,7 @@ saltos.__form_field.__textarea = function (field) {
     return obj;
 };
 
-/*
+/**
  * Textarea constructor helper
  *
  * This function returns a textarea object with the autogrow plugin enabled
@@ -415,7 +415,7 @@ saltos.__form_field.textarea = function (field) {
     return obj;
 };
 
-/*
+/**
  * Ckeditor constructor helper
  *
  * This function returns a textarea object with the ckeditor plugin enabled
@@ -432,7 +432,7 @@ saltos.__form_field.ckeditor = function (field) {
     return obj;
 };
 
-/*
+/**
  * Codemirror constructor helper
  *
  * This function returns a textarea object with the codemirror plugin enabled
@@ -459,7 +459,7 @@ saltos.__form_field.codemirror = function (field) {
     return obj;
 };
 
-/*
+/**
  * Iframe constructor helper
  *
  * This function returns an iframe object, you can pass the follow arguments:
@@ -477,7 +477,7 @@ saltos.__form_field.iframe = function (field) {
     return obj;
 };
 
-/*
+/**
  * Select constructor helper
  *
  * This function returns a select object, you can pass the follow arguments:
@@ -525,7 +525,7 @@ saltos.__form_field.select = function (field) {
     return obj;
 };
 
-/*
+/**
  * Multiselect constructor helper
  *
  * This function returns a multiselect object, you can pass the follow arguments:
@@ -636,7 +636,7 @@ saltos.__form_field.multiselect = function (field) {
     return obj;
 };
 
-/*
+/**
  * Checkbox constructor helper
  *
  * This function returns a checkbox object, you can pass the follow arguments:
@@ -697,7 +697,7 @@ saltos.__form_field.checkbox = function (field) {
     return obj;
 };
 
-/*
+/**
  * Switch constructor helper
  *
  * This function returns a switch object, you can pass the same arguments that for the checknbox object
@@ -706,7 +706,7 @@ saltos.__form_field.switch = function (field) {
     return saltos.__form_field.checkbox(field);
 };
 
-/*
+/**
  * Button constructor helper
  *
  * This function returns a button object, you can pass the follow arguments:
@@ -743,7 +743,7 @@ saltos.__form_field.button = function (field) {
     return obj;
 };
 
-/*
+/**
  * Password constructor helper
  *
  * This function returns an input object of type password, you can pass some arguments as:
@@ -811,7 +811,7 @@ saltos.__form_field.password = function (field) {
     return obj;
 };
 
-/*
+/**
  * File constructor helper
  *
  * This function returns an input object of type password, you can pass some arguments as:
@@ -998,7 +998,7 @@ saltos.__form_field.file = function (field) {
     return obj;
 };
 
-/*
+/**
  * Link constructor helper
  *
  * This function creates a field similar of text but with the appearance of a link using a button,
@@ -1020,7 +1020,7 @@ saltos.__form_field.link = function (field) {
     return obj;
 };
 
-/*
+/**
  * Label constructor helper
  *
  * This function returns a label object, you can pass some arguments as:
@@ -1045,7 +1045,7 @@ saltos.__form_field.label = function (field) {
     return obj;
 };
 
-/*
+/**
  * Image constructor helper
  *
  * This function returns an image object, you can pass some arguments as:
@@ -1070,7 +1070,7 @@ saltos.__form_field.image = function (field) {
     return obj;
 };
 
-/*
+/**
  * Excel constructor helper
  *
  * This function creates and returns an excel object, to do this they use the handsontable library,
@@ -1140,7 +1140,7 @@ saltos.__form_field.excel = function (field) {
     return obj;
 };
 
-/*
+/**
  * Pdfjs constructor helper
  *
  * This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
@@ -1205,7 +1205,7 @@ saltos.__form_field.pdfjs = function (field) {
     return obj;
 };
 
-/*
+/**
  * Source helper
  *
  * This function is intended to provide multiple sources for a field, they have two modes of work:
@@ -1255,7 +1255,7 @@ saltos.__source_helper = function (field) {
     }
 };
 
-/*
+/**
  * Table constructor helper
  *
  * Returns a table using the follow params:
@@ -1409,7 +1409,7 @@ saltos.__form_field.table = function (field) {
     return obj;
 };
 
-/*
+/**
  * Alert constructor helper
  *
  * This component allow to set boxes type alert in the contents, only requires:
@@ -1460,7 +1460,7 @@ saltos.__form_field.alert = function (field) {
     return obj;
 };
 
-/*
+/**
  * Card constructor helper
  *
  * This functions creates a card with a lot of options:
@@ -1500,7 +1500,7 @@ saltos.__form_field.card = function (field) {
     return obj;
 };
 
-/*
+/**
  * Chart.js constructor helper
  *
  * This function creates a chart using the chart.js library, to do this requires de follow arguments:
@@ -1533,7 +1533,7 @@ saltos.__form_field.chartjs = function (field) {
     return obj;
 };
 
-/*
+/**
  * Tags constructor helper
  *
  * This function creates a text input that allow to manage tags, each tag is paint as a badge
@@ -1616,7 +1616,7 @@ saltos.__form_field.tags = function (field) {
     return obj;
 };
 
-/*
+/**
  * Menu constructor helper
  *
  * This function creates a menu intended to be used in navbar, nabs and tabs
@@ -1696,7 +1696,7 @@ saltos.menu = function (args) {
     return obj;
 };
 
-/*
+/**
  * Navbar constructor helper
  *
  * This component creates a navbar intended to be used as header
@@ -1736,14 +1736,14 @@ saltos.navbar = function (args) {
     return obj;
 };
 
-/*
+/**
  * Modal constructor helper object
  *
  * This object is used to store the element and the instance of the modal
  */
 saltos.__modal = {};
 
-/*
+/**
  * Modal constructor helper
  *
  * This function creates a bootstrap modal and open it, offers two ways of usage:
@@ -1826,14 +1826,14 @@ saltos.modal = function (args) {
     return true;
 };
 
-/*
+/**
  * Offcanvas constructor helper object
  *
  * This object is used to store the element and the instance of the offcanvas
  */
 saltos.__offcanvas = {};
 
-/*
+/**
  * Offcanvas constructor helper
  *
  * This function creates a bootstrap offcanvas and open it, offers two ways of usage:
@@ -1905,7 +1905,7 @@ saltos.offcanvas = function (args) {
     return true;
 };
 
-/*
+/**
  * Toast constructor helper
  *
  * This function creates a bootstrap toast and show it, and can accept the follow params:

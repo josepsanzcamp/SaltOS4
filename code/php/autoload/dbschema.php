@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
-/*
+/**
  * DB Schema
  *
  * This function try to maintain the database structure, to do it, this feature uses the dbschema.xml
@@ -137,7 +137,7 @@ function db_schema()
     semaphore_release(array("db_schema","db_static"));
 }
 
-/*
+/**
  * DB Static
  *
  * This function try to maintain the database contents, to do it, this feature uses the dbstatic.xml
@@ -178,7 +178,7 @@ function db_static()
     semaphore_release(array("db_schema","db_static"));
 }
 
-/*
+/**
  * DB Static insert
  *
  * This function is a helper of previous function, is intended to be used by db_static and
@@ -219,7 +219,7 @@ function __dbstatic_insert($table, $row, $delete)
     }
 }
 
-/*
+/**
  * Get Tables from DB Schema
  *
  * This function returns the tables from the DB Schema file
@@ -229,7 +229,7 @@ function get_tables_from_dbschema()
     return __dbschema_helper(__FUNCTION__, "");
 }
 
-/*
+/**
  * Get Fields from DB Schema
  *
  * This function returns the fields from the DB Schema file
@@ -241,7 +241,7 @@ function get_fields_from_dbschema($table)
     return __dbschema_helper(__FUNCTION__, $table);
 }
 
-/*
+/**
  * Get Indexes from DB Schema
  *
  * This function returns the indexes from the DB Schema file
@@ -253,7 +253,7 @@ function get_indexes_from_dbschema($table)
     return __dbschema_helper(__FUNCTION__, $table);
 }
 
-/*
+/**
  * Get Ignores from DB Schema
  *
  * This function returns the ignores tables from the DB Schema file
@@ -263,7 +263,7 @@ function get_ignores_from_dbschema()
     return __dbschema_helper(__FUNCTION__, "");
 }
 
-/*
+/**
  * Get Fulltext from DB Schema
  *
  * This function returns the fulltext tables from the DB Schema file
@@ -273,7 +273,7 @@ function get_fulltext_from_dbschema()
     return __dbschema_helper(__FUNCTION__, "");
 }
 
-/*
+/**
  * Get Fkeys from DB Schema
  *
  * This function returns the fkeys from the DB Schema file
@@ -285,7 +285,7 @@ function get_fkeys_from_dbschema($table)
     return __dbschema_helper(__FUNCTION__, $table);
 }
 
-/*
+/**
  * DB Schema helper
  *
  * This function is a helper for the previous functions, is intended to be used
@@ -366,7 +366,7 @@ function __dbschema_helper($fn, $table)
     show_php_error(array("phperror" => "Unknown fn '$fn' in " . __FUNCTION__));
 }
 
-/*
+/**
  * DB Schema Auto Apps
  *
  * This function is a helper to the dbschema functions, to create an indexing table for each app
@@ -441,7 +441,7 @@ function __dbschema_auto_apps($dbschema)
     return $dbschema;
 }
 
-/*
+/**
  * DB Schema Auto Fkey
  *
  * This function is a helper to the dbschema functions, to create an index for each fkey
@@ -488,7 +488,7 @@ function __dbschema_auto_fkey($dbschema)
     return $dbschema;
 }
 
-/*
+/**
  * DB Schema Auto Name
  *
  * This function is a helper to the dbschema functions, to auto name the indexes
@@ -530,7 +530,7 @@ function __dbschema_auto_name($dbschema)
     return $dbschema;
 }
 
-/*
+/**
  * Get Apps From DBStatic
  *
  * This function returns the list of apps that have a table and field defined
@@ -541,7 +541,7 @@ function get_apps_from_dbstatic()
     return __dbstatic_helper(__FUNCTION__, "", "");
 }
 
-/*
+/**
  * Get Field From DBStatic
  *
  * This function return the field associated to the table in the dbstatic
@@ -554,7 +554,7 @@ function get_field_from_dbstatic($table, $field = "field")
     return __dbstatic_helper(__FUNCTION__, $table, $field);
 }
 
-/*
+/**
  * DB Static helper
  *
  * This function is intended to act as helper of the dbstatic ecosystem, this

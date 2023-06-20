@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Get config
  *
  * This function is intended to be used to retrieve values from the
@@ -57,7 +57,7 @@ function get_config($key)
     return $row[$key];
 }
 
-/*
+/**
  * Set config
  *
  * This function sets a value to a config key, the data will be
@@ -86,7 +86,7 @@ function set_config($key, $val)
     }
 }
 
-/*
+/**
  * Get default
  *
  * This function retrieve data from the config file

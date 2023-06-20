@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -34,19 +34,19 @@ declare(strict_types=1);
 
 require_once "php/database/libsqlite.php";
 
-/*
+/**
  * Database SQLite3 class
  *
  * This class allow to SaltOS to connect to SQLite databases using the SQLite3 driver
  */
 class database_sqlite3
 {
-    /*
+    /**
      * This private variable contains the link to the database
      */
     private $link = null;
 
-    /*
+    /**
      * Constructor
      *
      * This public function is intended to stablish the connection to the database
@@ -121,7 +121,7 @@ class database_sqlite3
         }
     }
 
-    /*
+    /**
      * DB Check
      *
      * This public function is intended to check that the query execution will not trigger an error
@@ -138,7 +138,7 @@ class database_sqlite3
         }
     }
 
-    /*
+    /**
      * DB Query
      *
      * This public function is intended to execute the query and returns the resultset
@@ -248,7 +248,7 @@ class database_sqlite3
         return $result;
     }
 
-    /*
+    /**
      * DB Disconnect
      *
      * This function close the database connection and sets the link to null

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Current Date
  *
  * This function returns the current date in a YYYY-MM-DD format, this is used
@@ -41,7 +41,7 @@ function current_date($offset = 0)
     return date("Y-m-d", time() + (int)$offset);
 }
 
-/*
+/**
  * Current Time
  *
  * This function returns the current time in a HH:II:SS format, this is used
@@ -55,7 +55,7 @@ function current_time($offset = 0)
     return date("H:i:s", time() + (int)$offset);
 }
 
-/*
+/**
  * Current DateTime
  *
  * This function returns the current date and time in a YYYY-MM-SS HH:II:SS format,
@@ -69,7 +69,7 @@ function current_datetime($offset = 0)
     return current_date($offset) . " " . current_time($offset);
 }
 
-/*
+/**
  * Current Decimals
  *
  * This function returns the current decimals to be added to the seconds as a
@@ -94,7 +94,7 @@ function current_decimals($offset = 0, $size = 4)
     return $decimals;
 }
 
-/*
+/**
  * Current DateTime Decimals
  *
  * This function returns the current date and time with decimals in the seconds
@@ -109,7 +109,7 @@ function current_datetime_decimals($offset = 0, $size = 4)
     return current_datetime($offset) . "." . current_decimals($offset, $size);
 }
 
-/*
+/**
  * Dateval
  *
  * This function try to do the same thing that intval or strval, but for date
@@ -156,7 +156,7 @@ function dateval($value)
     return $value;
 }
 
-/*
+/**
  * Day of a Month helper
  *
  * This function is a helper used by other date and datetime functions, this
@@ -170,7 +170,7 @@ function __days_of_a_month($year, $month)
     return date("t", strtotime(sprintf("%04d-%02d-%02d", $year, $month, 1)));
 }
 
-/*
+/**
  * Timeval
  *
  * This function try to do the same thing that intval or strval, but for time
@@ -201,7 +201,7 @@ function timeval($value)
     return $value;
 }
 
-/*
+/**
  * Datetimeval
  *
  * This function try to do the same thing that intval or strval, but for datetime
@@ -254,7 +254,7 @@ function datetimeval($value)
     return $value;
 }
 
-/*
+/**
  * Time to Seconds
  *
  * This function converts the time format into seconds
@@ -268,7 +268,7 @@ function __time2secs($time)
     return $secs;
 }
 
-/*
+/**
  * Seconds to Time
  *
  * This function converts the seconds into time format

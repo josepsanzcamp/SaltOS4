@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Make Control function
  *
  * This function allow to insert and delete the control registers associacted
@@ -98,7 +98,7 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
     }
 }
 
-/*
+/**
  * Add Version function
  *
  * This function allow to add a new version to a reg_id of an app, to do it,
@@ -219,7 +219,7 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     return 1;
 }
 
-/*
+/**
  * Get Version
  *
  * This function allow to get an specific version of a register and app, intended

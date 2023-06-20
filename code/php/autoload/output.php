@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Output Handler
  *
  * This function is intended to send data to the output channel, and can have
@@ -126,7 +126,7 @@ function output_handler($array)
     die();
 }
 
-/*
+/**
  * Output Handler JSON
  *
  * This function allow to quickly send json output, the unique argument that it

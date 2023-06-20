@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Remove Bar Chars
  *
  * This function removes chars from keycodes 0 to 31 except 9, 10, 13 (tab,
@@ -49,7 +49,7 @@ function remove_bad_chars($temp, $pad = "")
     return $temp;
 }
 
-/*
+/**
  * Encode Bar Chars
  *
  * This function tries to replace accender chars and other extended chars into
@@ -96,7 +96,7 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
     return $cad;
 }
 
-/*
+/**
  * Prepare Words
  *
  * This function allow to prepare words removing repetitions in the padding char
@@ -125,7 +125,7 @@ function prepare_words($cad, $pad = " ")
     return $cad;
 }
 
-/*
+/**
  * Sprintr
  *
  * This function is an improved version of the print_r, allow to convert an
@@ -148,7 +148,7 @@ function sprintr($array)
     return $buffer;
 }
 
-/*
+/**
  * Get Unique Id MD5
  *
  * This function returns an unique hash using the random generator
@@ -159,7 +159,7 @@ function get_unique_id_md5()
     return md5(uniqid(strval(rand()), true));
 }
 
-/*
+/**
  * Intelligence Cut
  *
  * This function allow to cut text by searching spaces to prevent to break words
@@ -192,7 +192,7 @@ function intelligence_cut($txt, $max, $end = "...")
     return $preview;
 }
 
-/*
+/**
  * Normalize Value
  *
  * This function allow to detect the last letter to detect what magnitude is
@@ -217,7 +217,7 @@ function normalize_value($value)
     return $value;
 }
 
-/*
+/**
  * HTML to Text
  *
  * This function uses the html2text roundcube function to convert html to
@@ -235,7 +235,7 @@ function html2text($html)
     return $text;
 }
 
-/*
+/**
  * Get UTF-8
  *
  * This function returns the string codified in a UTF-8 encoding
@@ -250,7 +250,7 @@ function getutf8($str)
     return $str;
 }
 
-/*
+/**
  * Words Exists
  *
  * This function check that all words exists in the buffer
@@ -271,7 +271,7 @@ function words_exists($words, $buffer)
     return true;
 }
 
-/*
+/**
  * String Replace Assoc
  *
  * This function do the same that str_replace, but using only one associative
@@ -286,7 +286,7 @@ function str_replace_assoc($array, $cad)
     return str_replace(array_keys($array), array_values($array), $cad);
 }
 
-/*
+/**
  * Get Part From String
  *
  * This function explodes de input using delim and returns the element

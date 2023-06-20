@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Memory Get Free
  *
  * This function returns the free memory in bytes or the percentage of the memory_limit
@@ -45,7 +45,7 @@ function memory_get_free($bytes = false)
     return $diff;
 }
 
-/*
+/**
  * Get Time Usage
  *
  * This function returns the time usage in seconds or in percentage of the max_execution_time
@@ -57,7 +57,7 @@ function time_get_usage($secs = false)
     return __time_get_helper(__FUNCTION__, $secs);
 }
 
-/*
+/**
  * Get Free Time
  *
  * This function returns the free time in seconds or in percentage of the max_execution_time
@@ -69,7 +69,7 @@ function time_get_free($secs = false)
     return __time_get_helper(__FUNCTION__, $secs);
 }
 
-/*
+/**
  * Init Time Get
  *
  * This function call the helper to initialize the static ini to the current microtime
@@ -79,7 +79,7 @@ function init_time_get()
     __time_get_helper(__FUNCTION__, false);
 }
 
-/*
+/**
  * Get Time helper
  *
  * This function is a helper of the time_get_usage and time_get_free functions, is used to
@@ -110,7 +110,7 @@ function __time_get_helper($fn, $secs)
     return $diff;
 }
 
-/*
+/**
  * Set Max Memory Limit
  *
  * This function is intended to do a ini_set with a more greather value to allow an
@@ -121,7 +121,7 @@ function set_max_memory_limit()
     ini_set("memory_limit", get_default("server/maxmemorylimit"));
 }
 
-/*
+/**
  * Set Max Execution Time
  *
  * This function is intended to do a ini_set with a more greather value to allow an

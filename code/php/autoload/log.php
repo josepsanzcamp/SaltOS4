@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
-/*
+/**
  * Check Log
  *
  * This function is a helper for the show_php_error, allow to detect repetitions
@@ -53,7 +53,7 @@ function checklog($hash, $file)
     return 0;
 }
 
-/*
+/**
  * Add Log
  *
  * This function add messages to the specified log file
@@ -94,7 +94,7 @@ function addlog($msg, $file = "")
     chmod_protected($dir . $file, 0666);
 }
 
-/*
+/**
  * Add Trace
  *
  * This function performs the addlog to the file using as input the array, the
@@ -110,7 +110,7 @@ function addtrace($array, $file)
     addlog(gettrace($array), $file);
 }
 
-/*
+/**
  * Get Trace
  *
  * This function get an array as show_php_error, add the backtrace and debug
@@ -130,7 +130,7 @@ function gettrace($array)
     return $msg["text"];
 }
 
-/*
+/**
  * Session Backtrace
  *
  * Returns a string with the pid, sessid and current datetime with decimals

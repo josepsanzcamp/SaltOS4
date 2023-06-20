@@ -6,7 +6,7 @@ all:
 	rm -f htm/index.tmp.htm
 
 test:
-	$(eval files := $(shell find php ../scripts apps -name \*.php))
+	$(eval files := $(shell find index.php php ../scripts apps -name \*.php))
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs $$i; \

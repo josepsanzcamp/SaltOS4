@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -31,19 +31,19 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
-/*
+/**
  * Database MySQL improved class
  *
  * This class allow to SaltOS to connect to MySQL databases using the MySQL improved driver
  */
 class database_mysqli
 {
-    /*
+    /**
      * This private variable contains the link to the database
      */
     private $link = null;
 
-    /*
+    /**
      * Constructor
      *
      * This public function is intended to stablish the connection to the database
@@ -73,7 +73,7 @@ class database_mysqli
         }
     }
 
-    /*
+    /**
      * DB Check
      *
      * This public function is intended to check that the query execution will not trigger an error
@@ -90,7 +90,7 @@ class database_mysqli
         }
     }
 
-    /*
+    /**
      * DB Query
      *
      * This public function is intended to execute the query and returns the resultset
@@ -170,7 +170,7 @@ class database_mysqli
         return $result;
     }
 
-    /*
+    /**
      * DB Disconnect
      *
      * This function close the database connection and sets the link to null

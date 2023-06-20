@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
-/*
+/**
  * Make Indexing main function
  *
  * This function implements the make indexing feature of SaltOS, this consists
@@ -133,7 +133,7 @@ function make_indexing($app, $reg_id)
     }
 }
 
-/*
+/**
  * Make Indexing helper
  *
  * This function allow the make_indexing to retrieve all data of the fiels

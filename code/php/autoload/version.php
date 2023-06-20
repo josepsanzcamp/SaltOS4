@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Defines section
  *
  * Defines used to set the version and revision of the SaltOS
@@ -37,7 +37,7 @@ define("__INFO_VERSION__", "4.0");
 define("__INFO_REVISION__", svnversion());
 define("__INFO_COPYRIGHT__", "Copyright (C) 2007-2023 by Josep Sanz Campderrós");
 
-/*
+/**
  * Get Name Version Revision
  *
  * This function returns a string with the SaltOS name, version, revision and
@@ -54,7 +54,7 @@ function get_name_version_revision($copyright = false)
     return $result;
 }
 
-/*
+/**
  * SVN Version
  *
  * This function tries to return the svn version of the project
@@ -79,7 +79,7 @@ function svnversion($dir = ".")
     return 0;
 }
 
-/*
+/**
  * GIT Version
  *
  * This function tries to return the git version of the project
@@ -104,7 +104,7 @@ function gitversion($dir = ".")
     return 0;
 }
 
-/*
+/**
  * IS PHP
  *
  * This function returns a boolean as a response about the comparison between the

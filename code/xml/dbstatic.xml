@@ -25,6 +25,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
+<!--
+This file allow to define the static information that you want to put
+in some tables, for example, the main user and group, the apps registered
+in the system, the permissions, the combination of permissions with apps
+and the main permissions for the user
+-->
+
 <root>
     <tables>
         <table name="tbl_groups" delete="false">

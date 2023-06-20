@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * OB Passthru
  *
  * This function is a join of ob_start and passthru, the main idea
@@ -79,7 +79,7 @@ function ob_passthru($cmd, $expires = 0)
     return $buffer;
 }
 
-/*
+/**
  * Check Commands
  *
  * This function tries to validate if the commands are available
@@ -104,7 +104,7 @@ function check_commands($commands, $expires = 0)
     return $result;
 }
 
-/*
+/**
  * Is Disabled Function
  *
  * This function check if the argument contains a disabled
@@ -134,7 +134,7 @@ function is_disabled_function($fn = "")
     return in_array($fn, $disableds_array);
 }
 
-/*
+/**
  * Exec Timeout
  *
  * This helper function allow to execute commands using the external

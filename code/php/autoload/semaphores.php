@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Semaphore Acquire
  *
  * This function implement the acquire of a semaphore
@@ -40,7 +40,7 @@ function semaphore_acquire($name = "", $timeout = INF)
     return __semaphore_helper(__FUNCTION__, $name, $timeout);
 }
 
-/*
+/**
  * Semaphore Release
  *
  * This function implement the release of the semaphore
@@ -52,7 +52,7 @@ function semaphore_release($name = "")
     return __semaphore_helper(__FUNCTION__, $name, null);
 }
 
-/*
+/**
  * Semaphore Shutdown
  *
  * This function implement the shutdown of all semaphores, to do it,
@@ -64,7 +64,7 @@ function semaphore_shutdown()
     return __semaphore_helper(__FUNCTION__, null, null);
 }
 
-/*
+/**
  * Semaphore File
  *
  * This function returns the associated semaphore file used by the
@@ -77,7 +77,7 @@ function semaphore_file($name = "")
     return __semaphore_helper(__FUNCTION__, $name, null);
 }
 
-/*
+/**
  * Semaphore helper
  *
  * This function implements the real semaphore functionalities, includes
@@ -164,7 +164,7 @@ function __semaphore_helper($fn, $name, $timeout)
     return false;
 }
 
-/*
+/**
  * Semaphore USleep helper
  *
  * This function implements an usleep (micro sleeper) using sockets, this

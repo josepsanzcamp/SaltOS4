@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
-/*
+/**
  * Show PHP Error
  *
  * This function allow to SaltOS to trigger the errors in a multiple levels:
@@ -144,7 +144,7 @@ function show_php_error($array)
     ));
 }
 
-/*
+/**
  * Do Message Error
  *
  * This function acts as a helper of the show_php_error, is intended to build
@@ -279,7 +279,7 @@ function do_message_error($array)
     );
 }
 
-/*
+/**
  * Program Handlers
  *
  * This function program all error handlers
@@ -292,7 +292,7 @@ function program_handlers()
     register_shutdown_function("__shutdown_handler");
 }
 
-/*
+/**
  * Error Handler
  *
  * This function is the callback function used by the set_error_handler
@@ -314,7 +314,7 @@ function __error_handler($type, $message, $file, $line)
     ));
 }
 
-/*
+/**
  * Exception Handler
  *
  * This function is the callback function used by the set_exception_handler
@@ -334,7 +334,7 @@ function __exception_handler($e)
     ));
 }
 
-/*
+/**
  * Shutdown Handler
  *
  * This function is the callback function used by the register_shutdown_function, try to
@@ -358,7 +358,7 @@ function __shutdown_handler()
     semaphore_shutdown();
 }
 
-/*
+/**
  * Get Code From Trace
  *
  * This function acts as helper of the show_json_error, and try to get the filename and the line
@@ -381,7 +381,7 @@ function __get_code_from_trace($trace, $index = 0)
     return $code;
 }
 
-/*
+/**
  * Show JSON Error
  *
  * This function is triggered from the code in a controlate errors, the idea is to have

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
-/*
+/**
  * Check System
  *
  * This function checks the system to detect if all knowed dependencies are found in the system, to do it,

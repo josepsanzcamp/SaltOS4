@@ -1,5 +1,5 @@
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -26,14 +26,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-/*
+/**
  * Main object
  *
  * This object contains all SaltOS code
  */
 var saltos = saltos || {};
 
-/*
+/**
  * Error management
  *
  * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
@@ -59,7 +59,7 @@ window.onerror = function (event, source, lineno, colno, error) {
     });
 };
 
-/*
+/**
  * Log management
  *
  * This function allow to send messages to the addlog of the server side, requires an argument:
@@ -82,7 +82,7 @@ saltos.addlog = function (msg) {
     });
 };
 
-/*
+/**
  * Check params
  *
  * This function allow to prepare parameters to be used by other functions, the main idea
@@ -105,7 +105,7 @@ saltos.check_params = function (obj,params,value) {
     }
 };
 
-/*
+/**
  * UniqID
  *
  * This function generates an unique id formed by the word "id" and a number that can take
@@ -116,7 +116,7 @@ saltos.uniqid = function () {
     return "id" + Math.floor(Math.random() * 1000000);
 };
 
-/*
+/**
  * When visible
  *
  * This function allow to execute some code when the object is visible, useful for third part
@@ -144,7 +144,7 @@ saltos.when_visible = function (obj,fn,args) {
     },1);
 };
 
-/*
+/**
  * Get keycode
  *
  * This function allow to get the keycode of a keyboard event detecting the browser
@@ -163,7 +163,7 @@ saltos.get_keycode = function (event) {
     return keycode;
 };
 
-/*
+/**
  * HTML builder
  *
  * This function allow to create an DOM fragment from a string that contains html code, can
@@ -201,7 +201,7 @@ saltos.html = function () {
     return div;
 };
 
-/*
+/**
  * AJAX
  *
  * This function allow to use ajax using the same form that with jQuery without jQuery
@@ -274,7 +274,7 @@ saltos.ajax = function (args) {
     return ajax;
 };
 
-/*
+/**
  * Key cleaner
  *
  * This function is intended to fix the keys of the objects, this is caused because you can not
@@ -299,7 +299,7 @@ saltos.fix_key = function (arg) {
     return arg;
 };
 
-/*
+/**
  * Open window
  *
  * This function is intended to open new tabs in the window, at the moment only is a wrapper to
@@ -311,7 +311,7 @@ saltos.open = function (url) {
     window.open(url);
 };
 
-/*
+/**
  * Copy object
  *
  * This function is intended to do copies of objects using as intermediate a json file

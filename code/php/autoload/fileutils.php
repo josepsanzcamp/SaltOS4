@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -27,7 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
+/**
  * Get Directory
  *
  * This function returns the directory configured to the key requested, too can define a default
@@ -52,7 +52,7 @@ function get_directory($key, $default = "")
     return $dir;
 }
 
-/*
+/**
  * Get Temp File
  *
  * This function is intended to get a unique temporary file, used for temporary
@@ -84,7 +84,7 @@ function get_temp_file($ext = "")
     return $file;
 }
 
-/*
+/**
  * Get Cache File
  *
  * This function is intended to get a cache filename, used for caching purposes
@@ -116,7 +116,7 @@ function get_cache_file($data, $ext = "")
     return $file;
 }
 
-/*
+/**
  * Cache Exists
  *
  * This function check the existence of valid cache by comparing the timestamp
@@ -146,7 +146,7 @@ function cache_exists($cache, $files)
     return 1;
 }
 
-/*
+/**
  * URL Get Contents
  *
  * This file is an equivalent of the file_get_contents but intended to be used
@@ -172,7 +172,7 @@ function url_get_contents($url)
     return $body;
 }
 
-/*
+/**
  * URL Get Contents helper
  *
  * This file is an equivalent of the file_get_contents but intended to be used
@@ -250,7 +250,7 @@ function __url_get_contents($url, $args = array())
     return array($body,$headers,$cookies);
 }
 
-/*
+/**
  * Extension
  *
  * This function returns the PATHINFO_EXTENSION of the file
@@ -262,7 +262,7 @@ function extension($file)
     return pathinfo($file, PATHINFO_EXTENSION);
 }
 
-/*
+/**
  * Encode Bar Chars File
  *
  * This function is equivalent to encode_bad_chars but intended to be used
@@ -285,7 +285,7 @@ function encode_bad_chars_file($file)
     return $file;
 }
 
-/*
+/**
  * Realpath Protected
  *
  * This function returns the realpath of the path, this version of the function
@@ -301,7 +301,7 @@ function realpath_protected($path)
     return realpath(dirname($path)) . "/" . basename($path);
 }
 
-/*
+/**
  * Getcwd Protected
  *
  * This function returns the same result that the getcwd function but checking
@@ -318,7 +318,7 @@ function getcwd_protected()
     return $dir;
 }
 
-/*
+/**
  * Glob Protected
  *
  * This function returns the same result that the glob function but checking
@@ -335,7 +335,7 @@ function glob_protected($pattern)
     return is_array($array) ? $array : array();
 }
 
-/*
+/**
  * Chmod Protected
  *
  * This function tries to change the mode of the file using the chmod function
@@ -351,7 +351,7 @@ function chmod_protected($file, $mode)
     }
 }
 
-/*
+/**
  * Fsockopen Protected
  *
  * This function is only used by the httpclient library to avois problems with

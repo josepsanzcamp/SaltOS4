@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
-/*
+/**
  * Parse Query
  *
  * This function is intended to apply the query filters defined by the users
@@ -72,7 +72,7 @@ function parse_query($query, $type = "")
     return $query;
 }
 
-/*
+/**
  * Parse Query Type helper
  *
  * This function returns the type used by parse_query using as detector the
@@ -92,7 +92,7 @@ function __parse_query_type()
     }
 }
 
-/*
+/**
  * Parse Query Strpos helper
  *
  * This function is the same that strpos, but with some improvements required
@@ -135,7 +135,7 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
     return $pos;
 }
 
-/*
+/**
  * Execute Query
  *
  * This function executes the query and depending in the result, returns the
@@ -187,7 +187,7 @@ function execute_query($query)
     return $value;
 }
 
-/*
+/**
  * Execute Query Array
  *
  * This function is the same that execute_query but guarantee that for the
@@ -205,7 +205,7 @@ function execute_query_array($query)
     return $rows;
 }
 
-/*
+/**
  * Get Fields
  *
  * This function returns the fields of the requested table
@@ -229,7 +229,7 @@ function get_fields($table)
     return $fields;
 }
 
-/*
+/**
  * Get Indexes
  *
  * This function returns the indexes of the requested table
@@ -274,7 +274,7 @@ function get_indexes($table)
     return $indexes;
 }
 
-/*
+/**
  * Get Tables
  *
  * This function returns the tables of the database
@@ -295,7 +295,7 @@ function get_tables()
     return $tables;
 }
 
-/*
+/**
  * Get Field Type
  *
  * This function returns an standarized type for the specific types used in
@@ -331,7 +331,7 @@ function get_field_type($type)
     show_php_error(array("phperror" => "Unknown type '$type1' in " . __FUNCTION__));
 }
 
-/*
+/**
  * Get Field Size
  *
  * This function returns the size for the types used in the database, for
@@ -359,7 +359,7 @@ function get_field_size($type)
     show_php_error(array("phperror" => "Unknown type '$type1' in " . __FUNCTION__));
 }
 
-/*
+/**
  * SQL Create Table
  *
  * This function returns the SQL needed to create the table defined in the
@@ -421,7 +421,7 @@ function sql_create_table($tablespec)
     return $query;
 }
 
-/*
+/**
  * Has Engine
  *
  * This function allow to SaltOS to ask to the database if an enxine is
@@ -448,7 +448,7 @@ function __has_engine($engine)
     return isset($engines[strtolower($engine)]);
 }
 
-/*
+/**
  * SQL Alter Table
  *
  * This function returns the alter table command
@@ -462,7 +462,7 @@ function sql_alter_table($orig, $dest)
     return $query;
 }
 
-/*
+/**
  * SQL Insert From Select
  *
  * This function returns the insert from select command
@@ -515,7 +515,7 @@ function sql_insert_from_select($dest, $orig)
     return $query;
 }
 
-/*
+/**
  * SQL Drop Table
  *
  * This function returns the drop table command
@@ -528,7 +528,7 @@ function sql_drop_table($table)
     return $query;
 }
 
-/*
+/**
  * SQL Create Index
  *
  * This function returns the SQL needed to create the index defined in the
@@ -553,7 +553,7 @@ function sql_create_index($indexspec)
     return $query;
 }
 
-/*
+/**
  * SQL Drop Index
  *
  * This function returns the drop index command
@@ -567,7 +567,7 @@ function sql_drop_index($index, $table)
     return $query;
 }
 
-/*
+/**
  * Make Insert Query
  *
  * Returns the insert query for the table with all fields specified by the
@@ -632,7 +632,7 @@ function make_insert_query($table, $array)
     return $query;
 }
 
-/*
+/**
  * Make Update Query
  *
  * Returns the update query for the table with all fields specified by the
@@ -696,7 +696,7 @@ function make_update_query($table, $array, $where)
     return $query;
 }
 
-/*
+/**
  * Make Where Query
  *
  * This function allow to create where sentences joinin all fields by AND

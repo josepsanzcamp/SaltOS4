@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 // phpcs:disable Generic.Files.LineLength
 
-/*
+/**
  * Eval Protected
  *
  * This function allow to execute PHP code using the eval function in a controlled
@@ -49,7 +49,7 @@ function eval_protected($input, $global = "")
     return $output;
 }
 
-/*
+/**
  * Set Array
  *
  * This function allow to specify multiples entries in an array with the same key,
@@ -81,7 +81,7 @@ function set_array(&$array, $name, $value)
     }
 }
 
-/*
+/**
  * Unset Array
  *
  * This function remove all entries of the array that matches with the name of
@@ -106,7 +106,7 @@ function unset_array(&$array, $name)
     }
 }
 
-/*
+/**
  * Fix Key
  *
  * This function returns the "real" part of the key removing the suffix added to
@@ -124,7 +124,7 @@ function fix_key($arg)
     return $arg;
 }
 
-/*
+/**
  * Detect Recursion
  *
  * This function allow to SaltOS to detect the recursión, to do it, uses the debug_backtrace
@@ -153,7 +153,7 @@ function detect_recursion($fn)
     return count($temp);
 }
 
-/*
+/**
  * XML File to Array
  *
  * This function allow to convert a XML file to an array, allow to use cache to
@@ -194,7 +194,7 @@ function xmlfile2array($file, $usecache = true)
     return $array["root"];
 }
 
-/*
+/**
  * XML to Array
  *
  * This function allow to convert a XML string to an array
@@ -210,7 +210,7 @@ function xml2array($xml, $file = "")
     return $array;
 }
 
-/*
+/**
  * XML to Struct
  *
  * This function is a helper of the xml2array function, the main purpose of this
@@ -280,7 +280,7 @@ function xml2struct($xml, $file = "")
     return $array;
 }
 
-/*
+/**
  * Struct to Array
  *
  * This function is the second part in the xml2array convertsion, here, the function
@@ -346,7 +346,7 @@ function struct2array(&$data, $file = "")
     return $array;
 }
 
-/*
+/**
  * Eval Attributes
  *
  * This function is very special in SaltOS, is part of the initial code an
@@ -437,7 +437,7 @@ function eval_attr($array)
     return $result;
 }
 
-/*
+/**
  * Eval Bool
  *
  * This function returns a boolean depending on the input evaluation, the main idea

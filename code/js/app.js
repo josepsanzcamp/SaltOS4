@@ -1,5 +1,5 @@
 
-/*
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -26,7 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 "use strict";
 
-/*
+/**
  * Show error helper
  *
  * This function allow to show a modal dialog with de details of an error
@@ -51,7 +51,7 @@ saltos.show_error = function (error) {
     });
 };
 
-/*
+/**
  * Send request helper
  *
  * This function allow to send requests to the server and process the response
@@ -72,7 +72,7 @@ saltos.send_request = function (data) {
     });
 };
 
-/*
+/**
  * Process response helper
  *
  * This function process the responses received by the send request
@@ -90,14 +90,14 @@ saltos.process_response = function (response) {
     }
 };
 
-/*
+/**
  * Form constructor helper object
  *
  * This object allow to the constructor to use a rational structure for a quick access of each helper
  */
 saltos.form = {};
 
-/*
+/**
  * Form source helper
  *
  * This function redirects the request to the send request function, allow to define the source command
@@ -106,7 +106,7 @@ saltos.form.source = function (data) {
     saltos.send_request(data)
 }
 
-/*
+/**
  * Form data helper
  *
  * This function sets the values of the request to the objects placed in the document
@@ -125,7 +125,7 @@ saltos.form.data = function (data) {
     }
 };
 
-/*
+/**
  * Form layout helper
  *
  * This function process the layout command, its able to process nodes as container, row, col and div
@@ -237,7 +237,7 @@ saltos.form.layout = function (layout) {
     document.body.append(div);
 };
 
-/*
+/**
  * Form style helper
  *
  * This function allow to specify styles, you can use the inline of file key to specify
@@ -256,7 +256,7 @@ saltos.form.style = function (data) {
     }
 };
 
-/*
+/**
  * Form javascript helper
  *
  * This function allow to specify scripts, you can use the inline of file key to specify
@@ -279,7 +279,7 @@ saltos.form.javascript = function (data) {
     }
 };
 
-/*
+/**
  * Hash change management
  *
  * This function allow to SaltOS to update the contents when hash change
@@ -301,7 +301,7 @@ window.onhashchange = function (event) {
     saltos.send_request(hash);
 };
 
-/*
+/**
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
