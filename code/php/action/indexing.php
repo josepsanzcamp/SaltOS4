@@ -74,9 +74,11 @@ db_query("TRUNCATE TABLE ver_clientes");
 
 $array = array(
     "id" => 51,
+    "nombre" => "Josep Sanz",
     "nombre1" => "Josep",
     "nombre2" => "Sanz",
-    "tel_movil" => "",
+    "nombre_poblacion" => "Barcelona",
+    "nombre_codpostal" => "08030",
 );
 $query = make_insert_query("app_clientes", $array);
 db_query($query);
@@ -84,9 +86,8 @@ db_query($query);
 add_version("clientes", 51);
 
 $array = array(
-    "nombre1" => "Josep",
+    "nombre" => "Josep Sanz Campderrós",
     "nombre2" => "Sanz Campderrós",
-    "tel_movil" => "",
 );
 
 $query = make_update_query("app_clientes", $array, "id=51");
@@ -95,9 +96,7 @@ db_query($query);
 add_version("clientes", 51);
 
 $array = array(
-    "nombre1" => "Josep",
-    "nombre2" => "Sanz Campderrós",
-    "tel_movil" => "123456789",
+    "cif" => "123456789",
 );
 
 $query = make_update_query("app_clientes", $array, "id=51");
