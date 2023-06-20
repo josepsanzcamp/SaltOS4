@@ -67,6 +67,52 @@ declare(strict_types=1);
 //~ ))."</pre>";
 //~ die();
 
+/*********************************** INICIO PRUEBAS CLIENTES *************************************/
+
+db_query("DELETE FROM app_clientes WHERE id=51");
+db_query("TRUNCATE TABLE ver_clientes");
+//~ make_version("clientes",51);
+
+$array = array(
+    "id" => 51,
+    "nombre1" => "Josep",
+    "nombre2" => "Sanz",
+    "tel_movil" => "",
+);
+$query = make_insert_query("app_clientes", $array);
+db_query($query);
+
+add_version("clientes", 51);
+
+$array = array(
+    "nombre1" => "Josep",
+    "nombre2" => "Sanz Campderrós",
+    "tel_movil" => "",
+);
+
+$query = make_update_query("app_clientes", $array, "id=51");
+db_query($query);
+
+add_version("clientes", 51);
+
+$array = array(
+    "nombre1" => "Josep",
+    "nombre2" => "Sanz Campderrós",
+    "tel_movil" => "123456789",
+);
+
+$query = make_update_query("app_clientes", $array, "id=51");
+db_query($query);
+
+add_version("clientes", 51);
+
+echo "<pre>" . sprintr(get_version("clientes", 51, 0)) . "</pre>";
+echo "<pre>" . sprintr(get_version("clientes", 51, 1)) . "</pre>";
+echo "<pre>" . sprintr(get_version("clientes", 51, 2)) . "</pre>";
+echo "<pre>" . sprintr(get_version("clientes", 51, 3)) . "</pre>";
+
+/*********************************** INICIO PRUEBAS FACTURAS *************************************/
+
 //~ echo "<pre>" . sprintr(get_version("facturas", 1, 0)) . "</pre>";
 //~ echo "<pre>" . sprintr(get_version("facturas", 1, 1)) . "</pre>";
 //~ echo "<pre>" . sprintr(get_version("facturas", 1, 2)) . "</pre>";
