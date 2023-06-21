@@ -87,9 +87,10 @@ if ($num_rows != 1) {
 }
 
 $query = make_update_query("tbl_users_logins", array(
-    "active" => 0
+    "active" => 0,
 ), make_where_query(array(
-    "user_id" => $row["id"]
+    "user_id" => $row["id"],
+    "active" => 1,
 )));
 db_query($query);
 
@@ -102,7 +103,7 @@ $token = implode("-", array(
     bin2hex(random_bytes(6))
 ));
 $expires = current_datetime(get_config("authtoken/expires"));
-$renews = get_config("authtoken/renews");
+$renewals = get_config("authtoken/renewals");
 
 $query = make_insert_query("tbl_users_logins", array(
     "user_id" => $row["id"],
@@ -112,16 +113,15 @@ $query = make_insert_query("tbl_users_logins", array(
     "user_agent" => get_server("HTTP_USER_AGENT"),
     "token" => $token,
     "expires" => $expires,
-    "renews" => $renews,
 ));
 db_query($query);
 
 output_handler_json(array(
     "status" => "ok",
     "token" => $token,
-    "created" => $datetime,
-    "expires" => $expires,
-    "renews" => $renews,
+    "created_at" => $datetime,
+    "expires_at" => $expires,
+    "pending_renewals" => $renewals,
 ));
 
 /**

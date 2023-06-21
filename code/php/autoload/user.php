@@ -28,20 +28,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Current User
+ * Current Token
  *
- * This function returns the id of the current user, this info is retrieved
+ * This function returns the id of the current token, this info is retrieved
  * using the token of the request, for security reasons, this validation only
  * can be performed by the same origin that execute the login action
  */
-function current_user()
+function current_token()
 {
-    $user_id = execute_query("SELECT user_id FROM tbl_users_logins WHERE " . make_where_query(array(
+    $token_id = execute_query("SELECT id FROM tbl_users_logins WHERE " . make_where_query(array(
         "token" => get_server("HTTP_TOKEN"),
         "active" => 1,
         "expires>" => current_datetime(),
         "remote_addr" => get_server("REMOTE_ADDR"),
         "user_agent" => get_server("HTTP_USER_AGENT"),
+    )));
+    return intval($token_id);
+
+}
+
+/**
+ * Current User
+ *
+ * This function returns the id of the current user, this info is retrieved
+ * using the token of the request
+ */
+function current_user()
+{
+    $user_id = execute_query("SELECT user_id FROM tbl_users_logins WHERE " . make_where_query(array(
+        "id" => current_token(),
+        "active" => 1,
     )));
     return intval($user_id);
 }

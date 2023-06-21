@@ -43,7 +43,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     </server>
     <authtoken>
         <expires>86400</expires><!-- in seconds, 86400 is 1 day -->
-        <renews>30</renews><!-- times that you can renew a token -->
+        <renewals>5</renewals><!-- times that you can renew a token -->
     </authtoken>
     <dirs>
         <logsdir eval="true">getcwd()."/data/logs"</logsdir>
