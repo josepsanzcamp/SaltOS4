@@ -101,8 +101,7 @@ $token = implode("-", array(
     bin2hex(random_bytes(2)),
     bin2hex(random_bytes(6))
 ));
-$expires_short_term = current_datetime(86400);
-$expires_long_term = current_datetime(86400 * 365);
+$expires = current_datetime(86400);
 $query = make_insert_query("tbl_users_logins", array(
     "user_id" => $row["id"],
     "active" => 1,
@@ -110,8 +109,7 @@ $query = make_insert_query("tbl_users_logins", array(
     "remote_addr" => get_server("REMOTE_ADDR"),
     "user_agent" => get_server("HTTP_USER_AGENT"),
     "token" => $token,
-    "expires_short_term" => $expires_short_term,
-    "expires_long_term" => $expires_long_term,
+    "expires" => $expires_short_term,
 ));
 db_query($query);
 
@@ -119,8 +117,7 @@ output_handler_json(array(
     "status" => "ok",
     "token" => $token,
     "created_at" => $datetime,
-    "expires_short_term" => $expires_short_term,
-    "expires_long_term" => $expires_long_term,
+    "expires" => $expires_short_term,
 ));
 
 /**

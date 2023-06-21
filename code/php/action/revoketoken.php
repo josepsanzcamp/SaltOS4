@@ -28,35 +28,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Current User
+ * About this file
  *
- * This function returns the id of the current user, this info is retrieved
- * using the token of the request, for security reasons, this validation only
- * can be performed by the same origin that execute the login action
+ * This file implements the logout action, allowing to deauthenticate users
+ * using a valid token, for security reasons, the deauth action only can
+ * be performed by the same actor that execute the login action
  */
-function current_user()
-{
-    $user_id = execute_query("SELECT user_id FROM tbl_users_logins WHERE " . make_where_query(array(
-        "token" => get_server("HTTP_TOKEN"),
-        "active" => 1,
-        "expires>" => current_datetime(),
-        "remote_addr" => get_server("REMOTE_ADDR"),
-        "user_agent" => get_server("HTTP_USER_AGENT"),
-    )));
-    return intval($user_id);
+
+$user_id = current_user();
+if (!$user_id) {
+    show_json_error("deauthentication error");
 }
 
-/**
- * Current Group
- *
- * This function returns the id of the current group, this info is retrieved
- * using the token of the request
- */
-function current_group()
-{
-    $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query(array(
-        "user_id" => current_user(),
-        "active" => 1,
-    )));
-    return intval($group_id);
-}
+$query = make_update_query("tbl_users_logins", array(
+    "active" => 0,
+), make_where_query(array(
+    "user_id" => $user_id,
+    "active" => 1,
+)));
+db_query($query);
+
+output_handler_json(array(
+    "status" => "ok",
+));
