@@ -1,0 +1,96 @@
+<?php
+
+/**
+ ____        _ _    ___  ____    _  _    ___
+/ ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+\___ \ / _` | | __| | | \___ \  | || |_| | | |
+ ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+|____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+
+SaltOS: Framework to develop Rich Internet Applications
+Copyright (C) 2007-2023 by Josep Sanz Campderrós
+More information in https://www.saltos.org or info@saltos.org
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+declare(strict_types=1);
+
+/**
+ * About this file
+ *
+ * This file implements the update password action, allowing to authenticated
+ * users by a token, and providing the old password to update a new password
+ */
+
+$user_id = current_user();
+if (!$user_id) {
+    show_json_error("authentication update error");
+}
+
+// Check parameters
+foreach (array("oldpass","newpass","renewpass") as $key) {
+    if (!isset($data["json"][$key]) || $data["json"][$key] == "") {
+        show_json_error("$key not found or void");
+    }
+}
+$oldpass = $data["json"]["oldpass"];
+$newpass = $data["json"]["newpass"];
+$renewpass = $data["json"]["renewpass"];
+
+// Check passwords
+$query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
+    "user_id" => $user_id,
+    "active" => 1,
+    "expires>" => current_datetime(),
+));
+$row = execute_query($query);
+if (!is_array($row) || !isset($row["password"])) {
+    show_json_error("authentication update error");
+}
+if (!password_verify($oldpass, $row["password"])) {
+    show_json_error("old password authentication error");
+}
+if ($newpass != $renewpass) {
+    show_json_error("new passwords differs");
+}
+
+// Continue
+$query = make_update_query("tbl_users_passwords", array(
+    "active" => 0,
+), make_where_query(array(
+    "id" => $row["id"],
+)));
+db_query($query);
+
+$newpass = password_hash($newpass, PASSWORD_DEFAULT);
+$datetime = current_datetime();
+$expires = current_datetime(get_config("auth/passwordexpires"));
+
+$query = make_insert_query("tbl_users_passwords", array(
+    "active" => 1,
+    "user_id" => $user_id,
+    "datetime" => $datetime,
+    "remote_addr" => get_server("REMOTE_ADDR"),
+    "user_agent" => get_server("HTTP_USER_AGENT"),
+    "password" => $newpass,
+    "expires" => $expires,
+));
+db_query($query);
+
+output_handler_json(array(
+    "status" => "ok",
+    "updated_at" => $datetime,
+    "expires_at" => $expires,
+));

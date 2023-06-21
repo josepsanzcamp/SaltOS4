@@ -40,20 +40,20 @@ if (!$token_id) {
     show_json_error("reauthentication error");
 }
 
+$query = "SELECT * FROM tbl_users_logins WHERE id='$token_id'";
+$row = execute_query($query);
+
+$renewals = get_config("auth/tokenrenewals");
+if ($row["renewal_count"] >= $renewals) {
+    show_json_error("reauthentication error");
+}
+
 $query = make_update_query("tbl_users_logins", array(
     "active" => 0,
 ), make_where_query(array(
     "id" => $token_id,
 )));
 db_query($query);
-
-$query = "SELECT * FROM tbl_users_logins WHERE id='$token_id'";
-$row = execute_query($query);
-
-$renewals = get_config("authtoken/renewals");
-if ($row["renewal_count"] >= $renewals) {
-    show_json_error("reauthentication error");
-}
 
 $token = implode("-", array(
     bin2hex(random_bytes(4)),
@@ -62,7 +62,7 @@ $token = implode("-", array(
     bin2hex(random_bytes(2)),
     bin2hex(random_bytes(6))
 ));
-$expires = current_datetime(get_config("authtoken/expires"));
+$expires = current_datetime(get_config("auth/tokenexpires"));
 $datetime = current_datetime();
 
 $query = make_insert_query("tbl_users_logins", array(

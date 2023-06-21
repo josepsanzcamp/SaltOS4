@@ -50,8 +50,6 @@ foreach (array("user","pass") as $key) {
         show_json_error("$key not found or void");
     }
 }
-
-// Compute the new pass
 $user = $data["json"]["user"];
 $pass = $data["json"]["pass"];
 
@@ -95,6 +93,7 @@ if ($num_rows != 1) {
     show_json_error("authentication error");
 }
 
+// Continue
 $query = make_update_query("tbl_users_logins", array(
     "active" => 0,
 ), make_where_query(array(
@@ -111,8 +110,8 @@ $token = implode("-", array(
     bin2hex(random_bytes(2)),
     bin2hex(random_bytes(6))
 ));
-$expires = current_datetime(get_config("authtoken/expires"));
-$renewals = get_config("authtoken/renewals");
+$expires = current_datetime(get_config("auth/tokenexpires"));
+$renewals = get_config("auth/tokenrenewals");
 
 $query = make_insert_query("tbl_users_logins", array(
     "user_id" => $row["id"],
