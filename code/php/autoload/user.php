@@ -44,7 +44,6 @@ function current_token()
         "user_agent" => get_server("HTTP_USER_AGENT"),
     )));
     return intval($token_id);
-
 }
 
 /**

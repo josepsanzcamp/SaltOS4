@@ -28,7 +28,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * TODO
+ * Garbage Collector Executor
+ *
+ * This function tries to clean the cache, temporary and upload directories
+ * of old files, the parameters that this function uses are defined in the
+ * config file, uses three directories (cachedir, tempdir and uploaddir) and
+ * the timeout is getted from the server/cachetimeout config file key, too
+ * is able to detect hidden files and remove except the special files as
+ * current directory, parent directory and htaccess file
  */
 function gc_exec()
 {
