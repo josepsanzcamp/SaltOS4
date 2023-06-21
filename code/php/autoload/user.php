@@ -36,6 +36,15 @@ declare(strict_types=1);
  */
 function current_token()
 {
+    // This part disable tokens that have been expired
+    $query = make_update_query("tbl_users_logins", array(
+        "active" => 0,
+    ), make_where_query(array(
+        "active" => 1,
+        "expires<=" => current_datetime(),
+    )));
+    db_query($query);
+    // Normal funcionality
     $token_id = execute_query("SELECT id FROM tbl_users_logins WHERE " . make_where_query(array(
         "token" => get_server("HTTP_TOKEN"),
         "active" => 1,

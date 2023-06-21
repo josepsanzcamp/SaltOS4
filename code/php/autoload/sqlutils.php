@@ -593,6 +593,9 @@ function sql_drop_index($index, $table)
 function make_insert_query($table, $array)
 {
     $fields = get_fields_from_dbschema($table);
+    if (!count($fields)) {
+        show_php_error(array("phperror" => "Unknown fields in " . __FUNCTION__));
+    }
     $list1 = array();
     $list2 = array();
     foreach ($fields as $field) {
@@ -660,6 +663,9 @@ function make_insert_query($table, $array)
 function make_update_query($table, $array, $where)
 {
     $fields = get_fields_from_dbschema($table);
+    if (!count($fields)) {
+        show_php_error(array("phperror" => "Unknown fields in " . __FUNCTION__));
+    }
     $list = array();
     foreach ($fields as $field) {
         $name = $field["name"];

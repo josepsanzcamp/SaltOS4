@@ -35,6 +35,15 @@ declare(strict_types=1);
  * a valid token to operate in SaltOS
  */
 
+// This part disable users that have been expired
+$query = make_update_query("tbl_users_passwords", array(
+    "active" => 0,
+), make_where_query(array(
+    "active" => 1,
+    "expires<=" => current_datetime(),
+)));
+db_query($query);
+
 // Check parameters
 foreach (array("user","pass") as $key) {
     if (!isset($data["json"][$key]) || $data["json"][$key] == "") {
@@ -123,12 +132,3 @@ output_handler_json(array(
     "expires_at" => $expires,
     "pending_renewals" => $renewals,
 ));
-
-/**
- * TODO
- *
- * Falta decidir como se guardan los logins fallidos
- * Falta decidir que se hace para evitar muchos logins seguidos y fallidos rollo ataque
- * Falta programar el obtener el score del password y el cambiar de password
- * Falta programar la parte de comprobar los permisos
- */
