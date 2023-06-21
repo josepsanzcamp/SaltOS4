@@ -31,7 +31,8 @@ declare(strict_types=1);
  * Current User
  *
  * This function returns the id of the current user, this info is retrieved
- * using the token of the request
+ * using the token of the request, for security reasons, this validation only
+ * can be performed by the same origin that execute the login action
  */
 function current_user()
 {
@@ -39,6 +40,8 @@ function current_user()
         "token" => get_server("HTTP_TOKEN"),
         "active" => 1,
         "expires_short_term>" => current_datetime(),
+        "remote_addr" => get_server("REMOTE_ADDR"),
+        "user_agent" => get_server("HTTP_USER_AGENT"),
     )));
     return intval($user_id);
 }

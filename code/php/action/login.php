@@ -126,9 +126,8 @@ output_handler_json(array(
 /**
  * TODO
  *
- * Falta guardar registro del login valido
  * Falta decidir como se guardan los logins fallidos
  * Falta decidir que se hace para evitar muchos logins seguidos y fallidos rollo ataque
- * Falta programar el logout, el obtener el score del password y el cambiar de password
+ * Falta programar el obtener el score del password y el cambiar de password
  * Falta programar la parte de comprobar los permisos
  */

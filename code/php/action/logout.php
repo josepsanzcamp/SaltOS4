@@ -30,7 +30,24 @@ declare(strict_types=1);
 /**
  * About this file
  *
- * TODO
+ * This file implements the logout action, allowing to deauthenticate users
+ * using a valid token, for security reasons, the deauth action only can
+ * be performed by the same actor that execute the login action
  */
 
-die();
+$user_id = current_user();
+if (!$user_id) {
+    show_json_error("deauthentication error");
+}
+
+$query = make_update_query("tbl_users_logins",array(
+    "active" => 0,
+), make_where_query(array(
+    "user_id" => $user_id,
+    "active" => 1,
+)));
+db_query($query);
+
+output_handler_json(array(
+    "status" => "ok",
+));
