@@ -101,7 +101,9 @@ $token = implode("-", array(
     bin2hex(random_bytes(2)),
     bin2hex(random_bytes(6))
 ));
-$expires = current_datetime(86400);
+$expires = current_datetime(get_config("authtoken/expires"));
+$renews = get_config("authtoken/renews");
+
 $query = make_insert_query("tbl_users_logins", array(
     "user_id" => $row["id"],
     "active" => 1,
@@ -109,15 +111,17 @@ $query = make_insert_query("tbl_users_logins", array(
     "remote_addr" => get_server("REMOTE_ADDR"),
     "user_agent" => get_server("HTTP_USER_AGENT"),
     "token" => $token,
-    "expires" => $expires_short_term,
+    "expires" => $expires,
+    "renews" => $renews,
 ));
 db_query($query);
 
 output_handler_json(array(
     "status" => "ok",
     "token" => $token,
-    "created_at" => $datetime,
-    "expires" => $expires_short_term,
+    "created" => $datetime,
+    "expires" => $expires,
+    "renews" => $renews,
 ));
 
 /**

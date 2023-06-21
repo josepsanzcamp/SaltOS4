@@ -41,6 +41,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <maxexecutiontime>3600</maxexecutiontime><!-- to be used in some actions that requires more time -->
         <cachetimeout>86400</cachetimeout><!-- in seconds, 86400 is 1 day -->
     </server>
+    <authtoken>
+        <expires>86400</expires><!-- in seconds, 86400 is 1 day -->
+        <renews>30</renews><!-- times that you can renew a token -->
+    </authtoken>
     <dirs>
         <logsdir eval="true">getcwd()."/data/logs"</logsdir>
         <filesdir eval="true">getcwd()."/data/files"</filesdir>
