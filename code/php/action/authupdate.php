@@ -49,7 +49,7 @@ $oldpass = $data["json"]["oldpass"];
 $newpass = $data["json"]["newpass"];
 $renewpass = $data["json"]["renewpass"];
 
-// Check passwords
+// Password checks
 $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
     "user_id" => $user_id,
     "active" => 1,
@@ -63,7 +63,24 @@ if (!password_verify($oldpass, $row["password"])) {
     show_json_error("old password authentication error");
 }
 if ($newpass != $renewpass) {
-    show_json_error("new passwords differs");
+    show_json_error("new password differs");
+}
+
+// Score check
+$minscore = current_datetime(get_config("auth/passwordminscore"));
+if(password_strength($newpass) < $minscore) {
+    show_json_error("new password strength error");
+}
+
+// Old passwords check
+$query = "SELECT password FROM tbl_users_passwords WHERE " . make_where_query(array(
+    "user_id" => $user_id,
+));
+$oldspass=execute_query_array($query);
+foreach ($oldspass as $oldpass) {
+    if (password_verify($newpass, $oldpass)) {
+        show_json_error("new password used previously");
+    }
 }
 
 // Continue

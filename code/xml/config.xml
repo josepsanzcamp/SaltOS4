@@ -40,6 +40,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <tokenexpires>86400</tokenexpires><!-- in seconds, 86400 is 1 day -->
         <tokenrenewals>5</tokenrenewals><!-- times that you can renew a token -->
         <passwordexpires eval="true">86400*365</passwordexpires><!-- in seconds, around one year -->
+        <passwordminscore>50</passwordminscore><!-- min password strength score -->
     </auth>
     <server>
         <maxmemorylimit>1G</maxmemorylimit><!-- to be used in some actions that requires more memory -->
