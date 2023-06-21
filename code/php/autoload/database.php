@@ -51,9 +51,8 @@ declare(strict_types=1);
  */
 function db_connect($args = null)
 {
-    global $_CONFIG;
     if ($args === null) {
-        $config = get_default("db");
+        $config = get_config("db");
     }
     if ($args !== null) {
         $config = $args;
@@ -66,7 +65,7 @@ function db_connect($args = null)
     $driver = "database_" . $config["type"];
     $obj = new $driver($config);
     if ($args === null) {
-        $_CONFIG["db"]["obj"] = $obj;
+        set_config("db/obj", $obj);
     }
     if ($args !== null) {
         return $obj;
@@ -82,10 +81,10 @@ function db_connect($args = null)
  */
 function db_check($query)
 {
-    if (!method_exists(get_default("db/obj"), "db_check")) {
+    if (!method_exists(get_config("db/obj"), "db_check")) {
         show_php_error(array("phperror" => "Unknown database connector"));
     }
-    return get_default("db/obj")->db_check($query);
+    return get_config("db/obj")->db_check($query);
 }
 
 /**
@@ -118,22 +117,22 @@ function db_check($query)
  */
 function db_query($query, $fetch = "query")
 {
-    if (!method_exists(get_default("db/obj"), "db_query")) {
+    if (!method_exists(get_config("db/obj"), "db_query")) {
         show_php_error(array("phperror" => "Unknown database connector"));
     }
-    $debug = eval_bool(get_default("debug/slowquerydebug"));
+    $debug = eval_bool(get_config("debug/slowquerydebug"));
     if ($debug) {
         $curtime = microtime(true);
     }
-    $result = get_default("db/obj")->db_query($query, $fetch);
+    $result = get_config("db/obj")->db_query($query, $fetch);
     if ($debug) {
         $curtime = microtime(true) - $curtime;
-        $maxtime = get_default("debug/slowquerytime");
+        $maxtime = get_config("debug/slowquerytime");
         if ($curtime > $maxtime) {
             addtrace(array(
                 "dbwarning" => "Slow query requires $curtime seconds",
                 "query" => $query,
-            ), get_default("debug/dbwarningfile", "dbwarning.log"));
+            ), get_config("debug/dbwarningfile", "dbwarning.log"));
         }
     }
     return $result;
@@ -146,10 +145,10 @@ function db_query($query, $fetch = "query")
  */
 function db_disconnect()
 {
-    if (!method_exists(get_default("db/obj"), "db_disconnect")) {
+    if (!method_exists(get_config("db/obj"), "db_disconnect")) {
         show_php_error(array("phperror" => "Unknown database connector"));
     }
-    get_default("db/obj")->db_disconnect();
+    get_config("db/obj")->db_disconnect();
 }
 
 /**

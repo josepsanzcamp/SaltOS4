@@ -158,7 +158,6 @@ function __make_indexing_helper($table, $id = "")
         $fieldnames = array_column(get_fields($table), "name");
     }
     $result = $fieldnames;
-    $result[] = "LPAD(id," . intval(get_config("zero_padding_digits")) . ",0)";
     $tablefield = get_field_from_dbstatic($table);
     if ($tablefield != "") {
         $result[] = $tablefield;

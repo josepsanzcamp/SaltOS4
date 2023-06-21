@@ -78,8 +78,8 @@ that maintain the database using as reference this file
         <table name="tbl_users">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
                 <field name="active" type="INT(11)"/>
+                <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
                 <field name="login" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -91,8 +91,8 @@ that maintain the database using as reference this file
         <table name="tbl_users_passwords">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="active" type="INT(11)"/>
+                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="remote_addr" type="VARCHAR(255)"/>
                 <field name="user_agent" type="VARCHAR(255)"/>
@@ -103,8 +103,8 @@ that maintain the database using as reference this file
         <table name="tbl_users_logins">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="active" type="INT(11)"/>
+                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="remote_addr" type="VARCHAR(255)"/>
                 <field name="user_agent" type="VARCHAR(255)"/>
@@ -124,26 +124,6 @@ that maintain the database using as reference this file
         </table>
 
 		<!--
-		TODO: This table is in a temporary situation
-		-->
-        <table name="tbl_security">
-            <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="session_id" type="INT(11)" fkey="tbl_sessions"/>
-                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-                <field name="logout" type="INT(11)"/>
-            </fields>
-        </table>
-        <table name="tbl_security_ip">
-            <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="session_id" type="INT(11)" fkey="tbl_sessions"/>
-                <field name="remote_addr" type="VARCHAR(255)"/>
-                <field name="retries" type="INT(11)"/>
-            </fields>
-        </table>
-
-		<!--
 		This table allow to register apps with their additional information, as the
 		main table, the subtables, what features do you want to enable in this app, and
 		more things that we are developing
@@ -155,6 +135,7 @@ that maintain the database using as reference this file
         <table name="tbl_apps">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
@@ -169,6 +150,7 @@ that maintain the database using as reference this file
         <table name="tbl_perms">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="active" type="INT(11)"/>
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>

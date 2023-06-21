@@ -35,21 +35,23 @@ foreach (glob("php/autoload/*.php") as $file) {
 // Some important items
 program_handlers();
 init_time_get();
+init_random();
 check_system();
 
 // Normal operation
 $_CONFIG = eval_attr(xmlfile2array("xml/config.xml"));
-eval_iniset(get_default("ini_set"));
-eval_putenv(get_default("putenv"));
+eval_iniset(get_config("ini_set"));
+eval_putenv(get_config("putenv"));
 
-db_connect(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
-db_schema(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
-db_static(); // TODO: THIS MUST TO BE DISABLE BY DEFAULT IN A FUTURE
+gc_exec(); // TODO: This is necessary or can be delegate to crontab
+db_connect(); // TODO: This is necessary or can be called when needed
+db_schema(); // TODO: This is necessary or can be called when needed
+db_static(); // TODO: This is necessary or can be called when needed
 
 // Collect all input data
 $data = array(
     //~ "headers" => getallheaders(),
-    "json" => null2array(json_decode(file_get_contents('php://input'), true)),
+    "json" => null2array(json_decode(file_get_contents("php://input"), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")), array("")),
     "method" => strtoupper(get_server("REQUEST_METHOD")),
     "content-type" => strtolower(get_server("CONTENT_TYPE")),

@@ -39,12 +39,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <server>
         <maxmemorylimit>1G</maxmemorylimit><!-- to be used in some actions that requires more memory -->
         <maxexecutiontime>3600</maxexecutiontime><!-- to be used in some actions that requires more time -->
+        <cachetimeout>86400</cachetimeout><!-- in seconds, 86400 is 1 day -->
     </server>
-    <default>
-        <semaphoretimeout>100000</semaphoretimeout><!-- in microseconds -->
-        <commandtimeout>60</commandtimeout><!-- in seconds, 60 is 1 minute -->
-        <commandexpires>3600</commandexpires><!-- in seconds, 3600 is 1 hour -->
-    </default>
     <dirs>
         <logsdir eval="true">getcwd()."/data/logs"</logsdir>
         <filesdir eval="true">getcwd()."/data/files"</filesdir>
@@ -54,15 +50,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <inboxdir eval="true">getcwd()."/data/inbox"</inboxdir>
         <outboxdir eval="true">getcwd()."/data/outbox"</outboxdir>
     </dirs>
-    <cache>
-        <cachegcenabled>true</cachegcenabled>
-        <cachegctimeout>86400</cachegctimeout><!-- in seconds, 86400 is 1 day -->
-        <cachegcprobability>1</cachegcprobability>
-        <cachegcdivisor>100</cachegcdivisor>
-    </cache>
-    <output>
-        <cachegctimeout>86400</cachegctimeout><!-- in seconds, 86400 is 1 day -->
-    </output>
     <commands>
         <which>which</which><!-- for check commands -->
         <__which__>which __INPUT__</__which__>
@@ -72,6 +59,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <__svnversion__>cd __DIR__; svnversion</__svnversion__>
         <gitversion>git</gitversion>
         <__gitversion__>cd __DIR__; git rev-list HEAD --count</__gitversion__>
+        <commandtimeout>60</commandtimeout><!-- in seconds, 60 is 1 minute -->
+        <commandexpires>3600</commandexpires><!-- in seconds, 3600 is 1 hour -->
     </commands>
     <debug>
         <logfile>saltos.log</logfile>

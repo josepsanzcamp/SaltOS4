@@ -102,7 +102,7 @@ function show_php_error($array)
     // Refuse the deprecated warnings
     if (isset($array["phperror"]) && stripos($array["phperror"], "deprecated") !== false) {
         if (is_writable($dir)) {
-            $file = get_default("debug/deprecatedfile", "deprecated.log");
+            $file = get_config("debug/deprecatedfile", "deprecated.log");
             if (!checklog($hash, $file)) {
                 addlog($msg_text, $file);
             }
@@ -112,7 +112,7 @@ function show_php_error($array)
     }
     // Add the msg_text to the error log file
     if (is_writable($dir)) {
-        $file = get_default("debug/errorfile", "error.log");
+        $file = get_config("debug/errorfile", "error.log");
         static $types = array(
             array("dberror","debug/dberrorfile","dberror.log"),
             array("phperror","debug/phperrorfile","phperror.log"),
@@ -125,7 +125,7 @@ function show_php_error($array)
         );
         foreach ($types as $type) {
             if (isset($array[$type[0]])) {
-                $file = get_default($type[1], $type[2]);
+                $file = get_config($type[1], $type[2]);
                 break;
             }
         }
@@ -181,11 +181,11 @@ function do_message_error($array)
         switch ($type) {
             case "dberror":
                 $privated = array(
-                    get_default("db/host"),
-                    get_default("db/port"),
-                    get_default("db/user"),
-                    get_default("db/pass"),
-                    get_default("db/name")
+                    get_config("db/host"),
+                    get_config("db/port"),
+                    get_config("db/user"),
+                    get_config("db/pass"),
+                    get_config("db/name")
                 );
                 $data = str_replace($privated, "...", $data);
                 break;

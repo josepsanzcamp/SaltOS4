@@ -37,13 +37,13 @@ declare(strict_types=1);
  */
 function db_schema()
 {
-    $hash1 = get_config("xml/dbschema.xml");
+    $hash1 = get_config("xml/dbschema.xml", "", 0);
     $hash2 = md5(serialize(array(xmlfile2array("xml/dbschema.xml"),xmlfile2array("xml/dbstatic.xml"))));
     if ($hash1 == $hash2) {
         return;
     }
-    if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
-        return;
+    if (!semaphore_acquire(array("db_schema","db_static"))) {
+        show_php_error(array("phperror" => "Could not acquire the semaphore"));
     }
     $dbschema = eval_attr(xmlfile2array("xml/dbschema.xml"));
     $dbschema = __dbschema_auto_apps($dbschema);
@@ -133,7 +133,7 @@ function db_schema()
             }
         }
     }
-    set_config("xml/dbschema.xml", $hash2);
+    set_config("xml/dbschema.xml", $hash2, 0);
     semaphore_release(array("db_schema","db_static"));
 }
 
@@ -148,13 +148,13 @@ function db_schema()
  */
 function db_static()
 {
-    $hash1 = get_config("xml/dbstatic.xml");
+    $hash1 = get_config("xml/dbstatic.xml", "", 0);
     $hash2 = md5(serialize(xmlfile2array("xml/dbstatic.xml")));
     if ($hash1 == $hash2) {
         return;
     }
-    if (!semaphore_acquire(array("db_schema","db_static"), get_default("semaphoretimeout", 100000))) {
-        return;
+    if (!semaphore_acquire(array("db_schema","db_static"))) {
+        show_php_error(array("phperror" => "Could not acquire the semaphore"));
     }
     $dbstatic = eval_attr(xmlfile2array("xml/dbstatic.xml"));
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
@@ -174,7 +174,7 @@ function db_static()
             }
         }
     }
-    set_config("xml/dbstatic.xml", $hash2);
+    set_config("xml/dbstatic.xml", $hash2, 0);
     semaphore_release(array("db_schema","db_static"));
 }
 
@@ -187,6 +187,22 @@ function db_static()
  * @table => the table that you want to use in the insert process
  * @row => the row that you want to add in the table
  * @delete => this field allow to check if the row exists to do an update instead of insert
+ *
+ * Notes:
+ *
+ * This feature allow to you to use comma separated lists of values, commonly used for id
+ * fields as user_id, perms_id, or similar, too, this insert has the feature to allow the
+ * option of not delete for tables that must contain rows provided by others processes and
+ * to allow this, the delete="false" allow the initial truncate table and too, allo to
+ * prevent duplicates inserts, in the case that the row contains the id field, the function
+ * try to locate the affected row to performs an update instead of the original insert, in
+ * some special cases as when you want to use the comma separated ids, not provide an
+ * specific id for each row and disable the delete feature, in this case, the system can
+ * not locate the specific row because not have an id to do the locate action, and in this
+ * case, the system try to detect if exists the desired row by searching all other params
+ * and perform the original insert in case of not existence of a register that contains
+ * all values, otherwise the query will be void to cancel the insert and prevent duplications
+ * of registers with the same data (instead each row have a different id)
  */
 function __dbstatic_insert($table, $row, $delete)
 {
@@ -206,16 +222,35 @@ function __dbstatic_insert($table, $row, $delete)
             __dbstatic_insert($table, $row, $delete);
         }
     } else {
+        // Original insert query
         $query = make_insert_query($table, $row);
         if (!$delete) {
-            $where = make_where_query(array("id" => $row["id"]));
-            $query2 = "SELECT id FROM $table WHERE $where";
-            $exists = execute_query($query2);
-            if ($exists) {
-                $query = make_update_query($table, $row, $where);
+            // In case of disabled delete, the function will try to search the register
+            if (isset($row["id"])) {
+                // If the row contains an specific id to locate it
+                $where = make_where_query(array("id" => $row["id"]));
+                $query2 = "SELECT id FROM $table WHERE $where";
+                $exists = execute_query($query2);
+                if ($exists) {
+                    // If the previous query is able to locate the row, program the update
+                    // instead of the insert
+                    $query = make_update_query($table, $row, $where);
+                }
+            } else {
+                // If the row not contains an specific id, will try to locate the row
+                // using a combination of all the other fields
+                $where = make_where_query($row);
+                $query2 = "SELECT id FROM $table WHERE $where";
+                $exists = execute_query($query2);
+                if ($exists) {
+                    // If the previous query is able to locate the row, cancel the insert
+                    $query = "";
+                }
             }
         }
-        db_query($query);
+        if ($query != "") {
+            db_query($query);
+        }
     }
 }
 

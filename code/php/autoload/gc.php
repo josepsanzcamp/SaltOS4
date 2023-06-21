@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -28,17 +28,30 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Init Random
- *
- * This function initialize the random number generator
- *
- * Notes:
- *
- * This function previously sets the seed using the microtime, but reading
- * the srand php documentation, I see that the seed is not needed because
- * if it is not provided, a randomly seed is used by default
+ * TODO
  */
-function init_random()
+function gc_exec()
 {
-    srand();
+    if (!semaphore_acquire(__FUNCTION__)) {
+        show_php_error(array("phperror" => "Could not acquire the semaphore"));
+    }
+    $dirs = array(
+        get_directory("dirs/cachedir"),
+        get_directory("dirs/tempdir"),
+        get_directory("dirs/uploaddir"),
+    );
+    $files = array();
+    foreach ($dirs as $dir) {
+        $files1 = glob_protected($dir . "*"); // Visible files
+        $files2 = glob_protected($dir . ".*"); // Hidden files
+        $files2 = array_diff($files2, array($dir . ".",$dir . "..",$dir . ".htaccess")); // Exceptions
+        $files = array_merge($files, $files1, $files2);
+    }
+    $delta = time() - intval(get_config("server/cachetimeout"));
+    foreach ($files as $file) {
+        if (file_exists($file) && is_file($file) && filemtime($file) < $delta) {
+            unlink($file);
+        }
+    }
+    semaphore_release(__FUNCTION__);
 }

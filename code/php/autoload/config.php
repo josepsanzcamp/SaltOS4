@@ -36,42 +36,93 @@ declare(strict_types=1);
  * the values from the config file.
  *
  * @key => the key that you want to retrieve the value
+ * @default => the default value used when the key is not found
+ * @user_id => the user_id used in the first search step
+ *
+ * Notes:
+ *
+ * This function is a new release of the olds getConfig and getDefault,
+ * depending of the user_id argument, it tries to search in the config
+ * file or in the database, for negative values the function uses the
+ * config file and for zero or positive values, tries to search it in
+ * the database
  */
-function get_config($key)
+function get_config($key, $default = "", $user_id = -1)
 {
-    $row = array();
-    $query = "SELECT val FROM tbl_config WHERE _key='{$key}'";
+    if ($user_id < 0) {
+        // Try to search the key in the config file
+        global $_CONFIG;
+        $keys = explode("/", $key);
+        $count = count($keys);
+        if ($count == 1) {
+            if (isset($_CONFIG[$keys[0]])) {
+                return $_CONFIG[$keys[0]];
+            } else {
+                return $default;
+            }
+        }
+        if ($count == 2) {
+            if (isset($_CONFIG[$keys[0]][$keys[1]])) {
+                return $_CONFIG[$keys[0]][$keys[1]];
+            } else {
+                return $default;
+            }
+        }
+        show_php_error(array("phperror" => "key $key not found in " . __FUNCTION__));
+    }
+    // Search the key for the specified user in the database
+    $query = "SELECT val FROM tbl_config WHERE " . make_where_query(array(
+        "user_id" => $user_id,
+        "_key" => $key,
+    ));
     if (db_check($query)) {
-        $config = execute_query($query);
-    } else {
-        $config = null;
+        $val = execute_query($query);
+        if ($val !== null) {
+            return $val;
+        }
     }
-    if ($config !== null) {
-        $row = array($key => $config);
-    } else {
-        $row = get_default("configs");
-    }
-    if (!isset($row[$key])) {
-        return null;
-    }
-    return $row[$key];
+    return $default;
 }
 
 /**
  * Set config
  *
- * This function sets a value to a config key, the data will be
- * stored in the database using the tbl_config
+ * This function sets a value to a config key, the data will be stored in the
+ * database using the tbl_config for zero or positive values of user_id, and
+ * in the memory of the config file for negative user_id values
  *
  * @key => the key that you want to set
  * @val => the value that you want to set
+ * @user_id => the user_id used as filter
  */
-function set_config($key, $val)
+function set_config($key, $val, $user_id = -1)
 {
-    $query = "SELECT val FROM tbl_config WHERE _key='{$key}'";
-    $config = execute_query($query);
-    if ($config === null) {
+    if ($user_id < 0) {
+        // Try to sets the val for the specified key in the config file
+        // This case only affects to the memory version of the config file
+        global $_CONFIG;
+        $keys = explode("/", $key);
+        $count = count($keys);
+        if ($count == 1) {
+            $_CONFIG[$keys[0]] = $val;
+            return;
+        }
+        if ($count == 2) {
+            $_CONFIG[$keys[0]][$keys[1]] = $val;
+            return;
+        }
+        show_php_error(array("phperror" => "key $key not found " . __FUNCTION__));
+    }
+    // Try to insert or update the key for the specified user
+    // In this case, zero user is allowed and used as global user
+    $query = "SELECT id FROM tbl_config WHERE " . make_where_query(array(
+        "user_id" => $user_id,
+        "_key" => $key,
+    ));
+    $id = execute_query($query);
+    if ($id === null) {
         $query = make_insert_query("tbl_config", array(
+            "user_id" => $user_id,
             "_key" => $key,
             "val" => $val
         ));
@@ -80,36 +131,8 @@ function set_config($key, $val)
         $query = make_update_query("tbl_config", array(
             "val" => $val
         ), make_where_query(array(
-            "_key" => $key
+            "id" => $id,
         )));
         db_query($query);
     }
-}
-
-/**
- * Get default
- *
- * This function retrieve data from the config file
- *
- * @key => the key that you want to retrieve the value
- * @default => the default value used when the key is not found
- */
-function get_default($key, $default = "")
-{
-    global $_CONFIG;
-    $key = explode("/", $key);
-    $count = count($key);
-    $config = $_CONFIG;
-    while ($count) {
-        $key2 = array_shift($key);
-        if (!isset($config[$key2])) {
-            return $default;
-        }
-        $config = $config[$key2];
-        $count--;
-    }
-    if ($config === "") {
-        return $default;
-    }
-    return $config;
 }

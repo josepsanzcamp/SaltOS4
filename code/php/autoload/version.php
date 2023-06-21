@@ -68,12 +68,12 @@ function svnversion($dir = ".")
         return intval(file_get_contents("{$dir}/svnversion"));
     }
     // USING SVNVERSION
-    if (check_commands(get_default("commands/svnversion", "svnversion"), get_default("default/commandexpires", 60))) {
+    if (check_commands(get_config("commands/svnversion", "svnversion"), get_config("commands/commandexpires", 60))) {
         return intval(ob_passthru(str_replace(
             array("__DIR__"),
             array($dir),
-            get_default("commands/__svnversion__", "cd __DIR__; svnversion")
-        ), get_default("default/commandexpires", 60)));
+            get_config("commands/__svnversion__", "cd __DIR__; svnversion")
+        ), get_config("commands/commandexpires", 60)));
     }
     // NOTHING TO DO
     return 0;
@@ -93,12 +93,12 @@ function gitversion($dir = ".")
         return intval(file_get_contents("{$dir}/gitversion"));
     }
     // USING GIT
-    if (check_commands(get_default("commands/gitversion", "git"), get_default("default/commandexpires", 60))) {
+    if (check_commands(get_config("commands/gitversion", "git"), get_config("commands/commandexpires", 60))) {
         return intval(ob_passthru(str_replace(
             array("__DIR__"),
             array($dir),
-            get_default("commands/__gitversion__", "cd __DIR__; git rev-list HEAD --count")
-        ), get_default("default/commandexpires", 60)));
+            get_config("commands/__gitversion__", "cd __DIR__; git rev-list HEAD --count")
+        ), get_config("commands/commandexpires", 60)));
     }
     // NOTHING TO DO
     return 0;

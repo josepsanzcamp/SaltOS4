@@ -72,10 +72,10 @@ function checklog($hash, $file)
 function addlog($msg, $file = "")
 {
     if (!$file) {
-        $file = get_default("debug/logfile", "saltos.log");
+        $file = get_config("debug/logfile", "saltos.log");
     }
     $dir = get_directory("dirs/logsdir", getcwd_protected() . "/data/logs");
-    $maxfilesize = normalize_value(get_default("debug/maxfilesize", "1M"));
+    $maxfilesize = normalize_value(get_config("debug/maxfilesize", "1M"));
     if ($maxfilesize > 0 && file_exists($dir . $file) && is_file($dir . $file) && filesize($dir . $file) >= $maxfilesize) {
         $next = 1;
         while (file_exists($dir . $file . "." . $next)) {

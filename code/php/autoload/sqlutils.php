@@ -80,7 +80,7 @@ function parse_query($query, $type = "")
  */
 function __parse_query_type()
 {
-    switch (get_default("db/type")) {
+    switch (get_config("db/type")) {
         case "pdo_sqlite":
         case "sqlite3":
             return "SQLITE";
@@ -88,7 +88,7 @@ function __parse_query_type()
         case "mysqli":
             return "MYSQL";
         default:
-            show_php_error(array("phperror" => "Unknown type '" . get_default("db/type") . "'"));
+            show_php_error(array("phperror" => "Unknown type '" . get_config("db/type") . "'"));
     }
 }
 
@@ -434,7 +434,7 @@ function __has_engine($engine)
     static $engines = null;
     if ($engines === null) {
         $engines = array();
-        if (get_default("db/obj")) {
+        if (get_config("db/obj")) {
             $query = "/*MYSQL SHOW ENGINES */";
             $result = db_query($query);
             while ($row = db_fetch_row($result)) {

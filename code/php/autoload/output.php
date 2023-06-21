@@ -100,8 +100,8 @@ function output_handler($array)
         $size = strlen($data);
     }
     if ($cache) {
-        header("Expires: " . gmdate("D, d M Y H:i:s", time() + get_default("output/cachetimeout")) . " GMT");
-        header("Cache-Control: max-age=" . get_default("output/cachetimeout") . ", no-transform");
+        header("Expires: " . gmdate("D, d M Y H:i:s", time() + get_config("server/cachetimeout")) . " GMT");
+        header("Cache-Control: max-age=" . get_config("server/cachetimeout") . ", no-transform");
         header("Pragma: public");
         header("ETag: {$hash2}");
     } else {

@@ -97,7 +97,7 @@ function __time_get_helper($fn, $secs)
     $cur = microtime(true);
     $max = ini_get("max_execution_time");
     if (!$max) {
-        $max = get_default("ini_set/max_execution_time");
+        $max = get_config("ini_set/max_execution_time");
     }
     if (stripos($fn, "usage") !== false) {
         $diff = $cur - $ini;
@@ -118,7 +118,7 @@ function __time_get_helper($fn, $secs)
  */
 function set_max_memory_limit()
 {
-    ini_set("memory_limit", get_default("server/maxmemorylimit"));
+    ini_set("memory_limit", get_config("server/maxmemorylimit"));
 }
 
 /**
@@ -129,5 +129,5 @@ function set_max_memory_limit()
  */
 function set_max_execution_time()
 {
-    ini_set("max_execution_time", get_default("server/maxexecutiontime"));
+    ini_set("max_execution_time", get_config("server/maxexecutiontime"));
 }

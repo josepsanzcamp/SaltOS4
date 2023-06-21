@@ -34,7 +34,7 @@ declare(strict_types=1);
  * value, usefull when the configuration still not loaded and SaltOS need some directory to do
  * something as store data in the log file, for example
  *
- * @key => the key used in get_default to request the configured directory
+ * @key => the key used in get_config to request the configured directory
  * @default => the default value used in case of issues getting the config key
  */
 function get_directory($key, $default = "")
@@ -42,7 +42,7 @@ function get_directory($key, $default = "")
     if (!$default) {
         $default = getcwd_protected() . "/data/temp";
     }
-    $dir = get_default($key, $default);
+    $dir = get_config($key, $default);
     if (is_array($dir)) {
         $dir = eval_attr($dir);
     }
