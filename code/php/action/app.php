@@ -28,16 +28,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * About this file
+ * Application Action
  *
  * This file implements the app action, requires a GET REST request
  * and the order of the elements are:
  *
- * @[1] => the app that you want to execute
- * @[2] => the subapp that tou want to use, if the app only contains
- *         one subapp, this parameter is not necesary
- * @[3] => the id used in some subapps, for example, to get the data
- *         of specific customer using the id
+ * @1 => the app that you want to execute
+ * @2 => the subapp that tou want to use, if the app only contains
+ *       one subapp, this parameter is not necesary
+ * @3 => the id used in some subapps, for example, to get the data
+ *       of specific customer using the id
  */
 
 if (!isset($_DATA["rest"][1])) {

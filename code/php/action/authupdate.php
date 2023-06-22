@@ -28,10 +28,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * About this file
+ * Authentication Update Action
  *
  * This file implements the update password action, allowing to authenticated
  * users by a token, and providing the old password to update a new password
+ *
+ * @oldpass => Old password, must to validate the active password of the user
+ *             associated to the token used in the action
+ * @newpass => New password, must to be new, must to pass the score check and
+ *             never must to be used in the system for the user
+ * @renewpass => The repeated new password, to prevent writing errors
+ *
+ * This action requires a valid token associated to the user that wants to do
+ * the password update
  */
 
 $user_id = current_user();

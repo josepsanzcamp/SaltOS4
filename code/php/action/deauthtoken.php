@@ -28,11 +28,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * About this file
+ * Deauthentication Token Action
  *
  * This file implements the logout action, allowing to deauthenticate users
  * using a valid token, for security reasons, the deauth action only can
  * be performed by the same actor that execute the login action
+ *
+ * The unique requirement to execute this action is to have a valid token
  */
 
 $token_id = current_token();

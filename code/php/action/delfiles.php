@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * About this file
+ * Delete Files Action
  *
  * This file implements the delete files action, requires a POST JSON request
  * with an array of files, and each array must contain the follow entries:
@@ -37,6 +37,16 @@ declare(strict_types=1);
  * This action checks that not error is found, checks the file element, the
  * size of the file, the hash of the file, and then, remove the file and
  * clear the file and hash element of the array
+ *
+ * @files => array of files, each element must contain the follow elements:
+ * @id => unique id that is used by the client to identify the response
+ * @name => the name of the file
+ * @size => the size of the file
+ * @type => the type of the file
+ * @data => the contents of the file encoded as inline base64
+ * @error => the error in case of errors
+ * @file => this field is used here to put the local filename used in the file
+ * @hash => this field contains the hash of the contents of the file
  */
 
 if (!isset($_DATA["json"]["files"])) {

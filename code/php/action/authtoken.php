@@ -28,11 +28,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * About this file
+ * Authentication Token Action
  *
  * This file implements the login action, allowing to authenticate users
  * using the pair of login/password to validate the credentials and get
  * a valid token to operate in SaltOS
+ *
+ * @user => username used in the authentication process
+ * @pass => password used in the authentication process
+ *
+ * This action not requires a valid token, all valid tokens associated
+ * to the user will be revoked when a new token is assigned
  */
 
 // This part disable users that have been expired

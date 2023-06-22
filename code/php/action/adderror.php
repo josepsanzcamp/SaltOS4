@@ -28,12 +28,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * About this file
+ * Add Error Action
  *
  * This file implements the adderror action, requires a POST JSON request
  * with the follow elements: jserror, details and backtrace, this action
  * is called from window.onerror in order to store the details of the js
  * error
+ *
+ * @jserror => text used as title in the error report
+ * @details => text used as details in the error report
+ * @backtrace => array with the backtrace used in the error report
  */
 
 foreach (array("jserror","details","backtrace") as $key) {
