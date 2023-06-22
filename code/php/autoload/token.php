@@ -32,7 +32,8 @@ declare(strict_types=1);
  *
  * This function returns a string with a new and unique token
  */
-function make_token() {
+function make_token()
+{
     return implode("-", array(
         bin2hex(random_bytes(4)),
         bin2hex(random_bytes(2)),

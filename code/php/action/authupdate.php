@@ -77,7 +77,7 @@ if ($newpass != $renewpass) {
 
 // Score check
 $minscore = current_datetime(get_config("auth/passwordminscore"));
-if(password_strength($newpass) < $minscore) {
+if (password_strength($newpass) < $minscore) {
     show_json_error("new password strength error");
 }
 
@@ -85,7 +85,7 @@ if(password_strength($newpass) < $minscore) {
 $query = "SELECT password FROM tbl_users_passwords WHERE " . make_where_query(array(
     "user_id" => $user_id,
 ));
-$oldspass=execute_query_array($query);
+$oldspass = execute_query_array($query);
 foreach ($oldspass as $oldpass) {
     if (password_verify($newpass, $oldpass)) {
         show_json_error("new password used previously");
