@@ -30,3 +30,8 @@ declare(strict_types=1);
 /**
  * TODO
  */
+
+$user_id = current_user();
+if (!$user_id) {
+    show_json_error("authentication error");
+}

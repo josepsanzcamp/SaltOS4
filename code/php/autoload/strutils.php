@@ -149,7 +149,7 @@ function sprintr($array)
 }
 
 /**
- * Get Unique Id MD5
+ * Get Unique ID MD5
  *
  * This function returns an unique hash using the random generator
  */
@@ -302,4 +302,20 @@ function get_part_from_string($input, $delim, $index)
         return $temp[$index];
     }
     return "";
+}
+
+/**
+ * Get Unique Token
+ *
+ * This function returns a string with a new and unique token
+ */
+function get_unique_token()
+{
+    return implode("-", array(
+        bin2hex(random_bytes(4)),
+        bin2hex(random_bytes(2)),
+        bin2hex(random_bytes(2)),
+        bin2hex(random_bytes(2)),
+        bin2hex(random_bytes(6))
+    ));
 }

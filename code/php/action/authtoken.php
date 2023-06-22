@@ -109,7 +109,7 @@ $query = make_update_query("tbl_users_logins", array(
 db_query($query);
 
 $datetime = current_datetime();
-$token = make_token();
+$token = get_unique_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
 $renewals = get_config("auth/tokenrenewals");
 
