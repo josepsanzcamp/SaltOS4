@@ -28,10 +28,62 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * TODO
+ * Score Action
+ *
+ * This action allo to retrieve the score of a password, intended to be used
+ * as helper previously to the authupdate call, can perform the action of
+ * compute the score and return the result as a simple image or as a json,
+ *
+ * @pass => the password that you want to compute the score
+ * @format => the format used to the result, only can be png or json
+ * @width => the width of the generated image
+ * @height => the height of the generated image
+ * @size => the size of the font of the generated image
  */
+
+$_SERVER["HTTP_TOKEN"] = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
+$_SERVER["REMOTE_ADDR"] = "127.0.0.1";
+$_SERVER["HTTP_USER_AGENT"] = "curl/7.74.0";
+$_DATA["json"]["pass"] = "fortuna92";
+$_DATA["json"]["format"] = "json";
 
 $user_id = current_user();
 if (!$user_id) {
     show_json_error("authentication error");
 }
+
+// Check parameters
+foreach (array("pass","format") as $key) {
+    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
+        show_json_error("$key not found or void");
+    }
+}
+$pass = $_DATA["json"]["pass"];
+$format = $_DATA["json"]["format"];
+if (!in_array($format, array("png","json"))) {
+    show_json_error("unknown format $format");
+}
+
+$width = isset($_DATA["json"]["width"]) ? $_DATA["json"]["width"] : 60;
+$height = isset($_DATA["json"]["height"]) ? $_DATA["json"]["height"] : 16;
+$size = isset($_DATA["json"]["size"]) ? $_DATA["json"]["size"] : 8;
+
+$score = password_strength($pass);
+$image = __score_image($score, $width, $height, $size);
+if ($format == "png") {
+    output_handler(array(
+        "data" => $image,
+        "type" => "image/png",
+        "cache" => false
+    ));
+}
+$data = base64_encode($image);
+$data = "data:image/png;base64,{$data}";
+$minscore = current_datetime(get_config("auth/passwordminscore"));
+$valid = ($score >= $minscore) ? 1 : 0;
+$result = array(
+    "score" => $score . "%",
+    "image" => $data,
+    "valid" => $valid,
+);
+output_handler_json($result);
