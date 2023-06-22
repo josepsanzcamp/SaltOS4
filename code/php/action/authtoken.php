@@ -46,12 +46,12 @@ db_query($query);
 
 // Check parameters
 foreach (array("user","pass") as $key) {
-    if (!isset($data["json"][$key]) || $data["json"][$key] == "") {
+    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
 }
-$user = $data["json"]["user"];
-$pass = $data["json"]["pass"];
+$user = $_DATA["json"]["user"];
+$pass = $_DATA["json"]["pass"];
 
 // First check
 $query = "SELECT * FROM tbl_users WHERE " . make_where_query(array(

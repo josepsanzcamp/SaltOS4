@@ -40,11 +40,11 @@ declare(strict_types=1);
  * array and store the file in the upload directory
  */
 
-if (!isset($data["json"]["files"])) {
+if (!isset($_DATA["json"]["files"])) {
     show_json_error("files not found");
 }
 
-$files = $data["json"]["files"];
+$files = $_DATA["json"]["files"];
 foreach ($files as $key => $val) {
     if ($val["error"] != "") {
         continue;

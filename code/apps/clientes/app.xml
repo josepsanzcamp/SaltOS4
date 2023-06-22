@@ -51,7 +51,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         </layout>
     </form>
     <data>
-        <data global="data" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($data["rest"][3]))</data>
+        <data global="_DATA" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($_DATA["rest"][3]))</data>
     </data>
     <view>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["form"]["layout"]</layout>

@@ -40,35 +40,35 @@ declare(strict_types=1);
  *         of specific customer using the id
  */
 
-if (!isset($data["rest"][1])) {
+if (!isset($_DATA["rest"][1])) {
     show_json_error("app not found");
 }
 
-$data["rest"][1] = encode_bad_chars($data["rest"][1]);
-$file = "apps/" . $data["rest"][1] . "/app.xml";
+$_DATA["rest"][1] = encode_bad_chars($_DATA["rest"][1]);
+$file = "apps/" . $_DATA["rest"][1] . "/app.xml";
 if (!file_exists($file)) {
-    show_json_error("app " . $data["rest"][1] . " not found");
+    show_json_error("app " . $_DATA["rest"][1] . " not found");
 }
 
 $array = xmlfile2array($file);
 
-if (!isset($data["rest"][2]) && count($array) == 1) {
-    $data["rest"][2] = key($array);
+if (!isset($_DATA["rest"][2]) && count($array) == 1) {
+    $_DATA["rest"][2] = key($array);
 }
 
-if (!isset($data["rest"][2])) {
+if (!isset($_DATA["rest"][2])) {
     show_json_error("subapp not found");
 }
 
-$data["rest"][2] = encode_bad_chars($data["rest"][2]);
-if (!isset($array[$data["rest"][2]])) {
-    show_json_error("subapp " . $data["rest"][2] . " not found");
+$_DATA["rest"][2] = encode_bad_chars($_DATA["rest"][2]);
+if (!isset($array[$_DATA["rest"][2]])) {
+    show_json_error("subapp " . $_DATA["rest"][2] . " not found");
 }
 
-if (!isset($data["rest"][3])) {
-    $data["rest"][3] = 0;
+if (!isset($_DATA["rest"][3])) {
+    $_DATA["rest"][3] = 0;
 }
-$data["rest"][3] = intval($data["rest"][3]);
+$_DATA["rest"][3] = intval($_DATA["rest"][3]);
 
-$array = eval_attr($array[$data["rest"][2]]);
+$array = eval_attr($array[$_DATA["rest"][2]]);
 output_handler_json($array);

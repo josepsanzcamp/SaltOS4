@@ -49,7 +49,7 @@ db_schema(); // TODO: This is necessary or can be called when needed
 db_static(); // TODO: This is necessary or can be called when needed
 
 // Collect all input data
-$data = array(
+$_DATA = array(
     //~ "headers" => getallheaders(),
     "json" => null2array(json_decode(file_get_contents("php://input"), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")), array("")),
@@ -58,11 +58,11 @@ $data = array(
     "token" => get_server("HTTP_TOKEN"),
 );
 
-//~ addlog(sprintr($data));
+//~ addlog(sprintr($_DATA));
 //~ addlog(sprintr($_SERVER));
 
 // Check for an init browser request
-if ($data["method"] == "GET" && count($data["rest"]) == 0) {
+if ($_DATA["method"] == "GET" && count($_DATA["rest"]) == 0) {
     output_handler(array(
         "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
@@ -71,16 +71,16 @@ if ($data["method"] == "GET" && count($data["rest"]) == 0) {
 }
 
 // Check for a GET REST action request
-if ($data["method"] == "GET" && isset($data["rest"][0])) {
-    $action = "php/action/" . encode_bad_chars($data["rest"][0]) . ".php";
+if ($_DATA["method"] == "GET" && isset($_DATA["rest"][0])) {
+    $action = "php/action/" . encode_bad_chars($_DATA["rest"][0]) . ".php";
     if (file_exists($action)) {
         require $action;
     }
 }
 
 // Check for a POST JSON action request
-if ($data["method"] == "POST" && $data["content-type"] == "application/json" && isset($data["json"]["action"])) {
-    $action = "php/action/" . encode_bad_chars($data["json"]["action"]) . ".php";
+if ($_DATA["method"] == "POST" && $_DATA["content-type"] == "application/json" && isset($_DATA["json"]["action"])) {
+    $action = "php/action/" . encode_bad_chars($_DATA["json"]["action"]) . ".php";
     if (file_exists($action)) {
         require $action;
     }

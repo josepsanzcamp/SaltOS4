@@ -34,11 +34,11 @@ declare(strict_types=1);
  * with an element in the json that contains the message to be added
  */
 
-if (!isset($data["json"]["msg"])) {
+if (!isset($_DATA["json"]["msg"])) {
     show_json_error("msg not found");
 }
 
-$msg = $data["json"]["msg"];
+$msg = $_DATA["json"]["msg"];
 addlog(sprintr($msg));
 output_handler_json(array(
     "status" => "ok"

@@ -41,13 +41,13 @@ if (!$user_id) {
 
 // Check parameters
 foreach (array("oldpass","newpass","renewpass") as $key) {
-    if (!isset($data["json"][$key]) || $data["json"][$key] == "") {
+    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
 }
-$oldpass = $data["json"]["oldpass"];
-$newpass = $data["json"]["newpass"];
-$renewpass = $data["json"]["renewpass"];
+$oldpass = $_DATA["json"]["oldpass"];
+$newpass = $_DATA["json"]["newpass"];
+$renewpass = $_DATA["json"]["renewpass"];
 
 // Password checks
 $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
