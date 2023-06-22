@@ -58,13 +58,7 @@ $query = make_update_query("tbl_users_logins", array(
 )));
 db_query($query);
 
-$token = implode("-", array(
-    bin2hex(random_bytes(4)),
-    bin2hex(random_bytes(2)),
-    bin2hex(random_bytes(2)),
-    bin2hex(random_bytes(2)),
-    bin2hex(random_bytes(6))
-));
+$token = make_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
 $datetime = current_datetime();
 

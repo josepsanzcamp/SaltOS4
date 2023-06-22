@@ -28,16 +28,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Defines section
- *
- * Defines used to set the version and revision of the SaltOS
- */
-define("__INFO_NAME__", "SaltOS");
-define("__INFO_VERSION__", "4.0");
-define("__INFO_REVISION__", svnversion());
-define("__INFO_COPYRIGHT__", "Copyright (C) 2007-2023 by Josep Sanz Campderrós");
-
-/**
  * Get Name Version Revision
  *
  * This function returns a string with the SaltOS name, version, revision and
@@ -47,9 +37,13 @@ define("__INFO_COPYRIGHT__", "Copyright (C) 2007-2023 by Josep Sanz Campderrós"
  */
 function get_name_version_revision($copyright = false)
 {
-    $result = __INFO_NAME__ . " v" . __INFO_VERSION__ . " r" . __INFO_REVISION__;
+    $NAME = "SaltOS";
+    $VERSION = "4.0";
+    $REVISION = svnversion();
+    $COPYRIGHT = "Copyright (C) 2007-2023 by Josep Sanz Campderrós";
+    $result = "$NAME v$VERSION r$REVISION";
     if ($copyright) {
-        $result .= ", " . __INFO_COPYRIGHT__;
+        $result .= ", $COPYRIGHT";
     }
     return $result;
 }

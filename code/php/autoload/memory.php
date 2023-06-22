@@ -74,7 +74,7 @@ function time_get_free($secs = false)
  *
  * This function call the helper to initialize the static ini to the current microtime
  */
-function init_time_get()
+function init_time_getter()
 {
     __time_get_helper(__FUNCTION__, false);
 }
