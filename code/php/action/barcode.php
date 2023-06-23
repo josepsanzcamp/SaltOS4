@@ -28,14 +28,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * TODO
+ * BarCode Action
+ *
+ * This action allow to generate a barcode, you can pass the desired
+ * message that you want to convert in barcode
+ *
+ * @msg => the msg that you want to codify in the qrcode
+ * @format => the format used to the result, only can be png or json
+ *
+ * @w: width of each unit's bar of the barcode
+ * @h: height of the barcode (without margins and text footer)
+ * @m: margin of the barcode (white area that surround the barcode)
+ * @s: size of the footer text, not used if zero
+ * @t: type of the barcode, C128 is the most common type used
  */
-
-$_SERVER["HTTP_TOKEN"] = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
-$_SERVER["REMOTE_ADDR"] = "127.0.0.1";
-$_SERVER["HTTP_USER_AGENT"] = "curl/7.74.0";
-$_DATA["json"]["msg"] = "fortuna92";
-$_DATA["json"]["format"] = "json";
 
 $user_id = current_user();
 if (!$user_id) {
@@ -54,12 +60,16 @@ if (!in_array($format, array("png","json"))) {
     show_json_error("unknown format $format");
 }
 
-$w = 1;
-$h = 30;
-$m = 10;
-$s = 8;
-$t = "C39";
+$w = isset($_DATA["json"]["w"]) ? $_DATA["json"]["w"] : 1;
+$h = isset($_DATA["json"]["h"]) ? $_DATA["json"]["h"] : 30;
+$m = isset($_DATA["json"]["m"]) ? $_DATA["json"]["m"] : 10;
+$s = isset($_DATA["json"]["s"]) ? $_DATA["json"]["s"] : 8;
+$t = isset($_DATA["json"]["t"]) ? $_DATA["json"]["t"] : "C39";
+
 $image = __barcode($msg, $w, $h, $m, $s, $t);
+if ($image == "") {
+    show_json_error("internal error");
+}
 if ($format == "png") {
     output_handler(array(
         "data" => $image,
@@ -67,8 +77,7 @@ if ($format == "png") {
         "cache" => false
     ));
 }
-$data = base64_encode($image);
-$data = "data:image/png;base64,{$data}";
+$data = "data:image/png;base64," . base64_encode($image);
 $result = array(
     "msg" => $msg,
     "image" => $data,

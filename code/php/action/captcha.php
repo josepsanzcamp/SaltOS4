@@ -28,14 +28,28 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * TODO
+ * Captcha Action
+ *
+ * This action allo to retrieve the captcha of a randomly number or math
+ * operation, used to prevent massive requests, can perform the action of
+ * create the captcha image and return the result as a simple image or as
+ * a json image
+ *
+ * @type => the type used to the result, only can be number or math
+ * @format => the format used to the result, only can be png or json
+ *
+ * @width => the width of the generated image
+ * @height => the height of the generated image
+ * @letter => the size of the letters of the generated image
+ * @number => the size of the numbers of the generated image
+ * @angle => the angle allowed to rotate the letters and numbers
+ * @color => the color user to paint the code
+ * @bgcolor => the background color of the image
+ * @fgcolor => the color used to paint the letters of the background of the image
+ * @period => parameter for the wave transformation
+ * @amplitude => parameter for the wave transformation
+ * @blur => true or false to enable or disable the blur effect
  */
-
-$_SERVER["HTTP_TOKEN"] = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
-$_SERVER["REMOTE_ADDR"] = "127.0.0.1";
-$_SERVER["HTTP_USER_AGENT"] = "curl/7.74.0";
-$_DATA["json"]["type"] = "number";
-$_DATA["json"]["format"] = "json";
 
 $user_id = current_user();
 if (!$user_id) {
@@ -85,8 +99,7 @@ if ($format == "png") {
         "cache" => false
     ));
 }
-$data = base64_encode($image);
-$data = "data:image/png;base64,{$data}";
+$data = "data:image/png;base64," . base64_encode($image);
 $result = array(
     "code" => $code,
     "image" => $data,

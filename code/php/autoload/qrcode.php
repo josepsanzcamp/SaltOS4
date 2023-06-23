@@ -27,19 +27,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
-    Name:
-        __qrcode
-    Abstract:
-        This function generates a qrcode image
-    Input:
-        - msg: Contents of the qrcode
-        - s: size of each pixel used in the qrcode
-        - m: margin of the qrcode (white area that that surround the qrcode)
-    Output:
-        - The png contents of the generated qrcode image
-        - Otherwise, an empty string if something was wrong
-*/
+/**
+ * QRCode function
+ *
+ * This function allow to generate a qrcode with the SaltOS logo embedded
+ * in the center of the image, you can pass the desired message that you
+ * want to convert in qrcode and it returns an image with the data
+ *
+ * @msg: Contents of the qrcode
+ * @s: size of each pixel used in the qrcode
+ * @m: margin of the qrcode (white area that that surround the qrcode)
+ *
+ * Notes:
+ *
+ * The normal behavior is returns a png image, but if something was wrong,
+ * the function can returns an empty string
+ */
 function __qrcode($msg, $s, $m)
 {
     require_once "lib/tcpdf/vendor/autoload.php";
@@ -67,10 +70,10 @@ function __qrcode($msg, $s, $m)
             if ($val2) {
                 imagefilledrectangle(
                     $im,
-                    intval($key2 * $s + $m),
-                    intval($key * $s + $m),
-                    intval(($key2 + 1) * $s + $m - 1),
-                    intval(($key + 1) * $s + $m - 1),
+                    (int)($key2 * $s + $m),
+                    (int)($key * $s + $m),
+                    (int)(($key2 + 1) * $s + $m - 1),
+                    (int)(($key + 1) * $s + $m - 1),
                     $fgcol
                 );
             }

@@ -43,7 +43,7 @@ function password_strength($pass)
     $ps = new Password_Strength();
     $ps->set_password($pass);
     $ps->calculate();
-    $score = round($ps->get_score(), 0);
+    $score = max(min(round($ps->get_score(), 0), 100), 0);
     unset($ps);
     return $score;
 }

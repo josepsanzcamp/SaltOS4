@@ -28,7 +28,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * TODO
+ * Captcha Color To Dec
+ *
+ * This function is a helper that allow to get from a RGB hex color the value
+ * in decimal of the specified component, usefull to get the amount of color
+ * red, green or blue in decimal base from an string
  */
 function __captcha_color2dec($color, $component)
 {
@@ -40,11 +44,17 @@ function __captcha_color2dec($color, $component)
 }
 
 /**
- * TODO
+ * Captcha Is Prime Number
+ *
+ * This function is a detector of prime numbers, uses some optimizations and
+ * ideas from www.polprimos.com, please, see the previous web to understand
+ * the speedup of this function in the prime numbers validation
+ *
+ * @num => the number that you want to check if it is a primer numner
  */
 function __captcha_isprime($num)
 {
-    // SEE www.polprimos.com FOR UNDERSTAND IT
+    // See www.polprimos.com for understand it
     if ($num < 2) {
         return false;
     }
@@ -57,7 +67,7 @@ function __captcha_isprime($num)
     if ($num % 5 == 0 && $num != 5) {
         return false;
     }
-    // PRIMER NUMBERS ARE DISTRIBUTED IN 8 COLUMNS
+    // Primer numbers are distributed in 8 columns
     $div = 7;
     $max = intval(sqrt(floatval($num)));
     while (1) {
@@ -122,13 +132,29 @@ function __captcha_isprime($num)
 }
 
 /**
- * TODO
+ * Captcha Image
+ *
+ * This function returns an image with the code drawed in a background that
+ * contains white noise to prevent that robots read the code
+ *
+ * @code => the code that you want to paint
+ * @width => the width of the generated image
+ * @height => the height of the generated image
+ * @letter => the size of the letters of the generated image
+ * @number => the size of the numbers of the generated image
+ * @angle => the angle allowed to rotate the letters and numbers
+ * @color => the color user to paint the code
+ * @bgcolor => the background color of the image
+ * @fgcolor => the color used to paint the letters of the background of the image
+ * @period => parameter for the wave transformation
+ * @amplitude => parameter for the wave transformation
+ * @blur => true or false to enable or disable the blur effect
  */
 function __captcha_image($code, $args = array())
 {
-    // Idea original para programar este captcha obtenida de este post:
+    // The main idea to program this captcha was obtained from this post:
     // - http://sentidoweb.com/2007/01/03/laboratorio-ejemplo-de-captcha.php
-    // Tambien aparece en otros posts buscando en google:
+    // Too appear in ther posts if you search for it in google:
     // - http://www.google.es/search?q=captcha+alto_linea
     $code = strval($code);
     $width = isset($args["width"]) ? $args["width"] : 90;
@@ -142,7 +168,7 @@ function __captcha_image($code, $args = array())
     $period = isset($args["period"]) ? $args["period"] : 2;
     $amplitude = isset($args["amplitude"]) ? $args["amplitude"] : 8;
     $blur = isset($args["blur"]) ? $args["blur"] : "true";
-    // CREATE THE BACKGROUND IMAGE
+    // Create the background image
     $im = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im,
@@ -180,7 +206,7 @@ function __captcha_image($code, $args = array())
             $posx += $bbox[2] - $bbox[0] + $letter / 4;
         }
     }
-    // CREATE THE CAPTCHA CODE
+    // Create the captcha code
     $im2 = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im2,
@@ -221,7 +247,7 @@ function __captcha_image($code, $args = array())
         imagettftext($im2, $number, $angles[$i], (int)$posx, (int)$posy, $color2, $font, $code[$i]);
         $posx += $widths[$i];
     }
-    // COPY THE CODE TO BACKGROUND USING WAVE TRANSFORMATION
+    // Copy the code to background using wave transformation
     $rel = M_PI / 180;
     $inia = rand(0, 360);
     $inib = rand(0, 360);
@@ -234,13 +260,13 @@ function __captcha_image($code, $args = array())
             }
         }
     }
-    // APPLY BLUR
+    // Apply blur
     if (eval_bool($blur)) {
         if (function_exists("imagefilter")) {
             imagefilter($im, IMG_FILTER_GAUSSIAN_BLUR);
         }
     }
-    // CONTINUE
+    // Continue
     ob_start();
     imagepng($im);
     $buffer = ob_get_clean();
@@ -250,7 +276,12 @@ function __captcha_image($code, $args = array())
 }
 
 /**
- * TODO
+ * Captcha Make Number function
+ *
+ * This function returns a random number of the desired length and as trick,
+ * checks that the output is a prime number
+ *
+ * @length => the length of the desired output string
  */
 function __captcha_make_number($length)
 {
@@ -261,7 +292,12 @@ function __captcha_make_number($length)
 }
 
 /**
- * TODO
+ * Captcha Make Math Operation function
+ *
+ * This function returns a random math operation of the desired length and
+ * as trick, checks that the output operation is performed by prime numbers
+ *
+ * @length => the length of the desired output string
  */
 function __captcha_make_math($length)
 {

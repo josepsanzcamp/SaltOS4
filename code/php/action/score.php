@@ -32,20 +32,16 @@ declare(strict_types=1);
  *
  * This action allo to retrieve the score of a password, intended to be used
  * as helper previously to the authupdate call, can perform the action of
- * compute the score and return the result as a simple image or as a json,
+ * compute the score and return the result as a simple image or as a json
+ * image
  *
  * @pass => the password that you want to compute the score
  * @format => the format used to the result, only can be png or json
+ *
  * @width => the width of the generated image
  * @height => the height of the generated image
  * @size => the size of the font of the generated image
  */
-
-$_SERVER["HTTP_TOKEN"] = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
-$_SERVER["REMOTE_ADDR"] = "127.0.0.1";
-$_SERVER["HTTP_USER_AGENT"] = "curl/7.74.0";
-$_DATA["json"]["pass"] = "fortuna92";
-$_DATA["json"]["format"] = "json";
 
 $user_id = current_user();
 if (!$user_id) {
@@ -77,8 +73,7 @@ if ($format == "png") {
         "cache" => false
     ));
 }
-$data = base64_encode($image);
-$data = "data:image/png;base64,{$data}";
+$data = "data:image/png;base64," . base64_encode($image);
 $minscore = current_datetime(get_config("auth/passwordminscore"));
 $valid = ($score >= $minscore) ? 1 : 0;
 $result = array(

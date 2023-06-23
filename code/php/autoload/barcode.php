@@ -27,22 +27,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-/*
-    Name:
-        __barcode
-    Abstract:
-        This function generates a barcode image
-    Input:
-        - msg: Contents of the barcode
-        - w: width of each unit's bar of the barcode
-        - h: height of the barcode (without margins and text footer)
-        - m: margin of the barcode (white area that surround the barcode)
-        - s: size of the footer text, not used if zero
-        - t: type of the barcode, C128 is the most common type used
-    Output:
-        - The png contents of the generated barcode image
-        - Otherwise, an empty string if something was wrong
-*/
+/**
+ * BarCode function
+ *
+ * This function allow to generate a barcode, you can pass the desired
+ * message that you want to convert in barcode and it returns an image
+ * with the data
+ *
+ * @msg: Contents of the barcode
+ * @w: width of each unit's bar of the barcode
+ * @h: height of the barcode (without margins and text footer)
+ * @m: margin of the barcode (white area that surround the barcode)
+ * @s: size of the footer text, not used if zero
+ * @t: type of the barcode, C128 is the most common type used
+ *
+ * Notes:
+ *
+ * The normal behavior is returns a png image, but if something was wrong,
+ * the function can returns an empty string
+ */
 function __barcode($msg, $w, $h, $m, $s, $t)
 {
     require_once "lib/tcpdf/vendor/autoload.php";
@@ -71,10 +74,10 @@ function __barcode($msg, $w, $h, $m, $s, $t)
             $y = round(($val["p"] * $h / $array["maxh"]), 3);
             imagefilledrectangle(
                 $im,
-                intval($x + $m),
-                intval($y + $m),
-                intval(($x + $bw - 1) + $m),
-                intval(($y + $bh - 1) + $m),
+                (int)($x + $m),
+                (int)($y + $m),
+                (int)(($x + $bw - 1) + $m),
+                (int)(($y + $bh - 1) + $m),
                 $fgcol
             );
         }

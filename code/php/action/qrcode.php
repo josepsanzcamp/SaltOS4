@@ -28,14 +28,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * TODO
+ * QRCode Action
+ *
+ * This action allow to generate a qrcode with the SaltOS logo embedded
+ * in the center of the image, you can pass the desired message that you
+ * want to convert in qrcode.
+ *
+ * @msg => the msg that you want to codify in the qrcode
+ * @format => the format used to the result, only can be png or json
+ *
+ * @s: size of each pixel used in the qrcode
+ * @m: margin of the qrcode (white area that that surround the qrcode)
  */
-
-$_SERVER["HTTP_TOKEN"] = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
-$_SERVER["REMOTE_ADDR"] = "127.0.0.1";
-$_SERVER["HTTP_USER_AGENT"] = "curl/7.74.0";
-$_DATA["json"]["msg"] = "fortuna92";
-$_DATA["json"]["format"] = "json";
 
 $user_id = current_user();
 if (!$user_id) {
@@ -54,9 +58,13 @@ if (!in_array($format, array("png","json"))) {
     show_json_error("unknown format $format");
 }
 
-$s = 6;
-$m = 10;
+$s = isset($_DATA["json"]["s"]) ? $_DATA["json"]["s"] : 6;
+$m = isset($_DATA["json"]["m"]) ? $_DATA["json"]["m"] : 10;
+
 $image = __qrcode($msg, $s, $m);
+if ($image == "") {
+    show_json_error("internal error");
+}
 if ($format == "png") {
     output_handler(array(
         "data" => $image,
@@ -64,8 +72,7 @@ if ($format == "png") {
         "cache" => false
     ));
 }
-$data = base64_encode($image);
-$data = "data:image/png;base64,{$data}";
+$data = "data:image/png;base64," . base64_encode($image);
 $result = array(
     "msg" => $msg,
     "image" => $data,

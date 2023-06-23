@@ -343,4 +343,3 @@ class Password_Strength
       return $score_info;
     }
 }
-?>
