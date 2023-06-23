@@ -73,14 +73,14 @@ if (!in_array($format, array("png","json"))) {
 
 $length = isset($_DATA["json"]["length"]) ? $_DATA["json"]["length"] : 5;
 $args = array();
-$args["width"] = isset($_DATA["json"]["width"]) ? $_DATA["json"]["width"] : 90;
-$args["height"] = isset($_DATA["json"]["height"]) ? $_DATA["json"]["height"] : 45;
-$args["letter"] = isset($_DATA["json"]["letter"]) ? $_DATA["json"]["letter"] : 8;
-$args["number"] = isset($_DATA["json"]["number"]) ? $_DATA["json"]["number"] : 16;
+$args["width"] = isset($_DATA["json"]["width"]) ? $_DATA["json"]["width"] : 180;
+$args["height"] = isset($_DATA["json"]["height"]) ? $_DATA["json"]["height"] : 90;
+$args["letter"] = isset($_DATA["json"]["letter"]) ? $_DATA["json"]["letter"] : 16;
+$args["number"] = isset($_DATA["json"]["number"]) ? $_DATA["json"]["number"] : 32;
 $args["angle"] = isset($_DATA["json"]["angle"]) ? $_DATA["json"]["angle"] : 10;
-$args["color"] = isset($_DATA["json"]["color"]) ? $_DATA["json"]["color"] : "5C8ED1";
-$args["bgcolor"] = isset($_DATA["json"]["bgcolor"]) ? $_DATA["json"]["bgcolor"] : "C8C8C8";
-$args["fgcolor"] = isset($_DATA["json"]["fgcolor"]) ? $_DATA["json"]["fgcolor"] : "B4B4B4";
+$args["color"] = isset($_DATA["json"]["color"]) ? $_DATA["json"]["color"] : "5c8ed1";
+$args["bgcolor"] = isset($_DATA["json"]["bgcolor"]) ? $_DATA["json"]["bgcolor"] : "c8c8c8";
+$args["fgcolor"] = isset($_DATA["json"]["fgcolor"]) ? $_DATA["json"]["fgcolor"] : "b4b4b4";
 $args["period"] = isset($_DATA["json"]["period"]) ? $_DATA["json"]["period"] : 2;
 $args["amplitude"] = isset($_DATA["json"]["amplitude"]) ? $_DATA["json"]["amplitude"] : 8;
 $args["blur"] = isset($_DATA["json"]["blur"]) ? $_DATA["json"]["blur"] : "true";

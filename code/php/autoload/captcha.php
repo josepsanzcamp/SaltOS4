@@ -28,22 +28,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Captcha Color To Dec
- *
- * This function is a helper that allow to get from a RGB hex color the value
- * in decimal of the specified component, usefull to get the amount of color
- * red, green or blue in decimal base from an string
- */
-function __captcha_color2dec($color, $component)
-{
-    $offset = array("R" => 0,"G" => 2,"B" => 4);
-    if (!isset($offset[$component])) {
-        show_php_error(array("phperror" => "Unknown component"));
-    }
-    return hexdec(substr($color, $offset[$component], 2));
-}
-
-/**
  * Captcha Is Prime Number
  *
  * This function is a detector of prime numbers, uses some optimizations and
@@ -172,21 +156,21 @@ function __captcha_image($code, $args = array())
     $im = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im,
-        __captcha_color2dec($color, "R"),
-        __captcha_color2dec($color, "G"),
-        __captcha_color2dec($color, "B")
+        color2dec($color, "R"),
+        color2dec($color, "G"),
+        color2dec($color, "B")
     );
     $bgcolor2 = imagecolorallocate(
         $im,
-        __captcha_color2dec($bgcolor, "R"),
-        __captcha_color2dec($bgcolor, "G"),
-        __captcha_color2dec($bgcolor, "B")
+        color2dec($bgcolor, "R"),
+        color2dec($bgcolor, "G"),
+        color2dec($bgcolor, "B")
     );
     $fgcolor2 = imagecolorallocate(
         $im,
-        __captcha_color2dec($fgcolor, "R"),
-        __captcha_color2dec($fgcolor, "G"),
-        __captcha_color2dec($fgcolor, "B")
+        color2dec($fgcolor, "R"),
+        color2dec($fgcolor, "G"),
+        color2dec($fgcolor, "B")
     );
     imagefill($im, 0, 0, $bgcolor2);
     $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -210,21 +194,21 @@ function __captcha_image($code, $args = array())
     $im2 = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im2,
-        __captcha_color2dec($color, "R"),
-        __captcha_color2dec($color, "G"),
-        __captcha_color2dec($color, "B")
+        color2dec($color, "R"),
+        color2dec($color, "G"),
+        color2dec($color, "B")
     );
     $bgcolor2 = imagecolorallocate(
         $im2,
-        __captcha_color2dec($bgcolor, "R"),
-        __captcha_color2dec($bgcolor, "G"),
-        __captcha_color2dec($bgcolor, "B")
+        color2dec($bgcolor, "R"),
+        color2dec($bgcolor, "G"),
+        color2dec($bgcolor, "B")
     );
     $fgcolor2 = imagecolorallocate(
         $im2,
-        __captcha_color2dec($fgcolor, "R"),
-        __captcha_color2dec($fgcolor, "G"),
-        __captcha_color2dec($fgcolor, "B")
+        color2dec($fgcolor, "R"),
+        color2dec($fgcolor, "G"),
+        color2dec($fgcolor, "B")
     );
     imagefill($im2, 0, 0, $bgcolor2);
     imagecolortransparent($im2, $bgcolor2);
