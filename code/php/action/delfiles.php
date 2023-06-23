@@ -49,6 +49,11 @@ declare(strict_types=1);
  * @hash => this field contains the hash of the contents of the file
  */
 
+$user_id = current_user();
+if (!$user_id) {
+    show_json_error("authentication error");
+}
+
 if (!isset($_DATA["json"]["files"])) {
     show_json_error("files not found");
 }
