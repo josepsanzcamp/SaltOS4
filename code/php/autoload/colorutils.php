@@ -45,9 +45,9 @@ function color2dec($color, $component)
         $color = substr($color, 1);
     }
     if (strlen($color) == 3) {
-        $R = substr($color,0,1);
-        $G = substr($color,1,1);
-        $B = substr($color,2,1);
+        $R = substr($color, 0, 1);
+        $G = substr($color, 1, 1);
+        $B = substr($color, 2, 1);
         $color = $R . $R . $G . $G . $B . $B;
     }
     if (strlen($color) != 6) {
