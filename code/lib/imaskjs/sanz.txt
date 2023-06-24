@@ -1,2 +1,2 @@
 
-wget https://cdnjs.cloudflare.com/ajax/libs/imask/7.0.0/imask.min.js
+wget https://cdnjs.cloudflare.com/ajax/libs/imask/7.0.1/imask.min.js
