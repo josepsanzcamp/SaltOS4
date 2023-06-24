@@ -94,10 +94,20 @@ saltos.form_field = function (field) {
     if (field.label == "") {
         return saltos.__form_field[field.type](field);
     }
+    // if the result object must contains a label and another input, this must
+    // to be enclosed in a div container
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__form_field.label(field));
-    obj.append(saltos.html(`<div class="last"></div>`));
-    obj.querySelector("div.last").append(saltos.__form_field[field.type](field));
+    if (["button","link"].includes(field.type)) {
+        // In the button and link cases, if the desired result contains a label
+        // and a button, the button must to be enclosed in a new div container
+        // to maintain the same layout that the others widgets
+        obj.append(saltos.html(`<div class="linefix"></div>`));
+        obj.querySelector("div.linefix").append(saltos.__form_field[field.type](field));
+    } else {
+        // Otherwise, the object is appened to the parent container
+        obj.append(saltos.__form_field[field.type](field));
+    }
     return obj;
 };
 
@@ -1551,15 +1561,20 @@ saltos.__form_field.chartjs = function (field) {
 saltos.__form_field.tags = function (field) {
     saltos.check_params(field,["id","value"]);
     saltos.check_params(field,["datalist"],[]);
+    // This container must have the hidden input and the text input used by the
+    // user to write the tags
     var obj = saltos.html(`<div></div>`);
+    // The first field is the hidden input
     field.class = "first";
     obj.append(saltos.__form_field.hidden(field));
+    // The last field is the text input used to write the tags
     field.id_old = field.id;
     field.id = field.id + "_tags";
     field.value_old = field.value.split(",");
     field.value = "";
     field.class = "last";
     obj.append(saltos.__form_field.text(field));
+    // This function draws a tag and programs the delete of the same tag
     var fn = function (val) {
         var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2" saltos-data="${val}">
             ${val} <i class="bi bi-x-circle ps-1" style="cursor:pointer"></i>
@@ -1581,6 +1596,8 @@ saltos.__form_field.tags = function (field) {
             a.remove();
         });
     };
+    // This function program the enter event that adds tags to the hidden and
+    // draw the new tag using the previous function
     obj.querySelector("input.last").addEventListener("keydown",function (event) {
         if (saltos.get_keycode(event) != 13) {
             return;
@@ -1604,10 +1621,15 @@ saltos.__form_field.tags = function (field) {
         input_old.value = val_new.join(",");
         input_new.value = "";
     });
+    // This part of the code adds the initials tags using the fn function
     for (var key in field.value_old) {
         var val = field.value_old[key].trim();
         fn(val);
     }
+    // This part of the code is a trick to allow that labels previously created
+    // will be linked to the input type text instead of the input type hidden,
+    // remember that the hidden contains the original id and the visible textbox
+    // contains the id with the _tags ending
     saltos.when_visible(obj ,function () {
         document.querySelectorAll("label[for='" + field.id_old + "']").forEach(function (_this) {
             _this.setAttribute("for",field.id);

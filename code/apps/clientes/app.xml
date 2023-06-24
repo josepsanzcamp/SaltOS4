@@ -29,6 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <form>
         <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
             <text id="codigo" label="codigo"></text>
+            <switch id="activo" label="activo"></switch>
             <text id="nombre" label="nombre"></text>
             <text id="nombre1" label="nombre1"></text>
             <text id="nombre2" label="nombre2"></text>
@@ -47,7 +48,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <integer id="tel_fijo" label="tel_fijo"></integer>
             <integer id="tel_movil" label="tel_movil"></integer>
             <integer id="fax" label="fax"></integer>
-            <switch id="activo" label="activo"></switch>
         </layout>
     </form>
     <data>
