@@ -27,12 +27,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// phpcs:disable PSR1.Files.SideEffects
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
-
-require_once "php/database/libsqlite.php";
 
 /**
  * Database SQLite3 class
@@ -63,6 +60,7 @@ class database_sqlite3
      */
     public function __construct($args)
     {
+        require_once "php/database/libsqlite.php";
         if (!class_exists("SQLite3")) {
             show_php_error(array(
                 "phperror" => "Class SQLite3 not found",

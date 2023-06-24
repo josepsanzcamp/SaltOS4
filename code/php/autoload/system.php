@@ -27,8 +27,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
-
 /**
  * Check System
  *
@@ -52,14 +50,20 @@ function check_system()
         array("function_exists","mb_strpos","Function","php-mbstring"));
     foreach ($array as $a) {
         if (!$a[0]($a[1])) {
-            show_php_error(array("phperror" => "$a[2] $a[1] not found","details" => "Try to install $a[3] package"));
+            show_php_error(array(
+                "phperror" => "$a[2] $a[1] not found",
+                "details" => "Try to install $a[3] package"
+            ));
         }
     }
     // DIRECTORIES CKECKS
     $dirs = glob("data/*");
     foreach ($dirs as $dir) {
         if (!file_exists($dir) || !is_dir($dir) || !is_writable($dir)) {
-            show_php_error(array("phperror" => "$dir not writable","details" => "Try to set permissions to do writable the $dir directory"));
+            show_php_error(array(
+                "phperror" => "$dir not writable",
+                "details" => "Try to set permissions to do writable the $dir directory"
+            ));
         }
     }
 }

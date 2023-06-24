@@ -27,8 +27,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
-
 /**
  * Parse Query
  *
@@ -59,8 +57,9 @@ function parse_query($query, $type = "")
                 $pos3 = __parse_query_strpos($query, "/*", $pos + 2);
             }
             if (substr($query, $pos + 2, $len) == $type) {
-                $query =
-                    substr($query, 0, $pos) . trim(substr($query, $pos + 2 + $len, $pos2 - $pos - 2 - $len)) . substr($query, $pos2 + 2);
+                $query = substr($query, 0, $pos) .
+                    trim(substr($query, $pos + 2 + $len, $pos2 - $pos - 2 - $len)) .
+                    substr($query, $pos2 + 2);
             } else {
                 $query = substr($query, 0, $pos) . substr($query, $pos2 + 2);
             }

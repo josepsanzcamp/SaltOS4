@@ -27,8 +27,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
-
 /**
  * Eval Protected
  *
@@ -274,7 +272,9 @@ function xml2struct($xml, $file = "")
         $linea = xml_get_current_line_number($parser);
         $fila = xml_get_current_column_number($parser);
         $file = basename($file);
-        show_php_error(array("xmlerror" => "Error $code: $error (on file $file at line $linea,$fila)"));
+        show_php_error(array(
+            "xmlerror" => "Error $code: $error (on file $file at line $linea,$fila)"
+        ));
     }
     xml_parser_free($parser);
     return $array;
@@ -340,7 +340,9 @@ function struct2array(&$data, $file = "")
             // NOTHING TO DO
         } else {
             $file = basename($file);
-            show_php_error(array("xmlerror" => "Unknown tag type with name '&lt;/$name&gt;' (on file $file at line $linea)"));
+            show_php_error(array(
+                "xmlerror" => "Unknown tag type with name '&lt;/$name&gt;' (on file $file at line $linea)"
+            ));
         }
     }
     return $array;

@@ -27,8 +27,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
-
 /**
  * Check Log
  *
@@ -44,7 +42,11 @@ declare(strict_types=1);
 function checklog($hash, $file)
 {
     $dir = get_directory("dirs/logsdir", getcwd_protected() . "/data/logs");
-    if (file_exists($dir . $file) && is_file($dir . $file) && filesize($dir . $file) < memory_get_free(true) / 3) {
+    if (
+        file_exists($dir . $file) &&
+        is_file($dir . $file) &&
+        filesize($dir . $file) < memory_get_free(true) / 3
+    ) {
         $buffer = file_get_contents($dir . $file);
         if (strpos($buffer, $hash) !== false) {
             return 1;
@@ -76,7 +78,12 @@ function addlog($msg, $file = "")
     }
     $dir = get_directory("dirs/logsdir", getcwd_protected() . "/data/logs");
     $maxfilesize = normalize_value(get_config("debug/maxfilesize", "1M"));
-    if ($maxfilesize > 0 && file_exists($dir . $file) && is_file($dir . $file) && filesize($dir . $file) >= $maxfilesize) {
+    if (
+        $maxfilesize > 0 &&
+        file_exists($dir . $file) &&
+        is_file($dir . $file) &&
+        filesize($dir . $file) >= $maxfilesize
+    ) {
         $next = 1;
         while (file_exists($dir . $file . "." . $next)) {
             $next++;
