@@ -27,6 +27,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Files.SideEffects
+
 /**
  * Array Key Last
  *
@@ -88,4 +90,19 @@ if (!function_exists("random_bytes")) {
     {
         return openssl_random_pseudo_bytes($length);
     }
+}
+
+/**
+ * ImageBMP & ImageCreateFromBMP
+ *
+ * This functions appear in PHP 7.2, and for previous versions, SaltOS
+ * uses this code
+ *
+ * Notes:
+ *
+ * In this particular case, the unique approach to use this functions is
+ * load the library code and nothing more to do
+ */
+if (!function_exists("imagebmp") && !function_exists("imagecreatefrombmp")) {
+    require_once "lib/bmpphp/BMP.php";
 }
