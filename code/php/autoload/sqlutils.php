@@ -755,7 +755,7 @@ function make_where_query($array)
  */
 function escape_reserved_word($word)
 {
-    if (!in_array($word, array("key","table","interval"))) {
+    if (!in_array($word, array("key","table"))) {
         return $word;
     }
     return "`$word`";
