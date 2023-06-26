@@ -397,7 +397,8 @@ function sql_create_table($tablespec)
         if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
             $extra = "PRIMARY KEY /*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */";
         }
-        $fields[] = "$name $type $extra";
+        $name2 = escape_reserved_word($name);
+        $fields[] = "$name2 $type $extra";
     }
     foreach ($tablespec["value"]["fields"] as $field) {
         if (isset($field["#attr"]["fkey"])) {
@@ -505,8 +506,9 @@ function sql_insert_from_select($dest, $orig)
     $vals = array();
     foreach ($ldest as $key => $l) {
         $def = $defs[$key];
-        $keys[] = $l;
-        $vals[] = in_array($l, $lorig) ? $l : "'$def'";
+        $l2 = escape_reserved_word($l);
+        $keys[] = $l2;
+        $vals[] = in_array($l, $lorig) ? $l2 : "'$def'";
     }
     $keys = implode(",", $keys);
     $vals = implode(",", $vals);
@@ -543,6 +545,11 @@ function sql_create_index($indexspec)
     $name = $indexspec["#attr"]["name"];
     $table = $indexspec["#attr"]["table"];
     $fields = $indexspec["#attr"]["fields"];
+    $fields = explode(",", $fields);
+    foreach ($fields as $key => $val) {
+        $fields[$key] = escape_reserved_word($val);
+    }
+    $fields = implode(",", $fields);
     if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
         $pre = "/*MYSQL FULLTEXT */";
     } else {
@@ -620,7 +627,8 @@ function make_insert_query($table, $array)
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
-        $list1[] = $name;
+        $name2 = escape_reserved_word($name);
+        $list1[] = $name2;
         $list2[] = "'$temp'";
         unset($array[$name]);
     }
@@ -689,7 +697,8 @@ function make_update_query($table, $array, $where)
         } else {
             show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
         }
-        $list[] = "$name='$temp'";
+        $name2 = escape_reserved_word($name);
+        $list[] = "$name2='$temp'";
         unset($array[$name]);
     }
     if (count($array)) {
@@ -727,8 +736,27 @@ function make_where_query($array)
         } else {
             $cmp = "=";
         }
-        $list[] = $key . $cmp . "'" . addslashes(strval($val)) . "'";
+        $key2 = escape_reserved_word($key);
+        $list[] = $key2 . $cmp . "'" . addslashes(strval($val)) . "'";
     }
     $query = "(" . implode(" AND ", $list) . ")";
     return $query;
+}
+
+/**
+ * Escape Reserved Word
+ *
+ * This function tries to escape the reserved words that can not be used
+ * in sql queries as field names or table names, currently is only used
+ * to escape field names but in a future, if it is needed, can be added
+ * to escape table names too
+ *
+ * @word => the word that must to be escape if needed
+ */
+function escape_reserved_word($word)
+{
+    if (!in_array($word, array("key","table","interval"))) {
+        return $word;
+    }
+    return "`$word`";
 }

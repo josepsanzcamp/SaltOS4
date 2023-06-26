@@ -619,9 +619,9 @@ function __dbstatic_helper($fn, $table, $field)
                 }
                 $rows = $data["value"];
                 foreach ($rows as $row) {
-                    if (isset($row["#attr"]["_table"]) && $row["#attr"]["_table"] != "") {
+                    if (isset($row["#attr"]["table"]) && $row["#attr"]["table"] != "") {
                         $apps[$row["#attr"]["code"]] = $row["#attr"];
-                        $tables[$row["#attr"]["_table"]] = $row["#attr"];
+                        $tables[$row["#attr"]["table"]] = $row["#attr"];
                     }
                 }
             }

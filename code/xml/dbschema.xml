@@ -59,9 +59,12 @@ that maintain the database using as reference this file
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-                <field name="_key" type="VARCHAR(255)"/>
+                <field name="key" type="VARCHAR(255)"/>
                 <field name="val" type="VARCHAR(255)"/>
             </fields>
+            <indexes>
+                <index fields="user_id,key"/>
+            </indexes>
         </table>
 
 		<!--
@@ -140,7 +143,7 @@ that maintain the database using as reference this file
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
-                <field name="_table" type="VARCHAR(255)"/>
+                <field name="table" type="VARCHAR(255)"/>
                 <field name="subtables" type="VARCHAR(255)"/>
                 <field name="field" type="VARCHAR(255)"/>
                 <field name="has_indexing" type="INT(11)"/>

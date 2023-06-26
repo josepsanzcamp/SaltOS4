@@ -73,7 +73,7 @@ function get_config($key, $default = "", $user_id = -1)
     // Search the key for the specified user in the database
     $query = "SELECT val FROM tbl_config WHERE " . make_where_query(array(
         "user_id" => $user_id,
-        "_key" => $key,
+        "key" => $key,
     ));
     if (db_check($query)) {
         $val = execute_query($query);
@@ -117,13 +117,13 @@ function set_config($key, $val, $user_id = -1)
     // In this case, zero user is allowed and used as global user
     $query = "SELECT id FROM tbl_config WHERE " . make_where_query(array(
         "user_id" => $user_id,
-        "_key" => $key,
+        "key" => $key,
     ));
     $id = execute_query($query);
     if ($id === null) {
         $query = make_insert_query("tbl_config", array(
             "user_id" => $user_id,
-            "_key" => $key,
+            "key" => $key,
             "val" => $val
         ));
         db_query($query);
