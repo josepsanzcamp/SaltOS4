@@ -89,6 +89,7 @@ that maintain the database using as reference this file
                 <field name="start" type="TIME"/>
                 <field name="end" type="TIME"/>
                 <field name="days" type="VARCHAR(10)"/>
+                <field name="groups_id" type="TEXT"/>
             </fields>
         </table>
         <table name="tbl_users_passwords">
@@ -124,6 +125,7 @@ that maintain the database using as reference this file
                 <field name="code" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
+                <field name="users_id" type="TEXT"/>
             </fields>
         </table>
 
@@ -173,7 +175,17 @@ that maintain the database using as reference this file
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-                <field name="app_id" type="INT(11)" fkey="tbl_aplicaciones"/>
+                <field name="app_id" type="INT(11)" fkey="tbl_apps"/>
+                <field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
+                <field name="allow" type="INT(11)"/>
+                <field name="deny" type="INT(11)"/>
+            </fields>
+        </table>
+        <table name="tbl_groups_apps_perms">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
+                <field name="app_id" type="INT(11)" fkey="tbl_apps"/>
                 <field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
                 <field name="allow" type="INT(11)"/>
                 <field name="deny" type="INT(11)"/>

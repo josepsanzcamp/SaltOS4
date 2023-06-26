@@ -27,4 +27,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
-// TODO
+/**
+ * TODO
+ */
+function check_perms($app, $perms)
+{
+    $user_id = current_user();
+    $query = "SELECT * FROM apps_perms ";
+    // TODO: Permisos por la tabla apps_perms, por user_apps_perms, groups_apps_perms
+    return true;
+}
+
+/**
+ * TODO
+ */
+function check_sql($app, $perms)
+{
+    // TODO
+}

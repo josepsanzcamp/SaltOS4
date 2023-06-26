@@ -760,3 +760,162 @@ function escape_reserved_word($word)
     }
     return "`$word`";
 }
+
+/**
+ * Make Like Query
+ *
+ * This function is intended to returns the sql fragment to be added to the
+ * where condition to filter for the specified keys and values
+ *
+ * @keys => an string with comma separated field names
+ * @values => the value of the input search
+ * @minsize => the minimal size of the length used in each like
+ * @default => sql fraement returned if some thing was wrong
+ *
+ * Notes:
+ *
+ * This function generates a sequence of (like or like) and (like and like)
+ * and is able to understand the prefix plus or minus in each word of the
+ * search string, this allow to the function to use the like or not like
+ * depending the sign of the word, and too to use the disjunction or
+ * conjunction in each like group
+ */
+function make_like_query($keys, $values, $minsize = 3, $default = "1=0")
+{
+    $keys = explode(",", $keys);
+    foreach ($keys as $key => $val) {
+        $val = trim($val);
+        if ($val != "") {
+            $keys[$key] = $val;
+        } else {
+            unset($keys[$key]);
+        }
+    }
+    if (!count($keys)) {
+        return $default;
+    }
+    $values = explode(" ", encode_bad_chars($values, " ", "+-"));
+    $types = array();
+    foreach ($values as $key => $val) {
+        $types[$key] = "+";
+        while (isset($val[0]) && in_array($val[0], array("+","-"))) {
+            $types[$key] = $val[0];
+            $val = substr($val, 1);
+        }
+        if (strlen($val) >= $minsize) {
+            $values[$key] = $val;
+        } else {
+            unset($values[$key]);
+        }
+    }
+    if (!count($values)) {
+        return $default;
+    }
+    $query = array();
+    foreach ($values as $key => $val) {
+        if ($types[$key] == "+") {
+            $query2 = array();
+            foreach ($keys as $key2) {
+                $query2[] = "$key2 LIKE '%$val%'";
+            }
+            $query[] = "(" . implode(" OR ", $query2) . ")";
+        } else {
+            $query2 = array();
+            foreach ($keys as $key2) {
+                $query2[] = "$key2 NOT LIKE '%$val%'";
+            }
+            $query[] = "(" . implode(" AND ", $query2) . ")";
+        }
+    }
+    $query = "(" . implode(" AND ", $query) . ")";
+    return $query;
+}
+
+/**
+ * Make Fulltext Query Helper
+ *
+ * This function is similar to the make_like_query, but uses the match agains
+ * clausule instead of the like clausule, the match agaings is used for
+ * fulltext searches and generally, this function is not intended to be used
+ * directly, it must acts as a helper of the make_fulltext_query
+ *
+ * @values => the value of the input search
+ * @minsize => the minimal size of the length used in each like
+ * @default => sql fraement returned if some thing was wrong
+ *
+ * Notes:
+ *
+ * This function differs between the make_like_query in the idea that this
+ * function only is used to search using fulltext indexes and in one unique
+ * field named search
+ */
+function __make_fulltext_query_helper($values, $minsize = 3, $default = "1=0")
+{
+    $values = explode(" ", encode_bad_chars($values, " ", "+-"));
+    foreach ($values as $key => $val) {
+        $type = "+";
+        while (isset($val[0]) && in_array($val[0], array("+","-"))) {
+            $type = $val[0];
+            $val = substr($val, 1);
+        }
+        if (strlen($val) >= $minsize) {
+            $values[$key] = $type . '"' . $val . '"';
+        } else {
+            unset($values[$key]);
+        }
+    }
+    if (!count($values)) {
+        return $default;
+    }
+    $query = "MATCH(search) AGAINST('+(" . implode(" ", $values) . ")' IN BOOLEAN MODE)";
+    return $query;
+}
+
+/*
+ * Get Engine
+ *
+ * This function returns the engine of the table, intended to detect the
+ * mroonga storage engine
+ *
+ * @table => the table to retrieve the engine
+ */
+function get_engine($table)
+{
+    $query = "/*MYSQL SHOW TABLE STATUS WHERE Name='$table' */";
+    $result = db_query($query);
+    $engine = "";
+    while ($row = db_fetch_row($result)) {
+        $engine = $row["Engine"];
+    }
+    db_free($result);
+    return $engine;
+}
+
+/**
+ * Make Fulltext Query
+ *
+ * While the two version returns the fragment that must to be added to the
+ * query that search in the table that contains the search field, this function
+ * allow to specify the same that the two version with two fields more, the
+ * app and the prefix to be added to the id field of the in subquery
+ *
+ * @values => the value of the input search
+ * @app => the app used to detect the indexing table
+ * @prefix => the prefix added to the id used in the in subquery
+ * @minsize => the minimal size of the length used in each like
+ * @default => sql fraement returned if some thing was wrong
+ */
+function make_fulltext_query($values, $app, $prefix = "", $minsize = 3, $default = "1=0")
+{
+    $engine = strtolower(get_engine("idx_$app"));
+    if ($engine == "mroonga") {
+        $where = __make_fulltext_query_helper($values, $minsize, $default);
+    } else {
+        $where = make_like_query("search", $values, $minsize, $default);
+    }
+    if ($where == $default) {
+        return $where;
+    }
+    $query = "{$prefix}id IN (SELECT id FROM idx_$app WHERE $where)";
+    return $query;
+}

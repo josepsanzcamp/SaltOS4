@@ -70,5 +70,9 @@ if (!isset($_DATA["rest"][3])) {
 }
 $_DATA["rest"][3] = intval($_DATA["rest"][3]);
 
+if (!check_perms($_DATA["rest"][1], $_DATA["rest"][2])) {
+    show_json_error("Permission denied");
+}
+
 $array = eval_attr($array[$_DATA["rest"][2]]);
 output_handler_json($array);

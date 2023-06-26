@@ -37,6 +37,7 @@ declare(strict_types=1);
  */
 function db_schema()
 {
+    //~ set_config("xml/dbschema.xml", "nada", 0);
     $hash1 = get_config("xml/dbschema.xml", "", 0);
     $hash2 = md5(serialize(array(xmlfile2array("xml/dbschema.xml"),xmlfile2array("xml/dbstatic.xml"))));
     if ($hash1 == $hash2) {
@@ -148,6 +149,7 @@ function db_schema()
  */
 function db_static()
 {
+    //~ set_config("xml/dbstatic.xml", "nada", 0);
     $hash1 = get_config("xml/dbstatic.xml", "", 0);
     $hash2 = md5(serialize(xmlfile2array("xml/dbstatic.xml")));
     if ($hash1 == $hash2) {
@@ -438,6 +440,9 @@ function __dbschema_auto_apps($dbschema)
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
+                                <field name="users_id" type="TEXT"/>
+                                <field name="groups_id" type="TEXT"/>
                                 <field name="datetime" type="DATETIME"/>
                             </fields>
                             <indexes>
