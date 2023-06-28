@@ -37,8 +37,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <button class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/tester')">Tester</button>
             <button class="btn btn-primary fs-1 w-100 h-100">TODO</button>
             <button class="btn btn-success fs-1 w-100 h-100">TODO</button>
-            <table ifeval="check_perms('clientes','widget')" source="app/clientes/list2"></table>
-            <table ifeval="check_perms('clientes','widget')" source="app/clientes/list3"></table>
+            <table ifeval="check_perms('clientes','widget')" source="app/clientes/list2" col_class="col-md-6 mb-3"></table>
+            <table ifeval="check_perms('clientes','widget')" source="app/clientes/list3" col_class="col-md-6 mb-3"></table>
             <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/plot2" mode="pie"></chartjs>
             <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/plot" mode="bar"></chartjs>
             <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/plot" mode="line"></chartjs>

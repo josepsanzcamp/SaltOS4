@@ -177,10 +177,14 @@ saltos.form.layout = function (layout) {
                     };
                 }
                 numcol++;
+                var col_class = attr.col_class;
+                if (item[1]["#attr"].hasOwnProperty("col_class")) {
+                    col_class = item[1]["#attr"].col_class;
+                }
                 layout.container.value["row#" + numrow].value["col#" + numcol] = {
                     "value":{},
                     "#attr":{
-                        class:attr.col_class
+                        class:col_class
                     }
                 };
                 layout.container.value["row#" + numrow].value["col#" + numcol].value[item[0]] = item[1];
