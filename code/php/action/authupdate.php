@@ -43,6 +43,8 @@ declare(strict_types=1);
  * the password update
  */
 
+crontab_users();
+
 $user_id = current_user();
 if (!$user_id) {
     show_json_error("authentication update error");
@@ -62,7 +64,6 @@ $renewpass = $_DATA["json"]["renewpass"];
 $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
     "user_id" => $user_id,
     "active" => 1,
-    "expires>" => current_datetime(),
 ));
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["password"])) {

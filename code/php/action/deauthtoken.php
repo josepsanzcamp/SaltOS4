@@ -37,12 +37,14 @@ declare(strict_types=1);
  * The unique requirement to execute this action is to have a valid token
  */
 
+crontab_users();
+
 $token_id = current_token();
 if (!$token_id) {
     show_json_error("deauthentication error");
 }
 
-$query = make_update_query("tbl_users_logins", array(
+$query = make_update_query("tbl_users_tokens", array(
     "active" => 0,
 ), make_where_query(array(
     "id" => $token_id,

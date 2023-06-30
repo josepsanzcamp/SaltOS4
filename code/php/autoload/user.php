@@ -36,19 +36,10 @@ declare(strict_types=1);
  */
 function current_token()
 {
-    // This part disable tokens that have been expired
-    $query = make_update_query("tbl_users_logins", array(
-        "active" => 0,
-    ), make_where_query(array(
-        "active" => 1,
-        "expires<=" => current_datetime(),
-    )));
-    db_query($query);
-    // Normal funcionality
-    $token_id = execute_query("SELECT id FROM tbl_users_logins WHERE " . make_where_query(array(
+    crontab_users();
+    $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query(array(
         "token" => get_server("HTTP_TOKEN"),
         "active" => 1,
-        "expires>" => current_datetime(),
         "remote_addr" => get_server("REMOTE_ADDR"),
         "user_agent" => get_server("HTTP_USER_AGENT"),
     )));
@@ -63,7 +54,7 @@ function current_token()
  */
 function current_user()
 {
-    $user_id = execute_query("SELECT user_id FROM tbl_users_logins WHERE " . make_where_query(array(
+    $user_id = execute_query("SELECT user_id FROM tbl_users_tokens WHERE " . make_where_query(array(
         "id" => current_token(),
         "active" => 1,
     )));
@@ -83,4 +74,48 @@ function current_group()
         "active" => 1,
     )));
     return intval($group_id);
+}
+
+/**
+ * Crontab Users
+ *
+ * This function executes the maintenance queries to update the active field
+ * in the passwords and tokens tables, it's intended to be used as helper
+ *
+ * Notes:
+ *
+ * This function uses an internal static variable to detect repeated executions
+ * and only accepts the first execution, this is to prevent that multiples calls
+ * to other actions and functions that requires the integrity of the passwords
+ * and tokens
+ */
+function crontab_users()
+{
+    static $i_am_executed = false;
+    if ($i_am_executed) {
+        return;
+    }
+    $datetime = current_datetime();
+    $time = current_time();
+    $dow = current_dow();
+    // Disable tokens that have been expired by the password expires
+    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id IN (
+        SELECT user_id FROM tbl_users_passwords WHERE active = 1 AND expires <= '$datetime')";
+    db_query($query);
+    // Disable tokens that have been expired by the user time and day filter
+    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id IN (
+        SELECT id FROM tbl_users WHERE (
+            start = end OR
+            (start < end AND ('$time' < start OR '$time' > end)) OR
+            (start > end AND '$time' < start AND '$time' > end) OR
+            substr(days, $dow, 1) = '0'))";
+    db_query($query);
+    // Disable passwords that have been expired
+    $query = "UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
+    db_query($query);
+    // Disable tokens that have been expired
+    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
+    db_query($query);
+    // mark as executed
+    $i_am_executed = true;
 }

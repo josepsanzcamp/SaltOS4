@@ -38,12 +38,14 @@ declare(strict_types=1);
  * and have a token with available renewals
  */
 
+crontab_users();
+
 $token_id = current_token();
 if (!$token_id) {
     show_json_error("reauthentication error");
 }
 
-$query = "SELECT * FROM tbl_users_logins WHERE id='$token_id'";
+$query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
 $row = execute_query($query);
 
 $renewals = get_config("auth/tokenrenewals");
@@ -51,7 +53,7 @@ if ($row["renewal_count"] >= $renewals) {
     show_json_error("reauthentication error");
 }
 
-$query = make_update_query("tbl_users_logins", array(
+$query = make_update_query("tbl_users_tokens", array(
     "active" => 0,
 ), make_where_query(array(
     "id" => $token_id,
@@ -62,7 +64,7 @@ $token = get_unique_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
 $datetime = current_datetime();
 
-$query = make_insert_query("tbl_users_logins", array(
+$query = make_insert_query("tbl_users_tokens", array(
     "user_id" => $row["user_id"],
     "active" => 1,
     "datetime" => $row["datetime"],

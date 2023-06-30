@@ -41,14 +41,7 @@ declare(strict_types=1);
  * to the user will be revoked when a new token is assigned
  */
 
-// This part disable users that have been expired
-$query = make_update_query("tbl_users_passwords", array(
-    "active" => 0,
-), make_where_query(array(
-    "active" => 1,
-    "expires<=" => current_datetime(),
-)));
-db_query($query);
+crontab_users();
 
 // Check parameters
 foreach (array("user","pass") as $key) {
@@ -64,11 +57,8 @@ $query = "SELECT * FROM tbl_users WHERE " . make_where_query(array(
     "active" => 1,
     "login" => $user,
 ));
-$result = db_query($query);
-$num_rows = db_num_rows($result);
-$row = db_fetch_row($result);
-db_free($result);
-if ($num_rows != 1 || $user != $row["login"]) {
+$row = execute_query($query);
+if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
     show_json_error("authentication error");
 }
 
@@ -76,13 +66,9 @@ if ($num_rows != 1 || $user != $row["login"]) {
 $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
     "user_id" => $row["id"],
     "active" => 1,
-    "expires>" => current_datetime(),
 ));
-$result = db_query($query);
-$num_rows = db_num_rows($result);
-$row2 = db_fetch_row($result);
-db_free($result);
-if ($num_rows != 1) {
+$row2 = execute_query($query);
+if (!is_array($row2) || !isset($row2["password"])) {
     show_json_error("authentication error");
 } elseif (password_verify($pass, $row2["password"])) {
     // Nothing to do, password is correct!!!
@@ -100,7 +86,7 @@ if ($num_rows != 1) {
 }
 
 // Continue
-$query = make_update_query("tbl_users_logins", array(
+$query = make_update_query("tbl_users_tokens", array(
     "active" => 0,
 ), make_where_query(array(
     "user_id" => $row["id"],
@@ -113,7 +99,7 @@ $token = get_unique_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
 $renewals = get_config("auth/tokenrenewals");
 
-$query = make_insert_query("tbl_users_logins", array(
+$query = make_insert_query("tbl_users_tokens", array(
     "user_id" => $row["id"],
     "active" => 1,
     "datetime" => $datetime,

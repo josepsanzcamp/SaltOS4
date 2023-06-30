@@ -280,3 +280,17 @@ function __secs2time($secs)
     $time = sprintf("%02d:%02d:%02d", intval($secs / 3600), intval(($secs / 60) % 60), intval($secs % 60));
     return $time;
 }
+
+/**
+ * Current Day Of Week
+ *
+ * This function returns the current day of week as integer between 1 and 7
+ * range, this is used by some functions in SaltOS, allow to specify a bias
+ * used to move the current time mark
+ *
+ * @offset => the bias added to the current time mark
+ */
+function current_dow($offset = 0)
+{
+    return date("N", time() + (int)$offset);
+}
