@@ -63,4 +63,3 @@ function add_list_actions($rows, $actions)
     }
     return $rows;
 }
-

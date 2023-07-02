@@ -83,7 +83,11 @@ if ($_DATA["server"]["request_method"] == "GET" && isset($_DATA["rest"][0])) {
 }
 
 // Check for a POST JSON action request
-if ($_DATA["server"]["request_method"] == "POST" && $_DATA["server"]["content_type"] == "application/json" && isset($_DATA["json"]["action"])) {
+if (
+    $_DATA["server"]["request_method"] == "POST" &&
+    $_DATA["server"]["content_type"] == "application/json" &&
+    isset($_DATA["json"]["action"])
+) {
     $action = "php/action/" . encode_bad_chars($_DATA["json"]["action"]) . ".php";
     if (file_exists($action)) {
         require $action;
