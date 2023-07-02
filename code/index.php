@@ -53,16 +53,20 @@ $_DATA = array(
     //~ "headers" => getallheaders(),
     "json" => null2array(json_decode(file_get_contents("php://input"), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING")), array("")),
-    "method" => strtoupper(get_server("REQUEST_METHOD")),
-    "content-type" => strtolower(get_server("CONTENT_TYPE")),
-    "token" => get_server("HTTP_TOKEN"),
+    "server" => array(
+        "request_method" => strtoupper(get_server("REQUEST_METHOD")),
+        "content_type" => strtolower(get_server("CONTENT_TYPE")),
+        "token" => get_server("HTTP_TOKEN"),
+        "remote_addr" => get_server("REMOTE_ADDR"),
+        "user_agent" => get_server("HTTP_USER_AGENT"),
+    ),
 );
 
 //~ addlog(sprintr($_DATA));
 //~ addlog(sprintr($_SERVER));
 
 // Check for an init browser request
-if ($_DATA["method"] == "GET" && count($_DATA["rest"]) == 0) {
+if ($_DATA["server"]["request_method"] == "GET" && count($_DATA["rest"]) == 0) {
     output_handler(array(
         "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
@@ -71,7 +75,7 @@ if ($_DATA["method"] == "GET" && count($_DATA["rest"]) == 0) {
 }
 
 // Check for a GET REST action request
-if ($_DATA["method"] == "GET" && isset($_DATA["rest"][0])) {
+if ($_DATA["server"]["request_method"] == "GET" && isset($_DATA["rest"][0])) {
     $action = "php/action/" . encode_bad_chars($_DATA["rest"][0]) . ".php";
     if (file_exists($action)) {
         require $action;
@@ -79,7 +83,7 @@ if ($_DATA["method"] == "GET" && isset($_DATA["rest"][0])) {
 }
 
 // Check for a POST JSON action request
-if ($_DATA["method"] == "POST" && $_DATA["content-type"] == "application/json" && isset($_DATA["json"]["action"])) {
+if ($_DATA["server"]["request_method"] == "POST" && $_DATA["server"]["content_type"] == "application/json" && isset($_DATA["json"]["action"])) {
     $action = "php/action/" . encode_bad_chars($_DATA["json"]["action"]) . ".php";
     if (file_exists($action)) {
         require $action;

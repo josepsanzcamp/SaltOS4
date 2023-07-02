@@ -26,40 +26,36 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-    <form>
-        <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
-            <text id="codigo" label="codigo"></text>
-            <switch id="activo" label="activo"></switch>
-            <text id="nombre" label="nombre"></text>
-            <text id="nombre1" label="nombre1"></text>
-            <text id="nombre2" label="nombre2"></text>
-            <text id="cif" label="cif"></text>
-            <textarea id="comentarios" label="comentarios"></textarea>
-            <text id="corriente" label="corriente"></text>
-            <text id="contable" label="contable"></text>
-            <integer id="diapago" label="diapago"></integer>
-            <text id="direccion" label="direccion"></text>
-            <text id="nombre_pais" label="nombre_pais"></text>
-            <text id="nombre_provincia" label="nombre_provincia"></text>
-            <text id="nombre_poblacion" label="nombre_poblacion"></text>
-            <text id="nombre_codpostal" label="nombre_codpostal"></text>
-            <text id="email" label="email"></text>
-            <text id="web" label="web"></text>
-            <integer id="tel_fijo" label="tel_fijo"></integer>
-            <integer id="tel_movil" label="tel_movil"></integer>
-            <integer id="fax" label="fax"></integer>
-        </layout>
-    </form>
-    <data>
-        <data global="_DATA" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($_DATA["rest"][3]))</data>
-    </data>
+    <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
+        <text id="codigo" label="codigo"></text>
+        <switch id="activo" label="activo"></switch>
+        <text id="nombre" label="nombre"></text>
+        <text id="nombre1" label="nombre1"></text>
+        <text id="nombre2" label="nombre2"></text>
+        <text id="cif" label="cif"></text>
+        <textarea id="comentarios" label="comentarios"></textarea>
+        <text id="corriente" label="corriente"></text>
+        <text id="contable" label="contable"></text>
+        <integer id="diapago" label="diapago"></integer>
+        <text id="direccion" label="direccion"></text>
+        <text id="nombre_pais" label="nombre_pais"></text>
+        <text id="nombre_provincia" label="nombre_provincia"></text>
+        <text id="nombre_poblacion" label="nombre_poblacion"></text>
+        <text id="nombre_codpostal" label="nombre_codpostal"></text>
+        <text id="email" label="email"></text>
+        <text id="web" label="web"></text>
+        <integer id="tel_fijo" label="tel_fijo"></integer>
+        <integer id="tel_movil" label="tel_movil"></integer>
+        <integer id="fax" label="fax"></integer>
+    </layout>
+    <data global="_DATA" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($_DATA["rest"][3]))</data>
     <view>
-        <layout eval="true">xmlfile2array("apps/clientes/app.xml")["form"]["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]["data"]</data>
+        <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
     </view>
     <edit>
-        <layout eval="true">xmlfile2array("apps/clientes/app.xml")["form"]["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]["data"]</data>
+        <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
     </edit>
     <list>
         <layout auto="true" container_class="container mt-3" col_class="col mb-3">
@@ -83,19 +79,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             </table>>
         </layout>
     </list>
-    <list2>
+    <widget>
         <header eval="true">["Nombre","CIF","Población","C.P."]</header>
         <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
         <footer eval="true">["","","Total","5"]</footer>
         <divider eval="true">[false,true,true]</divider>
-    </list2>
-    <list3>
+    </widget>
+    <widget>
         <header eval="true">["Nombre","CIF","Población","C.P."]</header>
         <data eval="true">execute_query_array("SELECT nombre,cif,nombre_poblacion,nombre_codpostal FROM app_clientes ORDER BY id ASC LIMIT 0,5")</data>
         <footer eval="true">["","","Total","5"]</footer>
         <divider eval="true">[false,true,true]</divider>
-    </list3>
-    <plot>
+    </widget>
+    <widget>
         <data eval="true">[
             "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
             "datasets" => [[
@@ -109,8 +105,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     "data" => [6, 7, 6, 7, 5, 4],
                 ]]
         ]</data>
-    </plot>
-    <plot2>
+    </widget>
+    <widget>
         <data eval="true">[
             "labels" => ['Red', 'Blue', 'Yellow', 'Green'],
             "datasets" => [[
@@ -118,5 +114,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     "data" => [8, 5, 3, 5],
                 ]]
         ]</data>
-    </plot2>
+    </widget>
 </root>

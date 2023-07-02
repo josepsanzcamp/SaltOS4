@@ -40,6 +40,7 @@ declare(strict_types=1);
  *       of specific customer using the id
  */
 
+// Check for first argument, that is the name of the app to load
 if (!isset($_DATA["rest"][1])) {
     show_json_error("app not found");
 }
@@ -52,6 +53,7 @@ if (!file_exists($file)) {
 
 $array = xmlfile2array($file);
 
+// Check for second argument, that is the subapp to load
 if (!isset($_DATA["rest"][2]) && count($array) == 1) {
     $_DATA["rest"][2] = key($array);
 }
@@ -65,14 +67,33 @@ if (!isset($array[$_DATA["rest"][2]])) {
     show_json_error("subapp " . $_DATA["rest"][2] . " not found");
 }
 
+// Check permissions
+if (!check_perms($_DATA["rest"][1], $_DATA["rest"][2])) {
+    show_json_error("Permission denied");
+}
+
+// Define the third argument used commonly by some apps
 if (!isset($_DATA["rest"][3])) {
     $_DATA["rest"][3] = 0;
 }
 $_DATA["rest"][3] = intval($_DATA["rest"][3]);
 
-if (!check_perms($_DATA["rest"][1], $_DATA["rest"][2])) {
-    show_json_error("Permission denied");
+// Trick to allow request as widget/2
+$count = 1;
+$dict = array();
+foreach ($array as $key => $val) {
+    if (fix_key($key) == $_DATA["rest"][2]) {
+        $dict[$_DATA["rest"][2] . "/" . $count] = $key;
+        $count++;
+    }
+}
+if (count($dict) > 1) {
+    if (!isset($dict[$_DATA["rest"][2] . "/" . $_DATA["rest"][3]])) {
+        show_json_error("subsubapp not found");
+    }
+    $_DATA["rest"][2] = $dict[$_DATA["rest"][2] . "/" . $_DATA["rest"][3]];
 }
 
+// Eval the app and returns the result
 $array = eval_attr($array[$_DATA["rest"][2]]);
 output_handler_json($array);

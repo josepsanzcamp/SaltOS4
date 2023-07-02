@@ -60,10 +60,17 @@ saltos.send_request = function (data) {
     saltos.ajax({
         url:"index.php?" + data,
         success:function (response) {
-            if (typeof response.error == "object") {
-                saltos.show_error(response.error);
+            if (typeof response == "object") {
+                if (typeof response.error == "object") {
+                    saltos.show_error(response.error);
+                } else {
+                    saltos.process_response(response);
+                }
             } else {
-                saltos.process_response(response);
+                saltos.show_error({
+                    text:response,
+                    code:0,
+                });
             }
         },
         headers:{
@@ -313,7 +320,7 @@ window.onhashchange = function (event) {
 (function () {
     saltos.token = localStorage.getItem("token");
     if (saltos.token === null) {
-        saltos.token = "nadaDeNada";
+        saltos.token = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
         //~ saltos.send_request("app/login");
     }
     window.dispatchEvent(new HashChangeEvent("hashchange"));

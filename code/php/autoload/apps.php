@@ -28,120 +28,167 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Add list actions helper
+ * Apps helper function
  *
- * This function returns the input rows adding to each row an array of actions, to do
- * this function uses the permissions to check that each register and each action is
- * allowed by the token
+ * This function is used by the XXX2YYY functions as helper, it stores the
+ * dictionary of all conversions and resolves the data using it
  *
- * @rows => the rows used to do the list
- * @actions => an array with the actions that want to be added in each row
- *
- * TODO: THIS FUNCTION IS UNDER DEVELOPMENT
+ * @fn => the caller function
+ * @arg => the argument passed to the function
  */
-function add_list_actions($rows, $actions)
+function __apps($fn, $arg)
 {
-    foreach ($rows as $key => $row) {
-        $row["actions"] = array();
-        foreach ($actions as $action) {
-            $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
-            $row["actions"][] = $action;
-        }
-        // TODO: INICIO CODIGO TEST DISABLED
-        if ($row["id"] == 48) {
-            $row["actions"][2]["url"] = "";
-        }
-        if ($row["id"] == 47) {
-            $row["actions"][1]["url"] = "";
-            $row["actions"][2]["url"] = "";
-        }
-        if ($row["id"] == 46) {
-            $row["actions"][1]["url"] = "";
-        }
-        // TODO: FIN CODIGO TEST DISABLED
-        $rows[$key] = $row;
-    }
-    return $rows;
-}
-
-function __aplicaciones($tipo, $dato, $default)
-{
-    static $diccionario = array();
-    if (!count($diccionario)) {
-        $query = "SELECT * FROM tbl_apps";
+    static $dict = array();
+    if (!count($dict)) {
+        $query = "SELECT * FROM tbl_apps WHERE active = 1";
         $result = db_query($query);
-        $diccionario["id2app"] = array();
-        $diccionario["app2id"] = array();
-        $diccionario["id2table"] = array();
-        $diccionario["app2table"] = array();
-        $diccionario["table2id"] = array();
-        $diccionario["table2app"] = array();
-        $diccionario["id2subtables"] = array();
-        $diccionario["app2subtables"] = array();
-        $diccionario["table2subtables"] = array();
+        $dict["id2app"] = array();
+        $dict["app2id"] = array();
+        $dict["id2table"] = array();
+        $dict["app2table"] = array();
+        $dict["table2id"] = array();
+        $dict["table2app"] = array();
+        $dict["id2subtables"] = array();
+        $dict["app2subtables"] = array();
+        $dict["table2subtables"] = array();
         while ($row = db_fetch_row($result)) {
-            $diccionario["id2app"][$row["id"]] = $row["code"];
-            $diccionario["app2id"][$row["code"]] = $row["id"];
-            $diccionario["id2table"][$row["id"]] = $row["table"];
-            $diccionario["app2table"][$row["code"]] = $row["table"];
-            $diccionario["table2id"][$row["table"]] = $row["id"];
-            $diccionario["table2app"][$row["table"]] = $row["code"];
-            $diccionario["id2subtables"][$row["id"]] = $row["subtables"];
-            $diccionario["app2subtables"][$row["code"]] = $row["subtables"];
-            $diccionario["table2subtables"][$row["table"]] = $row["subtables"];
+            $dict["id2app"][$row["id"]] = $row["code"];
+            $dict["app2id"][$row["code"]] = $row["id"];
+            $dict["id2table"][$row["id"]] = $row["table"];
+            $dict["app2table"][$row["code"]] = $row["table"];
+            $dict["table2id"][$row["table"]] = $row["id"];
+            $dict["table2app"][$row["table"]] = $row["code"];
+            $dict["id2subtables"][$row["id"]] = $row["subtables"];
+            $dict["app2subtables"][$row["code"]] = $row["subtables"];
+            $dict["table2subtables"][$row["table"]] = $row["subtables"];
         }
         db_free($result);
     }
-    if (!isset($diccionario[$tipo])) {
-        return $default;
+    if ($fn == "app_exists") {
+        return isset($dict["app2id"][$arg]);
     }
-    if (!isset($diccionario[$tipo][$dato])) {
-        return $default;
+    if (!isset($dict[$fn][$arg])) {
+        show_php_error(array("phperror" => "$fn($arg) not found"));
     }
-    return $diccionario[$tipo][$dato];
+    return $dict[$fn][$arg];
 }
 
-function id2app($id, $default = "")
+/**
+ * Id to App
+ *
+ * This function resolves the code of the app from the app id
+ *
+ * @id => the app id used to resolve the code
+ */
+function id2app($id)
 {
-    return __aplicaciones(__FUNCTION__, $id, $default);
+    return __apps(__FUNCTION__, $id);
 }
 
-function app2id($app, $default = "")
+/**
+ * App to Id
+ *
+ * This function resolves the id of the app from the app code
+ *
+ * @app => the code used to resolve the id
+ */
+function app2id($app)
 {
-    return __aplicaciones(__FUNCTION__, $app, $default);
+    return __apps(__FUNCTION__, $app);
 }
 
-function id2table($id, $default = "")
+/**
+ * Id to Table
+ *
+ * This function resolves the table of the app from the app id
+ *
+ * @id => the app id used to resolve the table
+ */
+function id2table($id)
 {
-    return __aplicaciones(__FUNCTION__, $id, $default);
+    return __apps(__FUNCTION__, $id);
 }
 
-function app2table($app, $default = "")
+/**
+ * App to Table
+ *
+ * This function resolves the table of the app from the app code
+ *
+ * @app => the app code used to resolve the table
+ */
+function app2table($app)
 {
-    return __aplicaciones(__FUNCTION__, $app, $default);
+    return __apps(__FUNCTION__, $app);
 }
 
-function table2id($table, $default = "")
+/**
+ * Table to Id
+ *
+ * This function resolves the id of the app from the app table
+ *
+ * @table => the app table used to resolve the id
+ */
+function table2id($table)
 {
-    return __aplicaciones(__FUNCTION__, $table, $default);
+    return __apps(__FUNCTION__, $table);
 }
 
-function table2app($table, $default = "")
+/**
+ * Table to App
+ *
+ * This function resolves the code of the app from the app table
+ *
+ * @table => the app table used to resolve the app code
+ */
+function table2app($table)
 {
-    return __aplicaciones(__FUNCTION__, $table, $default);
+    return __apps(__FUNCTION__, $table);
 }
 
-function id2subtables($id, $default = "")
+/**
+ * Id to Subtables
+ *
+ * This function resolves the subtables of the app from the app id
+ *
+ * @id => the app id used to resolve the subtables
+ */
+function id2subtables($id)
 {
-    return __aplicaciones(__FUNCTION__, $id, $default);
+    return __apps(__FUNCTION__, $id);
 }
 
-function app2subtables($app, $default = "")
+/**
+ * App to Subtables
+ *
+ * This function resolves the subtables of the app from the app code
+ *
+ * @app => the app code used to resolve the subtables
+ */
+function app2subtables($app)
 {
-    return __aplicaciones(__FUNCTION__, $app, $default);
+    return __apps(__FUNCTION__, $app);
 }
 
-function table2subtables($table, $default = "")
+/**
+ * Table to Subtables
+ *
+ * This function resolves the subtables of the app from the app table
+ *
+ * @table => the app table used to resolve the subtables
+ */
+function table2subtables($table)
 {
-    return __aplicaciones(__FUNCTION__, $table, $default);
+    return __apps(__FUNCTION__, $table);
+}
+
+/**
+ * App Exists
+ *
+ * This function detect if an app exists
+ *
+ * @app => the app that you want to check if exists
+ */
+function app_exists($app)
+{
+    return __apps(__FUNCTION__, $app);
 }

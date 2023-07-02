@@ -70,10 +70,36 @@ function current_user()
 function current_group()
 {
     $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query(array(
-        "user_id" => current_user(),
+        "id" => current_user(),
         "active" => 1,
     )));
     return intval($group_id);
+}
+
+/**
+ * Current Groups
+ *
+ * This function returns the id of all current groups, this info is retrieved
+ * using the token of the request and the main idea of this function is to
+ * returns the list of all groups associated to the current user to facily the
+ * permissions checks
+ */
+function current_groups()
+{
+    $user_id = current_user();
+    if (!$user_id) {
+        return 0;
+    }
+    // Get groups from the users table
+    $query = "SELECT group_id, groups_id FROM tbl_users WHERE active = 1 AND id = $user_id";
+    $from_users = execute_query($query);
+    // Get groups from the groups table linked by the users_id field
+    $query = "SELECT id FROM tbl_groups WHERE active = 1 AND FIND_IN_SET($user_id, users_id)";
+    $from_groups = execute_query_array($query);
+    // Compute the resulting array with all ids
+    $array = array_merge($from_users, $from_groups);
+    $array = array_diff($array, array(""));
+    return implode(",", $array);
 }
 
 /**
@@ -95,6 +121,7 @@ function crontab_users()
     if ($i_am_executed) {
         return;
     }
+    $i_am_executed = true;
     $datetime = current_datetime();
     $time = current_time();
     $dow = current_dow();
@@ -116,6 +143,4 @@ function crontab_users()
     // Disable tokens that have been expired
     $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
     db_query($query);
-    // mark as executed
-    $i_am_executed = true;
 }

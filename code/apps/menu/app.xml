@@ -33,15 +33,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             <button ifeval="check_perms('clientes','menu')" class="btn btn-primary fs-1 w-100 h-100" onclick="saltos.open('#app/facturas/list')">Facturas</button>
             <button ifeval="check_perms('clientes','menu')" class="btn btn-primary fs-1 w-100 h-100" onclick="saltos.open('#app/correols /list')">Correo</button>
             <button class="btn btn-success fs-1 w-100 h-100" onclick="saltos.open('https://www.saltos.org')">www.saltos.org</button>
-            <button class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/login')">Please login</button>
-            <button class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/tester')">Tester</button>
+            <button ifeval="check_perms('login','menu')" class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/login')">Please login</button>
+            <button ifeval="check_perms('tester','menu')" class="btn btn-danger fs-1 w-100 h-100" onclick="saltos.open('#app/tester')">Tester</button>
             <button class="btn btn-primary fs-1 w-100 h-100">TODO</button>
             <button class="btn btn-success fs-1 w-100 h-100">TODO</button>
-            <table ifeval="check_perms('clientes','widget')" source="app/clientes/list2" col_class="col-md-6 mb-3"></table>
-            <table ifeval="check_perms('clientes','widget')" source="app/clientes/list3" col_class="col-md-6 mb-3"></table>
-            <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/plot2" mode="pie"></chartjs>
-            <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/plot" mode="bar"></chartjs>
-            <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/plot" mode="line"></chartjs>
+            <table ifeval="check_perms('clientes','widget')" source="app/clientes/widget/1" col_class="col-md-6 mb-3"></table>
+            <table ifeval="check_perms('clientes','widget')" source="app/clientes/widget/2" col_class="col-md-6 mb-3"></table>
+            <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/widget/4" mode="pie"></chartjs>
+            <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/widget/3" mode="bar"></chartjs>
+            <chartjs ifeval="check_perms('clientes','widget')" source="app/clientes/widget/3" mode="line"></chartjs>
         </layout>
     </menu>
 </root>

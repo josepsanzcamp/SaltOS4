@@ -141,11 +141,12 @@ function db_schema()
 /**
  * DB Static
  *
- * This function try to maintain the database contents, to do it, this feature uses the dbstatic.xml
- * file to store the database contents that must to be maintaned.
+ * This function try to maintain the database contents, to do it, this feature
+ * uses the dbstatic.xml file to store the database contents that must to be
+ * maintaned.
  *
- * This new version of the db_static allow to specify if you want to delete all contents of the table
- * and too, allow you to use a comma separated values in fields as "id", start by "id_" or end by "_id"
+ * This version of the db_static allow you to use a comma separated values in
+ * fields as "id", start by "id_" or end by "_id"
  */
 function db_static()
 {
@@ -162,17 +163,11 @@ function db_static()
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
-            $delete = true;
-            if (isset($data["#attr"]["delete"])) {
-                $delete =  eval_bool($data["#attr"]["delete"]);
-            }
             $rows = $data["value"];
-            if ($delete) {
-                $query = "DELETE FROM $table";
-                db_query($query);
-            }
+            $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
+            db_query($query);
             foreach ($rows as $row) {
-                __dbstatic_insert($table, $row["#attr"], $delete);
+                __dbstatic_insert($table, $row["#attr"]);
             }
         }
     }
@@ -188,25 +183,13 @@ function db_static()
  *
  * @table => the table that you want to use in the insert process
  * @row => the row that you want to add in the table
- * @delete => this field allow to check if the row exists to do an update instead of insert
  *
  * Notes:
  *
  * This feature allow to you to use comma separated lists of values, commonly used for id
- * fields as user_id, perms_id, or similar, too, this insert has the feature to allow the
- * option of not delete for tables that must contain rows provided by others processes and
- * to allow this, the delete="false" allow the initial truncate table and too, allo to
- * prevent duplicates inserts, in the case that the row contains the id field, the function
- * try to locate the affected row to performs an update instead of the original insert, in
- * some special cases as when you want to use the comma separated ids, not provide an
- * specific id for each row and disable the delete feature, in this case, the system can
- * not locate the specific row because not have an id to do the locate action, and in this
- * case, the system try to detect if exists the desired row by searching all other params
- * and perform the original insert in case of not existence of a register that contains
- * all values, otherwise the query will be void to cancel the insert and prevent duplications
- * of registers with the same data (instead each row have a different id)
+ * fields as user_id, perms_id, or similar.
  */
-function __dbstatic_insert($table, $row, $delete)
+function __dbstatic_insert($table, $row)
 {
     $found = "";
     foreach ($row as $field => $value) {
@@ -221,38 +204,12 @@ function __dbstatic_insert($table, $row, $delete)
         $a = explode(",", $row[$found]);
         foreach ($a as $b) {
             $row[$found] = $b;
-            __dbstatic_insert($table, $row, $delete);
+            __dbstatic_insert($table, $row);
         }
     } else {
         // Original insert query
         $query = make_insert_query($table, $row);
-        if (!$delete) {
-            // In case of disabled delete, the function will try to search the register
-            if (isset($row["id"])) {
-                // If the row contains an specific id to locate it
-                $where = make_where_query(array("id" => $row["id"]));
-                $query2 = "SELECT id FROM $table WHERE $where";
-                $exists = execute_query($query2);
-                if ($exists) {
-                    // If the previous query is able to locate the row, program the update
-                    // instead of the insert
-                    $query = make_update_query($table, $row, $where);
-                }
-            } else {
-                // If the row not contains an specific id, will try to locate the row
-                // using a combination of all the other fields
-                $where = make_where_query($row);
-                $query2 = "SELECT id FROM $table WHERE $where";
-                $exists = execute_query($query2);
-                if ($exists) {
-                    // If the previous query is able to locate the row, cancel the insert
-                    $query = "";
-                }
-            }
-        }
-        if ($query != "") {
-            db_query($query);
-        }
+        db_query($query);
     }
 }
 
@@ -588,6 +545,14 @@ function get_apps_from_dbstatic()
  * file and associated to the apps table
  *
  * @table => the table of the dbstatic that want to convert to field
+ *
+ * Notes:
+ *
+ * This function uses the special feature in the helper that allow to
+ * use as table parameter an app code to retrieve the field, this is
+ * usefull if you want some field of the app table and you want to use
+ * the app code instead of the app table to identify what row do you
+ * want to use
  */
 function get_field_from_dbstatic($table, $field = "field")
 {
