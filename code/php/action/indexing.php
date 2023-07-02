@@ -31,39 +31,6 @@ declare(strict_types=1);
  * TODO
  */
 
-//~ db_query("TRUNCATE TABLE idx_correo");
-
-//~ $ids = execute_query_array("SELECT id FROM app_correo ORDER BY id ASC LIMIT 2000");
-//~ foreach($ids as $id) {
-    //~ echo "<pre>" . sprintr(make_indexing("correo", $id)) . "</pre>";
-    //~ echo "<pre>" . sprintr(make_control("correo", $id)) . "</pre>";
-//~ }
-
-//~ set_config("xml/dbschema.xml", "nada");
-//~ set_config("xml/dbstatic.xml", "nada");
-//~ db_schema();
-//~ db_static();
-
-//~ set_config("xml/dbschema.xml", "nada");
-//~ db_schema();
-//~ db_query(sql_drop_index("user_id","ver_clientes"));
-//~ set_config("xml/dbschema.xml", "nada");
-//~ db_schema();
-
-//~ echo "<pre>".sprintr(array_diff_assoc(
-//~ array(
-//~ "uno" => 1,
-//~ "dos" => 2,
-//~ "tres" => 3,
-//~ ),
-//~ array(
-//~ "uno" => 1,
-//~ "dos" => 3,
-//~ "tres" => 3,
-//~ )
-//~ ))."</pre>";
-//~ die();
-
 /*********************************** INICIO PRUEBAS CLIENTES *************************************/
 
 db_query("DELETE FROM app_clientes WHERE id=51");

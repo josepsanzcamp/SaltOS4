@@ -398,9 +398,9 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
+                                <field name="datetime" type="DATETIME"/>
                                 <field name="users_id" type="TEXT"/>
                                 <field name="groups_id" type="TEXT"/>
-                                <field name="datetime" type="DATETIME"/>
                             </fields>
                             <indexes>
                                 <index fields="user_id"/>
