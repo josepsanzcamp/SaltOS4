@@ -32,6 +32,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * This function allow to show a modal dialog with de details of an error
  */
 saltos.show_error = function (error) {
+    console.log(error);
+    if (typeof error != "object") {
+        document.body.append(saltos.html(`<pre>${error}</pre>`));
+        return;
+    }
     saltos.modal({
         title:"Error",
         close:"Cerrar",
@@ -61,10 +66,7 @@ saltos.send_request = function (data) {
         url:"index.php?" + data,
         success:function (response) {
             if (typeof response != "object") {
-                saltos.show_error({
-                    text:response,
-                    code:0,
-                });
+                saltos.show_error(response);
                 return;
             }
             if (typeof response.error == "object") {
@@ -91,7 +93,7 @@ saltos.process_response = function (response) {
         if (typeof saltos.form[key] != "function") {
             console.log("type " + key + " not found");
             document.body.append(saltos.html("type " + key + " not found"));
-            return;
+            continue;
         }
         saltos.form[key](val);
     }

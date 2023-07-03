@@ -71,7 +71,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         SELECT id,nombre,cif,nombre_poblacion,nombre_codpostal
                         FROM app_clientes
                         WHERE 1=1
-                        AND ".make_fulltext_query("josep", "clientes")."
+                        AND ".make_fulltext_query("a", "clientes",array("minsize"=>1,"default"=>"1=1"))."
                         AND ".check_sql("clientes", "list")."
                         ORDER BY id DESC
                     "),[
@@ -84,8 +84,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     SELECT COUNT(*) total
                     FROM app_clientes
                     WHERE 1=1
-                    AND ".make_fulltext_query("josep", "clientes")."
-                    AND ".check_sql("clientes", "list")."
+                    AND ".make_fulltext_query("a", "clientes",array("minsize"=>1,"default"=>"1=1"))."
+                        AND ".check_sql("clientes", "list")."
                 ")]</footer>
                 <divider eval="true">[false,true,true]</divider>
             </table>>

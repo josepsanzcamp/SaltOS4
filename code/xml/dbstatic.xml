@@ -43,26 +43,23 @@ and the main permissions for the user
             <row id="13" active="1" code="correo" name="Correo" description="Cliente de correo" table="app_correo" field="CONCAT(de,' - ',subject)" subtables="app_correo_a(id_correo)" has_index="1" has_control="1"/>
             <row id="14" active="1" code="facturas" name="Facturas" description="Aplicación de facturas" table="app_facturas" field="CONCAT(nombre,' - ',cif,' - ',num)" subtables="app_facturas_conceptos(id_factura),app_facturas_vencimientos(id_factura)" has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1"/>
         </table>
+        <!-- Valid values for owner are 'user', 'group' and 'all' -->
         <table name="tbl_perms">
             <row id="1" active="1" code="menu" name="Mostrar entrada en el menú"/>
             <row id="2" active="1" code="create" name="Crear registros"/>
             <row id="3" active="1" code="widget" name="Mostrar widget"/>
-            <row id="11" active="1" code="list" name="Acceder al listado"/>
-            <row id="12" active="1" code="list_user" name="Listar sólo registros del usuario"/>
-            <row id="13" active="1" code="list_group" name="Listar registros del usuario y grupo"/>
-            <row id="14" active="1" code="list_all" name="Listar todos los registros"/>
-            <row id="21" active="1" code="view" name="Acceder al detalle"/>
-            <row id="22" active="1" code="view_user" name="Ver detalle sólo de los registros del usuario"/>
-            <row id="23" active="1" code="view_group" name="Ver detalle de los registros del usuario y grupo"/>
-            <row id="24" active="1" code="view_all" name="Ver detalle de todos los registros"/>
-            <row id="31" active="1" code="edit" name="Acceder para modificar"/>
-            <row id="32" active="1" code="edit_user" name="Modificar sólo los registros del usuario"/>
-            <row id="33" active="1" code="edit_group" name="Modificar los registros del usuario y grupo"/>
-            <row id="34" active="1" code="edit_all" name="Modificar todos los registros"/>
-            <row id="41" active="1" code="delete" name="Acceso para eliminar"/>
-            <row id="42" active="1" code="delete_user" name="Eliminar sólo los registros del usuario"/>
-            <row id="43" active="1" code="delete_group" name="Eliminar los registros del usuario y grupo"/>
-            <row id="44" active="1" code="delete_all" name="Eliminar todos los registros"/>
+            <row id="11" active="1" code="list" owner="user" name="Listar sólo registros del usuario"/>
+            <row id="12" active="1" code="list" owner="group" name="Listar registros del usuario y grupo"/>
+            <row id="13" active="1" code="list" owner="all" name="Listar todos los registros"/>
+            <row id="21" active="1" code="view" owner="user" name="Ver detalle sólo de los registros del usuario"/>
+            <row id="22" active="1" code="view" owner="group" name="Ver detalle de los registros del usuario y grupo"/>
+            <row id="23" active="1" code="view" owner="all" name="Ver detalle de todos los registros"/>
+            <row id="31" active="1" code="edit" owner="user" name="Modificar sólo los registros del usuario"/>
+            <row id="32" active="1" code="edit" owner="group" name="Modificar los registros del usuario y grupo"/>
+            <row id="33" active="1" code="edit" owner="all" name="Modificar todos los registros"/>
+            <row id="41" active="1" code="delete" owner="user" name="Eliminar sólo los registros del usuario"/>
+            <row id="42" active="1" code="delete" owner="group" name="Eliminar los registros del usuario y grupo"/>
+            <row id="43" active="1" code="delete" owner="all" name="Eliminar todos los registros"/>
         </table>
         <!-- This part is for devel purposes -->
         <table name="tbl_users">
@@ -80,13 +77,13 @@ and the main permissions for the user
         <!-- This part is for devel purposes -->
         <table name="tbl_apps_perms">
             <row app_id="1,2,3" perm_id="1" allow="1" deny="0"/>
-            <row app_id="11,12,13,14" perm_id="1,2,3,11,12,13,14,21,22,23,24,31,32,33,34,41,42,43,44" allow="0" deny="0"/>
+            <row app_id="11,12,13,14" perm_id="1,2,3,11,12,13,21,22,23,31,32,33,41,42,43" allow="0" deny="0"/>
         </table>
         <table name="tbl_users_apps_perms">
-            <row user_id="1" app_id="11,12,13,14" perm_id="1,2,3,11,12,13,14,21,22,23,24,31,32,33,34,41,42,43,44" allow="1" deny="0"/>
+            <row user_id="1" app_id="11,12,13,14" perm_id="1,2,3,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
         </table>
         <table name="tbl_groups_apps_perms">
-            <row group_id="1" app_id="11,12,13,14" perm_id="1,2,3,11,12,13,14,21,22,23,24,31,32,33,34,41,42,43,44" allow="1" deny="0"/>
+            <row group_id="1" app_id="11,12,13,14" perm_id="1,2,3,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
         </table>
     </tables>
 </root>

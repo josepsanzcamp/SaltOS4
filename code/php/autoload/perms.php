@@ -28,7 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Check Perms
+ * Check User
  *
  * This function checks the permissions using the tables apps_perms,
  * users_apps_perms and groups_apps_perms, to do it, this function uses
@@ -41,7 +41,7 @@ declare(strict_types=1);
  * @app => the app to check
  * @perm => the perm to check
  */
-function check_perms($app, $perm)
+function check_user($app, $perm)
 {
     if (!app_exists($app) || !perm_exists($perm)) {
         return false;
@@ -79,17 +79,53 @@ function check_perms($app, $perm)
             unset($array[$key]);
         }
     }
+    // Special case when ask for perm with owners
+    $app_id = app2id($app);
+    $perm_id = perm2id($perm);
+    if (is_array($perm_id)) {
+        foreach($perm_id as $temp) {
+            $key = $app_id . "|" . $temp;
+            if (isset($array[$key])) {
+                return true;
+            }
+        }
+        return false;
+    }
     // Return the result if exists
-    $key = app2id($app) . "|" . perm2id($perm);
+    $key = $app_id . "|" . $perm_id;
     return isset($array[$key]);
 }
 
 /**
- * TODO
+ * Check SQL
+ *
+ * This function returns the fragment of SQL intended to filter by app and
+ * perm for the current user
+ *
+ * @app => the app to check
+ * @perm => the perm to check
  */
-function check_sql($app, $perms)
+function check_sql($app, $perm)
 {
-    return "1=1";
+    $table = app2table($app);
+    $user_id = current_user();
+    $groups_id = current_groups();
+    $temp = explode(",",$groups_id);
+    foreach ($temp as $key => $val) {
+        $temp[$key] = "FIND_IN_SET($val,groups_id)";
+    }
+    $temp = implode(" OR ",$temp);
+    $sql = array(
+        "all" => "1=1",
+        "group" => "id IN (SELECT id FROM {$table}_control WHERE group_id IN ($groups_id) OR $temp)",
+        "user" => "id IN (SELECT id FROM {$table}_control WHERE user_id IN ($user_id) OR FIND_IN_SET($user_id,users_id))",
+    );
+    foreach ($sql as $key => $val) {
+        if (check_user($app, $perm . "|" . $key)) {
+            return $val;
+        }
+    }
+    return "1=0";
 }
 
 /**
@@ -110,6 +146,14 @@ function __perms($fn, $arg)
         $dict["id2perm"] = array();
         $dict["perm2id"] = array();
         while ($row = db_fetch_row($result)) {
+            if ($row["owner"] != "") {
+                if (!isset($dict["perm2id"][$row["code"]])) {
+                    $dict["perm2id"][$row["code"]] = array();
+                }
+                $dict["perm2id"][$row["code"]][] = $row["id"];
+                $row["code"] .= "|" . $row["owner"];
+
+            }
             $dict["id2perm"][$row["id"]] = $row["code"];
             $dict["perm2id"][$row["code"]] = $row["id"];
         }
@@ -142,6 +186,11 @@ function id2perm($id)
  * This function resolves the id of the perm from the perm code
  *
  * @perm => the perm code used to resolve the id
+ *
+ * Notes:
+ *
+ * This function can return an integer or an array of integers, depending
+ * if the app is using the owner parameter or not
  */
 function perm2id($perm)
 {
@@ -154,6 +203,13 @@ function perm2id($perm)
  * This function detect if a perm exists
  *
  * @perm => the perm that you want to check if exists
+ *
+ * Notes:
+ *
+ * This function returns true if a perm exists, and in case of the usage
+ * of the owner parameter, the function will return true for a perm that
+ * contains the owner and for the perm without the owner, for exampe, this
+ * function returns true for perm list and form perm list|user
  */
 function perm_exists($perm)
 {

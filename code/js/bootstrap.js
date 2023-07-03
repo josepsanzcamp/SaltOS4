@@ -905,10 +905,7 @@ saltos.__form_field.file = function (field) {
             content_type:"application/json",
             success:function (response) {
                 if (typeof response != "object") {
-                    saltos.show_error({
-                        text:response,
-                        code:0,
-                    });
+                    saltos.show_error(response);
                     return;
                 }
                 if (typeof response.error == "object") {
@@ -991,10 +988,7 @@ saltos.__form_field.file = function (field) {
                         content_type:"application/json",
                         success:function (response) {
                             if (typeof response != "object") {
-                                saltos.show_error({
-                                    text:response,
-                                    code:0,
-                                });
+                                saltos.show_error(response);
                                 return;
                             }
                             if (typeof response.error == "object") {
@@ -1263,10 +1257,7 @@ saltos.__source_helper = function (field) {
             url:"index.php?" + field.source,
             success:function (response) {
                 if (typeof response != "object") {
-                    saltos.show_error({
-                        text:response,
-                        code:0,
-                    });
+                    saltos.show_error(response);
                     return;
                 }
                 if (typeof response.error == "object") {

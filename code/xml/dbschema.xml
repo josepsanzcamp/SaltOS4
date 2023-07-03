@@ -160,6 +160,7 @@ that maintain the database using as reference this file
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="code" type="VARCHAR(255)"/>
+                <field name="owner" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="description" type="TEXT"/>
             </fields>

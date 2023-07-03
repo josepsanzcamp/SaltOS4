@@ -86,9 +86,12 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
         }
     }
     if (!$control_id) {
+        $query = "SELECT group_id FROM tbl_users WHERE id=$user_id";
+        $group_id = execute_query($query);
         $query = make_insert_query("{$table}_control", array(
             "id" => $reg_id,
             "user_id" => $user_id,
+            "group_id" => $group_id,
             "datetime" => $datetime,
         ));
         db_query($query);

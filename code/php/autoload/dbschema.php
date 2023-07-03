@@ -437,9 +437,9 @@ function __dbschema_auto_apps($dbschema)
                 $xml = '<table name="__TABLE__">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                                <field name="reg_id" type="INT(11)"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
+                                <field name="reg_id" type="INT(11)"/>
                                 <field name="uniqid" type="VARCHAR(255)"/>
                                 <field name="name" type="VARCHAR(255)"/>
                                 <field name="size" type="INT(11)"/>
@@ -456,9 +456,9 @@ function __dbschema_auto_apps($dbschema)
                 $xml = '<table name="__TABLE__">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                                <field name="reg_id" type="INT(11)"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
+                                <field name="reg_id" type="INT(11)"/>
                                 <field name="note" type="TEXT"/>
                             </fields>
                         </table>';
