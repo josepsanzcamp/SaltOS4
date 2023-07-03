@@ -148,9 +148,11 @@ that maintain the database using as reference this file
                 <field name="table" type="VARCHAR(255)"/>
                 <field name="subtables" type="VARCHAR(255)"/>
                 <field name="field" type="VARCHAR(255)"/>
-                <field name="has_indexing" type="INT(11)"/>
+                <field name="has_index" type="INT(11)"/>
                 <field name="has_control" type="INT(11)"/>
                 <field name="has_version" type="INT(11)"/>
+                <field name="has_files" type="INT(11)"/>
+                <field name="has_notes" type="INT(11)"/>
             </fields>
         </table>
         <table name="tbl_perms">
@@ -241,7 +243,7 @@ that maintain the database using as reference this file
                 <field name="files" type="INT(11)"/>
             </fields>
         </table>
-        <table name="app_correo_a">
+        <table name="app_correo_address">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="id_correo" type="INT(11)" fkey="app_correo"/>
@@ -250,7 +252,7 @@ that maintain the database using as reference this file
                 <field name="valor" type="VARCHAR(255)"/>
             </fields>
         </table>
-        <table name="app_correo_d">
+        <table name="app_correo_deletes">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="id_cuenta" type="INT(11)" fkey="tbl_users"/>
@@ -277,10 +279,10 @@ that maintain the database using as reference this file
                 <field name="contable" type="VARCHAR(255)"/>
                 <field name="diapago" type="INT(11)"/>
                 <field name="direccion" type="VARCHAR(255)"/>
-                <field name="id_pais" type="INT(11)" fkey="tbl_paises"/>
-                <field name="id_provincia" type="INT(11)" fkey="tbl_provincias"/>
-                <field name="id_poblacion" type="INT(11)" fkey="tbl_poblaciones"/>
-                <field name="id_codpostal" type="INT(11)" fkey="tbl_codpostal"/>
+                <field name="id_pais" type="INT(11)"/>
+                <field name="id_provincia" type="INT(11)"/>
+                <field name="id_poblacion" type="INT(11)"/>
+                <field name="id_codpostal" type="INT(11)"/>
                 <field name="nombre_pais" type="VARCHAR(255)"/>
                 <field name="nombre_provincia" type="VARCHAR(255)"/>
                 <field name="nombre_poblacion" type="VARCHAR(255)"/>
@@ -310,10 +312,10 @@ that maintain the database using as reference this file
                 <field name="contable" type="VARCHAR(255)"/>
                 <field name="diapago" type="INT(11)"/>
                 <field name="direccion" type="VARCHAR(255)"/>
-                <field name="id_pais" type="INT(11)" fkey="tbl_paises"/>
-                <field name="id_provincia" type="INT(11)" fkey="tbl_provincias"/>
-                <field name="id_poblacion" type="INT(11)" fkey="tbl_poblaciones"/>
-                <field name="id_codpostal" type="INT(11)" fkey="tbl_codpostal"/>
+                <field name="id_pais" type="INT(11)"/>
+                <field name="id_provincia" type="INT(11)"/>
+                <field name="id_poblacion" type="INT(11)"/>
+                <field name="id_codpostal" type="INT(11)"/>
                 <field name="nombre_pais" type="VARCHAR(255)"/>
                 <field name="nombre_provincia" type="VARCHAR(255)"/>
                 <field name="nombre_poblacion" type="VARCHAR(255)"/>
@@ -337,10 +339,10 @@ that maintain the database using as reference this file
                 <field name="id_epigrafe" type="INT(11)" fkey="tbl_epigrafes"/>
                 <field name="nombre" type="VARCHAR(255)"/>
                 <field name="direccion" type="VARCHAR(255)"/>
-                <field name="id_pais" type="INT(11)" fkey="tbl_paises"/>
-                <field name="id_provincia" type="INT(11)" fkey="tbl_provincias"/>
-                <field name="id_poblacion" type="INT(11)" fkey="tbl_poblaciones"/>
-                <field name="id_codpostal" type="INT(11)" fkey="tbl_codpostal"/>
+                <field name="id_pais" type="INT(11)"/>
+                <field name="id_provincia" type="INT(11)"/>
+                <field name="id_poblacion" type="INT(11)"/>
+                <field name="id_codpostal" type="INT(11)"/>
                 <field name="nombre_pais" type="VARCHAR(255)"/>
                 <field name="nombre_provincia" type="VARCHAR(255)"/>
                 <field name="nombre_poblacion" type="VARCHAR(255)"/>
@@ -362,18 +364,18 @@ that maintain the database using as reference this file
                 <field name="id_presupuesto" type="INT(11)" fkey="tbl_presupuestos"/>
             </fields>
         </table>
-        <table name="app_facturas_c">
+        <table name="app_facturas_conceptos">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="id_factura" type="INT(11)" fkey="app_facturas"/>
-                <field name="id_producto" type="INT(11)" fkey="app_productos"/>
+                <field name="id_producto" type="INT(11)"/>
                 <field name="concepto" type="TEXT"/>
                 <field name="unidades" type="DECIMAL(9,2)"/>
                 <field name="descuento" type="DECIMAL(9,2)"/>
                 <field name="precio" type="DECIMAL(9,2)"/>
             </fields>
         </table>
-        <table name="app_facturas_v">
+        <table name="app_facturas_vencimientos">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="id_factura" type="INT(11)" fkey="app_facturas"/>

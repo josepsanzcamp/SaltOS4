@@ -28,9 +28,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
- * Make Indexing main function
+ * Make Index main function
  *
- * This function implements the make indexing feature of SaltOS, this consists
+ * This function implements the make index feature of SaltOS, this consists
  * in a concatenation of fields and subqueries to retrieve all data related to
  * the tables involved in the desired application and the register reg_id
  *
@@ -39,18 +39,18 @@ declare(strict_types=1);
  *
  * Notes:
  *
- * This function returns an integer as response about the indexing action:
+ * This function returns an integer as response about the index action:
  *
- * 1 => insert executed, this is because the app register exists and the indexing register not exists
- * 2 => update executed, this is because the app register exists and the indexing register too exists
- * 3 => delete executed, this is because the app register not exists and the indexing register exists
+ * 1 => insert executed, this is because the app register exists and the index register not exists
+ * 2 => update executed, this is because the app register exists and the index register too exists
+ * 3 => delete executed, this is because the app register not exists and the index register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
- * -2 => indexing table not found, this is because the has_indexing feature is disabled by dbstatic
+ * -2 => index table not found, this is because the has_index feature is disabled by dbstatic
  * -3 => data not found, this is because the app register not exists and the indexting register too not exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
-function make_indexing($app, $reg_id)
+function make_index($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
@@ -58,19 +58,19 @@ function make_indexing($app, $reg_id)
         return -1;
     }
     // Search if index exists
-    $query = "SELECT id FROM idx_$app WHERE id='$reg_id'";
+    $query = "SELECT id FROM {$table}_index WHERE id='$reg_id'";
     if (!db_check($query)) {
         return -2;
     }
-    $indexing_id = execute_query($query);
+    $index_id = execute_query($query);
     // Search if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
-        if (!$indexing_id) {
+        if (!$index_id) {
             return -3;
         } else {
-            $query = "DELETE FROM idx_$app WHERE id='$reg_id'";
+            $query = "DELETE FROM {$table}_index WHERE id='$reg_id'";
             db_query($query);
             return 3;
         }
@@ -78,7 +78,7 @@ function make_indexing($app, $reg_id)
     // Continue the process after the checks
     $queries = array();
     // This part allow to get all data of the all fields from the main table
-    $fields = __make_indexing_helper($table, $reg_id);
+    $fields = __make_index_helper($table, $reg_id);
     foreach ($fields as $key => $val) {
         $fields[$key] = "IFNULL(($val),'')";
     }
@@ -91,7 +91,7 @@ function make_indexing($app, $reg_id)
         foreach (explode(",", $subtables) as $subtable) {
             $subtable = strtok($subtable, "(");
             $field = strtok(")");
-            $fields = __make_indexing_helper($subtable);
+            $fields = __make_index_helper($subtable);
             foreach ($fields as $key => $val) {
                 $fields[$key] = "IFNULL(($val),'')";
             }
@@ -119,22 +119,22 @@ function make_indexing($app, $reg_id)
         $queries[$key] = "IFNULL(($val),'')";
     }
     $search = "CONCAT(" . implode(",' ',", $queries) . ")";
-    // Do the insert or update action to the indexing table
-    if (!$indexing_id) {
-        $query = "INSERT INTO idx_$app(id,search) VALUES($reg_id,$search)";
+    // Do the insert or update action to the index table
+    if (!$index_id) {
+        $query = "INSERT INTO {$table}_index(id,search) VALUES($reg_id,$search)";
         db_query($query);
         return 1;
     } else {
-        $query = "UPDATE idx_$app SET search=$search WHERE id=$reg_id";
+        $query = "UPDATE {$table}_index SET search=$search WHERE id=$reg_id";
         db_query($query);
         return 2;
     }
 }
 
 /**
- * Make Indexing helper
+ * Make Index helper
  *
- * This function allow the make_indexing to retrieve all data of the fiels
+ * This function allow the make_index to retrieve all data of the fiels
  * and all data of the related fields of the related tables, this is done
  * by using the fkey information of the dbschema, this function uses some
  * features of the dbschema functions to get the fields, types, fkeys and
@@ -144,7 +144,7 @@ function make_indexing($app, $reg_id)
  * an array with all fields and subqueries to allow to retrieve all data
  * related to the app register
  */
-function __make_indexing_helper($table, $id = "")
+function __make_index_helper($table, $id = "")
 {
     static $cache = array();
     $hash = md5(serialize(array($table,$id)));

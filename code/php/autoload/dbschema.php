@@ -376,9 +376,9 @@ function __dbschema_helper($fn, $table)
 function __dbschema_auto_apps($dbschema)
 {
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-        $apps = get_apps_from_dbstatic();
-        foreach ($apps as $app) {
-            if (eval_bool(get_field_from_dbstatic($app, "has_indexing"))) {
+        $tables = get_tables_from_dbstatic();
+        foreach ($tables as $table) {
+            if (eval_bool(get_field_from_dbstatic($table, "has_index"))) {
                 $xml = '<table name="__TABLE__">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -388,11 +388,11 @@ function __dbschema_auto_apps($dbschema)
                                 <index fulltext="true" fields="search"/>
                             </indexes>
                         </table>';
-                $xml = str_replace("__TABLE__", "idx_$app", $xml);
+                $xml = str_replace("__TABLE__", "{$table}_index", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
-            if (eval_bool(get_field_from_dbstatic($app, "has_control"))) {
+            if (eval_bool(get_field_from_dbstatic($table, "has_control"))) {
                 $xml = '<table name="__TABLE__">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -407,11 +407,11 @@ function __dbschema_auto_apps($dbschema)
                                 <index fields="id,user_id"/>
                             </indexes>
                         </table>';
-                $xml = str_replace("__TABLE__", "ctl_$app", $xml);
+                $xml = str_replace("__TABLE__", "{$table}_control", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
-            if (eval_bool(get_field_from_dbstatic($app, "has_version"))) {
+            if (eval_bool(get_field_from_dbstatic($table, "has_version"))) {
                 $xml = '<table name="__TABLE__">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -429,7 +429,40 @@ function __dbschema_auto_apps($dbschema)
                                 <index fields="reg_id,ver_id"/>
                             </indexes>
                         </table>';
-                $xml = str_replace("__TABLE__", "ver_$app", $xml);
+                $xml = str_replace("__TABLE__", "{$table}_version", $xml);
+                $array = xml2array($xml);
+                set_array($dbschema["tables"], "table", $array["table"]);
+            }
+            if (eval_bool(get_field_from_dbstatic($table, "has_files"))) {
+                $xml = '<table name="__TABLE__">
+                            <fields>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="reg_id" type="INT(11)"/>
+                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="datetime" type="DATETIME"/>
+                                <field name="uniqid" type="VARCHAR(255)"/>
+                                <field name="name" type="VARCHAR(255)"/>
+                                <field name="size" type="INT(11)"/>
+                                <field name="type" type="VARCHAR(255)"/>
+                                <field name="file" type="VARCHAR(255)"/>
+                                <field name="hash" type="VARCHAR(255)"/>
+                            </fields>
+                        </table>';
+                $xml = str_replace("__TABLE__", "{$table}_files", $xml);
+                $array = xml2array($xml);
+                set_array($dbschema["tables"], "table", $array["table"]);
+            }
+            if (eval_bool(get_field_from_dbstatic($table, "has_notes"))) {
+                $xml = '<table name="__TABLE__">
+                            <fields>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="reg_id" type="INT(11)"/>
+                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="datetime" type="DATETIME"/>
+                                <field name="note" type="TEXT"/>
+                            </fields>
+                        </table>';
+                $xml = str_replace("__TABLE__", "{$table}_notes", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
@@ -539,6 +572,17 @@ function get_apps_from_dbstatic()
 }
 
 /**
+ * Get Tables From DBStatic
+ *
+ * This function returns the list of tables that have a table and field defined
+ * in the dbstatic file
+ */
+function get_tables_from_dbstatic()
+{
+    return __dbstatic_helper(__FUNCTION__, "", "");
+}
+
+/**
  * Get Field From DBStatic
  *
  * This function return the field associated to the table in the dbstatic
@@ -599,6 +643,8 @@ function __dbstatic_helper($fn, $table, $field)
     }
     if (stripos($fn, "get_apps") !== false) {
         return array_keys($apps);
+    } elseif (stripos($fn, "get_tables") !== false) {
+        return array_keys($tables);
     } elseif (stripos($fn, "get_field") !== false) {
         if (isset($apps[$table][$field])) {
             return $apps[$table][$field];

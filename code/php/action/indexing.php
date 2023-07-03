@@ -31,10 +31,13 @@ declare(strict_types=1);
  * TODO
  */
 
+make_index("clientes",51);
+make_control("clientes",51);
+
 /*********************************** INICIO PRUEBAS CLIENTES *************************************/
 
 db_query("DELETE FROM app_clientes WHERE id=51");
-db_query("TRUNCATE TABLE ver_clientes");
+db_query("TRUNCATE TABLE app_clientes_version");
 //~ make_version("clientes",51);
 
 $array = array(
@@ -82,9 +85,9 @@ echo "<pre>" . sprintr(get_version("clientes", 51, 3)) . "</pre>";
 //~ echo "<pre>" . sprintr(get_version("facturas", 1, 3)) . "</pre>";
 
 db_query("DELETE FROM app_facturas WHERE id=1");
-db_query("DELETE FROM app_facturas_c WHERE id_factura=1");
-db_query("DELETE FROM app_facturas_v WHERE id_factura=1");
-db_query("TRUNCATE TABLE ver_facturas");
+db_query("DELETE FROM app_facturas_conceptos WHERE id_factura=1");
+db_query("DELETE FROM app_facturas_vencimientos WHERE id_factura=1");
+db_query("TRUNCATE TABLE app_facturas_version");
 //~ make_version("facturas",1);
 
 /*********************************** INICIO PRIMERA VERSION *************************************/
@@ -104,7 +107,7 @@ $array = array(
     "unidades" => "1",
     "precio" => "99.99",
 );
-$query = make_insert_query("app_facturas_c", $array);
+$query = make_insert_query("app_facturas_conceptos", $array);
 db_query($query);
 
 $array = array(
@@ -114,7 +117,7 @@ $array = array(
     "unidades" => "1",
     "precio" => "19.99",
 );
-$query = make_insert_query("app_facturas_c", $array);
+$query = make_insert_query("app_facturas_conceptos", $array);
 db_query($query);
 
 add_version("facturas", 1);
@@ -136,7 +139,7 @@ $array = array(
     "unidades" => "1",
     "precio" => "29.99",
 );
-$query = make_update_query("app_facturas_c", $array, "id=2");
+$query = make_update_query("app_facturas_conceptos", $array, "id=2");
 db_query($query);
 
 $array = array(
@@ -146,7 +149,7 @@ $array = array(
     "unidades" => "1",
     "precio" => "9.99",
 );
-$query = make_insert_query("app_facturas_c", $array);
+$query = make_insert_query("app_facturas_conceptos", $array);
 db_query($query);
 
 add_version("facturas", 1);
@@ -161,7 +164,7 @@ $array = array(
 $query = make_update_query("app_facturas", $array, "id=1");
 db_query($query);
 
-$query = "DELETE FROM app_facturas_c WHERE id=1";
+$query = "DELETE FROM app_facturas_conceptos WHERE id=1";
 db_query($query);
 
 add_version("facturas", 1);

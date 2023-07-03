@@ -68,7 +68,7 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
         $datetime = current_datetime();
     }
     // Search if control exists
-    $query = "SELECT id FROM ctl_$app WHERE id='$reg_id'";
+    $query = "SELECT id FROM {$table}_control WHERE id='$reg_id'";
     if (!db_check($query)) {
         return -2;
     }
@@ -80,13 +80,13 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
         if (!$control_id) {
             return -3;
         } else {
-            $query = "DELETE FROM ctl_$app WHERE id='$reg_id'";
+            $query = "DELETE FROM {$table}_control WHERE id='$reg_id'";
             db_query($query);
             return 2;
         }
     }
     if (!$control_id) {
-        $query = make_insert_query("ctl_$app", array(
+        $query = make_insert_query("{$table}_control", array(
             "id" => $reg_id,
             "user_id" => $user_id,
             "datetime" => $datetime,
@@ -146,7 +146,7 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
         $datetime = "2023-06-16 12:00:00";
     }
     // Search if version exists
-    $query = "SELECT MAX(id) FROM ver_$app WHERE reg_id='$reg_id'";
+    $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id='$reg_id'";
     if (!db_check($query)) {
         return -2;
     }
@@ -158,7 +158,7 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
         if (!$version_id) {
             return -3;
         } else {
-            $query = "DELETE FROM ver_$app WHERE reg_id='$reg_id'";
+            $query = "DELETE FROM {$table}_version WHERE reg_id='$reg_id'";
             db_query($query);
             return 2;
         }
@@ -198,9 +198,10 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
         }
     }
     // Prepare extra data as old hash and last ver_id
-    $query = "SELECT hash FROM ver_$app WHERE id='$version_id'";
+    $table = app2table($app);
+    $query = "SELECT hash FROM {$table}_version WHERE id='$version_id'";
     $hash_old = strval(execute_query($query));
-    $query = "SELECT ver_id FROM ver_$app WHERE id='$version_id'";
+    $query = "SELECT ver_id FROM {$table}_version WHERE id='$version_id'";
     $ver_id = intval(execute_query($query));
     // Prepare the array to the insert
     $array = array(
@@ -214,7 +215,7 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     // Update the hash with the new hash to do the blockchain
     $array["hash"] = md5(serialize($array));
     // Do the insert of the new version
-    $query = make_insert_query("ver_$app", $array);
+    $query = make_insert_query("{$table}_version", $array);
     db_query($query);
     return 1;
 }
@@ -239,7 +240,8 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
  */
 function get_version($app, $reg_id, $ver_id)
 {
-    $query = "SELECT * FROM ver_$app WHERE reg_id='$reg_id' ORDER BY id ASC";
+    $table = app2table($app);
+    $query = "SELECT * FROM {$table}_version WHERE reg_id='$reg_id' ORDER BY id ASC";
     $rows = execute_query_array($query);
     $data = array();
     $hash_old = "";

@@ -780,8 +780,12 @@ function escape_reserved_word($word)
  * depending the sign of the word, and too to use the disjunction or
  * conjunction in each like group
  */
-function make_like_query($keys, $values, $minsize = 3, $default = "1=0")
+function make_like_query($keys, $values, $args = array())
 {
+    // Process args
+    $minsize = isset($args["minsize"]) ? $args["minsize"] : 3;
+    $default = isset($args["default"]) ? $args["default"] : "1=0";
+    // Continue
     $keys = explode(",", $keys);
     foreach ($keys as $key => $val) {
         $val = trim($val);
@@ -849,8 +853,12 @@ function make_like_query($keys, $values, $minsize = 3, $default = "1=0")
  * function only is used to search using fulltext indexes and in one unique
  * field named search
  */
-function __make_fulltext_query_helper($values, $minsize = 3, $default = "1=0")
+function __make_fulltext_query_helper($values, $args = array())
 {
+    // Process args
+    $minsize = isset($args["minsize"]) ? $args["minsize"] : 3;
+    $default = isset($args["default"]) ? $args["default"] : "1=0";
+    // Continue
     $values = explode(" ", encode_bad_chars($values, " ", "+-"));
     foreach ($values as $key => $val) {
         $type = "+";
@@ -905,17 +913,23 @@ function get_engine($table)
  * @minsize => the minimal size of the length used in each like
  * @default => sql fraement returned if some thing was wrong
  */
-function make_fulltext_query($values, $app, $prefix = "", $minsize = 3, $default = "1=0")
+function make_fulltext_query($values, $app, $args = array())
 {
-    $engine = strtolower(get_engine("idx_$app"));
+    // Process args
+    $prefix = isset($args["prefix"]) ? $args["prefix"] : "";
+    $minsize = isset($args["minsize"]) ? $args["minsize"] : 3;
+    $default = isset($args["default"]) ? $args["default"] : "1=0";
+    // Continue
+    $table = app2table($app);
+    $engine = strtolower(get_engine("{$table}_index"));
     if ($engine == "mroonga") {
-        $where = __make_fulltext_query_helper($values, $minsize, $default);
+        $where = __make_fulltext_query_helper($values, $args);
     } else {
-        $where = make_like_query("search", $values, $minsize, $default);
+        $where = make_like_query("search", $values, $args);
     }
     if ($where == $default) {
         return $where;
     }
-    $query = "{$prefix}id IN (SELECT id FROM idx_$app WHERE $where)";
+    $query = "{$prefix}id IN (SELECT id FROM {$table}_index WHERE $where)";
     return $query;
 }

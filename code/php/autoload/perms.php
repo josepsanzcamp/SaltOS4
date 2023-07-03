@@ -89,7 +89,7 @@ function check_perms($app, $perm)
  */
 function check_sql($app, $perms)
 {
-    // TODO
+    return "1=1";
 }
 
 /**
