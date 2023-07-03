@@ -60,18 +60,18 @@ saltos.send_request = function (data) {
     saltos.ajax({
         url:"index.php?" + data,
         success:function (response) {
-            if (typeof response == "object") {
-                if (typeof response.error == "object") {
-                    saltos.show_error(response.error);
-                } else {
-                    saltos.process_response(response);
-                }
-            } else {
+            if (typeof response != "object") {
                 saltos.show_error({
                     text:response,
                     code:0,
                 });
+                return;
             }
+            if (typeof response.error == "object") {
+                saltos.show_error(response.error);
+                return;
+            }
+            saltos.process_response(response);
         },
         headers:{
             "token":saltos.token,

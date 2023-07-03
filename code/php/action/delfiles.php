@@ -63,19 +63,42 @@ foreach ($files as $key => $val) {
     if ($val["error"] != "") {
         continue;
     }
+    // Check integrity with the database entry
+    $query = "SELECT id FROM tbl_uploads WHERE " . make_where_query(array(
+        "user_id" => $user_id,
+        "uniqid" => $val["id"],
+        "name" => $val["name"],
+        "size" => $val["size"],
+        "type" => $val["type"],
+        "file" => $val["file"],
+        "hash" => $val["hash"],
+    ));
+    $id = execute_query($query);
+    if (!$id) {
+        continue;
+    }
+    // Check for file name integrity
     if (encode_bad_chars_file($val["file"]) != $val["file"]) {
         continue;
     }
+    // Check for file size integrity
     $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
     if (filesize($dir . $val["file"]) != $val["size"]) {
         continue;
     }
+    // Check for file hash integrity
     if (md5_file($dir . $val["file"]) != $val["hash"]) {
         continue;
     }
+    // Remove the local file
     unlink($dir . $val["file"]);
+    // Remove the database entry
+    $query = "DELETE FROM tbl_uploads WHERE id = $id";
+    db_query($query);
+    // Reset vars
     $val["file"] = "";
     $val["hash"] = "";
+    // Update files[key]
     $files[$key] = $val;
 }
 output_handler_json($files);

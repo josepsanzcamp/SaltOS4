@@ -51,10 +51,10 @@ that maintain the database using as reference this file
         <table name="tbl_four" ignore="true"/>
         <table name="tbl_five" ignore="true"/>
 
-		<!--
-		This table allow to store pairs of key val, and allow too to associate it to
-		a specific user
-		-->
+        <!--
+        This table allow to store pairs of key val, and allow too to associate it to
+        a specific user
+        -->
         <table name="tbl_config">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -67,17 +67,17 @@ that maintain the database using as reference this file
             </indexes>
         </table>
 
-		<!--
-		This tables store the main information of a user, the times that a user must
-		change their password, the times that user logins to the system, and the groups
-		to allow to put each user in a group
+        <!--
+        This tables store the main information of a user, the times that a user must
+        change their password, the times that user logins to the system, and the groups
+        to allow to put each user in a group
 
-		This table allow the users to connect with SaltOS, in this new release of
-		SaltOS, the users not uses sessions, cookies or other specific browser features,
-		here, the authentication is implemented by sending data in a json format and
-		retrieving a token that must to be used in the headers of next requests to
+        This table allow the users to connect with SaltOS, in this new release of
+        SaltOS, the users not uses sessions, cookies or other specific browser features,
+        here, the authentication is implemented by sending data in a json format and
+        retrieving a token that must to be used in the headers of next requests to
         authenticate the communication
-		-->
+        -->
         <table name="tbl_users">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -129,15 +129,15 @@ that maintain the database using as reference this file
             </fields>
         </table>
 
-		<!--
-		This table allow to register apps with their additional information, as the
-		main table, the subtables, what features do you want to enable in this app, and
-		more things that we are developing
+        <!--
+        This table allow to register apps with their additional information, as the
+        main table, the subtables, what features do you want to enable in this app, and
+        more things that we are developing
 
-		As an extra, this group of tables allow to define permissions, what relation
-		exist between apps and permissions and the table that allow to specify what
-		permissions apply to each user
-		-->
+        As an extra, this group of tables allow to define permissions, what relation
+        exist between apps and permissions and the table that allow to specify what
+        permissions apply to each user
+        -->
         <table name="tbl_apps">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -192,9 +192,27 @@ that maintain the database using as reference this file
             </fields>
         </table>
 
-		<!--
-		This tables are specific for the email client app
-		-->
+        <!--
+        This table is intended to store the uploaded files that is pending to be assigned to
+        an application
+        -->
+        <table name="tbl_uploads">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                <field name="datetime" type="DATETIME"/>
+                <field name="uniqid" type="VARCHAR(255)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="size" type="INT(11)"/>
+                <field name="type" type="VARCHAR(255)"/>
+                <field name="file" type="VARCHAR(255)"/>
+                <field name="hash" type="VARCHAR(255)"/>
+            </fields>
+        </table>
+
+        <!--
+        This tables are specific for the email client app
+        -->
         <table name="app_correo">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -241,9 +259,9 @@ that maintain the database using as reference this file
             </fields>
         </table>
 
-		<!--
-		This tables are specific for the customers app
-		-->
+        <!--
+        This tables are specific for the customers app
+        -->
         <table name="app_clientes">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -276,9 +294,9 @@ that maintain the database using as reference this file
             </fields>
         </table>
 
-		<!--
-		This tables are specific for the providers app
-		-->
+        <!--
+        This tables are specific for the providers app
+        -->
         <table name="app_proveedores">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -309,9 +327,9 @@ that maintain the database using as reference this file
             </fields>
         </table>
 
-		<!--
-		This tables are specific for the invoices app
-		-->
+        <!--
+        This tables are specific for the invoices app
+        -->
         <table name="app_facturas">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>

@@ -461,9 +461,9 @@ saltos.__form_field.codemirror = function (field) {
             lineNumbers: true,
             lineWrapping: true,
         });
-        element.nextSibling.classList.add("form-control");
-        element.nextSibling.classList.add("p-0");
-        element.nextSibling.style.height = "auto";
+        element.nextElementSibling.classList.add("form-control");
+        element.nextElementSibling.classList.add("p-0");
+        element.nextElementSibling.style.height = "auto";
         cm.on("change",cm.save);
     });
     return obj;
@@ -780,7 +780,9 @@ saltos.__form_field.button = function (field) {
  * 1) add the input of type=text with the display:none to fix the bug in firefox
  * 2) add the autocomplete="new-password" to fix the problem in chrome browsers
  *
- * The double previousSibling is caused by the new line and tabs between the input and the button
+ * I'm using previousElementSibling instead of previousSibling because between the input and the
+ * button, exists a new line that is identified as another previousSibling, but not as an element
+ *
  */
 saltos.__form_field.password = function (field) {
     saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","tooltip"]);
@@ -807,7 +809,7 @@ saltos.__form_field.password = function (field) {
         });
     }
     obj.querySelector("button").addEventListener("click",function () {
-        var input = this.previousSibling.previousSibling;
+        var input = this.previousElementSibling;
         if (input.type == "password") {
             input.type = "text";
             this.classList.remove("bi-eye-slash");
@@ -880,17 +882,60 @@ saltos.__form_field.file = function (field) {
     // This helper programs the input file data update
     var __update_data_input_file = function (input) {
         var data = [];
-        var tabla = input.nextSibling.nextSibling.querySelector("table");
+        var tabla = input.nextElementSibling.querySelector("table");
         tabla.querySelectorAll("tr").forEach(function (_this) {
             data.push(_this.saltos_data);
         });
         input.saltos_data = data;;
     };
+    // This helper programs the delete file button
+    var __button_remove_file = function () {
+        var row = this.parentNode.parentNode;
+        var table = row.parentNode.parentNode;
+        var input = table.parentNode.previousElementSibling;
+        var data = {
+            action:"delfiles",
+            files:[],
+        };
+        data.files[0] = row.saltos_data;
+        saltos.ajax({
+            url:"index.php",
+            data:JSON.stringify(data),
+            method:"post",
+            content_type:"application/json",
+            success:function (response) {
+                if (typeof response != "object") {
+                    saltos.show_error({
+                        text:response,
+                        code:0,
+                    });
+                    return;
+                }
+                if (typeof response.error == "object") {
+                    saltos.show_error(response.error);
+                    return;
+                }
+                row.saltos_data = response[0];
+                // If server removes the file, i remove the row
+                if (response[0].file == "") {
+                    row.remove();
+                }
+                // If not there are files, hide the table
+                if (table.querySelectorAll("tr").length == 0) {
+                    table.classList.add("d-none");
+                }
+                __update_data_input_file(input);
+            },
+            headers:{
+                "token":saltos.token,
+            }
+        });
+    };
     // Program the automatic upload
     obj.querySelector("input").addEventListener("change",async function () {
         var input = this;
         var files = this.files;
-        var table = this.nextSibling.nextSibling.querySelector("table");
+        var table = this.nextElementSibling.querySelector("table");
         for (var i = 0; i < files.length; i++) {
             // Prepare the data to send
             var data = {
@@ -924,39 +969,7 @@ saltos.__form_field.file = function (field) {
             // Store the data in the row
             row.saltos_data = data.files[0];
             // Program de remove button
-            row.querySelector("button").addEventListener("click",function () {
-                var row = this.parentNode.parentNode;
-                var data = {
-                    action:"delfiles",
-                    files:[],
-                };
-                data.files[0] = row.saltos_data;
-                saltos.ajax({
-                    url:"index.php",
-                    data:JSON.stringify(data),
-                    method:"post",
-                    content_type:"application/json",
-                    success:function (data,textStatus,XMLHttpRequest) {
-                        row.saltos_data = data[0];
-                        // If server removes the file, i remove the row
-                        if (data[0].file == "") {
-                            row.remove();
-                        }
-                        // If not there are files, hide the table
-                        if (table.querySelectorAll("tr").length == 0) {
-                            table.classList.add("d-none");
-                        }
-                        __update_data_input_file(input);
-                    },
-                    error:function (XMLHttpRequest,textStatus,errorThrown) {
-                        console.log(XMLHttpRequest.statusText);
-                        // TODO
-                    },
-                    headers:{
-                        "token":saltos.token,
-                    }
-                });
-            });
+            row.querySelector("button").addEventListener("click",__button_remove_file);
             // Add the row
             table.querySelector("tbody").append(row);
             __update_data_input_file(input);
@@ -976,13 +989,20 @@ saltos.__form_field.file = function (field) {
                         data:JSON.stringify(data),
                         method:"post",
                         content_type:"application/json",
-                        success:function (data,textStatus,XMLHttpRequest) {
-                            row.saltos_data = data[0];
+                        success:function (response) {
+                            if (typeof response != "object") {
+                                saltos.show_error({
+                                    text:response,
+                                    code:0,
+                                });
+                                return;
+                            }
+                            if (typeof response.error == "object") {
+                                saltos.show_error(response.error);
+                                return;
+                            }
+                            row.saltos_data = response[0];
                             __update_data_input_file(input);
-                        },
-                        error:function (XMLHttpRequest,textStatus,errorThrown) {
-                            console.log(XMLHttpRequest.statusText);
-                            // TODO
                         },
                         progress:function (e) {
                             if (e.lengthComputable) {
@@ -1242,6 +1262,13 @@ saltos.__source_helper = function (field) {
         saltos.ajax({
             url:"index.php?" + field.source,
             success:function (response) {
+                if (typeof response != "object") {
+                    saltos.show_error({
+                        text:response,
+                        code:0,
+                    });
+                    return;
+                }
                 if (typeof response.error == "object") {
                     saltos.show_error(response.error);
                     return;

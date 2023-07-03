@@ -64,22 +64,41 @@ foreach ($files as $key => $val) {
     if ($val["error"] != "") {
         continue;
     }
+    // Get data and remove it from files[key]
     $data = $val["data"];
     $val["data"] = "";
     $files[$key] = $val;
+    // Check for the data prefix
     $pre = "data:{$val["type"]};base64,";
     $len = strlen($pre);
     if (strncmp($pre, $data, $len) != 0) {
         continue;
     }
+    // Check for the data size
     $data = base64_decode(substr($data, $len));
     if (strlen($data) != $val["size"]) {
         continue;
     }
+    // Store it in a local file
     $val["file"] = time() . "_" . get_unique_id_md5() . "_" . encode_bad_chars_file($val["name"]);
     $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
     file_put_contents($dir . $val["file"], $data);
+    // Compute the hash
     $val["hash"] = md5($data);
+    // Do the insert
+    $datetime = current_datetime();
+    $query = make_insert_query("tbl_uploads", array(
+        "user_id" => $user_id,
+        "datetime" => $datetime,
+        "uniqid" => $val["id"],
+        "name" => $val["name"],
+        "size" => $val["size"],
+        "type" => $val["type"],
+        "file" => $val["file"],
+        "hash" => $val["hash"],
+    ));
+    db_query($query);
+    // Update files[key]
     $files[$key] = $val;
 }
 output_handler_json($files);
