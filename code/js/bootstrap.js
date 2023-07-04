@@ -923,6 +923,12 @@ saltos.__form_field.file = function (field) {
                 }
                 __update_data_input_file(input);
             },
+            error:function (request) {
+                saltos.show_error({
+                    text:request.statusText,
+                    code:request.status,
+                });
+            },
             headers:{
                 "token":saltos.token,
             }
@@ -998,6 +1004,12 @@ saltos.__form_field.file = function (field) {
                             row.saltos_data = response[0];
                             __update_data_input_file(input);
                         },
+                        error:function (request) {
+                            saltos.show_error({
+                                text:request.statusText,
+                                code:request.status,
+                            });
+                        },
                         progress:function (e) {
                             if (e.lengthComputable) {
                                 var percent = parseInt((e.loaded / e.total) * 100);
@@ -1014,8 +1026,10 @@ saltos.__form_field.file = function (field) {
             // If there is an error
             if (reader.error) {
                 data.files[0].error = reader.error.message;
-                console.log(reader.error.message);
-                // TODO
+                saltos.show_error({
+                    text:reader.error.message,
+                    code:0,
+                });
             }
         }
     });
@@ -1222,8 +1236,10 @@ saltos.__form_field.pdfjs = function (field) {
                 pdfViewer.currentScaleValue = "page-width";
             });
         }, function (message,exception) {
-            console.log(message);
-            // TODO
+            saltos.show_error({
+                text:message,
+                code:0,
+            });
         });
     });
     return obj;
@@ -1269,6 +1285,12 @@ saltos.__source_helper = function (field) {
                     field[key] = response[key];
                 }
                 document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
+            },
+            error:function (request) {
+                saltos.show_error({
+                    text:request.statusText,
+                    code:request.status,
+                });
             },
             headers:{
                 "token":saltos.token,

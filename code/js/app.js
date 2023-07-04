@@ -38,14 +38,14 @@ saltos.show_error = function (error) {
         return;
     }
     saltos.modal({
-        title:"Error",
-        close:"Cerrar",
-        body:error.text + "<br/>Code " + error.code,
+        title:"Error " + error.code,
+        close:"Close",
+        body:error.text,
         footer:function () {
             var obj = saltos.html("<div></div>");
             obj.append(saltos.form_field({
                 type:"button",
-                value:"Aceptar",
+                value:"Accept",
                 class:"btn-primary",
                 onclick:function () {
                     saltos.modal("close");
@@ -74,6 +74,12 @@ saltos.send_request = function (data) {
                 return;
             }
             saltos.process_response(response);
+        },
+        error:function (request) {
+            saltos.show_error({
+                text:request.statusText,
+                code:request.status,
+            });
         },
         headers:{
             "token":saltos.token,
