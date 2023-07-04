@@ -452,7 +452,7 @@ function eval_attr($array)
  */
 function eval_bool($arg)
 {
-    static $bools = array(
+    $bools = array(
         "1" => 1,
         "0" => 0,
         "" => 0,

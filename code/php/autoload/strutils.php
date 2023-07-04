@@ -67,10 +67,10 @@ function remove_bad_chars($temp, $pad = "")
  */
 function encode_bad_chars($cad, $pad = "_", $extra = "")
 {
-    static $orig = array(
+    $orig = array(
         "á","à","ä","â","é","è","ë","ê","í","ì","ï","î","ó","ò","ö","ô","ú","ù","ü","û","ñ","ç",
         "Á","À","Ä","Â","É","È","Ë","Ê","Í","Ì","Ï","Î","Ó","Ò","Ö","Ô","Ú","Ù","Ü","Û","Ñ","Ç");
-    static $dest = array(
+    $dest = array(
         "a","a","a","a","e","e","e","e","i","i","i","i","o","o","o","o","u","u","u","u","n","c",
         "a","a","a","a","e","e","e","e","i","i","i","i","o","o","o","o","u","u","u","u","n","c",);
     $cad = str_replace($orig, $dest, $cad);

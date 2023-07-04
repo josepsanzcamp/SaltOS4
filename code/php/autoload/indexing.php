@@ -147,7 +147,7 @@ function make_index($app, $reg_id)
 function __make_index_helper($table, $id = "")
 {
     static $cache = array();
-    $hash = md5(serialize(array($table,$id)));
+    $hash = $table . "|" . $id;
     if (isset($cache[$hash])) {
         return $cache[$hash];
     }

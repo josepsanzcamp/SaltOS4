@@ -111,7 +111,7 @@ function show_php_error($array)
     // Add the msg_text to the error log file
     if (is_writable($dir)) {
         $file = get_config("debug/errorfile", "error.log");
-        static $types = array(
+        $types = array(
             array("dberror","debug/dberrorfile","dberror.log"),
             array("phperror","debug/phperrorfile","phperror.log"),
             array("xmlerror","debug/xmlerrorfile","xmlerror.log"),
@@ -226,7 +226,7 @@ function do_message_error($array)
         }
     }
     // Prepare html version
-    static $types = array(
+    $types = array(
         "dberror" => "DB Error",
         "phperror" => "PHP Error",
         "xmlerror" => "XML Error",
