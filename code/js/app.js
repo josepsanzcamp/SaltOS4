@@ -34,7 +34,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 saltos.show_error = function (error) {
     console.log(error);
     if (typeof error != "object") {
-        document.body.append(saltos.html(`<pre>${error}</pre>`));
+        document.body.append(saltos.html(`<pre class="m-3">${error}</pre>`));
         return;
     }
     saltos.modal({

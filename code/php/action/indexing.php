@@ -31,8 +31,8 @@ declare(strict_types=1);
  * TODO
  */
 
-make_index("clientes",51);
-make_control("clientes",51);
+make_index("clientes", 51);
+make_control("clientes", 51);
 
 /*********************************** INICIO PRUEBAS CLIENTES *************************************/
 

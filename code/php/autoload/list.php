@@ -30,35 +30,36 @@ declare(strict_types=1);
 /**
  * Add list actions helper
  *
- * This function returns the input rows adding to each row an array of actions, to do
- * this function uses the permissions to check that each register and each action is
- * allowed by the token
+ * This function returns the input rows adding to each row an array of actions,
+ * to do this function uses the permissions to check that each register and each
+ * action is allowed by the token
  *
  * @rows => the rows used to do the list
  * @actions => an array with the actions that want to be added in each row
  *
- * TODO: THIS FUNCTION IS UNDER DEVELOPMENT
+ * Notes:
+ *
+ * This function add to each row the actions using the permissions of the system
+ * associated to the current user, for each permission and using the new owner
+ * concept
  */
 function add_list_actions($rows, $actions)
 {
     foreach ($rows as $key => $row) {
         $row["actions"] = array();
         foreach ($actions as $action) {
-            $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            $table = app2table($action["app"]);
+            $id = $row["id"];
+            $sql = check_sql($action["app"], $action["action"]);
+            $query = "SELECT id FROM $table WHERE id=$id AND $sql";
+            $has_perm = execute_query($query);
+            if ($has_perm) {
+                $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            } else {
+                $action["url"] = "";
+            }
             $row["actions"][] = $action;
         }
-        // TODO: INICIO CODIGO TEST DISABLED
-        if ($row["id"] == 48) {
-            $row["actions"][2]["url"] = "";
-        }
-        if ($row["id"] == 47) {
-            $row["actions"][1]["url"] = "";
-            $row["actions"][2]["url"] = "";
-        }
-        if ($row["id"] == 46) {
-            $row["actions"][1]["url"] = "";
-        }
-        // TODO: FIN CODIGO TEST DISABLED
         $rows[$key] = $row;
     }
     return $rows;

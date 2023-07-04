@@ -43,47 +43,51 @@ declare(strict_types=1);
  */
 function check_user($app, $perm)
 {
+    static $array = null;
+    if ($array === null) {
+        // Get all permissions with all permutations
+        $query = "SELECT app_id, perm_id, allow, deny FROM tbl_apps_perms";
+        $from_apps_perms = execute_query_array($query);
+        // Get all relevant permissions associated to the user
+        $user_id = current_user();
+        $query = "SELECT app_id, perm_id, allow, deny FROM tbl_users_apps_perms WHERE user_id = $user_id";
+        $from_users_apps_perms = execute_query_array($query);
+        // Get all relevant permissions associated to the groups associated to the user
+        $groups_id = current_groups();
+        $query = "SELECT app_id, perm_id, allow, deny FROM tbl_groups_apps_perms WHERE group_id IN ($groups_id)";
+        $from_groups_apps_perms = execute_query_array($query);
+        // Compute the resulting array with all permissions
+        $array = array();
+        foreach ($from_apps_perms as $row) {
+            $key = $row["app_id"] . "|" . $row["perm_id"];
+            $array[$key] = $row;
+            $array[$key]["app"] = id2app($row["app_id"]);
+            $array[$key]["perm"] = id2perm($row["perm_id"]);
+        }
+        foreach (array_merge($from_users_apps_perms, $from_groups_apps_perms) as $row) {
+            $key = $row["app_id"] . "|" . $row["perm_id"];
+            if (!isset($array[$key])) {
+                show_php_error(array("phperror" => "Integrity error for $key in " . __FUNCTION__));
+            }
+            $array[$key]["allow"] += $row["allow"];
+            $array[$key]["deny"] += $row["deny"];
+        }
+        // Apply the filter
+        foreach ($array as $key => $val) {
+            if ($val["deny"] || !$val["allow"]) {
+                unset($array[$key]);
+            }
+        }
+    }
+    // Basic check
     if (!app_exists($app) || !perm_exists($perm)) {
         return false;
-    }
-    // Get all permissions with all permutations
-    $query = "SELECT app_id, perm_id, allow, deny FROM tbl_apps_perms";
-    $from_apps_perms = execute_query_array($query);
-    // Get all relevant permissions associated to the user
-    $user_id = current_user();
-    $query = "SELECT app_id, perm_id, allow, deny FROM tbl_users_apps_perms WHERE user_id = $user_id";
-    $from_users_apps_perms = execute_query_array($query);
-    // Get all relevant permissions associated to the groups associated to the user
-    $groups_id = current_groups();
-    $query = "SELECT app_id, perm_id, allow, deny FROM tbl_groups_apps_perms WHERE group_id IN ($groups_id)";
-    $from_groups_apps_perms = execute_query_array($query);
-    // Compute the resulting array with all permissions
-    $array = array();
-    foreach ($from_apps_perms as $row) {
-        $key = $row["app_id"] . "|" . $row["perm_id"];
-        $array[$key] = $row;
-        $array[$key]["app"] = id2app($row["app_id"]);
-        $array[$key]["perm"] = id2perm($row["perm_id"]);
-    }
-    foreach (array_merge($from_users_apps_perms, $from_groups_apps_perms) as $row) {
-        $key = $row["app_id"] . "|" . $row["perm_id"];
-        if (!isset($array[$key])) {
-            show_php_error(array("phperror" => "Integrity error for $key in " . __FUNCTION__));
-        }
-        $array[$key]["allow"] += $row["allow"];
-        $array[$key]["deny"] += $row["deny"];
-    }
-    // Apply the filter
-    foreach ($array as $key => $val) {
-        if ($val["deny"] || !$val["allow"]) {
-            unset($array[$key]);
-        }
     }
     // Special case when ask for perm with owners
     $app_id = app2id($app);
     $perm_id = perm2id($perm);
     if (is_array($perm_id)) {
-        foreach($perm_id as $temp) {
+        foreach ($perm_id as $temp) {
             $key = $app_id . "|" . $temp;
             if (isset($array[$key])) {
                 return true;
@@ -104,28 +108,53 @@ function check_user($app, $perm)
  *
  * @app => the app to check
  * @perm => the perm to check
+ *
+ * Notes:
+ *
+ * This function returns the portion of sql used to check permissions
+ * associated to an user with a specific permission and to an specific
+ * register, as an optimization, it detects if the all owner is on and
+ * return a true expression to improve the performance
  */
 function check_sql($app, $perm)
 {
     $table = app2table($app);
     $user_id = current_user();
     $groups_id = current_groups();
-    $temp = explode(",",$groups_id);
+    // This temporary variable allocate the sequence of FIND_IN_SET used to
+    // do the intersection between the groups_id of the current user and the
+    // groups_id of the control table, imagine that you have a user that is
+    // associated to the groups 1,2,3 and you must to do a FIND_IN_SET of
+    // each group (1,2,3) with the contents of the groups_id of the control
+    // table, this is not possible and to solve this issue, we must to
+    // prepare the $temp variable with the list of FIND_IN_SET of each
+    // group with the field that can contains another list of ids, in other
+    // words, this trick tries to solve the FIND_IN_SET('1,2,3', '2,3,4')
+    $temp = explode(",", $groups_id);
     foreach ($temp as $key => $val) {
         $temp[$key] = "FIND_IN_SET($val,groups_id)";
     }
-    $temp = implode(" OR ",$temp);
+    $temp = implode(" OR ", $temp);
+    // Continue
     $sql = array(
         "all" => "1=1",
-        "group" => "id IN (SELECT id FROM {$table}_control WHERE group_id IN ($groups_id) OR $temp)",
-        "user" => "id IN (SELECT id FROM {$table}_control WHERE user_id IN ($user_id) OR FIND_IN_SET($user_id,users_id))",
+        "group" => "id IN (SELECT id FROM {$table}_control
+            WHERE group_id IN ($groups_id) OR $temp)",
+        "user" => "id IN (SELECT id FROM {$table}_control
+            WHERE user_id IN ($user_id) OR FIND_IN_SET($user_id,users_id))",
     );
     foreach ($sql as $key => $val) {
-        if (check_user($app, $perm . "|" . $key)) {
-            return $val;
+        if (!check_user($app, $perm . "|" . $key)) {
+            unset($sql[$key]);
         }
     }
-    return "1=0";
+    if (!count($sql)) {
+        return "1=0";
+    }
+    if (isset($sql["all"])) {
+        return "1=1";
+    }
+    return "(" . implode(" OR ", $sql) . ")";
 }
 
 /**
@@ -152,7 +181,6 @@ function __perms($fn, $arg)
                 }
                 $dict["perm2id"][$row["code"]][] = $row["id"];
                 $row["code"] .= "|" . $row["owner"];
-
             }
             $dict["id2perm"][$row["id"]] = $row["code"];
             $dict["perm2id"][$row["code"]] = $row["id"];

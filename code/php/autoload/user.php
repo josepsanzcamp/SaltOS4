@@ -28,6 +28,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 declare(strict_types=1);
 
 /**
+ * This file contains the functions associated to the user validation, to
+ * improve the performance, all functions are using a cache based trick
+ * that performs an important speed up
+ */
+
+/**
  * Current Token
  *
  * This function returns the id of the current token, this info is retrieved
@@ -36,6 +42,11 @@ declare(strict_types=1);
  */
 function current_token()
 {
+    static $token_id = null;
+    if ($token_id !== null) {
+        return $token_id;
+    }
+    // Continue
     crontab_users();
     $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query(array(
         "token" => get_server("HTTP_TOKEN"),
@@ -43,7 +54,8 @@ function current_token()
         "remote_addr" => get_server("REMOTE_ADDR"),
         "user_agent" => get_server("HTTP_USER_AGENT"),
     )));
-    return intval($token_id);
+    $token_id = intval($token_id);
+    return $token_id;
 }
 
 /**
@@ -54,11 +66,17 @@ function current_token()
  */
 function current_user()
 {
+    static $user_id = null;
+    if ($user_id !== null) {
+        return $user_id;
+    }
+    // Continue
     $user_id = execute_query("SELECT user_id FROM tbl_users_tokens WHERE " . make_where_query(array(
         "id" => current_token(),
         "active" => 1,
     )));
-    return intval($user_id);
+    $user_id = intval($user_id);
+    return $user_id;
 }
 
 /**
@@ -69,11 +87,17 @@ function current_user()
  */
 function current_group()
 {
+    static $group_id = null;
+    if ($group_id !== null) {
+        return $group_id;
+    }
+    // Continue
     $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query(array(
         "id" => current_user(),
         "active" => 1,
     )));
-    return intval($group_id);
+    $group_id = intval($group_id);
+    return $group_id;
 }
 
 /**
@@ -86,6 +110,11 @@ function current_group()
  */
 function current_groups()
 {
+    static $groups_id = null;
+    if ($groups_id !== null) {
+        return $groups_id;
+    }
+    // Continue
     $user_id = current_user();
     if (!$user_id) {
         return 0;
@@ -99,7 +128,8 @@ function current_groups()
     // Compute the resulting array with all ids
     $array = array_merge($from_users, $from_groups);
     $array = array_diff($array, array(""));
-    return implode(",", $array);
+    $groups_id = implode(",", $array);
+    return $groups_id;
 }
 
 /**
@@ -122,6 +152,7 @@ function crontab_users()
         return;
     }
     $i_am_executed = true;
+    // Continue
     $datetime = current_datetime();
     $time = current_time();
     $dow = current_dow();
