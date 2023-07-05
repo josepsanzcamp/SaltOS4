@@ -1264,6 +1264,15 @@ saltos.__form_field.pdfjs = function (field) {
  * @type => the type used to set the type for to the object
  * @source => data source used to load asynchronously the contents of the table (header, data, footer and divider)
  * @value => data container used to get synchronously the contents of the table (header, data, footer and divider)
+ *
+ * Notes:
+ *
+ * In some cases, the response for a source request can be an object that represents an xml node with attributes
+ * and values, as for the example, the widget/2 used in the app.php, that returns an array with all contents of
+ * the widget in the value entry and another entry used for the #attr that only contains the id used to select
+ * the widget in the app.php, is this case, the unique data that we want to use here is the contents of the
+ * value, and for this reason, the response is filtered to use only the value key in the case of existence of
+ * the #attr and value keys
  */
 saltos.__source_helper = function (field) {
     saltos.check_params(field,["id","type","source","value"]);
@@ -1281,6 +1290,9 @@ saltos.__source_helper = function (field) {
                     return;
                 }
                 field.source = "";
+                if (response.hasOwnProperty("value") && response.hasOwnProperty("#attr")) {
+                    response = response.value;
+                }
                 for (var key in response) {
                     field[key] = response[key];
                 }
