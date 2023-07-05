@@ -79,12 +79,10 @@ if (!isset($_DATA["rest"][3])) {
 $_DATA["rest"][3] = intval($_DATA["rest"][3]);
 
 // Trick to allow request as widget/2
-$count = 1;
 $dict = array();
 foreach ($array as $key => $val) {
-    if (fix_key($key) == $_DATA["rest"][2]) {
-        $dict[$_DATA["rest"][2] . "/" . $count] = $key;
-        $count++;
+    if (fix_key($key) == $_DATA["rest"][2] && isset($val["#attr"]["id"])) {
+        $dict[$_DATA["rest"][2] . "/" . $val["#attr"]["id"]] = $key;
     }
 }
 if (count($dict) > 1) {

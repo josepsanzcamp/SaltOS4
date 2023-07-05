@@ -235,7 +235,7 @@ saltos.ajax = function (args) {
     }
     args.method = args.method.toUpperCase();
     if (!["GET","POST"].includes(args.method)) {
-        console.log("unknown " + args.method + " type");
+        console.log("unknown " + args.method + " method");
         return null;
     }
     var ajax = new XMLHttpRequest();
