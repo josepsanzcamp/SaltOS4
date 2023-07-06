@@ -26,5 +26,37 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
-
+    <list>
+        <layout auto="true" container_class="container mt-3" col_class="col mb-3">
+            <table checkbox="true">
+                <header eval="true">[
+                    "de_para" => "De/Para",
+                    "subject" => "Asunto",
+                    "datetime" => "Fecha",
+                ]</header>
+                <data eval="true">add_list_actions(execute_query_array("
+                    SELECT id, CASE is_outbox WHEN 1 THEN para ELSE de END de_para, subject, datetime
+                    FROM app_correo
+                    WHERE 1 = 1
+                    AND ".make_fulltext_query("", "correo", array("minsize" => 1, "default" => "1=1"))."
+                    AND ".check_sql("correo", "list")."
+                    ORDER BY id DESC
+                    LIMIT 0,50
+                "),[
+                    ["app" => "correo", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle correo"],
+                    ["app" => "correo", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar correo"],
+                    ["app" => "correo", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar correo"]
+                ])</data>
+                <footer eval="true">["","","Total",execute_query_array("
+                    SELECT COUNT(*) total
+                    FROM app_correo
+                    WHERE 1 = 1
+                    AND ".make_fulltext_query("", "correo", array("minsize" => 1, "default" => "1=1"))."
+                    AND ".check_sql("correo", "list")."
+                ")]</footer>
+                <divider eval="true">[false, true, true]</divider>
+            </table>>
+        </layout>
+    </list>
+    <!-- TODO -->
 </root>

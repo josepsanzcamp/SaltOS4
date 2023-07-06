@@ -254,6 +254,7 @@ saltos.form.layout = function (layout) {
         div = div.firstChild;
     }
     document.body.append(div);
+    saltos.loading(0);
 };
 
 /**
@@ -315,9 +316,26 @@ window.onhashchange = function (event) {
     // Reset the body interface
     saltos.modal("close");
     saltos.offcanvas("close");
-    document.body.innerHTML = "";
+    saltos.loading(1);
     // Do the request
     saltos.send_request(hash);
+};
+
+/**
+ *
+ */
+saltos.loading = function (on_off) {
+    if (on_off) {
+        document.body.innerHTML = `
+            <div id="loading" class="d-flex justify-content-center align-items-center vh-100">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `;
+    } else {
+        document.getElementById("loading").remove();
+    }
 };
 
 /**
