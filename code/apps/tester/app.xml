@@ -28,6 +28,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 <root>
     <menu>
         <javascript>
+            <inline>saltos.loading(0)</inline>
             <file>apps/tester/app.js</file>
         </javascript>
     </menu>

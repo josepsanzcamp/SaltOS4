@@ -153,6 +153,7 @@ saltos.form.data = function (data) {
  * of the node are created inside a container, a row, and each field inside a col.
  */
 saltos.form.layout = function (layout) {
+    saltos.loading(0);
     // Check for attr auto
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
         var attr = layout["#attr"];
@@ -255,7 +256,6 @@ saltos.form.layout = function (layout) {
         div = div.firstChild;
     }
     document.body.append(div);
-    saltos.loading(0);
 };
 
 /**

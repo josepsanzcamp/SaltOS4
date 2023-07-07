@@ -1628,10 +1628,6 @@ saltos.__form_field.chartjs = function (field) {
         new Chart(obj, {
             type: field.mode,
             data: field.data,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-            },
         });
     });
     return obj;
