@@ -32,10 +32,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 <header eval="true">[
                     "de_para" => "De/Para",
                     "subject" => "Asunto",
-                    "datetime" => "Fecha",
+                    "date_time" => "Fecha",
                 ]</header>
                 <data eval="true">add_list_actions(execute_query_array("
-                    SELECT id, CASE is_outbox WHEN 1 THEN para ELSE de END de_para, subject, datetime
+                    SELECT id, IF(is_outbox, para, de) de_para, subject,
+                        IF(DATE(datetime)=DATE(NOW()), TIME_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time
                     FROM app_correo
                     WHERE 1 = 1
                     AND ".make_fulltext_query("", "correo", array("minsize" => 1, "default" => "1=1"))."
