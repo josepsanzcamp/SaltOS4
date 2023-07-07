@@ -1613,9 +1613,6 @@ saltos.__form_field.card = function (field) {
  * Notes:
  *
  * To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
- *
- * For pie and doughnut chartjs, is needed to put the width and height to 100% to fix a problem
- * when container resizes
  */
 saltos.__form_field.chartjs = function (field) {
     saltos.check_params(field,["id","mode","data"]);
@@ -1631,14 +1628,12 @@ saltos.__form_field.chartjs = function (field) {
         new Chart(obj, {
             type: field.mode,
             data: field.data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            },
         });
     });
-    if (["pie","doughnut"].includes(field.mode)) {
-        window.addEventListener("resize", function () {
-            obj.style.width = "100%";
-            obj.style.height = "100%";
-        });
-    }
     return obj;
 };
 

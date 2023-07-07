@@ -34,7 +34,7 @@ foreach (glob("php/autoload/*.php") as $file) {
 
 // Some important items
 program_handlers();
-init_time_getter();
+init_timer();
 init_random();
 check_system();
 
