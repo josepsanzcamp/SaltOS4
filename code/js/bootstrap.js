@@ -1318,6 +1318,21 @@ saltos.__source_helper = function (field) {
 };
 
 /**
+ * Placeholder helper
+ *
+ * This function returns a grey area that uses all space with the placeholder glow effect
+ *
+ * @id => id used in the original object, it must be replaced when the data will be available
+ */
+saltos.__placeholder_helper = function (id) {
+    return saltos.html(`
+        <div id="${id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
+            <span class="w-100 h-100 placeholder"></span>
+        </div>
+    `);
+}
+
+/**
  * Table constructor helper
  *
  * Returns a table using the follow params:
@@ -1344,6 +1359,9 @@ saltos.__form_field.table = function (field) {
     saltos.check_params(field,["class","id","checkbox"]);
     saltos.check_params(field,["header","data","footer","divider"],[]);
     saltos.__source_helper(field);
+    if (field.source != "") {
+        return saltos.__placeholder_helper(field.id);
+    }
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
             <style>
@@ -1507,6 +1525,9 @@ saltos.__form_field.table = function (field) {
 saltos.__form_field.alert = function (field) {
     saltos.check_params(field,["class","id","title","text","body","close"]);
     saltos.__source_helper(field);
+    if (field.source != "") {
+        return saltos.__placeholder_helper(field.id);
+    }
     var obj = saltos.html(`
         <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
@@ -1554,6 +1575,9 @@ saltos.__form_field.alert = function (field) {
 saltos.__form_field.card = function (field) {
     saltos.check_params(field,["id","image","alt","header","footer","title","text","body"]);
     saltos.__source_helper(field);
+    if (field.source != "") {
+        return saltos.__placeholder_helper(field.id);
+    }
     var obj = saltos.html(`<div class="card" id="${field.id}"></div>`);
     if (field.image != "") {
         obj.append(saltos.html(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`));
@@ -1596,6 +1620,9 @@ saltos.__form_field.card = function (field) {
 saltos.__form_field.chartjs = function (field) {
     saltos.check_params(field,["id","mode","data"]);
     saltos.__source_helper(field);
+    if (field.source != "") {
+        return saltos.__placeholder_helper(field.id);
+    }
     var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
     for (var key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;

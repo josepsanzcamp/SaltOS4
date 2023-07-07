@@ -32,6 +32,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * This function allow to show a modal dialog with de details of an error
  */
 saltos.show_error = function (error) {
+    saltos.loading(0);
     console.log(error);
     if (typeof error != "object") {
         document.body.append(saltos.html(`<pre class="m-3">${error}</pre>`));
@@ -322,20 +323,39 @@ window.onhashchange = function (event) {
 };
 
 /**
+ * Loading helper
  *
+ * This function adds and removes the spinner to emulate the loading effect screen
+ *
+ * @on_off => if you want to show or hide the loading spinner, the function returns
+ * true when can do the action, false otherwise
+ *
+ * The main
  */
 saltos.loading = function (on_off) {
-    if (on_off) {
-        document.body.innerHTML = `
+    var obj = document.getElementById("loading");
+    if (on_off && !obj) {
+        document.body.append(saltos.html(`
             <div id="loading" class="d-flex justify-content-center align-items-center vh-100">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
-        `;
-    } else {
-        document.getElementById("loading").remove();
+        `));
+        window.scrollTo(0, window.scrollMaxY);
+        return true;
     }
+    if (!on_off && obj) {
+        window.scrollTo(0, 0);
+        var timer = setInterval(function () {
+            if (window.scrollY == 0) {
+                obj.remove();
+                clearInterval(timer);
+            }
+        },1);
+        return true;
+    }
+    return false;
 };
 
 /**
