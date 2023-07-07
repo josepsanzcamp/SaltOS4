@@ -48,13 +48,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     ["app" => "correo", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar correo"],
                     ["app" => "correo", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar correo"]
                 ])</data>
-                <footer eval="true">["","","Total",execute_query_array("
+                <footer eval="true">"Mostrando 1 de 50 correos (" . execute_query("
                     SELECT COUNT(*) total
                     FROM app_correo
                     WHERE 1 = 1
                     AND ".make_fulltext_query("", "correo", array("minsize" => 1, "default" => "1=1"))."
                     AND ".check_sql("correo", "list")."
-                ")]</footer>
+                ") . " en total)"</footer>
                 <divider eval="true">[false, true, true]</divider>
             </table>>
         </layout>

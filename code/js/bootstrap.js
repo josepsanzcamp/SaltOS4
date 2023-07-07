@@ -1458,14 +1458,29 @@ saltos.__form_field.table = function (field) {
         if (typeof field.divider[2] == "boolean" && field.divider[2]) {
             obj.querySelector("tfoot").classList.add("table-group-divider");
         }
-        if (field.checkbox) {
-            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
+        if (typeof field.footer == "object") {
+            if (field.header.length != field.footer.length) {
+                console.log("field.header.length != field.footer.length");
+            }
+            if (field.checkbox) {
+                obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
+            }
+            for (var key in field.footer) {
+                obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
+            }
+            if (field.data.length && field.data[0].hasOwnProperty("actions")) {
+                obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
+            }
         }
-        for (var key in field.footer) {
-            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
-        }
-        if (field.data.length && field.data[0].hasOwnProperty("actions")) {
-            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
+        if (typeof field.footer == "string") {
+            var num = field.header.length
+            if (field.checkbox) {
+                num++;
+            }
+            if (field.data.length && field.data[0].hasOwnProperty("actions")) {
+                num++;
+            }
+            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td colspan="${num}" class="text-center">${field.footer}</td>`));
         }
     }
     return obj;
