@@ -14,3 +14,5 @@ icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|versio
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNC0xN1QwMTo1ODozMlo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/commits/main.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMi0xMi0xN1QxMDo0NjowMVo8L3VwZGF0ZWQ+
 bmpphp|http://www.phpclasses.org/browse/file/30315.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMTAtMDItMDcgMTE6MTY6MzEiPjEzIHllYXJzIGFnbzwvc3Bhbj48L1REPg==
+edifact|https://github.com/php-edifact/edifact/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNi0xOVQwOTozMTo1MVo8L3VwZGF0ZWQ+
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNi0xNFQyMjo0ODo1OVo8L3VwZGF0ZWQ+

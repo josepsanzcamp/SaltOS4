@@ -1,0 +1,52 @@
+{
+    "name": "sabas/edifact",
+    "description": "Tools in PHP for UN/EDIFACT",
+    "keywords": [
+        "EDI",
+        "EDIFACT",
+        "message",
+        "container"
+    ],
+    "homepage": "https://github.com/php-edifact/edifact",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Stefano Sabatini",
+            "email": "sabas88@gmail.com",
+            "homepage": "http://stefanosabatini.eu",
+            "role": "Developer"
+        },
+        {
+            "name": "Uldis Nelsons",
+            "role": "Developer"
+        },
+        {
+            "name": "Emil Vikström",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "~8",
+        "ext-json": "*",
+        "ext-simplexml": "*"
+    },
+    "require-dev": {
+        "php-edifact/edifact-mapping": "dev-master",
+        "phpunit/phpunit": "~9.0",
+        "voku/arrayy": "~7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "EDI\\": "src/EDI/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/php-edifact/edifact"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/php-edifact/edifact/issues"
+    }
+}
