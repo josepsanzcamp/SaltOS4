@@ -1,9 +1,7 @@
 
 all:
 	minify js/core.js js/bootstrap.js js/app.js > js/index.min.js
-	cat htm/index.htm | php ../scripts/sha384.php > htm/index.tmp.htm
-	minimize htm/index.tmp.htm --output htm/index.min.htm 1>/dev/null
-	rm -f htm/index.tmp.htm
+	cat htm/index.htm | php ../scripts/sha384.php | php ../scripts/minify.php > htm/index.min.htm
 
 test:
 	$(eval files := $(shell find index.php php ../scripts apps -name \*.php))
@@ -22,5 +20,4 @@ libs:
 	php ../scripts/checklibs.php ../scripts/checklibs.txt
 
 debug:
-	cat js/core.js js/bootstrap.js js/app.js > js/index.min.js
-	cat htm/index.htm > htm/index.min.htm
+	cat htm/index.htm | php ../scripts/debug.php js/core.js js/bootstrap.js js/app.js > htm/index.min.htm
