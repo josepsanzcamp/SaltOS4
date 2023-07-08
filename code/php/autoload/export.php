@@ -51,7 +51,7 @@ declare(strict_types=1);
 function export_file($args)
 {
     //~ echo "<pre>".sprintr($args)."</pre>";die();
-    // CHECK PARAMETERS
+    // Check parameters
     if (!isset($args["type"])) {
         show_php_error(array("phperror" => "Unknown type"));
     }
@@ -88,7 +88,7 @@ function export_file($args)
     if (!isset($args["indent"])) {
         $args["indent"] = false;
     }
-    // CONTINUE
+    // Continue
     switch ($args["type"]) {
         case "xml":
             $buffer = __export_file_xml($args["data"], $args["eol"], $args["encoding"]);
@@ -235,7 +235,7 @@ function __export_file_excel($matrix, $title = "", $type = "Xlsx")
     if ($title != "") {
         $objPHPExcel->getActiveSheet()->setTitle(substr($title, 0, 31));
     }
-    // CONVERT ALL LONG NUMBERS TO STRING
+    // Convert all long numbers to string
     foreach ($matrix as $key => $val) {
         foreach ($val as $key2 => $val2) {
             if (is_numeric($val2)) {
@@ -251,7 +251,7 @@ function __export_file_excel($matrix, $title = "", $type = "Xlsx")
             }
         }
     }
-    // CONTINUE
+    // Continue
     $objWriter = PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, $type);
     ob_start();
     $objWriter->save("php://output");
@@ -272,7 +272,7 @@ function __export_file_excel($matrix, $title = "", $type = "Xlsx")
  */
 function __export_file_edi($matrix, $wrap = false)
 {
-    // CONVERT ALL ITEMS TO STRING
+    // Convert all items to string
     foreach ($matrix as $key => $line) {
         foreach ($line as $key2 => $field) {
             if (is_array($field)) {
@@ -288,7 +288,7 @@ function __export_file_edi($matrix, $wrap = false)
             }
         }
     }
-    // CONTINUE
+    // Continue
     require_once "lib/edifact/vendor/autoload.php";
     $encoder = new EDI\Encoder();
     $encoder->encode($matrix, $wrap);

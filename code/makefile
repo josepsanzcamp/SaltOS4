@@ -20,3 +20,7 @@ test:
 
 libs:
 	php ../scripts/checklibs.php ../scripts/checklibs.txt
+
+debug:
+	cat js/core.js js/bootstrap.js js/app.js > js/index.min.js
+	cat htm/index.htm > htm/index.min.htm

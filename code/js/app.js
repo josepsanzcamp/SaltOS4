@@ -195,7 +195,7 @@ saltos.form.layout = function (layout) {
                 }
                 numcol++;
                 var col_class = attr.col_class;
-                if (item[1]["#attr"].hasOwnProperty("col_class")) {
+                if (item[1].hasOwnProperty("#attr") && item[1]["#attr"].hasOwnProperty("col_class")) {
                     col_class = item[1]["#attr"].col_class;
                 }
                 layout.container.value["row#" + numrow].value["col#" + numcol] = {
@@ -228,8 +228,12 @@ saltos.form.layout = function (layout) {
             var attr = {};
             var value = val;
         }
-        attr.type = key;
-        attr.value = value;
+        if (!attr.hasOwnProperty("type")) {
+            attr.type = key;
+        }
+        if (!attr.hasOwnProperty("value")) {
+            attr.value = value;
+        }
         if (["container","col","row","div"].includes(key)) {
             var obj = saltos.form_field(attr);
             var temp = saltos.form.layout(value,1);
@@ -238,9 +242,6 @@ saltos.form.layout = function (layout) {
             }
             arr.push(obj);
         } else {
-            //~ if (attr.hasOwnProperty("onclick") && typeof attr.onclick == "string") {
-                //~ attr.onclick = new Function(attr.onclick);
-            //~ }
             var obj = saltos.form_field(attr);
             arr.push(obj);
         }

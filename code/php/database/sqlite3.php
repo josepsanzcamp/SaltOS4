@@ -116,6 +116,8 @@ class database_sqlite3
             $this->link->createFunction("FIND_IN_SET", "__libsqlite_find_in_set");
             $this->link->createFunction("IF", "__libsqlite_if");
             $this->link->createFunction("POW", "__libsqlite_pow");
+            $this->link->createFunction("DATE_FORMAT", "__libsqlite_date_format");
+            $this->link->createFunction("NOW", "__libsqlite_now");
         }
     }
 

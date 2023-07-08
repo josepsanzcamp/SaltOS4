@@ -53,7 +53,7 @@ declare(strict_types=1);
  */
 function import_file($args)
 {
-    // CHECK PARAMETERS
+    // Check parameters
     if (isset($args["data"])) {
         $args["file"] = get_cache_file($args["data"], "tmp");
         if (!file_exists($args["file"])) {
@@ -105,7 +105,7 @@ function import_file($args)
     if (!file_exists($args["file"])) {
         return "Error: File '{$args["file"]}' not found";
     }
-    // CONTINUE
+    // Continue
     switch ($args["type"]) {
         case "application/xml":
         case "text/xml":
@@ -255,7 +255,7 @@ function __import_struct2array(&$data)
             }
             set_array($array, $name, $value);
         } elseif ($type == "cdata") {
-            // NOTHING TO DO
+            // Nothing to do
         } else {
             xml_error("Unknown tag type with name '&lt;/$name&gt;'", $linea);
         }
@@ -473,14 +473,14 @@ function __import_xls2array($file, $sheet)
 {
     require_once "lib/phpspreadsheet/vendor/autoload.php";
     $objReader = PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
-    // CHECK THE SHEET PARAM
+    // Check the sheet param
     if (!method_exists($objReader, "listWorksheetNames")) {
         return "Error: Sheets not found in the file";
     }
-    // libxml_use_internal_errors IS A TRICK TO PREVENT THE simplexml_load_string ERROR WHEN GETS BINARY DATA
-    libxml_use_internal_errors(true); // TRICK
+    // libxml_use_internal_errors is a trick to prevent the simplexml_load_string error when gets binary data
+    libxml_use_internal_errors(true); // Trick
     $sheets = $objReader->listWorksheetNames($file);
-    libxml_use_internal_errors(false); // TRICK
+    libxml_use_internal_errors(false); // Trick
     if (is_numeric($sheet)) {
         if (!isset($sheets[$sheet])) {
             return "Error: Sheet number '{$sheet}' not found";
@@ -496,8 +496,8 @@ function __import_xls2array($file, $sheet)
             return "Error: Sheet named '{$sheet}' not found";
         }
     }
-    // TRICK FOR A BIG FILES
-    if (filesize($file) > 1048576 && check_commands(get_default("commands/xlsx2csv"), 60)) { // filesize>1Mb
+    // Trick for a big files
+    if (filesize($file) > 1048576 && check_commands(get_default("commands/xlsx2csv"), 60)) { // filesize > 1Mb
         $csv = get_cache_file($file, "csv");
         if (!file_exists($csv)) {
             $xlsx = get_cache_file($file, "xlsx");
@@ -533,10 +533,10 @@ function __import_xls2array($file, $sheet)
             return $array;
         }
     }
-    // CONTINUE
+    // Continue
     $objPHPExcel = $objReader->load($file);
     $objSheet = $objPHPExcel->getSheet($sheet);
-    // DETECT COLS AND ROWS WITH DATA
+    // Detect cols and rows with data
     $cells = $objSheet->getCoordinates(true);
     $cols = array();
     $rows = array();
@@ -545,14 +545,14 @@ function __import_xls2array($file, $sheet)
         $cols[$col] = __import_name2col($col);
         $rows[$row] = $row;
     }
-    // IMPORTANT TRICK: TO ORDER THE COLS, WE NEEDED TO CONVERT IT INTO NUMBERS BEFORE TO DO THE REAL ORDER,
-    // AND WHEN THE LIST HAS THE CORRECT ORDER, THEN WE CAN CONVERT IT TO THE ORIGINAL LETTERS
+    // Important trick: to order the cols, we needed to convert it into numbers before to do the real order,
+    // and when the list has the correct order, then we can convert it to the original letters
     sort($cols, SORT_NUMERIC);
     sort($rows, SORT_NUMERIC);
     foreach ($cols as $key => $val) {
         $cols[$key] = __import_col2name($val);
     }
-    // READ DATA
+    // Read data
     $array = array();
     foreach ($rows as $row) {
         $temp = array();
@@ -573,11 +573,11 @@ function __import_xls2array($file, $sheet)
         }
         $array[] = $temp;
     }
-    // RELEASE MEMORY
+    // Release memory
     unset($objReader);
     unset($objPHPExcel);
     unset($objSheet);
-    // CONTINUE
+    // Continue
     return $array;
 }
 
@@ -713,7 +713,7 @@ function __import_check_real_matrix($array)
  */
 function __import_removevoid($array)
 {
-    // INITIAL CHECKS
+    // Initial checks
     if (!is_array($array)) {
         return $array;
     }
@@ -723,7 +723,7 @@ function __import_removevoid($array)
     if (!__import_check_real_matrix($array)) {
         return $array;
     }
-    // CONTINUE
+    // Continue
     $count_rows = count($array);
     $rows = array_fill(0, $count_rows, 0);
     $count_cols = 0;
@@ -755,17 +755,23 @@ function __import_removevoid($array)
 }
 
 /**
- * __import_array2tree
+ * Array to Tree helper
  *
- * TODO
+ * This function tries to convert the array into a tree using the nodes,
+ * specification
  *
- * TODO
- *
- * TODO
+ * @array => the matrix that you want to convert into a tree
+ * @nodes => the dictionary used to the conversion, must to be an array with
+ *           the fields used by each node, for example ["A,B,C","D,E,F"]
+ * @nohead => set it to true to prevent the usage of the first row of the
+ *            matrix as header, this option uses the letter as id of each
+ *            element of the tree
+ * @noletter => set it to true to prevent the usage of letters, if the
+ *              previous option is set to true
  */
 function __import_array2tree($array, $nodes, $nohead, $noletter)
 {
-    // INITIAL CHECKS
+    // Initial checks
     if (!is_array($array)) {
         return $array;
     }
@@ -775,7 +781,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
     if (!__import_check_real_matrix($array)) {
         return $array;
     }
-    // CONTINUE
+    // Continue
     if ($nohead) {
         $head = array();
         $num = 1;
@@ -788,14 +794,14 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
     } else {
         $head = array_shift($array);
     }
-    // FIX FOR DUPLICATES AND SPACES
+    // Fix for duplicates and spaces
     $temp = array();
     foreach ($head as $temp2) {
         $temp2 = trim($temp2);
         set_array($temp, $temp2, "");
     }
     $head = array_keys($temp);
-    // CONTINUE
+    // Continue
     if (!is_array($nodes) || !count($nodes)) {
         $nodes = array(range(0, count($head) - 1));
     } else {
@@ -850,14 +856,13 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
 }
 
 /**
- * __import_array_intersect
+ * Array Intersect
  *
  * This function returns the same result that array_intersect_key($data,array_flip($filter))
  * maintaining the order of the filter array.
  *
- * TODO
- *
- * TODO
+ * @data => the array that you want to apply the filter
+ * @filter => the array where obtain the keys to apply the filter
  */
 function __import_array_intersect($data, $filter)
 {
@@ -871,13 +876,14 @@ function __import_array_intersect($data, $filter)
 }
 
 /**
- * __import_array2tree_set
+ * Array to Tree Set helper
  *
- * TODO
+ * This function tries to set values in a tree structure, to do it, it uses
+ * the parts array that contains a list of paired keys and values used to move
+ * by the tree setting the values of each pair of key val
  *
- * TODO
- *
- * TODO
+ * @result => the array where do you want to put the parts
+ * @parts => an array with pairs of key val
  */
 function __import_array2tree_set(&$result, $parts)
 {
@@ -895,13 +901,11 @@ function __import_array2tree_set(&$result, $parts)
 }
 
 /**
- * __import_array2tree_clean
+ * Array to Tree Clean helper
  *
- * TODO
+ * This function tries to clean the tree by setting an automatic indexes
  *
- * TODO
- *
- * TODO
+ * @array => the array to clean
  */
 function __import_array2tree_clean($array)
 {
@@ -917,13 +921,12 @@ function __import_array2tree_clean($array)
 }
 
 /**
- * __import_tree2array
+ * Tree to Array
  *
- * TODO
+ * This function convert a tree into a 2D matrix, it's intended to convert
+ * a tree structure into a csv, for example
  *
- * TODO
- *
- * TODO
+ * @array => the tree that you want to convert into a 2D matrix
  */
 function __import_tree2array($array)
 {
@@ -931,12 +934,12 @@ function __import_tree2array($array)
     foreach ($array as $node) {
         if (isset($node["row"]) && isset($node["rows"])) {
             foreach (__import_tree2array($node["rows"]) as $row) {
-                // FIX FOR DUPLICATES
+                // Fix for duplicates
                 $temp = $node["row"];
                 foreach ($row as $key => $val) {
                     set_array($temp, $key, $val);
                 }
-                // CONTINUE
+                // Continue
                 $result[] = $temp;
             }
         } else {
@@ -947,23 +950,19 @@ function __import_tree2array($array)
 }
 
 /**
- * __import_col2name
+ * Column to Name helper
  *
- * TODO
+ * This function returns the name of the column from the position n
  *
- * TODO
+ * @n => the position number
  *
- * TODO
+ * Notes:
+ *
+ * This function was copied from:
+ * - http://www.php.net/manual/en/function.base-convert.php#94874
  */
-// COPIED FROM http://www.php.net/manual/en/function.base-convert.php#94874
 function __import_col2name($n)
 {
-    if (is_array($n)) {
-        foreach ($n as $key => $val) {
-            $n[$key] = __import_col2name($val);
-        }
-        return $n;
-    }
     $r = '';
     for ($i = 1; $n >= 0 && $i < 10; $i++) {
         $r = chr(0x41 + (int)($n % pow(26, $i) / pow(26, $i - 1))) . $r;
@@ -973,23 +972,19 @@ function __import_col2name($n)
 }
 
 /**
- * __import_name2col
+ * Name to Column helper
  *
- * TODO
+ * This function returns the position number of the column from the name
  *
- * TODO
+ * @a => the column name
  *
- * TODO
+ * Notes:
+ *
+ * This function was copied from:
+ * - http://www.php.net/manual/en/function.base-convert.php#94874
  */
-// COPIED FROM http://www.php.net/manual/en/function.base-convert.php#94874
 function __import_name2col($a)
 {
-    if (is_array($a)) {
-        foreach ($a as $key => $val) {
-            $a[$key] = __import_name2col($val);
-        }
-        return $a;
-    }
     $r = 0;
     $l = strlen($a);
     for ($i = 0; $i < $l; $i++) {
@@ -999,13 +994,12 @@ function __import_name2col($a)
 }
 
 /**
- * __import_isname
+ * Is Name helper
  *
- * TODO
+ * This function returns true if the name argument contains only valid letters
+ * used in the name of the column
  *
- * TODO
- *
- * TODO
+ * @name => the name that you want to check
  */
 function __import_isname($name)
 {
@@ -1019,13 +1013,16 @@ function __import_isname($name)
 }
 
 /**
- * __import_cell2colrow
+ * Cell to Column and Row helper
  *
- * TODO
+ * This function extract the column part and the row part from a cell name
  *
- * TODO
+ * @cell => the cell that you want to process
  *
- * TODO
+ * Notes:
+ *
+ * This function tries to retusn an array with two elements, for example, for
+ * the cell AX23, the function returns [AX,23]
  */
 function __import_cell2colrow($cell)
 {
@@ -1044,13 +1041,12 @@ function __import_cell2colrow($cell)
 }
 
 /**
- * __import_getkeys
+ * Get Keys
  *
- * TODO
+ * This function tries to return an array with all the keys used internally
+ * in the tree
  *
- * TODO
- *
- * TODO
+ * @array => the tree array that you want to process
  */
 function __import_getkeys($array)
 {
@@ -1067,13 +1063,15 @@ function __import_getkeys($array)
 }
 
 /**
- * __import_filter
+ * Filter helper
  *
- * TODO
+ * This function tries to apply a filter to a tree array, too allow to use
+ * the evaluation system to allow to pass as filter an expression like this
+ * A=M23
  *
- * TODO
- *
- * TODO
+ * @array => the tree array that you want to apply the filter
+ * @filter => the filter to apply
+ * @eval => set to 1 if you want to enable the eval feature
  */
 function __import_filter($array, $filter, $eval = 0)
 {
@@ -1087,24 +1085,26 @@ function __import_filter($array, $filter, $eval = 0)
 }
 
 /**
- * __import_filter_rec
+ * Filter Recursive helper
  *
- * TODO
+ * This function is a helper of the previous function and is able to to the
+ * same but with recursivity
  *
- * TODO
- *
- * TODO
+ * @node => the tree node that you want to filter
+ * @filter => the filter to apply
+ * @eval => set to 1 if you want to enable the eval feature
+ * @parent => this parameter is intended to be used internaly by the function
  */
 function __import_filter_rec($node, $filter, $eval, $parent = array())
 {
     if (isset($node["row"]) && isset($node["rows"])) {
-        // NORMAL FILTER
+        // Normal filter
         foreach ($node["row"] as $val) {
             if (stripos($val, $filter) !== false) {
                 return true;
             }
         }
-        // EVAL FILTER
+        // Eval filter
         if ($eval) {
             $vars = array_merge($parent, array_values($node["row"]));
             $keys = array_keys($vars);
@@ -1119,20 +1119,20 @@ function __import_filter_rec($node, $filter, $eval, $parent = array())
                 return true;
             }
         }
-        // RECURSIVE CALL
+        // Recursive call
         foreach ($node["rows"] as $node2) {
             if (__import_filter_rec($node2, $filter, $eval, array_merge($parent, array_values($node["row"])))) {
                 return true;
             }
         }
     } else {
-        // NORMAL FILTER
+        // Normal filter
         foreach ($node as $val) {
             if (stripos($val, $filter) !== false) {
                 return true;
             }
         }
-        // EVAL FILTER
+        // Eval filter
         if ($eval) {
             $vars = array_merge($parent, array_values($node));
             $keys = array_keys($vars);
@@ -1151,13 +1151,14 @@ function __import_filter_rec($node, $filter, $eval, $parent = array())
 }
 
 /**
- * __import_apply_patch
+ * Apply Patch
  *
- * TODO
+ * This function is able to apply a patch in the tree array, this allow to
+ * update the desired branch of the tree using a xpath notation
  *
- * TODO
- *
- * TODO
+ * @array => the array that you want to apply the patch
+ * @key => the xpath where you want to apply the patch
+ * @val => the val that you want to put in the desired xpath
  */
 function __import_apply_patch(&$array, $key, $val)
 {
@@ -1168,13 +1169,14 @@ function __import_apply_patch(&$array, $key, $val)
 }
 
 /**
- * __import_apply_patch_rec
+ * Apply Patch Recursive helper
  *
- * TODO
+ * This function is a helper of the previous function and is able to to the
+ * same but with recursivity
  *
- * TODO
- *
- * TODO
+ * @array => the array that you want to apply the patch
+ * @key => the xpath where you want to apply the patch
+ * @val => the val that you want to put in the desired xpath
  */
 function __import_apply_patch_rec(&$array, $key, $val)
 {
@@ -1212,30 +1214,31 @@ function __import_apply_patch_rec(&$array, $key, $val)
 }
 
 /**
- * __import_make_table_ascii
+ * Make Table ASCII
  *
- * TODO
+ * This table is intended for debug purposes and is able to paint in ascii
+ * mode the contents of a matrix
  *
- * TODO
- *
- * TODO
+ * @rows => the contents of the matrix to paint
+ * @head => set to true if you want to use the first row as header
+ * @compact => set to true if you want to minify the ascii table
  */
 function __import_make_table_ascii($array)
 {
-    // PREPARAR DATOS
+    // Preparar datos
     if (!is_array($array["rows"])) {
         $array["rows"] = array(array($array["rows"]));
         $array["head"] = 0;
     }
     if (!count($array["rows"])) {
-        $array["rows"] = array(array(LANG("nodata")));
+        $array["rows"] = array(array("Data not found"));
         $array["head"] = 0;
     }
-    // INICIALIZAR VARIABLES LOCALES
+    // Inicializar variables locales
     $rows = isset($array["rows"]) ? $array["rows"] : array();
     $head = isset($array["head"]) ? $array["head"] : 1;
     $compact = isset($array["compact"]) ? $array["compact"] : 0;
-    // CALCULAR ALINEACIONES
+    // Calcular alineaciones
     $aligns = array();
     foreach ($rows as $row) {
         foreach ($row as $key => $val) {
@@ -1256,7 +1259,7 @@ function __import_make_table_ascii($array)
     foreach ($aligns as $key => $val) {
         $aligns[$key] = ($val["R"] > $val["L"]) ? "R" : "L";
     }
-    // CALCULAR MEDIDAS
+    // Calcular medidas
     $widths = array();
     if ($head) {
         array_unshift($rows, array_combine(array_keys($rows[0]), array_keys($rows[0])));
@@ -1269,7 +1272,7 @@ function __import_make_table_ascii($array)
             $widths[$key] = max(mb_strlen($val), $widths[$key]);
         }
     }
-    // PINTAR TABLA
+    // Pintar tabla
     ob_start();
     foreach ($widths as $width) {
         echo "+" . str_repeat("-", $width + ($compact ? 0 : 2));
@@ -1299,6 +1302,6 @@ function __import_make_table_ascii($array)
     }
     echo "+";
     $buffer = ob_get_clean();
-    // BYE BYE
+    // Bye bye
     return $buffer;
 }

@@ -27,8 +27,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <root>
     <list>
-        <layout auto="true" container_class="container mt-3" col_class="col mb-3">
-            <table checkbox="true">
+        <layout auto="true" container_class="container mt-3" col_class="col-auto mb-3">
+            <button class="btn btn-primary">Nuevo correo</button>
+            <div col_class="col"/>
+            <text placeholder="Buscar"/>
+            <button class="btn btn-primary">Buscar</button>
+            <button class="btn btn-primary">Limpiar</button>
+            <button class="btn btn-primary">Enviar y recivir</button>
+            <table checkbox="true" col_class="col-md-12">
                 <header eval="true">[
                     "de_para" => "De/Para",
                     "subject" => "Asunto",
@@ -36,7 +42,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 ]</header>
                 <data eval="true">add_list_actions(execute_query_array("
                     SELECT id, IF(is_outbox, para, de) de_para, subject,
-                        IF(DATE(datetime)=DATE(NOW()), TIME_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time
+                        IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time
                     FROM app_correo
                     WHERE 1 = 1
                     AND ".make_fulltext_query("", "correo", array("minsize" => 1, "default" => "1=1"))."
@@ -46,7 +52,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 "),[
                     ["app" => "correo", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle correo"],
                     ["app" => "correo", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar correo"],
-                    ["app" => "correo", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar correo"]
+                    ["app" => "correo", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar correo"],
                 ])</data>
                 <footer eval="true">"Total: " . execute_query("
                     SELECT COUNT(*) total
@@ -56,7 +62,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     AND ".check_sql("correo", "list")."
                 ")</footer>
                 <divider eval="true">[false, true, true]</divider>
-            </table>>
+            </table>
+            <div col_class="col"/>
+            <button class="btn btn-primary">Ver más correos</button>
         </layout>
     </list>
     <!-- TODO -->

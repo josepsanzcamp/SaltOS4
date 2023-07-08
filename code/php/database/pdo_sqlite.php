@@ -116,6 +116,8 @@ class database_pdo_sqlite
             $this->link->sqliteCreateFunction("FIND_IN_SET", "__libsqlite_find_in_set");
             $this->link->sqliteCreateFunction("IF", "__libsqlite_if");
             $this->link->sqliteCreateFunction("POW", "__libsqlite_pow");
+            $this->link->sqliteCreateFunction("DATE_FORMAT", "__libsqlite_date_format");
+            $this->link->sqliteCreateFunction("NOW", "__libsqlite_now");
         }
     }
 

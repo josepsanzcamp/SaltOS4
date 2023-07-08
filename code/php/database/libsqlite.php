@@ -266,3 +266,23 @@ function __libsqlite_pow($base, $exp)
 {
     return pow($base, $exp);
 }
+
+/**
+ * DATE_FORMAT
+ *
+ * This function add the DATE_FORMAT to the SQLite database
+ */
+function __libsqlite_date_format($date, $format)
+{
+    return date(str_replace("%", "", $format), strtotime($date));
+}
+
+/**
+ * NOW
+ *
+ * This function add the NOW to the SQLite database
+ */
+function __libsqlite_now()
+{
+    return date("Y-m-d H:i:s");
+}

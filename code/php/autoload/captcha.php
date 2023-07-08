@@ -35,10 +35,13 @@ declare(strict_types=1);
  * the speedup of this function in the prime numbers validation
  *
  * @num => the number that you want to check if it is a primer numner
+ *
+ * Notes:
+ *
+ * See www.polprimos.com for understand it
  */
 function __captcha_isprime($num)
 {
-    // See www.polprimos.com for understand it
     if ($num < 2) {
         return false;
     }
@@ -133,13 +136,17 @@ function __captcha_isprime($num)
  * @period => parameter for the wave transformation
  * @amplitude => parameter for the wave transformation
  * @blur => true or false to enable or disable the blur effect
+ *
+ * Notes:
+ *
+ * The main idea to program this captcha was obtained from this post:
+ * - http://sentidoweb.com/2007/01/03/laboratorio-ejemplo-de-captcha.php
+ *
+ * Too appear in ther posts if you search for it in google:
+ * - http://www.google.es/search?q=captcha+alto_linea
  */
 function __captcha_image($code, $args = array())
 {
-    // The main idea to program this captcha was obtained from this post:
-    // - http://sentidoweb.com/2007/01/03/laboratorio-ejemplo-de-captcha.php
-    // Too appear in ther posts if you search for it in google:
-    // - http://www.google.es/search?q=captcha+alto_linea
     $code = strval($code);
     $width = isset($args["width"]) ? $args["width"] : 90;
     $height = isset($args["height"]) ? $args["height"] : 45;

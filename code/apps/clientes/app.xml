@@ -76,7 +76,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 "),[
                     ["app" => "clientes", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle cliente"],
                     ["app" => "clientes", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar cliente"],
-                    ["app" => "clientes", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar cliente"]
+                    ["app" => "clientes", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar cliente"],
                 ])</data>
                 <footer eval="true">"Total: " . execute_query("
                     SELECT COUNT(*) total
