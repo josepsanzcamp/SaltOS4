@@ -333,6 +333,9 @@ saltos.__form_field.float = function (field) {
 saltos.__form_field.color = function (field) {
     saltos.check_params(field,["label"]);
     field.type = "color";
+    if (field.value == "") {
+        field.type = "text";
+    }
     if (field.label == "") {
         field.class = "form-control-color";
     }
@@ -342,6 +345,15 @@ saltos.__form_field.color = function (field) {
         obj.classList.add("form-floating");
         obj.append(saltos.__form_field.label(field));
     }
+    var element = obj.querySelector("input");
+    element.addEventListener("focusin", function () {
+        this.type = "color";
+    });
+    element.addEventListener("focusout", function () {
+        if (this.value == "") {
+            this.type = "text";
+        }
+    });
     obj = saltos.optimize(obj);
     return obj;
 };
@@ -357,12 +369,24 @@ saltos.__form_field.color = function (field) {
 saltos.__form_field.date = function (field) {
     saltos.check_params(field,["label"]);
     field.type = "date";
+    if (field.value == "") {
+        field.type = "text";
+    }
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__form_field.__text(field));
     if (field.label != "") {
         obj.classList.add("form-floating");
         obj.append(saltos.__form_field.label(field));
     }
+    var element = obj.querySelector("input");
+    element.addEventListener("focusin", function () {
+        this.type = "date";
+    });
+    element.addEventListener("focusout", function () {
+        if (this.value == "") {
+            this.type = "text";
+        }
+    });
     obj = saltos.optimize(obj);
     return obj;
 };
@@ -378,12 +402,24 @@ saltos.__form_field.date = function (field) {
 saltos.__form_field.time = function (field) {
     saltos.check_params(field,["label"]);
     field.type = "time";
+    if (field.value == "") {
+        field.type = "text";
+    }
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__form_field.__text(field));
     if (field.label != "") {
         obj.classList.add("form-floating");
         obj.append(saltos.__form_field.label(field));
     }
+    var element = obj.querySelector("input");
+    element.addEventListener("focusin", function () {
+        this.type = "time";
+    });
+    element.addEventListener("focusout", function () {
+        if (this.value == "") {
+            this.type = "text";
+        }
+    });
     obj = saltos.optimize(obj);
     return obj;
 };
@@ -399,12 +435,24 @@ saltos.__form_field.time = function (field) {
 saltos.__form_field.datetime = function (field) {
     saltos.check_params(field,["label"]);
     field.type = "datetime-local";
+    if (field.value == "") {
+        field.type = "text";
+    }
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__form_field.__text(field));
     if (field.label != "") {
         obj.classList.add("form-floating");
         obj.append(saltos.__form_field.label(field));
     }
+    var element = obj.querySelector("input");
+    element.addEventListener("focusin", function () {
+        this.type = "datetime-local";
+    });
+    element.addEventListener("focusout", function () {
+        if (this.value == "") {
+            this.type = "text";
+        }
+    });
     obj = saltos.optimize(obj);
     return obj;
 };
