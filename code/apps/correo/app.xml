@@ -27,13 +27,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <root>
     <list>
-        <layout auto="true" container_class="container mt-3" col_class="col-auto mb-3">
-            <button class="btn btn-primary">Nuevo correo</button>
-            <div col_class="col"/>
-            <text placeholder="Buscar"/>
-            <button class="btn btn-primary">Buscar</button>
-            <button class="btn btn-primary">Limpiar</button>
-            <button class="btn btn-primary">Enviar y recivir</button>
+        <layout auto="true" container_class="container mt-3" col_class="col-auto">
+            <button col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo"/>
+            <div col_class="col p-0"/>
+            <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todo el correo"/>
+            <button col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo"/>
+            <button col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro"/>
+            <button col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo"/>
             <table checkbox="true" col_class="col-md-12">
                 <header eval="true">[
                     "de_para" => "De/Para",
@@ -63,8 +63,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 ")</footer>
                 <divider eval="true">[false, true, true]</divider>
             </table>
-            <div col_class="col"/>
-            <button class="btn btn-primary">Ver más correos</button>
+            <div col_class="col mb-3"/>
+            <button col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado"/>
         </layout>
     </list>
     <!-- TODO -->

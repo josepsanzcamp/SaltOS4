@@ -867,6 +867,8 @@ saltos.__form_field.file = function (field) {
                     .table {
                         --bs-table-hover-bg:#fbec88;
                         --bs-table-active-bg:#fbec88;
+                        --bs-table-hover-color:#373a3c;
+                        --bs-table-active-color:#373a3c;
                     }
                 </style>
                 <tbody>
@@ -1368,6 +1370,8 @@ saltos.__form_field.table = function (field) {
                 .table {
                     --bs-table-hover-bg:#fbec88;
                     --bs-table-active-bg:#fbec88;
+                    --bs-table-hover-color:#373a3c;
+                    --bs-table-active-color:#373a3c;
                 }
             </style>
         </table>
