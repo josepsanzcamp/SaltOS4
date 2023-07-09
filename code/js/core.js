@@ -192,12 +192,7 @@ saltos.html = function () {
     }
     var div = document.createElement(type);
     div.innerHTML = html.trim();
-    //~ console.log(html);
-    //~ console.log(div.childNodes.length);
-    //~ console.log(div.childNodes);
-    if (div.childNodes.length == 1) {
-        return div.firstChild;
-    }
+    div = saltos.optimize(div);
     return div;
 };
 
@@ -321,3 +316,19 @@ saltos.open = function (url) {
 saltos.copy_object = function (arg) {
     return JSON.parse(JSON.stringify(arg));
 };
+
+/**
+ * Optimizer object
+ *
+ * This function checks an object to see if only contains one children and
+ * in this case, returns directly the children instead of the original object,
+ * otherwise nothing to do and returns the original object
+ *
+ * @obj => the object to check and optimize
+ */
+saltos.optimize = function (obj) {
+    if (obj.children.length == 1) {
+        return obj.firstElementChild;
+    }
+    return obj;
+}

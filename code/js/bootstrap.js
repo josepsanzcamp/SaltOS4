@@ -36,51 +36,44 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * @container => id, class, style
  * @row => id, class, style
  * @col => id, class, style
- * @text => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip
+ * @text => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
  * @hidden => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @integer => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @float => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @color => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @date => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @time => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @datetime => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @textarea => id, class, placeholder, value, disabled, readonly, required, rows, tooltip
- * @ckeditor => id, class, placeholder, value, disabled, readonly, required, rows
- * @codemirror => id, class, placeholder, value, disabled, readonly, required, rows, mode
- * @iframe => value, id, class, height, tooltip
- * @select => id, class, disabled, required, rows, multiple, size, value, tooltip
- * @multiselect => id, class, disabled, required, rows, multiple, size, value, multiple, tooltip
+ * @integer => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @float => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @color => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @date => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @time => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @datetime => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @textarea => id, class, placeholder, value, disabled, readonly, required, rows, tooltip, label
+ * @ckeditor => id, class, placeholder, value, disabled, readonly, required, rows, label
+ * @codemirror => id, class, placeholder, value, disabled, readonly, required, rows, mode, label
+ * @iframe => value, id, class, height, tooltip, label
+ * @select => id, class, disabled, required, rows, multiple, size, value, tooltip, label
+ * @multiselect => id, class, disabled, required, rows, multiple, size, value, multiple, tooltip, label
  * @checkbox => id, class, disabled, readonly, label, value, tooltip
  * @switch => id, class, disabled, readonly, label, value, tooltip
  * @button => id, class, disabled, value, onclick, tooltip
- * @password => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @file => id, class, disabled, required, multiple, tooltip
- * @link => id, disabled, value, onclick, tooltip
+ * @password => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @file => id, class, disabled, required, multiple, tooltip, label
+ * @link => id, disabled, value, onclick, tooltip, label
  * @label => id, class, label, tooltip, value
- * @image => id, class, value, alt, tooltip
- * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths
- * @pdfjs => id, class, value
- * @table => id, class, header, data, footer, divider, source, value
- * @alert => id, class, title, text, body, source, value
- * @card => id, image, alt, header, footer, title, text, body, source, value
- * @chartjs => id, mode, data, source, value
- * @tags => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip
+ * @image => id, class, value, alt, tooltip, label
+ * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths, label
+ * @pdfjs => id, class, value, label
+ * @table => id, class, header, data, footer, divider, source, value, label
+ * @alert => id, class, title, text, body, source, value, label
+ * @card => id, image, alt, header, footer, title, text, body, source, value, label
+ * @chartjs => id, mode, data, source, value, label
+ * @tags => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
  *
  * Notes:
  *
  * The saltos.__form_field object is part of this constructor and act with the constructor
  * as a helper, the idea is that the user must to call the constructor and the helpers are
  * only for internal use.
- *
- * By default, the constructor try to check the parameters that are used commonly in the
- * helpers functions, too, try to convert some "booleans" as disabled, readonly and required to
- * the string that will be used in reality by the bootstrap objects.
- *
- * All widgets add an extra widget label using the label parameter if it is found, only some
- * widgets have the special case that not includes the label for logical reasons.
  */
 saltos.form_field = function (field) {
-    saltos.check_params(field,["id","label","type"]);
+    saltos.check_params(field,["id","type"]);
     if (field.id == "") {
         field.id = saltos.uniqid();
     }
@@ -88,27 +81,7 @@ saltos.form_field = function (field) {
         console.log("type " + field.type + " not found");
         return saltos.html("type " + field.type + " not found");
     }
-    if (["label","checkbox","switch"].includes(field.type)) {
-        return saltos.__form_field[field.type](field);
-    }
-    if (field.label == "") {
-        return saltos.__form_field[field.type](field);
-    }
-    // if the result object must contains a label and another input, this must
-    // to be enclosed in a div container
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.label(field));
-    if (["button","link"].includes(field.type)) {
-        // In the button and link cases, if the desired result contains a label
-        // and a button, the button must to be enclosed in a new div container
-        // to maintain the same layout that the others widgets
-        obj.append(saltos.html(`<div class="linefix"></div>`));
-        obj.querySelector("div.linefix").append(saltos.__form_field[field.type](field));
-    } else {
-        // Otherwise, the object is appened to the parent container
-        obj.append(saltos.__form_field[field.type](field));
-    }
-    return obj;
+    return saltos.__form_field[field.type](field);
 };
 
 /**
@@ -200,7 +173,7 @@ saltos.__form_field.col = function (field) {
  *
  * @obj => the object that you want to enable the tooltip feature
  */
-saltos.tooltip = function (obj) {
+saltos.__tooltip_helper = function (obj) {
     var instance = new bootstrap.Tooltip(obj, {
         trigger:"hover"
     });
@@ -247,7 +220,7 @@ saltos.__form_field.__text = function (field) {
             value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">
     `);
     if (field.tooltip != "") {
-        saltos.tooltip(obj);
+        saltos.__tooltip_helper(obj);
     }
     return obj;
 };
@@ -258,22 +231,28 @@ saltos.__form_field.__text = function (field) {
  * This function returns an input object of type text, you can pass the same arguments
  * that for the input object of type text
  *
+ * @label => this parameter is used as text for the label
  * @datalist => array with options for the datalist, used as autocomplete for the text input
  */
 saltos.__form_field.text = function (field) {
+    saltos.check_params(field,["label"]);
     saltos.check_params(field,["datalist"],[]);
     field.type = "text";
-    if (!field.datalist.length) {
-        return saltos.__form_field.__text(field);
-    }
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__form_field.__text(field));
-    obj.querySelector("input").setAttribute("list",field.id + "_datalist");
-    obj.append(saltos.html(`<datalist id="${field.id}_datalist"></datalist>`));
-    for (var key in field.datalist) {
-        var val = field.datalist[key];
-        obj.querySelector("datalist").append(saltos.html(`<option value="${val}">`));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
     }
+    if (field.datalist.length) {
+        obj.querySelector("input").setAttribute("list",field.id + "_datalist");
+        obj.append(saltos.html(`<datalist id="${field.id}_datalist"></datalist>`));
+        for (var key in field.datalist) {
+            var val = field.datalist[key];
+            obj.querySelector("datalist").append(saltos.html(`<option value="${val}">`));
+        }
+    }
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -294,14 +273,24 @@ saltos.__form_field.hidden = function (field) {
  *
  * This function returns an input object of type integer, you can pass the same arguments
  * that for the input object of type text
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.integer = function (field) {
+    saltos.check_params(field,["label"]);
     field.type = "text";
-    var obj = saltos.__form_field.__text(field);
-    IMask(obj, {
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__text(field));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    var element = obj.querySelector("input");
+    IMask(element, {
         mask: Number,
         scale: 0,
     });
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -310,16 +299,26 @@ saltos.__form_field.integer = function (field) {
  *
  * This function returns an input object of type float, you can pass the same arguments
  * that for the input object of type text
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.float = function (field) {
+    saltos.check_params(field,["label"]);
     field.type = "text";
-    var obj = saltos.__form_field.__text(field);
-    IMask(obj, {
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__text(field));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    var element = obj.querySelector("input");
+    IMask(element, {
         mask: Number,
         radix: ".",
         mapToRadix: [","],
         scale: 99,
     });
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -328,11 +327,22 @@ saltos.__form_field.float = function (field) {
  *
  * This function returns an input object of type color, you can pass the same arguments
  * that for the input object of type text
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.color = function (field) {
+    saltos.check_params(field,["label"]);
     field.type = "color";
-    field.class = "form-control-color";
-    var obj = saltos.__form_field.__text(field);
+    if (field.label == "") {
+        field.class = "form-control-color";
+    }
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__text(field));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -341,10 +351,19 @@ saltos.__form_field.color = function (field) {
  *
  * This function returns an input object of type date, you can pass the same arguments
  * that for the input object of type text
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.date = function (field) {
+    saltos.check_params(field,["label"]);
     field.type = "date";
-    var obj = saltos.__form_field.__text(field);
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__text(field));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -353,10 +372,19 @@ saltos.__form_field.date = function (field) {
  *
  * This function returns an input object of type time, you can pass the same arguments
  * that for the input object of type text
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.time = function (field) {
+    saltos.check_params(field,["label"]);
     field.type = "time";
-    var obj = saltos.__form_field.__text(field);
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__text(field));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -365,10 +393,19 @@ saltos.__form_field.time = function (field) {
  *
  * This function returns an input object of type datetime, you can pass the same arguments
  * that for the input object of type text
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.datetime = function (field) {
+    saltos.check_params(field,["label"]);
     field.type = "datetime-local";
-    var obj = saltos.__form_field.__text(field);
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__text(field));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -407,7 +444,7 @@ saltos.__form_field.__textarea = function (field) {
             ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != "") {
-        saltos.tooltip(obj);
+        saltos.__tooltip_helper(obj);
     }
     return obj;
 };
@@ -416,12 +453,22 @@ saltos.__form_field.__textarea = function (field) {
  * Textarea constructor helper
  *
  * This function returns a textarea object with the autogrow plugin enabled
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.textarea = function (field) {
-    var obj = saltos.__form_field.__textarea(field);
-    saltos.when_visible(obj ,function () {
-        autoheight(obj);
+    saltos.check_params(field,["label"]);
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.__textarea(field));
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    var element = obj.querySelector("textarea");
+    saltos.when_visible(element ,function () {
+        autoheight(element);
     });
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -429,9 +476,15 @@ saltos.__form_field.textarea = function (field) {
  * Ckeditor constructor helper
  *
  * This function returns a textarea object with the ckeditor plugin enabled
+ *
+ * @label => this parameter is used as text for the label
  */
 saltos.__form_field.ckeditor = function (field) {
+    saltos.check_params(field,["label"]);
     var obj = saltos.html(`<div></div>`);
+    if (field.label != "") {
+        obj.append(saltos.__form_field.label(field));
+    }
     obj.append(saltos.__form_field.__textarea(field));
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
@@ -447,11 +500,15 @@ saltos.__form_field.ckeditor = function (field) {
  *
  * This function returns a textarea object with the codemirror plugin enabled
  *
+ * @label => this parameter is used as text for the label
  * @mode => used to define the mode parameter of the codemirror
  */
 saltos.__form_field.codemirror = function (field) {
-    saltos.check_params(field,["mode"]);
+    saltos.check_params(field,["label","mode"]);
     var obj = saltos.html(`<div></div>`);
+    if (field.label != "") {
+        obj.append(saltos.__form_field.label(field));
+    }
     obj.append(saltos.__form_field.__textarea(field));
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
@@ -484,6 +541,7 @@ saltos.__form_field.iframe = function (field) {
     var obj = saltos.html(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control p-0 ${field.class}" style="height:${field.height}"></iframe>
     `);
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -492,6 +550,7 @@ saltos.__form_field.iframe = function (field) {
  *
  * This function returns a select object, you can pass the follow arguments:
  *
+ * @label => this parameter is used as text for the label
  * @id => the id used by the object
  * @class => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
@@ -503,7 +562,7 @@ saltos.__form_field.iframe = function (field) {
  * @rows => this parameter contains the list of options, each option must be an object with label and value entries
  */
 saltos.__form_field.select = function (field) {
-    saltos.check_params(field,["class","id","disabled","required","multiple","size","value","tooltip"]);
+    saltos.check_params(field,["label","class","id","disabled","required","multiple","size","value","tooltip"]);
     saltos.check_params(field,["rows"],[]);
     if (field.disabled) {
         field.disabled = "disabled";
@@ -517,12 +576,14 @@ saltos.__form_field.select = function (field) {
     if (field.size != "") {
         field.size = `size="${field.size}"`;
     }
-    var obj = saltos.html(`
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.html(`
         <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required}
             ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
-    `);
+    `));
+    var element = obj.querySelector("select");
     if (field.tooltip != "") {
-        saltos.tooltip(obj);
+        saltos.__tooltip_helper(element);
     }
     for (var key in field.rows) {
         var val = field.rows[key];
@@ -530,8 +591,13 @@ saltos.__form_field.select = function (field) {
         if (field.value.toString() == val.value.toString()) {
             selected = "selected";
         }
-        obj.append(saltos.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
+        element.append(saltos.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
     }
+    if (field.label != "") {
+        obj.classList.add("form-floating");
+        obj.append(saltos.__form_field.label(field));
+    }
+    obj = saltos.optimize(obj);
     return obj;
 };
 
@@ -643,6 +709,7 @@ saltos.__form_field.multiselect = function (field) {
             _this.setAttribute("for",field.id + "_abc");
         });
     });
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -698,7 +765,7 @@ saltos.__form_field.checkbox = function (field) {
     }
     if (field.tooltip != "") {
         obj.querySelectorAll("input,label").forEach(function (_this) {
-            saltos.tooltip(_this);
+            saltos.__tooltip_helper(_this);
         });
     }
     obj.querySelector("input").addEventListener("change",function () {
@@ -742,7 +809,7 @@ saltos.__form_field.button = function (field) {
         <button type="button" class="btn ${field.class}" id="${field.id}" ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.tooltip != "") {
-        saltos.tooltip(obj);
+        saltos.__tooltip_helper(obj);
     }
     if (typeof field.onclick == "string") {
         obj.addEventListener("click",new Function(field.onclick));
@@ -758,6 +825,7 @@ saltos.__form_field.button = function (field) {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
+ * @label => this parameter is used as text for the label
  * @id => the id used by the object
  * @class => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
@@ -785,7 +853,7 @@ saltos.__form_field.button = function (field) {
  *
  */
 saltos.__form_field.password = function (field) {
-    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","tooltip"]);
+    saltos.check_params(field,["label","class","id","placeholder","value","disabled","readonly","required","tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -795,21 +863,36 @@ saltos.__form_field.password = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    var obj = saltos.html(`
-        <input type="text" style="display:none"/>
-        <div class="input-group">
+    if (field.label != "") {
+        var input = `
+            <div class="form-floating">
+                <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
+                    ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
+                <label for="${field.id}">${field.label}</label>
+            </div>
+        `;
+    } else {
+        var input = `
             <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
                 ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
-            <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
+        `;
+    }
+    var obj = saltos.html(`
+        <div>
+            <input type="text" style="display:none"/>
+            <div class="input-group">
+                ${input}
+                <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
+            </div>
         </div>
     `);
     if (field.tooltip != "") {
-        obj.querySelectorAll("div input").forEach(function (_this) {
-            saltos.tooltip(_this);
+        obj.querySelectorAll("input[type=password]").forEach(function (_this) {
+            saltos.__tooltip_helper(_this);
         });
     }
     obj.querySelector("button").addEventListener("click",function () {
-        var input = this.previousElementSibling;
+        var input = this.parentElement.querySelector("input[type=password],input[type=text]");
         if (input.type == "password") {
             input.type = "text";
             this.classList.remove("bi-eye-slash");
@@ -859,26 +942,28 @@ saltos.__form_field.file = function (field) {
     if (field.multiple) {
         field.multiple = "multiple";
     }
-    var obj = saltos.html(`<div>
-        <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
-        <div class="overflow-auto">
-            <table class="table table-striped table-hover d-none">
-                <style>
-                    .table {
-                        --bs-table-hover-bg:#fbec88;
-                        --bs-table-active-bg:#fbec88;
-                        --bs-table-hover-color:#373a3c;
-                        --bs-table-active-color:#373a3c;
-                    }
-                </style>
-                <tbody>
-                </tbody>
-            </table>
+    var obj = saltos.html(`
+        <div>
+            <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
+            <div class="overflow-auto">
+                <table class="table table-striped table-hover d-none">
+                    <style>
+                        .table {
+                            --bs-table-hover-bg:#fbec88;
+                            --bs-table-active-bg:#fbec88;
+                            --bs-table-hover-color:#373a3c;
+                            --bs-table-active-color:#373a3c;
+                        }
+                    </style>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>`);
+    `);
     if (field.tooltip != "") {
         obj.querySelectorAll("input").forEach(function (_this) {
-            saltos.tooltip(_this);
+            saltos.__tooltip_helper(_this);
         });
     }
     // This helper programs the input file data update
@@ -1035,6 +1120,9 @@ saltos.__form_field.file = function (field) {
             }
         }
     });
+    if (field.label != "") {
+        obj.prepend(saltos.__form_field.label(field));
+    }
     return obj;
 };
 
@@ -1044,6 +1132,7 @@ saltos.__form_field.file = function (field) {
  * This function creates a field similar of text but with the appearance of a link using a button,
  * the object can receive the follow arguments:
  *
+ * @label => this parameter is used as text for the label
  * @id => the id used by the object
  * @disabled => this parameter raise the disabled flag
  * @value => the value is conveted as label to be used in the button with the appearance of a link
@@ -1055,8 +1144,15 @@ saltos.__form_field.file = function (field) {
  * appearance
  */
 saltos.__form_field.link = function (field) {
+    saltos.check_params(field,["label"]);
     field.class = "btn-link";
-    var obj = saltos.__form_field.button(field);
+    if (field.label == "") {
+        return saltos.__form_field.button(field);
+    }
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.label(field));
+    obj.append(saltos.html("<br/>"));
+    obj.append(saltos.__form_field.button(field));
     return obj;
 };
 
@@ -1080,7 +1176,7 @@ saltos.__form_field.label = function (field) {
         <label for="${field.id}" class="form-label ${field.class}" data-bs-title="${field.tooltip}">${field.label}</label>
     `);
     if (field.tooltip != "") {
-        saltos.tooltip(obj);
+        saltos.__tooltip_helper(obj);
     }
     return obj;
 };
@@ -1105,8 +1201,9 @@ saltos.__form_field.image = function (field) {
         <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}" data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
     if (field.tooltip != "") {
-        saltos.tooltip(obj);
+        saltos.__tooltip_helper(obj);
     }
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -1177,6 +1274,7 @@ saltos.__form_field.excel = function (field) {
             }
         });
     });
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -1210,13 +1308,14 @@ saltos.__form_field.pdfjs = function (field) {
             </style>
         </div>
     `);
-    saltos.when_visible(obj ,function () {
+    var element = obj;
+    saltos.when_visible(element ,function () {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
         pdfjsLib.getDocument(field.value).promise.then(function (pdfDocument) {
             if (!pdfDocument.numPages) {
                 return;
             }
-            var container = obj;
+            var container = element;
             var eventBus = new pdfjsViewer.EventBus();
             var pdfViewer = new pdfjsViewer.PDFViewer({
                 container:container,
@@ -1244,6 +1343,7 @@ saltos.__form_field.pdfjs = function (field) {
             });
         });
     });
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -1332,6 +1432,33 @@ saltos.__placeholder_helper = function (id) {
             <span class="w-100 h-100 placeholder"></span>
         </div>
     `);
+}
+
+/**
+ * Label helper
+ *
+ * This function adds using the old style that prepend the label before the widget
+ * and only acts in case of needed, if label is not found, the function returns the
+ * original object without any modification
+ *
+ * @old_obj => the original object
+ * @field => the field that contains the label to be added if needed
+ *
+ * Notes:
+ *
+ * This function acts as helper to add a label by the constructors that not implement
+ * any specific floating label, in the other cases, each constructor must to implement
+ * their code because each case is different
+ */
+saltos.__label_helper = function (old_obj, field) {
+    saltos.check_params(field,["label"]);
+    if (field.label == "") {
+        return old_obj;
+    }
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__form_field.label(field));
+    obj.append(old_obj);
+    return obj;
 }
 
 /**
@@ -1505,6 +1632,7 @@ saltos.__form_field.table = function (field) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td colspan="${num}" class="text-center">${field.footer}</td>`));
         }
     }
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -1559,6 +1687,7 @@ saltos.__form_field.alert = function (field) {
             </style>
         `));
     }
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -1602,6 +1731,7 @@ saltos.__form_field.card = function (field) {
     if (field.footer != "") {
         obj.append(saltos.html(`<div class="card-footer">${field.footer}</div>`));
     }
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 
@@ -1628,12 +1758,14 @@ saltos.__form_field.chartjs = function (field) {
     for (var key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
-    saltos.when_visible(obj ,function () {
-        new Chart(obj, {
+    var element = obj;
+    saltos.when_visible(element ,function () {
+        new Chart(element, {
             type: field.mode,
             data: field.data,
         });
     });
+    obj = saltos.__label_helper(obj, field);
     return obj;
 };
 

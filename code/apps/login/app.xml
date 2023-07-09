@@ -52,7 +52,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     </row>
                     <row>
                         <col class="col my-3 text-center">
-                            <checkbox id="remember" label="Remember me" class="form-check-inline"/>
+                            <switch id="remember" label="Remember me" class="form-check-inline"/>
                         </col>
                     </row>
                     <row>

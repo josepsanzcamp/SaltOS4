@@ -253,9 +253,7 @@ saltos.form.layout = function (layout) {
     for (var i in arr) {
         div.append(arr[i]);
     }
-    if (div.childNodes.length == 1) {
-        div = div.firstChild;
-    }
+    div = saltos.optimize(div);
     document.body.append(div);
 };
 
