@@ -1590,7 +1590,8 @@ saltos.__form_field.table = function (field) {
             });
         }
         for (var key in field.header) {
-            obj.querySelector("thead tr").append(saltos.html("tr",`<th>${field.header[key]}</th>`));
+            var temp = htmlentities(field.header[key]);
+            obj.querySelector("thead tr").append(saltos.html("tr",`<th>${temp}</th>`));
         }
         if (field.data.length && field.data[0].hasOwnProperty("actions")) {
             obj.querySelector("thead tr").append(saltos.html("tr",`<th style="width:1%"></th>`));
@@ -1627,7 +1628,8 @@ saltos.__form_field.table = function (field) {
                 if (field.hasOwnProperty("fields") && !field.fields.includes(key2)) {
                     continue;
                 }
-                row.append(saltos.html("tr",`<td>${field.data[key][key2]}</td>`));
+                var temp = htmlentities(field.data[key][key2]);
+                row.append(saltos.html("tr",`<td>${temp}</td>`));
             }
             if (field.data[key].hasOwnProperty("actions")) {
                 var td = saltos.html("tr",`<td class="p-0 align-middle text-nowrap"></td>`);
@@ -1663,7 +1665,8 @@ saltos.__form_field.table = function (field) {
                 obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
             }
             for (var key in field.footer) {
-                obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${field.footer[key]}</td>`));
+                var temp = htmlentities(field.footer[key]);
+                obj.querySelector("tfoot tr").append(saltos.html("tr",`<td>${temp}</td>`));
             }
             if (field.data.length && field.data[0].hasOwnProperty("actions")) {
                 obj.querySelector("tfoot tr").append(saltos.html("tr",`<td></td>`));
@@ -1677,7 +1680,8 @@ saltos.__form_field.table = function (field) {
             if (field.data.length && field.data[0].hasOwnProperty("actions")) {
                 num++;
             }
-            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td colspan="${num}" class="text-center">${field.footer}</td>`));
+            var temp = htmlentities(field.footer);
+            obj.querySelector("tfoot tr").append(saltos.html("tr",`<td colspan="${num}" class="text-center">${temp}</td>`));
         }
     }
     obj = saltos.__label_helper(obj, field);
