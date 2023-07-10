@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 
-<!--
+/**
  ____        _ _    ___  ____    _  _    ___
 / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
 \___ \ / _` | | __| | | \___ \  | || |_| | | |
@@ -23,13 +22,45 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+*/
 
-<root>
-    <menu>
-        <javascript>
-            <inline>saltos.loading(0)</inline>
-            <file eval="true">file_with_hash("apps/tester/app.js")</file>
-        </javascript>
-    </menu>
-</root>
+"use strict";
+
+/**
+ * Main object
+ *
+ * This object contains all SaltOS code
+ */
+saltos.correo = {};
+
+/**
+ * TODO
+ */
+saltos.correo.search = function () {
+    // Using JSON
+    console.log("saltos.correo.search");
+}
+
+/**
+ * TODO
+ */
+saltos.correo.clear_filter = function () {
+    // Using REST
+    console.log("saltos.correo.clear_filter");
+}
+
+/**
+ * TODO
+ */
+saltos.correo.read_more = function () {
+    // Using REST
+    console.log("saltos.correo.read_more");
+}
+
+/**
+ * TODO
+ */
+saltos.correo.send_and_get = function () {
+    // Using REST
+    console.log("saltos.correo.send_and_get");
+}

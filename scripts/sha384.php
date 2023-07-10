@@ -22,8 +22,8 @@ foreach ($buffer as $key => $val) {
         if (in_array($temp[$i], array("src=","href="))) {
             $sha384 = ob_passthru(str_replace("__FILE__", $temp[$i + 1], $command));
             $buffer[$key] = str_replace('integrity=""', "integrity=\"sha384-$sha384\"", $buffer[$key]);
-            $mtime = filemtime($temp[$i + 1]);
-            $buffer[$key] = str_replace($temp[$i + 1], $temp[$i + 1] . "?" . $mtime, $buffer[$key]);
+            $hash = md5_file($temp[$i + 1]);
+            $buffer[$key] = str_replace($temp[$i + 1], $temp[$i + 1] . "?" . $hash, $buffer[$key]);
         }
     }
 }

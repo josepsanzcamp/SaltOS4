@@ -79,9 +79,15 @@ function check_user($app, $perm)
             }
         }
     }
-    // Basic check
-    if (!app_exists($app) || !perm_exists($perm)) {
-        return false;
+    /* Important Note: The follow check exists because when someone try to
+     * validate some app by some perm, the main idea is that the app and the
+     * perm exists, other thing is that the user not has permission, in this
+     * case the last isset returns false and nothing to do */
+    if (!app_exists($app)) {
+        show_php_error(array("phperror" => "App $app not found in " . __FUNCTION__));
+    }
+    if (!perm_exists($perm)) {
+        show_php_error(array("phperror" => "Perm $perm not found in " . __FUNCTION__));
     }
     // Special case when ask for perm with owners
     $app_id = app2id($app);
@@ -121,15 +127,15 @@ function check_sql($app, $perm)
     $table = app2table($app);
     $user_id = current_user();
     $groups_id = current_groups();
-    // This temporary variable allocate the sequence of FIND_IN_SET used to
-    // do the intersection between the groups_id of the current user and the
-    // groups_id of the control table, imagine that you have a user that is
-    // associated to the groups 1,2,3 and you must to do a FIND_IN_SET of
-    // each group (1,2,3) with the contents of the groups_id of the control
-    // table, this is not possible and to solve this issue, we must to
-    // prepare the $temp variable with the list of FIND_IN_SET of each
-    // group with the field that can contains another list of ids, in other
-    // words, this trick tries to solve the FIND_IN_SET('1,2,3', '2,3,4')
+    /* This temporary variable allocate the sequence of FIND_IN_SET used to do
+     * the intersection between the groups_id of the current user and the
+     * groups_id of the control table, imagine that you have a user that is
+     * associated to the groups 1,2,3 and you must to do a FIND_IN_SET of each
+     * group (1,2,3) with the contents of the groups_id of the control table,
+     * this is not possible and to solve this issue, we must to prepare the
+     * $temp variable with the list of FIND_IN_SET of each group with the
+     * field that can contains another list of ids, in other words, this trick
+     * tries to solve the FIND_IN_SET('1,2,3', '2,3,4') */
     $temp = explode(",", $groups_id);
     foreach ($temp as $key => $val) {
         $temp[$key] = "FIND_IN_SET($val,groups_id)";
