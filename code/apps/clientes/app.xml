@@ -26,6 +26,48 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
 <root>
+    <list>
+        <layout auto="true" container_class="container mt-3" col_class="col-auto">
+            <button col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente"/>
+            <div col_class="col p-0"/>
+            <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los clientes"/>
+            <button col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los clientes"/>
+            <button col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro"/>
+            <table checkbox="true" col_class="col-md-12">
+                <header eval="true">[
+                    "nombre" => "Nombre",
+                    "cif" => "CIF",
+                    "nombre_poblacion" => "Población",
+                    "nombre_codpostal" => "C.P."
+                ]</header>
+                <data eval="true">add_list_actions(execute_query_array("
+                    SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+                    FROM app_clientes
+                    WHERE 1 = 1
+                    AND ".make_fulltext_query("a", "clientes", array("minsize" => 1, "default" => "1=1"))."
+                    AND ".check_sql("clientes", "list")."
+                    ORDER BY id DESC
+                "),[
+                    ["app" => "clientes", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle cliente"],
+                    ["app" => "clientes", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar cliente"],
+                    ["app" => "clientes", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar cliente"],
+                ])</data>
+                <footer eval="true">"Total: " . execute_query("
+                    SELECT COUNT(*) total
+                    FROM app_clientes
+                    WHERE 1 = 1
+                    AND ".make_fulltext_query("a", "clientes", array("minsize" => 1, "default" => "1=1"))."
+                    AND ".check_sql("clientes", "list")."
+                ")</footer>
+                <divider eval="true">[false, true, true]</divider>
+            </table>>
+            <div col_class="col mb-3"/>
+            <button col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado"/>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_mtime("apps/clientes/app.js")</file>
+        </javascript>
+    </list>
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
         <text id="codigo" label="codigo"></text>
         <switch id="activo" label="activo"></switch>
@@ -57,38 +99,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
     </edit>
-    <list>
-        <layout auto="true" container_class="container mt-3" col_class="col mb-3">
-            <table checkbox="true">
-                <header eval="true">[
-                    "nombre" => "Nombre",
-                    "cif" => "CIF",
-                    "nombre_poblacion" => "Población",
-                    "nombre_codpostal" => "C.P."
-                ]</header>
-                <data eval="true">add_list_actions(execute_query_array("
-                    SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
-                    FROM app_clientes
-                    WHERE 1 = 1
-                    AND ".make_fulltext_query("a", "clientes", array("minsize" => 1, "default" => "1=1"))."
-                    AND ".check_sql("clientes", "list")."
-                    ORDER BY id DESC
-                "),[
-                    ["app" => "clientes", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle cliente"],
-                    ["app" => "clientes", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar cliente"],
-                    ["app" => "clientes", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar cliente"],
-                ])</data>
-                <footer eval="true">"Total: " . execute_query("
-                    SELECT COUNT(*) total
-                    FROM app_clientes
-                    WHERE 1 = 1
-                    AND ".make_fulltext_query("a", "clientes", array("minsize" => 1, "default" => "1=1"))."
-                    AND ".check_sql("clientes", "list")."
-                ")</footer>
-                <divider eval="true">[false, true, true]</divider>
-            </table>>
-        </layout>
-    </list>
     <widget id="1">
         <header eval="true">["Nombre", "CIF", "Población", "C.P."]</header>
         <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>

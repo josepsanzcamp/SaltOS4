@@ -382,3 +382,17 @@ function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $time
         )
     );
 }
+
+/**
+ * File with Mtime
+ *
+ * This function returns the name of the file adding as argument the mtime
+ * of the file for the http/https requests, this allow to helps the browser
+ * to know when the file has changed
+ *
+ * @file => the file that you want to add the mtime querystring argument
+ */
+function file_with_mtime($file)
+{
+    return $file . "?" . filemtime($file);
+}

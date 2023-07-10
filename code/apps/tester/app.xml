@@ -29,7 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <menu>
         <javascript>
             <inline>saltos.loading(0)</inline>
-            <file>apps/tester/app.js</file>
+            <file eval="true">file_with_mtime("apps/tester/app.js")</file>
         </javascript>
     </menu>
 </root>
