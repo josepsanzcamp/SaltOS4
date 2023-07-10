@@ -128,18 +128,35 @@ saltos.uniqid = function () {
  * @args => the arguments passed to the callback when execute it
  */
 saltos.when_visible = function (obj,fn,args) {
+    // Check for the id existence
     if (!obj.getAttribute("id")) {
         obj.setAttribute("id","fix" + saltos.uniqid());
     }
     var id = obj.getAttribute("id");
+    // Launch the interval each millisecond, the idea is wait until found
+    // the object and then, validate that not dissapear and wait until the
+    // object is visible to execute the fn(args)
+    var step = 1;
     var interval = setInterval(function () {
         var obj2 = document.getElementById(id);
-        if (obj2 === null) {
-            clearInterval(interval);
-            console.log("#" + id + " not found");
-        } else if (obj2.offsetParent !== null) {
-            clearInterval(interval);
-            fn(args);
+        if (step == 1) {
+            // Maintain the state machine in the first state until found
+            // the object in the document
+            if (obj2 !== null) {
+                step++;
+            }
+        }
+        if (step == 2) {
+            // Here, the object is found in the document, we can continue
+            if (obj2 === null) {
+                // Here, the object has disappeared, we can stop the timer
+                clearInterval(interval);
+                console.log("#" + id + " not found");
+            } else if (obj2.offsetParent !== null) {
+                // Here, the object is visible, we can finish our mission
+                clearInterval(interval);
+                fn(args);
+            }
         }
     },1);
 };

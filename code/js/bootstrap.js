@@ -165,67 +165,6 @@ saltos.__form_field.col = function (field) {
 };
 
 /**
- * Private tooltip constructor helper
- *
- * This function is intended to enable the tooltip in the object, too it try to do some
- * extra features: program that only show the tooltip when hover and hide when will get
- * the focus or get the click event
- *
- * @obj => the object that you want to enable the tooltip feature
- */
-saltos.__tooltip_helper = function (obj) {
-    var instance = new bootstrap.Tooltip(obj, {
-        trigger:"hover"
-    });
-    obj.addEventListener("focus", function () {
-        instance.hide();
-    });
-    obj.addEventListener("click", function () {
-        instance.hide();
-    });
-};
-
-/**
- * Private text constructor helper
- *
- * This function returns an input object of type text, you can pass some arguments as:
- *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
- * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- *
- * Notes:
- *
- * This function is intended to be used by other helpers of the form_field constructor
- */
-saltos.__form_field.__text = function (field) {
-    saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required","tooltip","style"]);
-    if (field.disabled) {
-        field.disabled = "disabled";
-    }
-    if (field.readonly) {
-        field.readonly = "readonly";
-    }
-    if (field.required) {
-        field.required = "required";
-    }
-    var obj = saltos.html(`
-        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" style="${field.style}" placeholder="${field.placeholder}"
-            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">
-    `);
-    if (field.tooltip != "") {
-        saltos.__tooltip_helper(obj);
-    }
-    return obj;
-};
-
-/**
  * Text constructor helper
  *
  * This function returns an input object of type text, you can pass the same arguments
@@ -238,7 +177,7 @@ saltos.__form_field.text = function (field) {
     saltos.check_params(field,["datalist"],[]);
     field.type = "text";
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__text(field));
+    obj.append(saltos.__text_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     if (field.datalist.length) {
         obj.querySelector("input").setAttribute("list",field.id + "_datalist");
@@ -260,7 +199,7 @@ saltos.__form_field.text = function (field) {
  */
 saltos.__form_field.hidden = function (field) {
     field.type = "hidden";
-    var obj = saltos.__form_field.__text(field);
+    var obj = saltos.__text_helper(field);
     return obj;
 };
 
@@ -275,7 +214,7 @@ saltos.__form_field.hidden = function (field) {
 saltos.__form_field.integer = function (field) {
     field.type = "text";
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__text(field));
+    obj.append(saltos.__text_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     var element = obj.querySelector("input");
     IMask(element, {
@@ -297,7 +236,7 @@ saltos.__form_field.integer = function (field) {
 saltos.__form_field.float = function (field) {
     field.type = "text";
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__text(field));
+    obj.append(saltos.__text_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     var element = obj.querySelector("input");
     IMask(element, {
@@ -328,7 +267,7 @@ saltos.__form_field.color = function (field) {
         field.class = "form-control-color";
     }
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__text(field));
+    obj.append(saltos.__text_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     var element = obj.querySelector("input");
     element.addEventListener("focusin", function () {
@@ -357,7 +296,7 @@ saltos.__form_field.date = function (field) {
         field.type = "text";
     }
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__text(field));
+    obj.append(saltos.__text_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     var element = obj.querySelector("input");
     element.addEventListener("focusin", function () {
@@ -386,7 +325,7 @@ saltos.__form_field.time = function (field) {
         field.type = "text";
     }
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__text(field));
+    obj.append(saltos.__text_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     var element = obj.querySelector("input");
     element.addEventListener("focusin", function () {
@@ -415,7 +354,7 @@ saltos.__form_field.datetime = function (field) {
         field.type = "text";
     }
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__text(field));
+    obj.append(saltos.__text_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     var element = obj.querySelector("input");
     element.addEventListener("focusin", function () {
@@ -431,46 +370,6 @@ saltos.__form_field.datetime = function (field) {
 };
 
 /**
- * Private textarea constructor helper
- *
- * This function returns a textarea object, you can pass the follow arguments:
- *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @rows => the number used as rows parameter
- *
- * Notes:
- *
- * This function is intended to be used by other helpers of the form_field constructor
- */
-saltos.__form_field.__textarea = function (field) {
-    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","rows","tooltip"]);
-    if (field.disabled) {
-        field.disabled = "disabled";
-    }
-    if (field.readonly) {
-        field.readonly = "readonly";
-    }
-    if (field.required) {
-        field.required = "required";
-    }
-    var obj = saltos.html(`
-        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}"
-            ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">${field.value}</textarea>
-    `);
-    if (field.tooltip != "") {
-        saltos.__tooltip_helper(obj);
-    }
-    return obj;
-};
-
-/**
  * Textarea constructor helper
  *
  * This function returns a textarea object with the autogrow plugin enabled
@@ -479,7 +378,7 @@ saltos.__form_field.__textarea = function (field) {
  */
 saltos.__form_field.textarea = function (field) {
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__form_field.__textarea(field));
+    obj.append(saltos.__textarea_helper(field));
     obj = saltos.__label_floating_helper(obj, field);
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
@@ -499,7 +398,7 @@ saltos.__form_field.textarea = function (field) {
 saltos.__form_field.ckeditor = function (field) {
     var obj = saltos.html(`<div></div>`);
     obj = saltos.__label_append_helper(obj, field);
-    obj.append(saltos.__form_field.__textarea(field));
+    obj.append(saltos.__textarea_helper(field));
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
         ClassicEditor.create(element).catch(error => {
@@ -521,7 +420,7 @@ saltos.__form_field.codemirror = function (field) {
     saltos.check_params(field,["mode"]);
     var obj = saltos.html(`<div></div>`);
     obj = saltos.__label_append_helper(obj, field);
-    obj.append(saltos.__form_field.__textarea(field));
+    obj.append(saltos.__textarea_helper(field));
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
         var cm = CodeMirror.fromTextArea(element,{
@@ -1355,169 +1254,6 @@ saltos.__form_field.pdfjs = function (field) {
 };
 
 /**
- * Source helper
- *
- * This function is intended to provide multiple sources for a field, they have two modes of work:
- *
- * 1) using the source attribute, you can program an asynchronous ajax request to retrieve the data
- * used to create the field.
- *
- * 2) using the value attribute, you can put a lot of data from the value of a xml node to use in
- * a field as attribute.
- *
- * This function is used in the fields of type table, alert, card and chartjs, the call of this function
- * is private and is intended to be used as a helper from the builders of the previous types opening
- * another way to pass arguments.
- *
- * @id => the id used to set the reference for to the object
- * @type => the type used to set the type for to the object
- * @source => data source used to load asynchronously the contents of the table (header, data, footer and divider)
- * @value => data container used to get synchronously the contents of the table (header, data, footer and divider)
- *
- * Notes:
- *
- * In some cases, the response for a source request can be an object that represents an xml node with attributes
- * and values, as for the example, the widget/2 used in the app.php, that returns an array with all contents of
- * the widget in the value entry and another entry used for the #attr that only contains the id used to select
- * the widget in the app.php, is this case, the unique data that we want to use here is the contents of the
- * value, and for this reason, the response is filtered to use only the value key in the case of existence of
- * the #attr and value keys
- */
-saltos.__source_helper = function (field) {
-    saltos.check_params(field,["id","type","source","value"]);
-    // Check for asynchronous load using the source param
-    if (field.source != "") {
-        saltos.ajax({
-            url:"index.php?" + field.source,
-            success:function (response) {
-                if (typeof response != "object") {
-                    saltos.show_error(response);
-                    return;
-                }
-                if (typeof response.error == "object") {
-                    saltos.show_error(response.error);
-                    return;
-                }
-                field.source = "";
-                if (response.hasOwnProperty("value") && response.hasOwnProperty("#attr")) {
-                    response = response.value;
-                }
-                for (var key in response) {
-                    field[key] = response[key];
-                }
-                document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
-            },
-            error:function (request) {
-                saltos.show_error({
-                    text:request.statusText,
-                    code:request.status,
-                });
-            },
-            headers:{
-                "token":saltos.token,
-            }
-        });
-    }
-    // Check for syncronous load using the value param
-    if (field.value != "") {
-        for (var key in field.value) {
-            field[key] = field.value[key];
-        }
-    }
-};
-
-/**
- * Placeholder helper
- *
- * This function returns a grey area that uses all space with the placeholder glow effect
- *
- * @id => id used in the original object, it must be replaced when the data will be available
- */
-saltos.__placeholder_helper = function (id) {
-    return saltos.html(`
-        <div id="${id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
-            <span class="w-100 h-100 placeholder"></span>
-        </div>
-    `);
-}
-
-/**
- * Label helper
- *
- * This function adds using the old style that prepend the label before the widget
- * and only acts in case of needed, if label is not found, the function returns the
- * original object without any modification
- *
- * @old_obj => the original object
- * @field => the field that contains the label to be added if needed
- *
- * Notes:
- *
- * This function acts as helper to add a label by the constructors that not implement
- * any specific floating label, in the other cases, each constructor must to implement
- * their code because each case is different
- */
-saltos.__label_oldstyle_helper = function (old, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return old;
-    }
-    var obj = saltos.html(`<div></div>`);
-    obj = saltos.__label_append_helper(obj, field);
-    obj.append(old);
-    return obj;
-}
-
-/**
- * Label helper
- *
- * This function adds the label for the floating version, to do it, expects that
- * the obj will be a container with the input, textarea or select, and the field
- * that you want to add
- *
- * @obj => the object that contains the container with the input
- * @field => the field that contains the label to be added if needed
- */
-saltos.__label_floating_helper = function (obj, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return obj;
-    }
-    obj.classList.add("form-floating");
-    obj = saltos.__label_append_helper(obj, field);
-    obj.querySelector("label").classList.remove("form-label");
-    return obj;
-}
-
-/**
- * TODO
- */
-saltos.__label_append_helper = function (obj, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return obj;
-    }
-    var temp = saltos.copy_object(field);
-    delete temp.class;
-    obj.append(saltos.__form_field.label(temp));
-    return obj;
-}
-
-/**
- * TODO
- */
-saltos.__label_prepend_helper = function (obj, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return obj;
-    }
-    var temp = saltos.copy_object(field);
-    delete temp.class;
-    obj.prepend(saltos.__form_field.label(temp));
-    return obj;
-}
-
-/**
  * Table constructor helper
  *
  * Returns a table using the follow params:
@@ -1923,6 +1659,282 @@ saltos.__form_field.tags = function (field) {
     });
     return obj;
 };
+
+/**
+ * Private text constructor helper
+ *
+ * This function returns an input object of type text, you can pass some arguments as:
+ *
+ * @id => the id used by the object
+ * @class => allow to add more classes to the default form-control
+ * @style => the style used in the div object
+ * @placeholder => the text used as placeholder parameter
+ * @value => the value used as value parameter
+ * @disabled => this parameter raise the disabled flag
+ * @readonly => this parameter raise the readonly flag
+ * @required => this parameter raise the required flag
+ * @tooltip => this parameter raise the title flag
+ *
+ * Notes:
+ *
+ * This function is intended to be used by other helpers of the form_field constructor
+ */
+saltos.__text_helper = function (field) {
+    saltos.check_params(field,["type","class","id","placeholder","value","disabled","readonly","required","tooltip","style"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
+    var obj = saltos.html(`
+        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" style="${field.style}" placeholder="${field.placeholder}"
+            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">
+    `);
+    if (field.tooltip != "") {
+        saltos.__tooltip_helper(obj);
+    }
+    return obj;
+};
+
+/**
+ * Private textarea constructor helper
+ *
+ * This function returns a textarea object, you can pass the follow arguments:
+ *
+ * @id => the id used by the object
+ * @class => allow to add more classes to the default form-control
+ * @placeholder => the text used as placeholder parameter
+ * @value => the value used as value parameter
+ * @disabled => this parameter raise the disabled flag
+ * @readonly => this parameter raise the readonly flag
+ * @required => this parameter raise the required flag
+ * @tooltip => this parameter raise the title flag
+ * @rows => the number used as rows parameter
+ *
+ * Notes:
+ *
+ * This function is intended to be used by other helpers of the form_field constructor
+ */
+saltos.__textarea_helper = function (field) {
+    saltos.check_params(field,["class","id","placeholder","value","disabled","readonly","required","rows","tooltip"]);
+    if (field.disabled) {
+        field.disabled = "disabled";
+    }
+    if (field.readonly) {
+        field.readonly = "readonly";
+    }
+    if (field.required) {
+        field.required = "required";
+    }
+    var obj = saltos.html(`
+        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}"
+            ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">${field.value}</textarea>
+    `);
+    if (field.tooltip != "") {
+        saltos.__tooltip_helper(obj);
+    }
+    return obj;
+};
+
+/**
+ * Private tooltip constructor helper
+ *
+ * This function is intended to enable the tooltip in the object, too it try to do some
+ * extra features: program that only show the tooltip when hover and hide when will get
+ * the focus or get the click event
+ *
+ * @obj => the object that you want to enable the tooltip feature
+ */
+saltos.__tooltip_helper = function (obj) {
+    var instance = new bootstrap.Tooltip(obj, {
+        trigger:"hover"
+    });
+    obj.addEventListener("focus", function () {
+        instance.hide();
+    });
+    obj.addEventListener("click", function () {
+        instance.hide();
+    });
+};
+
+/**
+ * Source helper
+ *
+ * This function is intended to provide multiple sources for a field, they have two modes of work:
+ *
+ * 1) using the source attribute, you can program an asynchronous ajax request to retrieve the data
+ * used to create the field.
+ *
+ * 2) using the value attribute, you can put a lot of data from the value of a xml node to use in
+ * a field as attribute.
+ *
+ * This function is used in the fields of type table, alert, card and chartjs, the call of this function
+ * is private and is intended to be used as a helper from the builders of the previous types opening
+ * another way to pass arguments.
+ *
+ * @id => the id used to set the reference for to the object
+ * @type => the type used to set the type for to the object
+ * @source => data source used to load asynchronously the contents of the table (header, data, footer and divider)
+ * @value => data container used to get synchronously the contents of the table (header, data, footer and divider)
+ *
+ * Notes:
+ *
+ * In some cases, the response for a source request can be an object that represents an xml node with attributes
+ * and values, as for the example, the widget/2 used in the app.php, that returns an array with all contents of
+ * the widget in the value entry and another entry used for the #attr that only contains the id used to select
+ * the widget in the app.php, is this case, the unique data that we want to use here is the contents of the
+ * value, and for this reason, the response is filtered to use only the value key in the case of existence of
+ * the #attr and value keys
+ */
+saltos.__source_helper = function (field) {
+    saltos.check_params(field,["id","type","source","value"]);
+    // Check for asynchronous load using the source param
+    if (field.source != "") {
+        saltos.ajax({
+            url:"index.php?" + field.source,
+            success:function (response) {
+                if (typeof response != "object") {
+                    saltos.show_error(response);
+                    return;
+                }
+                if (typeof response.error == "object") {
+                    saltos.show_error(response.error);
+                    return;
+                }
+                field.source = "";
+                if (response.hasOwnProperty("value") && response.hasOwnProperty("#attr")) {
+                    response = response.value;
+                }
+                for (var key in response) {
+                    field[key] = response[key];
+                }
+                document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
+            },
+            error:function (request) {
+                saltos.show_error({
+                    text:request.statusText,
+                    code:request.status,
+                });
+            },
+            headers:{
+                "token":saltos.token,
+            }
+        });
+    }
+    // Check for syncronous load using the value param
+    if (field.value != "") {
+        for (var key in field.value) {
+            field[key] = field.value[key];
+        }
+    }
+};
+
+/**
+ * Placeholder helper
+ *
+ * This function returns a grey area that uses all space with the placeholder glow effect
+ *
+ * @id => id used in the original object, it must be replaced when the data will be available
+ */
+saltos.__placeholder_helper = function (id) {
+    return saltos.html(`
+        <div id="${id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
+            <span class="w-100 h-100 placeholder"></span>
+        </div>
+    `);
+}
+
+/**
+ * Label Old Style helper
+ *
+ * This function adds using the old style that prepend the label before the widget
+ * and only acts in case of needed, if label is not found, the function returns the
+ * original object without any modification
+ *
+ * @old_obj => the original object
+ * @field => the field that contains the label to be added if needed
+ *
+ * Notes:
+ *
+ * This function acts as helper to add a label by the constructors that not implement
+ * any specific floating label, in the other cases, each constructor must to implement
+ * their code because each case is different
+ */
+saltos.__label_oldstyle_helper = function (old, field) {
+    saltos.check_params(field,["label"]);
+    if (field.label == "") {
+        return old;
+    }
+    var obj = saltos.html(`<div></div>`);
+    obj = saltos.__label_append_helper(obj, field);
+    obj.append(old);
+    return obj;
+}
+
+/**
+ * Label Floating helper
+ *
+ * This function adds the label for the floating version, to do it, expects that
+ * the obj will be a container with the input, textarea or select, and the field
+ * that you want to add
+ *
+ * @obj => the object that contains the container with the input
+ * @field => the field that contains the label to be added if needed
+ */
+saltos.__label_floating_helper = function (obj, field) {
+    saltos.check_params(field,["label"]);
+    if (field.label == "") {
+        return obj;
+    }
+    obj.classList.add("form-floating");
+    obj = saltos.__label_append_helper(obj, field);
+    obj.querySelector("label").classList.remove("form-label");
+    return obj;
+}
+
+/**
+ * Label Append helper
+ *
+ * This function append a label field into the object, act as a helper for
+ * the widget functions
+ *
+ * @obj => the object where do you want to add the label
+ * @field => the field that contains the label to be added if needed
+ */
+saltos.__label_append_helper = function (obj, field) {
+    saltos.check_params(field,["label"]);
+    if (field.label == "") {
+        return obj;
+    }
+    var temp = saltos.copy_object(field);
+    delete temp.class;
+    obj.append(saltos.__form_field.label(temp));
+    return obj;
+}
+
+/**
+ * Label Prepend helper
+ *
+ * This function prepend a label field into the object, act as a helper for
+ * the widget functions
+ *
+ * @obj => the object where do you want to add the label
+ * @field => the field that contains the label to be added if needed
+ */
+saltos.__label_prepend_helper = function (obj, field) {
+    saltos.check_params(field,["label"]);
+    if (field.label == "") {
+        return obj;
+    }
+    var temp = saltos.copy_object(field);
+    delete temp.class;
+    obj.prepend(saltos.__form_field.label(temp));
+    return obj;
+}
 
 /**
  * Menu constructor helper
