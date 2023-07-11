@@ -24,3 +24,8 @@ debug:
 
 timestamp:
 	touch /tmp/timestamp
+	ls -l /tmp/timestamp
+
+timestamp0:
+	touch -t 197001011200.00 /tmp/timestamp
+	ls -l /tmp/timestamp
