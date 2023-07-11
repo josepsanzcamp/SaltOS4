@@ -56,14 +56,3 @@ saltos.clientes.read_more = function () {
     // Using REST
     console.log("saltos.clientes.read_more");
 }
-
-//~ document.querySelector(".row").append(saltos.html(`
-//~ <div class="col-md-6 mb-3">
-
-//~ <div class="form-floating">
-    //~ <input type="text" class="form-control" id="codigo" style="" placeholder="" value="" data-bs-title="">
-    //~ <label for="codigo" class="" data-bs-title="">codigo</label>
-//~ </div>
-
-//~ </div>
-//~ `));

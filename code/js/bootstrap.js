@@ -177,8 +177,8 @@ saltos.__form_field.text = function (field) {
     saltos.check_params(field,["datalist"],[]);
     field.type = "text";
     var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__label_helper(field));
     obj.append(saltos.__text_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
     if (field.datalist.length) {
         obj.querySelector("input").setAttribute("list",field.id + "_datalist");
         obj.append(saltos.html(`<datalist id="${field.id}_datalist"></datalist>`));
@@ -208,20 +208,16 @@ saltos.__form_field.hidden = function (field) {
  *
  * This function returns an input object of type integer, you can pass the same arguments
  * that for the input object of type text
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.integer = function (field) {
     field.type = "text";
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__text_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
-    var element = obj.querySelector("input");
+    var obj = saltos.__text_helper(field);
+    var element = obj;
     IMask(element, {
         mask: Number,
         scale: 0,
     });
-    obj = saltos.optimize(obj);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -230,22 +226,18 @@ saltos.__form_field.integer = function (field) {
  *
  * This function returns an input object of type float, you can pass the same arguments
  * that for the input object of type text
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.float = function (field) {
     field.type = "text";
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__text_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
-    var element = obj.querySelector("input");
+    var obj = saltos.__text_helper(field);
+    var element = obj;
     IMask(element, {
         mask: Number,
         radix: ".",
         mapToRadix: [","],
         scale: 99,
     });
-    obj = saltos.optimize(obj);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -254,31 +246,12 @@ saltos.__form_field.float = function (field) {
  *
  * This function returns an input object of type color, you can pass the same arguments
  * that for the input object of type text
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.color = function (field) {
-    saltos.check_params(field,["label"]);
     field.type = "color";
-    if (field.value == "") {
-        field.type = "text";
-    }
-    if (field.label == "") {
-        field.class = "form-control-color";
-    }
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__text_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
-    var element = obj.querySelector("input");
-    element.addEventListener("focusin", function () {
-        this.type = "color";
-    });
-    element.addEventListener("focusout", function () {
-        if (this.value == "") {
-            this.type = "text";
-        }
-    });
-    obj = saltos.optimize(obj);
+    field.class = "form-control-color";
+    var obj = saltos.__text_helper(field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -287,27 +260,11 @@ saltos.__form_field.color = function (field) {
  *
  * This function returns an input object of type date, you can pass the same arguments
  * that for the input object of type text
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.date = function (field) {
     field.type = "date";
-    if (field.value == "") {
-        field.type = "text";
-    }
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__text_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
-    var element = obj.querySelector("input");
-    element.addEventListener("focusin", function () {
-        this.type = "date";
-    });
-    element.addEventListener("focusout", function () {
-        if (this.value == "") {
-            this.type = "text";
-        }
-    });
-    obj = saltos.optimize(obj);
+    var obj = saltos.__text_helper(field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -316,27 +273,12 @@ saltos.__form_field.date = function (field) {
  *
  * This function returns an input object of type time, you can pass the same arguments
  * that for the input object of type text
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.time = function (field) {
     field.type = "time";
-    if (field.value == "") {
-        field.type = "text";
-    }
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__text_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
-    var element = obj.querySelector("input");
-    element.addEventListener("focusin", function () {
-        this.type = "time";
-    });
-    element.addEventListener("focusout", function () {
-        if (this.value == "") {
-            this.type = "text";
-        }
-    });
-    obj = saltos.optimize(obj);
+    var obj = saltos.__text_helper(field);
+    obj.step = 1; // this enable the seconds
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -345,27 +287,12 @@ saltos.__form_field.time = function (field) {
  *
  * This function returns an input object of type datetime, you can pass the same arguments
  * that for the input object of type text
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.datetime = function (field) {
     field.type = "datetime-local";
-    if (field.value == "") {
-        field.type = "text";
-    }
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__text_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
-    var element = obj.querySelector("input");
-    element.addEventListener("focusin", function () {
-        this.type = "datetime-local";
-    });
-    element.addEventListener("focusout", function () {
-        if (this.value == "") {
-            this.type = "text";
-        }
-    });
-    obj = saltos.optimize(obj);
+    var obj = saltos.__text_helper(field);
+    obj.step = 1; // this enable the seconds
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -373,18 +300,14 @@ saltos.__form_field.datetime = function (field) {
  * Textarea constructor helper
  *
  * This function returns a textarea object with the autogrow plugin enabled
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.textarea = function (field) {
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__textarea_helper(field));
-    obj = saltos.__label_floating_helper(obj, field);
-    var element = obj.querySelector("textarea");
+    var obj = saltos.__textarea_helper(field);
+    var element = obj;
     saltos.when_visible(element ,function () {
         autoheight(element);
     });
-    obj = saltos.optimize(obj);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -392,12 +315,10 @@ saltos.__form_field.textarea = function (field) {
  * Ckeditor constructor helper
  *
  * This function returns a textarea object with the ckeditor plugin enabled
- *
- * @label => this parameter is used as text for the label
  */
 saltos.__form_field.ckeditor = function (field) {
     var obj = saltos.html(`<div></div>`);
-    obj = saltos.__label_append_helper(obj, field);
+    obj.append(saltos.__label_helper(field));
     obj.append(saltos.__textarea_helper(field));
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
@@ -413,13 +334,12 @@ saltos.__form_field.ckeditor = function (field) {
  *
  * This function returns a textarea object with the codemirror plugin enabled
  *
- * @label => this parameter is used as text for the label
  * @mode => used to define the mode parameter of the codemirror
  */
 saltos.__form_field.codemirror = function (field) {
     saltos.check_params(field,["mode"]);
     var obj = saltos.html(`<div></div>`);
-    obj = saltos.__label_append_helper(obj, field);
+    obj.append(saltos.__label_helper(field));
     obj.append(saltos.__textarea_helper(field));
     var element = obj.querySelector("textarea");
     saltos.when_visible(element ,function () {
@@ -452,7 +372,7 @@ saltos.__form_field.iframe = function (field) {
     var obj = saltos.html(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0" class="form-control p-0 ${field.class}" style="height:${field.height}"></iframe>
     `);
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -461,7 +381,6 @@ saltos.__form_field.iframe = function (field) {
  *
  * This function returns a select object, you can pass the follow arguments:
  *
- * @label => this parameter is used as text for the label
  * @id => the id used by the object
  * @class => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
@@ -487,12 +406,11 @@ saltos.__form_field.select = function (field) {
     if (field.size != "") {
         field.size = `size="${field.size}"`;
     }
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.html(`
+    var obj = saltos.html(`
         <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required}
             ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
-    `));
-    var element = obj.querySelector("select");
+    `);
+    var element = obj;
     if (field.tooltip != "") {
         saltos.__tooltip_helper(element);
     }
@@ -504,8 +422,7 @@ saltos.__form_field.select = function (field) {
         }
         element.append(saltos.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
     }
-    obj = saltos.__label_floating_helper(obj, field);
-    obj = saltos.optimize(obj);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -617,7 +534,7 @@ saltos.__form_field.multiselect = function (field) {
             _this.setAttribute("for",field.id + "_abc");
         });
     });
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -733,7 +650,6 @@ saltos.__form_field.button = function (field) {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
- * @label => this parameter is used as text for the label
  * @id => the id used by the object
  * @class => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
@@ -771,25 +687,12 @@ saltos.__form_field.password = function (field) {
     if (field.required) {
         field.required = "required";
     }
-    if (field.label != "") {
-        var input = `
-            <div class="form-floating">
-                <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
-                    ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
-                <label for="${field.id}">${field.label}</label>
-            </div>
-        `;
-    } else {
-        var input = `
-            <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
-                ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
-        `;
-    }
     var obj = saltos.html(`
         <div>
             <input type="text" style="display:none"/>
             <div class="input-group">
-                ${input}
+                <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
+                    ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
                 <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
             </div>
         </div>
@@ -811,6 +714,7 @@ saltos.__form_field.password = function (field) {
             this.classList.add("bi-eye-slash");
         }
     });
+    obj.prepend(saltos.__label_helper(field));
     return obj;
 };
 
@@ -1028,7 +932,7 @@ saltos.__form_field.file = function (field) {
             }
         }
     });
-    obj = saltos.__label_prepend_helper(obj, field);
+    obj.prepend(saltos.__label_helper(field));
     return obj;
 };
 
@@ -1056,7 +960,7 @@ saltos.__form_field.link = function (field) {
         return saltos.__form_field.button(field);
     }
     var obj = saltos.html(`<div></div>`);
-    obj = saltos.__label_append_helper(obj, field);
+    obj.append(saltos.__label_helper(field));
     obj.append(saltos.html("<br/>"));
     obj.append(saltos.__form_field.button(field));
     return obj;
@@ -1109,7 +1013,7 @@ saltos.__form_field.image = function (field) {
     if (field.tooltip != "") {
         saltos.__tooltip_helper(obj);
     }
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -1180,7 +1084,7 @@ saltos.__form_field.excel = function (field) {
             }
         });
     });
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -1249,7 +1153,7 @@ saltos.__form_field.pdfjs = function (field) {
             });
         });
     });
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -1428,7 +1332,7 @@ saltos.__form_field.table = function (field) {
             obj.querySelector("tfoot tr").append(saltos.html("tr",`<td colspan="${num}" class="text-center">${temp}</td>`));
         }
     }
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -1483,7 +1387,7 @@ saltos.__form_field.alert = function (field) {
             </style>
         `));
     }
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -1527,7 +1431,7 @@ saltos.__form_field.card = function (field) {
     if (field.footer != "") {
         obj.append(saltos.html(`<div class="card-footer">${field.footer}</div>`));
     }
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -1561,7 +1465,7 @@ saltos.__form_field.chartjs = function (field) {
             data: field.data,
         });
     });
-    obj = saltos.__label_oldstyle_helper(obj, field);
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 
@@ -1849,90 +1753,48 @@ saltos.__placeholder_helper = function (id) {
 }
 
 /**
- * Label Old Style helper
+ * Label helper
  *
- * This function adds using the old style that prepend the label before the widget
- * and only acts in case of needed, if label is not found, the function returns the
- * original object without any modification
+ * This function is a helper for label field, it is intended to returns the
+ * label object or a void string, this is because if no label is present in
+ * the field argument, then an empty string is returned, in the reception
+ * of the result, generally this is added to an object and it is ignored
+ * because an empty string is not an element, this thing is used by the
+ * optimizer to removes the unnecessary envelopment
  *
- * @old_obj => the original object
  * @field => the field that contains the label to be added if needed
+ */
+saltos.__label_helper = function (field) {
+    saltos.check_params(field,["label"]);
+    if (field.label == "") {
+        return "";
+    }
+    var temp = saltos.copy_object(field);
+    delete temp.class;
+    return saltos.__form_field.label(temp);
+}
+
+/**
+ * Label Combine
+ *
+ * This function combine the label with the object, to do it, tries to create a new
+ * container object to put the label and the passed object, and then tries to optimize
+ * to detect if the label is void
+ *
+ * @field => the field that contains the label
+ * @old => the object
  *
  * Notes:
  *
  * This function acts as helper to add a label by the constructors that not implement
- * any specific floating label, in the other cases, each constructor must to implement
+ * any specific label container, in the other cases, each constructor must to implement
  * their code because each case is different
  */
-saltos.__label_oldstyle_helper = function (old, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return old;
-    }
+saltos.__label_combine = function (field, old) {
     var obj = saltos.html(`<div></div>`);
-    obj = saltos.__label_append_helper(obj, field);
+    obj.append(saltos.__label_helper(field));
     obj.append(old);
-    return obj;
-}
-
-/**
- * Label Floating helper
- *
- * This function adds the label for the floating version, to do it, expects that
- * the obj will be a container with the input, textarea or select, and the field
- * that you want to add
- *
- * @obj => the object that contains the container with the input
- * @field => the field that contains the label to be added if needed
- */
-saltos.__label_floating_helper = function (obj, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return obj;
-    }
-    obj.classList.add("form-floating");
-    obj = saltos.__label_append_helper(obj, field);
-    obj.querySelector("label").classList.remove("form-label");
-    return obj;
-}
-
-/**
- * Label Append helper
- *
- * This function append a label field into the object, act as a helper for
- * the widget functions
- *
- * @obj => the object where do you want to add the label
- * @field => the field that contains the label to be added if needed
- */
-saltos.__label_append_helper = function (obj, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return obj;
-    }
-    var temp = saltos.copy_object(field);
-    delete temp.class;
-    obj.append(saltos.__form_field.label(temp));
-    return obj;
-}
-
-/**
- * Label Prepend helper
- *
- * This function prepend a label field into the object, act as a helper for
- * the widget functions
- *
- * @obj => the object where do you want to add the label
- * @field => the field that contains the label to be added if needed
- */
-saltos.__label_prepend_helper = function (obj, field) {
-    saltos.check_params(field,["label"]);
-    if (field.label == "") {
-        return obj;
-    }
-    var temp = saltos.copy_object(field);
-    delete temp.class;
-    obj.prepend(saltos.__form_field.label(temp));
+    obj = saltos.optimize(obj);
     return obj;
 }
 
