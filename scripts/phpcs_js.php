@@ -50,6 +50,9 @@ foreach ($buffer as $key => $val) {
     if (strpos($val, '[","]') !== false) {
         continue;
     }
+    if (strpos($val, '},{') !== false) {
+        continue;
+    }
     // Normal operation
     $val2 = explode(",", $val);
     unset($val2[0]);

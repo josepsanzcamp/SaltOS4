@@ -144,10 +144,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                                     var theme = this.textContent;
                                     if (theme == "bootstrap") {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
-                                        document.querySelector("link[theme]").setAttribute("href","lib/bootstrap/bootstrap.min.css");
+                                        document.querySelector("link[theme]").setAttribute("href", "lib/bootstrap/bootstrap.min.css");
                                     } else {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
-                                        document.querySelector("link[theme]").setAttribute("href","lib/bootswatch/" + theme + ".min.css");
+                                        document.querySelector("link[theme]").setAttribute("href", "lib/bootswatch/" + theme + ".min.css");
                                     }
                                     this.parentNode.querySelector("button.active").classList.remove("active");
                                     this.querySelector("button").classList.add("active");
@@ -156,7 +156,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         }
                         return menu;
                     }()
-                },function () {
+                }, function () {
                     var theme = document.querySelector("html").getAttribute("data-bs-theme");
                     var icon = `<i class="bi bi-sun-fill"></i>`;
                     if (theme == "dark") {
@@ -169,7 +169,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             name:`<i class="bi bi-sun-fill"></i> Light`,
                             active:(theme == ""),
                             onclick:function () {
-                                document.querySelector("html").setAttribute("data-bs-theme","");
+                                document.querySelector("html").setAttribute("data-bs-theme", "");
                                 this.parentNode.querySelector("button.active").classList.remove("active");
                                 this.querySelector("button").classList.add("active");
                                 this.parentNode.parentNode.querySelector("i").classList.remove("bi-moon-stars-fill");
@@ -179,7 +179,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             name:`<i class="bi bi-moon-stars-fill"></i> Dark`,
                             active:(theme == "dark"),
                             onclick:function () {
-                                document.querySelector("html").setAttribute("data-bs-theme","dark");
+                                document.querySelector("html").setAttribute("data-bs-theme", "dark");
                                 this.parentNode.querySelector("button.active").classList.remove("active");
                                 this.querySelector("button").classList.add("active");
                                 this.parentNode.parentNode.querySelector("i").classList.remove("bi-sun-fill");
@@ -298,22 +298,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         }
         if (tipo == "select") {
             rows = [
-                {label:"Uno",value:1},
-                {label:"Dos",value:2},
-                {label:"Tres",value:3},
+                {label:"Uno", value:1},
+                {label:"Dos", value:2},
+                {label:"Tres", value:3},
             ];
             valor = "2";
         }
         if (tipo == "multiselect") {
             rows = [
-                {label:"Uno",value:1},
-                {label:"Dos",value:2},
-                {label:"Tres",value:3},
-                {label:"Cuatro",value:4},
-                {label:"Cinco",value:5},
-                {label:"Seis",value:6},
+                {label:"Uno", value:1},
+                {label:"Dos", value:2},
+                {label:"Tres", value:3},
+                {label:"Cuatro", value:4},
+                {label:"Cinco", value:5},
+                {label:"Seis", value:6},
             ];
-            valor = "2,3,5";
+            valor = [2,3,5].join(",");
             size = 5;
         }
         if (tipo == "button") {
@@ -340,13 +340,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         }
         if (tipo == "table") {
             var data = [
-                ["Josep","Sanz",`<a href="#">654 123 789</a>`],
-                ["Jordi","Company","654 123 789"],
-                ["Andres","Diaz","654 123 789"],
+                ["Josep", "Sanz", `<a href="#">654 123 789</a>`],
+                ["Jordi", "Company", "654 123 789"],
+                ["Andres", "Diaz", "654 123 789"],
             ];
-            var header = ["Name","Surname","Phone"];
-            var footer = ["","Total","3"];
-            var divider = [false,true,true];
+            var header = ["Name", "Surname", "Phone"];
+            var footer = ["", "Total", "3"];
+            var divider = [false, true, true];
         }
         if (tipo == "alert") {
             clase = "alert-success";
