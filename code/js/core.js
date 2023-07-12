@@ -94,7 +94,7 @@ saltos.addlog = function (msg) {
  * @params => an array with the arguments that must to exists
  * @value => the default value used if an argument doesn't exists
  */
-saltos.check_params = function (obj,params,value) {
+saltos.check_params = function (obj, params, value) {
     if (typeof value == "undefined") {
         value = "";
     }
@@ -127,10 +127,10 @@ saltos.uniqid = function () {
  * @fn => the callback that you want to execute
  * @args => the arguments passed to the callback when execute it
  */
-saltos.when_visible = function (obj,fn,args) {
+saltos.when_visible = function (obj, fn, args) {
     // Check for the id existence
     if (!obj.getAttribute("id")) {
-        obj.setAttribute("id","fix" + saltos.uniqid());
+        obj.setAttribute("id", saltos.uniqid());
     }
     var id = obj.getAttribute("id");
     // Launch the interval each millisecond, the idea is wait until found
@@ -158,7 +158,7 @@ saltos.when_visible = function (obj,fn,args) {
                 fn(args);
             }
         }
-    },1);
+    }, 1);
 };
 
 /**
@@ -232,7 +232,7 @@ saltos.html = function () {
  * way as jQuery do but without using jQuery.
  */
 saltos.ajax = function (args) {
-    saltos.check_params(args,["url","data","method","success","error","progress","async","content_type","headers"]);
+    saltos.check_params(args, ["url", "data", "method", "success", "error", "progress", "async", "content_type", "headers"]);
     if (args.data == "") {
         args.data = null;
     }
@@ -246,7 +246,7 @@ saltos.ajax = function (args) {
         args.headers = {};
     }
     args.method = args.method.toUpperCase();
-    if (!["GET","POST"].includes(args.method)) {
+    if (!["GET", "POST"].includes(args.method)) {
         console.log("unknown " + args.method + " method");
         return null;
     }
@@ -277,10 +277,10 @@ saltos.ajax = function (args) {
     }
     ajax.open(args.method, args.url, args.async);
     if (args.content_type != "") {
-        ajax.setRequestHeader("Content-Type",args.content_type);
+        ajax.setRequestHeader("Content-Type", args.content_type);
     }
     for (var i in args.headers) {
-        ajax.setRequestHeader(i,args.headers[i]);
+        ajax.setRequestHeader(i, args.headers[i]);
     }
     ajax.send(args.data);
     return ajax;
@@ -306,7 +306,7 @@ saltos.fix_key = function (arg) {
     }
     var pos = arg.indexOf("#");
     if (pos != -1) {
-        arg = arg.substr(0,pos);
+        arg = arg.substr(0, pos);
     }
     return arg;
 };

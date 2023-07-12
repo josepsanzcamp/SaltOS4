@@ -158,7 +158,7 @@ saltos.form.layout = function (layout) {
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
         var attr = layout["#attr"];
         var value = layout.value;
-        saltos.check_params(attr,["auto","cols_per_row","container_class","row_class","col_class"]);
+        saltos.check_params(attr, ["auto", "cols_per_row", "container_class", "row_class", "col_class"]);
         if (attr.cols_per_row == "") {
             attr.cols_per_row = Infinity;
         }
@@ -166,7 +166,7 @@ saltos.form.layout = function (layout) {
             // This trick convert all entries of the object in an array with the keys and values
             var temp = [];
             for (var key in value) {
-                temp.push([key,value[key]]);
+                temp.push([key, value[key]]);
             }
             // This is the new layout object created with one container, rows, cols and all original
             // fields, too can specify what class use in each object created
@@ -234,9 +234,9 @@ saltos.form.layout = function (layout) {
         if (!attr.hasOwnProperty("value")) {
             attr.value = value;
         }
-        if (["container","col","row","div"].includes(key)) {
+        if (["container", "col", "row", "div"].includes(key)) {
             var obj = saltos.form_field(attr);
-            var temp = saltos.form.layout(value,1);
+            var temp = saltos.form.layout(value, 1);
             for (var i in temp) {
                 obj.append(temp[i]);
             }
@@ -306,12 +306,12 @@ saltos.form.javascript = function (data) {
  */
 window.onhashchange = function (event) {
     var hash = document.location.hash;
-    if (hash.substr(0,1) == "#") {
+    if (hash.substr(0, 1) == "#") {
         hash = hash.substr(1);
     }
     if (hash == "") {
         hash = "app/menu";
-        history.replaceState(null,null,".#" + hash)
+        history.replaceState(null, null, ".#" + hash)
     }
     // Reset the body interface
     saltos.modal("close");
@@ -351,7 +351,7 @@ saltos.loading = function (on_off) {
                 obj.remove();
                 clearInterval(timer);
             }
-        },1);
+        }, 1);
         return true;
     }
     return false;

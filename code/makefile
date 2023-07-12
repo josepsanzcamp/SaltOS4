@@ -13,7 +13,7 @@ test:
 	$(eval files := $(shell find js ../scripts apps -name \*.js -newer /tmp/timestamp | grep -v index.min.js))
 	@for i in ${files}; do \
 		echo $$i; \
-		bash ../scripts/phpcs_js.sh $$i; \
+		php ../scripts/phpcs_js.php $$i; \
 	done
 
 libs:
