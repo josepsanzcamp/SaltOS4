@@ -27,6 +27,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <root>
     <list>
+        <javascript>
+            <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-auto">
             <button ifeval="check_user('clientes', 'create')" onclick="saltos.open('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente"/>
             <div col_class="col p-0"/>
@@ -98,6 +102,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         </javascript>
     </create>
     <view>
+        <javascript>
+            <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
         <javascript>
@@ -105,6 +113,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         </javascript>
     </view>
     <edit>
+        <javascript>
+            <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
         <javascript>
@@ -112,6 +124,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         </javascript>
     </edit>
     <delete>
+        <javascript>
+            <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
         <javascript>

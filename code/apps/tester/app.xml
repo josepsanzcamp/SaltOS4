@@ -29,6 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     <menu>
         <javascript>
             <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
             <file eval="true">file_with_hash("apps/tester/app.js")</file>
         </javascript>
     </menu>

@@ -207,10 +207,10 @@ saltos.html = function () {
         type = arguments[0];
         html = arguments[1];
     }
-    var div = document.createElement(type);
-    div.innerHTML = html.trim();
-    div = saltos.optimize(div);
-    return div;
+    var obj = document.createElement(type);
+    obj.innerHTML = html.trim();
+    obj = saltos.optimize(obj);
+    return obj;
 };
 
 /**

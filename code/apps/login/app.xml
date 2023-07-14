@@ -27,6 +27,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 <root>
     <menu>
+        <javascript>
+            <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
         <layout>
             <div class="vh-100 d-flex bg-body-secondary">
                 <container class="container m-auto bg-body rounded p-5" style="max-width:400px">

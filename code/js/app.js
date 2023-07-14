@@ -153,7 +153,6 @@ saltos.form.data = function (data) {
  * of the node are created inside a container, a row, and each field inside a col.
  */
 saltos.form.layout = function (layout) {
-    saltos.loading(0);
     // Check for attr auto
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
         var attr = layout["#attr"];
@@ -328,8 +327,6 @@ window.onhashchange = function (event) {
  *
  * @on_off => if you want to show or hide the loading spinner, the function returns
  * true when can do the action, false otherwise
- *
- * The main
  */
 saltos.loading = function (on_off) {
     var obj = document.getElementById("loading");
@@ -355,6 +352,15 @@ saltos.loading = function (on_off) {
         return true;
     }
     return false;
+};
+
+/**
+ * Clear Screen
+ *
+ * This function remove all contents of the body
+ */
+saltos.clear_screen = function () {
+    document.body.innerHTML = "";
 };
 
 /**
