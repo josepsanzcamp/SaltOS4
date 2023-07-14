@@ -909,20 +909,22 @@ saltos.__form_field.file = function (field) {
             <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
             <div class="overflow-auto">
                 <table class="table table-striped table-hover d-none">
-                    <style>
-                        .table {
-                            --bs-table-hover-bg:#fbec88;
-                            --bs-table-active-bg:#fbec88;
-                            --bs-table-hover-color:#373a3c;
-                            --bs-table-active-color:#373a3c;
-                        }
-                    </style>
                     <tbody>
                     </tbody>
                 </table>
             </div>
         </div>
     `);
+    obj.append(saltos.html(`
+        <style>
+            .table {
+                --bs-table-hover-bg:#fbec88;
+                --bs-table-active-bg:#fbec88;
+                --bs-table-hover-color:#373a3c;
+                --bs-table-active-color:#373a3c;
+            }
+        </style>
+    `));
     if (field.tooltip != "") {
         obj.querySelectorAll("input").forEach(function (_this) {
             saltos.__tooltip_helper(_this);
@@ -1255,22 +1257,24 @@ saltos.__form_field.pdfjs = function (field) {
     var obj = saltos.html(`
         <div id="${field.id}" class="${field.class}">
             <div class="pdfViewer"></div>
-            <style>
-                #${field.id} {
-                    position: absolute;
-                    width: calc(100% - 18px);
-                }
-                #${field.id} .canvasWrapper {
-                    box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1)!important;
-                }
-                #${field.id} *,
-                #${field.id} *::before,
-                #${field.id} *::after {
-                    box-sizing: content-box;
-                }
-            </style>
         </div>
     `);
+    obj.append(saltos.html(`
+        <style>
+            #${field.id} {
+                position: absolute;
+                width: calc(100% - 18px);
+            }
+            #${field.id} .canvasWrapper {
+                box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1)!important;
+            }
+            #${field.id} *,
+            #${field.id} *::before,
+            #${field.id} *::after {
+                box-sizing: content-box;
+            }
+        </style>
+    `));
     var element = obj;
     saltos.when_visible(element, function () {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
@@ -1343,14 +1347,6 @@ saltos.__form_field.table = function (field) {
     }
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
-            <style>
-                .table {
-                    --bs-table-hover-bg:#fbec88;
-                    --bs-table-active-bg:#fbec88;
-                    --bs-table-hover-color:#373a3c;
-                    --bs-table-active-color:#373a3c;
-                }
-            </style>
         </table>
     `);
     if (!field.header.hasOwnProperty("length")) {
@@ -1486,6 +1482,22 @@ saltos.__form_field.table = function (field) {
             obj.querySelector("tfoot tr").append(saltos.html("tr", `<td colspan="${num}" class="text-center">${temp}</td>`));
         }
     }
+    // Convert the previous table in a responsive table
+    // We are using the same div to put inside the styles instead of the table
+    var old = obj;
+    obj = saltos.html(`<div class="table-responsive"></div>`);
+    obj.append(old);
+    obj.append(saltos.html(`
+        <style>
+            .table {
+                --bs-table-hover-bg:#fbec88;
+                --bs-table-active-bg:#fbec88;
+                --bs-table-hover-color:#373a3c;
+                --bs-table-active-color:#373a3c;
+            }
+        </style>
+    `));
+    // Continue
     obj = saltos.__label_combine(field, obj);
     return obj;
 };
