@@ -76,7 +76,7 @@ function make_index($app, $reg_id)
         }
     }
     // Continue the process after the checks
-    $queries = array();
+    $queries = [];
     // This part allow to get all data of the all fields from the main table
     $fields = __make_index_helper($table, $reg_id);
     foreach ($fields as $key => $val) {
@@ -146,7 +146,7 @@ function make_index($app, $reg_id)
  */
 function __make_index_helper($table, $id = "")
 {
-    static $cache = array();
+    static $cache = [];
     $hash = $table . "|" . $id;
     if (isset($cache[$hash])) {
         return $cache[$hash];

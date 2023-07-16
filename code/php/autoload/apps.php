@@ -38,19 +38,19 @@ declare(strict_types=1);
  */
 function __apps($fn, $arg)
 {
-    static $dict = array();
+    static $dict = [];
     if (!count($dict)) {
         $query = "SELECT * FROM tbl_apps WHERE active = 1";
         $result = db_query($query);
-        $dict["id2app"] = array();
-        $dict["app2id"] = array();
-        $dict["id2table"] = array();
-        $dict["app2table"] = array();
-        $dict["table2id"] = array();
-        $dict["table2app"] = array();
-        $dict["id2subtables"] = array();
-        $dict["app2subtables"] = array();
-        $dict["table2subtables"] = array();
+        $dict["id2app"] = [];
+        $dict["app2id"] = [];
+        $dict["id2table"] = [];
+        $dict["app2table"] = [];
+        $dict["table2id"] = [];
+        $dict["table2app"] = [];
+        $dict["id2subtables"] = [];
+        $dict["app2subtables"] = [];
+        $dict["table2subtables"] = [];
         while ($row = db_fetch_row($result)) {
             $dict["id2app"][$row["id"]] = $row["code"];
             $dict["app2id"][$row["code"]] = $row["id"];
@@ -68,7 +68,7 @@ function __apps($fn, $arg)
         return isset($dict["app2id"][$arg]);
     }
     if (!isset($dict[$fn][$arg])) {
-        show_php_error(array("phperror" => "$fn($arg) not found"));
+        show_php_error(["phperror" => "$fn($arg) not found"]);
     }
     return $dict[$fn][$arg];
 }

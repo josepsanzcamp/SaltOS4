@@ -40,7 +40,7 @@ function remove_bad_chars($temp, $pad = "")
 {
     static $bad_chars = null;
     if ($bad_chars === null) {
-        $bad_chars = array(0,1,2,3,4,5,6,7,8,11,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
+        $bad_chars = [0,1,2,3,4,5,6,7,8,11,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
         foreach ($bad_chars as $key => $val) {
             $bad_chars[$key] = chr($val);
         }
@@ -67,12 +67,14 @@ function remove_bad_chars($temp, $pad = "")
  */
 function encode_bad_chars($cad, $pad = "_", $extra = "")
 {
-    $orig = array(
+    $orig = [
         "á","à","ä","â","é","è","ë","ê","í","ì","ï","î","ó","ò","ö","ô","ú","ù","ü","û","ñ","ç",
-        "Á","À","Ä","Â","É","È","Ë","Ê","Í","Ì","Ï","Î","Ó","Ò","Ö","Ô","Ú","Ù","Ü","Û","Ñ","Ç");
-    $dest = array(
+        "Á","À","Ä","Â","É","È","Ë","Ê","Í","Ì","Ï","Î","Ó","Ò","Ö","Ô","Ú","Ù","Ü","Û","Ñ","Ç",
+    ];
+    $dest = [
         "a","a","a","a","e","e","e","e","i","i","i","i","o","o","o","o","u","u","u","u","n","c",
-        "a","a","a","a","e","e","e","e","i","i","i","i","o","o","o","o","u","u","u","u","n","c",);
+        "a","a","a","a","e","e","e","e","i","i","i","i","o","o","o","o","u","u","u","u","n","c",
+    ];
     $cad = str_replace($orig, $dest, $cad);
     $cad = strtolower($cad);
     $len = strlen($cad);
@@ -140,7 +142,7 @@ function sprintr($array)
     $buffer = print_r($array, true);
     $buffer = explode("\n", $buffer);
     foreach ($buffer as $key => $val) {
-        if (in_array(trim($val), array("(",")",""))) {
+        if (in_array(trim($val), ["(", ")", ""])) {
             unset($buffer[$key]);
         }
     }
@@ -180,7 +182,7 @@ function intelligence_cut($txt, $max, $end = "...")
             }
         }
         if ($max > 0) {
-            if (in_array($txt[$max - 1], array(",",".","-","("))) {
+            if (in_array($txt[$max - 1], [",", ".", "-", "("])) {
                 $max--;
             }
         }
@@ -311,11 +313,11 @@ function get_part_from_string($input, $delim, $index)
  */
 function get_unique_token()
 {
-    return implode("-", array(
+    return implode("-", [
         bin2hex(random_bytes(4)),
         bin2hex(random_bytes(2)),
         bin2hex(random_bytes(2)),
         bin2hex(random_bytes(2)),
-        bin2hex(random_bytes(6))
-    ));
+        bin2hex(random_bytes(6)),
+    ]);
 }

@@ -49,14 +49,14 @@ if (!$user_id) {
 }
 
 // Check parameters
-foreach (array("pass","format") as $key) {
+foreach (["pass", "format"] as $key) {
     if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
 }
 $pass = $_DATA["json"]["pass"];
 $format = $_DATA["json"]["format"];
-if (!in_array($format, array("png","json"))) {
+if (!in_array($format, ["png", "json"])) {
     show_json_error("unknown format $format");
 }
 
@@ -67,18 +67,18 @@ $size = isset($_DATA["json"]["size"]) ? $_DATA["json"]["size"] : 8;
 $score = password_strength($pass);
 $image = __score_image($score, $width, $height, $size);
 if ($format == "png") {
-    output_handler(array(
+    output_handler([
         "data" => $image,
         "type" => "image/png",
         "cache" => false
-    ));
+    ]);
 }
 $data = "data:image/png;base64," . base64_encode($image);
 $minscore = current_datetime(get_config("auth/passwordminscore"));
 $valid = ($score >= $minscore) ? 1 : 0;
-$result = array(
+$result = [
     "score" => $score . "%",
     "image" => $data,
     "valid" => $valid,
-);
+];
 output_handler_json($result);

@@ -48,7 +48,7 @@ function eval_putenv($array)
             }
             if ($diff) {
                 if (putenv($key . "=" . $val) === false) {
-                    show_php_error(array("phperror" => "putenv fails to set '$key' from '$current' to '$val'"));
+                    show_php_error(["phperror" => "putenv fails to set '$key' from '$current' to '$val'"]);
                 }
             }
         }

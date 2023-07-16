@@ -62,24 +62,24 @@ class database_sqlite3
     {
         require_once "php/database/libsqlite.php";
         if (!class_exists("SQLite3")) {
-            show_php_error(array(
+            show_php_error([
                 "phperror" => "Class SQLite3 not found",
                 "details" => "Try to install php-sqlite package"
-            ));
+            ]);
             return;
         }
         if (!file_exists($args["file"])) {
-            show_php_error(array("phperror" => "File '" . $args["file"] . "' not found"));
+            show_php_error(["phperror" => "File '" . $args["file"] . "' not found"]);
             return;
         }
         if (!is_writable($args["file"])) {
-            show_php_error(array("phperror" => "File '" . $args["file"] . "' not writable"));
+            show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
             return;
         }
         try {
             $this->link = new SQLite3($args["file"]);
         } catch (Exception $e) {
-            show_php_error(array("dberror" => $e->getMessage() . " (code " . $e->getCode() . ")"));
+            show_php_error(["dberror" => $e->getMessage() . " (code " . $e->getCode() . ")"]);
         }
         if ($this->link) {
             $this->link->enableExceptions(true);
@@ -169,7 +169,7 @@ class database_sqlite3
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "SQLITE");
-        $result = array("total" => 0,"header" => array(),"rows" => array());
+        $result = ["total" => 0,"header" => [],"rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }
@@ -196,14 +196,14 @@ class database_sqlite3
                     break;
                 } catch (Exception $e) {
                     if ($timeout <= 0) {
-                        show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                         break;
                     } elseif (stripos($e->getMessage(), "database is locked") !== false) {
                         $timeout -= __semaphore_usleep(rand(0, 1000));
                     } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
                         $timeout -= __semaphore_usleep(rand(0, 1000));
                     } else {
-                        show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                         break;
                     }
                 }
@@ -229,7 +229,7 @@ class database_sqlite3
                         $result["rows"][] = $row[0];
                     }
                     $result["total"] = count($result["rows"]);
-                    $result["header"] = array("column");
+                    $result["header"] = ["column"];
                 }
                 if ($fetch == "concat") {
                     if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
@@ -239,11 +239,11 @@ class database_sqlite3
                         $result["rows"][0] .= "," . $row[0];
                     }
                     $result["total"] = count($result["rows"]);
-                    $result["header"] = array("concat");
+                    $result["header"] = ["concat"];
                 }
             }
         } else {
-            show_php_error(array("phperror" => "Could not acquire the semaphore","query" => $query));
+            show_php_error(["phperror" => "Could not acquire the semaphore", "query" => $query]);
         }
         return $result;
     }

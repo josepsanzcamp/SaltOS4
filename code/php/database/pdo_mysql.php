@@ -58,10 +58,10 @@ class database_pdo_mysql
     public function __construct($args)
     {
         if (!class_exists("PDO")) {
-            show_php_error(array(
+            show_php_error([
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package"
-            ));
+            ]);
             return;
         }
         try {
@@ -71,7 +71,7 @@ class database_pdo_mysql
                 $args["pass"]
             );
         } catch (PDOException $e) {
-            show_php_error(array("dberror" => $e->getMessage()));
+            show_php_error(["dberror" => $e->getMessage()]);
         }
         if ($this->link) {
             $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -130,7 +130,7 @@ class database_pdo_mysql
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "MYSQL");
-        $result = array("total" => 0,"header" => array(),"rows" => array());
+        $result = ["total" => 0,"header" => [],"rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }
@@ -138,7 +138,7 @@ class database_pdo_mysql
         try {
             $stmt = $this->link->query($query);
         } catch (PDOException $e) {
-            show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+            show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
         }
         //~ unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
@@ -150,7 +150,7 @@ class database_pdo_mysql
                 try {
                     $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 } catch (PDOException $e) {
-                    show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
@@ -161,10 +161,10 @@ class database_pdo_mysql
                 try {
                     $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 } catch (PDOException $e) {
-                    show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
                 $result["total"] = count($result["rows"]);
-                $result["header"] = array("column");
+                $result["header"] = ["column"];
             }
             if ($fetch == "concat") {
                 try {
@@ -175,10 +175,10 @@ class database_pdo_mysql
                         $result["rows"][0] .= "," . $row;
                     }
                 } catch (PDOException $e) {
-                    show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
                 $result["total"] = count($result["rows"]);
-                $result["header"] = array("concat");
+                $result["header"] = ["concat"];
             }
         }
         return $result;

@@ -86,15 +86,15 @@ function __array2xml_write_nodes(&$array, $level = null)
     foreach ($array as $key => $val) {
         $key = fix_key($key);
         if (!__array2xml_check_node_name($key)) {
-            show_php_error(array("phperror" => "Invalid XML tag name '{$key}'"));
+            show_php_error(["phperror" => "Invalid XML tag name '{$key}'"]);
         }
         $attr = "";
         if (is_array($val) && isset($val["value"]) && isset($val["#attr"])) {
-            $attr = array();
+            $attr = [];
             foreach ($val["#attr"] as $key2 => $val2) {
                 $key2 = fix_key($key2);
                 if (!__array2xml_check_node_attr($key2)) {
-                    show_php_error(array("phperror" => "Invalid XML attr name '{$key2}'"));
+                    show_php_error(["phperror" => "Invalid XML attr name '{$key2}'"]);
                 }
                 $val2 = str_replace("&", "&amp;", $val2);
                 $attr[] = "{$key2}=\"{$val2}\"";
@@ -111,7 +111,7 @@ function __array2xml_write_nodes(&$array, $level = null)
             if (strpos($val, "<") !== false || strpos($val, "&") !== false) {
                 $count = 1;
                 while ($count) {
-                    $val = str_replace(array("<![CDATA[","]]>"), "", $val, $count);
+                    $val = str_replace(["<![CDATA[", "]]>"], "", $val, $count);
                 }
                 $val = "<![CDATA[{$val}]]>";
             }
@@ -137,9 +137,9 @@ function __array2xml_write_nodes(&$array, $level = null)
  */
 function array2xml($array, $usecache = true, $usexmlminify = true)
 {
-    $array = array("root" => $array);
+    $array = ["root" => $array];
     if ($usecache) {
-        $cache = get_cache_file(array($array,$usexmlminify), ".xml");
+        $cache = get_cache_file([$array, $usexmlminify], ".xml");
         if (file_exists($cache)) {
             return file_get_contents($cache);
         }

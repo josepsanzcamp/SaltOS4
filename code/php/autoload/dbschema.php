@@ -39,12 +39,12 @@ function db_schema()
 {
     //~ set_config("xml/dbschema.xml", "nada", 0);
     $hash1 = get_config("xml/dbschema.xml", "", 0);
-    $hash2 = md5(serialize(array(xmlfile2array("xml/dbschema.xml"),xmlfile2array("xml/dbstatic.xml"))));
+    $hash2 = md5(serialize([xmlfile2array("xml/dbschema.xml"), xmlfile2array("xml/dbstatic.xml")]));
     if ($hash1 == $hash2) {
         return;
     }
-    if (!semaphore_acquire(array("db_schema","db_static"))) {
-        show_php_error(array("phperror" => "Could not acquire the semaphore"));
+    if (!semaphore_acquire(["db_schema", "db_static"])) {
+        show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
     $dbschema = eval_attr(xmlfile2array("xml/dbschema.xml"));
     $dbschema = __dbschema_auto_apps($dbschema);
@@ -135,7 +135,7 @@ function db_schema()
         }
     }
     set_config("xml/dbschema.xml", $hash2, 0);
-    semaphore_release(array("db_schema","db_static"));
+    semaphore_release(["db_schema", "db_static"]);
 }
 
 /**
@@ -156,8 +156,8 @@ function db_static()
     if ($hash1 == $hash2) {
         return;
     }
-    if (!semaphore_acquire(array("db_schema","db_static"))) {
-        show_php_error(array("phperror" => "Could not acquire the semaphore"));
+    if (!semaphore_acquire(["db_schema", "db_static"])) {
+        show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
     $dbstatic = eval_attr(xmlfile2array("xml/dbstatic.xml"));
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
@@ -172,7 +172,7 @@ function db_static()
         }
     }
     set_config("xml/dbstatic.xml", $hash2, 0);
-    semaphore_release(array("db_schema","db_static"));
+    semaphore_release(["db_schema", "db_static"]);
 }
 
 /**
@@ -300,22 +300,22 @@ function __dbschema_helper($fn, $table)
         $dbschema = __dbschema_auto_apps($dbschema);
         $dbschema = __dbschema_auto_fkey($dbschema);
         $dbschema = __dbschema_auto_name($dbschema);
-        $tables = array();
-        $indexes = array();
-        $ignores = array();
-        $fulltext = array();
-        $fkeys = array();
+        $tables = [];
+        $indexes = [];
+        $ignores = [];
+        $fulltext = [];
+        $fkeys = [];
         if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
             foreach ($dbschema["tables"] as $tablespec) {
                 if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
                     $ignores[$tablespec["#attr"]["name"]] = 1;
                 } else {
-                    $tables[$tablespec["#attr"]["name"]] = array();
+                    $tables[$tablespec["#attr"]["name"]] = [];
                     foreach ($tablespec["value"]["fields"] as $fieldspec) {
-                        $tables[$tablespec["#attr"]["name"]][] = array(
+                        $tables[$tablespec["#attr"]["name"]][] = [
                             "name" => $fieldspec["#attr"]["name"],
                             "type" => strtoupper(parse_query($fieldspec["#attr"]["type"]))
-                        );
+                        ];
                         if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
                             if (!isset($fieldspec["#attr"]["fckeck"]) || eval_bool($fieldspec["#attr"]["fckeck"])) {
                                 $fkeys[$tablespec["#attr"]["name"]][$fieldspec["#attr"]["name"]] = $fieldspec["#attr"]["fkey"];
@@ -323,7 +323,7 @@ function __dbschema_helper($fn, $table)
                         }
                     }
                     if (isset($tablespec["value"]["indexes"])) {
-                        $indexes[$tablespec["#attr"]["name"]] = array();
+                        $indexes[$tablespec["#attr"]["name"]] = [];
                         foreach ($tablespec["value"]["indexes"] as $indexspec) {
                             $indexes[$tablespec["#attr"]["name"]][parse_query($indexspec["#attr"]["name"])] = explode(",", $indexspec["#attr"]["fields"]);
                             if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
@@ -341,12 +341,12 @@ function __dbschema_helper($fn, $table)
         if (isset($tables[$table])) {
             return $tables[$table];
         }
-        return array();
+        return [];
     } elseif (stripos($fn, "get_indexes") !== false) {
         if (isset($indexes[$table])) {
             return $indexes[$table];
         }
-        return array();
+        return [];
     } elseif (stripos($fn, "get_ignores") !== false) {
         return array_keys($ignores);
     } elseif (stripos($fn, "get_fulltext") !== false) {
@@ -355,9 +355,9 @@ function __dbschema_helper($fn, $table)
         if (isset($fkeys[$table])) {
             return $fkeys[$table];
         }
-        return array();
+        return [];
     }
-    show_php_error(array("phperror" => "Unknown fn '$fn' in " . __FUNCTION__));
+    show_php_error(["phperror" => "Unknown fn '$fn' in " . __FUNCTION__]);
 }
 
 /**
@@ -493,7 +493,7 @@ function __dbschema_auto_fkey($dbschema)
             if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
                 continue;
             }
-            $indexes = array();
+            $indexes = [];
             if (isset($dbschema["tables"][$tablekey]["value"]["indexes"])) {
                 foreach ($dbschema["tables"][$tablekey]["value"]["indexes"] as $index) {
                     $indexes[] = $index["#attr"]["fields"];
@@ -505,7 +505,7 @@ function __dbschema_auto_fkey($dbschema)
                         continue;
                     }
                     if (!isset($dbschema["tables"][$tablekey]["value"]["indexes"])) {
-                        $dbschema["tables"][$tablekey]["value"]["indexes"] = array();
+                        $dbschema["tables"][$tablekey]["value"]["indexes"] = [];
                     }
                     $xml = '<index fields="__FIELDS__"/>';
                     $xml = str_replace("__FIELDS__", $fieldspec["#attr"]["name"], $xml);
@@ -544,7 +544,7 @@ function __dbschema_auto_name($dbschema)
                 continue;
             }
             if (isset($tablespec["value"]["indexes"])) {
-                $indexes[$tablespec["#attr"]["name"]] = array();
+                $indexes[$tablespec["#attr"]["name"]] = [];
                 foreach ($tablespec["value"]["indexes"] as $indexkey => $indexspec) {
                     if (!isset($indexspec["#attr"]["name"])) {
                         $table = $tablespec["#attr"]["name"];
@@ -617,10 +617,10 @@ function get_field_from_dbstatic($table, $field = "field")
 function __dbstatic_helper($fn, $table, $field)
 {
     static $apps = null;
-    static $tables = array();
+    static $tables = [];
     if ($apps === null) {
-        $apps = array();
-        $tables = array();
+        $apps = [];
+        $tables = [];
         $dbstatic = eval_attr(xmlfile2array("xml/dbstatic.xml"));
         if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
             foreach ($dbstatic["tables"] as $data) {
@@ -654,5 +654,5 @@ function __dbstatic_helper($fn, $table, $field)
         }
         return "";
     }
-    show_php_error(array("phperror" => "Unknown fn '$fn' in " . __FUNCTION__));
+    show_php_error(["phperror" => "Unknown fn '$fn' in " . __FUNCTION__]);
 }

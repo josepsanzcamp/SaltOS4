@@ -57,7 +57,7 @@ function check_user($app, $perm)
         $query = "SELECT app_id, perm_id, allow, deny FROM tbl_groups_apps_perms WHERE group_id IN ($groups_id)";
         $from_groups_apps_perms = execute_query_array($query);
         // Compute the resulting array with all permissions
-        $array = array();
+        $array = [];
         foreach ($from_apps_perms as $row) {
             $key = $row["app_id"] . "|" . $row["perm_id"];
             $array[$key] = $row;
@@ -67,7 +67,7 @@ function check_user($app, $perm)
         foreach (array_merge($from_users_apps_perms, $from_groups_apps_perms) as $row) {
             $key = $row["app_id"] . "|" . $row["perm_id"];
             if (!isset($array[$key])) {
-                show_php_error(array("phperror" => "Integrity error for $key in " . __FUNCTION__));
+                show_php_error(["phperror" => "Integrity error for $key in " . __FUNCTION__]);
             }
             $array[$key]["allow"] += $row["allow"];
             $array[$key]["deny"] += $row["deny"];
@@ -84,10 +84,10 @@ function check_user($app, $perm)
      * perm exists, other thing is that the user not has permission, in this
      * case the last isset returns false and nothing to do */
     if (!app_exists($app)) {
-        show_php_error(array("phperror" => "App $app not found in " . __FUNCTION__));
+        show_php_error(["phperror" => "App $app not found in " . __FUNCTION__]);
     }
     if (!perm_exists($perm)) {
-        show_php_error(array("phperror" => "Perm $perm not found in " . __FUNCTION__));
+        show_php_error(["phperror" => "Perm $perm not found in " . __FUNCTION__]);
     }
     // Special case when ask for perm with owners
     $app_id = app2id($app);
@@ -142,13 +142,13 @@ function check_sql($app, $perm)
     }
     $temp = implode(" OR ", $temp);
     // Continue
-    $sql = array(
+    $sql = [
         "all" => "1=1",
         "group" => "id IN (SELECT id FROM {$table}_control
             WHERE group_id IN ($groups_id) OR $temp)",
         "user" => "id IN (SELECT id FROM {$table}_control
             WHERE user_id IN ($user_id) OR FIND_IN_SET($user_id,users_id))",
-    );
+    ];
     foreach ($sql as $key => $val) {
         if (!check_user($app, $perm . "|" . $key)) {
             unset($sql[$key]);
@@ -174,16 +174,16 @@ function check_sql($app, $perm)
  */
 function __perms($fn, $arg)
 {
-    static $dict = array();
+    static $dict = [];
     if (!count($dict)) {
         $query = "SELECT * FROM tbl_perms WHERE active = 1";
         $result = db_query($query);
-        $dict["id2perm"] = array();
-        $dict["perm2id"] = array();
+        $dict["id2perm"] = [];
+        $dict["perm2id"] = [];
         while ($row = db_fetch_row($result)) {
             if ($row["owner"] != "") {
                 if (!isset($dict["perm2id"][$row["code"]])) {
-                    $dict["perm2id"][$row["code"]] = array();
+                    $dict["perm2id"][$row["code"]] = [];
                 }
                 $dict["perm2id"][$row["code"]][] = $row["id"];
                 $row["code"] .= "|" . $row["owner"];
@@ -197,7 +197,7 @@ function __perms($fn, $arg)
         return isset($dict["perm2id"][$arg]);
     }
     if (!isset($dict[$fn][$arg])) {
-        show_php_error(array("phperror" => "$fn($arg) not found"));
+        show_php_error(["phperror" => "$fn($arg) not found"]);
     }
     return $dict[$fn][$arg];
 }

@@ -88,12 +88,12 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
     if (!$control_id) {
         $query = "SELECT group_id FROM tbl_users WHERE id=$user_id";
         $group_id = execute_query($query);
-        $query = make_insert_query("{$table}_control", array(
+        $query = make_insert_query("{$table}_control", [
             "id" => $reg_id,
             "user_id" => $user_id,
             "group_id" => $group_id,
             "datetime" => $datetime,
-        ));
+        ]);
         db_query($query);
         return 1;
     } else {
@@ -169,8 +169,8 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     // Compute the diff from old data and new data
     $data_old = get_version($app, $reg_id, INF);
     $query = "SELECT * FROM $table WHERE id='$reg_id'";
-    $data_new = array();
-    $data_new[$table] = array();
+    $data_new = [];
+    $data_new[$table] = [];
     $data_new[$table][$reg_id] = execute_query($query);
     // Add the data from subtables, if exists
     $subtables = app2subtables($app);
@@ -179,7 +179,7 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
             $subtable = strtok($subtable, "(");
             $field = strtok(")");
             $query = "SELECT * FROM $subtable WHERE $field='$reg_id'";
-            $data_new[$subtable] = array();
+            $data_new[$subtable] = [];
             $rows = execute_query_array($query);
             foreach ($rows as $key => $val) {
                 $data_new[$subtable][$val["id"]] = $val;
@@ -187,15 +187,15 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
         }
     }
     // Continue computing the diff from old data and new data
-    $data = array();
+    $data = [];
     foreach ($data_new as $table => $rows) {
-        $data[$table] = array();
+        $data[$table] = [];
         if (!isset($data_old[$table])) {
-            $data_old[$table] = array();
+            $data_old[$table] = [];
         }
         foreach ($rows as $key => $val) {
             if (!isset($data_old[$table][$key])) {
-                $data_old[$table][$key] = array();
+                $data_old[$table][$key] = [];
             }
             $data[$table][$key] = array_diff_assoc($val, $data_old[$table][$key]);
         }
@@ -207,14 +207,14 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     $query = "SELECT ver_id FROM {$table}_version WHERE id='$version_id'";
     $ver_id = intval(execute_query($query));
     // Prepare the array to the insert
-    $array = array(
+    $array = [
         "user_id" => $user_id,
         "datetime" => $datetime,
         "reg_id" => $reg_id,
         "ver_id" => $ver_id + 1,
         "data" => base64_encode(serialize($data)),
         "hash" => $hash_old,
-    );
+    ];
     // Update the hash with the new hash to do the blockchain
     $array["hash"] = md5(serialize($array));
     // Do the insert of the new version
@@ -246,7 +246,7 @@ function get_version($app, $reg_id, $ver_id)
     $table = app2table($app);
     $query = "SELECT * FROM {$table}_version WHERE reg_id='$reg_id' ORDER BY id ASC";
     $rows = execute_query_array($query);
-    $data = array();
+    $data = [];
     $hash_old = "";
     $datetime_old = "";
     $version_old = "";
@@ -255,36 +255,36 @@ function get_version($app, $reg_id, $ver_id)
             break;
         }
         // Check the blockchain integrity
-        $array = array(
+        $array = [
             "user_id" => $row["user_id"],
             "datetime" => $row["datetime"],
             "reg_id" => $row["reg_id"],
             "ver_id" => $row["ver_id"],
             "data" => $row["data"],
             "hash" => $hash_old,
-        );
+        ];
         if ($row["hash"] != md5(serialize($array))) {
             $ver_id = $row["ver_id"];
-            show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
+            show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
         }
         // Check other vars that must accomplish that new values are greather or equal that old values
         if ($row["datetime"] < $datetime_old) {
             $ver_id = $row["ver_id"];
-            show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
+            show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
         }
         if ($row["ver_id"] < $version_old) {
             $ver_id = $row["ver_id"];
-            show_php_error(array("phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"));
+            show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
         }
         // Merge the new data with the data of the previous versions
         $data_new = unserialize(base64_decode($row["data"]));
         foreach ($data_new as $table => $temp) {
             if (!isset($data[$table])) {
-                $data[$table] = array();
+                $data[$table] = [];
             }
             foreach ($temp as $key => $val) {
                 if (!isset($data[$table][$key])) {
-                    $data[$table][$key] = array();
+                    $data[$table][$key] = [];
                 }
                 $data[$table][$key] = array_merge($data[$table][$key], $val);
             }

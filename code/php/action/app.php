@@ -79,7 +79,7 @@ if (!isset($_DATA["rest"][3])) {
 $_DATA["rest"][3] = intval($_DATA["rest"][3]);
 
 // Trick to allow request as widget/2
-$dict = array();
+$dict = [];
 foreach ($array as $key => $val) {
     if (fix_key($key) == $_DATA["rest"][2] && isset($val["#attr"]["id"])) {
         $dict[$_DATA["rest"][2] . "/" . $val["#attr"]["id"]] = $key;

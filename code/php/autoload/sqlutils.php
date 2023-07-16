@@ -87,7 +87,7 @@ function __parse_query_type()
         case "mysqli":
             return "MYSQL";
         default:
-            show_php_error(array("phperror" => "Unknown type '" . get_config("db/type") . "'"));
+            show_php_error(["phperror" => "Unknown type '" . get_config("db/type") . "'"]);
     }
 }
 
@@ -215,13 +215,13 @@ function get_fields($table)
 {
     $query = "/*MYSQL SHOW COLUMNS FROM $table *//*SQLITE PRAGMA TABLE_INFO($table) */";
     $result = db_query($query);
-    $fields = array();
+    $fields = [];
     while ($row = db_fetch_row($result)) {
         if (isset($row["Field"])) {
-            $fields[] = array("name" => $row["Field"],"type" => strtoupper($row["Type"]));
+            $fields[] = ["name" => $row["Field"], "type" => strtoupper($row["Type"])];
         }
         if (isset($row["name"])) {
-            $fields[] = array("name" => $row["name"],"type" => strtoupper($row["type"]));
+            $fields[] = ["name" => $row["name"], "type" => strtoupper($row["type"])];
         }
     }
     db_free($result);
@@ -237,7 +237,7 @@ function get_fields($table)
  */
 function get_indexes($table)
 {
-    $indexes = array();
+    $indexes = [];
     // FOR SQLITE
     $query = "/*SQLITE PRAGMA INDEX_LIST($table) */";
     $result = db_query($query);
@@ -245,7 +245,7 @@ function get_indexes($table)
         $index = $row["name"];
         $query2 = "/*SQLITE PRAGMA INDEX_INFO($index) */";
         $result2 = db_query($query2);
-        $fields = array();
+        $fields = [];
         while ($row2 = db_fetch_row($result2)) {
             $fields[] = $row2["name"];
         }
@@ -265,7 +265,7 @@ function get_indexes($table)
         }
         if ($where) {
             if (!isset($indexes[$index])) {
-                $indexes[$index] = array();
+                $indexes[$index] = [];
             }
             $indexes[$index][] = $column;
         }
@@ -285,7 +285,7 @@ function get_tables()
         WHERE type='table'
             AND name NOT LIKE 'sqlite_%' */";
     $result = db_query($query);
-    $tables = array();
+    $tables = [];
     while ($row = db_fetch_row($result)) {
         $row = array_values($row);
         $tables[] = $row[0];
@@ -308,15 +308,15 @@ function get_field_type($type)
     $type1 = strtoupper(strtok($type, "("));
     static $datatypes = null;
     if ($datatypes === null) {
-        $temp = array(
+        $temp = [
             "int" => "TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER",
             "string" => "TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR",
             "float" => "DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE",
             "date" => "DATE",
             "time" => "TIME",
             "datetime" => "DATETIME",
-        );
-        $datatypes = array();
+        ];
+        $datatypes = [];
         foreach ($temp as $key => $val) {
             $val = explode(",", $val);
             foreach ($val as $key2 => $val2) {
@@ -327,7 +327,7 @@ function get_field_type($type)
     if (isset($datatypes[$type1])) {
         return $datatypes[$type1];
     }
-    show_php_error(array("phperror" => "Unknown type '$type1' in " . __FUNCTION__));
+    show_php_error(["phperror" => "Unknown type '$type1' in " . __FUNCTION__]);
 }
 
 /**
@@ -343,19 +343,19 @@ function get_field_size($type)
     $type = parse_query($type);
     $type1 = strtoupper(strtok($type, "("));
     $type2 = strtok(")");
-    $datasizes = array(
+    $datasizes = [
         "TINYTEXT" => 255,
         "TEXT" => 65535,
         "MEDIUMTEXT" => 16777215,
         "LONGTEXT" => 4294967295,
-    );
+    ];
     if (isset($datasizes[$type1])) {
         return intval($datasizes[$type1]);
     }
     if ($type2 != "") {
         return intval($type2);
     }
-    show_php_error(array("phperror" => "Unknown type '$type1' in " . __FUNCTION__));
+    show_php_error(["phperror" => "Unknown type '$type1' in " . __FUNCTION__]);
 }
 
 /**
@@ -373,7 +373,7 @@ function get_field_size($type)
 function sql_create_table($tablespec)
 {
     $table = $tablespec["#attr"]["name"];
-    $fields = array();
+    $fields = [];
     foreach ($tablespec["value"]["fields"] as $field) {
         $name = $field["#attr"]["name"];
         $type = $field["#attr"]["type"];
@@ -391,7 +391,7 @@ function sql_create_table($tablespec)
         } elseif ($type2 == "string") {
             $def = "";
         } else {
-            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
+            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
         }
         $extra = "NOT NULL DEFAULT '$def'";
         if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
@@ -433,7 +433,7 @@ function __has_engine($engine)
 {
     static $engines = null;
     if ($engines === null) {
-        $engines = array();
+        $engines = [];
         if (get_config("db/obj")) {
             $query = "/*MYSQL SHOW ENGINES */";
             $result = db_query($query);
@@ -473,16 +473,16 @@ function sql_alter_table($orig, $dest)
 function sql_insert_from_select($dest, $orig)
 {
     $fdest = get_fields($dest);
-    $ldest = array();
+    $ldest = [];
     foreach ($fdest as $f) {
         $ldest[] = $f["name"];
     }
     $forig = get_fields($orig);
-    $lorig = array();
+    $lorig = [];
     foreach ($forig as $f) {
         $lorig[] = $f["name"];
     }
-    $defs = array();
+    $defs = [];
     foreach ($fdest as $f) {
         $type = $f["type"];
         $type2 = get_field_type($type);
@@ -499,11 +499,11 @@ function sql_insert_from_select($dest, $orig)
         } elseif ($type2 == "string") {
             $defs[] = "";
         } else {
-            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
+            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
         }
     }
-    $keys = array();
-    $vals = array();
+    $keys = [];
+    $vals = [];
     foreach ($ldest as $key => $l) {
         $def = $defs[$key];
         $l2 = escape_reserved_word($l);
@@ -600,10 +600,10 @@ function make_insert_query($table, $array)
 {
     $fields = get_fields_from_dbschema($table);
     if (!count($fields)) {
-        show_php_error(array("phperror" => "Unknown fields in " . __FUNCTION__));
+        show_php_error(["phperror" => "Unknown fields in " . __FUNCTION__]);
     }
-    $list1 = array();
-    $list2 = array();
+    $list1 = [];
+    $list2 = [];
     foreach ($fields as $field) {
         $name = $field["name"];
         if (!array_key_exists($name, $array)) {
@@ -625,7 +625,7 @@ function make_insert_query($table, $array)
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
-            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
+            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
         }
         $name2 = escape_reserved_word($name);
         $list1[] = $name2;
@@ -634,7 +634,7 @@ function make_insert_query($table, $array)
     }
     if (count($array)) {
         $temp = implode(", ", array_keys($array));
-        show_php_error(array("phperror" => "Unused data '$temp' in " . __FUNCTION__));
+        show_php_error(["phperror" => "Unused data '$temp' in " . __FUNCTION__]);
     }
     $list1 = implode(",", $list1);
     $list2 = implode(",", $list2);
@@ -671,9 +671,9 @@ function make_update_query($table, $array, $where)
 {
     $fields = get_fields_from_dbschema($table);
     if (!count($fields)) {
-        show_php_error(array("phperror" => "Unknown fields in " . __FUNCTION__));
+        show_php_error(["phperror" => "Unknown fields in " . __FUNCTION__]);
     }
-    $list = array();
+    $list = [];
     foreach ($fields as $field) {
         $name = $field["name"];
         if (!array_key_exists($name, $array)) {
@@ -695,7 +695,7 @@ function make_update_query($table, $array, $where)
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
-            show_php_error(array("phperror" => "Unknown type '$type' in " . __FUNCTION__));
+            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
         }
         $name2 = escape_reserved_word($name);
         $list[] = "$name2='$temp'";
@@ -703,7 +703,7 @@ function make_update_query($table, $array, $where)
     }
     if (count($array)) {
         $temp = implode(", ", array_keys($array));
-        show_php_error(array("phperror" => "Unused data '$temp' in " . __FUNCTION__));
+        show_php_error(["phperror" => "Unused data '$temp' in " . __FUNCTION__]);
     }
     $list = implode(",", $list);
     $query = "UPDATE $table SET $list WHERE $where";
@@ -727,11 +727,11 @@ function make_update_query($table, $array, $where)
  */
 function make_where_query($array)
 {
-    $list = array();
+    $list = [];
     foreach ($array as $key => $val) {
-        if (in_array(substr($key, -2, 2), array(">=","<=","!="))) {
+        if (in_array(substr($key, -2, 2), [">=", "<=", "!="])) {
             $cmp = "";
-        } elseif (in_array(substr($key, -1, 1), array(">","<","="))) {
+        } elseif (in_array(substr($key, -1, 1), [">", "<", "="])) {
             $cmp = "";
         } else {
             $cmp = "=";
@@ -755,7 +755,7 @@ function make_where_query($array)
  */
 function escape_reserved_word($word)
 {
-    if (!in_array($word, array("key","table"))) {
+    if (!in_array($word, ["key", "table"])) {
         return $word;
     }
     return "`$word`";
@@ -780,7 +780,7 @@ function escape_reserved_word($word)
  * depending the sign of the word, and too to use the disjunction or
  * conjunction in each like group
  */
-function make_like_query($keys, $values, $args = array())
+function make_like_query($keys, $values, $args = [])
 {
     // Process args
     $minsize = isset($args["minsize"]) ? $args["minsize"] : 3;
@@ -799,10 +799,10 @@ function make_like_query($keys, $values, $args = array())
         return $default;
     }
     $values = explode(" ", encode_bad_chars($values, " ", "+-"));
-    $types = array();
+    $types = [];
     foreach ($values as $key => $val) {
         $types[$key] = "+";
-        while (isset($val[0]) && in_array($val[0], array("+","-"))) {
+        while (isset($val[0]) && in_array($val[0], ["+", "-"])) {
             $types[$key] = $val[0];
             $val = substr($val, 1);
         }
@@ -815,16 +815,16 @@ function make_like_query($keys, $values, $args = array())
     if (!count($values)) {
         return $default;
     }
-    $query = array();
+    $query = [];
     foreach ($values as $key => $val) {
         if ($types[$key] == "+") {
-            $query2 = array();
+            $query2 = [];
             foreach ($keys as $key2) {
                 $query2[] = "$key2 LIKE '%$val%'";
             }
             $query[] = "(" . implode(" OR ", $query2) . ")";
         } else {
-            $query2 = array();
+            $query2 = [];
             foreach ($keys as $key2) {
                 $query2[] = "$key2 NOT LIKE '%$val%'";
             }
@@ -853,7 +853,7 @@ function make_like_query($keys, $values, $args = array())
  * function only is used to search using fulltext indexes and in one unique
  * field named search
  */
-function __make_fulltext_query_helper($values, $args = array())
+function __make_fulltext_query_helper($values, $args = [])
 {
     // Process args
     $minsize = isset($args["minsize"]) ? $args["minsize"] : 3;
@@ -862,7 +862,7 @@ function __make_fulltext_query_helper($values, $args = array())
     $values = explode(" ", encode_bad_chars($values, " ", "+-"));
     foreach ($values as $key => $val) {
         $type = "+";
-        while (isset($val[0]) && in_array($val[0], array("+","-"))) {
+        while (isset($val[0]) && in_array($val[0], ["+", "-"])) {
             $type = $val[0];
             $val = substr($val, 1);
         }
@@ -913,7 +913,7 @@ function get_engine($table)
  * @minsize => the minimal size of the length used in each like
  * @default => sql fraement returned if some thing was wrong
  */
-function make_fulltext_query($values, $app, $args = array())
+function make_fulltext_query($values, $app, $args = [])
 {
     // Process args
     $prefix = isset($args["prefix"]) ? $args["prefix"] : "";

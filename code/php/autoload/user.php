@@ -48,12 +48,12 @@ function current_token()
     }
     // Continue
     crontab_users();
-    $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query(array(
+    $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query([
         "token" => get_server("HTTP_TOKEN"),
         "active" => 1,
         "remote_addr" => get_server("REMOTE_ADDR"),
         "user_agent" => get_server("HTTP_USER_AGENT"),
-    )));
+    ]));
     $token_id = intval($token_id);
     return $token_id;
 }
@@ -71,10 +71,10 @@ function current_user()
         return $user_id;
     }
     // Continue
-    $user_id = execute_query("SELECT user_id FROM tbl_users_tokens WHERE " . make_where_query(array(
+    $user_id = execute_query("SELECT user_id FROM tbl_users_tokens WHERE " . make_where_query([
         "id" => current_token(),
         "active" => 1,
-    )));
+    ]));
     $user_id = intval($user_id);
     return $user_id;
 }
@@ -92,10 +92,10 @@ function current_group()
         return $group_id;
     }
     // Continue
-    $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query(array(
+    $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query([
         "id" => current_user(),
         "active" => 1,
-    )));
+    ]));
     $group_id = intval($group_id);
     return $group_id;
 }
@@ -127,7 +127,7 @@ function current_groups()
     $from_groups = execute_query_array($query);
     // Compute the resulting array with all ids
     $array = array_merge($from_users, $from_groups);
-    $array = array_diff($array, array(""));
+    $array = array_diff($array, [""]);
     $groups_id = implode(",", $array);
     return $groups_id;
 }

@@ -111,16 +111,16 @@ function show_php_error($array)
     // Add the msg_text to the error log file
     if (is_writable($dir)) {
         $file = get_config("debug/errorfile", "error.log");
-        $types = array(
-            array("dberror","debug/dberrorfile","dberror.log"),
-            array("phperror","debug/phperrorfile","phperror.log"),
-            array("xmlerror","debug/xmlerrorfile","xmlerror.log"),
-            array("jserror","debug/jserrorfile","jserror.log"),
-            array("dbwarning","debug/dbwarningfile","dbwarning.log"),
-            array("phpwarning","debug/phpwarningfile","phpwarning.log"),
-            array("xmlwarning","debug/xmlwarningfile","xmlwarning.log"),
-            array("jswarning","debug/jswarningfile","jswarning.log"),
-        );
+        $types = [
+            ["dberror", "debug/dberrorfile", "dberror.log"],
+            ["phperror", "debug/phperrorfile", "phperror.log"],
+            ["xmlerror", "debug/xmlerrorfile", "xmlerror.log"],
+            ["jserror", "debug/jserrorfile", "jserror.log"],
+            ["dbwarning", "debug/dbwarningfile", "dbwarning.log"],
+            ["phpwarning", "debug/phpwarningfile", "phpwarning.log"],
+            ["xmlwarning", "debug/xmlwarningfile", "xmlwarning.log"],
+            ["jswarning", "debug/jswarningfile", "jswarning.log"],
+        ];
         foreach ($types as $type) {
             if (isset($array[$type[0]])) {
                 $file = get_config($type[1], $type[2]);
@@ -137,9 +137,9 @@ function show_php_error($array)
         ob_end_clean();
     }
     // Prepare the final report
-    output_handler_json(array(
+    output_handler_json([
         "error" => $msg_json
-    ));
+    ]);
 }
 
 /**
@@ -170,21 +170,21 @@ function show_php_error($array)
  */
 function do_message_error($array)
 {
-    $json = array(
+    $json = [
         "text" => "",
         "code" => "",
-    );
+    ];
     // Prepare json version
     foreach ($array as $type => $data) {
         switch ($type) {
             case "dberror":
-                $privated = array(
+                $privated = [
                     get_config("db/host"),
                     get_config("db/port"),
                     get_config("db/user"),
                     get_config("db/pass"),
-                    get_config("db/name")
-                );
+                    get_config("db/name"),
+                ];
                 $data = str_replace($privated, "...", $data);
                 break;
             case "backtrace":
@@ -226,7 +226,7 @@ function do_message_error($array)
         }
     }
     // Prepare html version
-    $types = array(
+    $types = [
         "dberror" => "DB Error",
         "phperror" => "PHP Error",
         "xmlerror" => "XML Error",
@@ -241,8 +241,8 @@ function do_message_error($array)
         "query" => "Query",
         "backtrace" => "Backtrace",
         "debug" => "Debug",
-    );
-    $text = array();
+    ];
+    $text = [];
     foreach ($array as $type => $data) {
         switch ($type) {
             case "backtrace":
@@ -265,16 +265,16 @@ function do_message_error($array)
         if (!isset($types[$type])) {
             die("Unknown type $type");
         }
-        $text[] = array($types[$type],$data);
+        $text[] = [$types[$type], $data];
     }
     foreach ($text as $key => $item) {
         $text[$key] = "***** " . $item[0] . " *****" . "\n" . $item[1];
     }
     $text = implode("\n", $text);
-    return array(
+    return [
         "text" => $text,
         "json" => $json,
-    );
+    ];
 }
 
 /**
@@ -304,12 +304,12 @@ function program_handlers()
  */
 function __error_handler($type, $message, $file, $line)
 {
-    show_php_error(array(
+    show_php_error([
         "phperror" => "{$message} (code {$type})",
         "details" => "Error on file " . basename($file) . ":" . $line,
         "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
         "code" => pathinfo($file, PATHINFO_FILENAME) . ":" . $line
-    ));
+    ]);
 }
 
 /**
@@ -324,12 +324,12 @@ function __error_handler($type, $message, $file, $line)
  */
 function __exception_handler($e)
 {
-    show_php_error(array(
+    show_php_error([
         "exception" => $e->getMessage() . " (code " . $e->getCode() . ")",
         "details" => "Error on file " . basename($e->getFile()) . ":" . $e->getLine(),
         "backtrace" => $e->getTrace(),
         "code" => pathinfo($e->getFile(), PATHINFO_FILENAME) . ":" . $e->getLine()
-    ));
+    ]);
 }
 
 /**
@@ -344,14 +344,14 @@ function __exception_handler($e)
 function __shutdown_handler()
 {
     $error = error_get_last();
-    $types = array(E_ERROR,E_PARSE,E_CORE_ERROR,E_COMPILE_ERROR,E_USER_ERROR,E_RECOVERABLE_ERROR);
+    $types = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR];
     if (is_array($error) && isset($error["type"]) && in_array($error["type"], $types)) {
-        show_php_error(array(
+        show_php_error([
             "phperror" => "{$error["message"]}",
             "details" => "Error on file " . basename($error["file"]) . ":" . $error["line"],
             "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
             "code" => pathinfo($error["file"], PATHINFO_FILENAME) . ":" . $error["line"]
-        ));
+        ]);
     }
     semaphore_shutdown();
 }
@@ -396,10 +396,10 @@ function show_json_error($msg)
         ob_end_clean();
     }
     // Prepare the final report
-    output_handler_json(array(
-        "error" => array(
+    output_handler_json([
+        "error" => [
             "text" => $msg,
             "code" => __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)),
-        )
-    ));
+        ]
+    ]);
 }

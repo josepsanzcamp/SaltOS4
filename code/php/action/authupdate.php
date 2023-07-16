@@ -51,7 +51,7 @@ if (!$user_id) {
 }
 
 // Check parameters
-foreach (array("oldpass","newpass","renewpass") as $key) {
+foreach (["oldpass", "newpass", "renewpass"] as $key) {
     if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
@@ -61,10 +61,10 @@ $newpass = $_DATA["json"]["newpass"];
 $renewpass = $_DATA["json"]["renewpass"];
 
 // Password checks
-$query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
+$query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
     "user_id" => $user_id,
     "active" => 1,
-));
+]);
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["password"])) {
     show_json_error("authentication update error");
@@ -83,9 +83,9 @@ if (password_strength($newpass) < $minscore) {
 }
 
 // Old passwords check
-$query = "SELECT password FROM tbl_users_passwords WHERE " . make_where_query(array(
+$query = "SELECT password FROM tbl_users_passwords WHERE " . make_where_query([
     "user_id" => $user_id,
-));
+]);
 $oldspass = execute_query_array($query);
 foreach ($oldspass as $oldpass) {
     if (password_verify($newpass, $oldpass)) {
@@ -94,18 +94,18 @@ foreach ($oldspass as $oldpass) {
 }
 
 // Continue
-$query = make_update_query("tbl_users_passwords", array(
+$query = make_update_query("tbl_users_passwords", [
     "active" => 0,
-), make_where_query(array(
+], make_where_query([
     "id" => $row["id"],
-)));
+]));
 db_query($query);
 
 $newpass = password_hash($newpass, PASSWORD_DEFAULT);
 $datetime = current_datetime();
 $expires = current_datetime(get_config("auth/passwordexpires"));
 
-$query = make_insert_query("tbl_users_passwords", array(
+$query = make_insert_query("tbl_users_passwords", [
     "active" => 1,
     "user_id" => $user_id,
     "datetime" => $datetime,
@@ -113,11 +113,11 @@ $query = make_insert_query("tbl_users_passwords", array(
     "user_agent" => get_server("HTTP_USER_AGENT"),
     "password" => $newpass,
     "expires" => $expires,
-));
+]);
 db_query($query);
 
-output_handler_json(array(
+output_handler_json([
     "status" => "ok",
     "updated_at" => $datetime,
     "expires_at" => $expires,
-));
+]);

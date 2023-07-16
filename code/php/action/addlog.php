@@ -42,6 +42,6 @@ if (!isset($_DATA["json"]["msg"])) {
 
 $msg = $_DATA["json"]["msg"];
 addlog(sprintr($msg));
-output_handler_json(array(
+output_handler_json([
     "status" => "ok"
-));
+]);

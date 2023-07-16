@@ -58,15 +58,15 @@ function eval_iniset($array)
             if ($diff) {
                 if ($key == "mbstring.internal_encoding") {
                     if (mb_internal_encoding($val) === false) {
-                        show_php_error(array("phperror" => "mb_internal_encoding fails to set '$val'"));
+                        show_php_error(["phperror" => "mb_internal_encoding fails to set '$val'"]);
                     }
                 } elseif ($key == "mbstring.detect_order") {
                     $val = implode(",", array_intersect(explode(",", $val), mb_list_encodings()));
                     if (mb_detect_order($val) === false) {
-                        show_php_error(array("phperror" => "mb_detect_order fails to set '$val'"));
+                        show_php_error(["phperror" => "mb_detect_order fails to set '$val'"]);
                     }
                 } elseif (ini_set($key, $val) === false) {
-                    show_php_error(array("phperror" => "ini_set fails to set '$key' from '$current' to '$val'"));
+                    show_php_error(["phperror" => "ini_set fails to set '$key' from '$current' to '$val'"]);
                 }
             }
         }

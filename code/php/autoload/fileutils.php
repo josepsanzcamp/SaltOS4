@@ -132,7 +132,7 @@ function cache_exists($cache, $files)
     }
     $mtime1 = filemtime($cache);
     if (!is_array($files)) {
-        $files = array($files);
+        $files = [$files];
     }
     foreach ($files as $file) {
         if (!file_exists($file) || !is_file($file)) {
@@ -195,7 +195,7 @@ function url_get_contents($url)
  *
  * This function uses the httpclient library
  */
-function __url_get_contents($url, $args = array())
+function __url_get_contents($url, $args = [])
 {
     require_once "lib/httpclient/http.php";
     $http = new http_class();
@@ -204,14 +204,14 @@ function __url_get_contents($url, $args = array())
     if (isset($args["cookies"])) {
         $http->RestoreCookies($args["cookies"]);
     }
-    $arguments = array();
+    $arguments = [];
     $error = $http->GetRequestArguments($url, $arguments);
     if ($error != "") {
-        return array("",array(),array());
+        return ["",[],[]];
     }
     $error = $http->Open($arguments);
     if ($error != "") {
-        return array("",array(),array());
+        return ["",[],[]];
     }
     if (isset($args["method"])) {
         $arguments["RequestMethod"] = strtoupper($args["method"]);
@@ -232,22 +232,22 @@ function __url_get_contents($url, $args = array())
     }
     $error = $http->SendRequest($arguments);
     if ($error != "") {
-        return array("",array(),array());
+        return ["",[],[]];
     }
-    $headers = array();
+    $headers = [];
     $error = $http->ReadReplyHeaders($headers);
     if ($error != "") {
-        return array("",array(),array());
+        return ["",[],[]];
     }
     $body = "";
     $error = $http->ReadWholeReplyBody($body);
     if ($error != "") {
-        return array("",array(),array());
+        return ["",[],[]];
     }
     $http->Close();
-    $cookies = array();
+    $cookies = [];
     $http->SaveCookies($cookies);
-    return array($body,$headers,$cookies);
+    return [$body,$headers,$cookies];
 }
 
 /**
@@ -332,7 +332,7 @@ function getcwd_protected()
 function glob_protected($pattern)
 {
     $array = glob($pattern);
-    return is_array($array) ? $array : array();
+    return is_array($array) ? $array : [];
 }
 
 /**
@@ -372,13 +372,13 @@ function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $time
         $timeout,
         STREAM_CLIENT_CONNECT,
         stream_context_create(
-            array(
-                "ssl" => array(
+            [
+                "ssl" => [
                     "verify_peer" => false,
                     "verify_peer_name" => false,
                     "allow_self_signed" => true
-                )
-            )
+                ]
+            ]
         )
     );
 }

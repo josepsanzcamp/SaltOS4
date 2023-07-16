@@ -48,10 +48,10 @@ function output_handler($array)
     $type = isset($array["type"]) ? $array["type"] : "";
     $cache = isset($array["cache"]) ? $array["cache"] : "";
     $name = isset($array["name"]) ? $array["name"] : "";
-    $extra = isset($array["extra"]) ? $array["extra"] : array();
+    $extra = isset($array["extra"]) ? $array["extra"] : [];
     if ($file != "") {
         if (!file_exists($file) || !is_file($file)) {
-            show_php_error(array("phperror" => "file {$file} not found"));
+            show_php_error(["phperror" => "file {$file} not found"]);
         }
         if ($data == "" && filesize($file) < memory_get_free(true) / 3) {
             $data = file_get_contents($file);
@@ -61,10 +61,10 @@ function output_handler($array)
         }
     }
     if ($type === "") {
-        show_php_error(array("phperror" => "output_handler requires the type parameter"));
+        show_php_error(["phperror" => "output_handler requires the type parameter"]);
     }
     if ($cache === "") {
-        show_php_error(array("phperror" => "output_handler requires the cache parameter"));
+        show_php_error(["phperror" => "output_handler requires the cache parameter"]);
     }
     header("X-Powered-By: " . get_name_version_revision());
     if ($cache) {
@@ -136,9 +136,9 @@ function output_handler($array)
  */
 function output_handler_json($array)
 {
-    output_handler(array(
+    output_handler([
         "data" => json_encode($array),
         "type" => "application/json",
         "cache" => false
-    ));
+    ]);
 }

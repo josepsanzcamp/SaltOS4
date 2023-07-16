@@ -46,8 +46,8 @@ declare(strict_types=1);
 function __qrcode($msg, $s, $m)
 {
     require_once "lib/tcpdf/vendor/autoload.php";
-    $levels = array("L","M","Q","H");
-    $factors = array(0.07,0.15,0.25,0.30);
+    $levels = ["L","M","Q","H"];
+    $factors = [0.07,0.15,0.25,0.30];
     for ($i = 0; $i < 4; $i++) {
         $barcode = new TCPDF2DBarcode($msg, "QRCODE," . $levels[$i]);
         $array = $barcode->getBarcodeArray();
@@ -80,23 +80,23 @@ function __qrcode($msg, $s, $m)
         }
     }
     // ADD SALTOS LOGO
-    $matrix = array(
-        array(0,0,0,0,2,2,2,0,0,0),
-        array(0,0,0,0,2,1,2,2,2,2),
-        array(0,2,2,2,2,2,2,2,1,2),
-        array(0,2,1,1,1,1,1,1,2,2),
-        array(0,2,2,1,1,1,1,2,2,0),
-        array(0,0,2,2,1,1,1,1,2,2),
-        array(0,0,2,2,1,2,2,2,1,2),
-        array(0,2,2,1,2,2,0,2,2,2),
-        array(0,2,1,2,2,0,0,0,0,0),
-        array(0,2,2,2,0,0,0,0,0,0),
-    );
+    $matrix = [
+        [0,0,0,0,2,2,2,0,0,0],
+        [0,0,0,0,2,1,2,2,2,2],
+        [0,2,2,2,2,2,2,2,1,2],
+        [0,2,1,1,1,1,1,1,2,2],
+        [0,2,2,1,1,1,1,2,2,0],
+        [0,0,2,2,1,1,1,1,2,2],
+        [0,0,2,2,1,2,2,2,1,2],
+        [0,2,2,1,2,2,0,2,2,2],
+        [0,2,1,2,2,0,0,0,0,0],
+        [0,2,2,2,0,0,0,0,0,0],
+    ];
     $ww = intval(count($matrix[0]) / 2) * 2;
     $hh = intval(count($matrix) / 2) * 2;
     $xx = imagesx($im) / 2 - $ww * $s / 2 + $s / 2;
     $yy = imagesy($im) / 2 - $hh * $s / 2 - $s / 2;
-    $cc = array(0,imagecolorallocate($im, 0xb8, 0x14, 0x15),imagecolorallocate($im, 0x00, 0x00, 0x00));
+    $cc = [0,imagecolorallocate($im, 0xb8, 0x14, 0x15),imagecolorallocate($im, 0x00, 0x00, 0x00)];
     foreach ($matrix as $y => $xz) {
         foreach ($xz as $x => $z) {
             if ($z) {

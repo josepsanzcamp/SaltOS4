@@ -58,10 +58,10 @@ class database_mysqli
     public function __construct($args)
     {
         if (!function_exists("mysqli_connect")) {
-            show_php_error(array(
+            show_php_error([
                 "phperror" => "mysqli_connect not found",
                 "details" => "Try to install php-mysql package"
-            ));
+            ]);
             return;
         }
         $args["port"] = intval($args["port"]);
@@ -121,7 +121,7 @@ class database_mysqli
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "MYSQL");
-        $result = array("total" => 0,"header" => array(),"rows" => array());
+        $result = ["total" => 0,"header" => [],"rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }
@@ -129,7 +129,7 @@ class database_mysqli
         try {
             $stmt = mysqli_query($this->link, $query);
         } catch (Exception $e) {
-            show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+            show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
         }
         unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
@@ -152,7 +152,7 @@ class database_mysqli
                     $result["rows"][] = $row[0];
                 }
                 $result["total"] = count($result["rows"]);
-                $result["header"] = array("column");
+                $result["header"] = ["column"];
                 mysqli_free_result($stmt);
             }
             if ($fetch == "concat") {
@@ -163,7 +163,7 @@ class database_mysqli
                     $result["rows"][0] .= "," . $row[0];
                 }
                 $result["total"] = count($result["rows"]);
-                $result["header"] = array("concat");
+                $result["header"] = ["concat"];
                 mysql_free_result($stmt);
             }
         }

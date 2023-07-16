@@ -40,7 +40,7 @@ declare(strict_types=1);
 function null2array($arr)
 {
     if ($arr === null) {
-        return array();
+        return [];
     }
     return $arr;
 }

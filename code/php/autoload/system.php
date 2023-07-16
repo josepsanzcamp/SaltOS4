@@ -39,31 +39,32 @@ declare(strict_types=1);
 function check_system()
 {
     // PACKAGE CHECKS
-    $array = array(
-        array("class_exists","DomElement","Class","php-xml"),
-        array("function_exists","imagecreatetruecolor","Function","php-gd"),
-        array("function_exists","imagecreatefrompng","Function","php-gd"),
-        array("function_exists","mb_check_encoding","Function","php-mbstring"),
-        array("function_exists","mb_convert_encoding","Function","php-mbstring"),
-        array("function_exists","mb_strlen","Function","php-mbstring"),
-        array("function_exists","mb_substr","Function","php-mbstring"),
-        array("function_exists","mb_strpos","Function","php-mbstring"));
+    $array = [
+        ["class_exists", "DomElement", "Class", "php-xml"],
+        ["function_exists", "imagecreatetruecolor", "Function", "php-gd"],
+        ["function_exists", "imagecreatefrompng",   "Function", "php-gd"],
+        ["function_exists", "mb_check_encoding",    "Function", "php-mbstring"],
+        ["function_exists", "mb_convert_encoding",  "Function", "php-mbstring"],
+        ["function_exists", "mb_strlen",            "Function", "php-mbstring"],
+        ["function_exists", "mb_substr",            "Function", "php-mbstring"],
+        ["function_exists", "mb_strpos",            "Function", "php-mbstring"],
+    ];
     foreach ($array as $a) {
         if (!$a[0]($a[1])) {
-            show_php_error(array(
+            show_php_error([
                 "phperror" => "$a[2] $a[1] not found",
                 "details" => "Try to install $a[3] package"
-            ));
+            ]);
         }
     }
     // DIRECTORIES CKECKS
     $dirs = glob("data/*");
     foreach ($dirs as $dir) {
         if (!file_exists($dir) || !is_dir($dir) || !is_writable($dir)) {
-            show_php_error(array(
+            show_php_error([
                 "phperror" => "$dir not writable",
                 "details" => "Try to set permissions to do writable the $dir directory"
-            ));
+            ]);
         }
     }
 }

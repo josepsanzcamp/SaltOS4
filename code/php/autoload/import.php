@@ -61,10 +61,10 @@ function import_file($args)
         }
     }
     if (!isset($args["file"])) {
-        show_php_error(array("phperror" => "Unknown file"));
+        show_php_error(["phperror" => "Unknown file"]);
     }
     if (!isset($args["type"])) {
-        show_php_error(array("phperror" => "Unknown type"));
+        show_php_error(["phperror" => "Unknown type"]);
     }
     if (!isset($args["sep"])) {
         $args["sep"] = ";";
@@ -91,7 +91,7 @@ function import_file($args)
         $args["notree"] = 0;
     }
     if (!isset($args["nodes"])) {
-        $args["nodes"] = array();
+        $args["nodes"] = [];
     }
     if (!isset($args["nohead"])) {
         $args["nohead"] = 0;
@@ -225,7 +225,7 @@ function __import_xml2array($file)
  */
 function __import_struct2array(&$data)
 {
-    $array = array();
+    $array = [];
     while ($linea = array_pop($data)) {
         $name = $linea["tag"];
         $type = $linea["type"];
@@ -233,7 +233,7 @@ function __import_struct2array(&$data)
         if (isset($linea["value"])) {
             $value = $linea["value"];
         }
-        $attr = array();
+        $attr = [];
         if (isset($linea["attributes"])) {
             $attr = $linea["attributes"];
         }
@@ -241,7 +241,7 @@ function __import_struct2array(&$data)
             // caso 1 <algo>
             $value = __import_struct2array($data);
             if (count($attr)) {
-                $value = array("value" => $value,"#attr" => $attr);
+                $value = ["value" => $value, "#attr" => $attr];
             }
             set_array($array, $name, $value);
         } elseif ($type == "close") {
@@ -251,7 +251,7 @@ function __import_struct2array(&$data)
             // caso 3 <algo/>
             // caso 4 <algo>algo</algo>
             if (count($attr)) {
-                $value = array("value" => $value,"#attr" => $attr);
+                $value = ["value" => $value, "#attr" => $attr];
             }
             set_array($array, $name, $value);
         } elseif ($type == "cdata") {
@@ -423,8 +423,8 @@ function __import_addnode($path, &$array, $value)
  */
 function __import_specialchars($arg)
 {
-    $orig = array("\\t","\\r","\\n");
-    $dest = array("\t","\r","\n");
+    $orig = ["\\t", "\\r", "\\n"];
+    $dest = ["\t", "\r", "\n"];
     return str_replace($orig, $dest, $arg);
 }
 
@@ -442,7 +442,7 @@ function __import_csv2array($file, $sep)
 {
     $sep = __import_specialchars($sep);
     $fd = fopen($file, "r");
-    $array = array();
+    $array = [];
     while ($row = fgetcsv($fd, 0, $sep)) {
         foreach ($row as $key => $val) {
             $row[$key] = getutf8($val);
@@ -509,8 +509,8 @@ function __import_xls2array($file, $sheet)
                 $xlsx = $file;
             }
             ob_passthru(str_replace(
-                array("__DIR__","__INPUT__"),
-                array(dirname($xlsx),basename($xlsx)),
+                ["__DIR__", "__INPUT__"],
+                [dirname($xlsx), basename($xlsx)],
                 get_default("commands/__xlsx2csv__")
             ));
             if ($fix) {
@@ -538,8 +538,8 @@ function __import_xls2array($file, $sheet)
     $objSheet = $objPHPExcel->getSheet($sheet);
     // Detect cols and rows with data
     $cells = $objSheet->getCoordinates(true);
-    $cols = array();
-    $rows = array();
+    $cols = [];
+    $rows = [];
     foreach ($cells as $cell) {
         list($col,$row) = __import_cell2colrow($cell);
         $cols[$col] = __import_name2col($col);
@@ -553,9 +553,9 @@ function __import_xls2array($file, $sheet)
         $cols[$key] = __import_col2name($val);
     }
     // Read data
-    $array = array();
+    $array = [];
     foreach ($rows as $row) {
-        $temp = array();
+        $temp = [];
         foreach ($cols as $col) {
             $cell = $objSheet->getCell($col . $row);
             if ($cell->isFormula()) {
@@ -618,15 +618,15 @@ function __import_bytes2array($file, $map, $offset, $nomb)
     if (isset($lines[0])) {
         $lines[0] = __import_utf8bom($lines[0]);
     }
-    $array = array();
-    $row = array();
+    $array = [];
+    $row = [];
     foreach ($map as $map0) {
         $row[] = $map0[0];
     }
     $array[] = $row;
     foreach ($lines as $line) {
         $line = getutf8($line);
-        $row = array();
+        $row = [];
         foreach ($map as $map0) {
             if ($nomb) {
                 $temp = substr($line, $map0[1] + $offset, $map0[2]);
@@ -739,8 +739,8 @@ function __import_removevoid($array)
             }
         }
     }
-    $rows = array_keys(array_intersect($rows, array(0)));
-    $cols = array_keys(array_intersect($cols, array(0)));
+    $rows = array_keys(array_intersect($rows, [0]));
+    $cols = array_keys(array_intersect($cols, [0]));
     foreach ($rows as $val) {
         unset($array[$val]);
     }
@@ -783,7 +783,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
     }
     // Continue
     if ($nohead) {
-        $head = array();
+        $head = [];
         $num = 1;
         foreach ($array as $temp) {
             $num = max($num, count($temp));
@@ -795,7 +795,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
         $head = array_shift($array);
     }
     // Fix for duplicates and spaces
-    $temp = array();
+    $temp = [];
     foreach ($head as $temp2) {
         $temp2 = trim($temp2);
         set_array($temp, $temp2, "");
@@ -803,18 +803,18 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
     $head = array_keys($temp);
     // Continue
     if (!is_array($nodes) || !count($nodes)) {
-        $nodes = array(range(0, count($head) - 1));
+        $nodes = [range(0, count($head) - 1)];
     } else {
         $col = 0;
         foreach ($nodes as $key => $val) {
             if (!is_array($val)) {
                 if ($val == "") {
-                    $val = array();
+                    $val = [];
                 } else {
                     $val = explode(",", $val);
                 }
             }
-            $nodes[$key] = array();
+            $nodes[$key] = [];
             foreach ($val as $key2 => $val2) {
                 if (in_array($val2, $head)) {
                     $nodes[$key][$key2] = array_search($val2, $head);
@@ -827,15 +827,15 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
             }
         }
     }
-    $result = array();
+    $result = [];
     foreach ($array as $line) {
-        $parts = array();
+        $parts = [];
         foreach ($nodes as $node) {
             $head2 = __import_array_intersect($head, $node);
             if (count($head2)) {
                 $line2 = __import_array_intersect($line, $node);
                 if (count($head2) > count($line2)) {
-                    $temp = array();
+                    $temp = [];
                     foreach ($head2 as $key => $val) {
                         $temp[$key] = isset($line2[$key]) ? $line2[$key] : "";
                     }
@@ -866,7 +866,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
  */
 function __import_array_intersect($data, $filter)
 {
-    $result = array();
+    $result = [];
     foreach ($filter as $field) {
         if (isset($data[$field])) {
             $result[$field] = $data[$field];
@@ -892,7 +892,7 @@ function __import_array2tree_set(&$result, $parts)
     unset($parts[$key]);
     if (count($parts)) {
         if (!isset($result[$key])) {
-            $result[$key] = array("row" => $val,"rows" => array());
+            $result[$key] = ["row" => $val, "rows" => []];
         }
         __import_array2tree_set($result[$key]["rows"], $parts);
     } else {
@@ -909,10 +909,10 @@ function __import_array2tree_set(&$result, $parts)
  */
 function __import_array2tree_clean($array)
 {
-    $result = array();
+    $result = [];
     foreach ($array as $node) {
         if (isset($node["row"]) && isset($node["rows"])) {
-            $result[] = array("row" => $node["row"],"rows" => __import_array2tree_clean($node["rows"]));
+            $result[] = ["row" => $node["row"], "rows" => __import_array2tree_clean($node["rows"])];
         } else {
             $result[] = $node;
         }
@@ -930,7 +930,7 @@ function __import_array2tree_clean($array)
  */
 function __import_tree2array($array)
 {
-    $result = array();
+    $result = [];
     foreach ($array as $node) {
         if (isset($node["row"]) && isset($node["rows"])) {
             foreach (__import_tree2array($node["rows"]) as $row) {
@@ -1037,7 +1037,7 @@ function __import_cell2colrow($cell)
             $row .= $cell[$i];
         }
     }
-    return array($col,$row);
+    return [$col, $row];
 }
 
 /**
@@ -1050,7 +1050,7 @@ function __import_cell2colrow($cell)
  */
 function __import_getkeys($array)
 {
-    $result = array();
+    $result = [];
     if (isset($array[0])) {
         $node = $array[0];
         if (isset($node["row"]) && isset($node["rows"])) {
@@ -1075,7 +1075,7 @@ function __import_getkeys($array)
  */
 function __import_filter($array, $filter, $eval = 0)
 {
-    $result = array();
+    $result = [];
     foreach ($array as $node) {
         if (__import_filter_rec($node, $filter, $eval)) {
             $result[] = $node;
@@ -1095,7 +1095,7 @@ function __import_filter($array, $filter, $eval = 0)
  * @eval   => set to 1 if you want to enable the eval feature
  * @parent => this parameter is intended to be used internaly by the function
  */
-function __import_filter_rec($node, $filter, $eval, $parent = array())
+function __import_filter_rec($node, $filter, $eval, $parent = [])
 {
     if (isset($node["row"]) && isset($node["rows"])) {
         // Normal filter
@@ -1188,7 +1188,7 @@ function __import_apply_patch_rec(&$array, $key, $val)
         } elseif (isset($array[$key1])) {
             __import_apply_patch_rec($array[$key1], $key, $val);
         } else {
-            show_php_error(array("phperror" => "Path '{$key0}' for '{$key1}' not found"));
+            show_php_error(["phperror" => "Path '{$key0}' for '{$key1}' not found"]);
         }
     } elseif ($key0 == "col") {
         if (isset($array["row"]) && isset($array["rows"])) {
@@ -1209,7 +1209,7 @@ function __import_apply_patch_rec(&$array, $key, $val)
             }
         }
     } else {
-        show_php_error(array("phperror" => "Unknown '{$key0}' for '{$key1}'"));
+        show_php_error(["phperror" => "Unknown '{$key0}' for '{$key1}'"]);
     }
 }
 
@@ -1227,23 +1227,23 @@ function __import_make_table_ascii($array)
 {
     // Preparar datos
     if (!is_array($array["rows"])) {
-        $array["rows"] = array(array($array["rows"]));
+        $array["rows"] = [[$array["rows"]]];
         $array["head"] = 0;
     }
     if (!count($array["rows"])) {
-        $array["rows"] = array(array("Data not found"));
+        $array["rows"] = [["Data not found"]];
         $array["head"] = 0;
     }
     // Inicializar variables locales
-    $rows = isset($array["rows"]) ? $array["rows"] : array();
+    $rows = isset($array["rows"]) ? $array["rows"] : [];
     $head = isset($array["head"]) ? $array["head"] : 1;
     $compact = isset($array["compact"]) ? $array["compact"] : 0;
     // Calcular alineaciones
-    $aligns = array();
+    $aligns = [];
     foreach ($rows as $row) {
         foreach ($row as $key => $val) {
             if (!isset($aligns[$key])) {
-                $aligns[$key] = array("L" => 0,"R" => 0);
+                $aligns[$key] = ["L" => 0, "R" => 0];
             }
             if (is_numeric($val)) {
                 $aligns[$key]["R"]++;
@@ -1260,7 +1260,7 @@ function __import_make_table_ascii($array)
         $aligns[$key] = ($val["R"] > $val["L"]) ? "R" : "L";
     }
     // Calcular medidas
-    $widths = array();
+    $widths = [];
     if ($head) {
         array_unshift($rows, array_combine(array_keys($rows[0]), array_keys($rows[0])));
     }

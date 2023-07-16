@@ -58,10 +58,10 @@ class database_pdo_mssql
     public function __construct($args)
     {
         if (!class_exists("PDO")) {
-            show_php_error(array(
+            show_php_error([
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package"
-            ));
+            ]);
             return;
         }
         try {
@@ -71,7 +71,7 @@ class database_pdo_mssql
                 $args["pass"]
             );
         } catch (PDOException $e) {
-            show_php_error(array("dberror" => $e->getMessage()));
+            show_php_error(["dberror" => $e->getMessage()]);
         }
         if ($this->link) {
             $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -126,7 +126,7 @@ class database_pdo_mssql
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "MSSQL");
-        $result = array("total" => 0,"header" => array(),"rows" => array());
+        $result = ["total" => 0,"header" => [],"rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }
@@ -134,7 +134,7 @@ class database_pdo_mssql
         try {
             $stmt = $this->link->query($query);
         } catch (PDOException $e) {
-            show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+            show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
         }
         unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
@@ -152,7 +152,7 @@ class database_pdo_mssql
             if ($fetch == "column") {
                 $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 $result["total"] = count($result["rows"]);
-                $result["header"] = array("column");
+                $result["header"] = ["column"];
             }
             if ($fetch == "concat") {
                 if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
@@ -162,7 +162,7 @@ class database_pdo_mssql
                     $result["rows"][0] .= "," . $row;
                 }
                 $result["total"] = count($result["rows"]);
-                $result["header"] = array("concat");
+                $result["header"] = ["concat"];
             }
         }
         return $result;

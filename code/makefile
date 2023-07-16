@@ -7,13 +7,13 @@ test:
 	$(eval files := $(shell find index.php php ../scripts apps -name \*.php -newer /tmp/timestamp))
 	@for i in ${files}; do \
 		echo $$i; \
-		phpcs --standard=_phpcs.xml $$i; \
+		phpcs --standard=rules.xml $$i; \
 	done
 
 	$(eval files := $(shell find js ../scripts apps -name \*.js -newer /tmp/timestamp | grep -v index.min.js))
 	@for i in ${files}; do \
 		echo $$i; \
-		php ../scripts/phpcs_js.php --standard=_phpcs.xml $$i; \
+		php ../scripts/phpcs_js.php --standard=rules.xml $$i; \
 	done
 
 libs:

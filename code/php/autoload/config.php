@@ -68,13 +68,13 @@ function get_config($key, $default = "", $user_id = -1)
                 return $default;
             }
         }
-        show_php_error(array("phperror" => "key $key not found in " . __FUNCTION__));
+        show_php_error(["phperror" => "key $key not found in " . __FUNCTION__]);
     }
     // Search the key for the specified user in the database
-    $query = "SELECT val FROM tbl_config WHERE " . make_where_query(array(
+    $query = "SELECT val FROM tbl_config WHERE " . make_where_query([
         "user_id" => $user_id,
         "key" => $key,
-    ));
+    ]);
     if (db_check($query)) {
         $val = execute_query($query);
         if ($val !== null) {
@@ -111,28 +111,28 @@ function set_config($key, $val, $user_id = -1)
             $_CONFIG[$keys[0]][$keys[1]] = $val;
             return;
         }
-        show_php_error(array("phperror" => "key $key not found " . __FUNCTION__));
+        show_php_error(["phperror" => "key $key not found " . __FUNCTION__]);
     }
     // Try to insert or update the key for the specified user
     // In this case, zero user is allowed and used as global user
-    $query = "SELECT id FROM tbl_config WHERE " . make_where_query(array(
+    $query = "SELECT id FROM tbl_config WHERE " . make_where_query([
         "user_id" => $user_id,
         "key" => $key,
-    ));
+    ]);
     $id = execute_query($query);
     if ($id === null) {
-        $query = make_insert_query("tbl_config", array(
+        $query = make_insert_query("tbl_config", [
             "user_id" => $user_id,
             "key" => $key,
             "val" => $val
-        ));
+        ]);
         db_query($query);
     } else {
-        $query = make_update_query("tbl_config", array(
+        $query = make_update_query("tbl_config", [
             "val" => $val
-        ), make_where_query(array(
+        ], make_where_query([
             "id" => $id,
-        )));
+        ]));
         db_query($query);
     }
 }

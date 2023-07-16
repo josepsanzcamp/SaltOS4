@@ -57,22 +57,22 @@ if (!$user_id) {
 }
 
 // Check parameters
-foreach (array("type","format") as $key) {
+foreach (["type", "format"] as $key) {
     if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
 }
 $type = $_DATA["json"]["type"];
-if (!in_array($type, array("number","math"))) {
+if (!in_array($type, ["number", "math"])) {
     show_json_error("unknown type $type");
 }
 $format = $_DATA["json"]["format"];
-if (!in_array($format, array("png","json"))) {
+if (!in_array($format, ["png", "json"])) {
     show_json_error("unknown format $format");
 }
 
 $length = isset($_DATA["json"]["length"]) ? $_DATA["json"]["length"] : 5;
-$args = array();
+$args = [];
 $args["width"] = isset($_DATA["json"]["width"]) ? $_DATA["json"]["width"] : 180;
 $args["height"] = isset($_DATA["json"]["height"]) ? $_DATA["json"]["height"] : 90;
 $args["letter"] = isset($_DATA["json"]["letter"]) ? $_DATA["json"]["letter"] : 16;
@@ -93,15 +93,15 @@ if ($type == "math") {
 }
 $image = __captcha_image($code, $args);
 if ($format == "png") {
-    output_handler(array(
+    output_handler([
         "data" => $image,
         "type" => "image/png",
         "cache" => false
-    ));
+    ]);
 }
 $data = "data:image/png;base64," . base64_encode($image);
-$result = array(
+$result = [
     "code" => $code,
     "image" => $data,
-);
+];
 output_handler_json($result);

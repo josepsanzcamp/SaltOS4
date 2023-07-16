@@ -129,7 +129,7 @@ function current_datetime_decimals($offset = 0, $size = 4)
  */
 function dateval($value)
 {
-    $expr = array("-",":",",",".","/");
+    $expr = ["-",":",",",".","/"];
     $value = strval($value);
     $value = str_replace($expr, " ", $value);
     $value = prepare_words($value);
@@ -181,7 +181,7 @@ function __days_of_a_month($year, $month)
  */
 function timeval($value)
 {
-    $expr = array("-",":",",",".","/");
+    $expr = ["-",":",",",".","/"];
     $value = strval($value);
     $value = str_replace($expr, " ", $value);
     $value = prepare_words($value);
@@ -221,7 +221,7 @@ function timeval($value)
  */
 function datetimeval($value)
 {
-    $expr = array("-",":",",",".","/");
+    $expr = ["-",":",",",".","/"];
     $value = strval($value);
     $value = str_replace($expr, " ", $value);
     $value = prepare_words($value);

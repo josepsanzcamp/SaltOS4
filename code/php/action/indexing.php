@@ -40,32 +40,32 @@ db_query("DELETE FROM app_clientes WHERE id=51");
 db_query("TRUNCATE TABLE app_clientes_version");
 //~ make_version("clientes",51);
 
-$array = array(
+$array = [
     "id" => 51,
     "nombre" => "Josep Sanz",
     "nombre1" => "Josep",
     "nombre2" => "Sanz",
     "nombre_poblacion" => "Barcelona",
     "nombre_codpostal" => "08030",
-);
+];
 $query = make_insert_query("app_clientes", $array);
 db_query($query);
 
 add_version("clientes", 51);
 
-$array = array(
+$array = [
     "nombre" => "Josep Sanz Campderrós",
     "nombre2" => "Sanz Campderrós",
-);
+];
 
 $query = make_update_query("app_clientes", $array, "id=51");
 db_query($query);
 
 add_version("clientes", 51);
 
-$array = array(
+$array = [
     "cif" => "123456789",
-);
+];
 
 $query = make_update_query("app_clientes", $array, "id=51");
 db_query($query);
@@ -92,31 +92,31 @@ db_query("TRUNCATE TABLE app_facturas_version");
 
 /*********************************** INICIO PRIMERA VERSION *************************************/
 
-$array = array(
+$array = [
     "id" => 1,
     "nombre" => "Josep Sanz",
     "num" => "",
-);
+];
 $query = make_insert_query("app_facturas", $array);
 db_query($query);
 
-$array = array(
+$array = [
     "id" => 1,
     "id_factura" => 1,
     "concepto" => "Reloj",
     "unidades" => "1",
     "precio" => "99.99",
-);
+];
 $query = make_insert_query("app_facturas_conceptos", $array);
 db_query($query);
 
-$array = array(
+$array = [
     "id" => 2,
     "id_factura" => 1,
     "concepto" => "Correa",
     "unidades" => "1",
     "precio" => "19.99",
-);
+];
 $query = make_insert_query("app_facturas_conceptos", $array);
 db_query($query);
 
@@ -124,31 +124,31 @@ add_version("facturas", 1);
 
 /*********************************** INICIO SEGUNDA VERSION *************************************/
 
-$array = array(
+$array = [
     "nombre" => "Josep Sanz Campderrós",
     "num" => "",
-);
+];
 
 $query = make_update_query("app_facturas", $array, "id=1");
 db_query($query);
 
 
-$array = array(
+$array = [
     "id_factura" => 1,
     "concepto" => "Correa",
     "unidades" => "1",
     "precio" => "29.99",
-);
+];
 $query = make_update_query("app_facturas_conceptos", $array, "id=2");
 db_query($query);
 
-$array = array(
+$array = [
     "id" => 3,
     "id_factura" => 1,
     "concepto" => "Extras",
     "unidades" => "1",
     "precio" => "9.99",
-);
+];
 $query = make_insert_query("app_facturas_conceptos", $array);
 db_query($query);
 
@@ -156,10 +156,10 @@ add_version("facturas", 1);
 
 /*********************************** INICIO TERCERA VERSION *************************************/
 
-$array = array(
+$array = [
     "nombre" => "Josep Sanz Campderrós",
     "num" => "123456789",
-);
+];
 
 $query = make_update_query("app_facturas", $array, "id=1");
 db_query($query);

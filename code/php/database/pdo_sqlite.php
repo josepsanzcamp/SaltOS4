@@ -62,24 +62,24 @@ class database_pdo_sqlite
     {
         require_once "php/database/libsqlite.php";
         if (!class_exists("PDO")) {
-            show_php_error(array(
+            show_php_error([
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package"
-            ));
+            ]);
             return;
         }
         if (!file_exists($args["file"])) {
-            show_php_error(array("phperror" => "File '" . $args["file"] . "' not found"));
+            show_php_error(["phperror" => "File '" . $args["file"] . "' not found"]);
             return;
         }
         if (!is_writable($args["file"])) {
-            show_php_error(array("phperror" => "File '" . $args["file"] . "' not writable"));
+            show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
             return;
         }
         try {
             $this->link = new PDO("sqlite:" . $args["file"]);
         } catch (PDOException $e) {
-            show_php_error(array("dberror" => $e->getMessage()));
+            show_php_error(["dberror" => $e->getMessage()]);
         }
         if ($this->link) {
             $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -169,7 +169,7 @@ class database_pdo_sqlite
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "SQLITE");
-        $result = array("total" => 0,"header" => array(),"rows" => array());
+        $result = ["total" => 0,"header" => [],"rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }
@@ -196,14 +196,14 @@ class database_pdo_sqlite
                     break;
                 } catch (PDOException $e) {
                     if ($timeout <= 0) {
-                        show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                         break;
                     } elseif (stripos($e->getMessage(), "database is locked") !== false) {
                         $timeout -= __semaphore_usleep(rand(0, 1000));
                     } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
                         $timeout -= __semaphore_usleep(rand(0, 1000));
                     } else {
-                        show_php_error(array("dberror" => $e->getMessage(),"query" => $query));
+                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                         break;
                     }
                 }
@@ -225,7 +225,7 @@ class database_pdo_sqlite
                 if ($fetch == "column") {
                     $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                     $result["total"] = count($result["rows"]);
-                    $result["header"] = array("column");
+                    $result["header"] = ["column"];
                 }
                 if ($fetch == "concat") {
                     if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
@@ -235,11 +235,11 @@ class database_pdo_sqlite
                         $result["rows"][0] .= "," . $row;
                     }
                     $result["total"] = count($result["rows"]);
-                    $result["header"] = array("concat");
+                    $result["header"] = ["concat"];
                 }
             }
         } else {
-            show_php_error(array("phperror" => "Could not acquire the semaphore","query" => $query));
+            show_php_error(["phperror" => "Could not acquire the semaphore", "query" => $query]);
         }
         return $result;
     }

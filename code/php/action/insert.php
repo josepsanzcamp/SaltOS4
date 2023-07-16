@@ -31,7 +31,7 @@ declare(strict_types=1);
  * TODO
  */
 
-$query = make_update_query("tbl_users", array(
+$query = make_update_query("tbl_users", [
     "group_id" => "",
     "active" => "",
     "login" => "",
@@ -41,6 +41,6 @@ $query = make_update_query("tbl_users", array(
     "start" => "",
     "end" => "1234 56 78",
     "days" => "12345678901234567890",
-), "id=1");
+], "id=1");
 echo "<pre>" . sprintr($query) . "</pre>";
 die();

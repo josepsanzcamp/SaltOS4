@@ -62,7 +62,7 @@ function ob_passthru($cmd, $expires = 0)
         system($cmd);
         $buffer = ob_get_clean();
     } elseif (!is_disabled_function("exec")) {
-        $buffer = array();
+        $buffer = [];
         exec($cmd, $buffer);
         $buffer = implode("\n", $buffer);
     } elseif (!is_disabled_function("shell_exec")) {
@@ -96,8 +96,8 @@ function check_commands($commands, $expires = 0)
     $result = 1;
     foreach ($commands as $command) {
         $result &= ob_passthru(str_replace(
-            array("__INPUT__"),
-            array($command),
+            ["__INPUT__"],
+            [$command],
             get_config("commands/__which__", "which __INPUT__")
         ), $expires) ? 1 : 0;
     }
@@ -117,10 +117,10 @@ function check_commands($commands, $expires = 0)
 function is_disabled_function($fn = "")
 {
     static $disableds_string = null;
-    static $disableds_array = array();
+    static $disableds_array = [];
     if ($disableds_string === null) {
         $disableds_string = ini_get("disable_functions") . "," . ini_get("suhosin.executor.func.blacklist");
-        $disableds_array = $disableds_string ? explode(",", $disableds_string) : array();
+        $disableds_array = $disableds_string ? explode(",", $disableds_string) : [];
         foreach ($disableds_array as $key => $val) {
             $val = strtolower(trim($val));
             if ($val == "") {
@@ -150,8 +150,8 @@ function __exec_timeout($cmd)
 {
     if (check_commands(get_config("commands/timeout"), 60)) {
         $cmd = str_replace(
-            array("__TIMEOUT__","__COMMAND__"),
-            array(get_config("commands/commandtimeout", 60),$cmd),
+            ["__TIMEOUT__", "__COMMAND__"],
+            [get_config("commands/commandtimeout", 60), $cmd],
             get_config("commands/__timeout__", "timeout __TIMEOUT__ __COMMAND__")
         );
     }

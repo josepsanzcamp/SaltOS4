@@ -46,7 +46,7 @@ declare(strict_types=1);
 function add_list_actions($rows, $actions)
 {
     foreach ($rows as $key => $row) {
-        $row["actions"] = array();
+        $row["actions"] = [];
         foreach ($actions as $action) {
             $table = app2table($action["app"]);
             $id = $row["id"];

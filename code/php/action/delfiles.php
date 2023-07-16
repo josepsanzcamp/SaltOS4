@@ -64,7 +64,7 @@ foreach ($files as $key => $val) {
         continue;
     }
     // Check integrity with the database entry
-    $query = "SELECT id FROM tbl_uploads WHERE " . make_where_query(array(
+    $query = "SELECT id FROM tbl_uploads WHERE " . make_where_query([
         "user_id" => $user_id,
         "uniqid" => $val["id"],
         "name" => $val["name"],
@@ -72,7 +72,7 @@ foreach ($files as $key => $val) {
         "type" => $val["type"],
         "file" => $val["file"],
         "hash" => $val["hash"],
-    ));
+    ]);
     $id = execute_query($query);
     if (!$id) {
         continue;

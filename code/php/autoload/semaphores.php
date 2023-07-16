@@ -92,7 +92,7 @@ function semaphore_file($name = "")
  */
 function __semaphore_helper($fn, $name, $timeout)
 {
-    static $fds = array();
+    static $fds = [];
     if (stripos($fn, "acquire") !== false) {
         if ($name == "") {
             $name = __FUNCTION__;
@@ -127,7 +127,7 @@ function __semaphore_helper($fn, $name, $timeout)
             }
         }
         ftruncate($fds[$file], 0);
-        fwrite($fds[$file], gettrace(array(), true));
+        fwrite($fds[$file], gettrace([], true));
         return true;
     } elseif (stripos($fn, "release") !== false) {
         if ($name == "") {
@@ -184,7 +184,7 @@ function __semaphore_usleep($usec)
         $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         $read = null;
         $write = null;
-        $except = array($socket);
+        $except = [$socket];
         $time1 = microtime(true);
         socket_select($read, $write, $except, intval($usec / 1000000), intval($usec % 1000000));
         $time2 = microtime(true);

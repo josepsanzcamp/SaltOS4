@@ -167,10 +167,10 @@ function detect_recursion($fn)
 function xmlfile2array($file, $usecache = true)
 {
     if (!file_exists($file)) {
-        show_php_error(array("xmlerror" => "File not found: $file"));
+        show_php_error(["xmlerror" => "File not found: $file"]);
     }
     if (!semaphore_acquire($file)) {
-        show_php_error(array("xmlerror" => "Could not acquire the semaphore"));
+        show_php_error(["xmlerror" => "Could not acquire the semaphore"]);
     }
     if ($usecache) {
         $cache = get_cache_file($file, ".arr");
@@ -263,8 +263,8 @@ function xml2struct($xml, $file = "")
     $parser = xml_parser_create();
     xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
     xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
-    $array = array();
-    $index = array();
+    $array = [];
+    $index = [];
     xml_parse_into_struct($parser, $xml, $array, $index);
     $code = xml_get_error_code($parser);
     if ($code) {
@@ -272,9 +272,9 @@ function xml2struct($xml, $file = "")
         $linea = xml_get_current_line_number($parser);
         $fila = xml_get_current_column_number($parser);
         $file = basename($file);
-        show_php_error(array(
+        show_php_error([
             "xmlerror" => "Error $code: $error (on file $file at line $linea,$fila)"
-        ));
+        ]);
     }
     xml_parser_free($parser);
     return $array;
@@ -307,7 +307,7 @@ function xml2struct($xml, $file = "")
  */
 function struct2array(&$data, $file = "")
 {
-    $array = array();
+    $array = [];
     while ($linea = array_pop($data)) {
         $name = $linea["tag"];
         $type = $linea["type"];
@@ -315,7 +315,7 @@ function struct2array(&$data, $file = "")
         if (isset($linea["value"])) {
             $value = $linea["value"];
         }
-        $attr = array();
+        $attr = [];
         if (isset($linea["attributes"])) {
             $attr = $linea["attributes"];
         }
@@ -323,7 +323,7 @@ function struct2array(&$data, $file = "")
             // CASE 1 <some>
             $value = struct2array($data, $file);
             if (count($attr)) {
-                $value = array("value" => $value,"#attr" => $attr);
+                $value = ["value" => $value, "#attr" => $attr];
             }
             set_array($array, $name, $value);
         } elseif ($type == "close") {
@@ -333,16 +333,16 @@ function struct2array(&$data, $file = "")
             // CASE 3 <some/>
             // CASE 4 <some>some</some>
             if (count($attr)) {
-                $value = array("value" => $value,"#attr" => $attr);
+                $value = ["value" => $value, "#attr" => $attr];
             }
             set_array($array, $name, $value);
         } elseif ($type == "cdata") {
             // NOTHING TO DO
         } else {
             $file = basename($file);
-            show_php_error(array(
+            show_php_error([
                 "xmlerror" => "Unknown tag type with name '&lt;/$name&gt;' (on file $file at line $linea)"
-            ));
+            ]);
         }
     }
     return $array;
@@ -380,12 +380,12 @@ function struct2array(&$data, $file = "")
 function eval_attr($array)
 {
     if (!is_array($array)) {
-        return eval_attr(array("inline" => $array))["inline"];
+        return eval_attr(["inline" => $array])["inline"];
     }
     if (isset($array["value"]) && isset($array["#attr"])) {
-        return eval_attr(array("inline" => $array))["inline"];
+        return eval_attr(["inline" => $array])["inline"];
     }
-    $result = array();
+    $result = [];
     foreach ($array as $key => $val) {
         if (is_array($val)) {
             if (isset($val["value"]) && isset($val["#attr"])) {
@@ -406,7 +406,7 @@ function eval_attr($array)
                         case "eval":
                             if (eval_bool($val2)) {
                                 if (!$value) {
-                                    show_php_error(array("xmlerror" => "Evaluation error: void expression"));
+                                    show_php_error(["xmlerror" => "Evaluation error: void expression"]);
                                 }
                                 $value = eval_protected($value, $global);
                             }
@@ -424,7 +424,7 @@ function eval_attr($array)
                 if (!$remove) {
                     $value  = eval_attr($value);
                     if (count($attr)) {
-                        $result[$key] = array("value" => $value, "#attr" => $attr);
+                        $result[$key] = ["value" => $value, "#attr" => $attr];
                     } else {
                         $result[$key] = $value;
                     }
@@ -452,7 +452,7 @@ function eval_attr($array)
  */
 function eval_bool($arg)
 {
-    $bools = array(
+    $bools = [
         "1" => 1,
         "0" => 0,
         "" => 0,
@@ -462,10 +462,10 @@ function eval_bool($arg)
         "off" => 0,
         "yes" => 1,
         "no" => 0,
-    );
+    ];
     $bool = strtolower($arg);
     if (isset($bools[$bool])) {
         return $bools[$bool];
     }
-    show_php_error(array("xmlerror" => "Unknown boolean value '$arg'"));
+    show_php_error(["xmlerror" => "Unknown boolean value '$arg'"]);
 }

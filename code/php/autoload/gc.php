@@ -40,18 +40,18 @@ declare(strict_types=1);
 function gc_exec()
 {
     if (!semaphore_acquire(__FUNCTION__)) {
-        show_php_error(array("phperror" => "Could not acquire the semaphore"));
+        show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
-    $dirs = array(
+    $dirs = [
         get_directory("dirs/cachedir"),
         get_directory("dirs/tempdir"),
         get_directory("dirs/uploaddir"),
-    );
-    $files = array();
+    ];
+    $files = [];
     foreach ($dirs as $dir) {
         $files1 = glob_protected($dir . "*"); // Visible files
         $files2 = glob_protected($dir . ".*"); // Hidden files
-        $files2 = array_diff($files2, array($dir . ".",$dir . "..",$dir . ".htaccess")); // Exceptions
+        $files2 = array_diff($files2, [$dir . ".", $dir . "..", $dir . ".htaccess"]); // Exceptions
         $files = array_merge($files, $files1, $files2);
     }
     $delta = time() - intval(get_config("server/cachetimeout"));

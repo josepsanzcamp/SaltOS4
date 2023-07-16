@@ -4,4 +4,7 @@
     <rule ref="PSR12" />
     <rule ref="Generic.PHP.RequireStrictTypes" />
     <rule ref="Generic.Commenting.DocComment.TagValueIndent" />
+    <rule ref="Squiz.Arrays.ArrayDeclaration.NoSpaceAfterComma" />
+    <rule ref="Squiz.Arrays.ArrayDeclaration.NoCommaAfterLast" />
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
 </ruleset>

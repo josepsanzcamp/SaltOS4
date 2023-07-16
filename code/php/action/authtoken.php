@@ -44,7 +44,7 @@ declare(strict_types=1);
 crontab_users();
 
 // Check parameters
-foreach (array("user","pass") as $key) {
+foreach (["user", "pass"] as $key) {
     if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
@@ -53,45 +53,45 @@ $user = $_DATA["json"]["user"];
 $pass = $_DATA["json"]["pass"];
 
 // First check
-$query = "SELECT * FROM tbl_users WHERE " . make_where_query(array(
+$query = "SELECT * FROM tbl_users WHERE " . make_where_query([
     "active" => 1,
     "login" => $user,
-));
+]);
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
     show_json_error("authentication error");
 }
 
 // Second check
-$query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query(array(
+$query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
     "user_id" => $row["id"],
     "active" => 1,
-));
+]);
 $row2 = execute_query($query);
 if (!is_array($row2) || !isset($row2["password"])) {
     show_json_error("authentication error");
 } elseif (password_verify($pass, $row2["password"])) {
     // Nothing to do, password is correct!!!
-} elseif (in_array($row2["password"], array(md5($pass),sha1($pass)))) {
+} elseif (in_array($row2["password"], [md5($pass), sha1($pass)])) {
     // Convert from MD5/SHA1 to password_hash format
     $row2["password"] = password_hash($pass, PASSWORD_DEFAULT);
-    $query = make_update_query("tbl_users_passwords", array(
+    $query = make_update_query("tbl_users_passwords", [
         "password" => $row2["password"]
-    ), make_where_query(array(
+    ], make_where_query([
         "id" => $row2["id"]
-    )));
+    ]));
     db_query($query);
 } else {
     show_json_error("authentication error");
 }
 
 // Continue
-$query = make_update_query("tbl_users_tokens", array(
+$query = make_update_query("tbl_users_tokens", [
     "active" => 0,
-), make_where_query(array(
+], make_where_query([
     "user_id" => $row["id"],
     "active" => 1,
-)));
+]));
 db_query($query);
 
 $datetime = current_datetime();
@@ -99,7 +99,7 @@ $token = get_unique_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
 $renewals = get_config("auth/tokenrenewals");
 
-$query = make_insert_query("tbl_users_tokens", array(
+$query = make_insert_query("tbl_users_tokens", [
     "user_id" => $row["id"],
     "active" => 1,
     "datetime" => $datetime,
@@ -107,13 +107,13 @@ $query = make_insert_query("tbl_users_tokens", array(
     "user_agent" => get_server("HTTP_USER_AGENT"),
     "token" => $token,
     "expires" => $expires,
-));
+]);
 db_query($query);
 
-output_handler_json(array(
+output_handler_json([
     "status" => "ok",
     "token" => $token,
     "created_at" => $datetime,
     "expires_at" => $expires,
     "pending_renewals" => $renewals,
-));
+]);

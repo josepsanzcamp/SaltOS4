@@ -27,6 +27,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength
+
 /**
  * Export File
  *
@@ -54,10 +56,10 @@ function export_file($args)
     //~ echo "<pre>".sprintr($args)."</pre>";die();
     // Check parameters
     if (!isset($args["type"])) {
-        show_php_error(array("phperror" => "Unknown type"));
+        show_php_error(["phperror" => "Unknown type"]);
     }
     if (!isset($args["data"])) {
-        show_php_error(array("phperror" => "Unknown data"));
+        show_php_error(["phperror" => "Unknown data"]);
     }
     if (!isset($args["sep"])) {
         $args["sep"] = ";";
@@ -69,10 +71,10 @@ function export_file($args)
         $args["encoding"] = "UTF-8";
     }
     if (!isset($args["replace"])) {
-        $args["replace"] = array("from" => "","to" => "");
+        $args["replace"] = ["from" => "", "to" => ""];
     }
     if (!isset($args["escape"])) {
-        $args["escape"] = array("char" => '"',"mode" => "auto");
+        $args["escape"] = ["char" => '"', "mode" => "auto"];
     }
     if (!isset($args["title"])) {
         $args["title"] = "";
@@ -95,14 +97,7 @@ function export_file($args)
             $buffer = __export_file_xml($args["data"], $args["eol"], $args["encoding"]);
             break;
         case "csv":
-            $buffer = __export_file_csv(
-                $args["data"],
-                $args["sep"],
-                $args["eol"],
-                $args["encoding"],
-                $args["replace"],
-                $args["escape"]
-            );
+            $buffer = __export_file_csv($args["data"], $args["sep"], $args["eol"], $args["encoding"], $args["replace"], $args["escape"]);
             break;
         case "xls":
             $buffer = __export_file_excel($args["data"], $args["title"], "Xls");
@@ -117,7 +112,7 @@ function export_file($args)
             $buffer = __export_file_json($args["data"], $args["indent"]);
             break;
         default:
-            show_php_error(array("phperror" => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"));
+            show_php_error(["phperror" => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
     }
     if ($args["file"] != "") {
         if ($args["ext"] == "") {
@@ -172,15 +167,15 @@ function __export_file_csv(
     $sep = ";",
     $eol = "\r\n",
     $encoding = "UTF-8",
-    $replace = array("from" => "","to" => ""),
-    $escape = array("char" => '"',"mode" => "auto")
+    $replace = ["from" => "", "to" => ""],
+    $escape = ["char" => '"', "mode" => "auto"]
 ) {
     $sep = __import_specialchars($sep);
     $eol = __import_specialchars($eol);
     $replace["from"] = __import_specialchars(explode(",", $replace["from"]));
     $replace["to"] = __import_specialchars($replace["to"]);
     $xchar = $escape["char"];
-    $buffer = array();
+    $buffer = [];
     foreach ($matrix as $key => $val) {
         $val = str_replace($replace["from"], $replace["to"], $val);
         foreach ($val as $key2 => $val2) {
@@ -280,7 +275,7 @@ function __export_file_edi($matrix, $wrap = false)
             if (is_array($field)) {
                 foreach ($field as $key3 => $subfield) {
                     if (is_array($subfield)) {
-                        show_php_error(array("phperror" => "Arrays in subfields not allowed"));
+                        show_php_error(["phperror" => "Arrays in subfields not allowed"]);
                     } else {
                         $matrix[$key][$key2][$key3] = strval($subfield);
                     }

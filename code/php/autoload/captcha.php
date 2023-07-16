@@ -145,7 +145,7 @@ function __captcha_isprime($num)
  * Too appear in ther posts if you search for it in google:
  * - http://www.google.es/search?q=captcha+alto_linea
  */
-function __captcha_image($code, $args = array())
+function __captcha_image($code, $args = [])
 {
     $code = strval($code);
     $width = isset($args["width"]) ? $args["width"] : 90;
@@ -219,9 +219,9 @@ function __captcha_image($code, $args = array())
     );
     imagefill($im2, 0, 0, $bgcolor2);
     imagecolortransparent($im2, $bgcolor2);
-    $angles = array();
-    $widths = array();
-    $heights = array();
+    $angles = [];
+    $widths = [];
+    $heights = [];
     $widthsum = 0;
     for ($i = 0; $i < strlen($code); $i++) {
         $angles[$i] = rand(-$angle, $angle);

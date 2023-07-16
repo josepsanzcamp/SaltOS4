@@ -44,13 +44,13 @@ if (!$token_id) {
     show_json_error("deauthentication error");
 }
 
-$query = make_update_query("tbl_users_tokens", array(
+$query = make_update_query("tbl_users_tokens", [
     "active" => 0,
-), make_where_query(array(
+], make_where_query([
     "id" => $token_id,
-)));
+]));
 db_query($query);
 
-output_handler_json(array(
+output_handler_json([
     "status" => "ok",
-));
+]);

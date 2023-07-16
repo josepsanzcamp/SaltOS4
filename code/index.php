@@ -49,29 +49,29 @@ db_schema(); // TODO: This is necessary or can be called when needed
 db_static(); // TODO: This is necessary or can be called when needed
 
 // Collect all input data
-$_DATA = array(
+$_DATA = [
     //~ "headers" => getallheaders(),
     "json" => null2array(json_decode(file_get_contents("php://input"), true)),
-    "rest" => array_diff(explode("/", get_server("QUERY_STRING")), array("")),
-    "server" => array(
+    "rest" => array_diff(explode("/", get_server("QUERY_STRING")), [""]),
+    "server" => [
         "request_method" => strtoupper(get_server("REQUEST_METHOD")),
         "content_type" => strtolower(get_server("CONTENT_TYPE")),
         "token" => get_server("HTTP_TOKEN"),
         "remote_addr" => get_server("REMOTE_ADDR"),
         "user_agent" => get_server("HTTP_USER_AGENT"),
-    ),
-);
+    ],
+];
 
 //~ addlog(sprintr($_DATA));
 //~ addlog(sprintr($_SERVER));
 
 // Check for an init browser request
 if ($_DATA["server"]["request_method"] == "GET" && count($_DATA["rest"]) == 0) {
-    output_handler(array(
+    output_handler([
         "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
         "cache" => false
-    ));
+    ]);
 }
 
 // Check for a GET REST action request

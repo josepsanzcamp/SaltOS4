@@ -87,7 +87,7 @@ foreach ($files as $key => $val) {
     $val["hash"] = md5($data);
     // Do the insert
     $datetime = current_datetime();
-    $query = make_insert_query("tbl_uploads", array(
+    $query = make_insert_query("tbl_uploads", [
         "user_id" => $user_id,
         "datetime" => $datetime,
         "uniqid" => $val["id"],
@@ -96,7 +96,7 @@ foreach ($files as $key => $val) {
         "type" => $val["type"],
         "file" => $val["file"],
         "hash" => $val["hash"],
-    ));
+    ]);
     db_query($query);
     // Update files[key]
     $files[$key] = $val;

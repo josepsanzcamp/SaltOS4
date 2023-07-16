@@ -64,8 +64,8 @@ function svnversion($dir = ".")
     // USING SVNVERSION
     if (check_commands(get_config("commands/svnversion", "svnversion"), get_config("commands/commandexpires", 60))) {
         return intval(ob_passthru(str_replace(
-            array("__DIR__"),
-            array($dir),
+            ["__DIR__"],
+            [$dir],
             get_config("commands/__svnversion__", "cd __DIR__; svnversion")
         ), get_config("commands/commandexpires", 60)));
     }
@@ -89,8 +89,8 @@ function gitversion($dir = ".")
     // USING GIT
     if (check_commands(get_config("commands/gitversion", "git"), get_config("commands/commandexpires", 60))) {
         return intval(ob_passthru(str_replace(
-            array("__DIR__"),
-            array($dir),
+            ["__DIR__"],
+            [$dir],
             get_config("commands/__gitversion__", "cd __DIR__; git rev-list HEAD --count")
         ), get_config("commands/commandexpires", 60)));
     }

@@ -59,7 +59,7 @@ function db_connect($args = null)
     }
     $php = "php/database/" . $config["type"] . ".php";
     if (!file_exists($php)) {
-        show_php_error(array("phperror" => "Database type '" . $config["type"] . "' not found"));
+        show_php_error(["phperror" => "Database type '" . $config["type"] . "' not found"]);
     }
     require_once $php;
     $driver = "database_" . $config["type"];
@@ -82,7 +82,7 @@ function db_connect($args = null)
 function db_check($query)
 {
     if (!method_exists(get_config("db/obj"), "db_check")) {
-        show_php_error(array("phperror" => "Unknown database connector"));
+        show_php_error(["phperror" => "Unknown database connector"]);
     }
     return get_config("db/obj")->db_check($query);
 }
@@ -118,7 +118,7 @@ function db_check($query)
 function db_query($query, $fetch = "query")
 {
     if (!method_exists(get_config("db/obj"), "db_query")) {
-        show_php_error(array("phperror" => "Unknown database connector"));
+        show_php_error(["phperror" => "Unknown database connector"]);
     }
     $debug = eval_bool(get_config("debug/slowquerydebug"));
     if ($debug) {
@@ -129,10 +129,10 @@ function db_query($query, $fetch = "query")
         $curtime = microtime(true) - $curtime;
         $maxtime = get_config("debug/slowquerytime");
         if ($curtime > $maxtime) {
-            addtrace(array(
+            addtrace([
                 "dbwarning" => "Slow query requires $curtime seconds",
                 "query" => $query,
-            ), get_config("debug/dbwarningfile", "dbwarning.log"));
+            ], get_config("debug/dbwarningfile", "dbwarning.log"));
         }
     }
     return $result;
@@ -146,7 +146,7 @@ function db_query($query, $fetch = "query")
 function db_disconnect()
 {
     if (!method_exists(get_config("db/obj"), "db_disconnect")) {
-        show_php_error(array("phperror" => "Unknown database connector"));
+        show_php_error(["phperror" => "Unknown database connector"]);
     }
     get_config("db/obj")->db_disconnect();
 }
@@ -204,7 +204,7 @@ function db_num_rows($result)
  */
 function db_free(&$result)
 {
-    $result = array("total" => 0,"header" => array(),"rows" => array());
+    $result = ["total" => 0, "header" => [], "rows" => []];
 }
 
 /**
@@ -231,7 +231,7 @@ function db_num_fields($result)
 function db_field_name($result, $index)
 {
     if (!isset($result["header"][$index])) {
-        show_php_error(array("phperror" => "Unknown field name at position {$index}"));
+        show_php_error(["phperror" => "Unknown field name at position {$index}"]);
     }
     return $result["header"][$index];
 }

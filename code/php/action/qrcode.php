@@ -47,14 +47,14 @@ if (!$user_id) {
 }
 
 // Check parameters
-foreach (array("msg","format") as $key) {
+foreach (["msg", "format"] as $key) {
     if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
         show_json_error("$key not found or void");
     }
 }
 $msg = $_DATA["json"]["msg"];
 $format = $_DATA["json"]["format"];
-if (!in_array($format, array("png","json"))) {
+if (!in_array($format, ["png", "json"])) {
     show_json_error("unknown format $format");
 }
 
@@ -66,15 +66,15 @@ if ($image == "") {
     show_json_error("internal error");
 }
 if ($format == "png") {
-    output_handler(array(
+    output_handler([
         "data" => $image,
         "type" => "image/png",
         "cache" => false
-    ));
+    ]);
 }
 $data = "data:image/png;base64," . base64_encode($image);
-$result = array(
+$result = [
     "msg" => $msg,
     "image" => $data,
-);
+];
 output_handler_json($result);

@@ -40,14 +40,14 @@ declare(strict_types=1);
  * @backtrace => array with the backtrace used in the error report
  */
 
-foreach (array("jserror","details","backtrace") as $key) {
+foreach (["jserror", "details", "backtrace"] as $key) {
     if (!isset($_DATA["json"][$key])) {
         show_json_error("$key not found");
     }
 }
 
-show_php_error(array(
+show_php_error([
     "jserror" => $_DATA["json"]["jserror"],
     "details" => $_DATA["json"]["details"],
     "backtrace" => $_DATA["json"]["backtrace"],
-));
+]);
