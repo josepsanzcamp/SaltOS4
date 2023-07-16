@@ -60,7 +60,7 @@ function checklog($hash, $file)
  *
  * This function add messages to the specified log file
  *
- * @msg => message that you want to add to the log file
+ * @msg  => message that you want to add to the log file
  * @file => the log file that you want to use without directory
  *
  * Notes:
@@ -110,7 +110,7 @@ function addlog($msg, $file = "")
  * and then, saves the log to the specified file
  *
  * @array => the array that can contains the same info that show_php_error
- * @file => the file where do you want to store the log contents
+ * @file  => the file where do you want to store the log contents
  */
 function addtrace($array, $file)
 {

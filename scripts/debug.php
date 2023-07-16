@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $buffer = file_get_contents("php://stdin");
 $buffer = explode("\n", $buffer);
 foreach ($buffer as $key => $val) {

@@ -33,7 +33,7 @@ declare(strict_types=1);
  * This function allow to execute PHP code using the eval function in a controlled
  * environment, you can specify some global variables to improve the eval execution
  *
- * @input => the code to be executed
+ * @input  => the code to be executed
  * @global => the list (separated by comma) of global variables that you want to use
  */
 function eval_protected($input, $global = "")
@@ -60,8 +60,8 @@ function eval_protected($input, $global = "")
  * added to allow multiples instances of the same key in an associative array
  *
  * @array => array that you want to add the key with the value (by reference)
- * @name => the key used in the array, if exists, it will try to add the suffix to
- *          prevent collisions
+ * @name  => the key used in the array, if exists, it will try to add the suffix to
+ *           prevent collisions
  * @value => the value that you want to set in this position of the array
  */
 function set_array(&$array, $name, $value)
@@ -88,7 +88,7 @@ function set_array(&$array, $name, $value)
  * will remove "test", "test#1" and "test#2"
  *
  * @array => array that you want to remove the key (by reference)
- * @name => the key used in the array and as prefix of the entries of the array
+ * @name  => the key used in the array and as prefix of the entries of the array
  */
 function unset_array(&$array, $name)
 {
@@ -161,7 +161,7 @@ function detect_recursion($fn)
  * multiple instances of the same execution with the same file, too uses a cache
  * management to optimize the usage
  *
- * @file => the file that you want to convert from xml to array
+ * @file     => the file that you want to convert from xml to array
  * @usecache => if do you want to enable the cache feature
  */
 function xmlfile2array($file, $usecache = true)
@@ -197,7 +197,7 @@ function xmlfile2array($file, $usecache = true)
  *
  * This function allow to convert a XML string to an array
  *
- * @xml => xml code to be converted to an array
+ * @xml  => xml code to be converted to an array
  * @file => filename of the contents, only used when an errors occurs
  */
 function xml2array($xml, $file = "")
@@ -228,7 +228,7 @@ function xml2array($xml, $file = "")
  * The returned value is the result of the xml_parse_into_struct function, that is
  * the key of this feature and this function
  *
- * @xml => xml fragment that must be converted into struct
+ * @xml  => xml fragment that must be converted into struct
  * @file => the source filename, it is used only to generate error reports
  */
 function xml2struct($xml, $file = "")

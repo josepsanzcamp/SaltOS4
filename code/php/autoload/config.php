@@ -35,7 +35,7 @@ declare(strict_types=1);
  * the tbl_config, and if it is not found, then the function try to get
  * the values from the config file.
  *
- * @key => the key that you want to retrieve the value
+ * @key     => the key that you want to retrieve the value
  * @default => the default value used when the key is not found
  * @user_id => the user_id used in the first search step
  *
@@ -91,8 +91,8 @@ function get_config($key, $default = "", $user_id = -1)
  * database using the tbl_config for zero or positive values of user_id, and
  * in the memory of the config file for negative user_id values
  *
- * @key => the key that you want to set
- * @val => the value that you want to set
+ * @key     => the key that you want to set
+ * @val     => the value that you want to set
  * @user_id => the user_id used as filter
  */
 function set_config($key, $val, $user_id = -1)

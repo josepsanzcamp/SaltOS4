@@ -182,7 +182,7 @@ function db_static()
  * allow to use a comma separated values in fields as "id", start by "id_" or end by "_id"
  *
  * @table => the table that you want to use in the insert process
- * @row => the row that you want to add in the table
+ * @row   => the row that you want to add in the table
  *
  * Notes:
  *
@@ -285,7 +285,7 @@ function get_fkeys_from_dbschema($table)
  * This function is a helper for the previous functions, is intended to be used
  * to returns the tables of the DB Schema or the fields of a table
  *
- * @fn => the caller function name
+ * @fn    => the caller function name
  * @table => the table used by some features
  */
 function __dbschema_helper($fn, $table)
@@ -611,7 +611,7 @@ function get_field_from_dbstatic($table, $field = "field")
  * too, can return the field associated to a apps table, usefull for the
  * indexing feature
  *
- * @fn => the caller function name
+ * @fn    => the caller function name
  * @table => the table used by some features
  */
 function __dbstatic_helper($fn, $table, $field)

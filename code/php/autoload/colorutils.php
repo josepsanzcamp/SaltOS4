@@ -36,7 +36,7 @@ declare(strict_types=1);
  *
  * Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
  *
- * @color => The color that you want to parse
+ * @color     => The color that you want to parse
  * @component => The component that you want to retrieve their value
  */
 function color2dec($color, $component)

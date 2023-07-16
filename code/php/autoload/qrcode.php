@@ -34,9 +34,9 @@ declare(strict_types=1);
  * in the center of the image, you can pass the desired message that you
  * want to convert in qrcode and it returns an image with the data
  *
- * @msg: Contents of the qrcode
- * @s: size of each pixel used in the qrcode
- * @m: margin of the qrcode (white area that that surround the qrcode)
+ * @msg => Contents of the qrcode
+ * @s   => size of each pixel used in the qrcode
+ * @m   => margin of the qrcode (white area that that surround the qrcode)
  *
  * Notes:
  *

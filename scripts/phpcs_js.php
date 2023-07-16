@@ -1,11 +1,14 @@
 <?php
 
-if ($argc != 2) {
-    echo "Error en los argumentos, falta el fichero js\n";
+declare(strict_types=1);
+
+if ($argc != 3) {
+    echo "Arguments error, mut to provide the standard argument and the file to process\n";
     die();
 }
 
-$file = $argv[1];
+$standard = $argv[1];
+$file = $argv[2];
 
 // First part => prepare the file to phpcs and execute it
 $buffer = file_get_contents($file);
@@ -25,7 +28,7 @@ for ($i = $pos; $i < $count; $i += 2) {
 
 $buffer = implode("`", $buffer);
 file_put_contents("$file.php.js", $buffer);
-passthru("phpcs $file.php.js");
+passthru("phpcs $standard $file.php.js");
 unlink("$file.php.js");
 
 // Second part => check the space after comma

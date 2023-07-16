@@ -124,18 +124,18 @@ function __captcha_isprime($num)
  * This function returns an image with the code drawed in a background that
  * contains white noise to prevent that robots read the code
  *
- * @code => the code that you want to paint
- * @width => the width of the generated image
- * @height => the height of the generated image
- * @letter => the size of the letters of the generated image
- * @number => the size of the numbers of the generated image
- * @angle => the angle allowed to rotate the letters and numbers
- * @color => the color user to paint the code
- * @bgcolor => the background color of the image
- * @fgcolor => the color used to paint the letters of the background of the image
- * @period => parameter for the wave transformation
+ * @code      => the code that you want to paint
+ * @width     => the width of the generated image
+ * @height    => the height of the generated image
+ * @letter    => the size of the letters of the generated image
+ * @number    => the size of the numbers of the generated image
+ * @angle     => the angle allowed to rotate the letters and numbers
+ * @color     => the color user to paint the code
+ * @bgcolor   => the background color of the image
+ * @fgcolor   => the color used to paint the letters of the background of the image
+ * @period    => parameter for the wave transformation
  * @amplitude => parameter for the wave transformation
- * @blur => true or false to enable or disable the blur effect
+ * @blur      => true or false to enable or disable the blur effect
  *
  * Notes:
  *

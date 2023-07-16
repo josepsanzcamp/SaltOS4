@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // phpcs:disable PSR1.Files.SideEffects
 
 function ob_passthru($cmd)

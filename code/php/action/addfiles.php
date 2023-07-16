@@ -40,14 +40,14 @@ declare(strict_types=1);
  * array and store the file in the upload directory
  *
  * @files => array of files, each element must contain the follow elements:
- * @id => unique id that is used by the client to identify the response
- * @name => the name of the file
- * @size => the size of the file
- * @type => the type of the file
- * @data => the contents of the file encoded as inline base64
+ * @id    => unique id that is used by the client to identify the response
+ * @name  => the name of the file
+ * @size  => the size of the file
+ * @type  => the type of the file
+ * @data  => the contents of the file encoded as inline base64
  * @error => the error in case of errors
- * @file => this field is used here to put the local filename used in the file
- * @hash => this field contains the hash of the contents of the file
+ * @file  => this field is used here to put the local filename used in the file
+ * @hash  => this field contains the hash of the contents of the file
  */
 
 $user_id = current_user();

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="PHP Developers TV">
+    <description>The SaltOS Coding Standard. PSR12 + Types</description>
+    <rule ref="PSR12" />
+    <rule ref="Generic.PHP.RequireStrictTypes" />
+    <rule ref="Generic.Commenting.DocComment.TagValueIndent" />
+</ruleset>

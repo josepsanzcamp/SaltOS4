@@ -33,9 +33,9 @@ declare(strict_types=1);
  * This function allow to insert and delete the control registers associacted
  * to any application and to any register of the application
  *
- * @app => code of the application that you want to index
- * @reg_id => register of the app that you want to index
- * @user_id => user id of the owner of the app register
+ * @app      => code of the application that you want to index
+ * @reg_id   => register of the app that you want to index
+ * @user_id  => user id of the owner of the app register
  * @datetime => time mark used as creation time of the app register
  *
  * Notes:
@@ -45,8 +45,8 @@ declare(strict_types=1);
  *
  * This function returns an integer as response about the control action:
  *
- * 1 => insert executed, this is because the app register exists and the control register not exists
- * 2 => delete executed, this is because the app register not exists and the control register exists
+ * +1 => insert executed, this is because the app register exists and the control register not exists
+ * +2 => delete executed, this is because the app register not exists and the control register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => control table not found, this is because the has_control feature is disabled by dbstatic
  * -3 => data not found, this is because the app register not exists and the control register too not exists
@@ -114,9 +114,9 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
  * the old hash to do the blockchain, get the last ver_id and compute all
  * needed things to do the insert of the new version register
  *
- * @app => code of the application that you want to add a new version
- * @reg_id => register of the app that you want to add a new version
- * @user_id => user id of the owner of the version register
+ * @app      => code of the application that you want to add a new version
+ * @reg_id   => register of the app that you want to add a new version
+ * @user_id  => user id of the owner of the version register
  * @datetime => time mark used as creation time of the version register
  *
  * Notes:
@@ -126,8 +126,8 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
  *
  * This function returns an integer as response about the control action:
  *
- * 1 => insert executed, this is because the app register exists and they can add a new version register
- * 2 => delete executed, this is because the app register not exists and the version register exists
+ * +1 => insert executed, this is because the app register exists and they can add a new version register
+ * +2 => delete executed, this is because the app register not exists and the version register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => version table not found, this is because the has_version feature is disabled by dbstatic
  * -3 => data not found, this is because the app register not exists and the control register too not exists
@@ -230,7 +230,7 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
  * to get the data used in a specific version to compare with other versions and
  * to restore data to the requested version
  *
- * @app => code of the application that you want to add a new version
+ * @app    => code of the application that you want to add a new version
  * @reg_id => register of the app that you want to add a new version
  * @ver_id => the version that you want to get
  *

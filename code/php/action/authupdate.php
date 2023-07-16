@@ -33,10 +33,10 @@ declare(strict_types=1);
  * This file implements the update password action, allowing to authenticated
  * users by a token, and providing the old password to update a new password
  *
- * @oldpass => Old password, must to validate the active password of the user
- *             associated to the token used in the action
- * @newpass => New password, must to be new, must to pass the score check and
- *             never must to be used in the system for the user
+ * @oldpass   => Old password, must to validate the active password of the user
+ *               associated to the token used in the action
+ * @newpass   => New password, must to be new, must to pass the score check and
+ *               never must to be used in the system for the user
  * @renewpass => The repeated new password, to prevent writing errors
  *
  * This action requires a valid token associated to the user that wants to do

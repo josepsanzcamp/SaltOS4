@@ -34,11 +34,11 @@ declare(strict_types=1);
  * in the center of the image, you can pass the desired message that you
  * want to convert in qrcode.
  *
- * @msg => the msg that you want to codify in the qrcode
+ * @msg    => the msg that you want to codify in the qrcode
  * @format => the format used to the result, only can be png or json
  *
- * @s: size of each pixel used in the qrcode
- * @m: margin of the qrcode (white area that that surround the qrcode)
+ * @s => size of each pixel used in the qrcode
+ * @m => margin of the qrcode (white area that that surround the qrcode)
  */
 
 $user_id = current_user();

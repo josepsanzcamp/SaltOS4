@@ -34,11 +34,11 @@ declare(strict_types=1);
  * the follow arguments:
  *
  * @array => array with the follow pairs of key val
- * @file => file that contains the contents that you want to send
- * @data => contents that you want to send to the output channel
- * @type => content type header used
+ * @file  => file that contains the contents that you want to send
+ * @data  => contents that you want to send to the output channel
+ * @type  => content type header used
  * @cache => boolean to enable the cache usage, includes the etag algorithm
- * @name => the filename used in the content disposition attachment header
+ * @name  => the filename used in the content disposition attachment header
  * @extra => headers that you can add to the transfer
  */
 function output_handler($array)

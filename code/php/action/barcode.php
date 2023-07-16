@@ -33,14 +33,14 @@ declare(strict_types=1);
  * This action allow to generate a barcode, you can pass the desired
  * message that you want to convert in barcode
  *
- * @msg => the msg that you want to codify in the qrcode
+ * @msg    => the msg that you want to codify in the qrcode
  * @format => the format used to the result, only can be png or json
  *
- * @w: width of each unit's bar of the barcode
- * @h: height of the barcode (without margins and text footer)
- * @m: margin of the barcode (white area that surround the barcode)
- * @s: size of the footer text, not used if zero
- * @t: type of the barcode, C128 is the most common type used
+ * @w => width of each unit's bar of the barcode
+ * @h => height of the barcode (without margins and text footer)
+ * @m => margin of the barcode (white area that surround the barcode)
+ * @s => size of the footer text, not used if zero
+ * @t => type of the barcode, C128 is the most common type used
  */
 
 $user_id = current_user();

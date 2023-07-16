@@ -33,7 +33,7 @@ declare(strict_types=1);
  * This function is used by the XXX2YYY functions as helper, it stores the
  * dictionary of all conversions and resolves the data using it
  *
- * @fn => the caller function
+ * @fn  => the caller function
  * @arg => the argument passed to the function
  */
 function __apps($fn, $arg)

@@ -32,39 +32,40 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * This function and their helpers, allow the creation of the interface using the bootstrap
  * widgets, the types that can be called are the follow:
  *
- * @div => id, class, style
- * @container => id, class, style
- * @row => id, class, style
- * @col => id, class, style
- * @text => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
- * @hidden => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @integer => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @float => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @color => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @date => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @time => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @datetime => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @textarea => id, class, placeholder, value, disabled, readonly, required, rows, tooltip, label
- * @ckeditor => id, class, placeholder, value, disabled, readonly, required, rows, label
- * @codemirror => id, class, placeholder, value, disabled, readonly, required, rows, mode, label
- * @iframe => value, id, class, height, tooltip, label
- * @select => id, class, disabled, required, rows, multiple, size, value, tooltip, label
+ * @div         => id, class, style
+ * @container   => id, class, style
+ * @row         => id, class, style
+ * @col         => id, class, style
+ * @text        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
+ * @hidden      => id, class, placeholder, value, disabled, readonly, required, tooltip
+ * @integer     => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @float       => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @color       => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @date        => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @time        => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @datetime    => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @textarea    => id, class, placeholder, value, disabled, readonly, required, rows, tooltip, label
+ * @ckeditor    => id, class, placeholder, value, disabled, readonly, required, rows, label
+ * @codemirror  => id, class, placeholder, value, disabled, readonly, required, rows, mode, label
+ * @iframe      => value, id, class, height, tooltip, label
+ * @select      => id, class, disabled, required, rows, multiple, size, value, tooltip, label
  * @multiselect => id, class, disabled, required, rows, multiple, size, value, multiple, tooltip, label
- * @checkbox => id, class, disabled, readonly, label, value, tooltip
- * @switch => id, class, disabled, readonly, label, value, tooltip
- * @button => id, class, disabled, value, onclick, tooltip
- * @password => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @file => id, class, disabled, required, multiple, tooltip, label
- * @link => id, disabled, value, onclick, tooltip, label
- * @label => id, class, label, tooltip, value
- * @image => id, class, value, alt, tooltip, label
- * @excel => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth, colWidths, label
- * @pdfjs => id, class, value, label
- * @table => id, class, header, data, footer, divider, source, value, label
- * @alert => id, class, title, text, body, source, value, label
- * @card => id, image, alt, header, footer, title, text, body, source, value, label
- * @chartjs => id, mode, data, source, value, label
- * @tags => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
+ * @checkbox    => id, class, disabled, readonly, label, value, tooltip
+ * @switch      => id, class, disabled, readonly, label, value, tooltip
+ * @button      => id, class, disabled, value, onclick, tooltip
+ * @password    => id, class, placeholder, value, disabled, readonly, required, tooltip, label
+ * @file        => id, class, disabled, required, multiple, tooltip, label
+ * @link        => id, disabled, value, onclick, tooltip, label
+ * @label       => id, class, label, tooltip, value
+ * @image       => id, class, value, alt, tooltip, label
+ * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
+ *                 colWidths, label
+ * @pdfjs       => id, class, value, label
+ * @table       => id, class, header, data, footer, divider, source, value, label
+ * @alert       => id, class, title, text, body, source, value, label
+ * @card        => id, image, alt, header, footer, title, text, body, source, value, label
+ * @chartjs     => id, mode, data, source, value, label
+ * @tags        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
  *
  * Notes:
  *
@@ -97,7 +98,7 @@ saltos.__form_field = {};
  * This function returns an object of the type class by default, you can pass the class
  * argument in the field object to specify what kind of class do you want to use.
  *
- * @id => the id used by the object
+ * @id    => the id used by the object
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
@@ -113,7 +114,7 @@ saltos.__form_field.div = field => {
  * This function returns an object of the container-fluid class by default, you can pass the class
  * argument in the field object to specify what kind of container do you want to do.
  *
- * @id => the id used by the object
+ * @id    => the id used by the object
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
@@ -132,7 +133,7 @@ saltos.__form_field.container = field => {
  * This function returns an object of the row class by default, you can pass the class argument
  * in the field object to specify what kind of row do you want to do.
  *
- * @id => the id used by the object
+ * @id    => the id used by the object
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
@@ -151,7 +152,7 @@ saltos.__form_field.row = field => {
  * This function returns an object of the col class by default, you can pass the class argument
  * in the field object to specify what kind of col do you want to do.
  *
- * @id => the id used by the object
+ * @id    => the id used by the object
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
@@ -170,17 +171,17 @@ saltos.__form_field.col = field => {
  * This function returns an input object of type text, you can pass the same arguments
  * that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
- * @datalist => array with options for the datalist, used as autocomplete for the text input
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
+ * @datalist    => array with options for the datalist, used as autocomplete for the text input
  */
 saltos.__form_field.text = field => {
     saltos.check_params(field, ["datalist"], []);
@@ -206,15 +207,15 @@ saltos.__form_field.text = field => {
  * This function returns an input object of type hidden, you can pass the same arguments
  * that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
  *
  * Notes:
  *
@@ -234,16 +235,16 @@ saltos.__form_field.hidden = field => {
  * This function returns an input object of type integer, you can pass the same arguments
  * that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.integer = field => {
     field.type = "text";
@@ -263,16 +264,16 @@ saltos.__form_field.integer = field => {
  * This function returns an input object of type float, you can pass the same arguments
  * that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.float = field => {
     field.type = "text";
@@ -294,16 +295,16 @@ saltos.__form_field.float = field => {
  * This function returns an input object of type color, you can pass the same
  * arguments that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -328,16 +329,16 @@ saltos.__form_field.color = field => {
  * This function returns an input object of type date, you can pass the same arguments
  * that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.date = field => {
     field.type = "date";
@@ -352,16 +353,16 @@ saltos.__form_field.date = field => {
  * This function returns an input object of type time, you can pass the same arguments
  * that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.time = field => {
     field.type = "time";
@@ -377,16 +378,16 @@ saltos.__form_field.time = field => {
  * This function returns an input object of type datetime, you can pass the same arguments
  * that for the input object of type text
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.datetime = field => {
     field.type = "datetime-local";
@@ -401,16 +402,16 @@ saltos.__form_field.datetime = field => {
  *
  * This function returns a textarea object with the autogrow plugin enabled
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @rows => the number used as rows parameter
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @rows        => the number used as rows parameter
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.textarea = field => {
     var obj = saltos.__textarea_helper(field);
@@ -427,16 +428,16 @@ saltos.__form_field.textarea = field => {
  *
  * This function returns a textarea object with the ckeditor plugin enabled
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @rows => the number used as rows parameter
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @rows        => the number used as rows parameter
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.ckeditor = field => {
     var obj = saltos.html(`<div></div>`);
@@ -456,17 +457,17 @@ saltos.__form_field.ckeditor = field => {
  *
  * This function returns a textarea object with the codemirror plugin enabled
  *
- * @mode => used to define the mode parameter of the codemirror
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
+ * @mode        => used to define the mode parameter of the codemirror
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @rows => the number used as rows parameter
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @rows        => the number used as rows parameter
+ * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.codemirror = field => {
     saltos.check_params(field, ["mode"]);
@@ -494,11 +495,11 @@ saltos.__form_field.codemirror = field => {
  *
  * This function returns an iframe object, you can pass the follow arguments:
  *
- * @id => the id used by the object
- * @value => the value used as src parameter
- * @class => allow to add more classes to the default form-control
+ * @id     => the id used by the object
+ * @value  => the value used as src parameter
+ * @class  => allow to add more classes to the default form-control
  * @height => the height used as height for the style parameter
- * @label => this parameter is used as text for the label
+ * @label  => this parameter is used as text for the label
  */
 saltos.__form_field.iframe = field => {
     saltos.check_params(field, ["value", "id", "class", "height"]);
@@ -515,16 +516,17 @@ saltos.__form_field.iframe = field => {
  *
  * This function returns a select object, you can pass the follow arguments:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-select
+ * @id       => the id used by the object
+ * @class    => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
  * @multiple => this parameter enables the multiple selection feature of the select
- * @size => this parameter allow to see the options list opened with n (size) entries
- * @value => the value used to detect the selected option
- * @tooltip => this parameter raise the title flag
- * @rows => this parameter contains the list of options, each option must be an object with label and value entries
- * @label => this parameter is used as text for the label
+ * @size     => this parameter allow to see the options list opened with n (size) entries
+ * @value    => the value used to detect the selected option
+ * @tooltip  => this parameter raise the title flag
+ * @rows     => this parameter contains the list of options, each option must be an object
+ *              with label and value entries
+ * @label    => this parameter is used as text for the label
  */
 saltos.__form_field.select = field => {
     saltos.check_params(field, ["class", "id", "disabled", "required", "multiple", "size", "value", "tooltip"]);
@@ -566,14 +568,15 @@ saltos.__form_field.select = field => {
  *
  * This function returns a multiselect object, you can pass the follow arguments:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-select
+ * @id       => the id used by the object
+ * @class    => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
- * @size => this parameter allow to see the options list opened with n (size) entries
- * @value => the value used as src parameter
- * @tooltip => this parameter raise the title flag
- * @rows => this parameter contains the list of options, each option must be an object with label and value entries
- * @label => this parameter is used as text for the label
+ * @size     => this parameter allow to see the options list opened with n (size) entries
+ * @value    => the value used as src parameter
+ * @tooltip  => this parameter raise the title flag
+ * @rows     => this parameter contains the list of options, each option must be an object
+ *              with label and value entries
+ * @label    => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -687,14 +690,15 @@ saltos.__form_field.multiselect = field => {
  *
  * This function returns a checkbox object, you can pass the follow arguments:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-check
+ * @id       => the id used by the object
+ * @class    => allow to add more classes to the default form-check
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
- * @label => this parameter is used as label for the checkbox/switch
- * @value => this parameter is used to check or unckeck the checkbox/switch, the value must contain a number that raise as true or false in the if condition
- * @tooltip => this parameter raise the title flag
- * @type => this parameter allow to enable the switch feature
+ * @label    => this parameter is used as label for the checkbox/switch
+ * @value    => this parameter is used to check or unckeck the checkbox/switch, the value
+ *              must contain a number that raise as true or false in the if condition
+ * @tooltip  => this parameter raise the title flag
+ * @type     => this parameter allow to enable the switch feature
  *
  * Notes:
  *
@@ -748,14 +752,15 @@ saltos.__form_field.checkbox = field => {
  *
  * This function returns a switch object, you can pass the same arguments that for the checknbox object
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-check
+ * @id       => the id used by the object
+ * @class    => allow to add more classes to the default form-check
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
- * @label => this parameter is used as label for the checkbox/switch
- * @value => this parameter is used to check or unckeck the checkbox/switch, the value must contain a number that raise as true or false in the if condition
- * @tooltip => this parameter raise the title flag
- * @type => this parameter allow to enable the switch feature
+ * @label    => this parameter is used as label for the checkbox/switch
+ * @value    => this parameter is used to check or unckeck the checkbox/switch, the value
+ *              must contain a number that raise as true or false in the if condition
+ * @tooltip  => this parameter raise the title flag
+ * @type     => this parameter allow to enable the switch feature
  *
  * Notes:
  *
@@ -770,12 +775,12 @@ saltos.__form_field.switch = field => {
  *
  * This function returns a button object, you can pass the follow arguments:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-select
+ * @id       => the id used by the object
+ * @class    => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
- * @value => value to be used as text in the contents of the buttons
- * @onclick => callback function that is executed when the button is pressed
- * @tooltip => this parameter raise the title flag
+ * @value    => value to be used as text in the contents of the buttons
+ * @onclick  => callback function that is executed when the button is pressed
+ * @tooltip  => this parameter raise the title flag
  *
  * Notes:
  *
@@ -808,15 +813,15 @@ saltos.__form_field.button = field => {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @label       => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -882,13 +887,13 @@ saltos.__form_field.password = field => {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
+ * @id       => the id used by the object
+ * @class    => allow to add more classes to the default form-control
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
  * @multiple => this parameter raise the multiple flag, intended to select more files at time
- * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @tooltip  => this parameter raise the title flag
+ * @label    => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -1104,11 +1109,11 @@ saltos.__form_field.file = field => {
  * This function creates a field similar of text but with the appearance of a link using a button,
  * the object can receive the follow arguments:
  *
- * @label => this parameter is used as text for the label
- * @id => the id used by the object
+ * @label    => this parameter is used as text for the label
+ * @id       => the id used by the object
  * @disabled => this parameter raise the disabled flag
- * @value => the value is conveted as label to be used in the button with the appearance of a link
- * @onclick => callback function that is executed when the button is pressed
+ * @value    => the value is conveted as label to be used in the button with the appearance of a link
+ * @onclick  => callback function that is executed when the button is pressed
  *
  * Notes:
  *
@@ -1133,11 +1138,11 @@ saltos.__form_field.link = field => {
  *
  * This function returns a label object, you can pass some arguments as:
  *
- * @id => the id used to set the reference for to the object
- * @class => allow to add more classes to the default form-label
- * @label => this parameter is used as text for the label
+ * @id      => the id used to set the reference for to the object
+ * @class   => allow to add more classes to the default form-label
+ * @label   => this parameter is used as text for the label
  * @tooltip => this parameter raise the title flag
- * @value => this parameter is used as label when label is void
+ * @value   => this parameter is used as label when label is void
  */
 saltos.__form_field.label = field => {
     saltos.check_params(field, ["id", "class", "label", "tooltip", "value"]);
@@ -1158,12 +1163,12 @@ saltos.__form_field.label = field => {
  *
  * This function returns an image object, you can pass some arguments as:
  *
- * @id => the id used to set the reference for to the object
- * @class => allow to add more classes to the default img-fluid
- * @value => the value used as src parameter
- * @alt => this parameter is used as text for the alt parameter
+ * @id      => the id used to set the reference for to the object
+ * @class   => allow to add more classes to the default img-fluid
+ * @value   => the value used as src parameter
+ * @alt     => this parameter is used as text for the alt parameter
  * @tooltip => this parameter raise the title flag
- * @label => this parameter is used as text for the label
+ * @label   => this parameter is used as text for the label
  */
 saltos.__form_field.image = field => {
     saltos.check_params(field, ["id", "class", "value", "alt", "tooltip", "width", "height"]);
@@ -1189,16 +1194,18 @@ saltos.__form_field.image = field => {
  *
  * This widget can receive the following arguments:
  *
- * @id => the id used to set the reference for to the object
- * @class => allow to set the class to the div object used to allocate the widget
- * @data => this parameter must contain a 2D matrix with the data that you want to show in the sheet
- * @rowHeaders => can be an array with the headers that you want to use instead the defaults numbers
- * @colHeaders => can be an array with the headers that you want to use instead the defaults letters
- * @minSpareRows => can be a number with the void rows at the end of the sheet
- * @contextMenu => can be a boolean with the desired value to allow or not the provided context menu of the widget
+ * @id             => the id used to set the reference for to the object
+ * @class          => allow to set the class to the div object used to allocate the widget
+ * @data           => this parameter must contain a 2D matrix with the data that you want to show
+ *                    in the sheet
+ * @rowHeaders     => can be an array with the headers that you want to use instead the def numbers
+ * @colHeaders     => can be an array with the headers that you want to use instead the def letters
+ * @minSpareRows   => can be a number with the void rows at the end of the sheet
+ * @contextMenu    => can be a boolean with the desired value to allow or not the provided
+ *                    context menu of the widget
  * @rowHeaderWidth => can be a number with the width of the headers rows
- * @colWidths => can be an array with the widths of the headers cols
- * @label => this parameter is used as text for the label
+ * @colWidths      => can be an array with the widths of the headers cols
+ * @label          => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -1257,7 +1264,7 @@ saltos.__form_field.excel = field => {
  *
  * This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
  *
- * @id => the id used to set the reference for to the object
+ * @id    => the id used to set the reference for to the object
  * @class => allow to set the class to the div object used to allocate the widget
  * @value => the file or data that contains the pdf document
  * @label => this parameter is used as text for the label
@@ -1330,15 +1337,15 @@ saltos.__form_field.pdfjs = field => {
  *
  * Returns a table using the follow params:
  *
- * @id => the id used to set the reference for to the object
- * @class => allow to add more classes to the default table table-striped table-hover
- * @header => array with the header to use
- * @data => 2D array with the data used to mount the body table
- * @footer => array with the footer to use
- * @divider => array with three booleans to specify to add the divider in header, body and/or footer
+ * @id       => the id used to set the reference for to the object
+ * @class    => allow to add more classes to the default table table-striped table-hover
+ * @header   => array with the header to use
+ * @data     => 2D array with the data used to mount the body table
+ * @footer   => array with the footer to use
+ * @divider  => array with three booleans to specify to add the divider in header, body and/or footer
  * @checkbox => add a checkbox at the first of each row, for mono or multi selection
- * @actions => each row of the data can contain an array with the actions of each row
- * @label => this parameter is used as text for the label
+ * @actions  => each row of the data can contain an array with the actions of each row
+ * @label    => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -1518,11 +1525,12 @@ saltos.__form_field.table = field => {
  *
  * This component allow to set boxes type alert in the contents, only requires:
  *
- * @id => the id used to set the reference for to the object
+ * @id    => the id used to set the reference for to the object
  * @class => allow to add more classes to the default alert
  * @title => title used in the body of the card, not used if void
- * @text => text used in the body of the card, not used if void
- * @body => this option allow to specify an specific html to the body of the card, intended to personalize the body's card
+ * @text  => text used in the body of the card, not used if void
+ * @body  => this option allow to specify an specific html to the body of the card, intended
+ *           to personalize the body's card
  * @close => boolean to specify if you want to add the dismissible option to the alert
  * @label => this parameter is used as text for the label
  *
@@ -1574,15 +1582,16 @@ saltos.__form_field.alert = field => {
  *
  * This functions creates a card with a lot of options:
  *
- * @id => the id used to set the reference for to the object
- * @image => image used as top image in the card, not used if void
- * @alt => alt text used in the top image if you specify an image
+ * @id     => the id used to set the reference for to the object
+ * @image  => image used as top image in the card, not used if void
+ * @alt    => alt text used in the top image if you specify an image
  * @header => text used in the header, not used if void
  * @footer => text used in the footer, not used if void
- * @title => title used in the body of the card, not used if void
- * @text => text used in the body of the card, not used if void
- * @body => this option allow to specify an specific html to the body of the card, intended to personalize the body's card
- * @label => this parameter is used as text for the label
+ * @title  => title used in the body of the card, not used if void
+ * @text   => text used in the body of the card, not used if void
+ * @body   => this option allow to specify an specific html to the body of the card, intended
+ *            to personalize the body's card
+ * @label  => this parameter is used as text for the label
  */
 saltos.__form_field.card = field => {
     saltos.check_params(field, ["id", "image", "alt", "header", "footer", "title", "text", "body"]);
@@ -1619,9 +1628,9 @@ saltos.__form_field.card = field => {
  *
  * This function creates a chart using the chart.js library, to do this requires de follow arguments:
  *
- * @id => the id used by the object
- * @mode => to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
- * @data => the data used to plot the graph, see the data argument used by the graph.js library
+ * @id    => the id used by the object
+ * @mode  => to specify what kind of plot do you want to do: can be bar, line, doughnut, pie
+ * @data  => the data used to plot the graph, see the data argument used by the graph.js library
  * @label => this parameter is used as text for the label
  *
  * Notes:
@@ -1655,17 +1664,17 @@ saltos.__form_field.chartjs = field => {
  * This function creates a text input that allow to manage tags, each tag is paint as a badge
  * and each tag can be deleted, the result is stored in a text using a comma separated values
  *
- * @id => the id used by the object
- * @value => comma separated values
- * @datalist => array with options for the datalist, used as autocomplete for the text input
- * @label => this parameter is used as text for the label
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @value       => comma separated values
+ * @datalist    => array with options for the datalist, used as autocomplete for the text input
+ * @label       => this parameter is used as text for the label
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
  *
  * Notes:
  *
@@ -1758,15 +1767,15 @@ saltos.__form_field.tags = field => {
  *
  * This function returns an input object of type text, you can pass some arguments as:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
- * @style => the style used in the div object
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
+ * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
  *
  * Notes:
  *
@@ -1798,15 +1807,15 @@ saltos.__text_helper = field => {
  *
  * This function returns a textarea object, you can pass the follow arguments:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default form-control
+ * @id          => the id used by the object
+ * @class       => allow to add more classes to the default form-control
  * @placeholder => the text used as placeholder parameter
- * @value => the value used as value parameter
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @required => this parameter raise the required flag
- * @tooltip => this parameter raise the title flag
- * @rows => the number used as rows parameter
+ * @value       => the value used as value parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @tooltip     => this parameter raise the title flag
+ * @rows        => the number used as rows parameter
  *
  * Notes:
  *
@@ -1869,10 +1878,12 @@ saltos.__tooltip_helper = obj => {
  * is private and is intended to be used as a helper from the builders of the previous types opening
  * another way to pass arguments.
  *
- * @id => the id used to set the reference for to the object
- * @type => the type used to set the type for to the object
- * @source => data source used to load asynchronously the contents of the table (header, data, footer and divider)
- * @value => data container used to get synchronously the contents of the table (header, data, footer and divider)
+ * @id     => the id used to set the reference for to the object
+ * @type   => the type used to set the type for to the object
+ * @source => data source used to load asynchronously the contents of the table (header, data,
+ *            footer and divider)
+ * @value  => data container used to get synchronously the contents of the table (header, data,
+ *            footer and divider)
  *
  * Notes:
  *
@@ -1973,7 +1984,7 @@ saltos.__label_helper = field => {
  * to detect if the label is void
  *
  * @field => the field that contains the label
- * @old => the object
+ * @old   => the object
  *
  * Notes:
  *
@@ -1995,18 +2006,20 @@ saltos.__label_combine = (field, old) => {
  * This function creates a menu intended to be used in navbar, nabs and tabs
  *
  * @class => the class used in the main ul element
- * @menu => an array with the follow elements:
- *       @name => name of the menu
- *       @disabled => this boolean allow to disable this menu entry
- *       @active => this boolean marks the option as active
- *       @onclick => the callback used when the user select the menu
- *       @dropdown_menu_end => this trick allow to open the dropdown menu from the end to start
- *       @menu => with this option, you can specify an array with the contents of the dropdown menu
- *             @name => name of the menu
- *             @disabled => this boolean allow to disable this menu entry
- *             @active => this boolean marks the option as active
- *             @onclick => the callback used when the user select the menu
- *             @divider => you can set this boolean to true to convert the element into a divider
+ * @menu  => an array with the follow elements:
+ *
+ * @name              => name of the menu
+ * @disabled          => this boolean allow to disable this menu entry
+ * @active            => this boolean marks the option as active
+ * @onclick           => the callback used when the user select the menu
+ * @dropdown_menu_end => this trick allow to open the dropdown menu from the end to start
+ * @menu              => with this option, you can specify an array with the contents of the dropdown menu
+ *
+ * @name     => name of the menu
+ * @disabled => this boolean allow to disable this menu entry
+ * @active   => this boolean marks the option as active
+ * @onclick  => the callback used when the user select the menu
+ * @divider  => you can set this boolean to true to convert the element into a divider
  */
 saltos.menu = args => {
     saltos.check_params(args, ["class"]);
@@ -2074,12 +2087,14 @@ saltos.menu = args => {
  *
  * This component creates a navbar intended to be used as header
  *
- * @id => the id used by the object
+ * @id    => the id used by the object
  * @brand => contains an object with the name, logo, width and height to be used
- *        @name => text used in the brand
- *        @logo => filename of the brand image
- *        @width => width of the brand image
- *        @height => height of the brand image
+ *
+ * @name   => text used in the brand
+ * @logo   => filename of the brand image
+ * @width  => width of the brand image
+ * @height => height of the brand image
+ *
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.navbar = args => {
@@ -2123,18 +2138,19 @@ saltos.__modal = {};
  *
  * 1) you can pass an string to get a quick action
  *
- * @close => this string close the current modal
+ * @close  => this string close the current modal
  * @isopen => this string is used to check if some modal is open at the moment
  *
  * 2) you can pass an object with the follow items, intended to open a new modal
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default dialog
- * @title => title used by the modal
- * @close => text used in the close button for aria purposes
- * @body => the content used in the modal's body
+ * @id     => the id used by the object
+ * @class  => allow to add more classes to the default dialog
+ * @title  => title used by the modal
+ * @close  => text used in the close button for aria purposes
+ * @body   => the content used in the modal's body
  * @footer => the content used in the modal's footer
- * @static => forces the modal to be static (prevent close by clicking outside the modal or by pressing the escape key)
+ * @static => forces the modal to be static (prevent close by clicking outside the modal or
+ *            by pressing the escape key)
  *
  * Returns a boolean that indicates if the modal can be open or not
  *
@@ -2213,17 +2229,18 @@ saltos.__offcanvas = {};
  *
  * 1) you can pass an string to get a quick action
  *
- * @close => this string close the current modal
+ * @close  => this string close the current modal
  * @isopen => this string is used to check if some modal is open at the moment
  *
  * 2) you can pass an object with the follow items, intended to open a new modal
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default offcanvas
- * @title => title used by the offcanvas
- * @close => text used in the close button for aria purposes
- * @body => the content used in the offcanvas's body
- * @static => forces the offcanvas to be static (prevent close by clicking outside the offcanvas or by pressing the escape key)
+ * @id     => the id used by the object
+ * @class  => allow to add more classes to the default offcanvas
+ * @title  => title used by the offcanvas
+ * @close  => text used in the close button for aria purposes
+ * @body   => the content used in the offcanvas's body
+ * @static => forces the offcanvas to be static (prevent close by clicking outside the
+ *            offcanvas or by pressing the escape key)
  *
  * Returns a boolean that indicates if the offcanvas can be open or not
  *
@@ -2283,12 +2300,12 @@ saltos.offcanvas = args => {
  *
  * This function creates a bootstrap toast and show it, and can accept the follow params:
  *
- * @id => the id used by the object
- * @class => allow to add more classes to the default toast
- * @title => title used by the toast
+ * @id       => the id used by the object
+ * @class    => allow to add more classes to the default toast
+ * @title    => title used by the toast
  * @subtitle => small text used by the toast
- * @close => text used in the close button for aria purposes
- * @body => the content used in the toast's body
+ * @close    => text used in the close button for aria purposes
+ * @body     => the content used in the toast's body
  *
  * Returns a boolean that indicates if the toast can be created (see the hash note)
  *

@@ -35,12 +35,12 @@ declare(strict_types=1);
  * compute the score and return the result as a simple image or as a json
  * image
  *
- * @pass => the password that you want to compute the score
+ * @pass   => the password that you want to compute the score
  * @format => the format used to the result, only can be png or json
  *
- * @width => the width of the generated image
+ * @width  => the width of the generated image
  * @height => the height of the generated image
- * @size => the size of the font of the generated image
+ * @size   => the size of the font of the generated image
  */
 
 $user_id = current_user();

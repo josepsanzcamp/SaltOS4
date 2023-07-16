@@ -32,21 +32,21 @@ declare(strict_types=1);
  *
  * This function is intended to import data in the supported formats
  *
- * @data => contents used as data instead of file
- * @file => local filename used to load the data
- * @type => can be xml, csv, xls, bytes, edi or json
- * @sep => separator char used only by csv format
- * @sheet => sheet that must to be read
- * @map => map used as dictionary for each field, pos and length
- * @offset => the offset added to the start position in each map field
- * @nomb => boolean to disable or enable the multibyte support
- * @novoid => boolean to enable or disable the removevoid feature
- * @prefn => function executed between the load and the tree construction
- * @notree => boolean to enable or disable the array2tree feature
- * @nodes => an array with the fields that define each nodes used in the tree construction
- * @nohead => if the first row doesn't contains the header of the data, put this field to one
+ * @data     => contents used as data instead of file
+ * @file     => local filename used to load the data
+ * @type     => can be xml, csv, xls, bytes, edi or json
+ * @sep      => separator char used only by csv format
+ * @sheet    => sheet that must to be read
+ * @map      => map used as dictionary for each field, pos and length
+ * @offset   => the offset added to the start position in each map field
+ * @nomb     => boolean to disable or enable the multibyte support
+ * @novoid   => boolean to enable or disable the removevoid feature
+ * @prefn    => function executed between the load and the tree construction
+ * @notree   => boolean to enable or disable the array2tree feature
+ * @nodes    => an array with the fields that define each nodes used in the tree construction
+ * @nohead   => if the first row doesn't contains the header of the data, put this field to one
  * @noletter => if you want to use numeric index instead of excel index, put this field to one
- * @postfn => function executed after the tree construction
+ * @postfn   => function executed after the tree construction
  *
  * This function returns an array with the loaded data from file
  * Can return a matrix or tree, depending the nodes parameter
@@ -268,7 +268,7 @@ function __import_struct2array(&$data)
  *
  * This function is a helper used to get a node in a xml structure
  *
- * @path => a path of the desired node
+ * @path  => a path of the desired node
  * @array => the array with nodes of the xml structure
  *
  * Returns the contents of the node of the specified path
@@ -307,7 +307,7 @@ function __import_getvalue($array)
  *
  * This function is a helper used to get a attr element if exists of a node structure
  *
- * @elem => a string representing an element
+ * @elem  => a string representing an element
  * @array => an array containing the node
  *
  * Returns the attr if exists, otherwise null
@@ -325,7 +325,7 @@ function __import_getattr($elem, $array)
  *
  * This function is used to set data into a xml structure
  *
- * @path => the desired path where do you want to put the data,
+ * @path  => the desired path where do you want to put the data,
  * @array => the array with the xml structure
  * @value => the value that do you want to put
  *
@@ -356,7 +356,7 @@ function __import_setnode($path, &$array, $value)
  *
  * This function is used to remove data of the xml structure
  *
- * @path => the desired path where do you want to remove
+ * @path  => the desired path where do you want to remove
  * @array => the array with the xml structure
  *
  * Returns true if the function can remove the path, false otherwise
@@ -386,7 +386,7 @@ function __import_delnode($path, &$array)
  *
  * This function is used to add data into a xml structure
  *
- * @path => the desired path where do you want to add the data
+ * @path  => the desired path where do you want to add the data
  * @array => the array with the xml structure
  * @value => the value that do you want to add
  *
@@ -434,7 +434,7 @@ function __import_specialchars($arg)
  * This function is a helper of the __import_xml2array
  *
  * @file => the filename and the sheet that do you want to retrieve
- * @sep => the separator field used in the csv file
+ * @sep  => the separator field used in the csv file
  *
  * Returns a matrix with the contents
  */
@@ -464,7 +464,7 @@ function __import_csv2array($file, $sep)
  *   to an excel to use less memory
  * - Do some internals trics to solve some knowed issues
  *
- * @file => the filename and the sheet that do you want to retrieve
+ * @file  => the filename and the sheet that do you want to retrieve
  * @sheet => the second parameter can be a number or a sheet name
  *
  * Returns a matrix with the contents
@@ -587,10 +587,10 @@ function __import_xls2array($file, $sheet)
  * This function can read files as blocks of bytes, they can use a map, can specify
  * an offset and can be used using multibyte if it is needed
  *
- * @file => local filename used to load the data
- * @map => map used as dictionary for each field, pos and length
+ * @file   => local filename used to load the data
+ * @map    => map used as dictionary for each field, pos and length
  * @offset => the offset added to the start position in each map field
- * @nomb => boolean to disable or enable the multibyte support
+ * @nomb   => boolean to disable or enable the multibyte support
  *
  * Returns a matrix with the contents
  *
@@ -760,12 +760,12 @@ function __import_removevoid($array)
  * This function tries to convert the array into a tree using the nodes,
  * specification
  *
- * @array => the matrix that you want to convert into a tree
- * @nodes => the dictionary used to the conversion, must to be an array with
- *           the fields used by each node, for example ["A,B,C","D,E,F"]
- * @nohead => set it to true to prevent the usage of the first row of the
- *            matrix as header, this option uses the letter as id of each
- *            element of the tree
+ * @array    => the matrix that you want to convert into a tree
+ * @nodes    => the dictionary used to the conversion, must to be an array with
+ *              the fields used by each node, for example ["A,B,C","D,E,F"]
+ * @nohead   => set it to true to prevent the usage of the first row of the
+ *              matrix as header, this option uses the letter as id of each
+ *              element of the tree
  * @noletter => set it to true to prevent the usage of letters, if the
  *              previous option is set to true
  */
@@ -861,7 +861,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
  * This function returns the same result that array_intersect_key($data,array_flip($filter))
  * maintaining the order of the filter array.
  *
- * @data => the array that you want to apply the filter
+ * @data   => the array that you want to apply the filter
  * @filter => the array where obtain the keys to apply the filter
  */
 function __import_array_intersect($data, $filter)
@@ -883,7 +883,7 @@ function __import_array_intersect($data, $filter)
  * by the tree setting the values of each pair of key val
  *
  * @result => the array where do you want to put the parts
- * @parts => an array with pairs of key val
+ * @parts  => an array with pairs of key val
  */
 function __import_array2tree_set(&$result, $parts)
 {
@@ -1069,9 +1069,9 @@ function __import_getkeys($array)
  * the evaluation system to allow to pass as filter an expression like this
  * A=M23
  *
- * @array => the tree array that you want to apply the filter
+ * @array  => the tree array that you want to apply the filter
  * @filter => the filter to apply
- * @eval => set to 1 if you want to enable the eval feature
+ * @eval   => set to 1 if you want to enable the eval feature
  */
 function __import_filter($array, $filter, $eval = 0)
 {
@@ -1090,9 +1090,9 @@ function __import_filter($array, $filter, $eval = 0)
  * This function is a helper of the previous function and is able to to the
  * same but with recursivity
  *
- * @node => the tree node that you want to filter
+ * @node   => the tree node that you want to filter
  * @filter => the filter to apply
- * @eval => set to 1 if you want to enable the eval feature
+ * @eval   => set to 1 if you want to enable the eval feature
  * @parent => this parameter is intended to be used internaly by the function
  */
 function __import_filter_rec($node, $filter, $eval, $parent = array())
@@ -1157,8 +1157,8 @@ function __import_filter_rec($node, $filter, $eval, $parent = array())
  * update the desired branch of the tree using a xpath notation
  *
  * @array => the array that you want to apply the patch
- * @key => the xpath where you want to apply the patch
- * @val => the val that you want to put in the desired xpath
+ * @key   => the xpath where you want to apply the patch
+ * @val   => the val that you want to put in the desired xpath
  */
 function __import_apply_patch(&$array, $key, $val)
 {
@@ -1175,8 +1175,8 @@ function __import_apply_patch(&$array, $key, $val)
  * same but with recursivity
  *
  * @array => the array that you want to apply the patch
- * @key => the xpath where you want to apply the patch
- * @val => the val that you want to put in the desired xpath
+ * @key   => the xpath where you want to apply the patch
+ * @val   => the val that you want to put in the desired xpath
  */
 function __import_apply_patch_rec(&$array, $key, $val)
 {
@@ -1219,8 +1219,8 @@ function __import_apply_patch_rec(&$array, $key, $val)
  * This table is intended for debug purposes and is able to paint in ascii
  * mode the contents of a matrix
  *
- * @rows => the contents of the matrix to paint
- * @head => set to true if you want to use the first row as header
+ * @rows    => the contents of the matrix to paint
+ * @head    => set to true if you want to use the first row as header
  * @compact => set to true if you want to minify the ascii table
  */
 function __import_make_table_ascii($array)

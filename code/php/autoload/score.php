@@ -35,10 +35,10 @@ declare(strict_types=1);
  * allos to define the size of the image or the size of the font used to
  * write the score percent
  *
- * @score => a number between 0 and 100
- * @width => the width of the generated image
+ * @score  => a number between 0 and 100
+ * @width  => the width of the generated image
  * @height => the height of the generated image
- * @size => the size of the font of the generated image
+ * @size   => the size of the font of the generated image
  */
 function __score_image($score, $width, $height, $size)
 {

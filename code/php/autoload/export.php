@@ -32,18 +32,19 @@ declare(strict_types=1);
  *
  * This function is intended to export data in the supported formats
  *
- * @type => can be xml, csv, xls, xlsx, edi or json
- * @data => the matrix to export
- * @sep => separator char used only by csv format
- * @eol => enf of line char used by csv and xml format
+ * @type     => can be xml, csv, xls, xlsx, edi or json
+ * @data     => the matrix to export
+ * @sep      => separator char used only by csv format
+ * @eol      => enf of line char used by csv and xml format
  * @encoding => charset used by csv and xml format
- * @replace => array with two elements, from and to, used to do replacements of the matrix values
- * @escape => array with two elements, char and mode, used to specify the escape character and the escape mode
- * @title => title used only by excel format
- * @file => local filename used to store the results
- * @ext => extension used for the filename if provided
- * @wrap => boolean argument used only for edi indentation
- * @indent => boolean argument used only for json indentation
+ * @replace  => array with two elements, from and to, used to do replacements of the matrix values
+ * @escape   => array with two elements, char and mode, used to specify the escape character and the
+ *              escape mode
+ * @title    => title used only by excel format
+ * @file     => local filename used to store the results
+ * @ext      => extension used for the filename if provided
+ * @wrap     => boolean argument used only for edi indentation
+ * @indent   => boolean argument used only for json indentation
  *
  * If file argument is specified, void string is returned
  * If file argument is not specified, then they will returns all data
@@ -136,8 +137,8 @@ function export_file($args)
  *
  * This function is intended to export data in xml format
  *
- * @matrix => the matrix to export
- * @eol => enf of line char
+ * @matrix   => the matrix to export
+ * @eol      => enf of line char
  * @encoding => charset used
  *
  * They will returns all data
@@ -156,12 +157,13 @@ function __export_file_xml($matrix, $eol = "\n", $encoding = "UTF-8")
  *
  * This function is intended to export data in csv format
  *
- * @matrix => the matrix to export
- * @sep => separator char
- * @eol => enf of line char
+ * @matrix   => the matrix to export
+ * @sep      => separator char
+ * @eol      => enf of line char
  * @encoding => charset used
- * @replace => array with two elements, from and to, used to do replacements of the matrix values
- * @escape => array with two elements, char and mode, used to specify the escape character and the escape mode
+ * @replace  => array with two elements, from and to, used to do replacements of the matrix values
+ * @escape   => array with two elements, char and mode, used to specify the escape character and the
+ *              escape mode
  *
  * They will returns all data
  */
@@ -209,8 +211,8 @@ function __export_file_csv(
  * This function is intended to export data in excel format
  *
  * @matrix => the matrix to export
- * @title => title used in the excel file
- * @type => can be Xls or Xlsx
+ * @title  => title used in the excel file
+ * @type   => can be Xls or Xlsx
  *
  * They will returns all data
  */

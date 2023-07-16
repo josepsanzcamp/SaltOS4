@@ -77,7 +77,7 @@ function current_datetime($offset = 0)
  * precision that can not be obtained using the original date and time functions
  *
  * @offset => the bias added to the current time mark
- * @size => the size of the returned decimal part
+ * @size   => the size of the returned decimal part
  *
  * Notes:
  *
@@ -102,7 +102,7 @@ function current_decimals($offset = 0, $size = 4)
  * more accuracy to debug issues, for example
  *
  * @offset => the bias added to the current time mark
- * @size => the size used by the decimal part
+ * @size   => the size used by the decimal part
  */
 function current_datetime_decimals($offset = 0, $size = 4)
 {
@@ -162,7 +162,7 @@ function dateval($value)
  * This function is a helper used by other date and datetime functions, this
  * is usefull because allow to fix problems in dates that use days out of range
  *
- * @year => year that you want to use in the validation
+ * @year  => year that you want to use in the validation
  * @month => month that you want to use in the validation
  */
 function __days_of_a_month($year, $month)

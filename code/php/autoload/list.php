@@ -34,7 +34,7 @@ declare(strict_types=1);
  * to do this function uses the permissions to check that each register and each
  * action is allowed by the token
  *
- * @rows => the rows used to do the list
+ * @rows    => the rows used to do the list
  * @actions => an array with the actions that want to be added in each row
  *
  * Notes:

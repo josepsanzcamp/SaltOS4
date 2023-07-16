@@ -36,7 +36,7 @@ declare(strict_types=1);
  * used in a lot of queries by SaltOS
  *
  * More info about this feature by searching:
- * @PDO => sqliteCreateFunction/sqliteCreateAggregate
+ * @PDO     => sqliteCreateFunction/sqliteCreateAggregate
  * @SQLite3 => createFunction/createAggregate
  */
 

@@ -32,7 +32,7 @@ declare(strict_types=1);
  *
  * This function implement the acquire of a semaphore
  *
- * @name => the name of the semaphore
+ * @name    => the name of the semaphore
  * @timeout => the timeout used in waiting operations
  */
 function semaphore_acquire($name = "", $timeout = INF)
@@ -86,8 +86,8 @@ function semaphore_file($name = "")
  * motivation, in reality, the statics fds acts as a properties of a
  * class and each if stripos acts as a methods of a class
  *
- * @fn => the function name that call the helper, to detect the feature
- * @name => the name of the semaphore
+ * @fn      => the function name that call the helper, to detect the feature
+ * @name    => the name of the semaphore
  * @timeout => the timeout used in waiting operations
  */
 function __semaphore_helper($fn, $name, $timeout)

@@ -34,16 +34,16 @@ declare(strict_types=1);
  * in a concatenation of fields and subqueries to retrieve all data related to
  * the tables involved in the desired application and the register reg_id
  *
- * @app => code of the application that you want to index
+ * @app    => code of the application that you want to index
  * @reg_id => register of the app that you want to index
  *
  * Notes:
  *
  * This function returns an integer as response about the index action:
  *
- * 1 => insert executed, this is because the app register exists and the index register not exists
- * 2 => update executed, this is because the app register exists and the index register too exists
- * 3 => delete executed, this is because the app register not exists and the index register exists
+ * +1 => insert executed, this is because the app register exists and the index register not exists
+ * +2 => update executed, this is because the app register exists and the index register too exists
+ * +3 => delete executed, this is because the app register not exists and the index register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => index table not found, this is because the has_index feature is disabled by dbstatic
  * -3 => data not found, this is because the app register not exists and the indexting register too not exists

@@ -34,7 +34,7 @@ declare(strict_types=1);
  * newline, return)
  *
  * @temp => input string that you want to fix
- * @pad => padding string used as replacement for bar chars (void by default)
+ * @pad  => padding string used as replacement for bar chars (void by default)
  */
 function remove_bad_chars($temp, $pad = "")
 {
@@ -61,8 +61,8 @@ function remove_bad_chars($temp, $pad = "")
  * argument, as a bonus extra, all padding repetitions will be removed to
  * only allow one pading char at time
  *
- * @cad => the input string to encode
- * @pad => the padding char using to replace the bar chars
+ * @cad   => the input string to encode
+ * @pad   => the padding char using to replace the bar chars
  * @extra => the list of chars allowed to appear in the output
  */
 function encode_bad_chars($cad, $pad = "_", $extra = "")
@@ -254,7 +254,7 @@ function getutf8($str)
  *
  * This function check that all words exists in the buffer
  *
- * @words => the string that contains words separated by spaces
+ * @words  => the string that contains words separated by spaces
  * @buffer => the string where we must to found the words
  */
 function words_exists($words, $buffer)
@@ -278,7 +278,7 @@ function words_exists($words, $buffer)
  * to do more prerry the code
  *
  * @array => the associative array with the pairs keys vals
- * @cad => the string that you want to apply the replacement
+ * @cad   => the string that you want to apply the replacement
  */
 function str_replace_assoc($array, $cad)
 {

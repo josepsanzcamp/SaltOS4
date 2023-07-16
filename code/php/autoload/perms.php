@@ -38,7 +38,7 @@ declare(strict_types=1);
  * in the users and groups tables and it is not found in the apps_perms,
  * an integrity error is launched.
  *
- * @app => the app to check
+ * @app  => the app to check
  * @perm => the perm to check
  */
 function check_user($app, $perm)
@@ -112,7 +112,7 @@ function check_user($app, $perm)
  * This function returns the fragment of SQL intended to filter by app and
  * perm for the current user
  *
- * @app => the app to check
+ * @app  => the app to check
  * @perm => the perm to check
  *
  * Notes:
@@ -169,7 +169,7 @@ function check_sql($app, $perm)
  * This function is used by the XXX2YYY functions as helper, it stores the
  * dictionary of all conversions and resolves the data using it
  *
- * @fn => the caller function
+ * @fn  => the caller function
  * @arg => the argument passed to the function
  */
 function __perms($fn, $arg)

@@ -39,7 +39,7 @@ declare(strict_types=1);
  * because we can not put comments inside another comment!!!
  *
  * @query => the query that must be parsed
- * @type => the db type that you want to allow by the filters
+ * @type  => the db type that you want to allow by the filters
  */
 function parse_query($query, $type = "")
 {
@@ -102,8 +102,8 @@ function __parse_query_type()
  * The arguments are the same that the strpos function
  *
  * @haystack => string where search the needle
- * @needle => the needle text that must be found in the haystack
- * @offset => bias applied to begin the search of the needle
+ * @needle   => the needle text that must be found in the haystack
+ * @offset   => bias applied to begin the search of the needle
  */
 function __parse_query_strpos($haystack, $needle, $offset = 0)
 {
@@ -767,8 +767,8 @@ function escape_reserved_word($word)
  * This function is intended to returns the sql fragment to be added to the
  * where condition to filter for the specified keys and values
  *
- * @keys => an string with comma separated field names
- * @values => the value of the input search
+ * @keys    => an string with comma separated field names
+ * @values  => the value of the input search
  * @minsize => the minimal size of the length used in each like
  * @default => sql fraement returned if some thing was wrong
  *
@@ -843,7 +843,7 @@ function make_like_query($keys, $values, $args = array())
  * fulltext searches and generally, this function is not intended to be used
  * directly, it must acts as a helper of the make_fulltext_query
  *
- * @values => the value of the input search
+ * @values  => the value of the input search
  * @minsize => the minimal size of the length used in each like
  * @default => sql fraement returned if some thing was wrong
  *
@@ -907,9 +907,9 @@ function get_engine($table)
  * allow to specify the same that the two version with two fields more, the
  * app and the prefix to be added to the id field of the in subquery
  *
- * @values => the value of the input search
- * @app => the app used to detect the indexing table
- * @prefix => the prefix added to the id used in the in subquery
+ * @values  => the value of the input search
+ * @app     => the app used to detect the indexing table
+ * @prefix  => the prefix added to the id used in the in subquery
  * @minsize => the minimal size of the length used in each like
  * @default => sql fraement returned if some thing was wrong
  */

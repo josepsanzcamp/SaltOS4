@@ -35,8 +35,8 @@ declare(strict_types=1);
  * is called from window.onerror in order to store the details of the js
  * error
  *
- * @jserror => text used as title in the error report
- * @details => text used as details in the error report
+ * @jserror   => text used as title in the error report
+ * @details   => text used as details in the error report
  * @backtrace => array with the backtrace used in the error report
  */
 

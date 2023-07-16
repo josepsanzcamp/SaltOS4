@@ -131,8 +131,8 @@ function __array2xml_write_nodes(&$array, $level = null)
  * This function returns a string with the contents of array converted into a XML
  * language file, to do it, uses some helpers as __array2xml_* functions
  *
- * @array => the array that contains the tree structure that you want to convert to XML
- * @usecache => a boolean to enable or disable the cache usage
+ * @array        => the array that contains the tree structure that you want to convert to XML
+ * @usecache     => a boolean to enable or disable the cache usage
  * @usexmlminify => a boolean to enable or disable the minify feature
  */
 function array2xml($array, $usecache = true, $usexmlminify = true)

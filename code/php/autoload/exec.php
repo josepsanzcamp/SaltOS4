@@ -34,7 +34,7 @@ declare(strict_types=1);
  * is to execute a program using the command line and get the
  * output (only stdout and not stderr) and return the data
  *
- * @cmd => the command line that you want to execute
+ * @cmd     => the command line that you want to execute
  * @expires => the expires time used to compute if the cache is valid
  *
  * This funtion tries to execute the command using some of the
@@ -86,7 +86,7 @@ function ob_passthru($cmd, $expires = 0)
  * in the system, to do it, uses the unix command witch
  *
  * @commands => the commands that you want to check if are they available
- * @expires => the expires time used to compute if the cache is valid
+ * @expires  => the expires time used to compute if the cache is valid
  */
 function check_commands($commands, $expires = 0)
 {

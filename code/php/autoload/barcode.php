@@ -34,12 +34,12 @@ declare(strict_types=1);
  * message that you want to convert in barcode and it returns an image
  * with the data
  *
- * @msg: Contents of the barcode
- * @w: width of each unit's bar of the barcode
- * @h: height of the barcode (without margins and text footer)
- * @m: margin of the barcode (white area that surround the barcode)
- * @s: size of the footer text, not used if zero
- * @t: type of the barcode, C128 is the most common type used
+ * @msg => Contents of the barcode
+ * @w   => width of each unit's bar of the barcode
+ * @h   => height of the barcode (without margins and text footer)
+ * @m   => margin of the barcode (white area that surround the barcode)
+ * @s   => size of the footer text, not used if zero
+ * @t   => type of the barcode, C128 is the most common type used
  *
  * Notes:
  *

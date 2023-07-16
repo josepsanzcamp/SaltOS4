@@ -51,20 +51,20 @@ declare(strict_types=1);
  *
  * THs input @array can contain pairs of key val:
  *
- * @dberror => The text used in the DB Error section
- * @phperror => The text used in the PHP Error section
- * @xmlerror => The text used in the XML Error section
- * @jserror => The text used in the JS Error section
- * @dbwarning => The text used in the DB Warning section
+ * @dberror    => The text used in the DB Error section
+ * @phperror   => The text used in the PHP Error section
+ * @xmlerror   => The text used in the XML Error section
+ * @jserror    => The text used in the JS Error section
+ * @dbwarning  => The text used in the DB Warning section
  * @phpwarning => The text used in the PHP Warning section
  * @xmlwarning => The text used in the XML Warning section
- * @jswarning => The text used in the JS Warning section
- * @source => The text used in the Source section
- * @exception => The text used in the Exception section
- * @details => The text used in the Details section
- * @query => The text used in the Query section
- * @backtrace => The text used in the Backtrace section
- * @debug => The text used in the Debug section
+ * @jswarning  => The text used in the JS Warning section
+ * @source     => The text used in the Source section
+ * @exception  => The text used in the Exception section
+ * @details    => The text used in the Details section
+ * @query      => The text used in the Query section
+ * @backtrace  => The text used in the Backtrace section
+ * @debug      => The text used in the Debug section
  *
  * Notes:
  *
@@ -150,20 +150,20 @@ function show_php_error($array)
  *
  * THs input @array can contain pairs of key val:
  *
- * @dberror => The text used in the DB Error section
- * @phperror => The text used in the PHP Error section
- * @xmlerror => The text used in the XML Error section
- * @jserror => The text used in the JS Error section
- * @dbwarning => The text used in the DB Warning section
+ * @dberror    => The text used in the DB Error section
+ * @phperror   => The text used in the PHP Error section
+ * @xmlerror   => The text used in the XML Error section
+ * @jserror    => The text used in the JS Error section
+ * @dbwarning  => The text used in the DB Warning section
  * @phpwarning => The text used in the PHP Warning section
  * @xmlwarning => The text used in the XML Warning section
- * @jswarning => The text used in the JS Warning section
- * @source => The text used in the Source section
- * @exception => The text used in the Exception section
- * @details => The text used in the Details section
- * @query => The text used in the Query section
- * @backtrace => The text used in the Backtrace section
- * @debug => The text used in the Debug section
+ * @jswarning  => The text used in the JS Warning section
+ * @source     => The text used in the Source section
+ * @exception  => The text used in the Exception section
+ * @details    => The text used in the Details section
+ * @query      => The text used in the Query section
+ * @backtrace  => The text used in the Backtrace section
+ * @debug      => The text used in the Debug section
  *
  * Returns an array with the text and the json formated output ready to be used
  * in the log file and in the stdout channel
@@ -297,10 +297,10 @@ function program_handlers()
  *
  * Ths arguments are defined by the set_error_handler:
  *
- * @type => The code of the error
+ * @type    => The code of the error
  * @message => The descriptive message of the error
- * @file => The filename of the file that trigger the error
- * @line => The line where the error will occurred
+ * @file    => The filename of the file that trigger the error
+ * @line    => The line where the error will occurred
  */
 function __error_handler($type, $message, $file, $line)
 {

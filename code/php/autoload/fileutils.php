@@ -34,7 +34,7 @@ declare(strict_types=1);
  * value, usefull when the configuration still not loaded and SaltOS need some directory to do
  * something as store data in the log file, for example
  *
- * @key => the key used in get_config to request the configured directory
+ * @key     => the key used in get_config to request the configured directory
  * @default => the default value used in case of issues getting the config key
  */
 function get_directory($key, $default = "")
@@ -91,7 +91,7 @@ function get_temp_file($ext = "")
  *
  * @data => data used to compute the hash used by the cache, can be an string or
  *          an array with lot of contents
- * @ext => extension of the cache filename
+ * @ext  => extension of the cache filename
  *
  * Notes:
  *
@@ -178,16 +178,16 @@ function url_get_contents($url)
  * This file is an equivalent of the file_get_contents but intended to be used
  * for request remote files using protocols as http or https
  *
- * @url => the url that you want to retrieve
- * @args => Array of arguments, explained in the follow lines
+ * @url     => the url that you want to retrieve
+ * @args    => Array of arguments, explained in the follow lines
  * @cookies => an array with the cookies to be restored before send the request
- * @method => method used in the request
- * @values => an array with the post values, usefull when you want to send a POST
- *            request with pairs of variables and values
+ * @method  => method used in the request
+ * @values  => an array with the post values, usefull when you want to send a POST
+ *             request with pairs of variables and values
  * @referer => the referer string
  * @headers => an array with the headers to be send in the request
- * @body => the full body used of the request, usefull when you want to send a
- *          json file in the body instead of pairs of keys vals
+ * @body    => the full body used of the request, usefull when you want to send a
+ *             json file in the body instead of pairs of keys vals
  *
  * This function returns an array with three elements, body, headers and cookies
  *
