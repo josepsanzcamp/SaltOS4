@@ -50,24 +50,35 @@ foreach ($buffer as $key => $val) {
     if (strpos($val, '[","]') !== false) {
         continue;
     }
-    if (strpos($val, '},{') !== false) {
+    if (strpos($val, 'https://www') !== false) {
+        continue;
+    }
+    if (strpos($val, '::before') !== false) {
+        continue;
+    }
+    if (strpos($val, '::after') !== false) {
+        continue;
+    }
+    if (strpos($val, ' + ":" + ') !== false) {
         continue;
     }
     // Normal operation
-    $val2 = explode(",", $val);
-    unset($val2[0]);
-    $error = 0;
-    foreach ($val2 as $val3) {
-        if (!strlen($val3)) {
-            continue;
+    foreach (array(",", ":") as $pattern) {
+        $val2 = explode($pattern, $val);
+        unset($val2[0]);
+        $error = 0;
+        foreach ($val2 as $val3) {
+            if (!strlen($val3)) {
+                continue;
+            }
+            if (substr($val3, 0, 1) != " ") {
+                $error = 1;
+                break;
+            }
         }
-        if (substr($val3, 0, 1) != " ") {
-            $error = 1;
-            break;
+        if ($error) {
+            $key++;
+            echo "$file:$key:$val\n";
         }
-    }
-    if ($error) {
-        $key++;
-        echo "$file:$key:$val\n";
     }
 }

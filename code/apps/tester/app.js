@@ -30,56 +30,56 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 (function () {
 
     document.body.append(saltos.navbar({
-        id:saltos.uniqid(),
-        brand:{
-            name:"SaltOS",
-            logo:"img/logo_white.svg",
-            width:25,
-            height:25,
+        id: saltos.uniqid(),
+        brand: {
+            name: "SaltOS",
+            logo: "img/logo_white.svg",
+            width: 25,
+            height: 25,
         },
-        items:[
+        items: [
             saltos.menu({
-                class:"navbar-nav me-auto mb-2 mb-lg-0",
-                menu:[{
-                    name:"Home",
-                    disabled:false,
-                    onclick:function () {
+                class: "navbar-nav me-auto mb-2 mb-lg-0",
+                menu: [{
+                    name: "Home",
+                    disabled: false,
+                    onclick: function () {
                         alert(1);
                     },
-                },{
-                    name:"Link",
-                    disabled:false,
-                    onclick:function () {
+                }, {
+                    name: "Link",
+                    disabled: false,
+                    onclick: function () {
                         alert(2);
                     },
-                },{
-                    name:"Dropdown",
-                    disabled:false,
-                    menu:[{
-                        name:"Action",
-                        disabled:false,
-                        onclick:function () {
+                }, {
+                    name: "Dropdown",
+                    disabled: false,
+                    menu: [{
+                        name: "Action",
+                        disabled: false,
+                        onclick: function () {
                             alert(3);
                         },
-                    },{
-                        name:"Another action",
-                        disabled:false,
-                        onclick:function () {
+                    }, {
+                        name: "Another action",
+                        disabled: false,
+                        onclick: function () {
                             alert(4);
                         },
-                    },{
-                        divider:true,
-                    },{
-                        name:"Something else here",
-                        disabled:false,
-                        onclick:function () {
+                    }, {
+                        divider: true,
+                    }, {
+                        name: "Something else here",
+                        disabled: false,
+                        onclick: function () {
                             alert(5);
                         },
                     }]
-                },{
-                    name:"Disabled",
-                    disabled:false,
-                    onclick:function () {
+                }, {
+                    name: "Disabled",
+                    disabled: false,
+                    onclick: function () {
                         alert(6);
                     },
                 }],
@@ -87,25 +87,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             function () {
                 var obj = saltos.html(`<form class="d-flex" onsubmit="return false"></form>`);
                 obj.append(saltos.form_field({
-                    type:"text",
-                    placeholder:"Search",
+                    type: "text",
+                    placeholder: "Search",
                 }));
                 obj.append(saltos.form_field({
-                    type:"button",
-                    value:"Search",
-                    class:"btn-light mx-1",
-                    onclick:function () {
+                    type: "button",
+                    value: "Search",
+                    class: "btn-light mx-1",
+                    onclick: function () {
                         alert(7);
                     },
                 }));
                 return obj;
             }(),
             saltos.menu({
-                class:"navbar-nav mb-2 mb-lg-0",
-                menu:[{
-                    name:"Themes",
-                    dropdown_menu_end:true,
-                    menu:function () {
+                class: "navbar-nav mb-2 mb-lg-0",
+                menu: [{
+                    name: "Themes",
+                    dropdown_menu_end: true,
+                    menu: function () {
                         var menu = [
                             "bootstrap",
                             "cerulean",
@@ -138,9 +138,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         for (var key in menu) {
                             var val = menu[key];
                             menu[key] = {
-                                name:val,
-                                active:current.includes(val),
-                                onclick:function () {
+                                name: val,
+                                active: current.includes(val),
+                                onclick: function () {
                                     var theme = this.textContent;
                                     if (theme == "bootstrap") {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
@@ -163,22 +163,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         icon = `<i class="bi bi-moon-stars-fill"></i>`;
                     }
                     return {
-                        name:icon,
-                        dropdown_menu_end:true,
-                        menu:[{
-                            name:`<i class="bi bi-sun-fill"></i> Light`,
-                            active:(theme == ""),
-                            onclick:function () {
+                        name: icon,
+                        dropdown_menu_end: true,
+                        menu: [{
+                            name: `<i class="bi bi-sun-fill"></i> Light`,
+                            active: (theme == ""),
+                            onclick: function () {
                                 document.querySelector("html").setAttribute("data-bs-theme", "");
                                 this.parentNode.querySelector("button.active").classList.remove("active");
                                 this.querySelector("button").classList.add("active");
                                 this.parentNode.parentNode.querySelector("i").classList.remove("bi-moon-stars-fill");
                                 this.parentNode.parentNode.querySelector("i").classList.add("bi-sun-fill");
                             },
-                        },{
-                            name:`<i class="bi bi-moon-stars-fill"></i> Dark`,
-                            active:(theme == "dark"),
-                            onclick:function () {
+                        }, {
+                            name: `<i class="bi bi-moon-stars-fill"></i> Dark`,
+                            active: (theme == "dark"),
+                            onclick: function () {
                                 document.querySelector("html").setAttribute("data-bs-theme", "dark");
                                 this.parentNode.querySelector("button.active").classList.remove("active");
                                 this.querySelector("button").classList.add("active");
@@ -196,10 +196,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     document.body.append(saltos.html(`<br/><br/><br/>`));
 
     var container = saltos.form_field({
-        type:"container",
+        type: "container",
     });
     var row = saltos.form_field({
-        type:"row",
+        type: "row",
     });
     var tipos = [
         "text",
@@ -246,8 +246,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     ];
     for (var i in tipos) {
         var col = saltos.form_field({
-            type:"col",
-            class:"col-xl-3 col-md-4 col-sm-6 mb-3",
+            type: "col",
+            class: "col-xl-3 col-md-4 col-sm-6 mb-3",
         });
         var tipo = tipos[i];
         var valor = "";
@@ -298,20 +298,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         }
         if (tipo == "select") {
             rows = [
-                {label:"Uno", value:1},
-                {label:"Dos", value:2},
-                {label:"Tres", value:3},
+                {label: "Uno", value: 1},
+                {label: "Dos", value: 2},
+                {label: "Tres", value: 3},
             ];
             valor = "2";
         }
         if (tipo == "multiselect") {
             rows = [
-                {label:"Uno", value:1},
-                {label:"Dos", value:2},
-                {label:"Tres", value:3},
-                {label:"Cuatro", value:4},
-                {label:"Cinco", value:5},
-                {label:"Seis", value:6},
+                {label: "Uno", value: 1},
+                {label: "Dos", value: 2},
+                {label: "Tres", value: 3},
+                {label: "Cuatro", value: 4},
+                {label: "Cinco", value: 5},
+                {label: "Seis", value: 6},
             ];
             valor = [2,3,5].join(",");
             size = 5;
@@ -370,10 +370,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                 datasets: [{
                     label: 'First round',
                     data: [8, 5, 3, 5, 2, 3],
-                },{
+                }, {
                     label: 'Second round',
                     data: [7, 6, 4, 6, 9, 6],
-                },{
+                }, {
                     label: 'Third round',
                     data: [6, 7, 6, 7, 5, 4],
                 }]
@@ -400,11 +400,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             valor = "Modal test";
             onclick = function () {
                 saltos.modal({
-                    static:false,
-                    //~ class:"modal-lg",
-                    title:"Titulo",
-                    close:"Cerrar",
-                    body:`
+                    static: false,
+                    //~ class: "modal-lg",
+                    title: "Titulo",
+                    close: "Cerrar",
+                    body: `
                         <div>
                             Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
                         </div>
@@ -419,22 +419,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                             </ul>
                         </div>
                     `,
-                    footer:function () {
+                    footer: function () {
                         var obj = saltos.html("<div></div>");
                         obj.append(saltos.form_field({
-                            type:"button",
-                            value:"Aceptar",
-                            class:"btn-primary",
-                            onclick:function () {
+                            type: "button",
+                            value: "Aceptar",
+                            class: "btn-primary",
+                            onclick: function () {
                                 console.log("OK");
                                 saltos.modal("close");
                             }
                         }));
                         obj.append(saltos.form_field({
-                            type:"button",
-                            value:"Cancelar",
-                            class:"btn-primary ms-1",
-                            onclick:function () {
+                            type: "button",
+                            value: "Cancelar",
+                            class: "btn-primary ms-1",
+                            onclick: function () {
                                 console.log("KO");
                                 saltos.modal("close");
                             },
@@ -450,11 +450,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             valor = "Offcanvas test";
             onclick = function () {
                 saltos.offcanvas({
-                    static:false,
-                    class:"offcanvas-start",
-                    title:"Titulo",
-                    close:"Cerrar",
-                    body:`
+                    static: false,
+                    class: "offcanvas-start",
+                    title: "Titulo",
+                    close: "Cerrar",
+                    body: `
                         <div>
                             Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
                         </div>
@@ -478,38 +478,38 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             valor = "Toast test";
             onclick = function () {
                 saltos.toast({
-                    //class:"text-bg-primary",
-                    close:"Cerrar",
-                    title:"Hola mundo",
-                    subtitle:"pues nada",
-                    body:"Pues eso, hola mundo",
+                    //class: "text-bg-primary",
+                    close: "Cerrar",
+                    title: "Hola mundo",
+                    subtitle: "pues nada",
+                    body: "Pues eso, hola mundo",
                 });
             };
         }
         var campo = saltos.form_field({
-            type:tipo,
-            id:"campo" + i,
-            label:"Campo " + i + " (" + tipo + ")",
-            placeholder:"Escriba aqui",
-            tooltip:"Tooltip " + i + " (" + tipo + ")",
-            value:valor,
-            mode:mode,
-            size:size,
-            rows:rows,
-            class:clase,
-            onclick:onclick,
-            multiple:multiple,
-            height:height,
-            data:data,
-            header:header,
-            footer:footer,
-            divider:divider,
-            image:image,
-            title:title,
-            text:text,
-            body:body,
-            datalist:datalist,
-            close:close,
+            type: tipo,
+            id: "campo" + i,
+            label: "Campo " + i + " (" + tipo + ")",
+            placeholder: "Escriba aqui",
+            tooltip: "Tooltip " + i + " (" + tipo + ")",
+            value: valor,
+            mode: mode,
+            size: size,
+            rows: rows,
+            class: clase,
+            onclick: onclick,
+            multiple: multiple,
+            height: height,
+            data: data,
+            header: header,
+            footer: footer,
+            divider: divider,
+            image: image,
+            title: title,
+            text: text,
+            body: body,
+            datalist: datalist,
+            close: close,
         });
         col.append(campo);
         row.append(col);

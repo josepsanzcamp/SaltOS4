@@ -31,29 +31,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * This function allow to show a modal dialog with de details of an error
  */
-saltos.show_error = function (error) {
-    saltos.loading(0);
+saltos.show_error = error => {
     console.log(error);
     if (typeof error != "object") {
         document.body.append(saltos.html(`<pre class="m-3">${error}</pre>`));
         return;
     }
     saltos.modal({
-        title:"Error " + error.code,
-        close:"Close",
-        body:error.text,
-        footer:function () {
+        title: "Error " + error.code,
+        close: "Close",
+        body: error.text,
+        footer: (() => {
             var obj = saltos.html("<div></div>");
-            obj.append(saltos.form_field({
-                type:"button",
-                value:"Accept",
-                class:"btn-primary",
-                onclick:function () {
-                    saltos.modal("close");
-                }
-            }));
+            obj.append(
+                saltos.form_field(
+                    {
+                        type: "button",
+                        value: "Accept",
+                        class: "btn-primary",
+                        onclick: () => {
+                            saltos.modal("close");
+                        }
+                    }
+                )
+            );
             return obj;
-        }()
+        })()
     });
 };
 
@@ -62,10 +65,10 @@ saltos.show_error = function (error) {
  *
  * This function allow to send requests to the server and process the response
  */
-saltos.send_request = function (data) {
+saltos.send_request = data => {
     saltos.ajax({
-        url:"index.php?" + data,
-        success:function (response) {
+        url: "index.php?" + data,
+        success: response => {
             if (typeof response != "object") {
                 saltos.show_error(response);
                 return;
@@ -76,14 +79,16 @@ saltos.send_request = function (data) {
             }
             saltos.process_response(response);
         },
-        error:function (request) {
-            saltos.show_error({
-                text:request.statusText,
-                code:request.status,
-            });
+        error: request => {
+            saltos.show_error(
+                {
+                    text: request.statusText,
+                    code: request.status,
+                }
+            );
         },
-        headers:{
-            "token":saltos.token,
+        headers: {
+            "token": saltos.token,
         }
     });
 };
@@ -93,7 +98,7 @@ saltos.send_request = function (data) {
  *
  * This function process the responses received by the send request
  */
-saltos.process_response = function (response) {
+saltos.process_response = response => {
     for (var key in response) {
         var val = response[key];
         var key = saltos.fix_key(key);
@@ -118,7 +123,7 @@ saltos.form = {};
  *
  * This function redirects the request to the send request function, allow to define the source command
  */
-saltos.form.source = function (data) {
+saltos.form.source = data => {
     saltos.send_request(data)
 }
 
@@ -127,7 +132,7 @@ saltos.form.source = function (data) {
  *
  * This function sets the values of the request to the objects placed in the document
  */
-saltos.form.data = function (data) {
+saltos.form.data = data => {
     for (var key in data) {
         var val = data[key];
         var obj = document.getElementById(key);
@@ -152,7 +157,7 @@ saltos.form.data = function (data) {
  * 2) auto mode => only requires set auto="true" to the layout node, and with this, all childrens
  * of the node are created inside a container, a row, and each field inside a col.
  */
-saltos.form.layout = function (layout) {
+saltos.form.layout = (layout, extra) => {
     // Check for attr auto
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
         var attr = layout["#attr"];
@@ -170,10 +175,10 @@ saltos.form.layout = function (layout) {
             // This is the new layout object created with one container, rows, cols and all original
             // fields, too can specify what class use in each object created
             var layout = {
-                container:{
-                    "value":{},
-                    "#attr":{
-                        class:attr.container_class
+                container: {
+                    "value": {},
+                    "#attr": {
+                        class: attr.container_class
                     }
                 }
             };
@@ -186,9 +191,9 @@ saltos.form.layout = function (layout) {
                 if (addrow) {
                     numrow++;
                     layout.container.value["row#" + numrow] = {
-                        "value":{},
-                        "#attr":{
-                            class:attr.row_class
+                        "value": {},
+                        "#attr": {
+                            class: attr.row_class
                         }
                     };
                 }
@@ -198,9 +203,9 @@ saltos.form.layout = function (layout) {
                     col_class = item[1]["#attr"].col_class;
                 }
                 layout.container.value["row#" + numrow].value["col#" + numcol] = {
-                    "value":{},
-                    "#attr":{
-                        class:col_class
+                    "value": {},
+                    "#attr": {
+                        class: col_class
                     }
                 };
                 layout.container.value["row#" + numrow].value["col#" + numcol].value[item[0]] = item[1];
@@ -245,7 +250,7 @@ saltos.form.layout = function (layout) {
             arr.push(obj);
         }
     }
-    if (arguments.length == 2) {
+    if (extra) {
         return arr;
     }
     var div = saltos.html("<div></div>");
@@ -262,7 +267,7 @@ saltos.form.layout = function (layout) {
  * This function allow to specify styles, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  */
-saltos.form.style = function (data) {
+saltos.form.style = data => {
     for (var key in data) {
         var val = data[key];
         var key = saltos.fix_key(key);
@@ -281,7 +286,7 @@ saltos.form.style = function (data) {
  * This function allow to specify scripts, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  */
-saltos.form.javascript = function (data) {
+saltos.form.javascript = data => {
     for (var key in data) {
         var val = data[key];
         var key = saltos.fix_key(key);
@@ -303,7 +308,7 @@ saltos.form.javascript = function (data) {
  *
  * This function allow to SaltOS to update the contents when hash change
  */
-window.onhashchange = function (event) {
+window.onhashchange = event => {
     var hash = document.location.hash;
     if (hash.substr(0, 1) == "#") {
         hash = hash.substr(1);
@@ -328,7 +333,7 @@ window.onhashchange = function (event) {
  * @on_off => if you want to show or hide the loading spinner, the function returns
  * true when can do the action, false otherwise
  */
-saltos.loading = function (on_off) {
+saltos.loading = on_off => {
     var obj = document.getElementById("loading");
     if (on_off && !obj) {
         document.body.append(saltos.html(`
@@ -343,7 +348,7 @@ saltos.loading = function (on_off) {
     }
     if (!on_off && obj) {
         window.scrollTo(0, 0);
-        var timer = setInterval(function () {
+        var timer = setInterval(() => {
             if (window.scrollY == 0) {
                 obj.remove();
                 clearInterval(timer);
@@ -359,7 +364,7 @@ saltos.loading = function (on_off) {
  *
  * This function remove all contents of the body
  */
-saltos.clear_screen = function () {
+saltos.clear_screen = () => {
     document.body.innerHTML = "";
 };
 
@@ -368,11 +373,11 @@ saltos.clear_screen = function () {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-(function () {
+(() => {
     saltos.token = localStorage.getItem("token");
     if (saltos.token === null) {
         saltos.token = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
         //~ saltos.send_request("app/login");
     }
     window.dispatchEvent(new HashChangeEvent("hashchange"));
-}());
+})();

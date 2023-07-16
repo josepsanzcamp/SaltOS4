@@ -38,23 +38,23 @@ var saltos = saltos || {};
  *
  * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
  */
-window.onerror = function (event, source, lineno, colno, error) {
+window.onerror = (event, source, lineno, colno, error) => {
     if (typeof error == "undefined" || typeof error.stack == "undefined") {
-        var error = { stack:"unknown"};
+        var error = { stack: "unknown"};
     }
     var data = {
-        "action":"adderror",
-        "jserror":event,
-        "details":"Error on file " + source + ":" + lineno + ":" + colno + ", userAgent is " + navigator.userAgent,
-        "backtrace":error.stack
+        "action": "adderror",
+        "jserror": event,
+        "details": "Error on file " + source + ":" + lineno + ":" + colno + ", userAgent is " + navigator.userAgent,
+        "backtrace": error.stack
     };
     saltos.ajax({
-        url:"index.php",
-        data:JSON.stringify(data),
-        method:"post",
-        content_type:"application/json",
-        headers:{
-            "token":saltos.token,
+        url: "index.php",
+        data: JSON.stringify(data),
+        method: "post",
+        content_type: "application/json",
+        headers: {
+            "token": saltos.token,
         }
     });
 };
@@ -66,18 +66,18 @@ window.onerror = function (event, source, lineno, colno, error) {
  *
  * @msg => the message that do you want to log on the server log file
  */
-saltos.addlog = function (msg) {
+saltos.addlog = msg => {
     var data = {
-        "action":"addlog",
-        "msg":msg,
+        "action": "addlog",
+        "msg": msg,
     };
     saltos.ajax({
-        url:"index.php",
-        data:JSON.stringify(data),
-        method:"post",
-        content_type:"application/json",
-        headers:{
-            "token":saltos.token,
+        url: "index.php",
+        data: JSON.stringify(data),
+        method: "post",
+        content_type: "application/json",
+        headers: {
+            "token": saltos.token,
         }
     });
 };
@@ -90,11 +90,11 @@ saltos.addlog = function (msg) {
  * caused by the nonexistence, to do this, checks for the existence of all params in the obj
  * and if some param is not found, then define it using the default value passed:
  *
- * @obj => the object that contains the arguments, for example
+ * @obj    => the object that contains the arguments, for example
  * @params => an array with the arguments that must to exists
- * @value => the default value used if an argument doesn't exists
+ * @value  => the default value used if an argument doesn't exists
  */
-saltos.check_params = function (obj, params, value) {
+saltos.check_params = (obj, params, value) => {
     if (typeof value == "undefined") {
         value = "";
     }
@@ -112,7 +112,7 @@ saltos.check_params = function (obj, params, value) {
  * values between 0 and 999999, useful when some widget requires an id and the user don't
  * provide it to the widget constructor
  */
-saltos.uniqid = function () {
+saltos.uniqid = () => {
     return "id" + Math.floor(Math.random() * 1000000);
 };
 
@@ -123,11 +123,11 @@ saltos.uniqid = function () {
  * widgets as ckeditor or codemirror that requires a rendered environemt to initialize their
  * code and paint the widget correctly
  *
- * @obj => the object that do you want to monitorize the visibility
- * @fn => the callback that you want to execute
+ * @obj  => the object that do you want to monitorize the visibility
+ * @fn   => the callback that you want to execute
  * @args => the arguments passed to the callback when execute it
  */
-saltos.when_visible = function (obj, fn, args) {
+saltos.when_visible = (obj, fn, args) => {
     // Check for the id existence
     if (!obj.getAttribute("id")) {
         obj.setAttribute("id", saltos.uniqid());
@@ -137,7 +137,7 @@ saltos.when_visible = function (obj, fn, args) {
     // the object and then, validate that not dissapear and wait until the
     // object is visible to execute the fn(args)
     var step = 1;
-    var interval = setInterval(function () {
+    var interval = setInterval(() => {
         var obj2 = document.getElementById(id);
         if (step == 1) {
             // Maintain the state machine in the first state until found
@@ -168,7 +168,7 @@ saltos.when_visible = function (obj, fn, args) {
  *
  * @event => the event that contains the keyboard data
  */
-saltos.get_keycode = function (event) {
+saltos.get_keycode = event => {
     var keycode = 0;
     if (event.keyCode) {
         keycode = event.keyCode;
@@ -197,15 +197,15 @@ saltos.get_keycode = function (event) {
  * builded is bad, you can see this problem in action when work with tables and try to
  * create separate portions of the table as trs or tds.
  */
-saltos.html = function () {
+saltos.html = (...args) => {
     var type = "div";
     var html = "";
-    if (arguments.length == 1) {
-        html = arguments[0];
+    if (args.length == 1) {
+        html = args[0];
     }
-    if (arguments.length == 2) {
-        type = arguments[0];
-        html = arguments[1];
+    if (args.length == 2) {
+        type = args[0];
+        html = args[1];
     }
     var obj = document.createElement(type);
     obj.innerHTML = html.trim();
@@ -218,20 +218,20 @@ saltos.html = function () {
  *
  * This function allow to use ajax using the same form that with jQuery without jQuery
  *
- * @url => url of the ajax call
- * @data => data used in the body of the request
- * @method => the method of the request (can be GET or POST, GET by default)
- * @success => callback function for the success action (optional)
- * @error => callback function for the error action (optional)
- * @progress => callback function to monitorize the progress of the upload/download (optional)
- * @async => boolean to use the ajax call asynchronously or not, by default is true
+ * @url          => url of the ajax call
+ * @data         => data used in the body of the request
+ * @method       => the method of the request (can be GET or POST, GET by default)
+ * @success      => callback function for the success action (optional)
+ * @error        => callback function for the error action (optional)
+ * @progress     => callback function to monitorize the progress of the upload/download (optional)
+ * @async        => boolean to use the ajax call asynchronously or not, by default is true
  * @content_type => the content-type that you want to use in the transfer
- * @headers => an object with the headers that you want to send
+ * @headers      => an object with the headers that you want to send
  *
  * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
  * way as jQuery do but without using jQuery.
  */
-saltos.ajax = function (args) {
+saltos.ajax = args => {
     saltos.check_params(args, ["url", "data", "method", "success", "error", "progress", "async", "content_type", "headers"]);
     if (args.data == "") {
         args.data = null;
@@ -251,7 +251,7 @@ saltos.ajax = function (args) {
         return null;
     }
     var ajax = new XMLHttpRequest();
-    ajax.onreadystatechange = function () {
+    ajax.onreadystatechange = () => {
         if (ajax.readyState == 4) {
             if (ajax.status == 200) {
                 if (typeof args.success == "function") {
@@ -297,7 +297,7 @@ saltos.ajax = function (args) {
  *
  * @arg => can be an string or an array of strings and returns the same structure with the keys fixed
  */
-saltos.fix_key = function (arg) {
+saltos.fix_key = arg => {
     if (typeof arg == "object") {
         for (var key in arg) {
             arg[key] = saltos.fix_key(arg[key]);
@@ -319,7 +319,7 @@ saltos.fix_key = function (arg) {
  *
  * @url => the url of the page to load
  */
-saltos.open = function (url) {
+saltos.open = url => {
     window.open(url);
 };
 
@@ -330,7 +330,7 @@ saltos.open = function (url) {
  *
  * @arg => the object that you want to copy
  */
-saltos.copy_object = function (arg) {
+saltos.copy_object = arg => {
     return JSON.parse(JSON.stringify(arg));
 };
 
@@ -343,7 +343,7 @@ saltos.copy_object = function (arg) {
  *
  * @obj => the object to check and optimize
  */
-saltos.optimize = function (obj) {
+saltos.optimize = obj => {
     if (obj.children.length == 1) {
         return obj.firstElementChild;
     }
