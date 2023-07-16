@@ -45,7 +45,7 @@ for (;;) {
         break;
     }
     $temp = substr($buffer, $pos1 + 1, $pos2 - $pos1 - 1);
-    if (str_replace(array(" ","\n"), "", $temp) == "") {
+    if (str_replace([" ", "\n"], "", $temp) == "") {
         $buffer = substr($buffer, 0, $pos1 + 1) . substr($buffer, $pos2);
         $pos2 -= strlen($temp);
     }

@@ -7,7 +7,7 @@ declare(strict_types=1);
 function grep($pattern, $data)
 {
     $data = explode("\n", $data);
-    $result = array();
+    $result = [];
     foreach ($data as $d) {
         if (stripos($d, $pattern) !== false) {
             $result[] = $d;
@@ -20,7 +20,7 @@ function grep($pattern, $data)
 function head($lines, $data)
 {
     $data = explode("\n", $data);
-    $result = array();
+    $result = [];
     foreach ($data as $line => $d) {
         if ($line < $lines) {
             $result[] = $d;

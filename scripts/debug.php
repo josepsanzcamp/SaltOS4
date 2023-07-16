@@ -9,7 +9,7 @@ foreach ($buffer as $key => $val) {
         continue;
     }
     array_shift($argv);
-    $buffer[$key] = array();
+    $buffer[$key] = [];
     while ($temp = array_shift($argv)) {
         $buffer[$key][] = str_replace("js/index.min.js", $temp, $val);
     }

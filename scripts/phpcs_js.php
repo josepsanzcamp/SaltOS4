@@ -27,9 +27,9 @@ for ($i = $pos; $i < $count; $i += 2) {
 }
 
 $buffer = implode("`", $buffer);
-file_put_contents("$file.php.js", $buffer);
-passthru("phpcs $standard $file.php.js");
-unlink("$file.php.js");
+file_put_contents("$file.tmp.js", $buffer);
+passthru("phpcs $standard $file.tmp.js");
+unlink("$file.tmp.js");
 
 // Second part => check the space after comma
 $buffer = file_get_contents($file);
@@ -66,7 +66,7 @@ foreach ($buffer as $key => $val) {
         continue;
     }
     // Normal operation
-    foreach (array(",", ":") as $pattern) {
+    foreach ([",", ":"] as $pattern) {
         $val2 = explode($pattern, $val);
         unset($val2[0]);
         $error = 0;
