@@ -138,7 +138,7 @@ function show_php_error($array)
     }
     // Prepare the final report
     output_handler_json([
-        "error" => $msg_json
+        "error" => $msg_json,
     ]);
 }
 
@@ -308,7 +308,7 @@ function __error_handler($type, $message, $file, $line)
         "phperror" => "{$message} (code {$type})",
         "details" => "Error on file " . basename($file) . ":" . $line,
         "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-        "code" => pathinfo($file, PATHINFO_FILENAME) . ":" . $line
+        "code" => pathinfo($file, PATHINFO_FILENAME) . ":" . $line,
     ]);
 }
 
@@ -328,7 +328,7 @@ function __exception_handler($e)
         "exception" => $e->getMessage() . " (code " . $e->getCode() . ")",
         "details" => "Error on file " . basename($e->getFile()) . ":" . $e->getLine(),
         "backtrace" => $e->getTrace(),
-        "code" => pathinfo($e->getFile(), PATHINFO_FILENAME) . ":" . $e->getLine()
+        "code" => pathinfo($e->getFile(), PATHINFO_FILENAME) . ":" . $e->getLine(),
     ]);
 }
 
@@ -350,7 +350,7 @@ function __shutdown_handler()
             "phperror" => "{$error["message"]}",
             "details" => "Error on file " . basename($error["file"]) . ":" . $error["line"],
             "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            "code" => pathinfo($error["file"], PATHINFO_FILENAME) . ":" . $error["line"]
+            "code" => pathinfo($error["file"], PATHINFO_FILENAME) . ":" . $error["line"],
         ]);
     }
     semaphore_shutdown();
@@ -400,6 +400,6 @@ function show_json_error($msg)
         "error" => [
             "text" => $msg,
             "code" => __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)),
-        ]
+        ],
     ]);
 }

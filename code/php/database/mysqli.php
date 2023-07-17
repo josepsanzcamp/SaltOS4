@@ -60,7 +60,7 @@ class database_mysqli
         if (!function_exists("mysqli_connect")) {
             show_php_error([
                 "phperror" => "mysqli_connect not found",
-                "details" => "Try to install php-mysql package"
+                "details" => "Try to install php-mysql package",
             ]);
             return;
         }
@@ -121,7 +121,7 @@ class database_mysqli
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "MYSQL");
-        $result = ["total" => 0,"header" => [],"rows" => []];
+        $result = ["total" => 0, "header" => [], "rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }

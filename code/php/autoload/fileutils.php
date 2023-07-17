@@ -207,11 +207,11 @@ function __url_get_contents($url, $args = [])
     $arguments = [];
     $error = $http->GetRequestArguments($url, $arguments);
     if ($error != "") {
-        return ["",[],[]];
+        return ["", [], []];
     }
     $error = $http->Open($arguments);
     if ($error != "") {
-        return ["",[],[]];
+        return ["", [], []];
     }
     if (isset($args["method"])) {
         $arguments["RequestMethod"] = strtoupper($args["method"]);
@@ -232,22 +232,22 @@ function __url_get_contents($url, $args = [])
     }
     $error = $http->SendRequest($arguments);
     if ($error != "") {
-        return ["",[],[]];
+        return ["", [], []];
     }
     $headers = [];
     $error = $http->ReadReplyHeaders($headers);
     if ($error != "") {
-        return ["",[],[]];
+        return ["", [], []];
     }
     $body = "";
     $error = $http->ReadWholeReplyBody($body);
     if ($error != "") {
-        return ["",[],[]];
+        return ["", [], []];
     }
     $http->Close();
     $cookies = [];
     $http->SaveCookies($cookies);
-    return [$body,$headers,$cookies];
+    return [$body, $headers, $cookies];
 }
 
 /**
@@ -376,8 +376,8 @@ function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $time
                 "ssl" => [
                     "verify_peer" => false,
                     "verify_peer_name" => false,
-                    "allow_self_signed" => true
-                ]
+                    "allow_self_signed" => true,
+                ],
             ]
         )
     );

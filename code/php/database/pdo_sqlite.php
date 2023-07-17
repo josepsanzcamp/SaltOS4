@@ -64,7 +64,7 @@ class database_pdo_sqlite
         if (!class_exists("PDO")) {
             show_php_error([
                 "phperror" => "Class PDO not found",
-                "details" => "Try to install php-pdo package"
+                "details" => "Try to install php-pdo package",
             ]);
             return;
         }
@@ -169,7 +169,7 @@ class database_pdo_sqlite
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "SQLITE");
-        $result = ["total" => 0,"header" => [],"rows" => []];
+        $result = ["total" => 0, "header" => [], "rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }

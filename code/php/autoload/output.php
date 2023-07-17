@@ -139,6 +139,6 @@ function output_handler_json($array)
     output_handler([
         "data" => json_encode($array),
         "type" => "application/json",
-        "cache" => false
+        "cache" => false,
     ]);
 }

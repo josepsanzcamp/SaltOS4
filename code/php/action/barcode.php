@@ -74,7 +74,7 @@ if ($format == "png") {
     output_handler([
         "data" => $image,
         "type" => "image/png",
-        "cache" => false
+        "cache" => false,
     ]);
 }
 $data = "data:image/png;base64," . base64_encode($image);

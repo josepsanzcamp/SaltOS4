@@ -64,7 +64,7 @@ class database_sqlite3
         if (!class_exists("SQLite3")) {
             show_php_error([
                 "phperror" => "Class SQLite3 not found",
-                "details" => "Try to install php-sqlite package"
+                "details" => "Try to install php-sqlite package",
             ]);
             return;
         }
@@ -169,7 +169,7 @@ class database_sqlite3
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "SQLITE");
-        $result = ["total" => 0,"header" => [],"rows" => []];
+        $result = ["total" => 0, "header" => [], "rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }

@@ -124,12 +124,12 @@ function set_config($key, $val, $user_id = -1)
         $query = make_insert_query("tbl_config", [
             "user_id" => $user_id,
             "key" => $key,
-            "val" => $val
+            "val" => $val,
         ]);
         db_query($query);
     } else {
         $query = make_update_query("tbl_config", [
-            "val" => $val
+            "val" => $val,
         ], make_where_query([
             "id" => $id,
         ]));

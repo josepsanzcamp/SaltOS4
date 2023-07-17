@@ -314,7 +314,7 @@ function __dbschema_helper($fn, $table)
                     foreach ($tablespec["value"]["fields"] as $fieldspec) {
                         $tables[$tablespec["#attr"]["name"]][] = [
                             "name" => $fieldspec["#attr"]["name"],
-                            "type" => strtoupper(parse_query($fieldspec["#attr"]["type"]))
+                            "type" => strtoupper(parse_query($fieldspec["#attr"]["type"])),
                         ];
                         if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
                             if (!isset($fieldspec["#attr"]["fckeck"]) || eval_bool($fieldspec["#attr"]["fckeck"])) {

@@ -70,7 +70,7 @@ if ($_DATA["server"]["request_method"] == "GET" && count($_DATA["rest"]) == 0) {
     output_handler([
         "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
-        "cache" => false
+        "cache" => false,
     ]);
 }
 

@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
-<ruleset name="PHP Developers TV">
-    <description>The SaltOS Coding Standard. PSR12 + Types</description>
+<ruleset>
     <rule ref="PSR12" />
     <rule ref="Generic.PHP.RequireStrictTypes" />
     <rule ref="Generic.Commenting.DocComment.TagValueIndent" />
-    <rule ref="Squiz.Arrays.ArrayDeclaration.NoSpaceAfterComma" />
-    <rule ref="Squiz.Arrays.ArrayDeclaration.NoCommaAfterLast" />
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+    <rule ref="WordPress.Arrays.CommaAfterArrayItem"/>
 </ruleset>

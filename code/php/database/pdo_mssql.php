@@ -60,7 +60,7 @@ class database_pdo_mssql
         if (!class_exists("PDO")) {
             show_php_error([
                 "phperror" => "Class PDO not found",
-                "details" => "Try to install php-pdo package"
+                "details" => "Try to install php-pdo package",
             ]);
             return;
         }
@@ -126,7 +126,7 @@ class database_pdo_mssql
     public function db_query($query, $fetch = "query")
     {
         $query = parse_query($query, "MSSQL");
-        $result = ["total" => 0,"header" => [],"rows" => []];
+        $result = ["total" => 0, "header" => [], "rows" => []];
         if (!strlen(trim($query))) {
             return $result;
         }

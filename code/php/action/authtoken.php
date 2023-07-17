@@ -76,9 +76,9 @@ if (!is_array($row2) || !isset($row2["password"])) {
     // Convert from MD5/SHA1 to password_hash format
     $row2["password"] = password_hash($pass, PASSWORD_DEFAULT);
     $query = make_update_query("tbl_users_passwords", [
-        "password" => $row2["password"]
+        "password" => $row2["password"],
     ], make_where_query([
-        "id" => $row2["id"]
+        "id" => $row2["id"],
     ]));
     db_query($query);
 } else {
