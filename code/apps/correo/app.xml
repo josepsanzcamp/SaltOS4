@@ -49,7 +49,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                         IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time
                     FROM app_correo
                     WHERE 1 = 1
-                    AND ".make_fulltext_query("", "correo", array("minsize" => 1, "default" => "1=1"))."
+                    AND ".make_fulltext_query("", "correo", ["minsize" => 1, "default" => "1=1"])."
                     AND ".check_sql("correo", "list")."
                     ORDER BY id DESC
                     LIMIT 0,50
@@ -62,7 +62,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     SELECT COUNT(*) total
                     FROM app_correo
                     WHERE 1 = 1
-                    AND ".make_fulltext_query("", "correo", array("minsize" => 1, "default" => "1=1"))."
+                    AND ".make_fulltext_query("", "correo", ["minsize" => 1, "default" => "1=1"])."
                     AND ".check_sql("correo", "list")."
                 ")</footer>
                 <divider eval="true">[false, true, true]</divider>
