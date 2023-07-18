@@ -1273,26 +1273,30 @@ saltos.__form_field.pdfjs = field => {
     saltos.check_params(field, ["id", "class", "value"]);
     var obj = saltos.html(`
         <div id="${field.id}" class="${field.class}">
-            <div class="pdfViewer"></div>
+            <div class="viewerContainer">
+                <div class="pdfViewer"></div>
+            </div>
         </div>
     `);
     obj.append(saltos.html(`
         <style>
-            #${field.id} {
+            .viewerContainer {
                 position: absolute;
-                width: calc(100% - 18px);
+                width: 100%;
+                left: -9px;
+                top: -9px;
             }
-            #${field.id} .canvasWrapper {
+            .viewerContainer .canvasWrapper {
                 box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1)!important;
             }
-            #${field.id} *,
-            #${field.id} *::before,
-            #${field.id} *::after {
+            .viewerContainer *,
+            .viewerContainer *::before,
+            .viewerContainer *::after {
                 box-sizing: content-box;
             }
         </style>
     `));
-    var element = obj;
+    var element = obj.querySelector(".viewerContainer");
     saltos.when_visible(element, () => {
         pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
         pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {

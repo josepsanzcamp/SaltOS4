@@ -41,32 +41,30 @@ foreach ($buffer as $key => $val) {
     if ($val == "") {
         continue;
     }
-    if (strpos($val, '__,_|') !== false) {
-        continue;
+    $exceptions = [
+        '|____/ \__,_|_|\__|\___/|____/     |_|(_)___/',
+        'join(",")',
+        'split(",")',
+        'mapToRadix: [","]',
+        'https://www.saltos.org',
+        'https://www.gnu.org/licenses',
+        '*::before,',
+        '*::after {',
+        ' + ":" + ',
+    ];
+    $found = false;
+    foreach ($exceptions as $exception) {
+        if (strpos($val, $exception) !== false) {
+            $found = true;
+            break;
+        }
     }
-    if (strpos($val, 'join(",")') !== false) {
-        continue;
-    }
-    if (strpos($val, 'split(",")') !== false) {
-        continue;
-    }
-    if (strpos($val, '[","]') !== false) {
-        continue;
-    }
-    if (strpos($val, 'https://www') !== false) {
-        continue;
-    }
-    if (strpos($val, '::before') !== false) {
-        continue;
-    }
-    if (strpos($val, '::after') !== false) {
-        continue;
-    }
-    if (strpos($val, ' + ":" + ') !== false) {
+    if ($found) {
         continue;
     }
     // Normal operation
-    foreach ([",", ":"] as $pattern) {
+    $patterns = [",", ":"];
+    foreach ($patterns as $pattern) {
         $val2 = explode($pattern, $val);
         unset($val2[0]);
         $error = 0;

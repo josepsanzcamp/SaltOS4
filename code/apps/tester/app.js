@@ -336,7 +336,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
             valor = "apps/tester/files/philips-pm5544.svg";
         }
         if (tipo == "pdfjs") {
-            valor = "apps/tester/files/philips-pm5544.pdf";
+            valor = "apps/tester/files/test-josep-2.pdf";
         }
         if (tipo == "table") {
             var data = [
