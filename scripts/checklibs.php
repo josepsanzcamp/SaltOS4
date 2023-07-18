@@ -33,7 +33,7 @@ function head($lines, $data)
 function wget($url)
 {
     ob_start();
-    passthru("wget -O - -q $url");
+    passthru("wget -O - -q -T 5 -t 1 $url");
     $buffer = ob_get_clean();
     return $buffer;
 }
