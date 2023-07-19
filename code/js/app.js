@@ -80,12 +80,10 @@ saltos.send_request = data => {
             saltos.process_response(response);
         },
         error: request => {
-            saltos.show_error(
-                {
-                    text: request.statusText,
-                    code: request.status,
-                }
-            );
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
         },
         headers: {
             "token": saltos.token,
@@ -117,15 +115,6 @@ saltos.process_response = response => {
  * This object allow to the constructor to use a rational structure for a quick access of each helper
  */
 saltos.form = {};
-
-/**
- * Form source helper
- *
- * This function redirects the request to the send request function, allow to define the source command
- */
-saltos.form.source = data => {
-    saltos.send_request(data)
-}
 
 /**
  * Form data helper
@@ -246,7 +235,17 @@ saltos.form.layout = (layout, extra) => {
             }
             arr.push(obj);
         } else {
-            var obj = saltos.form_field(attr);
+            saltos.check_params(attr, ["id", "source"]);
+            if (attr.source != "") {
+                if (attr.id == "") {
+                    attr.id = saltos.uniqid();
+                }
+                var obj = saltos.__placeholder_helper(attr.id);
+                saltos.__source_helper(attr);
+            } else {
+                saltos.__value_helper(attr);
+                var obj = saltos.form_field(attr);
+            }
             arr.push(obj);
         }
     }
@@ -366,6 +365,86 @@ saltos.loading = on_off => {
  */
 saltos.clear_screen = () => {
     document.body.innerHTML = "";
+};
+
+/**
+ * Source helper
+ *
+ * This function is intended to provide an asynchronous sources for a field, using the source attribute,
+ * you can program an asynchronous ajax request to retrieve the data used to create the field.
+ * *
+ * This function is used in the fields of type table, alert, card and chartjs, the call of this function
+ * is private and is intended to be used as a helper from the builders of the previous types opening
+ * another way to pass arguments.
+ *
+ * @id     => the id used to set the reference for to the object
+ * @type   => the type used to set the type for to the object
+ * @source => data source used to load asynchronously the contents of the table (header, data,
+ *            footer and divider)
+ *
+ * Notes:
+ *
+ * In some cases, the response for a source request can be an object that represents an xml node with attributes
+ * and values, as for the example, the widget/2 used in the app.php, that returns an array with all contents of
+ * the widget in the value entry and another entry used for the #attr that only contains the id used to select
+ * the widget in the app.php, is this case, the unique data that we want to use here is the contents of the
+ * value, and for this reason, the response is filtered to use only the value key in the case of existence of
+ * the #attr and value keys
+ */
+saltos.__source_helper = field => {
+    saltos.check_params(field, ["id", "type", "source"]);
+    // Check for asynchronous load using the source param
+    if (field.source != "") {
+        saltos.ajax({
+            url: "index.php?" + field.source,
+            success: response => {
+                if (typeof response != "object") {
+                    saltos.show_error(response);
+                    return;
+                }
+                if (typeof response.error == "object") {
+                    saltos.show_error(response.error);
+                    return;
+                }
+                field.source = "";
+                if (response.hasOwnProperty("value") && response.hasOwnProperty("#attr")) {
+                    response = response.value;
+                }
+                for (var key in response) {
+                    field[key] = response[key];
+                }
+                document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
+            },
+            error: request => {
+                saltos.show_error({
+                    text: request.statusText,
+                    code: request.status,
+                });
+            },
+            headers: {
+                "token": saltos.token,
+            }
+        });
+    }
+};
+
+/**
+ * Value helper
+ *
+ * This function is intended to provide a synchronous sources for a field, using the value attribute,
+ * you can put a lot of data from the value of a xml node to use in a field as attribute.
+ *
+ * @value => data container used to get synchronously the contents of the table (header, data,
+ *           footer and divider)
+ */
+saltos.__value_helper = field => {
+    saltos.check_params(field, ["value"]);
+    // Check for syncronous load using the value param
+    if (field.value != "" && typeof field.value == "object") {
+        for (var key in field.value) {
+            field[key] = field.value[key];
+        }
+    }
 };
 
 /**

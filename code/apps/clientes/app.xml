@@ -26,6 +26,7 @@
 -->
 
 <root>
+    <!-- List part -->
     <list>
         <javascript>
             <inline>saltos.loading(0)</inline>
@@ -72,6 +73,7 @@
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>
     </list>
+    <!-- Form part -->
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
         <text id="codigo" label="codigo"/>
         <switch id="activo" label="activo"/>
@@ -96,7 +98,16 @@
     </layout>
     <data global="_DATA" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($_DATA["rest"][3]))</data>
     <create>
+        <javascript>
+            <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button onclick="saltos.clientes.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear el nuevo cliente"/>
+            <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente"/>
+        </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>
@@ -108,6 +119,13 @@
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente">
+                <onclick global="_DATA" eval="true">"saltos.open('#app/clientes/edit/".intval($_DATA["rest"][3])."')"</onclick>
+            </button>
+            <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Volver" tooltip="Para volver atrás"/>
+        </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>
@@ -119,6 +137,11 @@
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button onclick="saltos.clientes.update()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Guardar" tooltip="Para guardar los cambios del cliente"/>
+            <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente"/>
+        </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>
@@ -130,6 +153,11 @@
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button onclick="saltos.clientes.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Borrar" tooltip="Para borrar el cliente"/>
+            <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente"/>
+        </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>

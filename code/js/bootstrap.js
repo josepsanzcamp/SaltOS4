@@ -61,10 +61,10 @@
  * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
  *                 colWidths, label
  * @pdfjs       => id, class, value, label
- * @table       => id, class, header, data, footer, divider, source, value, label
- * @alert       => id, class, title, text, body, source, value, label
- * @card        => id, image, alt, header, footer, title, text, body, source, value, label
- * @chartjs     => id, mode, data, source, value, label
+ * @table       => id, class, header, data, footer, divider, value, label
+ * @alert       => id, class, title, text, body, value, label
+ * @card        => id, image, alt, header, footer, title, text, body, value, label
+ * @chartjs     => id, mode, data, value, label
  * @tags        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
  *
  * Notes:
@@ -312,7 +312,7 @@ saltos.__form_field.float = field => {
  * for this reason it is set to #000000 if value is void
  */
 saltos.__form_field.color = field => {
-    saltos.check_params(field, ["value"], "");
+    saltos.check_params(field, ["value"]);
     if (field.value == "") {
         field.value = "#000000";
     }
@@ -615,40 +615,32 @@ saltos.__form_field.multiselect = field => {
         }
     }
     obj.querySelector(".one").append(saltos.__form_field.hidden(field));
-    obj.querySelector(".one").append(
-        saltos.__form_field.select(
-            {
-                class: field.class,
-                id: field.id + "_abc",
-                disabled: field.disabled,
-                tooltip: field.tooltip,
-                multiple: true,
-                size: field.size,
-                rows: rows_abc,
-            }
-        )
-    );
-    obj.querySelector(".two").append(
-        saltos.__form_field.button(
-            {
-                class: "btn-primary bi-chevron-double-right mb-3",
-                disabled: field.disabled,
-                //tooltip: field.tooltip,
-                onclick: () => {
-                    document.querySelectorAll("#" + field.id + "_abc option").forEach(option => {
-                        if (option.selected) {
-                            document.getElementById(field.id + "_xyz").append(option);
-                        }
-                    });
-                    var val = [];
-                    document.querySelectorAll("#" + field.id + "_xyz option").forEach(option => {
-                        val.push(option.value);
-                    });
-                    document.getElementById(field.id).value = val.join(",");
-                },
-            }
-        )
-    );
+    obj.querySelector(".one").append(saltos.__form_field.select({
+        class: field.class,
+        id: field.id + "_abc",
+        disabled: field.disabled,
+        tooltip: field.tooltip,
+        multiple: true,
+        size: field.size,
+        rows: rows_abc,
+    }));
+    obj.querySelector(".two").append(saltos.__form_field.button({
+        class: "btn-primary bi-chevron-double-right mb-3",
+        disabled: field.disabled,
+        //tooltip: field.tooltip,
+        onclick: () => {
+            document.querySelectorAll("#" + field.id + "_abc option").forEach(option => {
+                if (option.selected) {
+                    document.getElementById(field.id + "_xyz").append(option);
+                }
+            });
+            var val = [];
+            document.querySelectorAll("#" + field.id + "_xyz option").forEach(option => {
+                val.push(option.value);
+            });
+            document.getElementById(field.id).value = val.join(",");
+        },
+    }));
     obj.querySelector(".two").append(saltos.html("<br/>"));
     obj.querySelector(".two").append(saltos.__form_field.button({
         class: "btn-primary bi-chevron-double-left",
@@ -1363,10 +1355,6 @@ saltos.__form_field.pdfjs = field => {
 saltos.__form_field.table = field => {
     saltos.check_params(field, ["class", "id", "checkbox"]);
     saltos.check_params(field, ["header", "data", "footer", "divider"], []);
-    saltos.__source_helper(field);
-    if (field.source != "") {
-        return saltos.__placeholder_helper(field.id);
-    }
     var obj = saltos.html(`
         <table class="table table-striped table-hover ${field.class}" id="${field.id}">
         </table>
@@ -1546,10 +1534,6 @@ saltos.__form_field.table = field => {
  */
 saltos.__form_field.alert = field => {
     saltos.check_params(field, ["class", "id", "title", "text", "body", "close"]);
-    saltos.__source_helper(field);
-    if (field.source != "") {
-        return saltos.__placeholder_helper(field.id);
-    }
     var obj = saltos.html(`
         <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
@@ -1599,10 +1583,6 @@ saltos.__form_field.alert = field => {
  */
 saltos.__form_field.card = field => {
     saltos.check_params(field, ["id", "image", "alt", "header", "footer", "title", "text", "body"]);
-    saltos.__source_helper(field);
-    if (field.source != "") {
-        return saltos.__placeholder_helper(field.id);
-    }
     var obj = saltos.html(`<div class="card" id="${field.id}"></div>`);
     if (field.image != "") {
         obj.append(saltos.html(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`));
@@ -1643,10 +1623,6 @@ saltos.__form_field.card = field => {
  */
 saltos.__form_field.chartjs = field => {
     saltos.check_params(field, ["id", "mode", "data"]);
-    saltos.__source_helper(field);
-    if (field.source != "") {
-        return saltos.__placeholder_helper(field.id);
-    }
     var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
     for (var key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
@@ -1865,82 +1841,6 @@ saltos.__tooltip_helper = obj => {
     obj.addEventListener("click", () => {
         instance.hide();
     });
-};
-
-/**
- * Source helper
- *
- * This function is intended to provide multiple sources for a field, they have two modes of work:
- *
- * 1) using the source attribute, you can program an asynchronous ajax request to retrieve the data
- * used to create the field.
- *
- * 2) using the value attribute, you can put a lot of data from the value of a xml node to use in
- * a field as attribute.
- *
- * This function is used in the fields of type table, alert, card and chartjs, the call of this function
- * is private and is intended to be used as a helper from the builders of the previous types opening
- * another way to pass arguments.
- *
- * @id     => the id used to set the reference for to the object
- * @type   => the type used to set the type for to the object
- * @source => data source used to load asynchronously the contents of the table (header, data,
- *            footer and divider)
- * @value  => data container used to get synchronously the contents of the table (header, data,
- *            footer and divider)
- *
- * Notes:
- *
- * In some cases, the response for a source request can be an object that represents an xml node with attributes
- * and values, as for the example, the widget/2 used in the app.php, that returns an array with all contents of
- * the widget in the value entry and another entry used for the #attr that only contains the id used to select
- * the widget in the app.php, is this case, the unique data that we want to use here is the contents of the
- * value, and for this reason, the response is filtered to use only the value key in the case of existence of
- * the #attr and value keys
- */
-saltos.__source_helper = field => {
-    saltos.check_params(field, ["id", "type", "source", "value"]);
-    // Check for asynchronous load using the source param
-    if (field.source != "") {
-        saltos.ajax({
-            url: "index.php?" + field.source,
-            success: response => {
-                if (typeof response != "object") {
-                    saltos.show_error(response);
-                    return;
-                }
-                if (typeof response.error == "object") {
-                    saltos.show_error(response.error);
-                    return;
-                }
-                field.source = "";
-                if (response.hasOwnProperty("value") && response.hasOwnProperty("#attr")) {
-                    response = response.value;
-                }
-                for (var key in response) {
-                    field[key] = response[key];
-                }
-                document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
-            },
-            error: request => {
-                saltos.show_error(
-                    {
-                        text: request.statusText,
-                        code: request.status,
-                    }
-                );
-            },
-            headers: {
-                "token": saltos.token,
-            }
-        });
-    }
-    // Check for syncronous load using the value param
-    if (field.value != "") {
-        for (var key in field.value) {
-            field[key] = field.value[key];
-        }
-    }
 };
 
 /**

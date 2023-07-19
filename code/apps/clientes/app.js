@@ -56,3 +56,35 @@ saltos.clientes.read_more = function () {
     // Using REST
     console.log("saltos.clientes.read_more");
 }
+
+/**
+ * TODO
+ */
+saltos.clientes.cancel = function () {
+    // Using REST
+    console.log("saltos.clientes.cancel");
+}
+
+/**
+ * TODO
+ */
+saltos.clientes.insert = function () {
+    // Using REST
+    console.log("saltos.clientes.insert");
+}
+
+/**
+ * TODO
+ */
+saltos.clientes.update = function () {
+    // Using REST
+    console.log("saltos.clientes.update");
+}
+
+/**
+ * TODO
+ */
+saltos.clientes.delete = function () {
+    // Using REST
+    console.log("saltos.clientes.delete");
+}
