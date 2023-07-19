@@ -43,18 +43,14 @@ saltos.show_error = error => {
         body: error.text,
         footer: (() => {
             var obj = saltos.html("<div></div>");
-            obj.append(
-                saltos.form_field(
-                    {
-                        type: "button",
-                        value: "Accept",
-                        class: "btn-primary",
-                        onclick: () => {
-                            saltos.modal("close");
-                        }
-                    }
-                )
-            );
+            obj.append(saltos.form_field({
+                type: "button",
+                value: "Accept",
+                class: "btn-primary",
+                onclick: () => {
+                    saltos.modal("close");
+                }
+            }));
             return obj;
         })()
     });
@@ -224,9 +220,6 @@ saltos.form.layout = (layout, extra) => {
         if (!attr.hasOwnProperty("type")) {
             attr.type = key;
         }
-        if (!attr.hasOwnProperty("value")) {
-            attr.value = value;
-        }
         if (["container", "col", "row", "div"].includes(key)) {
             var obj = saltos.form_field(attr);
             var temp = saltos.form.layout(value, 1);
@@ -235,6 +228,15 @@ saltos.form.layout = (layout, extra) => {
             }
             arr.push(obj);
         } else {
+            if (typeof value == "object") {
+                for (var key2 in value) {
+                    if (!attr.hasOwnProperty(key2)) {
+                        attr[key2] = value[key2];
+                    }
+                }
+            } else if (!attr.hasOwnProperty("value")) {
+                attr.value = value;
+            }
             saltos.check_params(attr, ["id", "source"]);
             if (attr.source != "") {
                 if (attr.id == "") {
@@ -243,7 +245,6 @@ saltos.form.layout = (layout, extra) => {
                 var obj = saltos.__placeholder_helper(attr.id);
                 saltos.__source_helper(attr);
             } else {
-                saltos.__value_helper(attr);
                 var obj = saltos.form_field(attr);
             }
             arr.push(obj);
@@ -425,25 +426,6 @@ saltos.__source_helper = field => {
                 "token": saltos.token,
             }
         });
-    }
-};
-
-/**
- * Value helper
- *
- * This function is intended to provide a synchronous sources for a field, using the value attribute,
- * you can put a lot of data from the value of a xml node to use in a field as attribute.
- *
- * @value => data container used to get synchronously the contents of the table (header, data,
- *           footer and divider)
- */
-saltos.__value_helper = field => {
-    saltos.check_params(field, ["value"]);
-    // Check for syncronous load using the value param
-    if (field.value != "" && typeof field.value == "object") {
-        for (var key in field.value) {
-            field[key] = field.value[key];
-        }
     }
 };
 

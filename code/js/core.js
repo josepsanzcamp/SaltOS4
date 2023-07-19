@@ -40,7 +40,9 @@ var saltos = saltos || {};
  */
 window.onerror = (event, source, lineno, colno, error) => {
     if (typeof error == "undefined" || typeof error.stack == "undefined") {
-        var error = { stack: "unknown"};
+        var error = {
+            stack: "unknown"
+        };
     }
     var data = {
         "action": "adderror",
