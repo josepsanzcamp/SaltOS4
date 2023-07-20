@@ -1771,7 +1771,7 @@ saltos.__form_field.gallery = field => {
         for (var key in field.images) {
             var val = field.images[key];
             if (typeof val == "string") {
-                val = { image:val };
+                val = { image: val };
             }
             saltos.check_params(val, ["image", "title"]);
             var img = saltos.html(`
@@ -1789,7 +1789,7 @@ saltos.__form_field.gallery = field => {
         var msnry = new Masonry(element, {
             percentPosition: true,
         });
-        imagesLoaded(element).on("progress", function() {
+        imagesLoaded(element).on("progress", () => {
             msnry.layout();
         });
         new VenoBox();

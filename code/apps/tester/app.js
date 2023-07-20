@@ -490,9 +490,9 @@
         }
         if (tipo == "gallery") {
             images = [
-                { image: "apps/tester/files/anunay-rai-WSW1txL1V84.jpg", title:"Foto 1" },
-                { image: "apps/tester/files/beasty-0BcxmQx9xas-unsplash.jpg", title:"Foto 2" },
-                { image: "apps/tester/files/krystal-ng-PrQqQVPzmlw.jpg", title:"Foto 3" },
+                { image: "apps/tester/files/anunay-rai-WSW1txL1V84.jpg", title: "Foto 1" },
+                { image: "apps/tester/files/beasty-0BcxmQx9xas-unsplash.jpg", title: "Foto 2" },
+                { image: "apps/tester/files/krystal-ng-PrQqQVPzmlw.jpg", title: "Foto 3" },
                 "apps/tester/files/luke-jones-vCxjJmdj03k.jpg",
                 "apps/tester/files/maryna-yazbeck-rnwDiYrHtM0.jpg",
                 "apps/tester/files/mo-nm8b-BUnzuk.jpg",
