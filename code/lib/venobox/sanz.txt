@@ -1,0 +1,5 @@
+# https://veno.es/venobox/
+# https://cdnjs.com/libraries/venobox
+
+wget https://cdnjs.cloudflare.com/ajax/libs/venobox/2.0.4/venobox.min.js
+wget https://cdnjs.cloudflare.com/ajax/libs/venobox/2.0.4/venobox.min.css

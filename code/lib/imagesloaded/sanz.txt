@@ -1,0 +1,5 @@
+
+# https://imagesloaded.desandro.com/
+# https://cdnjs.com/libraries/jquery.imagesloaded
+
+wget https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js

@@ -66,6 +66,7 @@
  * @card        => id, image, alt, header, footer, title, text, body, value, label
  * @chartjs     => id, mode, data, value, label
  * @tags        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
+ * @gallery     => id, class, label, images
  *
  * Notes:
  *
@@ -1739,6 +1740,61 @@ saltos.__form_field.tags = field => {
             _this.setAttribute("for", field.id);
         });
     });
+    return obj;
+};
+
+/**
+ * Gallery constructor helper
+ *
+ * This function returns a gallery object, you can pass some arguments as:
+ *
+ * @id     => the id used to set the reference for to the object
+ * @class  => allow to add more classes to the default img-fluid
+ * @label  => this parameter is used as text for the label
+ * @images => the array with images, each image can be an string or object
+ */
+saltos.__form_field.gallery = field => {
+    saltos.check_params(field, ["id", "class", "images"]);
+    if (field.id == "") {
+        field.id = saltos.uniqid();
+    }
+    if (field.class == "") {
+        field.class = "col";
+    }
+    var obj = saltos.html(`
+        <div id="${field.id}" class="container-fluid">
+            <div class="row">
+            </div>
+        </div>
+    `);
+    if (typeof field.images == "object") {
+        for (var key in field.images) {
+            var val = field.images[key];
+            if (typeof val == "string") {
+                val = { image:val };
+            }
+            saltos.check_params(val, ["image", "title"]);
+            var img = saltos.html(`
+                <div class="${field.class} p-1">
+                    <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
+                        <img src="${val.image}" class="img-fluid img-thumbnail" />
+                    </a>
+                </div>
+            `);
+            obj.querySelector(".row").append(img);
+        }
+    }
+    var element = obj.querySelector(".row");
+    saltos.when_visible(element, () => {
+        var msnry = new Masonry(element, {
+            percentPosition: true,
+        });
+        imagesLoaded(element).on("progress", function() {
+            msnry.layout();
+        });
+        new VenoBox();
+    });
+    obj = saltos.__label_combine(field, obj);
     return obj;
 };
 

@@ -237,6 +237,7 @@
         "chartjs",
         "chartjs",
         "card",
+        "gallery",
     ];
     var modes = [
         "bar",
@@ -268,6 +269,7 @@
         var body = "";
         var datalist = [];
         var close = "";
+        var images = [];
         if (tipo == "text") {
             datalist = [
                 "Uno",
@@ -336,7 +338,7 @@
             valor = "apps/tester/files/philips-pm5544.svg";
         }
         if (tipo == "pdfjs") {
-            valor = "apps/tester/files/test-josep-2.pdf";
+            valor = "apps/tester/files/test-josep-1.pdf";
         }
         if (tipo == "table") {
             var data = [
@@ -486,6 +488,17 @@
                 });
             };
         }
+        if (tipo == "gallery") {
+            images = [
+                { image: "apps/tester/files/anunay-rai-WSW1txL1V84.jpg", title:"Foto 1" },
+                { image: "apps/tester/files/beasty-0BcxmQx9xas-unsplash.jpg", title:"Foto 2" },
+                { image: "apps/tester/files/krystal-ng-PrQqQVPzmlw.jpg", title:"Foto 3" },
+                "apps/tester/files/luke-jones-vCxjJmdj03k.jpg",
+                "apps/tester/files/maryna-yazbeck-rnwDiYrHtM0.jpg",
+                "apps/tester/files/mo-nm8b-BUnzuk.jpg",
+            ];
+            clase = "col-4";
+        }
         var campo = saltos.form_field({
             type: tipo,
             id: "campo" + i,
@@ -510,6 +523,7 @@
             body: body,
             datalist: datalist,
             close: close,
+            images: images,
         });
         col.append(campo);
         row.append(col);
