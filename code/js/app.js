@@ -96,12 +96,12 @@ saltos.process_response = response => {
     for (var key in response) {
         var val = response[key];
         var key = saltos.fix_key(key);
-        if (typeof saltos.form[key] != "function") {
+        if (typeof saltos.form_app[key] != "function") {
             console.log("type " + key + " not found");
             document.body.append(saltos.html("type " + key + " not found"));
             continue;
         }
-        saltos.form[key](val);
+        saltos.form_app[key](val);
     }
 };
 
@@ -110,14 +110,24 @@ saltos.process_response = response => {
  *
  * This object allow to the constructor to use a rational structure for a quick access of each helper
  */
-saltos.form = {};
+saltos.form_app = {};
+
+/**
+ * Data helper object
+ *
+ * This object allow to the app to store the data of the fields map
+ */
+saltos.__form_app = {
+    fields: [],
+    data: {},
+};
 
 /**
  * Form data helper
  *
  * This function sets the values of the request to the objects placed in the document
  */
-saltos.form.data = data => {
+saltos.form_app.data = data => {
     for (var key in data) {
         var val = data[key];
         var obj = document.getElementById(key);
@@ -142,7 +152,7 @@ saltos.form.data = data => {
  * 2) auto mode => only requires set auto="true" to the layout node, and with this, all childrens
  * of the node are created inside a container, a row, and each field inside a col.
  */
-saltos.form.layout = (layout, extra) => {
+saltos.form_app.layout = (layout, extra) => {
     // Check for attr auto
     if (layout.hasOwnProperty("value") && layout.hasOwnProperty("#attr")) {
         var attr = layout["#attr"];
@@ -222,7 +232,7 @@ saltos.form.layout = (layout, extra) => {
         }
         if (["container", "col", "row", "div"].includes(key)) {
             var obj = saltos.form_field(attr);
-            var temp = saltos.form.layout(value, 1);
+            var temp = saltos.form_app.layout(value, 1);
             for (var i in temp) {
                 obj.append(temp[i]);
             }
@@ -238,11 +248,15 @@ saltos.form.layout = (layout, extra) => {
                 attr.value = value;
             }
             saltos.check_params(attr, ["id", "source"]);
+            if (attr.id == "") {
+                attr.id = saltos.uniqid();
+            }
+            saltos.__form_app.fields.push(attr);
             if (attr.source != "") {
-                if (attr.id == "") {
-                    attr.id = saltos.uniqid();
-                }
-                var obj = saltos.__placeholder_helper(attr.id);
+                var obj = saltos.form_field({
+                    type: "placeholder",
+                    id: attr.id,
+                });
                 saltos.__source_helper(attr);
             } else {
                 var obj = saltos.form_field(attr);
@@ -267,7 +281,7 @@ saltos.form.layout = (layout, extra) => {
  * This function allow to specify styles, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  */
-saltos.form.style = data => {
+saltos.form_app.style = data => {
     for (var key in data) {
         var val = data[key];
         var key = saltos.fix_key(key);
@@ -286,7 +300,7 @@ saltos.form.style = data => {
  * This function allow to specify scripts, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  */
-saltos.form.javascript = data => {
+saltos.form_app.javascript = data => {
     for (var key in data) {
         var val = data[key];
         var key = saltos.fix_key(key);
@@ -393,7 +407,7 @@ saltos.clear_screen = () => {
  * the #attr and value keys
  */
 saltos.__source_helper = field => {
-    saltos.check_params(field, ["id", "type", "source"]);
+    saltos.check_params(field, ["id", "source"]);
     // Check for asynchronous load using the source param
     if (field.source != "") {
         saltos.ajax({
@@ -414,7 +428,7 @@ saltos.__source_helper = field => {
                 for (var key in response) {
                     field[key] = response[key];
                 }
-                document.getElementById(field.id).replaceWith(saltos.__form_field[field.type](field));
+                document.getElementById(field.id).replaceWith(saltos.form_field(field));
             },
             error: request => {
                 saltos.show_error({

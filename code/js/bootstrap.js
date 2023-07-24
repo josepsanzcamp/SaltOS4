@@ -67,6 +67,7 @@
  * @chartjs     => id, mode, data, value, label
  * @tags        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
  * @gallery     => id, class, label, images
+ * @placeholder => id
  *
  * Notes:
  *
@@ -687,22 +688,17 @@ saltos.__form_field.multiselect = field => {
  * @class    => allow to add more classes to the default form-check
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
- * @label    => this parameter is used as label for the checkbox/switch
- * @value    => this parameter is used to check or unckeck the checkbox/switch, the value
+ * @label    => this parameter is used as label for the checkbox
+ * @value    => this parameter is used to check or unckeck the checkbox, the value
  *              must contain a number that raise as true or false in the if condition
  * @tooltip  => this parameter raise the title flag
- * @type     => this parameter allow to enable the switch feature
  *
  * Notes:
  *
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
- *
- * Using the type argument, the function add some class and role to the object converting the widget
- * from the traditional checkbox into a switch, for some reasone, we decide to maintain the original
- * checkbox and add another function that uses immersion with this function to create the switch.
  */
 saltos.__form_field.checkbox = field => {
-    saltos.check_params(field, ["value", "type", "id", "disabled", "readonly", "label", "tooltip", "class"]);
+    saltos.check_params(field, ["value", "id", "disabled", "readonly", "label", "tooltip", "class"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -725,10 +721,6 @@ saltos.__form_field.checkbox = field => {
             <label class="form-check-label" for="${field.id}" data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
     `);
-    if (field.type == "switch") {
-        obj.classList.add("form-switch");
-        obj.querySelector("input").setAttribute("role", "switch");
-    }
     if (field.tooltip != "") {
         obj.querySelectorAll("input, label").forEach(_this => {
             saltos.__tooltip_helper(_this);
@@ -743,24 +735,26 @@ saltos.__form_field.checkbox = field => {
 /**
  * Switch constructor helper
  *
- * This function returns a switch object, you can pass the same arguments that for the checknbox object
+ * This function returns a switch object, you can pass the follow arguments:
  *
  * @id       => the id used by the object
- * @class    => allow to add more classes to the default form-check
+ * @class    => allow to add more classes to the default form-check and form-switch
  * @disabled => this parameter raise the disabled flag
  * @readonly => this parameter raise the readonly flag
- * @label    => this parameter is used as label for the checkbox/switch
- * @value    => this parameter is used to check or unckeck the checkbox/switch, the value
+ * @label    => this parameter is used as label for the switch
+ * @value    => this parameter is used to check or unckeck the switch, the value
  *              must contain a number that raise as true or false in the if condition
  * @tooltip  => this parameter raise the title flag
- * @type     => this parameter allow to enable the switch feature
  *
  * Notes:
  *
  * This widget uses the checkbox constructor
  */
 saltos.__form_field.switch = field => {
-    return saltos.__form_field.checkbox(field);
+    var obj = saltos.__form_field.checkbox(field);
+    obj.classList.add("form-switch");
+    obj.querySelector("input").setAttribute("role", "switch");
+    return obj;
 };
 
 /**
@@ -1755,9 +1749,6 @@ saltos.__form_field.tags = field => {
  */
 saltos.__form_field.gallery = field => {
     saltos.check_params(field, ["id", "class", "images"]);
-    if (field.id == "") {
-        field.id = saltos.uniqid();
-    }
     if (field.class == "") {
         field.class = "col";
     }
@@ -1797,6 +1788,23 @@ saltos.__form_field.gallery = field => {
     obj = saltos.__label_combine(field, obj);
     return obj;
 };
+
+/**
+ * Placeholder helper
+ *
+ * This function returns a grey area that uses all space with the placeholder glow effect
+ *
+ * @id => id used in the original object, it must be replaced when the data will be available
+ */
+saltos.__form_field.placeholder = field => {
+    saltos.check_params(field, ["id"]);
+    var obj = saltos.html(`
+        <div id="${field.id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
+            <span class="w-100 h-100 placeholder"></span>
+        </div>
+    `);
+    return obj;
+}
 
 /**
  * Private text constructor helper
@@ -1898,21 +1906,6 @@ saltos.__tooltip_helper = obj => {
         instance.hide();
     });
 };
-
-/**
- * Placeholder helper
- *
- * This function returns a grey area that uses all space with the placeholder glow effect
- *
- * @id => id used in the original object, it must be replaced when the data will be available
- */
-saltos.__placeholder_helper = id => {
-    return saltos.html(`
-        <div id="${id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
-            <span class="w-100 h-100 placeholder"></span>
-        </div>
-    `);
-}
 
 /**
  * Label helper
