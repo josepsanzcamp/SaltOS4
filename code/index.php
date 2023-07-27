@@ -40,8 +40,9 @@ check_system();
 
 // Normal operation
 $_CONFIG = eval_attr(xmlfile2array("xml/config.xml"));
-eval_iniset(get_config("ini_set"));
+eval_iniset(get_config("iniset"));
 eval_putenv(get_config("putenv"));
+eval_extras(get_config("extras"));
 
 gc_exec(); // TODO: This is necessary or can be delegate to crontab
 db_connect(); // TODO: This is necessary or can be called when needed
@@ -95,4 +96,4 @@ if (
 }
 
 // Otherwise, we don't know what to do with this request
-show_json_error("unknown request");
+show_json_error("Unknown request");

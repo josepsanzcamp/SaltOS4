@@ -97,7 +97,7 @@ function __time_get_helper($fn, $secs)
     $cur = microtime(true);
     $max = ini_get("max_execution_time");
     if (!$max) {
-        $max = get_config("ini_set/max_execution_time");
+        $max = get_config("iniset/max_execution_time");
     }
     if (stripos($fn, "usage") !== false) {
         $diff = $cur - $ini;

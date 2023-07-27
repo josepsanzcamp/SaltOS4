@@ -28,29 +28,26 @@
 declare(strict_types=1);
 
 /**
- * Eval Putenv
+ * Get Text function
  *
- * This function evaluates the putenv section of the config file, is intended
- * to execute all putenv commands detecting the current values and determining
- * if is needed to change or not the current setting
- *
- * @array => the array with the pairs of keys vals
+ * This function replaces the gettext abreviation _() using the SaltOS gettext
+ * feature, is based in the original system of the SaltOS 3 with improvements
+ * to do more open as the GNU gettext
  */
-function eval_putenv($array)
+function T($text)
 {
-    if (is_array($array)) {
-        foreach ($array as $key => $val) {
-            $key = fix_key($key);
-            $current = getenv($key);
-            $diff = 0;
-            if ($val != $current) {
-                $diff = 1;
-            }
-            if ($diff) {
-                if (putenv($key . "=" . $val) === false) {
-                    show_php_error(["phperror" => "putenv fails to set '$key' from '$current' to '$val'"]);
-                }
-            }
+    static $cache = [];
+    $lang = getenv("LANG");
+    $temp = explode(".", $lang);
+    $lang = $temp[0];
+    if (!isset($cache[$lang])) {
+        if (file_exists("locale/$lang/messages.xml")) {
+            $cache[$lang] = xmlfile2array("locale/$lang/messages.xml");
         }
     }
+    $hash = encode_bad_chars($text);
+    if (isset($cache[$lang][$hash])) {
+        return $cache[$lang][$hash];
+    }
+    return $text;
 }

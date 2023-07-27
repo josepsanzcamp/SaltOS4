@@ -30,7 +30,7 @@ declare(strict_types=1);
 /**
  * Eval Iniset
  *
- * This function evaluates the ini_set section of the config file, is intended
+ * This function evaluates the iniset section of the config file, is intended
  * to execute all ini_set commands detecting the current values and determining
  * if is needed to change or not the current setting, is able to understand
  * boolean values as On/Off, and too is able to set keys as mbstring.internal_encoding
@@ -56,18 +56,79 @@ function eval_iniset($array)
                 }
             }
             if ($diff) {
-                if ($key == "mbstring.internal_encoding") {
-                    if (mb_internal_encoding($val) === false) {
-                        show_php_error(["phperror" => "mb_internal_encoding fails to set '$val'"]);
-                    }
-                } elseif ($key == "mbstring.detect_order") {
-                    $val = implode(",", array_intersect(explode(",", $val), mb_list_encodings()));
-                    if (mb_detect_order($val) === false) {
-                        show_php_error(["phperror" => "mb_detect_order fails to set '$val'"]);
-                    }
-                } elseif (ini_set($key, $val) === false) {
+                if (ini_set($key, $val) === false) {
                     show_php_error(["phperror" => "ini_set fails to set '$key' from '$current' to '$val'"]);
                 }
+            }
+        }
+    }
+}
+
+/**
+ * Eval Putenv
+ *
+ * This function evaluates the putenv section of the config file, is intended
+ * to execute all putenv commands detecting the current values and determining
+ * if is needed to change or not the current setting
+ *
+ * @array => the array with the pairs of keys vals
+ */
+function eval_putenv($array)
+{
+    if (is_array($array)) {
+        foreach ($array as $key => $val) {
+            $key = fix_key($key);
+            $current = getenv($key);
+            $diff = 0;
+            if ($val != $current) {
+                $diff = 1;
+            }
+            if ($diff) {
+                if (putenv($key . "=" . $val) === false) {
+                    show_php_error(["phperror" => "putenv fails to set '$key' from '$current' to '$val'"]);
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Eval Extras
+ *
+ * This function evaluates the extra init requirements, intended for the multibyte
+ * functions and for the gettext initialization process
+ *
+ * @array => the array with the pairs of keys vals
+ *
+ * Notes:
+ *
+ * If the val of the pair key val is an array, then each value of the array is
+ * used as an argument for the key function, only is intended at the moment to
+ * accept functions with one and two arguments, otherwise an error is triggered
+ */
+function eval_extras($array)
+{
+    if (is_array($array)) {
+        foreach ($array as $key => $val) {
+            $key = fix_key($key);
+            if (is_array($val)) {
+                if (count($val) == 2) {
+                    if ($key($val[0], $val[1]) === false) {
+                        $val = implode(",", $val);
+                        show_php_error(["phperror" => "$key fails to set '$val'"]);
+                    }
+                    continue;
+                }
+                $val = implode(",", $val);
+                show_php_error(["phperror" => "$key fails to set '$val'"]);
+            }
+            // Special case only for the mb_detect_order that only accepts encodings
+            // that appear in the mb_list_encondings, otherwise an error is launched
+            if ($key == "mb_detect_order") {
+                $val = implode(",", array_intersect(explode(",", $val), mb_list_encodings()));
+            }
+            if ($key($val) === false) {
+                show_php_error(["phperror" => "$key fails to set '$val'"]);
             }
         }
     }

@@ -85,19 +85,21 @@
         <slowquerydebug>true</slowquerydebug>
         <slowquerytime>5</slowquerytime><!-- in seconds -->
     </debug>
-    <ini_set>
+    <iniset>
         <memory_limit>128M</memory_limit>
         <max_execution_time>600</max_execution_time><!-- in seconds, 600 are 10 minutes -->
         <date.timezone>Europe/Madrid</date.timezone>
         <default_charset>UTF-8</default_charset>
         <gd.jpeg_ignore_warning>1</gd.jpeg_ignore_warning>
-        <mbstring.internal_encoding>UTF-8</mbstring.internal_encoding>
-        <mbstring.detect_order ifeval="!isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16,Windows-1250,Windows-1251,Windows-1252,Windows-1253,Windows-1254,Windows-1255,Windows-1256,Windows-1257,Windows-1258,CP1256,CP1250,CP1252,CP437,CP737,CP850,CP852,CP855,CP857,CP858,CP860,CP861,CP862,CP863,CP865,CP866,CP869,CP37,CP930,CP1047</mbstring.detect_order>
-        <mbstring.detect_order ifeval="isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16</mbstring.detect_order>
-    </ini_set>
+    </iniset>
     <putenv>
         <PATH>/bin:/usr/bin:/usr/local/bin</PATH>
         <LANG>es_ES.UTF-8</LANG>
         <HOME>/tmp/</HOME>
     </putenv>
+    <extras>
+        <mb_internal_encoding>UTF-8</mb_internal_encoding>
+        <mb_detect_order ifeval="!isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16,Windows-1250,Windows-1251,Windows-1252,Windows-1253,Windows-1254,Windows-1255,Windows-1256,Windows-1257,Windows-1258,CP1256,CP1250,CP1252,CP437,CP737,CP850,CP852,CP855,CP857,CP858,CP860,CP861,CP862,CP863,CP865,CP866,CP869,CP37,CP930,CP1047</mb_detect_order>
+        <mb_detect_order ifeval="isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16</mb_detect_order>
+   </extras>
 </root>

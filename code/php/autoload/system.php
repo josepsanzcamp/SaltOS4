@@ -42,12 +42,7 @@ function check_system()
     $array = [
         ["class_exists", "DomElement", "Class", "php-xml"],
         ["function_exists", "imagecreatetruecolor", "Function", "php-gd"],
-        ["function_exists", "imagecreatefrompng", "Function", "php-gd"],
         ["function_exists", "mb_check_encoding", "Function", "php-mbstring"],
-        ["function_exists", "mb_convert_encoding", "Function", "php-mbstring"],
-        ["function_exists", "mb_strlen", "Function", "php-mbstring"],
-        ["function_exists", "mb_substr", "Function", "php-mbstring"],
-        ["function_exists", "mb_strpos", "Function", "php-mbstring"],
     ];
     foreach ($array as $a) {
         if (!$a[0]($a[1])) {

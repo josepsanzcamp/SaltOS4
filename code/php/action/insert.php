@@ -31,16 +31,25 @@ declare(strict_types=1);
  * TODO
  */
 
-$query = make_update_query("tbl_users", [
-    "group_id" => "",
-    "active" => "",
-    "login" => "",
-    "password" => "",
-    "name" => "",
-    "description" => "",
-    "start" => "",
-    "end" => "1234 56 78",
-    "days" => "12345678901234567890",
-], "id=1");
-echo "<pre>" . sprintr($query) . "</pre>";
+//~ $query = make_update_query("tbl_users", [
+    //~ "group_id" => "",
+    //~ "active" => "",
+    //~ "login" => "",
+    //~ "password" => "",
+    //~ "name" => "",
+    //~ "description" => "",
+    //~ "start" => "",
+    //~ "end" => "1234 56 78",
+    //~ "days" => "12345678901234567890",
+//~ ], "id=1");
+//~ echo "<pre>" . sprintr($query) . "</pre>";
+
+//~ putenv("LANGUAGE=es_ES.UTF-8");
+//~ setlocale(LC_ALL, "es_ES.UTF-8");
+//~ bindtextdomain("messages", "locale");
+//~ bind_textdomain_codeset("messages", "UTF-8");
+//~ textdomain("messages");
+echo T("Translating PHP pages with gettext") . "<br/>";
+echo T("Thanks in advance") . "<br/>";
+
 die();
