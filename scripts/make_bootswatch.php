@@ -69,10 +69,10 @@ $files = glob("*.css");
 foreach ($files as $file) {
     $buffer = file_get_contents($file);
     $pos1 = strpos($buffer, "@import url(https://");
-    $pos2 = strpos($buffer, ")", $pos1);
     if ($pos1 === false) {
         continue;
     }
+    $pos2 = strpos($buffer, ")", $pos1);
     $pos1 += 12;
     $url1 = substr($buffer, $pos1, $pos2 - $pos1);
     echo $url1 . "\n";
@@ -96,10 +96,10 @@ foreach ($files as $file) {
     for (;;) {
         $buffer = file_get_contents($file);
         $pos1 = strpos($buffer, "src: url(https://");
-        $pos2 = strpos($buffer, ")", $pos1);
         if ($pos1 === false) {
             break;
         }
+        $pos2 = strpos($buffer, ")", $pos1);
         $pos1 += 9;
         $url1 = substr($buffer, $pos1, $pos2 - $pos1);
         $url1 = substr($buffer, $pos1, $pos2 - $pos1);
