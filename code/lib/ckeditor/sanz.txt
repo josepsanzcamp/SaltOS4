@@ -1,12 +1,7 @@
 
 https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/quick-start-other.html#building-the-editor-from-source
 
-npm install --save \
-    css-loader@5 \
-    postcss-loader@4 \
-    raw-loader@4 \
-    style-loader@2 \
-    webpack@5 \
-    webpack-cli@4
-
-yarn run build
+npm install
+npm run build
+rm -rf node_modules
+rm -f package-lock.json
