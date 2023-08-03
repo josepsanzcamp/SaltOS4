@@ -22,12 +22,12 @@
     "@ckeditor/ckeditor5-typing": "^39.0.0",
     "@ckeditor/ckeditor5-upload": "^39.0.0",
     "@ckeditor/ckeditor5-word-count": "^39.0.0",
-    "css-loader": "^5.2.7",
-    "postcss-loader": "^4.3.0",
+    "css-loader": "^6.8.1",
+    "postcss-loader": "^7.3.3",
     "raw-loader": "^4.0.2",
-    "style-loader": "^2.0.0",
+    "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
-    "webpack-cli": "^4.10.0"
+    "webpack-cli": "^5.1.4"
   },
   "scripts": {
     "build": "webpack --mode production"
