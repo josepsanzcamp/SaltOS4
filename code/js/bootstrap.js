@@ -1423,7 +1423,10 @@ saltos.__form_field.table = field => {
                     event.stopPropagation();
                 });
                 row.addEventListener("click", event => {
-                    event.target.querySelector("input[type=checkbox]").click();
+                    var obj = event.target.parentNode.querySelector("input[type=checkbox]");
+                    if (obj !== null) {
+                        obj.click();
+                    }
                     event.stopPropagation();
                 });
             }
