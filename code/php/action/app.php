@@ -41,57 +41,57 @@ declare(strict_types=1);
  */
 
 // Check for first argument, that is the name of the app to load
-if (!isset($_DATA["rest"][1])) {
+if (get_data("rest/1") == "") {
     show_json_error("app not found");
 }
 
-$_DATA["rest"][1] = encode_bad_chars($_DATA["rest"][1]);
-$file = "apps/" . $_DATA["rest"][1] . "/app.xml";
+set_data("rest/1", encode_bad_chars(get_data("rest/1")));
+$file = "apps/" . get_data("rest/1") . "/app.xml";
 if (!file_exists($file)) {
-    show_json_error("app " . $_DATA["rest"][1] . " not found");
+    show_json_error("app " . get_data("rest/1") . " not found");
 }
 
 $array = xmlfile2array($file);
 
 // Check for second argument, that is the subapp to load
-if (!isset($_DATA["rest"][2]) && count($array) == 1) {
-    $_DATA["rest"][2] = key($array);
+if (get_data("rest/2") == "" && count($array) == 1) {
+    set_data("rest/2", key($array));
 }
 
-if (!isset($_DATA["rest"][2])) {
+if (get_data("rest/2") == "") {
     show_json_error("subapp not found");
 }
 
-$_DATA["rest"][2] = encode_bad_chars($_DATA["rest"][2]);
-if (!isset($array[$_DATA["rest"][2]])) {
-    show_json_error("subapp " . $_DATA["rest"][2] . " not found");
+set_data("rest/2", encode_bad_chars(get_data("rest/2")));
+if (!isset($array[get_data("rest/2")])) {
+    show_json_error("subapp " . get_data("rest/2") . " not found");
 }
 
 // Check permissions
-if (!check_user($_DATA["rest"][1], $_DATA["rest"][2])) {
+if (!check_user(get_data("rest/1"), get_data("rest/2"))) {
     show_json_error("Permission denied");
 }
 
 // Define the third argument used commonly by some apps
-if (!isset($_DATA["rest"][3])) {
-    $_DATA["rest"][3] = 0;
+if (get_data("rest/3") == "") {
+    set_data("rest/3", 0);
 }
-$_DATA["rest"][3] = intval($_DATA["rest"][3]);
+set_data("rest/3", intval(get_data("rest/3")));
 
 // Trick to allow request as widget/2
 $dict = [];
 foreach ($array as $key => $val) {
-    if (fix_key($key) == $_DATA["rest"][2] && isset($val["#attr"]["id"])) {
-        $dict[$_DATA["rest"][2] . "/" . $val["#attr"]["id"]] = $key;
+    if (fix_key($key) == get_data("rest/2") && isset($val["#attr"]["id"])) {
+        $dict[get_data("rest/2") . "/" . $val["#attr"]["id"]] = $key;
     }
 }
 if (count($dict) > 1) {
-    if (!isset($dict[$_DATA["rest"][2] . "/" . $_DATA["rest"][3]])) {
+    if (!isset($dict[get_data("rest/2") . "/" . get_data("rest/3")])) {
         show_json_error("subsubapp not found");
     }
-    $_DATA["rest"][2] = $dict[$_DATA["rest"][2] . "/" . $_DATA["rest"][3]];
+    set_data("rest/2", $dict[get_data("rest/2") . "/" . get_data("rest/3")]);
 }
 
 // Eval the app and returns the result
-$array = eval_attr($array[$_DATA["rest"][2]]);
+$array = eval_attr($array[get_data("rest/2")]);
 output_handler_json($array);

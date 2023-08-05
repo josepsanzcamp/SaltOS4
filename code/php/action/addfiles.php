@@ -55,11 +55,11 @@ if (!$user_id) {
     show_json_error("authentication error");
 }
 
-if (!isset($_DATA["json"]["files"])) {
+if (get_data("json/files") == "") {
     show_json_error("files not found");
 }
 
-$files = $_DATA["json"]["files"];
+$files = get_data("json/files");
 foreach ($files as $key => $val) {
     if ($val["error"] != "") {
         continue;

@@ -50,21 +50,21 @@ if (!$user_id) {
 
 // Check parameters
 foreach (["msg", "format"] as $key) {
-    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
+    if (get_data("json/$key") == "") {
         show_json_error("$key not found or void");
     }
 }
-$msg = $_DATA["json"]["msg"];
-$format = $_DATA["json"]["format"];
+$msg = get_data("json/msg");
+$format = get_data("json/format");
 if (!in_array($format, ["png", "json"])) {
     show_json_error("unknown format $format");
 }
 
-$w = isset($_DATA["json"]["w"]) ? $_DATA["json"]["w"] : 1;
-$h = isset($_DATA["json"]["h"]) ? $_DATA["json"]["h"] : 30;
-$m = isset($_DATA["json"]["m"]) ? $_DATA["json"]["m"] : 10;
-$s = isset($_DATA["json"]["s"]) ? $_DATA["json"]["s"] : 8;
-$t = isset($_DATA["json"]["t"]) ? $_DATA["json"]["t"] : "C39";
+$w = get_data("json/w") ? get_data("json/w") : 1;
+$h = get_data("json/h") ? get_data("json/h") : 30;
+$m = get_data("json/m") ? get_data("json/m") : 10;
+$s = get_data("json/s") ? get_data("json/s") : 8;
+$t = get_data("json/t") ? get_data("json/t") : "C39";
 
 $image = __barcode($msg, $w, $h, $m, $s, $t);
 if ($image == "") {

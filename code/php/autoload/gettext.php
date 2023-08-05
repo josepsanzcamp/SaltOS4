@@ -37,12 +37,18 @@ declare(strict_types=1);
 function T($text)
 {
     static $cache = [];
+    $path = "locale";
+    if (get_data("rest/0") == "app" && get_data("rest/1") != "") {
+        $app = get_data("rest/1");
+        $path = "apps/$app/locale";
+    }
+    $file = "messages.xml";
     $lang = getenv("LANG");
     $temp = explode(".", $lang);
     $lang = $temp[0];
     if (!isset($cache[$lang])) {
-        if (file_exists("locale/$lang/messages.xml")) {
-            $cache[$lang] = xmlfile2array("locale/$lang/messages.xml");
+        if (file_exists("$path/$lang/$file")) {
+            $cache[$lang] = xmlfile2array("$path/$lang/$file");
         }
     }
     $hash = encode_bad_chars($text);

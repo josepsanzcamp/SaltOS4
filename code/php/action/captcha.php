@@ -58,32 +58,32 @@ if (!$user_id) {
 
 // Check parameters
 foreach (["type", "format"] as $key) {
-    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
+    if (get_data("json/$key") == "") {
         show_json_error("$key not found or void");
     }
 }
-$type = $_DATA["json"]["type"];
+$type = get_data("json/type");
 if (!in_array($type, ["number", "math"])) {
     show_json_error("unknown type $type");
 }
-$format = $_DATA["json"]["format"];
+$format = get_data("json/format");
 if (!in_array($format, ["png", "json"])) {
     show_json_error("unknown format $format");
 }
 
-$length = isset($_DATA["json"]["length"]) ? $_DATA["json"]["length"] : 5;
+$length = get_data("json/length") ? get_data("json/length") : 5;
 $args = [];
-$args["width"] = isset($_DATA["json"]["width"]) ? $_DATA["json"]["width"] : 180;
-$args["height"] = isset($_DATA["json"]["height"]) ? $_DATA["json"]["height"] : 90;
-$args["letter"] = isset($_DATA["json"]["letter"]) ? $_DATA["json"]["letter"] : 16;
-$args["number"] = isset($_DATA["json"]["number"]) ? $_DATA["json"]["number"] : 32;
-$args["angle"] = isset($_DATA["json"]["angle"]) ? $_DATA["json"]["angle"] : 10;
-$args["color"] = isset($_DATA["json"]["color"]) ? $_DATA["json"]["color"] : "5c8ed1";
-$args["bgcolor"] = isset($_DATA["json"]["bgcolor"]) ? $_DATA["json"]["bgcolor"] : "c8c8c8";
-$args["fgcolor"] = isset($_DATA["json"]["fgcolor"]) ? $_DATA["json"]["fgcolor"] : "b4b4b4";
-$args["period"] = isset($_DATA["json"]["period"]) ? $_DATA["json"]["period"] : 2;
-$args["amplitude"] = isset($_DATA["json"]["amplitude"]) ? $_DATA["json"]["amplitude"] : 8;
-$args["blur"] = isset($_DATA["json"]["blur"]) ? $_DATA["json"]["blur"] : "true";
+$args["width"] = get_data("json/width") ? get_data("json/width") : 180;
+$args["height"] = get_data("json/height") ? get_data("json/height") : 90;
+$args["letter"] = get_data("json/letter") ? get_data("json/letter") : 16;
+$args["number"] = get_data("json/number") ? get_data("json/number") : 32;
+$args["angle"] = get_data("json/angle") ? get_data("json/angle") : 10;
+$args["color"] = get_data("json/color") ? get_data("json/color") : "5c8ed1";
+$args["bgcolor"] = get_data("json/bgcolor") ? get_data("json/bgcolor") : "c8c8c8";
+$args["fgcolor"] = get_data("json/fgcolor") ? get_data("json/fgcolor") : "b4b4b4";
+$args["period"] = get_data("json/period") ? get_data("json/period") : 2;
+$args["amplitude"] = get_data("json/amplitude") ? get_data("json/amplitude") : 8;
+$args["blur"] = get_data("json/blur") ? get_data("json/blur") : "true";
 
 if ($type == "number") {
     $code = __captcha_make_number($length);

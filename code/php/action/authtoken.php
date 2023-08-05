@@ -45,12 +45,12 @@ crontab_users();
 
 // Check parameters
 foreach (["user", "pass"] as $key) {
-    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
+    if (get_data("json/$key") == "") {
         show_json_error("$key not found or void");
     }
 }
-$user = $_DATA["json"]["user"];
-$pass = $_DATA["json"]["pass"];
+$user = get_data("json/user");
+$pass = get_data("json/pass");
 
 // First check
 $query = "SELECT * FROM tbl_users WHERE " . make_where_query([

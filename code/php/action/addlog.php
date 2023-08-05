@@ -36,11 +36,11 @@ declare(strict_types=1);
  * @msg => message that you want to add to the log file
  */
 
-if (!isset($_DATA["json"]["msg"])) {
+if (get_data("json/msg") == "") {
     show_json_error("msg not found");
 }
 
-$msg = $_DATA["json"]["msg"];
+$msg = get_data("json/msg");
 addlog(sprintr($msg));
 output_handler_json([
     "status" => "ok",

@@ -67,7 +67,7 @@ $_DATA = [
 //~ addlog(sprintr($_SERVER));
 
 // Check for an init browser request
-if ($_DATA["server"]["request_method"] == "GET" && count($_DATA["rest"]) == 0) {
+if (get_data("server/request_method") == "GET" && count(get_data("rest")) == 0) {
     output_handler([
         "data" => file_get_contents("htm/index.min.htm"),
         "type" => "text/html",
@@ -76,8 +76,8 @@ if ($_DATA["server"]["request_method"] == "GET" && count($_DATA["rest"]) == 0) {
 }
 
 // Check for a GET REST action request
-if ($_DATA["server"]["request_method"] == "GET" && isset($_DATA["rest"][0])) {
-    $action = "php/action/" . encode_bad_chars($_DATA["rest"][0]) . ".php";
+if (get_data("server/request_method") == "GET" && get_data("rest/0") != "") {
+    $action = "php/action/" . encode_bad_chars(get_data("rest/0")) . ".php";
     if (file_exists($action)) {
         require $action;
     }
@@ -85,11 +85,11 @@ if ($_DATA["server"]["request_method"] == "GET" && isset($_DATA["rest"][0])) {
 
 // Check for a POST JSON action request
 if (
-    $_DATA["server"]["request_method"] == "POST" &&
-    $_DATA["server"]["content_type"] == "application/json" &&
-    isset($_DATA["json"]["action"])
+    get_data("server/request_method") == "POST" &&
+    get_data("server/content_type") == "application/json" &&
+    get_data("json/action") != ""
 ) {
-    $action = "php/action/" . encode_bad_chars($_DATA["json"]["action"]) . ".php";
+    $action = "php/action/" . encode_bad_chars(get_data("json/action")) . ".php";
     if (file_exists($action)) {
         require $action;
     }

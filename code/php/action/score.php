@@ -50,19 +50,19 @@ if (!$user_id) {
 
 // Check parameters
 foreach (["pass", "format"] as $key) {
-    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
+    if (get_data("json/$key") == "") {
         show_json_error("$key not found or void");
     }
 }
-$pass = $_DATA["json"]["pass"];
-$format = $_DATA["json"]["format"];
+$pass = get_data("json/pass");
+$format = get_data("json/format");
 if (!in_array($format, ["png", "json"])) {
     show_json_error("unknown format $format");
 }
 
-$width = isset($_DATA["json"]["width"]) ? $_DATA["json"]["width"] : 60;
-$height = isset($_DATA["json"]["height"]) ? $_DATA["json"]["height"] : 16;
-$size = isset($_DATA["json"]["size"]) ? $_DATA["json"]["size"] : 8;
+$width = get_data("json/width") ? get_data("json/width") : 60;
+$height = get_data("json/height") ? get_data("json/height") : 16;
+$size = get_data("json/size") ? get_data("json/size") : 8;
 
 $score = password_strength($pass);
 $image = __score_image($score, $width, $height, $size);

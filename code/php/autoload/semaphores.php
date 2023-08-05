@@ -127,7 +127,7 @@ function __semaphore_helper($fn, $name, $timeout)
             }
         }
         ftruncate($fds[$file], 0);
-        fwrite($fds[$file], gettrace([], true));
+        fwrite($fds[$file], gettrace([]));
         return true;
     } elseif (stripos($fn, "release") !== false) {
         if ($name == "") {

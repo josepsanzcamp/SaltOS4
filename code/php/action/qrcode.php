@@ -48,18 +48,18 @@ if (!$user_id) {
 
 // Check parameters
 foreach (["msg", "format"] as $key) {
-    if (!isset($_DATA["json"][$key]) || $_DATA["json"][$key] == "") {
+    if (get_data("json/$key") == "") {
         show_json_error("$key not found or void");
     }
 }
-$msg = $_DATA["json"]["msg"];
-$format = $_DATA["json"]["format"];
+$msg = get_data("json/msg");
+$format = get_data("json/format");
 if (!in_array($format, ["png", "json"])) {
     show_json_error("unknown format $format");
 }
 
-$s = isset($_DATA["json"]["s"]) ? $_DATA["json"]["s"] : 6;
-$m = isset($_DATA["json"]["m"]) ? $_DATA["json"]["m"] : 10;
+$s = get_data("json/s") ? get_data("json/s") : 6;
+$m = get_data("json/m") ? get_data("json/m") : 10;
 
 $image = __qrcode($msg, $s, $m);
 if ($image == "") {
