@@ -36,7 +36,7 @@
                 <container class="container m-auto bg-body rounded p-5" style="max-width:400px">
                     <row>
                         <col class="col mb-3 text-center">
-                            <image class="nada" width="100px" height="100px" value="img/logo_red.svg"/>
+                            <image class="nada" width="100px" height="100px" value="core/img/logo_red.svg"/>
                         </col>
                     </row>
                     <row>

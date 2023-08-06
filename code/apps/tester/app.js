@@ -33,7 +33,7 @@
         id: saltos.uniqid(),
         brand: {
             name: "SaltOS",
-            logo: "img/logo_white.svg",
+            logo: "core/img/logo_white.svg",
             width: 25,
             height: 25,
         },

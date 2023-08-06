@@ -1285,7 +1285,7 @@ saltos.__form_field.pdfjs = field => {
     `));
     var element = obj.querySelector(".viewerContainer");
     saltos.when_visible(element, () => {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = "lib/pdfjs/pdf.worker.min.js";
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "core/lib/pdfjs/pdf.worker.min.js";
         pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
                 return;

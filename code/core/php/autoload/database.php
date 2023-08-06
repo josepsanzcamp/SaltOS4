@@ -57,7 +57,7 @@ function db_connect($args = null)
     if ($args !== null) {
         $config = $args;
     }
-    $php = "php/database/" . $config["type"] . ".php";
+    $php = "core/php/database/" . $config["type"] . ".php";
     if (!file_exists($php)) {
         show_php_error(["phperror" => "Database type '" . $config["type"] . "' not found"]);
     }

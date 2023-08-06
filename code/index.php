@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 // Begin including all core files
-foreach (glob("php/autoload/*.php") as $file) {
+foreach (glob("core/php/autoload/*.php") as $file) {
     require $file;
 }
 
@@ -39,7 +39,7 @@ init_random();
 check_system();
 
 // Normal operation
-$_CONFIG = eval_attr(xmlfile2array("xml/config.xml"));
+$_CONFIG = eval_attr(xmlfile2array("core/xml/config.xml"));
 eval_iniset(get_config("iniset"));
 eval_putenv(get_config("putenv"));
 eval_extras(get_config("extras"));
@@ -69,7 +69,7 @@ $_DATA = [
 // Check for an init browser request
 if (get_data("server/request_method") == "GET" && count(get_data("rest")) == 0) {
     output_handler([
-        "data" => file_get_contents("htm/index.min.htm"),
+        "data" => file_get_contents("core/htm/index.min.htm"),
         "type" => "text/html",
         "cache" => false,
     ]);
@@ -77,7 +77,7 @@ if (get_data("server/request_method") == "GET" && count(get_data("rest")) == 0) 
 
 // Check for a GET REST action request
 if (get_data("server/request_method") == "GET" && get_data("rest/0") != "") {
-    $action = "php/action/" . encode_bad_chars(get_data("rest/0")) . ".php";
+    $action = "core/php/action/" . encode_bad_chars(get_data("rest/0")) . ".php";
     if (file_exists($action)) {
         require $action;
     }
@@ -89,7 +89,7 @@ if (
     get_data("server/content_type") == "application/json" &&
     get_data("json/action") != ""
 ) {
-    $action = "php/action/" . encode_bad_chars(get_data("json/action")) . ".php";
+    $action = "core/php/action/" . encode_bad_chars(get_data("json/action")) . ".php";
     if (file_exists($action)) {
         require $action;
     }
