@@ -144,10 +144,10 @@
                                     var theme = this.textContent;
                                     if (theme == "bootstrap") {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
-                                        document.querySelector("link[theme]").setAttribute("href", "lib/bootstrap/bootstrap.min.css");
+                                        document.querySelector("link[theme]").setAttribute("href", "core/lib/bootstrap/bootstrap.min.css");
                                     } else {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
-                                        document.querySelector("link[theme]").setAttribute("href", "lib/bootswatch/" + theme + ".min.css");
+                                        document.querySelector("link[theme]").setAttribute("href", "core/lib/bootswatch/" + theme + ".min.css");
                                     }
                                     this.parentNode.querySelector("button.active").classList.remove("active");
                                     this.querySelector("button").classList.add("active");

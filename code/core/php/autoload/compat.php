@@ -104,5 +104,5 @@ if (!function_exists("random_bytes")) {
  * load the library code and nothing more to do
  */
 if (!function_exists("imagebmp") && !function_exists("imagecreatefrombmp")) {
-    require_once "lib/bmpphp/BMP.php";
+    require_once "core/lib/bmpphp/BMP.php";
 }

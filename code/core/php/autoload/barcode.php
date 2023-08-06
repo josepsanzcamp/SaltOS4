@@ -48,7 +48,7 @@ declare(strict_types=1);
  */
 function __barcode($msg, $w, $h, $m, $s, $t)
 {
-    require_once "lib/tcpdf/vendor/autoload.php";
+    require_once "core/lib/tcpdf/vendor/autoload.php";
     $barcode = new TCPDFBarcode($msg, $t);
     $array = $barcode->getBarcodeArray();
     if (!isset($array["maxw"])) {

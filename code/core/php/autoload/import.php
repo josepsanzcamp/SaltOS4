@@ -471,7 +471,7 @@ function __import_csv2array($file, $sep)
  */
 function __import_xls2array($file, $sheet)
 {
-    require_once "lib/phpspreadsheet/vendor/autoload.php";
+    require_once "core/lib/phpspreadsheet/vendor/autoload.php";
     $objReader = PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
     // Check the sheet param
     if (!method_exists($objReader, "listWorksheetNames")) {
@@ -649,7 +649,7 @@ function __import_bytes2array($file, $map, $offset, $nomb)
  */
 function __import_edi2array($file)
 {
-    require_once "lib/edifact/vendor/autoload.php";
+    require_once "core/lib/edifact/vendor/autoload.php";
     $parser = new EDI\Parser();
     $parser->load($file);
     $array = $parser->get();

@@ -45,7 +45,7 @@ declare(strict_types=1);
  */
 function __qrcode($msg, $s, $m)
 {
-    require_once "lib/tcpdf/vendor/autoload.php";
+    require_once "core/lib/tcpdf/vendor/autoload.php";
     $levels = ["L", "M", "Q", "H"];
     $factors = [0.07, 0.15, 0.25, 0.30];
     for ($i = 0; $i < 4; $i++) {

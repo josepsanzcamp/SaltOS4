@@ -237,7 +237,7 @@ function normalize_value($value)
  */
 function html2text($html)
 {
-    require_once "lib/roundcube/rcube_html2text.php";
+    require_once "core/lib/roundcube/rcube_html2text.php";
     $obj = new rcube_html2text($html);
     $text = $obj->get_text();
     return $text;

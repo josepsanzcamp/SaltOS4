@@ -197,7 +197,7 @@ function url_get_contents($url)
  */
 function __url_get_contents($url, $args = [])
 {
-    require_once "lib/httpclient/http.php";
+    require_once "core/lib/httpclient/http.php";
     $http = new http_class();
     $http->user_agent = get_name_version_revision();
     $http->follow_redirect = 1;
