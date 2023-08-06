@@ -307,10 +307,7 @@ function str_replace_assoc($array, $cad)
 function get_part_from_string($input, $delim, $index)
 {
     $temp = explode($delim, $input);
-    if (isset($temp[$index])) {
-        return $temp[$index];
-    }
-    return "";
+    return $temp[$index] ?? "";
 }
 
 /**

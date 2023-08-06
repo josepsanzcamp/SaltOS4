@@ -52,8 +52,5 @@ function T($text)
         }
     }
     $hash = encode_bad_chars($text);
-    if (isset($cache[$lang][$hash])) {
-        return $cache[$lang][$hash];
-    }
-    return $text;
+    return $cache[$lang][$hash] ?? $text;
 }

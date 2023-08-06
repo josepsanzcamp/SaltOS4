@@ -42,18 +42,10 @@ function get_data($key, $default = "")
     $keys = explode("/", $key);
     $count = count($keys);
     if ($count == 1) {
-        if (isset($_DATA[$keys[0]])) {
-            return $_DATA[$keys[0]];
-        } else {
-            return $default;
-        }
+        return $_DATA[$keys[0]] ?? $default;
     }
     if ($count == 2) {
-        if (isset($_DATA[$keys[0]][$keys[1]])) {
-            return $_DATA[$keys[0]][$keys[1]];
-        } else {
-            return $default;
-        }
+        return $_DATA[$keys[0]][$keys[1]] ?? $default;
     }
     show_php_error(["phperror" => "key $key not found in " . __FUNCTION__]);
 }
