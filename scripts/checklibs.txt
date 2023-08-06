@@ -5,7 +5,7 @@ bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|versio
 chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|base64:eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC4zLjMifQ==
 ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjM5LjAuMCJ9
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|base64:eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
-edifact|https://github.com/php-edifact/edifact/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNy0wNlQxNDowNjoxNlo8L3VwZGF0ZWQ+
+edifact|https://github.com/php-edifact/edifact/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wNlQxNzoxNjo0NVo8L3VwZGF0ZWQ+
 httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPjIgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
 icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwLWljb25zIiwidmVyc2lvbiI6IjEuMTAuNSJ9
 imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5LmltYWdlc2xvYWRlZCIsInZlcnNpb24iOiI1LjAuMCJ9
