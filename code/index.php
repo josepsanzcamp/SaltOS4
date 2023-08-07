@@ -25,9 +25,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 /**
  * This php comparison must be placed here to detect old versions that
- * breaks by the strict_types or the null coalescing operator
+ * breaks by the null coalescing operator
  */
 if (version_compare(PHP_VERSION, "7.0", "<")) {
     die("PHP 7.0 is required, currently installed version is " . PHP_VERSION);
@@ -36,7 +38,7 @@ if (version_compare(PHP_VERSION, "7.0", "<")) {
 /**
  * We include all core files, note that the last file (zindex.php) launches
  * the old index.php code, this is separated to simplify the code structure
- * and to allow that this file only use old php features
+ * and prevent errors with old php versions and the null coalescing operator
  */
 foreach (glob("core/php/autoload/*.php") as $file) {
     require $file;
