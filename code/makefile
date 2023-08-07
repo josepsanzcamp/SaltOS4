@@ -8,7 +8,7 @@ test:
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs --standard=rules.xml $$i; \
-		php -l $$i; \
+		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
 	$(eval files := $(shell find core/js ../scripts apps -name \*.js -newer /tmp/timestamp | grep -v index.min.js))
