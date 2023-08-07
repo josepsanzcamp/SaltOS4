@@ -74,25 +74,6 @@ if (!function_exists("array_key_first")) {
 }
 
 /**
- * Random Bytes
- *
- * This function appear in PHP 7.0, and for previous versions SaltOS
- * uses this code
- *
- * @length => the length of the returned value
- *
- * Notes:
- * Code using ideas from the follow post
- * https://stackoverflow.com/questions/1846202/how-to-generate-a-random-unique-alphanumeric-string
- */
-if (!function_exists("random_bytes")) {
-    function random_bytes($length)
-    {
-        return openssl_random_pseudo_bytes($length);
-    }
-}
-
-/**
  * ImageBMP & ImageCreateFromBMP
  *
  * This functions appear in PHP 7.2, and for previous versions, SaltOS
