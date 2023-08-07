@@ -96,11 +96,11 @@ function show_php_error($array)
     $msg_text = $msg["text"];
     $msg_json = $msg["json"];
     $hash = md5($msg_text);
-    $dir = get_directory("dirs/logsdir", getcwd_protected() . "/data/logs");
+    $dir = get_directory("dirs/logsdir") ?? getcwd_protected() . "/data/logs/";
     // Refuse the deprecated warnings
     if (isset($array["phperror"]) && stripos($array["phperror"], "deprecated") !== false) {
         if (is_writable($dir)) {
-            $file = get_config("debug/deprecatedfile", "deprecated.log");
+            $file = get_config("debug/deprecatedfile") ?? "deprecated.log";
             if (!checklog($hash, $file)) {
                 addlog($msg_text, $file);
             }
@@ -110,7 +110,7 @@ function show_php_error($array)
     }
     // Add the msg_text to the error log file
     if (is_writable($dir)) {
-        $file = get_config("debug/errorfile", "error.log");
+        $file = get_config("debug/errorfile") ?? "error.log";
         $types = [
             ["dberror", "debug/dberrorfile", "dberror.log"],
             ["phperror", "debug/phperrorfile", "phperror.log"],
@@ -123,7 +123,7 @@ function show_php_error($array)
         ];
         foreach ($types as $type) {
             if (isset($array[$type[0]])) {
-                $file = get_config($type[1], $type[2]);
+                $file = get_config($type[1]) ?? $type[2];
                 break;
             }
         }

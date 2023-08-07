@@ -81,7 +81,7 @@ foreach ($files as $key => $val) {
     }
     // Store it in a local file
     $val["file"] = time() . "_" . get_unique_id_md5() . "_" . encode_bad_chars_file($val["name"]);
-    $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
+    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
     file_put_contents($dir . $val["file"], $data);
     // Compute the hash
     $val["hash"] = md5($data);

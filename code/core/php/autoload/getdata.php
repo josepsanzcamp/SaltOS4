@@ -33,19 +33,18 @@ declare(strict_types=1);
  * This function is intended to be used to retrieve values from the
  * data system
  *
- * @key     => the key that you want to retrieve the value
- * @default => the default value used when the key is not found
+ * @key => the key that you want to retrieve the value
  */
-function get_data($key, $default = "")
+function get_data($key)
 {
     global $_DATA;
     $keys = explode("/", $key);
     $count = count($keys);
     if ($count == 1) {
-        return $_DATA[$keys[0]] ?? $default;
+        return $_DATA[$keys[0]] ?? null;
     }
     if ($count == 2) {
-        return $_DATA[$keys[0]][$keys[1]] ?? $default;
+        return $_DATA[$keys[0]][$keys[1]] ?? null;
     }
     show_php_error(["phperror" => "key $key not found in " . __FUNCTION__]);
 }

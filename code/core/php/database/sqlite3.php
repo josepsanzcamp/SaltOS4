@@ -187,7 +187,7 @@ class database_sqlite3
             $pos = strpos($query, "\\", $pos + 1);
         }
         // CONTINUE THE NORMAL OPERATION
-        $timeout = get_config("db/semaphoretimeout", 10000000);
+        $timeout = get_config("db/semaphoretimeout") ?? 10000000;
         if (semaphore_acquire(__FUNCTION__, $timeout)) {
             // DO QUERY
             while (1) {

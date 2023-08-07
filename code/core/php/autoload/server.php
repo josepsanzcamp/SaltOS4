@@ -35,7 +35,7 @@ declare(strict_types=1);
  * @index   => the index key used to get the value of the server
  * @default => the default value returned if the key is not found
  */
-function get_server($index, $default = "")
+function get_server($index)
 {
-    return isset($_SERVER[$index]) ? $_SERVER[$index] : $default;
+    return $_SERVER[$index] ?? null;
 }

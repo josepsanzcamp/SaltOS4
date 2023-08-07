@@ -82,7 +82,7 @@ foreach ($files as $key => $val) {
         continue;
     }
     // Check for file size integrity
-    $dir = get_directory("dirs/uploaddir", getcwd_protected() . "/data/upload");
+    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
     if (filesize($dir . $val["file"]) != $val["size"]) {
         continue;
     }

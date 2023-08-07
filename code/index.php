@@ -53,13 +53,13 @@ db_static(); // TODO: This is necessary or can be called when needed
 $_DATA = [
     //~ "headers" => getallheaders(),
     "json" => null2array(json_decode(file_get_contents("php://input"), true)),
-    "rest" => array_diff(explode("/", get_server("QUERY_STRING")), [""]),
+    "rest" => array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""]),
     "server" => [
-        "request_method" => strtoupper(get_server("REQUEST_METHOD")),
-        "content_type" => strtolower(get_server("CONTENT_TYPE")),
-        "token" => get_server("HTTP_TOKEN"),
-        "remote_addr" => get_server("REMOTE_ADDR"),
-        "user_agent" => get_server("HTTP_USER_AGENT"),
+        "request_method" => strtoupper(get_server("REQUEST_METHOD") ?? ""),
+        "content_type" => strtolower(get_server("CONTENT_TYPE") ?? ""),
+        "token" => get_server("HTTP_TOKEN") ?? "",
+        "remote_addr" => get_server("REMOTE_ADDR") ?? "",
+        "user_agent" => get_server("HTTP_USER_AGENT") ?? "",
     ],
 ];
 

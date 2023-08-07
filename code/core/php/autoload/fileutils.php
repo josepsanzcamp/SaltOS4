@@ -34,15 +34,14 @@ declare(strict_types=1);
  * value, usefull when the configuration still not loaded and SaltOS need some directory to do
  * something as store data in the log file, for example
  *
- * @key     => the key used in get_config to request the configured directory
- * @default => the default value used in case of issues getting the config key
+ * @key => the key used in get_config to request the configured directory
  */
-function get_directory($key, $default = "")
+function get_directory($key)
 {
-    if (!$default) {
-        $default = getcwd_protected() . "/data/temp";
+    $dir = get_config($key);
+    if ($dir === null) {
+        return $dir;
     }
-    $dir = get_config($key, $default);
     if (is_array($dir)) {
         $dir = eval_attr($dir);
     }
@@ -73,7 +72,7 @@ function get_temp_file($ext = "")
     if (substr($ext, 0, 1) != ".") {
         $ext = "." . $ext;
     }
-    $dir = get_directory("dirs/tempdir", getcwd_protected() . "/data/temp");
+    $dir = get_directory("dirs/tempdir") ?? getcwd_protected() . "/data/temp/";
     while (1) {
         $uniqid = get_unique_id_md5();
         $file = $dir . $uniqid . $ext;
@@ -111,7 +110,7 @@ function get_cache_file($data, $ext = "")
     if (substr($ext, 0, 1) != ".") {
         $ext = "." . $ext;
     }
-    $dir = get_directory("dirs/cachedir", getcwd_protected() . "/data/cache");
+    $dir = get_directory("dirs/cachedir") ?? getcwd_protected() . "/data/cache/";
     $file = $dir . md5($data) . $ext;
     return $file;
 }

@@ -98,7 +98,7 @@ function check_commands($commands, $expires = 0)
         $result &= ob_passthru(str_replace(
             ["__INPUT__"],
             [$command],
-            get_config("commands/__which__", "which __INPUT__")
+            get_config("commands/__which__") ?? "which __INPUT__"
         ), $expires) ? 1 : 0;
     }
     return $result;
@@ -148,11 +148,11 @@ function is_disabled_function($fn = "")
  */
 function __exec_timeout($cmd)
 {
-    if (check_commands(get_config("commands/timeout"), 60)) {
+    if (check_commands(get_config("commands/timeout"), get_config("commands/commandtimeout") ?? 60)) {
         $cmd = str_replace(
             ["__TIMEOUT__", "__COMMAND__"],
-            [get_config("commands/commandtimeout", 60), $cmd],
-            get_config("commands/__timeout__", "timeout __TIMEOUT__ __COMMAND__")
+            [get_config("commands/commandtimeout") ?? 60, $cmd],
+            get_config("commands/__timeout__") ?? "timeout __TIMEOUT__ __COMMAND__"
         );
     }
     return $cmd;
