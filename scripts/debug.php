@@ -11,7 +11,7 @@ foreach ($buffer as $key => $val) {
     array_shift($argv);
     $buffer[$key] = [];
     while ($temp = array_shift($argv)) {
-        $buffer[$key][] = str_replace("core/js/index.min.js", $temp, $val);
+        $buffer[$key][] = str_replace("index.min.js", $temp, $val);
     }
     $buffer[$key] = implode("\n", $buffer[$key]);
 }

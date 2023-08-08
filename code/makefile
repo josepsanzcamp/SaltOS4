@@ -4,6 +4,8 @@ all:
 	cat core/htm/index.htm | php ../scripts/sha384.php | php ../scripts/minify.php > core/htm/index.min.htm
 
 test:
+	$(shell test -f /tmp/timestamp || touch -t 197001011200.00 /tmp/timestamp)
+
 	$(eval files := $(shell find index.php core/php ../scripts apps -name \*.php -newer /tmp/timestamp))
 	@for i in ${files}; do \
 		echo $$i; \
@@ -21,7 +23,7 @@ libs:
 	php ../scripts/checklibs.php ../scripts/checklibs.txt
 
 debug:
-	cat core/htm/index.htm | php ../scripts/debug.php core/js/core.js core/js/bootstrap.js core/js/app.js > core/htm/index.min.htm
+	cat core/htm/index.htm | php ../scripts/debug.php core.js bootstrap.js app.js > core/htm/index.min.htm
 
 timestamp:
 	touch /tmp/timestamp
