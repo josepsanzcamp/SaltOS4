@@ -9,14 +9,14 @@ test:
 	$(eval files := $(shell find index.php core/php ../scripts apps -name \*.php -newer /tmp/timestamp))
 	@for i in ${files}; do \
 		echo $$i; \
-		phpcs --standard=rules.xml $$i; \
+		phpcs --standard=../scripts/rules.xml $$i; \
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
 	$(eval files := $(shell find core/js ../scripts apps -name \*.js -newer /tmp/timestamp | grep -v index.min.js))
 	@for i in ${files}; do \
 		echo $$i; \
-		php ../scripts/phpcs_js.php --standard=rules.xml $$i; \
+		php ../scripts/phpcs_js.php --standard=../scripts/rules.xml $$i; \
 	done
 
 libs:
