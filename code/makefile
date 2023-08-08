@@ -6,14 +6,14 @@ all:
 test:
 	$(shell test -f /tmp/timestamp || touch -t 197001011200.00 /tmp/timestamp)
 
-	$(eval files := $(shell find index.php core/php ../scripts apps -name \*.php -newer /tmp/timestamp))
+	$(eval files := $(shell find index.php core/php ../scripts apps -name \*.php -newer /tmp/timestamp | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs --standard=../scripts/rules.xml $$i; \
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
-	$(eval files := $(shell find core/js ../scripts apps -name \*.js -newer /tmp/timestamp | grep -v index.min.js))
+	$(eval files := $(shell find core/js ../scripts apps -name \*.js -newer /tmp/timestamp | grep -v index.min.js | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		php ../scripts/phpcs_js.php --standard=../scripts/rules.xml $$i; \
