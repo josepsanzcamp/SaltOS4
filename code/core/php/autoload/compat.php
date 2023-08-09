@@ -72,18 +72,3 @@ if (!function_exists("array_key_first")) {
         }
     }
 }
-
-/**
- * ImageBMP & ImageCreateFromBMP
- *
- * This functions appear in PHP 7.2, and for previous versions, SaltOS
- * uses this code
- *
- * Notes:
- *
- * In this particular case, the unique approach to use this functions is
- * load the library code and nothing more to do
- */
-if (!function_exists("imagebmp") && !function_exists("imagecreatefrombmp")) {
-    require_once "core/lib/bmpphp/BMP.php";
-}
