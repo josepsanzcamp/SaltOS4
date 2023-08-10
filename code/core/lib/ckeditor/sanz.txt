@@ -3,6 +3,8 @@ https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/quick-st
 
 cd build
 
+npx npm-check-updates -u
+
 npm install
 npm run build
 
