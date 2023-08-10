@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 /**
  * This php comparison must be placed here to detect old versions that
- * breaks by the null coalescing operator
+ * breaks by the null coalescing operator found in other php scripts
  */
 if (version_compare(PHP_VERSION, "7.0", "<")) {
     die("PHP 7.0 is required, currently installed version is " . PHP_VERSION);
@@ -38,11 +38,12 @@ if (version_compare(PHP_VERSION, "7.0", "<")) {
 /**
  * We include all core files, note that the last file (zindex.php) launches
  * the old index.php code, this is separated to simplify the code structure
- * and prevent errors with old php versions and the null coalescing operator
+ * and prevent errors with old php versions that not supports the null
+ * coalescing operator
  */
 foreach (glob("core/php/autoload/*.php") as $file) {
     require $file;
 }
 
-// You never must to do this error, some wrong thing was occurred in zindex
+// You never must to see this error, some wrong thing was occurred in zindex
 show_php_error(["phperror" => "Internal error"]);
