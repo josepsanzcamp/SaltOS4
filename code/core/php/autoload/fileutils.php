@@ -160,15 +160,15 @@ function cache_exists($cache, $files)
  */
 function url_get_contents($url)
 {
-    // CHECK SCHEME
+    // Check scheme
     $scheme = parse_url($url, PHP_URL_SCHEME);
     if (!$scheme) {
         $url = "http://" . $url;
     }
-    // DO THE REQUEST
-    list($body,$headers,$cookies) = __url_get_contents($url);
-    // RETURN RESPONSE
-    return $body;
+    // Do the request
+    $response = __url_get_contents($url);
+    // Return response's body
+    return $response["body"];
 }
 
 /**
@@ -246,7 +246,11 @@ function __url_get_contents($url, $args = [])
     $http->Close();
     $cookies = [];
     $http->SaveCookies($cookies);
-    return [$body, $headers, $cookies];
+    return [
+        "body" => $body,
+        "headers" => $headers,
+        "cookies" => $cookies,
+    ];
 }
 
 /**
