@@ -1,7 +1,7 @@
 
 all:
 	minify core/js/core.js core/js/bootstrap.js core/js/app.js > core/js/index.min.js
-	cat core/htm/index.htm | php ../scripts/sha384.php | php ../scripts/minify.php > core/htm/index.min.htm
+	cat core/htm/index.htm | php ../scripts/sha384.php | minify --html > core/htm/index.min.htm
 
 test:
 	$(shell test -f /tmp/timestamp || touch -t 197001011200.00 /tmp/timestamp)
