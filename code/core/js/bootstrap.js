@@ -1274,7 +1274,7 @@ saltos.__form_field.pdfjs = field => {
                 top: -9px;
             }
             .viewerContainer .canvasWrapper {
-                box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1)!important;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1)!important;
             }
             .viewerContainer *,
             .viewerContainer *::before,
