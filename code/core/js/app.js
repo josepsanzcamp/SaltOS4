@@ -449,10 +449,17 @@ saltos.__source_helper = field => {
  * This is the code that must to be executed to initialize all requirements of this module
  */
 (() => {
+    // Dark theme part
+    var window_match_media = window.matchMedia("(prefers-color-scheme: dark)");
+    var set_data_bs_theme = e => document.querySelector("html").setAttribute("data-bs-theme", e.matches ? "dark" : "");
+    set_data_bs_theme(window_match_media);
+    window_match_media.addEventListener("change", set_data_bs_theme);
+    // Token part
     saltos.token = localStorage.getItem("token");
     if (saltos.token === null) {
         saltos.token = "e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe";
         //~ saltos.send_request("app/login");
     }
+    // Init part
     window.dispatchEvent(new HashChangeEvent("hashchange"));
 })();
