@@ -12,7 +12,7 @@ bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|versio
 chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|base64:eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC40LjAifQ==
 ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjM5LjAuMiJ9
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|base64:eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
-icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwLWljb25zIiwidmVyc2lvbiI6IjEuMTAuNSJ9
+icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwLWljb25zIiwidmVyc2lvbiI6IjEuMTEuMCJ9
 imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5LmltYWdlc2xvYWRlZCIsInZlcnNpb24iOiI1LjAuMCJ9
 imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64:eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNy4xLjMifQ==
 masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base64:eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9

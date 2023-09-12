@@ -1,6 +1,6 @@
 
 wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js
 wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css
-wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css
-wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/fonts/bootstrap-icons.woff
-wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/fonts/bootstrap-icons.woff2
+wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/bootstrap-icons.min.css
+wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/fonts/bootstrap-icons.woff
+wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.0/font/fonts/bootstrap-icons.woff2
