@@ -7,7 +7,7 @@ phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|b
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNC0wOVQxMDowNjo1MFo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOS0wNlQxNToyMDozN1o8L3VwZGF0ZWQ+
 
-bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4xIn0=
+bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4yIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMSJ9
 chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|base64:eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC40LjAifQ==
 ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjM5LjAuMiJ9
