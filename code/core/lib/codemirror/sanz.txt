@@ -1,5 +1,5 @@
 
-https://cdnjs.com/libraries/codemirror
+# https://cdnjs.com/libraries/codemirror
 
 wget https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js
 wget https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css

@@ -1,6 +1,6 @@
 
-https://www.chartjs.org/docs/latest/getting-started/
-https://www.chartjs.org/docs/latest/getting-started/installation.html
+# https://www.chartjs.org/docs/latest/getting-started/
+# https://www.chartjs.org/docs/latest/getting-started/installation.html
 
 wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js
 wget https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js

@@ -1,4 +1,10 @@
 
-https://github.com/blueimp/JavaScript-MD5
+# https://github.com/blueimp/JavaScript-MD5
 
 npm install blueimp-md5
+
+cat node_modules/blueimp-md5/js/md5.min.js | grep -v sourceMappingURL | tr -d '\n' > md5.min.js
+
+rm -rf node_modules
+rm -f package-lock.json
+rm -f package.json
