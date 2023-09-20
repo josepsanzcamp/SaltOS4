@@ -1,3 +1,3 @@
 
 all:
-	php ../../../scripts/make_bootswatch.php
+	php ../../../../scripts/make_bootswatch.php

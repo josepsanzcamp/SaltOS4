@@ -3,19 +3,19 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https_fonts_gstatic_com_s_inter_v12_ucco3fwrk3iltehus_fvqtmwcp50knmw2bokodukmmevulyfmzg_ttf) format('truetype');
+  src: url(https_fonts_gstatic_com_s_inter_v13_ucco3fwrk3iltehus_fvqtmwcp50knmw2bokodukmmevulyfmzg_ttf) format('truetype');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(https_fonts_gstatic_com_s_inter_v12_ucco3fwrk3iltehus_fvqtmwcp50knmw2bokodukmmevui6fmzg_ttf) format('truetype');
+  src: url(https_fonts_gstatic_com_s_inter_v13_ucco3fwrk3iltehus_fvqtmwcp50knmw2bokodukmmevui6fmzg_ttf) format('truetype');
 }
 @font-face {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https_fonts_gstatic_com_s_inter_v12_ucco3fwrk3iltehus_fvqtmwcp50knmw2bokodukmmevufuymzg_ttf) format('truetype');
+  src: url(https_fonts_gstatic_com_s_inter_v13_ucco3fwrk3iltehus_fvqtmwcp50knmw2bokodukmmevufuymzg_ttf) format('truetype');
 }

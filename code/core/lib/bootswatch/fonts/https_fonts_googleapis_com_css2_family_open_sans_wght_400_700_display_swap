@@ -4,7 +4,7 @@
   font-weight: 400;
   font-stretch: normal;
   font-display: swap;
-  src: url(https_fonts_gstatic_com_s_opensans_v35_memsyags126mizpba_uvwbx2vvnxbbobj2ovzyoosr4dvjwugsjz0c4n_ttf) format('truetype');
+  src: url(https_fonts_gstatic_com_s_opensans_v36_memsyags126mizpba_uvwbx2vvnxbbobj2ovzyoosr4dvjwugsjz0c4n_ttf) format('truetype');
 }
 @font-face {
   font-family: 'Open Sans';
@@ -12,5 +12,5 @@
   font-weight: 700;
   font-stretch: normal;
   font-display: swap;
-  src: url(https_fonts_gstatic_com_s_opensans_v35_memsyags126mizpba_uvwbx2vvnxbbobj2ovzyoosr4dvjwugsg_1y4n_ttf) format('truetype');
+  src: url(https_fonts_gstatic_com_s_opensans_v36_memsyags126mizpba_uvwbx2vvnxbbobj2ovzyoosr4dvjwugsg_1y4n_ttf) format('truetype');
 }
