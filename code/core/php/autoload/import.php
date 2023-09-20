@@ -597,11 +597,10 @@ function __import_xls2array($file, $sheet)
  * Notes:
  *
  * The map must be an string of the follow form:
- *                     +--------------+
- *                     | field1;0;10  |
- *                     | field2;10;20 |
- *                     | field3;20;40 |
- *                     +--------------+
+ *
+ * - field1;0;10
+ * - field2;10;20
+ * - field3;20;40
  */
 function __import_bytes2array($file, $map, $offset, $nomb)
 {

@@ -29,20 +29,20 @@ declare(strict_types=1);
 
 // phpcs:disable PSR1.Files.SideEffects
 
-/**
- * Array Key Last
- *
- * This function appear in PHP 7.3, and for previous version SaltOS
- * uses this code
- *
- * @array => the array where you want to obtain the last key
- *
- * Notes:
- *
- * Code copied from the follow web:
- * https://www.php.net/manual/es/function.array-key-last.php#124007
- */
 if (!function_exists("array_key_last")) {
+    /**
+     * Array Key Last
+     *
+     * This function appear in PHP 7.3, and for previous version SaltOS
+     * uses this code
+     *
+     * @array => the array where you want to obtain the last key
+     *
+     * Notes:
+     *
+     * Code copied from the follow web:
+     * https://www.php.net/manual/es/function.array-key-last.php#124007
+     */
     function array_key_last(array $array)
     {
         if (!empty($array)) {
@@ -51,20 +51,20 @@ if (!function_exists("array_key_last")) {
     }
 }
 
-/**
- * Array Key First
- *
- * This function appear in PHP 7.3, and for previous version SaltOS
- * uses this code
- *
- * @array => the array where you want to obtain the first key
- *
- * Notes:
- *
- * Code copied from the follow web:
- * https://www.php.net/manual/es/function.array-key-last.php#124007
- */
 if (!function_exists("array_key_first")) {
+    /**
+     * Array Key First
+     *
+     * This function appear in PHP 7.3, and for previous version SaltOS
+     * uses this code
+     *
+     * @array => the array where you want to obtain the first key
+     *
+     * Notes:
+     *
+     * Code copied from the follow web:
+     * https://www.php.net/manual/es/function.array-key-last.php#124007
+     */
     function array_key_first(array $arr)
     {
         foreach ($arr as $key => $unused) {

@@ -34,3 +34,6 @@ timestamp:
 timestamp0:
 	touch -t 197001011200.00 ../scripts/timestamp.tmp
 	ls -l ../scripts/timestamp.tmp
+
+docs:
+	php ../scripts/makedocs.php docs/document.pdf core/php core/js

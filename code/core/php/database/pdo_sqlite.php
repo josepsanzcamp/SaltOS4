@@ -39,6 +39,8 @@ declare(strict_types=1);
 class database_pdo_sqlite
 {
     /**
+     * Private link variable
+     *
      * This private variable contains the link to the database
      */
     private $link = null;
