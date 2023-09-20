@@ -75,8 +75,9 @@ if (!check_user(get_data("rest/1"), get_data("rest/2"))) {
 // Define the third argument used commonly by some apps
 if (get_data("rest/3") == "") {
     set_data("rest/3", 0);
+} else {
+    set_data("rest/3", intval(get_data("rest/3")));
 }
-set_data("rest/3", intval(get_data("rest/3")));
 
 // Trick to allow request as widget/2
 $dict = [];
