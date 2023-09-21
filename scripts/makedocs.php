@@ -18,11 +18,13 @@ $outfile = basename($temp);
 $files = [];
 foreach ($argv as $path) {
     $temp = explode("\n", trim(ob_passthru("find $path -type f")));
-    ksort($temp);
+    sort($temp);
     $files = array_merge($files, $temp);
 }
 $files = array_flip($files);
+//~ $files = ["core/php/autoload/import.php" => ""];
 //~ print_r($files);
+//~ die();
 
 $open = "/**\n";
 $close = " */\n";
@@ -51,7 +53,7 @@ foreach ($files as $file => $temp) {
             } elseif (substr($val, 0, 2) == "* ") {
                 $val = substr($val, 2);
             }
-            if (substr($val, 0, 1) == "@") {
+            if (in_array(substr($val, 0, 1), ["@", "+", "-"]) && !in_array(substr($val, 1, 1), ["", " "])) {
                 $val = "- $val";
             }
             $b[$key] = $val;
@@ -81,6 +83,7 @@ foreach ($files as $file => $temp) {
     $files[$file] = $matches;
 }
 //~ print_r($files);
+//~ die();
 
 ob_start();
 echo "Code documentation\n";
@@ -138,7 +141,8 @@ $buffer1 = [
     "\\setlength{\\parskip}{3mm}",
     "\\plparsep 2.5mm",
     "\\def\\htmladdnormallink#1#2{\\href{#2}{#1}}",
-    "\\lstset{breaklines=true}",
+    "\\definecolor{mygrey}{rgb}{0.9,0.9,0.9}",
+    "\\lstset{backgroundcolor=\\color{mygrey},breaklines=true}",
     "",
 ];
 $buffer2 = array_slice($buffer, 5);
