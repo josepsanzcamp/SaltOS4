@@ -11,6 +11,7 @@ function ob_passthru($cmd)
     return ob_get_clean();
 }
 
+// Prepare the files to use and output variables
 array_shift($argv);
 $temp = array_shift($argv);
 $outdir = dirname($temp);
@@ -26,6 +27,7 @@ $files = array_flip($files);
 //~ print_r($files);
 //~ die();
 
+// Process all files to prepare the data in a memory structure
 $open = "/**\n";
 $close = " */\n";
 foreach ($files as $file => $temp) {
@@ -85,6 +87,7 @@ foreach ($files as $file => $temp) {
 //~ print_r($files);
 //~ die();
 
+// T2T Section
 ob_start();
 echo "Code documentation\n";
 $rev = intval(ob_passthru("svnversion"));
@@ -100,22 +103,34 @@ foreach ($files as $file => $contents) {
     foreach ($contents as $content) {
         echo "++{$content[0]}++\n";
         echo "\n";
-        echo "```\n";
-        echo "{$content[1]}\n";
-        echo "```\n";
-        echo "\n";
-        echo "{$content[2]}\n";
-        echo "\n";
+        if ($content[1] != "") {
+            echo "```\n";
+            echo "{$content[1]}\n";
+            echo "```\n";
+            echo "\n";
+        }
+        if ($content[2] != "") {
+            echo "{$content[2]}\n";
+            echo "\n";
+        }
         echo "\n";
     }
 }
 $buffer = ob_get_clean();
 mkdir($outdir);
 chdir($outdir);
-$file = str_replace(".pdf", "", $outfile);
-file_put_contents("{$file}.t2t", $buffer);
-exec("txt2tags --toc -t tex -i ${file}.t2t -o ${file}.tex");
+file_put_contents($outfile, $buffer);
 
+// HTML Section
+$file = str_replace(".t2t", "", $outfile);
+exec("txt2tags --toc -t html -i ${file}.t2t -o ${file}.html");
+//~ $buffer = file_get_contents("${file}.html");
+//~ file_put_contents("${file}.html", $buffer);
+//~ die();
+
+// PDF Section
+$file = str_replace(".t2t", "", $outfile);
+exec("txt2tags --toc -t tex -i ${file}.t2t -o ${file}.tex");
 $buffer = file_get_contents("${file}.tex");
 $buffer = explode("\n", $buffer);
 $buffer0 = array_slice($buffer, 0, 5);
@@ -153,11 +168,10 @@ $buffer2 = str_replace("\\item", "\\item[\\color{myblue}\$\\bullet\$]", $buffer2
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
 file_put_contents("${file}.tex", $buffer);
-
 for ($i = 0; $i < 3; $i++) {
     exec("pdflatex ${file}.tex");
 }
-$exts = ["aux", "log", "out", "toc", "tex", "t2t"];
+$exts = ["aux", "log", "out", "toc", "tex"];
 foreach ($exts as $ext) {
     unlink("${file}.${ext}");
 }
