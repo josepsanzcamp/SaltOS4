@@ -50,11 +50,13 @@ function check_user($app, $perm)
         $from_apps_perms = execute_query_array($query);
         // Get all relevant permissions associated to the user
         $user_id = current_user();
-        $query = "SELECT app_id, perm_id, allow, deny FROM tbl_users_apps_perms WHERE user_id = $user_id";
+        $query = "SELECT app_id, perm_id, allow, deny
+            FROM tbl_users_apps_perms WHERE user_id = $user_id";
         $from_users_apps_perms = execute_query_array($query);
         // Get all relevant permissions associated to the groups associated to the user
         $groups_id = current_groups();
-        $query = "SELECT app_id, perm_id, allow, deny FROM tbl_groups_apps_perms WHERE group_id IN ($groups_id)";
+        $query = "SELECT app_id, perm_id, allow, deny
+            FROM tbl_groups_apps_perms WHERE group_id IN ($groups_id)";
         $from_groups_apps_perms = execute_query_array($query);
         // Compute the resulting array with all permissions
         $array = [];

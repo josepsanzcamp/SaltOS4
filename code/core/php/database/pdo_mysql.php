@@ -68,9 +68,10 @@ class database_pdo_mysql
         }
         try {
             $this->link = new PDO(
-                "mysql:host=" . $args["host"] . ";port=" . $args["port"] . ";dbname=" . $args["name"],
-                $args["user"],
-                $args["pass"]
+                "mysql:host=" . $args["host"] . ";" .
+                "port=" . $args["port"] . ";" .
+                "dbname=" . $args["name"],
+                $args["user"], $args["pass"]
             );
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage()]);

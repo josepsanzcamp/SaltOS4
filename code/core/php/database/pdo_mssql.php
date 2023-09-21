@@ -68,9 +68,10 @@ class database_pdo_mssql
         }
         try {
             $this->link = new PDO(
-                "dblib:host=" . $args["host"] . ":" . $args["port"] . ";dbname=" . $args["name"] . ";charset=UTF-8",
-                $args["user"],
-                $args["pass"]
+                "dblib:host=" . $args["host"] . ":" . $args["port"] . ";" .
+                "dbname=" . $args["name"] . ";" .
+                "charset=UTF-8",
+                $args["user"], $args["pass"]
             );
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage()]);

@@ -144,10 +144,16 @@
                                     var theme = this.textContent;
                                     if (theme == "bootstrap") {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
-                                        document.querySelector("link[theme]").setAttribute("href", "core/lib/bootstrap/bootstrap.min.css");
+                                        document.querySelector("link[theme]").setAttribute(
+                                            "href",
+                                            "core/lib/bootstrap/bootstrap.min.css"
+                                        );
                                     } else {
                                         document.querySelector("link[theme]").removeAttribute("integrity");
-                                        document.querySelector("link[theme]").setAttribute("href", "core/lib/bootswatch/" + theme + ".min.css");
+                                        document.querySelector("link[theme]").setAttribute(
+                                            "href",
+                                            "core/lib/bootswatch/" + theme + ".min.css"
+                                        );
                                     }
                                     this.parentNode.querySelector("button.active").classList.remove("active");
                                     this.querySelector("button").classList.add("active");
@@ -172,8 +178,10 @@
                                 document.querySelector("html").setAttribute("data-bs-theme", "");
                                 this.parentNode.querySelector("button.active").classList.remove("active");
                                 this.querySelector("button").classList.add("active");
-                                this.parentNode.parentNode.querySelector("i").classList.remove("bi-moon-stars-fill");
-                                this.parentNode.parentNode.querySelector("i").classList.add("bi-sun-fill");
+                                this.parentNode.parentNode.querySelector("i")
+                                    .classList.remove("bi-moon-stars-fill");
+                                this.parentNode.parentNode.querySelector("i")
+                                    .classList.add("bi-sun-fill");
                             },
                         }, {
                             name: `<i class="bi bi-moon-stars-fill"></i> Dark`,
@@ -182,8 +190,10 @@
                                 document.querySelector("html").setAttribute("data-bs-theme", "dark");
                                 this.parentNode.querySelector("button.active").classList.remove("active");
                                 this.querySelector("button").classList.add("active");
-                                this.parentNode.parentNode.querySelector("i").classList.remove("bi-sun-fill");
-                                this.parentNode.parentNode.querySelector("i").classList.add("bi-moon-stars-fill");
+                                this.parentNode.parentNode.querySelector("i")
+                                    .classList.remove("bi-sun-fill");
+                                this.parentNode.parentNode.querySelector("i")
+                                    .classList.add("bi-moon-stars-fill");
                             },
                         }]
                     };
@@ -408,10 +418,12 @@
                     close: "Cerrar",
                     body: `
                         <div>
-                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                            Some text as placeholder. In real life you can have the elements you have
+                            chosen. Like, text, images, lists, etc.
                         </div>
                         <div class="dropdown mt-3">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown">
                                 Dropdown button
                             </button>
                             <ul class="dropdown-menu">
@@ -458,10 +470,12 @@
                     close: "Cerrar",
                     body: `
                         <div>
-                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                            Some text as placeholder. In real life you can have the elements you have
+                            chosen. Like, text, images, lists, etc.
                         </div>
                         <div class="dropdown mt-3">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                            data-bs-toggle="dropdown">
                                 Dropdown button
                             </button>
                             <ul class="dropdown-menu">

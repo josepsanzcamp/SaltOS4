@@ -531,7 +531,8 @@ saltos.__form_field.iframe = field => {
  * @label    => this parameter is used as text for the label
  */
 saltos.__form_field.select = field => {
-    saltos.check_params(field, ["class", "id", "disabled", "required", "multiple", "size", "value", "tooltip"]);
+    saltos.check_params(field, ["class", "id", "disabled", "required"]);
+    saltos.check_params(field, ["multiple", "size", "value", "tooltip"]);
     saltos.check_params(field, ["rows"], []);
     if (field.disabled) {
         field.disabled = "disabled";
@@ -718,7 +719,8 @@ saltos.__form_field.checkbox = field => {
         <div class="form-check ${field.class}">
             <input class="form-check-input" type="checkbox" id="${field.id}" value="${field.value}"
                 ${field.disabled} ${field.readonly} ${checked} data-bs-title="${field.tooltip}">
-            <label class="form-check-label" for="${field.id}" data-bs-title="${field.tooltip}">${field.label}</label>
+            <label class="form-check-label" for="${field.id}"
+                data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
     `);
     if (field.tooltip != "") {
@@ -828,7 +830,8 @@ saltos.__form_field.button = field => {
  *
  */
 saltos.__form_field.password = field => {
-    saltos.check_params(field, ["label", "class", "id", "placeholder", "value", "disabled", "readonly", "required", "tooltip"]);
+    saltos.check_params(field, ["label", "class", "id", "placeholder", "value"]);
+    saltos.check_params(field, ["disabled", "readonly", "required", "tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -842,9 +845,13 @@ saltos.__form_field.password = field => {
         <div>
             <input type="text" style="display: none"/>
             <div class="input-group">
-                <input type="password" class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
-                    ${field.disabled} ${field.readonly} ${field.required} aria-label="${field.placeholder}" aria-describedby="${field.id}_button" data-bs-title="${field.tooltip}">
-                <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
+                <input type="password" class="form-control ${field.class}" id="${field.id}"
+                placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
+                    ${field.disabled} ${field.readonly} ${field.required}
+                    aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
+                    data-bs-title="${field.tooltip}">
+                <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button"
+                data-bs-title="${field.tooltip}"></button>
             </div>
         </div>
     `);
@@ -908,7 +915,8 @@ saltos.__form_field.file = field => {
     }
     var obj = saltos.html(`
         <div>
-            <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled} ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
+            <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled}
+                ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
             <div class="overflow-auto">
                 <table class="table table-striped table-hover d-none">
                     <tbody>
@@ -1015,11 +1023,13 @@ saltos.__form_field.file = field => {
                 <tr id="${data.files[0].id}">
                     <td class="text-break">${data.files[0].name}</td>
                     <td class="w-25 align-middle">
-                        <div class="progress" role="progressbar" aria-label="Upload percent" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress" role="progressbar" aria-label="Upload percent"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar" style="width: 0%"></div>
                         </div>
                     </td>
-                    <td class="p-0 align-middle" style="width: 1%"><button class="btn bi-trash border-0" type="button"></button></td>
+                    <td class="p-0 align-middle" style="width: 1%"><button class="btn bi-trash border-0"
+                        type="button"></button></td>
                 </tr>
             `);
             // Store the data in the row
@@ -1137,7 +1147,8 @@ saltos.__form_field.label = field => {
         field.label = field.value;
     }
     var obj = saltos.html(`
-        <label for="${field.id}" class="form-label ${field.class}" data-bs-title="${field.tooltip}">${field.label}</label>
+        <label for="${field.id}" class="form-label ${field.class}"
+            data-bs-title="${field.tooltip}">${field.label}</label>
     `);
     if (field.tooltip != "") {
         saltos.__tooltip_helper(obj);
@@ -1163,7 +1174,8 @@ saltos.__form_field.image = field => {
         field.class = "img-fluid";
     }
     var obj = saltos.html(`
-        <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}" data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
+        <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}"
+            data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
     if (field.tooltip != "") {
         saltos.__tooltip_helper(obj);
@@ -1200,7 +1212,8 @@ saltos.__form_field.image = field => {
  * the widget.
  */
 saltos.__form_field.excel = field => {
-    saltos.check_params(field, ["id", "class", "data", "rowHeaders", "colHeaders", "minSpareRows", "contextMenu", "rowHeaderWidth", "colWidths"]);
+    saltos.check_params(field, ["id", "class", "data", "rowHeaders", "colHeaders"]);
+    saltos.check_params(field, ["minSpareRows", "contextMenu", "rowHeaderWidth", "colWidths"]);
     var obj = saltos.html(`
         <div style="width: 100%; height: 100%; overflow: auto">
             <div id="${field.id}" class="${field.class}"></div>
@@ -1375,7 +1388,10 @@ saltos.__form_field.table = field => {
             obj.querySelector("thead").classList.add("table-group-divider");
         }
         if (field.checkbox) {
-            obj.querySelector("thead tr").append(saltos.html("tr", `<th style="width: 1%"><input type="checkbox"/></th>`));
+            obj.querySelector("thead tr").append(saltos.html(
+                "tr",
+                `<th style="width: 1%"><input type="checkbox"/></th>`
+            ));
             obj.querySelector("thead input[type=checkbox]").addEventListener("change", event => {
                 var _this = event.target;
                 obj.querySelectorAll("tbody input[type=checkbox]").forEach(_this2 => {
@@ -1487,7 +1503,10 @@ saltos.__form_field.table = field => {
                 num++;
             }
             var temp = htmlentities(field.footer);
-            obj.querySelector("tfoot tr").append(saltos.html("tr", `<td colspan="${num}" class="text-center">${temp}</td>`));
+            obj.querySelector("tfoot tr").append(saltos.html(
+                "tr",
+                `<td colspan="${num}" class="text-center">${temp}</td>`
+            ));
         }
     }
     // Convert the previous table in a responsive table
@@ -1676,7 +1695,8 @@ saltos.__form_field.tags = field => {
     obj.append(saltos.__form_field.text(field));
     // This function draws a tag and programs the delete of the same tag
     var fn = val => {
-        var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2" saltos-data="${val}">
+        var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2"
+            saltos-data="${val}">
             ${val} <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
         </span>`);
         obj.append(span);
@@ -1829,7 +1849,8 @@ saltos.__form_field.placeholder = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__text_helper = field => {
-    saltos.check_params(field, ["type", "class", "id", "placeholder", "value", "disabled", "readonly", "required", "tooltip", "style"]);
+    saltos.check_params(field, ["type", "class", "id", "placeholder", "value"]);
+    saltos.check_params(field, ["disabled", "readonly", "required", "tooltip", "style"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -1840,8 +1861,10 @@ saltos.__text_helper = field => {
         field.required = "required";
     }
     var obj = saltos.html(`
-        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}" style="${field.style}" placeholder="${field.placeholder}"
-            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">
+        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}"
+            style="${field.style}" placeholder="${field.placeholder}"
+            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}
+                data-bs-title="${field.tooltip}">
     `);
     if (field.tooltip != "") {
         saltos.__tooltip_helper(obj);
@@ -1869,7 +1892,8 @@ saltos.__text_helper = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__textarea_helper = field => {
-    saltos.check_params(field, ["class", "id", "placeholder", "value", "disabled", "readonly", "required", "rows", "tooltip"]);
+    saltos.check_params(field, ["class", "id", "placeholder", "value"]);
+    saltos.check_params(field, ["disabled", "readonly", "required", "rows", "tooltip"]);
     if (field.disabled) {
         field.disabled = "disabled";
     }
@@ -1880,8 +1904,10 @@ saltos.__textarea_helper = field => {
         field.required = "required";
     }
     var obj = saltos.html(`
-        <textarea class="form-control ${field.class}" id="${field.id}" placeholder="${field.placeholder}" rows="${field.rows}"
-            ${field.disabled} ${field.readonly} ${field.required} data-bs-title="${field.tooltip}">${field.value}</textarea>
+        <textarea class="form-control ${field.class}" id="${field.id}"
+            placeholder="${field.placeholder}" rows="${field.rows}"
+            ${field.disabled} ${field.readonly} ${field.required}
+            data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != "") {
         saltos.__tooltip_helper(obj);
@@ -1997,7 +2023,8 @@ saltos.menu = args => {
             }
             var temp = saltos.html(`
                 <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="nav-link dropdown-toggle" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.name}
                     </button>
                     <ul class="dropdown-menu ${val.dropdown_menu_end}">
@@ -2016,7 +2043,8 @@ saltos.menu = args => {
                 if (val2.divider) {
                     var temp2 = saltos.html(`<li><hr class="dropdown-divider"></li>`);
                 } else {
-                    var temp2 = saltos.html(`<li><button class="dropdown-item ${val2.disabled} ${val2.active}">${val2.name}</button></li>`);
+                    var temp2 = saltos.html(`<li><button
+                    class="dropdown-item ${val2.disabled} ${val2.active}">${val2.name}</button></li>`);
                     if (!val2.disabled) {
                         temp2.addEventListener("click", val2.onclick);
                     }
@@ -2062,10 +2090,13 @@ saltos.navbar = args => {
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container-fluid">
                 <div class="navbar-brand">
-                    <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}" height="${args.brand.height}" class="d-inline-block align-text-top">
+                    <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}"
+                    height="${args.brand.height}" class="d-inline-block align-text-top">
                     ${args.brand.name}
                 </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false"
+                aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="${args.id}">
@@ -2137,12 +2168,14 @@ saltos.modal = args => {
         args.class = "modal-dialog-centered";
     }
     var obj = saltos.html(`
-        <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label" aria-hidden="true" ${temp}>
+        <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
+            aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="${args.close}"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="${args.close}"></button>
                     </div>
                     <div class="modal-body">
                     </div>
@@ -2224,10 +2257,12 @@ saltos.offcanvas = args => {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     var obj = saltos.html(`
-        <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}" aria-labelledby="${args.id}_label" ${temp}>
+        <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}"
+            aria-labelledby="${args.id}_label" ${temp}>
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="${args.close}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                    aria-label="${args.close}"></button>
             </div>
             <div class="offcanvas-body">
             </div>
@@ -2277,7 +2312,8 @@ saltos.offcanvas = args => {
 saltos.toast = args => {
     saltos.check_params(args, ["id", "class", "close", "title", "subtitle", "body"]);
     if (document.querySelectorAll(".toast-container").length == 0) {
-        document.body.append(saltos.html(`<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
+        document.body.append(saltos.html(`<div
+            class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
     }
     // CHECK FOR REPETITIONS
     var hash = md5(JSON.stringify(args));
@@ -2286,11 +2322,13 @@ saltos.toast = args => {
     }
     // CONTINUE
     var obj = saltos.html(`
-        <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive" aria-atomic="true" hash="${hash}">
+        <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
+            aria-atomic="true" hash="${hash}">
             <div class="toast-header">
                 <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="${args.close}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="${args.close}"></button>
             </div>
             <div class="toast-body">
             </div>

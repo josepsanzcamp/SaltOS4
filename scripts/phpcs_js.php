@@ -83,3 +83,13 @@ foreach ($buffer as $key => $val) {
         }
     }
 }
+
+// Third part => check the size of the lines
+$maxlen = 110;
+foreach ($buffer as $key => $val) {
+    $len = strlen($val);
+    if ($len > $maxlen) {
+        $key++;
+        echo "$file:$key:Line exceeds $maxlen characters; contains $len characters:$val\n";
+    }
+}

@@ -112,8 +112,10 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
     if ($pos !== false) {
         $len2 = $pos - $offset;
         if ($len2 > 0) {
-            $count1 = substr_count($haystack, "'", $offset, $len2) - substr_count($haystack, "\\'", $offset, $len2);
-            $count2 = substr_count($haystack, '"', $offset, $len2) - substr_count($haystack, '\\"', $offset, $len2);
+            $count1 = substr_count($haystack, "'", $offset, $len2) -
+                      substr_count($haystack, "\\'", $offset, $len2);
+            $count2 = substr_count($haystack, '"', $offset, $len2) -
+                      substr_count($haystack, '\\"', $offset, $len2);
             while ($pos !== false && ($count1 % 2 != 0 || $count2 % 2 != 0)) {
                 $offset = $pos + $len;
                 $pos = strpos($haystack, $needle, $offset);

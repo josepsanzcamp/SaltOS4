@@ -399,12 +399,12 @@ saltos.clear_screen = () => {
  *
  * Notes:
  *
- * In some cases, the response for a source request can be an object that represents an xml node with attributes
- * and values, as for the example, the widget/2 used in the app.php, that returns an array with all contents of
- * the widget in the value entry and another entry used for the #attr that only contains the id used to select
- * the widget in the app.php, is this case, the unique data that we want to use here is the contents of the
- * value, and for this reason, the response is filtered to use only the value key in the case of existence of
- * the #attr and value keys
+ * In some cases, the response for a source request can be an object that represents an xml node with
+ * attributes and values, as for the example, the widget/2 used in the app.php, that returns an array
+ * with all contents of the widget in the value entry and another entry used for the #attr that only
+ * contains the id used to select the widget in the app.php, is this case, the unique data that we want
+ * to use here is the contents of the value, and for this reason, the response is filtered to use only
+ * the value key in the case of existence of the #attr and value keys
  */
 saltos.__source_helper = field => {
     saltos.check_params(field, ["id", "source"]);
@@ -451,7 +451,9 @@ saltos.__source_helper = field => {
 (() => {
     // Dark theme part
     var window_match_media = window.matchMedia("(prefers-color-scheme: dark)");
-    var set_data_bs_theme = e => document.querySelector("html").setAttribute("data-bs-theme", e.matches ? "dark" : "");
+    var set_data_bs_theme = e => {
+        document.querySelector("html").setAttribute("data-bs-theme", e.matches ? "dark" : "");
+    };
     set_data_bs_theme(window_match_media);
     window_match_media.addEventListener("change", set_data_bs_theme);
     // Token part

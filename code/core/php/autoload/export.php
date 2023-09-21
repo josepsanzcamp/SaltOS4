@@ -27,8 +27,6 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
-
 /**
  * Export File
  *
@@ -97,7 +95,10 @@ function export_file($args)
             $buffer = __export_file_xml($args["data"], $args["eol"], $args["encoding"]);
             break;
         case "csv":
-            $buffer = __export_file_csv($args["data"], $args["sep"], $args["eol"], $args["encoding"], $args["replace"], $args["escape"]);
+            $buffer = __export_file_csv(
+                $args["data"], $args["sep"], $args["eol"],
+                $args["encoding"], $args["replace"], $args["escape"]
+            );
             break;
         case "xls":
             $buffer = __export_file_excel($args["data"], $args["title"], "Xls");

@@ -27,8 +27,6 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
-
 /**
  * DB Schema
  *
@@ -317,16 +315,24 @@ function __dbschema_helper($fn, $table)
                             "type" => strtoupper(parse_query($fieldspec["#attr"]["type"])),
                         ];
                         if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
-                            if (!isset($fieldspec["#attr"]["fckeck"]) || eval_bool($fieldspec["#attr"]["fckeck"])) {
-                                $fkeys[$tablespec["#attr"]["name"]][$fieldspec["#attr"]["name"]] = $fieldspec["#attr"]["fkey"];
+                            if (
+                                !isset($fieldspec["#attr"]["fckeck"]) ||
+                                eval_bool($fieldspec["#attr"]["fckeck"])
+                            ) {
+                                $fkeys[$tablespec["#attr"]["name"]][$fieldspec["#attr"]["name"]]
+                                    = $fieldspec["#attr"]["fkey"];
                             }
                         }
                     }
                     if (isset($tablespec["value"]["indexes"])) {
                         $indexes[$tablespec["#attr"]["name"]] = [];
                         foreach ($tablespec["value"]["indexes"] as $indexspec) {
-                            $indexes[$tablespec["#attr"]["name"]][parse_query($indexspec["#attr"]["name"])] = explode(",", $indexspec["#attr"]["fields"]);
-                            if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
+                            $indexes[$tablespec["#attr"]["name"]][parse_query($indexspec["#attr"]["name"])]
+                                = explode(",", $indexspec["#attr"]["fields"]);
+                            if (
+                                isset($indexspec["#attr"]["fulltext"]) &&
+                                eval_bool($indexspec["#attr"]["fulltext"])
+                            ) {
                                 $fulltext[$tablespec["#attr"]["name"]] = 1;
                             }
                         }
@@ -550,8 +556,8 @@ function __dbschema_auto_name($dbschema)
                         $table = $tablespec["#attr"]["name"];
                         $fields = $indexspec["#attr"]["fields"];
                         $dbschema["tables"][$tablekey]["value"]["indexes"][$indexkey]["#attr"]["name"] =
-                            "/*MYSQL " . substr(str_replace(",", "_", $fields), 0, 64) . " */" .
-                            "/*SQLITE " . substr($table . "_" . str_replace(",", "_", $fields), 0, 64) . " */";
+                        "/*MYSQL " . substr(str_replace(",", "_", $fields), 0, 64) . " */" .
+                        "/*SQLITE " . substr($table . "_" . str_replace(",", "_", $fields), 0, 64) . " */";
                     }
                 }
             }

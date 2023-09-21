@@ -1,5 +1,5 @@
 Code documentation
-SaltOS 4.0 r390
+SaltOS 4.0 r391
 September 2023
 
 
@@ -4747,12 +4747,12 @@ another way to pass arguments.
 
 Notes:
 
-In some cases, the response for a source request can be an object that represents an xml node with attributes
-and values, as for the example, the widget/2 used in the app.php, that returns an array with all contents of
-the widget in the value entry and another entry used for the #attr that only contains the id used to select
-the widget in the app.php, is this case, the unique data that we want to use here is the contents of the
-value, and for this reason, the response is filtered to use only the value key in the case of existence of
-the #attr and value keys
+In some cases, the response for a source request can be an object that represents an xml node with
+attributes and values, as for the example, the widget/2 used in the app.php, that returns an array
+with all contents of the widget in the value entry and another entry used for the #attr that only
+contains the id used to select the widget in the app.php, is this case, the unique data that we want
+to use here is the contents of the value, and for this reason, the response is filtered to use only
+the value key in the case of existence of the #attr and value keys
 
 
 ++Main code++

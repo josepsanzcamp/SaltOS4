@@ -76,10 +76,8 @@ declare(strict_types=1);
 function show_php_error($array)
 {
     // Trick for exhausted memory error
-    if (
-        isset($array["phperror"]) &&
-        words_exists("allowed memory size bytes exhausted tried allocate", $array["phperror"])
-    ) {
+    $words = "allowed memory size bytes exhausted tried allocate";
+    if (isset($array["phperror"]) && words_exists($words, $array["phperror"])) {
         set_max_memory_limit();
     }
     // Add backtrace and debug if not found

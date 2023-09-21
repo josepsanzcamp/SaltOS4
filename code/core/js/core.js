@@ -47,7 +47,8 @@ window.onerror = (event, source, lineno, colno, error) => {
     var data = {
         "action": "adderror",
         "jserror": event,
-        "details": "Error on file " + source + ":" + lineno + ":" + colno + ", userAgent is " + navigator.userAgent,
+        "details": "Error on file " + source + ":" + lineno + ":" + colno +
+                   ", userAgent is " + navigator.userAgent,
         "backtrace": error.stack
     };
     saltos.ajax({
@@ -234,7 +235,8 @@ saltos.html = (...args) => {
  * way as jQuery do but without using jQuery.
  */
 saltos.ajax = args => {
-    saltos.check_params(args, ["url", "data", "method", "success", "error", "progress", "async", "content_type", "headers"]);
+    saltos.check_params(args, ["url", "data", "method", "success", "error"]);
+    saltos.check_params(args, ["progress", "async", "content_type", "headers"]);
     if (args.data == "") {
         args.data = null;
     }

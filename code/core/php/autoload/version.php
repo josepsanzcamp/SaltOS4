@@ -92,7 +92,12 @@ function gitversion($dir = ".")
         return intval(file_get_contents("{$dir}/gitversion"));
     }
     // USING GIT
-    if (check_commands(get_config("commands/gitversion") ?? "git", get_config("commands/commandexpires") ?? 60)) {
+    if (
+        check_commands(
+            get_config("commands/gitversion") ?? "git",
+            get_config("commands/commandexpires") ?? 60
+        )
+    ) {
         return intval(ob_passthru(str_replace(
             ["__DIR__"],
             [$dir],

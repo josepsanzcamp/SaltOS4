@@ -26,9 +26,17 @@
 -->
 
 <ruleset>
-    <rule ref="PSR12" />
+    <!--<rule ref="PSR12" />-->
+    <rule ref="PSR12">
+        <exclude name="PSR2.Methods.FunctionCallSignature.MultipleArguments" />
+    </rule>
     <rule ref="Generic.PHP.RequireStrictTypes" />
     <rule ref="Generic.Commenting.DocComment.TagValueIndent" />
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
     <rule ref="WordPress.Arrays.CommaAfterArrayItem"/>
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="110"/>
+        </properties>
+     </rule>
 </ruleset>

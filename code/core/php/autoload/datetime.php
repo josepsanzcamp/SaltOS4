@@ -241,7 +241,10 @@ function datetimeval($value)
         $temp[3] = min(23, max(0, $temp[3]));
         $temp[4] = min(59, max(0, $temp[4]));
         $temp[5] = min(59, max(0, $temp[5]));
-        $value = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $temp[2], $temp[1], $temp[0], $temp[3], $temp[4], $temp[5]);
+        $value = sprintf(
+            "%04d-%02d-%02d %02d:%02d:%02d",
+            $temp[2], $temp[1], $temp[0], $temp[3], $temp[4], $temp[5]
+        );
     } else {
         $temp[0] = min(9999, max(0, $temp[0]));
         $temp[1] = min(12, max(0, $temp[1]));
@@ -249,7 +252,10 @@ function datetimeval($value)
         $temp[3] = min(23, max(0, $temp[3]));
         $temp[4] = min(59, max(0, $temp[4]));
         $temp[5] = min(59, max(0, $temp[5]));
-        $value = sprintf("%04d-%02d-%02d %02d:%02d:%02d", $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]);
+        $value = sprintf(
+            "%04d-%02d-%02d %02d:%02d:%02d",
+            $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]
+        );
     }
     return $value;
 }

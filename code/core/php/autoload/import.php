@@ -314,7 +314,10 @@ function __import_getvalue($array)
  */
 function __import_getattr($elem, $array)
 {
-    if (!is_array($array) || !isset($array["#attr"]) || !is_array($array["#attr"]) || !isset($array["#attr"][$elem])) {
+    if (
+        !is_array($array) || !isset($array["#attr"]) ||
+        !is_array($array["#attr"]) || !isset($array["#attr"][$elem])
+    ) {
         return null;
     }
     return $array["#attr"][$elem];
@@ -1117,7 +1120,12 @@ function __import_filter_rec($node, $filter, $eval, $parent = [])
         }
         // Recursive call
         foreach ($node["rows"] as $node2) {
-            if (__import_filter_rec($node2, $filter, $eval, array_merge($parent, array_values($node["row"])))) {
+            if (
+                __import_filter_rec(
+                    $node2, $filter, $eval,
+                    array_merge($parent, array_values($node["row"]))
+                )
+            ) {
                 return true;
             }
         }

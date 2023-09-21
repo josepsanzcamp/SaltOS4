@@ -193,7 +193,11 @@ function __captcha_image($code, $args = [])
             $oneletter = $letters[rand(0, $maxletters - 1)];
             $oneangle = rand(-$angle, $angle);
             $bbox = imagettfbbox($letter, $oneangle, $font, $oneletter);
-            imagettftext($im, $letter, rand(-$angle, $angle), (int)$posx, (int)$posy, $fgcolor2, $font, $oneletter);
+            imagettftext(
+                $im, $letter, rand(-$angle, $angle),
+                (int)$posx, (int)$posy,
+                $fgcolor2, $font, $oneletter
+            );
             $posx += $bbox[2] - $bbox[0] + $letter / 4;
         }
     }

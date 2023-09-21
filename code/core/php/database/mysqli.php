@@ -67,7 +67,11 @@ class database_mysqli
             return;
         }
         $args["port"] = intval($args["port"]);
-        $this->link = mysqli_connect($args["host"], $args["user"], $args["pass"], $args["name"], $args["port"]);
+        $this->link = mysqli_connect(
+            $args["host"],
+            $args["user"], $args["pass"],
+            $args["name"], $args["port"]
+        );
         if ($this->link) {
             $this->db_query("SET NAMES 'utf8mb4'");
             $this->db_query("SET FOREIGN_KEY_CHECKS=0");
