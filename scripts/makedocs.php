@@ -124,8 +124,16 @@ file_put_contents($outfile, $buffer);
 // HTML Section
 $file = str_replace(".t2t", "", $outfile);
 exec("txt2tags --toc -t html -i ${file}.t2t -o ${file}.html");
-//~ $buffer = file_get_contents("${file}.html");
-//~ file_put_contents("${file}.html", $buffer);
+$buffer = file_get_contents("${file}.html");
+$buffer = explode("\n", $buffer);
+$buffer0 = array_slice($buffer, 0, 20);
+$buffer1 = [
+    "pre{background-color:#e6e6e6;padding:5px 3px}",
+];
+$buffer2 = array_slice($buffer, 20);
+$buffer = array_merge($buffer0, $buffer1, $buffer2);
+$buffer = implode("\n", $buffer);
+file_put_contents("${file}.html", $buffer);
 //~ die();
 
 // PDF Section
