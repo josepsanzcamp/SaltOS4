@@ -160,7 +160,7 @@ $buffer1 = [
     "\\usepackage{sectsty}",
     "\\allsectionsfont{\\color{myblue}}",
     "\\definecolor{myblue}{RGB}{39,128,227}",
-    "\\setlength{\\parindent}{5mm}",
+    "\\setlength{\\parindent}{0mm}",
     "\\setlength{\\parskip}{3mm}",
     "\\plparsep 2.5mm",
     "\\def\\htmladdnormallink#1#2{\\href{#2}{#1}}",
@@ -174,6 +174,18 @@ $buffer2 = str_replace("\\begin{verbatim}", "\\begin{lstlisting}", $buffer2);
 $buffer2 = str_replace("\\end{verbatim}", "\\end{lstlisting}", $buffer2);
 $buffer2 = str_replace("\t", str_repeat(" ", 4), $buffer2);
 $buffer2 = str_replace("\\item", "\\item[\\color{myblue}\$\\bullet\$]", $buffer2);
+// Fix for the propblem with spaces in the TOC between numbers and titles
+$buffer2 = str_replace(
+    "\\tableofcontents",
+    implode("\n", [
+        "\\begingroup",
+        "\\let\\orignumberline\\numberline",
+        "\\def\\numberline#1{\\orignumberline{#1}\\kern+1ex}",
+        "\\tableofcontents",
+        "\\endgroup",
+    ]),
+    $buffer2
+);
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
 file_put_contents("${file}.tex", $buffer);
