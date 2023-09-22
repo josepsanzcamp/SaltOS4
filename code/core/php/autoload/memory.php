@@ -28,6 +28,14 @@
 declare(strict_types=1);
 
 /**
+ * Memory helper module
+ *
+ * This fie contains useful functions related to memory and time usage, allow to control the usage
+ * of time and/or memory of a process, intended to prevent crashes in processes that requires more
+ * time or memory resources that the defined by the system limits
+ */
+
+/**
  * Memory Get Free
  *
  * This function returns the free memory in bytes or the percentage of the memory_limit

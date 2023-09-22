@@ -28,6 +28,12 @@
 declare(strict_types=1);
 
 /**
+ * Score Image helper module
+ *
+ * This fie contains useful functions related to score images
+ */
+
+/**
  * Score Image function
  *
  * This function generates an image with a gradient from red to yellos and

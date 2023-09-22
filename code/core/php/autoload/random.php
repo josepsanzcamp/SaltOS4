@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Random helper module
+ *
+ * This fie contains useful functions related to random number generator, currently only initialize
+ * the internal generator, but in the future we can add more features if it is needed
+ */
+
+/**
  * Init Random
  *
  * This function initialize the random number generator

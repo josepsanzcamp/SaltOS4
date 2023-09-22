@@ -28,7 +28,16 @@
 declare(strict_types=1);
 
 /**
- * Import File
+ * Import File helper module
+ *
+ * This fie contains useful functions related to import contents using differents formats suck as
+ * excel, csv, edi, json, xml and bytes. Too this module allow to manipulate data using the tree
+ * array of the core of the SaltOS, allowing to add, modify and remove nodes, too can apply patch
+ * of the memory data and paint arrays as ascii tables
+ */
+
+/**
+ * Import File main function
  *
  * This function is intended to import data in the supported formats
  *

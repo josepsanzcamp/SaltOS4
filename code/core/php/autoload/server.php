@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Server helper module
+ *
+ * This fie contains useful functions related to the $_SERVER global variable, currently only publish
+ * a getter function, but in the future, can store more features if it is needed
+ */
+
+/**
  * Get Server
  *
  * This function returns the server variable requested by index if it exists

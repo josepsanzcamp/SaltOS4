@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Iniset helper module
+ *
+ * This fie contains useful functions related to the evaluation of the iniset, puntenv and extra
+ * directives configures in the config.xml file
+ */
+
+/**
  * Eval Iniset
  *
  * This function evaluates the iniset section of the config file, is intended

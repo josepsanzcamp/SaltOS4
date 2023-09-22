@@ -28,6 +28,12 @@
 declare(strict_types=1);
 
 /**
+ * Config helper module
+ *
+ * This fie contains useful functions related to configuration features
+ */
+
+/**
  * Get config
  *
  * This function is intended to be used to retrieve values from the

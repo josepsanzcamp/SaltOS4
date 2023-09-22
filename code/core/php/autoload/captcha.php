@@ -28,6 +28,12 @@
 declare(strict_types=1);
 
 /**
+ * Captcha helper module
+ *
+ * This fie contains useful functions related to captchas
+ */
+
+/**
  * Captcha Is Prime Number
  *
  * This function is a detector of prime numbers, uses some optimizations and

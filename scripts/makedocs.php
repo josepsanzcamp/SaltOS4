@@ -165,7 +165,8 @@ $buffer1 = [
     "\\plparsep 2.5mm",
     "\\def\\htmladdnormallink#1#2{\\href{#2}{#1}}",
     "\\definecolor{mygrey}{rgb}{0.9,0.9,0.9}",
-    "\\lstset{backgroundcolor=\\color{mygrey},breaklines=true}",
+    "\\usepackage{courier}",
+    "\\lstset{basicstyle=\\ttfamily,backgroundcolor=\\color{mygrey},breaklines=true}",
     "",
 ];
 $buffer2 = array_slice($buffer, 5);

@@ -256,6 +256,12 @@ TODO
 
 +core/php/autoload/apps.php+
 
+++Apps helper module++
+
+This file contains functions intended to be used as hepers of other functions, allowing to convert
+between formats as the name of the app to and app id, or viceversa
+
+
 ++Apps helper function++
 
 ```
@@ -381,6 +387,13 @@ This function detect if an app exists
 
 +core/php/autoload/array2xml.php+
 
+++Array to XML helper module++
+
+This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
+to an XML string, currently it is little used because the most important module compared to this
+is the inverse xml2array module
+
+
 ++Check Node Name++
 
 ```
@@ -434,6 +447,11 @@ language file, to do it, uses some helpers as __array2xml_* functions
 
 +core/php/autoload/arrayutils.php+
 
+++Array helper module++
+
+This file contain useful array functions
+
+
 ++Null to array converter++
 
 ```
@@ -449,6 +467,11 @@ an array in all cases
 
 
 +core/php/autoload/barcode.php+
+
+++Barcode helper module++
+
+This fie contains useful functions related to barcodes
+
 
 ++BarCode function++
 
@@ -475,6 +498,11 @@ the function can returns an empty string
 
 
 +core/php/autoload/captcha.php+
+
+++Captcha helper module++
+
+This fie contains useful functions related to captchas
+
 
 ++Captcha Is Prime Number++
 
@@ -553,6 +581,11 @@ as trick, checks that the output operation is performed by prime numbers
 
 +core/php/autoload/colorutils.php+
 
+++Color utils helper module++
+
+This fie contains useful functions related to colors
+
+
 ++Color To Dec function++
 
 ```
@@ -560,7 +593,7 @@ function color2dec($color, $component)
 ```
 
 This function is a helper that allow to get from a RGB hex color the value
-in decimal of the specified component, usefull to get the amount of color
+in decimal of the specified component, useful to get the amount of color
 red, green or blue in decimal base from an string
 
 Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
@@ -570,6 +603,11 @@ Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
 
 
 +core/php/autoload/compat.php+
+
+++Compatibility helper module++
+
+This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
+
 
 ++Array Key Last++
 
@@ -608,6 +646,11 @@ https://www.php.net/manual/es/function.array-key-last.php#124007
 
 
 +core/php/autoload/config.php+
+
+++Config helper module++
+
+This fie contains useful functions related to configuration features
+
 
 ++Get config++
 
@@ -649,6 +692,12 @@ in the memory of the config file for negative user_id values
 
 
 +core/php/autoload/control.php+
+
+++Control helper module++
+
+This fie contains useful functions related to the control and version system, they allow to
+relationate registers with users and groups, and to add and retrieve the versions of a register
+
 
 ++Make Control function++
 
@@ -747,6 +796,12 @@ restore versions from 1 to ver_id, and must to discard the next versions
 
 +core/php/autoload/database.php+
 
+++Database helper module++
+
+This fie contains useful functions related to database, allow to connect, check queries, execute
+queries, disconnect, retrieve rows and manipulate resultsets of the database
+
+
 ++DB Connect++
 
 ```
@@ -809,11 +864,11 @@ query: this fetch method returns all resultset as an array of rows, and each row
 pair of key val with the name of the field and the value of the field
 
 column: this fetch method returns an array where each element is each value of the field of
-the each row, this is usefull when for example do you want to get all ids of a query, with
+the each row, this is useful when for example do you want to get all ids of a query, with
 this method you can obtain an array with each value of the array is an id of the resultset
 
 concat: this fetch method is an special mode intended to speed up the retrieve of large
-arrays, this is usefull when you want to get all ids of a query and you want to get a big
+arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
@@ -901,6 +956,12 @@ This function returns the name of the field identified by the index field
 
 +core/php/autoload/datetime.php+
 
+++Datetime helper module++
+
+This fie contains useful functions related to datetime, allow to get current timestamp in various
+formats, allow to evaluate timestamps and some helper more
+
+
 ++Current Date++
 
 ```
@@ -967,7 +1028,7 @@ function current_datetime_decimals($offset = 0, $size = 4)
 ```
 
 This function returns the current date and time with decimals in the seconds
-in a YYYY-MM-DD HH:II:SS.XXXX format, usefull when do you want to log information
+in a YYYY-MM-DD HH:II:SS.XXXX format, useful when do you want to log information
 more accuracy to debug issues, for example
 
 - @offset => the bias added to the current time mark
@@ -993,7 +1054,7 @@ Notes:
 This function try to cast the year, month and day from 0000-00-00 to valid
 values, this is because the databases accepts the 0000-00-00 date and is used
 as emulated null, the month are limited to 12 and the day is limited to the
-days of the month and year, this is usefull because the dates that are more
+days of the month and year, this is useful because the dates that are more
 greather that zero, will have a valid and an existing value
 
 
@@ -1004,7 +1065,7 @@ function __days_of_a_month($year, $month)
 ```
 
 This function is a helper used by other date and datetime functions, this
-is usefull because allow to fix problems in dates that use days out of range
+is useful because allow to fix problems in dates that use days out of range
 
 - @year  => year that you want to use in the validation
 - @month => month that you want to use in the validation
@@ -1042,7 +1103,7 @@ Notes:
 This function try to cast the year, month and day from 0000-00-00 to valid
 values, this is because the databases accepts the 0000-00-00 date and is used
 as emulated null, the month are limited to 12 and the day is limited to the
-days of the month and year, this is usefull because the dates that are more
+days of the month and year, this is useful because the dates that are more
 greather that zero, will have a valid and an existing value
 
 
@@ -1082,6 +1143,12 @@ used to move the current time mark
 
 
 +core/php/autoload/dbschema.php+
+
+++Database Schema helper module++
+
+This fie contains useful functions related to database schema, allow to manage the entire database
+schema, and too, allow to maintain contents of some tables using the dbstatic feature
+
 
 ++DB Schema++
 
@@ -1296,7 +1363,7 @@ Notes:
 
 This function uses the special feature in the helper that allow to
 use as table parameter an app code to retrieve the field, this is
-usefull if you want some field of the app table and you want to use
+useful if you want some field of the app table and you want to use
 the app code instead of the app table to identify what row do you
 want to use
 
@@ -1309,7 +1376,7 @@ function __dbstatic_helper($fn, $table, $field)
 
 This function is intended to act as helper of the dbstatic ecosystem, this
 function can return the apps that contain table and field definitions and
-too, can return the field associated to a apps table, usefull for the
+too, can return the field associated to a apps table, useful for the
 indexing feature
 
 - @fn    => the caller function name
@@ -1317,6 +1384,12 @@ indexing feature
 
 
 +core/php/autoload/error.php+
+
+++Error helper module++
+
+This fie contains useful functions related to error management, allow to trigger and manage
+errors, too contains the code used for the error and exception handlers
+
 
 ++Show PHP Error++
 
@@ -1460,7 +1533,7 @@ function __get_code_from_trace($trace, $index = 0)
 
 This function acts as helper of the show_json_error, and try to get the filename and the line
 where the error will be triggered, for example, an error triggered from the index.php at line
-23 will generate a code index:23, this information will be usefull for our technical service
+23 will generate a code index:23, this information will be useful for our technical service
 to help the users when live issues with our API
 
 - @trace => the array returned by the debug_backtrace function
@@ -1482,6 +1555,12 @@ is created automatically to help the backtrace of the issues
 
 
 +core/php/autoload/exec.php+
+
+++Execution helper module++
+
+This fie contains useful functions related to execution of external programs, allow to execute,
+check commands and manage some features as the cache usage or the timeout used in each execution
+
 
 ++OB Passthru++
 
@@ -1549,7 +1628,13 @@ Returns the string that contains the command with ths timeout control
 
 +core/php/autoload/export.php+
 
-++Export File++
+++Export helper module++
+
+This fie contains useful functions related to export data, allow to generate outputs in formats
+suck as excel, csv, edi, json and xml
+
+
+++Export File main function++
 
 ```
 function export_file($args)
@@ -1645,6 +1730,12 @@ They will returns all data
 
 +core/php/autoload/fileutils.php+
 
+++File utils helper module++
+
+This fie contains useful functions related to the file usage, allow to manage directories, files,
+caches, paths, permissions, remote files and more
+
+
 ++Get Directory++
 
 ```
@@ -1652,7 +1743,7 @@ function get_directory($key)
 ```
 
 This function returns the directory configured to the key requested, too can define a default
-value, usefull when the configuration still not loaded and SaltOS need some directory to do
+value, useful when the configuration still not loaded and SaltOS need some directory to do
 something as store data in the log file, for example
 
 - @key => the key used in get_config to request the configured directory
@@ -1667,7 +1758,7 @@ function get_temp_file($ext = "")
 This function is intended to get a unique temporary file, used for temporary
 purposes as put contents to be used as input in a command
 
-- @ext => the extension of the temporary file, usefull for some commands that
+- @ext => the extension of the temporary file, useful for some commands that
         try to detect the contents using the extension
 
 
@@ -1738,11 +1829,11 @@ for request remote files using protocols as http or https
 - @args    => Array of arguments, explained in the follow lines
 - @cookies => an array with the cookies to be restored before send the request
 - @method  => method used in the request
-- @values  => an array with the post values, usefull when you want to send a POST
+- @values  => an array with the post values, useful when you want to send a POST
             request with pairs of variables and values
 - @referer => the referer string
 - @headers => an array with the headers to be send in the request
-- @body    => the full body used of the request, usefull when you want to send a
+- @body    => the full body used of the request, useful when you want to send a
             json file in the body instead of pairs of keys vals
 
 
@@ -1785,7 +1876,7 @@ function realpath_protected($path)
 ```
 
 This function returns the realpath of the path, this version of the function
-allow to return the path of an unexistent file, this is usefull when do you
+allow to return the path of an unexistent file, this is useful when do you
 want to get the realpath of a unexistent file, for example, to the output of
 a command that must to generate the file but at the moment of the execution
 of this function the file is not found
@@ -1861,6 +1952,12 @@ to know when the file has changed
 
 +core/php/autoload/gc.php+
 
+++Garbage Collector helper module++
+
+This fie contains useful functions related to the garbaging unused resources, currently only
+implements the clear of temporary files
+
+
 ++Garbage Collector Executor++
 
 ```
@@ -1876,6 +1973,12 @@ current directory, parent directory and htaccess file
 
 
 +core/php/autoload/getdata.php+
+
+++Get Data helper module++
+
+This fie contains useful functions related to the $_DATA global variable, allow to get and set
+values in the global $_DATA variable using xpath as key
+
 
 ++Get data++
 
@@ -1903,6 +2006,13 @@ This function sets a value in the data system for the specified key
 
 +core/php/autoload/gettext.php+
 
+++Gettext helper module++
+
+This fie contains useful functions related to gettext funcionality, allow to manage the
+SaltOS translations using a merged system of the unix locales and the old SaltOS translations
+system.
+
+
 ++Get Text function++
 
 ```
@@ -1916,7 +2026,15 @@ to do more open as the GNU gettext
 
 +core/php/autoload/import.php+
 
-++Import File++
+++Import File helper module++
+
+This fie contains useful functions related to import contents using differents formats suck as
+excel, csv, edi, json, xml and bytes. Too this module allow to manipulate data using the tree
+array of the core of the SaltOS, allowing to add, modify and remove nodes, too can apply patch
+of the memory data and paint arrays as ascii tables
+
+
+++Import File main function++
 
 ```
 function import_file($args)
@@ -2414,6 +2532,12 @@ mode the contents of a matrix
 
 +core/php/autoload/indexing.php+
 
+++Make Index helper module++
+
+This fie contains useful functions related to the indexing feature that internally uses the
+mroonga engine to search in the fulltext string generated by this feature
+
+
 ++Make Index main function++
 
 ```
@@ -2461,6 +2585,12 @@ related to the app register
 
 
 +core/php/autoload/iniset.php+
+
+++Iniset helper module++
+
+This fie contains useful functions related to the evaluation of the iniset, puntenv and extra
+directives configures in the config.xml file
+
 
 ++Eval Iniset++
 
@@ -2511,6 +2641,13 @@ accept functions with one and two arguments, otherwise an error is triggered
 
 +core/php/autoload/list.php+
 
+++List helper module++
+
+This fie contains useful functions related to the lists generated from SaltOS, in this case, this
+module add to the generic queries the permissions filter and the actions associated to each register
+depending of each application
+
+
 ++Add list actions helper++
 
 ```
@@ -2533,6 +2670,12 @@ concept
 
 
 +core/php/autoload/log.php+
+
+++Log helper module++
+
+This fie contains useful functions related to the logs files, allowing to add and check contents
+to the logs file, useful for debug purposes
+
 
 ++Check Log++
 
@@ -2615,6 +2758,13 @@ problems in the error reporting because break the hash and checklog optimization
 
 +core/php/autoload/memory.php+
 
+++Memory helper module++
+
+This fie contains useful functions related to memory and time usage, allow to control the usage
+of time and/or memory of a process, intended to prevent crashes in processes that requires more
+time or memory resources that the defined by the system limits
+
+
 ++Memory Get Free++
 
 ```
@@ -2689,6 +2839,13 @@ exceptionally amount of execution time
 
 +core/php/autoload/output.php+
 
+++Output helper module++
+
+This fie contains useful functions related to the output of the SaltOS, allow to send contents to
+the clients using the specified format and configuration, useful to return contents, too implement
+a specific output for the json format that is the most format used by the new SaltOS
+
+
 ++Output Handler++
 
 ```
@@ -2721,6 +2878,12 @@ requires is the data that you want to send
 
 +core/php/autoload/password.php+
 
+++Password helper module++
+
+This fie contains useful functions related to password, currently only publish one feature to check
+the password strength, but is open to be used to add more password features if it is needed
+
+
 ++Password Strength++
 
 ```
@@ -2728,7 +2891,7 @@ function password_strength($pass)
 ```
 
 This fucntion returns a number between 0 and 100 that try to categorize
-the quality of the pass checked, this is usefull to known if the new
+the quality of the pass checked, this is useful to known if the new
 password is a good option or maybe is needed to request another new
 password
 
@@ -2736,6 +2899,13 @@ password
 
 
 +core/php/autoload/perms.php+
+
+++Permissions helper module++
+
+This fie contains useful functions related to permissions, allow to apply permissions in php core
+or in sql queries, to do it, uses all permissions tables and predefined configurations, more info
+in each function
+
 
 ++Check User++
 
@@ -2838,6 +3008,11 @@ function returns true for perm list and form perm list|user
 
 +core/php/autoload/qrcode.php+
 
+++QRCode helper module++
+
+This fie contains useful functions related to QRCodes
+
+
 ++QRCode function++
 
 ```
@@ -2861,6 +3036,12 @@ the function can returns an empty string
 
 +core/php/autoload/random.php+
 
+++Random helper module++
+
+This fie contains useful functions related to random number generator, currently only initialize
+the internal generator, but in the future we can add more features if it is needed
+
+
 ++Init Random++
 
 ```
@@ -2877,6 +3058,11 @@ if it is not provided, a randomly seed is used by default
 
 
 +core/php/autoload/score.php+
+
+++Score Image helper module++
+
+This fie contains useful functions related to score images
+
 
 ++Score Image function++
 
@@ -2896,6 +3082,12 @@ write the score percent
 
 
 +core/php/autoload/semaphores.php+
+
+++Semaphore helper module++
+
+This fie contains useful functions related to semaphores, allow to create and use semaphores
+for acquiring and release semaphores that guaranty the exclusivity of the code execution
+
 
 ++Semaphore Acquire++
 
@@ -2938,7 +3130,7 @@ function semaphore_file($name = "")
 ```
 
 This function returns the associated semaphore file used by the
-named semaphore, usefull for debug purposes
+named semaphore, useful for debug purposes
 
 - @name => the name of the semaphore
 
@@ -2981,6 +3173,12 @@ function
 
 +core/php/autoload/server.php+
 
+++Server helper module++
+
+This fie contains useful functions related to the $_SERVER global variable, currently only publish
+a getter function, but in the future, can store more features if it is needed
+
+
 ++Get Server++
 
 ```
@@ -2994,6 +3192,18 @@ This function returns the server variable requested by index if it exists
 
 
 +core/php/autoload/sqlutils.php+
+
+++SQL utils helper module++
+
+This fie contains useful functions related to SQL queries, allow to help modules that requires
+the entire management of the database (create tables, drop tables, create indexes, and more),
+too allow to prepare sql queries suck inserts, updates or wheres fragments that are procected
+to external injections, for example, by escaping all special characters.
+
+Too it provides functions to do subparts of the where queries suck as special likes combinations
+or match again combinations for the fulltext search engine, see all detailed information by
+reading the list of functions of this module*
+
 
 ++Parse Query++
 
@@ -3087,7 +3297,7 @@ function execute_query_array($query)
 
 This function is the same that execute_query but guarantee that for the
 same query, you get the same output type if the resultet contains one
-row or more rows, usefull is you want to use the output of this function
+row or more rows, useful is you want to use the output of this function
 in a foreach, for example
 
 - @query => the SQL query that you want to execute
@@ -3399,6 +3609,13 @@ app and the prefix to be added to the id field of the in subquery
 
 +core/php/autoload/strutils.php+
 
+++String utils helper module++
+
+This fie contains useful functions related to strings manipulations, suck as get the test in
+UTF8, remove bad chars, of apply filters to the text, manipulate texts of other related tasks
+with strings
+
+
 ++Remove Bar Chars++
 
 ```
@@ -3575,6 +3792,12 @@ This function returns a string with a new and unique token
 
 +core/php/autoload/system.php+
 
+++System helper module++
+
+This fie contains useful functions related to system checks, allow to detect dependencies not
+installed on the system, or misconfigurations on the SaltOS installation
+
+
 ++Check System++
 
 ```
@@ -3590,8 +3813,10 @@ Too, check all directories of the data directory to validate that the process ca
 
 +core/php/autoload/user.php+
 
-++This file contains the functions associated to the user validation, to++
+++User helper module++
 
+This file contains the functions associated to the user validation, to
+improve the performance, all functions are using a cache based trick
 that performs an important speed up
 
 
@@ -3657,6 +3882,11 @@ and tokens
 
 +core/php/autoload/version.php+
 
+++Version helper module++
+
+This fie contains useful functions related to the version of the SaltOS of the php engine
+
+
 ++Get Name Version Revision++
 
 ```
@@ -3704,6 +3934,14 @@ version requested and the current version.
 
 
 +core/php/autoload/xml2array.php+
+
+++XML to Array helper module++
+
+This fie contains useful functions related to the xml manipulation, this code is a part of the
+main version of the SaltOS because the main idea defined some years ago continues active, if you
+compare this code, you can see more accuracy in the specification to be more specific and precise
+but this code is a part of all the SaltOS versions
+
 
 ++Eval Protected++
 
@@ -3896,7 +4134,7 @@ of the node
 
 - @ifeval => this attribute must contains an expression that must evaluate as
 true or false, and allow to maintain or remove the entire node thas contains
-the ifeval attribute, this is usefull when you need a node in some conditions
+the ifeval attribute, this is useful when you need a node in some conditions
 
 
 The great change between the eval_attr of the previous versions of SaltOS is
@@ -3922,9 +4160,15 @@ The valid inputs are the strings one, zero, void, true, false, on, off, yes and 
 
 +core/php/autoload/zindex.php+
 
+++Main execution module++
+
+This file contains the old index.php file, this was moved here to simplify the index.php and to
+allow some php checks found in the current index.php
+
+
 +core/php/database/libsqlite.php+
 
-++About this file++
+++SQLite3 functions library++
 
 SQLite's database allow to define external functions that can be used from the SQL language,
 this is a great feature that allow to use SQLite as MySQL, and using this feature of the
@@ -4154,6 +4398,11 @@ This function add the NOW to the SQLite database
 
 +core/php/database/mysqli.php+
 
+++MySQL improved driver++
+
+This file implements the MySQL improved driver, to do this
+
+
 ++Database MySQL improved class++
 
 ```
@@ -4223,11 +4472,11 @@ query: this fetch method returns all resultset as an array of rows, and each row
 pair of key val with the name of the field and the value of the field
 
 column: this fetch method returns an array where each element is each value of the field of
-the each row, this is usefull when for example do you want to get all ids of a query, with
+the each row, this is useful when for example do you want to get all ids of a query, with
 this method you can obtain an array with each value of the array is an id of the resultset
 
 concat: this fetch method is an special mode intended to speed up the retrieve of large
-arrays, this is usefull when you want to get all ids of a query and you want to get a big
+arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
@@ -4242,6 +4491,11 @@ This function close the database connection and sets the link to null
 
 
 +core/php/database/pdo_mssql.php+
+
+++PDO MsSQL driver++
+
+This file implements the MySQL improved driver, to do this
+
 
 ++Database PDO MsSQL class++
 
@@ -4312,11 +4566,11 @@ query: this fetch method returns all resultset as an array of rows, and each row
 pair of key val with the name of the field and the value of the field
 
 column: this fetch method returns an array where each element is each value of the field of
-the each row, this is usefull when for example do you want to get all ids of a query, with
+the each row, this is useful when for example do you want to get all ids of a query, with
 this method you can obtain an array with each value of the array is an id of the resultset
 
 concat: this fetch method is an special mode intended to speed up the retrieve of large
-arrays, this is usefull when you want to get all ids of a query and you want to get a big
+arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
@@ -4331,6 +4585,11 @@ This function close the database connection and sets the link to null
 
 
 +core/php/database/pdo_mysql.php+
+
+++PDO MySQL driver++
+
+This file implements the MySQL improved driver, to do this
+
 
 ++Database PDO MySQL class++
 
@@ -4401,11 +4660,11 @@ query: this fetch method returns all resultset as an array of rows, and each row
 pair of key val with the name of the field and the value of the field
 
 column: this fetch method returns an array where each element is each value of the field of
-the each row, this is usefull when for example do you want to get all ids of a query, with
+the each row, this is useful when for example do you want to get all ids of a query, with
 this method you can obtain an array with each value of the array is an id of the resultset
 
 concat: this fetch method is an special mode intended to speed up the retrieve of large
-arrays, this is usefull when you want to get all ids of a query and you want to get a big
+arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
@@ -4420,6 +4679,11 @@ This function close the database connection and sets the link to null
 
 
 +core/php/database/pdo_sqlite.php+
+
+++PDO SQLite driver++
+
+This file implements the MySQL improved driver, to do this
+
 
 ++Database PDO SQLite class++
 
@@ -4494,11 +4758,11 @@ query: this fetch method returns all resultset as an array of rows, and each row
 pair of key val with the name of the field and the value of the field
 
 column: this fetch method returns an array where each element is each value of the field of
-the each row, this is usefull when for example do you want to get all ids of a query, with
+the each row, this is useful when for example do you want to get all ids of a query, with
 this method you can obtain an array with each value of the array is an id of the resultset
 
 concat: this fetch method is an special mode intended to speed up the retrieve of large
-arrays, this is usefull when you want to get all ids of a query and you want to get a big
+arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
@@ -4513,6 +4777,11 @@ This function close the database connection and sets the link to null
 
 
 +core/php/database/sqlite3.php+
+
+++SQLite3 driver++
+
+This file implements the MySQL improved driver, to do this
+
 
 ++Database SQLite3 class++
 
@@ -4587,11 +4856,11 @@ query: this fetch method returns all resultset as an array of rows, and each row
 pair of key val with the name of the field and the value of the field
 
 column: this fetch method returns an array where each element is each value of the field of
-the each row, this is usefull when for example do you want to get all ids of a query, with
+the each row, this is useful when for example do you want to get all ids of a query, with
 this method you can obtain an array with each value of the array is an id of the resultset
 
 concat: this fetch method is an special mode intended to speed up the retrieve of large
-arrays, this is usefull when you want to get all ids of a query and you want to get a big
+arrays, this is useful when you want to get all ids of a query and you want to get a big
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
@@ -4606,6 +4875,12 @@ This function close the database connection and sets the link to null
 
 
 +core/js/app.js+
+
+++Application helper module++
+
+This fie contains useful functions related to the main application, at the end of this file you can
+see the main code that launch the application to be executed from the browser
+
 
 ++Show error helper++
 
@@ -4761,6 +5036,12 @@ This is the code that must to be executed to initialize all requirements of this
 
 
 +core/js/bootstrap.js+
+
+++Bootstrap helper module++
+
+This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
+other plugins suck as plots or rich editors
+
 
 ++Form fields constructor++
 
@@ -5826,6 +6107,12 @@ Each toast includes a hash to prevent the creation of repeated toasts.
 
 
 +core/js/core.js+
+
+++Core helper module++
+
+This fie contains useful functions related to the core application, provides the low level features
+for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
+
 
 ++Main object++
 

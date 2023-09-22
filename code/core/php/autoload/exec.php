@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Execution helper module
+ *
+ * This fie contains useful functions related to execution of external programs, allow to execute,
+ * check commands and manage some features as the cache usage or the timeout used in each execution
+ */
+
+/**
  * OB Passthru
  *
  * This function is a join of ob_start and passthru, the main idea

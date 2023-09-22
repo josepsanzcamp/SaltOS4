@@ -27,6 +27,13 @@
 
 declare(strict_types=1);
 
+/**
+ * Main execution module
+ *
+ * This file contains the old index.php file, this was moved here to simplify the index.php and to
+ * allow some php checks found in the current index.php
+ */
+
 // Some important items
 program_handlers();
 init_timer();

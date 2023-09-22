@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * About this file
+ * SQLite3 functions library
  *
  * SQLite's database allow to define external functions that can be used from the SQL language,
  * this is a great feature that allow to use SQLite as MySQL, and using this feature of the

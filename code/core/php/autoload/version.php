@@ -28,6 +28,12 @@
 declare(strict_types=1);
 
 /**
+ * Version helper module
+ *
+ * This fie contains useful functions related to the version of the SaltOS of the php engine
+ */
+
+/**
  * Get Name Version Revision
  *
  * This function returns a string with the SaltOS name, version, revision and

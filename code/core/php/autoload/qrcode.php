@@ -28,6 +28,12 @@
 declare(strict_types=1);
 
 /**
+ * QRCode helper module
+ *
+ * This fie contains useful functions related to QRCodes
+ */
+
+/**
  * QRCode function
  *
  * This function allow to generate a qrcode with the SaltOS logo embedded

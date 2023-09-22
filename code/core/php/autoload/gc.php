@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Garbage Collector helper module
+ *
+ * This fie contains useful functions related to the garbaging unused resources, currently only
+ * implements the clear of temporary files
+ */
+
+/**
  * Garbage Collector Executor
  *
  * This function tries to clean the cache, temporary and upload directories

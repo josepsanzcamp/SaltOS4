@@ -28,6 +28,14 @@
 declare(strict_types=1);
 
 /**
+ * Output helper module
+ *
+ * This fie contains useful functions related to the output of the SaltOS, allow to send contents to
+ * the clients using the specified format and configuration, useful to return contents, too implement
+ * a specific output for the json format that is the most format used by the new SaltOS
+ */
+
+/**
  * Output Handler
  *
  * This function is intended to send data to the output channel, and can have

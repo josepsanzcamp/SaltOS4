@@ -28,6 +28,8 @@
 declare(strict_types=1);
 
 /**
+ * User helper module
+ *
  * This file contains the functions associated to the user validation, to
  * improve the performance, all functions are using a cache based trick
  * that performs an important speed up

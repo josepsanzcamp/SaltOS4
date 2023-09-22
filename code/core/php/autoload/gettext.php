@@ -28,6 +28,14 @@
 declare(strict_types=1);
 
 /**
+ * Gettext helper module
+ *
+ * This fie contains useful functions related to gettext funcionality, allow to manage the
+ * SaltOS translations using a merged system of the unix locales and the old SaltOS translations
+ * system.
+ */
+
+/**
  * Get Text function
  *
  * This function replaces the gettext abreviation _() using the SaltOS gettext

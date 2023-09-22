@@ -27,6 +27,12 @@
 
 declare(strict_types=1);
 
+/**
+ * SQLite3 driver
+ *
+ * This file implements the MySQL improved driver, to do this
+ */
+
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
@@ -160,11 +166,11 @@ class database_sqlite3
      * pair of key val with the name of the field and the value of the field
      *
      * column: this fetch method returns an array where each element is each value of the field of
-     * the each row, this is usefull when for example do you want to get all ids of a query, with
+     * the each row, this is useful when for example do you want to get all ids of a query, with
      * this method you can obtain an array with each value of the array is an id of the resultset
      *
      * concat: this fetch method is an special mode intended to speed up the retrieve of large
-     * arrays, this is usefull when you want to get all ids of a query and you want to get a big
+     * arrays, this is useful when you want to get all ids of a query and you want to get a big
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */

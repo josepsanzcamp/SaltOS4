@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Semaphore helper module
+ *
+ * This fie contains useful functions related to semaphores, allow to create and use semaphores
+ * for acquiring and release semaphores that guaranty the exclusivity of the code execution
+ */
+
+/**
  * Semaphore Acquire
  *
  * This function implement the acquire of a semaphore
@@ -68,7 +75,7 @@ function semaphore_shutdown()
  * Semaphore File
  *
  * This function returns the associated semaphore file used by the
- * named semaphore, usefull for debug purposes
+ * named semaphore, useful for debug purposes
  *
  * @name => the name of the semaphore
  */

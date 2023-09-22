@@ -28,6 +28,12 @@
 declare(strict_types=1);
 
 /**
+ * Array helper module
+ *
+ * This file contain useful array functions
+ */
+
+/**
  * Null to array converter
  *
  * This function convert all nulls into an array, is intended to be

@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * System helper module
+ *
+ * This fie contains useful functions related to system checks, allow to detect dependencies not
+ * installed on the system, or misconfigurations on the SaltOS installation
+ */
+
+/**
  * Check System
  *
  * This function checks the system to detect if all knowed dependencies are found in the system, to do it,

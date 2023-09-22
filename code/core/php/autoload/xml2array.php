@@ -28,6 +28,15 @@
 declare(strict_types=1);
 
 /**
+ * XML to Array helper module
+ *
+ * This fie contains useful functions related to the xml manipulation, this code is a part of the
+ * main version of the SaltOS because the main idea defined some years ago continues active, if you
+ * compare this code, you can see more accuracy in the specification to be more specific and precise
+ * but this code is a part of all the SaltOS versions
+ */
+
+/**
  * Eval Protected
  *
  * This function allow to execute PHP code using the eval function in a controlled
@@ -370,7 +379,7 @@ function struct2array(&$data, $file = "")
  *
  * @ifeval => this attribute must contains an expression that must evaluate as
  * true or false, and allow to maintain or remove the entire node thas contains
- * the ifeval attribute, this is usefull when you need a node in some conditions
+ * the ifeval attribute, this is useful when you need a node in some conditions
  *
  * The great change between the eval_attr of the previous versions of SaltOS is
  * that this version only accepts three internal commands and the other

@@ -27,6 +27,13 @@
 "use strict";
 
 /**
+ * Bootstrap helper module
+ *
+ * This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
+ * other plugins suck as plots or rich editors
+ */
+
+/**
  * Form fields constructor
  *
  * This function and their helpers, allow the creation of the interface using the bootstrap

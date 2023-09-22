@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Error helper module
+ *
+ * This fie contains useful functions related to error management, allow to trigger and manage
+ * errors, too contains the code used for the error and exception handlers
+ */
+
+/**
  * Show PHP Error
  *
  * This function allow to SaltOS to trigger the errors in a multiple levels:
@@ -359,7 +366,7 @@ function __shutdown_handler()
  *
  * This function acts as helper of the show_json_error, and try to get the filename and the line
  * where the error will be triggered, for example, an error triggered from the index.php at line
- * 23 will generate a code index:23, this information will be usefull for our technical service
+ * 23 will generate a code index:23, this information will be useful for our technical service
  * to help the users when live issues with our API
  *
  * @trace => the array returned by the debug_backtrace function

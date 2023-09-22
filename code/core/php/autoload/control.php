@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Control helper module
+ *
+ * This fie contains useful functions related to the control and version system, they allow to
+ * relationate registers with users and groups, and to add and retrieve the versions of a register
+ */
+
+/**
  * Make Control function
  *
  * This function allow to insert and delete the control registers associacted

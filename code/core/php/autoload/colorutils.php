@@ -28,10 +28,16 @@
 declare(strict_types=1);
 
 /**
+ * Color utils helper module
+ *
+ * This fie contains useful functions related to colors
+ */
+
+/**
  * Color To Dec function
  *
  * This function is a helper that allow to get from a RGB hex color the value
- * in decimal of the specified component, usefull to get the amount of color
+ * in decimal of the specified component, useful to get the amount of color
  * red, green or blue in decimal base from an string
  *
  * Is able to understand colors with the formats #abcdef, abcdef, #000, #fff

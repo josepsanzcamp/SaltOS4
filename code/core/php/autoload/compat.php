@@ -27,6 +27,12 @@
 
 declare(strict_types=1);
 
+/**
+ * Compatibility helper module
+ *
+ * This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
+ */
+
 // phpcs:disable PSR1.Files.SideEffects
 
 if (!function_exists("array_key_last")) {

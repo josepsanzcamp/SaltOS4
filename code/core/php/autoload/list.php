@@ -28,6 +28,14 @@
 declare(strict_types=1);
 
 /**
+ * List helper module
+ *
+ * This fie contains useful functions related to the lists generated from SaltOS, in this case, this
+ * module add to the generic queries the permissions filter and the actions associated to each register
+ * depending of each application
+ */
+
+/**
  * Add list actions helper
  *
  * This function returns the input rows adding to each row an array of actions,

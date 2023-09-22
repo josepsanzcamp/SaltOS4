@@ -27,6 +27,13 @@
 "use strict";
 
 /**
+ * Application helper module
+ *
+ * This fie contains useful functions related to the main application, at the end of this file you can
+ * see the main code that launch the application to be executed from the browser
+ */
+
+/**
  * Show error helper
  *
  * This function allow to show a modal dialog with de details of an error

@@ -28,6 +28,14 @@
 declare(strict_types=1);
 
 /**
+ * Array to XML helper module
+ *
+ * This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
+ * to an XML string, currently it is little used because the most important module compared to this
+ * is the inverse xml2array module
+ */
+
+/**
  * Check Node Name
  *
  * This function acts as helper of the array2xml function, is intended to

@@ -27,6 +27,13 @@
 "use strict";
 
 /**
+ * Core helper module
+ *
+ * This fie contains useful functions related to the core application, provides the low level features
+ * for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
+ */
+
+/**
  * Main object
  *
  * This object contains all SaltOS code

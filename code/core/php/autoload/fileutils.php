@@ -28,10 +28,17 @@
 declare(strict_types=1);
 
 /**
+ * File utils helper module
+ *
+ * This fie contains useful functions related to the file usage, allow to manage directories, files,
+ * caches, paths, permissions, remote files and more
+ */
+
+/**
  * Get Directory
  *
  * This function returns the directory configured to the key requested, too can define a default
- * value, usefull when the configuration still not loaded and SaltOS need some directory to do
+ * value, useful when the configuration still not loaded and SaltOS need some directory to do
  * something as store data in the log file, for example
  *
  * @key => the key used in get_config to request the configured directory
@@ -57,7 +64,7 @@ function get_directory($key)
  * This function is intended to get a unique temporary file, used for temporary
  * purposes as put contents to be used as input in a command
  *
- * @ext => the extension of the temporary file, usefull for some commands that
+ * @ext => the extension of the temporary file, useful for some commands that
  *         try to detect the contents using the extension
  *
  * Notes:
@@ -181,11 +188,11 @@ function url_get_contents($url)
  * @args    => Array of arguments, explained in the follow lines
  * @cookies => an array with the cookies to be restored before send the request
  * @method  => method used in the request
- * @values  => an array with the post values, usefull when you want to send a POST
+ * @values  => an array with the post values, useful when you want to send a POST
  *             request with pairs of variables and values
  * @referer => the referer string
  * @headers => an array with the headers to be send in the request
- * @body    => the full body used of the request, usefull when you want to send a
+ * @body    => the full body used of the request, useful when you want to send a
  *             json file in the body instead of pairs of keys vals
  *
  * This function returns an array with three elements, body, headers and cookies
@@ -292,7 +299,7 @@ function encode_bad_chars_file($file)
  * Realpath Protected
  *
  * This function returns the realpath of the path, this version of the function
- * allow to return the path of an unexistent file, this is usefull when do you
+ * allow to return the path of an unexistent file, this is useful when do you
  * want to get the realpath of a unexistent file, for example, to the output of
  * a command that must to generate the file but at the moment of the execution
  * of this function the file is not found

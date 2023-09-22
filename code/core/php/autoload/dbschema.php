@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Database Schema helper module
+ *
+ * This fie contains useful functions related to database schema, allow to manage the entire database
+ * schema, and too, allow to maintain contents of some tables using the dbstatic feature
+ */
+
+/**
  * DB Schema
  *
  * This function try to maintain the database structure, to do it, this feature uses the dbschema.xml
@@ -600,7 +607,7 @@ function get_tables_from_dbstatic()
  *
  * This function uses the special feature in the helper that allow to
  * use as table parameter an app code to retrieve the field, this is
- * usefull if you want some field of the app table and you want to use
+ * useful if you want some field of the app table and you want to use
  * the app code instead of the app table to identify what row do you
  * want to use
  */
@@ -614,7 +621,7 @@ function get_field_from_dbstatic($table, $field = "field")
  *
  * This function is intended to act as helper of the dbstatic ecosystem, this
  * function can return the apps that contain table and field definitions and
- * too, can return the field associated to a apps table, usefull for the
+ * too, can return the field associated to a apps table, useful for the
  * indexing feature
  *
  * @fn    => the caller function name

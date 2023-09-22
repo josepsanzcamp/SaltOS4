@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Log helper module
+ *
+ * This fie contains useful functions related to the logs files, allowing to add and check contents
+ * to the logs file, useful for debug purposes
+ */
+
+/**
  * Check Log
  *
  * This function is a helper for the show_php_error, allow to detect repetitions

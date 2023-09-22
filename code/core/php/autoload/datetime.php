@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Datetime helper module
+ *
+ * This fie contains useful functions related to datetime, allow to get current timestamp in various
+ * formats, allow to evaluate timestamps and some helper more
+ */
+
+/**
  * Current Date
  *
  * This function returns the current date in a YYYY-MM-DD format, this is used
@@ -98,7 +105,7 @@ function current_decimals($offset = 0, $size = 4)
  * Current DateTime Decimals
  *
  * This function returns the current date and time with decimals in the seconds
- * in a YYYY-MM-DD HH:II:SS.XXXX format, usefull when do you want to log information
+ * in a YYYY-MM-DD HH:II:SS.XXXX format, useful when do you want to log information
  * more accuracy to debug issues, for example
  *
  * @offset => the bias added to the current time mark
@@ -124,7 +131,7 @@ function current_datetime_decimals($offset = 0, $size = 4)
  * This function try to cast the year, month and day from 0000-00-00 to valid
  * values, this is because the databases accepts the 0000-00-00 date and is used
  * as emulated null, the month are limited to 12 and the day is limited to the
- * days of the month and year, this is usefull because the dates that are more
+ * days of the month and year, this is useful because the dates that are more
  * greather that zero, will have a valid and an existing value
  */
 function dateval($value)
@@ -160,7 +167,7 @@ function dateval($value)
  * Day of a Month helper
  *
  * This function is a helper used by other date and datetime functions, this
- * is usefull because allow to fix problems in dates that use days out of range
+ * is useful because allow to fix problems in dates that use days out of range
  *
  * @year  => year that you want to use in the validation
  * @month => month that you want to use in the validation
@@ -216,7 +223,7 @@ function timeval($value)
  * This function try to cast the year, month and day from 0000-00-00 to valid
  * values, this is because the databases accepts the 0000-00-00 date and is used
  * as emulated null, the month are limited to 12 and the day is limited to the
- * days of the month and year, this is usefull because the dates that are more
+ * days of the month and year, this is useful because the dates that are more
  * greather that zero, will have a valid and an existing value
  */
 function datetimeval($value)

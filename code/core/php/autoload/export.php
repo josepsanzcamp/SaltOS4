@@ -28,7 +28,14 @@
 declare(strict_types=1);
 
 /**
- * Export File
+ * Export helper module
+ *
+ * This fie contains useful functions related to export data, allow to generate outputs in formats
+ * suck as excel, csv, edi, json and xml
+ */
+
+/**
+ * Export File main function
  *
  * This function is intended to export data in the supported formats
  *

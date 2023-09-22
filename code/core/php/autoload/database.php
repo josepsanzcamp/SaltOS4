@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Database helper module
+ *
+ * This fie contains useful functions related to database, allow to connect, check queries, execute
+ * queries, disconnect, retrieve rows and manipulate resultsets of the database
+ */
+
+/**
  * DB Connect
  *
  * This function is intended to stablish the connection to the database
@@ -107,11 +114,11 @@ function db_check($query)
  * pair of key val with the name of the field and the value of the field
  *
  * column: this fetch method returns an array where each element is each value of the field of
- * the each row, this is usefull when for example do you want to get all ids of a query, with
+ * the each row, this is useful when for example do you want to get all ids of a query, with
  * this method you can obtain an array with each value of the array is an id of the resultset
  *
  * concat: this fetch method is an special mode intended to speed up the retrieve of large
- * arrays, this is usefull when you want to get all ids of a query and you want to get a big
+ * arrays, this is useful when you want to get all ids of a query and you want to get a big
  * sized array, in this case, is more efficient to get an string separated by commas with all
  * ids instead of an array where each element is an id
  */

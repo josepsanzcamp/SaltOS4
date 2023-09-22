@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Apps helper module
+ *
+ * This file contains functions intended to be used as hepers of other functions, allowing to convert
+ * between formats as the name of the app to and app id, or viceversa
+ */
+
+/**
  * Apps helper function
  *
  * This function is used by the XXX2YYY functions as helper, it stores the

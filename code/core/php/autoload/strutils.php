@@ -28,6 +28,14 @@
 declare(strict_types=1);
 
 /**
+ * String utils helper module
+ *
+ * This fie contains useful functions related to strings manipulations, suck as get the test in
+ * UTF8, remove bad chars, of apply filters to the text, manipulate texts of other related tasks
+ * with strings
+ */
+
+/**
  * Remove Bar Chars
  *
  * This function removes chars from keycodes 0 to 31 except 9, 10, 13 (tab,

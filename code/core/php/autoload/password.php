@@ -28,10 +28,17 @@
 declare(strict_types=1);
 
 /**
+ * Password helper module
+ *
+ * This fie contains useful functions related to password, currently only publish one feature to check
+ * the password strength, but is open to be used to add more password features if it is needed
+ */
+
+/**
  * Password Strength
  *
  * This fucntion returns a number between 0 and 100 that try to categorize
- * the quality of the pass checked, this is usefull to known if the new
+ * the quality of the pass checked, this is useful to known if the new
  * password is a good option or maybe is needed to request another new
  * password
  *

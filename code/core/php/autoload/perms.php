@@ -28,6 +28,14 @@
 declare(strict_types=1);
 
 /**
+ * Permissions helper module
+ *
+ * This fie contains useful functions related to permissions, allow to apply permissions in php core
+ * or in sql queries, to do it, uses all permissions tables and predefined configurations, more info
+ * in each function
+ */
+
+/**
  * Check User
  *
  * This function checks the permissions using the tables apps_perms,

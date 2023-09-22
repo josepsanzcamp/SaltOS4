@@ -28,6 +28,12 @@
 declare(strict_types=1);
 
 /**
+ * Barcode helper module
+ *
+ * This fie contains useful functions related to barcodes
+ */
+
+/**
  * BarCode function
  *
  * This function allow to generate a barcode, you can pass the desired

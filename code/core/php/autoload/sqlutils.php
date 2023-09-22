@@ -28,6 +28,19 @@
 declare(strict_types=1);
 
 /**
+ * SQL utils helper module
+ *
+ * This fie contains useful functions related to SQL queries, allow to help modules that requires
+ * the entire management of the database (create tables, drop tables, create indexes, and more),
+ * too allow to prepare sql queries suck inserts, updates or wheres fragments that are procected
+ * to external injections, for example, by escaping all special characters.
+ *
+ * Too it provides functions to do subparts of the where queries suck as special likes combinations
+ * or match again combinations for the fulltext search engine, see all detailed information by
+ * reading the list of functions of this module*
+ */
+
+/**
  * Parse Query
  *
  * This function is intended to apply the query filters defined by the users
@@ -193,7 +206,7 @@ function execute_query($query)
  *
  * This function is the same that execute_query but guarantee that for the
  * same query, you get the same output type if the resultet contains one
- * row or more rows, usefull is you want to use the output of this function
+ * row or more rows, useful is you want to use the output of this function
  * in a foreach, for example
  *
  * @query => the SQL query that you want to execute
