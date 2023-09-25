@@ -162,11 +162,15 @@ $buffer1 = [
     "\\definecolor{myblue}{RGB}{39,128,227}",
     "\\setlength{\\parindent}{0mm}",
     "\\setlength{\\parskip}{3mm}",
-    "\\plparsep 2.5mm",
+    "\\setlength{\\plparsep}{2.5mm}",
     "\\def\\htmladdnormallink#1#2{\\href{#2}{#1}}",
     "\\definecolor{mygrey}{rgb}{0.9,0.9,0.9}",
     "\\usepackage{courier}",
     "\\lstset{basicstyle=\\ttfamily,backgroundcolor=\\color{mygrey},breaklines=true}",
+    "\\usepackage{tocloft}",
+    "\\usepackage{calc}",
+    "\\setlength{\\cftsubsecnumwidth}{\\widthof{\\large\\bfseries{}12.34}}",
+    "\\setlength\\cftparskip{3mm}",
     "",
 ];
 $buffer2 = array_slice($buffer, 5);
@@ -175,17 +179,17 @@ $buffer2 = str_replace("\\end{verbatim}", "\\end{lstlisting}", $buffer2);
 $buffer2 = str_replace("\t", str_repeat(" ", 4), $buffer2);
 $buffer2 = str_replace("\\item", "\\item[\\color{myblue}\$\\bullet\$]", $buffer2);
 // Fix for the propblem with spaces in the TOC between numbers and titles
-$buffer2 = str_replace(
-    "\\tableofcontents",
-    implode("\n", [
-        "\\begingroup",
-        "\\let\\orignumberline\\numberline",
-        "\\def\\numberline#1{\\orignumberline{#1}\\kern+1ex}",
-        "\\tableofcontents",
-        "\\endgroup",
-    ]),
-    $buffer2
-);
+//~ $buffer2 = str_replace(
+    //~ "\\tableofcontents",
+    //~ implode("\n", [
+        //~ "\\begingroup",
+        //~ "\\let\\orignumberline\\numberline",
+        //~ "\\def\\numberline#1{\\orignumberline{#1}\\hspace{1ex}}",
+        //~ "\\tableofcontents",
+        //~ "\\endgroup",
+    //~ ]),
+    //~ $buffer2
+//~ );
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
 file_put_contents("${file}.tex", $buffer);
