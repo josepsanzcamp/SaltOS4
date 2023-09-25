@@ -196,7 +196,7 @@ file_put_contents("${file}.tex", $buffer);
 for ($i = 0; $i < 3; $i++) {
     exec("pdflatex ${file}.tex");
 }
-$exts = ["aux", "log", "out", "toc", "tex"];
+$exts = ["aux", "log", "out", "toc"];
 foreach ($exts as $ext) {
     unlink("${file}.${ext}");
 }
