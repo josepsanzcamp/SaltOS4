@@ -30,7 +30,11 @@ declare(strict_types=1);
 /**
  * PDO SQLite driver
  *
- * This file implements the MySQL improved driver, to do this
+ * This file implements the MySQL improved driver. This is the recommended driver when you want
+ * to use SQLite3 files as database server and it uses the PDO extension to do it, this driver
+ * solves the concurrence problem using POSIX semaphores, generally it is a good option for setups
+ * that don't require a fulltext search optimizations suck as mroonga, intended for a personal
+ * usage or demos.
  */
 
 // phpcs:disable PSR1.Classes.ClassDeclaration

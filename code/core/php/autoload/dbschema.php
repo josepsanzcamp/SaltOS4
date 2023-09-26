@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Database Schema helper module
+ * Database schema helper module
  *
  * This fie contains useful functions related to database schema, allow to manage the entire database
  * schema, and too, allow to maintain contents of some tables using the dbstatic feature

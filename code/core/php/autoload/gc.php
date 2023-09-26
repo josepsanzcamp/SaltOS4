@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Garbage Collector helper module
+ * Garbage collector helper module
  *
  * This fie contains useful functions related to the garbaging unused resources, currently only
  * implements the clear of temporary files

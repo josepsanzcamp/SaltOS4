@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Application Action
+ * Application action
  *
  * This file implements the app action, requires a GET REST request
  * and the order of the elements are:

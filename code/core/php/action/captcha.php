@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Captcha Action
+ * Captcha action
  *
  * This action allo to retrieve the captcha of a randomly number or math
  * operation, used to prevent massive requests, can perform the action of

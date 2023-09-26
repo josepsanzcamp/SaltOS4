@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Authentication Token Action
+ * Authentication token action
  *
  * This file implements the login action, allowing to authenticate users
  * using the pair of login/password to validate the credentials and get

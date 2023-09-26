@@ -1,12 +1,14 @@
 Code documentation
-SaltOS 4.0 r395
+SaltOS 4.0 r397
 September 2023
 
 
 
-+core/php/action/adderror.php+
++Add error action+
 
-++Add Error Action++
+```
+core/php/action/adderror.php
+```
 
 This file implements the adderror action, requires a POST JSON request
 with the follow elements: jserror, details and backtrace, this action
@@ -18,9 +20,11 @@ error
 - @backtrace => array with the backtrace used in the error report
 
 
-+core/php/action/addfiles.php+
++Add files action+
 
-++Add Files Action++
+```
+core/php/action/addfiles.php
+```
 
 This file implements the delete files action, requires a POST JSON request
 with an array of files, and each array must contain the follow entries:
@@ -42,9 +46,11 @@ array and store the file in the upload directory
 - @hash  => this field contains the hash of the contents of the file
 
 
-+core/php/action/addlog.php+
++Add log action+
 
-++Add Log Action++
+```
+core/php/action/addlog.php
+```
 
 This file implements the addlog action, requires a POST JSON request
 with an element in the json that contains the message to be added
@@ -52,9 +58,11 @@ with an element in the json that contains the message to be added
 - @msg => message that you want to add to the log file
 
 
-+core/php/action/app.php+
++Application action+
 
-++Application Action++
+```
+core/php/action/app.php
+```
 
 This file implements the app action, requires a GET REST request
 and the order of the elements are:
@@ -66,9 +74,11 @@ and the order of the elements are:
       of specific customer using the id
 
 
-+core/php/action/authtoken.php+
++Authentication token action+
 
-++Authentication Token Action++
+```
+core/php/action/authtoken.php
+```
 
 This file implements the login action, allowing to authenticate users
 using the pair of login/password to validate the credentials and get
@@ -82,9 +92,11 @@ This action not requires a valid token, all valid tokens associated
 to the user will be revoked when a new token is assigned
 
 
-+core/php/action/authupdate.php+
++Authentication update action+
 
-++Authentication Update Action++
+```
+core/php/action/authupdate.php
+```
 
 This file implements the update password action, allowing to authenticated
 users by a token, and providing the old password to update a new password
@@ -100,9 +112,11 @@ This action requires a valid token associated to the user that wants to do
 the password update
 
 
-+core/php/action/barcode.php+
++BarCode action+
 
-++BarCode Action++
+```
+core/php/action/barcode.php
+```
 
 This action allow to generate a barcode, you can pass the desired
 message that you want to convert in barcode
@@ -118,9 +132,11 @@ message that you want to convert in barcode
 - @t => type of the barcode, C128 is the most common type used
 
 
-+core/php/action/captcha.php+
++Captcha action+
 
-++Captcha Action++
+```
+core/php/action/captcha.php
+```
 
 This action allo to retrieve the captcha of a randomly number or math
 operation, used to prevent massive requests, can perform the action of
@@ -144,9 +160,11 @@ a json image
 - @blur      => true or false to enable or disable the blur effect
 
 
-+core/php/action/deauthtoken.php+
++Deauthentication token action+
 
-++Deauthentication Token Action++
+```
+core/php/action/deauthtoken.php
+```
 
 This file implements the logout action, allowing to deauthenticate users
 using a valid token, for security reasons, the deauth action only can
@@ -155,9 +173,11 @@ be performed by the same actor that execute the login action
 The unique requirement to execute this action is to have a valid token
 
 
-+core/php/action/delete.php+
++Delete action+
 
-++Delete action++
+```
+core/php/action/delete.php
+```
 
 This action allow to delete registers in the database associated to
 each app
@@ -165,9 +185,11 @@ each app
 TODO
 
 
-+core/php/action/delfiles.php+
++Delete files action+
 
-++Delete Files Action++
+```
+core/php/action/delfiles.php
+```
 
 This file implements the delete files action, requires a POST JSON request
 with an array of files, and each array must contain the follow entries:
@@ -188,9 +210,11 @@ clear the file and hash element of the array
 - @hash  => this field contains the hash of the contents of the file
 
 
-+core/php/action/insert.php+
++Insert action+
 
-++Insert action++
+```
+core/php/action/insert.php
+```
 
 This action allow to insert registers in the database associated to
 each app
@@ -198,9 +222,11 @@ each app
 TODO
 
 
-+core/php/action/qrcode.php+
++QRCode action+
 
-++QRCode Action++
+```
+core/php/action/qrcode.php
+```
 
 This action allow to generate a qrcode with the SaltOS logo embedded
 in the center of the image, you can pass the desired message that you
@@ -214,9 +240,11 @@ want to convert in qrcode.
 - @m => margin of the qrcode (white area that that surround the qrcode)
 
 
-+core/php/action/reauthtoken.php+
++Reauthentication token action+
 
-++Reauthentication Token Action++
+```
+core/php/action/reauthtoken.php
+```
 
 This file implements the renew action, allowing to renew tokens before
 expire, for security reasons, the deauth action only can be performed by
@@ -226,9 +254,11 @@ The unique requirement to execute this action is to have a valid token
 and have a token with available renewals
 
 
-+core/php/action/score.php+
++Score action+
 
-++Score Action++
+```
+core/php/action/score.php
+```
 
 This action allo to retrieve the score of a password, intended to be used
 as helper previously to the authupdate call, can perform the action of
@@ -244,9 +274,11 @@ image
 - @size   => the size of the font of the generated image
 
 
-+core/php/action/update.php+
++Update action+
 
-++Update action++
+```
+core/php/action/update.php
+```
 
 This action allow to update registers in the database associated to
 each app
@@ -254,9 +286,11 @@ each app
 TODO
 
 
-+core/php/autoload/apps.php+
++Apps helper module+
 
-++Apps helper module++
+```
+core/php/autoload/apps.php
+```
 
 This file contains functions intended to be used as hepers of other functions, allowing to convert
 between formats as the name of the app to and app id, or viceversa
@@ -385,9 +419,11 @@ This function detect if an app exists
 - @app => the app that you want to check if exists
 
 
-+core/php/autoload/array2xml.php+
++Array to XML helper module+
 
-++Array to XML helper module++
+```
+core/php/autoload/array2xml.php
+```
 
 This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
 to an XML string, currently it is little used because the most important module compared to this
@@ -445,9 +481,11 @@ language file, to do it, uses some helpers as __array2xml_* functions
 - @usexmlminify => a boolean to enable or disable the minify feature
 
 
-+core/php/autoload/arrayutils.php+
++Array helper module+
 
-++Array helper module++
+```
+core/php/autoload/arrayutils.php
+```
 
 This file contain useful array functions
 
@@ -466,9 +504,11 @@ an array in all cases
         then a void array will be returned
 
 
-+core/php/autoload/barcode.php+
++Barcode helper module+
 
-++Barcode helper module++
+```
+core/php/autoload/barcode.php
+```
 
 This fie contains useful functions related to barcodes
 
@@ -497,9 +537,11 @@ The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
 
-+core/php/autoload/captcha.php+
++Captcha helper module+
 
-++Captcha helper module++
+```
+core/php/autoload/captcha.php
+```
 
 This fie contains useful functions related to captchas
 
@@ -579,9 +621,11 @@ as trick, checks that the output operation is performed by prime numbers
 - @length => the length of the desired output string
 
 
-+core/php/autoload/colorutils.php+
++Color utils helper module+
 
-++Color utils helper module++
+```
+core/php/autoload/colorutils.php
+```
 
 This fie contains useful functions related to colors
 
@@ -602,9 +646,11 @@ Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
 - @component => The component that you want to retrieve their value
 
 
-+core/php/autoload/compat.php+
++Compatibility helper module+
 
-++Compatibility helper module++
+```
+core/php/autoload/compat.php
+```
 
 This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
 
@@ -645,9 +691,11 @@ Code copied from the follow web:
 https://www.php.net/manual/es/function.array-key-last.php#124007
 
 
-+core/php/autoload/config.php+
++Config helper module+
 
-++Config helper module++
+```
+core/php/autoload/config.php
+```
 
 This fie contains useful functions related to configuration features
 
@@ -691,9 +739,11 @@ in the memory of the config file for negative user_id values
 - @user_id => the user_id used as filter
 
 
-+core/php/autoload/control.php+
++Control helper module+
 
-++Control helper module++
+```
+core/php/autoload/control.php
+```
 
 This fie contains useful functions related to the control and version system, they allow to
 relationate registers with users and groups, and to add and retrieve the versions of a register
@@ -794,9 +844,11 @@ in the moment where the version will be stored, to do it, they must to
 restore versions from 1 to ver_id, and must to discard the next versions
 
 
-+core/php/autoload/database.php+
++Database helper module+
 
-++Database helper module++
+```
+core/php/autoload/database.php
+```
 
 This fie contains useful functions related to database, allow to connect, check queries, execute
 queries, disconnect, retrieve rows and manipulate resultsets of the database
@@ -954,9 +1006,11 @@ This function returns the name of the field identified by the index field
            obtained by the db_query
 
 
-+core/php/autoload/datetime.php+
++Datetime helper module+
 
-++Datetime helper module++
+```
+core/php/autoload/datetime.php
+```
 
 This fie contains useful functions related to datetime, allow to get current timestamp in various
 formats, allow to evaluate timestamps and some helper more
@@ -1142,9 +1196,11 @@ used to move the current time mark
 - @offset => the bias added to the current time mark
 
 
-+core/php/autoload/dbschema.php+
++Database schema helper module+
 
-++Database Schema helper module++
+```
+core/php/autoload/dbschema.php
+```
 
 This fie contains useful functions related to database schema, allow to manage the entire database
 schema, and too, allow to maintain contents of some tables using the dbstatic feature
@@ -1383,9 +1439,11 @@ indexing feature
 - @table => the table used by some features
 
 
-+core/php/autoload/error.php+
++Error helper module+
 
-++Error helper module++
+```
+core/php/autoload/error.php
+```
 
 This fie contains useful functions related to error management, allow to trigger and manage
 errors, too contains the code used for the error and exception handlers
@@ -1554,9 +1612,11 @@ is created automatically to help the backtrace of the issues
 - @msg => this contains a simple text that is used in the json output
 
 
-+core/php/autoload/exec.php+
++Execution helper module+
 
-++Execution helper module++
+```
+core/php/autoload/exec.php
+```
 
 This fie contains useful functions related to execution of external programs, allow to execute,
 check commands and manage some features as the cache usage or the timeout used in each execution
@@ -1626,9 +1686,11 @@ break the execution killing the process
 Returns the string that contains the command with ths timeout control
 
 
-+core/php/autoload/export.php+
++Export helper module+
 
-++Export helper module++
+```
+core/php/autoload/export.php
+```
 
 This fie contains useful functions related to export data, allow to generate outputs in formats
 suck as excel, csv, edi, json and xml
@@ -1728,9 +1790,11 @@ This function is intended to export data in json format
 They will returns all data
 
 
-+core/php/autoload/fileutils.php+
++File utils helper module+
 
-++File utils helper module++
+```
+core/php/autoload/fileutils.php
+```
 
 This fie contains useful functions related to the file usage, allow to manage directories, files,
 caches, paths, permissions, remote files and more
@@ -1950,9 +2014,11 @@ to know when the file has changed
 - @file => the file that you want to add the hash querystring argument
 
 
-+core/php/autoload/gc.php+
++Garbage collector helper module+
 
-++Garbage Collector helper module++
+```
+core/php/autoload/gc.php
+```
 
 This fie contains useful functions related to the garbaging unused resources, currently only
 implements the clear of temporary files
@@ -1972,9 +2038,11 @@ is able to detect hidden files and remove except the special files as
 current directory, parent directory and htaccess file
 
 
-+core/php/autoload/getdata.php+
++Get data helper module+
 
-++Get Data helper module++
+```
+core/php/autoload/getdata.php
+```
 
 This fie contains useful functions related to the $_DATA global variable, allow to get and set
 values in the global $_DATA variable using xpath as key
@@ -2004,9 +2072,11 @@ This function sets a value in the data system for the specified key
 - @val => the value that you want to set
 
 
-+core/php/autoload/gettext.php+
++Gettext helper module+
 
-++Gettext helper module++
+```
+core/php/autoload/gettext.php
+```
 
 This fie contains useful functions related to gettext funcionality, allow to manage the
 SaltOS translations using a merged system of the unix locales and the old SaltOS translations
@@ -2024,9 +2094,11 @@ feature, is based in the original system of the SaltOS 3 with improvements
 to do more open as the GNU gettext
 
 
-+core/php/autoload/import.php+
++Import file helper module+
 
-++Import File helper module++
+```
+core/php/autoload/import.php
+```
 
 This fie contains useful functions related to import contents using differents formats suck as
 excel, csv, edi, json, xml and bytes. Too this module allow to manipulate data using the tree
@@ -2530,9 +2602,11 @@ mode the contents of a matrix
 - @compact => set to true if you want to minify the ascii table
 
 
-+core/php/autoload/indexing.php+
++Make index helper module+
 
-++Make Index helper module++
+```
+core/php/autoload/indexing.php
+```
 
 This fie contains useful functions related to the indexing feature that internally uses the
 mroonga engine to search in the fulltext string generated by this feature
@@ -2584,9 +2658,11 @@ an array with all fields and subqueries to allow to retrieve all data
 related to the app register
 
 
-+core/php/autoload/iniset.php+
++Iniset helper module+
 
-++Iniset helper module++
+```
+core/php/autoload/iniset.php
+```
 
 This fie contains useful functions related to the evaluation of the iniset, puntenv and extra
 directives configures in the config.xml file
@@ -2639,9 +2715,11 @@ used as an argument for the key function, only is intended at the moment to
 accept functions with one and two arguments, otherwise an error is triggered
 
 
-+core/php/autoload/list.php+
++List helper module+
 
-++List helper module++
+```
+core/php/autoload/list.php
+```
 
 This fie contains useful functions related to the lists generated from SaltOS, in this case, this
 module add to the generic queries the permissions filter and the actions associated to each register
@@ -2669,9 +2747,11 @@ associated to the current user, for each permission and using the new owner
 concept
 
 
-+core/php/autoload/log.php+
++Log helper module+
 
-++Log helper module++
+```
+core/php/autoload/log.php
+```
 
 This fie contains useful functions related to the logs files, allowing to add and check contents
 to the logs file, useful for debug purposes
@@ -2756,9 +2836,11 @@ generally used by the semaphores and some forced addtrace calls, but causes
 problems in the error reporting because break the hash and checklog optimization
 
 
-+core/php/autoload/memory.php+
++Memory helper module+
 
-++Memory helper module++
+```
+core/php/autoload/memory.php
+```
 
 This fie contains useful functions related to memory and time usage, allow to control the usage
 of time and/or memory of a process, intended to prevent crashes in processes that requires more
@@ -2837,9 +2919,11 @@ This function is intended to do a ini_set with a more greather value to allow an
 exceptionally amount of execution time
 
 
-+core/php/autoload/output.php+
++Output helper module+
 
-++Output helper module++
+```
+core/php/autoload/output.php
+```
 
 This fie contains useful functions related to the output of the SaltOS, allow to send contents to
 the clients using the specified format and configuration, useful to return contents, too implement
@@ -2876,9 +2960,11 @@ requires is the data that you want to send
 - @array => content to convert to json and send to the output channel
 
 
-+core/php/autoload/password.php+
++Password helper module+
 
-++Password helper module++
+```
+core/php/autoload/password.php
+```
 
 This fie contains useful functions related to password, currently only publish one feature to check
 the password strength, but is open to be used to add more password features if it is needed
@@ -2898,9 +2984,11 @@ password
 - @pass => password that do you want to check
 
 
-+core/php/autoload/perms.php+
++Permissions helper module+
 
-++Permissions helper module++
+```
+core/php/autoload/perms.php
+```
 
 This fie contains useful functions related to permissions, allow to apply permissions in php core
 or in sql queries, to do it, uses all permissions tables and predefined configurations, more info
@@ -3006,9 +3094,11 @@ contains the owner and for the perm without the owner, for exampe, this
 function returns true for perm list and form perm list|user
 
 
-+core/php/autoload/qrcode.php+
++QRCode helper module+
 
-++QRCode helper module++
+```
+core/php/autoload/qrcode.php
+```
 
 This fie contains useful functions related to QRCodes
 
@@ -3034,9 +3124,11 @@ The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
 
-+core/php/autoload/random.php+
++Random helper module+
 
-++Random helper module++
+```
+core/php/autoload/random.php
+```
 
 This fie contains useful functions related to random number generator, currently only initialize
 the internal generator, but in the future we can add more features if it is needed
@@ -3057,9 +3149,11 @@ the srand php documentation, I see that the seed is not needed because
 if it is not provided, a randomly seed is used by default
 
 
-+core/php/autoload/score.php+
++Score image helper module+
 
-++Score Image helper module++
+```
+core/php/autoload/score.php
+```
 
 This fie contains useful functions related to score images
 
@@ -3081,9 +3175,11 @@ write the score percent
 - @size   => the size of the font of the generated image
 
 
-+core/php/autoload/semaphores.php+
++Semaphore helper module+
 
-++Semaphore helper module++
+```
+core/php/autoload/semaphores.php
+```
 
 This fie contains useful functions related to semaphores, allow to create and use semaphores
 for acquiring and release semaphores that guaranty the exclusivity of the code execution
@@ -3171,9 +3267,11 @@ function
 - @usec => the micro seconds that you want to sleep
 
 
-+core/php/autoload/server.php+
++Server helper module+
 
-++Server helper module++
+```
+core/php/autoload/server.php
+```
 
 This fie contains useful functions related to the $_SERVER global variable, currently only publish
 a getter function, but in the future, can store more features if it is needed
@@ -3191,9 +3289,11 @@ This function returns the server variable requested by index if it exists
 - @default => the default value returned if the key is not found
 
 
-+core/php/autoload/sqlutils.php+
++SQL utils helper module+
 
-++SQL utils helper module++
+```
+core/php/autoload/sqlutils.php
+```
 
 This fie contains useful functions related to SQL queries, allow to help modules that requires
 the entire management of the database (create tables, drop tables, create indexes, and more),
@@ -3607,9 +3707,11 @@ app and the prefix to be added to the id field of the in subquery
 - @default => sql fraement returned if some thing was wrong
 
 
-+core/php/autoload/strutils.php+
++String utils helper module+
 
-++String utils helper module++
+```
+core/php/autoload/strutils.php
+```
 
 This fie contains useful functions related to strings manipulations, suck as get the test in
 UTF8, remove bad chars, of apply filters to the text, manipulate texts of other related tasks
@@ -3790,9 +3892,11 @@ function get_unique_token()
 This function returns a string with a new and unique token
 
 
-+core/php/autoload/system.php+
++System helper module+
 
-++System helper module++
+```
+core/php/autoload/system.php
+```
 
 This fie contains useful functions related to system checks, allow to detect dependencies not
 installed on the system, or misconfigurations on the SaltOS installation
@@ -3811,9 +3915,11 @@ that is triggered if the dependency is not satisfied
 Too, check all directories of the data directory to validate that the process can write inside it
 
 
-+core/php/autoload/user.php+
++User helper module+
 
-++User helper module++
+```
+core/php/autoload/user.php
+```
 
 This file contains the functions associated to the user validation, to
 improve the performance, all functions are using a cache based trick
@@ -3880,9 +3986,11 @@ to other actions and functions that requires the integrity of the passwords
 and tokens
 
 
-+core/php/autoload/version.php+
++Version helper module+
 
-++Version helper module++
+```
+core/php/autoload/version.php
+```
 
 This fie contains useful functions related to the version of the SaltOS of the php engine
 
@@ -3933,9 +4041,11 @@ version requested and the current version.
 - @version => the version where do you want to compare
 
 
-+core/php/autoload/xml2array.php+
++XML to Array helper module+
 
-++XML to Array helper module++
+```
+core/php/autoload/xml2array.php
+```
 
 This fie contains useful functions related to the xml manipulation, this code is a part of the
 main version of the SaltOS because the main idea defined some years ago continues active, if you
@@ -4158,17 +4268,21 @@ The valid inputs are the strings one, zero, void, true, false, on, off, yes and 
 - @arg => the value that do you want to evaluates as boolean
 
 
-+core/php/autoload/zindex.php+
++Main execution module+
 
-++Main execution module++
+```
+core/php/autoload/zindex.php
+```
 
 This file contains the old index.php file, this was moved here to simplify the index.php and to
 allow some php checks found in the current index.php
 
 
-+core/php/database/libsqlite.php+
++SQLite3 functions library+
 
-++SQLite3 functions library++
+```
+core/php/database/libsqlite.php
+```
 
 SQLite's database allow to define external functions that can be used from the SQL language,
 this is a great feature that allow to use SQLite as MySQL, and using this feature of the
@@ -4396,11 +4510,15 @@ function __libsqlite_now()
 This function add the NOW to the SQLite database
 
 
-+core/php/database/mysqli.php+
++MySQL improved driver+
 
-++MySQL improved driver++
+```
+core/php/database/mysqli.php
+```
 
-This file implements the MySQL improved driver, to do this
+This file implements the MySQL improved driver. This driver was coded later that the initial
+mysql driver and contains lots of improvements respect to the old mysql driver. The old mysql
+driver was removed in the PHP 7.0 release.
 
 
 ++Database MySQL improved class++
@@ -4490,11 +4608,14 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+core/php/database/pdo_mssql.php+
++PDO MsSQL driver+
 
-++PDO MsSQL driver++
+```
+core/php/database/pdo_mssql.php
+```
 
-This file implements the MySQL improved driver, to do this
+This file implements the MySQL improved driver. This driver uses the dblib library to connect
+with SQL servers.
 
 
 ++Database PDO MsSQL class++
@@ -4584,11 +4705,15 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+core/php/database/pdo_mysql.php+
++PDO MySQL driver+
 
-++PDO MySQL driver++
+```
+core/php/database/pdo_mysql.php
+```
 
-This file implements the MySQL improved driver, to do this
+This file implements the MySQL improved driver. This is the recommended driver when you want
+to use MySQL servers, it uses the PDO extension and alow to connect to MySQL servers with a
+good performance.
 
 
 ++Database PDO MySQL class++
@@ -4678,11 +4803,17 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+core/php/database/pdo_sqlite.php+
++PDO SQLite driver+
 
-++PDO SQLite driver++
+```
+core/php/database/pdo_sqlite.php
+```
 
-This file implements the MySQL improved driver, to do this
+This file implements the MySQL improved driver. This is the recommended driver when you want
+to use SQLite3 files as database server and it uses the PDO extension to do it, this driver
+solves the concurrence problem using POSIX semaphores, generally it is a good option for setups
+that don't require a fulltext search optimizations suck as mroonga, intended for a personal
+usage or demos.
 
 
 ++Database PDO SQLite class++
@@ -4776,11 +4907,16 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+core/php/database/sqlite3.php+
++SQLite3 driver+
 
-++SQLite3 driver++
+```
+core/php/database/sqlite3.php
+```
 
-This file implements the MySQL improved driver, to do this
+This file implements the MySQL improved driver. This is the recommended driver when you want
+to use SQLite3 files as database server, this driver solves the concurrence problem using
+POSIX semaphores, generally it is a good option for setups that don't require a fulltext
+search optimizations suck as mroonga, intended for a personal usage or demos.
 
 
 ++Database SQLite3 class++
@@ -4874,9 +5010,11 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+core/js/app.js+
++Application helper module+
 
-++Application helper module++
+```
+core/js/app.js
+```
 
 This fie contains useful functions related to the main application, at the end of this file you can
 see the main code that launch the application to be executed from the browser
@@ -5035,9 +5173,11 @@ the value key in the case of existence of the #attr and value keys
 This is the code that must to be executed to initialize all requirements of this module
 
 
-+core/js/bootstrap.js+
++Bootstrap helper module+
 
-++Bootstrap helper module++
+```
+core/js/bootstrap.js
+```
 
 This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
 other plugins suck as plots or rich editors
@@ -6106,9 +6246,11 @@ is created automatically if it not exists when the first toast need it.
 Each toast includes a hash to prevent the creation of repeated toasts.
 
 
-+core/js/core.js+
++Core helper module+
 
-++Core helper module++
+```
+core/js/core.js
+```
 
 This fie contains useful functions related to the core application, provides the low level features
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things

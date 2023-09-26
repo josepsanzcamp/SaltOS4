@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Score Image helper module
+ * Score image helper module
  *
  * This fie contains useful functions related to score images
  */

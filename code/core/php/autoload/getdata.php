@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Get Data helper module
+ * Get data helper module
  *
  * This fie contains useful functions related to the $_DATA global variable, allow to get and set
  * values in the global $_DATA variable using xpath as key

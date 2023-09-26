@@ -30,7 +30,9 @@ declare(strict_types=1);
 /**
  * MySQL improved driver
  *
- * This file implements the MySQL improved driver, to do this
+ * This file implements the MySQL improved driver. This driver was coded later that the initial
+ * mysql driver and contains lots of improvements respect to the old mysql driver. The old mysql
+ * driver was removed in the PHP 7.0 release.
  */
 
 // phpcs:disable PSR1.Classes.ClassDeclaration

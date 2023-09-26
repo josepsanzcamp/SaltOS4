@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Authentication Update Action
+ * Authentication update action
  *
  * This file implements the update password action, allowing to authenticated
  * users by a token, and providing the old password to update a new password

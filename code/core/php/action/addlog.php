@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Add Log Action
+ * Add log action
  *
  * This file implements the addlog action, requires a POST JSON request
  * with an element in the json that contains the message to be added

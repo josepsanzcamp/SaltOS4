@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Add Files Action
+ * Add files action
  *
  * This file implements the delete files action, requires a POST JSON request
  * with an array of files, and each array must contain the follow entries:

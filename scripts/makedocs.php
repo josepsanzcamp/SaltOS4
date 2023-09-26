@@ -81,7 +81,7 @@ foreach ($files as $file => $temp) {
         unset($files[$file]);
         continue;
     }
-    unset($matches[0]);
+    array_shift($matches);
     $files[$file] = $matches;
 }
 //~ print_r($files);
@@ -98,11 +98,17 @@ echo "\n";
 echo "\n";
 echo "\n";
 foreach ($files as $file => $contents) {
-    echo "+$file+\n";
-    echo "\n";
+    $first = true;
     foreach ($contents as $content) {
-        echo "++{$content[0]}++\n";
-        echo "\n";
+        if ($first) {
+            echo "+{$content[0]}+\n";
+            echo "\n";
+            $content[1] = $file;
+            $first = false;
+        } else {
+            echo "++{$content[0]}++\n";
+            echo "\n";
+        }
         if ($content[1] != "") {
             echo "```\n";
             echo "{$content[1]}\n";
@@ -117,9 +123,12 @@ foreach ($files as $file => $contents) {
     }
 }
 $buffer = ob_get_clean();
+//~ echo $buffer;
+//~ die();
 mkdir($outdir);
 chdir($outdir);
 file_put_contents($outfile, $buffer);
+//~ die();
 
 // HTML Section
 $file = str_replace(".t2t", "", $outfile);

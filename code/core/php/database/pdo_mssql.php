@@ -30,7 +30,8 @@ declare(strict_types=1);
 /**
  * PDO MsSQL driver
  *
- * This file implements the MySQL improved driver, to do this
+ * This file implements the MySQL improved driver. This driver uses the dblib library to connect
+ * with SQL servers.
  */
 
 // phpcs:disable PSR1.Classes.ClassDeclaration

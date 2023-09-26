@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Import File helper module
+ * Import file helper module
  *
  * This fie contains useful functions related to import contents using differents formats suck as
  * excel, csv, edi, json, xml and bytes. Too this module allow to manipulate data using the tree

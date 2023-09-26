@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * BarCode Action
+ * BarCode action
  *
  * This action allow to generate a barcode, you can pass the desired
  * message that you want to convert in barcode

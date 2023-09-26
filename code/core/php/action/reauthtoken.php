@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Reauthentication Token Action
+ * Reauthentication token action
  *
  * This file implements the renew action, allowing to renew tokens before
  * expire, for security reasons, the deauth action only can be performed by

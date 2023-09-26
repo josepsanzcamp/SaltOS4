@@ -30,7 +30,9 @@ declare(strict_types=1);
 /**
  * PDO MySQL driver
  *
- * This file implements the MySQL improved driver, to do this
+ * This file implements the MySQL improved driver. This is the recommended driver when you want
+ * to use MySQL servers, it uses the PDO extension and alow to connect to MySQL servers with a
+ * good performance.
  */
 
 // phpcs:disable PSR1.Classes.ClassDeclaration

@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Deauthentication Token Action
+ * Deauthentication token action
  *
  * This file implements the logout action, allowing to deauthenticate users
  * using a valid token, for security reasons, the deauth action only can

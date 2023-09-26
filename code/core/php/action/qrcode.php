@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * QRCode Action
+ * QRCode action
  *
  * This action allow to generate a qrcode with the SaltOS logo embedded
  * in the center of the image, you can pass the desired message that you

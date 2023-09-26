@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Score Action
+ * Score action
  *
  * This action allo to retrieve the score of a password, intended to be used
  * as helper previously to the authupdate call, can perform the action of

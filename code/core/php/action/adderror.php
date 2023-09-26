@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Add Error Action
+ * Add error action
  *
  * This file implements the adderror action, requires a POST JSON request
  * with the follow elements: jserror, details and backtrace, this action
