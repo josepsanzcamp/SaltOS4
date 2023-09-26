@@ -97,16 +97,23 @@ echo "$date\n";
 echo "\n";
 echo "\n";
 echo "\n";
+$chapter = "";
 foreach ($files as $file => $contents) {
+    $path = dirname($file);
+    if ($chapter != $path) {
+        $chapter = $path;
+        echo "+$chapter+\n";
+        echo "\n";
+    }
     $first = true;
     foreach ($contents as $content) {
         if ($first) {
-            echo "+{$content[0]}+\n";
+            echo "++{$content[0]}++\n";
             echo "\n";
             $content[1] = $file;
             $first = false;
         } else {
-            echo "++{$content[0]}++\n";
+            echo "+++{$content[0]}+++\n";
             echo "\n";
         }
         if ($content[1] != "") {
@@ -151,7 +158,7 @@ exec("txt2tags --toc -t tex -i ${file}.t2t -o ${file}.tex");
 $buffer = file_get_contents("${file}.tex");
 $buffer = explode("\n", $buffer);
 $buffer0 = array_slice($buffer, 0, 5);
-$buffer0 = str_replace("\\documentclass{article}", "\\documentclass[a4paper]{article}", $buffer0);
+$buffer0 = str_replace("\\documentclass{article}", "\\documentclass[a4paper]{book}", $buffer0);
 $buffer0 = str_replace(
     "\\usepackage[urlcolor=blue,colorlinks=true]{hyperref}",
     "\\usepackage[urlcolor=myblue,colorlinks=true,linkcolor=myblue]{hyperref}",
@@ -178,7 +185,7 @@ $buffer1 = [
     "\\lstset{basicstyle=\\ttfamily,backgroundcolor=\\color{mygrey},breaklines=true}",
     "\\usepackage{tocloft}",
     "\\usepackage{calc}",
-    "\\setlength{\\cftsubsecnumwidth}{\\widthof{\\large\\bfseries{}12.34}}",
+    "\\setlength{\\cftsubsecnumwidth}{\\widthof{\\large\\bfseries{}1.11.11}}",
     "\\setlength\\cftparskip{3mm}",
     "",
 ];
@@ -199,6 +206,9 @@ $buffer2 = str_replace("\\item", "\\item[\\color{myblue}\$\\bullet\$]", $buffer2
     //~ ]),
     //~ $buffer2
 //~ );
+$buffer2 = str_replace("\\section", "\\chapter", $buffer2);
+$buffer2 = str_replace("\\subsection", "\\section", $buffer2);
+$buffer2 = str_replace("\\subsubsection", "\\subsection", $buffer2);
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
 file_put_contents("${file}.tex", $buffer);

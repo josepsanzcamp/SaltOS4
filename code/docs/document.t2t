@@ -1,10 +1,12 @@
 Code documentation
-SaltOS 4.0 r397
+SaltOS 4.0 r398
 September 2023
 
 
 
-+Add error action+
++core/php/action+
+
+++Add error action++
 
 ```
 core/php/action/adderror.php
@@ -20,7 +22,7 @@ error
 - @backtrace => array with the backtrace used in the error report
 
 
-+Add files action+
+++Add files action++
 
 ```
 core/php/action/addfiles.php
@@ -46,7 +48,7 @@ array and store the file in the upload directory
 - @hash  => this field contains the hash of the contents of the file
 
 
-+Add log action+
+++Add log action++
 
 ```
 core/php/action/addlog.php
@@ -58,7 +60,7 @@ with an element in the json that contains the message to be added
 - @msg => message that you want to add to the log file
 
 
-+Application action+
+++Application action++
 
 ```
 core/php/action/app.php
@@ -74,7 +76,7 @@ and the order of the elements are:
       of specific customer using the id
 
 
-+Authentication token action+
+++Authentication token action++
 
 ```
 core/php/action/authtoken.php
@@ -92,7 +94,7 @@ This action not requires a valid token, all valid tokens associated
 to the user will be revoked when a new token is assigned
 
 
-+Authentication update action+
+++Authentication update action++
 
 ```
 core/php/action/authupdate.php
@@ -112,7 +114,7 @@ This action requires a valid token associated to the user that wants to do
 the password update
 
 
-+BarCode action+
+++BarCode action++
 
 ```
 core/php/action/barcode.php
@@ -132,7 +134,7 @@ message that you want to convert in barcode
 - @t => type of the barcode, C128 is the most common type used
 
 
-+Captcha action+
+++Captcha action++
 
 ```
 core/php/action/captcha.php
@@ -160,7 +162,7 @@ a json image
 - @blur      => true or false to enable or disable the blur effect
 
 
-+Deauthentication token action+
+++Deauthentication token action++
 
 ```
 core/php/action/deauthtoken.php
@@ -173,7 +175,7 @@ be performed by the same actor that execute the login action
 The unique requirement to execute this action is to have a valid token
 
 
-+Delete action+
+++Delete action++
 
 ```
 core/php/action/delete.php
@@ -185,7 +187,7 @@ each app
 TODO
 
 
-+Delete files action+
+++Delete files action++
 
 ```
 core/php/action/delfiles.php
@@ -210,7 +212,7 @@ clear the file and hash element of the array
 - @hash  => this field contains the hash of the contents of the file
 
 
-+Insert action+
+++Insert action++
 
 ```
 core/php/action/insert.php
@@ -222,7 +224,7 @@ each app
 TODO
 
 
-+QRCode action+
+++QRCode action++
 
 ```
 core/php/action/qrcode.php
@@ -240,7 +242,7 @@ want to convert in qrcode.
 - @m => margin of the qrcode (white area that that surround the qrcode)
 
 
-+Reauthentication token action+
+++Reauthentication token action++
 
 ```
 core/php/action/reauthtoken.php
@@ -254,7 +256,7 @@ The unique requirement to execute this action is to have a valid token
 and have a token with available renewals
 
 
-+Score action+
+++Score action++
 
 ```
 core/php/action/score.php
@@ -274,7 +276,7 @@ image
 - @size   => the size of the font of the generated image
 
 
-+Update action+
+++Update action++
 
 ```
 core/php/action/update.php
@@ -286,7 +288,9 @@ each app
 TODO
 
 
-+Apps helper module+
++core/php/autoload+
+
+++Apps helper module++
 
 ```
 core/php/autoload/apps.php
@@ -296,7 +300,7 @@ This file contains functions intended to be used as hepers of other functions, a
 between formats as the name of the app to and app id, or viceversa
 
 
-++Apps helper function++
++++Apps helper function+++
 
 ```
 function __apps($fn, $arg)
@@ -309,7 +313,7 @@ dictionary of all conversions and resolves the data using it
 - @arg => the argument passed to the function
 
 
-++Id to App++
++++Id to App+++
 
 ```
 function id2app($id)
@@ -320,7 +324,7 @@ This function resolves the code of the app from the app id
 - @id => the app id used to resolve the code
 
 
-++App to Id++
++++App to Id+++
 
 ```
 function app2id($app)
@@ -331,7 +335,7 @@ This function resolves the id of the app from the app code
 - @app => the code used to resolve the id
 
 
-++Id to Table++
++++Id to Table+++
 
 ```
 function id2table($id)
@@ -342,7 +346,7 @@ This function resolves the table of the app from the app id
 - @id => the app id used to resolve the table
 
 
-++App to Table++
++++App to Table+++
 
 ```
 function app2table($app)
@@ -353,7 +357,7 @@ This function resolves the table of the app from the app code
 - @app => the app code used to resolve the table
 
 
-++Table to Id++
++++Table to Id+++
 
 ```
 function table2id($table)
@@ -364,7 +368,7 @@ This function resolves the id of the app from the app table
 - @table => the app table used to resolve the id
 
 
-++Table to App++
++++Table to App+++
 
 ```
 function table2app($table)
@@ -375,7 +379,7 @@ This function resolves the code of the app from the app table
 - @table => the app table used to resolve the app code
 
 
-++Id to Subtables++
++++Id to Subtables+++
 
 ```
 function id2subtables($id)
@@ -386,7 +390,7 @@ This function resolves the subtables of the app from the app id
 - @id => the app id used to resolve the subtables
 
 
-++App to Subtables++
++++App to Subtables+++
 
 ```
 function app2subtables($app)
@@ -397,7 +401,7 @@ This function resolves the subtables of the app from the app code
 - @app => the app code used to resolve the subtables
 
 
-++Table to Subtables++
++++Table to Subtables+++
 
 ```
 function table2subtables($table)
@@ -408,7 +412,7 @@ This function resolves the subtables of the app from the app table
 - @table => the app table used to resolve the subtables
 
 
-++App Exists++
++++App Exists+++
 
 ```
 function app_exists($app)
@@ -419,7 +423,7 @@ This function detect if an app exists
 - @app => the app that you want to check if exists
 
 
-+Array to XML helper module+
+++Array to XML helper module++
 
 ```
 core/php/autoload/array2xml.php
@@ -430,7 +434,7 @@ to an XML string, currently it is little used because the most important module 
 is the inverse xml2array module
 
 
-++Check Node Name++
++++Check Node Name+++
 
 ```
 function __array2xml_check_node_name($name)
@@ -442,7 +446,7 @@ return if the node name is valid
 - @name => the name that you want to validate
 
 
-++Check Attr Name++
++++Check Attr Name+++
 
 ```
 function __array2xml_check_node_attr($name)
@@ -454,7 +458,7 @@ return if the attribute name is valid
 - @name => the name that you want to validate
 
 
-++Write Nodes array2xml helper++
++++Write Nodes array2xml helper+++
 
 ```
 function __array2xml_write_nodes(&$array, $level = null)
@@ -467,7 +471,7 @@ return a string with the tree array
 - @level => can be null to minify the output zero to indent the XML contents
 
 
-++Array to XML++
++++Array to XML+++
 
 ```
 function array2xml($array, $usecache = true, $usexmlminify = true)
@@ -481,7 +485,7 @@ language file, to do it, uses some helpers as __array2xml_* functions
 - @usexmlminify => a boolean to enable or disable the minify feature
 
 
-+Array helper module+
+++Array helper module++
 
 ```
 core/php/autoload/arrayutils.php
@@ -490,7 +494,7 @@ core/php/autoload/arrayutils.php
 This file contain useful array functions
 
 
-++Null to array converter++
++++Null to array converter+++
 
 ```
 function null2array($arr)
@@ -504,7 +508,7 @@ an array in all cases
         then a void array will be returned
 
 
-+Barcode helper module+
+++Barcode helper module++
 
 ```
 core/php/autoload/barcode.php
@@ -513,7 +517,7 @@ core/php/autoload/barcode.php
 This fie contains useful functions related to barcodes
 
 
-++BarCode function++
++++BarCode function+++
 
 ```
 function __barcode($msg, $w, $h, $m, $s, $t)
@@ -537,7 +541,7 @@ The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
 
-+Captcha helper module+
+++Captcha helper module++
 
 ```
 core/php/autoload/captcha.php
@@ -546,7 +550,7 @@ core/php/autoload/captcha.php
 This fie contains useful functions related to captchas
 
 
-++Captcha Is Prime Number++
++++Captcha Is Prime Number+++
 
 ```
 function __captcha_isprime($num)
@@ -564,7 +568,7 @@ Notes:
 See www.polprimos.com for understand it
 
 
-++Captcha Image++
++++Captcha Image+++
 
 ```
 function __captcha_image($code, $args = [])
@@ -597,7 +601,7 @@ Too appear in ther posts if you search for it in google:
 - http://www.google.es/search?q=captcha+alto_linea
 
 
-++Captcha Make Number function++
++++Captcha Make Number function+++
 
 ```
 function __captcha_make_number($length)
@@ -609,7 +613,7 @@ checks that the output is a prime number
 - @length => the length of the desired output string
 
 
-++Captcha Make Math Operation function++
++++Captcha Make Math Operation function+++
 
 ```
 function __captcha_make_math($length)
@@ -621,7 +625,7 @@ as trick, checks that the output operation is performed by prime numbers
 - @length => the length of the desired output string
 
 
-+Color utils helper module+
+++Color utils helper module++
 
 ```
 core/php/autoload/colorutils.php
@@ -630,7 +634,7 @@ core/php/autoload/colorutils.php
 This fie contains useful functions related to colors
 
 
-++Color To Dec function++
++++Color To Dec function+++
 
 ```
 function color2dec($color, $component)
@@ -646,7 +650,7 @@ Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
 - @component => The component that you want to retrieve their value
 
 
-+Compatibility helper module+
+++Compatibility helper module++
 
 ```
 core/php/autoload/compat.php
@@ -655,7 +659,7 @@ core/php/autoload/compat.php
 This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
 
 
-++Array Key Last++
++++Array Key Last+++
 
 ```
 function array_key_last(array $array)
@@ -673,7 +677,7 @@ Code copied from the follow web:
 https://www.php.net/manual/es/function.array-key-last.php#124007
 
 
-++Array Key First++
++++Array Key First+++
 
 ```
 function array_key_first(array $arr)
@@ -691,7 +695,7 @@ Code copied from the follow web:
 https://www.php.net/manual/es/function.array-key-last.php#124007
 
 
-+Config helper module+
+++Config helper module++
 
 ```
 core/php/autoload/config.php
@@ -700,7 +704,7 @@ core/php/autoload/config.php
 This fie contains useful functions related to configuration features
 
 
-++Get config++
++++Get config+++
 
 ```
 function get_config($key, $user_id = -1)
@@ -724,7 +728,7 @@ config file and for zero or positive values, tries to search it in
 the database
 
 
-++Set config++
++++Set config+++
 
 ```
 function set_config($key, $val, $user_id = -1)
@@ -739,7 +743,7 @@ in the memory of the config file for negative user_id values
 - @user_id => the user_id used as filter
 
 
-+Control helper module+
+++Control helper module++
 
 ```
 core/php/autoload/control.php
@@ -749,7 +753,7 @@ This fie contains useful functions related to the control and version system, th
 relationate registers with users and groups, and to add and retrieve the versions of a register
 
 
-++Make Control function++
++++Make Control function+++
 
 ```
 function make_control($app, $reg_id, $user_id = null, $datetime = null)
@@ -782,7 +786,7 @@ This function returns an integer as response about the control action:
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
 
-++Add Version function++
++++Add Version function+++
 
 ```
 function add_version($app, $reg_id, $user_id = null, $datetime = null)
@@ -821,7 +825,7 @@ This function returns an integer as response about the control action:
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
 
-++Get Version++
++++Get Version+++
 
 ```
 function get_version($app, $reg_id, $ver_id)
@@ -844,7 +848,7 @@ in the moment where the version will be stored, to do it, they must to
 restore versions from 1 to ver_id, and must to discard the next versions
 
 
-+Database helper module+
+++Database helper module++
 
 ```
 core/php/autoload/database.php
@@ -854,7 +858,7 @@ This fie contains useful functions related to database, allow to connect, check 
 queries, disconnect, retrieve rows and manipulate resultsets of the database
 
 
-++DB Connect++
++++DB Connect+++
 
 ```
 function db_connect($args = null)
@@ -881,7 +885,7 @@ and depending of the argument presense, it will return the database object or st
 to be used by the nexts functions of this php file
 
 
-++DB Check++
++++DB Check+++
 
 ```
 function db_check($query)
@@ -892,7 +896,7 @@ This function is intended to check that the query execution will not trigger an 
 - @query => the query that you want to validate
 
 
-++DB Query++
++++DB Query+++
 
 ```
 function db_query($query, $fetch = "query")
@@ -925,7 +929,7 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
-++DB Disconnect++
++++DB Disconnect+++
 
 ```
 function db_disconnect()
@@ -934,7 +938,7 @@ function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-++DB Fetch Row++
++++DB Fetch Row+++
 
 ```
 function db_fetch_row(&$result)
@@ -946,7 +950,7 @@ This function returns the next row of the resultset queue
            obtained by the db_query
 
 
-++DB Fetch All++
++++DB Fetch All+++
 
 ```
 function db_fetch_all(&$result)
@@ -958,7 +962,7 @@ This function returns all rows of the resultset queue
            obtained by the db_query
 
 
-++DB Num Rows++
++++DB Num Rows+++
 
 ```
 function db_num_rows($result)
@@ -970,7 +974,7 @@ This function returns the total number of the results in the resultset queue
            obtained by the db_query
 
 
-++DB Free++
++++DB Free+++
 
 ```
 function db_free(&$result)
@@ -982,7 +986,7 @@ This function releases all memory used by the resultset queue
            obtained by the db_query
 
 
-++DB Num Fields++
++++DB Num Fields+++
 
 ```
 function db_num_fields($result)
@@ -994,7 +998,7 @@ This function returns the number of fields of the resultset queue
            obtained by the db_query
 
 
-++DB Field Name++
++++DB Field Name+++
 
 ```
 function db_field_name($result, $index)
@@ -1006,7 +1010,7 @@ This function returns the name of the field identified by the index field
            obtained by the db_query
 
 
-+Datetime helper module+
+++Datetime helper module++
 
 ```
 core/php/autoload/datetime.php
@@ -1016,7 +1020,7 @@ This fie contains useful functions related to datetime, allow to get current tim
 formats, allow to evaluate timestamps and some helper more
 
 
-++Current Date++
++++Current Date+++
 
 ```
 function current_date($offset = 0)
@@ -1029,7 +1033,7 @@ current time mark
 - @offset => the bias added to the current time mark
 
 
-++Current Time++
++++Current Time+++
 
 ```
 function current_time($offset = 0)
@@ -1042,7 +1046,7 @@ current time mark
 - @offset => the bias added to the current time mark
 
 
-++Current DateTime++
++++Current DateTime+++
 
 ```
 function current_datetime($offset = 0)
@@ -1055,7 +1059,7 @@ move the current time mark
 - @offset => the bias added to the current time mark
 
 
-++Current Decimals++
++++Current Decimals+++
 
 ```
 function current_decimals($offset = 0, $size = 4)
@@ -1075,7 +1079,7 @@ This function is used by current_datetime_decimals, and don't have more uses
 that provice more precision in the logs files
 
 
-++Current DateTime Decimals++
++++Current DateTime Decimals+++
 
 ```
 function current_datetime_decimals($offset = 0, $size = 4)
@@ -1089,7 +1093,7 @@ more accuracy to debug issues, for example
 - @size   => the size used by the decimal part
 
 
-++Dateval++
++++Dateval+++
 
 ```
 function dateval($value)
@@ -1112,7 +1116,7 @@ days of the month and year, this is useful because the dates that are more
 greather that zero, will have a valid and an existing value
 
 
-++Day of a Month helper++
++++Day of a Month helper+++
 
 ```
 function __days_of_a_month($year, $month)
@@ -1125,7 +1129,7 @@ is useful because allow to fix problems in dates that use days out of range
 - @month => month that you want to use in the validation
 
 
-++Timeval++
++++Timeval+++
 
 ```
 function timeval($value)
@@ -1138,7 +1142,7 @@ the elements, the result will be of the format HH:II:SS
 - @value => the input value to validate
 
 
-++Datetimeval++
++++Datetimeval+++
 
 ```
 function datetimeval($value)
@@ -1161,7 +1165,7 @@ days of the month and year, this is useful because the dates that are more
 greather that zero, will have a valid and an existing value
 
 
-++Time to Seconds++
++++Time to Seconds+++
 
 ```
 function __time2secs($time)
@@ -1172,7 +1176,7 @@ This function converts the time format into seconds
 - @time => time to be converted into seconds, the format will be HH:II:SS
 
 
-++Seconds to Time++
++++Seconds to Time+++
 
 ```
 function __secs2time($secs)
@@ -1183,7 +1187,7 @@ This function converts the seconds into time format
 - @secs => seconds to be converted to time format, the format will be a number
 
 
-++Current Day Of Week++
++++Current Day Of Week+++
 
 ```
 function current_dow($offset = 0)
@@ -1196,7 +1200,7 @@ used to move the current time mark
 - @offset => the bias added to the current time mark
 
 
-+Database schema helper module+
+++Database schema helper module++
 
 ```
 core/php/autoload/dbschema.php
@@ -1206,7 +1210,7 @@ This fie contains useful functions related to database schema, allow to manage t
 schema, and too, allow to maintain contents of some tables using the dbstatic feature
 
 
-++DB Schema++
++++DB Schema+++
 
 ```
 function db_schema()
@@ -1216,7 +1220,7 @@ This function try to maintain the database structure, to do it, this feature use
 file to store the database structure.
 
 
-++DB Static++
++++DB Static+++
 
 ```
 function db_static()
@@ -1230,7 +1234,7 @@ This version of the db_static allow you to use a comma separated values in
 fields as "id", start by "id_" or end by "_id"
 
 
-++DB Static insert++
++++DB Static insert+++
 
 ```
 function __dbstatic_insert($table, $row)
@@ -1249,7 +1253,7 @@ This feature allow to you to use comma separated lists of values, commonly used 
 fields as user_id, perms_id, or similar.
 
 
-++Get Tables from DB Schema++
++++Get Tables from DB Schema+++
 
 ```
 function get_tables_from_dbschema()
@@ -1258,7 +1262,7 @@ function get_tables_from_dbschema()
 This function returns the tables from the DB Schema file
 
 
-++Get Fields from DB Schema++
++++Get Fields from DB Schema+++
 
 ```
 function get_fields_from_dbschema($table)
@@ -1269,7 +1273,7 @@ This function returns the fields from the DB Schema file
 - @table => the table that you want to request the fields
 
 
-++Get Indexes from DB Schema++
++++Get Indexes from DB Schema+++
 
 ```
 function get_indexes_from_dbschema($table)
@@ -1280,7 +1284,7 @@ This function returns the indexes from the DB Schema file
 - @table => the table that you want to request the indexes
 
 
-++Get Ignores from DB Schema++
++++Get Ignores from DB Schema+++
 
 ```
 function get_ignores_from_dbschema()
@@ -1289,7 +1293,7 @@ function get_ignores_from_dbschema()
 This function returns the ignores tables from the DB Schema file
 
 
-++Get Fulltext from DB Schema++
++++Get Fulltext from DB Schema+++
 
 ```
 function get_fulltext_from_dbschema()
@@ -1298,7 +1302,7 @@ function get_fulltext_from_dbschema()
 This function returns the fulltext tables from the DB Schema file
 
 
-++Get Fkeys from DB Schema++
++++Get Fkeys from DB Schema+++
 
 ```
 function get_fkeys_from_dbschema($table)
@@ -1309,7 +1313,7 @@ This function returns the fkeys from the DB Schema file
 - @table => the table that you want to request the fkeys
 
 
-++DB Schema helper++
++++DB Schema helper+++
 
 ```
 function __dbschema_helper($fn, $table)
@@ -1322,7 +1326,7 @@ to returns the tables of the DB Schema or the fields of a table
 - @table => the table used by some features
 
 
-++DB Schema Auto Apps++
++++DB Schema Auto Apps+++
 
 ```
 function __dbschema_auto_apps($dbschema)
@@ -1340,7 +1344,7 @@ idea of this tables is to store all contents of the register to do quick searchs
 fulltext search engine
 
 
-++DB Schema Auto Fkey++
++++DB Schema Auto Fkey+++
 
 ```
 function __dbschema_auto_fkey($dbschema)
@@ -1360,7 +1364,7 @@ This function checks that the field not exists in the defined indexes to prevent
 indexes
 
 
-++DB Schema Auto Name++
++++DB Schema Auto Name+++
 
 ```
 function __dbschema_auto_name($dbschema)
@@ -1383,7 +1387,7 @@ because in MySQL, the name can be repeated in different tables, but in SQLite,
 the name must be unique in the database
 
 
-++Get Apps From DBStatic++
++++Get Apps From DBStatic+++
 
 ```
 function get_apps_from_dbstatic()
@@ -1393,7 +1397,7 @@ This function returns the list of apps that have a table and field defined
 in the dbstatic file
 
 
-++Get Tables From DBStatic++
++++Get Tables From DBStatic+++
 
 ```
 function get_tables_from_dbstatic()
@@ -1403,7 +1407,7 @@ This function returns the list of tables that have a table and field defined
 in the dbstatic file
 
 
-++Get Field From DBStatic++
++++Get Field From DBStatic+++
 
 ```
 function get_field_from_dbstatic($table, $field = "field")
@@ -1424,7 +1428,7 @@ the app code instead of the app table to identify what row do you
 want to use
 
 
-++DB Static helper++
++++DB Static helper+++
 
 ```
 function __dbstatic_helper($fn, $table, $field)
@@ -1439,7 +1443,7 @@ indexing feature
 - @table => the table used by some features
 
 
-+Error helper module+
+++Error helper module++
 
 ```
 core/php/autoload/error.php
@@ -1449,7 +1453,7 @@ This fie contains useful functions related to error management, allow to trigger
 errors, too contains the code used for the error and exception handlers
 
 
-++Show PHP Error++
++++Show PHP Error+++
 
 ```
 function show_php_error($array)
@@ -1500,7 +1504,7 @@ optimization of the hash with the checklog to prevent repetitions in the
 log file
 
 
-++Do Message Error++
++++Do Message Error+++
 
 ```
 function do_message_error($array)
@@ -1531,7 +1535,7 @@ Returns an array with the text and the json formated output ready to be used
 in the log file and in the stdout channel
 
 
-++Program Handlers++
++++Program Handlers+++
 
 ```
 function program_handlers()
@@ -1540,7 +1544,7 @@ function program_handlers()
 This function program all error handlers
 
 
-++Error Handler++
++++Error Handler+++
 
 ```
 function __error_handler($type, $message, $file, $line)
@@ -1556,7 +1560,7 @@ Ths arguments are defined by the set_error_handler:
 - @line    => The line where the error will occurred
 
 
-++Exception Handler++
++++Exception Handler+++
 
 ```
 function __exception_handler($e)
@@ -1570,7 +1574,7 @@ Ths arguments are defined by the set_exception_handler:
       methods
 
 
-++Shutdown Handler++
++++Shutdown Handler+++
 
 ```
 function __shutdown_handler()
@@ -1583,7 +1587,7 @@ error is in the stack of the errors events, to do it this function uses the erro
 to check if the value in in the list of typified errors
 
 
-++Get Code From Trace++
++++Get Code From Trace+++
 
 ```
 function __get_code_from_trace($trace, $index = 0)
@@ -1598,7 +1602,7 @@ to help the users when live issues with our API
 - @index => the position of the array used to get the filename and the line
 
 
-++Show JSON Error++
++++Show JSON Error+++
 
 ```
 function show_json_error($msg)
@@ -1612,7 +1616,7 @@ is created automatically to help the backtrace of the issues
 - @msg => this contains a simple text that is used in the json output
 
 
-+Execution helper module+
+++Execution helper module++
 
 ```
 core/php/autoload/exec.php
@@ -1622,7 +1626,7 @@ This fie contains useful functions related to execution of external programs, al
 check commands and manage some features as the cache usage or the timeout used in each execution
 
 
-++OB Passthru++
++++OB Passthru+++
 
 ```
 function ob_passthru($cmd, $expires = 0)
@@ -1642,7 +1646,7 @@ feature is that the function detects what command are available
 to use
 
 
-++Check Commands++
++++Check Commands+++
 
 ```
 function check_commands($commands, $expires = 0)
@@ -1655,7 +1659,7 @@ in the system, to do it, uses the unix command witch
 - @expires  => the expires time used to compute if the cache is valid
 
 
-++Is Disabled Function++
++++Is Disabled Function+++
 
 ```
 function is_disabled_function($fn = "")
@@ -1669,7 +1673,7 @@ disabled functions
 - @fn => the function that you want to check if is it disabled
 
 
-++Exec Timeout++
++++Exec Timeout+++
 
 ```
 function __exec_timeout($cmd)
@@ -1686,7 +1690,7 @@ break the execution killing the process
 Returns the string that contains the command with ths timeout control
 
 
-+Export helper module+
+++Export helper module++
 
 ```
 core/php/autoload/export.php
@@ -1696,7 +1700,7 @@ This fie contains useful functions related to export data, allow to generate out
 suck as excel, csv, edi, json and xml
 
 
-++Export File main function++
++++Export File main function+++
 
 ```
 function export_file($args)
@@ -1723,7 +1727,7 @@ If file argument is specified, void string is returned
 If file argument is not specified, then they will returns all data
 
 
-++Export File XML++
++++Export File XML+++
 
 ```
 function __export_file_xml($matrix, $eol = "\n", $encoding = "UTF-8")
@@ -1739,7 +1743,7 @@ This function is intended to export data in xml format
 They will returns all data
 
 
-++Export File CSV++
++++Export File CSV+++
 
 ```
 function __export_file_csv(
@@ -1759,7 +1763,7 @@ This function is intended to export data in csv format
 They will returns all data
 
 
-++Export File Excel++
++++Export File Excel+++
 
 ```
 function __export_file_excel($matrix, $title = "", $type = "Xlsx")
@@ -1775,7 +1779,7 @@ This function is intended to export data in excel format
 They will returns all data
 
 
-++Export File JSON++
++++Export File JSON+++
 
 ```
 function __export_file_json($matrix, $indent = false)
@@ -1790,7 +1794,7 @@ This function is intended to export data in json format
 They will returns all data
 
 
-+File utils helper module+
+++File utils helper module++
 
 ```
 core/php/autoload/fileutils.php
@@ -1800,7 +1804,7 @@ This fie contains useful functions related to the file usage, allow to manage di
 caches, paths, permissions, remote files and more
 
 
-++Get Directory++
++++Get Directory+++
 
 ```
 function get_directory($key)
@@ -1813,7 +1817,7 @@ something as store data in the log file, for example
 - @key => the key used in get_config to request the configured directory
 
 
-++Get Temp File++
++++Get Temp File+++
 
 ```
 function get_temp_file($ext = "")
@@ -1831,7 +1835,7 @@ Notes:
 This function uses the dirs/tempdir config key
 
 
-++Get Cache File++
++++Get Cache File+++
 
 ```
 function get_cache_file($data, $ext = "")
@@ -1849,7 +1853,7 @@ Notes:
 This function uses the dirs/cachedir config key
 
 
-++Cache Exists++
++++Cache Exists+++
 
 ```
 function cache_exists($cache, $files)
@@ -1862,7 +1866,7 @@ of the filemtime between the cache file and all files of the second argument
 - @files => array of files that are considered as dependencies of the cache
 
 
-++URL Get Contents++
++++URL Get Contents+++
 
 ```
 function url_get_contents($url)
@@ -1880,7 +1884,7 @@ This function only returns the body of the request, if you are interested
 to get the headers of the request, try to use the __url_get_contents
 
 
-++URL Get Contents helper++
++++URL Get Contents helper+++
 
 ```
 function __url_get_contents($url, $args = [])
@@ -1908,7 +1912,7 @@ Notes:
 This function uses the httpclient library
 
 
-++Extension++
++++Extension+++
 
 ```
 function extension($file)
@@ -1919,7 +1923,7 @@ This function returns the PATHINFO_EXTENSION of the file
 - @file => file used in the pathinfo call
 
 
-++Encode Bar Chars File++
++++Encode Bar Chars File+++
 
 ```
 function encode_bad_chars_file($file)
@@ -1933,7 +1937,7 @@ separating the filename with the extension
 - @file => filename used in the encode process
 
 
-++Realpath Protected++
++++Realpath Protected+++
 
 ```
 function realpath_protected($path)
@@ -1948,7 +1952,7 @@ of this function the file is not found
 - @path => path used in the realpath call
 
 
-++Getcwd Protected++
++++Getcwd Protected+++
 
 ```
 function getcwd_protected()
@@ -1960,7 +1964,7 @@ permissions problems, and a good solution for this cases is to get the directory
 of the script as current work directory
 
 
-++Glob Protected++
++++Glob Protected+++
 
 ```
 function glob_protected($pattern)
@@ -1975,7 +1979,7 @@ problem
 - @pattern => pattern used in the glob command
 
 
-++Chmod Protected++
++++Chmod Protected+++
 
 ```
 function chmod_protected($file, $mode)
@@ -1988,7 +1992,7 @@ only if the fileperms of the file are different that the requested mode
 - @mode => mode used by the chmod function
 
 
-++Fsockopen Protected++
++++Fsockopen Protected+++
 
 ```
 function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $timeout = null)
@@ -2001,7 +2005,7 @@ Ths arguments is the same that the fsockopen function, in this case, the
 function uses the stream_socket_client to emulate the original fsockopen
 
 
-++File with Mtime++
++++File with Mtime+++
 
 ```
 function file_with_hash($file)
@@ -2014,7 +2018,7 @@ to know when the file has changed
 - @file => the file that you want to add the hash querystring argument
 
 
-+Garbage collector helper module+
+++Garbage collector helper module++
 
 ```
 core/php/autoload/gc.php
@@ -2024,7 +2028,7 @@ This fie contains useful functions related to the garbaging unused resources, cu
 implements the clear of temporary files
 
 
-++Garbage Collector Executor++
++++Garbage Collector Executor+++
 
 ```
 function gc_exec()
@@ -2038,7 +2042,7 @@ is able to detect hidden files and remove except the special files as
 current directory, parent directory and htaccess file
 
 
-+Get data helper module+
+++Get data helper module++
 
 ```
 core/php/autoload/getdata.php
@@ -2048,7 +2052,7 @@ This fie contains useful functions related to the $_DATA global variable, allow 
 values in the global $_DATA variable using xpath as key
 
 
-++Get data++
++++Get data+++
 
 ```
 function get_data($key)
@@ -2060,7 +2064,7 @@ data system
 - @key => the key that you want to retrieve the value
 
 
-++Set data++
++++Set data+++
 
 ```
 function set_data($key, $val)
@@ -2072,7 +2076,7 @@ This function sets a value in the data system for the specified key
 - @val => the value that you want to set
 
 
-+Gettext helper module+
+++Gettext helper module++
 
 ```
 core/php/autoload/gettext.php
@@ -2083,7 +2087,7 @@ SaltOS translations using a merged system of the unix locales and the old SaltOS
 system.
 
 
-++Get Text function++
++++Get Text function+++
 
 ```
 function T($text)
@@ -2094,7 +2098,7 @@ feature, is based in the original system of the SaltOS 3 with improvements
 to do more open as the GNU gettext
 
 
-+Import file helper module+
+++Import file helper module++
 
 ```
 core/php/autoload/import.php
@@ -2106,7 +2110,7 @@ array of the core of the SaltOS, allowing to add, modify and remove nodes, too c
 of the memory data and paint arrays as ascii tables
 
 
-++Import File main function++
++++Import File main function+++
 
 ```
 function import_file($args)
@@ -2135,7 +2139,7 @@ This function returns an array with the loaded data from file
 Can return a matrix or tree, depending the nodes parameter
 
 
-++UTF8 BOM helper++
++++UTF8 BOM helper+++
 
 ```
 function __import_utf8bom($data)
@@ -2149,7 +2153,7 @@ This function remove the bom header of the string
 Returns the data without the bom characters
 
 
-++XML to Array++
++++XML to Array+++
 
 ```
 function __import_xml2array($file)
@@ -2163,7 +2167,7 @@ This function convert an xml into an array
 Returns an array with the contents of the xml
 
 
-++Struct to Array helper++
++++Struct to Array helper+++
 
 ```
 function __import_struct2array(&$data)
@@ -2177,7 +2181,7 @@ This function is a helper of the __import_xml2array
 Returns an array with the correct structure that matches the xml structure
 
 
-++Get Node helper++
++++Get Node helper+++
 
 ```
 function __import_getnode($path, $array)
@@ -2192,7 +2196,7 @@ This function is a helper used to get a node in a xml structure
 Returns the contents of the node of the specified path
 
 
-++Get Value helper++
++++Get Value helper+++
 
 ```
 function __import_getvalue($array)
@@ -2206,7 +2210,7 @@ This function is a helper used to get a value if exists of a node structure
 Retusn the value if exists, otherwise the same input
 
 
-++Get Attr helper++
++++Get Attr helper+++
 
 ```
 function __import_getattr($elem, $array)
@@ -2221,7 +2225,7 @@ This function is a helper used to get a attr element if exists of a node structu
 Returns the attr if exists, otherwise null
 
 
-++Set Node helper++
++++Set Node helper+++
 
 ```
 function __import_setnode($path, &$array, $value)
@@ -2237,7 +2241,7 @@ This function is used to set data into a xml structure
 Returns true if the function can set the value, false otherwise
 
 
-++Del Node helper++
++++Del Node helper+++
 
 ```
 function __import_delnode($path, &$array)
@@ -2252,7 +2256,7 @@ This function is used to remove data of the xml structure
 Returns true if the function can remove the path, false otherwise
 
 
-++Add Node helper++
++++Add Node helper+++
 
 ```
 function __import_addnode($path, &$array, $value)
@@ -2268,7 +2272,7 @@ This function is used to add data into a xml structure
 true if the function can add the data, false otherwise
 
 
-++Special Chars helper++
++++Special Chars helper+++
 
 ```
 function __import_specialchars($arg)
@@ -2282,7 +2286,7 @@ This function is a helper used by the csv2array function
 Returns the input with the expected replacements
 
 
-++CSV to Array helper++
++++CSV to Array helper+++
 
 ```
 function __import_csv2array($file, $sep)
@@ -2297,7 +2301,7 @@ This function is a helper of the __import_xml2array
 Returns a matrix with the contents
 
 
-++XLS to Array helper++
++++XLS to Array helper+++
 
 ```
 function __import_xls2array($file, $sheet)
@@ -2316,7 +2320,7 @@ This fuction can convert an excel file into a matrix structure, it has some addi
 Returns a matrix with the contents
 
 
-++Bytes to Array helper++
++++Bytes to Array helper+++
 
 ```
 function __import_bytes2array($file, $map, $offset, $nomb)
@@ -2339,7 +2343,7 @@ The map must be an array of strings of the follow form:
 ["field1;0;10", "field2;10;20", "field3;20;40"]
 
 
-++Edit to Array helper++
++++Edit to Array helper+++
 
 ```
 function __import_edi2array($file)
@@ -2350,7 +2354,7 @@ This fuction can convert an excel file into a tree structure
 - @file => local filename used to load the data
 
 
-++JSON to Array helper++
++++JSON to Array helper+++
 
 ```
 function __import_json2array($file)
@@ -2361,7 +2365,7 @@ This fuction can convert an excel file into a tree structure
 - @file => local filename used to load the data
 
 
-++Check Real Matrix helper++
++++Check Real Matrix helper+++
 
 ```
 function __import_check_real_matrix($array)
@@ -2375,7 +2379,7 @@ checks that the keys are numeric and that all values are non arrays
 - @array => the array to check
 
 
-++Remove Void helper++
++++Remove Void helper+++
 
 ```
 function __import_removevoid($array)
@@ -2386,7 +2390,7 @@ This function is able to remove an entire row or column if it is void
 - @array => the array to fix
 
 
-++Array to Tree helper++
++++Array to Tree helper+++
 
 ```
 function __import_array2tree($array, $nodes, $nohead, $noletter)
@@ -2405,7 +2409,7 @@ specification
              previous option is set to true
 
 
-++Array Intersect++
++++Array Intersect+++
 
 ```
 function __import_array_intersect($data, $filter)
@@ -2418,7 +2422,7 @@ maintaining the order of the filter array.
 - @filter => the array where obtain the keys to apply the filter
 
 
-++Array to Tree Set helper++
++++Array to Tree Set helper+++
 
 ```
 function __import_array2tree_set(&$result, $parts)
@@ -2432,7 +2436,7 @@ by the tree setting the values of each pair of key val
 - @parts  => an array with pairs of key val
 
 
-++Array to Tree Clean helper++
++++Array to Tree Clean helper+++
 
 ```
 function __import_array2tree_clean($array)
@@ -2443,7 +2447,7 @@ This function tries to clean the tree by setting an automatic indexes
 - @array => the array to clean
 
 
-++Tree to Array++
++++Tree to Array+++
 
 ```
 function __import_tree2array($array)
@@ -2455,7 +2459,7 @@ a tree structure into a csv, for example
 - @array => the tree that you want to convert into a 2D matrix
 
 
-++Column to Name helper++
++++Column to Name helper+++
 
 ```
 function __import_col2name($n)
@@ -2472,7 +2476,7 @@ This function was copied from:
 - http://www.php.net/manual/en/function.base-convert.php#94874
 
 
-++Name to Column helper++
++++Name to Column helper+++
 
 ```
 function __import_name2col($a)
@@ -2489,7 +2493,7 @@ This function was copied from:
 - http://www.php.net/manual/en/function.base-convert.php#94874
 
 
-++Is Name helper++
++++Is Name helper+++
 
 ```
 function __import_isname($name)
@@ -2501,7 +2505,7 @@ used in the name of the column
 - @name => the name that you want to check
 
 
-++Cell to Column and Row helper++
++++Cell to Column and Row helper+++
 
 ```
 function __import_cell2colrow($cell)
@@ -2518,7 +2522,7 @@ This function tries to retusn an array with two elements, for example, for
 the cell AX23, the function returns [AX,23]
 
 
-++Get Keys++
++++Get Keys+++
 
 ```
 function __import_getkeys($array)
@@ -2530,7 +2534,7 @@ in the tree
 - @array => the tree array that you want to process
 
 
-++Filter helper++
++++Filter helper+++
 
 ```
 function __import_filter($array, $filter, $eval = 0)
@@ -2545,7 +2549,7 @@ A=M23
 - @eval   => set to 1 if you want to enable the eval feature
 
 
-++Filter Recursive helper++
++++Filter Recursive helper+++
 
 ```
 function __import_filter_rec($node, $filter, $eval, $parent = [])
@@ -2560,7 +2564,7 @@ same but with recursivity
 - @parent => this parameter is intended to be used internaly by the function
 
 
-++Apply Patch++
++++Apply Patch+++
 
 ```
 function __import_apply_patch(&$array, $key, $val)
@@ -2574,7 +2578,7 @@ update the desired branch of the tree using a xpath notation
 - @val   => the val that you want to put in the desired xpath
 
 
-++Apply Patch Recursive helper++
++++Apply Patch Recursive helper+++
 
 ```
 function __import_apply_patch_rec(&$array, $key, $val)
@@ -2588,7 +2592,7 @@ same but with recursivity
 - @val   => the val that you want to put in the desired xpath
 
 
-++Make Table ASCII++
++++Make Table ASCII+++
 
 ```
 function __import_make_table_ascii($array)
@@ -2602,7 +2606,7 @@ mode the contents of a matrix
 - @compact => set to true if you want to minify the ascii table
 
 
-+Make index helper module+
+++Make index helper module++
 
 ```
 core/php/autoload/indexing.php
@@ -2612,7 +2616,7 @@ This fie contains useful functions related to the indexing feature that internal
 mroonga engine to search in the fulltext string generated by this feature
 
 
-++Make Index main function++
++++Make Index main function+++
 
 ```
 function make_index($app, $reg_id)
@@ -2641,7 +2645,7 @@ This function returns an integer as response about the index action:
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
 
-++Make Index helper++
++++Make Index helper+++
 
 ```
 function __make_index_helper($table, $id = "")
@@ -2658,7 +2662,7 @@ an array with all fields and subqueries to allow to retrieve all data
 related to the app register
 
 
-+Iniset helper module+
+++Iniset helper module++
 
 ```
 core/php/autoload/iniset.php
@@ -2668,7 +2672,7 @@ This fie contains useful functions related to the evaluation of the iniset, punt
 directives configures in the config.xml file
 
 
-++Eval Iniset++
++++Eval Iniset+++
 
 ```
 function eval_iniset($array)
@@ -2683,7 +2687,7 @@ or mbstring.detect_order that must to be set by using another mb_* functions
 - @array => the array with the pairs of keys vals
 
 
-++Eval Putenv++
++++Eval Putenv+++
 
 ```
 function eval_putenv($array)
@@ -2696,7 +2700,7 @@ if is needed to change or not the current setting
 - @array => the array with the pairs of keys vals
 
 
-++Eval Extras++
++++Eval Extras+++
 
 ```
 function eval_extras($array)
@@ -2715,7 +2719,7 @@ used as an argument for the key function, only is intended at the moment to
 accept functions with one and two arguments, otherwise an error is triggered
 
 
-+List helper module+
+++List helper module++
 
 ```
 core/php/autoload/list.php
@@ -2726,7 +2730,7 @@ module add to the generic queries the permissions filter and the actions associa
 depending of each application
 
 
-++Add list actions helper++
++++Add list actions helper+++
 
 ```
 function add_list_actions($rows, $actions)
@@ -2747,7 +2751,7 @@ associated to the current user, for each permission and using the new owner
 concept
 
 
-+Log helper module+
+++Log helper module++
 
 ```
 core/php/autoload/log.php
@@ -2757,7 +2761,7 @@ This fie contains useful functions related to the logs files, allowing to add an
 to the logs file, useful for debug purposes
 
 
-++Check Log++
++++Check Log+++
 
 ```
 function checklog($hash, $file)
@@ -2773,7 +2777,7 @@ replacement that is able to found the hash in the file
 - @file => the file where search the pattern
 
 
-++Add Log++
++++Add Log+++
 
 ```
 function addlog($msg, $file = "")
@@ -2794,7 +2798,7 @@ The logs files are stored in the logsdir (/data/logs)
 This function performs the log rotation is the maxfilesize is reached
 
 
-++Add Trace++
++++Add Trace+++
 
 ```
 function addtrace($array, $file)
@@ -2809,7 +2813,7 @@ and then, saves the log to the specified file
 - @file  => the file where do you want to store the log contents
 
 
-++Get Trace++
++++Get Trace+++
 
 ```
 function gettrace($array)
@@ -2821,7 +2825,7 @@ information and convert all array into a string
 - @array => the array that can contains the same info that show_php_error
 
 
-++Session Backtrace++
++++Session Backtrace+++
 
 ```
 function session_backtrace()
@@ -2836,7 +2840,7 @@ generally used by the semaphores and some forced addtrace calls, but causes
 problems in the error reporting because break the hash and checklog optimization
 
 
-+Memory helper module+
+++Memory helper module++
 
 ```
 core/php/autoload/memory.php
@@ -2847,7 +2851,7 @@ of time and/or memory of a process, intended to prevent crashes in processes tha
 time or memory resources that the defined by the system limits
 
 
-++Memory Get Free++
++++Memory Get Free+++
 
 ```
 function memory_get_free($bytes = false)
@@ -2858,7 +2862,7 @@ This function returns the free memory in bytes or the percentage of the memory_l
 - @bytes => if true, returns the free bytes, if false, returns the percentage
 
 
-++Get Time Usage++
++++Get Time Usage+++
 
 ```
 function time_get_usage($secs = false)
@@ -2869,7 +2873,7 @@ This function returns the time usage in seconds or in percentage of the max_exec
 - @secs => if true, returns the used seconds, if false, returns the percentage
 
 
-++Get Free Time++
++++Get Free Time+++
 
 ```
 function time_get_free($secs = false)
@@ -2880,7 +2884,7 @@ This function returns the free time in seconds or in percentage of the max_execu
 - @secs => if true, returns the used seconds, if false, returns the percentage
 
 
-++Init Time Get++
++++Init Time Get+++
 
 ```
 function init_timer()
@@ -2889,7 +2893,7 @@ function init_timer()
 This function call the helper to initialize the static ini to the current microtime
 
 
-++Get Time helper++
++++Get Time helper+++
 
 ```
 function __time_get_helper($fn, $secs)
@@ -2899,7 +2903,7 @@ This function is a helper of the time_get_usage and time_get_free functions, is 
 check the time usage and the free time that remain to finish the execution of the script
 
 
-++Set Max Memory Limit++
++++Set Max Memory Limit+++
 
 ```
 function set_max_memory_limit()
@@ -2909,7 +2913,7 @@ This function is intended to do a ini_set with a more greather value to allow an
 exceptionally amount of memory usage
 
 
-++Set Max Execution Time++
++++Set Max Execution Time+++
 
 ```
 function set_max_execution_time()
@@ -2919,7 +2923,7 @@ This function is intended to do a ini_set with a more greather value to allow an
 exceptionally amount of execution time
 
 
-+Output helper module+
+++Output helper module++
 
 ```
 core/php/autoload/output.php
@@ -2930,7 +2934,7 @@ the clients using the specified format and configuration, useful to return conte
 a specific output for the json format that is the most format used by the new SaltOS
 
 
-++Output Handler++
++++Output Handler+++
 
 ```
 function output_handler($array)
@@ -2948,7 +2952,7 @@ the follow arguments:
 - @extra => headers that you can add to the transfer
 
 
-++Output Handler JSON++
++++Output Handler JSON+++
 
 ```
 function output_handler_json($array)
@@ -2960,7 +2964,7 @@ requires is the data that you want to send
 - @array => content to convert to json and send to the output channel
 
 
-+Password helper module+
+++Password helper module++
 
 ```
 core/php/autoload/password.php
@@ -2970,7 +2974,7 @@ This fie contains useful functions related to password, currently only publish o
 the password strength, but is open to be used to add more password features if it is needed
 
 
-++Password Strength++
++++Password Strength+++
 
 ```
 function password_strength($pass)
@@ -2984,7 +2988,7 @@ password
 - @pass => password that do you want to check
 
 
-+Permissions helper module+
+++Permissions helper module++
 
 ```
 core/php/autoload/perms.php
@@ -2995,7 +2999,7 @@ or in sql queries, to do it, uses all permissions tables and predefined configur
 in each function
 
 
-++Check User++
++++Check User+++
 
 ```
 function check_user($app, $perm)
@@ -3013,7 +3017,7 @@ an integrity error is launched.
 - @perm => the perm to check
 
 
-++Check SQL++
++++Check SQL+++
 
 ```
 function check_sql($app, $perm)
@@ -3034,7 +3038,7 @@ register, as an optimization, it detects if the all owner is on and
 return a true expression to improve the performance
 
 
-++Perms helper function++
++++Perms helper function+++
 
 ```
 function __perms($fn, $arg)
@@ -3047,7 +3051,7 @@ dictionary of all conversions and resolves the data using it
 - @arg => the argument passed to the function
 
 
-++Id to Perm++
++++Id to Perm+++
 
 ```
 function id2perm($id)
@@ -3058,7 +3062,7 @@ This function resolves the code of the perm from the perm id
 - @id => the id used to resolve the perm
 
 
-++Perm to Id++
++++Perm to Id+++
 
 ```
 function perm2id($perm)
@@ -3075,7 +3079,7 @@ This function can return an integer or an array of integers, depending
 if the app is using the owner parameter or not
 
 
-++Perm Exists++
++++Perm Exists+++
 
 ```
 function perm_exists($perm)
@@ -3094,7 +3098,7 @@ contains the owner and for the perm without the owner, for exampe, this
 function returns true for perm list and form perm list|user
 
 
-+QRCode helper module+
+++QRCode helper module++
 
 ```
 core/php/autoload/qrcode.php
@@ -3103,7 +3107,7 @@ core/php/autoload/qrcode.php
 This fie contains useful functions related to QRCodes
 
 
-++QRCode function++
++++QRCode function+++
 
 ```
 function __qrcode($msg, $s, $m)
@@ -3124,7 +3128,7 @@ The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
 
-+Random helper module+
+++Random helper module++
 
 ```
 core/php/autoload/random.php
@@ -3134,7 +3138,7 @@ This fie contains useful functions related to random number generator, currently
 the internal generator, but in the future we can add more features if it is needed
 
 
-++Init Random++
++++Init Random+++
 
 ```
 function init_random()
@@ -3149,7 +3153,7 @@ the srand php documentation, I see that the seed is not needed because
 if it is not provided, a randomly seed is used by default
 
 
-+Score image helper module+
+++Score image helper module++
 
 ```
 core/php/autoload/score.php
@@ -3158,7 +3162,7 @@ core/php/autoload/score.php
 This fie contains useful functions related to score images
 
 
-++Score Image function++
++++Score Image function+++
 
 ```
 function __score_image($score, $width, $height, $size)
@@ -3175,7 +3179,7 @@ write the score percent
 - @size   => the size of the font of the generated image
 
 
-+Semaphore helper module+
+++Semaphore helper module++
 
 ```
 core/php/autoload/semaphores.php
@@ -3185,7 +3189,7 @@ This fie contains useful functions related to semaphores, allow to create and us
 for acquiring and release semaphores that guaranty the exclusivity of the code execution
 
 
-++Semaphore Acquire++
++++Semaphore Acquire+++
 
 ```
 function semaphore_acquire($name = "", $timeout = INF)
@@ -3197,7 +3201,7 @@ This function implement the acquire of a semaphore
 - @timeout => the timeout used in waiting operations
 
 
-++Semaphore Release++
++++Semaphore Release+++
 
 ```
 function semaphore_release($name = "")
@@ -3208,7 +3212,7 @@ This function implement the release of the semaphore
 - @name => the name of the semaphore
 
 
-++Semaphore Shutdown++
++++Semaphore Shutdown+++
 
 ```
 function semaphore_shutdown()
@@ -3219,7 +3223,7 @@ the function will iterate in each semaphore to release and set to
 null the semaphore pointer
 
 
-++Semaphore File++
++++Semaphore File+++
 
 ```
 function semaphore_file($name = "")
@@ -3231,7 +3235,7 @@ named semaphore, useful for debug purposes
 - @name => the name of the semaphore
 
 
-++Semaphore helper++
++++Semaphore helper+++
 
 ```
 function __semaphore_helper($fn, $name, $timeout)
@@ -3248,7 +3252,7 @@ class and each if stripos acts as a methods of a class
 - @timeout => the timeout used in waiting operations
 
 
-++Semaphore USleep helper++
++++Semaphore USleep helper+++
 
 ```
 function __semaphore_usleep($usec)
@@ -3267,7 +3271,7 @@ function
 - @usec => the micro seconds that you want to sleep
 
 
-+Server helper module+
+++Server helper module++
 
 ```
 core/php/autoload/server.php
@@ -3277,7 +3281,7 @@ This fie contains useful functions related to the $_SERVER global variable, curr
 a getter function, but in the future, can store more features if it is needed
 
 
-++Get Server++
++++Get Server+++
 
 ```
 function get_server($index)
@@ -3289,7 +3293,7 @@ This function returns the server variable requested by index if it exists
 - @default => the default value returned if the key is not found
 
 
-+SQL utils helper module+
+++SQL utils helper module++
 
 ```
 core/php/autoload/sqlutils.php
@@ -3302,10 +3306,10 @@ to external injections, for example, by escaping all special characters.
 
 Too it provides functions to do subparts of the where queries suck as special likes combinations
 or match again combinations for the fulltext search engine, see all detailed information by
-reading the list of functions of this module*
+reading the list of functions of this module
 
 
-++Parse Query++
++++Parse Query+++
 
 ```
 function parse_query($query, $type = "")
@@ -3323,7 +3327,7 @@ because we can not put comments inside another comment!!!
 - @type  => the db type that you want to allow by the filters
 
 
-++Parse Query Type helper++
++++Parse Query Type helper+++
 
 ```
 function __parse_query_type()
@@ -3333,7 +3337,7 @@ This function returns the type used by parse_query using as detector the
 dbtype of the config file, currently only allow to return MYSQL and/or SQLITE
 
 
-++Parse Query Strpos helper++
++++Parse Query Strpos helper+++
 
 ```
 function __parse_query_strpos($haystack, $needle, $offset = 0)
@@ -3351,7 +3355,7 @@ The arguments are the same that the strpos function
 - @offset   => bias applied to begin the search of the needle
 
 
-++Execute Query++
++++Execute Query+++
 
 ```
 function execute_query($query)
@@ -3389,7 +3393,7 @@ because you can get for the same query differents output types, if you
 need to be more standarized in the output types, see the execute_query_array
 
 
-++Execute Query Array++
++++Execute Query Array+++
 
 ```
 function execute_query_array($query)
@@ -3403,7 +3407,7 @@ in a foreach, for example
 - @query => the SQL query that you want to execute
 
 
-++Get Fields++
++++Get Fields+++
 
 ```
 function get_fields($table)
@@ -3414,7 +3418,7 @@ This function returns the fields of the requested table
 - @table => the table where that you want to know the fields
 
 
-++Get Indexes++
++++Get Indexes+++
 
 ```
 function get_indexes($table)
@@ -3425,7 +3429,7 @@ This function returns the indexes of the requested table
 - @table => the table where that you want to know the indexes
 
 
-++Get Tables++
++++Get Tables+++
 
 ```
 function get_tables()
@@ -3434,7 +3438,7 @@ function get_tables()
 This function returns the tables of the database
 
 
-++Get Field Type++
++++Get Field Type+++
 
 ```
 function get_field_type($type)
@@ -3446,7 +3450,7 @@ the real database, for example, returns string if the field is of TEXT type
 - @type => the real type in the database
 
 
-++Get Field Size++
++++Get Field Size+++
 
 ```
 function get_field_size($type)
@@ -3458,7 +3462,7 @@ example, returns 65535 if the field is of TEXT type
 - @type => the real type in the database
 
 
-++SQL Create Table++
++++SQL Create Table+++
 
 ```
 function sql_create_table($tablespec)
@@ -3475,7 +3479,7 @@ This function creates the table, supports the primary key, supports the
 foreign key, and detect fulltext indexes with mroonga engines
 
 
-++Has Engine++
++++Has Engine+++
 
 ```
 function __has_engine($engine)
@@ -3487,7 +3491,7 @@ availabie
 - @engine => the engine that you want to get information about existence
 
 
-++SQL Alter Table++
++++SQL Alter Table+++
 
 ```
 function sql_alter_table($orig, $dest)
@@ -3499,7 +3503,7 @@ This function returns the alter table command
 - @dest => destination table
 
 
-++SQL Insert From Select++
++++SQL Insert From Select+++
 
 ```
 function sql_insert_from_select($dest, $orig)
@@ -3511,7 +3515,7 @@ This function returns the insert from select command
 - @dest => destination table
 
 
-++SQL Drop Table++
++++SQL Drop Table+++
 
 ```
 function sql_drop_table($table)
@@ -3522,7 +3526,7 @@ This function returns the drop table command
 - @table => table that you want to drop
 
 
-++SQL Create Index++
++++SQL Create Index+++
 
 ```
 function sql_create_index($indexspec)
@@ -3538,7 +3542,7 @@ indexspec argument
 This function creates the index, supports fulltext indexes
 
 
-++SQL Drop Index++
++++SQL Drop Index+++
 
 ```
 function sql_drop_index($index, $table)
@@ -3550,7 +3554,7 @@ This function returns the drop index command
 - @table => table where the indes is part of
 
 
-++Make Insert Query++
++++Make Insert Query+++
 
 ```
 function make_insert_query($table, $array)
@@ -3578,7 +3582,7 @@ check of the $array[$name] fails when the item exists but is false or
 null, for example
 
 
-++Make Update Query++
++++Make Update Query+++
 
 ```
 function make_update_query($table, $array, $where)
@@ -3608,7 +3612,7 @@ check of the $array[$name] fails when the item exists but is false or
 null, for example
 
 
-++Make Where Query++
++++Make Where Query+++
 
 ```
 function make_where_query($array)
@@ -3628,7 +3632,7 @@ operator that you want to use in the comparison, the allowed comparison
 operators are >, <, =, >=, <=, !=
 
 
-++Escape Reserved Word++
++++Escape Reserved Word+++
 
 ```
 function escape_reserved_word($word)
@@ -3642,7 +3646,7 @@ to escape table names too
 - @word => the word that must to be escape if needed
 
 
-++Make Like Query++
++++Make Like Query+++
 
 ```
 function make_like_query($keys, $values, $args = [])
@@ -3666,7 +3670,7 @@ depending the sign of the word, and too to use the disjunction or
 conjunction in each like group
 
 
-++Make Fulltext Query Helper++
++++Make Fulltext Query Helper+++
 
 ```
 function __make_fulltext_query_helper($values, $args = [])
@@ -3689,7 +3693,7 @@ function only is used to search using fulltext indexes and in one unique
 field named search
 
 
-++Make Fulltext Query++
++++Make Fulltext Query+++
 
 ```
 function make_fulltext_query($values, $app, $args = [])
@@ -3707,7 +3711,7 @@ app and the prefix to be added to the id field of the in subquery
 - @default => sql fraement returned if some thing was wrong
 
 
-+String utils helper module+
+++String utils helper module++
 
 ```
 core/php/autoload/strutils.php
@@ -3718,7 +3722,7 @@ UTF8, remove bad chars, of apply filters to the text, manipulate texts of other 
 with strings
 
 
-++Remove Bar Chars++
++++Remove Bar Chars+++
 
 ```
 function remove_bad_chars($temp, $pad = "")
@@ -3731,7 +3735,7 @@ newline, return)
 - @pad  => padding string used as replacement for bar chars (void by default)
 
 
-++Encode Bar Chars++
++++Encode Bar Chars+++
 
 ```
 function encode_bad_chars($cad, $pad = "_", $extra = "")
@@ -3751,7 +3755,7 @@ only allow one pading char at time
 - @extra => the list of chars allowed to appear in the output
 
 
-++Prepare Words++
++++Prepare Words+++
 
 ```
 function prepare_words($cad, $pad = " ")
@@ -3769,7 +3773,7 @@ Apart of remove repetitions of the padding char, the function will try to
 remove padding chars in the start and in the end of the string
 
 
-++Sprintr++
++++Sprintr+++
 
 ```
 function sprintr($array)
@@ -3783,7 +3787,7 @@ are removed, optimizing the output string
 - @array => the array that do you want to convert into string
 
 
-++Get Unique ID MD5++
++++Get Unique ID MD5+++
 
 ```
 function get_unique_id_md5()
@@ -3792,7 +3796,7 @@ function get_unique_id_md5()
 This function returns an unique hash using the random generator
 
 
-++Intelligence Cut++
++++Intelligence Cut+++
 
 ```
 function intelligence_cut($txt, $max, $end = "...")
@@ -3805,7 +3809,7 @@ This function allow to cut text by searching spaces to prevent to break words
 - @end => the suffix added if the text is cutted
 
 
-++Normalize Value++
++++Normalize Value+++
 
 ```
 function normalize_value($value)
@@ -3818,7 +3822,7 @@ get the number without factor
 - @value => the string that contain the number, for example "123k"
 
 
-++HTML to Text++
++++HTML to Text+++
 
 ```
 function html2text($html)
@@ -3832,7 +3836,7 @@ example
 - @html => the html code that you want to convert to plain text
 
 
-++Get UTF-8++
++++Get UTF-8+++
 
 ```
 function getutf8($str)
@@ -3843,7 +3847,7 @@ This function returns the string codified in a UTF-8 encoding
 - @str => the input string that you want to covnert to UTF-8
 
 
-++Words Exists++
++++Words Exists+++
 
 ```
 function words_exists($words, $buffer)
@@ -3855,7 +3859,7 @@ This function check that all words exists in the buffer
 - @buffer => the string where we must to found the words
 
 
-++String Replace Assoc++
++++String Replace Assoc+++
 
 ```
 function str_replace_assoc($array, $cad)
@@ -3869,7 +3873,7 @@ to do more prerry the code
 - @cad   => the string that you want to apply the replacement
 
 
-++Get Part From String++
++++Get Part From String+++
 
 ```
 function get_part_from_string($input, $delim, $index)
@@ -3883,7 +3887,7 @@ of the index position
 - @index => the index that you want to request of the explode result
 
 
-++Get Unique Token++
++++Get Unique Token+++
 
 ```
 function get_unique_token()
@@ -3892,7 +3896,7 @@ function get_unique_token()
 This function returns a string with a new and unique token
 
 
-+System helper module+
+++System helper module++
 
 ```
 core/php/autoload/system.php
@@ -3902,7 +3906,7 @@ This fie contains useful functions related to system checks, allow to detect dep
 installed on the system, or misconfigurations on the SaltOS installation
 
 
-++Check System++
++++Check System+++
 
 ```
 function check_system()
@@ -3915,7 +3919,7 @@ that is triggered if the dependency is not satisfied
 Too, check all directories of the data directory to validate that the process can write inside it
 
 
-+User helper module+
+++User helper module++
 
 ```
 core/php/autoload/user.php
@@ -3926,7 +3930,7 @@ improve the performance, all functions are using a cache based trick
 that performs an important speed up
 
 
-++Current Token++
++++Current Token+++
 
 ```
 function current_token()
@@ -3937,7 +3941,7 @@ using the token of the request, for security reasons, this validation only
 can be performed by the same origin that execute the login action
 
 
-++Current User++
++++Current User+++
 
 ```
 function current_user()
@@ -3947,7 +3951,7 @@ This function returns the id of the current user, this info is retrieved
 using the token of the request
 
 
-++Current Group++
++++Current Group+++
 
 ```
 function current_group()
@@ -3957,7 +3961,7 @@ This function returns the id of the current group, this info is retrieved
 using the token of the request
 
 
-++Current Groups++
++++Current Groups+++
 
 ```
 function current_groups()
@@ -3969,7 +3973,7 @@ returns the list of all groups associated to the current user to facily the
 permissions checks
 
 
-++Crontab Users++
++++Crontab Users+++
 
 ```
 function crontab_users()
@@ -3986,7 +3990,7 @@ to other actions and functions that requires the integrity of the passwords
 and tokens
 
 
-+Version helper module+
+++Version helper module++
 
 ```
 core/php/autoload/version.php
@@ -3995,7 +3999,7 @@ core/php/autoload/version.php
 This fie contains useful functions related to the version of the SaltOS of the php engine
 
 
-++Get Name Version Revision++
++++Get Name Version Revision+++
 
 ```
 function get_name_version_revision($copyright = false)
@@ -4007,7 +4011,7 @@ copyright if needed
 - @copyright => boolean to specify if you want to add the copyright to the output
 
 
-++SVN Version++
++++SVN Version+++
 
 ```
 function svnversion($dir = ".")
@@ -4018,7 +4022,7 @@ This function tries to return the svn version of the project
 - @dir => allow to specify where do you want to execute the svnversion command
 
 
-++GIT Version++
++++GIT Version+++
 
 ```
 function gitversion($dir = ".")
@@ -4029,7 +4033,7 @@ This function tries to return the git version of the project
 - @dir => allow to specify where do you want to execute the gitversion command
 
 
-++IS PHP++
++++IS PHP+++
 
 ```
 function isphp($version)
@@ -4041,7 +4045,7 @@ version requested and the current version.
 - @version => the version where do you want to compare
 
 
-+XML to Array helper module+
+++XML to Array helper module++
 
 ```
 core/php/autoload/xml2array.php
@@ -4053,7 +4057,7 @@ compare this code, you can see more accuracy in the specification to be more spe
 but this code is a part of all the SaltOS versions
 
 
-++Eval Protected++
++++Eval Protected+++
 
 ```
 function eval_protected($input, $global = "")
@@ -4066,7 +4070,7 @@ environment, you can specify some global variables to improve the eval execution
 - @global => the list (separated by comma) of global variables that you want to use
 
 
-++Set Array++
++++Set Array+++
 
 ```
 function set_array(&$array, $name, $value)
@@ -4087,7 +4091,7 @@ added to allow multiples instances of the same key in an associative array
 - @value => the value that you want to set in this position of the array
 
 
-++Unset Array++
++++Unset Array+++
 
 ```
 function unset_array(&$array, $name)
@@ -4102,7 +4106,7 @@ will remove "test", "test#1" and "test#2"
 - @name  => the key used in the array and as prefix of the entries of the array
 
 
-++Fix Key++
++++Fix Key+++
 
 ```
 function fix_key($arg)
@@ -4115,7 +4119,7 @@ the fix_key of the "test#2", the function will returns "test"
 - @arg => the name of the key that you want to remove the suffix part (if exists)
 
 
-++Detect Recursion++
++++Detect Recursion+++
 
 ```
 function detect_recursion($fn)
@@ -4130,7 +4134,7 @@ or the function, and returns the count of times that appear
        by a comma
 
 
-++XML File to Array++
++++XML File to Array+++
 
 ```
 function xmlfile2array($file, $usecache = true)
@@ -4147,7 +4151,7 @@ management to optimize the usage
 - @usecache => if do you want to enable the cache feature
 
 
-++XML to Array++
++++XML to Array+++
 
 ```
 function xml2array($xml, $file = "")
@@ -4159,7 +4163,7 @@ This function allow to convert a XML string to an array
 - @file => filename of the contents, only used when an errors occurs
 
 
-++XML to Struct++
++++XML to Struct+++
 
 ```
 function xml2struct($xml, $file = "")
@@ -4186,7 +4190,7 @@ the key of this feature and this function
 - @file => the source filename, it is used only to generate error reports
 
 
-++Struct to Array++
++++Struct to Array+++
 
 ```
 function struct2array(&$data, $file = "")
@@ -4216,7 +4220,7 @@ is big, this problem was detected in 2014 and was optimized by add the reverse
 and the pop instead of only shift
 
 
-++Eval Attributes++
++++Eval Attributes+++
 
 ```
 function eval_attr($array)
@@ -4253,7 +4257,7 @@ attributes can be maintained in order to be used by other processes
 (internally or externally)
 
 
-++Eval Bool++
++++Eval Bool+++
 
 ```
 function eval_bool($arg)
@@ -4268,7 +4272,7 @@ The valid inputs are the strings one, zero, void, true, false, on, off, yes and 
 - @arg => the value that do you want to evaluates as boolean
 
 
-+Main execution module+
+++Main execution module++
 
 ```
 core/php/autoload/zindex.php
@@ -4278,7 +4282,9 @@ This file contains the old index.php file, this was moved here to simplify the i
 allow some php checks found in the current index.php
 
 
-+SQLite3 functions library+
++core/php/database+
+
+++SQLite3 functions library++
 
 ```
 core/php/database/libsqlite.php
@@ -4294,7 +4300,7 @@ More info about this feature by searching:
 - @SQLite3 => createFunction/createAggregate
 
 
-++GROUP_CONCAT++
++++GROUP_CONCAT+++
 
 ```
 function __libsqlite_group_concat_step($context, $rows, $string, $separator = ",")
@@ -4303,7 +4309,7 @@ function __libsqlite_group_concat_step($context, $rows, $string, $separator = ",
 This function add the GROUP_CONCAT to the SQLite database
 
 
-++GROUP_CONCAT++
++++GROUP_CONCAT+++
 
 ```
 function __libsqlite_group_concat_finalize($context, $rows)
@@ -4312,7 +4318,7 @@ function __libsqlite_group_concat_finalize($context, $rows)
 This function add the GROUP_CONCAT to the SQLite database
 
 
-++REPLACE++
++++REPLACE+++
 
 ```
 function __libsqlite_replace($subject, $search, $replace)
@@ -4321,7 +4327,7 @@ function __libsqlite_replace($subject, $search, $replace)
 This function add the REPLACE to the SQLite database
 
 
-++LPAD++
++++LPAD+++
 
 ```
 function __libsqlite_lpad($input, $length, $char)
@@ -4330,7 +4336,7 @@ function __libsqlite_lpad($input, $length, $char)
 This function add the LPAD to the SQLite database
 
 
-++CONCAT++
++++CONCAT+++
 
 ```
 function __libsqlite_concat()
@@ -4339,7 +4345,7 @@ function __libsqlite_concat()
 This function add the CONCAT to the SQLite database
 
 
-++UNIX_TIMESTAMP++
++++UNIX_TIMESTAMP+++
 
 ```
 function __libsqlite_unix_timestamp($date)
@@ -4348,7 +4354,7 @@ function __libsqlite_unix_timestamp($date)
 This function add the UNIX_TIMESTAMP to the SQLite database
 
 
-++FROM_UNIXTIME++
++++FROM_UNIXTIME+++
 
 ```
 function __libsqlite_from_unixtime($timestamp)
@@ -4357,7 +4363,7 @@ function __libsqlite_from_unixtime($timestamp)
 This function add the FROM_UNIXTIME to the SQLite database
 
 
-++YEAR++
++++YEAR+++
 
 ```
 function __libsqlite_year($date)
@@ -4366,7 +4372,7 @@ function __libsqlite_year($date)
 This function add the YEAR to the SQLite database
 
 
-++MONTH++
++++MONTH+++
 
 ```
 function __libsqlite_month($date)
@@ -4375,7 +4381,7 @@ function __libsqlite_month($date)
 This function add the MONTH to the SQLite database
 
 
-++WEEK++
++++WEEK+++
 
 ```
 function __libsqlite_week($date, $mode)
@@ -4384,7 +4390,7 @@ function __libsqlite_week($date, $mode)
 This function add the WEEK to the SQLite database
 
 
-++TRUNCATE++
++++TRUNCATE+++
 
 ```
 function __libsqlite_truncate($n, $d)
@@ -4393,7 +4399,7 @@ function __libsqlite_truncate($n, $d)
 This function add the TRUNCATE to the SQLite database
 
 
-++DAY++
++++DAY+++
 
 ```
 function __libsqlite_day($date)
@@ -4402,7 +4408,7 @@ function __libsqlite_day($date)
 This function add the DAY to the SQLite database
 
 
-++DAYOFYEAR++
++++DAYOFYEAR+++
 
 ```
 function __libsqlite_dayofyear($date)
@@ -4411,7 +4417,7 @@ function __libsqlite_dayofyear($date)
 This function add the DAYOFYEAR to the SQLite database
 
 
-++DAYOFWEEK++
++++DAYOFWEEK+++
 
 ```
 function __libsqlite_dayofweek($date)
@@ -4420,7 +4426,7 @@ function __libsqlite_dayofweek($date)
 This function add the DAYOFWEEK to the SQLite database
 
 
-++HOUR++
++++HOUR+++
 
 ```
 function __libsqlite_hour($date)
@@ -4429,7 +4435,7 @@ function __libsqlite_hour($date)
 This function add the HOUR to the SQLite database
 
 
-++MINUTE++
++++MINUTE+++
 
 ```
 function __libsqlite_minute($date)
@@ -4438,7 +4444,7 @@ function __libsqlite_minute($date)
 This function add the MINUTE to the SQLite database
 
 
-++SECOND++
++++SECOND+++
 
 ```
 function __libsqlite_second($date)
@@ -4447,7 +4453,7 @@ function __libsqlite_second($date)
 This function add the SECOND to the SQLite database
 
 
-++MD5++
++++MD5+++
 
 ```
 function __libsqlite_md5($temp)
@@ -4456,7 +4462,7 @@ function __libsqlite_md5($temp)
 This function add the MD5 to the SQLite database
 
 
-++REPEAT++
++++REPEAT+++
 
 ```
 function __libsqlite_repeat($str, $count)
@@ -4465,7 +4471,7 @@ function __libsqlite_repeat($str, $count)
 This function add the REPEAT to the SQLite database
 
 
-++FIND_IN_SET++
++++FIND_IN_SET+++
 
 ```
 function __libsqlite_find_in_set($str, $strlist)
@@ -4474,7 +4480,7 @@ function __libsqlite_find_in_set($str, $strlist)
 This function add the FIND_IN_SET to the SQLite database
 
 
-++IF++
++++IF+++
 
 ```
 function __libsqlite_if($condition, $value_if_true, $value_if_false)
@@ -4483,7 +4489,7 @@ function __libsqlite_if($condition, $value_if_true, $value_if_false)
 This function add the IF to the SQLite database
 
 
-++POW++
++++POW+++
 
 ```
 function __libsqlite_pow($base, $exp)
@@ -4492,7 +4498,7 @@ function __libsqlite_pow($base, $exp)
 This function add the POW to the SQLite database
 
 
-++DATE_FORMAT++
++++DATE_FORMAT+++
 
 ```
 function __libsqlite_date_format($date, $format)
@@ -4501,7 +4507,7 @@ function __libsqlite_date_format($date, $format)
 This function add the DATE_FORMAT to the SQLite database
 
 
-++NOW++
++++NOW+++
 
 ```
 function __libsqlite_now()
@@ -4510,7 +4516,7 @@ function __libsqlite_now()
 This function add the NOW to the SQLite database
 
 
-+MySQL improved driver+
+++MySQL improved driver++
 
 ```
 core/php/database/mysqli.php
@@ -4521,7 +4527,7 @@ mysql driver and contains lots of improvements respect to the old mysql driver. 
 driver was removed in the PHP 7.0 release.
 
 
-++Database MySQL improved class++
++++Database MySQL improved class+++
 
 ```
 class database_mysqli
@@ -4530,7 +4536,7 @@ class database_mysqli
 This class allow to SaltOS to connect to MySQL databases using the MySQL improved driver
 
 
-++Private link variable++
++++Private link variable+++
 
 ```
 private $link = null;
@@ -4539,7 +4545,7 @@ private $link = null;
 This private variable contains the link to the database
 
 
-++Constructor++
++++Constructor+++
 
 ```
 public function __construct($args)
@@ -4555,7 +4561,7 @@ This public function is intended to stablish the connection to the database
 - @pass => pass used to stablish the connection
 
 
-++DB Check++
++++DB Check+++
 
 ```
 public function db_check($query)
@@ -4566,7 +4572,7 @@ This public function is intended to check that the query execution will not trig
 - @query => the query that you want to validate
 
 
-++DB Query++
++++DB Query+++
 
 ```
 public function db_query($query, $fetch = "query")
@@ -4599,7 +4605,7 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
-++DB Disconnect++
++++DB Disconnect+++
 
 ```
 public function db_disconnect()
@@ -4608,7 +4614,7 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+PDO MsSQL driver+
+++PDO MsSQL driver++
 
 ```
 core/php/database/pdo_mssql.php
@@ -4618,7 +4624,7 @@ This file implements the MySQL improved driver. This driver uses the dblib libra
 with SQL servers.
 
 
-++Database PDO MsSQL class++
++++Database PDO MsSQL class+++
 
 ```
 class database_pdo_mssql
@@ -4627,7 +4633,7 @@ class database_pdo_mssql
 This class allow to SaltOS to connect to MsSQL databases using the PDO driver
 
 
-++Private link variable++
++++Private link variable+++
 
 ```
 private $link = null;
@@ -4636,7 +4642,7 @@ private $link = null;
 This private variable contains the link to the database
 
 
-++Constructor++
++++Constructor+++
 
 ```
 public function __construct($args)
@@ -4652,7 +4658,7 @@ This public function is intended to stablish the connection to the database
 - @pass => pass used to stablish the connection
 
 
-++DB Check++
++++DB Check+++
 
 ```
 public function db_check($query)
@@ -4663,7 +4669,7 @@ This public function is intended to check that the query execution will not trig
 - @query => the query that you want to validate
 
 
-++DB Query++
++++DB Query+++
 
 ```
 public function db_query($query, $fetch = "query")
@@ -4696,7 +4702,7 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
-++DB Disconnect++
++++DB Disconnect+++
 
 ```
 public function db_disconnect()
@@ -4705,7 +4711,7 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+PDO MySQL driver+
+++PDO MySQL driver++
 
 ```
 core/php/database/pdo_mysql.php
@@ -4716,7 +4722,7 @@ to use MySQL servers, it uses the PDO extension and alow to connect to MySQL ser
 good performance.
 
 
-++Database PDO MySQL class++
++++Database PDO MySQL class+++
 
 ```
 class database_pdo_mysql
@@ -4725,7 +4731,7 @@ class database_pdo_mysql
 This class allow to SaltOS to connect to MySQL databases using the PDO driver
 
 
-++Private link variable++
++++Private link variable+++
 
 ```
 private $link = null;
@@ -4734,7 +4740,7 @@ private $link = null;
 This private variable contains the link to the database
 
 
-++Constructor++
++++Constructor+++
 
 ```
 public function __construct($args)
@@ -4750,7 +4756,7 @@ This public function is intended to stablish the connection to the database
 - @pass => pass used to stablish the connection
 
 
-++DB Check++
++++DB Check+++
 
 ```
 public function db_check($query)
@@ -4761,7 +4767,7 @@ This public function is intended to check that the query execution will not trig
 - @query => the query that you want to validate
 
 
-++DB Query++
++++DB Query+++
 
 ```
 public function db_query($query, $fetch = "query")
@@ -4794,7 +4800,7 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
-++DB Disconnect++
++++DB Disconnect+++
 
 ```
 public function db_disconnect()
@@ -4803,7 +4809,7 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+PDO SQLite driver+
+++PDO SQLite driver++
 
 ```
 core/php/database/pdo_sqlite.php
@@ -4816,7 +4822,7 @@ that don't require a fulltext search optimizations suck as mroonga, intended for
 usage or demos.
 
 
-++Database PDO SQLite class++
++++Database PDO SQLite class+++
 
 ```
 class database_pdo_sqlite
@@ -4825,7 +4831,7 @@ class database_pdo_sqlite
 This class allow to SaltOS to connect to SQLite databases using the PDO driver
 
 
-++Private link variable++
++++Private link variable+++
 
 ```
 private $link = null;
@@ -4834,7 +4840,7 @@ private $link = null;
 This private variable contains the link to the database
 
 
-++Constructor++
++++Constructor+++
 
 ```
 public function __construct($args)
@@ -4854,7 +4860,7 @@ database, this driver uses the libsqlite to add a lot of features found in MySQL
 used in a lot of queries by SaltOS
 
 
-++DB Check++
++++DB Check+++
 
 ```
 public function db_check($query)
@@ -4865,7 +4871,7 @@ This public function is intended to check that the query execution will not trig
 - @query => the query that you want to validate
 
 
-++DB Query++
++++DB Query+++
 
 ```
 public function db_query($query, $fetch = "query")
@@ -4898,7 +4904,7 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
-++DB Disconnect++
++++DB Disconnect+++
 
 ```
 public function db_disconnect()
@@ -4907,7 +4913,7 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+SQLite3 driver+
+++SQLite3 driver++
 
 ```
 core/php/database/sqlite3.php
@@ -4919,7 +4925,7 @@ POSIX semaphores, generally it is a good option for setups that don't require a 
 search optimizations suck as mroonga, intended for a personal usage or demos.
 
 
-++Database SQLite3 class++
++++Database SQLite3 class+++
 
 ```
 class database_sqlite3
@@ -4928,7 +4934,7 @@ class database_sqlite3
 This class allow to SaltOS to connect to SQLite databases using the SQLite3 driver
 
 
-++Private link variable++
++++Private link variable+++
 
 ```
 private $link = null;
@@ -4937,7 +4943,7 @@ private $link = null;
 This private variable contains the link to the database
 
 
-++Constructor++
++++Constructor+++
 
 ```
 public function __construct($args)
@@ -4957,7 +4963,7 @@ database, this driver uses the libsqlite to add a lot of features found in MySQL
 used in a lot of queries by SaltOS
 
 
-++DB Check++
++++DB Check+++
 
 ```
 public function db_check($query)
@@ -4968,7 +4974,7 @@ This public function is intended to check that the query execution will not trig
 - @query => the query that you want to validate
 
 
-++DB Query++
++++DB Query+++
 
 ```
 public function db_query($query, $fetch = "query")
@@ -5001,7 +5007,7 @@ sized array, in this case, is more efficient to get an string separated by comma
 ids instead of an array where each element is an id
 
 
-++DB Disconnect++
++++DB Disconnect+++
 
 ```
 public function db_disconnect()
@@ -5010,7 +5016,9 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+Application helper module+
++core/js+
+
+++Application helper module++
 
 ```
 core/js/app.js
@@ -5020,7 +5028,7 @@ This fie contains useful functions related to the main application, at the end o
 see the main code that launch the application to be executed from the browser
 
 
-++Show error helper++
++++Show error helper+++
 
 ```
 saltos.show_error = error
@@ -5029,7 +5037,7 @@ saltos.show_error = error
 This function allow to show a modal dialog with de details of an error
 
 
-++Send request helper++
++++Send request helper+++
 
 ```
 saltos.send_request = data
@@ -5038,7 +5046,7 @@ saltos.send_request = data
 This function allow to send requests to the server and process the response
 
 
-++Process response helper++
++++Process response helper+++
 
 ```
 saltos.process_response = response
@@ -5047,7 +5055,7 @@ saltos.process_response = response
 This function process the responses received by the send request
 
 
-++Form constructor helper object++
++++Form constructor helper object+++
 
 ```
 saltos.form_app = {};
@@ -5056,7 +5064,7 @@ saltos.form_app = {};
 This object allow to the constructor to use a rational structure for a quick access of each helper
 
 
-++Data helper object++
++++Data helper object+++
 
 ```
 saltos.__form_app = {
@@ -5065,7 +5073,7 @@ saltos.__form_app = {
 This object allow to the app to store the data of the fields map
 
 
-++Form data helper++
++++Form data helper+++
 
 ```
 saltos.form_app.data = data
@@ -5074,7 +5082,7 @@ saltos.form_app.data = data
 This function sets the values of the request to the objects placed in the document
 
 
-++Form layout helper++
++++Form layout helper+++
 
 ```
 saltos.form_app.layout = (layout, extra)
@@ -5089,7 +5097,7 @@ and all form_field defined in the bootstrap file, too have 2 modes of work:
 of the node are created inside a container, a row, and each field inside a col.
 
 
-++Form style helper++
++++Form style helper+++
 
 ```
 saltos.form_app.style = data
@@ -5099,7 +5107,7 @@ This function allow to specify styles, you can use the inline of file key to spe
 what kind of usage do you want to do.
 
 
-++Form javascript helper++
++++Form javascript helper+++
 
 ```
 saltos.form_app.javascript = data
@@ -5109,7 +5117,7 @@ This function allow to specify scripts, you can use the inline of file key to sp
 what kind of usage do you want to do.
 
 
-++Hash change management++
++++Hash change management+++
 
 ```
 window.onhashchange = event
@@ -5118,7 +5126,7 @@ window.onhashchange = event
 This function allow to SaltOS to update the contents when hash change
 
 
-++Loading helper++
++++Loading helper+++
 
 ```
 saltos.loading = on_off
@@ -5130,7 +5138,7 @@ This function adds and removes the spinner to emulate the loading effect screen
 true when can do the action, false otherwise
 
 
-++Clear Screen++
++++Clear Screen+++
 
 ```
 saltos.clear_screen = ()
@@ -5139,7 +5147,7 @@ saltos.clear_screen = ()
 This function remove all contents of the body
 
 
-++Source helper++
++++Source helper+++
 
 ```
 saltos.__source_helper = field
@@ -5168,12 +5176,12 @@ to use here is the contents of the value, and for this reason, the response is f
 the value key in the case of existence of the #attr and value keys
 
 
-++Main code++
++++Main code+++
 
 This is the code that must to be executed to initialize all requirements of this module
 
 
-+Bootstrap helper module+
+++Bootstrap helper module++
 
 ```
 core/js/bootstrap.js
@@ -5183,7 +5191,7 @@ This fie contains useful functions related to the bootstrap widgets, allow to cr
 other plugins suck as plots or rich editors
 
 
-++Form fields constructor++
++++Form fields constructor+++
 
 ```
 saltos.form_field = field
@@ -5237,7 +5245,7 @@ as a helper, the idea is that the user must to call the constructor and the help
 only for internal use.
 
 
-++Form_field constructor helper object++
++++Form_field constructor helper object+++
 
 ```
 saltos.__form_field = {};
@@ -5246,7 +5254,7 @@ saltos.__form_field = {};
 This object allow to the constructor to use a rational structure for a quick access of each helper
 
 
-++Div constructor helper++
++++Div constructor helper+++
 
 ```
 saltos.__form_field.div = field
@@ -5260,7 +5268,7 @@ argument in the field object to specify what kind of class do you want to use.
 - @style => the style used in the div object
 
 
-++Container constructor helper++
++++Container constructor helper+++
 
 ```
 saltos.__form_field.container = field
@@ -5274,7 +5282,7 @@ argument in the field object to specify what kind of container do you want to do
 - @style => the style used in the div object
 
 
-++Row constructor helper++
++++Row constructor helper+++
 
 ```
 saltos.__form_field.row = field
@@ -5288,7 +5296,7 @@ in the field object to specify what kind of row do you want to do.
 - @style => the style used in the div object
 
 
-++Col constructor helper++
++++Col constructor helper+++
 
 ```
 saltos.__form_field.col = field
@@ -5302,7 +5310,7 @@ in the field object to specify what kind of col do you want to do.
 - @style => the style used in the div object
 
 
-++Text constructor helper++
++++Text constructor helper+++
 
 ```
 saltos.__form_field.text = field
@@ -5324,7 +5332,7 @@ that for the input object of type text
 - @datalist    => array with options for the datalist, used as autocomplete for the text input
 
 
-++Hidden constructor helper++
++++Hidden constructor helper+++
 
 ```
 saltos.__form_field.hidden = field
@@ -5351,7 +5359,7 @@ and value are usually used, in some cases can be interesting to use the
 class to identify a group of hidden input
 
 
-++Integer constructor helper++
++++Integer constructor helper+++
 
 ```
 saltos.__form_field.integer = field
@@ -5372,7 +5380,7 @@ that for the input object of type text
 - @label       => this parameter is used as text for the label
 
 
-++Float constructor helper++
++++Float constructor helper+++
 
 ```
 saltos.__form_field.float = field
@@ -5393,7 +5401,7 @@ that for the input object of type text
 - @label       => this parameter is used as text for the label
 
 
-++Color constructor helper++
++++Color constructor helper+++
 
 ```
 saltos.__form_field.color = field
@@ -5420,7 +5428,7 @@ Ths color input launch a warning if value is not in the format #rrggbb,
 for this reason it is set to #000000 if value is void
 
 
-++Date constructor helper++
++++Date constructor helper+++
 
 ```
 saltos.__form_field.date = field
@@ -5441,7 +5449,7 @@ that for the input object of type text
 - @label       => this parameter is used as text for the label
 
 
-++Time constructor helper++
++++Time constructor helper+++
 
 ```
 saltos.__form_field.time = field
@@ -5462,7 +5470,7 @@ that for the input object of type text
 - @label       => this parameter is used as text for the label
 
 
-++Datetime constructor helper++
++++Datetime constructor helper+++
 
 ```
 saltos.__form_field.datetime = field
@@ -5483,7 +5491,7 @@ that for the input object of type text
 - @label       => this parameter is used as text for the label
 
 
-++Textarea constructor helper++
++++Textarea constructor helper+++
 
 ```
 saltos.__form_field.textarea = field
@@ -5503,7 +5511,7 @@ This function returns a textarea object with the autogrow plugin enabled
 - @label       => this parameter is used as text for the label
 
 
-++Ckeditor constructor helper++
++++Ckeditor constructor helper+++
 
 ```
 saltos.__form_field.ckeditor = field
@@ -5523,7 +5531,7 @@ This function returns a textarea object with the ckeditor plugin enabled
 - @label       => this parameter is used as text for the label
 
 
-++Codemirror constructor helper++
++++Codemirror constructor helper+++
 
 ```
 saltos.__form_field.codemirror = field
@@ -5544,7 +5552,7 @@ This function returns a textarea object with the codemirror plugin enabled
 - @label       => this parameter is used as text for the label
 
 
-++Iframe constructor helper++
++++Iframe constructor helper+++
 
 ```
 saltos.__form_field.iframe = field
@@ -5559,7 +5567,7 @@ This function returns an iframe object, you can pass the follow arguments:
 - @label  => this parameter is used as text for the label
 
 
-++Select constructor helper++
++++Select constructor helper+++
 
 ```
 saltos.__form_field.select = field
@@ -5580,7 +5588,7 @@ This function returns a select object, you can pass the follow arguments:
 - @label    => this parameter is used as text for the label
 
 
-++Multiselect constructor helper++
++++Multiselect constructor helper+++
 
 ```
 saltos.__form_field.multiselect = field
@@ -5607,7 +5615,7 @@ using the hidden input that is builded using the original id passed by argument.
 TODO: detected a bug with this widget in chrome in mobile browsers
 
 
-++Checkbox constructor helper++
++++Checkbox constructor helper+++
 
 ```
 saltos.__form_field.checkbox = field
@@ -5630,7 +5638,7 @@ Notes:
 This widget returns their value by setting a zero or one (0/1) value on the value of the input.
 
 
-++Switch constructor helper++
++++Switch constructor helper+++
 
 ```
 saltos.__form_field.switch = field
@@ -5653,7 +5661,7 @@ Notes:
 This widget uses the checkbox constructor
 
 
-++Button constructor helper++
++++Button constructor helper+++
 
 ```
 saltos.__form_field.button = field
@@ -5674,7 +5682,7 @@ Notes:
 You can add an icon before the text by addind the bi-icon class to the class argument
 
 
-++Password constructor helper++
++++Password constructor helper+++
 
 ```
 saltos.__form_field.password = field
@@ -5711,7 +5719,7 @@ button, exists a new line that is identified as another previousSibling, but not
 
 
 
-++File constructor helper++
++++File constructor helper+++
 
 ```
 saltos.__form_field.file = field
@@ -5742,7 +5750,7 @@ the server and store the information related to the file on the server to be pro
 the real upload action.
 
 
-++Link constructor helper++
++++Link constructor helper+++
 
 ```
 saltos.__form_field.link = field
@@ -5764,7 +5772,7 @@ This object is not a real link, it's a button that uses the btn-link class to ge
 appearance
 
 
-++Label constructor helper++
++++Label constructor helper+++
 
 ```
 saltos.__form_field.label = field
@@ -5779,7 +5787,7 @@ This function returns a label object, you can pass some arguments as:
 - @value   => this parameter is used as label when label is void
 
 
-++Image constructor helper++
++++Image constructor helper+++
 
 ```
 saltos.__form_field.image = field
@@ -5795,7 +5803,7 @@ This function returns an image object, you can pass some arguments as:
 - @label   => this parameter is used as text for the label
 
 
-++Excel constructor helper++
++++Excel constructor helper+++
 
 ```
 saltos.__form_field.excel = field
@@ -5827,7 +5835,7 @@ You can get the values after to do changes by accessing to the data of the div u
 the widget.
 
 
-++Pdfjs constructor helper++
++++Pdfjs constructor helper+++
 
 ```
 saltos.__form_field.pdfjs = field
@@ -5841,7 +5849,7 @@ This function creates and returns a pdfviewer object, to do this they use the pd
 - @label => this parameter is used as text for the label
 
 
-++Table constructor helper++
++++Table constructor helper+++
 
 ```
 saltos.__form_field.table = field
@@ -5870,7 +5878,7 @@ val the label to be used in the field, this is used when the data contains more 
 that the desired fields, for example, to store the id used in the str_replace
 
 
-++Alert constructor helper++
++++Alert constructor helper+++
 
 ```
 saltos.__form_field.alert = field
@@ -5895,7 +5903,7 @@ for the style to allow the content to use the original size of the alert, in a f
 know if I maintain this or I remove it, but at the moment, this is added by default
 
 
-++Card constructor helper++
++++Card constructor helper+++
 
 ```
 saltos.__form_field.card = field
@@ -5915,7 +5923,7 @@ This functions creates a card with a lot of options:
 - @label  => this parameter is used as text for the label
 
 
-++Chart.js constructor helper++
++++Chart.js constructor helper+++
 
 ```
 saltos.__form_field.chartjs = field
@@ -5934,7 +5942,7 @@ Notes:
 To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
 
 
-++Tags constructor helper++
++++Tags constructor helper+++
 
 ```
 saltos.__form_field.tags = field
@@ -5962,7 +5970,7 @@ This object creates a hidden input, a text input with/without a datalist, and a 
 each value, and requires the arguments of the specific widgets used in this widget
 
 
-++Gallery constructor helper++
++++Gallery constructor helper+++
 
 ```
 saltos.__form_field.gallery = field
@@ -5976,7 +5984,7 @@ This function returns a gallery object, you can pass some arguments as:
 - @images => the array with images, each image can be an string or object
 
 
-++Placeholder helper++
++++Placeholder helper+++
 
 ```
 saltos.__form_field.placeholder = field
@@ -5987,7 +5995,7 @@ This function returns a grey area that uses all space with the placeholder glow 
 - @id => id used in the original object, it must be replaced when the data will be available
 
 
-++Private text constructor helper++
++++Private text constructor helper+++
 
 ```
 saltos.__text_helper = field
@@ -6011,7 +6019,7 @@ Notes:
 This function is intended to be used by other helpers of the form_field constructor
 
 
-++Private textarea constructor helper++
++++Private textarea constructor helper+++
 
 ```
 saltos.__textarea_helper = field
@@ -6035,7 +6043,7 @@ Notes:
 This function is intended to be used by other helpers of the form_field constructor
 
 
-++Private tooltip constructor helper++
++++Private tooltip constructor helper+++
 
 ```
 saltos.__tooltip_helper = obj
@@ -6048,7 +6056,7 @@ the focus or get the click event
 - @obj => the object that you want to enable the tooltip feature
 
 
-++Label helper++
++++Label helper+++
 
 ```
 saltos.__label_helper = field
@@ -6064,7 +6072,7 @@ optimizer to removes the unnecessary envelopment
 - @field => the field that contains the label to be added if needed
 
 
-++Label Combine++
++++Label Combine+++
 
 ```
 saltos.__label_combine = (field, old)
@@ -6085,7 +6093,7 @@ any specific label container, in the other cases, each constructor must to imple
 their code because each case is different
 
 
-++Menu constructor helper++
++++Menu constructor helper+++
 
 ```
 saltos.menu = args
@@ -6112,7 +6120,7 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 - @divider  => you can set this boolean to true to convert the element into a divider
 
 
-++Navbar constructor helper++
++++Navbar constructor helper+++
 
 ```
 saltos.navbar = args
@@ -6133,7 +6141,7 @@ This component creates a navbar intended to be used as header
 - @items => contains an array with the objects that will be added to the collapse
 
 
-++Modal constructor helper object++
++++Modal constructor helper object+++
 
 ```
 saltos.__modal = {};
@@ -6142,7 +6150,7 @@ saltos.__modal = {};
 This object is used to store the element and the instance of the modal
 
 
-++Modal constructor helper++
++++Modal constructor helper+++
 
 ```
 saltos.modal = args
@@ -6176,7 +6184,7 @@ This modal will be destroyed (instance and element) when it closes, too is impor
 to undestand that only one modal is allowed at each moment.
 
 
-++Offcanvas constructor helper object++
++++Offcanvas constructor helper object+++
 
 ```
 saltos.__offcanvas = {};
@@ -6185,7 +6193,7 @@ saltos.__offcanvas = {};
 This object is used to store the element and the instance of the offcanvas
 
 
-++Offcanvas constructor helper++
++++Offcanvas constructor helper+++
 
 ```
 saltos.offcanvas = args
@@ -6218,7 +6226,7 @@ This offcanvas will be destroyed (instance and element) when it closes, too is i
 to undestand that only one offcanvas is allowed at each moment.
 
 
-++Toast constructor helper++
++++Toast constructor helper+++
 
 ```
 saltos.toast = args
@@ -6246,7 +6254,7 @@ is created automatically if it not exists when the first toast need it.
 Each toast includes a hash to prevent the creation of repeated toasts.
 
 
-+Core helper module+
+++Core helper module++
 
 ```
 core/js/core.js
@@ -6256,7 +6264,7 @@ This fie contains useful functions related to the core application, provides the
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
 
 
-++Main object++
++++Main object+++
 
 ```
 var saltos = saltos || {};
@@ -6265,7 +6273,7 @@ var saltos = saltos || {};
 This object contains all SaltOS code
 
 
-++Error management++
++++Error management+++
 
 ```
 window.onerror = (event, source, lineno, colno, error)
@@ -6274,7 +6282,7 @@ window.onerror = (event, source, lineno, colno, error)
 This function allow to SaltOS to log in server the javascript errors produced in the client's browser
 
 
-++Log management++
++++Log management+++
 
 ```
 saltos.addlog = msg
@@ -6285,7 +6293,7 @@ This function allow to send messages to the addlog of the server side, requires 
 - @msg => the message that do you want to log on the server log file
 
 
-++Check params++
++++Check params+++
 
 ```
 saltos.check_params = (obj, params, value)
@@ -6301,7 +6309,7 @@ and if some param is not found, then define it using the default value passed:
 - @value  => the default value used if an argument doesn't exists
 
 
-++UniqID++
++++UniqID+++
 
 ```
 saltos.uniqid = ()
@@ -6312,7 +6320,7 @@ values between 0 and 999999, useful when some widget requires an id and the user
 provide it to the widget constructor
 
 
-++When visible++
++++When visible+++
 
 ```
 saltos.when_visible = (obj, fn, args)
@@ -6327,7 +6335,7 @@ code and paint the widget correctly
 - @args => the arguments passed to the callback when execute it
 
 
-++Get keycode++
++++Get keycode+++
 
 ```
 saltos.get_keycode = event
@@ -6338,7 +6346,7 @@ This function allow to get the keycode of a keyboard event detecting the browser
 - @event => the event that contains the keyboard data
 
 
-++HTML builder++
++++HTML builder+++
 
 ```
 saltos.html = (...args)
@@ -6360,7 +6368,7 @@ builded is bad, you can see this problem in action when work with tables and try
 create separate portions of the table as trs or tds.
 
 
-++AJAX++
++++AJAX+++
 
 ```
 saltos.ajax = args
@@ -6383,7 +6391,7 @@ The main idea of this function is to abstract the usage of the XMLHttpRequest in
 way as jQuery do but without using jQuery.
 
 
-++Key cleaner++
++++Key cleaner+++
 
 ```
 saltos.fix_key = arg
@@ -6398,7 +6406,7 @@ for this reason, exists this function here
 - @arg => can be an string or an array of strings and returns the same structure with the keys fixed
 
 
-++Open window++
++++Open window+++
 
 ```
 saltos.open = url
@@ -6410,7 +6418,7 @@ the window.open but in a future, can add more features
 - @url => the url of the page to load
 
 
-++Copy object++
++++Copy object+++
 
 ```
 saltos.copy_object = arg
@@ -6421,7 +6429,7 @@ This function is intended to do copies of objects using as intermediate a json f
 - @arg => the object that you want to copy
 
 
-++Optimizer object++
++++Optimizer object+++
 
 ```
 saltos.optimize = obj

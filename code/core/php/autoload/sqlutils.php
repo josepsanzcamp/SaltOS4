@@ -37,7 +37,7 @@ declare(strict_types=1);
  *
  * Too it provides functions to do subparts of the where queries suck as special likes combinations
  * or match again combinations for the fulltext search engine, see all detailed information by
- * reading the list of functions of this module*
+ * reading the list of functions of this module
  */
 
 /**
