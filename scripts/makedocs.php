@@ -97,13 +97,15 @@ echo "$date\n";
 echo "\n";
 echo "\n";
 echo "\n";
-$chapter = "";
+$path = "";
 foreach ($files as $file => $contents) {
-    $path = dirname($file);
-    if ($chapter != $path) {
-        $chapter = $path;
-        echo "+$chapter+\n";
+    $path2 = dirname($file);
+    if ($path != $path2) {
+        $path3 = ucwords(str_replace("/", " => ", $path2));
+        $path3 = str_replace(["Php", "Js"], ["PHP", "JavaScript"], $path3);
+        echo "+$path3+\n";
         echo "\n";
+        $path = $path2;
     }
     $first = true;
     foreach ($contents as $content) {

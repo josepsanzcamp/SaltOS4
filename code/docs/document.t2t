@@ -1,10 +1,10 @@
 Code documentation
-SaltOS 4.0 r398
+SaltOS 4.0 r399
 September 2023
 
 
 
-+core/php/action+
++Core => PHP => Action+
 
 ++Add error action++
 
@@ -288,7 +288,7 @@ each app
 TODO
 
 
-+core/php/autoload+
++Core => PHP => Autoload+
 
 ++Apps helper module++
 
@@ -4282,7 +4282,7 @@ This file contains the old index.php file, this was moved here to simplify the i
 allow some php checks found in the current index.php
 
 
-+core/php/database+
++Core => PHP => Database+
 
 ++SQLite3 functions library++
 
@@ -5016,7 +5016,7 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+core/js+
++Core => JavaScript+
 
 ++Application helper module++
 
