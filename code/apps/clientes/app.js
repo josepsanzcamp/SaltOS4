@@ -27,6 +27,12 @@
 "use strict";
 
 /**
+ * Customers application
+ *
+ * This application implements the tipical features associated to customers
+ */
+
+/**
  * Main object
  *
  * This object contains all SaltOS code
@@ -35,56 +41,70 @@ saltos.clientes = {};
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.clientes.search = function () {
+saltos.clientes.search = () => {
     // Using JSON
     console.log("saltos.clientes.search");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.clientes.clear_filter = function () {
+saltos.clientes.clear_filter = () => {
     // Using REST
     console.log("saltos.clientes.clear_filter");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.clientes.read_more = function () {
+saltos.clientes.read_more = () => {
     // Using REST
     console.log("saltos.clientes.read_more");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.clientes.cancel = function () {
+saltos.clientes.cancel = () => {
     // Using REST
     console.log("saltos.clientes.cancel");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.clientes.insert = function () {
+saltos.clientes.insert = () => {
     // Using REST
     console.log("saltos.clientes.insert");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.clientes.update = function () {
+saltos.clientes.update = () => {
     // Using REST
     console.log("saltos.clientes.update");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.clientes.delete = function () {
+saltos.clientes.delete = () => {
     // Using REST
     console.log("saltos.clientes.delete");
 }

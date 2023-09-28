@@ -1,5 +1,5 @@
 Code documentation
-SaltOS 4.0 r399
+SaltOS 4.0 r400
 September 2023
 
 
@@ -6440,5 +6440,164 @@ in this case, returns directly the children instead of the original object,
 otherwise nothing to do and returns the original object
 
 - @obj => the object to check and optimize
+
+
++Apps => Clientes+
+
+++Customers application++
+
+```
+apps/clientes/app.js
+```
+
+This application implements the tipical features associated to customers
+
+
++++Main object+++
+
+```
+saltos.clientes = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.clientes.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.clientes.clear_filter = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.clientes.read_more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.clientes.cancel = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.clientes.insert = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.clientes.update = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.clientes.delete = ()
+```
+
+TODO
+
+
++Apps => Correo+
+
+++Email application++
+
+```
+apps/correo/app.js
+```
+
+This application implements the tipical features associated to emails
+
+
++++Main object+++
+
+```
+saltos.correo = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.correo.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.correo.clear_filter = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.correo.read_more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.correo.send_and_get = ()
+```
+
+TODO
+
+
++Apps => Tester+
+
+++Tester application++
+
+```
+apps/tester/app.js
+```
+
+This application implements the tipical features associated to tester
+
+
++++Main code+++
+
+```
+(function () {
+```
+
+This function executes the main code that allow to you to see the tester in action
 
 

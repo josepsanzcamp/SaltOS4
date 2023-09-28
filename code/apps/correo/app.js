@@ -27,6 +27,12 @@
 "use strict";
 
 /**
+ * Email application
+ *
+ * This application implements the tipical features associated to emails
+ */
+
+/**
  * Main object
  *
  * This object contains all SaltOS code
@@ -35,32 +41,40 @@ saltos.correo = {};
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.correo.search = function () {
+saltos.correo.search = () => {
     // Using JSON
     console.log("saltos.correo.search");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.correo.clear_filter = function () {
+saltos.correo.clear_filter = () => {
     // Using REST
     console.log("saltos.correo.clear_filter");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.correo.read_more = function () {
+saltos.correo.read_more = () => {
     // Using REST
     console.log("saltos.correo.read_more");
 }
 
 /**
  * TODO
+ *
+ * TODO
  */
-saltos.correo.send_and_get = function () {
+saltos.correo.send_and_get = () => {
     // Using REST
     console.log("saltos.correo.send_and_get");
 }

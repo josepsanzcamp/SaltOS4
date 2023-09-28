@@ -26,7 +26,17 @@
 
 "use strict";
 
-// Main code
+/**
+ * Tester application
+ *
+ * This application implements the tipical features associated to tester
+ */
+
+/**
+ * Main code
+ *
+ * This function executes the main code that allow to you to see the tester in action
+ */
 (function () {
 
     document.body.append(saltos.navbar({
@@ -331,13 +341,13 @@
         if (tipo == "button") {
             clase = "btn-primary";
             valor = "Button text here";
-            onclick = function () {
+            onclick = () => {
                 alert("button onclick");
             };
         }
         if (tipo == "link") {
             valor = "https://www.saltos.org/portal/es/estadisticas";
-            onclick = function () {
+            onclick = () => {
                 window.open("https://www.saltos.org/portal/es/estadisticas");
             };
         }
@@ -410,7 +420,7 @@
             tipo = "button";
             clase = "btn-primary";
             valor = "Modal test";
-            onclick = function () {
+            onclick = () => {
                 saltos.modal({
                     static: false,
                     //~ class: "modal-lg",
@@ -462,7 +472,7 @@
             tipo = "button";
             clase = "btn-primary";
             valor = "Offcanvas test";
-            onclick = function () {
+            onclick = () => {
                 saltos.offcanvas({
                     static: false,
                     class: "offcanvas-start",
@@ -492,7 +502,7 @@
             tipo = "button";
             clase = "btn-primary";
             valor = "Toast test";
-            onclick = function () {
+            onclick = () => {
                 saltos.toast({
                     //class: "text-bg-primary",
                     close: "Cerrar",
