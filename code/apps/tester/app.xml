@@ -30,6 +30,25 @@
         <javascript>
             <inline>saltos.loading(0)</inline>
             <inline>saltos.clear_screen()</inline>
+        </javascript>
+        <style>
+            <file>core/lib/codemirror/codemirror.min.css</file>
+            <file>core/lib/handsontable/handsontable.full.min.css</file>
+            <file>core/lib/pdfjs/pdf_viewer.min.css</file>
+            <file>core/lib/venobox/venobox.min.css</file>
+        </style>
+        <javascript>
+            <file>core/lib/imaskjs/imask.min.js</file>
+            <file>core/lib/autoheight/autoheight.min.js</file>
+            <file>core/lib/ckeditor/ckeditor.min.js</file>
+            <file>core/lib/codemirror/codemirror.min.js</file>
+            <file>core/lib/handsontable/handsontable.full.min.js</file>
+            <file>core/lib/pdfjs/pdf.min.js</file>
+            <file>core/lib/pdfjs/pdf_viewer.min.js</file>
+            <file>core/lib/chartjs/chart.umd.min.js</file>
+            <file>core/lib/venobox/venobox.min.js</file>
+            <file>core/lib/masonry/masonry.pkgd.min.js</file>
+            <file>core/lib/imagesloaded/imagesloaded.pkgd.min.js</file>
             <file eval="true">file_with_hash("apps/tester/app.js")</file>
         </javascript>
     </menu>

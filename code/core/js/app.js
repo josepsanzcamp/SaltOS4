@@ -317,9 +317,18 @@ saltos.form_app.javascript = data => {
             document.body.append(script);
         }
         if (key == "file") {
-            var script = document.createElement("script");
-            script.src = val;
-            document.body.append(script);
+            //~ var script = document.createElement("script");
+            //~ script.src = val;
+            //~ document.body.append(script);
+            saltos.ajax({
+                url: val,
+                async: false,
+                success: response => {
+                    var script = document.createElement("script");
+                    script.innerHTML = response;
+                    document.body.append(script);
+                },
+            });
         }
     }
 };

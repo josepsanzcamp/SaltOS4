@@ -33,7 +33,7 @@
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-auto">
-            <button ifeval="check_user('clientes', 'create')" onclick="saltos.open('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente"/>
+            <button ifeval="check_user('clientes', 'create')" onclick="saltos.open_window('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente"/>
             <div col_class="col p-0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los clientes"/>
             <button onclick="saltos.clientes.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los clientes"/>
@@ -76,26 +76,26 @@
     </list>
     <!-- Form part -->
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
-        <text id="codigo" label="codigo"/>
-        <switch id="activo" label="activo"/>
-        <text id="nombre" label="nombre"/>
-        <text id="nombre1" label="nombre1"/>
-        <text id="nombre2" label="nombre2"/>
-        <text id="cif" label="cif"/>
-        <textarea id="comentarios" label="comentarios"/>
-        <text id="corriente" label="corriente"/>
-        <text id="contable" label="contable"/>
-        <text id="diapago" label="diapago"/>
-        <text id="direccion" label="direccion"/>
-        <text id="nombre_pais" label="nombre_pais"/>
-        <text id="nombre_provincia" label="nombre_provincia"/>
-        <text id="nombre_poblacion" label="nombre_poblacion"/>
-        <text id="nombre_codpostal" label="nombre_codpostal"/>
-        <text id="email" label="email"/>
-        <text id="web" label="web"/>
-        <text id="tel_fijo" label="tel_fijo"/>
-        <text id="tel_movil" label="tel_movil"/>
-        <text id="fax" label="fax"/>
+        <text id="codigo" label="Codigo"/>
+        <switch id="activo" label="Activo"/>
+        <text id="nombre" label="Nombre"/>
+        <text id="nombre1" label="Nombre1"/>
+        <text id="nombre2" label="Nombre2"/>
+        <text id="cif" label="CIF"/>
+        <textarea id="comentarios" label="Comentarios"/>
+        <text id="corriente" label="C. corriente"/>
+        <text id="contable" label="C. contable"/>
+        <text id="diapago" label="Dia de pago"/>
+        <text id="direccion" label="Dirección"/>
+        <text id="nombre_pais" label="Pais"/>
+        <text id="nombre_provincia" label="Provincia"/>
+        <text id="nombre_poblacion" label="Poblacion"/>
+        <text id="nombre_codpostal" label="Cod. postal"/>
+        <text id="email" label="Email"/>
+        <text id="web" label="Web"/>
+        <text id="tel_fijo" label="Tel fijo"/>
+        <text id="tel_movil" label="Tel movil"/>
+        <text id="fax" label="Fax"/>
     </layout>
     <data global="_DATA" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($_DATA["rest"][3]))</data>
     <create>
@@ -123,7 +123,7 @@
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente">
-                <onclick global="_DATA" eval="true">"saltos.open('#app/clientes/edit/".intval($_DATA["rest"][3])."')"</onclick>
+                <onclick global="_DATA" eval="true">"saltos.open_window('#app/clientes/edit/".intval($_DATA["rest"][3])."')"</onclick>
             </button>
             <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Volver" tooltip="Para volver atrás"/>
         </layout>

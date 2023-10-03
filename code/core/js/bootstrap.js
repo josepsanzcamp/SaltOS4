@@ -1467,7 +1467,7 @@ saltos.__form_field.table = field => {
                     if (val2.url == "") {
                         val2.disabled = true;
                     } else {
-                        val2.onclick = `saltos.open("#${val2.url}")`;
+                        val2.onclick = `saltos.open_window("#${val2.url}")`;
                     }
                     td.append(saltos.__form_field.button(val2));
                 }
@@ -1776,6 +1776,8 @@ saltos.__form_field.tags = field => {
  * @class  => allow to add more classes to the default img-fluid
  * @label  => this parameter is used as text for the label
  * @images => the array with images, each image can be an string or object
+ *
+ * This widget requires venobox, masonry and imagesloaded
  */
 saltos.__form_field.gallery = field => {
     saltos.check_params(field, ["id", "class", "images"]);

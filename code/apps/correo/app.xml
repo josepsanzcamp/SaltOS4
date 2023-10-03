@@ -32,7 +32,7 @@
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
-            <button ifeval="check_user('correo', 'create')" onclick="saltos.open('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo"/>
+            <button ifeval="check_user('correo', 'create')" onclick="saltos.open_window('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo"/>
             <div col_class="col p-0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todo el correo"/>
             <button onclick="saltos.correo.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo"/>

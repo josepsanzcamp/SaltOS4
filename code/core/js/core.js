@@ -330,7 +330,7 @@ saltos.fix_key = arg => {
  *
  * @url => the url of the page to load
  */
-saltos.open = url => {
+saltos.open_window = url => {
     window.open(url);
 };
 
