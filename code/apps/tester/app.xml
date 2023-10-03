@@ -27,10 +27,6 @@
 
 <root>
     <menu>
-        <javascript>
-            <inline>saltos.loading(0)</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
         <style>
             <file>core/lib/codemirror/codemirror.min.css</file>
             <file>core/lib/handsontable/handsontable.full.min.css</file>
@@ -38,6 +34,8 @@
             <file>core/lib/venobox/venobox.min.css</file>
         </style>
         <javascript>
+            <inline>saltos.loading(0)</inline>
+            <inline>saltos.clear_screen()</inline>
             <file>core/lib/imaskjs/imask.min.js</file>
             <file>core/lib/autoheight/autoheight.min.js</file>
             <file>core/lib/ckeditor/ckeditor.min.js</file>

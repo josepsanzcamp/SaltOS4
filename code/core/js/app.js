@@ -293,10 +293,15 @@ saltos.form_app.style = data => {
         var val = data[key];
         var key = saltos.fix_key(key);
         if (key == "inline") {
-            document.body.append(saltos.html(`<style>${val}</style>`));
+            var style = document.createElement("style");
+            style.innerHTML = val;
+            document.head.append(style);
         }
         if (key == "file") {
-            document.body.append(saltos.html(`<link href="${val}" rel="stylesheet">`));
+            var link = document.createElement("link");
+            link.href = val;
+            link.rel = "stylesheet";
+            document.head.append(link);
         }
     }
 };
@@ -317,9 +322,6 @@ saltos.form_app.javascript = data => {
             document.body.append(script);
         }
         if (key == "file") {
-            //~ var script = document.createElement("script");
-            //~ script.src = val;
-            //~ document.body.append(script);
             saltos.ajax({
                 url: val,
                 async: false,
