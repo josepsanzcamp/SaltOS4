@@ -83,6 +83,10 @@
  * only for internal use.
  */
 saltos.form_field = field => {
+    //saltos.require("core/lib/bootstrap/bootstrap.min.css");
+    saltos.require("core/lib/bootswatch/cosmo.min.css");
+    saltos.require("core/lib/bootstrap/bootstrap-icons.min.css");
+    saltos.require("core/lib/bootstrap/bootstrap.bundle.min.js");
     saltos.check_params(field, ["id", "type"]);
     if (field.id == "") {
         field.id = saltos.uniqid();
@@ -1379,6 +1383,7 @@ saltos.__form_field.pdfjs = field => {
  * that the desired fields, for example, to store the id used in the str_replace
  */
 saltos.__form_field.table = field => {
+    saltos.require("core/lib/locutus/locutus.min.js");
     saltos.check_params(field, ["class", "id", "checkbox"]);
     saltos.check_params(field, ["header", "data", "footer", "divider"], []);
     var obj = saltos.html(`
@@ -2335,6 +2340,7 @@ saltos.offcanvas = args => {
  * Each toast includes a hash to prevent the creation of repeated toasts.
  */
 saltos.toast = args => {
+    saltos.require("core/lib/md5/md5.min.js");
     saltos.check_params(args, ["id", "class", "close", "title", "subtitle", "body"]);
     if (document.querySelectorAll(".toast-container").length == 0) {
         document.body.append(saltos.html(`<div

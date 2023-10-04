@@ -384,15 +384,13 @@ saltos.require = file => {
     if (saltos.__require.includes(file)) {
         return;
     }
-    saltos.__require.push(file);
-    var type = file.substr(file.lastIndexOf(".") + 1);
-    if (type == "css") {
+    if (file.substr(-4) == ".css" || file.includes(".css?")) {
         var link = document.createElement("link");
         link.href = file;
         link.rel = "stylesheet";
         document.head.append(link);
     }
-    if (type == "js") {
+    if (file.substr(-3) == ".js" || file.includes(".js?")) {
         saltos.ajax({
             url: file,
             async: false,
@@ -403,4 +401,5 @@ saltos.require = file => {
             },
         });
     }
+    saltos.__require.push(file);
 };

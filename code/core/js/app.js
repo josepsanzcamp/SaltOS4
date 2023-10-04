@@ -288,7 +288,8 @@ saltos.form_app.layout = (layout, extra) => {
  * This function allow to specify styles, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  *
- * Note that some part of this code appear in the core.require function.
+ * Note that as some part of this code appear in the core.require function, we have decided
+ * to replace it by a call to the saltos.require
  */
 saltos.form_app.style = data => {
     for (var key in data) {
@@ -300,10 +301,7 @@ saltos.form_app.style = data => {
             document.head.append(style);
         }
         if (key == "file") {
-            var link = document.createElement("link");
-            link.href = val;
-            link.rel = "stylesheet";
-            document.head.append(link);
+            saltos.require(val);
         }
     }
 };
@@ -326,15 +324,7 @@ saltos.form_app.javascript = data => {
             document.body.append(script);
         }
         if (key == "file") {
-            saltos.ajax({
-                url: val,
-                async: false,
-                success: response => {
-                    var script = document.createElement("script");
-                    script.innerHTML = response;
-                    document.body.append(script);
-                },
-            });
+            saltos.require(val);
         }
     }
 };
@@ -370,6 +360,7 @@ window.onhashchange = event => {
  * true when can do the action, false otherwise
  */
 saltos.loading = on_off => {
+    saltos.require("core/lib/bootswatch/cosmo.min.css");
     var obj = document.getElementById("loading");
     if (on_off && !obj) {
         document.body.append(saltos.html(`

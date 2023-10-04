@@ -144,7 +144,8 @@
                             "yeti",
                             "zephyr"
                         ];
-                        var current = document.querySelector("link[theme]").href;
+                        //~ var current = document.querySelector("link[theme]").href;
+                        var current = "core/lib/bootswatch/cosmo.min.css";
                         for (var key in menu) {
                             var val = menu[key];
                             menu[key] = {
