@@ -287,6 +287,8 @@ saltos.form_app.layout = (layout, extra) => {
  *
  * This function allow to specify styles, you can use the inline of file key to specify
  * what kind of usage do you want to do.
+ *
+ * Note that some part of this code appear in the core.require function.
  */
 saltos.form_app.style = data => {
     for (var key in data) {
@@ -311,6 +313,8 @@ saltos.form_app.style = data => {
  *
  * This function allow to specify scripts, you can use the inline of file key to specify
  * what kind of usage do you want to do.
+ *
+ * Note that some part of this code appear in the core.require function.
  */
 saltos.form_app.javascript = data => {
     for (var key in data) {

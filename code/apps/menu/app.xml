@@ -30,7 +30,6 @@
         <javascript>
             <inline>saltos.loading(0)</inline>
             <inline>saltos.clear_screen()</inline>
-            <file>core/lib/chartjs/chart.umd.min.js</file>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
             <button ifeval="check_user('correo', 'menu')" onclick="saltos.open_window('#app/correo/list')" class="btn btn-primary fs-1 w-100 h-100" eval="true">T("Email")</button>

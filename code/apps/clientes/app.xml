@@ -102,7 +102,6 @@
         <javascript>
             <inline>saltos.loading(0)</inline>
             <inline>saltos.clear_screen()</inline>
-            <file>core/lib/autoheight/autoheight.min.js</file>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <layout auto="true" container_class="container" col_class="col-auto">
@@ -118,7 +117,6 @@
         <javascript>
             <inline>saltos.loading(0)</inline>
             <inline>saltos.clear_screen()</inline>
-            <file>core/lib/autoheight/autoheight.min.js</file>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
@@ -137,7 +135,6 @@
         <javascript>
             <inline>saltos.loading(0)</inline>
             <inline>saltos.clear_screen()</inline>
-            <file>core/lib/autoheight/autoheight.min.js</file>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>
@@ -154,7 +151,6 @@
         <javascript>
             <inline>saltos.loading(0)</inline>
             <inline>saltos.clear_screen()</inline>
-            <file>core/lib/autoheight/autoheight.min.js</file>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/clientes/app.xml")["data"]</data>

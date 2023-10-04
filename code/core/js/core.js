@@ -348,9 +348,9 @@ saltos.copy_object = arg => {
 /**
  * Optimizer object
  *
- * This function checks an object to see if only contains one children and
- * in this case, returns directly the children instead of the original object,
- * otherwise nothing to do and returns the original object
+ * This function checks an object to see if only contains one children and in this case, returns
+ * directly the children instead of the original object, otherwise nothing to do and returns the
+ * original object
  *
  * @obj => the object to check and optimize
  */
@@ -360,3 +360,47 @@ saltos.optimize = obj => {
     }
     return obj;
 }
+
+/**
+ * Require helper array
+ *
+ * This array allow to the require feature to control the loaded libraries
+ */
+saltos.__require = [];
+
+/**
+ * Require feature
+ *
+ * This function allow the other functions to declare their requirements to previously load the
+ * desired file intead of create the object and throwing an error.
+ *
+ * @file => the file desired to be loaded
+ *
+ * Notes:
+ *
+ * This function is intended to load styles (css files) or javacript code (js files)
+ */
+saltos.require = file => {
+    if (saltos.__require.includes(file)) {
+        return;
+    }
+    saltos.__require.push(file);
+    var type = file.substr(file.lastIndexOf(".") + 1);
+    if (type == "css") {
+        var link = document.createElement("link");
+        link.href = file;
+        link.rel = "stylesheet";
+        document.head.append(link);
+    }
+    if (type == "js") {
+        saltos.ajax({
+            url: file,
+            async: false,
+            success: response => {
+                var script = document.createElement("script");
+                script.innerHTML = response;
+                document.body.append(script);
+            },
+        });
+    }
+};

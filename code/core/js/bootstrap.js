@@ -256,6 +256,7 @@ saltos.__form_field.hidden = field => {
  * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.integer = field => {
+    saltos.require("core/lib/imaskjs/imask.min.js");
     field.type = "text";
     var obj = saltos.__text_helper(field);
     var element = obj;
@@ -285,6 +286,7 @@ saltos.__form_field.integer = field => {
  * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.float = field => {
+    saltos.require("core/lib/imaskjs/imask.min.js");
     field.type = "text";
     var obj = saltos.__text_helper(field);
     var element = obj;
@@ -423,6 +425,7 @@ saltos.__form_field.datetime = field => {
  * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.textarea = field => {
+    saltos.require("core/lib/autoheight/autoheight.min.js");
     var obj = saltos.__textarea_helper(field);
     var element = obj;
     saltos.when_visible(element, () => {
@@ -449,6 +452,7 @@ saltos.__form_field.textarea = field => {
  * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.ckeditor = field => {
+    saltos.require("core/lib/ckeditor/ckeditor.min.js");
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__label_helper(field));
     obj.append(saltos.__textarea_helper(field));
@@ -479,6 +483,8 @@ saltos.__form_field.ckeditor = field => {
  * @label       => this parameter is used as text for the label
  */
 saltos.__form_field.codemirror = field => {
+    saltos.require("core/lib/codemirror/codemirror.min.css");
+    saltos.require("core/lib/codemirror/codemirror.min.js");
     saltos.check_params(field, ["mode"]);
     var obj = saltos.html(`<div></div>`);
     obj.append(saltos.__label_helper(field));
@@ -1219,6 +1225,8 @@ saltos.__form_field.image = field => {
  * the widget.
  */
 saltos.__form_field.excel = field => {
+    saltos.require("core/lib/handsontable/handsontable.full.min.css");
+    saltos.require("core/lib/handsontable/handsontable.full.min.js");
     saltos.check_params(field, ["id", "class", "data", "rowHeaders", "colHeaders"]);
     saltos.check_params(field, ["minSpareRows", "contextMenu", "rowHeaderWidth", "colWidths"]);
     var obj = saltos.html(`
@@ -1277,6 +1285,9 @@ saltos.__form_field.excel = field => {
  * @label => this parameter is used as text for the label
  */
 saltos.__form_field.pdfjs = field => {
+    saltos.require("core/lib/pdfjs/pdf_viewer.min.css");
+    saltos.require("core/lib/pdfjs/pdf.min.js");
+    saltos.require("core/lib/pdfjs/pdf_viewer.min.js");
     saltos.check_params(field, ["id", "class", "value"]);
     var obj = saltos.html(`
         <div id="${field.id}" class="${field.class}">
@@ -1646,6 +1657,7 @@ saltos.__form_field.card = field => {
  * To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
  */
 saltos.__form_field.chartjs = field => {
+    saltos.require("core/lib/chartjs/chart.umd.min.js");
     saltos.check_params(field, ["id", "mode", "data"]);
     var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
     for (var key in field.data.datasets) {
@@ -1780,6 +1792,10 @@ saltos.__form_field.tags = field => {
  * This widget requires venobox, masonry and imagesloaded
  */
 saltos.__form_field.gallery = field => {
+    saltos.require("core/lib/venobox/venobox.min.css");
+    saltos.require("core/lib/venobox/venobox.min.js");
+    saltos.require("core/lib/masonry/masonry.pkgd.min.js");
+    saltos.require("core/lib/imagesloaded/imagesloaded.pkgd.min.js");
     saltos.check_params(field, ["id", "class", "images"]);
     if (field.class == "") {
         field.class = "col";
