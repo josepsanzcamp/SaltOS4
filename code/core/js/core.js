@@ -378,7 +378,9 @@ saltos.__require = [];
  *
  * Notes:
  *
- * This function is intended to load styles (css files) or javacript code (js files)
+ * This function is intended to load styles (css files) or javacript code (js files), in each
+ * case, they uses a different technique, for css the load is asynchronous and for javascript
+ * the load will be synchronous.
  */
 saltos.require = file => {
     if (saltos.__require.includes(file)) {

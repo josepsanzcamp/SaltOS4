@@ -1,6 +1,6 @@
 Code documentation
-SaltOS 4.0 r400
-September 2023
+SaltOS 4.0 r407
+October 2023
 
 
 
@@ -5106,6 +5106,9 @@ saltos.form_app.style = data
 This function allow to specify styles, you can use the inline of file key to specify
 what kind of usage do you want to do.
 
+Note that as some part of this code appear in the core.require function, we have decided
+to replace it by a call to the saltos.require
+
 
 +++Form javascript helper+++
 
@@ -5115,6 +5118,9 @@ saltos.form_app.javascript = data
 
 This function allow to specify scripts, you can use the inline of file key to specify
 what kind of usage do you want to do.
+
+Note that as some part of this code appear in the core.require function, we have decided
+to replace it by a call to the saltos.require
 
 
 +++Hash change management+++
@@ -5380,6 +5386,14 @@ that for the input object of type text
 - @label       => this parameter is used as text for the label
 
 
+Notes:
+
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+
+- @core/lib/imaskjs/imask.min.js
+
+
 +++Float constructor helper+++
 
 ```
@@ -5399,6 +5413,14 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
+
+
+Notes:
+
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+
+- @core/lib/imaskjs/imask.min.js
 
 
 +++Color constructor helper+++
@@ -5511,6 +5533,14 @@ This function returns a textarea object with the autogrow plugin enabled
 - @label       => this parameter is used as text for the label
 
 
+Notes:
+
+This widget requires the autoheight library and can be loaded automatically using the require
+feature:
+
+- @core/lib/autoheight/autoheight.min.js
+
+
 +++Ckeditor constructor helper+++
 
 ```
@@ -5529,6 +5559,14 @@ This function returns a textarea object with the ckeditor plugin enabled
 - @tooltip     => this parameter raise the title flag
 - @rows        => the number used as rows parameter
 - @label       => this parameter is used as text for the label
+
+
+Notes:
+
+This widget requires the ckeditor library and can be loaded automatically using the require
+feature:
+
+- @core/lib/ckeditor/ckeditor.min.js
 
 
 +++Codemirror constructor helper+++
@@ -5550,6 +5588,15 @@ This function returns a textarea object with the codemirror plugin enabled
 - @tooltip     => this parameter raise the title flag
 - @rows        => the number used as rows parameter
 - @label       => this parameter is used as text for the label
+
+
+Notes:
+
+This widget requires the codemirror library and can be loaded automatically using the require
+feature:
+
+- @core/lib/codemirror/codemirror.min.css
+- @core/lib/codemirror/codemirror.min.js
 
 
 +++Iframe constructor helper+++
@@ -5834,6 +5881,12 @@ Notes:
 You can get the values after to do changes by accessing to the data of the div used to create
 the widget.
 
+This widget requires the handsontable library and can be loaded automatically using the require
+feature:
+
+- @core/lib/handsontable/handsontable.full.min.css
+- @core/lib/handsontable/handsontable.full.min.js
+
 
 +++Pdfjs constructor helper+++
 
@@ -5847,6 +5900,16 @@ This function creates and returns a pdfviewer object, to do this they use the pd
 - @class => allow to set the class to the div object used to allocate the widget
 - @value => the file or data that contains the pdf document
 - @label => this parameter is used as text for the label
+
+
+Notes:
+
+This widget requires the pdfjs library and can be loaded automatically using the require
+feature:
+
+- @core/lib/pdfjs/pdf_viewer.min.css,
+- @core/lib/pdfjs/pdf.min.js
+- @core/lib/pdfjs/pdf_viewer.min.js
 
 
 +++Table constructor helper+++
@@ -5876,6 +5939,11 @@ The header field can be an array with the labels of each field or can be an obje
 with pairs of key and val to identify with the key the name of the field and with the
 val the label to be used in the field, this is used when the data contains more fields
 that the desired fields, for example, to store the id used in the str_replace
+
+This widget requires the locutus library and can be loaded automatically using the require
+feature:
+
+- @core/lib/locutos/locutus.min.js
 
 
 +++Alert constructor helper+++
@@ -5941,6 +6009,11 @@ Notes:
 
 To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
 
+This widget requires the chartjs library and can be loaded automatically using the require
+feature:
+
+- @core/lib/chartjs/chart.umd.min.js
+
 
 +++Tags constructor helper+++
 
@@ -5982,6 +6055,17 @@ This function returns a gallery object, you can pass some arguments as:
 - @class  => allow to add more classes to the default img-fluid
 - @label  => this parameter is used as text for the label
 - @images => the array with images, each image can be an string or object
+
+
+This widget requires venobox, masonry and imagesloaded
+
+This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
+automatically using the require feature:
+
+- @core/lib/venobox/venobox.min.css
+- @core/lib/venobox/venobox.min.js
+- @core/lib/masonry/masonry.pkgd.min.js
+- @core/lib/imagesloaded/imagesloaded.pkgd.min.js
 
 
 +++Placeholder helper+++
@@ -6253,6 +6337,11 @@ is created automatically if it not exists when the first toast need it.
 
 Each toast includes a hash to prevent the creation of repeated toasts.
 
+This widget requires the md5 library and can be loaded automatically using the require
+feature:
+
+- @core/lib/md5/md5.min.js
+
 
 ++Core helper module++
 
@@ -6409,7 +6498,7 @@ for this reason, exists this function here
 +++Open window+++
 
 ```
-saltos.open = url
+saltos.open_window = url
 ```
 
 This function is intended to open new tabs in the window, at the moment only is a wrapper to
@@ -6435,11 +6524,39 @@ This function is intended to do copies of objects using as intermediate a json f
 saltos.optimize = obj
 ```
 
-This function checks an object to see if only contains one children and
-in this case, returns directly the children instead of the original object,
-otherwise nothing to do and returns the original object
+This function checks an object to see if only contains one children and in this case, returns
+directly the children instead of the original object, otherwise nothing to do and returns the
+original object
 
 - @obj => the object to check and optimize
+
+
++++Require helper array+++
+
+```
+saltos.__require = [];
+```
+
+This array allow to the require feature to control the loaded libraries
+
+
++++Require feature+++
+
+```
+saltos.require = file
+```
+
+This function allow the other functions to declare their requirements to previously load the
+desired file intead of create the object and throwing an error.
+
+- @file => the file desired to be loaded
+
+
+Notes:
+
+This function is intended to load styles (css files) or javacript code (js files), in each
+case, they uses a different technique, for css the load is asynchronous and for javascript
+the load will be synchronous.
 
 
 +Apps => Clientes+

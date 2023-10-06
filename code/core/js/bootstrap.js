@@ -254,6 +254,13 @@ saltos.__form_field.hidden = field => {
  * @required    => this parameter raise the required flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * This widget requires the imask library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/imaskjs/imask.min.js
  */
 saltos.__form_field.integer = field => {
     saltos.require("core/lib/imaskjs/imask.min.js");
@@ -284,6 +291,13 @@ saltos.__form_field.integer = field => {
  * @required    => this parameter raise the required flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * This widget requires the imask library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/imaskjs/imask.min.js
  */
 saltos.__form_field.float = field => {
     saltos.require("core/lib/imaskjs/imask.min.js");
@@ -423,6 +437,13 @@ saltos.__form_field.datetime = field => {
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * This widget requires the autoheight library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/autoheight/autoheight.min.js
  */
 saltos.__form_field.textarea = field => {
     saltos.require("core/lib/autoheight/autoheight.min.js");
@@ -450,6 +471,13 @@ saltos.__form_field.textarea = field => {
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * This widget requires the ckeditor library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/ckeditor/ckeditor.min.js
  */
 saltos.__form_field.ckeditor = field => {
     saltos.require("core/lib/ckeditor/ckeditor.min.js");
@@ -481,6 +509,14 @@ saltos.__form_field.ckeditor = field => {
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * This widget requires the codemirror library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/codemirror/codemirror.min.css
+ * @core/lib/codemirror/codemirror.min.js
  */
 saltos.__form_field.codemirror = field => {
     saltos.require("core/lib/codemirror/codemirror.min.css");
@@ -1223,6 +1259,12 @@ saltos.__form_field.image = field => {
  *
  * You can get the values after to do changes by accessing to the data of the div used to create
  * the widget.
+ *
+ * This widget requires the handsontable library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/handsontable/handsontable.full.min.css
+ * @core/lib/handsontable/handsontable.full.min.js
  */
 saltos.__form_field.excel = field => {
     saltos.require("core/lib/handsontable/handsontable.full.min.css");
@@ -1283,6 +1325,15 @@ saltos.__form_field.excel = field => {
  * @class => allow to set the class to the div object used to allocate the widget
  * @value => the file or data that contains the pdf document
  * @label => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * This widget requires the pdfjs library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/pdfjs/pdf_viewer.min.css,
+ * @core/lib/pdfjs/pdf.min.js
+ * @core/lib/pdfjs/pdf_viewer.min.js
  */
 saltos.__form_field.pdfjs = field => {
     saltos.require("core/lib/pdfjs/pdf_viewer.min.css");
@@ -1377,6 +1428,11 @@ saltos.__form_field.pdfjs = field => {
  * with pairs of key and val to identify with the key the name of the field and with the
  * val the label to be used in the field, this is used when the data contains more fields
  * that the desired fields, for example, to store the id used in the str_replace
+ *
+ * This widget requires the locutus library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/locutos/locutus.min.js
  */
 saltos.__form_field.table = field => {
     saltos.require("core/lib/locutus/locutus.min.js");
@@ -1656,6 +1712,11 @@ saltos.__form_field.card = field => {
  * Notes:
  *
  * To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
+ *
+ * This widget requires the chartjs library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/chartjs/chart.umd.min.js
  */
 saltos.__form_field.chartjs = field => {
     saltos.require("core/lib/chartjs/chart.umd.min.js");
@@ -1791,6 +1852,14 @@ saltos.__form_field.tags = field => {
  * @images => the array with images, each image can be an string or object
  *
  * This widget requires venobox, masonry and imagesloaded
+ *
+ * This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
+ * automatically using the require feature:
+ *
+ * @core/lib/venobox/venobox.min.css
+ * @core/lib/venobox/venobox.min.js
+ * @core/lib/masonry/masonry.pkgd.min.js
+ * @core/lib/imagesloaded/imagesloaded.pkgd.min.js
  */
 saltos.__form_field.gallery = field => {
     saltos.require("core/lib/venobox/venobox.min.css");
@@ -2334,6 +2403,11 @@ saltos.offcanvas = args => {
  * is created automatically if it not exists when the first toast need it.
  *
  * Each toast includes a hash to prevent the creation of repeated toasts.
+ *
+ * This widget requires the md5 library and can be loaded automatically using the require
+ * feature:
+ *
+ * @core/lib/md5/md5.min.js
  */
 saltos.toast = args => {
     saltos.require("core/lib/md5/md5.min.js");

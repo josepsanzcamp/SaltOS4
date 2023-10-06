@@ -312,7 +312,8 @@ saltos.form_app.style = data => {
  * This function allow to specify scripts, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  *
- * Note that some part of this code appear in the core.require function.
+ * Note that as some part of this code appear in the core.require function, we have decided
+ * to replace it by a call to the saltos.require
  */
 saltos.form_app.javascript = data => {
     for (var key in data) {

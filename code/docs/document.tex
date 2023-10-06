@@ -28,9 +28,9 @@
 
 
 \title{Code documentation}
-\author{SaltOS 4.0 r400}
+\author{SaltOS 4.0 r407}
 \begin{document}
-\date{September 2023}
+\date{October 2023}
 \maketitle
 \clearpage
 
@@ -5547,6 +5547,9 @@ saltos.form_app.style = data
 This function allow to specify styles, you can use the inline of file key to specify
 what kind of usage do you want to do.
 
+Note that as some part of this code appear in the core.require function, we have decided
+to replace it by a call to the saltos.require
+
 \hypertarget{toc361}{}
 \subsection{Form javascript helper}
 
@@ -5556,6 +5559,9 @@ saltos.form_app.javascript = data
 
 This function allow to specify scripts, you can use the inline of file key to specify
 what kind of usage do you want to do.
+
+Note that as some part of this code appear in the core.require function, we have decided
+to replace it by a call to the saltos.require
 
 \hypertarget{toc362}{}
 \subsection{Hash change management}
@@ -5837,6 +5843,15 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
+Notes:
+
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/imaskjs/imask.min.js
+\end{compactitem}
+
 \hypertarget{toc377}{}
 \subsection{Float constructor helper}
 
@@ -5858,6 +5873,15 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @required    =$>$ this parameter raise the required flag
 \item[\color{myblue}$\bullet$] @tooltip     =$>$ this parameter raise the title flag
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
+\end{compactitem}
+
+Notes:
+
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/imaskjs/imask.min.js
 \end{compactitem}
 
 \hypertarget{toc378}{}
@@ -5979,6 +6003,15 @@ This function returns a textarea object with the autogrow plugin enabled
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
+Notes:
+
+This widget requires the autoheight library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/autoheight/autoheight.min.js
+\end{compactitem}
+
 \hypertarget{toc383}{}
 \subsection{Ckeditor constructor helper}
 
@@ -5999,6 +6032,15 @@ This function returns a textarea object with the ckeditor plugin enabled
 \item[\color{myblue}$\bullet$] @tooltip     =$>$ this parameter raise the title flag
 \item[\color{myblue}$\bullet$] @rows        =$>$ the number used as rows parameter
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
+\end{compactitem}
+
+Notes:
+
+This widget requires the ckeditor library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/ckeditor/ckeditor.min.js
 \end{compactitem}
 
 \hypertarget{toc384}{}
@@ -6022,6 +6064,16 @@ This function returns a textarea object with the codemirror plugin enabled
 \item[\color{myblue}$\bullet$] @tooltip     =$>$ this parameter raise the title flag
 \item[\color{myblue}$\bullet$] @rows        =$>$ the number used as rows parameter
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
+\end{compactitem}
+
+Notes:
+
+This widget requires the codemirror library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/codemirror/codemirror.min.css
+\item[\color{myblue}$\bullet$] @core/lib/codemirror/codemirror.min.js
 \end{compactitem}
 
 \hypertarget{toc385}{}
@@ -6322,6 +6374,14 @@ Notes:
 You can get the values after to do changes by accessing to the data of the div used to create
 the widget.
 
+This widget requires the handsontable library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/handsontable/handsontable.full.min.css
+\item[\color{myblue}$\bullet$] @core/lib/handsontable/handsontable.full.min.js
+\end{compactitem}
+
 \hypertarget{toc397}{}
 \subsection{Pdfjs constructor helper}
 
@@ -6336,6 +6396,17 @@ This function creates and returns a pdfviewer object, to do this they use the pd
 \item[\color{myblue}$\bullet$] @class =$>$ allow to set the class to the div object used to allocate the widget
 \item[\color{myblue}$\bullet$] @value =$>$ the file or data that contains the pdf document
 \item[\color{myblue}$\bullet$] @label =$>$ this parameter is used as text for the label
+\end{compactitem}
+
+Notes:
+
+This widget requires the pdfjs library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/pdfjs/pdf\_viewer.min.css,
+\item[\color{myblue}$\bullet$] @core/lib/pdfjs/pdf.min.js
+\item[\color{myblue}$\bullet$] @core/lib/pdfjs/pdf\_viewer.min.js
 \end{compactitem}
 
 \hypertarget{toc398}{}
@@ -6367,6 +6438,13 @@ The header field can be an array with the labels of each field or can be an obje
 with pairs of key and val to identify with the key the name of the field and with the
 val the label to be used in the field, this is used when the data contains more fields
 that the desired fields, for example, to store the id used in the str\_replace
+
+This widget requires the locutus library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/locutos/locutus.min.js
+\end{compactitem}
 
 \hypertarget{toc399}{}
 \subsection{Alert constructor helper}
@@ -6436,6 +6514,13 @@ Notes:
 
 To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
 
+This widget requires the chartjs library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/chartjs/chart.umd.min.js
+\end{compactitem}
+
 \hypertarget{toc402}{}
 \subsection{Tags constructor helper}
 
@@ -6479,6 +6564,18 @@ This function returns a gallery object, you can pass some arguments as:
 \item[\color{myblue}$\bullet$] @class  =$>$ allow to add more classes to the default img-fluid
 \item[\color{myblue}$\bullet$] @label  =$>$ this parameter is used as text for the label
 \item[\color{myblue}$\bullet$] @images =$>$ the array with images, each image can be an string or object
+\end{compactitem}
+
+This widget requires venobox, masonry and imagesloaded
+
+This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
+automatically using the require feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/venobox/venobox.min.css
+\item[\color{myblue}$\bullet$] @core/lib/venobox/venobox.min.js
+\item[\color{myblue}$\bullet$] @core/lib/masonry/masonry.pkgd.min.js
+\item[\color{myblue}$\bullet$] @core/lib/imagesloaded/imagesloaded.pkgd.min.js
 \end{compactitem}
 
 \hypertarget{toc404}{}
@@ -6773,6 +6870,13 @@ is created automatically if it not exists when the first toast need it.
 
 Each toast includes a hash to prevent the creation of repeated toasts.
 
+This widget requires the md5 library and can be loaded automatically using the require
+feature:
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @core/lib/md5/md5.min.js
+\end{compactitem}
+
 \hypertarget{toc417}{}
 \section{Core helper module}
 
@@ -6941,7 +7045,7 @@ for this reason, exists this function here
 \subsection{Open window}
 
 \begin{lstlisting}
-saltos.open = url
+saltos.open_window = url
 \end{lstlisting}
 
 This function is intended to open new tabs in the window, at the moment only is a wrapper to
@@ -6971,19 +7075,48 @@ This function is intended to do copies of objects using as intermediate a json f
 saltos.optimize = obj
 \end{lstlisting}
 
-This function checks an object to see if only contains one children and
-in this case, returns directly the children instead of the original object,
-otherwise nothing to do and returns the original object
+This function checks an object to see if only contains one children and in this case, returns
+directly the children instead of the original object, otherwise nothing to do and returns the
+original object
 
 \begin{compactitem}
 \item[\color{myblue}$\bullet$] @obj =$>$ the object to check and optimize
 \end{compactitem}
 
-
 \hypertarget{toc431}{}
-\chapter{Apps =$>$ Clientes}
+\subsection{Require helper array}
+
+\begin{lstlisting}
+saltos.__require = [];
+\end{lstlisting}
+
+This array allow to the require feature to control the loaded libraries
 
 \hypertarget{toc432}{}
+\subsection{Require feature}
+
+\begin{lstlisting}
+saltos.require = file
+\end{lstlisting}
+
+This function allow the other functions to declare their requirements to previously load the
+desired file intead of create the object and throwing an error.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @file =$>$ the file desired to be loaded
+\end{compactitem}
+
+Notes:
+
+This function is intended to load styles (css files) or javacript code (js files), in each
+case, they uses a different technique, for css the load is asynchronous and for javascript
+the load will be synchronous.
+
+
+\hypertarget{toc433}{}
+\chapter{Apps =$>$ Clientes}
+
+\hypertarget{toc434}{}
 \section{Customers application}
 
 \begin{lstlisting}
@@ -6992,7 +7125,7 @@ apps/clientes/app.js
 
 This application implements the tipical features associated to customers
 
-\hypertarget{toc433}{}
+\hypertarget{toc435}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7001,7 +7134,7 @@ saltos.clientes = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc434}{}
+\hypertarget{toc436}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7010,7 +7143,7 @@ saltos.clientes.search = ()
 
 TODO
 
-\hypertarget{toc435}{}
+\hypertarget{toc437}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7019,7 +7152,7 @@ saltos.clientes.clear_filter = ()
 
 TODO
 
-\hypertarget{toc436}{}
+\hypertarget{toc438}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7028,7 +7161,7 @@ saltos.clientes.read_more = ()
 
 TODO
 
-\hypertarget{toc437}{}
+\hypertarget{toc439}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7037,7 +7170,7 @@ saltos.clientes.cancel = ()
 
 TODO
 
-\hypertarget{toc438}{}
+\hypertarget{toc440}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7046,7 +7179,7 @@ saltos.clientes.insert = ()
 
 TODO
 
-\hypertarget{toc439}{}
+\hypertarget{toc441}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7055,7 +7188,7 @@ saltos.clientes.update = ()
 
 TODO
 
-\hypertarget{toc440}{}
+\hypertarget{toc442}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7065,10 +7198,10 @@ saltos.clientes.delete = ()
 TODO
 
 
-\hypertarget{toc441}{}
+\hypertarget{toc443}{}
 \chapter{Apps =$>$ Correo}
 
-\hypertarget{toc442}{}
+\hypertarget{toc444}{}
 \section{Email application}
 
 \begin{lstlisting}
@@ -7077,7 +7210,7 @@ apps/correo/app.js
 
 This application implements the tipical features associated to emails
 
-\hypertarget{toc443}{}
+\hypertarget{toc445}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7086,7 +7219,7 @@ saltos.correo = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc444}{}
+\hypertarget{toc446}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7095,7 +7228,7 @@ saltos.correo.search = ()
 
 TODO
 
-\hypertarget{toc445}{}
+\hypertarget{toc447}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7104,7 +7237,7 @@ saltos.correo.clear_filter = ()
 
 TODO
 
-\hypertarget{toc446}{}
+\hypertarget{toc448}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7113,7 +7246,7 @@ saltos.correo.read_more = ()
 
 TODO
 
-\hypertarget{toc447}{}
+\hypertarget{toc449}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7123,10 +7256,10 @@ saltos.correo.send_and_get = ()
 TODO
 
 
-\hypertarget{toc448}{}
+\hypertarget{toc450}{}
 \chapter{Apps =$>$ Tester}
 
-\hypertarget{toc449}{}
+\hypertarget{toc451}{}
 \section{Tester application}
 
 \begin{lstlisting}
@@ -7135,7 +7268,7 @@ apps/tester/app.js
 
 This application implements the tipical features associated to tester
 
-\hypertarget{toc450}{}
+\hypertarget{toc452}{}
 \subsection{Main code}
 
 \begin{lstlisting}

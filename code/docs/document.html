@@ -25,8 +25,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Code documentation</h1>
-<h2>SaltOS 4.0 r400</h2>
-<h3>September 2023</h3>
+<h2>SaltOS 4.0 r407</h2>
+<h3>October 2023</h3>
 </hgroup>
 </header>
 <article>
@@ -995,57 +995,61 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc430">4.3.13. Optimizer object</a>
       </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  <li><a href="#toc431">5. Apps =&gt; Clientes</a>
-    <ul>
-    <li><a href="#toc432">5.1. Customers application</a>
-      <ul>
-      <li><a href="#toc433">5.1.1. Main object</a>
+      <li><a href="#toc431">4.3.14. Require helper array</a>
       </li>
-      <li><a href="#toc434">5.1.2. TODO</a>
-      </li>
-      <li><a href="#toc435">5.1.3. TODO</a>
-      </li>
-      <li><a href="#toc436">5.1.4. TODO</a>
-      </li>
-      <li><a href="#toc437">5.1.5. TODO</a>
-      </li>
-      <li><a href="#toc438">5.1.6. TODO</a>
-      </li>
-      <li><a href="#toc439">5.1.7. TODO</a>
-      </li>
-      <li><a href="#toc440">5.1.8. TODO</a>
+      <li><a href="#toc432">4.3.15. Require feature</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc441">6. Apps =&gt; Correo</a>
+  <li><a href="#toc433">5. Apps =&gt; Clientes</a>
     <ul>
-    <li><a href="#toc442">6.1. Email application</a>
+    <li><a href="#toc434">5.1. Customers application</a>
       <ul>
-      <li><a href="#toc443">6.1.1. Main object</a>
+      <li><a href="#toc435">5.1.1. Main object</a>
       </li>
-      <li><a href="#toc444">6.1.2. TODO</a>
+      <li><a href="#toc436">5.1.2. TODO</a>
       </li>
-      <li><a href="#toc445">6.1.3. TODO</a>
+      <li><a href="#toc437">5.1.3. TODO</a>
       </li>
-      <li><a href="#toc446">6.1.4. TODO</a>
+      <li><a href="#toc438">5.1.4. TODO</a>
       </li>
-      <li><a href="#toc447">6.1.5. TODO</a>
+      <li><a href="#toc439">5.1.5. TODO</a>
+      </li>
+      <li><a href="#toc440">5.1.6. TODO</a>
+      </li>
+      <li><a href="#toc441">5.1.7. TODO</a>
+      </li>
+      <li><a href="#toc442">5.1.8. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc448">7. Apps =&gt; Tester</a>
+  <li><a href="#toc443">6. Apps =&gt; Correo</a>
     <ul>
-    <li><a href="#toc449">7.1. Tester application</a>
+    <li><a href="#toc444">6.1. Email application</a>
       <ul>
-      <li><a href="#toc450">7.1.1. Main code</a>
+      <li><a href="#toc445">6.1.1. Main object</a>
+      </li>
+      <li><a href="#toc446">6.1.2. TODO</a>
+      </li>
+      <li><a href="#toc447">6.1.3. TODO</a>
+      </li>
+      <li><a href="#toc448">6.1.4. TODO</a>
+      </li>
+      <li><a href="#toc449">6.1.5. TODO</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc450">7. Apps =&gt; Tester</a>
+    <ul>
+    <li><a href="#toc451">7.1. Tester application</a>
+      <ul>
+      <li><a href="#toc452">7.1.1. Main code</a>
       </li>
       </ul>
     </li>
@@ -8462,6 +8466,10 @@ saltos.form_app.style = data
 This function allow to specify styles, you can use the inline of file key to specify
 what kind of usage do you want to do.
 </p>
+<p>
+Note that as some part of this code appear in the core.require function, we have decided
+to replace it by a call to the saltos.require
+</p>
 
 </section>
 <section id="toc361">
@@ -8474,6 +8482,10 @@ saltos.form_app.javascript = data
 <p>
 This function allow to specify scripts, you can use the inline of file key to specify
 what kind of usage do you want to do.
+</p>
+<p>
+Note that as some part of this code appear in the core.require function, we have decided
+to replace it by a call to the saltos.require
 </p>
 
 </section>
@@ -8891,6 +8903,19 @@ that for the input object of type text
 </li>
 </ul>
 
+<p>
+Notes:
+</p>
+<p>
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/imaskjs/imask.min.js
+</li>
+</ul>
+
 </section>
 <section id="toc377">
 <h3>4.2.10. Float constructor helper</h3>
@@ -8924,6 +8949,19 @@ that for the input object of type text
 <li>@tooltip     =&gt; this parameter raise the title flag
 </li>
 <li>@label       =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the imask library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/imaskjs/imask.min.js
 </li>
 </ul>
 
@@ -9114,6 +9152,19 @@ This function returns a textarea object with the autogrow plugin enabled
 </li>
 </ul>
 
+<p>
+Notes:
+</p>
+<p>
+This widget requires the autoheight library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/autoheight/autoheight.min.js
+</li>
+</ul>
+
 </section>
 <section id="toc383">
 <h3>4.2.16. Ckeditor constructor helper</h3>
@@ -9146,6 +9197,19 @@ This function returns a textarea object with the ckeditor plugin enabled
 <li>@rows        =&gt; the number used as rows parameter
 </li>
 <li>@label       =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the ckeditor library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/ckeditor/ckeditor.min.js
 </li>
 </ul>
 
@@ -9183,6 +9247,21 @@ This function returns a textarea object with the codemirror plugin enabled
 <li>@rows        =&gt; the number used as rows parameter
 </li>
 <li>@label       =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the codemirror library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/codemirror/codemirror.min.css
+</li>
+<li>@core/lib/codemirror/codemirror.min.js
 </li>
 </ul>
 
@@ -9635,6 +9714,17 @@ Notes:
 You can get the values after to do changes by accessing to the data of the div used to create
 the widget.
 </p>
+<p>
+This widget requires the handsontable library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/handsontable/handsontable.full.min.css
+</li>
+<li>@core/lib/handsontable/handsontable.full.min.js
+</li>
+</ul>
 
 </section>
 <section id="toc397">
@@ -9656,6 +9746,23 @@ This function creates and returns a pdfviewer object, to do this they use the pd
 <li>@value =&gt; the file or data that contains the pdf document
 </li>
 <li>@label =&gt; this parameter is used as text for the label
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This widget requires the pdfjs library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/pdfjs/pdf_viewer.min.css,
+</li>
+<li>@core/lib/pdfjs/pdf.min.js
+</li>
+<li>@core/lib/pdfjs/pdf_viewer.min.js
 </li>
 </ul>
 
@@ -9704,6 +9811,15 @@ with pairs of key and val to identify with the key the name of the field and wit
 val the label to be used in the field, this is used when the data contains more fields
 that the desired fields, for example, to store the id used in the str_replace
 </p>
+<p>
+This widget requires the locutus library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/locutos/locutus.min.js
+</li>
+</ul>
 
 </section>
 <section id="toc399">
@@ -9807,6 +9923,15 @@ Notes:
 <p>
 To be more practice and for stetic reasons, I'm adding to all datasets the borderWidth = 1
 </p>
+<p>
+This widget requires the chartjs library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/chartjs/chart.umd.min.js
+</li>
+</ul>
 
 </section>
 <section id="toc402">
@@ -9874,6 +9999,25 @@ This function returns a gallery object, you can pass some arguments as:
 <li>@label  =&gt; this parameter is used as text for the label
 </li>
 <li>@images =&gt; the array with images, each image can be an string or object
+</li>
+</ul>
+
+<p>
+This widget requires venobox, masonry and imagesloaded
+</p>
+<p>
+This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
+automatically using the require feature:
+</p>
+
+<ul>
+<li>@core/lib/venobox/venobox.min.css
+</li>
+<li>@core/lib/venobox/venobox.min.js
+</li>
+<li>@core/lib/masonry/masonry.pkgd.min.js
+</li>
+<li>@core/lib/imagesloaded/imagesloaded.pkgd.min.js
 </li>
 </ul>
 
@@ -10302,6 +10446,15 @@ is created automatically if it not exists when the first toast need it.
 <p>
 Each toast includes a hash to prevent the creation of repeated toasts.
 </p>
+<p>
+This widget requires the md5 library and can be loaded automatically using the require
+feature:
+</p>
+
+<ul>
+<li>@core/lib/md5/md5.min.js
+</li>
+</ul>
 
 </section>
 </section>
@@ -10529,7 +10682,7 @@ for this reason, exists this function here
 <h3>4.3.11. Open window</h3>
 
 <pre>
-saltos.open = url
+saltos.open_window = url
 </pre>
 
 <p>
@@ -10568,9 +10721,9 @@ saltos.optimize = obj
 </pre>
 
 <p>
-This function checks an object to see if only contains one children and
-in this case, returns directly the children instead of the original object,
-otherwise nothing to do and returns the original object
+This function checks an object to see if only contains one children and in this case, returns
+directly the children instead of the original object, otherwise nothing to do and returns the
+original object
 </p>
 
 <ul>
@@ -10579,12 +10732,51 @@ otherwise nothing to do and returns the original object
 </ul>
 
 </section>
-</section>
-</section>
 <section id="toc431">
+<h3>4.3.14. Require helper array</h3>
+
+<pre>
+saltos.__require = [];
+</pre>
+
+<p>
+This array allow to the require feature to control the loaded libraries
+</p>
+
+</section>
+<section id="toc432">
+<h3>4.3.15. Require feature</h3>
+
+<pre>
+saltos.require = file
+</pre>
+
+<p>
+This function allow the other functions to declare their requirements to previously load the
+desired file intead of create the object and throwing an error.
+</p>
+
+<ul>
+<li>@file =&gt; the file desired to be loaded
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function is intended to load styles (css files) or javacript code (js files), in each
+case, they uses a different technique, for css the load is asynchronous and for javascript
+the load will be synchronous.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc433">
 <h1>5. Apps =&gt; Clientes</h1>
 
-<section id="toc432">
+<section id="toc434">
 <h2>5.1. Customers application</h2>
 
 <pre>
@@ -10595,7 +10787,7 @@ apps/clientes/app.js
 This application implements the tipical features associated to customers
 </p>
 
-<section id="toc433">
+<section id="toc435">
 <h3>5.1.1. Main object</h3>
 
 <pre>
@@ -10607,7 +10799,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc434">
+<section id="toc436">
 <h3>5.1.2. TODO</h3>
 
 <pre>
@@ -10619,7 +10811,7 @@ TODO
 </p>
 
 </section>
-<section id="toc435">
+<section id="toc437">
 <h3>5.1.3. TODO</h3>
 
 <pre>
@@ -10631,7 +10823,7 @@ TODO
 </p>
 
 </section>
-<section id="toc436">
+<section id="toc438">
 <h3>5.1.4. TODO</h3>
 
 <pre>
@@ -10643,7 +10835,7 @@ TODO
 </p>
 
 </section>
-<section id="toc437">
+<section id="toc439">
 <h3>5.1.5. TODO</h3>
 
 <pre>
@@ -10655,7 +10847,7 @@ TODO
 </p>
 
 </section>
-<section id="toc438">
+<section id="toc440">
 <h3>5.1.6. TODO</h3>
 
 <pre>
@@ -10667,7 +10859,7 @@ TODO
 </p>
 
 </section>
-<section id="toc439">
+<section id="toc441">
 <h3>5.1.7. TODO</h3>
 
 <pre>
@@ -10679,7 +10871,7 @@ TODO
 </p>
 
 </section>
-<section id="toc440">
+<section id="toc442">
 <h3>5.1.8. TODO</h3>
 
 <pre>
@@ -10693,10 +10885,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc441">
+<section id="toc443">
 <h1>6. Apps =&gt; Correo</h1>
 
-<section id="toc442">
+<section id="toc444">
 <h2>6.1. Email application</h2>
 
 <pre>
@@ -10707,7 +10899,7 @@ apps/correo/app.js
 This application implements the tipical features associated to emails
 </p>
 
-<section id="toc443">
+<section id="toc445">
 <h3>6.1.1. Main object</h3>
 
 <pre>
@@ -10719,7 +10911,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc444">
+<section id="toc446">
 <h3>6.1.2. TODO</h3>
 
 <pre>
@@ -10731,7 +10923,7 @@ TODO
 </p>
 
 </section>
-<section id="toc445">
+<section id="toc447">
 <h3>6.1.3. TODO</h3>
 
 <pre>
@@ -10743,7 +10935,7 @@ TODO
 </p>
 
 </section>
-<section id="toc446">
+<section id="toc448">
 <h3>6.1.4. TODO</h3>
 
 <pre>
@@ -10755,7 +10947,7 @@ TODO
 </p>
 
 </section>
-<section id="toc447">
+<section id="toc449">
 <h3>6.1.5. TODO</h3>
 
 <pre>
@@ -10769,10 +10961,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc448">
+<section id="toc450">
 <h1>7. Apps =&gt; Tester</h1>
 
-<section id="toc449">
+<section id="toc451">
 <h2>7.1. Tester application</h2>
 
 <pre>
@@ -10783,7 +10975,7 @@ apps/tester/app.js
 This application implements the tipical features associated to tester
 </p>
 
-<section id="toc450">
+<section id="toc452">
 <h3>7.1.1. Main code</h3>
 
 <pre>
