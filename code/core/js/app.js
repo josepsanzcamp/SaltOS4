@@ -360,7 +360,6 @@ window.onhashchange = event => {
  * true when can do the action, false otherwise
  */
 saltos.loading = on_off => {
-    saltos.require("core/lib/bootswatch/cosmo.min.css");
     var obj = document.getElementById("loading");
     if (on_off && !obj) {
         document.body.append(saltos.html(`

@@ -83,10 +83,6 @@
  * only for internal use.
  */
 saltos.form_field = field => {
-    //saltos.require("core/lib/bootstrap/bootstrap.min.css");
-    saltos.require("core/lib/bootswatch/cosmo.min.css");
-    saltos.require("core/lib/bootstrap/bootstrap-icons.min.css");
-    saltos.require("core/lib/bootstrap/bootstrap.bundle.min.js");
     saltos.check_params(field, ["id", "type"]);
     if (field.id == "") {
         field.id = saltos.uniqid();
