@@ -1,0 +1,8 @@
+{
+    "preset": "google",
+    "requireCamelCaseOrUpperCaseIdentifiers": false,
+    "maximumLineLength": 110,
+    "jsDoc": {
+        "enforceExistence": false
+    }
+}
