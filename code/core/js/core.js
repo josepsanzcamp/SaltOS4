@@ -24,7 +24,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-"use strict";
+'use strict';
 
 /**
  * Core helper module
@@ -46,27 +46,27 @@ var saltos = saltos || {};
  * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
  */
 window.onerror = (event, source, lineno, colno, error) => {
-    if (typeof error == "undefined" || typeof error.stack == "undefined") {
-        var error = {
-            stack: "unknown"
-        };
-    }
-    var data = {
-        "action": "adderror",
-        "jserror": event,
-        "details": "Error on file " + source + ":" + lineno + ":" + colno +
-                   ", userAgent is " + navigator.userAgent,
-        "backtrace": error.stack
+  if (typeof error == 'undefined' || typeof error.stack == 'undefined') {
+    var error = {
+      stack: 'unknown'
     };
-    saltos.ajax({
-        url: "index.php",
-        data: JSON.stringify(data),
-        method: "post",
-        content_type: "application/json",
-        headers: {
-            "token": saltos.token,
-        }
-    });
+  }
+  var data = {
+    'action': 'adderror',
+    'jserror': event,
+    'details': 'Error on file ' + source + ':' + lineno + ':' + colno +
+           ', userAgent is ' + navigator.userAgent,
+    'backtrace': error.stack
+  };
+  saltos.ajax({
+    url: 'index.php',
+    data: JSON.stringify(data),
+    method: 'post',
+    content_type: 'application/json',
+    headers: {
+      'token': saltos.token,
+    }
+  });
 };
 
 /**
@@ -77,19 +77,19 @@ window.onerror = (event, source, lineno, colno, error) => {
  * @msg => the message that do you want to log on the server log file
  */
 saltos.addlog = msg => {
-    var data = {
-        "action": "addlog",
-        "msg": msg,
-    };
-    saltos.ajax({
-        url: "index.php",
-        data: JSON.stringify(data),
-        method: "post",
-        content_type: "application/json",
-        headers: {
-            "token": saltos.token,
-        }
-    });
+  var data = {
+    'action': 'addlog',
+    'msg': msg,
+  };
+  saltos.ajax({
+    url: 'index.php',
+    data: JSON.stringify(data),
+    method: 'post',
+    content_type: 'application/json',
+    headers: {
+      'token': saltos.token,
+    }
+  });
 };
 
 /**
@@ -100,30 +100,30 @@ saltos.addlog = msg => {
  * caused by the nonexistence, to do this, checks for the existence of all params in the obj
  * and if some param is not found, then define it using the default value passed:
  *
- * @obj    => the object that contains the arguments, for example
+ * @obj  => the object that contains the arguments, for example
  * @params => an array with the arguments that must to exists
  * @value  => the default value used if an argument doesn't exists
  */
 saltos.check_params = (obj, params, value) => {
-    if (typeof value == "undefined") {
-        value = "";
+  if (typeof value == 'undefined') {
+    value = '';
+  }
+  for (var key in params) {
+    if (!obj.hasOwnProperty(params[key])) {
+      obj[params[key]] = value;
     }
-    for (var key in params) {
-        if (!obj.hasOwnProperty(params[key])) {
-            obj[params[key]] = value;
-        }
-    }
+  }
 };
 
 /**
  * UniqID
  *
- * This function generates an unique id formed by the word "id" and a number that can take
+ * This function generates an unique id formed by the word 'id' and a number that can take
  * values between 0 and 999999, useful when some widget requires an id and the user don't
  * provide it to the widget constructor
  */
 saltos.uniqid = () => {
-    return "id" + Math.floor(Math.random() * 1000000);
+  return 'id' + Math.floor(Math.random() * 1000000);
 };
 
 /**
@@ -138,37 +138,37 @@ saltos.uniqid = () => {
  * @args => the arguments passed to the callback when execute it
  */
 saltos.when_visible = (obj, fn, args) => {
-    // Check for the id existence
-    if (!obj.getAttribute("id")) {
-        obj.setAttribute("id", saltos.uniqid());
+  // Check for the id existence
+  if (!obj.getAttribute('id')) {
+    obj.setAttribute('id', saltos.uniqid());
+  }
+  var id = obj.getAttribute('id');
+  // Launch the interval each millisecond, the idea is wait until found
+  // the object and then, validate that not dissapear and wait until the
+  // object is visible to execute the fn(args)
+  var step = 1;
+  var interval = setInterval(() => {
+    var obj2 = document.getElementById(id);
+    if (step == 1) {
+      // Maintain the state machine in the first state until found
+      // the object in the document
+      if (obj2 !== null) {
+        step++;
+      }
     }
-    var id = obj.getAttribute("id");
-    // Launch the interval each millisecond, the idea is wait until found
-    // the object and then, validate that not dissapear and wait until the
-    // object is visible to execute the fn(args)
-    var step = 1;
-    var interval = setInterval(() => {
-        var obj2 = document.getElementById(id);
-        if (step == 1) {
-            // Maintain the state machine in the first state until found
-            // the object in the document
-            if (obj2 !== null) {
-                step++;
-            }
-        }
-        if (step == 2) {
-            // Here, the object is found in the document, we can continue
-            if (obj2 === null) {
-                // Here, the object has disappeared, we can stop the timer
-                clearInterval(interval);
-                console.log("#" + id + " not found");
-            } else if (obj2.offsetParent !== null) {
-                // Here, the object is visible, we can finish our mission
-                clearInterval(interval);
-                fn(args);
-            }
-        }
-    }, 1);
+    if (step == 2) {
+      // Here, the object is found in the document, we can continue
+      if (obj2 === null) {
+        // Here, the object has disappeared, we can stop the timer
+        clearInterval(interval);
+        console.log('#' + id + ' not found');
+      } else if (obj2.offsetParent !== null) {
+        // Here, the object is visible, we can finish our mission
+        clearInterval(interval);
+        fn(args);
+      }
+    }
+  }, 1);
 };
 
 /**
@@ -179,15 +179,15 @@ saltos.when_visible = (obj, fn, args) => {
  * @event => the event that contains the keyboard data
  */
 saltos.get_keycode = event => {
-    var keycode = 0;
-    if (event.keyCode) {
-        keycode = event.keyCode;
-    } else if (event.which) {
-        keycode = event.which;
-    } else {
-        keycode = event.charCode;
-    }
-    return keycode;
+  var keycode = 0;
+  if (event.keyCode) {
+    keycode = event.keyCode;
+  } else if (event.which) {
+    keycode = event.which;
+  } else {
+    keycode = event.charCode;
+  }
+  return keycode;
 };
 
 /**
@@ -208,19 +208,19 @@ saltos.get_keycode = event => {
  * create separate portions of the table as trs or tds.
  */
 saltos.html = (...args) => {
-    var type = "div";
-    var html = "";
-    if (args.length == 1) {
-        html = args[0];
-    }
-    if (args.length == 2) {
-        type = args[0];
-        html = args[1];
-    }
-    var obj = document.createElement(type);
-    obj.innerHTML = html.trim();
-    obj = saltos.optimize(obj);
-    return obj;
+  var type = 'div';
+  var html = '';
+  if (args.length == 1) {
+    html = args[0];
+  }
+  if (args.length == 2) {
+    type = args[0];
+    html = args[1];
+  }
+  var obj = document.createElement(type);
+  obj.innerHTML = html.trim();
+  obj = saltos.optimize(obj);
+  return obj;
 };
 
 /**
@@ -228,73 +228,73 @@ saltos.html = (...args) => {
  *
  * This function allow to use ajax using the same form that with jQuery without jQuery
  *
- * @url          => url of the ajax call
- * @data         => data used in the body of the request
- * @method       => the method of the request (can be GET or POST, GET by default)
- * @success      => callback function for the success action (optional)
- * @error        => callback function for the error action (optional)
- * @progress     => callback function to monitorize the progress of the upload/download (optional)
- * @async        => boolean to use the ajax call asynchronously or not, by default is true
+ * @url      => url of the ajax call
+ * @data     => data used in the body of the request
+ * @method     => the method of the request (can be GET or POST, GET by default)
+ * @success    => callback function for the success action (optional)
+ * @error    => callback function for the error action (optional)
+ * @progress   => callback function to monitorize the progress of the upload/download (optional)
+ * @async    => boolean to use the ajax call asynchronously or not, by default is true
  * @content_type => the content-type that you want to use in the transfer
- * @headers      => an object with the headers that you want to send
+ * @headers    => an object with the headers that you want to send
  *
  * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
  * way as jQuery do but without using jQuery.
  */
 saltos.ajax = args => {
-    saltos.check_params(args, ["url", "data", "method", "success", "error"]);
-    saltos.check_params(args, ["progress", "async", "content_type", "headers"]);
-    if (args.data == "") {
-        args.data = null;
-    }
-    if (args.method == "") {
-        args.method = "GET";
-    }
-    if (args.async === "") {
-        args.async = true;
-    }
-    if (args.headers == "") {
-        args.headers = {};
-    }
-    args.method = args.method.toUpperCase();
-    if (!["GET", "POST"].includes(args.method)) {
-        console.log("unknown " + args.method + " method");
-        return null;
-    }
-    var ajax = new XMLHttpRequest();
-    ajax.onreadystatechange = () => {
-        if (ajax.readyState == 4) {
-            if (ajax.status == 200) {
-                if (typeof args.success == "function") {
-                    var data = ajax.response;
-                    if (ajax.getResponseHeader("content-type").toUpperCase().includes("JSON")) {
-                        data = JSON.parse(ajax.responseText);
-                    }
-                    if (ajax.getResponseHeader("content-type").toUpperCase().includes("XML")) {
-                        data = ajax.responseXML;
-                    }
-                    args.success(data, ajax.statusText, ajax);
-                }
-            } else {
-                if (typeof args.error == "function") {
-                    args.error(ajax, ajax.status, ajax);
-                }
-            }
+  saltos.check_params(args, ['url', 'data', 'method', 'success', 'error']);
+  saltos.check_params(args, ['progress', 'async', 'content_type', 'headers']);
+  if (args.data == '') {
+    args.data = null;
+  }
+  if (args.method == '') {
+    args.method = 'GET';
+  }
+  if (args.async === '') {
+    args.async = true;
+  }
+  if (args.headers == '') {
+    args.headers = {};
+  }
+  args.method = args.method.toUpperCase();
+  if (!['GET', 'POST'].includes(args.method)) {
+    console.log('unknown ' + args.method + ' method');
+    return null;
+  }
+  var ajax = new XMLHttpRequest();
+  ajax.onreadystatechange = () => {
+    if (ajax.readyState == 4) {
+      if (ajax.status == 200) {
+        if (typeof args.success == 'function') {
+          var data = ajax.response;
+          if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
+            data = JSON.parse(ajax.responseText);
+          }
+          if (ajax.getResponseHeader('content-type').toUpperCase().includes('XML')) {
+            data = ajax.responseXML;
+          }
+          args.success(data, ajax.statusText, ajax);
         }
+      } else {
+        if (typeof args.error == 'function') {
+          args.error(ajax, ajax.status, ajax);
+        }
+      }
     }
-    if (typeof args.progress == "function") {
-        ajax.onprogress = args.progress;
-        ajax.upload.onprogress = args.progress;
-    }
-    ajax.open(args.method, args.url, args.async);
-    if (args.content_type != "") {
-        ajax.setRequestHeader("Content-Type", args.content_type);
-    }
-    for (var i in args.headers) {
-        ajax.setRequestHeader(i, args.headers[i]);
-    }
-    ajax.send(args.data);
-    return ajax;
+  };
+  if (typeof args.progress == 'function') {
+    ajax.onprogress = args.progress;
+    ajax.upload.onprogress = args.progress;
+  }
+  ajax.open(args.method, args.url, args.async);
+  if (args.content_type != '') {
+    ajax.setRequestHeader('Content-Type', args.content_type);
+  }
+  for (var i in args.headers) {
+    ajax.setRequestHeader(i, args.headers[i]);
+  }
+  ajax.send(args.data);
+  return ajax;
 };
 
 /**
@@ -309,17 +309,17 @@ saltos.ajax = args => {
  * @arg => can be an string or an array of strings and returns the same structure with the keys fixed
  */
 saltos.fix_key = arg => {
-    if (typeof arg == "object") {
-        for (var key in arg) {
-            arg[key] = saltos.fix_key(arg[key]);
-        }
-        return arg;
-    }
-    var pos = arg.indexOf("#");
-    if (pos != -1) {
-        arg = arg.substr(0, pos);
+  if (typeof arg == 'object') {
+    for (var key in arg) {
+      arg[key] = saltos.fix_key(arg[key]);
     }
     return arg;
+  }
+  var pos = arg.indexOf('#');
+  if (pos != -1) {
+    arg = arg.substr(0, pos);
+  }
+  return arg;
 };
 
 /**
@@ -331,7 +331,7 @@ saltos.fix_key = arg => {
  * @url => the url of the page to load
  */
 saltos.open_window = url => {
-    window.open(url);
+  window.open(url);
 };
 
 /**
@@ -342,7 +342,7 @@ saltos.open_window = url => {
  * @arg => the object that you want to copy
  */
 saltos.copy_object = arg => {
-    return JSON.parse(JSON.stringify(arg));
+  return JSON.parse(JSON.stringify(arg));
 };
 
 /**
@@ -355,11 +355,11 @@ saltos.copy_object = arg => {
  * @obj => the object to check and optimize
  */
 saltos.optimize = obj => {
-    if (obj.children.length == 1) {
-        return obj.firstElementChild;
-    }
-    return obj;
-}
+  if (obj.children.length == 1) {
+    return obj.firstElementChild;
+  }
+  return obj;
+};
 
 /**
  * Require helper array
@@ -383,25 +383,25 @@ saltos.__require = [];
  * the load will be synchronous.
  */
 saltos.require = file => {
-    if (saltos.__require.includes(file)) {
-        return;
-    }
-    if (file.substr(-4) == ".css" || file.includes(".css?")) {
-        var link = document.createElement("link");
-        link.href = file;
-        link.rel = "stylesheet";
-        document.head.append(link);
-    }
-    if (file.substr(-3) == ".js" || file.includes(".js?")) {
-        saltos.ajax({
-            url: file,
-            async: false,
-            success: response => {
-                var script = document.createElement("script");
-                script.innerHTML = response;
-                document.body.append(script);
-            },
-        });
-    }
-    saltos.__require.push(file);
+  if (saltos.__require.includes(file)) {
+    return;
+  }
+  if (file.substr(-4) == '.css' || file.includes('.css?')) {
+    var link = document.createElement('link');
+    link.href = file;
+    link.rel = 'stylesheet';
+    document.head.append(link);
+  }
+  if (file.substr(-3) == '.js' || file.includes('.js?')) {
+    saltos.ajax({
+      url: file,
+      async: false,
+      success: response => {
+        var script = document.createElement('script');
+        script.innerHTML = response;
+        document.body.append(script);
+      },
+    });
+  }
+  saltos.__require.push(file);
 };

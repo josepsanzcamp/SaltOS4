@@ -24,7 +24,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-"use strict";
+'use strict';
 
 /**
  * Email application
@@ -45,9 +45,9 @@ saltos.correo = {};
  * TODO
  */
 saltos.correo.search = () => {
-    // Using JSON
-    console.log("saltos.correo.search");
-}
+  // Using JSON
+  console.log('saltos.correo.search');
+};
 
 /**
  * TODO
@@ -55,9 +55,9 @@ saltos.correo.search = () => {
  * TODO
  */
 saltos.correo.clear_filter = () => {
-    // Using REST
-    console.log("saltos.correo.clear_filter");
-}
+  // Using REST
+  console.log('saltos.correo.clear_filter');
+};
 
 /**
  * TODO
@@ -65,9 +65,9 @@ saltos.correo.clear_filter = () => {
  * TODO
  */
 saltos.correo.read_more = () => {
-    // Using REST
-    console.log("saltos.correo.read_more");
-}
+  // Using REST
+  console.log('saltos.correo.read_more');
+};
 
 /**
  * TODO
@@ -75,6 +75,6 @@ saltos.correo.read_more = () => {
  * TODO
  */
 saltos.correo.send_and_get = () => {
-    // Using REST
-    console.log("saltos.correo.send_and_get");
-}
+  // Using REST
+  console.log('saltos.correo.send_and_get');
+};

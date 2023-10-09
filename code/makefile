@@ -18,7 +18,8 @@ test:
 	$(eval files := $(shell find core/js ../scripts apps -name \*.js -newer ../scripts/timestamp.tmp | grep -v index.min.js | sort))
 	@for i in ${files}; do \
 		echo $$i; \
-		php ../scripts/phpcs_js.php --standard=../scripts/rules.xml $$i; \
+		jscs --config=../scripts/rules.json $$i 2>/dev/null; \
+		node -c $$i; \
 	done
 
 libs:
