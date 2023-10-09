@@ -45,8 +45,8 @@ saltos.clientes = {};
  * TODO
  */
 saltos.clientes.search = () => {
-  // Using JSON
-  console.log('saltos.clientes.search');
+    // Using JSON
+    console.log('saltos.clientes.search');
 };
 
 /**
@@ -55,8 +55,8 @@ saltos.clientes.search = () => {
  * TODO
  */
 saltos.clientes.clear_filter = () => {
-  // Using REST
-  console.log('saltos.clientes.clear_filter');
+    // Using REST
+    console.log('saltos.clientes.clear_filter');
 };
 
 /**
@@ -65,8 +65,8 @@ saltos.clientes.clear_filter = () => {
  * TODO
  */
 saltos.clientes.read_more = () => {
-  // Using REST
-  console.log('saltos.clientes.read_more');
+    // Using REST
+    console.log('saltos.clientes.read_more');
 };
 
 /**
@@ -75,8 +75,8 @@ saltos.clientes.read_more = () => {
  * TODO
  */
 saltos.clientes.cancel = () => {
-  // Using REST
-  console.log('saltos.clientes.cancel');
+    // Using REST
+    console.log('saltos.clientes.cancel');
 };
 
 /**
@@ -85,8 +85,8 @@ saltos.clientes.cancel = () => {
  * TODO
  */
 saltos.clientes.insert = () => {
-  // Using REST
-  console.log('saltos.clientes.insert');
+    // Using REST
+    console.log('saltos.clientes.insert');
 };
 
 /**
@@ -95,8 +95,8 @@ saltos.clientes.insert = () => {
  * TODO
  */
 saltos.clientes.update = () => {
-  // Using REST
-  console.log('saltos.clientes.update');
+    // Using REST
+    console.log('saltos.clientes.update');
 };
 
 /**
@@ -105,6 +105,6 @@ saltos.clientes.update = () => {
  * TODO
  */
 saltos.clientes.delete = () => {
-  // Using REST
-  console.log('saltos.clientes.delete');
+    // Using REST
+    console.log('saltos.clientes.delete');
 };

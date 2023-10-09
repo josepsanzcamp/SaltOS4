@@ -83,15 +83,15 @@
  * only for internal use.
  */
 saltos.form_field = field => {
-  saltos.check_params(field, ['id', 'type']);
-  if (field.id == '') {
-    field.id = saltos.uniqid();
-  }
-  if (typeof saltos.__form_field[field.type] != 'function') {
-    console.log('type ' + field.type + ' not found');
-    return saltos.html('type ' + field.type + ' not found');
-  }
-  return saltos.__form_field[field.type](field);
+    saltos.check_params(field, ['id', 'type']);
+    if (field.id == '') {
+        field.id = saltos.uniqid();
+    }
+    if (typeof saltos.__form_field[field.type] != 'function') {
+        console.log('type ' + field.type + ' not found');
+        return saltos.html('type ' + field.type + ' not found');
+    }
+    return saltos.__form_field[field.type](field);
 };
 
 /**
@@ -112,9 +112,9 @@ saltos.__form_field = {};
  * @style => the style used in the div object
  */
 saltos.__form_field.div = field => {
-  saltos.check_params(field, ['class', 'id', 'style']);
-  var obj = saltos.html(`<div class='${field.class}' id='${field.id}' style='${field.style}'></div>`);
-  return obj;
+    saltos.check_params(field, ['class', 'id', 'style']);
+    var obj = saltos.html(`<div class='${field.class}' id='${field.id}' style='${field.style}'></div>`);
+    return obj;
 };
 
 /**
@@ -128,12 +128,12 @@ saltos.__form_field.div = field => {
  * @style => the style used in the div object
  */
 saltos.__form_field.container = field => {
-  saltos.check_params(field, ['class']);
-  if (field.class == '') {
-    field.class = 'container-fluid';
-  }
-  var obj = saltos.__form_field.div(field);
-  return obj;
+    saltos.check_params(field, ['class']);
+    if (field.class == '') {
+        field.class = 'container-fluid';
+    }
+    var obj = saltos.__form_field.div(field);
+    return obj;
 };
 
 /**
@@ -147,12 +147,12 @@ saltos.__form_field.container = field => {
  * @style => the style used in the div object
  */
 saltos.__form_field.row = field => {
-  saltos.check_params(field, ['class']);
-  if (field.class == '') {
-    field.class = 'row';
-  }
-  var obj = saltos.__form_field.div(field);
-  return obj;
+    saltos.check_params(field, ['class']);
+    if (field.class == '') {
+        field.class = 'row';
+    }
+    var obj = saltos.__form_field.div(field);
+    return obj;
 };
 
 /**
@@ -166,12 +166,12 @@ saltos.__form_field.row = field => {
  * @style => the style used in the div object
  */
 saltos.__form_field.col = field => {
-  saltos.check_params(field, ['class']);
-  if (field.class == '') {
-    field.class = 'col';
-  }
-  var obj = saltos.__form_field.div(field);
-  return obj;
+    saltos.check_params(field, ['class']);
+    if (field.class == '') {
+        field.class = 'col';
+    }
+    var obj = saltos.__form_field.div(field);
+    return obj;
 };
 
 /**
@@ -193,21 +193,21 @@ saltos.__form_field.col = field => {
  * @datalist  => array with options for the datalist, used as autocomplete for the text input
  */
 saltos.__form_field.text = field => {
-  saltos.check_params(field, ['datalist'], []);
-  field.type = 'text';
-  var obj = saltos.html(`<div></div>`);
-  obj.append(saltos.__label_helper(field));
-  obj.append(saltos.__text_helper(field));
-  if (field.datalist.length) {
-    obj.querySelector('input').setAttribute('list', field.id + '_datalist');
-    obj.append(saltos.html(`<datalist id='${field.id}_datalist'></datalist>`));
-    for (var key in field.datalist) {
-      var val = field.datalist[key];
-      obj.querySelector('datalist').append(saltos.html(`<option value='${val}'>`));
+    saltos.check_params(field, ['datalist'], []);
+    field.type = 'text';
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__label_helper(field));
+    obj.append(saltos.__text_helper(field));
+    if (field.datalist.length) {
+        obj.querySelector('input').setAttribute('list', field.id + '_datalist');
+        obj.append(saltos.html(`<datalist id='${field.id}_datalist'></datalist>`));
+        for (var key in field.datalist) {
+            var val = field.datalist[key];
+            obj.querySelector('datalist').append(saltos.html(`<option value='${val}'>`));
+        }
     }
-  }
-  obj = saltos.optimize(obj);
-  return obj;
+    obj = saltos.optimize(obj);
+    return obj;
 };
 
 /**
@@ -233,9 +233,9 @@ saltos.__form_field.text = field => {
  * class to identify a group of hidden input
  */
 saltos.__form_field.hidden = field => {
-  field.type = 'hidden';
-  var obj = saltos.__text_helper(field);
-  return obj;
+    field.type = 'hidden';
+    var obj = saltos.__text_helper(field);
+    return obj;
 };
 
 /**
@@ -263,16 +263,16 @@ saltos.__form_field.hidden = field => {
  * @core/lib/imaskjs/imask.min.js
  */
 saltos.__form_field.integer = field => {
-  saltos.require('core/lib/imaskjs/imask.min.js');
-  field.type = 'text';
-  var obj = saltos.__text_helper(field);
-  var element = obj;
-  IMask(element, {
-    mask: Number,
-    scale: 0,
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.require('core/lib/imaskjs/imask.min.js');
+    field.type = 'text';
+    var obj = saltos.__text_helper(field);
+    var element = obj;
+    IMask(element, {
+        mask: Number,
+        scale: 0,
+    });
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -300,18 +300,18 @@ saltos.__form_field.integer = field => {
  * @core/lib/imaskjs/imask.min.js
  */
 saltos.__form_field.float = field => {
-  saltos.require('core/lib/imaskjs/imask.min.js');
-  field.type = 'text';
-  var obj = saltos.__text_helper(field);
-  var element = obj;
-  IMask(element, {
-    mask: Number,
-    radix: '.',
-    mapToRadix: [','],
-    scale: 99,
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.require('core/lib/imaskjs/imask.min.js');
+    field.type = 'text';
+    var obj = saltos.__text_helper(field);
+    var element = obj;
+    IMask(element, {
+        mask: Number,
+        radix: '.',
+        mapToRadix: [','],
+        scale: 99,
+    });
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -337,15 +337,15 @@ saltos.__form_field.float = field => {
  * for this reason it is set to #000000 if value is void
  */
 saltos.__form_field.color = field => {
-  saltos.check_params(field, ['value']);
-  if (field.value == '') {
-    field.value = '#000000';
-  }
-  field.type = 'color';
-  field.class = 'form-control-color';
-  var obj = saltos.__text_helper(field);
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.check_params(field, ['value']);
+    if (field.value == '') {
+        field.value = '#000000';
+    }
+    field.type = 'color';
+    field.class = 'form-control-color';
+    var obj = saltos.__text_helper(field);
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -366,10 +366,10 @@ saltos.__form_field.color = field => {
  * @label     => this parameter is used as text for the label
  */
 saltos.__form_field.date = field => {
-  field.type = 'date';
-  var obj = saltos.__text_helper(field);
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    field.type = 'date';
+    var obj = saltos.__text_helper(field);
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -390,11 +390,11 @@ saltos.__form_field.date = field => {
  * @label     => this parameter is used as text for the label
  */
 saltos.__form_field.time = field => {
-  field.type = 'time';
-  var obj = saltos.__text_helper(field);
-  obj.step = 1; // this enable the seconds
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    field.type = 'time';
+    var obj = saltos.__text_helper(field);
+    obj.step = 1; // this enable the seconds
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -415,11 +415,11 @@ saltos.__form_field.time = field => {
  * @label     => this parameter is used as text for the label
  */
 saltos.__form_field.datetime = field => {
-  field.type = 'datetime-local';
-  var obj = saltos.__text_helper(field);
-  obj.step = 1; // this enable the seconds
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    field.type = 'datetime-local';
+    var obj = saltos.__text_helper(field);
+    obj.step = 1; // this enable the seconds
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -446,14 +446,14 @@ saltos.__form_field.datetime = field => {
  * @core/lib/autoheight/autoheight.min.js
  */
 saltos.__form_field.textarea = field => {
-  saltos.require('core/lib/autoheight/autoheight.min.js');
-  var obj = saltos.__textarea_helper(field);
-  var element = obj;
-  saltos.when_visible(element, () => {
-    autoheight(element);
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.require('core/lib/autoheight/autoheight.min.js');
+    var obj = saltos.__textarea_helper(field);
+    var element = obj;
+    saltos.when_visible(element, () => {
+        autoheight(element);
+    });
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -480,17 +480,17 @@ saltos.__form_field.textarea = field => {
  * @core/lib/ckeditor/ckeditor.min.js
  */
 saltos.__form_field.ckeditor = field => {
-  saltos.require('core/lib/ckeditor/ckeditor.min.js');
-  var obj = saltos.html(`<div></div>`);
-  obj.append(saltos.__label_helper(field));
-  obj.append(saltos.__textarea_helper(field));
-  var element = obj.querySelector('textarea');
-  saltos.when_visible(element, () => {
-    ClassicEditor.create(element).catch(error => {
-      console.error(error);
+    saltos.require('core/lib/ckeditor/ckeditor.min.js');
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__label_helper(field));
+    obj.append(saltos.__textarea_helper(field));
+    var element = obj.querySelector('textarea');
+    saltos.when_visible(element, () => {
+        ClassicEditor.create(element).catch(error => {
+            console.error(error);
+        });
     });
-  });
-  return obj;
+    return obj;
 };
 
 /**
@@ -519,26 +519,26 @@ saltos.__form_field.ckeditor = field => {
  * @core/lib/codemirror/codemirror.min.js
  */
 saltos.__form_field.codemirror = field => {
-  saltos.require('core/lib/codemirror/codemirror.min.css');
-  saltos.require('core/lib/codemirror/codemirror.min.js');
-  saltos.check_params(field, ['mode']);
-  var obj = saltos.html(`<div></div>`);
-  obj.append(saltos.__label_helper(field));
-  obj.append(saltos.__textarea_helper(field));
-  var element = obj.querySelector('textarea');
-  saltos.when_visible(element, () => {
-    var cm = CodeMirror.fromTextArea(element, {
-      mode: field.mode,
-      styleActiveLine: true,
-      lineNumbers: true,
-      lineWrapping: true,
+    saltos.require('core/lib/codemirror/codemirror.min.css');
+    saltos.require('core/lib/codemirror/codemirror.min.js');
+    saltos.check_params(field, ['mode']);
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__label_helper(field));
+    obj.append(saltos.__textarea_helper(field));
+    var element = obj.querySelector('textarea');
+    saltos.when_visible(element, () => {
+        var cm = CodeMirror.fromTextArea(element, {
+            mode: field.mode,
+            styleActiveLine: true,
+            lineNumbers: true,
+            lineWrapping: true,
+        });
+        element.nextElementSibling.classList.add('form-control');
+        element.nextElementSibling.classList.add('p-0');
+        element.nextElementSibling.style.height = 'auto';
+        cm.on('change', cm.save);
     });
-    element.nextElementSibling.classList.add('form-control');
-    element.nextElementSibling.classList.add('p-0');
-    element.nextElementSibling.style.height = 'auto';
-    cm.on('change', cm.save);
-  });
-  return obj;
+    return obj;
 };
 
 /**
@@ -553,13 +553,13 @@ saltos.__form_field.codemirror = field => {
  * @label  => this parameter is used as text for the label
  */
 saltos.__form_field.iframe = field => {
-  saltos.check_params(field, ['value', 'id', 'class', 'height']);
-  var obj = saltos.html(`
-    <iframe src='${field.value}' id='${field.id}' frameborder='0'
-      class='form-control p-0 ${field.class}' style='height: ${field.height}'></iframe>
-  `);
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.check_params(field, ['value', 'id', 'class', 'height']);
+    var obj = saltos.html(`
+        <iframe src='${field.value}' id='${field.id}' frameborder='0'
+            class='form-control p-0 ${field.class}' style='height: ${field.height}'></iframe>
+    `);
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -580,39 +580,39 @@ saltos.__form_field.iframe = field => {
  * @label  => this parameter is used as text for the label
  */
 saltos.__form_field.select = field => {
-  saltos.check_params(field, ['class', 'id', 'disabled', 'required']);
-  saltos.check_params(field, ['multiple', 'size', 'value', 'tooltip']);
-  saltos.check_params(field, ['rows'], []);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-  }
-  if (field.required) {
-    field.required = 'required';
-  }
-  if (field.multiple) {
-    field.multiple = 'multiple';
-  }
-  if (field.size != '') {
-    field.size = `size='${field.size}'`;
-  }
-  var obj = saltos.html(`
-    <select class='form-select ${field.class}' id='${field.id}' ${field.disabled}
-      ${field.required} ${field.multiple} ${field.size} data-bs-title='${field.tooltip}'></select>
-  `);
-  var element = obj;
-  if (field.tooltip != '') {
-    saltos.__tooltip_helper(element);
-  }
-  for (var key in field.rows) {
-    var val = field.rows[key];
-    var selected = '';
-    if (field.value.toString() == val.value.toString()) {
-      selected = 'selected';
+    saltos.check_params(field, ['class', 'id', 'disabled', 'required']);
+    saltos.check_params(field, ['multiple', 'size', 'value', 'tooltip']);
+    saltos.check_params(field, ['rows'], []);
+    if (field.disabled) {
+        field.disabled = 'disabled';
     }
-    element.append(saltos.html(`<option value='${val.value}' ${selected}>${val.label}</option>`));
-  }
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    if (field.required) {
+        field.required = 'required';
+    }
+    if (field.multiple) {
+        field.multiple = 'multiple';
+    }
+    if (field.size != '') {
+        field.size = `size='${field.size}'`;
+    }
+    var obj = saltos.html(`
+        <select class='form-select ${field.class}' id='${field.id}' ${field.disabled}
+            ${field.required} ${field.multiple} ${field.size} data-bs-title='${field.tooltip}'></select>
+    `);
+    var element = obj;
+    if (field.tooltip != '') {
+        saltos.__tooltip_helper(element);
+    }
+    for (var key in field.rows) {
+        var val = field.rows[key];
+        var selected = '';
+        if (field.value.toString() == val.value.toString()) {
+            selected = 'selected';
+        }
+        element.append(saltos.html(`<option value='${val.value}' ${selected}>${val.label}</option>`));
+    }
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -638,95 +638,95 @@ saltos.__form_field.select = field => {
  * TODO: detected a bug with this widget in chrome in mobile browsers
  */
 saltos.__form_field.multiselect = field => {
-  saltos.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip']);
-  saltos.check_params(field, ['rows'], []);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-  }
-  var obj = saltos.html(`
-    <div class='container-fluid'>
-      <div class='row'>
-        <div class='col px-0 one'>
-        </div>
-        <div class='col col-auto my-auto two'>
-        </div>
-        <div class='col px-0 three'>
-        </div>
-      </div>
-    </div>
-  `);
-  var rows_abc = [];
-  var rows_xyz = [];
-  var values = field.value.split(',');
-  for (var key in field.rows) {
-    var val = field.rows[key];
-    if (values.includes(val.value.toString())) {
-      rows_xyz.push(val);
-    } else {
-      rows_abc.push(val);
+    saltos.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip']);
+    saltos.check_params(field, ['rows'], []);
+    if (field.disabled) {
+        field.disabled = 'disabled';
     }
-  }
-  obj.querySelector('.one').append(saltos.__form_field.hidden(field));
-  obj.querySelector('.one').append(saltos.__form_field.select({
-    class: field.class,
-    id: field.id + '_abc',
-    disabled: field.disabled,
-    tooltip: field.tooltip,
-    multiple: true,
-    size: field.size,
-    rows: rows_abc,
-  }));
-  obj.querySelector('.two').append(saltos.__form_field.button({
-    class: 'btn-primary bi-chevron-double-right mb-3',
-    disabled: field.disabled,
-    //tooltip: field.tooltip,
-    onclick: () => {
-      document.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
-        if (option.selected) {
-          document.getElementById(field.id + '_xyz').append(option);
+    var obj = saltos.html(`
+        <div class='container-fluid'>
+            <div class='row'>
+                <div class='col px-0 one'>
+                </div>
+                <div class='col col-auto my-auto two'>
+                </div>
+                <div class='col px-0 three'>
+                </div>
+            </div>
+        </div>
+    `);
+    var rows_abc = [];
+    var rows_xyz = [];
+    var values = field.value.split(',');
+    for (var key in field.rows) {
+        var val = field.rows[key];
+        if (values.includes(val.value.toString())) {
+            rows_xyz.push(val);
+        } else {
+            rows_abc.push(val);
         }
-      });
-      var val = [];
-      document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
-        val.push(option.value);
-      });
-      document.getElementById(field.id).value = val.join(',');
-    },
-  }));
-  obj.querySelector('.two').append(saltos.html('<br/>'));
-  obj.querySelector('.two').append(saltos.__form_field.button({
-    class: 'btn-primary bi-chevron-double-left',
-    disabled: field.disabled,
-    //tooltip: field.tooltip,
-    onclick: () => {
-      document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
-        if (option.selected) {
-          document.getElementById(field.id + '_abc').append(option);
-        }
-      });
-      var val = [];
-      document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
-        val.push(option.value);
-      });
-      document.getElementById(field.id).value = val.join(',');
-    },
-  }));
-  obj.querySelector('.three').append(saltos.__form_field.select({
-    class: field.class,
-    id: field.id + '_xyz',
-    disabled: field.disabled,
-    tooltip: field.tooltip,
-    multiple: true,
-    size: field.size,
-    rows: rows_xyz,
-  }));
-  saltos.when_visible(obj, () => {
-    document.querySelectorAll('label[for=' + field.id + ']').forEach(_this => {
-      _this.setAttribute('for', field.id + '_abc');
+    }
+    obj.querySelector('.one').append(saltos.__form_field.hidden(field));
+    obj.querySelector('.one').append(saltos.__form_field.select({
+        class: field.class,
+        id: field.id + '_abc',
+        disabled: field.disabled,
+        tooltip: field.tooltip,
+        multiple: true,
+        size: field.size,
+        rows: rows_abc,
+    }));
+    obj.querySelector('.two').append(saltos.__form_field.button({
+        class: 'btn-primary bi-chevron-double-right mb-3',
+        disabled: field.disabled,
+        //tooltip: field.tooltip,
+        onclick: () => {
+            document.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
+                if (option.selected) {
+                    document.getElementById(field.id + '_xyz').append(option);
+                }
+            });
+            var val = [];
+            document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+                val.push(option.value);
+            });
+            document.getElementById(field.id).value = val.join(',');
+        },
+    }));
+    obj.querySelector('.two').append(saltos.html('<br/>'));
+    obj.querySelector('.two').append(saltos.__form_field.button({
+        class: 'btn-primary bi-chevron-double-left',
+        disabled: field.disabled,
+        //tooltip: field.tooltip,
+        onclick: () => {
+            document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+                if (option.selected) {
+                    document.getElementById(field.id + '_abc').append(option);
+                }
+            });
+            var val = [];
+            document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+                val.push(option.value);
+            });
+            document.getElementById(field.id).value = val.join(',');
+        },
+    }));
+    obj.querySelector('.three').append(saltos.__form_field.select({
+        class: field.class,
+        id: field.id + '_xyz',
+        disabled: field.disabled,
+        tooltip: field.tooltip,
+        multiple: true,
+        size: field.size,
+        rows: rows_xyz,
+    }));
+    saltos.when_visible(obj, () => {
+        document.querySelectorAll('label[for=' + field.id + ']').forEach(_this => {
+            _this.setAttribute('for', field.id + '_abc');
+        });
     });
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -748,39 +748,39 @@ saltos.__form_field.multiselect = field => {
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
 saltos.__form_field.checkbox = field => {
-  saltos.check_params(field, ['value', 'id', 'disabled', 'readonly', 'label', 'tooltip', 'class']);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-  }
-  if (field.readonly) {
-    field.readonly = 'readonly';
-  }
-  if (field.value) {
-    field.value = 1;
-  } else {
-    field.value = 0;
-  }
-  var checked = '';
-  if (field.value) {
-    checked = 'checked';
-  }
-  var obj = saltos.html(`
-    <div class='form-check ${field.class}'>
-      <input class='form-check-input' type='checkbox' id='${field.id}' value='${field.value}'
-        ${field.disabled} ${field.readonly} ${checked} data-bs-title='${field.tooltip}'>
-      <label class='form-check-label' for='${field.id}'
-        data-bs-title='${field.tooltip}'>${field.label}</label>
-    </div>
-  `);
-  if (field.tooltip != '') {
-    obj.querySelectorAll('input, label').forEach(_this => {
-      saltos.__tooltip_helper(_this);
+    saltos.check_params(field, ['value', 'id', 'disabled', 'readonly', 'label', 'tooltip', 'class']);
+    if (field.disabled) {
+        field.disabled = 'disabled';
+    }
+    if (field.readonly) {
+        field.readonly = 'readonly';
+    }
+    if (field.value) {
+        field.value = 1;
+    } else {
+        field.value = 0;
+    }
+    var checked = '';
+    if (field.value) {
+        checked = 'checked';
+    }
+    var obj = saltos.html(`
+        <div class='form-check ${field.class}'>
+            <input class='form-check-input' type='checkbox' id='${field.id}' value='${field.value}'
+                ${field.disabled} ${field.readonly} ${checked} data-bs-title='${field.tooltip}'>
+            <label class='form-check-label' for='${field.id}'
+                data-bs-title='${field.tooltip}'>${field.label}</label>
+        </div>
+    `);
+    if (field.tooltip != '') {
+        obj.querySelectorAll('input, label').forEach(_this => {
+            saltos.__tooltip_helper(_this);
+        });
+    }
+    obj.querySelector('input').addEventListener('change', event => {
+        event.target.value = event.target.checked ? 1 : 0;
     });
-  }
-  obj.querySelector('input').addEventListener('change', event => {
-    event.target.value = event.target.checked ? 1 : 0;
-  });
-  return obj;
+    return obj;
 };
 
 /**
@@ -802,10 +802,10 @@ saltos.__form_field.checkbox = field => {
  * This widget uses the checkbox constructor
  */
 saltos.__form_field.switch = field => {
-  var obj = saltos.__form_field.checkbox(field);
-  obj.classList.add('form-switch');
-  obj.querySelector('input').setAttribute('role', 'switch');
-  return obj;
+    var obj = saltos.__form_field.checkbox(field);
+    obj.classList.add('form-switch');
+    obj.querySelector('input').setAttribute('role', 'switch');
+    return obj;
 };
 
 /**
@@ -825,25 +825,25 @@ saltos.__form_field.switch = field => {
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.__form_field.button = field => {
-  saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip']);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-    field.class += ' opacity-25';
-  }
-  var obj = saltos.html(`
-    <button type='button' class='btn ${field.class}' id='${field.id}'
-      ${field.disabled} data-bs-title='${field.tooltip}'>${field.value}</button>
-  `);
-  if (field.tooltip != '') {
-    saltos.__tooltip_helper(obj);
-  }
-  if (typeof field.onclick == 'string') {
-    obj.addEventListener('click', new Function(field.onclick));
-  }
-  if (typeof field.onclick == 'function') {
-    obj.addEventListener('click', field.onclick);
-  }
-  return obj;
+    saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip']);
+    if (field.disabled) {
+        field.disabled = 'disabled';
+        field.class += ' opacity-25';
+    }
+    var obj = saltos.html(`
+        <button type='button' class='btn ${field.class}' id='${field.id}'
+            ${field.disabled} data-bs-title='${field.tooltip}'>${field.value}</button>
+    `);
+    if (field.tooltip != '') {
+        saltos.__tooltip_helper(obj);
+    }
+    if (typeof field.onclick == 'string') {
+        obj.addEventListener('click', new Function(field.onclick));
+    }
+    if (typeof field.onclick == 'function') {
+        obj.addEventListener('click', field.onclick);
+    }
+    return obj;
 };
 
 /**
@@ -879,50 +879,50 @@ saltos.__form_field.button = field => {
  *
  */
 saltos.__form_field.password = field => {
-  saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value']);
-  saltos.check_params(field, ['disabled', 'readonly', 'required', 'tooltip']);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-  }
-  if (field.readonly) {
-    field.readonly = 'readonly';
-  }
-  if (field.required) {
-    field.required = 'required';
-  }
-  var obj = saltos.html(`
-    <div>
-      <input type='text' style='display: none'/>
-      <div class='input-group'>
-        <input type='password' class='form-control ${field.class}' id='${field.id}'
-        placeholder='${field.placeholder}' value='${field.value}' autocomplete='new-password'
-          ${field.disabled} ${field.readonly} ${field.required}
-          aria-label='${field.placeholder}' aria-describedby='${field.id}_button'
-          data-bs-title='${field.tooltip}'>
-        <button class='btn btn-primary bi-eye-slash' type='button' id='${field.id}_button'
-        data-bs-title='${field.tooltip}'></button>
-      </div>
-    </div>
-  `);
-  if (field.tooltip != '') {
-    obj.querySelectorAll('input[type=password]').forEach(_this => {
-      saltos.__tooltip_helper(_this);
-    });
-  }
-  obj.querySelector('button').addEventListener('click', event => {
-    var input = event.target.parentElement.querySelector('input[type=password], input[type=text]');
-    if (input.type == 'password') {
-      input.type = 'text';
-      event.target.classList.remove('bi-eye-slash');
-      event.target.classList.add('bi-eye');
-    } else if (input.type == 'text') {
-      input.type = 'password';
-      event.target.classList.remove('bi-eye');
-      event.target.classList.add('bi-eye-slash');
+    saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value']);
+    saltos.check_params(field, ['disabled', 'readonly', 'required', 'tooltip']);
+    if (field.disabled) {
+        field.disabled = 'disabled';
     }
-  });
-  obj.prepend(saltos.__label_helper(field));
-  return obj;
+    if (field.readonly) {
+        field.readonly = 'readonly';
+    }
+    if (field.required) {
+        field.required = 'required';
+    }
+    var obj = saltos.html(`
+        <div>
+            <input type='text' style='display: none'/>
+            <div class='input-group'>
+                <input type='password' class='form-control ${field.class}' id='${field.id}'
+                placeholder='${field.placeholder}' value='${field.value}' autocomplete='new-password'
+                    ${field.disabled} ${field.readonly} ${field.required}
+                    aria-label='${field.placeholder}' aria-describedby='${field.id}_button'
+                    data-bs-title='${field.tooltip}'>
+                <button class='btn btn-primary bi-eye-slash' type='button' id='${field.id}_button'
+                data-bs-title='${field.tooltip}'></button>
+            </div>
+        </div>
+    `);
+    if (field.tooltip != '') {
+        obj.querySelectorAll('input[type=password]').forEach(_this => {
+            saltos.__tooltip_helper(_this);
+        });
+    }
+    obj.querySelector('button').addEventListener('click', event => {
+        var input = event.target.parentElement.querySelector('input[type=password], input[type=text]');
+        if (input.type == 'password') {
+            input.type = 'text';
+            event.target.classList.remove('bi-eye-slash');
+            event.target.classList.add('bi-eye');
+        } else if (input.type == 'text') {
+            input.type = 'password';
+            event.target.classList.remove('bi-eye');
+            event.target.classList.add('bi-eye-slash');
+        }
+    });
+    obj.prepend(saltos.__label_helper(field));
+    return obj;
 };
 
 /**
@@ -952,201 +952,201 @@ saltos.__form_field.password = field => {
  * the real upload action.
  */
 saltos.__form_field.file = field => {
-  saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required', 'multiple', 'tooltip']);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-  }
-  if (field.required) {
-    field.required = 'required';
-  }
-  if (field.multiple) {
-    field.multiple = 'multiple';
-  }
-  var obj = saltos.html(`
-    <div>
-      <input type='file' class='form-control ${field.class}' id='${field.id}' ${field.disabled}
-        ${field.required} ${field.multiple} data-bs-title='${field.tooltip}'>
-      <div class='overflow-auto'>
-        <table class='table table-striped table-hover d-none'>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `);
-  obj.append(saltos.html(`
-    <style>
-      .table {
-        --bs-table-hover-bg: #fbec88;
-        --bs-table-active-bg: #fbec88;
-        --bs-table-hover-color: #373a3c;
-        --bs-table-active-color: #373a3c;
-      }
-    </style>
-  `));
-  if (field.tooltip != '') {
-    obj.querySelectorAll('input').forEach(_this => {
-      saltos.__tooltip_helper(_this);
-    });
-  }
-  // This helper programs the input file data update
-  var __update_data_input_file = input => {
-    var data = [];
-    var tabla = input.nextElementSibling.querySelector('table');
-    tabla.querySelectorAll('tr').forEach(_this => {
-      data.push(_this.saltos_data);
-    });
-    input.saltos_data = data;;
-  };
-  // This helper programs the delete file button
-  var __button_remove_file = event => {
-    var row = event.target.parentNode.parentNode;
-    var table = row.parentNode.parentNode;
-    var input = table.parentNode.previousElementSibling;
-    var data = {
-      action: 'delfiles',
-      files: [],
-    };
-    data.files[0] = row.saltos_data;
-    saltos.ajax({
-      url: 'index.php',
-      data: JSON.stringify(data),
-      method: 'post',
-      content_type: 'application/json',
-      success: response => {
-        if (typeof response != 'object') {
-          saltos.show_error(response);
-          return;
-        }
-        if (typeof response.error == 'object') {
-          saltos.show_error(response.error);
-          return;
-        }
-        row.saltos_data = response[0];
-        // If server removes the file, i remove the row
-        if (response[0].file == '') {
-          row.remove();
-        }
-        // If not there are files, hide the table
-        if (table.querySelectorAll('tr').length == 0) {
-          table.classList.add('d-none');
-        }
-        __update_data_input_file(input);
-      },
-      error: request => {
-        saltos.show_error({
-          text: request.statusText,
-          code: request.status,
-        });
-      },
-      headers: {
-        'token': saltos.token,
-      }
-    });
-  };
-  // Program the automatic upload
-  obj.querySelector('input').addEventListener('change', async event => {
-    var input = event.target;
-    var files = event.target.files;
-    var table = event.target.nextElementSibling.querySelector('table');
-    for (var i = 0; i < files.length; i++) {
-      // Prepare the data to send
-      var data = {
-        action: 'addfiles',
-        files: [],
-      };
-      data.files[0] = {
-        id: saltos.uniqid(),
-        name: files[i].name,
-        size: files[i].size,
-        type: files[i].type,
-        data: '',
-        error: '',
-        file: '',
-        hash: '',
-      };
-      // Show the table
-      table.classList.remove('d-none');
-      // Add the row for the new file
-      var row = saltos.html('tbody', `
-        <tr id='${data.files[0].id}'>
-          <td class='text-break'>${data.files[0].name}</td>
-          <td class='w-25 align-middle'>
-            <div class='progress' role='progressbar' aria-label='Upload percent'
-              aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>
-              <div class='progress-bar' style='width: 0%'></div>
+    saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required', 'multiple', 'tooltip']);
+    if (field.disabled) {
+        field.disabled = 'disabled';
+    }
+    if (field.required) {
+        field.required = 'required';
+    }
+    if (field.multiple) {
+        field.multiple = 'multiple';
+    }
+    var obj = saltos.html(`
+        <div>
+            <input type='file' class='form-control ${field.class}' id='${field.id}' ${field.disabled}
+                ${field.required} ${field.multiple} data-bs-title='${field.tooltip}'>
+            <div class='overflow-auto'>
+                <table class='table table-striped table-hover d-none'>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
-          </td>
-          <td class='p-0 align-middle' style='width: 1%'><button class='btn bi-trash border-0'
-            type='button'></button></td>
-        </tr>
-      `);
-      // Store the data in the row
-      row.saltos_data = data.files[0];
-      // Program de remove button
-      row.querySelector('button').addEventListener('click', __button_remove_file);
-      // Add the row
-      table.querySelector('tbody').append(row);
-      __update_data_input_file(input);
-      // Get the local file using syncronous techniques
-      var reader = new FileReader();
-      reader.readAsDataURL(files[i]);
-      while (!reader.result && !reader.error) {
-        await new Promise(resolve => setTimeout(resolve, 1));
-      }
-      // If there is a file
-      if (reader.result) {
-        data.files[0].data = reader.result;
-        // This allow multiple uploads in parallel
-        ((data, row) => {
-          saltos.ajax({
+        </div>
+    `);
+    obj.append(saltos.html(`
+        <style>
+            .table {
+                --bs-table-hover-bg: #fbec88;
+                --bs-table-active-bg: #fbec88;
+                --bs-table-hover-color: #373a3c;
+                --bs-table-active-color: #373a3c;
+            }
+        </style>
+    `));
+    if (field.tooltip != '') {
+        obj.querySelectorAll('input').forEach(_this => {
+            saltos.__tooltip_helper(_this);
+        });
+    }
+    // This helper programs the input file data update
+    var __update_data_input_file = input => {
+        var data = [];
+        var tabla = input.nextElementSibling.querySelector('table');
+        tabla.querySelectorAll('tr').forEach(_this => {
+            data.push(_this.saltos_data);
+        });
+        input.saltos_data = data;;
+    };
+    // This helper programs the delete file button
+    var __button_remove_file = event => {
+        var row = event.target.parentNode.parentNode;
+        var table = row.parentNode.parentNode;
+        var input = table.parentNode.previousElementSibling;
+        var data = {
+            action: 'delfiles',
+            files: [],
+        };
+        data.files[0] = row.saltos_data;
+        saltos.ajax({
             url: 'index.php',
             data: JSON.stringify(data),
             method: 'post',
             content_type: 'application/json',
             success: response => {
-              if (typeof response != 'object') {
-                saltos.show_error(response);
-                return;
-              }
-              if (typeof response.error == 'object') {
-                saltos.show_error(response.error);
-                return;
-              }
-              row.saltos_data = response[0];
-              __update_data_input_file(input);
+                if (typeof response != 'object') {
+                    saltos.show_error(response);
+                    return;
+                }
+                if (typeof response.error == 'object') {
+                    saltos.show_error(response.error);
+                    return;
+                }
+                row.saltos_data = response[0];
+                // If server removes the file, i remove the row
+                if (response[0].file == '') {
+                    row.remove();
+                }
+                // If not there are files, hide the table
+                if (table.querySelectorAll('tr').length == 0) {
+                    table.classList.add('d-none');
+                }
+                __update_data_input_file(input);
             },
             error: request => {
-              saltos.show_error({
-                text: request.statusText,
-                code: request.status,
-              });
-            },
-            progress: event => {
-              if (event.lengthComputable) {
-                var percent = parseInt((event.loaded / event.total) * 100);
-                row.querySelector('.progress-bar').style.width = percent + '%';
-                row.querySelector('.progress').setAttribute('aria-valuenow', percent);
-              }
+                saltos.show_error({
+                    text: request.statusText,
+                    code: request.status,
+                });
             },
             headers: {
-              'token': saltos.token,
+                'token': saltos.token,
             }
-          });
-        })(data, row);
-      }
-      // If there is an error
-      if (reader.error) {
-        data.files[0].error = reader.error.message;
-        saltos.show_error({
-          text: reader.error.message,
-          code: 0,
         });
-      }
-    }
-  });
-  obj.prepend(saltos.__label_helper(field));
-  return obj;
+    };
+    // Program the automatic upload
+    obj.querySelector('input').addEventListener('change', async event => {
+        var input = event.target;
+        var files = event.target.files;
+        var table = event.target.nextElementSibling.querySelector('table');
+        for (var i = 0; i < files.length; i++) {
+            // Prepare the data to send
+            var data = {
+                action: 'addfiles',
+                files: [],
+            };
+            data.files[0] = {
+                id: saltos.uniqid(),
+                name: files[i].name,
+                size: files[i].size,
+                type: files[i].type,
+                data: '',
+                error: '',
+                file: '',
+                hash: '',
+            };
+            // Show the table
+            table.classList.remove('d-none');
+            // Add the row for the new file
+            var row = saltos.html('tbody', `
+                <tr id='${data.files[0].id}'>
+                    <td class='text-break'>${data.files[0].name}</td>
+                    <td class='w-25 align-middle'>
+                        <div class='progress' role='progressbar' aria-label='Upload percent'
+                            aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>
+                            <div class='progress-bar' style='width: 0%'></div>
+                        </div>
+                    </td>
+                    <td class='p-0 align-middle' style='width: 1%'><button class='btn bi-trash border-0'
+                        type='button'></button></td>
+                </tr>
+            `);
+            // Store the data in the row
+            row.saltos_data = data.files[0];
+            // Program de remove button
+            row.querySelector('button').addEventListener('click', __button_remove_file);
+            // Add the row
+            table.querySelector('tbody').append(row);
+            __update_data_input_file(input);
+            // Get the local file using syncronous techniques
+            var reader = new FileReader();
+            reader.readAsDataURL(files[i]);
+            while (!reader.result && !reader.error) {
+                await new Promise(resolve => setTimeout(resolve, 1));
+            }
+            // If there is a file
+            if (reader.result) {
+                data.files[0].data = reader.result;
+                // This allow multiple uploads in parallel
+                ((data, row) => {
+                    saltos.ajax({
+                        url: 'index.php',
+                        data: JSON.stringify(data),
+                        method: 'post',
+                        content_type: 'application/json',
+                        success: response => {
+                            if (typeof response != 'object') {
+                                saltos.show_error(response);
+                                return;
+                            }
+                            if (typeof response.error == 'object') {
+                                saltos.show_error(response.error);
+                                return;
+                            }
+                            row.saltos_data = response[0];
+                            __update_data_input_file(input);
+                        },
+                        error: request => {
+                            saltos.show_error({
+                                text: request.statusText,
+                                code: request.status,
+                            });
+                        },
+                        progress: event => {
+                            if (event.lengthComputable) {
+                                var percent = parseInt((event.loaded / event.total) * 100);
+                                row.querySelector('.progress-bar').style.width = percent + '%';
+                                row.querySelector('.progress').setAttribute('aria-valuenow', percent);
+                            }
+                        },
+                        headers: {
+                            'token': saltos.token,
+                        }
+                    });
+                })(data, row);
+            }
+            // If there is an error
+            if (reader.error) {
+                data.files[0].error = reader.error.message;
+                saltos.show_error({
+                    text: reader.error.message,
+                    code: 0,
+                });
+            }
+        }
+    });
+    obj.prepend(saltos.__label_helper(field));
+    return obj;
 };
 
 /**
@@ -1167,16 +1167,16 @@ saltos.__form_field.file = field => {
  * appearance
  */
 saltos.__form_field.link = field => {
-  saltos.check_params(field, ['label']);
-  field.class = 'btn-link';
-  if (field.label == '') {
-    return saltos.__form_field.button(field);
-  }
-  var obj = saltos.html(`<div></div>`);
-  obj.append(saltos.__label_helper(field));
-  obj.append(saltos.html('<br/>'));
-  obj.append(saltos.__form_field.button(field));
-  return obj;
+    saltos.check_params(field, ['label']);
+    field.class = 'btn-link';
+    if (field.label == '') {
+        return saltos.__form_field.button(field);
+    }
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__label_helper(field));
+    obj.append(saltos.html('<br/>'));
+    obj.append(saltos.__form_field.button(field));
+    return obj;
 };
 
 /**
@@ -1191,18 +1191,18 @@ saltos.__form_field.link = field => {
  * @value   => this parameter is used as label when label is void
  */
 saltos.__form_field.label = field => {
-  saltos.check_params(field, ['id', 'class', 'label', 'tooltip', 'value']);
-  if (field.label == '') {
-    field.label = field.value;
-  }
-  var obj = saltos.html(`
-    <label for='${field.id}' class='form-label ${field.class}'
-      data-bs-title='${field.tooltip}'>${field.label}</label>
-  `);
-  if (field.tooltip != '') {
-    saltos.__tooltip_helper(obj);
-  }
-  return obj;
+    saltos.check_params(field, ['id', 'class', 'label', 'tooltip', 'value']);
+    if (field.label == '') {
+        field.label = field.value;
+    }
+    var obj = saltos.html(`
+        <label for='${field.id}' class='form-label ${field.class}'
+            data-bs-title='${field.tooltip}'>${field.label}</label>
+    `);
+    if (field.tooltip != '') {
+        saltos.__tooltip_helper(obj);
+    }
+    return obj;
 };
 
 /**
@@ -1218,19 +1218,19 @@ saltos.__form_field.label = field => {
  * @label   => this parameter is used as text for the label
  */
 saltos.__form_field.image = field => {
-  saltos.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height']);
-  if (field.class == '') {
-    field.class = 'img-fluid';
-  }
-  var obj = saltos.html(`
-    <img id='${field.id}' src='${field.value}' class='${field.class}' alt='${field.alt}'
-      data-bs-title='${field.tooltip}' width='${field.width}' height='${field.height}'>
-  `);
-  if (field.tooltip != '') {
-    saltos.__tooltip_helper(obj);
-  }
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height']);
+    if (field.class == '') {
+        field.class = 'img-fluid';
+    }
+    var obj = saltos.html(`
+        <img id='${field.id}' src='${field.value}' class='${field.class}' alt='${field.alt}'
+            data-bs-title='${field.tooltip}' width='${field.width}' height='${field.height}'>
+    `);
+    if (field.tooltip != '') {
+        saltos.__tooltip_helper(obj);
+    }
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1267,53 +1267,53 @@ saltos.__form_field.image = field => {
  * @core/lib/handsontable/handsontable.full.min.js
  */
 saltos.__form_field.excel = field => {
-  saltos.require('core/lib/handsontable/handsontable.full.min.css');
-  saltos.require('core/lib/handsontable/handsontable.full.min.js');
-  saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders']);
-  saltos.check_params(field, ['minSpareRows', 'contextMenu', 'rowHeaderWidth', 'colWidths']);
-  var obj = saltos.html(`
-    <div style='width: 100%; height: 100%; overflow: auto'>
-      <div id='${field.id}' class='${field.class}'></div>
-    </div>
-  `);
-  if (field.data == '') {
-    field.data = [...Array(20)].map(e => Array(26));
-  }
-  if (field.rowHeaders == '') {
-    field.rowHeaders = true;
-  }
-  if (field.colHeaders == '') {
-    field.colHeaders = true;
-  }
-  if (field.minSpareRows == '') {
-    field.minSpareRows = 0;
-  }
-  if (field.contextMenu == '') {
-    field.contextMenu = true;
-  }
-  if (field.rowHeaderWidth == '') {
-    field.rowHeaderWidth = undefined;
-  }
-  if (field.colWidths == '') {
-    field.colWidths = undefined;
-  }
-  var element = obj.querySelector('div');
-  saltos.when_visible(element, () => {
-    new Handsontable(element, {
-      data: field.data,
-      rowHeaders: field.rowHeaders,
-      colHeaders: field.colHeaders,
-      minSpareRows: field.minSpareRows,
-      contextMenu: field.contextMenu,
-      rowHeaderWidth: field.rowHeaderWidth,
-      colWidths: field.colWidths,
-      afterChange: (changes, source) => {
-        element.saltos_data = field.data;
-      }
+    saltos.require('core/lib/handsontable/handsontable.full.min.css');
+    saltos.require('core/lib/handsontable/handsontable.full.min.js');
+    saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders']);
+    saltos.check_params(field, ['minSpareRows', 'contextMenu', 'rowHeaderWidth', 'colWidths']);
+    var obj = saltos.html(`
+        <div style='width: 100%; height: 100%; overflow: auto'>
+            <div id='${field.id}' class='${field.class}'></div>
+        </div>
+    `);
+    if (field.data == '') {
+        field.data = [...Array(20)].map(e => Array(26));
+    }
+    if (field.rowHeaders == '') {
+        field.rowHeaders = true;
+    }
+    if (field.colHeaders == '') {
+        field.colHeaders = true;
+    }
+    if (field.minSpareRows == '') {
+        field.minSpareRows = 0;
+    }
+    if (field.contextMenu == '') {
+        field.contextMenu = true;
+    }
+    if (field.rowHeaderWidth == '') {
+        field.rowHeaderWidth = undefined;
+    }
+    if (field.colWidths == '') {
+        field.colWidths = undefined;
+    }
+    var element = obj.querySelector('div');
+    saltos.when_visible(element, () => {
+        new Handsontable(element, {
+            data: field.data,
+            rowHeaders: field.rowHeaders,
+            colHeaders: field.colHeaders,
+            minSpareRows: field.minSpareRows,
+            contextMenu: field.contextMenu,
+            rowHeaderWidth: field.rowHeaderWidth,
+            colWidths: field.colWidths,
+            afterChange: (changes, source) => {
+                element.saltos_data = field.data;
+            }
+        });
     });
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1336,73 +1336,73 @@ saltos.__form_field.excel = field => {
  * @core/lib/pdfjs/pdf_viewer.min.js
  */
 saltos.__form_field.pdfjs = field => {
-  saltos.require('core/lib/pdfjs/pdf_viewer.min.css');
-  saltos.require('core/lib/pdfjs/pdf.min.js');
-  saltos.require('core/lib/pdfjs/pdf_viewer.min.js');
-  saltos.check_params(field, ['id', 'class', 'value']);
-  var obj = saltos.html(`
-    <div id='${field.id}' class='${field.class}'>
-      <div class='viewerContainer'>
-        <div class='pdfViewer'></div>
-      </div>
-    </div>
-  `);
-  obj.append(saltos.html(`
-    <style>
-      .viewerContainer {
-        position: absolute;
-        width: 100%;
-        left: -9px;
-        top: -9px;
-      }
-      .viewerContainer .canvasWrapper {
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1)!important;
-      }
-      .viewerContainer *,
-      .viewerContainer *::before,
-      .viewerContainer *::after {
-        box-sizing: content-box;
-      }
-    </style>
-  `));
-  var element = obj.querySelector('.viewerContainer');
-  saltos.when_visible(element, () => {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'core/lib/pdfjs/pdf.worker.min.js';
-    pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {
-      if (!pdfDocument.numPages) {
-        return;
-      }
-      var container = element;
-      var eventBus = new pdfjsViewer.EventBus();
-      var pdfViewer = new pdfjsViewer.PDFViewer({
-        container: container,
-        eventBus: eventBus,
-      });
-      eventBus.on('pagesinit', () => {
-        pdfViewer.currentScaleValue = 'page-width';
-      });
-      eventBus.on('annotationlayerrendered', () => {
-        container.querySelectorAll('a').forEach(_this => {
-          _this.setAttribute('target', '_blank');
+    saltos.require('core/lib/pdfjs/pdf_viewer.min.css');
+    saltos.require('core/lib/pdfjs/pdf.min.js');
+    saltos.require('core/lib/pdfjs/pdf_viewer.min.js');
+    saltos.check_params(field, ['id', 'class', 'value']);
+    var obj = saltos.html(`
+        <div id='${field.id}' class='${field.class}'>
+            <div class='viewerContainer'>
+                <div class='pdfViewer'></div>
+            </div>
+        </div>
+    `);
+    obj.append(saltos.html(`
+        <style>
+            .viewerContainer {
+                position: absolute;
+                width: 100%;
+                left: -9px;
+                top: -9px;
+            }
+            .viewerContainer .canvasWrapper {
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1)!important;
+            }
+            .viewerContainer *,
+            .viewerContainer *::before,
+            .viewerContainer *::after {
+                box-sizing: content-box;
+            }
+        </style>
+    `));
+    var element = obj.querySelector('.viewerContainer');
+    saltos.when_visible(element, () => {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'core/lib/pdfjs/pdf.worker.min.js';
+        pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {
+            if (!pdfDocument.numPages) {
+                return;
+            }
+            var container = element;
+            var eventBus = new pdfjsViewer.EventBus();
+            var pdfViewer = new pdfjsViewer.PDFViewer({
+                container: container,
+                eventBus: eventBus,
+            });
+            eventBus.on('pagesinit', () => {
+                pdfViewer.currentScaleValue = 'page-width';
+            });
+            eventBus.on('annotationlayerrendered', () => {
+                container.querySelectorAll('a').forEach(_this => {
+                    _this.setAttribute('target', '_blank');
+                });
+            });
+            pdfViewer.removePageBorders = true;
+            pdfViewer.setDocument(pdfDocument);
+            container.style.position = 'relative';
+            window.addEventListener('resize', () => {
+                pdfViewer.currentScaleValue = pdfViewer.currentScale * 2;
+                pdfViewer.currentScaleValue = 'page-width';
+            });
+        },
+        (message, exception) => {
+            saltos.show_error({
+                text: message,
+                code: 0,
+            });
         });
-      });
-      pdfViewer.removePageBorders = true;
-      pdfViewer.setDocument(pdfDocument);
-      container.style.position = 'relative';
-      window.addEventListener('resize', () => {
-        pdfViewer.currentScaleValue = pdfViewer.currentScale * 2;
-        pdfViewer.currentScaleValue = 'page-width';
-      });
-    },
-    (message, exception) => {
-      saltos.show_error({
-        text: message,
-        code: 0,
-      });
     });
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1435,173 +1435,173 @@ saltos.__form_field.pdfjs = field => {
  * @core/lib/locutos/locutus.min.js
  */
 saltos.__form_field.table = field => {
-  saltos.require('core/lib/locutus/locutus.min.js');
-  saltos.check_params(field, ['class', 'id', 'checkbox']);
-  saltos.check_params(field, ['header', 'data', 'footer', 'divider'], []);
-  var obj = saltos.html(`
-    <table class='table table-striped table-hover ${field.class}' id='${field.id}'>
-    </table>
-  `);
-  if (!field.header.hasOwnProperty('length')) {
-    var header = [];
-    var fields = [];
-    for (var key in field.header) {
-      header.push(field.header[key]);
-      fields.push(key);
-    }
-    field.header = header;
-    field.fields = fields;
-  }
-  if (field.header.length) {
-    obj.append(saltos.html('table', `
-      <thead>
-        <tr>
-        </tr>
-      </thead>
-    `));
-    if (typeof field.divider[0] == 'boolean' && field.divider[0]) {
-      obj.querySelector('thead').classList.add('table-group-divider');
-    }
-    if (field.checkbox) {
-      obj.querySelector('thead tr').append(saltos.html(
-        'tr',
-        `<th style='width: 1%'><input type='checkbox'/></th>`
-      ));
-      obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
-        var _this = event.target;
-        obj.querySelectorAll('tbody input[type=checkbox]').forEach(_this2 => {
-          if (_this2.checked != _this.checked) {
-            _this2.click();
-          }
-        });
-      });
-      obj.querySelector('thead input[type=checkbox]').addEventListener('click', event => {
-        event.stopPropagation();
-      });
-      obj.querySelector('thead input[type=checkbox]').parentNode.addEventListener('click', event => {
-        event.target.querySelector('input[type=checkbox]').click();
-        event.stopPropagation();
-      });
-    }
-    for (var key in field.header) {
-      var temp = htmlentities(field.header[key]);
-      obj.querySelector('thead tr').append(saltos.html('tr', `<th>${temp}</th>`));
-    }
-    if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-      obj.querySelector('thead tr').append(saltos.html('tr', `<th style='width: 1%'></th>`));
-    }
-  }
-  if (field.data.length) {
-    obj.append(saltos.html('table', `
-      <tbody>
-      </tbody>
-    `));
-    if (typeof field.divider[1] == 'boolean' && field.divider[1]) {
-      obj.querySelector('tbody').classList.add('table-group-divider');
-    }
-    for (var key in field.data) {
-      var row = saltos.html('tbody', `<tr></tr>`);
-      if (field.checkbox) {
-        row.append(saltos.html('tr', `<td><input type='checkbox'/></td>`));
-        row.querySelector('input[type=checkbox]').addEventListener('change', event => {
-          if (event.target.checked) {
-            event.target.parentNode.parentNode.classList.add('table-active');
-          } else {
-            event.target.parentNode.parentNode.classList.remove('table-active');
-          }
-        });
-        row.querySelector('input[type=checkbox]').addEventListener('click', event => {
-          event.stopPropagation();
-        });
-        row.addEventListener('click', event => {
-          var obj = event.target.parentNode.querySelector('input[type=checkbox]');
-          if (obj !== null) {
-            obj.click();
-          }
-          event.stopPropagation();
-        });
-      }
-      for (var key2 in field.data[key]) {
-        if (field.hasOwnProperty('fields') && !field.fields.includes(key2)) {
-          continue;
+    saltos.require('core/lib/locutus/locutus.min.js');
+    saltos.check_params(field, ['class', 'id', 'checkbox']);
+    saltos.check_params(field, ['header', 'data', 'footer', 'divider'], []);
+    var obj = saltos.html(`
+        <table class='table table-striped table-hover ${field.class}' id='${field.id}'>
+        </table>
+    `);
+    if (!field.header.hasOwnProperty('length')) {
+        var header = [];
+        var fields = [];
+        for (var key in field.header) {
+            header.push(field.header[key]);
+            fields.push(key);
         }
-        var temp = htmlentities(field.data[key][key2]);
-        row.append(saltos.html('tr', `<td>${temp}</td>`));
-      }
-      if (field.data[key].hasOwnProperty('actions')) {
-        var td = saltos.html('tr', `<td class='p-0 align-middle text-nowrap'></td>`);
-        for (var key2 in field.data[key].actions) {
-          var val2 = field.data[key].actions[key2];
-          if (val2.url == '') {
-            val2.disabled = true;
-          } else {
-            val2.onclick = `saltos.open_window('#${val2.url}')`;
-          }
-          td.append(saltos.__form_field.button(val2));
+        field.header = header;
+        field.fields = fields;
+    }
+    if (field.header.length) {
+        obj.append(saltos.html('table', `
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+        `));
+        if (typeof field.divider[0] == 'boolean' && field.divider[0]) {
+            obj.querySelector('thead').classList.add('table-group-divider');
         }
-        row.append(td);
-      }
-      obj.querySelector('tbody').append(row);
+        if (field.checkbox) {
+            obj.querySelector('thead tr').append(saltos.html(
+                'tr',
+                `<th style='width: 1%'><input type='checkbox'/></th>`
+            ));
+            obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
+                var _this = event.target;
+                obj.querySelectorAll('tbody input[type=checkbox]').forEach(_this2 => {
+                    if (_this2.checked != _this.checked) {
+                        _this2.click();
+                    }
+                });
+            });
+            obj.querySelector('thead input[type=checkbox]').addEventListener('click', event => {
+                event.stopPropagation();
+            });
+            obj.querySelector('thead input[type=checkbox]').parentNode.addEventListener('click', event => {
+                event.target.querySelector('input[type=checkbox]').click();
+                event.stopPropagation();
+            });
+        }
+        for (var key in field.header) {
+            var temp = htmlentities(field.header[key]);
+            obj.querySelector('thead tr').append(saltos.html('tr', `<th>${temp}</th>`));
+        }
+        if (field.data.length && field.data[0].hasOwnProperty('actions')) {
+            obj.querySelector('thead tr').append(saltos.html('tr', `<th style='width: 1%'></th>`));
+        }
     }
-  }
-  if (field.footer.length) {
-    obj.append(saltos.html('table', `
-      <tfoot>
-        <tr>
-        </tr>
-      </tfoot>
+    if (field.data.length) {
+        obj.append(saltos.html('table', `
+            <tbody>
+            </tbody>
+        `));
+        if (typeof field.divider[1] == 'boolean' && field.divider[1]) {
+            obj.querySelector('tbody').classList.add('table-group-divider');
+        }
+        for (var key in field.data) {
+            var row = saltos.html('tbody', `<tr></tr>`);
+            if (field.checkbox) {
+                row.append(saltos.html('tr', `<td><input type='checkbox'/></td>`));
+                row.querySelector('input[type=checkbox]').addEventListener('change', event => {
+                    if (event.target.checked) {
+                        event.target.parentNode.parentNode.classList.add('table-active');
+                    } else {
+                        event.target.parentNode.parentNode.classList.remove('table-active');
+                    }
+                });
+                row.querySelector('input[type=checkbox]').addEventListener('click', event => {
+                    event.stopPropagation();
+                });
+                row.addEventListener('click', event => {
+                    var obj = event.target.parentNode.querySelector('input[type=checkbox]');
+                    if (obj !== null) {
+                        obj.click();
+                    }
+                    event.stopPropagation();
+                });
+            }
+            for (var key2 in field.data[key]) {
+                if (field.hasOwnProperty('fields') && !field.fields.includes(key2)) {
+                    continue;
+                }
+                var temp = htmlentities(field.data[key][key2]);
+                row.append(saltos.html('tr', `<td>${temp}</td>`));
+            }
+            if (field.data[key].hasOwnProperty('actions')) {
+                var td = saltos.html('tr', `<td class='p-0 align-middle text-nowrap'></td>`);
+                for (var key2 in field.data[key].actions) {
+                    var val2 = field.data[key].actions[key2];
+                    if (val2.url == '') {
+                        val2.disabled = true;
+                    } else {
+                        val2.onclick = `saltos.open_window('#${val2.url}')`;
+                    }
+                    td.append(saltos.__form_field.button(val2));
+                }
+                row.append(td);
+            }
+            obj.querySelector('tbody').append(row);
+        }
+    }
+    if (field.footer.length) {
+        obj.append(saltos.html('table', `
+            <tfoot>
+                <tr>
+                </tr>
+            </tfoot>
+        `));
+        if (typeof field.divider[2] == 'boolean' && field.divider[2]) {
+            obj.querySelector('tfoot').classList.add('table-group-divider');
+        }
+        if (typeof field.footer == 'object') {
+            if (field.header.length != field.footer.length) {
+                console.log('field.header.length != field.footer.length');
+            }
+            if (field.checkbox) {
+                obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
+            }
+            for (var key in field.footer) {
+                var temp = htmlentities(field.footer[key]);
+                obj.querySelector('tfoot tr').append(saltos.html('tr', `<td>${temp}</td>`));
+            }
+            if (field.data.length && field.data[0].hasOwnProperty('actions')) {
+                obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
+            }
+        }
+        if (typeof field.footer == 'string') {
+            var num = field.header.length;
+            if (field.checkbox) {
+                num++;
+            }
+            if (field.data.length && field.data[0].hasOwnProperty('actions')) {
+                num++;
+            }
+            var temp = htmlentities(field.footer);
+            obj.querySelector('tfoot tr').append(saltos.html(
+                'tr',
+                `<td colspan='${num}' class='text-center'>${temp}</td>`
+            ));
+        }
+    }
+    // Convert the previous table in a responsive table
+    // We are using the same div to put inside the styles instead of the table
+    var old = obj;
+    obj = saltos.html(`<div class='table-responsive'></div>`);
+    obj.append(old);
+    obj.append(saltos.html(`
+        <style>
+            .table {
+                --bs-table-hover-bg: #fbec88;
+                --bs-table-active-bg: #fbec88;
+                --bs-table-hover-color: #373a3c;
+                --bs-table-active-color: #373a3c;
+            }
+        </style>
     `));
-    if (typeof field.divider[2] == 'boolean' && field.divider[2]) {
-      obj.querySelector('tfoot').classList.add('table-group-divider');
-    }
-    if (typeof field.footer == 'object') {
-      if (field.header.length != field.footer.length) {
-        console.log('field.header.length != field.footer.length');
-      }
-      if (field.checkbox) {
-        obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
-      }
-      for (var key in field.footer) {
-        var temp = htmlentities(field.footer[key]);
-        obj.querySelector('tfoot tr').append(saltos.html('tr', `<td>${temp}</td>`));
-      }
-      if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-        obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
-      }
-    }
-    if (typeof field.footer == 'string') {
-      var num = field.header.length;
-      if (field.checkbox) {
-        num++;
-      }
-      if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-        num++;
-      }
-      var temp = htmlentities(field.footer);
-      obj.querySelector('tfoot tr').append(saltos.html(
-        'tr',
-        `<td colspan='${num}' class='text-center'>${temp}</td>`
-      ));
-    }
-  }
-  // Convert the previous table in a responsive table
-  // We are using the same div to put inside the styles instead of the table
-  var old = obj;
-  obj = saltos.html(`<div class='table-responsive'></div>`);
-  obj.append(old);
-  obj.append(saltos.html(`
-    <style>
-      .table {
-        --bs-table-hover-bg: #fbec88;
-        --bs-table-active-bg: #fbec88;
-        --bs-table-hover-color: #373a3c;
-        --bs-table-active-color: #373a3c;
-      }
-    </style>
-  `));
-  // Continue
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    // Continue
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1625,36 +1625,36 @@ saltos.__form_field.table = field => {
  * know if I maintain this or I remove it, but at the moment, this is added by default
  */
 saltos.__form_field.alert = field => {
-  saltos.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close']);
-  var obj = saltos.html(`
-    <div class='alert ${field.class}' role='alert' id='${field.id}'></div>
-  `);
-  if (field.title != '') {
-    obj.append(saltos.html(`<h4>${field.title}</h4>`));
-  }
-  if (field.text != '') {
-    obj.append(saltos.html(`<p>${field.text}</p>`));
-  }
-  if (field.body != '') {
-    obj.append(saltos.html(field.body));
-  }
-  if (field.close) {
-    obj.classList.add('alert-dismissible');
-    obj.classList.add('fade');
-    obj.classList.add('show');
-    obj.append(saltos.html(`
-      <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-    `));
-    obj.append(saltos.html(`
-      <style>
-        .alert-dismissible {
-          padding-right: var(--bs-alert-padding-x);
-        }
-      </style>
-    `));
-  }
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close']);
+    var obj = saltos.html(`
+        <div class='alert ${field.class}' role='alert' id='${field.id}'></div>
+    `);
+    if (field.title != '') {
+        obj.append(saltos.html(`<h4>${field.title}</h4>`));
+    }
+    if (field.text != '') {
+        obj.append(saltos.html(`<p>${field.text}</p>`));
+    }
+    if (field.body != '') {
+        obj.append(saltos.html(field.body));
+    }
+    if (field.close) {
+        obj.classList.add('alert-dismissible');
+        obj.classList.add('fade');
+        obj.classList.add('show');
+        obj.append(saltos.html(`
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        `));
+        obj.append(saltos.html(`
+            <style>
+                .alert-dismissible {
+                    padding-right: var(--bs-alert-padding-x);
+                }
+            </style>
+        `));
+    }
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1674,29 +1674,29 @@ saltos.__form_field.alert = field => {
  * @label  => this parameter is used as text for the label
  */
 saltos.__form_field.card = field => {
-  saltos.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
-  var obj = saltos.html(`<div class='card' id='${field.id}'></div>`);
-  if (field.image != '') {
-    obj.append(saltos.html(`<img src='${field.image}' class='card-img-top' alt='${field.alt}'>`));
-  }
-  if (field.header != '') {
-    obj.append(saltos.html(`<div class='card-header'>${field.header}</div>`));
-  }
-  obj.append(saltos.html(`<div class='card-body'></div>`));
-  if (field.title != '') {
-    obj.querySelector('.card-body').append(saltos.html(`<h5 class='card-title'>${field.title}</h5>`));
-  }
-  if (field.text != '') {
-    obj.querySelector('.card-body').append(saltos.html(`<p class='card-text'>${field.text}</p>`));
-  }
-  if (field.body != '') {
-    obj.querySelector('.card-body').append(saltos.html(field.body));
-  }
-  if (field.footer != '') {
-    obj.append(saltos.html(`<div class='card-footer'>${field.footer}</div>`));
-  }
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    saltos.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
+    var obj = saltos.html(`<div class='card' id='${field.id}'></div>`);
+    if (field.image != '') {
+        obj.append(saltos.html(`<img src='${field.image}' class='card-img-top' alt='${field.alt}'>`));
+    }
+    if (field.header != '') {
+        obj.append(saltos.html(`<div class='card-header'>${field.header}</div>`));
+    }
+    obj.append(saltos.html(`<div class='card-body'></div>`));
+    if (field.title != '') {
+        obj.querySelector('.card-body').append(saltos.html(`<h5 class='card-title'>${field.title}</h5>`));
+    }
+    if (field.text != '') {
+        obj.querySelector('.card-body').append(saltos.html(`<p class='card-text'>${field.text}</p>`));
+    }
+    if (field.body != '') {
+        obj.querySelector('.card-body').append(saltos.html(field.body));
+    }
+    if (field.footer != '') {
+        obj.append(saltos.html(`<div class='card-footer'>${field.footer}</div>`));
+    }
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1719,21 +1719,21 @@ saltos.__form_field.card = field => {
  * @core/lib/chartjs/chart.umd.min.js
  */
 saltos.__form_field.chartjs = field => {
-  saltos.require('core/lib/chartjs/chart.umd.min.js');
-  saltos.check_params(field, ['id', 'mode', 'data']);
-  var obj = saltos.html(`<canvas id='${field.id}'></canvas>`);
-  for (var key in field.data.datasets) {
-    field.data.datasets[key].borderWidth = 1;
-  }
-  var element = obj;
-  saltos.when_visible(element, () => {
-    new Chart(element, {
-      type: field.mode,
-      data: field.data,
+    saltos.require('core/lib/chartjs/chart.umd.min.js');
+    saltos.check_params(field, ['id', 'mode', 'data']);
+    var obj = saltos.html(`<canvas id='${field.id}'></canvas>`);
+    for (var key in field.data.datasets) {
+        field.data.datasets[key].borderWidth = 1;
+    }
+    var element = obj;
+    saltos.when_visible(element, () => {
+        new Chart(element, {
+            type: field.mode,
+            data: field.data,
+        });
     });
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1760,85 +1760,85 @@ saltos.__form_field.chartjs = field => {
  * each value, and requires the arguments of the specific widgets used in this widget
  */
 saltos.__form_field.tags = field => {
-  saltos.check_params(field, ['id', 'value']);
-  // This container must have the hidden input and the text input used by the
-  // user to write the tags
-  var obj = saltos.html(`<div></div>`);
-  // The first field is the hidden input
-  field.class = 'first';
-  obj.append(saltos.__form_field.hidden(field));
-  // The last field is the text input used to write the tags
-  field.id_old = field.id;
-  field.id = field.id + '_tags';
-  field.value_old = field.value.split(',');
-  field.value = '';
-  field.class = 'last';
-  obj.append(saltos.__form_field.text(field));
-  // This function draws a tag and programs the delete of the same tag
-  var fn = val => {
-    var span = saltos.html(`<span class='badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2'
-      saltos-data='${val}'>
-      ${val} <i class='bi bi-x-circle ps-1' style='cursor: pointer'></i>
-    </span>`);
-    obj.append(span);
-    span.querySelector('i').addEventListener('click', event => {
-      var a = event.target.parentNode;
-      var b = a.getAttribute('saltos-data');
-      var input = obj.querySelector('input.first');
-      var val_old = input.value.split(',');
-      var val_new = [];
-      for (var key in val_old) {
-        val_old[key] = val_old[key].trim();
-        if (val_old[key] != b) {
-          val_new.push(val_old[key]);
+    saltos.check_params(field, ['id', 'value']);
+    // This container must have the hidden input and the text input used by the
+    // user to write the tags
+    var obj = saltos.html(`<div></div>`);
+    // The first field is the hidden input
+    field.class = 'first';
+    obj.append(saltos.__form_field.hidden(field));
+    // The last field is the text input used to write the tags
+    field.id_old = field.id;
+    field.id = field.id + '_tags';
+    field.value_old = field.value.split(',');
+    field.value = '';
+    field.class = 'last';
+    obj.append(saltos.__form_field.text(field));
+    // This function draws a tag and programs the delete of the same tag
+    var fn = val => {
+        var span = saltos.html(`<span class='badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2'
+            saltos-data='${val}'>
+            ${val} <i class='bi bi-x-circle ps-1' style='cursor: pointer'></i>
+        </span>`);
+        obj.append(span);
+        span.querySelector('i').addEventListener('click', event => {
+            var a = event.target.parentNode;
+            var b = a.getAttribute('saltos-data');
+            var input = obj.querySelector('input.first');
+            var val_old = input.value.split(',');
+            var val_new = [];
+            for (var key in val_old) {
+                val_old[key] = val_old[key].trim();
+                if (val_old[key] != b) {
+                    val_new.push(val_old[key]);
+                }
+            }
+            input.value = val_new.join(',');
+            a.remove();
+        });
+    };
+    // This function program the enter event that adds tags to the hidden and
+    // draw the new tag using the previous function
+    obj.querySelector('input.last').addEventListener('keydown', event => {
+        if (saltos.get_keycode(event) != 13) {
+            return;
         }
-      }
-      input.value = val_new.join(',');
-      a.remove();
+        var input_old = obj.querySelector('input.first');
+        var input_new = obj.querySelector('input.last');
+        var val_old = input_old.value.split(',');
+        var val = input_new.value;
+        var val_new = [];
+        for (var key in val_old) {
+            val_old[key] = val_old[key].trim();
+            if (val_old[key] == val) {
+                return;
+            }
+            if (val_old[key] != '') {
+                val_new.push(val_old[key]);
+            }
+        }
+        fn(val);
+        val_new.push(val);
+        input_old.value = val_new.join(',');
+        input_new.value = '';
     });
-  };
-  // This function program the enter event that adds tags to the hidden and
-  // draw the new tag using the previous function
-  obj.querySelector('input.last').addEventListener('keydown', event => {
-    if (saltos.get_keycode(event) != 13) {
-      return;
+    // This part of the code adds the initials tags using the fn function
+    {
+        for (var key in field.value_old) {
+            var val = field.value_old[key].trim();
+            fn(val);
+        }
     }
-    var input_old = obj.querySelector('input.first');
-    var input_new = obj.querySelector('input.last');
-    var val_old = input_old.value.split(',');
-    var val = input_new.value;
-    var val_new = [];
-    for (var key in val_old) {
-      val_old[key] = val_old[key].trim();
-      if (val_old[key] == val) {
-        return;
-      }
-      if (val_old[key] != '') {
-        val_new.push(val_old[key]);
-      }
-    }
-    fn(val);
-    val_new.push(val);
-    input_old.value = val_new.join(',');
-    input_new.value = '';
-  });
-  // This part of the code adds the initials tags using the fn function
-  {
-    for (var key in field.value_old) {
-      var val = field.value_old[key].trim();
-      fn(val);
-    }
-  }
-  // This part of the code is a trick to allow that labels previously created
-  // will be linked to the input type text instead of the input type hidden,
-  // remember that the hidden contains the original id and the visible textbox
-  // contains the id with the _tags ending
-  saltos.when_visible(obj, () => {
-    document.querySelectorAll('label[for=' + field.id_old + ']').forEach(_this => {
-      _this.setAttribute('for', field.id);
+    // This part of the code is a trick to allow that labels previously created
+    // will be linked to the input type text instead of the input type hidden,
+    // remember that the hidden contains the original id and the visible textbox
+    // contains the id with the _tags ending
+    saltos.when_visible(obj, () => {
+        document.querySelectorAll('label[for=' + field.id_old + ']').forEach(_this => {
+            _this.setAttribute('for', field.id);
+        });
     });
-  });
-  return obj;
+    return obj;
 };
 
 /**
@@ -1862,49 +1862,49 @@ saltos.__form_field.tags = field => {
  * @core/lib/imagesloaded/imagesloaded.pkgd.min.js
  */
 saltos.__form_field.gallery = field => {
-  saltos.require('core/lib/venobox/venobox.min.css');
-  saltos.require('core/lib/venobox/venobox.min.js');
-  saltos.require('core/lib/masonry/masonry.pkgd.min.js');
-  saltos.require('core/lib/imagesloaded/imagesloaded.pkgd.min.js');
-  saltos.check_params(field, ['id', 'class', 'images']);
-  if (field.class == '') {
-    field.class = 'col';
-  }
-  var obj = saltos.html(`
-    <div id='${field.id}' class='container-fluid'>
-      <div class='row'>
-      </div>
-    </div>
-  `);
-  if (typeof field.images == 'object') {
-    for (var key in field.images) {
-      var val = field.images[key];
-      if (typeof val == 'string') {
-        val = {image: val};
-      }
-      saltos.check_params(val, ['image', 'title']);
-      var img = saltos.html(`
-        <div class='${field.class} p-1'>
-          <a href='${val.image}' class='venobox' data-gall='${field.id}' title='${val.title}'>
-            <img src='${val.image}' class='img-fluid img-thumbnail' />
-          </a>
-        </div>
-      `);
-      obj.querySelector('.row').append(img);
+    saltos.require('core/lib/venobox/venobox.min.css');
+    saltos.require('core/lib/venobox/venobox.min.js');
+    saltos.require('core/lib/masonry/masonry.pkgd.min.js');
+    saltos.require('core/lib/imagesloaded/imagesloaded.pkgd.min.js');
+    saltos.check_params(field, ['id', 'class', 'images']);
+    if (field.class == '') {
+        field.class = 'col';
     }
-  }
-  var element = obj.querySelector('.row');
-  saltos.when_visible(element, () => {
-    var msnry = new Masonry(element, {
-      percentPosition: true,
+    var obj = saltos.html(`
+        <div id='${field.id}' class='container-fluid'>
+            <div class='row'>
+            </div>
+        </div>
+    `);
+    if (typeof field.images == 'object') {
+        for (var key in field.images) {
+            var val = field.images[key];
+            if (typeof val == 'string') {
+                val = {image: val};
+            }
+            saltos.check_params(val, ['image', 'title']);
+            var img = saltos.html(`
+                <div class='${field.class} p-1'>
+                    <a href='${val.image}' class='venobox' data-gall='${field.id}' title='${val.title}'>
+                        <img src='${val.image}' class='img-fluid img-thumbnail' />
+                    </a>
+                </div>
+            `);
+            obj.querySelector('.row').append(img);
+        }
+    }
+    var element = obj.querySelector('.row');
+    saltos.when_visible(element, () => {
+        var msnry = new Masonry(element, {
+            percentPosition: true,
+        });
+        imagesLoaded(element).on('progress', () => {
+            msnry.layout();
+        });
+        new VenoBox();
     });
-    imagesLoaded(element).on('progress', () => {
-      msnry.layout();
-    });
-    new VenoBox();
-  });
-  obj = saltos.__label_combine(field, obj);
-  return obj;
+    obj = saltos.__label_combine(field, obj);
+    return obj;
 };
 
 /**
@@ -1915,13 +1915,13 @@ saltos.__form_field.gallery = field => {
  * @id => id used in the original object, it must be replaced when the data will be available
  */
 saltos.__form_field.placeholder = field => {
-  saltos.check_params(field, ['id']);
-  var obj = saltos.html(`
-    <div id='${field.id}' class='w-100 h-100 placeholder-glow' aria-hidden='true'>
-      <span class='w-100 h-100 placeholder'></span>
-    </div>
-  `);
-  return obj;
+    saltos.check_params(field, ['id']);
+    var obj = saltos.html(`
+        <div id='${field.id}' class='w-100 h-100 placeholder-glow' aria-hidden='true'>
+            <span class='w-100 h-100 placeholder'></span>
+        </div>
+    `);
+    return obj;
 };
 
 /**
@@ -1944,27 +1944,27 @@ saltos.__form_field.placeholder = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__text_helper = field => {
-  saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value']);
-  saltos.check_params(field, ['disabled', 'readonly', 'required', 'tooltip', 'style']);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-  }
-  if (field.readonly) {
-    field.readonly = 'readonly';
-  }
-  if (field.required) {
-    field.required = 'required';
-  }
-  var obj = saltos.html(`
-    <input type='${field.type}' class='form-control ${field.class}' id='${field.id}'
-      style='${field.style}' placeholder='${field.placeholder}'
-      value='${field.value}' ${field.disabled} ${field.readonly} ${field.required}
-        data-bs-title='${field.tooltip}'>
-  `);
-  if (field.tooltip != '') {
-    saltos.__tooltip_helper(obj);
-  }
-  return obj;
+    saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value']);
+    saltos.check_params(field, ['disabled', 'readonly', 'required', 'tooltip', 'style']);
+    if (field.disabled) {
+        field.disabled = 'disabled';
+    }
+    if (field.readonly) {
+        field.readonly = 'readonly';
+    }
+    if (field.required) {
+        field.required = 'required';
+    }
+    var obj = saltos.html(`
+        <input type='${field.type}' class='form-control ${field.class}' id='${field.id}'
+            style='${field.style}' placeholder='${field.placeholder}'
+            value='${field.value}' ${field.disabled} ${field.readonly} ${field.required}
+                data-bs-title='${field.tooltip}'>
+    `);
+    if (field.tooltip != '') {
+        saltos.__tooltip_helper(obj);
+    }
+    return obj;
 };
 
 /**
@@ -1987,27 +1987,27 @@ saltos.__text_helper = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__textarea_helper = field => {
-  saltos.check_params(field, ['class', 'id', 'placeholder', 'value']);
-  saltos.check_params(field, ['disabled', 'readonly', 'required', 'rows', 'tooltip']);
-  if (field.disabled) {
-    field.disabled = 'disabled';
-  }
-  if (field.readonly) {
-    field.readonly = 'readonly';
-  }
-  if (field.required) {
-    field.required = 'required';
-  }
-  var obj = saltos.html(`
-    <textarea class='form-control ${field.class}' id='${field.id}'
-      placeholder='${field.placeholder}' rows='${field.rows}'
-      ${field.disabled} ${field.readonly} ${field.required}
-      data-bs-title='${field.tooltip}'>${field.value}</textarea>
-  `);
-  if (field.tooltip != '') {
-    saltos.__tooltip_helper(obj);
-  }
-  return obj;
+    saltos.check_params(field, ['class', 'id', 'placeholder', 'value']);
+    saltos.check_params(field, ['disabled', 'readonly', 'required', 'rows', 'tooltip']);
+    if (field.disabled) {
+        field.disabled = 'disabled';
+    }
+    if (field.readonly) {
+        field.readonly = 'readonly';
+    }
+    if (field.required) {
+        field.required = 'required';
+    }
+    var obj = saltos.html(`
+        <textarea class='form-control ${field.class}' id='${field.id}'
+            placeholder='${field.placeholder}' rows='${field.rows}'
+            ${field.disabled} ${field.readonly} ${field.required}
+            data-bs-title='${field.tooltip}'>${field.value}</textarea>
+    `);
+    if (field.tooltip != '') {
+        saltos.__tooltip_helper(obj);
+    }
+    return obj;
 };
 
 /**
@@ -2020,15 +2020,15 @@ saltos.__textarea_helper = field => {
  * @obj => the object that you want to enable the tooltip feature
  */
 saltos.__tooltip_helper = obj => {
-  var instance = new bootstrap.Tooltip(obj, {
-    trigger: 'hover'
-  });
-  obj.addEventListener('focus', () => {
-    instance.hide();
-  });
-  obj.addEventListener('click', () => {
-    instance.hide();
-  });
+    var instance = new bootstrap.Tooltip(obj, {
+        trigger: 'hover'
+    });
+    obj.addEventListener('focus', () => {
+        instance.hide();
+    });
+    obj.addEventListener('click', () => {
+        instance.hide();
+    });
 };
 
 /**
@@ -2044,13 +2044,13 @@ saltos.__tooltip_helper = obj => {
  * @field => the field that contains the label to be added if needed
  */
 saltos.__label_helper = field => {
-  saltos.check_params(field, ['label']);
-  if (field.label == '') {
-    return '';
-  }
-  var temp = saltos.copy_object(field);
-  delete temp.class;
-  return saltos.__form_field.label(temp);
+    saltos.check_params(field, ['label']);
+    if (field.label == '') {
+        return '';
+    }
+    var temp = saltos.copy_object(field);
+    delete temp.class;
+    return saltos.__form_field.label(temp);
 };
 
 /**
@@ -2070,11 +2070,11 @@ saltos.__label_helper = field => {
  * their code because each case is different
  */
 saltos.__label_combine = (field, old) => {
-  var obj = saltos.html(`<div></div>`);
-  obj.append(saltos.__label_helper(field));
-  obj.append(old);
-  obj = saltos.optimize(obj);
-  return obj;
+    var obj = saltos.html(`<div></div>`);
+    obj.append(saltos.__label_helper(field));
+    obj.append(old);
+    obj = saltos.optimize(obj);
+    return obj;
 };
 
 /**
@@ -2099,66 +2099,66 @@ saltos.__label_combine = (field, old) => {
  * @divider  => you can set this boolean to true to convert the element into a divider
  */
 saltos.menu = args => {
-  saltos.check_params(args, ['class']);
-  saltos.check_params(args, ['menu'], []);
-  var obj = saltos.html(`<ul class='${args.class}'></ul>`);
-  for (var key in args.menu) {
-    var val = args.menu[key];
-    saltos.check_params(val, ['name', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
-    saltos.check_params(val, ['menu'], []);
-    if (val.disabled) {
-      val.disabled = 'disabled';
-    }
-    if (val.active) {
-      val.active = 'active';
-    }
-    if (val.menu.length) {
-      if (val.dropdown_menu_end) {
-        val.dropdown_menu_end = 'dropdown-menu-end';
-      }
-      var temp = saltos.html(`
-        <li class='nav-item dropdown'>
-          <button class='nav-link dropdown-toggle' role='button'
-            data-bs-toggle='dropdown' aria-expanded='false'>
-            ${val.name}
-          </button>
-          <ul class='dropdown-menu ${val.dropdown_menu_end}'>
-          </ul>
-        </li>
-      `);
-      for (var key2 in val.menu) {
-        var val2 = val.menu[key2];
-        saltos.check_params(val2, ['name', 'disabled', 'active', 'onclick', 'divider']);
-        if (val2.disabled) {
-          val2.disabled = 'disabled';
+    saltos.check_params(args, ['class']);
+    saltos.check_params(args, ['menu'], []);
+    var obj = saltos.html(`<ul class='${args.class}'></ul>`);
+    for (var key in args.menu) {
+        var val = args.menu[key];
+        saltos.check_params(val, ['name', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
+        saltos.check_params(val, ['menu'], []);
+        if (val.disabled) {
+            val.disabled = 'disabled';
         }
-        if (val2.active) {
-          val2.active = 'active';
+        if (val.active) {
+            val.active = 'active';
         }
-        if (val2.divider) {
-          var temp2 = saltos.html(`<li><hr class='dropdown-divider'></li>`);
+        if (val.menu.length) {
+            if (val.dropdown_menu_end) {
+                val.dropdown_menu_end = 'dropdown-menu-end';
+            }
+            var temp = saltos.html(`
+                <li class='nav-item dropdown'>
+                    <button class='nav-link dropdown-toggle' role='button'
+                        data-bs-toggle='dropdown' aria-expanded='false'>
+                        ${val.name}
+                    </button>
+                    <ul class='dropdown-menu ${val.dropdown_menu_end}'>
+                    </ul>
+                </li>
+            `);
+            for (var key2 in val.menu) {
+                var val2 = val.menu[key2];
+                saltos.check_params(val2, ['name', 'disabled', 'active', 'onclick', 'divider']);
+                if (val2.disabled) {
+                    val2.disabled = 'disabled';
+                }
+                if (val2.active) {
+                    val2.active = 'active';
+                }
+                if (val2.divider) {
+                    var temp2 = saltos.html(`<li><hr class='dropdown-divider'></li>`);
+                } else {
+                    var temp2 = saltos.html(`<li><button
+                    class='dropdown-item ${val2.disabled} ${val2.active}'>${val2.name}</button></li>`);
+                    if (!val2.disabled) {
+                        temp2.addEventListener('click', val2.onclick);
+                    }
+                }
+                temp.querySelector('ul').append(temp2);
+            }
         } else {
-          var temp2 = saltos.html(`<li><button
-          class='dropdown-item ${val2.disabled} ${val2.active}'>${val2.name}</button></li>`);
-          if (!val2.disabled) {
-            temp2.addEventListener('click', val2.onclick);
-          }
+            var temp = saltos.html(`
+                <li class='nav-item'>
+                    <button class='nav-link ${val.disabled} ${val.active}'>${val.name}</button>
+                </li>
+            `);
+            if (!val.disabled) {
+                temp.addEventListener('click', val.onclick);
+            }
         }
-        temp.querySelector('ul').append(temp2);
-      }
-    } else {
-      var temp = saltos.html(`
-        <li class='nav-item'>
-          <button class='nav-link ${val.disabled} ${val.active}'>${val.name}</button>
-        </li>
-      `);
-      if (!val.disabled) {
-        temp.addEventListener('click', val.onclick);
-      }
+        obj.append(temp);
     }
-    obj.append(temp);
-  }
-  return obj;
+    return obj;
 };
 
 /**
@@ -2177,33 +2177,33 @@ saltos.menu = args => {
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.navbar = args => {
-  saltos.check_params(args, ['id']);
-  saltos.check_params(args, ['brand'], {});
-  saltos.check_params(args.brand, ['name', 'logo', 'width', 'height']);
-  saltos.check_params(args, ['items'], []);
-  var obj = saltos.html(`
-    <nav class='navbar navbar-expand-md navbar-dark bg-primary fixed-top'>
-      <div class='container-fluid'>
-        <div class='navbar-brand'>
-          <img src='${args.brand.logo}' alt='${args.brand.name}' width='${args.brand.width}'
-          height='${args.brand.height}' class='d-inline-block align-text-top'>
-          ${args.brand.name}
-        </div>
-        <button class='navbar-toggler' type='button' data-bs-toggle='collapse'
-        data-bs-target='#${args.id}' aria-controls='${args.id}' aria-expanded='false'
-        aria-label='Toggle navigation'>
-          <span class='navbar-toggler-icon'></span>
-        </button>
-        <div class='collapse navbar-collapse' id='${args.id}'>
-        </div>
-      </div>
-    </nav>
-  `);
-  for (var key in args.items) {
-    var val = args.items[key];
-    obj.querySelector('.collapse').append(val);
-  }
-  return obj;
+    saltos.check_params(args, ['id']);
+    saltos.check_params(args, ['brand'], {});
+    saltos.check_params(args.brand, ['name', 'logo', 'width', 'height']);
+    saltos.check_params(args, ['items'], []);
+    var obj = saltos.html(`
+        <nav class='navbar navbar-expand-md navbar-dark bg-primary fixed-top'>
+            <div class='container-fluid'>
+                <div class='navbar-brand'>
+                    <img src='${args.brand.logo}' alt='${args.brand.name}' width='${args.brand.width}'
+                    height='${args.brand.height}' class='d-inline-block align-text-top'>
+                    ${args.brand.name}
+                </div>
+                <button class='navbar-toggler' type='button' data-bs-toggle='collapse'
+                data-bs-target='#${args.id}' aria-controls='${args.id}' aria-expanded='false'
+                aria-label='Toggle navigation'>
+                    <span class='navbar-toggler-icon'></span>
+                </button>
+                <div class='collapse navbar-collapse' id='${args.id}'>
+                </div>
+            </div>
+        </nav>
+    `);
+    for (var key in args.items) {
+        var val = args.items[key];
+        obj.querySelector('.collapse').append(val);
+    }
+    return obj;
 };
 
 /**
@@ -2242,61 +2242,61 @@ saltos.__modal = {};
  * to undestand that only one modal is allowed at each moment.
  */
 saltos.modal = args => {
-  // HELPER ACTIONS
-  if (args == 'close') {
-    return typeof saltos.__modal.instance == 'object' && saltos.__modal.instance.hide();
-  }
-  if (args == 'isopen') {
-    return typeof saltos.__modal.obj == 'object' && saltos.__modal.obj.classList.contains('show');
-  }
-  // ADDITIONAL CHECK
-  if (saltos.modal('isopen')) {
-    return false;
-  }
-  // NORMAL OPERATION
-  saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static']);
-  var temp = '';
-  if (args.static) {
-    temp = `data-bs-backdrop='static' data-bs-keyboard='false'`;
-  }
-  if (args.class == '') {
-    args.class = 'modal-dialog-centered';
-  }
-  var obj = saltos.html(`
-    <div class='modal fade' id='${args.id}' tabindex='-1' aria-labelledby='${args.id}_label'
-      aria-hidden='true' ${temp}>
-      <div class='modal-dialog ${args.class}'>
-        <div class='modal-content'>
-          <div class='modal-header'>
-            <h1 class='modal-title fs-5' id='${args.id}_label'>${args.title}</h1>
-            <button type='button' class='btn-close' data-bs-dismiss='modal'
-              aria-label='${args.close}'></button>
-          </div>
-          <div class='modal-body'>
-          </div>
-          <div class='modal-footer'>
-          </div>
+    // HELPER ACTIONS
+    if (args == 'close') {
+        return typeof saltos.__modal.instance == 'object' && saltos.__modal.instance.hide();
+    }
+    if (args == 'isopen') {
+        return typeof saltos.__modal.obj == 'object' && saltos.__modal.obj.classList.contains('show');
+    }
+    // ADDITIONAL CHECK
+    if (saltos.modal('isopen')) {
+        return false;
+    }
+    // NORMAL OPERATION
+    saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static']);
+    var temp = '';
+    if (args.static) {
+        temp = `data-bs-backdrop='static' data-bs-keyboard='false'`;
+    }
+    if (args.class == '') {
+        args.class = 'modal-dialog-centered';
+    }
+    var obj = saltos.html(`
+        <div class='modal fade' id='${args.id}' tabindex='-1' aria-labelledby='${args.id}_label'
+            aria-hidden='true' ${temp}>
+            <div class='modal-dialog ${args.class}'>
+                <div class='modal-content'>
+                    <div class='modal-header'>
+                        <h1 class='modal-title fs-5' id='${args.id}_label'>${args.title}</h1>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal'
+                            aria-label='${args.close}'></button>
+                    </div>
+                    <div class='modal-body'>
+                    </div>
+                    <div class='modal-footer'>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  `);
-  document.body.append(obj);
-  obj.querySelector('.modal-body').append(saltos.html(args.body));
-  obj.querySelector('.modal-footer').append(args.footer);
-  var instance = new bootstrap.Modal(obj);
-  saltos.__modal.obj = obj;
-  saltos.__modal.instance = instance;
-  obj.addEventListener('shown.bs.modal', event => {
-    obj.querySelectorAll('.autofocus').forEach(_this => {
-      _this.focus();
+    `);
+    document.body.append(obj);
+    obj.querySelector('.modal-body').append(saltos.html(args.body));
+    obj.querySelector('.modal-footer').append(args.footer);
+    var instance = new bootstrap.Modal(obj);
+    saltos.__modal.obj = obj;
+    saltos.__modal.instance = instance;
+    obj.addEventListener('shown.bs.modal', event => {
+        obj.querySelectorAll('.autofocus').forEach(_this => {
+            _this.focus();
+        });
     });
-  });
-  obj.addEventListener('hidden.bs.modal', event => {
-    instance.dispose();
-    obj.remove();
-  });
-  instance.show();
-  return true;
+    obj.addEventListener('hidden.bs.modal', event => {
+        instance.dispose();
+        obj.remove();
+    });
+    instance.show();
+    return true;
 };
 
 /**
@@ -2334,51 +2334,51 @@ saltos.__offcanvas = {};
  * to undestand that only one offcanvas is allowed at each moment.
  */
 saltos.offcanvas = args => {
-  // HELPER ACTIONS
-  if (args == 'close') {
-    return typeof saltos.__offcanvas.instance == 'object' && saltos.__offcanvas.instance.hide();
-  }
-  if (args == 'isopen') {
-    return typeof saltos.__offcanvas.obj == 'object' && saltos.__offcanvas.obj.classList.contains('show');
-  }
-  // ADDITIONAL CHECK
-  if (saltos.offcanvas('isopen')) {
-    return false;
-  }
-  // NORMAL OPERATION
-  saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static']);
-  var temp = '';
-  if (args.static) {
-    temp = `data-bs-backdrop='static' data-bs-keyboard='false'`;
-  }
-  var obj = saltos.html(`
-    <div class='offcanvas ${args.class}' tabindex='-1' id='${args.id}'
-      aria-labelledby='${args.id}_label' ${temp}>
-      <div class='offcanvas-header'>
-        <h5 class='offcanvas-title' id='${args.id}_label'>${args.title}</h5>
-        <button type='button' class='btn-close' data-bs-dismiss='offcanvas'
-          aria-label='${args.close}'></button>
-      </div>
-      <div class='offcanvas-body'>
-      </div>
-    </div>
-  `);
-  document.body.append(obj);
-  obj.querySelector('.offcanvas-body').append(saltos.html(args.body));
-  var instance = new bootstrap.Offcanvas(obj);
-  saltos.__offcanvas.obj = obj;
-  saltos.__offcanvas.instance = instance;
-  obj.addEventListener('shown.bs.offcanvas', event => {
-    obj.querySelectorAll('.autofocus').forEach(_this => {
-      _this.focus();
+    // HELPER ACTIONS
+    if (args == 'close') {
+        return typeof saltos.__offcanvas.instance == 'object' && saltos.__offcanvas.instance.hide();
+    }
+    if (args == 'isopen') {
+        return typeof saltos.__offcanvas.obj == 'object' && saltos.__offcanvas.obj.classList.contains('show');
+    }
+    // ADDITIONAL CHECK
+    if (saltos.offcanvas('isopen')) {
+        return false;
+    }
+    // NORMAL OPERATION
+    saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static']);
+    var temp = '';
+    if (args.static) {
+        temp = `data-bs-backdrop='static' data-bs-keyboard='false'`;
+    }
+    var obj = saltos.html(`
+        <div class='offcanvas ${args.class}' tabindex='-1' id='${args.id}'
+            aria-labelledby='${args.id}_label' ${temp}>
+            <div class='offcanvas-header'>
+                <h5 class='offcanvas-title' id='${args.id}_label'>${args.title}</h5>
+                <button type='button' class='btn-close' data-bs-dismiss='offcanvas'
+                    aria-label='${args.close}'></button>
+            </div>
+            <div class='offcanvas-body'>
+            </div>
+        </div>
+    `);
+    document.body.append(obj);
+    obj.querySelector('.offcanvas-body').append(saltos.html(args.body));
+    var instance = new bootstrap.Offcanvas(obj);
+    saltos.__offcanvas.obj = obj;
+    saltos.__offcanvas.instance = instance;
+    obj.addEventListener('shown.bs.offcanvas', event => {
+        obj.querySelectorAll('.autofocus').forEach(_this => {
+            _this.focus();
+        });
     });
-  });
-  obj.addEventListener('hidden.bs.offcanvas', event => {
-    instance.dispose();
-    obj.remove();
-  });
-  instance.show();
-  return true;
+    obj.addEventListener('hidden.bs.offcanvas', event => {
+        instance.dispose();
+        obj.remove();
+    });
+    instance.show();
+    return true;
 };
 
 /**
@@ -2410,38 +2410,38 @@ saltos.offcanvas = args => {
  * @core/lib/md5/md5.min.js
  */
 saltos.toast = args => {
-  saltos.require('core/lib/md5/md5.min.js');
-  saltos.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
-  if (document.querySelectorAll('.toast-container').length == 0) {
-    document.body.append(saltos.html(`<div
-      class='toast-container position-fixed bottom-0 end-0 p-3'></div>`));
-  }
-  // CHECK FOR REPETITIONS
-  var hash = md5(JSON.stringify(args));
-  if (document.querySelector(`.toast[hash=${hash}]`)) {
-    return false;
-  }
-  // CONTINUE
-  var obj = saltos.html(`
-    <div id='${args.id}' class='toast ${args.class}' role='alert' aria-live='assertive'
-      aria-atomic='true' hash='${hash}'>
-      <div class='toast-header'>
-        <strong class='me-auto'>${args.title}</strong>
-        <small>${args.subtitle}</small>
-        <button type='button' class='btn-close' data-bs-dismiss='toast'
-          aria-label='${args.close}'></button>
-      </div>
-      <div class='toast-body'>
-      </div>
-    </div>
-  `);
-  document.querySelector('.toast-container').append(obj);
-  obj.querySelector('.toast-body').append(args.body);
-  var toast = new bootstrap.Toast(obj);
-  obj.addEventListener('hidden.bs.toast', event => {
-    toast.dispose();
-    obj.remove();
-  });
-  toast.show();
-  return true;
+    saltos.require('core/lib/md5/md5.min.js');
+    saltos.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
+    if (document.querySelectorAll('.toast-container').length == 0) {
+        document.body.append(saltos.html(`<div
+            class='toast-container position-fixed bottom-0 end-0 p-3'></div>`));
+    }
+    // CHECK FOR REPETITIONS
+    var hash = md5(JSON.stringify(args));
+    if (document.querySelector(`.toast[hash=${hash}]`)) {
+        return false;
+    }
+    // CONTINUE
+    var obj = saltos.html(`
+        <div id='${args.id}' class='toast ${args.class}' role='alert' aria-live='assertive'
+            aria-atomic='true' hash='${hash}'>
+            <div class='toast-header'>
+                <strong class='me-auto'>${args.title}</strong>
+                <small>${args.subtitle}</small>
+                <button type='button' class='btn-close' data-bs-dismiss='toast'
+                    aria-label='${args.close}'></button>
+            </div>
+            <div class='toast-body'>
+            </div>
+        </div>
+    `);
+    document.querySelector('.toast-container').append(obj);
+    obj.querySelector('.toast-body').append(args.body);
+    var toast = new bootstrap.Toast(obj);
+    obj.addEventListener('hidden.bs.toast', event => {
+        toast.dispose();
+        obj.remove();
+    });
+    toast.show();
+    return true;
 };

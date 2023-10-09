@@ -2,6 +2,7 @@
     "preset": "google",
     "requireCamelCaseOrUpperCaseIdentifiers": false,
     "maximumLineLength": 110,
+    "validateIndentation": 4,
     "jsDoc": {
         "enforceExistence": false
     }
