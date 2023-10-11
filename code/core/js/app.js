@@ -166,67 +166,7 @@ saltos.form_app.data = data => {
  */
 saltos.form_app.layout = (layout, extra) => {
     // Check for attr auto
-    if (layout.hasOwnProperty('value') && layout.hasOwnProperty('#attr')) {
-        var attr = layout['#attr'];
-        var value = layout.value;
-        saltos.check_params(attr, ['auto', 'cols_per_row', 'container_class', 'row_class', 'col_class']);
-        if (attr.cols_per_row == '') {
-            attr.cols_per_row = Infinity;
-        }
-        if (attr.auto == 'true') {
-            // This trick convert all entries of the object in an array with the keys and values
-            var temp = [];
-            for (var key in value) {
-                temp.push([key, value[key]]);
-            }
-            // This is the new layout object created with one container, rows, cols and all original
-            // fields, too can specify what class use in each object created
-            var layout = {
-                container: {
-                    'value': {},
-                    '#attr': {
-                        class: attr.container_class
-                    }
-                }
-            };
-            // this counters and flag are used to add rows using the cols_per_row parameter
-            var numrow = 0;
-            var numcol = 0;
-            var addrow = 1;
-            while (temp.length) {
-                var item = temp.shift(temp);
-                if (addrow) {
-                    numrow++;
-                    layout.container.value['row#' + numrow] = {
-                        'value': {},
-                        '#attr': {
-                            class: attr.row_class
-                        }
-                    };
-                }
-                numcol++;
-                var col_class = attr.col_class;
-                if (item[1].hasOwnProperty('#attr') && item[1]['#attr'].hasOwnProperty('col_class')) {
-                    col_class = item[1]['#attr'].col_class;
-                }
-                layout.container.value['row#' + numrow].value['col#' + numcol] = {
-                    'value': {},
-                    '#attr': {
-                        class: col_class
-                    }
-                };
-                layout.container.value['row#' + numrow].value['col#' + numcol].value[item[0]] = item[1];
-                if (numcol >= attr.cols_per_row) {
-                    numcol = 0;
-                    addrow = 1;
-                } else {
-                    addrow = 0;
-                }
-            }
-        } else {
-            layout = value;
-        }
-    }
+    layout = saltos.form_app.__layout_auto_helper(layout);
     // Continue with original idea of use a entire specified layout
     var arr = [];
     for (var key in layout) {
@@ -242,9 +182,15 @@ saltos.form_app.layout = (layout, extra) => {
         if (!attr.hasOwnProperty('type')) {
             attr.type = key;
         }
-        if (['container', 'col', 'row', 'div'].includes(key)) {
+        if (key == 'layout') {
+            var obj = saltos.form_app.layout({
+                'value': value,
+                '#attr': attr,
+            }, 'div');
+            arr.push(obj);
+        } else if (['container', 'col', 'row', 'div'].includes(key)) {
             var obj = saltos.form_field(attr);
-            var temp = saltos.form_app.layout(value, 1);
+            var temp = saltos.form_app.layout(value, 'arr');
             for (var i in temp) {
                 obj.append(temp[i]);
             }
@@ -276,7 +222,8 @@ saltos.form_app.layout = (layout, extra) => {
             arr.push(obj);
         }
     }
-    if (extra) {
+    // Some extra features to allow that returns only the array
+    if (extra == 'arr') {
         return arr;
     }
     var div = saltos.html('<div></div>');
@@ -284,7 +231,103 @@ saltos.form_app.layout = (layout, extra) => {
         div.append(arr[i]);
     }
     div = saltos.optimize(div);
+    // Some extra features to allow that returns only the div
+    if (extra == 'div') {
+        return div;
+    }
+    // Defaut feature that all the div to the body's document
     document.body.append(div);
+};
+
+/**
+ * Form layout auto helper
+ *
+ * This function implements the auto feature used by the layout function, allow to specify the
+ * follow arguments:
+ *
+ * @auto            => this boolean allow to enable or not this feature
+ * @cols_per_row    => specify the number of cols inside of each row
+ * @container_class => defines the class used by the container element
+ * @row_class       => defines the class used by the row element
+ * @col_class       => defines the class used by the col element
+ * @container_style => defines the style used by the container element
+ * @row_style       => defines the style used by the row element
+ * @col_style       => defines the style used by the col element
+ */
+saltos.form_app.__layout_auto_helper = layout => {
+    if (layout.hasOwnProperty('value') && layout.hasOwnProperty('#attr')) {
+        var attr = layout['#attr'];
+        var value = layout.value;
+        saltos.check_params(attr, ['auto', 'cols_per_row']);
+        saltos.check_params(attr, ['container_class', 'row_class', 'col_class']);
+        saltos.check_params(attr, ['container_style', 'row_style', 'col_style']);
+        if (attr.cols_per_row == '') {
+            attr.cols_per_row = Infinity;
+        }
+        if (attr.auto == 'true') {
+            // This trick convert all entries of the object in an array with the keys and values
+            var temp = [];
+            for (var key in value) {
+                temp.push([key, value[key]]);
+            }
+            // This is the new layout object created with one container, rows, cols and all original
+            // fields, too can specify what class use in each object created
+            var layout = {
+                container: {
+                    'value': {},
+                    '#attr': {
+                        class: attr.container_class,
+                        style: attr.container_style,
+                    }
+                }
+            };
+            // this counters and flag are used to add rows using the cols_per_row parameter
+            var numrow = 0;
+            var numcol = 0;
+            var addrow = 1;
+            while (temp.length) {
+                var item = temp.shift(temp);
+                if (addrow) {
+                    numrow++;
+                    layout.container.value['row#' + numrow] = {
+                        'value': {},
+                        '#attr': {
+                            class: attr.row_class,
+                            style: attr.row_style,
+                        }
+                    };
+                }
+                numcol++;
+                var col_class = attr.col_class;
+                var col_style = attr.col_style;
+                if (item[1].hasOwnProperty('#attr')) {
+                    if (item[1]['#attr'].hasOwnProperty('col_class')) {
+                        col_class = item[1]['#attr'].col_class;
+                    }
+                    if (item[1]['#attr'].hasOwnProperty('col_style')) {
+                        col_style = item[1]['#attr'].col_style;
+                    }
+                }
+                layout.container.value['row#' + numrow].value['col#' + numcol] = {
+                    'value': {},
+                    '#attr': {
+                        class: col_class,
+                        style: col_style,
+                    }
+                };
+                layout.container.value['row#' + numrow].value['col#' + numcol].value[item[0]] = item[1];
+                if (numcol >= attr.cols_per_row) {
+                    numcol = 0;
+                    addrow = 1;
+                } else {
+                    addrow = 0;
+                }
+            }
+        } else {
+            layout = value;
+        }
+    }
+    return layout;
 };
 
 /**
