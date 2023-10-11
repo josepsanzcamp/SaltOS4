@@ -158,6 +158,11 @@ saltos.form_app.data = data => {
  *
  * 2) auto mode => only requires set auto='true' to the layout node, and with this, all childrens
  * of the node are created inside a container, a row, and each field inside a col.
+ *
+ * Notes:
+ *
+ * This function add the fields to the saltos.__form_app.fields, this allow to the saltos.get_data
+ * can retrieve the desired information of the fields.
  */
 saltos.form_app.layout = (layout, extra) => {
     // Check for attr auto
@@ -405,10 +410,10 @@ saltos.clear_screen = () => {
  * is private and is intended to be used as a helper from the builders of the previous types opening
  * another way to pass arguments.
  *
- * @id   => the id used to set the reference for to the object
+ * @id     => the id used to set the reference for to the object
  * @type   => the type used to set the type for to the object
  * @source => data source used to load asynchronously the contents of the table (header, data,
- *      footer and divider)
+ *            footer and divider)
  *
  * Notes:
  *
@@ -457,6 +462,36 @@ saltos.__source_helper = field => {
 };
 
 /**
+ * Get data
+ *
+ * This function retrieves the data of the fields in the current layout. to do this it uses
+ * the saltos.__form_app.fields that contains the list of all used fields in the layout, this
+ * function can retrieve all fields or only the fields that contains differences between the
+ * original data and the current data.
+ *
+ * @full => boolean to indicate if you want the entire form or only the differences
+ */
+saltos.get_data = full => {
+    if (typeof full == 'undefined') {
+        var full = false;
+    }
+    saltos.__form_app.data = {};
+    for (var i in saltos.__form_app.fields) {
+        var field = saltos.__form_app.fields[i];
+        var obj = document.getElementById(field.id);
+        if (obj !== null) {
+            if (['hidden','text','password','checkbox','textarea'].includes(obj.type)) {
+                var val = obj.value;
+                if (field.value != val || full) {
+                    saltos.__form_app.data[field.id] = val;
+                }
+            }
+        }
+    }
+    return saltos.__form_app.data;
+};
+
+/**
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
@@ -472,8 +507,10 @@ saltos.__source_helper = field => {
     // Token part
     saltos.token = localStorage.getItem('token');
     if (saltos.token === null) {
-        saltos.token = 'e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe';
+        //~ saltos.token = 'e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe';
         //~ saltos.send_request('app/login');
+        var hash = 'app/login';
+        history.replaceState(null, null, '.#' + hash);
     }
     // Init part
     window.dispatchEvent(new HashChangeEvent('hashchange'));

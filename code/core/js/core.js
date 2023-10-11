@@ -55,7 +55,7 @@ window.onerror = (event, source, lineno, colno, error) => {
         'action': 'adderror',
         'jserror': event,
         'details': 'Error on file ' + source + ':' + lineno + ':' + colno +
-                      ', userAgent is ' + navigator.userAgent,
+                   ', userAgent is ' + navigator.userAgent,
         'backtrace': error.stack
     };
     saltos.ajax({
@@ -100,7 +100,7 @@ saltos.addlog = msg => {
  * caused by the nonexistence, to do this, checks for the existence of all params in the obj
  * and if some param is not found, then define it using the default value passed:
  *
- * @obj  => the object that contains the arguments, for example
+ * @obj    => the object that contains the arguments, for example
  * @params => an array with the arguments that must to exists
  * @value  => the default value used if an argument doesn't exists
  */
@@ -228,15 +228,15 @@ saltos.html = (...args) => {
  *
  * This function allow to use ajax using the same form that with jQuery without jQuery
  *
- * @url      => url of the ajax call
- * @data     => data used in the body of the request
- * @method     => the method of the request (can be GET or POST, GET by default)
- * @success    => callback function for the success action (optional)
- * @error    => callback function for the error action (optional)
- * @progress   => callback function to monitorize the progress of the upload/download (optional)
- * @async    => boolean to use the ajax call asynchronously or not, by default is true
+ * @url          => url of the ajax call
+ * @data         => data used in the body of the request
+ * @method       => the method of the request (can be GET or POST, GET by default)
+ * @success      => callback function for the success action (optional)
+ * @error        => callback function for the error action (optional)
+ * @progress     => callback function to monitorize the progress of the upload/download (optional)
+ * @async        => boolean to use the ajax call asynchronously or not, by default is true
  * @content_type => the content-type that you want to use in the transfer
- * @headers    => an object with the headers that you want to send
+ * @headers      => an object with the headers that you want to send
  *
  * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
  * way as jQuery do but without using jQuery.
