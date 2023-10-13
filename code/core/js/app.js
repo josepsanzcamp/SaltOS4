@@ -515,9 +515,6 @@ saltos.__source_helper = field => {
  * @full => boolean to indicate if you want the entire form or only the differences
  */
 saltos.get_data = full => {
-    if (typeof full == 'undefined') {
-        var full = false;
-    }
     saltos.__form_app.data = {};
     for (var i in saltos.__form_app.fields) {
         var field = saltos.__form_app.fields[i];
@@ -535,6 +532,52 @@ saltos.get_data = full => {
 };
 
 /**
+ * Authenticate function
+ *
+ * This function uses the authtoken action to try to authenticate an user with the user/pass
+ * credentials passed by argument.
+ *
+ * @user => username used to the authentication process
+ * @pass => password used to the authentication process
+ */
+saltos.authenticate = (user, pass) => {
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'user': user,
+            'pass': pass,
+            'action': 'authtoken',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        async: false,
+        success: response => {
+            if (typeof response != 'object') {
+                saltos.show_error(response);
+                return;
+            }
+            if (typeof response.error == 'object') {
+                localStorage.removeItem('token');
+                saltos.token = null;
+                return;
+            }
+            if (response.status == 'ok' && response.token) {
+                localStorage.setItem('token', response.token);
+                saltos.token = response.token;
+                return;
+            }
+            saltos.show_error(response);
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        }
+    });
+};
+
+/**
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
@@ -549,11 +592,44 @@ saltos.get_data = full => {
     window_match_media.addEventListener('change', set_data_bs_theme);
     // Token part
     saltos.token = localStorage.getItem('token');
+    if (saltos.token !== null) {
+        var ajax = saltos.ajax({
+            url: 'index.php',
+            data: JSON.stringify({'action': 'checktoken'}),
+            method: 'post',
+            content_type: 'application/json',
+            async: false,
+            success: response => {
+                if (typeof response != 'object') {
+                    saltos.show_error(response);
+                    return;
+                }
+                if (typeof response.error == 'object') {
+                    localStorage.removeItem('token');
+                    saltos.token = null;
+                    return;
+                }
+                if (response.status == 'ok') {
+                    localStorage.setItem('token', response.token);
+                    saltos.token = response.token;
+                    return;
+                }
+            },
+            error: request => {
+                localStorage.removeItem('token');
+                saltos.token = null;
+                saltos.show_error({
+                    text: request.statusText,
+                    code: request.status,
+                });
+            },
+            headers: {
+                'token': saltos.token,
+            }
+        });
+    }
     if (saltos.token === null) {
-        //~ saltos.token = 'e9f3ebd0-8e73-e4c4-0ebd-7056cf0e70fe';
-        //~ saltos.send_request('app/login');
-        var hash = 'app/login';
-        history.replaceState(null, null, '.#' + hash);
+        history.replaceState(null, null, '.#app/login');
     }
     // Init part
     window.dispatchEvent(new HashChangeEvent('hashchange'));

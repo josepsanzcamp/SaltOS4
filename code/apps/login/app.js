@@ -40,12 +40,35 @@
 saltos.login = {};
 
 /**
- * TODO
+ * Authenticate login function
  *
- * TODO
+ * This function tries to authenticate the user using the user and pass fields of the form, to do
+ * it uses the authenticate function that send data to the authtoken action
  */
 saltos.login.authenticate = () => {
     // TODO GET ALL DATA FROM THE FORM
     var data = saltos.get_data(true);
-    console.log(data);
+    saltos.authenticate(data.user, data.pass);
+    if (saltos.token) {
+        history.replaceState(null, null, '.#app/menu');
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+    } else {
+        saltos.modal({
+            title: 'Access denied',
+            close: 'Close',
+            body: 'Incorrect user or password, try again',
+            footer: (() => {
+                var obj = saltos.html('<div></div>');
+                obj.append(saltos.form_field({
+                    type: 'button',
+                    value: 'Accept',
+                    class: 'btn-primary',
+                    onclick: () => {
+                        saltos.modal('close');
+                    }
+                }));
+                return obj;
+            })()
+        });
+    }
 };
