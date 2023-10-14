@@ -33,14 +33,19 @@ declare(strict_types=1);
  * This file implements the check action, allowing to check token's validity, the check
  * action only can be performed by the same actor that execute the login action
  *
- * The unique requirement to execute this action is to have a token to be checked
+ * The unique requirement to execute this action is to have a token to be checked, as the
+ * result of this action is a flag that indicates the validity of the token, this action
+ * returns a json with the status of te token instead of returns a json with an error in
+ * case of non validity
  */
 
 crontab_users();
 
 $token_id = current_token();
 if (!$token_id) {
-    show_json_error("checktoken error");
+    output_handler_json([
+        "status" => "ko",
+    ]);
 }
 
 $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";

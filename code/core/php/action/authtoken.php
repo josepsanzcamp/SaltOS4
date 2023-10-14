@@ -30,15 +30,16 @@ declare(strict_types=1);
 /**
  * Authentication token action
  *
- * This file implements the login action, allowing to authenticate users
- * using the pair of login/password to validate the credentials and get
- * a valid token to operate in SaltOS
+ * This file implements the login action, allowing to authenticate users using the pair
+ * of login/password to validate the credentials and get a valid token to operate in SaltOS
  *
  * @user => username used in the authentication process
  * @pass => password used in the authentication process
  *
  * This action not requires a valid token, all valid tokens associated
- * to the user will be revoked when a new token is assigned
+ * to the user will be revoked when a new token is assigned, as the result of this action
+ * is a flag that indicates the validity of the token, this action returns a json with the
+ * status of te token instead of returns a json with an error in case of non validity
  */
 
 crontab_users();
@@ -59,7 +60,9 @@ $query = "SELECT * FROM tbl_users WHERE " . make_where_query([
 ]);
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
-    show_json_error("authentication error");
+    output_handler_json([
+        "status" => "ko",
+    ]);
 }
 
 // Second check
@@ -69,7 +72,9 @@ $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
 ]);
 $row2 = execute_query($query);
 if (!is_array($row2) || !isset($row2["password"])) {
-    show_json_error("authentication error");
+    output_handler_json([
+        "status" => "ko",
+    ]);
 } elseif (password_verify($pass, $row2["password"])) {
     // Nothing to do, password is correct!!!
 } elseif (in_array($row2["password"], [md5($pass), sha1($pass)])) {
@@ -82,7 +87,9 @@ if (!is_array($row2) || !isset($row2["password"])) {
     ]));
     db_query($query);
 } else {
-    show_json_error("authentication error");
+    output_handler_json([
+        "status" => "ko",
+    ]);
 }
 
 // Continue

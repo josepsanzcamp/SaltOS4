@@ -46,29 +46,61 @@ saltos.login = {};
  * it uses the authenticate function that send data to the authtoken action
  */
 saltos.login.authenticate = () => {
-    // TODO GET ALL DATA FROM THE FORM
     var data = saltos.get_data(true);
+    if (data.user == '' || data.pass == '') {
+        saltos.login.access_denied();
+        return;
+    }
     saltos.authenticate(data.user, data.pass);
     if (saltos.token) {
         history.replaceState(null, null, '.#app/menu');
         window.dispatchEvent(new HashChangeEvent('hashchange'));
     } else {
-        saltos.modal({
-            title: 'Access denied',
-            close: 'Close',
-            body: 'Incorrect user or password, try again',
-            footer: (() => {
-                var obj = saltos.html('<div></div>');
-                obj.append(saltos.form_field({
-                    type: 'button',
-                    value: 'Accept',
-                    class: 'btn-primary',
-                    onclick: () => {
-                        saltos.modal('close');
-                    }
-                }));
-                return obj;
-            })()
-        });
+        saltos.login.access_denied();
     }
+};
+
+/**
+ * Initialize login
+ *
+ * This function initializes the login screen to improve the user experience.
+ */
+saltos.login.initialize = () => {
+    document.getElementById('user').addEventListener('keydown', event => {
+        if (saltos.get_keycode(event) != 13) {
+            return;
+        }
+        document.getElementById('pass').focus();
+    });
+    document.getElementById('pass').addEventListener('keydown', event => {
+        if (saltos.get_keycode(event) != 13) {
+            return;
+        }
+        saltos.login.authenticate();
+    });
+};
+
+/**
+ * Access denied
+ *
+ * This function displays a modal dialog with the tipical access denied message
+ */
+saltos.login.access_denied = () => {
+    saltos.modal({
+        title: 'Access denied',
+        close: 'Close',
+        body: 'Incorrect user or password, try again',
+        footer: (() => {
+            var obj = saltos.html('<div></div>');
+            obj.append(saltos.form_field({
+                type: 'button',
+                value: 'Close',
+                class: 'btn-primary',
+                onclick: () => {
+                    saltos.modal('close');
+                }
+            }));
+            return obj;
+        })()
+    });
 };

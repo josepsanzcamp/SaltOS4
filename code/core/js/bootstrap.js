@@ -1014,12 +1014,7 @@ saltos.__form_field.file = field => {
             method: 'post',
             content_type: 'application/json',
             success: response => {
-                if (typeof response != 'object') {
-                    saltos.show_error(response);
-                    return;
-                }
-                if (typeof response.error == 'object') {
-                    saltos.show_error(response.error);
+                if (!saltos.check_response(response)) {
                     return;
                 }
                 row.saltos_data = response[0];
@@ -1105,12 +1100,7 @@ saltos.__form_field.file = field => {
                         method: 'post',
                         content_type: 'application/json',
                         success: response => {
-                            if (typeof response != 'object') {
-                                saltos.show_error(response);
-                                return;
-                            }
-                            if (typeof response.error == 'object') {
-                                saltos.show_error(response.error);
+                            if (!saltos.check_response(response)) {
                                 return;
                             }
                             row.saltos_data = response[0];

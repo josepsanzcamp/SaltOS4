@@ -52,7 +52,7 @@ saltos.show_error = error => {
             var obj = saltos.html('<div></div>');
             obj.append(saltos.form_field({
                 type: 'button',
-                value: 'Accept',
+                value: 'Close',
                 class: 'btn-primary',
                 onclick: () => {
                     saltos.modal('close');
@@ -64,6 +64,24 @@ saltos.show_error = error => {
 };
 
 /**
+ * Check response helper
+ *
+ * This function is intended to process the response received by saltos.ajax and returns
+ * if an error is detected in the response.
+ */
+saltos.check_response = response => {
+    if (typeof response != 'object') {
+        saltos.show_error(response);
+        return false;
+    }
+    if (typeof response.error == 'object') {
+        saltos.show_error(response.error);
+        return false;
+    }
+    return true;
+};
+
+/**
  * Send request helper
  *
  * This function allow to send requests to the server and process the response
@@ -72,12 +90,7 @@ saltos.send_request = data => {
     saltos.ajax({
         url: 'index.php?' + data,
         success: response => {
-            if (typeof response != 'object') {
-                saltos.show_error(response);
-                return;
-            }
-            if (typeof response.error == 'object') {
-                saltos.show_error(response.error);
+            if (!saltos.check_response(response)) {
                 return;
             }
             saltos.process_response(response);
@@ -474,12 +487,7 @@ saltos.__source_helper = field => {
         saltos.ajax({
             url: 'index.php?' + field.source,
             success: response => {
-                if (typeof response != 'object') {
-                    saltos.show_error(response);
-                    return;
-                }
-                if (typeof response.error == 'object') {
-                    saltos.show_error(response.error);
+                if (!saltos.check_response(response)) {
                     return;
                 }
                 field.source = '';
@@ -552,18 +560,17 @@ saltos.authenticate = (user, pass) => {
         content_type: 'application/json',
         async: false,
         success: response => {
-            if (typeof response != 'object') {
-                saltos.show_error(response);
-                return;
-            }
-            if (typeof response.error == 'object') {
-                localStorage.removeItem('token');
-                saltos.token = null;
+            if (!saltos.check_response(response)) {
                 return;
             }
             if (response.status == 'ok' && response.token) {
                 localStorage.setItem('token', response.token);
                 saltos.token = response.token;
+                return;
+            }
+            if (response.status == 'ko') {
+                localStorage.removeItem('token');
+                saltos.token = null;
                 return;
             }
             saltos.show_error(response);
@@ -600,20 +607,20 @@ saltos.authenticate = (user, pass) => {
             content_type: 'application/json',
             async: false,
             success: response => {
-                if (typeof response != 'object') {
-                    saltos.show_error(response);
+                if (!saltos.check_response(response)) {
                     return;
                 }
-                if (typeof response.error == 'object') {
-                    localStorage.removeItem('token');
-                    saltos.token = null;
-                    return;
-                }
-                if (response.status == 'ok') {
+                if (response.status == 'ok' && response.token) {
                     localStorage.setItem('token', response.token);
                     saltos.token = response.token;
                     return;
                 }
+                if (response.status == 'ko') {
+                    localStorage.removeItem('token');
+                    saltos.token = null;
+                    return;
+                }
+                saltos.show_error(response);
             },
             error: request => {
                 localStorage.removeItem('token');
