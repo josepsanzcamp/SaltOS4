@@ -46,17 +46,16 @@ var saltos = saltos || {};
  * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
  */
 window.onerror = (event, source, lineno, colno, error) => {
-    if (typeof error == 'undefined' || typeof error.stack == 'undefined') {
-        var error = {
-            stack: 'unknown'
-        };
+    var stack = 'unknown';
+    if (typeof error == 'object' && typeof error.stack == 'string') {
+        stack = error.stack;
     }
     var data = {
         'action': 'adderror',
         'jserror': event,
         'details': 'Error on file ' + source + ':' + lineno + ':' + colno +
                    ', userAgent is ' + navigator.userAgent,
-        'backtrace': error.stack
+        'backtrace': stack
     };
     saltos.ajax({
         url: 'index.php',
