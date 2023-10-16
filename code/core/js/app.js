@@ -115,7 +115,7 @@ saltos.send_request = data => {
 saltos.process_response = response => {
     for (var key in response) {
         var val = response[key];
-        var key = saltos.fix_key(key);
+        key = saltos.fix_key(key);
         if (typeof saltos.form_app[key] != 'function') {
             console.log('type ' + key + ' not found');
             document.body.append(saltos.html('type ' + key + ' not found'));
@@ -185,12 +185,11 @@ saltos.form_app.layout = (layout, extra) => {
     for (var key in layout) {
         var val = layout[key];
         key = saltos.fix_key(key);
+        var attr = {};
+        var value = val;
         if (typeof val == 'object' && val.hasOwnProperty('value') && val.hasOwnProperty('#attr')) {
-            var attr = val['#attr'];
-            var value = val.value;
-        } else {
-            var attr = {};
-            var value = val;
+            attr = val['#attr'];
+            value = val.value;
         }
         if (!attr.hasOwnProperty('type')) {
             attr.type = key;
@@ -285,7 +284,7 @@ saltos.form_app.__layout_auto_helper = layout => {
             }
             // This is the new layout object created with one container, rows, cols and all original
             // fields, too can specify what class use in each object created
-            var layout = {
+            layout = {
                 container: {
                     'value': {},
                     '#attr': {
@@ -299,7 +298,7 @@ saltos.form_app.__layout_auto_helper = layout => {
             var numcol = 0;
             var addrow = 1;
             while (temp.length) {
-                var item = temp.shift(temp);
+                var item = temp.shift();
                 if (addrow) {
                     numrow++;
                     layout.container.value['row#' + numrow] = {
@@ -355,7 +354,7 @@ saltos.form_app.__layout_auto_helper = layout => {
 saltos.form_app.style = data => {
     for (var key in data) {
         var val = data[key];
-        var key = saltos.fix_key(key);
+        key = saltos.fix_key(key);
         if (key == 'inline') {
             var style = document.createElement('style');
             style.innerHTML = val;
@@ -379,7 +378,7 @@ saltos.form_app.style = data => {
 saltos.form_app.javascript = data => {
     for (var key in data) {
         var val = data[key];
-        var key = saltos.fix_key(key);
+        key = saltos.fix_key(key);
         if (key == 'inline') {
             var script = document.createElement('script');
             script.innerHTML = val;
@@ -431,7 +430,7 @@ saltos.loading = on_off => {
                 </div>
             </div>
         `));
-        window.scrollTo(0, window.scrollMaxY);
+        window.scrollTo(0, 1<<30);
         return true;
     }
     if (!on_off && obj) {
