@@ -1114,7 +1114,7 @@ saltos.__form_field.file = field => {
                         },
                         progress: event => {
                             if (event.lengthComputable) {
-                                var percent = parseInt((event.loaded / event.total) * 100);
+                                var percent = Math.round((event.loaded / event.total) * 100);
                                 row.querySelector('.progress-bar').style.width = percent + '%';
                                 row.querySelector('.progress').setAttribute('aria-valuenow', percent);
                             }

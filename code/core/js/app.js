@@ -430,7 +430,7 @@ saltos.loading = on_off => {
                 </div>
             </div>
         `));
-        window.scrollTo(0, 1<<30);
+        window.scrollTo(0, 1 << 30);
         return true;
     }
     if (!on_off && obj) {
