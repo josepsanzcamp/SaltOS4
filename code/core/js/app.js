@@ -396,20 +396,59 @@ saltos.form_app.javascript = data => {
  * This function allow to SaltOS to update the contents when hash change
  */
 window.onhashchange = event => {
-    var hash = document.location.hash;
-    if (hash.substr(0, 1) == '#') {
-        hash = hash.substr(1);
-    }
-    if (hash == '') {
-        hash = 'app/menu';
-        history.replaceState(null, null, '.#' + hash);
+    if (saltos.hash.get() == '') {
+        return;
     }
     // Reset the body interface
     saltos.modal('close');
     saltos.offcanvas('close');
     saltos.loading(true);
     // Do the request
-    saltos.send_request(hash);
+    saltos.send_request(saltos.hash.get());
+};
+
+/**
+ * Hash helper object
+ *
+ * This object stores all hash functions to get, set and trigger a change
+ */
+saltos.hash = {};
+
+/**
+ * Get hash
+ *
+ * Function intended to return the current hash without the pillow
+ */
+saltos.hash.get = () => {
+    var hash = document.location.hash;
+    if (hash.substr(0, 1) == '#') {
+        hash = hash.substr(1);
+    }
+    return hash;
+};
+
+/**
+ * Set hash
+ *
+ * Function intended to set the hash in the current url, adds the pilow if it is not found
+ * in the hash argument
+ *
+ * @hash => this must contain the hash with or without the pillow
+ */
+saltos.hash.set = hash => {
+    if (hash.substr(0, 1) != '#') {
+        hash = '#' + hash;
+    }
+    history.replaceState(null, null, hash);
+};
+
+/**
+ * Change trigger
+ *
+ * This function triggers the hashchange event to execute the onhashchange
+ */
+saltos.hash.change = () => {
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
 };
 
 /**
@@ -734,7 +773,7 @@ saltos.authenticate.checktoken = () => {
             if (!saltos.check_response(response)) {
                 return;
             }
-            if (response.status == 'ok' && response.token) {
+            if (response.status == 'ok') {
                 saltos.token.set(response.token, response.expires_at);
                 return;
             }
@@ -774,8 +813,11 @@ saltos.authenticate.checktoken = () => {
         saltos.authenticate.checktoken();
     }
     if (saltos.token.get_token() === null) {
-        history.replaceState(null, null, '.#app/login');
+        saltos.hash.set('app/login');
     }
     // Init part
-    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    if (saltos.hash.get() == '') {
+        saltos.hash.set('app/menu');
+    }
+    saltos.hash.change();
 })();

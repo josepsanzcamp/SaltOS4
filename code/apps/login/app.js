@@ -53,8 +53,8 @@ saltos.login.authenticate = () => {
     }
     saltos.authenticate.authtoken(data.user, data.pass);
     if (saltos.token) {
-        history.replaceState(null, null, '.#app/menu');
-        window.dispatchEvent(new HashChangeEvent('hashchange'));
+        saltos.hash.set('app/menu');
+        saltos.hash.change();
     } else {
         saltos.login.access_denied();
     }
@@ -66,6 +66,7 @@ saltos.login.authenticate = () => {
  * This function initializes the login screen to improve the user experience.
  */
 saltos.login.initialize = () => {
+    document.getElementById('user').focus();
     document.getElementById('user').addEventListener('keydown', event => {
         if (saltos.get_keycode(event) != 13) {
             return;
