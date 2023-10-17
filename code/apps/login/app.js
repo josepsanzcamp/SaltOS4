@@ -51,7 +51,7 @@ saltos.login.authenticate = () => {
         saltos.login.access_denied();
         return;
     }
-    saltos.authenticate(data.user, data.pass);
+    saltos.authenticate.authtoken(data.user, data.pass);
     if (saltos.token) {
         history.replaceState(null, null, '.#app/menu');
         window.dispatchEvent(new HashChangeEvent('hashchange'));

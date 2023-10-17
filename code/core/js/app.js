@@ -102,7 +102,7 @@ saltos.send_request = data => {
             });
         },
         headers: {
-            'token': saltos.token,
+            'token': saltos.token.get_token(),
         }
     });
 };
@@ -407,7 +407,7 @@ window.onhashchange = event => {
     // Reset the body interface
     saltos.modal('close');
     saltos.offcanvas('close');
-    saltos.loading(1);
+    saltos.loading(true);
     // Do the request
     saltos.send_request(hash);
 };
@@ -505,7 +505,7 @@ saltos.__source_helper = field => {
                 });
             },
             headers: {
-                'token': saltos.token,
+                'token': saltos.token.get_token(),
             }
         });
     }
@@ -539,7 +539,60 @@ saltos.get_data = full => {
 };
 
 /**
- * Authenticate function
+ * Token helper object
+ *
+ * This object stores all token functions to get and set data using the localStorage
+ */
+saltos.token = {};
+
+/**
+ * Get token function
+ *
+ * This function returns the token stored in the localStorage
+ */
+saltos.token.get_token = () => {
+    return localStorage.getItem('saltos.token');
+};
+
+/**
+ * Get expires function
+ *
+ * This function returns the expires stored in the localStorage
+ */
+saltos.token.get_expires = () => {
+    return localStorage.getItem('saltos.expires');
+};
+
+/**
+ * Set token and expires
+ *
+ * This function store the token and expires in the localStorage
+ */
+saltos.token.set = (token, expires) => {
+    localStorage.setItem('saltos.token', token);
+    localStorage.setItem('saltos.expires', expires);
+};
+
+/**
+ * Unset token and expires
+ *
+ * This function removes the token and expires in the localStorage
+ */
+saltos.token.unset = () => {
+    localStorage.removeItem('saltos.token');
+    localStorage.removeItem('saltos.expires');
+};
+
+/**
+ * Authentication helper object
+ *
+ * This object stores all authentication functions to get access, renew tokens to maintain
+ * the access and the deauthtoken to close the access
+ */
+saltos.authenticate = {};
+
+/**
+ * Authenticate token function
  *
  * This function uses the authtoken action to try to authenticate an user with the user/pass
  * credentials passed by argument.
@@ -547,7 +600,7 @@ saltos.get_data = full => {
  * @user => username used to the authentication process
  * @pass => password used to the authentication process
  */
-saltos.authenticate = (user, pass) => {
+saltos.authenticate.authtoken = (user, pass) => {
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
@@ -562,14 +615,12 @@ saltos.authenticate = (user, pass) => {
             if (!saltos.check_response(response)) {
                 return;
             }
-            if (response.status == 'ok' && response.token) {
-                localStorage.setItem('token', response.token);
-                saltos.token = response.token;
+            if (response.status == 'ok') {
+                saltos.token.set(response.token, response.expires_at);
                 return;
             }
             if (response.status == 'ko') {
-                localStorage.removeItem('token');
-                saltos.token = null;
+                saltos.token.unset();
                 return;
             }
             saltos.show_error(response);
@@ -579,6 +630,128 @@ saltos.authenticate = (user, pass) => {
                 text: request.statusText,
                 code: request.status,
             });
+        }
+    });
+};
+
+/**
+ * Re-authenticate token function
+ *
+ * This function uses the reauthtoken action to try to re-authenticate an user with the token
+ * credentials.
+ */
+saltos.authenticate.reauthtoken = () => {
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'action': 'reauthtoken',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        async: false,
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                saltos.token.set(response.token, response.expires_at);
+                return;
+            }
+            if (response.status == 'ko') {
+                saltos.token.unset();
+                return;
+            }
+            saltos.show_error(response);
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
+};
+
+/**
+ * De-authenticate token function
+ *
+ * This function uses the deauthtoken action to try to de-authenticate an user with the token
+ * credentials.
+ */
+saltos.authenticate.deauthtoken = () => {
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'action': 'deauthtoken',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        async: false,
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                saltos.token.unset();
+                return;
+            }
+            if (response.status == 'ko') {
+                saltos.token.unset();
+                return;
+            }
+            saltos.show_error(response);
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
+};
+
+/**
+ * Check token function
+ *
+ * This function uses the checktoken action to check the validity of the current token.
+ */
+saltos.authenticate.checktoken = () => {
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'action': 'checktoken',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        async: false,
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok' && response.token) {
+                saltos.token.set(response.token, response.expires_at);
+                return;
+            }
+            if (response.status == 'ko') {
+                saltos.token.unset();
+                return;
+            }
+            saltos.show_error(response);
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
         }
     });
 };
@@ -597,44 +770,10 @@ saltos.authenticate = (user, pass) => {
     set_data_bs_theme(window_match_media);
     window_match_media.addEventListener('change', set_data_bs_theme);
     // Token part
-    saltos.token = localStorage.getItem('token');
-    if (saltos.token !== null) {
-        var ajax = saltos.ajax({
-            url: 'index.php',
-            data: JSON.stringify({'action': 'checktoken'}),
-            method: 'post',
-            content_type: 'application/json',
-            async: false,
-            success: response => {
-                if (!saltos.check_response(response)) {
-                    return;
-                }
-                if (response.status == 'ok' && response.token) {
-                    localStorage.setItem('token', response.token);
-                    saltos.token = response.token;
-                    return;
-                }
-                if (response.status == 'ko') {
-                    localStorage.removeItem('token');
-                    saltos.token = null;
-                    return;
-                }
-                saltos.show_error(response);
-            },
-            error: request => {
-                localStorage.removeItem('token');
-                saltos.token = null;
-                saltos.show_error({
-                    text: request.statusText,
-                    code: request.status,
-                });
-            },
-            headers: {
-                'token': saltos.token,
-            }
-        });
+    if (saltos.token.get_token() !== null) {
+        saltos.authenticate.checktoken();
     }
-    if (saltos.token === null) {
+    if (saltos.token.get_token() === null) {
         history.replaceState(null, null, '.#app/login');
     }
     // Init part

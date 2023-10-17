@@ -29,7 +29,7 @@
     <!-- List part -->
     <list>
         <javascript>
-            <inline>saltos.loading(0)</inline>
+            <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-auto">
@@ -100,7 +100,7 @@
     <data global="_DATA" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($_DATA["rest"][3]))</data>
     <create>
         <javascript>
-            <inline>saltos.loading(0)</inline>
+            <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
@@ -115,7 +115,7 @@
     </create>
     <view>
         <javascript>
-            <inline>saltos.loading(0)</inline>
+            <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
@@ -133,7 +133,7 @@
     </view>
     <edit>
         <javascript>
-            <inline>saltos.loading(0)</inline>
+            <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>
@@ -149,7 +149,7 @@
     </edit>
     <delete>
         <javascript>
-            <inline>saltos.loading(0)</inline>
+            <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout eval="true">xmlfile2array("apps/clientes/app.xml")["layout"]</layout>

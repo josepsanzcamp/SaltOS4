@@ -28,7 +28,7 @@
 <root>
     <list>
         <javascript>
-            <inline>saltos.loading(0)</inline>
+            <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">

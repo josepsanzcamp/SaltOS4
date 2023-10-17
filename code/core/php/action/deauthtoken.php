@@ -41,7 +41,9 @@ crontab_users();
 
 $token_id = current_token();
 if (!$token_id) {
-    show_json_error("deauthentication error");
+    output_handler_json([
+        "status" => "ko",
+    ]);
 }
 
 $query = make_update_query("tbl_users_tokens", [

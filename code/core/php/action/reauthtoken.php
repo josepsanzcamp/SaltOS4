@@ -42,7 +42,9 @@ crontab_users();
 
 $token_id = current_token();
 if (!$token_id) {
-    show_json_error("reauthentication error");
+    output_handler_json([
+        "status" => "ko",
+    ]);
 }
 
 $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
@@ -50,7 +52,9 @@ $row = execute_query($query);
 
 $renewals = get_config("auth/tokenrenewals");
 if ($row["renewal_count"] >= $renewals) {
-    show_json_error("reauthentication error");
+    output_handler_json([
+        "status" => "ko",
+    ]);
 }
 
 $query = make_update_query("tbl_users_tokens", [

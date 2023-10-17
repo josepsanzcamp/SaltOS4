@@ -28,7 +28,7 @@
 <root>
     <menu>
         <javascript>
-            <inline>saltos.loading(0)</inline>
+            <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout>
