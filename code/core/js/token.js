@@ -63,6 +63,9 @@ saltos.token.get_expires = () => {
  * Set token and expires
  *
  * This function store the token and expires in the localStorage
+ *
+ * @token   => the token that you want to store in the localStorage
+ * @expires => the expires of the token that you want to store in the localStorage
  */
 saltos.token.set = (token, expires) => {
     localStorage.setItem('saltos.token', token);
@@ -251,3 +254,21 @@ saltos.authenticate.checktoken = () => {
         }
     });
 };
+
+/**
+ * Re-authenticate timer
+ *
+ * This timer is intended to check the expiration of the token and to execute the renew action
+ * if needed to prevent the lost of the access.
+ */
+setInterval(() => {
+    if (saltos.token.get_expires() === null) {
+        return;
+    }
+    var t1 = new Date(saltos.token.get_expires()).getTime();
+    var t2 = new Date().getTime();
+    var t3 = t1 - t2;
+    if (t3 < 60000) {
+        saltos.authenticate.reauthtoken();
+    }
+}, 60000);
