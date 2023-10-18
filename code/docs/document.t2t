@@ -1,5 +1,5 @@
 Code documentation
-SaltOS 4.0 r407
+SaltOS 4.0 r421
 October 2023
 
 
@@ -82,16 +82,17 @@ and the order of the elements are:
 core/php/action/authtoken.php
 ```
 
-This file implements the login action, allowing to authenticate users
-using the pair of login/password to validate the credentials and get
-a valid token to operate in SaltOS
+This file implements the login action, allowing to authenticate users using the pair
+of login/password to validate the credentials and get a valid token to operate in SaltOS
 
 - @user => username used in the authentication process
 - @pass => password used in the authentication process
 
 
 This action not requires a valid token, all valid tokens associated
-to the user will be revoked when a new token is assigned
+to the user will be revoked when a new token is assigned, as the result of this action
+is a flag that indicates the validity of the token, this action returns a json with the
+status of te token instead of returns a json with an error in case of non validity
 
 
 ++Authentication update action++
@@ -160,6 +161,21 @@ a json image
 - @period    => parameter for the wave transformation
 - @amplitude => parameter for the wave transformation
 - @blur      => true or false to enable or disable the blur effect
+
+
+++Check token action++
+
+```
+core/php/action/checktoken.php
+```
+
+This file implements the check action, allowing to check token's validity, the check
+action only can be performed by the same actor that execute the login action
+
+The unique requirement to execute this action is to have a token to be checked, as the
+result of this action is a flag that indicates the validity of the token, this action
+returns a json with the status of te token instead of returns a json with an error in
+case of non validity
 
 
 ++Deauthentication token action++
@@ -5037,6 +5053,16 @@ saltos.show_error = error
 This function allow to show a modal dialog with de details of an error
 
 
++++Check response helper+++
+
+```
+saltos.check_response = response
+```
+
+This function is intended to process the response received by saltos.ajax and returns
+if an error is detected in the response.
+
+
 +++Send request helper+++
 
 ```
@@ -5093,8 +5119,32 @@ and all form_field defined in the bootstrap file, too have 2 modes of work:
 
 1) normal mode => requires that the user specify all layout, container, row, col and fields.
 
-2) auto mode => only requires set auto="true" to the layout node, and with this, all childrens
+2) auto mode => only requires set auto='true' to the layout node, and with this, all childrens
 of the node are created inside a container, a row, and each field inside a col.
+
+Notes:
+
+This function add the fields to the saltos.__form_app.fields, this allow to the saltos.get_data
+can retrieve the desired information of the fields.
+
+
++++Form layout auto helper+++
+
+```
+saltos.form_app.__layout_auto_helper = layout
+```
+
+This function implements the auto feature used by the layout function, allow to specify the
+follow arguments:
+
+- @auto            => this boolean allow to enable or not this feature
+- @cols_per_row    => specify the number of cols inside of each row
+- @container_class => defines the class used by the container element
+- @row_class       => defines the class used by the row element
+- @col_class       => defines the class used by the col element
+- @container_style => defines the style used by the container element
+- @row_style       => defines the style used by the row element
+- @col_style       => defines the style used by the col element
 
 
 +++Form style helper+++
@@ -5121,15 +5171,6 @@ what kind of usage do you want to do.
 
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.require
-
-
-+++Hash change management+++
-
-```
-window.onhashchange = event
-```
-
-This function allow to SaltOS to update the contents when hash change
 
 
 +++Loading helper+++
@@ -5180,6 +5221,20 @@ with all contents of the widget in the value entry and another entry used for th
 contains the id used to select the widget in the app.php, is this case, the unique data that we want
 to use here is the contents of the value, and for this reason, the response is filtered to use only
 the value key in the case of existence of the #attr and value keys
+
+
++++Get data+++
+
+```
+saltos.get_data = full
+```
+
+This function retrieves the data of the fields in the current layout. to do this it uses
+the saltos.__form_app.fields that contains the list of all used fields in the layout, this
+function can retrieve all fields or only the fields that contains differences between the
+original data and the current data.
+
+- @full => boolean to indicate if you want the entire form or only the differences
 
 
 +++Main code+++
@@ -5759,7 +5814,7 @@ previous field of this to a pair of login/password fields and autocomplete they 
 default values, to fix it, I'm using two tricks:
 
 1) add the input of type=text with the display: none to fix the bug in firefox
-2) add the autocomplete="new-password" to fix the problem in chrome browsers
+2) add the autocomplete='new-password' to fix the problem in chrome browsers
 
 I'm using previousElementSibling instead of previousSibling because between the input and the
 button, exists a new line that is identified as another previousSibling, but not as an element
@@ -6404,7 +6459,7 @@ and if some param is not found, then define it using the default value passed:
 saltos.uniqid = ()
 ```
 
-This function generates an unique id formed by the word "id" and a number that can take
+This function generates an unique id formed by the word 'id' and a number that can take
 values between 0 and 999999, useful when some widget requires an id and the user don't
 provide it to the widget constructor
 
@@ -6559,6 +6614,172 @@ case, they uses a different technique, for css the load is asynchronous and for 
 the load will be synchronous.
 
 
+++Hash helper module++
+
+```
+core/js/hash.js
+```
+
+This file contains all code needed to manage the hash feature, includes the code to process
+the onhashchange and too, includes the code to get and set the hash value.
+
+
++++Hash change management+++
+
+```
+window.onhashchange = event
+```
+
+This function allow to SaltOS to update the contents when hash change
+
+
++++Hash helper object+++
+
+```
+saltos.hash = {};
+```
+
+This object stores all hash functions to get, set and trigger a change
+
+
++++Get hash+++
+
+```
+saltos.hash.get = ()
+```
+
+Function intended to return the current hash without the pillow
+
+
++++Set hash+++
+
+```
+saltos.hash.set = hash
+```
+
+Function intended to set the hash in the current url, adds the pilow if it is not found
+in the hash argument
+
+- @hash => this must contain the hash with or without the pillow
+
+
++++Change trigger+++
+
+```
+saltos.hash.change = ()
+```
+
+This function triggers the hashchange event to execute the onhashchange
+
+
+++Token helper module++
+
+```
+core/js/token.js
+```
+
+This file includes all code to manage tokens and to do authentications with all features suck
+as the main authentication using a user and password pair, the reauthtoken, the deauthtoken and
+the checktoken to control it.
+
+
++++Token helper object+++
+
+```
+saltos.token = {};
+```
+
+This object stores all token functions to get and set data using the localStorage
+
+
++++Get token function+++
+
+```
+saltos.token.get_token = ()
+```
+
+This function returns the token stored in the localStorage
+
+
++++Get expires function+++
+
+```
+saltos.token.get_expires = ()
+```
+
+This function returns the expires stored in the localStorage
+
+
++++Set token and expires+++
+
+```
+saltos.token.set = (token, expires)
+```
+
+This function store the token and expires in the localStorage
+
+
++++Unset token and expires+++
+
+```
+saltos.token.unset = ()
+```
+
+This function removes the token and expires in the localStorage
+
+
++++Authentication helper object+++
+
+```
+saltos.authenticate = {};
+```
+
+This object stores all authentication functions to get access, renew tokens to maintain
+the access and the deauthtoken to close the access
+
+
++++Authenticate token function+++
+
+```
+saltos.authenticate.authtoken = (user, pass)
+```
+
+This function uses the authtoken action to try to authenticate an user with the user/pass
+credentials passed by argument.
+
+- @user => username used to the authentication process
+- @pass => password used to the authentication process
+
+
++++Re-authenticate token function+++
+
+```
+saltos.authenticate.reauthtoken = ()
+```
+
+This function uses the reauthtoken action to try to re-authenticate an user with the token
+credentials.
+
+
++++De-authenticate token function+++
+
+```
+saltos.authenticate.deauthtoken = ()
+```
+
+This function uses the deauthtoken action to try to de-authenticate an user with the token
+credentials.
+
+
++++Check token function+++
+
+```
+saltos.authenticate.checktoken = ()
+```
+
+This function uses the checktoken action to check the validity of the current token.
+
+
 +Apps => Clientes+
 
 ++Customers application++
@@ -6698,6 +6919,54 @@ saltos.correo.send_and_get = ()
 TODO
 
 
++Apps => Login+
+
+++Login application++
+
+```
+apps/login/app.js
+```
+
+This application implements the tipical features associated to login
+
+
++++Main object+++
+
+```
+saltos.login = {};
+```
+
+This object contains all SaltOS code
+
+
++++Authenticate login function+++
+
+```
+saltos.login.authenticate = ()
+```
+
+This function tries to authenticate the user using the user and pass fields of the form, to do
+it uses the authenticate function that send data to the authtoken action
+
+
++++Initialize login+++
+
+```
+saltos.login.initialize = ()
+```
+
+This function initializes the login screen to improve the user experience.
+
+
++++Access denied+++
+
+```
+saltos.login.access_denied = ()
+```
+
+This function displays a modal dialog with the tipical access denied message
+
+
 +Apps => Tester+
 
 ++Tester application++
@@ -6712,7 +6981,7 @@ This application implements the tipical features associated to tester
 +++Main code+++
 
 ```
-(function () {
+(function() {
 ```
 
 This function executes the main code that allow to you to see the tester in action
