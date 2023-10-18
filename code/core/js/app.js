@@ -536,6 +536,9 @@ saltos.get_data = full => {
     if (saltos.token.get_token() === null) {
         saltos.hash.set('app/login');
     }
+    // Renew token part
+    saltos.authenticate.checkrenew();
+    setInterval(saltos.authenticate.checkrenew, 60000);
     // Init part
     if (saltos.hash.get() == '') {
         saltos.hash.set('app/menu');

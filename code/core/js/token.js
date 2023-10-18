@@ -256,19 +256,19 @@ saltos.authenticate.checktoken = () => {
 };
 
 /**
- * Re-authenticate timer
+ * Re-authenticate helper function
  *
- * This timer is intended to check the expiration of the token and to execute the renew action
- * if needed to prevent the lost of the access.
+ * This function checks the reminder of the token's expires and if is needed, execute the renew
+ * token action.
  */
-setInterval(() => {
+saltos.authenticate.checkrenew = () => {
     if (saltos.token.get_expires() === null) {
         return;
     }
     var t1 = new Date(saltos.token.get_expires()).getTime();
     var t2 = new Date().getTime();
     var t3 = t1 - t2;
-    if (t3 < 60000) {
+    if (t3 < 90000) {
         saltos.authenticate.reauthtoken();
     }
-}, 60000);
+};
