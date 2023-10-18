@@ -533,14 +533,16 @@ saltos.get_data = full => {
     if (saltos.token.get_token() !== null) {
         saltos.authenticate.checktoken();
     }
-    if (saltos.token.get_token() === null) {
-        saltos.hash.set('app/login');
-    }
     // Renew token part
     saltos.authenticate.checkrenew();
     setInterval(saltos.authenticate.checkrenew, 60000);
-    // Init part
+    // Hash part
     if (saltos.hash.get() == '') {
+        saltos.hash.set('app/menu');
+    }
+    if (saltos.token.get_token() === null) {
+        saltos.hash.set('app/login');
+    } else if (saltos.hash.get() == 'app/login') {
         saltos.hash.set('app/menu');
     }
     saltos.hash.change();
