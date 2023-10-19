@@ -528,7 +528,7 @@ saltos.get_data = full => {
         if (obj !== null) {
             if (types.includes(obj.type)) {
                 var val = obj.value;
-                if (field.value != val || full) {
+                if (field.value.toString() != val || full) {
                     saltos.__form_app.data[field.id] = val;
                 }
             }
