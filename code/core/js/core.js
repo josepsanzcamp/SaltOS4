@@ -334,6 +334,15 @@ saltos.open_window = url => {
 };
 
 /**
+ * Close window
+ *
+ * This function is intended to close the current window
+ */
+saltos.close_window = () => {
+    window.close();
+};
+
+/**
  * Copy object
  *
  * This function is intended to do copies of objects using as intermediate a json file

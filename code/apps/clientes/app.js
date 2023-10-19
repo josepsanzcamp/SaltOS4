@@ -75,8 +75,7 @@ saltos.clientes.read_more = () => {
  * TODO
  */
 saltos.clientes.cancel = () => {
-    // Using REST
-    console.log('saltos.clientes.cancel');
+    saltos.close_window();
 };
 
 /**
@@ -85,8 +84,40 @@ saltos.clientes.cancel = () => {
  * TODO
  */
 saltos.clientes.insert = () => {
-    // Using REST
-    console.log('saltos.clientes.insert');
+    var data = saltos.get_data();
+    if (!Object.keys(data).length) {
+        saltos.alert('Warning', 'No changes detected');
+        return;
+    }
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'app': saltos.hash.get().split('/').at(1),
+            'data': data,
+            'action': 'insert',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                saltos.close_window();
+                return;
+            }
+            saltos.show_error(response);
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
 };
 
 /**
@@ -95,8 +126,41 @@ saltos.clientes.insert = () => {
  * TODO
  */
 saltos.clientes.update = () => {
-    // Using REST
-    console.log('saltos.clientes.update');
+    var data = saltos.get_data();
+    if (!Object.keys(data).length) {
+        saltos.alert('Warning', 'No changes detected');
+        return;
+    }
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'app': saltos.hash.get().split('/').at(1),
+            'id': saltos.hash.get().split('/').at(3),
+            'data': data,
+            'action': 'update',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                saltos.close_window();
+                return;
+            }
+            saltos.show_error(response);
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
 };
 
 /**
@@ -105,6 +169,33 @@ saltos.clientes.update = () => {
  * TODO
  */
 saltos.clientes.delete = () => {
-    // Using REST
-    console.log('saltos.clientes.delete');
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'app': saltos.hash.get().split('/').at(1),
+            'id': saltos.hash.get().split('/').at(3),
+            'action': 'delete',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                saltos.close_window();
+                return;
+            }
+            saltos.show_error(response);
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
 };

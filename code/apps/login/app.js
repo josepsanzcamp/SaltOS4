@@ -87,21 +87,5 @@ saltos.login.initialize = () => {
  * This function displays a modal dialog with the tipical access denied message
  */
 saltos.login.access_denied = () => {
-    saltos.modal({
-        title: 'Access denied',
-        close: 'Close',
-        body: 'Incorrect user or password, try again',
-        footer: (() => {
-            var obj = saltos.html('<div></div>');
-            obj.append(saltos.form_field({
-                type: 'button',
-                value: 'Close',
-                class: 'btn-primary',
-                onclick: () => {
-                    saltos.modal('close');
-                }
-            }));
-            return obj;
-        })()
-    });
+    saltos.alert('Access denied', 'Incorrect user or password, try again');
 };

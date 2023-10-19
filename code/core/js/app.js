@@ -29,8 +29,8 @@
 /**
  * Application helper module
  *
- * This fie contains useful functions related to the main application, at the end of this file you can
- * see the main code that launch the application to be executed from the browser
+ * This fie contains useful functions related to the main application, at the end of this file you
+ * can see the main code that launch the application to be executed from the browser
  */
 
 /**
@@ -44,10 +44,21 @@ saltos.show_error = error => {
         document.body.append(saltos.html(`<pre class='m-3'>${error}</pre>`));
         return;
     }
+    saltos.aleft('Error ' + error.code, error.text);
+};
+
+/**
+ * Alert function
+ *
+ * This function tries to implement an alert box, the main difference between the tipical alert
+ * is that this alert allow to you to specify the title and a more complex message, but it only
+ * shows one button to close it.
+ */
+saltos.alert = (title, message) => {
     saltos.modal({
-        title: 'Error ' + error.code,
+        title: title,
         close: 'Close',
-        body: error.text,
+        body: message,
         footer: (() => {
             var obj = saltos.html('<div></div>');
             obj.append(saltos.form_field({
@@ -145,18 +156,26 @@ saltos.__form_app = {
 /**
  * Form data helper
  *
- * This function sets the values of the request to the objects placed in the document
+ * This function sets the values of the request to the objects placed in the document, too as bonus
+ * extra, it tries to search the field spec in the array to update the value of the field spec to
+ * allow that the get_data can differ between the original data and the modified data.
  */
 saltos.form_app.data = data => {
     for (var key in data) {
         var val = data[key];
+        // This updates the object
         var obj = document.getElementById(key);
         if (obj !== null) {
+            obj.value = val;
+            // Special case for checkboxes
             if (obj.type == 'checkbox') {
                 obj.checked = val ? true : false;
-            } else {
-                obj.value = val;
             }
+        }
+        // This updates the field spec
+        var obj2 = saltos.__form_app.fields.find(elem => elem.id == key);
+        if (typeof obj2 != 'undefined') {
+            obj2.value = val;
         }
     }
 };
@@ -501,11 +520,13 @@ saltos.__source_helper = field => {
  */
 saltos.get_data = full => {
     saltos.__form_app.data = {};
+    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
+                 'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.__form_app.fields) {
         var field = saltos.__form_app.fields[i];
         var obj = document.getElementById(field.id);
         if (obj !== null) {
-            if (['hidden','text','password','checkbox','textarea'].includes(obj.type)) {
+            if (types.includes(obj.type)) {
                 var val = obj.value;
                 if (field.value != val || full) {
                     saltos.__form_app.data[field.id] = val;

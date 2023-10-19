@@ -103,9 +103,9 @@ saltos.authenticate.authtoken = (user, pass) => {
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
+            'action': 'authtoken',
             'user': user,
             'pass': pass,
-            'action': 'authtoken',
         }),
         method: 'post',
         content_type: 'application/json',
