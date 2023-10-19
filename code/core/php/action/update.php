@@ -53,6 +53,10 @@ $table = app2table($app);
 $query = make_update_query($table, $data, "id = $id");
 db_query($query);
 
+make_index($app, $id);
+make_control($app, $id);
+add_version($app, $id);
+
 output_handler_json([
     "status" => "ok",
 ]);

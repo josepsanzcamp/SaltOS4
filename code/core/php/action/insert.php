@@ -52,6 +52,11 @@ $table = app2table($app);
 $query = make_insert_query($table, $data);
 db_query($query);
 
+$id = execute_query("SELECT MAX(id) FROM $table");
+make_index($app, $id);
+make_control($app, $id);
+add_version($app, $id);
+
 output_handler_json([
     "status" => "ok",
 ]);

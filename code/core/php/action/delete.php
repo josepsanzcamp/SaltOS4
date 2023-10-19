@@ -52,6 +52,10 @@ $table = app2table($app);
 $query = "DELETE FROM $table WHERE id = $id";
 db_query($query);
 
+make_index($app, $id);
+make_control($app, $id);
+add_version($app, $id);
+
 output_handler_json([
     "status" => "ok",
 ]);

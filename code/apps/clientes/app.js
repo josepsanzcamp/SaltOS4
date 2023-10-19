@@ -92,9 +92,9 @@ saltos.clientes.insert = () => {
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
+            'action': 'insert',
             'app': saltos.hash.get().split('/').at(1),
             'data': data,
-            'action': 'insert',
         }),
         method: 'post',
         content_type: 'application/json',
@@ -134,10 +134,10 @@ saltos.clientes.update = () => {
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
+            'action': 'update',
             'app': saltos.hash.get().split('/').at(1),
             'id': saltos.hash.get().split('/').at(3),
             'data': data,
-            'action': 'update',
         }),
         method: 'post',
         content_type: 'application/json',
@@ -172,9 +172,9 @@ saltos.clientes.delete = () => {
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
+            'action': 'delete',
             'app': saltos.hash.get().split('/').at(1),
             'id': saltos.hash.get().split('/').at(3),
-            'action': 'delete',
         }),
         method: 'post',
         content_type: 'application/json',
