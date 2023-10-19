@@ -37,4 +37,4 @@ timestamp0:
 	ls -l ../scripts/timestamp.tmp
 
 docs:
-	php ../scripts/makedocs.php docs/document.t2t core/php core/js apps/*/app.js
+	php ../scripts/makedocs.php ../docs/document.t2t core/php core/js apps/*/app.js

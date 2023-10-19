@@ -6718,6 +6718,9 @@ saltos.token.set = (token, expires)
 
 This function store the token and expires in the localStorage
 
+- @token   => the token that you want to store in the localStorage
+- @expires => the expires of the token that you want to store in the localStorage
+
 
 +++Unset token and expires+++
 
@@ -6778,6 +6781,16 @@ saltos.authenticate.checktoken = ()
 ```
 
 This function uses the checktoken action to check the validity of the current token.
+
+
++++Re-authenticate helper function+++
+
+```
+saltos.authenticate.checkrenew = ()
+```
+
+This function checks the reminder of the token's expires and if is needed, execute the renew
+token action.
 
 
 +Apps => Clientes+

@@ -134,7 +134,7 @@ foreach ($files as $file => $contents) {
 $buffer = ob_get_clean();
 //~ echo $buffer;
 //~ die();
-mkdir($outdir);
+//~ mkdir($outdir);
 chdir($outdir);
 file_put_contents($outfile, $buffer);
 //~ die();

@@ -7278,6 +7278,11 @@ saltos.token.set = (token, expires)
 
 This function store the token and expires in the localStorage
 
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @token   =$>$ the token that you want to store in the localStorage
+\item[\color{myblue}$\bullet$] @expires =$>$ the expires of the token that you want to store in the localStorage
+\end{compactitem}
+
 \hypertarget{toc447}{}
 \subsection{Unset token and expires}
 
@@ -7341,11 +7346,21 @@ saltos.authenticate.checktoken = ()
 
 This function uses the checktoken action to check the validity of the current token.
 
-
 \hypertarget{toc453}{}
-\chapter{Apps =$>$ Clientes}
+\subsection{Re-authenticate helper function}
+
+\begin{lstlisting}
+saltos.authenticate.checkrenew = ()
+\end{lstlisting}
+
+This function checks the reminder of the token's expires and if is needed, execute the renew
+token action.
+
 
 \hypertarget{toc454}{}
+\chapter{Apps =$>$ Clientes}
+
+\hypertarget{toc455}{}
 \section{Customers application}
 
 \begin{lstlisting}
@@ -7354,7 +7369,7 @@ apps/clientes/app.js
 
 This application implements the tipical features associated to customers
 
-\hypertarget{toc455}{}
+\hypertarget{toc456}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7363,7 +7378,7 @@ saltos.clientes = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc456}{}
+\hypertarget{toc457}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7372,7 +7387,7 @@ saltos.clientes.search = ()
 
 TODO
 
-\hypertarget{toc457}{}
+\hypertarget{toc458}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7381,7 +7396,7 @@ saltos.clientes.clear_filter = ()
 
 TODO
 
-\hypertarget{toc458}{}
+\hypertarget{toc459}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7390,7 +7405,7 @@ saltos.clientes.read_more = ()
 
 TODO
 
-\hypertarget{toc459}{}
+\hypertarget{toc460}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7399,7 +7414,7 @@ saltos.clientes.cancel = ()
 
 TODO
 
-\hypertarget{toc460}{}
+\hypertarget{toc461}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7408,7 +7423,7 @@ saltos.clientes.insert = ()
 
 TODO
 
-\hypertarget{toc461}{}
+\hypertarget{toc462}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7417,7 +7432,7 @@ saltos.clientes.update = ()
 
 TODO
 
-\hypertarget{toc462}{}
+\hypertarget{toc463}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7427,10 +7442,10 @@ saltos.clientes.delete = ()
 TODO
 
 
-\hypertarget{toc463}{}
+\hypertarget{toc464}{}
 \chapter{Apps =$>$ Correo}
 
-\hypertarget{toc464}{}
+\hypertarget{toc465}{}
 \section{Email application}
 
 \begin{lstlisting}
@@ -7439,7 +7454,7 @@ apps/correo/app.js
 
 This application implements the tipical features associated to emails
 
-\hypertarget{toc465}{}
+\hypertarget{toc466}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7448,7 +7463,7 @@ saltos.correo = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc466}{}
+\hypertarget{toc467}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7457,7 +7472,7 @@ saltos.correo.search = ()
 
 TODO
 
-\hypertarget{toc467}{}
+\hypertarget{toc468}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7466,7 +7481,7 @@ saltos.correo.clear_filter = ()
 
 TODO
 
-\hypertarget{toc468}{}
+\hypertarget{toc469}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7475,7 +7490,7 @@ saltos.correo.read_more = ()
 
 TODO
 
-\hypertarget{toc469}{}
+\hypertarget{toc470}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7485,10 +7500,10 @@ saltos.correo.send_and_get = ()
 TODO
 
 
-\hypertarget{toc470}{}
+\hypertarget{toc471}{}
 \chapter{Apps =$>$ Login}
 
-\hypertarget{toc471}{}
+\hypertarget{toc472}{}
 \section{Login application}
 
 \begin{lstlisting}
@@ -7497,7 +7512,7 @@ apps/login/app.js
 
 This application implements the tipical features associated to login
 
-\hypertarget{toc472}{}
+\hypertarget{toc473}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7506,7 +7521,7 @@ saltos.login = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc473}{}
+\hypertarget{toc474}{}
 \subsection{Authenticate login function}
 
 \begin{lstlisting}
@@ -7516,7 +7531,7 @@ saltos.login.authenticate = ()
 This function tries to authenticate the user using the user and pass fields of the form, to do
 it uses the authenticate function that send data to the authtoken action
 
-\hypertarget{toc474}{}
+\hypertarget{toc475}{}
 \subsection{Initialize login}
 
 \begin{lstlisting}
@@ -7525,7 +7540,7 @@ saltos.login.initialize = ()
 
 This function initializes the login screen to improve the user experience.
 
-\hypertarget{toc475}{}
+\hypertarget{toc476}{}
 \subsection{Access denied}
 
 \begin{lstlisting}
@@ -7535,10 +7550,10 @@ saltos.login.access_denied = ()
 This function displays a modal dialog with the tipical access denied message
 
 
-\hypertarget{toc476}{}
+\hypertarget{toc477}{}
 \chapter{Apps =$>$ Tester}
 
-\hypertarget{toc477}{}
+\hypertarget{toc478}{}
 \section{Tester application}
 
 \begin{lstlisting}
@@ -7547,7 +7562,7 @@ apps/tester/app.js
 
 This application implements the tipical features associated to tester
 
-\hypertarget{toc478}{}
+\hypertarget{toc479}{}
 \subsection{Main code}
 
 \begin{lstlisting}
