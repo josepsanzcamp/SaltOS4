@@ -41,12 +41,12 @@ if (!$user_id) {
     show_json_error("authentication error");
 }
 
-// Validar permisos de que el user puede hacer el update
-// Validar que la tabla, id y campos existen
-// Hacer el update
-
 $app = get_data("json/app");
 $data = get_data("json/data");
+
+if (!check_user($app, "create")) {
+    show_json_error("permission denied");
+}
 
 $table = app2table($app);
 $query = make_insert_query($table, $data);

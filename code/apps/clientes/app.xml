@@ -78,10 +78,10 @@
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
         <text id="codigo" label="Codigo"/>
         <switch id="activo" label="Activo"/>
-        <text id="nombre" label="Nombre"/>
+        <text id="nombre" label="Nombre" required="true"/>
         <text id="nombre1" label="Nombre1"/>
         <text id="nombre2" label="Nombre2"/>
-        <text id="cif" label="CIF"/>
+        <text id="cif" label="CIF" required="true"/>
         <textarea id="comentarios" label="Comentarios"/>
         <text id="corriente" label="C. corriente"/>
         <text id="contable" label="C. contable"/>
@@ -89,8 +89,8 @@
         <text id="direccion" label="Dirección"/>
         <text id="nombre_pais" label="Pais"/>
         <text id="nombre_provincia" label="Provincia"/>
-        <text id="nombre_poblacion" label="Poblacion"/>
-        <text id="nombre_codpostal" label="Cod. postal"/>
+        <text id="nombre_poblacion" label="Poblacion" required="true"/>
+        <text id="nombre_codpostal" label="Cod. postal" required="true"/>
         <text id="email" label="Email"/>
         <text id="web" label="Web"/>
         <text id="tel_fijo" label="Tel fijo"/>

@@ -84,6 +84,9 @@ saltos.clientes.cancel = () => {
  * TODO
  */
 saltos.clientes.insert = () => {
+    if (!saltos.check_form()) {
+        return;
+    }
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');
@@ -126,6 +129,9 @@ saltos.clientes.insert = () => {
  * TODO
  */
 saltos.clientes.update = () => {
+    if (!saltos.check_form()) {
+        return;
+    }
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');

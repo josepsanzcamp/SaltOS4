@@ -41,15 +41,22 @@ if (!$user_id) {
     show_json_error("authentication error");
 }
 
-// Validar permisos de que el user puede hacer el update
-// Validar que la tabla, id y campos existen
-// Hacer el update
-
 $app = get_data("json/app");
 $id = intval(get_data("json/id"));
 $data = get_data("json/data");
 
+if (!check_user($app, "edit")) {
+    show_json_error("permission denied");
+}
+
 $table = app2table($app);
+$sql = check_sql($app, "edit");
+$query = "SELECT id FROM $table WHERE id = $id AND $sql";
+$exists = execute_query($query);
+if (!$exists) {
+    show_json_error("permission denied");
+}
+
 $query = make_update_query($table, $data, "id = $id");
 db_query($query);
 

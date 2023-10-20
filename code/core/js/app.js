@@ -44,7 +44,7 @@ saltos.show_error = error => {
         document.body.append(saltos.html(`<pre class='m-3'>${error}</pre>`));
         return;
     }
-    saltos.aleft('Error ' + error.code, error.text);
+    saltos.alert('Error ' + error.code, error.text);
 };
 
 /**
@@ -535,6 +535,35 @@ saltos.get_data = full => {
         }
     }
     return saltos.__form_app.data;
+};
+
+/**
+ * Check form
+ *
+ * This function tries to check if all required fields contain data, if the required field are
+ * right, the is-valid class will be applied to all required elements and true is returned,
+ * otherwise the is-invalid class will be added to the void required elements and false is
+ * returned.
+ */
+saltos.check_form = () => {
+    var obj = null;
+    document.querySelectorAll('[required]').forEach(_this => {
+        _this.classList.remove('is-valid');
+        _this.classList.remove('is-invalid');
+        if (_this.value == '') {
+            _this.classList.add('is-invalid');
+            if (obj === null) {
+                obj = _this;
+            }
+        } else {
+            _this.classList.add('is-valid');
+        }
+    });
+    if (obj !== null) {
+        obj.focus();
+        return false;
+    }
+    return true;
 };
 
 /**

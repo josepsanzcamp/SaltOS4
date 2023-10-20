@@ -46,6 +46,9 @@ saltos.login = {};
  * it uses the authenticate function that send data to the authtoken action
  */
 saltos.login.authenticate = () => {
+    if (!saltos.check_form()) {
+        return;
+    }
     var data = saltos.get_data(true);
     if (data.user == '' || data.pass == '') {
         saltos.login.access_denied();
