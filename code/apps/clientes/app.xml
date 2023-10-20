@@ -128,6 +128,7 @@
             <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Volver" tooltip="Para volver atrás"/>
         </layout>
         <javascript>
+            <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>
     </view>
@@ -160,6 +161,7 @@
             <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente"/>
         </layout>
         <javascript>
+            <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>
     </delete>

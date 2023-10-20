@@ -545,7 +545,7 @@ saltos.get_data = full => {
  * otherwise the is-invalid class will be added to the void required elements and false is
  * returned.
  */
-saltos.check_form = () => {
+saltos.check_required = () => {
     var obj = null;
     document.querySelectorAll('[required]').forEach(_this => {
         _this.classList.remove('is-valid');
@@ -564,6 +564,49 @@ saltos.check_form = () => {
         return false;
     }
     return true;
+};
+
+/**
+ * Form disabled
+ *
+ * This function disables all elements of the form, it is intended to be used when you need
+ * to do screen for view mode.
+ */
+saltos.form_disabled = bool => {
+    saltos.form_helper('disabled', bool);
+};
+
+/**
+ * Form readonly
+ *
+ * This function set all elements of the form as readonly, it is intended to be used when you need
+ * to do screen for view mode.
+ */
+saltos.form_readonly = bool => {
+    saltos.form_helper('readonly', bool);
+};
+
+/**
+ * Form helper
+ *
+ * This function is a helper used by the form_disabled and form_readonly functions
+ */
+saltos.form_helper = (attr, bool) => {
+    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
+                 'textarea', 'checkbox', 'password', 'file', 'select-one'];
+    for (var i in saltos.__form_app.fields) {
+        var field = saltos.__form_app.fields[i];
+        var obj = document.getElementById(field.id);
+        if (obj !== null) {
+            if (types.includes(obj.type)) {
+                if (bool) {
+                    obj.setAttribute(attr, '');
+                } else {
+                    obj.removeAttribute(attr);
+                }
+            }
+        }
+    }
 };
 
 /**
