@@ -28,7 +28,7 @@
 
 
 \title{Code documentation}
-\author{SaltOS 4.0 r421}
+\author{SaltOS 4.0 r427}
 \begin{document}
 \date{October 2023}
 \maketitle
@@ -39,7 +39,7 @@
 
 
 \hypertarget{toc1}{}
-\chapter{Core =$>$ PHP =$>$ Action}
+\chapter{Actions}
 
 \hypertarget{toc2}{}
 \section{Add error action}
@@ -359,13 +359,13 @@ core/php/action/update.php
 \end{lstlisting}
 
 This action allow to update registers in the database associated to
-each app
+each app and requires the app, id, data and a valid token.
 
 TODO
 
 
 \hypertarget{toc19}{}
-\chapter{Core =$>$ PHP =$>$ Autoload}
+\chapter{Autoload}
 
 \hypertarget{toc20}{}
 \section{Apps helper module}
@@ -4710,7 +4710,7 @@ allow some php checks found in the current index.php
 
 
 \hypertarget{toc291}{}
-\chapter{Core =$>$ PHP =$>$ Database}
+\chapter{Database}
 
 \hypertarget{toc292}{}
 \section{SQLite3 functions library}
@@ -5472,7 +5472,7 @@ This function close the database connection and sets the link to null
 
 
 \hypertarget{toc352}{}
-\chapter{Core =$>$ JavaScript}
+\chapter{JavaScript}
 
 \hypertarget{toc353}{}
 \section{Application helper module}
@@ -5481,8 +5481,8 @@ This function close the database connection and sets the link to null
 core/js/app.js
 \end{lstlisting}
 
-This fie contains useful functions related to the main application, at the end of this file you can
-see the main code that launch the application to be executed from the browser
+This fie contains useful functions related to the main application, at the end of this file you
+can see the main code that launch the application to be executed from the browser
 
 \hypertarget{toc354}{}
 \subsection{Show error helper}
@@ -5494,6 +5494,17 @@ saltos.show_error = error
 This function allow to show a modal dialog with de details of an error
 
 \hypertarget{toc355}{}
+\subsection{Alert function}
+
+\begin{lstlisting}
+saltos.alert = (title, message)
+\end{lstlisting}
+
+This function tries to implement an alert box, the main difference between the tipical alert
+is that this alert allow to you to specify the title and a more complex message, but it only
+shows one button to close it.
+
+\hypertarget{toc356}{}
 \subsection{Check response helper}
 
 \begin{lstlisting}
@@ -5503,7 +5514,7 @@ saltos.check_response = response
 This function is intended to process the response received by saltos.ajax and returns
 if an error is detected in the response.
 
-\hypertarget{toc356}{}
+\hypertarget{toc357}{}
 \subsection{Send request helper}
 
 \begin{lstlisting}
@@ -5512,7 +5523,7 @@ saltos.send_request = data
 
 This function allow to send requests to the server and process the response
 
-\hypertarget{toc357}{}
+\hypertarget{toc358}{}
 \subsection{Process response helper}
 
 \begin{lstlisting}
@@ -5521,7 +5532,7 @@ saltos.process_response = response
 
 This function process the responses received by the send request
 
-\hypertarget{toc358}{}
+\hypertarget{toc359}{}
 \subsection{Form constructor helper object}
 
 \begin{lstlisting}
@@ -5530,7 +5541,7 @@ saltos.form_app = {};
 
 This object allow to the constructor to use a rational structure for a quick access of each helper
 
-\hypertarget{toc359}{}
+\hypertarget{toc360}{}
 \subsection{Data helper object}
 
 \begin{lstlisting}
@@ -5539,16 +5550,18 @@ saltos.__form_app = {
 
 This object allow to the app to store the data of the fields map
 
-\hypertarget{toc360}{}
+\hypertarget{toc361}{}
 \subsection{Form data helper}
 
 \begin{lstlisting}
 saltos.form_app.data = data
 \end{lstlisting}
 
-This function sets the values of the request to the objects placed in the document
+This function sets the values of the request to the objects placed in the document, too as bonus
+extra, it tries to search the field spec in the array to update the value of the field spec to
+allow that the get\_data can differ between the original data and the modified data.
 
-\hypertarget{toc361}{}
+\hypertarget{toc362}{}
 \subsection{Form layout helper}
 
 \begin{lstlisting}
@@ -5568,7 +5581,7 @@ Notes:
 This function add the fields to the saltos.\_\_form\_app.fields, this allow to the saltos.get\_data
 can retrieve the desired information of the fields.
 
-\hypertarget{toc362}{}
+\hypertarget{toc363}{}
 \subsection{Form layout auto helper}
 
 \begin{lstlisting}
@@ -5589,7 +5602,7 @@ follow arguments:
 \item[\color{myblue}$\bullet$] @col\_style       =$>$ defines the style used by the col element
 \end{compactitem}
 
-\hypertarget{toc363}{}
+\hypertarget{toc364}{}
 \subsection{Form style helper}
 
 \begin{lstlisting}
@@ -5602,7 +5615,7 @@ what kind of usage do you want to do.
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.require
 
-\hypertarget{toc364}{}
+\hypertarget{toc365}{}
 \subsection{Form javascript helper}
 
 \begin{lstlisting}
@@ -5615,7 +5628,7 @@ what kind of usage do you want to do.
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.require
 
-\hypertarget{toc365}{}
+\hypertarget{toc366}{}
 \subsection{Loading helper}
 
 \begin{lstlisting}
@@ -5629,7 +5642,7 @@ This function adds and removes the spinner to emulate the loading effect screen
 true when can do the action, false otherwise
 \end{compactitem}
 
-\hypertarget{toc366}{}
+\hypertarget{toc367}{}
 \subsection{Clear Screen}
 
 \begin{lstlisting}
@@ -5638,7 +5651,7 @@ saltos.clear_screen = ()
 
 This function remove all contents of the body
 
-\hypertarget{toc367}{}
+\hypertarget{toc368}{}
 \subsection{Source helper}
 
 \begin{lstlisting}
@@ -5668,7 +5681,7 @@ contains the id used to select the widget in the app.php, is this case, the uniq
 to use here is the contents of the value, and for this reason, the response is filtered to use only
 the value key in the case of existence of the \#attr and value keys
 
-\hypertarget{toc368}{}
+\hypertarget{toc369}{}
 \subsection{Get data}
 
 \begin{lstlisting}
@@ -5684,12 +5697,12 @@ original data and the current data.
 \item[\color{myblue}$\bullet$] @full =$>$ boolean to indicate if you want the entire form or only the differences
 \end{compactitem}
 
-\hypertarget{toc369}{}
+\hypertarget{toc370}{}
 \subsection{Main code}
 
 This is the code that must to be executed to initialize all requirements of this module
 
-\hypertarget{toc370}{}
+\hypertarget{toc371}{}
 \section{Bootstrap helper module}
 
 \begin{lstlisting}
@@ -5699,7 +5712,7 @@ core/js/bootstrap.js
 This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
 other plugins suck as plots or rich editors
 
-\hypertarget{toc371}{}
+\hypertarget{toc372}{}
 \subsection{Form fields constructor}
 
 \begin{lstlisting}
@@ -5754,7 +5767,7 @@ The saltos.\_\_form\_field object is part of this constructor and act with the c
 as a helper, the idea is that the user must to call the constructor and the helpers are
 only for internal use.
 
-\hypertarget{toc372}{}
+\hypertarget{toc373}{}
 \subsection{Form\_field constructor helper object}
 
 \begin{lstlisting}
@@ -5763,7 +5776,7 @@ saltos.__form_field = {};
 
 This object allow to the constructor to use a rational structure for a quick access of each helper
 
-\hypertarget{toc373}{}
+\hypertarget{toc374}{}
 \subsection{Div constructor helper}
 
 \begin{lstlisting}
@@ -5779,7 +5792,7 @@ argument in the field object to specify what kind of class do you want to use.
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc374}{}
+\hypertarget{toc375}{}
 \subsection{Container constructor helper}
 
 \begin{lstlisting}
@@ -5795,7 +5808,7 @@ argument in the field object to specify what kind of container do you want to do
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc375}{}
+\hypertarget{toc376}{}
 \subsection{Row constructor helper}
 
 \begin{lstlisting}
@@ -5811,7 +5824,7 @@ in the field object to specify what kind of row do you want to do.
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc376}{}
+\hypertarget{toc377}{}
 \subsection{Col constructor helper}
 
 \begin{lstlisting}
@@ -5827,7 +5840,7 @@ in the field object to specify what kind of col do you want to do.
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc377}{}
+\hypertarget{toc378}{}
 \subsection{Text constructor helper}
 
 \begin{lstlisting}
@@ -5851,7 +5864,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @datalist    =$>$ array with options for the datalist, used as autocomplete for the text input
 \end{compactitem}
 
-\hypertarget{toc378}{}
+\hypertarget{toc379}{}
 \subsection{Hidden constructor helper}
 
 \begin{lstlisting}
@@ -5879,7 +5892,7 @@ This function allow the previous parameters but for hidden inputs, only id
 and value are usually used, in some cases can be interesting to use the
 class to identify a group of hidden input
 
-\hypertarget{toc379}{}
+\hypertarget{toc380}{}
 \subsection{Integer constructor helper}
 
 \begin{lstlisting}
@@ -5911,7 +5924,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/imaskjs/imask.min.js
 \end{compactitem}
 
-\hypertarget{toc380}{}
+\hypertarget{toc381}{}
 \subsection{Float constructor helper}
 
 \begin{lstlisting}
@@ -5943,7 +5956,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/imaskjs/imask.min.js
 \end{compactitem}
 
-\hypertarget{toc381}{}
+\hypertarget{toc382}{}
 \subsection{Color constructor helper}
 
 \begin{lstlisting}
@@ -5971,7 +5984,7 @@ Notes:
 Ths color input launch a warning if value is not in the format \#rrggbb,
 for this reason it is set to \#000000 if value is void
 
-\hypertarget{toc382}{}
+\hypertarget{toc383}{}
 \subsection{Date constructor helper}
 
 \begin{lstlisting}
@@ -5994,7 +6007,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc383}{}
+\hypertarget{toc384}{}
 \subsection{Time constructor helper}
 
 \begin{lstlisting}
@@ -6017,7 +6030,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc384}{}
+\hypertarget{toc385}{}
 \subsection{Datetime constructor helper}
 
 \begin{lstlisting}
@@ -6040,7 +6053,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc385}{}
+\hypertarget{toc386}{}
 \subsection{Textarea constructor helper}
 
 \begin{lstlisting}
@@ -6071,7 +6084,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/autoheight/autoheight.min.js
 \end{compactitem}
 
-\hypertarget{toc386}{}
+\hypertarget{toc387}{}
 \subsection{Ckeditor constructor helper}
 
 \begin{lstlisting}
@@ -6102,7 +6115,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/ckeditor/ckeditor.min.js
 \end{compactitem}
 
-\hypertarget{toc387}{}
+\hypertarget{toc388}{}
 \subsection{Codemirror constructor helper}
 
 \begin{lstlisting}
@@ -6135,7 +6148,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/codemirror/codemirror.min.js
 \end{compactitem}
 
-\hypertarget{toc388}{}
+\hypertarget{toc389}{}
 \subsection{Iframe constructor helper}
 
 \begin{lstlisting}
@@ -6152,7 +6165,7 @@ This function returns an iframe object, you can pass the follow arguments:
 \item[\color{myblue}$\bullet$] @label  =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc389}{}
+\hypertarget{toc390}{}
 \subsection{Select constructor helper}
 
 \begin{lstlisting}
@@ -6175,7 +6188,7 @@ This function returns a select object, you can pass the follow arguments:
 \item[\color{myblue}$\bullet$] @label    =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc390}{}
+\hypertarget{toc391}{}
 \subsection{Multiselect constructor helper}
 
 \begin{lstlisting}
@@ -6203,7 +6216,7 @@ using the hidden input that is builded using the original id passed by argument.
 
 TODO: detected a bug with this widget in chrome in mobile browsers
 
-\hypertarget{toc391}{}
+\hypertarget{toc392}{}
 \subsection{Checkbox constructor helper}
 
 \begin{lstlisting}
@@ -6227,7 +6240,7 @@ Notes:
 
 This widget returns their value by setting a zero or one (0/1) value on the value of the input.
 
-\hypertarget{toc392}{}
+\hypertarget{toc393}{}
 \subsection{Switch constructor helper}
 
 \begin{lstlisting}
@@ -6251,7 +6264,7 @@ Notes:
 
 This widget uses the checkbox constructor
 
-\hypertarget{toc393}{}
+\hypertarget{toc394}{}
 \subsection{Button constructor helper}
 
 \begin{lstlisting}
@@ -6273,7 +6286,7 @@ Notes:
 
 You can add an icon before the text by addind the bi-icon class to the class argument
 
-\hypertarget{toc394}{}
+\hypertarget{toc395}{}
 \subsection{Password constructor helper}
 
 \begin{lstlisting}
@@ -6310,7 +6323,7 @@ default values, to fix it, I'm using two tricks:
 I'm using previousElementSibling instead of previousSibling because between the input and the
 button, exists a new line that is identified as another previousSibling, but not as an element
 
-\hypertarget{toc395}{}
+\hypertarget{toc396}{}
 \subsection{File constructor helper}
 
 \begin{lstlisting}
@@ -6342,7 +6355,7 @@ The difference between this control and the older controls is that they send the
 the server and store the information related to the file on the server to be processed after
 the real upload action.
 
-\hypertarget{toc396}{}
+\hypertarget{toc397}{}
 \subsection{Link constructor helper}
 
 \begin{lstlisting}
@@ -6365,7 +6378,7 @@ Notes:
 This object is not a real link, it's a button that uses the btn-link class to get the link
 appearance
 
-\hypertarget{toc397}{}
+\hypertarget{toc398}{}
 \subsection{Label constructor helper}
 
 \begin{lstlisting}
@@ -6382,7 +6395,7 @@ This function returns a label object, you can pass some arguments as:
 \item[\color{myblue}$\bullet$] @value   =$>$ this parameter is used as label when label is void
 \end{compactitem}
 
-\hypertarget{toc398}{}
+\hypertarget{toc399}{}
 \subsection{Image constructor helper}
 
 \begin{lstlisting}
@@ -6400,7 +6413,7 @@ This function returns an image object, you can pass some arguments as:
 \item[\color{myblue}$\bullet$] @label   =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc399}{}
+\hypertarget{toc400}{}
 \subsection{Excel constructor helper}
 
 \begin{lstlisting}
@@ -6441,7 +6454,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/handsontable/handsontable.full.min.js
 \end{compactitem}
 
-\hypertarget{toc400}{}
+\hypertarget{toc401}{}
 \subsection{Pdfjs constructor helper}
 
 \begin{lstlisting}
@@ -6468,7 +6481,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/pdfjs/pdf\_viewer.min.js
 \end{compactitem}
 
-\hypertarget{toc401}{}
+\hypertarget{toc402}{}
 \subsection{Table constructor helper}
 
 \begin{lstlisting}
@@ -6505,7 +6518,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/locutos/locutus.min.js
 \end{compactitem}
 
-\hypertarget{toc402}{}
+\hypertarget{toc403}{}
 \subsection{Alert constructor helper}
 
 \begin{lstlisting}
@@ -6531,7 +6544,7 @@ I have added the dismissible option using the close attribute, too I have added 
 for the style to allow the content to use the original size of the alert, in a future, I don't
 know if I maintain this or I remove it, but at the moment, this is added by default
 
-\hypertarget{toc403}{}
+\hypertarget{toc404}{}
 \subsection{Card constructor helper}
 
 \begin{lstlisting}
@@ -6553,7 +6566,7 @@ This functions creates a card with a lot of options:
 \item[\color{myblue}$\bullet$] @label  =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc404}{}
+\hypertarget{toc405}{}
 \subsection{Chart.js constructor helper}
 
 \begin{lstlisting}
@@ -6580,7 +6593,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/chartjs/chart.umd.min.js
 \end{compactitem}
 
-\hypertarget{toc405}{}
+\hypertarget{toc406}{}
 \subsection{Tags constructor helper}
 
 \begin{lstlisting}
@@ -6609,7 +6622,7 @@ Notes:
 This object creates a hidden input, a text input with/without a datalist, and a badge for
 each value, and requires the arguments of the specific widgets used in this widget
 
-\hypertarget{toc406}{}
+\hypertarget{toc407}{}
 \subsection{Gallery constructor helper}
 
 \begin{lstlisting}
@@ -6637,7 +6650,7 @@ automatically using the require feature:
 \item[\color{myblue}$\bullet$] @core/lib/imagesloaded/imagesloaded.pkgd.min.js
 \end{compactitem}
 
-\hypertarget{toc407}{}
+\hypertarget{toc408}{}
 \subsection{Placeholder helper}
 
 \begin{lstlisting}
@@ -6650,7 +6663,7 @@ This function returns a grey area that uses all space with the placeholder glow 
 \item[\color{myblue}$\bullet$] @id =$>$ id used in the original object, it must be replaced when the data will be available
 \end{compactitem}
 
-\hypertarget{toc408}{}
+\hypertarget{toc409}{}
 \subsection{Private text constructor helper}
 
 \begin{lstlisting}
@@ -6675,7 +6688,7 @@ Notes:
 
 This function is intended to be used by other helpers of the form\_field constructor
 
-\hypertarget{toc409}{}
+\hypertarget{toc410}{}
 \subsection{Private textarea constructor helper}
 
 \begin{lstlisting}
@@ -6700,7 +6713,7 @@ Notes:
 
 This function is intended to be used by other helpers of the form\_field constructor
 
-\hypertarget{toc410}{}
+\hypertarget{toc411}{}
 \subsection{Private tooltip constructor helper}
 
 \begin{lstlisting}
@@ -6715,7 +6728,7 @@ the focus or get the click event
 \item[\color{myblue}$\bullet$] @obj =$>$ the object that you want to enable the tooltip feature
 \end{compactitem}
 
-\hypertarget{toc411}{}
+\hypertarget{toc412}{}
 \subsection{Label helper}
 
 \begin{lstlisting}
@@ -6733,7 +6746,7 @@ optimizer to removes the unnecessary envelopment
 \item[\color{myblue}$\bullet$] @field =$>$ the field that contains the label to be added if needed
 \end{compactitem}
 
-\hypertarget{toc412}{}
+\hypertarget{toc413}{}
 \subsection{Label Combine}
 
 \begin{lstlisting}
@@ -6755,7 +6768,7 @@ This function acts as helper to add a label by the constructors that not impleme
 any specific label container, in the other cases, each constructor must to implement
 their code because each case is different
 
-\hypertarget{toc413}{}
+\hypertarget{toc414}{}
 \subsection{Menu constructor helper}
 
 \begin{lstlisting}
@@ -6786,7 +6799,7 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 \item[\color{myblue}$\bullet$] @divider  =$>$ you can set this boolean to true to convert the element into a divider
 \end{compactitem}
 
-\hypertarget{toc414}{}
+\hypertarget{toc415}{}
 \subsection{Navbar constructor helper}
 
 \begin{lstlisting}
@@ -6811,7 +6824,7 @@ This component creates a navbar intended to be used as header
 \item[\color{myblue}$\bullet$] @items =$>$ contains an array with the objects that will be added to the collapse
 \end{compactitem}
 
-\hypertarget{toc415}{}
+\hypertarget{toc416}{}
 \subsection{Modal constructor helper object}
 
 \begin{lstlisting}
@@ -6820,7 +6833,7 @@ saltos.__modal = {};
 
 This object is used to store the element and the instance of the modal
 
-\hypertarget{toc416}{}
+\hypertarget{toc417}{}
 \subsection{Modal constructor helper}
 
 \begin{lstlisting}
@@ -6856,7 +6869,7 @@ Notes:
 This modal will be destroyed (instance and element) when it closes, too is important
 to undestand that only one modal is allowed at each moment.
 
-\hypertarget{toc417}{}
+\hypertarget{toc418}{}
 \subsection{Offcanvas constructor helper object}
 
 \begin{lstlisting}
@@ -6865,7 +6878,7 @@ saltos.__offcanvas = {};
 
 This object is used to store the element and the instance of the offcanvas
 
-\hypertarget{toc418}{}
+\hypertarget{toc419}{}
 \subsection{Offcanvas constructor helper}
 
 \begin{lstlisting}
@@ -6900,7 +6913,7 @@ Notes:
 This offcanvas will be destroyed (instance and element) when it closes, too is important
 to undestand that only one offcanvas is allowed at each moment.
 
-\hypertarget{toc419}{}
+\hypertarget{toc420}{}
 \subsection{Toast constructor helper}
 
 \begin{lstlisting}
@@ -6936,7 +6949,7 @@ feature:
 \item[\color{myblue}$\bullet$] @core/lib/md5/md5.min.js
 \end{compactitem}
 
-\hypertarget{toc420}{}
+\hypertarget{toc421}{}
 \section{Core helper module}
 
 \begin{lstlisting}
@@ -6946,7 +6959,7 @@ core/js/core.js
 This fie contains useful functions related to the core application, provides the low level features
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
 
-\hypertarget{toc421}{}
+\hypertarget{toc422}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -6955,7 +6968,7 @@ var saltos = saltos || {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc422}{}
+\hypertarget{toc423}{}
 \subsection{Error management}
 
 \begin{lstlisting}
@@ -6964,7 +6977,7 @@ window.onerror = (event, source, lineno, colno, error)
 
 This function allow to SaltOS to log in server the javascript errors produced in the client's browser
 
-\hypertarget{toc423}{}
+\hypertarget{toc424}{}
 \subsection{Log management}
 
 \begin{lstlisting}
@@ -6977,7 +6990,7 @@ This function allow to send messages to the addlog of the server side, requires 
 \item[\color{myblue}$\bullet$] @msg =$>$ the message that do you want to log on the server log file
 \end{compactitem}
 
-\hypertarget{toc424}{}
+\hypertarget{toc425}{}
 \subsection{Check params}
 
 \begin{lstlisting}
@@ -6995,7 +7008,7 @@ and if some param is not found, then define it using the default value passed:
 \item[\color{myblue}$\bullet$] @value  =$>$ the default value used if an argument doesn't exists
 \end{compactitem}
 
-\hypertarget{toc425}{}
+\hypertarget{toc426}{}
 \subsection{UniqID}
 
 \begin{lstlisting}
@@ -7006,7 +7019,7 @@ This function generates an unique id formed by the word 'id' and a number that c
 values between 0 and 999999, useful when some widget requires an id and the user don't
 provide it to the widget constructor
 
-\hypertarget{toc426}{}
+\hypertarget{toc427}{}
 \subsection{When visible}
 
 \begin{lstlisting}
@@ -7023,7 +7036,7 @@ code and paint the widget correctly
 \item[\color{myblue}$\bullet$] @args =$>$ the arguments passed to the callback when execute it
 \end{compactitem}
 
-\hypertarget{toc427}{}
+\hypertarget{toc428}{}
 \subsection{Get keycode}
 
 \begin{lstlisting}
@@ -7036,7 +7049,7 @@ This function allow to get the keycode of a keyboard event detecting the browser
 \item[\color{myblue}$\bullet$] @event =$>$ the event that contains the keyboard data
 \end{compactitem}
 
-\hypertarget{toc428}{}
+\hypertarget{toc429}{}
 \subsection{HTML builder}
 
 \begin{lstlisting}
@@ -7059,7 +7072,7 @@ a breaked portion of the element and they don't works as expected because the DO
 builded is bad, you can see this problem in action when work with tables and try to
 create separate portions of the table as trs or tds.
 
-\hypertarget{toc429}{}
+\hypertarget{toc430}{}
 \subsection{AJAX}
 
 \begin{lstlisting}
@@ -7083,7 +7096,7 @@ This function allow to use ajax using the same form that with jQuery without jQu
 The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
 way as jQuery do but without using jQuery.
 
-\hypertarget{toc430}{}
+\hypertarget{toc431}{}
 \subsection{Key cleaner}
 
 \begin{lstlisting}
@@ -7100,7 +7113,7 @@ for this reason, exists this function here
 \item[\color{myblue}$\bullet$] @arg =$>$ can be an string or an array of strings and returns the same structure with the keys fixed
 \end{compactitem}
 
-\hypertarget{toc431}{}
+\hypertarget{toc432}{}
 \subsection{Open window}
 
 \begin{lstlisting}
@@ -7114,7 +7127,16 @@ the window.open but in a future, can add more features
 \item[\color{myblue}$\bullet$] @url =$>$ the url of the page to load
 \end{compactitem}
 
-\hypertarget{toc432}{}
+\hypertarget{toc433}{}
+\subsection{Close window}
+
+\begin{lstlisting}
+saltos.close_window = ()
+\end{lstlisting}
+
+This function is intended to close the current window
+
+\hypertarget{toc434}{}
 \subsection{Copy object}
 
 \begin{lstlisting}
@@ -7127,7 +7149,7 @@ This function is intended to do copies of objects using as intermediate a json f
 \item[\color{myblue}$\bullet$] @arg =$>$ the object that you want to copy
 \end{compactitem}
 
-\hypertarget{toc433}{}
+\hypertarget{toc435}{}
 \subsection{Optimizer object}
 
 \begin{lstlisting}
@@ -7142,7 +7164,7 @@ original object
 \item[\color{myblue}$\bullet$] @obj =$>$ the object to check and optimize
 \end{compactitem}
 
-\hypertarget{toc434}{}
+\hypertarget{toc436}{}
 \subsection{Require helper array}
 
 \begin{lstlisting}
@@ -7151,7 +7173,7 @@ saltos.__require = [];
 
 This array allow to the require feature to control the loaded libraries
 
-\hypertarget{toc435}{}
+\hypertarget{toc437}{}
 \subsection{Require feature}
 
 \begin{lstlisting}
@@ -7171,7 +7193,7 @@ This function is intended to load styles (css files) or javacript code (js files
 case, they uses a different technique, for css the load is asynchronous and for javascript
 the load will be synchronous.
 
-\hypertarget{toc436}{}
+\hypertarget{toc438}{}
 \section{Hash helper module}
 
 \begin{lstlisting}
@@ -7181,7 +7203,7 @@ core/js/hash.js
 This file contains all code needed to manage the hash feature, includes the code to process
 the onhashchange and too, includes the code to get and set the hash value.
 
-\hypertarget{toc437}{}
+\hypertarget{toc439}{}
 \subsection{Hash change management}
 
 \begin{lstlisting}
@@ -7190,7 +7212,7 @@ window.onhashchange = event
 
 This function allow to SaltOS to update the contents when hash change
 
-\hypertarget{toc438}{}
+\hypertarget{toc440}{}
 \subsection{Hash helper object}
 
 \begin{lstlisting}
@@ -7199,7 +7221,7 @@ saltos.hash = {};
 
 This object stores all hash functions to get, set and trigger a change
 
-\hypertarget{toc439}{}
+\hypertarget{toc441}{}
 \subsection{Get hash}
 
 \begin{lstlisting}
@@ -7208,7 +7230,7 @@ saltos.hash.get = ()
 
 Function intended to return the current hash without the pillow
 
-\hypertarget{toc440}{}
+\hypertarget{toc442}{}
 \subsection{Set hash}
 
 \begin{lstlisting}
@@ -7222,7 +7244,7 @@ in the hash argument
 \item[\color{myblue}$\bullet$] @hash =$>$ this must contain the hash with or without the pillow
 \end{compactitem}
 
-\hypertarget{toc441}{}
+\hypertarget{toc443}{}
 \subsection{Change trigger}
 
 \begin{lstlisting}
@@ -7231,7 +7253,7 @@ saltos.hash.change = ()
 
 This function triggers the hashchange event to execute the onhashchange
 
-\hypertarget{toc442}{}
+\hypertarget{toc444}{}
 \section{Token helper module}
 
 \begin{lstlisting}
@@ -7242,7 +7264,7 @@ This file includes all code to manage tokens and to do authentications with all 
 as the main authentication using a user and password pair, the reauthtoken, the deauthtoken and
 the checktoken to control it.
 
-\hypertarget{toc443}{}
+\hypertarget{toc445}{}
 \subsection{Token helper object}
 
 \begin{lstlisting}
@@ -7251,7 +7273,7 @@ saltos.token = {};
 
 This object stores all token functions to get and set data using the localStorage
 
-\hypertarget{toc444}{}
+\hypertarget{toc446}{}
 \subsection{Get token function}
 
 \begin{lstlisting}
@@ -7260,7 +7282,7 @@ saltos.token.get_token = ()
 
 This function returns the token stored in the localStorage
 
-\hypertarget{toc445}{}
+\hypertarget{toc447}{}
 \subsection{Get expires function}
 
 \begin{lstlisting}
@@ -7269,7 +7291,7 @@ saltos.token.get_expires = ()
 
 This function returns the expires stored in the localStorage
 
-\hypertarget{toc446}{}
+\hypertarget{toc448}{}
 \subsection{Set token and expires}
 
 \begin{lstlisting}
@@ -7283,7 +7305,7 @@ This function store the token and expires in the localStorage
 \item[\color{myblue}$\bullet$] @expires =$>$ the expires of the token that you want to store in the localStorage
 \end{compactitem}
 
-\hypertarget{toc447}{}
+\hypertarget{toc449}{}
 \subsection{Unset token and expires}
 
 \begin{lstlisting}
@@ -7292,7 +7314,7 @@ saltos.token.unset = ()
 
 This function removes the token and expires in the localStorage
 
-\hypertarget{toc448}{}
+\hypertarget{toc450}{}
 \subsection{Authentication helper object}
 
 \begin{lstlisting}
@@ -7302,7 +7324,7 @@ saltos.authenticate = {};
 This object stores all authentication functions to get access, renew tokens to maintain
 the access and the deauthtoken to close the access
 
-\hypertarget{toc449}{}
+\hypertarget{toc451}{}
 \subsection{Authenticate token function}
 
 \begin{lstlisting}
@@ -7317,7 +7339,7 @@ credentials passed by argument.
 \item[\color{myblue}$\bullet$] @pass =$>$ password used to the authentication process
 \end{compactitem}
 
-\hypertarget{toc450}{}
+\hypertarget{toc452}{}
 \subsection{Re-authenticate token function}
 
 \begin{lstlisting}
@@ -7327,7 +7349,7 @@ saltos.authenticate.reauthtoken = ()
 This function uses the reauthtoken action to try to re-authenticate an user with the token
 credentials.
 
-\hypertarget{toc451}{}
+\hypertarget{toc453}{}
 \subsection{De-authenticate token function}
 
 \begin{lstlisting}
@@ -7337,7 +7359,7 @@ saltos.authenticate.deauthtoken = ()
 This function uses the deauthtoken action to try to de-authenticate an user with the token
 credentials.
 
-\hypertarget{toc452}{}
+\hypertarget{toc454}{}
 \subsection{Check token function}
 
 \begin{lstlisting}
@@ -7346,7 +7368,7 @@ saltos.authenticate.checktoken = ()
 
 This function uses the checktoken action to check the validity of the current token.
 
-\hypertarget{toc453}{}
+\hypertarget{toc455}{}
 \subsection{Re-authenticate helper function}
 
 \begin{lstlisting}
@@ -7357,10 +7379,10 @@ This function checks the reminder of the token's expires and if is needed, execu
 token action.
 
 
-\hypertarget{toc454}{}
-\chapter{Apps =$>$ Clientes}
+\hypertarget{toc456}{}
+\chapter{Clientes}
 
-\hypertarget{toc455}{}
+\hypertarget{toc457}{}
 \section{Customers application}
 
 \begin{lstlisting}
@@ -7369,7 +7391,7 @@ apps/clientes/app.js
 
 This application implements the tipical features associated to customers
 
-\hypertarget{toc456}{}
+\hypertarget{toc458}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7378,7 +7400,7 @@ saltos.clientes = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc457}{}
+\hypertarget{toc459}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7387,7 +7409,7 @@ saltos.clientes.search = ()
 
 TODO
 
-\hypertarget{toc458}{}
+\hypertarget{toc460}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7396,7 +7418,7 @@ saltos.clientes.clear_filter = ()
 
 TODO
 
-\hypertarget{toc459}{}
+\hypertarget{toc461}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7405,7 +7427,7 @@ saltos.clientes.read_more = ()
 
 TODO
 
-\hypertarget{toc460}{}
+\hypertarget{toc462}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7414,7 +7436,7 @@ saltos.clientes.cancel = ()
 
 TODO
 
-\hypertarget{toc461}{}
+\hypertarget{toc463}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7423,7 +7445,7 @@ saltos.clientes.insert = ()
 
 TODO
 
-\hypertarget{toc462}{}
+\hypertarget{toc464}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7432,7 +7454,7 @@ saltos.clientes.update = ()
 
 TODO
 
-\hypertarget{toc463}{}
+\hypertarget{toc465}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7442,10 +7464,10 @@ saltos.clientes.delete = ()
 TODO
 
 
-\hypertarget{toc464}{}
-\chapter{Apps =$>$ Correo}
+\hypertarget{toc466}{}
+\chapter{Correo}
 
-\hypertarget{toc465}{}
+\hypertarget{toc467}{}
 \section{Email application}
 
 \begin{lstlisting}
@@ -7454,7 +7476,7 @@ apps/correo/app.js
 
 This application implements the tipical features associated to emails
 
-\hypertarget{toc466}{}
+\hypertarget{toc468}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7463,7 +7485,7 @@ saltos.correo = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc467}{}
+\hypertarget{toc469}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7472,7 +7494,7 @@ saltos.correo.search = ()
 
 TODO
 
-\hypertarget{toc468}{}
+\hypertarget{toc470}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7481,7 +7503,7 @@ saltos.correo.clear_filter = ()
 
 TODO
 
-\hypertarget{toc469}{}
+\hypertarget{toc471}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7490,7 +7512,7 @@ saltos.correo.read_more = ()
 
 TODO
 
-\hypertarget{toc470}{}
+\hypertarget{toc472}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7500,10 +7522,10 @@ saltos.correo.send_and_get = ()
 TODO
 
 
-\hypertarget{toc471}{}
-\chapter{Apps =$>$ Login}
+\hypertarget{toc473}{}
+\chapter{Login}
 
-\hypertarget{toc472}{}
+\hypertarget{toc474}{}
 \section{Login application}
 
 \begin{lstlisting}
@@ -7512,7 +7534,7 @@ apps/login/app.js
 
 This application implements the tipical features associated to login
 
-\hypertarget{toc473}{}
+\hypertarget{toc475}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7521,7 +7543,7 @@ saltos.login = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc474}{}
+\hypertarget{toc476}{}
 \subsection{Authenticate login function}
 
 \begin{lstlisting}
@@ -7531,7 +7553,7 @@ saltos.login.authenticate = ()
 This function tries to authenticate the user using the user and pass fields of the form, to do
 it uses the authenticate function that send data to the authtoken action
 
-\hypertarget{toc475}{}
+\hypertarget{toc477}{}
 \subsection{Initialize login}
 
 \begin{lstlisting}
@@ -7540,7 +7562,7 @@ saltos.login.initialize = ()
 
 This function initializes the login screen to improve the user experience.
 
-\hypertarget{toc476}{}
+\hypertarget{toc478}{}
 \subsection{Access denied}
 
 \begin{lstlisting}
@@ -7550,10 +7572,10 @@ saltos.login.access_denied = ()
 This function displays a modal dialog with the tipical access denied message
 
 
-\hypertarget{toc477}{}
-\chapter{Apps =$>$ Tester}
+\hypertarget{toc479}{}
+\chapter{Tester}
 
-\hypertarget{toc478}{}
+\hypertarget{toc480}{}
 \section{Tester application}
 
 \begin{lstlisting}
@@ -7562,7 +7584,7 @@ apps/tester/app.js
 
 This application implements the tipical features associated to tester
 
-\hypertarget{toc479}{}
+\hypertarget{toc481}{}
 \subsection{Main code}
 
 \begin{lstlisting}

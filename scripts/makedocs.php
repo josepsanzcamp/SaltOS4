@@ -101,8 +101,8 @@ $path = "";
 foreach ($files as $file => $contents) {
     $path2 = dirname($file);
     if ($path != $path2) {
-        $path3 = ucwords(str_replace("/", " => ", $path2));
-        $path3 = str_replace(["Php", "Js"], ["PHP", "JavaScript"], $path3);
+        $path3 = ucwords(basename($path2));
+        $path3 = str_replace(["Action", "Js"], ["Actions", "JavaScript"], $path3);
         echo "+$path3+\n";
         echo "\n";
         $path = $path2;
@@ -112,7 +112,7 @@ foreach ($files as $file => $contents) {
         if ($first) {
             echo "++{$content[0]}++\n";
             echo "\n";
-            $content[1] = $file;
+            $content[1] = strrev(dirname(strrev($file)));
             $first = false;
         } else {
             echo "+++{$content[0]}+++\n";
@@ -134,7 +134,7 @@ foreach ($files as $file => $contents) {
 $buffer = ob_get_clean();
 //~ echo $buffer;
 //~ die();
-//~ mkdir($outdir);
+mkdir($outdir);
 chdir($outdir);
 file_put_contents($outfile, $buffer);
 //~ die();

@@ -22,9 +22,9 @@ foreach ($buffer as $key => $val) {
     $temp = explode(" ", str_replace('"', " ", $val));
     for ($i = 0; $i < count($temp); $i++) {
         if (in_array($temp[$i], ["src=", "href="])) {
-            $sha384 = ob_passthru(str_replace("__FILE__", $temp[$i + 1], $command));
+            $sha384 = ob_passthru(str_replace("__FILE__", "code/" . $temp[$i + 1], $command));
             $buffer[$key] = str_replace('integrity=""', "integrity=\"sha384-$sha384\"", $buffer[$key]);
-            $hash = md5_file($temp[$i + 1]);
+            $hash = md5_file("code/" . $temp[$i + 1]);
             $buffer[$key] = str_replace($temp[$i + 1], $temp[$i + 1] . "?" . $hash, $buffer[$key]);
         }
     }

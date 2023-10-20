@@ -1,10 +1,10 @@
 Code documentation
-SaltOS 4.0 r421
+SaltOS 4.0 r427
 October 2023
 
 
 
-+Core => PHP => Action+
++Actions+
 
 ++Add error action++
 
@@ -299,12 +299,12 @@ core/php/action/update.php
 ```
 
 This action allow to update registers in the database associated to
-each app
+each app and requires the app, id, data and a valid token.
 
 TODO
 
 
-+Core => PHP => Autoload+
++Autoload+
 
 ++Apps helper module++
 
@@ -4298,7 +4298,7 @@ This file contains the old index.php file, this was moved here to simplify the i
 allow some php checks found in the current index.php
 
 
-+Core => PHP => Database+
++Database+
 
 ++SQLite3 functions library++
 
@@ -5032,7 +5032,7 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+Core => JavaScript+
++JavaScript+
 
 ++Application helper module++
 
@@ -5040,8 +5040,8 @@ This function close the database connection and sets the link to null
 core/js/app.js
 ```
 
-This fie contains useful functions related to the main application, at the end of this file you can
-see the main code that launch the application to be executed from the browser
+This fie contains useful functions related to the main application, at the end of this file you
+can see the main code that launch the application to be executed from the browser
 
 
 +++Show error helper+++
@@ -5051,6 +5051,17 @@ saltos.show_error = error
 ```
 
 This function allow to show a modal dialog with de details of an error
+
+
++++Alert function+++
+
+```
+saltos.alert = (title, message)
+```
+
+This function tries to implement an alert box, the main difference between the tipical alert
+is that this alert allow to you to specify the title and a more complex message, but it only
+shows one button to close it.
 
 
 +++Check response helper+++
@@ -5105,7 +5116,9 @@ This object allow to the app to store the data of the fields map
 saltos.form_app.data = data
 ```
 
-This function sets the values of the request to the objects placed in the document
+This function sets the values of the request to the objects placed in the document, too as bonus
+extra, it tries to search the field spec in the array to update the value of the field spec to
+allow that the get_data can differ between the original data and the modified data.
 
 
 +++Form layout helper+++
@@ -6562,6 +6575,15 @@ the window.open but in a future, can add more features
 - @url => the url of the page to load
 
 
++++Close window+++
+
+```
+saltos.close_window = ()
+```
+
+This function is intended to close the current window
+
+
 +++Copy object+++
 
 ```
@@ -6793,7 +6815,7 @@ This function checks the reminder of the token's expires and if is needed, execu
 token action.
 
 
-+Apps => Clientes+
++Clientes+
 
 ++Customers application++
 
@@ -6876,7 +6898,7 @@ saltos.clientes.delete = ()
 TODO
 
 
-+Apps => Correo+
++Correo+
 
 ++Email application++
 
@@ -6932,7 +6954,7 @@ saltos.correo.send_and_get = ()
 TODO
 
 
-+Apps => Login+
++Login+
 
 ++Login application++
 
@@ -6980,7 +7002,7 @@ saltos.login.access_denied = ()
 This function displays a modal dialog with the tipical access denied message
 
 
-+Apps => Tester+
++Tester+
 
 ++Tester application++
 
