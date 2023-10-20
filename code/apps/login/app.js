@@ -50,16 +50,13 @@ saltos.login.authenticate = () => {
         return;
     }
     var data = saltos.get_data(true);
-    if (data.user == '' || data.pass == '') {
-        saltos.login.access_denied();
-        return;
-    }
     saltos.authenticate.authtoken(data.user, data.pass);
-    if (saltos.token) {
+    if (saltos.token.get_token()) {
         saltos.hash.set('app/menu');
         saltos.hash.change();
     } else {
         saltos.login.access_denied();
+        saltos.hash.change();
     }
 };
 
