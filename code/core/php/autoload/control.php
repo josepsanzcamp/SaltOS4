@@ -153,7 +153,6 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     }
     if ($datetime === null) {
         $datetime = current_datetime();
-        $datetime = "2023-06-16 12:00:00";
     }
     // Search if version exists
     $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id='$reg_id'";
