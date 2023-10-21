@@ -37,10 +37,15 @@ declare(strict_types=1);
  * The unique requirement to execute this action is to have a valid token
  */
 
+if (!semaphore_acquire("token")) {
+    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+}
+
 crontab_users();
 
 $token_id = current_token();
 if (!$token_id) {
+    semaphore_release("token");
     output_handler_json([
         "status" => "ko",
     ]);
@@ -53,6 +58,7 @@ $query = make_update_query("tbl_users_tokens", [
 ]));
 db_query($query);
 
+semaphore_release("token");
 output_handler_json([
     "status" => "ok",
 ]);

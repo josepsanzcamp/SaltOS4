@@ -2249,9 +2249,9 @@ saltos.modal = args => {
     if (args.static) {
         temp = `data-bs-backdrop='static' data-bs-keyboard='false'`;
     }
-    if (args.class == '') {
-        args.class = 'modal-dialog-centered';
-    }
+    //if (args.class == '') {
+    //    args.class = 'modal-dialog-centered';
+    //}
     var obj = saltos.html(`
         <div class='modal fade' id='${args.id}' tabindex='-1' aria-labelledby='${args.id}_label'
             aria-hidden='true' ${temp}>

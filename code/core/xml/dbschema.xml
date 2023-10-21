@@ -114,8 +114,7 @@ that maintain the database using as reference this file
                 <field name="user_agent" type="VARCHAR(255)"/>
                 <field name="token" type="VARCHAR(255)"/>
                 <field name="expires" type="DATETIME"/>
-                <field name="renewal_datetime" type="DATETIME"/>
-                <field name="renewal_count" type="INT(11)"/>
+                <field name="renewals" type="INT(11)"/>
             </fields>
         </table>
         <table name="tbl_groups">

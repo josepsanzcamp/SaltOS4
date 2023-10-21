@@ -39,10 +39,15 @@ declare(strict_types=1);
  * case of non validity
  */
 
+if (!semaphore_acquire("token")) {
+    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+}
+
 crontab_users();
 
 $token_id = current_token();
 if (!$token_id) {
+    semaphore_release("token");
     output_handler_json([
         "status" => "ko",
     ]);
@@ -52,10 +57,11 @@ $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
 $row = execute_query($query);
 $renewals = get_config("auth/tokenrenewals");
 
+semaphore_release("token");
 output_handler_json([
     "status" => "ok",
     "token" => $row["token"],
     "created_at" => $row["datetime"],
     "expires_at" => $row["expires"],
-    "pending_renewals" => $renewals - $row["renewal_count"],
+    "pending_renewals" => $renewals - $row["renewals"],
 ]);

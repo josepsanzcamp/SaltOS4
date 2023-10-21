@@ -38,10 +38,15 @@ declare(strict_types=1);
  * and have a token with available renewals
  */
 
+if (!semaphore_acquire("token")) {
+    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+}
+
 crontab_users();
 
 $token_id = current_token();
 if (!$token_id) {
+    semaphore_release("token");
     output_handler_json([
         "status" => "ko",
     ]);
@@ -51,7 +56,8 @@ $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
 $row = execute_query($query);
 
 $renewals = get_config("auth/tokenrenewals");
-if ($row["renewal_count"] >= $renewals) {
+if ($row["renewals"] >= $renewals) {
+    semaphore_release("token");
     output_handler_json([
         "status" => "ko",
     ]);
@@ -71,21 +77,20 @@ $datetime = current_datetime();
 $query = make_insert_query("tbl_users_tokens", [
     "user_id" => $row["user_id"],
     "active" => 1,
-    "datetime" => $row["datetime"],
+    "datetime" => $datetime,
     "remote_addr" => $row["remote_addr"],
     "user_agent" => $row["user_agent"],
     "token" => $token,
     "expires" => $expires,
-    "renewal_datetime" => $datetime,
-    "renewal_count" => $row["renewal_count"] + 1,
+    "renewals" => $row["renewals"] + 1,
 ]);
 db_query($query);
 
+semaphore_release("token");
 output_handler_json([
     "status" => "ok",
     "token" => $token,
-    "created_at" => $row["datetime"],
+    "created_at" => $datetime,
     "expires_at" => $expires,
-    "renewal_at" => $datetime,
-    "pending_renewals" => $renewals - $row["renewal_count"] - 1,
+    "pending_renewals" => $renewals - $row["renewals"] - 1,
 ]);

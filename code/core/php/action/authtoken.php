@@ -42,11 +42,16 @@ declare(strict_types=1);
  * status of te token instead of returns a json with an error in case of non validity
  */
 
+if (!semaphore_acquire("token")) {
+    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+}
+
 crontab_users();
 
 // Check parameters
 foreach (["user", "pass"] as $key) {
     if (get_data("json/$key") == "") {
+        semaphore_release("token");
         show_json_error("$key not found or void");
     }
 }
@@ -60,6 +65,7 @@ $query = "SELECT * FROM tbl_users WHERE " . make_where_query([
 ]);
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
+    semaphore_release("token");
     output_handler_json([
         "status" => "ko",
     ]);
@@ -72,6 +78,7 @@ $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
 ]);
 $row2 = execute_query($query);
 if (!is_array($row2) || !isset($row2["password"])) {
+    semaphore_release("token");
     output_handler_json([
         "status" => "ko",
     ]);
@@ -87,6 +94,7 @@ if (!is_array($row2) || !isset($row2["password"])) {
     ]));
     db_query($query);
 } else {
+    semaphore_release("token");
     output_handler_json([
         "status" => "ko",
     ]);
@@ -117,6 +125,7 @@ $query = make_insert_query("tbl_users_tokens", [
 ]);
 db_query($query);
 
+semaphore_release("token");
 output_handler_json([
     "status" => "ok",
     "token" => $token,
