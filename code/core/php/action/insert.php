@@ -49,6 +49,12 @@ if (!check_user($app, "create")) {
 }
 
 $table = app2table($app);
+$fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
+$error = array_diff_key($data, $fields);
+if (count($error)) {
+    show_json_error("permission denied");
+}
+
 $query = make_insert_query($table, $data);
 db_query($query);
 

@@ -57,6 +57,12 @@ if (!$exists) {
     show_json_error("permission denied");
 }
 
+$fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
+$error = array_diff_key($data, $fields);
+if (count($error)) {
+    show_json_error("permission denied");
+}
+
 $query = make_update_query($table, $data, "id = $id");
 db_query($query);
 
