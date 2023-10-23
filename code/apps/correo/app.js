@@ -60,6 +60,7 @@ saltos.correo.initialize = () => {
  * TODO
  */
 saltos.correo.search = () => {
+    document.getElementById('page').value = '0';
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
