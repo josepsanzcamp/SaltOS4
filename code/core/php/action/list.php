@@ -28,7 +28,11 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * List action
+ *
+ * This action tries to facility the creation of lists with the tipicals
+ * features suck as rows, actions for each row, and other improvements as
+ * the list with count and without count.
  *
  * TODO
  */
