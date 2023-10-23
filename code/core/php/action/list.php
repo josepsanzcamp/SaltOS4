@@ -75,17 +75,28 @@ if (!isset($array[get_data("json/subapp")])) {
 if (!get_data("json/search")) {
     set_data("json/search", "");
 }
+if (!get_data("json/page")) {
+    set_data("json/page", 0);
+}
 set_data("json/order", "id DESC");
 set_data("json/limit", "15");
 set_data("json/offset", intval(get_data("json/page") * get_data("json/limit")));
 
-// Eval the queries
-$array = eval_attr($array[get_data("json/subapp")]);
+// Get only the subapp part
+$array = $array[get_data("json/subapp")];
 
 // These lines are a trick to allow attr in the subapp
 if (is_array($array) && isset($array["value"]) && isset($array["#attr"])) {
     $array = array_merge($array["value"], $array["#attr"]);
 }
+
+// Check to remove header and footer to improve the performance
+if (get_data("json/page")) {
+    unset($array["footer"]);
+}
+
+// Eval the queries
+$array = eval_attr($array);
 
 // Prepare rows and actions
 $rows = $array["rows"];

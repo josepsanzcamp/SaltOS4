@@ -40,13 +40,53 @@
 saltos.correo = {};
 
 /**
+ * Initialize emails app
+ *
+ * This function initializes the emails app screen to improve the user experience.
+ */
+saltos.correo.initialize = () => {
+    document.getElementById('search').focus();
+    document.getElementById('search').addEventListener('keydown', event => {
+        if (saltos.get_keycode(event) != 13) {
+            return;
+        }
+        saltos.correo.search();
+    });
+};
+
+/**
  * TODO
  *
  * TODO
  */
 saltos.correo.search = () => {
-    // Using JSON
-    console.log('saltos.correo.search');
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'action': 'list',
+            'app': 'correo',
+            'subapp': 'table',
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            document.getElementById('table').replaceWith(saltos.form_field(response));
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
 };
 
 /**
@@ -55,8 +95,9 @@ saltos.correo.search = () => {
  * TODO
  */
 saltos.correo.clear_filter = () => {
-    // Using REST
-    console.log('saltos.correo.clear_filter');
+    document.getElementById('search').value = '';
+    document.getElementById('page').value = '0';
+    saltos.correo.search();
 };
 
 /**
@@ -65,8 +106,36 @@ saltos.correo.clear_filter = () => {
  * TODO
  */
 saltos.correo.read_more = () => {
-    // Using REST
-    console.log('saltos.correo.read_more');
+    document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'action': 'list',
+            'app': 'correo',
+            'subapp': 'table',
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            var obj = document.getElementById('table').querySelector('tbody');
+            var temp = saltos.form_field(response);
+            temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
 };
 
 /**
@@ -75,6 +144,6 @@ saltos.correo.read_more = () => {
  * TODO
  */
 saltos.correo.send_and_get = () => {
-    // Using REST
+    // TODO
     console.log('saltos.correo.send_and_get');
 };
