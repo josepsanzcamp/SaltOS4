@@ -68,7 +68,7 @@
  * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
  *                 colWidths, label
  * @pdfjs       => id, class, value, label
- * @table       => id, class, header, data, footer, divider, value, label
+ * @table       => id, class, header, data, footer, value, label
  * @alert       => id, class, title, text, body, value, label
  * @card        => id, image, alt, header, footer, title, text, body, value, label
  * @chartjs     => id, mode, data, value, label
@@ -1405,7 +1405,6 @@ saltos.__form_field.pdfjs = field => {
  * @header   => array with the header to use
  * @data     => 2D array with the data used to mount the body table
  * @footer   => array with the footer to use
- * @divider  => array with three booleans to specify to add the divider in header, body and/or footer
  * @checkbox => add a checkbox at the first of each row, for mono or multi selection
  * @actions  => each row of the data can contain an array with the actions of each row
  * @label    => this parameter is used as text for the label
@@ -1427,9 +1426,9 @@ saltos.__form_field.pdfjs = field => {
 saltos.__form_field.table = field => {
     saltos.require('core/lib/locutus/locutus.min.js');
     saltos.check_params(field, ['class', 'id', 'checkbox']);
-    saltos.check_params(field, ['header', 'data', 'footer', 'divider'], []);
+    saltos.check_params(field, ['header', 'data', 'footer'], []);
     var obj = saltos.html(`
-        <table class='table table-striped table-hover ${field.class}' id='${field.id}'>
+        <table class='table table-striped table-hover ${field.class}' id='${field.id}' style="margin-bottom:0">
         </table>
     `);
     if (!field.header.hasOwnProperty('length')) {
@@ -1449,9 +1448,6 @@ saltos.__form_field.table = field => {
                 </tr>
             </thead>
         `));
-        if (typeof field.divider[0] == 'boolean' && field.divider[0]) {
-            obj.querySelector('thead').classList.add('table-group-divider');
-        }
         if (field.checkbox) {
             obj.querySelector('thead tr').append(saltos.html(
                 'tr',
@@ -1483,12 +1479,9 @@ saltos.__form_field.table = field => {
     }
     if (field.data.length) {
         obj.append(saltos.html('table', `
-            <tbody>
+            <tbody class="table-group-divider">
             </tbody>
         `));
-        if (typeof field.divider[1] == 'boolean' && field.divider[1]) {
-            obj.querySelector('tbody').classList.add('table-group-divider');
-        }
         for (var key in field.data) {
             var row = saltos.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
@@ -1536,14 +1529,11 @@ saltos.__form_field.table = field => {
     }
     if (field.footer.length) {
         obj.append(saltos.html('table', `
-            <tfoot>
+            <tfoot class="table-group-divider">
                 <tr>
                 </tr>
             </tfoot>
         `));
-        if (typeof field.divider[2] == 'boolean' && field.divider[2]) {
-            obj.querySelector('tfoot').classList.add('table-group-divider');
-        }
         if (typeof field.footer == 'object') {
             if (field.header.length != field.footer.length) {
                 console.log('field.header.length != field.footer.length');

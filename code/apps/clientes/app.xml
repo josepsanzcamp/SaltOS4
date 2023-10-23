@@ -76,7 +76,6 @@
             AND ".make_fulltext_query(get_data("json/search"), "clientes", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("clientes", "list")."
         ")</footer>
-        <divider eval="true">[false, true, true]</divider>
     </table>
     <!-- Form part -->
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
@@ -173,13 +172,11 @@
         <header eval="true">["Nombre", "CIF", "Población", "C.P."]</header>
         <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
         <footer eval="true">"Total: 5 registros"</footer>
-        <divider eval="true">[false, true, true]</divider>
     </widget>
     <widget id="2">
         <header eval="true">["Nombre", "CIF", "Población", "C.P."]</header>
         <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal FROM app_clientes ORDER BY id ASC LIMIT 0,5")</data>
         <footer eval="true">"Total: 5 registros"</footer>
-        <divider eval="true">[false, true, true]</divider>
     </widget>
     <widget id="3">
         <data eval="true">[

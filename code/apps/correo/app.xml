@@ -77,7 +77,6 @@
             AND ".make_fulltext_query(get_data("json/search"), "correo", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("correo", "list")."
         ")</footer>
-        <divider eval="true">[false, true, true]</divider>
     </table>
     <!-- TODO -->
 </root>

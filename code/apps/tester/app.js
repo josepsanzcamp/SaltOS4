@@ -283,7 +283,6 @@
         var data = [];
         var header = [];
         var footer = [];
-        var divider = [];
         var image = '';
         var title = '';
         var text = '';
@@ -369,7 +368,6 @@
             ];
             var header = ['Name', 'Surname', 'Phone'];
             var footer = ['', 'Total', '3'];
-            var divider = [false, true, true];
         }
         if (tipo == 'alert') {
             clase = 'alert-success';
@@ -541,7 +539,6 @@
             data: data,
             header: header,
             footer: footer,
-            divider: divider,
             image: image,
             title: title,
             text: text,
