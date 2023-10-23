@@ -113,7 +113,7 @@ saltos.__form_field = {};
  */
 saltos.__form_field.div = field => {
     saltos.check_params(field, ['class', 'id', 'style']);
-    var obj = saltos.html(`<div class='${field.class}' id='${field.id}' style='${field.style}'></div>`);
+    var obj = saltos.html(`<div class="${field.class}" id="${field.id}" style="${field.style}"></div>`);
     return obj;
 };
 
@@ -200,10 +200,10 @@ saltos.__form_field.text = field => {
     obj.append(saltos.__text_helper(field));
     if (field.datalist.length) {
         obj.querySelector('input').setAttribute('list', field.id + '_datalist');
-        obj.append(saltos.html(`<datalist id='${field.id}_datalist'></datalist>`));
+        obj.append(saltos.html(`<datalist id="${field.id}_datalist"></datalist>`));
         for (var key in field.datalist) {
             var val = field.datalist[key];
-            obj.querySelector('datalist').append(saltos.html(`<option value='${val}'>`));
+            obj.querySelector('datalist').append(saltos.html(`<option value="${val}">`));
         }
     }
     obj = saltos.optimize(obj);
@@ -555,8 +555,8 @@ saltos.__form_field.codemirror = field => {
 saltos.__form_field.iframe = field => {
     saltos.check_params(field, ['value', 'id', 'class', 'height']);
     var obj = saltos.html(`
-        <iframe src='${field.value}' id='${field.id}' frameborder='0'
-            class='form-control p-0 ${field.class}' style='height: ${field.height}'></iframe>
+        <iframe src="${field.value}" id="${field.id}" frameborder="0"
+            class="form-control p-0 ${field.class}" style="height: ${field.height}"></iframe>
     `);
     obj = saltos.__label_combine(field, obj);
     return obj;
@@ -593,11 +593,11 @@ saltos.__form_field.select = field => {
         field.multiple = 'multiple';
     }
     if (field.size != '') {
-        field.size = `size='${field.size}'`;
+        field.size = `size="${field.size}"`;
     }
     var obj = saltos.html(`
-        <select class='form-select ${field.class}' id='${field.id}' ${field.disabled}
-            ${field.required} ${field.multiple} ${field.size} data-bs-title='${field.tooltip}'></select>
+        <select class="form-select ${field.class}" id="${field.id}" ${field.disabled}
+            ${field.required} ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
     var element = obj;
     if (field.tooltip != '') {
@@ -609,7 +609,7 @@ saltos.__form_field.select = field => {
         if (field.value.toString() == val.value.toString()) {
             selected = 'selected';
         }
-        element.append(saltos.html(`<option value='${val.value}' ${selected}>${val.label}</option>`));
+        element.append(saltos.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
     }
     obj = saltos.__label_combine(field, obj);
     return obj;
@@ -644,13 +644,13 @@ saltos.__form_field.multiselect = field => {
         field.disabled = 'disabled';
     }
     var obj = saltos.html(`
-        <div class='container-fluid'>
-            <div class='row'>
-                <div class='col px-0 one'>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col px-0 one">
                 </div>
-                <div class='col col-auto my-auto two'>
+                <div class="col col-auto my-auto two">
                 </div>
-                <div class='col px-0 three'>
+                <div class="col px-0 three">
                 </div>
             </div>
         </div>
@@ -765,11 +765,11 @@ saltos.__form_field.checkbox = field => {
         checked = 'checked';
     }
     var obj = saltos.html(`
-        <div class='form-check ${field.class}'>
-            <input class='form-check-input' type='checkbox' id='${field.id}' value='${field.value}'
-                ${field.disabled} ${field.readonly} ${checked} data-bs-title='${field.tooltip}'>
-            <label class='form-check-label' for='${field.id}'
-                data-bs-title='${field.tooltip}'>${field.label}</label>
+        <div class="form-check ${field.class}">
+            <input class="form-check-input" type="checkbox" id="${field.id}" value="${field.value}"
+                ${field.disabled} ${field.readonly} ${checked} data-bs-title="${field.tooltip}">
+            <label class="form-check-label" for="${field.id}"
+                data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
     `);
     if (field.tooltip != '') {
@@ -831,8 +831,8 @@ saltos.__form_field.button = field => {
         field.class += ' opacity-25';
     }
     var obj = saltos.html(`
-        <button type='button' class='btn ${field.class}' id='${field.id}'
-            ${field.disabled} data-bs-title='${field.tooltip}'>${field.value}</button>
+        <button type="button" class="btn ${field.class}" id="${field.id}"
+            ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.tooltip != '') {
         saltos.__tooltip_helper(obj);
@@ -892,15 +892,15 @@ saltos.__form_field.password = field => {
     }
     var obj = saltos.html(`
         <div>
-            <input type='text' style='display: none'/>
-            <div class='input-group'>
-                <input type='password' class='form-control ${field.class}' id='${field.id}'
-                placeholder='${field.placeholder}' value='${field.value}' autocomplete='new-password'
+            <input type="text" style="display: none"/>
+            <div class="input-group">
+                <input type="password" class="form-control ${field.class}" id="${field.id}"
+                placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
                     ${field.disabled} ${field.readonly} ${field.required}
-                    aria-label='${field.placeholder}' aria-describedby='${field.id}_button'
-                    data-bs-title='${field.tooltip}'>
-                <button class='btn btn-primary bi-eye-slash' type='button' id='${field.id}_button'
-                data-bs-title='${field.tooltip}'></button>
+                    aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
+                    data-bs-title="${field.tooltip}">
+                <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button"
+                data-bs-title="${field.tooltip}"></button>
             </div>
         </div>
     `);
@@ -964,10 +964,10 @@ saltos.__form_field.file = field => {
     }
     var obj = saltos.html(`
         <div>
-            <input type='file' class='form-control ${field.class}' id='${field.id}' ${field.disabled}
-                ${field.required} ${field.multiple} data-bs-title='${field.tooltip}'>
-            <div class='overflow-auto'>
-                <table class='table table-striped table-hover d-none'>
+            <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled}
+                ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
+            <div class="overflow-auto">
+                <table class="table table-striped table-hover d-none">
                     <tbody>
                     </tbody>
                 </table>
@@ -1064,16 +1064,16 @@ saltos.__form_field.file = field => {
             table.classList.remove('d-none');
             // Add the row for the new file
             var row = saltos.html('tbody', `
-                <tr id='${data.files[0].id}'>
-                    <td class='text-break'>${data.files[0].name}</td>
-                    <td class='w-25 align-middle'>
-                        <div class='progress' role='progressbar' aria-label='Upload percent'
-                            aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>
-                            <div class='progress-bar' style='width: 0%'></div>
+                <tr id="${data.files[0].id}">
+                    <td class="text-break">${data.files[0].name}</td>
+                    <td class="w-25 align-middle">
+                        <div class="progress" role="progressbar" aria-label="Upload percent"
+                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: 0%"></div>
                         </div>
                     </td>
-                    <td class='p-0 align-middle' style='width: 1%'><button class='btn bi-trash border-0'
-                        type='button'></button></td>
+                    <td class="p-0 align-middle" style="width: 1%"><button class="btn bi-trash border-0"
+                        type="button"></button></td>
                 </tr>
             `);
             // Store the data in the row
@@ -1186,8 +1186,8 @@ saltos.__form_field.label = field => {
         field.label = field.value;
     }
     var obj = saltos.html(`
-        <label for='${field.id}' class='form-label ${field.class}'
-            data-bs-title='${field.tooltip}'>${field.label}</label>
+        <label for="${field.id}" class="form-label ${field.class}"
+            data-bs-title="${field.tooltip}">${field.label}</label>
     `);
     if (field.tooltip != '') {
         saltos.__tooltip_helper(obj);
@@ -1213,8 +1213,8 @@ saltos.__form_field.image = field => {
         field.class = 'img-fluid';
     }
     var obj = saltos.html(`
-        <img id='${field.id}' src='${field.value}' class='${field.class}' alt='${field.alt}'
-            data-bs-title='${field.tooltip}' width='${field.width}' height='${field.height}'>
+        <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}"
+            data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
     if (field.tooltip != '') {
         saltos.__tooltip_helper(obj);
@@ -1262,8 +1262,8 @@ saltos.__form_field.excel = field => {
     saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders']);
     saltos.check_params(field, ['minSpareRows', 'contextMenu', 'rowHeaderWidth', 'colWidths']);
     var obj = saltos.html(`
-        <div style='width: 100%; height: 100%; overflow: auto'>
-            <div id='${field.id}' class='${field.class}'></div>
+        <div style="width: 100%; height: 100%; overflow: auto">
+            <div id="${field.id}" class="${field.class}"></div>
         </div>
     `);
     if (field.data == '') {
@@ -1331,9 +1331,9 @@ saltos.__form_field.pdfjs = field => {
     saltos.require('core/lib/pdfjs/pdf_viewer.min.js');
     saltos.check_params(field, ['id', 'class', 'value']);
     var obj = saltos.html(`
-        <div id='${field.id}' class='${field.class}'>
-            <div class='viewerContainer'>
-                <div class='pdfViewer'></div>
+        <div id="${field.id}" class="${field.class}">
+            <div class="viewerContainer">
+                <div class="pdfViewer"></div>
             </div>
         </div>
     `);
@@ -1428,7 +1428,8 @@ saltos.__form_field.table = field => {
     saltos.check_params(field, ['class', 'id', 'checkbox']);
     saltos.check_params(field, ['header', 'data', 'footer'], []);
     var obj = saltos.html(`
-        <table class='table table-striped table-hover ${field.class}' id='${field.id}' style="margin-bottom:0">
+        <table class="table table-striped table-hover ${field.class}"
+            id="${field.id}" style="margin-bottom: 0">
         </table>
     `);
     if (!field.header.hasOwnProperty('length')) {
@@ -1451,7 +1452,7 @@ saltos.__form_field.table = field => {
         if (field.checkbox) {
             obj.querySelector('thead tr').append(saltos.html(
                 'tr',
-                `<th style='width: 1%'><input type='checkbox'/></th>`
+                `<th style="width: 1%"><input type="checkbox"/></th>`
             ));
             obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
                 var _this = event.target;
@@ -1474,7 +1475,7 @@ saltos.__form_field.table = field => {
             obj.querySelector('thead tr').append(saltos.html('tr', `<th>${temp}</th>`));
         }
         if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-            obj.querySelector('thead tr').append(saltos.html('tr', `<th style='width: 1%'></th>`));
+            obj.querySelector('thead tr').append(saltos.html('tr', `<th style="width: 1%"></th>`));
         }
     }
     if (field.data.length) {
@@ -1485,7 +1486,7 @@ saltos.__form_field.table = field => {
         for (var key in field.data) {
             var row = saltos.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
-                row.append(saltos.html('tr', `<td><input type='checkbox'/></td>`));
+                row.append(saltos.html('tr', `<td><input type="checkbox"/></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
                     if (event.target.checked) {
                         event.target.parentNode.parentNode.classList.add('table-active');
@@ -1512,13 +1513,13 @@ saltos.__form_field.table = field => {
                 row.append(saltos.html('tr', `<td>${temp}</td>`));
             }
             if (field.data[key].hasOwnProperty('actions')) {
-                var td = saltos.html('tr', `<td class='p-0 align-middle text-nowrap'></td>`);
+                var td = saltos.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
                 for (var key2 in field.data[key].actions) {
                     var val2 = field.data[key].actions[key2];
                     if (val2.url == '') {
                         val2.disabled = true;
                     } else {
-                        val2.onclick = `saltos.open_window('#${val2.url}')`;
+                        val2.onclick = `saltos.open_window("#${val2.url}")`;
                     }
                     td.append(saltos.__form_field.button(val2));
                 }
@@ -1560,14 +1561,14 @@ saltos.__form_field.table = field => {
             var temp = htmlentities(field.footer);
             obj.querySelector('tfoot tr').append(saltos.html(
                 'tr',
-                `<td colspan='${num}' class='text-center'>${temp}</td>`
+                `<td colspan="${num}" class="text-center">${temp}</td>`
             ));
         }
     }
     // Convert the previous table in a responsive table
     // We are using the same div to put inside the styles instead of the table
     var old = obj;
-    obj = saltos.html(`<div class='table-responsive'></div>`);
+    obj = saltos.html(`<div class="table-responsive"></div>`);
     obj.append(old);
     obj.append(saltos.html(`
         <style>
@@ -1607,7 +1608,7 @@ saltos.__form_field.table = field => {
 saltos.__form_field.alert = field => {
     saltos.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close']);
     var obj = saltos.html(`
-        <div class='alert ${field.class}' role='alert' id='${field.id}'></div>
+        <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
     if (field.title != '') {
         obj.append(saltos.html(`<h4>${field.title}</h4>`));
@@ -1623,7 +1624,7 @@ saltos.__form_field.alert = field => {
         obj.classList.add('fade');
         obj.classList.add('show');
         obj.append(saltos.html(`
-            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `));
         obj.append(saltos.html(`
             <style>
@@ -1655,25 +1656,25 @@ saltos.__form_field.alert = field => {
  */
 saltos.__form_field.card = field => {
     saltos.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
-    var obj = saltos.html(`<div class='card' id='${field.id}'></div>`);
+    var obj = saltos.html(`<div class="card" id="${field.id}"></div>`);
     if (field.image != '') {
-        obj.append(saltos.html(`<img src='${field.image}' class='card-img-top' alt='${field.alt}'>`));
+        obj.append(saltos.html(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`));
     }
     if (field.header != '') {
-        obj.append(saltos.html(`<div class='card-header'>${field.header}</div>`));
+        obj.append(saltos.html(`<div class="card-header">${field.header}</div>`));
     }
-    obj.append(saltos.html(`<div class='card-body'></div>`));
+    obj.append(saltos.html(`<div class="card-body"></div>`));
     if (field.title != '') {
-        obj.querySelector('.card-body').append(saltos.html(`<h5 class='card-title'>${field.title}</h5>`));
+        obj.querySelector('.card-body').append(saltos.html(`<h5 class="card-title">${field.title}</h5>`));
     }
     if (field.text != '') {
-        obj.querySelector('.card-body').append(saltos.html(`<p class='card-text'>${field.text}</p>`));
+        obj.querySelector('.card-body').append(saltos.html(`<p class="card-text">${field.text}</p>`));
     }
     if (field.body != '') {
         obj.querySelector('.card-body').append(saltos.html(field.body));
     }
     if (field.footer != '') {
-        obj.append(saltos.html(`<div class='card-footer'>${field.footer}</div>`));
+        obj.append(saltos.html(`<div class="card-footer">${field.footer}</div>`));
     }
     obj = saltos.__label_combine(field, obj);
     return obj;
@@ -1701,7 +1702,7 @@ saltos.__form_field.card = field => {
 saltos.__form_field.chartjs = field => {
     saltos.require('core/lib/chartjs/chart.umd.min.js');
     saltos.check_params(field, ['id', 'mode', 'data']);
-    var obj = saltos.html(`<canvas id='${field.id}'></canvas>`);
+    var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
     for (var key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
@@ -1756,9 +1757,9 @@ saltos.__form_field.tags = field => {
     obj.append(saltos.__form_field.text(field));
     // This function draws a tag and programs the delete of the same tag
     var fn = val => {
-        var span = saltos.html(`<span class='badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2'
-            saltos-data='${val}'>
-            ${val} <i class='bi bi-x-circle ps-1' style='cursor: pointer'></i>
+        var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2"
+            saltos-data="${val}">
+            ${val} <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
         </span>`);
         obj.append(span);
         span.querySelector('i').addEventListener('click', event => {
@@ -1851,8 +1852,8 @@ saltos.__form_field.gallery = field => {
         field.class = 'col';
     }
     var obj = saltos.html(`
-        <div id='${field.id}' class='container-fluid'>
-            <div class='row'>
+        <div id="${field.id}" class="container-fluid">
+            <div class="row">
             </div>
         </div>
     `);
@@ -1864,9 +1865,9 @@ saltos.__form_field.gallery = field => {
             }
             saltos.check_params(val, ['image', 'title']);
             var img = saltos.html(`
-                <div class='${field.class} p-1'>
-                    <a href='${val.image}' class='venobox' data-gall='${field.id}' title='${val.title}'>
-                        <img src='${val.image}' class='img-fluid img-thumbnail' />
+                <div class="${field.class} p-1">
+                    <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
+                        <img src="${val.image}" class="img-fluid img-thumbnail" />
                     </a>
                 </div>
             `);
@@ -1897,8 +1898,8 @@ saltos.__form_field.gallery = field => {
 saltos.__form_field.placeholder = field => {
     saltos.check_params(field, ['id']);
     var obj = saltos.html(`
-        <div id='${field.id}' class='w-100 h-100 placeholder-glow' aria-hidden='true'>
-            <span class='w-100 h-100 placeholder'></span>
+        <div id="${field.id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
+            <span class="w-100 h-100 placeholder"></span>
         </div>
     `);
     return obj;
@@ -1936,10 +1937,10 @@ saltos.__text_helper = field => {
         field.required = 'required';
     }
     var obj = saltos.html(`
-        <input type='${field.type}' class='form-control ${field.class}' id='${field.id}'
-            style='${field.style}' placeholder='${field.placeholder}'
-            value='${field.value}' ${field.disabled} ${field.readonly} ${field.required}
-                data-bs-title='${field.tooltip}'>
+        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}"
+            style="${field.style}" placeholder="${field.placeholder}"
+            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}
+                data-bs-title="${field.tooltip}">
     `);
     if (field.tooltip != '') {
         saltos.__tooltip_helper(obj);
@@ -1979,10 +1980,10 @@ saltos.__textarea_helper = field => {
         field.required = 'required';
     }
     var obj = saltos.html(`
-        <textarea class='form-control ${field.class}' id='${field.id}'
-            placeholder='${field.placeholder}' rows='${field.rows}'
+        <textarea class="form-control ${field.class}" id="${field.id}"
+            placeholder="${field.placeholder}" rows="${field.rows}"
             ${field.disabled} ${field.readonly} ${field.required}
-            data-bs-title='${field.tooltip}'>${field.value}</textarea>
+            data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != '') {
         saltos.__tooltip_helper(obj);
@@ -2081,7 +2082,7 @@ saltos.__label_combine = (field, old) => {
 saltos.menu = args => {
     saltos.check_params(args, ['class']);
     saltos.check_params(args, ['menu'], []);
-    var obj = saltos.html(`<ul class='${args.class}'></ul>`);
+    var obj = saltos.html(`<ul class="${args.class}"></ul>`);
     for (var key in args.menu) {
         var val = args.menu[key];
         saltos.check_params(val, ['name', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
@@ -2097,12 +2098,12 @@ saltos.menu = args => {
                 val.dropdown_menu_end = 'dropdown-menu-end';
             }
             var temp = saltos.html(`
-                <li class='nav-item dropdown'>
-                    <button class='nav-link dropdown-toggle' role='button'
-                        data-bs-toggle='dropdown' aria-expanded='false'>
+                <li class="nav-item dropdown">
+                    <button class="nav-link dropdown-toggle" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.name}
                     </button>
-                    <ul class='dropdown-menu ${val.dropdown_menu_end}'>
+                    <ul class="dropdown-menu ${val.dropdown_menu_end}">
                     </ul>
                 </li>
             `);
@@ -2116,10 +2117,10 @@ saltos.menu = args => {
                     val2.active = 'active';
                 }
                 if (val2.divider) {
-                    var temp2 = saltos.html(`<li><hr class='dropdown-divider'></li>`);
+                    var temp2 = saltos.html(`<li><hr class="dropdown-divider"></li>`);
                 } else {
                     var temp2 = saltos.html(`<li><button
-                    class='dropdown-item ${val2.disabled} ${val2.active}'>${val2.name}</button></li>`);
+                        class="dropdown-item ${val2.disabled} ${val2.active}">${val2.name}</button></li>`);
                     if (!val2.disabled) {
                         temp2.addEventListener('click', val2.onclick);
                     }
@@ -2128,8 +2129,8 @@ saltos.menu = args => {
             }
         } else {
             var temp = saltos.html(`
-                <li class='nav-item'>
-                    <button class='nav-link ${val.disabled} ${val.active}'>${val.name}</button>
+                <li class="nav-item">
+                    <button class="nav-link ${val.disabled} ${val.active}">${val.name}</button>
                 </li>
             `);
             if (!val.disabled) {
@@ -2162,19 +2163,19 @@ saltos.navbar = args => {
     saltos.check_params(args.brand, ['name', 'logo', 'width', 'height']);
     saltos.check_params(args, ['items'], []);
     var obj = saltos.html(`
-        <nav class='navbar navbar-expand-md navbar-dark bg-primary fixed-top'>
-            <div class='container-fluid'>
-                <div class='navbar-brand'>
-                    <img src='${args.brand.logo}' alt='${args.brand.name}' width='${args.brand.width}'
-                    height='${args.brand.height}' class='d-inline-block align-text-top'>
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-brand">
+                    <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}"
+                    height="${args.brand.height}" class="d-inline-block align-text-top">
                     ${args.brand.name}
                 </div>
-                <button class='navbar-toggler' type='button' data-bs-toggle='collapse'
-                data-bs-target='#${args.id}' aria-controls='${args.id}' aria-expanded='false'
-                aria-label='Toggle navigation'>
-                    <span class='navbar-toggler-icon'></span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false"
+                aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class='collapse navbar-collapse' id='${args.id}'>
+                <div class="collapse navbar-collapse" id="${args.id}">
                 </div>
             </div>
         </nav>
@@ -2237,24 +2238,24 @@ saltos.modal = args => {
     saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static']);
     var temp = '';
     if (args.static) {
-        temp = `data-bs-backdrop='static' data-bs-keyboard='false'`;
+        temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     //if (args.class == '') {
     //    args.class = 'modal-dialog-centered';
     //}
     var obj = saltos.html(`
-        <div class='modal fade' id='${args.id}' tabindex='-1' aria-labelledby='${args.id}_label'
-            aria-hidden='true' ${temp}>
-            <div class='modal-dialog ${args.class}'>
-                <div class='modal-content'>
-                    <div class='modal-header'>
-                        <h1 class='modal-title fs-5' id='${args.id}_label'>${args.title}</h1>
-                        <button type='button' class='btn-close' data-bs-dismiss='modal'
-                            aria-label='${args.close}'></button>
+        <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
+            aria-hidden="true" ${temp}>
+            <div class="modal-dialog ${args.class}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="${args.close}"></button>
                     </div>
-                    <div class='modal-body'>
+                    <div class="modal-body">
                     </div>
-                    <div class='modal-footer'>
+                    <div class="modal-footer">
                     </div>
                 </div>
             </div>
@@ -2329,17 +2330,17 @@ saltos.offcanvas = args => {
     saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static']);
     var temp = '';
     if (args.static) {
-        temp = `data-bs-backdrop='static' data-bs-keyboard='false'`;
+        temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     var obj = saltos.html(`
-        <div class='offcanvas ${args.class}' tabindex='-1' id='${args.id}'
-            aria-labelledby='${args.id}_label' ${temp}>
-            <div class='offcanvas-header'>
-                <h5 class='offcanvas-title' id='${args.id}_label'>${args.title}</h5>
-                <button type='button' class='btn-close' data-bs-dismiss='offcanvas'
-                    aria-label='${args.close}'></button>
+        <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}"
+            aria-labelledby="${args.id}_label" ${temp}>
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                    aria-label="${args.close}"></button>
             </div>
-            <div class='offcanvas-body'>
+            <div class="offcanvas-body">
             </div>
         </div>
     `);
@@ -2394,7 +2395,7 @@ saltos.toast = args => {
     saltos.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
     if (document.querySelectorAll('.toast-container').length == 0) {
         document.body.append(saltos.html(`<div
-            class='toast-container position-fixed bottom-0 end-0 p-3'></div>`));
+            class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
     }
     // CHECK FOR REPETITIONS
     var hash = md5(JSON.stringify(args));
@@ -2403,15 +2404,15 @@ saltos.toast = args => {
     }
     // CONTINUE
     var obj = saltos.html(`
-        <div id='${args.id}' class='toast ${args.class}' role='alert' aria-live='assertive'
-            aria-atomic='true' hash='${hash}'>
-            <div class='toast-header'>
-                <strong class='me-auto'>${args.title}</strong>
+        <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
+            aria-atomic="true" hash="${hash}">
+            <div class="toast-header">
+                <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
-                <button type='button' class='btn-close' data-bs-dismiss='toast'
-                    aria-label='${args.close}'></button>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"
+                    aria-label="${args.close}"></button>
             </div>
-            <div class='toast-body'>
+            <div class="toast-body">
             </div>
         </div>
     `);

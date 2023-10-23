@@ -41,7 +41,7 @@
 saltos.show_error = error => {
     console.log(error);
     if (typeof error != 'object') {
-        document.body.append(saltos.html(`<pre class='m-3'>${error}</pre>`));
+        document.body.append(saltos.html(`<pre class="m-3">${error}</pre>`));
         return;
     }
     saltos.alert('Error ' + error.code, error.text);
@@ -421,9 +421,9 @@ saltos.loading = on_off => {
     var obj = document.getElementById('loading');
     if (on_off && !obj) {
         obj = saltos.html(`
-            <div id='loading' class='w-100 h-100 position-fixed top-0 start-0 opacity-75'>
-                <div class='spinner-border position-fixed top-50 start-50' role='status'>
-                    <span class='visually-hidden'>Loading...</span>
+            <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 opacity-75">
+                <div class="spinner-border position-fixed top-50 start-50" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         `);
