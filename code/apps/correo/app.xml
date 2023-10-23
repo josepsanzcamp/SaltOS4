@@ -40,7 +40,7 @@
             <button onclick="saltos.correo.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo"/>
             <button onclick="saltos.correo.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro"/>
             <button onclick="saltos.correo.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo"/>
-            <table col_class="col-md-12" source="list/correo/table" id="table"/>
+            <table col_class="col-md-12 my-3" source="list/correo/table" id="table"/>
             <div col_class="col mb-3"/>
             <button onclick="saltos.correo.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado"/>
         </layout>

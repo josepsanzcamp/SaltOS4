@@ -39,7 +39,7 @@
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los clientes" id="search"/>
             <button onclick="saltos.clientes.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los clientes"/>
             <button onclick="saltos.clientes.clear_filter()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro"/>
-            <table col_class="col-md-12" source="list/clientes/table" id="table"/>
+            <table col_class="col-md-12 my-3" source="list/clientes/table" id="table"/>
             <div col_class="col mb-3"/>
             <button onclick="saltos.clientes.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado"/>
         </layout>
