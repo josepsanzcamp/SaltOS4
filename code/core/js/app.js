@@ -420,24 +420,26 @@ saltos.form_app.javascript = data => {
 saltos.loading = on_off => {
     var obj = document.getElementById('loading');
     if (on_off && !obj) {
-        document.body.append(saltos.html(`
-            <div id='loading' class='d-flex justify-content-center align-items-center vh-100'>
-                <div class='spinner-border' role='status'>
+        obj = saltos.html(`
+            <div id='loading' class='w-100 h-100 position-fixed top-0 start-0 opacity-75'>
+                <div class='spinner-border position-fixed top-50 start-50' role='status'>
                     <span class='visually-hidden'>Loading...</span>
                 </div>
             </div>
-        `));
-        window.scrollTo(0, 1 << 30);
+        `);
+        var dark = document.querySelector('html').getAttribute('data-bs-theme');
+        if (!dark) {
+            obj.classList.add("bg-light");
+            obj.classList.add("text-dark");
+        } else {
+            obj.classList.add("bg-dark");
+            obj.classList.add("text-light");
+        }
+        document.body.append(obj);
         return true;
     }
     if (!on_off && obj) {
-        window.scrollTo(0, 0);
-        var timer = setInterval(() => {
-            if (window.scrollY == 0) {
-                obj.remove();
-                clearInterval(timer);
-            }
-        }, 1);
+        obj.remove();
         return true;
     }
     return false;
