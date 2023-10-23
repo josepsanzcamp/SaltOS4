@@ -35,45 +35,49 @@
         <layout auto="true" container_class="container mt-3" col_class="col-auto">
             <button ifeval="check_user('clientes', 'create')" onclick="saltos.open_window('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente"/>
             <div col_class="col p-0"/>
-            <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los clientes"/>
+            <hidden id="page" value="0"/>
+            <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los clientes" id="search"/>
             <button onclick="saltos.clientes.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los clientes"/>
             <button onclick="saltos.clientes.clear_filter()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro"/>
-            <table checkbox="true" col_class="col-md-12">
-                <header eval="true">[
-                    "nombre" => "Nombre",
-                    "cif" => "CIF",
-                    "nombre_poblacion" => "Población",
-                    "nombre_codpostal" => "C.P."
-                ]</header>
-                <data eval="true">add_list_actions(execute_query_array("
-                    SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
-                    FROM app_clientes
-                    WHERE 1 = 1
-                    AND ".make_fulltext_query("a", "clientes", ["minsize" => 1, "default" => "1=1"])."
-                    AND ".check_sql("clientes", "list")."
-                    ORDER BY id DESC
-                    LIMIT 0,15
-                "),[
-                    ["app" => "clientes", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle cliente"],
-                    ["app" => "clientes", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar cliente"],
-                    ["app" => "clientes", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar cliente"],
-                ])</data>
-                <footer eval="true">"Total: " . execute_query("
-                    SELECT COUNT(*) total
-                    FROM app_clientes
-                    WHERE 1 = 1
-                    AND ".make_fulltext_query("a", "clientes", ["minsize" => 1, "default" => "1=1"])."
-                    AND ".check_sql("clientes", "list")."
-                ")</footer>
-                <divider eval="true">[false, true, true]</divider>
-            </table>>
+            <table col_class="col-md-12" source="list/clientes/table" id="table"/>
             <div col_class="col mb-3"/>
             <button onclick="saltos.clientes.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
+            <inline>saltos.clientes.initialize()</inline>
         </javascript>
     </list>
+    <table checkbox="true" type="table" id="table">
+        <header eval="true">[
+            "nombre" => "Nombre",
+            "cif" => "CIF",
+            "nombre_poblacion" => "Población",
+            "nombre_codpostal" => "C.P."
+        ]</header>
+        <rows eval="true">execute_query_array("
+            SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_clientes
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "clientes", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("clientes", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
+        ")</rows>
+        <actions eval="true">[
+            ["app" => "clientes", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle cliente"],
+            ["app" => "clientes", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar cliente"],
+            ["app" => "clientes", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar cliente"],
+        ]</actions>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM app_clientes
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "clientes", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("clientes", "list")."
+        ")</footer>
+        <divider eval="true">[false, true, true]</divider>
+    </table>
     <!-- Form part -->
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
         <text id="codigo" label="Codigo"/>

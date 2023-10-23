@@ -119,7 +119,7 @@ function current_groups()
     // Continue
     $user_id = current_user();
     if (!$user_id) {
-        return 0;
+        return "0";
     }
     // Get groups from the users table
     $query = "SELECT group_id, groups_id FROM tbl_users WHERE active = 1 AND id = $user_id";

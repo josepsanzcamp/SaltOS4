@@ -65,6 +65,10 @@ $_DATA = [
     ],
 ];
 
+//~ set_server("HTTP_TOKEN", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
+//~ set_server("REMOTE_ADDR", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
+//~ set_server("HTTP_USER_AGENT", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
+
 //~ addlog(sprintr($_DATA));
 //~ addlog(sprintr($_SERVER));
 

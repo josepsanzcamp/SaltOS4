@@ -40,13 +40,53 @@
 saltos.clientes = {};
 
 /**
+ * Initialize customers
+ *
+ * This function initializes the customers screen to improve the user experience.
+ */
+saltos.clientes.initialize = () => {
+    document.getElementById('search').focus();
+    document.getElementById('search').addEventListener('keydown', event => {
+        if (saltos.get_keycode(event) != 13) {
+            return;
+        }
+        saltos.clientes.search();
+    });
+};
+
+/**
  * TODO
  *
  * TODO
  */
 saltos.clientes.search = () => {
-    // Using JSON
-    console.log('saltos.clientes.search');
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'action': 'list',
+            'app': 'clientes',
+            'subapp': 'table',
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            document.getElementById('table').replaceWith(saltos.form_field(response));
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
 };
 
 /**
@@ -55,8 +95,9 @@ saltos.clientes.search = () => {
  * TODO
  */
 saltos.clientes.clear_filter = () => {
-    // Using REST
-    console.log('saltos.clientes.clear_filter');
+    document.getElementById('search').value = '';
+    document.getElementById('page').value = '0';
+    saltos.clientes.search();
 };
 
 /**
@@ -65,8 +106,36 @@ saltos.clientes.clear_filter = () => {
  * TODO
  */
 saltos.clientes.read_more = () => {
-    // Using REST
-    console.log('saltos.clientes.read_more');
+    document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
+    saltos.ajax({
+        url: 'index.php',
+        data: JSON.stringify({
+            'action': 'list',
+            'app': 'clientes',
+            'subapp': 'table',
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.check_response(response)) {
+                return;
+            }
+            var obj = document.getElementById('table').querySelector('tbody');
+            var temp = saltos.form_field(response);
+            temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+        },
+        error: request => {
+            saltos.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get_token(),
+        }
+    });
 };
 
 /**

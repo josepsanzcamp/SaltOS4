@@ -39,10 +39,22 @@ declare(strict_types=1);
  *
  * This function returns the server variable requested by index if it exists
  *
- * @index   => the index key used to get the value of the server
- * @default => the default value returned if the key is not found
+ * @key => the index key used to get the value of the server
  */
-function get_server($index)
+function get_server($key)
 {
-    return $_SERVER[$index] ?? null;
+    return $_SERVER[$key] ?? null;
+}
+
+/**
+ * Set Server
+ *
+ * This function is intended to replace some server variabe in runtime mode
+ *
+ * @key => the index key used to get the value of the server
+ * @val => the value that you want to set in the server array
+ */
+function set_server($key, $val)
+{
+    $_SERVER[$key] = $val;
 }
