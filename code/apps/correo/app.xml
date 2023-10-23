@@ -49,7 +49,7 @@
             <inline>saltos.correo.initialize()</inline>
         </javascript>
     </list>
-    <table checkbox="true" type="table" id="table">
+    <table checkbox="true" type="table" id="table" limit="50" order="datetime DESC">
         <header eval="true">[
             "de_para" => "De/Para",
             "subject" => "Asunto",

@@ -429,11 +429,11 @@ saltos.loading = on_off => {
         `);
         var dark = document.querySelector('html').getAttribute('data-bs-theme');
         if (!dark) {
-            obj.classList.add("bg-light");
-            obj.classList.add("text-dark");
+            obj.classList.add('bg-light');
+            obj.classList.add('text-dark');
         } else {
-            obj.classList.add("bg-dark");
-            obj.classList.add("text-light");
+            obj.classList.add('bg-dark');
+            obj.classList.add('text-light');
         }
         document.body.append(obj);
         return true;

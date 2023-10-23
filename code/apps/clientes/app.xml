@@ -48,7 +48,7 @@
             <inline>saltos.clientes.initialize()</inline>
         </javascript>
     </list>
-    <table checkbox="true" type="table" id="table">
+    <table checkbox="true" type="table" id="table" limit="25" order="id DESC">
         <header eval="true">[
             "nombre" => "Nombre",
             "cif" => "CIF",

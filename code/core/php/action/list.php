@@ -72,16 +72,6 @@ if (!isset($array[get_data("json/subapp")])) {
     show_json_error("subapp " . get_data("json/subapp") . " not found");
 }
 
-if (!get_data("json/search")) {
-    set_data("json/search", "");
-}
-if (!get_data("json/page")) {
-    set_data("json/page", 0);
-}
-set_data("json/order", "id DESC");
-set_data("json/limit", "15");
-set_data("json/offset", intval(get_data("json/page") * get_data("json/limit")));
-
 // Get only the subapp part
 $array = $array[get_data("json/subapp")];
 
@@ -89,6 +79,23 @@ $array = $array[get_data("json/subapp")];
 if (is_array($array) && isset($array["value"]) && isset($array["#attr"])) {
     $array = array_merge($array["value"], $array["#attr"]);
 }
+
+// Check json arguments
+if (!get_data("json/search")) {
+    set_data("json/search", "");
+}
+if (!get_data("json/page")) {
+    set_data("json/page", 0);
+}
+
+// Check xml arguments
+set_data("json/order", $array["order"]);
+unset($array["order"]);
+set_data("json/limit", $array["limit"]);
+unset($array["limit"]);
+
+// Compute offset using page and limit
+set_data("json/offset", intval(get_data("json/page") * get_data("json/limit")));
 
 // Check to remove header and footer to improve the performance
 if (get_data("json/page")) {
@@ -124,4 +131,5 @@ foreach ($rows as $key => $row) {
 }
 $array["data"] = $rows;
 
+// The end
 output_handler_json($array);
