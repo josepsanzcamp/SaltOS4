@@ -45,7 +45,6 @@ saltos.clientes = {};
  * This function initializes the customers screen to improve the user experience.
  */
 saltos.clientes.initialize = () => {
-    document.getElementById('search').focus();
     document.getElementById('search').addEventListener('keydown', event => {
         if (saltos.get_keycode(event) != 13) {
             return;

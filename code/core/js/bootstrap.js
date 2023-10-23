@@ -1907,7 +1907,7 @@ saltos.__form_field.gallery = field => {
 saltos.__form_field.placeholder = field => {
     saltos.check_params(field, ['id']);
     var obj = saltos.html(`
-        <div id='${field.id}' class='w-100 h-100 placeholder-glow' aria-hidden='true'>
+        <div id='${field.id}' class='w-100 h-100 placeholder-glow mb-3 py-3' aria-hidden='true'>
             <span class='w-100 h-100 placeholder'></span>
         </div>
     `);
