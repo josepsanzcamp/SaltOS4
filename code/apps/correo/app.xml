@@ -55,7 +55,7 @@
             "subject" => "Asunto",
             "date_time" => "Fecha",
         ]</header>
-        <rows eval="true">execute_query_array("
+        <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, para, de) de_para, subject,
                 IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time
             FROM app_correo
@@ -64,7 +64,7 @@
             AND ".check_sql("correo", "list")."
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</rows>
+        ")</data>
         <actions eval="true">[
             ["app" => "correo", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle correo"],
             ["app" => "correo", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar correo"],

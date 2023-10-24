@@ -159,12 +159,12 @@ saltos.clientes.cancel = () => {
  * TODO
  */
 saltos.clientes.insert = () => {
-    if (!saltos.check_required()) {
-        return;
-    }
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');
+        return;
+    }
+    if (!saltos.check_required()) {
         return;
     }
     saltos.ajax({
@@ -204,12 +204,12 @@ saltos.clientes.insert = () => {
  * TODO
  */
 saltos.clientes.update = () => {
-    if (!saltos.check_required()) {
-        return;
-    }
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');
+        return;
+    }
+    if (!saltos.check_required()) {
         return;
     }
     saltos.ajax({

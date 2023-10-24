@@ -40,11 +40,11 @@
             <button ifeval="check_user('facturas', 'menu')" onclick="saltos.open_window('#app/facturas/list')" class="btn btn-primary fs-1 w-100 h-100" eval="true">T("Invoices")</button>
             <button ifeval="check_user('login', 'menu')" onclick="saltos.open_window('#app/login')" class="btn btn-success fs-1 w-100 h-100" eval="true">T("Login")</button>
             <button ifeval="check_user('tester', 'menu')" onclick="saltos.open_window('#app/tester')" class="btn btn-danger fs-1 w-100 h-100" eval="true">T("Tester")</button>
-            <table ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/1" col_class="col-md-6 mb-3"></table>
-            <table ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/2" col_class="col-md-6 mb-3"></table>
-            <chartjs ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/5" mode="pie"></chartjs>
-            <chartjs ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/3" mode="bar"></chartjs>
-            <chartjs ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/3" mode="line"></chartjs>
+            <table ifeval="check_user('clientes', 'widget')" source="list/clientes/widget/table1" col_class="col-md-6 mb-3" id="table1"></table>
+            <table ifeval="check_user('clientes', 'widget')" source="list/clientes/widget/table2" col_class="col-md-6 mb-3" id="table2"></table>
+            <chartjs ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/plot2" mode="pie"></chartjs>
+            <chartjs ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/plot1" mode="bar"></chartjs>
+            <chartjs ifeval="check_user('clientes', 'widget')" source="app/clientes/widget/plot1" mode="line"></chartjs>
         </layout>
     </menu>
 </root>

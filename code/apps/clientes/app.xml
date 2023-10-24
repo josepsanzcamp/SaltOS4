@@ -55,7 +55,7 @@
             "nombre_poblacion" => "Población",
             "nombre_codpostal" => "C.P."
         ]</header>
-        <rows eval="true">execute_query_array("
+        <data eval="true">execute_query_array("
             SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
             FROM app_clientes
             WHERE 1 = 1
@@ -63,7 +63,7 @@
             AND ".check_sql("clientes", "list")."
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</rows>
+        ")</data>
         <actions eval="true">[
             ["app" => "clientes", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle cliente"],
             ["app" => "clientes", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar cliente"],
@@ -100,7 +100,7 @@
         <text id="tel_movil" label="Tel movil"/>
         <text id="fax" label="Fax"/>
     </layout>
-    <data global="_DATA" eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval($_DATA["rest"][3]))</data>
+    <data eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval(get_data("rest/3")))</data>
     <create>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -126,7 +126,7 @@
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente">
-                <onclick global="_DATA" eval="true">"saltos.open_window('#app/clientes/edit/".intval($_DATA["rest"][3])."')"</onclick>
+                <onclick eval="true">"saltos.open_window('#app/clientes/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
             <button onclick="saltos.clientes.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Volver" tooltip="Para volver atrás"/>
         </layout>
@@ -168,17 +168,27 @@
             <file eval="true">file_with_hash("apps/clientes/app.js")</file>
         </javascript>
     </delete>
-    <widget id="1">
+    <widget id="table1" order="id DESC" limit="5">
         <header eval="true">["Nombre", "CIF", "Población", "C.P."]</header>
-        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal FROM app_clientes ORDER BY id DESC LIMIT 0,5")</data>
+        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_clientes
+            WHERE 1 = 1
+            AND ".check_sql("clientes", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <footer eval="true">"Total: 5 registros"</footer>
     </widget>
-    <widget id="2">
+    <widget id="table2" order="id ASC" limit="5">
         <header eval="true">["Nombre", "CIF", "Población", "C.P."]</header>
-        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal FROM app_clientes ORDER BY id ASC LIMIT 0,5")</data>
+        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_clientes
+            WHERE 1 = 1
+            AND ".check_sql("clientes", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <footer eval="true">"Total: 5 registros"</footer>
     </widget>
-    <widget id="3">
+    <widget id="plot1">
         <data eval="true">[
             "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
             "datasets" => [[
@@ -193,7 +203,7 @@
                 ]]
         ]</data>
     </widget>
-    <widget id="5">
+    <widget id="plot2">
         <data eval="true">[
             "labels" => ['Red', 'Blue', 'Yellow', 'Green'],
             "datasets" => [[

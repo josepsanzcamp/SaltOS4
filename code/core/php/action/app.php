@@ -72,14 +72,7 @@ if (!check_user(get_data("rest/1"), get_data("rest/2"))) {
     show_json_error("Permission denied");
 }
 
-// Define the third argument used commonly by some apps
-if (get_data("rest/3") == "") {
-    set_data("rest/3", 0);
-} else {
-    set_data("rest/3", intval(get_data("rest/3")));
-}
-
-// Trick to allow request as widget/2
+// Trick to allow request as widget/table2
 $dict = [];
 foreach ($array as $key => $val) {
     if (fix_key($key) == get_data("rest/2") && isset($val["#attr"]["id"])) {
@@ -87,10 +80,11 @@ foreach ($array as $key => $val) {
     }
 }
 if (count($dict) > 1) {
-    if (!isset($dict[get_data("rest/2") . "/" . get_data("rest/3")])) {
-        show_json_error("subsubapp not found");
+    $key = get_data("rest/2") . "/" . get_data("rest/3");
+    if (!isset($dict[$key])) {
+        show_json_error("subapp $key not found");
     }
-    set_data("rest/2", $dict[get_data("rest/2") . "/" . get_data("rest/3")]);
+    set_data("rest/2", $dict[$key]);
 }
 
 // Eval the app and returns the result

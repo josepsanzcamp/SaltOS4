@@ -34,7 +34,7 @@ declare(strict_types=1);
  * features suck as rows, actions for each row, and other improvements as
  * the list with count and without count.
  *
- * TODO
+ * TODO: Falta el order by desde el listado
  */
 
 // With this code, we allow rest and json at the same time
@@ -76,6 +76,26 @@ if (!isset($array[get_data("json/subapp")])) {
     show_json_error("subapp " . get_data("json/subapp") . " not found");
 }
 
+// With this code, we allow rest and json at the same time
+if (get_data("rest/3") != "" && get_data("json/id") == "") {
+    set_data("json/id", get_data("rest/3"));
+}
+
+// Trick to allow request as widget/table2
+$dict = [];
+foreach ($array as $key => $val) {
+    if (fix_key($key) == get_data("json/subapp") && isset($val["#attr"]["id"])) {
+        $dict[get_data("json/subapp") . "/" . $val["#attr"]["id"]] = $key;
+    }
+}
+if (count($dict) > 1) {
+    $key = get_data("json/subapp") . "/" . get_data("json/id");
+    if (!isset($dict[$key])) {
+        show_json_error("subapp $key not found");
+    }
+    set_data("json/subapp", $dict[$key]);
+}
+
 // Get only the subapp part
 $array = $array[get_data("json/subapp")];
 
@@ -93,8 +113,14 @@ if (!get_data("json/page")) {
 }
 
 // Check xml arguments
+if (!isset($array["order"])) {
+    $array["order"] = "id DESC";
+}
 set_data("json/order", $array["order"]);
 unset($array["order"]);
+if (!isset($array["limit"])) {
+    $array["limit"] = 15;
+}
 set_data("json/limit", $array["limit"]);
 unset($array["limit"]);
 
@@ -109,16 +135,18 @@ if (get_data("json/page")) {
 // Eval the queries
 $array = eval_attr($array);
 
-// Prepare rows and actions
-$rows = $array["rows"];
-unset($array["rows"]);
-$actions = $array["actions"];
-unset($array["actions"]);
+// Prepare data and actions
+if (!isset($array["data"])) {
+    $array["data"] = [];
+}
+if (!isset($array["actions"])) {
+    $array["actions"] = [];
+}
 
 // Add the actions to each row checking each permissions's row
-foreach ($rows as $key => $row) {
-    $row["actions"] = [];
-    foreach ($actions as $action) {
+foreach ($array["data"] as $key => $row) {
+    $actions = [];
+    foreach ($array["actions"] as $action) {
         $table = app2table($action["app"]);
         $id = $row["id"];
         $sql = check_sql($action["app"], $action["action"]);
@@ -129,11 +157,11 @@ foreach ($rows as $key => $row) {
         } else {
             $action["url"] = "";
         }
-        $row["actions"][] = $action;
+        $actions[] = $action;
     }
-    $rows[$key] = $row;
+    $array["data"][$key]["actions"] = $actions;
 }
-$array["data"] = $rows;
+unset($array["actions"]);
 
 // The end
 output_handler_json($array);
