@@ -628,9 +628,6 @@ saltos.form_helper = (attr, bool) => {
     if (saltos.token.get_token() !== null) {
         saltos.authenticate.checktoken();
     }
-    // Renew token part
-    saltos.authenticate.checkrenew();
-    setInterval(saltos.authenticate.checkrenew, 60000);
     // Hash part
     if (saltos.hash.get() == '') {
         saltos.hash.set('app/menu');

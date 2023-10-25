@@ -60,16 +60,38 @@ saltos.token.get_expires = () => {
 };
 
 /**
+ * Get autorenew function
+ *
+ * This function returns the autorenew stored in the localStorage
+ */
+saltos.token.get_autorenew = () => {
+    return localStorage.getItem('saltos.autorenew') * 1000;
+};
+
+/**
+ * Get autocheck function
+ *
+ * This function returns the autochecl stored in the localStorage
+ */
+saltos.token.get_autocheck = () => {
+    return localStorage.getItem('saltos.autocheck') * 1000;
+};
+
+/**
  * Set token and expires
  *
  * This function store the token and expires in the localStorage
  *
- * @token   => the token that you want to store in the localStorage
- * @expires => the expires of the token that you want to store in the localStorage
+ * @response  => the object that contains the follow parameters:
+ * @token     => the token that you want to store in the localStorage
+ * @expires   => the expires of the token that you want to store in the localStorage
+ * @autorenew => the autorenew of the token that you can use to force an autorenew
  */
-saltos.token.set = (token, expires) => {
-    localStorage.setItem('saltos.token', token);
-    localStorage.setItem('saltos.expires', expires);
+saltos.token.set = (response) => {
+    localStorage.setItem('saltos.token', response.token);
+    localStorage.setItem('saltos.expires', response.expires_at);
+    localStorage.setItem('saltos.autorenew', response.autorenew_at);
+    localStorage.setItem('saltos.autocheck', response.autocheck_at);
 };
 
 /**
@@ -80,6 +102,8 @@ saltos.token.set = (token, expires) => {
 saltos.token.unset = () => {
     localStorage.removeItem('saltos.token');
     localStorage.removeItem('saltos.expires');
+    localStorage.removeItem('saltos.autorenew');
+    localStorage.removeItem('saltos.autocheck');
 };
 
 /**
@@ -115,11 +139,13 @@ saltos.authenticate.authtoken = (user, pass) => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.token.set(response.token, response.expires_at);
+                saltos.token.set(response);
+                saltos.authenticate.autorenew(true);
                 return;
             }
             if (response.status == 'ko') {
                 saltos.token.unset();
+                saltos.authenticate.autorenew();
                 return;
             }
             saltos.show_error(response);
@@ -153,11 +179,13 @@ saltos.authenticate.reauthtoken = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.token.set(response.token, response.expires_at);
+                saltos.token.set(response);
+                saltos.authenticate.autorenew(true);
                 return;
             }
             if (response.status == 'ko') {
                 saltos.token.unset();
+                saltos.authenticate.autorenew();
                 return;
             }
             saltos.show_error(response);
@@ -195,10 +223,12 @@ saltos.authenticate.deauthtoken = () => {
             }
             if (response.status == 'ok') {
                 saltos.token.unset();
+                saltos.authenticate.autorenew();
                 return;
             }
             if (response.status == 'ko') {
                 saltos.token.unset();
+                saltos.authenticate.autorenew();
                 return;
             }
             saltos.show_error(response);
@@ -234,11 +264,13 @@ saltos.authenticate.checktoken = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.token.set(response.token, response.expires_at);
+                saltos.token.set(response);
+                saltos.authenticate.autorenew(true);
                 return;
             }
             if (response.status == 'ko') {
                 saltos.token.unset();
+                saltos.authenticate.autorenew();
                 return;
             }
             saltos.show_error(response);
@@ -262,13 +294,40 @@ saltos.authenticate.checktoken = () => {
  * token action.
  */
 saltos.authenticate.checkrenew = () => {
-    if (saltos.token.get_expires() === null) {
-        return;
-    }
     var t1 = new Date(saltos.token.get_expires()).getTime();
     var t2 = new Date().getTime();
     var t3 = t1 - t2;
-    if (t3 < 90000) {
+    if (t3 < saltos.token.get_autorenew()) {
         saltos.authenticate.reauthtoken();
+    }
+};
+
+/**
+ * Variable used to store the timer
+ *
+ * This variable must contains the timer of the auto renew token feature
+ */
+saltos.authenticate.__autorenew_timer = null;
+
+/**
+ * Auto-renew helper function
+ *
+ * This function allow to enable or disable the auto renew token feature, can receive
+ * an argument to specify if it must to enable or disable the feature, it is intended
+ * to be used when set or unset the token.
+ *
+ * @on_off => the parameter to indicates if you want to enable or disable the feature
+ */
+saltos.authenticate.autorenew = on_off => {
+    if (on_off && saltos.authenticate.__autorenew_timer === null) {
+        saltos.authenticate.checkrenew();
+        saltos.authenticate.__autorenew_timer = setInterval(
+            saltos.authenticate.checkrenew,
+            saltos.token.get_autocheck()
+        );
+    }
+    if (!on_off && saltos.authenticate.__autorenew_timer !== null) {
+        clearInterval(saltos.authenticate.__autorenew_timer);
+        saltos.authenticate.__autorenew_timer = null;
     }
 };

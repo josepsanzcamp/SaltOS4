@@ -113,6 +113,8 @@ $datetime = current_datetime();
 $token = get_unique_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
 $renewals = get_config("auth/tokenrenewals");
+$autorenew = get_config("auth/tokenautorenew");
+$autocheck = get_config("auth/tokenautocheck");
 
 $query = make_insert_query("tbl_users_tokens", [
     "user_id" => $row["id"],
@@ -132,4 +134,6 @@ output_handler_json([
     "created_at" => $datetime,
     "expires_at" => $expires,
     "pending_renewals" => $renewals,
+    "autorenew_at" => $autorenew,
+    "autocheck_at" => $autocheck,
 ]);
