@@ -1480,9 +1480,12 @@ saltos.__form_field.table = field => {
     }
     if (field.data.length) {
         obj.append(saltos.html('table', `
-            <tbody class="table-group-divider">
+            <tbody>
             </tbody>
         `));
+        if (field.header.length) {
+            obj.querySelector('tbody').classList.add('table-group-divider');
+        }
         for (var key in field.data) {
             var row = saltos.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
@@ -1535,6 +1538,9 @@ saltos.__form_field.table = field => {
                 </tr>
             </tfoot>
         `));
+        if (field.data.length) {
+            obj.querySelector('tfoot').classList.add('table-group-divider');
+        }
         if (typeof field.footer == 'object') {
             if (field.header.length != field.footer.length) {
                 console.log('field.header.length != field.footer.length');
@@ -1552,6 +1558,9 @@ saltos.__form_field.table = field => {
         }
         if (typeof field.footer == 'string') {
             var num = field.header.length;
+            if (!num) {
+                num = Object.keys(field.data[0]).length;
+            }
             if (field.checkbox) {
                 num++;
             }
