@@ -81,7 +81,7 @@
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
         <text id="codigo" label="Codigo"/>
         <switch id="activo" label="Activo"/>
-        <text id="nombre" label="Nombre" required="true"/>
+        <text id="nombre" label="Nombre" required="true" autofocus="true"/>
         <text id="nombre1" label="Nombre1"/>
         <text id="nombre2" label="Nombre2"/>
         <text id="cif" label="CIF" required="true"/>

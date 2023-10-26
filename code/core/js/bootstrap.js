@@ -43,26 +43,26 @@
  * @container   => id, class, style
  * @row         => id, class, style
  * @col         => id, class, style
- * @text        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
- * @hidden      => id, class, placeholder, value, disabled, readonly, required, tooltip
- * @integer     => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @float       => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @color       => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @date        => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @time        => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @datetime    => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @textarea    => id, class, placeholder, value, disabled, readonly, required, rows, tooltip, label
- * @ckeditor    => id, class, placeholder, value, disabled, readonly, required, rows, label
- * @codemirror  => id, class, placeholder, value, disabled, readonly, required, rows, mode, label
- * @iframe      => value, id, class, height, tooltip, label
- * @select      => id, class, disabled, required, rows, multiple, size, value, tooltip, label
- * @multiselect => id, class, disabled, required, rows, multiple, size, value, multiple, tooltip, label
- * @checkbox    => id, class, disabled, readonly, label, value, tooltip
- * @switch      => id, class, disabled, readonly, label, value, tooltip
- * @button      => id, class, disabled, value, onclick, tooltip
- * @password    => id, class, placeholder, value, disabled, readonly, required, tooltip, label
- * @file        => id, class, disabled, required, multiple, tooltip, label
- * @link        => id, disabled, value, onclick, tooltip, label
+ * @text        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
+ * @hidden      => id, class, PL, value, DS, RO, RQ, AF, tooltip
+ * @integer     => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+ * @float       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+ * @color       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+ * @date        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+ * @time        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+ * @datetime    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+ * @textarea    => id, class, PL, value, DS, RO, RQ, AF, rows, tooltip, label
+ * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, rows, label
+ * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
+ * @iframe      => id, class, value, height, tooltip, label
+ * @select      => id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
+ * @multiselect => id, class, DS, RQ, AF, rows, multiple, size, value, multiple, tooltip, label
+ * @checkbox    => id, class, DS, RO, label, value, tooltip
+ * @switch      => id, class, DS, RO, label, value, tooltip
+ * @button      => id, class, DS, value, onclick, tooltip
+ * @password    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+ * @file        => id, class, DS, RQ, AF, multiple, tooltip, label
+ * @link        => id, DS, value, onclick, tooltip, label
  * @label       => id, class, label, tooltip, value
  * @image       => id, class, value, alt, tooltip, label
  * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
@@ -72,11 +72,19 @@
  * @alert       => id, class, title, text, body, value, label
  * @card        => id, image, alt, header, footer, title, text, body, value, label
  * @chartjs     => id, mode, data, value, label
- * @tags        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
+ * @tags        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
  * @gallery     => id, class, label, images
- * @placeholder => id
+ * @PL => id
  *
  * Notes:
+ *
+ * To do more small the previous list, we have used the follow abreviations:
+ *
+ * @PL => placeholder
+ * @DS => disabled
+ * @RO => readonly
+ * @RQ => required
+ * @AF => autofocus
  *
  * The saltos.__form_field object is part of this constructor and act with the constructor
  * as a helper, the idea is that the user must to call the constructor and the helpers are
@@ -188,6 +196,7 @@ saltos.__form_field.col = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
@@ -224,6 +233,7 @@ saltos.__form_field.text = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  *
  * Notes:
@@ -252,6 +262,7 @@ saltos.__form_field.hidden = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  *
@@ -289,6 +300,7 @@ saltos.__form_field.integer = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  *
@@ -328,6 +340,7 @@ saltos.__form_field.float = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  *
@@ -362,6 +375,7 @@ saltos.__form_field.color = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  */
@@ -386,6 +400,7 @@ saltos.__form_field.date = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  */
@@ -411,6 +426,7 @@ saltos.__form_field.time = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  */
@@ -434,6 +450,7 @@ saltos.__form_field.datetime = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
@@ -468,6 +485,7 @@ saltos.__form_field.textarea = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
@@ -506,6 +524,7 @@ saltos.__form_field.ckeditor = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
@@ -571,6 +590,7 @@ saltos.__form_field.iframe = field => {
  * @class    => allow to add more classes to the default form-select
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @multiple => this parameter enables the multiple selection feature of the select
  * @size     => this parameter allow to see the options list opened with n (size) entries
  * @value    => the value used to detect the selected option
@@ -580,7 +600,7 @@ saltos.__form_field.iframe = field => {
  * @label    => this parameter is used as text for the label
  */
 saltos.__form_field.select = field => {
-    saltos.check_params(field, ['class', 'id', 'disabled', 'required']);
+    saltos.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus']);
     saltos.check_params(field, ['multiple', 'size', 'value', 'tooltip']);
     saltos.check_params(field, ['rows'], []);
     if (field.disabled) {
@@ -589,6 +609,9 @@ saltos.__form_field.select = field => {
     if (field.required) {
         field.required = 'required';
     }
+    if (field.autofocus) {
+        field.autofocus = 'autofocus';
+    }
     if (field.multiple) {
         field.multiple = 'multiple';
     }
@@ -596,8 +619,8 @@ saltos.__form_field.select = field => {
         field.size = `size="${field.size}"`;
     }
     var obj = saltos.html(`
-        <select class="form-select ${field.class}" id="${field.id}" ${field.disabled}
-            ${field.required} ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
+        <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required}
+            ${field.autofocus} ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
     var element = obj;
     if (field.tooltip != '') {
@@ -858,6 +881,7 @@ saltos.__form_field.button = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  *
@@ -880,7 +904,7 @@ saltos.__form_field.button = field => {
  */
 saltos.__form_field.password = field => {
     saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value']);
-    saltos.check_params(field, ['disabled', 'readonly', 'required', 'tooltip']);
+    saltos.check_params(field, ['disabled', 'readonly', 'required', 'autofocus', 'tooltip']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }
@@ -890,13 +914,16 @@ saltos.__form_field.password = field => {
     if (field.required) {
         field.required = 'required';
     }
+    if (field.autofocus) {
+        field.autofocus = 'autofocus';
+    }
     var obj = saltos.html(`
         <div>
             <input type="text" style="display: none"/>
             <div class="input-group">
                 <input type="password" class="form-control ${field.class}" id="${field.id}"
-                placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
-                    ${field.disabled} ${field.readonly} ${field.required}
+                    placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
+                    ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
                     data-bs-title="${field.tooltip}">
                 <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button"
@@ -934,6 +961,7 @@ saltos.__form_field.password = field => {
  * @class    => allow to add more classes to the default form-control
  * @disabled => this parameter raise the disabled flag
  * @required => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @multiple => this parameter raise the multiple flag, intended to select more files at time
  * @tooltip  => this parameter raise the title flag
  * @label    => this parameter is used as text for the label
@@ -952,12 +980,16 @@ saltos.__form_field.password = field => {
  * the real upload action.
  */
 saltos.__form_field.file = field => {
-    saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required', 'multiple', 'tooltip']);
+    saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required', 'autofocus']);
+    saltos.check_params(field, ['multiple', 'tooltip']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }
     if (field.required) {
         field.required = 'required';
+    }
+    if (field.autofocus) {
+        field.autofocus = 'autofocus';
     }
     if (field.multiple) {
         field.multiple = 'multiple';
@@ -965,7 +997,7 @@ saltos.__form_field.file = field => {
     var obj = saltos.html(`
         <div>
             <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled}
-                ${field.required} ${field.multiple} data-bs-title="${field.tooltip}">
+                ${field.required} ${field.autofocus} ${field.multiple} data-bs-title="${field.tooltip}">
             <div class="overflow-auto">
                 <table class="table table-striped table-hover d-none">
                     <tbody>
@@ -1742,6 +1774,7 @@ saltos.__form_field.chartjs = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  *
  * Notes:
@@ -1927,6 +1960,7 @@ saltos.__form_field.placeholder = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  *
  * Notes:
@@ -1935,7 +1969,7 @@ saltos.__form_field.placeholder = field => {
  */
 saltos.__text_helper = field => {
     saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value']);
-    saltos.check_params(field, ['disabled', 'readonly', 'required', 'tooltip', 'style']);
+    saltos.check_params(field, ['disabled', 'readonly', 'required', 'autofocus', 'tooltip', 'style']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }
@@ -1945,10 +1979,13 @@ saltos.__text_helper = field => {
     if (field.required) {
         field.required = 'required';
     }
+    if (field.autofocus) {
+        field.autofocus = 'autofocus';
+    }
     var obj = saltos.html(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}"
             style="${field.style}" placeholder="${field.placeholder}"
-            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}
+            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                 data-bs-title="${field.tooltip}">
     `);
     if (field.tooltip != '') {
@@ -1969,6 +2006,7 @@ saltos.__text_helper = field => {
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
  * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
  *
@@ -1978,7 +2016,7 @@ saltos.__text_helper = field => {
  */
 saltos.__textarea_helper = field => {
     saltos.check_params(field, ['class', 'id', 'placeholder', 'value']);
-    saltos.check_params(field, ['disabled', 'readonly', 'required', 'rows', 'tooltip']);
+    saltos.check_params(field, ['disabled', 'readonly', 'required', 'autofocus', 'rows', 'tooltip']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }
@@ -1988,10 +2026,13 @@ saltos.__textarea_helper = field => {
     if (field.required) {
         field.required = 'required';
     }
+    if (field.autofocus) {
+        field.autofocus = 'autofocus';
+    }
     var obj = saltos.html(`
         <textarea class="form-control ${field.class}" id="${field.id}"
             placeholder="${field.placeholder}" rows="${field.rows}"
-            ${field.disabled} ${field.readonly} ${field.required}
+            ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
             data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != '') {
@@ -2277,7 +2318,7 @@ saltos.modal = args => {
     saltos.__modal.obj = obj;
     saltos.__modal.instance = instance;
     obj.addEventListener('shown.bs.modal', event => {
-        obj.querySelectorAll('.autofocus').forEach(_this => {
+        obj.querySelectorAll('[autofocus]').forEach(_this => {
             _this.focus();
         });
     });
@@ -2359,7 +2400,7 @@ saltos.offcanvas = args => {
     saltos.__offcanvas.obj = obj;
     saltos.__offcanvas.instance = instance;
     obj.addEventListener('shown.bs.offcanvas', event => {
-        obj.querySelectorAll('.autofocus').forEach(_this => {
+        obj.querySelectorAll('[autofocus]').forEach(_this => {
             _this.focus();
         });
     });

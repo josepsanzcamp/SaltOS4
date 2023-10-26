@@ -53,6 +53,9 @@ saltos.show_error = error => {
  * This function tries to implement an alert box, the main difference between the tipical alert
  * is that this alert allow to you to specify the title and a more complex message, but it only
  * shows one button to close it.
+ *
+ * @title   => title of the alert modal dialog
+ * @message => message of the alert modal dialog
  */
 saltos.alert = (title, message) => {
     saltos.modal({

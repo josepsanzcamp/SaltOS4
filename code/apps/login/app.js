@@ -65,7 +65,6 @@ saltos.login.authenticate = () => {
  * This function initializes the login screen to improve the user experience.
  */
 saltos.login.initialize = () => {
-    document.getElementById('user').focus();
     document.getElementById('user').addEventListener('keydown', event => {
         if (saltos.get_keycode(event) != 13) {
             return;
