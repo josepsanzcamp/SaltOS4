@@ -39,9 +39,6 @@
  * This function allow to SaltOS to update the contents when hash change
  */
 window.onhashchange = event => {
-    if (saltos.hash.get() == '') {
-        return;
-    }
     // Reset the body interface
     saltos.modal('close');
     saltos.offcanvas('close');

@@ -151,17 +151,17 @@ saltos.when_visible = (obj, fn, args) => {
         if (step == 1) {
             // Maintain the state machine in the first state until found
             // the object in the document
-            if (obj2 !== null) {
+            if (obj2) {
                 step++;
             }
         }
         if (step == 2) {
             // Here, the object is found in the document, we can continue
-            if (obj2 === null) {
+            if (!obj2) {
                 // Here, the object has disappeared, we can stop the timer
                 clearInterval(interval);
                 console.log('#' + id + ' not found');
-            } else if (obj2.offsetParent !== null) {
+            } else if (obj2.offsetParent) {
                 // Here, the object is visible, we can finish our mission
                 clearInterval(interval);
                 fn(args);

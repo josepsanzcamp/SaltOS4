@@ -51,13 +51,12 @@ saltos.login.authenticate = () => {
     }
     var data = saltos.get_data(true);
     saltos.authenticate.authtoken(data.user, data.pass);
-    if (saltos.token.get_token()) {
-        saltos.hash.set('app/menu');
-        saltos.hash.change();
-    } else {
+    if (!saltos.token.get_token()) {
         saltos.login.access_denied();
-        saltos.hash.change();
+        saltos.send_request('app/login');
+        return;
     }
+    saltos.hash.change();
 };
 
 /**

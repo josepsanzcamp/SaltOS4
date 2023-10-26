@@ -165,7 +165,7 @@ saltos.form_app.data = data => {
         var val = data[key];
         // This updates the object
         var obj = document.getElementById(key);
-        if (obj !== null) {
+        if (obj) {
             obj.value = val;
             // Special case for checkboxes
             if (obj.type == 'checkbox') {
@@ -527,7 +527,7 @@ saltos.get_data = full => {
     for (var i in saltos.__form_app.fields) {
         var field = saltos.__form_app.fields[i];
         var obj = document.getElementById(field.id);
-        if (obj !== null) {
+        if (obj) {
             if (types.includes(obj.type)) {
                 var val = obj.value;
                 if (field.value.toString() != val || full) {
@@ -554,14 +554,14 @@ saltos.check_required = () => {
         _this.classList.remove('is-invalid');
         if (_this.value == '') {
             _this.classList.add('is-invalid');
-            if (obj === null) {
+            if (!obj) {
                 obj = _this;
             }
         } else {
             _this.classList.add('is-valid');
         }
     });
-    if (obj !== null) {
+    if (obj) {
         obj.focus();
         return false;
     }
@@ -599,7 +599,7 @@ saltos.form_helper = (attr, bool) => {
     for (var i in saltos.__form_app.fields) {
         var field = saltos.__form_app.fields[i];
         var obj = document.getElementById(field.id);
-        if (obj !== null) {
+        if (obj) {
             if (types.includes(obj.type)) {
                 if (bool) {
                     obj.setAttribute(attr, '');
@@ -625,16 +625,15 @@ saltos.form_helper = (attr, bool) => {
     set_data_bs_theme(window_match_media);
     window_match_media.addEventListener('change', set_data_bs_theme);
     // Token part
-    if (saltos.token.get_token() !== null) {
+    if (saltos.token.get_token()) {
         saltos.authenticate.checktoken();
     }
-    // Hash part
-    if (saltos.hash.get() == '') {
-        saltos.hash.set('app/menu');
+    if (!saltos.token.get_token()) {
+        saltos.send_request('app/login');
+        return;
     }
-    if (saltos.token.get_token() === null) {
-        saltos.hash.set('app/login');
-    } else if (saltos.hash.get() == 'app/login') {
+    // Hash part
+    if (['', 'app/login'].includes(saltos.hash.get())) {
         saltos.hash.set('app/menu');
     }
     saltos.hash.change();

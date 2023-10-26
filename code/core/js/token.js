@@ -319,14 +319,14 @@ saltos.authenticate.__autorenew_timer = null;
  * @on_off => the parameter to indicates if you want to enable or disable the feature
  */
 saltos.authenticate.autorenew = on_off => {
-    if (on_off && saltos.authenticate.__autorenew_timer === null) {
+    if (on_off && !saltos.authenticate.__autorenew_timer) {
         saltos.authenticate.checkrenew();
         saltos.authenticate.__autorenew_timer = setInterval(
             saltos.authenticate.checkrenew,
             saltos.token.get_autocheck()
         );
     }
-    if (!on_off && saltos.authenticate.__autorenew_timer !== null) {
+    if (!on_off && saltos.authenticate.__autorenew_timer) {
         clearInterval(saltos.authenticate.__autorenew_timer);
         saltos.authenticate.__autorenew_timer = null;
     }

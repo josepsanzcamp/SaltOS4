@@ -1502,7 +1502,7 @@ saltos.__form_field.table = field => {
                 });
                 row.addEventListener('click', event => {
                     var obj = event.target.parentNode.querySelector('input[type=checkbox]');
-                    if (obj !== null) {
+                    if (obj) {
                         obj.click();
                     }
                     event.stopPropagation();
