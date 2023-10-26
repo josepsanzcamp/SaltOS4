@@ -271,6 +271,10 @@ saltos.form_app.layout = (layout, extra) => {
     }
     // Defaut feature that all the div to the body's document
     document.body.append(div);
+    var obj = document.querySelector('[autofocus]');
+    if (obj) {
+        obj.focus();
+    }
 };
 
 /**
