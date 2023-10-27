@@ -600,8 +600,8 @@ saltos.__form_field.iframe = field => {
  * @label    => this parameter is used as text for the label
  */
 saltos.__form_field.select = field => {
-    saltos.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus']);
-    saltos.check_params(field, ['multiple', 'size', 'value', 'tooltip']);
+    saltos.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
+                                'multiple', 'size', 'value', 'tooltip']);
     saltos.check_params(field, ['rows'], []);
     if (field.disabled) {
         field.disabled = 'disabled';
@@ -903,8 +903,8 @@ saltos.__form_field.button = field => {
  *
  */
 saltos.__form_field.password = field => {
-    saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value']);
-    saltos.check_params(field, ['disabled', 'readonly', 'required', 'autofocus', 'tooltip']);
+    saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
+                                'readonly', 'required', 'autofocus', 'tooltip']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }
@@ -980,8 +980,8 @@ saltos.__form_field.password = field => {
  * the real upload action.
  */
 saltos.__form_field.file = field => {
-    saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required', 'autofocus']);
-    saltos.check_params(field, ['multiple', 'tooltip']);
+    saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
+                                'autofocus', 'multiple', 'tooltip']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }
@@ -1291,8 +1291,8 @@ saltos.__form_field.image = field => {
 saltos.__form_field.excel = field => {
     saltos.require('core/lib/handsontable/handsontable.full.min.css');
     saltos.require('core/lib/handsontable/handsontable.full.min.js');
-    saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders']);
-    saltos.check_params(field, ['minSpareRows', 'contextMenu', 'rowHeaderWidth', 'colWidths']);
+    saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
+                                'contextMenu', 'rowHeaderWidth', 'colWidths']);
     var obj = saltos.html(`
         <div style="width: 100%; height: 100%; overflow: auto">
             <div id="${field.id}" class="${field.class}"></div>
@@ -1968,8 +1968,8 @@ saltos.__form_field.placeholder = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__text_helper = field => {
-    saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value']);
-    saltos.check_params(field, ['disabled', 'readonly', 'required', 'autofocus', 'tooltip', 'style']);
+    saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
+                                'readonly', 'required', 'autofocus', 'tooltip', 'style']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }
@@ -2015,8 +2015,8 @@ saltos.__text_helper = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.__textarea_helper = field => {
-    saltos.check_params(field, ['class', 'id', 'placeholder', 'value']);
-    saltos.check_params(field, ['disabled', 'readonly', 'required', 'autofocus', 'rows', 'tooltip']);
+    saltos.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
+                                'required', 'autofocus', 'rows', 'tooltip']);
     if (field.disabled) {
         field.disabled = 'disabled';
     }

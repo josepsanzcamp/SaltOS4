@@ -100,7 +100,7 @@
         <text id="tel_movil" label="Tel movil"/>
         <text id="fax" label="Fax"/>
     </layout>
-    <data eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval(get_data("rest/3")))</data>
+    <data eval="true">execute_query("SELECT * FROM app_clientes WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
     <create>
         <javascript>
             <inline>saltos.loading()</inline>
