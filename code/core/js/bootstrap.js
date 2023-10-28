@@ -891,13 +891,6 @@ saltos.__form_field.button = field => {
  * see the entered password to verify it, in reality, this button swaps the input between
  * password and text type, allowing to do visible or not the contents of the input
  *
- * This widgets have a problem with the password managers of the browser that convert the
- * previous field of this to a pair of login/password fields and autocomplete they with
- * default values, to fix it, I'm using two tricks:
- *
- * 1) add the input of type=text with the display: none to fix the bug in firefox
- * 2) add the autocomplete='new-password' to fix the problem in chrome browsers
- *
  * I'm using previousElementSibling instead of previousSibling because between the input and the
  * button, exists a new line that is identified as another previousSibling, but not as an element
  *
@@ -919,10 +912,9 @@ saltos.__form_field.password = field => {
     }
     var obj = saltos.html(`
         <div>
-            <input type="text" style="display: none"/>
             <div class="input-group">
                 <input type="password" class="form-control ${field.class}" id="${field.id}"
-                    placeholder="${field.placeholder}" value="${field.value}" autocomplete="new-password"
+                    placeholder="${field.placeholder}" value="${field.value}"
                     ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
                     data-bs-title="${field.tooltip}">
