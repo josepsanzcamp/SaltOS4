@@ -33,16 +33,16 @@
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
-            <button ifeval="check_user('correo', 'create')" onclick="saltos.open_window('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo"/>
+            <button ifeval="check_user('correo', 'create')" onclick="saltos.open_window('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todo el correo" id="search"/>
-            <button onclick="saltos.correo.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo"/>
-            <button onclick="saltos.correo.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro"/>
-            <button onclick="saltos.correo.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo"/>
+            <button onclick="saltos.correo.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo" icon="search"/>
+            <button onclick="saltos.correo.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+            <button onclick="saltos.correo.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo" icon="envelope"/>
             <table col_class="col-md-12 my-3" source="list/correo/table" id="table"/>
             <div col_class="col mb-3"/>
-            <button onclick="saltos.correo.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado"/>
+            <button onclick="saltos.correo.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado" icon="view-list"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/correo/app.js")</file>
@@ -66,9 +66,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions eval="true">[
-            ["app" => "correo", "action" => "view", "class" => "bi-search border-0", "tooltip" => "Ver detalle correo"],
-            ["app" => "correo", "action" => "edit", "class" => "bi-pencil-fill border-0", "tooltip" => "Editar correo"],
-            ["app" => "correo", "action" => "delete", "class" => "bi-trash-fill border-0", "tooltip" => "Borrar correo"],
+            ["app" => "correo", "action" => "view", "icon" => "search", "tooltip" => "Ver detalle correo"],
+            ["app" => "correo", "action" => "edit", "icon" => "pencil", "tooltip" => "Editar correo"],
+            ["app" => "correo", "action" => "delete", "icon" => "trash", "tooltip" => "Borrar correo"],
         ]</actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total

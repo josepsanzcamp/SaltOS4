@@ -848,7 +848,7 @@ saltos.__form_field.switch = field => {
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.__form_field.button = field => {
-    saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip']);
+    saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip', 'icon']);
     if (field.disabled) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
@@ -857,6 +857,12 @@ saltos.__form_field.button = field => {
         <button type="button" class="btn ${field.class}" id="${field.id}"
             ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
+    if (field.icon) {
+        obj.prepend(saltos.html(`<i class="bi bi-${field.icon}"></i>`));
+    }
+    if (field.value && field.icon) {
+        obj.querySelector('i').classList.add('me-1');
+    }
     if (field.tooltip != '') {
         saltos.__tooltip_helper(obj);
     }
@@ -1548,6 +1554,7 @@ saltos.__form_field.table = field => {
                     } else {
                         val2.onclick = `saltos.open_window("#${val2.url}")`;
                     }
+                    val2.class = 'border-0';
                     td.append(saltos.__form_field.button(val2));
                 }
                 row.append(td);
