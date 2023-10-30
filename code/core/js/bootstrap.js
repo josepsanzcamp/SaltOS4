@@ -1452,6 +1452,14 @@ saltos.__form_field.pdfjs = field => {
  * feature:
  *
  * @core/lib/locutos/locutus.min.js
+ *
+ * The divider will be added dynamically depending the contents of the table, the main idea
+ * is to use the divider to separate each block of the table (header, data and footer)
+ *
+ * The actions will be added using a dropdown menu if more than one action appear in the
+ * the row data, the idea of this feature is to prevent that the icons uses lot of space
+ * of the row data, and for this reason, it will define the dropdown variable that enables
+ * or not the contraction feature
  */
 saltos.__form_field.table = field => {
     saltos.require('core/lib/locutus/locutus.min.js');
@@ -1547,6 +1555,16 @@ saltos.__form_field.table = field => {
             }
             if (field.data[key].hasOwnProperty('actions')) {
                 var td = saltos.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
+                var dropdown = field.data[key].actions.length > 1;
+                if (dropdown) {
+                    td.append(saltos.html(`
+                        <div class="dropdown">
+                            <button class="btn border-0 dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false"></button>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                    `));
+                }
                 for (var key2 in field.data[key].actions) {
                     var val2 = field.data[key].actions[key2];
                     if (val2.url == '') {
@@ -1554,8 +1572,20 @@ saltos.__form_field.table = field => {
                     } else {
                         val2.onclick = `saltos.open_window("#${val2.url}")`;
                     }
-                    val2.class = 'border-0';
-                    td.append(saltos.__form_field.button(val2));
+                    var button = saltos.__form_field.button(val2);
+                    if (dropdown) {
+                        button.classList.remove('btn');
+                        button.classList.add('dropdown-item');
+                        button.addEventListener('click', event => {
+                            event.target.parentElement.parentElement.classList.remove('show');
+                        });
+                        var li = saltos.html(`<li></li>`);
+                        li.append(button);
+                        td.querySelector('ul').append(li);
+                    } else {
+                        button.classList.add('border-0');
+                        td.append(button);
+                    }
                 }
                 row.append(td);
             }
@@ -2216,12 +2246,12 @@ saltos.navbar = args => {
             <div class="container-fluid">
                 <div class="navbar-brand">
                     <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}"
-                    height="${args.brand.height}" class="d-inline-block align-text-top">
+                        height="${args.brand.height}" class="d-inline-block align-text-top">
                     ${args.brand.name}
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false"
-                aria-label="Toggle navigation">
+                    data-bs-target="#${args.id}" aria-controls="${args.id}" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="${args.id}">

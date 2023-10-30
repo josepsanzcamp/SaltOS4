@@ -65,9 +65,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions eval="true">[
-            ["app" => "clientes", "action" => "view", "icon" => "search", "tooltip" => "Ver detalle cliente"],
-            ["app" => "clientes", "action" => "edit", "icon" => "pencil", "tooltip" => "Editar cliente"],
-            ["app" => "clientes", "action" => "delete", "icon" => "trash", "tooltip" => "Borrar cliente"],
+            ["app" => "clientes", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver detalle cliente"],
+            ["app" => "clientes", "action" => "edit", "value" => "Edit", "icon" => "pencil", "tooltip" => "Editar cliente"],
+            ["app" => "clientes", "action" => "delete", "value" => "Delete", "icon" => "trash", "tooltip" => "Borrar cliente"],
         ]</actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total

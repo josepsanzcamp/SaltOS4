@@ -122,7 +122,7 @@ saltos.check_params = (obj, params, value) => {
  * provide it to the widget constructor
  */
 saltos.uniqid = () => {
-    return 'id' + Math.floor(Math.random() * 1000000);
+    return 'id' + Math.random().toString(36).substr(2);
 };
 
 /**
