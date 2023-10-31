@@ -37,19 +37,19 @@
  *
  * This object contains all SaltOS code
  */
-saltos.clientes = {};
+saltos.customers = {};
 
 /**
  * Initialize customers
  *
  * This function initializes the customers screen to improve the user experience.
  */
-saltos.clientes.initialize = () => {
+saltos.customers.initialize = () => {
     document.getElementById('search').addEventListener('keydown', event => {
         if (saltos.get_keycode(event) != 13) {
             return;
         }
-        saltos.clientes.search();
+        saltos.customers.search();
     });
 };
 
@@ -58,14 +58,14 @@ saltos.clientes.initialize = () => {
  *
  * TODO
  */
-saltos.clientes.search = () => {
+saltos.customers.search = () => {
     document.getElementById('page').value = '0';
     saltos.loading(true);
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'clientes',
+            'app': 'customers',
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -97,10 +97,10 @@ saltos.clientes.search = () => {
  *
  * TODO
  */
-saltos.clientes.clear_filter = () => {
+saltos.customers.clear_filter = () => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
-    saltos.clientes.search();
+    saltos.customers.search();
 };
 
 /**
@@ -108,14 +108,14 @@ saltos.clientes.clear_filter = () => {
  *
  * TODO
  */
-saltos.clientes.read_more = () => {
+saltos.customers.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.loading(true);
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'clientes',
+            'app': 'customers',
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -149,7 +149,7 @@ saltos.clientes.read_more = () => {
  *
  * TODO
  */
-saltos.clientes.cancel = () => {
+saltos.customers.cancel = () => {
     saltos.close_window();
 };
 
@@ -158,7 +158,7 @@ saltos.clientes.cancel = () => {
  *
  * TODO
  */
-saltos.clientes.insert = () => {
+saltos.customers.insert = () => {
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');
@@ -203,7 +203,7 @@ saltos.clientes.insert = () => {
  *
  * TODO
  */
-saltos.clientes.update = () => {
+saltos.customers.update = () => {
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');
@@ -249,7 +249,7 @@ saltos.clientes.update = () => {
  *
  * TODO
  */
-saltos.clientes.delete = () => {
+saltos.customers.delete = () => {
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({

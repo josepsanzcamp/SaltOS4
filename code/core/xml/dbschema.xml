@@ -264,7 +264,7 @@ that maintain the database using as reference this file
         <!--
         This tables are specific for the customers app
         -->
-        <table name="app_clientes">
+        <table name="app_customers">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="id_campanya" type="INT(11)"/>
@@ -335,7 +335,7 @@ that maintain the database using as reference this file
         <table name="app_facturas">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="id_cliente" type="INT(11)" fkey="tbl_clientes"/>
+                <field name="id_customer" type="INT(11)" fkey="tbl_customers"/>
                 <field name="id_epigrafe" type="INT(11)" fkey="tbl_epigrafes"/>
                 <field name="nombre" type="VARCHAR(255)"/>
                 <field name="direccion" type="VARCHAR(255)"/>

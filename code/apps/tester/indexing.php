@@ -31,14 +31,14 @@ declare(strict_types=1);
  * TODO
  */
 
-make_index("clientes", 51);
-make_control("clientes", 51);
+make_index("customers", 51);
+make_control("customers", 51);
 
-/*********************************** INICIO PRUEBAS CLIENTES *************************************/
+/*********************************** INICIO PRUEBAS customers *************************************/
 
-db_query("DELETE FROM app_clientes WHERE id=51");
-db_query("TRUNCATE TABLE app_clientes_version");
-//~ make_version("clientes",51);
+db_query("DELETE FROM app_customers WHERE id=51");
+db_query("TRUNCATE TABLE app_customers_version");
+//~ make_version("customers",51);
 
 $array = [
     "id" => 51,
@@ -48,34 +48,34 @@ $array = [
     "nombre_poblacion" => "Barcelona",
     "nombre_codpostal" => "08030",
 ];
-$query = make_insert_query("app_clientes", $array);
+$query = make_insert_query("app_customers", $array);
 db_query($query);
 
-add_version("clientes", 51);
+add_version("customers", 51);
 
 $array = [
     "nombre" => "Josep Sanz Campderrós",
     "nombre2" => "Sanz Campderrós",
 ];
 
-$query = make_update_query("app_clientes", $array, "id=51");
+$query = make_update_query("app_customers", $array, "id=51");
 db_query($query);
 
-add_version("clientes", 51);
+add_version("customers", 51);
 
 $array = [
     "cif" => "123456789",
 ];
 
-$query = make_update_query("app_clientes", $array, "id=51");
+$query = make_update_query("app_customers", $array, "id=51");
 db_query($query);
 
-add_version("clientes", 51);
+add_version("customers", 51);
 
-echo "<pre>" . sprintr(get_version("clientes", 51, 0)) . "</pre>";
-echo "<pre>" . sprintr(get_version("clientes", 51, 1)) . "</pre>";
-echo "<pre>" . sprintr(get_version("clientes", 51, 2)) . "</pre>";
-echo "<pre>" . sprintr(get_version("clientes", 51, 3)) . "</pre>";
+echo "<pre>" . sprintr(get_version("customers", 51, 0)) . "</pre>";
+echo "<pre>" . sprintr(get_version("customers", 51, 1)) . "</pre>";
+echo "<pre>" . sprintr(get_version("customers", 51, 2)) . "</pre>";
+echo "<pre>" . sprintr(get_version("customers", 51, 3)) . "</pre>";
 
 /*********************************** INICIO PRUEBAS FACTURAS *************************************/
 

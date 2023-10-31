@@ -1460,6 +1460,10 @@ saltos.__form_field.pdfjs = field => {
  * the row data, the idea of this feature is to prevent that the icons uses lot of space
  * of the row data, and for this reason, it will define the dropdown variable that enables
  * or not the contraction feature
+ *
+ * The elements of the data cells can contains an object with the field specification used
+ * to the saltos.form_field constructor, it is usefull to convert some fields to inputs
+ * instead of simple text
  */
 saltos.__form_field.table = field => {
     saltos.require('core/lib/locutus/locutus.min.js');
@@ -1551,19 +1555,33 @@ saltos.__form_field.table = field => {
                     continue;
                 }
                 var temp = htmlentities(field.data[key][key2]);
-                row.append(saltos.html('tr', `<td>${temp}</td>`));
+                var td = saltos.html('tr', `<td></td>`);
+                if (typeof temp == 'object') {
+                    var temp2 = saltos.form_field(temp);
+                    td.append(temp2);
+                } else {
+                    td.append(temp);
+                }
+                row.append(td);
             }
             if (field.data[key].hasOwnProperty('actions')) {
                 var td = saltos.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
                 var dropdown = field.data[key].actions.length > 1;
                 if (dropdown) {
                     td.append(saltos.html(`
-                        <div class="dropdown">
+                        <div>
                             <button class="btn border-0 dropdown-toggle" type="button"
-                                data-bs-toggle="dropdown" aria-expanded="false"></button>
-                            <ul class="dropdown-menu"></ul>
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            </button>
+                            <ul class="dropdown-menu">
+                            </ul>
                         </div>
                     `));
+                    td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', event => {
+                        obj.querySelectorAll('.show').forEach(_this => {
+                            _this.classList.remove('show');
+                        });
+                    });
                 }
                 for (var key2 in field.data[key].actions) {
                     var val2 = field.data[key].actions[key2];
@@ -1577,7 +1595,9 @@ saltos.__form_field.table = field => {
                         button.classList.remove('btn');
                         button.classList.add('dropdown-item');
                         button.addEventListener('click', event => {
-                            event.target.parentElement.parentElement.classList.remove('show');
+                            obj.querySelectorAll('.show').forEach(_this => {
+                                _this.classList.remove('show');
+                            });
                         });
                         var li = saltos.html(`<li></li>`);
                         li.append(button);
