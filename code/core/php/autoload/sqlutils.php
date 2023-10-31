@@ -770,10 +770,10 @@ function make_where_query($array)
  */
 function escape_reserved_word($word)
 {
-    if (!in_array($word, ["key", "table"])) {
-        return $word;
+    if (in_array($word, ["key", "table", "from", "to"])) {
+        return "`$word`";
     }
-    return "`$word`";
+    return $word;
 }
 
 /**
