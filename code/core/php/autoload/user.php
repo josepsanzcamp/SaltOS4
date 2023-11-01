@@ -158,22 +158,22 @@ function crontab_users()
     $datetime = current_datetime();
     $time = current_time();
     $dow = current_dow();
-    // Disable tokens that have been expired by the password expires
-    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id IN (
-        SELECT user_id FROM tbl_users_passwords WHERE active = 1 AND expires <= '$datetime')";
+    // Disable tokens that have been expired
+    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
     db_query($query);
-    // Disable tokens that have been expired by the user time and day filter
+    // Disable passwords that have been expired
+    $query = "UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
+    db_query($query);
+    // Disable tokens that have not an active password
+    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id NOT IN (
+        SELECT user_id FROM tbl_users_passwords WHERE active = 1)";
+    db_query($query);
+    // Disable tokens that have not permission by the user time and day filter
     $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id IN (
         SELECT id FROM tbl_users WHERE (
             start = end OR
             (start < end AND ('$time' < start OR '$time' > end)) OR
             (start > end AND '$time' < start AND '$time' > end) OR
             substr(days, $dow, 1) = '0'))";
-    db_query($query);
-    // Disable passwords that have been expired
-    $query = "UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
-    db_query($query);
-    // Disable tokens that have been expired
-    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
     db_query($query);
 }
