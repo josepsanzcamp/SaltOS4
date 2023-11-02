@@ -1474,17 +1474,7 @@ saltos.__form_field.table = field => {
             id="${field.id}" style="margin-bottom: 0">
         </table>
     `);
-    if (!field.header.hasOwnProperty('length')) {
-        var header = [];
-        var fields = [];
-        for (var key in field.header) {
-            header.push(field.header[key]);
-            fields.push(key);
-        }
-        field.header = header;
-        field.fields = fields;
-    }
-    if (field.header.length) {
+    if (Object.keys(field.header).length) {
         obj.append(saltos.html('table', `
             <thead>
                 <tr>
@@ -1513,7 +1503,7 @@ saltos.__form_field.table = field => {
             });
         }
         for (var key in field.header) {
-            var temp = htmlentities(field.header[key]);
+            var temp = htmlentities(field.header[key].label);
             obj.querySelector('thead tr').append(saltos.html('tr', `<th>${temp}</th>`));
         }
         if (field.data.length && field.data[0].hasOwnProperty('actions')) {
@@ -1525,7 +1515,7 @@ saltos.__form_field.table = field => {
             <tbody>
             </tbody>
         `));
-        if (field.header.length) {
+        if (Object.keys(field.header).length) {
             obj.querySelector('tbody').classList.add('table-group-divider');
         }
         for (var key in field.data) {
@@ -1550,16 +1540,21 @@ saltos.__form_field.table = field => {
                     event.stopPropagation();
                 });
             }
-            for (var key2 in field.data[key]) {
-                if (field.hasOwnProperty('fields') && !field.fields.includes(key2)) {
-                    continue;
-                }
-                var temp = htmlentities(field.data[key][key2]);
+            // This is to allow to use tables with data and without header
+            var iterator = field.header;
+            if (!Object.keys(iterator).length) {
+                iterator = field.data[key];
+            }
+            for (var key2 in iterator) {
+                var temp = field.data[key][key2];
                 var td = saltos.html('tr', `<td></td>`);
                 if (typeof temp == 'object') {
-                    var temp2 = saltos.form_field(temp);
-                    td.append(temp2);
+                    if (temp.hasOwnProperty('type')) {
+                        var temp2 = saltos.form_field(temp);
+                        td.append(temp2);
+                    }
                 } else {
+                    temp = htmlentities(temp);
                     td.append(temp);
                 }
                 row.append(td);
@@ -1583,12 +1578,22 @@ saltos.__form_field.table = field => {
                         });
                     });
                 }
+                var first_action = true;
                 for (var key2 in field.data[key].actions) {
                     var val2 = field.data[key].actions[key2];
                     if (val2.url == '') {
                         val2.disabled = true;
                     } else {
                         val2.onclick = `saltos.open_window("#${val2.url}")`;
+                    }
+                    if (first_action) {
+                        if (val2.onclick) {
+                            row.setAttribute('_onclick', val2.onclick);
+                            row.addEventListener('dblclick', event => {
+                                eval(event.target.parentElement.getAttribute('_onclick'));
+                            });
+                        }
+                        first_action = false;
                     }
                     var button = saltos.__form_field.button(val2);
                     if (dropdown) {
@@ -1612,7 +1617,7 @@ saltos.__form_field.table = field => {
             obj.querySelector('tbody').append(row);
         }
     }
-    if (field.footer.length) {
+    if (Object.keys(field.footer).length) {
         obj.append(saltos.html('table', `
             <tfoot class="table-group-divider">
                 <tr>
@@ -1623,14 +1628,14 @@ saltos.__form_field.table = field => {
             obj.querySelector('tfoot').classList.add('table-group-divider');
         }
         if (typeof field.footer == 'object') {
-            if (field.header.length != field.footer.length) {
+            if (Object.keys(field.header).length != Object.keys(field.footer).length) {
                 console.log('field.header.length != field.footer.length');
             }
             if (field.checkbox) {
                 obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
             }
             for (var key in field.footer) {
-                var temp = htmlentities(field.footer[key]);
+                var temp = htmlentities(field.footer[key].value);
                 obj.querySelector('tfoot tr').append(saltos.html('tr', `<td>${temp}</td>`));
             }
             if (field.data.length && field.data[0].hasOwnProperty('actions')) {

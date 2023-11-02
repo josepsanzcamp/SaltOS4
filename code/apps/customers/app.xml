@@ -49,12 +49,12 @@
         </javascript>
     </list>
     <table checkbox="true" type="table" id="table" limit="25" order="id DESC">
-        <header eval="true">[
-            "nombre" => "Nombre",
-            "cif" => "CIF",
-            "nombre_poblacion" => "Población",
-            "nombre_codpostal" => "C.P."
-        ]</header>
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
         <data eval="true">execute_query_array("
             SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
             FROM app_customers
@@ -64,11 +64,11 @@
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
-        <actions eval="true">[
-            ["app" => "customers", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver detalle cliente"],
-            ["app" => "customers", "action" => "edit", "value" => "Edit", "icon" => "pencil", "tooltip" => "Editar cliente"],
-            ["app" => "customers", "action" => "delete", "value" => "Delete", "icon" => "trash", "tooltip" => "Borrar cliente"],
-        ]</actions>
+        <actions>
+            <action app="customers" action="view" value="View" icon="search" tooltip="Ver detalle cliente"/>
+            <action app="customers" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente"/>
+            <action app="customers" action="delete" value="Delete" icon="trash" tooltip="Borrar cliente"/>
+        </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM app_customers
@@ -77,6 +77,7 @@
             AND ".check_sql("customers", "list")."
         ")</footer>
     </table>
+
     <!-- Form part -->
     <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
         <text id="codigo" label="Codigo"/>
@@ -128,7 +129,7 @@
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
                 <onclick eval="true">"saltos.open_window('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button onclick="saltos.customers.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Volver" tooltip="Para volver atrás" icon="arrow-left"/>
+            <button onclick="saltos.customers.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
         </layout>
         <javascript>
             <inline>saltos.form_disabled(true)</inline>
@@ -168,8 +169,15 @@
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
     </delete>
+
+    <!-- Widget part -->
     <widget id="table1" order="id DESC" limit="5">
-        <header eval="true">["Nombre", "CIF", "Población", "C.P."]</header>
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
         <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
             FROM app_customers
             WHERE 1 = 1
@@ -179,14 +187,24 @@
         <footer eval="true">"Total: 5 registros"</footer>
     </widget>
     <widget id="table2" order="id ASC" limit="5">
-        <header eval="true">["Nombre", "CIF", "Población", "C.P."]</header>
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
         <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
             FROM app_customers
             WHERE 1 = 1
             AND ".check_sql("customers", "list")."
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
-        <footer eval="true">"Total: 5 registros"</footer>
+        <footer>
+            <nombre value="A"/>
+            <cif value="B"/>
+            <nombre_poblacion value="C"/>
+            <nombre_codpostal value="D"/>
+        </footer>
     </widget>
     <widget id="plot1">
         <data eval="true">[

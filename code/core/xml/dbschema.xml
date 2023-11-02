@@ -297,39 +297,6 @@ that maintain the database using as reference this file
         </table>
 
         <!--
-        This tables are specific for the providers app
-        -->
-        <table name="app_providers">
-            <fields>
-                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="codigo" type="VARCHAR(255)"/>
-                <field name="nombre" type="VARCHAR(255)"/>
-                <field name="nombre1" type="VARCHAR(255)"/>
-                <field name="nombre2" type="VARCHAR(255)"/>
-                <field name="cif" type="VARCHAR(255)"/>
-                <field name="comentarios" type="TEXT"/>
-                <field name="corriente" type="VARCHAR(255)"/>
-                <field name="contable" type="VARCHAR(255)"/>
-                <field name="diapago" type="INT(11)"/>
-                <field name="direccion" type="VARCHAR(255)"/>
-                <field name="id_pais" type="INT(11)"/>
-                <field name="id_provincia" type="INT(11)"/>
-                <field name="id_poblacion" type="INT(11)"/>
-                <field name="id_codpostal" type="INT(11)"/>
-                <field name="nombre_pais" type="VARCHAR(255)"/>
-                <field name="nombre_provincia" type="VARCHAR(255)"/>
-                <field name="nombre_poblacion" type="VARCHAR(255)"/>
-                <field name="nombre_codpostal" type="VARCHAR(255)"/>
-                <field name="email" type="VARCHAR(255)"/>
-                <field name="web" type="VARCHAR(255)"/>
-                <field name="tel_fijo" type="VARCHAR(255)"/>
-                <field name="tel_movil" type="VARCHAR(255)"/>
-                <field name="fax" type="VARCHAR(255)"/>
-                <field name="activo" type="INT(11)"/>
-            </fields>
-        </table>
-
-        <!--
         This tables are specific for the invoices app
         -->
         <table name="app_invoices">

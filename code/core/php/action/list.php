@@ -99,10 +99,8 @@ if (count($dict) > 1) {
 // Get only the subapp part
 $array = $array[get_data("json/subapp")];
 
-// These lines are a trick to allow attr in the subapp
-if (is_array($array) && isset($array["value"]) && isset($array["#attr"])) {
-    $array = array_merge($array["value"], $array["#attr"]);
-}
+// This line is a trick to allow attr in the subapp
+$array = join4array($array);
 
 // Check json arguments
 if (!get_data("json/search")) {
@@ -147,6 +145,7 @@ if (!isset($array["actions"])) {
 foreach ($array["data"] as $key => $row) {
     $actions = [];
     foreach ($array["actions"] as $action) {
+        $action = join4array($action);
         $table = app2table($action["app"]);
         $id = $row["id"];
         $sql = check_sql($action["app"], $action["action"]);
@@ -159,9 +158,23 @@ foreach ($array["data"] as $key => $row) {
         }
         $actions[] = $action;
     }
-    $array["data"][$key]["actions"] = $actions;
+    if (count($actions)) {
+        $array["data"][$key]["actions"] = $actions;
+    }
 }
 unset($array["actions"]);
+
+// If contains header and footer, unify to allow attr in the spec
+if (isset($array["header"]) && is_array($array["header"])) {
+    foreach ($array["header"] as $key => $val) {
+        $array["header"][$key] = join4array($val);
+    }
+}
+if (isset($array["footer"]) && is_array($array["footer"])) {
+    foreach ($array["footer"] as $key => $val) {
+        $array["footer"][$key] = join4array($val);
+    }
+}
 
 // The end
 output_handler_json($array);

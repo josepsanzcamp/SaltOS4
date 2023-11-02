@@ -50,11 +50,11 @@
         </javascript>
     </list>
     <table checkbox="true" type="table" id="table" limit="50" order="datetime DESC">
-        <header eval="true">[
-            "from_to" => "De/Para",
-            "subject" => "Asunto",
-            "date_time" => "Fecha",
-        ]</header>
+        <header>
+            <from_to label="De/Para"/>
+            <subject label="Asunto"/>
+            <date_time label="Fecha"/>
+        </header>
         <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) from_to, subject,
                 IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time

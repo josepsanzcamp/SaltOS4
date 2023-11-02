@@ -50,3 +50,27 @@ function null2array($arr)
     }
     return $arr;
 }
+
+/**
+ * Join for array
+ *
+ * This function allow to join the #attr and value to get only an associative
+ * array, it is intended to be used to simplify the specification of some elements
+ * and to simplify the usage of this elements in the client side
+ *
+ * @array => the input that can contains an array with #attr and value
+ */
+function join4array($array)
+{
+    if (is_array($array) && isset($array["value"]) && isset($array["#attr"])) {
+        if (is_string($array["value"])) {
+            if (trim($array["value"]) == "") {
+                $array["value"] = [];
+            } else {
+                $array["value"] = ["value" => $array["value"]];
+            }
+        }
+        $array = array_merge($array["value"], $array["#attr"]);
+    }
+    return $array;
+}
