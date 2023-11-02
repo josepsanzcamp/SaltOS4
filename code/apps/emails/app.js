@@ -37,19 +37,19 @@
  *
  * This object contains all SaltOS code
  */
-saltos.correo = {};
+saltos.emails = {};
 
 /**
  * Initialize emails app
  *
  * This function initializes the emails app screen to improve the user experience.
  */
-saltos.correo.initialize = () => {
+saltos.emails.initialize = () => {
     document.getElementById('search').addEventListener('keydown', event => {
         if (saltos.get_keycode(event) != 13) {
             return;
         }
-        saltos.correo.search();
+        saltos.emails.search();
     });
 };
 
@@ -58,14 +58,14 @@ saltos.correo.initialize = () => {
  *
  * TODO
  */
-saltos.correo.search = () => {
+saltos.emails.search = () => {
     document.getElementById('page').value = '0';
     saltos.loading(true);
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'correo',
+            'app': 'emails',
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -97,10 +97,10 @@ saltos.correo.search = () => {
  *
  * TODO
  */
-saltos.correo.clear_filter = () => {
+saltos.emails.clear_filter = () => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
-    saltos.correo.search();
+    saltos.emails.search();
 };
 
 /**
@@ -108,14 +108,14 @@ saltos.correo.clear_filter = () => {
  *
  * TODO
  */
-saltos.correo.read_more = () => {
+saltos.emails.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.loading(true);
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'correo',
+            'app': 'emails',
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -149,7 +149,7 @@ saltos.correo.read_more = () => {
  *
  * TODO
  */
-saltos.correo.send_and_get = () => {
+saltos.emails.send_and_get = () => {
     // TODO
-    console.log('saltos.correo.send_and_get');
+    console.log('saltos.emails.send_and_get');
 };

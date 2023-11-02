@@ -33,49 +33,49 @@
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
-            <button ifeval="check_user('correo', 'create')" onclick="saltos.open_window('#app/clientes/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo" icon="plus-lg"/>
+            <button ifeval="check_user('emails', 'create')" onclick="saltos.open_window('#app/emails/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todo el correo" id="search"/>
-            <button onclick="saltos.correo.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo" icon="search"/>
-            <button onclick="saltos.correo.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-            <button onclick="saltos.correo.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo" icon="envelope"/>
-            <table col_class="col-md-12 my-3" source="list/correo/table" id="table"/>
+            <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo" icon="search"/>
+            <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+            <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo" icon="envelope"/>
+            <table col_class="col-md-12 my-3" source="list/emails/table" id="table"/>
             <div col_class="col mb-3"/>
-            <button onclick="saltos.correo.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado" icon="view-list"/>
+            <button onclick="saltos.emails.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado" icon="view-list"/>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/correo/app.js")</file>
-            <inline>saltos.correo.initialize()</inline>
+            <file eval="true">file_with_hash("apps/emails/app.js")</file>
+            <inline>saltos.emails.initialize()</inline>
         </javascript>
     </list>
     <table checkbox="true" type="table" id="table" limit="50" order="datetime DESC">
         <header eval="true">[
-            "de_para" => "De/Para",
+            "from_to" => "De/Para",
             "subject" => "Asunto",
             "date_time" => "Fecha",
         ]</header>
         <data eval="true">execute_query_array("
-            SELECT id, IF(is_outbox, para, de) de_para, subject,
+            SELECT id, IF(is_outbox, `to`, `from`) from_to, subject,
                 IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time
-            FROM app_correo
+            FROM app_emails
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "correo", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("correo", "list")."
+            AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("emails", "list")."
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions eval="true">[
-            ["app" => "correo", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver detalle correo"],
-            ["app" => "correo", "action" => "edit", "value" => "Edit", "icon" => "pencil", "tooltip" => "Editar correo"],
-            ["app" => "correo", "action" => "delete", "value" => "Delete", "icon" => "trash", "tooltip" => "Borrar correo"],
+            ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver detalle correo"],
+            ["app" => "emails", "action" => "edit", "value" => "Edit", "icon" => "pencil", "tooltip" => "Editar correo"],
+            ["app" => "emails", "action" => "delete", "value" => "Delete", "icon" => "trash", "tooltip" => "Borrar correo"],
         ]</actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
-            FROM app_correo
+            FROM app_emails
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "correo", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("correo", "list")."
+            AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("emails", "list")."
         ")</footer>
     </table>
     <!-- TODO -->
