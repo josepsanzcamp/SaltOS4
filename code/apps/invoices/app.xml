@@ -59,8 +59,8 @@
             <num label="Núm.Fact."/>
             <fecha label="Fecha"/>
             <total label="Total"/>
-            <cerrado label="Cerrado" type="icon" align="text-center"/>
-            <cobrado label="Cobrado" type="icon" align="text-center"/>
+            <cerrado label="Cerrado" type="icon" align="center"/>
+            <cobrado label="Cobrado" type="icon" align="center"/>
         </header>
         <data eval="true">execute_query_array("
             SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal, num, fecha,

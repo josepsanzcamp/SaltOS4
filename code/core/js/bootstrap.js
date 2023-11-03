@@ -1443,10 +1443,10 @@ saltos.__form_field.pdfjs = field => {
  *
  * This function defines the yellow color used for the hover and active rows.
  *
- * The header field can be an array with the labels of each field or can be an object
- * with pairs of key and val to identify with the key the name of the field and with the
- * val the label to be used in the field, this is used when the data contains more fields
- * that the desired fields, for example, to store the id used in the str_replace
+ * The header field must be an object with the labels, types, aligns, ..., of each field,
+ * if the header is ommited, then the data will be painted using the default order of the
+ * data without filters, the recomendation is to use header to specify which fields must
+ * to be painted, the order, the type and the alignment.
  *
  * This widget requires the locutus library and can be loaded automatically using the require
  * feature:
@@ -1463,7 +1463,8 @@ saltos.__form_field.pdfjs = field => {
  *
  * The elements of the data cells can contains an object with the field specification used
  * to the saltos.form_field constructor, it is usefull to convert some fields to inputs
- * instead of simple text
+ * instead of simple text, too is able to use the type attribute in the header specification
+ * to identify if you want to use a column with some special type as for example, the icons
  */
 saltos.__form_field.table = field => {
     saltos.require('core/lib/locutus/locutus.min.js');
@@ -1506,7 +1507,7 @@ saltos.__form_field.table = field => {
             var temp = htmlentities(field.header[key].label);
             var th = saltos.html('tr', `<th>${temp}</th>`);
             if (field.header[key].hasOwnProperty('align')) {
-                th.classList.add(field.header[key].align);
+                th.classList.add('text-' + field.header[key].align);
             }
             obj.querySelector('thead tr').append(th);
         }
@@ -1577,7 +1578,7 @@ saltos.__form_field.table = field => {
                     }
                 }
                 if (iterator[key2].hasOwnProperty('align')) {
-                    td.classList.add(iterator[key2].align);
+                    td.classList.add('text-' + iterator[key2].align);
                 }
                 row.append(td);
             }
@@ -1656,9 +1657,42 @@ saltos.__form_field.table = field => {
             if (field.checkbox) {
                 obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
             }
-            for (var key in field.footer) {
-                var temp = htmlentities(field.footer[key].value);
-                obj.querySelector('tfoot tr').append(saltos.html('tr', `<td>${temp}</td>`));
+            // This is to allow to use tables with footer and without header
+            var iterator = field.header;
+            if (!Object.keys(iterator).length) {
+                iterator = field.footer;
+            }
+            for (var key in iterator) {
+                var val = field.footer[key].value;
+                var td = saltos.html('tr', `<td></td>`);
+                if (typeof val == 'object') {
+                    if (val.hasOwnProperty('type')) {
+                        var temp = saltos.form_field(val);
+                        td.append(temp);
+                    } else {
+                        var temp = `object without type`;
+                        td.append(temp);
+                    }
+                } else {
+                    var type = 'text';
+                    if (iterator[key].hasOwnProperty('type')) {
+                        type = iterator[key].type;
+                    }
+                    if (type == 'icon') {
+                        var temp = saltos.html(`<i class="bi bi-${val}"></i>`);
+                        td.append(temp);
+                    } else if (type == 'text') {
+                        var temp = htmlentities(val);
+                        td.append(temp);
+                    } else {
+                        var temp = `unknown type ${type}`;
+                        td.append(temp);
+                    }
+                }
+                if (iterator[key].hasOwnProperty('align')) {
+                    td.classList.add('text-' + iterator[key].align);
+                }
+                obj.querySelector('tfoot tr').append(td);
             }
             if (field.data.length && field.data[0].hasOwnProperty('actions')) {
                 obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
