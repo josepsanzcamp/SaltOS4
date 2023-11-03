@@ -1561,11 +1561,14 @@ saltos.__form_field.table = field => {
                         td.append(temp);
                     }
                 } else {
-                    var type = iterator[key2].type ?? 'text';
+                    var type = 'text';
+                    if (iterator[key2].hasOwnProperty('type')) {
+                        type = iterator[key2].type;
+                    }
                     if (type == 'icon') {
                         var temp = saltos.html(`<i class="bi bi-${val2}"></i>`);
                         td.append(temp);
-                    } else if(type == 'text') {
+                    } else if (type == 'text') {
                         var temp = htmlentities(val2);
                         td.append(temp);
                     } else {
