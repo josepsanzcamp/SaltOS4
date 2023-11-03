@@ -1504,7 +1504,11 @@ saltos.__form_field.table = field => {
         }
         for (var key in field.header) {
             var temp = htmlentities(field.header[key].label);
-            obj.querySelector('thead tr').append(saltos.html('tr', `<th>${temp}</th>`));
+            var th = saltos.html('tr', `<th>${temp}</th>`);
+            if (field.header[key].hasOwnProperty('align')) {
+                th.classList.add(field.header[key].align);
+            }
+            obj.querySelector('thead tr').append(th);
         }
         if (field.data.length && field.data[0].hasOwnProperty('actions')) {
             obj.querySelector('thead tr').append(saltos.html('tr', `<th style="width: 1%"></th>`));
@@ -1546,16 +1550,31 @@ saltos.__form_field.table = field => {
                 iterator = field.data[key];
             }
             for (var key2 in iterator) {
-                var temp = field.data[key][key2];
+                var val2 = field.data[key][key2];
                 var td = saltos.html('tr', `<td></td>`);
-                if (typeof temp == 'object') {
-                    if (temp.hasOwnProperty('type')) {
-                        var temp2 = saltos.form_field(temp);
-                        td.append(temp2);
+                if (typeof val2 == 'object') {
+                    if (val2.hasOwnProperty('type')) {
+                        var temp = saltos.form_field(val2);
+                        td.append(temp);
+                    } else {
+                        var temp = `object without type`;
+                        td.append(temp);
                     }
                 } else {
-                    temp = htmlentities(temp);
-                    td.append(temp);
+                    var type = iterator[key2].type ?? 'text';
+                    if (type == 'icon') {
+                        var temp = saltos.html(`<i class="bi bi-${val2}"></i>`);
+                        td.append(temp);
+                    } else if(type == 'text') {
+                        var temp = htmlentities(val2);
+                        td.append(temp);
+                    } else {
+                        var temp = `unknown type ${type}`;
+                        td.append(temp);
+                    }
+                }
+                if (iterator[key2].hasOwnProperty('align')) {
+                    td.classList.add(iterator[key2].align);
                 }
                 row.append(td);
             }

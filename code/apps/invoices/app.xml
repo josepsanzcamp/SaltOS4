@@ -59,14 +59,14 @@
             <num label="Núm.Fact."/>
             <fecha label="Fecha"/>
             <total label="Total"/>
-            <cerrado label="Cerrado" type="icon"/>
-            <cobrado label="Cobrado" type="icon"/>
+            <cerrado label="Cerrado" type="icon" align="text-center"/>
+            <cobrado label="Cobrado" type="icon" align="text-center"/>
         </header>
         <data eval="true">execute_query_array("
             SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal, num, fecha,
                 ROUND((SELECT sum(unidades * precio * (1 - (descuento / 100))) FROM app_invoices_concepts b WHERE a.id = b.id_factura),2) total,
-                IF(cerrado, 'check-lg', 'x-lg') cerrado,
-                IF(cobrado, 'check-lg', 'x-lg') cobrado
+                IF(cerrado, 'check-lg text-success', 'x-lg text-danger') cerrado,
+                IF(cobrado, 'check-lg text-success', 'x-lg text-danger') cobrado
             FROM app_invoices a
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
