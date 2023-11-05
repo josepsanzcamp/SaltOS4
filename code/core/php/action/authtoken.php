@@ -68,6 +68,7 @@ if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
     semaphore_release("token");
     output_handler_json([
         "status" => "ko",
+        "reason" => "permission denied",
     ]);
 }
 
@@ -81,6 +82,7 @@ if (!is_array($row2) || !isset($row2["password"])) {
     semaphore_release("token");
     output_handler_json([
         "status" => "ko",
+        "reason" => "permission denied",
     ]);
 } elseif (password_verify($pass, $row2["password"])) {
     // Nothing to do, password is correct!!!
@@ -97,6 +99,7 @@ if (!is_array($row2) || !isset($row2["password"])) {
     semaphore_release("token");
     output_handler_json([
         "status" => "ko",
+        "reason" => "permission denied",
     ]);
 }
 
