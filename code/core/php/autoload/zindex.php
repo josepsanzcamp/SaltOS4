@@ -32,6 +32,60 @@ declare(strict_types=1);
  *
  * This file contains the old index.php file, this was moved here to simplify the index.php and to
  * allow some php checks found in the current index.php
+ *
+ * This code implements the main method to access to the SaltOS API using rest and json requests, to
+ * use it, you can use the follow methods:
+ *
+ * 1) Rest using GET requests
+ *
+ * This kind of requests requires that you send a GET request with a querystring of the follow
+ * form:
+ *
+ * @https://127.0.0.1/saltos/code4/?app/invoices/view/2
+ *
+ * And the system process it of the follow form:
+ *
+ * @rest/1 => invoices
+ * @rest/2 => view
+ * @rest/3 => 2
+ *
+ * And you can programm any action that uses these parameters to do the desired task
+ *
+ * 2) Json using POST requests
+ *
+ * This other kind of requests requires that you send a POST request with the appropiate header
+ * for the content-type as application/json and a json in the body of the request, with this
+ * call, saltos can map all contents of the json to the json/????? variables.
+ *
+ * As an extra bonus, this module defines some usefull server variables used in a lot of
+ * features of saltos, like the follow vars:
+ *
+ * @request_method => can be GET or POST
+ * @content_type   => used to check the content type for the JSON requests
+ * @token          => used to validate the HTTP_TOKEN send as authentication
+ * @remote_addr    => used internally for security reasons
+ * @user_agent     => used internally for security reasons
+ *
+ * As a brief resume, you can use the follow keys in get_data or set_data:
+ *
+ * @rest                  => to get an array with all rest data, for the above example they
+ *                           must return some thing like this:
+ *                           ["app", "invoices", "view", "2"]
+ * @rest/1                => to get only the element that contains "invoices"
+ * @rest/2                => to get only the element that contains "view"
+ * @rest/3                => to get only the element that contains "2"
+ * @json                  => to get an array with all json data, for the above example they
+ *                           must return some thing like this:
+ *                           ["action"=>"authtoken", "user"=>"xxx", "pass"=>"xxx"]
+ * @json/action           => to get only the element that contains "authtoken"
+ * @json/user             => to get only the element that contains the user
+ * @json/pass             => to get only the element that contains the pass
+ * @server                => to get an array with all server data
+ * @server/request_method => can be GET or POST
+ * @server/content_type   => used to check the content type for the JSON requests
+ * @server/token          => used to validate the HTTP_TOKEN send as authentication
+ * @server/remote_addr    => used internally for security reasons
+ * @server/user_agent     => used internally for security reasons
  */
 
 // Some important items

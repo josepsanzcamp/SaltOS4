@@ -1,6 +1,6 @@
 Code documentation
-SaltOS 4.0 r427
-October 2023
+SaltOS 4.0 r463
+November 2023
 
 
 
@@ -228,6 +228,18 @@ clear the file and hash element of the array
 - @hash  => this field contains the hash of the contents of the file
 
 
+++Form action++
+
+```
+core/php/action/form.php
+```
+
+This action tries to facility the creation of forms with the tipicals
+features ...
+
+TODO
+
+
 ++Insert action++
 
 ```
@@ -238,6 +250,19 @@ This action allow to insert registers in the database associated to
 each app
 
 TODO
+
+
+++List action++
+
+```
+core/php/action/list.php
+```
+
+This action tries to facility the creation of lists with the tipicals
+features suck as rows, actions for each row, and other improvements as
+the list with count and without count.
+
+TODO: Falta el order by desde el listado
 
 
 ++QRCode action++
@@ -522,6 +547,19 @@ an array in all cases
 
 - @arr => the input, generally must to be an array, if a null is passed,
         then a void array will be returned
+
+
++++Join for array+++
+
+```
+function join4array($array)
+```
+
+This function allow to join the #attr and value to get only an associative
+array, it is intended to be used to simplify the specification of some elements
+and to simplify the usage of this elements in the client side
+
+- @array => the input that can contains an array with #attr and value
 
 
 ++Barcode helper module++
@@ -2735,38 +2773,6 @@ used as an argument for the key function, only is intended at the moment to
 accept functions with one and two arguments, otherwise an error is triggered
 
 
-++List helper module++
-
-```
-core/php/autoload/list.php
-```
-
-This fie contains useful functions related to the lists generated from SaltOS, in this case, this
-module add to the generic queries the permissions filter and the actions associated to each register
-depending of each application
-
-
-+++Add list actions helper+++
-
-```
-function add_list_actions($rows, $actions)
-```
-
-This function returns the input rows adding to each row an array of actions,
-to do this function uses the permissions to check that each register and each
-action is allowed by the token
-
-- @rows    => the rows used to do the list
-- @actions => an array with the actions that want to be added in each row
-
-
-Notes:
-
-This function add to each row the actions using the permissions of the system
-associated to the current user, for each permission and using the new owner
-concept
-
-
 ++Log helper module++
 
 ```
@@ -3300,13 +3306,24 @@ a getter function, but in the future, can store more features if it is needed
 +++Get Server+++
 
 ```
-function get_server($index)
+function get_server($key)
 ```
 
 This function returns the server variable requested by index if it exists
 
-- @index   => the index key used to get the value of the server
-- @default => the default value returned if the key is not found
+- @key => the index key used to get the value of the server
+
+
++++Set Server+++
+
+```
+function set_server($key, $val)
+```
+
+This function is intended to replace some server variabe in runtime mode
+
+- @key => the index key used to get the value of the server
+- @val => the value that you want to set in the server array
 
 
 ++SQL utils helper module++
@@ -4297,6 +4314,63 @@ core/php/autoload/zindex.php
 This file contains the old index.php file, this was moved here to simplify the index.php and to
 allow some php checks found in the current index.php
 
+This code implements the main method to access to the SaltOS API using rest and json requests, to
+use it, you can use the follow methods:
+
+1) Rest using GET requests
+
+This kind of requests requires that you send a GET request with a querystring of the follow
+form:
+
+- @https://127.0.0.1/saltos/code4/?app/invoices/view/2
+
+
+And the system process it of the follow form:
+
+- @rest/1 => invoices
+- @rest/2 => view
+- @rest/3 => 2
+
+
+And you can programm any action that uses these parameters to do the desired task
+
+2) Json using POST requests
+
+This other kind of requests requires that you send a POST request with the appropiate header
+for the content-type as application/json and a json in the body of the request, with this
+call, saltos can map all contents of the json to the json/????? variables.
+
+As an extra bonus, this module defines some usefull server variables used in a lot of
+features of saltos, like the follow vars:
+
+- @request_method => can be GET or POST
+- @content_type   => used to check the content type for the JSON requests
+- @token          => used to validate the HTTP_TOKEN send as authentication
+- @remote_addr    => used internally for security reasons
+- @user_agent     => used internally for security reasons
+
+
+As a brief resume, you can use the follow keys in get_data or set_data:
+
+- @rest                  => to get an array with all rest data, for the above example they
+                          must return some thing like this:
+                          ["app", "invoices", "view", "2"]
+- @rest/1                => to get only the element that contains "invoices"
+- @rest/2                => to get only the element that contains "view"
+- @rest/3                => to get only the element that contains "2"
+- @json                  => to get an array with all json data, for the above example they
+                          must return some thing like this:
+                          ["action"=>"authtoken", "user"=>"xxx", "pass"=>"xxx"]
+- @json/action           => to get only the element that contains "authtoken"
+- @json/user             => to get only the element that contains the user
+- @json/pass             => to get only the element that contains the pass
+- @server                => to get an array with all server data
+- @server/request_method => can be GET or POST
+- @server/content_type   => used to check the content type for the JSON requests
+- @server/token          => used to validate the HTTP_TOKEN send as authentication
+- @server/remote_addr    => used internally for security reasons
+- @server/user_agent     => used internally for security reasons
+
 
 +Database+
 
@@ -5063,6 +5137,9 @@ This function tries to implement an alert box, the main difference between the t
 is that this alert allow to you to specify the title and a more complex message, but it only
 shows one button to close it.
 
+- @title   => title of the alert modal dialog
+- @message => message of the alert modal dialog
+
 
 +++Check response helper+++
 
@@ -5250,6 +5327,47 @@ original data and the current data.
 - @full => boolean to indicate if you want the entire form or only the differences
 
 
++++Check form+++
+
+```
+saltos.check_required = ()
+```
+
+This function tries to check if all required fields contain data, if the required field are
+right, the is-valid class will be applied to all required elements and true is returned,
+otherwise the is-invalid class will be added to the void required elements and false is
+returned.
+
+
++++Form disabled+++
+
+```
+saltos.form_disabled = bool
+```
+
+This function disables all elements of the form, it is intended to be used when you need
+to do screen for view mode.
+
+
++++Form readonly+++
+
+```
+saltos.form_readonly = bool
+```
+
+This function set all elements of the form as readonly, it is intended to be used when you need
+to do screen for view mode.
+
+
++++Form helper+++
+
+```
+saltos.form_helper = (attr, bool)
+```
+
+This function is a helper used by the form_disabled and form_readonly functions
+
+
 +++Main code+++
 
 This is the code that must to be executed to initialize all requirements of this module
@@ -5278,41 +5396,50 @@ widgets, the types that can be called are the follow:
 - @container   => id, class, style
 - @row         => id, class, style
 - @col         => id, class, style
-- @text        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
-- @hidden      => id, class, placeholder, value, disabled, readonly, required, tooltip
-- @integer     => id, class, placeholder, value, disabled, readonly, required, tooltip, label
-- @float       => id, class, placeholder, value, disabled, readonly, required, tooltip, label
-- @color       => id, class, placeholder, value, disabled, readonly, required, tooltip, label
-- @date        => id, class, placeholder, value, disabled, readonly, required, tooltip, label
-- @time        => id, class, placeholder, value, disabled, readonly, required, tooltip, label
-- @datetime    => id, class, placeholder, value, disabled, readonly, required, tooltip, label
-- @textarea    => id, class, placeholder, value, disabled, readonly, required, rows, tooltip, label
-- @ckeditor    => id, class, placeholder, value, disabled, readonly, required, rows, label
-- @codemirror  => id, class, placeholder, value, disabled, readonly, required, rows, mode, label
-- @iframe      => value, id, class, height, tooltip, label
-- @select      => id, class, disabled, required, rows, multiple, size, value, tooltip, label
-- @multiselect => id, class, disabled, required, rows, multiple, size, value, multiple, tooltip, label
-- @checkbox    => id, class, disabled, readonly, label, value, tooltip
-- @switch      => id, class, disabled, readonly, label, value, tooltip
-- @button      => id, class, disabled, value, onclick, tooltip
-- @password    => id, class, placeholder, value, disabled, readonly, required, tooltip, label
-- @file        => id, class, disabled, required, multiple, tooltip, label
-- @link        => id, disabled, value, onclick, tooltip, label
+- @text        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
+- @hidden      => id, class, PL, value, DS, RO, RQ, AF, tooltip
+- @integer     => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+- @float       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+- @color       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+- @date        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+- @time        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+- @datetime    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+- @textarea    => id, class, PL, value, DS, RO, RQ, AF, rows, tooltip, label
+- @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, rows, label
+- @codemirror  => id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
+- @iframe      => id, class, value, height, tooltip, label
+- @select      => id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
+- @multiselect => id, class, DS, RQ, AF, rows, multiple, size, value, multiple, tooltip, label
+- @checkbox    => id, class, DS, RO, label, value, tooltip
+- @switch      => id, class, DS, RO, label, value, tooltip
+- @button      => id, class, DS, value, onclick, tooltip
+- @password    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
+- @file        => id, class, DS, RQ, AF, multiple, tooltip, label
+- @link        => id, DS, value, onclick, tooltip, label
 - @label       => id, class, label, tooltip, value
 - @image       => id, class, value, alt, tooltip, label
 - @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
                 colWidths, label
 - @pdfjs       => id, class, value, label
-- @table       => id, class, header, data, footer, divider, value, label
+- @table       => id, class, header, data, footer, value, label
 - @alert       => id, class, title, text, body, value, label
 - @card        => id, image, alt, header, footer, title, text, body, value, label
 - @chartjs     => id, mode, data, value, label
-- @tags        => id, class, placeholder, value, disabled, readonly, required, datalist, tooltip, label
+- @tags        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
 - @gallery     => id, class, label, images
-- @placeholder => id
+- @PL => id
 
 
 Notes:
+
+To do more small the previous list, we have used the follow abreviations:
+
+- @PL => placeholder
+- @DS => disabled
+- @RO => readonly
+- @RQ => required
+- @AF => autofocus
+
 
 The saltos.__form_field object is part of this constructor and act with the constructor
 as a helper, the idea is that the user must to call the constructor and the helpers are
@@ -5401,6 +5528,7 @@ that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 - @datalist    => array with options for the datalist, used as autocomplete for the text input
@@ -5423,6 +5551,7 @@ that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 
 
@@ -5450,6 +5579,7 @@ that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 
@@ -5479,6 +5609,7 @@ that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 
@@ -5508,6 +5639,7 @@ arguments that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 
@@ -5535,6 +5667,7 @@ that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 
@@ -5556,6 +5689,7 @@ that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 
@@ -5577,6 +5711,7 @@ that for the input object of type text
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 
@@ -5596,6 +5731,7 @@ This function returns a textarea object with the autogrow plugin enabled
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @rows        => the number used as rows parameter
 - @label       => this parameter is used as text for the label
@@ -5624,6 +5760,7 @@ This function returns a textarea object with the ckeditor plugin enabled
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @rows        => the number used as rows parameter
 - @label       => this parameter is used as text for the label
@@ -5653,6 +5790,7 @@ This function returns a textarea object with the codemirror plugin enabled
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @rows        => the number used as rows parameter
 - @label       => this parameter is used as text for the label
@@ -5694,6 +5832,7 @@ This function returns a select object, you can pass the follow arguments:
 - @class    => allow to add more classes to the default form-select
 - @disabled => this parameter raise the disabled flag
 - @required => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @multiple => this parameter enables the multiple selection feature of the select
 - @size     => this parameter allow to see the options list opened with n (size) entries
 - @value    => the value used to detect the selected option
@@ -5812,6 +5951,7 @@ This function returns an input object of type password, you can pass some argume
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @label       => this parameter is used as text for the label
 
@@ -5821,13 +5961,6 @@ Notes:
 This widget add an icon to the end of the widget with an slashed eye, this allow to
 see the entered password to verify it, in reality, this button swaps the input between
 password and text type, allowing to do visible or not the contents of the input
-
-This widgets have a problem with the password managers of the browser that convert the
-previous field of this to a pair of login/password fields and autocomplete they with
-default values, to fix it, I'm using two tricks:
-
-1) add the input of type=text with the display: none to fix the bug in firefox
-2) add the autocomplete='new-password' to fix the problem in chrome browsers
 
 I'm using previousElementSibling instead of previousSibling because between the input and the
 button, exists a new line that is identified as another previousSibling, but not as an element
@@ -5846,6 +5979,7 @@ This function returns an input object of type password, you can pass some argume
 - @class    => allow to add more classes to the default form-control
 - @disabled => this parameter raise the disabled flag
 - @required => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @multiple => this parameter raise the multiple flag, intended to select more files at time
 - @tooltip  => this parameter raise the title flag
 - @label    => this parameter is used as text for the label
@@ -5993,7 +6127,6 @@ Returns a table using the follow params:
 - @header   => array with the header to use
 - @data     => 2D array with the data used to mount the body table
 - @footer   => array with the footer to use
-- @divider  => array with three booleans to specify to add the divider in header, body and/or footer
 - @checkbox => add a checkbox at the first of each row, for mono or multi selection
 - @actions  => each row of the data can contain an array with the actions of each row
 - @label    => this parameter is used as text for the label
@@ -6003,15 +6136,29 @@ Notes:
 
 This function defines the yellow color used for the hover and active rows.
 
-The header field can be an array with the labels of each field or can be an object
-with pairs of key and val to identify with the key the name of the field and with the
-val the label to be used in the field, this is used when the data contains more fields
-that the desired fields, for example, to store the id used in the str_replace
+The header field must be an object with the labels, types, aligns, ..., of each field,
+if the header is ommited, then the data will be painted using the default order of the
+data without filters, the recomendation is to use header to specify which fields must
+to be painted, the order, the type and the alignment.
 
 This widget requires the locutus library and can be loaded automatically using the require
 feature:
 
 - @core/lib/locutos/locutus.min.js
+
+
+The divider will be added dynamically depending the contents of the table, the main idea
+is to use the divider to separate each block of the table (header, data and footer)
+
+The actions will be added using a dropdown menu if more than one action appear in the
+the row data, the idea of this feature is to prevent that the icons uses lot of space
+of the row data, and for this reason, it will define the dropdown variable that enables
+or not the contraction feature
+
+The elements of the data cells can contains an object with the field specification used
+to the saltos.form_field constructor, it is usefull to convert some fields to inputs
+instead of simple text, too is able to use the type attribute in the header specification
+to identify if you want to use a column with some special type as for example, the icons
 
 
 +++Alert constructor helper+++
@@ -6102,6 +6249,7 @@ and each tag can be deleted, the result is stored in a text using a comma separa
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 
 
@@ -6163,6 +6311,7 @@ This function returns an input object of type text, you can pass some arguments 
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 
 
@@ -6186,6 +6335,7 @@ This function returns a textarea object, you can pass the follow arguments:
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
+- @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
 - @rows        => the number used as rows parameter
 
@@ -6732,16 +6882,36 @@ saltos.token.get_expires = ()
 This function returns the expires stored in the localStorage
 
 
++++Get autorenew function+++
+
+```
+saltos.token.get_autorenew = ()
+```
+
+This function returns the autorenew stored in the localStorage
+
+
++++Get autocheck function+++
+
+```
+saltos.token.get_autocheck = ()
+```
+
+This function returns the autochecl stored in the localStorage
+
+
 +++Set token and expires+++
 
 ```
-saltos.token.set = (token, expires)
+saltos.token.set = (response)
 ```
 
 This function store the token and expires in the localStorage
 
-- @token   => the token that you want to store in the localStorage
-- @expires => the expires of the token that you want to store in the localStorage
+- @response  => the object that contains the follow parameters:
+- @token     => the token that you want to store in the localStorage
+- @expires   => the expires of the token that you want to store in the localStorage
+- @autorenew => the autorenew of the token that you can use to force an autorenew
 
 
 +++Unset token and expires+++
@@ -6815,12 +6985,34 @@ This function checks the reminder of the token's expires and if is needed, execu
 token action.
 
 
-+Clientes+
++++Variable used to store the timer+++
+
+```
+saltos.authenticate.__autorenew_timer = null;
+```
+
+This variable must contains the timer of the auto renew token feature
+
+
++++Auto-renew helper function+++
+
+```
+saltos.authenticate.autorenew = on_off
+```
+
+This function allow to enable or disable the auto renew token feature, can receive
+an argument to specify if it must to enable or disable the feature, it is intended
+to be used when set or unset the token.
+
+- @on_off => the parameter to indicates if you want to enable or disable the feature
+
+
++Customers+
 
 ++Customers application++
 
 ```
-apps/clientes/app.js
+apps/customers/app.js
 ```
 
 This application implements the tipical features associated to customers
@@ -6829,16 +7021,25 @@ This application implements the tipical features associated to customers
 +++Main object+++
 
 ```
-saltos.clientes = {};
+saltos.customers = {};
 ```
 
 This object contains all SaltOS code
 
 
++++Initialize customers+++
+
+```
+saltos.customers.initialize = ()
+```
+
+This function initializes the customers screen to improve the user experience.
+
+
 +++TODO+++
 
 ```
-saltos.clientes.search = ()
+saltos.customers.search = ()
 ```
 
 TODO
@@ -6847,7 +7048,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.clientes.clear_filter = ()
+saltos.customers.clear_filter = ()
 ```
 
 TODO
@@ -6856,7 +7057,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.clientes.read_more = ()
+saltos.customers.read_more = ()
 ```
 
 TODO
@@ -6865,7 +7066,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.clientes.cancel = ()
+saltos.customers.cancel = ()
 ```
 
 TODO
@@ -6874,7 +7075,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.clientes.insert = ()
+saltos.customers.insert = ()
 ```
 
 TODO
@@ -6883,7 +7084,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.clientes.update = ()
+saltos.customers.update = ()
 ```
 
 TODO
@@ -6892,18 +7093,18 @@ TODO
 +++TODO+++
 
 ```
-saltos.clientes.delete = ()
+saltos.customers.delete = ()
 ```
 
 TODO
 
 
-+Correo+
++Emails+
 
 ++Email application++
 
 ```
-apps/correo/app.js
+apps/emails/app.js
 ```
 
 This application implements the tipical features associated to emails
@@ -6912,16 +7113,25 @@ This application implements the tipical features associated to emails
 +++Main object+++
 
 ```
-saltos.correo = {};
+saltos.emails = {};
 ```
 
 This object contains all SaltOS code
 
 
++++Initialize emails app+++
+
+```
+saltos.emails.initialize = ()
+```
+
+This function initializes the emails app screen to improve the user experience.
+
+
 +++TODO+++
 
 ```
-saltos.correo.search = ()
+saltos.emails.search = ()
 ```
 
 TODO
@@ -6930,7 +7140,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.correo.clear_filter = ()
+saltos.emails.clear_filter = ()
 ```
 
 TODO
@@ -6939,7 +7149,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.correo.read_more = ()
+saltos.emails.read_more = ()
 ```
 
 TODO
@@ -6948,7 +7158,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.correo.send_and_get = ()
+saltos.emails.send_and_get = ()
 ```
 
 TODO
