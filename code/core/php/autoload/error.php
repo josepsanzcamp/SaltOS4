@@ -313,7 +313,7 @@ function __error_handler($type, $message, $file, $line)
         "phperror" => "{$message} (code {$type})",
         "details" => "Error on file " . basename($file) . ":" . $line,
         "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-        "code" => pathinfo($file, PATHINFO_FILENAME) . ":" . $line,
+        "code" => __get_code_from_file_and_line($file, $line),
     ]);
 }
 
@@ -333,7 +333,7 @@ function __exception_handler($e)
         "exception" => $e->getMessage() . " (code " . $e->getCode() . ")",
         "details" => "Error on file " . basename($e->getFile()) . ":" . $e->getLine(),
         "backtrace" => $e->getTrace(),
-        "code" => pathinfo($e->getFile(), PATHINFO_FILENAME) . ":" . $e->getLine(),
+        "code" => __get_code_from_file_and_line($e->getFile(), $e->getLine()),
     ]);
 }
 
@@ -355,14 +355,14 @@ function __shutdown_handler()
             "phperror" => "{$error["message"]}",
             "details" => "Error on file " . basename($error["file"]) . ":" . $error["line"],
             "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            "code" => pathinfo($error["file"], PATHINFO_FILENAME) . ":" . $error["line"],
+            "code" => __get_code_from_file_and_line($error["file"], $error["line"]),
         ]);
     }
     semaphore_shutdown();
 }
 
 /**
- * Get Code From Trace
+ * Get code from trace
  *
  * This function acts as helper of the show_json_error, and try to get the filename and the line
  * where the error will be triggered, for example, an error triggered from the index.php at line
@@ -372,13 +372,16 @@ function __shutdown_handler()
  * @trace => the array returned by the debug_backtrace function
  * @index => the position of the array used to get the filename and the line
  */
-function __get_code_from_trace($trace, $index = 0)
+function __get_code_from_trace($trace = null, $index = 0)
 {
+    if ($trace === null) {
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    }
     $code = "unknown:0";
     if (isset($trace[$index])) {
         $trace = $trace[$index];
         if (isset($trace["file"]) && isset($trace["line"])) {
-            $code = pathinfo($trace["file"], PATHINFO_FILENAME) . ":" . $trace["line"];
+            $code = __get_code_from_file_and_line($trace["file"], $trace["line"]);
         }
     }
     return $code;
@@ -396,15 +399,38 @@ function __get_code_from_trace($trace, $index = 0)
  */
 function show_json_error($msg)
 {
-    // Trick to clear previous data
-    while (ob_get_level()) {
-        ob_end_clean();
-    }
-    // Prepare the final report
     output_handler_json([
         "error" => [
             "text" => $msg,
             "code" => __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)),
         ],
     ]);
+}
+
+/**
+ * Get code from file and line
+ *
+ * This function returns the string that contains the PATHINFO_FILENAME and the line to idenfify
+ * the launcher of an error, for example
+ *
+ * @file => filename used to obtain the first part of the code
+ * @line => line used to construct the last part of the code
+ */
+function __get_code_from_file_and_line($file, $line)
+{
+    return pathinfo($file, PATHINFO_FILENAME) . ":" . $line;
+}
+
+/**
+ * Show JSON Array
+ *
+ * This function is intended to be used when you need to generate a json response based on
+ * an array contents, too, this function adds the code entry to the input array
+ *
+ * @array => The input array used in the output_handler_json without the code entry
+ */
+function show_json_array($array)
+{
+    $array["code"] = __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+    output_handler_json($array);
 }
