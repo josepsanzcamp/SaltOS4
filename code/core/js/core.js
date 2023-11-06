@@ -411,5 +411,12 @@ saltos.require = file => {
             },
         });
     }
+    if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
+        var script = document.createElement('script');
+        script.type = 'module';
+        script.src = file;
+        script.async = false;
+        document.body.append(script);
+    }
     saltos.__require.push(file);
 };

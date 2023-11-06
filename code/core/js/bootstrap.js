@@ -1357,8 +1357,8 @@ saltos.__form_field.excel = field => {
  */
 saltos.__form_field.pdfjs = field => {
     saltos.require('core/lib/pdfjs/pdf_viewer.min.css');
-    saltos.require('core/lib/pdfjs/pdf.min.js');
-    saltos.require('core/lib/pdfjs/pdf_viewer.min.js');
+    saltos.require('core/lib/pdfjs/pdf.min.mjs');
+    saltos.require('core/lib/pdfjs/pdf_viewer.min.mjs');
     saltos.check_params(field, ['id', 'class', 'value']);
     var obj = saltos.html(`
         <div id="${field.id}" class="${field.class}">
@@ -1387,7 +1387,7 @@ saltos.__form_field.pdfjs = field => {
     `));
     var element = obj.querySelector('.viewerContainer');
     saltos.when_visible(element, () => {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'core/lib/pdfjs/pdf.worker.min.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'core/lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
                 return;
