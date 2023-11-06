@@ -1352,8 +1352,12 @@ saltos.__form_field.excel = field => {
  * feature:
  *
  * @core/lib/pdfjs/pdf_viewer.min.css,
- * @core/lib/pdfjs/pdf.min.js
- * @core/lib/pdfjs/pdf_viewer.min.js
+ * @core/lib/pdfjs/pdf.min.mjs
+ * @core/lib/pdfjs/pdf_viewer.min.mjs
+ * @core/lib/pdfjs/pdf.worker.min.mjs
+ *
+ * The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
+ * that this file not appear in the next requires
  */
 saltos.__form_field.pdfjs = field => {
     saltos.require('core/lib/pdfjs/pdf_viewer.min.css');
