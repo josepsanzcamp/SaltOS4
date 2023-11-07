@@ -26,11 +26,14 @@
 -->
 
 <root>
-    <menu>
+    <menu id="1">
         <javascript>
             <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
             <file eval="true">file_with_hash("apps/tester/app.js")</file>
         </javascript>
+    </menu>
+    <menu id="2">
+        <temp eval="true">include_once("apps/tester/indexing.php")</temp>
     </menu>
 </root>

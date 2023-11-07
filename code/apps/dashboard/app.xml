@@ -36,7 +36,8 @@
             <button ifeval="check_user('customers', 'menu')" onclick="saltos.open_window('#app/customers/list')" class="btn btn-primary fs-1 w-100 h-100" eval="true">T("Customers")</button>
             <button ifeval="check_user('invoices', 'menu')" onclick="saltos.open_window('#app/invoices/list')" class="btn btn-primary fs-1 w-100 h-100" eval="true">T("Invoices")</button>
             <button ifeval="check_user('emails', 'menu')" onclick="saltos.open_window('#app/emails/list')" class="btn btn-success fs-1 w-100 h-100" eval="true">T("Email")</button>
-            <button ifeval="check_user('tester', 'menu')" onclick="saltos.open_window('#app/tester')" class="btn btn-danger fs-1 w-100 h-100" eval="true">T("Tester")</button>
+            <button ifeval="check_user('tester', 'menu')" onclick="saltos.open_window('#app/tester/menu/1')" class="btn btn-danger fs-1 w-100 h-100" eval="true">T("Tester")</button>
+            <button ifeval="check_user('tester', 'menu')" onclick="saltos.open_window('?app/tester/menu/2')" class="btn btn-danger fs-1 w-100 h-100" eval="true">T("Tester")</button>
         </layout>
         <layout auto="true" container_class="container" col_class="col-md-4 mb-3">
             <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3" id="table1"></table>

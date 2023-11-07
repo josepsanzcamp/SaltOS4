@@ -51,6 +51,7 @@ if (!file_exists($file)) {
     show_json_error("app " . get_data("rest/1") . " not found");
 }
 
+// Load the app xml file
 $array = xmlfile2array($file);
 
 // Check for second argument, that is the subapp to load
@@ -80,6 +81,9 @@ foreach ($array as $key => $val) {
     }
 }
 if (count($dict) > 1) {
+    if (get_data("rest/3") == "") {
+        show_json_error("multiples subapp found without rest/3");
+    }
     $key = get_data("rest/2") . "/" . get_data("rest/3");
     if (!isset($dict[$key])) {
         show_json_error("subapp $key not found");
@@ -87,6 +91,12 @@ if (count($dict) > 1) {
     set_data("rest/2", $dict[$key]);
 }
 
+// Get only the subapp part
+$array = $array[get_data("rest/2")];
+
+// This line is a trick to allow attr in the subapp
+$array = join4array($array);
+
 // Eval the app and returns the result
-$array = eval_attr($array[get_data("rest/2")]);
+$array = eval_attr($array);
 output_handler_json($array);

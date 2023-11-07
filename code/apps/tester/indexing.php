@@ -31,96 +31,96 @@ declare(strict_types=1);
  * TODO
  */
 
-make_index("customers", 51);
-make_control("customers", 51);
+//~ make_index("customers", 51);
+//~ make_control("customers", 51);
 
-/*********************************** INICIO PRUEBAS customers *************************************/
+//~ /*********************************** INICIO PRUEBAS customers *************************************/
 
-db_query("DELETE FROM app_customers WHERE id=51");
-db_query("TRUNCATE TABLE app_customers_version");
+//~ db_query("DELETE FROM app_customers WHERE id=51");
+//~ db_query("TRUNCATE TABLE app_customers_version");
 //~ make_version("customers",51);
 
-$array = [
-    "id" => 51,
-    "nombre" => "Josep Sanz",
-    "nombre1" => "Josep",
-    "nombre2" => "Sanz",
-    "nombre_poblacion" => "Barcelona",
-    "nombre_codpostal" => "08030",
-];
-$query = make_insert_query("app_customers", $array);
-db_query($query);
+//~ $array = [
+    //~ "id" => 51,
+    //~ "nombre" => "Josep Sanz",
+    //~ "nombre1" => "Josep",
+    //~ "nombre2" => "Sanz",
+    //~ "nombre_poblacion" => "Barcelona",
+    //~ "nombre_codpostal" => "08030",
+//~ ];
+//~ $query = make_insert_query("app_customers", $array);
+//~ db_query($query);
 
-add_version("customers", 51);
+//~ add_version("customers", 51);
 
-$array = [
-    "nombre" => "Josep Sanz Campderrós",
-    "nombre2" => "Sanz Campderrós",
-];
+//~ $array = [
+    //~ "nombre" => "Josep Sanz Campderrós",
+    //~ "nombre2" => "Sanz Campderrós",
+//~ ];
 
-$query = make_update_query("app_customers", $array, "id=51");
-db_query($query);
+//~ $query = make_update_query("app_customers", $array, "id=51");
+//~ db_query($query);
 
-add_version("customers", 51);
+//~ add_version("customers", 51);
 
-$array = [
-    "cif" => "123456789",
-];
+//~ $array = [
+    //~ "cif" => "123456789",
+//~ ];
 
-$query = make_update_query("app_customers", $array, "id=51");
-db_query($query);
+//~ $query = make_update_query("app_customers", $array, "id=51");
+//~ db_query($query);
 
-add_version("customers", 51);
+//~ add_version("customers", 51);
 
-echo "<pre>" . sprintr(get_version("customers", 51, 0)) . "</pre>";
-echo "<pre>" . sprintr(get_version("customers", 51, 1)) . "</pre>";
-echo "<pre>" . sprintr(get_version("customers", 51, 2)) . "</pre>";
-echo "<pre>" . sprintr(get_version("customers", 51, 3)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("customers", 51, 0)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("customers", 51, 1)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("customers", 51, 2)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("customers", 51, 3)) . "</pre>";
 
 /*********************************** INICIO PRUEBAS FACTURAS *************************************/
 
-//~ echo "<pre>" . sprintr(get_version("facturas", 1, 0)) . "</pre>";
-//~ echo "<pre>" . sprintr(get_version("facturas", 1, 1)) . "</pre>";
-//~ echo "<pre>" . sprintr(get_version("facturas", 1, 2)) . "</pre>";
-//~ echo "<pre>" . sprintr(get_version("facturas", 1, 3)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("invoices", 1, 0)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("invoices", 1, 1)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("invoices", 1, 2)) . "</pre>";
+//~ echo "<pre>" . sprintr(get_version("invoices", 1, 3)) . "</pre>";
 
-db_query("DELETE FROM app_facturas WHERE id=1");
-db_query("DELETE FROM app_facturas_conceptos WHERE id_factura=1");
-db_query("DELETE FROM app_facturas_vencimientos WHERE id_factura=1");
-db_query("TRUNCATE TABLE app_facturas_version");
-//~ make_version("facturas",1);
+db_query("DELETE FROM app_invoices WHERE id=3");
+db_query("DELETE FROM app_invoices_concepts WHERE id_factura=3");
+db_query("DELETE FROM app_invoices_expirations WHERE id_factura=3");
+db_query("TRUNCATE TABLE app_invoices_version");
+//~ make_version("invoices",1);
 
 /*********************************** INICIO PRIMERA VERSION *************************************/
 
 $array = [
-    "id" => 1,
+    "id" => 3,
     "nombre" => "Josep Sanz",
     "num" => "",
 ];
-$query = make_insert_query("app_facturas", $array);
+$query = make_insert_query("app_invoices", $array);
 db_query($query);
 
 $array = [
-    "id" => 1,
-    "id_factura" => 1,
+    "id" => 17,
+    "id_factura" => 3,
     "concepto" => "Reloj",
     "unidades" => "1",
     "precio" => "99.99",
 ];
-$query = make_insert_query("app_facturas_conceptos", $array);
+$query = make_insert_query("app_invoices_concepts", $array);
 db_query($query);
 
 $array = [
-    "id" => 2,
-    "id_factura" => 1,
+    "id" => 18,
+    "id_factura" => 3,
     "concepto" => "Correa",
     "unidades" => "1",
     "precio" => "19.99",
 ];
-$query = make_insert_query("app_facturas_conceptos", $array);
+$query = make_insert_query("app_invoices_concepts", $array);
 db_query($query);
 
-add_version("facturas", 1);
+add_version("invoices", 3);
 
 /*********************************** INICIO SEGUNDA VERSION *************************************/
 
@@ -129,30 +129,29 @@ $array = [
     "num" => "",
 ];
 
-$query = make_update_query("app_facturas", $array, "id=1");
+$query = make_update_query("app_invoices", $array, "id=1");
 db_query($query);
 
-
 $array = [
-    "id_factura" => 1,
+    "id_factura" => 3,
     "concepto" => "Correa",
     "unidades" => "1",
     "precio" => "29.99",
 ];
-$query = make_update_query("app_facturas_conceptos", $array, "id=2");
+$query = make_update_query("app_invoices_concepts", $array, "id=18");
 db_query($query);
 
 $array = [
-    "id" => 3,
-    "id_factura" => 1,
+    "id" => 19,
+    "id_factura" => 3,
     "concepto" => "Extras",
     "unidades" => "1",
     "precio" => "9.99",
 ];
-$query = make_insert_query("app_facturas_conceptos", $array);
+$query = make_insert_query("app_invoices_concepts", $array);
 db_query($query);
 
-add_version("facturas", 1);
+add_version("invoices", 3);
 
 /*********************************** INICIO TERCERA VERSION *************************************/
 
@@ -161,19 +160,19 @@ $array = [
     "num" => "123456789",
 ];
 
-$query = make_update_query("app_facturas", $array, "id=1");
+$query = make_update_query("app_invoices", $array, "id=3");
 db_query($query);
 
-$query = "DELETE FROM app_facturas_conceptos WHERE id=1";
+$query = "DELETE FROM app_invoices_concepts WHERE id=17";
 db_query($query);
 
-add_version("facturas", 1);
+add_version("invoices", 3);
 
 /*********************************** INICIO DUMP VERSIONES *************************************/
 
-echo "<pre>" . sprintr(get_version("facturas", 1, 0)) . "</pre>";
-echo "<pre>" . sprintr(get_version("facturas", 1, 1)) . "</pre>";
-echo "<pre>" . sprintr(get_version("facturas", 1, 2)) . "</pre>";
-echo "<pre>" . sprintr(get_version("facturas", 1, 3)) . "</pre>";
+echo "<pre>" . sprintr(get_version("invoices", 3, 0)) . "</pre>";
+echo "<pre>" . sprintr(get_version("invoices", 3, 1)) . "</pre>";
+echo "<pre>" . sprintr(get_version("invoices", 3, 2)) . "</pre>";
+echo "<pre>" . sprintr(get_version("invoices", 3, 3)) . "</pre>";
 
 die();
