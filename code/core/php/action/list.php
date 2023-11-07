@@ -86,6 +86,7 @@ $dict = [];
 foreach ($array as $key => $val) {
     if (fix_key($key) == get_data("json/subapp") && isset($val["#attr"]["id"])) {
         $dict[get_data("json/subapp") . "/" . $val["#attr"]["id"]] = $key;
+        unset($array[$key]["#attr"]["id"]);
     }
 }
 if (count($dict) > 1) {

@@ -39,16 +39,16 @@
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search"/>
             <button onclick="saltos.customers.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
             <button onclick="saltos.customers.clear_filter()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-            <table col_class="col-md-12 my-3" source="list/customers/table" id="table"/>
+            <table col_class="col-md-12 my-3" source="list/customers/table"/>
             <div col_class="col mb-3"/>
-            <button onclick="saltos.customers.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado" icon="view-list"/>
+            <button onclick="saltos.customers.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="view-list"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
             <inline>saltos.customers.initialize()</inline>
         </javascript>
     </list>
-    <table checkbox="true" type="table" id="table" limit="25" order="id DESC">
+    <table checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <nombre label="Nombre"/>
             <cif label="CIF"/>

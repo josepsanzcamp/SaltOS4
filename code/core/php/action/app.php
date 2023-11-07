@@ -78,6 +78,7 @@ $dict = [];
 foreach ($array as $key => $val) {
     if (fix_key($key) == get_data("rest/2") && isset($val["#attr"]["id"])) {
         $dict[get_data("rest/2") . "/" . $val["#attr"]["id"]] = $key;
+        unset($array[$key]["#attr"]["id"]);
     }
 }
 if (count($dict) > 1) {

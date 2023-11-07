@@ -40,7 +40,7 @@
             <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo" icon="search"/>
             <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
             <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo" icon="envelope"/>
-            <table col_class="col-md-12 my-3" source="list/emails/table" id="table"/>
+            <table col_class="col-md-12 my-3" source="list/emails/table"/>
             <div col_class="col mb-3"/>
             <button onclick="saltos.emails.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado" icon="view-list"/>
         </layout>
@@ -49,7 +49,7 @@
             <inline>saltos.emails.initialize()</inline>
         </javascript>
     </list>
-    <table checkbox="true" type="table" id="table" limit="50" order="datetime DESC">
+    <table checkbox="true" type="table" limit="50" order="datetime DESC">
         <header>
             <from_to label="De/Para"/>
             <subject label="Asunto"/>

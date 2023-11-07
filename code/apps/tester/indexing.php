@@ -170,6 +170,11 @@ add_version("invoices", 3);
 
 /*********************************** INICIO DUMP VERSIONES *************************************/
 
+make_index("invoices", 1);
+make_index("invoices", 2);
+make_index("invoices", 3);
+make_control("invoices", 3);
+
 echo "<pre>" . sprintr(get_version("invoices", 3, 0)) . "</pre>";
 echo "<pre>" . sprintr(get_version("invoices", 3, 1)) . "</pre>";
 echo "<pre>" . sprintr(get_version("invoices", 3, 2)) . "</pre>";

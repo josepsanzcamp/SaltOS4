@@ -302,8 +302,8 @@ that maintain the database using as reference this file
         <table name="app_invoices">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-                <field name="id_customer" type="INT(11)" fkey="tbl_customers"/>
-                <field name="id_epigrafe" type="INT(11)" fkey="tbl_epigrafes"/>
+                <field name="id_customer" type="INT(11)" fkey="app_customers"/>
+                <field name="id_epigrafe" type="INT(11)"/>
                 <field name="nombre" type="VARCHAR(255)"/>
                 <field name="direccion" type="VARCHAR(255)"/>
                 <field name="id_pais" type="INT(11)"/>
@@ -321,14 +321,14 @@ that maintain the database using as reference this file
                 <field name="irpf" type="DECIMAL(9,2)"/>
                 <field name="cerrado" type="INT(11)"/>
                 <field name="cobrado" type="INT(11)"/>
-                <field name="id_cuenta" type="INT(11)" fkey="tbl_cuentas"/>
+                <field name="id_cuenta" type="INT(11)"/>
                 <field name="fecha2" type="DATE"/>
-                <field name="id_proyecto" type="INT(11)" fkey="tbl_proyectos"/>
-                <field name="id_periodica" type="INT(11)" fkey="tbl_periodicas"/>
+                <field name="id_proyecto" type="INT(11)"/>
+                <field name="id_periodica" type="INT(11)"/>
                 <field name="mes_periodica" type="INT(11)"/>
                 <field name="notas" type="TEXT"/>
-                <field name="id_formapago" type="INT(11)" fkey="tbl_formaspago"/>
-                <field name="id_presupuesto" type="INT(11)" fkey="tbl_presupuestos"/>
+                <field name="id_formapago" type="INT(11)"/>
+                <field name="id_presupuesto" type="INT(11)"/>
             </fields>
         </table>
         <table name="app_invoices_concepts">

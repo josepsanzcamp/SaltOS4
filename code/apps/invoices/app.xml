@@ -33,22 +33,22 @@
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-auto">
-            <button ifeval="check_user('invoices', 'create')" onclick="saltos.open_window('#app/invoices/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
+            <button ifeval="check_user('invoices', 'create')" onclick="saltos.open_window('#app/invoices/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nueva factura" tooltip="Para crear una nueva factura" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los invoices" id="search"/>
             <button onclick="saltos.invoices.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los invoices" icon="search"/>
             <button onclick="saltos.invoices.clear_filter()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-            <table col_class="col-md-12 my-3" source="list/invoices/table" id="table"/>
+            <table col_class="col-md-12 my-3" source="list/invoices/table"/>
             <div col_class="col mb-3"/>
-            <button onclick="saltos.invoices.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado" icon="view-list"/>
+            <button onclick="saltos.invoices.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="view-list"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize()</inline>
         </javascript>
     </list>
-    <table checkbox="true" type="table" id="table" limit="25" order="id DESC">
+    <table checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <nombre label="Nombre"/>
             <cif label="CIF"/>
@@ -73,9 +73,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="invoices" action="view" value="View" icon="search" tooltip="Ver detalle cliente"/>
-            <action app="invoices" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente"/>
-            <action app="invoices" action="delete" value="Delete" icon="trash" tooltip="Borrar cliente"/>
+            <action app="invoices" action="view" value="View" icon="search" tooltip="Ver detalle factura"/>
+            <action app="invoices" action="edit" value="Edit" icon="pencil" tooltip="Editar factura"/>
+            <action app="invoices" action="delete" value="Delete" icon="trash" tooltip="Borrar factura"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -117,10 +117,10 @@
         <data eval="true">xmlfile2array("apps/invoices/app.xml")["detail"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
-            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar la factura" icon="pencil">
                 <onclick eval="true">"saltos.open_window('#app/invoices/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle de la factura" icon="x-lg"/>
         </layout>
         <javascript>
             <inline>saltos.form_disabled(true)</inline>
@@ -136,8 +136,8 @@
         <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout"]</layout>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
-            <button onclick="saltos.invoices.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
-            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+            <button onclick="saltos.invoices.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear la nueva factura" icon="check-lg"/>
+            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
@@ -153,8 +153,8 @@
         <data eval="true">xmlfile2array("apps/invoices/app.xml")["header"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
-            <button onclick="saltos.invoices.update()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
-            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+            <button onclick="saltos.invoices.update()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Guardar" tooltip="Para guardar los cambios de la factura" icon="check-lg"/>
+            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición de la factura" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
@@ -169,8 +169,8 @@
         <data eval="true">xmlfile2array("apps/invoices/app.xml")["header"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
-            <button onclick="saltos.invoices.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
-            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+            <button onclick="saltos.invoices.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Borrar" tooltip="Para borrar la factura" icon="trash"/>
+            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición de la factura" icon="x-lg"/>
         </layout>
         <javascript>
             <inline>saltos.form_disabled(true)</inline>

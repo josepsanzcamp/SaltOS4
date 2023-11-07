@@ -77,7 +77,7 @@ saltos.customers.search = () => {
             if (!saltos.check_response(response)) {
                 return;
             }
-            document.getElementById('table').replaceWith(saltos.form_field(response));
+            document.querySelector('table').replaceWith(saltos.form_field(response));
         },
         error: request => {
             saltos.loading();
@@ -127,7 +127,7 @@ saltos.customers.read_more = () => {
             if (!saltos.check_response(response)) {
                 return;
             }
-            var obj = document.getElementById('table').querySelector('tbody');
+            var obj = document.querySelector('table').querySelector('tbody');
             var temp = saltos.form_field(response);
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },
