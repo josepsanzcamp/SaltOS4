@@ -65,7 +65,7 @@ saltos.customers.search = () => {
         url: 'index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'customers',
+            'app': saltos.hash.get().split('/').at(1),
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -115,7 +115,7 @@ saltos.customers.read_more = () => {
         url: 'index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'customers',
+            'app': saltos.hash.get().split('/').at(1),
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,

@@ -1452,11 +1452,6 @@ saltos.__form_field.pdfjs = field => {
  * data without filters, the recomendation is to use header to specify which fields must
  * to be painted, the order, the type and the alignment.
  *
- * This widget requires the locutus library and can be loaded automatically using the require
- * feature:
- *
- * @core/lib/locutos/locutus.min.js
- *
  * The divider will be added dynamically depending the contents of the table, the main idea
  * is to use the divider to separate each block of the table (header, data and footer)
  *
@@ -1471,7 +1466,6 @@ saltos.__form_field.pdfjs = field => {
  * to identify if you want to use a column with some special type as for example, the icons
  */
 saltos.__form_field.table = field => {
-    saltos.require('core/lib/locutus/locutus.min.js');
     saltos.check_params(field, ['class', 'id', 'checkbox']);
     saltos.check_params(field, ['header', 'data', 'footer'], []);
     var obj = saltos.html(`
@@ -1508,7 +1502,7 @@ saltos.__form_field.table = field => {
             });
         }
         for (var key in field.header) {
-            var temp = htmlentities(field.header[key].label);
+            var temp = field.header[key].label;
             var th = saltos.html('tr', `<th>${temp}</th>`);
             if (field.header[key].hasOwnProperty('align')) {
                 th.classList.add('text-' + field.header[key].align);
@@ -1574,8 +1568,7 @@ saltos.__form_field.table = field => {
                         var temp = saltos.html(`<i class="bi bi-${val2}"></i>`);
                         td.append(temp);
                     } else if (type == 'text') {
-                        var temp = htmlentities(val2);
-                        td.append(temp);
+                        td.append(val2);
                     } else {
                         var temp = `unknown type ${type}`;
                         td.append(temp);
@@ -1686,8 +1679,7 @@ saltos.__form_field.table = field => {
                         var temp = saltos.html(`<i class="bi bi-${val}"></i>`);
                         td.append(temp);
                     } else if (type == 'text') {
-                        var temp = htmlentities(val);
-                        td.append(temp);
+                        td.append(val);
                     } else {
                         var temp = `unknown type ${type}`;
                         td.append(temp);
@@ -1703,20 +1695,9 @@ saltos.__form_field.table = field => {
             }
         }
         if (typeof field.footer == 'string') {
-            var num = field.header.length;
-            if (!num) {
-                num = Object.keys(field.data[0]).length;
-            }
-            if (field.checkbox) {
-                num++;
-            }
-            if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-                num++;
-            }
-            var temp = htmlentities(field.footer);
             obj.querySelector('tfoot tr').append(saltos.html(
                 'tr',
-                `<td colspan="${num}" class="text-center">${temp}</td>`
+                `<td colspan="100" class="text-center">${field.footer}</td>`
             ));
         }
     }

@@ -45,9 +45,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
-<!--
             <inline>saltos.invoices.initialize()</inline>
--->
         </javascript>
     </list>
     <table checkbox="true" type="table" id="table" limit="25" order="id DESC">
@@ -106,8 +104,30 @@
         <switch id="cobrado" label="cobrado"/>
         <textarea id="notas" label="notas" col_class="col-md-12 mb-3"/>
     </layout>
-    <data eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
-    <data2 eval="true">execute_query("SELECT * FROM app_invoices_concepts WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data2>
+    <header eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</header>
+    <detail eval="true">execute_query_array("SELECT * FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</detail>
+
+    <view>
+        <javascript>
+            <inline>saltos.loading()</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
+        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/invoices/app.xml")["header"]</data>
+        <data eval="true">xmlfile2array("apps/invoices/app.xml")["detail"]</data>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
+                <onclick eval="true">"saltos.open_window('#app/invoices/edit/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
+            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <inline>saltos.form_disabled(true)</inline>
+            <file eval="true">file_with_hash("apps/invoices/app.js")</file>
+        </javascript>
+    </view>
+
     <create>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -123,33 +143,14 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
         </javascript>
     </create>
-    <view>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
-        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/invoices/app.xml")["data"]</data>
-        <data eval="true">xmlfile2array("apps/invoices/app.xml")["data2"]</data>
-        <layout auto="true" container_class="container" col_class="col-auto">
-            <div col_class="col mb-3"/>
-            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
-                <onclick eval="true">"saltos.open_window('#app/invoices/edit/".intval(get_data("rest/3"))."')"</onclick>
-            </button>
-            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
-        </layout>
-        <javascript>
-            <inline>saltos.form_disabled(true)</inline>
-            <file eval="true">file_with_hash("apps/invoices/app.js")</file>
-        </javascript>
-    </view>
+
     <edit>
         <javascript>
             <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/invoices/app.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/invoices/app.xml")["header"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button onclick="saltos.invoices.update()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
@@ -165,7 +166,7 @@
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/invoices/app.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/invoices/app.xml")["header"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button onclick="saltos.invoices.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
@@ -176,6 +177,5 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
         </javascript>
     </delete>
-
 
 </root>

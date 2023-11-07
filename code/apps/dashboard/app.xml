@@ -30,7 +30,6 @@
         <javascript>
             <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
-            <file>core/lib/locutus/locutus.min.js</file>
             <file>core/lib/chartjs/chart.umd.min.js</file>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
