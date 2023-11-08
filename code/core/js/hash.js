@@ -68,18 +68,33 @@ saltos.hash.get = () => {
 };
 
 /**
- * Set hash
+ * Replace hash
  *
- * Function intended to set the hash in the current url, adds the pilow if it is not found
+ * Function intended to replace the hash in the current url, adds the pilow if it is not found
  * in the hash argument
  *
  * @hash => this must contain the hash with or without the pillow
  */
-saltos.hash.set = hash => {
+saltos.hash.replace = hash => {
     if (hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
     history.replaceState(null, null, hash);
+};
+
+/**
+ * Add hash
+ *
+ * Function intended to add a hash in the current history, adds the pilow if it is not found
+ * in the hash argument
+ *
+ * @hash => this must contain the hash with or without the pillow
+ */
+saltos.hash.add = hash => {
+    if (hash.substr(0, 1) != '#') {
+        hash = '#' + hash;
+    }
+    history.pushState(null, null, hash);
 };
 
 /**
@@ -90,4 +105,3 @@ saltos.hash.set = hash => {
 saltos.hash.change = () => {
     window.dispatchEvent(new HashChangeEvent('hashchange'));
 };
-

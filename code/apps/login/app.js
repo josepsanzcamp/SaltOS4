@@ -58,7 +58,7 @@ saltos.login.authenticate = () => {
     }
     // Hash part
     if (['', 'app/login'].includes(saltos.hash.get())) {
-        saltos.hash.set('app/dashboard');
+        saltos.hash.replace('app/dashboard');
     }
     saltos.hash.change();
 };
