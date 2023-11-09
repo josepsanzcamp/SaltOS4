@@ -391,25 +391,26 @@ saltos.__require = [];
  * the load will be synchronous.
  */
 saltos.require = file => {
+    // To prevent duplicates
     if (saltos.__require.includes(file)) {
         return;
     }
+    // The next call serve as prefetch
+    var ajax = saltos.ajax({
+        url: file,
+        async: false,
+    });
+    // Now, add the tag to load the resource (previously prefetched)
     if (file.substr(-4) == '.css' || file.includes('.css?')) {
         var link = document.createElement('link');
-        link.href = file;
         link.rel = 'stylesheet';
+        link.href = file;
         document.head.append(link);
     }
     if (file.substr(-3) == '.js' || file.includes('.js?')) {
-        saltos.ajax({
-            url: file,
-            async: false,
-            success: response => {
-                var script = document.createElement('script');
-                script.innerHTML = response;
-                document.body.append(script);
-            },
-        });
+        var script = document.createElement('script');
+        script.innerHTML = ajax.response;
+        document.body.append(script);
     }
     if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
         var script = document.createElement('script');
@@ -418,5 +419,6 @@ saltos.require = file => {
         script.async = false;
         document.body.append(script);
     }
+    // To prevent duplicates
     saltos.__require.push(file);
 };

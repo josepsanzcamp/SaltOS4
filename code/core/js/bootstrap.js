@@ -278,9 +278,11 @@ saltos.__form_field.integer = field => {
     field.type = 'text';
     var obj = saltos.__text_helper(field);
     var element = obj;
-    IMask(element, {
-        mask: Number,
-        scale: 0,
+    saltos.when_visible(element, () => {
+        IMask(element, {
+            mask: Number,
+            scale: 0,
+        });
     });
     obj = saltos.__label_combine(field, obj);
     return obj;
@@ -316,11 +318,13 @@ saltos.__form_field.float = field => {
     field.type = 'text';
     var obj = saltos.__text_helper(field);
     var element = obj;
-    IMask(element, {
-        mask: Number,
-        radix: '.',
-        mapToRadix: [','],
-        scale: 99,
+    saltos.when_visible(element, () => {
+        IMask(element, {
+            mask: Number,
+            radix: '.',
+            mapToRadix: [','],
+            scale: 99,
+        });
     });
     obj = saltos.__label_combine(field, obj);
     return obj;
