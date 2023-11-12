@@ -27,12 +27,87 @@
 'use strict';
 
 /**
- * Token helper module
+ * Authentication helper module
  *
- * This file includes all code to manage tokens and to do authentications with all features suck
- * as the main authentication using a user and password pair, the reauthtoken, the deauthtoken and
- * the checktoken to control it.
+ * This file contains all code needed to manage the hash feature, includes the code to
+ * process the onhashchange and too, includes the code to get and set the hash value, too
+ * includes all code to manage tokens and to do authentications with all features suck as
+ * the main authentication using a user and password pair, the reauthtoken, the deauthtoken
+ * and the checktoken to control it.
  */
+
+/**
+ * Hash change management
+ *
+ * This function allow to SaltOS to update the contents when hash change
+ */
+window.onhashchange = event => {
+    // Reset the body interface
+    saltos.modal('close');
+    saltos.offcanvas('close');
+    saltos.loading(true);
+    // Do the request
+    saltos.send_request(saltos.hash.get());
+};
+
+/**
+ * Hash helper object
+ *
+ * This object stores all hash functions to get, set and trigger a change
+ */
+saltos.hash = {};
+
+/**
+ * Get hash
+ *
+ * Function intended to return the current hash without the pillow
+ */
+saltos.hash.get = () => {
+    var hash = document.location.hash;
+    if (hash.substr(0, 1) == '#') {
+        hash = hash.substr(1);
+    }
+    return hash;
+};
+
+/**
+ * Replace hash
+ *
+ * Function intended to replace the hash in the current url, adds the pilow if it is not found
+ * in the hash argument
+ *
+ * @hash => this must contain the hash with or without the pillow
+ */
+saltos.hash.set = hash => {
+    if (hash.substr(0, 1) != '#') {
+        hash = '#' + hash;
+    }
+    history.replaceState(null, null, hash);
+};
+
+/**
+ * Add hash
+ *
+ * Function intended to add a hash in the current history, adds the pilow if it is not found
+ * in the hash argument
+ *
+ * @hash => this must contain the hash with or without the pillow
+ */
+saltos.hash.add = hash => {
+    if (hash.substr(0, 1) != '#') {
+        hash = '#' + hash;
+    }
+    history.pushState(null, null, hash);
+};
+
+/**
+ * Change trigger
+ *
+ * This function triggers the hashchange event to execute the onhashchange
+ */
+saltos.hash.trigger = () => {
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+};
 
 /**
  * Token helper object
