@@ -629,7 +629,7 @@ saltos.form_helper = (attr, bool) => {
     }
     // Hash part
     if (['', 'app/login'].includes(saltos.hash.get())) {
-        saltos.hash.replace('app/dashboard');
+        saltos.hash.set('app/dashboard');
     }
-    saltos.hash.change();
+    saltos.hash.trigger();
 })();

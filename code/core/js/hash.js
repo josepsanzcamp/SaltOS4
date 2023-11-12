@@ -75,7 +75,7 @@ saltos.hash.get = () => {
  *
  * @hash => this must contain the hash with or without the pillow
  */
-saltos.hash.replace = hash => {
+saltos.hash.set = hash => {
     if (hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
@@ -102,6 +102,6 @@ saltos.hash.add = hash => {
  *
  * This function triggers the hashchange event to execute the onhashchange
  */
-saltos.hash.change = () => {
+saltos.hash.trigger = () => {
     window.dispatchEvent(new HashChangeEvent('hashchange'));
 };
