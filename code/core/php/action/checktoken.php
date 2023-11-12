@@ -56,9 +56,9 @@ if (!$token_id) {
 
 $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
 $row = execute_query($query);
-$renewals = get_config("auth/tokenrenewals");
-$autorenew = get_config("auth/tokenautorenew");
-$autocheck = get_config("auth/tokenautocheck");
+$renewals = intval(get_config("auth/tokenrenewals"));
+$autorenew = intval(get_config("auth/tokenautorenew"));
+$autocheck = intval(get_config("auth/tokenautocheck"));
 
 semaphore_release("token");
 output_handler_json([

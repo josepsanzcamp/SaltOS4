@@ -115,9 +115,9 @@ db_query($query);
 $datetime = current_datetime();
 $token = get_unique_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
-$renewals = get_config("auth/tokenrenewals");
-$autorenew = get_config("auth/tokenautorenew");
-$autocheck = get_config("auth/tokenautocheck");
+$renewals = intval(get_config("auth/tokenrenewals"));
+$autorenew = intval(get_config("auth/tokenautorenew"));
+$autocheck = intval(get_config("auth/tokenautocheck"));
 
 $query = make_insert_query("tbl_users_tokens", [
     "user_id" => $row["id"],

@@ -56,7 +56,7 @@ if (!$token_id) {
 $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
 $row = execute_query($query);
 
-$renewals = get_config("auth/tokenrenewals");
+$renewals = intval(get_config("auth/tokenrenewals"));
 if ($row["renewals"] >= $renewals) {
     semaphore_release("token");
     show_json_array([
@@ -75,8 +75,8 @@ db_query($query);
 $token = get_unique_token();
 $expires = current_datetime(get_config("auth/tokenexpires"));
 $datetime = current_datetime();
-$autorenew = get_config("auth/tokenautorenew");
-$autocheck = get_config("auth/tokenautocheck");
+$autorenew = intval(get_config("auth/tokenautorenew"));
+$autocheck = intval(get_config("auth/tokenautocheck"));
 
 $query = make_insert_query("tbl_users_tokens", [
     "user_id" => $row["user_id"],
