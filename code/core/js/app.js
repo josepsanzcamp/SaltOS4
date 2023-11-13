@@ -208,12 +208,22 @@ saltos.form_app.data = data => {
  */
 saltos.form_app.__data_template_helper = (template, data, index) => {
     var temp = saltos.copy_object(template);
+    var repeat_labels = true;
+    if (temp['#attr'].hasOwnProperty('repeat_labels') && temp['#attr'].repeat_labels == 'false') {
+        repeat_labels = false;
+    }
     for (var key in temp.value) {
         var val = temp.value[key];
-        delete val['#attr'].label;
-        var id = val['#attr'].id;
-        val['#attr'].id = id + '#' + index;
-        val.value = data.hasOwnProperty(id) ? data[id] : "";
+        if (!repeat_labels && val['#attr'].hasOwnProperty('label')) {
+            delete val['#attr'].label;
+        }
+        if (val['#attr'].hasOwnProperty('id')) {
+            var id = val['#attr'].id;
+            val['#attr'].id = id + '#' + index;
+            if (data.hasOwnProperty(id)) {
+                val.value = data[id];
+            }
+        }
     }
     saltos.form_app.layout(temp);
 };
