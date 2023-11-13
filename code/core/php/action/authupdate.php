@@ -86,7 +86,7 @@ if ($newpass != $renewpass) {
 }
 
 // Score check
-$minscore = current_datetime(get_config("auth/passwordminscore"));
+$minscore = intval(get_config("auth/passwordminscore"));
 if (password_strength($newpass) < $minscore) {
     semaphore_release("token");
     show_json_error("new password strength error");

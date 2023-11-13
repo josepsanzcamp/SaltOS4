@@ -121,7 +121,7 @@ saltos.token = {};
  *
  * This function returns the token stored in the localStorage
  */
-saltos.token.get_token = () => {
+saltos.token.get = () => {
     return localStorage.getItem('saltos.token');
 };
 
@@ -273,7 +273,7 @@ saltos.authenticate.reauthtoken = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -316,7 +316,7 @@ saltos.authenticate.deauthtoken = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -358,7 +358,7 @@ saltos.authenticate.checktoken = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };

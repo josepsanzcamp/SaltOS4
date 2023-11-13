@@ -51,7 +51,7 @@ saltos.login.authenticate = () => {
     }
     var data = saltos.get_data(true);
     saltos.authenticate.authtoken(data.user, data.pass);
-    if (!saltos.token.get_token()) {
+    if (!saltos.token.get()) {
         saltos.login.access_denied();
         saltos.send_request('app/login');
         return;

@@ -1069,7 +1069,7 @@ saltos.__form_field.file = field => {
                 });
             },
             headers: {
-                'token': saltos.token.get_token(),
+                'token': saltos.token.get(),
             }
         });
     };
@@ -1154,7 +1154,7 @@ saltos.__form_field.file = field => {
                             }
                         },
                         headers: {
-                            'token': saltos.token.get_token(),
+                            'token': saltos.token.get(),
                         }
                     });
                 })(data, row);

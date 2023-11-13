@@ -87,7 +87,7 @@ saltos.invoices.search = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -139,7 +139,7 @@ saltos.invoices.read_more = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -193,7 +193,7 @@ saltos.invoices.insert = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -239,7 +239,7 @@ saltos.invoices.update = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -276,7 +276,7 @@ saltos.invoices.delete = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };

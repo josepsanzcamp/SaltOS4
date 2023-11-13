@@ -87,7 +87,7 @@ saltos.emails.search = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -139,7 +139,7 @@ saltos.emails.read_more = () => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };

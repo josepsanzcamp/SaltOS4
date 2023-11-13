@@ -74,8 +74,8 @@ if ($format == "png") {
     ]);
 }
 $data = "data:image/png;base64," . base64_encode($image);
-$minscore = current_datetime(get_config("auth/passwordminscore"));
-$valid = ($score >= $minscore) ? 1 : 0;
+$minscore = intval(get_config("auth/passwordminscore"));
+$valid = ($score >= $minscore) ? "ok" : "ko";
 $result = [
     "score" => $score . "%",
     "image" => $data,

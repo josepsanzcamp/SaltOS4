@@ -63,7 +63,7 @@ window.onerror = (event, source, lineno, colno, error) => {
         method: 'post',
         content_type: 'application/json',
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -86,7 +86,7 @@ saltos.addlog = msg => {
         method: 'post',
         content_type: 'application/json',
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };

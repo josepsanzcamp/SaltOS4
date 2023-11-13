@@ -116,7 +116,7 @@ saltos.send_request = data => {
             });
         },
         headers: {
-            'token': saltos.token.get_token(),
+            'token': saltos.token.get(),
         }
     });
 };
@@ -499,7 +499,7 @@ saltos.__source_helper = field => {
                 });
             },
             headers: {
-                'token': saltos.token.get_token(),
+                'token': saltos.token.get(),
             }
         });
     }
@@ -620,10 +620,10 @@ saltos.form_helper = (attr, bool) => {
     set_data_bs_theme(window_match_media);
     window_match_media.addEventListener('change', set_data_bs_theme);
     // Token part
-    if (saltos.token.get_token()) {
+    if (saltos.token.get()) {
         saltos.authenticate.checktoken();
     }
-    if (!saltos.token.get_token()) {
+    if (!saltos.token.get()) {
         saltos.send_request('app/login');
         return;
     }
