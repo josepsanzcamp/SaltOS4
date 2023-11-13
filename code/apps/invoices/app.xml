@@ -87,7 +87,7 @@
     </table>
 
     <!-- Form part -->
-    <layout_header auto="true" container_class="container mt-3" col_class="col-md-6 mb-3" template_for="header">
+    <layout_header auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
         <text id="nombre" label="nombre"/>
         <text id="direccion" label="direccion"/>
         <text id="nombre_pais" label="nombre_pais"/>
@@ -104,14 +104,32 @@
         <switch id="cobrado" label="cobrado"/>
         <textarea id="notas" label="notas" col_class="col-md-12 mb-3"/>
     </layout_header>
-    <layout_detail auto="true" container_class="container" col_class="col-md-6 mb-3" template_for="defail">
-        <text id="concepto" label="concepto" col_class="col-md-9 mb-3 template"/>
-        <text id="unidades" label="unidades" col_class="col-md-1 mb-3 template"/>
-        <text id="descuento" label="descuento" col_class="col-md-1 mb-3 template"/>
-        <text id="precio" label="precio" col_class="col-md-1 mb-3 template"/>
+    <layout_detail auto="true" container_class="container" col_class="col-md-6 mb-3" template_id="detail">
+        <textarea id="concepto" label="concepto" col_class="col-md-8 mb-3"/>
+        <text id="unidades" label="unidades" col_class="col-md-1 mb-3"/>
+        <text id="precio" label="precio" col_class="col-md-1 mb-3"/>
+        <text id="descuento" label="descuento" col_class="col-md-1 mb-3"/>
+        <text id="total" label="total" col_class="col-md-1 mb-3"/>
     </layout_detail>
     <data_header eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_header>
-    <data_detail eval="true">execute_query_array("SELECT * FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</data_detail>
+    <data_detail eval="true" template_id="detail">execute_query_array("SELECT * FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</data_detail>
+
+    <create>
+        <javascript>
+            <inline>saltos.loading()</inline>
+            <inline>saltos.clear_screen()</inline>
+        </javascript>
+        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_header"]</layout>
+        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_detail"]</layout>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button onclick="saltos.invoices.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear la nueva factura" icon="check-lg"/>
+            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_hash("apps/invoices/app.js")</file>
+        </javascript>
+    </create>
 
     <view>
         <javascript>
@@ -119,8 +137,8 @@
             <inline>saltos.clear_screen()</inline>
         </javascript>
         <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_header"]</layout>
-        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_detail"]</layout>
         <data eval="true">xmlfile2array("apps/invoices/app.xml")["data_header"]</data>
+        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_detail"]</layout>
         <data eval="true">xmlfile2array("apps/invoices/app.xml")["data_detail"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
@@ -135,22 +153,6 @@
         </javascript>
     </view>
 
-    <create>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
-        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_header"]</layout>
-        <layout auto="true" container_class="container" col_class="col-auto">
-            <div col_class="col mb-3"/>
-            <button onclick="saltos.invoices.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear la nueva factura" icon="check-lg"/>
-            <button onclick="saltos.invoices.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
-        </layout>
-        <javascript>
-            <file eval="true">file_with_hash("apps/invoices/app.js")</file>
-        </javascript>
-    </create>
-
     <edit>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -158,6 +160,8 @@
         </javascript>
         <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_header"]</layout>
         <data eval="true">xmlfile2array("apps/invoices/app.xml")["data_header"]</data>
+        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_detail"]</layout>
+        <data eval="true">xmlfile2array("apps/invoices/app.xml")["data_detail"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button onclick="saltos.invoices.update()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Guardar" tooltip="Para guardar los cambios de la factura" icon="check-lg"/>
@@ -167,6 +171,7 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
         </javascript>
     </edit>
+
     <delete>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -174,6 +179,8 @@
         </javascript>
         <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_header"]</layout>
         <data eval="true">xmlfile2array("apps/invoices/app.xml")["data_header"]</data>
+        <layout eval="true">xmlfile2array("apps/invoices/app.xml")["layout_detail"]</layout>
+        <data eval="true">xmlfile2array("apps/invoices/app.xml")["data_detail"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button onclick="saltos.invoices.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Borrar" tooltip="Para borrar la factura" icon="trash"/>

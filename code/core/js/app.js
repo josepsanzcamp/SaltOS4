@@ -154,6 +154,7 @@ saltos.form_app = {};
 saltos.__form_app = {
     fields: [],
     data: {},
+    templates: {},
 };
 
 /**
@@ -164,6 +165,23 @@ saltos.__form_app = {
  * allow that the get_data can differ between the original data and the modified data.
  */
 saltos.form_app.data = data => {
+    // Check for attr template_id
+    if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
+        var template_id = data['#attr'].template_id;
+        var template = saltos.__form_app.templates[template_id];
+        var count = 0;
+        for (var key in data.value) {
+            var val = data.value[key];
+            if (!count) {
+                saltos.form_app.data(val);
+            } else {
+                saltos.form_app.__data_template_helper(template, val, count);
+            }
+            count++;
+        }
+        return;
+    }
+    // Continue with the normal behaviour
     for (var key in data) {
         var val = data[key];
         // This updates the object
@@ -184,6 +202,23 @@ saltos.form_app.data = data => {
 };
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+saltos.form_app.__data_template_helper = (template, data, index) => {
+    var temp = saltos.copy_object(template);
+    for (var key in temp.value) {
+        var val = temp.value[key];
+        delete val['#attr'].label;
+        var id = val['#attr'].id;
+        val['#attr'].id = id + '#' + index;
+        val.value = data.hasOwnProperty(id) ? data[id] : "";
+    }
+    saltos.form_app.layout(temp);
+};
+
+/**
  * Form layout helper
  *
  * This function process the layout command, its able to process nodes as container, row, col and div
@@ -200,7 +235,14 @@ saltos.form_app.data = data => {
  * can retrieve the desired information of the fields.
  */
 saltos.form_app.layout = (layout, extra) => {
-    // Check for attr auto
+    // Check for template_id attr
+    if (layout.hasOwnProperty('#attr') && layout['#attr'].hasOwnProperty('template_id')) {
+        var template_id = layout['#attr'].template_id;
+        var temp = saltos.copy_object(layout);
+        delete temp['#attr'].template_id;
+        saltos.__form_app.templates[template_id] = temp;
+    }
+    // Check for auto attr
     layout = saltos.form_app.__layout_auto_helper(layout);
     // Continue with original idea of use a entire specified layout
     var arr = [];
