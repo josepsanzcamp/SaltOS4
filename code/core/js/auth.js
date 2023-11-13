@@ -71,7 +71,7 @@ saltos.hash.get = () => {
 };
 
 /**
- * Replace hash
+ * Set hash
  *
  * Function intended to replace the hash in the current url, adds the pilow if it is not found
  * in the hash argument
@@ -146,7 +146,7 @@ saltos.token.get_autorenew = () => {
 /**
  * Get autocheck function
  *
- * This function returns the autochecl stored in the localStorage
+ * This function returns the autocheck stored in the localStorage
  */
 saltos.token.get_autocheck = () => {
     return localStorage.getItem('saltos.autocheck') * 1000;
@@ -161,8 +161,9 @@ saltos.token.get_autocheck = () => {
  * @token     => the token that you want to store in the localStorage
  * @expires   => the expires of the token that you want to store in the localStorage
  * @autorenew => the autorenew of the token that you can use to force an autorenew
+ * @autocheck => the autocheck of the token that you can use to poll the autorenew
  */
-saltos.token.set = (response) => {
+saltos.token.set = response => {
     localStorage.setItem('saltos.token', response.token);
     localStorage.setItem('saltos.expires', response.expires_at);
     localStorage.setItem('saltos.autorenew', response.autorenew_at);

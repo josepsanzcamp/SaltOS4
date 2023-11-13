@@ -1,5 +1,5 @@
 Code documentation
-SaltOS 4.0 r463
+SaltOS 4.0 r480
 November 2023
 
 
@@ -1641,10 +1641,10 @@ error is in the stack of the errors events, to do it this function uses the erro
 to check if the value in in the list of typified errors
 
 
-+++Get Code From Trace+++
++++Get code from trace+++
 
 ```
-function __get_code_from_trace($trace, $index = 0)
+function __get_code_from_trace($trace = null, $index = 0)
 ```
 
 This function acts as helper of the show_json_error, and try to get the filename and the line
@@ -1668,6 +1668,31 @@ do it, we have this function that can be called with a simple message and the co
 is created automatically to help the backtrace of the issues
 
 - @msg => this contains a simple text that is used in the json output
+
+
++++Get code from file and line+++
+
+```
+function __get_code_from_file_and_line($file, $line)
+```
+
+This function returns the string that contains the PATHINFO_FILENAME and the line to idenfify
+the launcher of an error, for example
+
+- @file => filename used to obtain the first part of the code
+- @line => line used to construct the last part of the code
+
+
++++Show JSON Array+++
+
+```
+function show_json_array($array)
+```
+
+This function is intended to be used when you need to generate a json response based on
+an array contents, too, this function adds the code entry to the input array
+
+- @array => The input array used in the output_handler_json without the code entry
 
 
 ++Execution helper module++
@@ -5303,16 +5328,6 @@ another way to pass arguments.
            footer and divider)
 
 
-Notes:
-
-In some cases, the response for a source request can be an object that represents an xml node with
-attributes and values, as for the example, the widget/2 used in the app.php, that returns an array
-with all contents of the widget in the value entry and another entry used for the #attr that only
-contains the id used to select the widget in the app.php, is this case, the unique data that we want
-to use here is the contents of the value, and for this reason, the response is filtered to use only
-the value key in the case of existence of the #attr and value keys
-
-
 +++Get data+++
 
 ```
@@ -5371,6 +5386,232 @@ This function is a helper used by the form_disabled and form_readonly functions
 +++Main code+++
 
 This is the code that must to be executed to initialize all requirements of this module
+
+
+++Authentication helper module++
+
+```
+core/js/auth.js
+```
+
+This file contains all code needed to manage the hash feature, includes the code to
+process the onhashchange and too, includes the code to get and set the hash value, too
+includes all code to manage tokens and to do authentications with all features suck as
+the main authentication using a user and password pair, the reauthtoken, the deauthtoken
+and the checktoken to control it.
+
+
++++Hash change management+++
+
+```
+window.onhashchange = event
+```
+
+This function allow to SaltOS to update the contents when hash change
+
+
++++Hash helper object+++
+
+```
+saltos.hash = {};
+```
+
+This object stores all hash functions to get, set and trigger a change
+
+
++++Get hash+++
+
+```
+saltos.hash.get = ()
+```
+
+Function intended to return the current hash without the pillow
+
+
++++Set hash+++
+
+```
+saltos.hash.set = hash
+```
+
+Function intended to replace the hash in the current url, adds the pilow if it is not found
+in the hash argument
+
+- @hash => this must contain the hash with or without the pillow
+
+
++++Add hash+++
+
+```
+saltos.hash.add = hash
+```
+
+Function intended to add a hash in the current history, adds the pilow if it is not found
+in the hash argument
+
+- @hash => this must contain the hash with or without the pillow
+
+
++++Change trigger+++
+
+```
+saltos.hash.trigger = ()
+```
+
+This function triggers the hashchange event to execute the onhashchange
+
+
++++Token helper object+++
+
+```
+saltos.token = {};
+```
+
+This object stores all token functions to get and set data using the localStorage
+
+
++++Get token function+++
+
+```
+saltos.token.get_token = ()
+```
+
+This function returns the token stored in the localStorage
+
+
++++Get expires function+++
+
+```
+saltos.token.get_expires = ()
+```
+
+This function returns the expires stored in the localStorage
+
+
++++Get autorenew function+++
+
+```
+saltos.token.get_autorenew = ()
+```
+
+This function returns the autorenew stored in the localStorage
+
+
++++Get autocheck function+++
+
+```
+saltos.token.get_autocheck = ()
+```
+
+This function returns the autocheck stored in the localStorage
+
+
++++Set token and expires+++
+
+```
+saltos.token.set = response
+```
+
+This function store the token and expires in the localStorage
+
+- @response  => the object that contains the follow parameters:
+- @token     => the token that you want to store in the localStorage
+- @expires   => the expires of the token that you want to store in the localStorage
+- @autorenew => the autorenew of the token that you can use to force an autorenew
+- @autocheck => the autocheck of the token that you can use to poll the autorenew
+
+
++++Unset token and expires+++
+
+```
+saltos.token.unset = ()
+```
+
+This function removes the token and expires in the localStorage
+
+
++++Authentication helper object+++
+
+```
+saltos.authenticate = {};
+```
+
+This object stores all authentication functions to get access, renew tokens to maintain
+the access and the deauthtoken to close the access
+
+
++++Authenticate token function+++
+
+```
+saltos.authenticate.authtoken = (user, pass)
+```
+
+This function uses the authtoken action to try to authenticate an user with the user/pass
+credentials passed by argument.
+
+- @user => username used to the authentication process
+- @pass => password used to the authentication process
+
+
++++Re-authenticate token function+++
+
+```
+saltos.authenticate.reauthtoken = ()
+```
+
+This function uses the reauthtoken action to try to re-authenticate an user with the token
+credentials.
+
+
++++De-authenticate token function+++
+
+```
+saltos.authenticate.deauthtoken = ()
+```
+
+This function uses the deauthtoken action to try to de-authenticate an user with the token
+credentials.
+
+
++++Check token function+++
+
+```
+saltos.authenticate.checktoken = ()
+```
+
+This function uses the checktoken action to check the validity of the current token.
+
+
++++Re-authenticate helper function+++
+
+```
+saltos.authenticate.checkrenew = ()
+```
+
+This function checks the reminder of the token's expires and if is needed, execute the renew
+token action.
+
+
++++Variable used to store the timer+++
+
+```
+saltos.authenticate.__autorenew_timer = null;
+```
+
+This variable must contains the timer of the auto renew token feature
+
+
++++Auto-renew helper function+++
+
+```
+saltos.authenticate.autorenew = on_off
+```
+
+This function allow to enable or disable the auto renew token feature, can receive
+an argument to specify if it must to enable or disable the feature, it is intended
+to be used when set or unset the token.
+
+- @on_off => the parameter to indicates if you want to enable or disable the feature
 
 
 ++Bootstrap helper module++
@@ -6110,8 +6351,13 @@ This widget requires the pdfjs library and can be loaded automatically using the
 feature:
 
 - @core/lib/pdfjs/pdf_viewer.min.css,
-- @core/lib/pdfjs/pdf.min.js
-- @core/lib/pdfjs/pdf_viewer.min.js
+- @core/lib/pdfjs/pdf.min.mjs
+- @core/lib/pdfjs/pdf_viewer.min.mjs
+- @core/lib/pdfjs/pdf.worker.min.mjs
+
+
+The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
+that this file not appear in the next requires
 
 
 +++Table constructor helper+++
@@ -6140,12 +6386,6 @@ The header field must be an object with the labels, types, aligns, ..., of each 
 if the header is ommited, then the data will be painted using the default order of the
 data without filters, the recomendation is to use header to specify which fields must
 to be painted, the order, the type and the alignment.
-
-This widget requires the locutus library and can be loaded automatically using the require
-feature:
-
-- @core/lib/locutos/locutus.min.js
-
 
 The divider will be added dynamically depending the contents of the table, the main idea
 is to use the divider to separate each block of the table (header, data and footer)
@@ -6786,227 +7026,6 @@ case, they uses a different technique, for css the load is asynchronous and for 
 the load will be synchronous.
 
 
-++Hash helper module++
-
-```
-core/js/hash.js
-```
-
-This file contains all code needed to manage the hash feature, includes the code to process
-the onhashchange and too, includes the code to get and set the hash value.
-
-
-+++Hash change management+++
-
-```
-window.onhashchange = event
-```
-
-This function allow to SaltOS to update the contents when hash change
-
-
-+++Hash helper object+++
-
-```
-saltos.hash = {};
-```
-
-This object stores all hash functions to get, set and trigger a change
-
-
-+++Get hash+++
-
-```
-saltos.hash.get = ()
-```
-
-Function intended to return the current hash without the pillow
-
-
-+++Set hash+++
-
-```
-saltos.hash.set = hash
-```
-
-Function intended to set the hash in the current url, adds the pilow if it is not found
-in the hash argument
-
-- @hash => this must contain the hash with or without the pillow
-
-
-+++Change trigger+++
-
-```
-saltos.hash.change = ()
-```
-
-This function triggers the hashchange event to execute the onhashchange
-
-
-++Token helper module++
-
-```
-core/js/token.js
-```
-
-This file includes all code to manage tokens and to do authentications with all features suck
-as the main authentication using a user and password pair, the reauthtoken, the deauthtoken and
-the checktoken to control it.
-
-
-+++Token helper object+++
-
-```
-saltos.token = {};
-```
-
-This object stores all token functions to get and set data using the localStorage
-
-
-+++Get token function+++
-
-```
-saltos.token.get_token = ()
-```
-
-This function returns the token stored in the localStorage
-
-
-+++Get expires function+++
-
-```
-saltos.token.get_expires = ()
-```
-
-This function returns the expires stored in the localStorage
-
-
-+++Get autorenew function+++
-
-```
-saltos.token.get_autorenew = ()
-```
-
-This function returns the autorenew stored in the localStorage
-
-
-+++Get autocheck function+++
-
-```
-saltos.token.get_autocheck = ()
-```
-
-This function returns the autochecl stored in the localStorage
-
-
-+++Set token and expires+++
-
-```
-saltos.token.set = (response)
-```
-
-This function store the token and expires in the localStorage
-
-- @response  => the object that contains the follow parameters:
-- @token     => the token that you want to store in the localStorage
-- @expires   => the expires of the token that you want to store in the localStorage
-- @autorenew => the autorenew of the token that you can use to force an autorenew
-
-
-+++Unset token and expires+++
-
-```
-saltos.token.unset = ()
-```
-
-This function removes the token and expires in the localStorage
-
-
-+++Authentication helper object+++
-
-```
-saltos.authenticate = {};
-```
-
-This object stores all authentication functions to get access, renew tokens to maintain
-the access and the deauthtoken to close the access
-
-
-+++Authenticate token function+++
-
-```
-saltos.authenticate.authtoken = (user, pass)
-```
-
-This function uses the authtoken action to try to authenticate an user with the user/pass
-credentials passed by argument.
-
-- @user => username used to the authentication process
-- @pass => password used to the authentication process
-
-
-+++Re-authenticate token function+++
-
-```
-saltos.authenticate.reauthtoken = ()
-```
-
-This function uses the reauthtoken action to try to re-authenticate an user with the token
-credentials.
-
-
-+++De-authenticate token function+++
-
-```
-saltos.authenticate.deauthtoken = ()
-```
-
-This function uses the deauthtoken action to try to de-authenticate an user with the token
-credentials.
-
-
-+++Check token function+++
-
-```
-saltos.authenticate.checktoken = ()
-```
-
-This function uses the checktoken action to check the validity of the current token.
-
-
-+++Re-authenticate helper function+++
-
-```
-saltos.authenticate.checkrenew = ()
-```
-
-This function checks the reminder of the token's expires and if is needed, execute the renew
-token action.
-
-
-+++Variable used to store the timer+++
-
-```
-saltos.authenticate.__autorenew_timer = null;
-```
-
-This variable must contains the timer of the auto renew token feature
-
-
-+++Auto-renew helper function+++
-
-```
-saltos.authenticate.autorenew = on_off
-```
-
-This function allow to enable or disable the auto renew token feature, can receive
-an argument to specify if it must to enable or disable the feature, it is intended
-to be used when set or unset the token.
-
-- @on_off => the parameter to indicates if you want to enable or disable the feature
-
-
 +Customers+
 
 ++Customers application++
@@ -7159,6 +7178,98 @@ TODO
 
 ```
 saltos.emails.send_and_get = ()
+```
+
+TODO
+
+
++Invoices+
+
+++invoices application++
+
+```
+apps/invoices/app.js
+```
+
+This application implements the tipical features associated to invoices
+
+
++++Main object+++
+
+```
+saltos.invoices = {};
+```
+
+This object contains all SaltOS code
+
+
++++Initialize invoices+++
+
+```
+saltos.invoices.initialize = ()
+```
+
+This function initializes the invoices screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.invoices.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.clear_filter = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.read_more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.cancel = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.insert = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.update = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.delete = ()
 ```
 
 TODO
