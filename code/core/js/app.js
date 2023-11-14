@@ -168,16 +168,12 @@ saltos.form_app.data = data => {
     // Check for attr template_id
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
         var template_id = data['#attr'].template_id;
-        var template = saltos.__form_app.templates[template_id];
-        var count = 0;
         for (var key in data.value) {
             var val = data.value[key];
-            if (!count) {
-                saltos.form_app.data(val);
-            } else {
-                saltos.form_app.__data_template_helper(template, val, count);
+            if (parseInt(key)) {
+                saltos.form_app.layout(saltos.form_app.__layout_template_helper(template_id, key));
             }
-            count++;
+            saltos.form_app.data(saltos.form_app.__data_template_helper(template_id, val, key));
         }
         return;
     }
@@ -202,30 +198,52 @@ saltos.form_app.data = data => {
 };
 
 /**
- * TODO
+ * Data template helper
  *
- * TODO
+ * This function allow to convert the data object that contains the values for the fields idenfidied
+ * by the keys of the associative array into a data object with the keys ready to be used by the
+ * fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#INDEX
+ *
+ * @template_id => the template identity used in the spec
+ * @data        => the object that contains the data associated to the row
+ * @index       => the index used in all fields of the template
  */
-saltos.form_app.__data_template_helper = (template, data, index) => {
-    var temp = saltos.copy_object(template);
+saltos.form_app.__data_template_helper = (template_id, data, index) => {
+    for (var key in data) {
+        var val = data[key];
+        delete data[key];
+        data[template_id + '#' + key + '#' + index] = val;
+    }
+    return data;
+};
+
+/**
+ * Layout template helper
+ *
+ * This function returns the template identified by the template_id for the specified index, ready
+ * to be used by the saltos.form_app.layout function.
+ *
+ * @template_id => the template identity used in the spec
+ * @index       => the index used in all fields of the template
+ */
+saltos.form_app.__layout_template_helper = (template_id, index) => {
+    var template = saltos.copy_object(saltos.__form_app.templates[template_id]);
     var repeat_labels = true;
-    if (temp['#attr'].hasOwnProperty('repeat_labels') && temp['#attr'].repeat_labels == 'false') {
+    if (template['#attr'].hasOwnProperty('repeat_labels') &&
+        template['#attr'].repeat_labels == 'false' && parseInt(index)) {
         repeat_labels = false;
     }
-    for (var key in temp.value) {
-        var val = temp.value[key];
+    for (var key in template.value) {
+        var val = template.value[key];
         if (!repeat_labels && val['#attr'].hasOwnProperty('label')) {
             delete val['#attr'].label;
         }
         if (val['#attr'].hasOwnProperty('id')) {
             var id = val['#attr'].id;
-            val['#attr'].id = id + '#' + index;
-            if (data.hasOwnProperty(id)) {
-                val.value = data[id];
-            }
+            val['#attr'].id = template_id + '#' + id + '#' + index;
         }
     }
-    saltos.form_app.layout(temp);
+    return template;
 };
 
 /**
@@ -247,10 +265,13 @@ saltos.form_app.__data_template_helper = (template, data, index) => {
 saltos.form_app.layout = (layout, extra) => {
     // Check for template_id attr
     if (layout.hasOwnProperty('#attr') && layout['#attr'].hasOwnProperty('template_id')) {
+        // Store the copy in the templates container
         var template_id = layout['#attr'].template_id;
         var temp = saltos.copy_object(layout);
         delete temp['#attr'].template_id;
         saltos.__form_app.templates[template_id] = temp;
+        // Modify the id of all elements to convert it to the format TEMPLATE_ID#ID#0
+        layout = saltos.form_app.__layout_template_helper(template_id, 0);
     }
     // Check for auto attr
     layout = saltos.form_app.__layout_auto_helper(layout);

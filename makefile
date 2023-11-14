@@ -25,7 +25,6 @@ test:
 libs:
 	php scripts/checklibs.php scripts/checklibs.txt
 
-debug:
 devel:
 	cat code/core/htm/index.htm | php scripts/debug.php core/js/index.min.js core/js/{core,bootstrap,auth,app}.js > code/core/htm/index.min.htm
 
