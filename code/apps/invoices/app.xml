@@ -105,6 +105,7 @@
         <textarea id="notas" label="notas" col_class="col-md-12 mb-3"/>
     </layout_header>
     <layout_detail auto="true" container_class="container" col_class="col-md-6 mb-3" template_id="detail" repeat_labels="false">
+        <hidden id="id"/>
         <textarea id="concepto" label="concepto" col_class="col-md-8 mb-3"/>
         <text id="unidades" label="unidades" col_class="col-md-1 mb-3"/>
         <text id="precio" label="precio" col_class="col-md-1 mb-3"/>
