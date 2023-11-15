@@ -52,7 +52,7 @@ declare(strict_types=1);
 
 $user_id = current_user();
 if (!$user_id) {
-    show_json_error("authentication error");
+    show_json_error("Permission denied");
 }
 
 $files = get_data("json/files");

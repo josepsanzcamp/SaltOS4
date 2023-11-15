@@ -53,7 +53,7 @@ declare(strict_types=1);
 
 $user_id = current_user();
 if (!$user_id) {
-    show_json_error("authentication error");
+    show_json_error("Permission denied");
 }
 
 // Check parameters
@@ -64,11 +64,11 @@ foreach (["type", "format"] as $key) {
 }
 $type = get_data("json/type");
 if (!in_array($type, ["number", "math"])) {
-    show_json_error("unknown type $type");
+    show_json_error("Unknown type $type");
 }
 $format = get_data("json/format");
 if (!in_array($format, ["png", "json"])) {
-    show_json_error("unknown format $format");
+    show_json_error("Unknown format $format");
 }
 
 $length = get_data("json/length") ? get_data("json/length") : 5;

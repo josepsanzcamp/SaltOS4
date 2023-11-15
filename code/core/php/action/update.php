@@ -38,7 +38,7 @@ declare(strict_types=1);
 
 $user_id = current_user();
 if (!$user_id) {
-    show_json_error("authentication error");
+    show_json_error("Permission denied");
 }
 
 $app = get_data("json/app");
@@ -46,7 +46,7 @@ $id = intval(get_data("json/id"));
 $data = get_data("json/data");
 
 if (!check_user($app, "edit")) {
-    show_json_error("permission denied");
+    show_json_error("Permission denied");
 }
 
 $table = app2table($app);
@@ -54,13 +54,13 @@ $sql = check_sql($app, "edit");
 $query = "SELECT id FROM $table WHERE id = $id AND $sql";
 $exists = execute_query($query);
 if (!$exists) {
-    show_json_error("permission denied");
+    show_json_error("Permission denied");
 }
 
 $fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
 $error = array_diff_key($data, $fields);
 if (count($error)) {
-    show_json_error("permission denied");
+    show_json_error("Permission denied");
 }
 
 $query = make_update_query($table, $data, "id = $id");

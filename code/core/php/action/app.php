@@ -83,7 +83,7 @@ foreach ($array as $key => $val) {
 }
 if (count($dict) > 1) {
     if (get_data("rest/3") == "") {
-        show_json_error("multiples subapp found without rest/3");
+        show_json_error("Multiples subapp found without rest/3");
     }
     $key = get_data("rest/2") . "/" . get_data("rest/3");
     if (!isset($dict[$key])) {

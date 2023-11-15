@@ -52,7 +52,7 @@ crontab_users();
 $user_id = current_user();
 if (!$user_id) {
     semaphore_release("token");
-    show_json_error("authentication update error");
+    show_json_error("Authentication update error");
 }
 
 // Check parameters
@@ -74,22 +74,22 @@ $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["password"])) {
     semaphore_release("token");
-    show_json_error("authentication update error");
+    show_json_error("Authentication update error");
 }
 if (!password_verify($oldpass, $row["password"])) {
     semaphore_release("token");
-    show_json_error("old password authentication error");
+    show_json_error("Old password authentication error");
 }
 if ($newpass != $renewpass) {
     semaphore_release("token");
-    show_json_error("new password differs");
+    show_json_error("New password differs");
 }
 
 // Score check
 $minscore = intval(get_config("auth/passwordminscore"));
 if (password_strength($newpass) < $minscore) {
     semaphore_release("token");
-    show_json_error("new password strength error");
+    show_json_error("New password strength error");
 }
 
 // Old passwords check
@@ -100,7 +100,7 @@ $oldspass = execute_query_array($query);
 foreach ($oldspass as $oldpass) {
     if (password_verify($newpass, $oldpass)) {
         semaphore_release("token");
-        show_json_error("new password used previously");
+        show_json_error("New password used previously");
     }
 }
 

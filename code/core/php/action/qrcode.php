@@ -43,7 +43,7 @@ declare(strict_types=1);
 
 $user_id = current_user();
 if (!$user_id) {
-    show_json_error("authentication error");
+    show_json_error("Permission denied");
 }
 
 // Check parameters
@@ -55,7 +55,7 @@ foreach (["msg", "format"] as $key) {
 $msg = get_data("json/msg");
 $format = get_data("json/format");
 if (!in_array($format, ["png", "json"])) {
-    show_json_error("unknown format $format");
+    show_json_error("Unknown format $format");
 }
 
 $s = get_data("json/s") ? get_data("json/s") : 6;
@@ -63,7 +63,7 @@ $m = get_data("json/m") ? get_data("json/m") : 10;
 
 $image = __qrcode($msg, $s, $m);
 if ($image == "") {
-    show_json_error("internal error");
+    show_json_error("Internal error");
 }
 if ($format == "png") {
     output_handler([

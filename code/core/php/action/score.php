@@ -45,7 +45,7 @@ declare(strict_types=1);
 
 $user_id = current_user();
 if (!$user_id) {
-    show_json_error("authentication error");
+    show_json_error("Permission denied");
 }
 
 // Check parameters
@@ -57,7 +57,7 @@ foreach (["pass", "format"] as $key) {
 $pass = get_data("json/pass");
 $format = get_data("json/format");
 if (!in_array($format, ["png", "json"])) {
-    show_json_error("unknown format $format");
+    show_json_error("Unknown format $format");
 }
 
 $width = get_data("json/width") ? get_data("json/width") : 60;

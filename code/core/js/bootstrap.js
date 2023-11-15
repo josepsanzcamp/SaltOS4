@@ -1555,7 +1555,7 @@ saltos.__form_field.table = field => {
             for (var key2 in iterator) {
                 var val2 = field.data[key][key2];
                 if (val2 == null) {
-                    val2 = "";
+                    val2 = '';
                 }
                 var td = saltos.html('tr', `<td></td>`);
                 if (typeof val2 == 'object') {
@@ -1669,7 +1669,7 @@ saltos.__form_field.table = field => {
             for (var key in iterator) {
                 var val = field.footer[key].value;
                 if (val == null) {
-                    val = "";
+                    val = '';
                 }
                 var td = saltos.html('tr', `<td></td>`);
                 if (typeof val == 'object') {

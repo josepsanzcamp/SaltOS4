@@ -91,7 +91,7 @@ foreach ($array as $key => $val) {
 }
 if (count($dict) > 1) {
     if (get_data("json/id") == "") {
-        show_json_error("multiples subapp found without json/id");
+        show_json_error("Multiples subapp found without json/id");
     }
     $key = get_data("json/subapp") . "/" . get_data("json/id");
     if (!isset($dict[$key])) {
