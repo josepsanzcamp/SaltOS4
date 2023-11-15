@@ -180,6 +180,9 @@ saltos.form_app.data = data => {
     // Continue with the normal behaviour
     for (var key in data) {
         var val = data[key];
+        if (val == null) {
+            val = "";
+        }
         // This updates the object
         var obj = document.getElementById(key);
         if (obj) {
