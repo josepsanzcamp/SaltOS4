@@ -646,7 +646,7 @@ saltos.check_required = () => {
  * to do screen for view mode.
  */
 saltos.form_disabled = bool => {
-    saltos.form_helper('disabled', bool);
+    saltos.__form_helper('disabled', bool);
 };
 
 /**
@@ -656,7 +656,7 @@ saltos.form_disabled = bool => {
  * to do screen for view mode.
  */
 saltos.form_readonly = bool => {
-    saltos.form_helper('readonly', bool);
+    saltos.__form_helper('readonly', bool);
 };
 
 /**
@@ -664,7 +664,7 @@ saltos.form_readonly = bool => {
  *
  * This function is a helper used by the form_disabled and form_readonly functions
  */
-saltos.form_helper = (attr, bool) => {
+saltos.__form_helper = (attr, bool) => {
     var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
                  'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.__form_app.fields) {
