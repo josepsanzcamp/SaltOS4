@@ -168,6 +168,10 @@ saltos.form_app.data = data => {
     // Check for attr template_id
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
         var template_id = data['#attr'].template_id;
+        if (!Array.isArray(data.value)) {
+            console.log('data for template ' + template_id + ' is not an array of rows');
+            return;
+        }
         for (var key in data.value) {
             var val = data.value[key];
             if (parseInt(key)) {
@@ -178,6 +182,10 @@ saltos.form_app.data = data => {
         return;
     }
     // Continue with the normal behaviour
+    if (Array.isArray(data)) {
+        console.log('data is an array instead of an object of key and val pairs');
+        return;
+    }
     for (var key in data) {
         var val = data[key];
         if (val == null) {
@@ -602,25 +610,32 @@ saltos.get_data = full => {
                  'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.__form_app.fields) {
         var field = saltos.__form_app.fields[i];
+        // This trick allow to ignore fields used only for presentation purposes
+        if (field.hasOwnProperty('ignore') && field.ignore == 'true') {
+            continue;
+        }
         var obj = document.getElementById(field.id);
         if (obj) {
             if (types.includes(obj.type)) {
-                var val = obj.value;
-                if (field.value.toString() != val || full) {
+                var val = str_replace(['\r\n', '\r'], '\n', obj.value);
+                var old = str_replace(['\r\n', '\r'], '\n', field.value.toString());
+                if (val != old || full) {
                     saltos.__form_app.data[field.id] = val;
-                    // This thick allow to add the id field of the template used
-                    var id = field.id.split('#');
-                    if (id.length == 3 && id[1] != 'id') {
-                        id[1] = 'id';
-                        id = id.join('#');
-                        if (!saltos.__form_app.data.hasOwnProperty(id)) {
-                            var obj = document.getElementById(id);
-                            if (obj) {
-                                var val = obj.value;
-                                saltos.__form_app.data[id] = val;
-                            }
-                        }
-                    }
+                }
+            }
+        }
+    }
+    // This thick allow to add the id field of the template used
+    for (var key in saltos.__form_app.data) {
+        var id = key.split('#');
+        if (id.length == 3 && id[1] != 'id') {
+            id[1] = 'id';
+            id = id.join('#');
+            if (!saltos.__form_app.data.hasOwnProperty(id)) {
+                var obj = document.getElementById(id);
+                if (obj) {
+                    var val = obj.value;
+                    saltos.__form_app.data[id] = val;
                 }
             }
         }
