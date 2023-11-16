@@ -853,6 +853,7 @@ saltos.__form_field.switch = field => {
  */
 saltos.__form_field.button = field => {
     saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip', 'icon']);
+    saltos.check_params(field, ['label']);
     if (field.disabled) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
@@ -876,7 +877,14 @@ saltos.__form_field.button = field => {
     if (typeof field.onclick == 'function') {
         obj.addEventListener('click', field.onclick);
     }
-    return obj;
+    if (field.label == '') {
+        return obj;
+    }
+    var obj2 = saltos.html(`<div></div>`);
+    obj2.append(saltos.__label_helper(field));
+    obj2.append(saltos.html('<br/>'));
+    obj2.append(obj);
+    return obj2;
 };
 
 /**
@@ -1191,15 +1199,8 @@ saltos.__form_field.file = field => {
  * appearance
  */
 saltos.__form_field.link = field => {
-    saltos.check_params(field, ['label']);
     field.class = 'btn-link';
-    if (field.label == '') {
-        return saltos.__form_field.button(field);
-    }
-    var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__label_helper(field));
-    obj.append(saltos.html('<br/>'));
-    obj.append(saltos.__form_field.button(field));
+    var obj = saltos.__form_field.button(field);
     return obj;
 };
 

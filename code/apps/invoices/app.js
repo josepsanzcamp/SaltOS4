@@ -58,6 +58,24 @@ saltos.invoices.initialize = () => {
  *
  * TODO
  */
+saltos.invoices.remove_item = (obj) => {
+    console.log(obj);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.add_item = () => {
+
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.invoices.search = () => {
     document.getElementById('page').value = '0';
     saltos.loading(true);
