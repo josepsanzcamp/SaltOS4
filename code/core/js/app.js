@@ -608,6 +608,19 @@ saltos.get_data = full => {
                 var val = obj.value;
                 if (field.value.toString() != val || full) {
                     saltos.__form_app.data[field.id] = val;
+                    // This thick allow to add the id field of the template used
+                    var id = field.id.split('#');
+                    if (id.length == 3 && id[1] != 'id') {
+                        id[1] = 'id';
+                        id = id.join('#');
+                        if (!saltos.__form_app.data.hasOwnProperty(id)) {
+                            var obj = document.getElementById(id);
+                            if (obj) {
+                                var val = obj.value;
+                                saltos.__form_app.data[id] = val;
+                            }
+                        }
+                    }
                 }
             }
         }
