@@ -117,7 +117,7 @@ saltos.invoices.remove_item = (obj) => {
 saltos.invoices.add_item = () => {
     var layout = saltos.form_app.__layout_template_helper('detail', saltos.uniqid());
     var obj = saltos.form_app.layout(layout, 'div');
-    document.querySelector(".container.footer").before(obj);
+    document.querySelector('.container.footer').before(obj);
     saltos.invoices.initialize_inputs();
 };
 
