@@ -239,16 +239,8 @@ saltos.form_app.__data_template_helper = (template_id, data, index) => {
  */
 saltos.form_app.__layout_template_helper = (template_id, index) => {
     var template = saltos.copy_object(saltos.__form_app.templates[template_id]);
-    var repeat_labels = true;
-    if (template['#attr'].hasOwnProperty('repeat_labels') &&
-        template['#attr'].repeat_labels == 'false' && parseInt(index)) {
-        repeat_labels = false;
-    }
     for (var key in template.value) {
         var val = template.value[key];
-        if (!repeat_labels && val['#attr'].hasOwnProperty('label')) {
-            delete val['#attr'].label;
-        }
         if (val['#attr'].hasOwnProperty('id')) {
             var id = val['#attr'].id;
             val['#attr'].id = template_id + '#' + id + '#' + index;
@@ -713,6 +705,36 @@ saltos.__form_helper = (attr, bool) => {
             }
         }
     }
+};
+
+/**
+ * ParentNode Search helper
+ *
+ * This function helps the user interface to search for parentNodes that can be identified
+ * by some class in the classList, it is intended to prevent the call of the parentNode in
+ * locations where sometimes can contains a different structure, for example, when you want
+ * to get the col div that contains a button with and without labels, depending on the
+ * usage of the label, the component can contains a different structure and you may need
+ * more or less parentNode calls, thanks to this function, the calls can be automated
+ * returning the correct object of the structure with independence of the source of the
+ * search.
+ *
+ * @obj    => the initial obj where do you want to do the search
+ * @search => the class name that the parentNode destination must contains
+ *
+ * Notes:
+ *
+ * As you can see, this search can be performed only by 100 times to prevent infinites loop
+ * in case of not found the search pattern.
+ */
+saltos.parentNode_search = (obj, search) => {
+    for(var i = 0; i < 100; i++) {
+        obj = obj.parentNode;
+        if (obj.classList.contains(search)) {
+            break;
+        }
+    }
+    return obj;
 };
 
 /**

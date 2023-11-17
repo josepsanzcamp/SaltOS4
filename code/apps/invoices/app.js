@@ -44,7 +44,7 @@ saltos.invoices = {};
  *
  * This function initializes the invoices screen to improve the user experience.
  */
-saltos.invoices.initialize = () => {
+saltos.invoices.initialize_search = () => {
     document.getElementById('search').addEventListener('keydown', event => {
         if (saltos.get_keycode(event) != 13) {
             return;
@@ -58,8 +58,56 @@ saltos.invoices.initialize = () => {
  *
  * TODO
  */
+saltos.invoices.initialize_buttons = () => {
+    document.querySelectorAll('button.detail').forEach(_this => {
+        saltos.parentNode_search(_this, 'col-auto').remove();
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.initialize_inputs = () => {
+    document.querySelectorAll('[id*=unidades],[id*=precio],[id*=descuento]').forEach(_this => {
+        _this.addEventListener('change', event => {
+            saltos.invoices.compute_total();
+        });
+    });
+    document.querySelectorAll('[id*=total], #total').forEach(_this => {
+        _this.setAttribute('disabled', '');
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.compute_total = () => {
+    var total = 0;
+    document.querySelectorAll('.container.detail').forEach(_this => {
+        var unidades = _this.querySelector('[id*=unidades]').value;
+        var precio = _this.querySelector('[id*=precio]').value;
+        var descuento = _this.querySelector('[id*=descuento]').value;
+        var subtotal = unidades * precio * (1 - (descuento / 100));
+        subtotal = Math.round(100 * subtotal) / 100;
+        _this.querySelector('[id*=total]').value = subtotal;
+        total += subtotal;
+    });
+    document.getElementById('total').value = total;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.invoices.remove_item = (obj) => {
-    console.log(obj);
+
+    saltos.parentNode_search(obj, 'container').remove();
+    saltos.invoices.compute_total();
 };
 
 /**
@@ -68,7 +116,8 @@ saltos.invoices.remove_item = (obj) => {
  * TODO
  */
 saltos.invoices.add_item = () => {
-
+    saltos.form_app.layout(saltos.form_app.__layout_template_helper('detail', saltos.uniqid()));
+    saltos.invoices.initialize_inputs();
 };
 
 /**

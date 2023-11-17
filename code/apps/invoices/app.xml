@@ -45,7 +45,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
-            <inline>saltos.invoices.initialize()</inline>
+            <inline>saltos.invoices.initialize_search()</inline>
         </javascript>
     </list>
     <table checkbox="true" type="table" limit="25" order="id DESC">
@@ -104,24 +104,24 @@
         <switch id="cobrado" label="cobrado"/>
         <textarea id="notas" label="notas" col_class="col-md-12 mb-3"/>
     </layout_header>
-    <layout_detail auto="true" container_class="container" col_class="col-md-6 mb-3" template_id="detail" repeat_labels="false">
+    <layout_detail auto="true" container_class="container detail" col_class="col-md-6 mb-3" template_id="detail">
         <hidden id="id"/>
         <textarea id="concepto" label="concepto" col_class="col mb-3"/>
-        <text id="unidades" label="unidades" col_class="col-md-1 mb-3"/>
-        <text id="precio" label="precio" col_class="col-md-1 mb-3"/>
-        <text id="descuento" label="descuento" col_class="col-md-1 mb-3"/>
+        <float id="unidades" label="unidades" col_class="col-md-1 mb-3"/>
+        <float id="precio" label="precio" col_class="col-md-1 mb-3"/>
+        <float id="descuento" label="descuento" col_class="col-md-1 mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.invoices.remove_item(this)" label="x" icon="trash" class="btn btn-primary" col_class="col-auto mb-3"/>
+        <button onclick="saltos.invoices.remove_item(this)" label="-" icon="trash" class="btn btn-primary detail" col_class="col-auto mb-3" tooltip="Quitar este concepto"/>
     </layout_detail>
     <layout_footer auto="true" container_class="container" row_class="row align-items-center" col_class="col-md-6 mb-3">
         <div col_class="col mb-3"/>
         <label value="total" col_class="col-md-1 mb-3 text-end"/>
-        <text id="total2" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.invoices.add_item()" icon="plus-lg" class="btn btn-primary" col_class="col-auto mb-3 d-flex align-items-end"/>
+        <text id="total" col_class="col-md-1 mb-3" ignore="true"/>
+        <button onclick="saltos.invoices.add_item()" icon="plus-lg" class="btn btn-primary detail" col_class="col-auto mb-3" tooltip="Añadir mas conceptos"/>
     </layout_footer>
     <data_header eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_header>
     <data_detail eval="true" template_id="detail">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</data_detail>
-    <data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total2 FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_footer>
+    <data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_footer>
 
     <create>
         <javascript>
@@ -138,6 +138,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
+            <inline>saltos.invoices.initialize_inputs()</inline>
         </javascript>
     </create>
 
@@ -162,6 +163,7 @@
         <javascript>
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
+            <inline>saltos.invoices.initialize_buttons()</inline>
         </javascript>
     </view>
 
@@ -183,6 +185,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
+            <inline>saltos.invoices.initialize_inputs()</inline>
         </javascript>
     </edit>
 
@@ -205,6 +208,7 @@
         <javascript>
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
+            <inline>saltos.invoices.initialize_buttons()</inline>
         </javascript>
     </delete>
 
