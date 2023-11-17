@@ -59,7 +59,7 @@ saltos.invoices.initialize_search = () => {
  * TODO
  */
 saltos.invoices.initialize_buttons = () => {
-    document.querySelectorAll('button.detail').forEach(_this => {
+    document.querySelectorAll('.container.detail button, .container.footer button').forEach(_this => {
         saltos.parentNode_search(_this, 'col-auto').remove();
     });
 };
@@ -70,7 +70,7 @@ saltos.invoices.initialize_buttons = () => {
  * TODO
  */
 saltos.invoices.initialize_inputs = () => {
-    document.querySelectorAll('[id*=unidades],[id*=precio],[id*=descuento]').forEach(_this => {
+    document.querySelectorAll('[id*=unidades], [id*=precio], [id*=descuento]').forEach(_this => {
         _this.addEventListener('change', event => {
             saltos.invoices.compute_total();
         });
@@ -105,7 +105,6 @@ saltos.invoices.compute_total = () => {
  * TODO
  */
 saltos.invoices.remove_item = (obj) => {
-
     saltos.parentNode_search(obj, 'container').remove();
     saltos.invoices.compute_total();
 };
