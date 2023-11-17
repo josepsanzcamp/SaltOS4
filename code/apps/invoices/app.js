@@ -88,6 +88,9 @@ saltos.invoices.initialize_inputs = () => {
 saltos.invoices.compute_total = () => {
     var total = 0;
     document.querySelectorAll('.container.detail').forEach(_this => {
+        if (_this.querySelector('[id*=unidades]') === null) {
+            return;
+        }
         var unidades = _this.querySelector('[id*=unidades]').value;
         var precio = _this.querySelector('[id*=precio]').value;
         var descuento = _this.querySelector('[id*=descuento]').value;
@@ -105,7 +108,15 @@ saltos.invoices.compute_total = () => {
  * TODO
  */
 saltos.invoices.remove_item = (obj) => {
-    saltos.parentNode_search(obj, 'container').remove();
+    // This long line is to do a copy of the array to iterate and remove at the same time
+    var items = Array.prototype.slice.call(saltos.parentNode_search(obj, 'row').childNodes);
+    items.forEach(_this => {
+        if (_this.classList.contains('d-none') && _this.querySelector('input').value != '') {
+            _this.querySelector('input').value *= -1;
+        } else {
+            _this.remove();
+        }
+    });
     saltos.invoices.compute_total();
 };
 

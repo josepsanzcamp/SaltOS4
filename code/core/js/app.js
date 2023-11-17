@@ -609,8 +609,30 @@ saltos.get_data = full => {
         var obj = document.getElementById(field.id);
         if (obj) {
             if (types.includes(obj.type)) {
-                var val = str_replace(['\r\n', '\r'], '\n', obj.value);
-                var old = str_replace(['\r\n', '\r'], '\n', field.value.toString());
+                var val = obj.value;
+                var old = field.value.toString();
+                if (obj.type == 'textarea') {
+                    val = str_replace(['\r\n', '\r'], '\n', val);
+                    old = str_replace(['\r\n', '\r'], '\n', old);
+                } else if (field.type == 'integer') {
+                    val = parseInt(val);
+                    old = parseInt(old);
+                    if (isNaN(val)) {
+                        val = 0;
+                    }
+                    if (isNaN(old)) {
+                        old = 0;
+                    }
+                } else if (field.type == 'float') {
+                    val = parseFloat(val);
+                    old = parseFloat(old);
+                    if (isNaN(val)) {
+                        val = 0;
+                    }
+                    if (isNaN(old)) {
+                        old = 0;
+                    }
+                }
                 if (val != old || full) {
                     saltos.__form_app.data[field.id] = val;
                 }
@@ -627,7 +649,9 @@ saltos.get_data = full => {
                 var obj = document.getElementById(id);
                 if (obj) {
                     var val = obj.value;
-                    saltos.__form_app.data[id] = val;
+                    if (val != '') {
+                        saltos.__form_app.data[id] = val;
+                    }
                 }
             }
         }

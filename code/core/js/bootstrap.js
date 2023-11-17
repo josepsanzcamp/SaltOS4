@@ -277,6 +277,7 @@ saltos.__form_field.integer = field => {
     saltos.require('core/lib/imaskjs/imask.min.js');
     field.type = 'text';
     var obj = saltos.__text_helper(field);
+    field.type = 'integer';
     var element = obj;
     saltos.when_visible(element, () => {
         IMask(element, {
@@ -317,6 +318,7 @@ saltos.__form_field.float = field => {
     saltos.require('core/lib/imaskjs/imask.min.js');
     field.type = 'text';
     var obj = saltos.__text_helper(field);
+    field.type = 'float';
     var element = obj;
     saltos.when_visible(element, () => {
         IMask(element, {
