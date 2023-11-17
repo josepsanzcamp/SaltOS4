@@ -728,7 +728,7 @@ saltos.__form_helper = (attr, bool) => {
  * in case of not found the search pattern.
  */
 saltos.parentNode_search = (obj, search) => {
-    for(var i = 0; i < 100; i++) {
+    for (var i = 0; i < 100; i++) {
         obj = obj.parentNode;
         if (obj.classList.contains(search)) {
             break;
