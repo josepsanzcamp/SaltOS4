@@ -612,8 +612,8 @@ saltos.get_data = full => {
                 var val = obj.value;
                 var old = field.value.toString();
                 if (obj.type == 'textarea') {
-                    val = str_replace(['\r\n', '\r'], '\n', val);
-                    old = str_replace(['\r\n', '\r'], '\n', old);
+                    val = val.replace(/\r\n|\r/g, '\n');
+                    old = old.replace(/\r\n|\r/g, '\n');
                 } else if (field.type == 'integer') {
                     val = parseInt(val);
                     old = parseInt(old);

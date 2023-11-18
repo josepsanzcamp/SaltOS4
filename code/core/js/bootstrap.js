@@ -1621,9 +1621,9 @@ saltos.__form_field.table = field => {
                             row.setAttribute('_onclick', val2.onclick);
                             row.addEventListener('dblclick', event => {
                                 eval(event.target.parentElement.getAttribute('_onclick'));
-                                if(document.selection && document.selection.empty) {
+                                if (document.selection && document.selection.empty) {
                                     window.getSelection().removeAllRanges();
-                                } else if(window.getSelection) {
+                                } else if (window.getSelection) {
                                     window.getSelection().removeAllRanges();
                                 }
                             });
