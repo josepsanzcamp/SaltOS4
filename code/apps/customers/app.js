@@ -159,14 +159,11 @@ saltos.customers.cancel = () => {
  * TODO
  */
 saltos.customers.insert = () => {
-    var data = saltos.get_data();
-    if (!Object.keys(data).length) {
-        saltos.alert('Warning', 'No changes detected');
-        return;
-    }
     if (!saltos.check_required()) {
+        saltos.alert('Warning', 'Required fields not found');
         return;
     }
+    var data = saltos.get_data();
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
@@ -204,12 +201,13 @@ saltos.customers.insert = () => {
  * TODO
  */
 saltos.customers.update = () => {
+    if (!saltos.check_required()) {
+        saltos.alert('Warning', 'Required fields not found');
+        return;
+    }
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');
-        return;
-    }
-    if (!saltos.check_required()) {
         return;
     }
     saltos.ajax({

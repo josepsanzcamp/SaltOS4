@@ -88,27 +88,27 @@
 
     <!-- Form part -->
     <layout_header auto="true" container_class="container header mt-3" col_class="col-md-6 mb-3">
-        <text id="nombre" label="nombre"/>
-        <text id="direccion" label="direccion"/>
-        <text id="nombre_pais" label="nombre_pais"/>
-        <text id="nombre_provincia" label="nombre_provincia"/>
-        <text id="nombre_poblacion" label="nombre_poblacion"/>
-        <text id="nombre_codpostal" label="nombre_codpostal"/>
-        <text id="cif" label="cif"/>
+        <text id="nombre" label="nombre" required="true"/>
+        <text id="direccion" label="direccion" required="true"/>
+        <text id="nombre_pais" label="nombre_pais" required="true"/>
+        <text id="nombre_provincia" label="nombre_provincia" required="true"/>
+        <text id="nombre_poblacion" label="nombre_poblacion" required="true"/>
+        <text id="nombre_codpostal" label="nombre_codpostal" required="true"/>
+        <text id="cif" label="cif" required="true"/>
         <text id="num" label="num"/>
         <text id="fecha" label="fecha"/>
         <text id="fecha2" label="fecha2"/>
-        <text id="iva" label="iva"/>
-        <text id="irpf" label="irpf"/>
+        <text id="iva" label="iva" required="true"/>
+        <text id="irpf" label="irpf" required="true"/>
         <switch id="cerrado" label="cerrado"/>
         <switch id="cobrado" label="cobrado"/>
         <textarea id="notas" label="notas" col_class="col-md-12 mb-3"/>
     </layout_header>
     <layout_detail auto="true" container_class="container detail" col_class="col-md-6 mb-3" template_id="detail">
         <hidden id="id"/>
-        <textarea id="concepto" label="concepto" col_class="col mb-3"/>
-        <float id="unidades" label="unidades" col_class="col-md-1 mb-3"/>
-        <float id="precio" label="precio" col_class="col-md-1 mb-3"/>
+        <textarea id="concepto" label="concepto" col_class="col mb-3" required="true"/>
+        <float id="unidades" label="unidades" col_class="col-md-1 mb-3" required="true"/>
+        <float id="precio" label="precio" col_class="col-md-1 mb-3" required="true"/>
         <float id="descuento" label="descuento" col_class="col-md-1 mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
         <button onclick="saltos.invoices.remove_item(this)" label="-" icon="trash" class="btn btn-primary" col_class="col-auto mb-3" tooltip="Quitar este concepto"/>

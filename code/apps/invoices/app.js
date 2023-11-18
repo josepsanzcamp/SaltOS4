@@ -71,9 +71,8 @@ saltos.invoices.initialize_buttons = () => {
  */
 saltos.invoices.initialize_inputs = () => {
     document.querySelectorAll('[id*=unidades], [id*=precio], [id*=descuento]').forEach(_this => {
-        _this.addEventListener('change', event => {
-            saltos.invoices.compute_total();
-        });
+        _this.removeEventListener('change', saltos.invoices.compute_total);
+        _this.addEventListener('change', saltos.invoices.compute_total);
     });
     document.querySelectorAll('[id*=total], #total').forEach(_this => {
         _this.setAttribute('disabled', '');
@@ -238,14 +237,11 @@ saltos.invoices.cancel = () => {
  * TODO
  */
 saltos.invoices.insert = () => {
-    var data = saltos.get_data();
-    if (!Object.keys(data).length) {
-        saltos.alert('Warning', 'No changes detected');
-        return;
-    }
     if (!saltos.check_required()) {
+        saltos.alert('Warning', 'Required fields not found');
         return;
     }
+    var data = saltos.get_data();
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
@@ -283,12 +279,13 @@ saltos.invoices.insert = () => {
  * TODO
  */
 saltos.invoices.update = () => {
+    if (!saltos.check_required()) {
+        saltos.alert('Warning', 'Required fields not found');
+        return;
+    }
     var data = saltos.get_data();
     if (!Object.keys(data).length) {
         saltos.alert('Warning', 'No changes detected');
-        return;
-    }
-    if (!saltos.check_required()) {
         return;
     }
     saltos.ajax({
