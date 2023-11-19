@@ -47,7 +47,9 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize_search()</inline>
         </javascript>
+        <document_title eval="true">document_title("Invoice's list")</document_title>
     </list>
+
     <table checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <nombre label="Nombre"/>
@@ -140,6 +142,7 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize_inputs()</inline>
         </javascript>
+        <document_title eval="true">document_title("New invoice")</document_title>
     </create>
 
     <view>
@@ -165,6 +168,7 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize_buttons()</inline>
         </javascript>
+        <document_title eval="true">document_title("Detail of the invoice")</document_title>
     </view>
 
     <edit>
@@ -187,6 +191,7 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize_inputs()</inline>
         </javascript>
+        <document_title eval="true">document_title("Modify this invoice")</document_title>
     </edit>
 
     <delete>
@@ -210,6 +215,7 @@
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize_buttons()</inline>
         </javascript>
+        <document_title eval="true">document_title("Delete this invoice")</document_title>
     </delete>
 
 </root>

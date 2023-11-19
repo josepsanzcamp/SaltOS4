@@ -126,3 +126,13 @@ function isphp($version)
 {
     return version_compare(PHP_VERSION, strval($version), ">=");
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function document_title($title)
+{
+    return $title . " - " . get_name_version_revision();
+}

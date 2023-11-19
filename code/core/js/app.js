@@ -498,6 +498,17 @@ saltos.form_app.javascript = data => {
 };
 
 /**
+ * Document title
+ *
+ * This function sets the document title
+ *
+ * @title => The title that you want to set in the page
+ */
+saltos.form_app.document_title = title => {
+    document.title = title;
+};
+
+/**
  * Loading helper
  *
  * This function adds and removes the spinner to emulate the loading effect screen

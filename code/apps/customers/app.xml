@@ -48,6 +48,7 @@
             <inline>saltos.customers.initialize()</inline>
         </javascript>
     </list>
+
     <table checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <nombre label="Nombre"/>
@@ -102,6 +103,7 @@
         <text id="fax" label="Fax"/>
     </layout>
     <data eval="true">execute_query("SELECT * FROM app_customers WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+
     <create>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -116,7 +118,9 @@
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
+        <document_title eval="true">document_title("New customer")</document_title>
     </create>
+
     <view>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -135,7 +139,9 @@
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
+        <document_title eval="true">document_title("Detail of the customer")</document_title>
     </view>
+
     <edit>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -151,7 +157,9 @@
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
+        <document_title eval="true">document_title("Modify this customer")</document_title>
     </edit>
+
     <delete>
         <javascript>
             <inline>saltos.loading()</inline>
@@ -168,6 +176,7 @@
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
+        <document_title eval="true">document_title("Delete this customer")</document_title>
     </delete>
 
     <!-- Widget part -->
