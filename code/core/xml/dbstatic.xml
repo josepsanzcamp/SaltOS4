@@ -39,7 +39,7 @@ and the main permissions for the user
             <row id="2" active="1" code="login" name="Login" description="Pantalla login"/>
             <row id="3" active="1" code="tester" name="Tester" description="App para test"/>
             <row id="11" active="1" code="customers" name="Customers" description="Customer's application" table="app_customers" field="nombre" has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1"/>
-            <row id="12" active="1" code="invoices" name="Invoices" description="Invoices application" table="app_invoices" field="CONCAT(nombre,' - ',cif,' - ',num)" subtables="app_invoices_concepts(id_factura),app_invoices_expirations(id_factura)" has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1"/>
+            <row id="12" active="1" code="invoices" name="Invoices" description="Invoices application" table="app_invoices" field="CONCAT(nombre,' - ',cif,' - ',num)" subtables="detail:app_invoices_concepts(id_factura),app_invoices_expirations(id_factura)" has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1"/>
             <row id="13" active="1" code="emails" name="Emails" description="Emails app client" table="app_emails" field="CONCAT(IF(is_outbox, `to`, `from`),' - ',subject)" subtables="app_emails_address(email_id)" has_index="1" has_control="1"/>
         </table>
         <!-- Valid values for owner are 'user', 'group' and 'all' -->

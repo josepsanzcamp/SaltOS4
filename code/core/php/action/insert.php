@@ -50,15 +50,37 @@ if (!check_user($app, "create")) {
 
 $table = app2table($app);
 $fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
-$error = array_diff_key($data, $fields);
+$subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
+$error = array_diff_key($data, $fields, $subtables);
 if (count($error)) {
     show_json_error("Permission denied");
 }
 
+// Separate the data associated to a subtables
+$subdata = array_intersect_key($data, $subtables);
+$data = array_diff_key($data, $subdata);
+
+// Prepare main query
 $query = make_insert_query($table, $data);
 db_query($query);
 
 $id = execute_query("SELECT MAX(id) FROM $table");
+
+// Prepare all subqueries
+$subtables = app2subtables($app);
+foreach ($subtables as $temp) {
+    $alias = $temp["alias"];
+    $subtable = $temp["subtable"];
+    $field = $temp["field"];
+    if (isset($subdata[$alias])) {
+        foreach ($subdata[$alias] as $temp2) {
+            $temp2[$field] = $id;
+            $query = make_insert_query($subtable, $temp2);
+            db_query($query);
+        }
+    }
+}
+
 make_index($app, $id);
 make_control($app, $id);
 add_version($app, $id);

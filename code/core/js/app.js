@@ -223,7 +223,7 @@ saltos.form_app.__data_template_helper = (template_id, data, index) => {
     for (var key in data) {
         var val = data[key];
         delete data[key];
-        data[template_id + '#' + key + '#' + index] = val;
+        data[template_id + '#' + index + '#' + key] = val;
     }
     return data;
 };
@@ -243,7 +243,7 @@ saltos.form_app.__layout_template_helper = (template_id, index) => {
         var val = template.value[key];
         if (val['#attr'].hasOwnProperty('id')) {
             var id = val['#attr'].id;
-            val['#attr'].id = template_id + '#' + id + '#' + index;
+            val['#attr'].id = template_id + '#' + index + '#' + id;
         }
     }
     return template;
@@ -642,8 +642,8 @@ saltos.get_data = full => {
     // This thick allow to add the id field of the template used
     for (var key in saltos.__form_app.data) {
         var id = key.split('#');
-        if (id.length == 3 && id[1] != 'id') {
-            id[1] = 'id';
+        if (id.length == 3 && id[2] != 'id') {
+            id[2] = 'id';
             id = id.join('#');
             if (!saltos.__form_app.data.hasOwnProperty(id)) {
                 var obj = document.getElementById(id);
@@ -654,6 +654,24 @@ saltos.get_data = full => {
                     }
                 }
             }
+        }
+    }
+    // This trick allow to do more pretty the structure of some composed fields
+    for (var key in saltos.__form_app.data) {
+        var id = key.split('#');
+        if (id.length == 3) {
+            var id0 = id[0];
+            var id1 = id[1];
+            var id2 = id[2];
+            var val = saltos.__form_app.data[key];
+            if (!saltos.__form_app.data.hasOwnProperty(id0)) {
+                saltos.__form_app.data[id0] = {};
+            }
+            if (!saltos.__form_app.data[id0].hasOwnProperty(id1)) {
+                saltos.__form_app.data[id0][id1] = {};
+            }
+            saltos.__form_app.data[id0][id1][id2] = val;
+            delete saltos.__form_app.data[key];
         }
     }
     return saltos.__form_app.data;

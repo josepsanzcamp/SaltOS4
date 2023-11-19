@@ -58,13 +58,52 @@ if (!$exists) {
 }
 
 $fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
-$error = array_diff_key($data, $fields);
+$subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
+$error = array_diff_key($data, $fields, $subtables);
 if (count($error)) {
     show_json_error("Permission denied");
 }
 
-$query = make_update_query($table, $data, "id = $id");
-db_query($query);
+// Separate the data associated to a subtables
+$subdata = array_intersect_key($data, $subtables);
+$data = array_diff_key($data, $subdata);
+
+// Prepare main query
+if (count($data)) {
+    $query = make_update_query($table, $data, "id = $id");
+    db_query($query);
+}
+
+// Prepare all subqueries
+$subtables = app2subtables($app);
+foreach ($subtables as $temp) {
+    $alias = $temp["alias"];
+    $subtable = $temp["subtable"];
+    $field = $temp["field"];
+    if (isset($subdata[$alias])) {
+        foreach ($subdata[$alias] as $temp2) {
+            if (!isset($temp2["id"])) {
+                // Insert new subdata
+                $temp2[$field] = $id;
+                $query = make_insert_query($subtable, $temp2);
+                db_query($query);
+            } elseif (intval($temp2["id"]) > 0) {
+                // Update the subdata
+                $id2 = intval($temp2["id"]);
+                unset($temp2["id"]);
+                $query = make_update_query($subtable, $temp2, "id = $id2 AND $field = $id");
+                db_query($query);
+            } elseif (intval($temp2["id"]) < 0) {
+                // Delete the subdata
+                $id2 = -intval($temp2["id"]);
+                $query = "DELETE FROM $subtable WHERE id = $id2 AND $field = $id";
+                db_query($query);
+            } else {
+                show_php_error(["phperror" => "subdata found with id=0"]);
+            }
+        }
+    }
+}
 
 make_index($app, $id);
 make_control($app, $id);

@@ -56,8 +56,18 @@ if (!$exists) {
     show_json_error("Permission denied");
 }
 
+// Prepare main query
 $query = "DELETE FROM $table WHERE id = $id";
 db_query($query);
+
+// Prepare all subqueries
+$subtables = app2subtables($app);
+foreach ($subtables as $temp) {
+    $subtable = $temp["subtable"];
+    $field = $temp["field"];
+    $query = "DELETE FROM $subtable WHERE $field = $id";
+    db_query($query);
+}
 
 make_index($app, $id);
 make_control($app, $id);

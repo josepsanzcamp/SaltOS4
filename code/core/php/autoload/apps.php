@@ -59,6 +59,7 @@ function __apps($fn, $arg)
         $dict["app2subtables"] = [];
         $dict["table2subtables"] = [];
         while ($row = db_fetch_row($result)) {
+            $row["subtables"] = __apps_subtables_helper($row["subtables"]);
             $dict["id2app"][$row["id"]] = $row["code"];
             $dict["app2id"][$row["code"]] = $row["id"];
             $dict["id2table"][$row["id"]] = $row["table"];
@@ -78,6 +79,36 @@ function __apps($fn, $arg)
         show_php_error(["phperror" => "$fn($arg) not found"]);
     }
     return $dict[$fn][$arg];
+}
+
+/**
+ * Subtables helper
+ *
+ * This function helps the follow apps to returns the subtables information into
+ * a structure instead of string, this is very helpfull by the code that consumes
+ * this information, allow to use it quickly without parsing the original string.
+ *
+ * @subtables => the string that contains the subtables specification
+ */
+function __apps_subtables_helper($subtables)
+{
+    $subtables = array_diff(explode(",", $subtables), [""]);
+    foreach ($subtables as $key => $val) {
+        if (strpos($val, ":")) {
+            $alias = strtok($val, ":");
+            $subtable = strtok("(");
+        } else {
+            $alias = "";
+            $subtable = strtok($val, "(");
+        }
+        $field = strtok(")");
+        $subtables[$key] = [
+            "alias" => $alias,
+            "subtable" => $subtable,
+            "field" => $field,
+        ];
+    }
+    return $subtables;
 }
 
 /**

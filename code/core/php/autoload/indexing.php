@@ -94,18 +94,16 @@ function make_index($app, $reg_id)
     $queries[] = $query;
     // This part allow to get all data of the all fields from the subtables
     $subtables = app2subtables($app);
-    if ($subtables != "") {
-        foreach (explode(",", $subtables) as $subtable) {
-            $subtable = strtok($subtable, "(");
-            $field = strtok(")");
-            $fields = __make_index_helper($subtable);
-            foreach ($fields as $key => $val) {
-                $fields[$key] = "IFNULL(($val),'')";
-            }
-            $fields = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $fields) . "))";
-            $query = "SELECT $fields FROM $subtable WHERE $field='$reg_id'";
-            $queries[] = $query;
+    foreach ($subtables as $temp) {
+        $subtable = $temp["subtable"];
+        $field = $temp["field"];
+        $fields = __make_index_helper($subtable);
+        foreach ($fields as $key => $val) {
+            $fields[$key] = "IFNULL(($val),'')";
         }
+        $fields = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $fields) . "))";
+        $query = "SELECT $fields FROM $subtable WHERE $field='$reg_id'";
+        $queries[] = $query;
     }
     // OBTENER DATOS DE LAS TABLAS GENERICAS
     //~ $tables = array("tbl_ficheros","tbl_comentarios");

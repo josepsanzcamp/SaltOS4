@@ -180,16 +180,14 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     $data_new[$table][$reg_id] = execute_query($query);
     // Add the data from subtables, if exists
     $subtables = app2subtables($app);
-    if ($subtables != "") {
-        foreach (explode(",", $subtables) as $subtable) {
-            $subtable = strtok($subtable, "(");
-            $field = strtok(")");
-            $query = "SELECT * FROM $subtable WHERE $field='$reg_id'";
-            $data_new[$subtable] = [];
-            $rows = execute_query_array($query);
-            foreach ($rows as $key => $val) {
-                $data_new[$subtable][$val["id"]] = $val;
-            }
+    foreach ($subtables as $temp) {
+        $subtable = $temp["subtable"];
+        $field = $temp["field"];
+        $query = "SELECT * FROM $subtable WHERE $field='$reg_id'";
+        $data_new[$subtable] = [];
+        $rows = execute_query_array($query);
+        foreach ($rows as $key => $val) {
+            $data_new[$subtable][$val["id"]] = $val;
         }
     }
     // Continue computing the diff from old data and new data
