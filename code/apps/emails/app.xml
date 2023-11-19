@@ -48,7 +48,9 @@
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
             <inline>saltos.emails.initialize()</inline>
         </javascript>
+        <document_title eval="true">document_title("Email's list")</document_title>
     </list>
+
     <table checkbox="true" type="table" limit="50" order="datetime DESC">
         <header>
             <from_to label="De/Para"/>
@@ -78,5 +80,6 @@
             AND ".check_sql("emails", "list")."
         ")</footer>
     </table>
+
     <!-- TODO -->
 </root>

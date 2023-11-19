@@ -47,6 +47,7 @@
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
             <inline>saltos.customers.initialize()</inline>
         </javascript>
+        <document_title eval="true">document_title("Customer's list")</document_title>
     </list>
 
     <table checkbox="true" type="table" limit="25" order="id DESC">
