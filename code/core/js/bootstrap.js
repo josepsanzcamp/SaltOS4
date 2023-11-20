@@ -1528,6 +1528,12 @@ saltos.__form_field.table = field => {
         if (Object.keys(field.header).length) {
             obj.querySelector('tbody').classList.add('table-group-divider');
         }
+        // This function close all dropdowns
+        var dropdown_close = () => {
+            obj.querySelectorAll('.show').forEach(_this => {
+                _this.classList.remove('show');
+            });
+        };
         for (var key in field.data) {
             var row = saltos.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
@@ -1538,6 +1544,7 @@ saltos.__form_field.table = field => {
                     } else {
                         event.target.parentNode.parentNode.classList.remove('table-active');
                     }
+                    dropdown_close();
                 });
                 row.querySelector('input[type=checkbox]').addEventListener('click', event => {
                     event.stopPropagation();
@@ -1602,11 +1609,8 @@ saltos.__form_field.table = field => {
                             </ul>
                         </div>
                     `));
-                    td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', event => {
-                        obj.querySelectorAll('.show').forEach(_this => {
-                            _this.classList.remove('show');
-                        });
-                    });
+                    // This close all dropdowns when a new dropdown appear
+                    td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', dropdown_close);
                 }
                 var first_action = true;
                 for (var key2 in field.data[key].actions) {
@@ -1634,11 +1638,8 @@ saltos.__form_field.table = field => {
                     if (dropdown) {
                         button.classList.remove('btn');
                         button.classList.add('dropdown-item');
-                        button.addEventListener('click', event => {
-                            obj.querySelectorAll('.show').forEach(_this => {
-                                _this.classList.remove('show');
-                            });
-                        });
+                        // This close all dropdowns when click an option inside a dropdown
+                        button.addEventListener('click', dropdown_close);
                         var li = saltos.html(`<li></li>`);
                         li.append(button);
                         td.querySelector('ul').append(li);
