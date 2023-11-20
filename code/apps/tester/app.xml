@@ -32,7 +32,7 @@
             <inline>saltos.clear_screen()</inline>
             <file eval="true">file_with_hash("apps/tester/app.js")</file>
         </javascript>
-        <document_title eval="true">document_title("Tester Demo App")</document_title>
+        <document_title>Tester Demo App</document_title>
     </menu>
     <menu id="2">
         <temp eval="true">include_once("apps/tester/indexing.php")</temp>

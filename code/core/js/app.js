@@ -505,7 +505,7 @@ saltos.form_app.javascript = data => {
  * @title => The title that you want to set in the page
  */
 saltos.form_app.document_title = title => {
-    document.title = title;
+    document.title = title + ' - ' + saltos.x_powered_by;
 };
 
 /**

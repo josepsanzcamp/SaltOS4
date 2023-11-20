@@ -47,7 +47,7 @@
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
             <inline>saltos.customers.initialize()</inline>
         </javascript>
-        <document_title eval="true">document_title("Customer's list")</document_title>
+        <document_title>Customer's list</document_title>
     </list>
 
     <table checkbox="true" type="table" limit="25" order="id DESC">
@@ -119,7 +119,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
-        <document_title eval="true">document_title("New customer")</document_title>
+        <document_title>New customer</document_title>
     </create>
 
     <view>
@@ -140,7 +140,7 @@
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
-        <document_title eval="true">document_title("Detail of the customer")</document_title>
+        <document_title>Detail of the customer</document_title>
     </view>
 
     <edit>
@@ -158,7 +158,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
-        <document_title eval="true">document_title("Modify this customer")</document_title>
+        <document_title>Modify this customer</document_title>
     </edit>
 
     <delete>
@@ -177,7 +177,7 @@
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
-        <document_title eval="true">document_title("Delete this customer")</document_title>
+        <document_title>Delete this customer</document_title>
     </delete>
 
     <!-- Widget part -->

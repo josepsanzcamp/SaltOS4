@@ -265,6 +265,11 @@ saltos.ajax = args => {
         if (ajax.readyState == 4) {
             if (ajax.status == 200) {
                 if (typeof args.success == 'function') {
+                    if (!saltos.hasOwnProperty('x_powered_by')) {
+                        if (ajax.getResponseHeader('x-powered-by')) {
+                            saltos.x_powered_by = ajax.getResponseHeader('x-powered-by');
+                        }
+                    }
                     var data = ajax.response;
                     if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
                         data = JSON.parse(ajax.responseText);

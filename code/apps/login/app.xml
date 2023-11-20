@@ -47,6 +47,6 @@
             <file eval="true">file_with_hash("apps/login/app.js")</file>
             <inline>saltos.login.initialize()</inline>
         </javascript>
-        <document_title eval="true">document_title("Login form")</document_title>
+        <document_title>Login form</document_title>
     </menu>
 </root>
