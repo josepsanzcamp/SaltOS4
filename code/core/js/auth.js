@@ -429,7 +429,7 @@ saltos.tabs.listeners = {};
  */
 saltos.tabs.set_listener = (name, fn) => {
     saltos.tabs.listeners[name] = fn;
-}
+};
 
 /**
  * TODO
@@ -438,7 +438,7 @@ saltos.tabs.set_listener = (name, fn) => {
  */
 saltos.tabs.unset_listener = (name, fn) => {
     delete saltos.tabs.listeners[name];
-}
+};
 
 /**
  * TODO
