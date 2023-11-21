@@ -51,7 +51,7 @@ window.onerror = (event, source, lineno, colno, error) => {
         'jserror': event,
         'details': 'Error on file ' + source + ':' + lineno + ':' + colno +
                    ', userAgent is ' + navigator.userAgent,
-        'backtrace': "unknown",
+        'backtrace': 'unknown',
     };
     if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
         data.backtrace = error.stack;
