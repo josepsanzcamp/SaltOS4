@@ -1564,7 +1564,7 @@ saltos.__form_field.table = field => {
             }
             for (var key2 in iterator) {
                 var val2 = field.data[key][key2];
-                if (val2 == null) {
+                if (val2 === null) {
                     val2 = '';
                 }
                 var td = saltos.html('tr', `<td></td>`);
@@ -1677,7 +1677,7 @@ saltos.__form_field.table = field => {
             }
             for (var key in iterator) {
                 var val = field.footer[key].value;
-                if (val == null) {
+                if (val === null) {
                     val = '';
                 }
                 var td = saltos.html('tr', `<td></td>`);

@@ -188,7 +188,7 @@ saltos.form_app.data = data => {
     }
     for (var key in data) {
         var val = data[key];
-        if (val == null) {
+        if (val === null) {
             val = '';
         }
         // This updates the object
