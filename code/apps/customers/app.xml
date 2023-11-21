@@ -45,7 +45,8 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
-            <inline>saltos.customers.initialize()</inline>
+            <inline>saltos.customers.initialize_search()</inline>
+            <inline>saltos.customers.initialize_update_list()</inline>
         </javascript>
         <document_title>Customer's list</document_title>
     </list>
@@ -139,6 +140,7 @@
         <javascript>
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
+            <inline>saltos.customers.initialize_update_view()</inline>
         </javascript>
         <document_title>Detail of the customer</document_title>
     </view>

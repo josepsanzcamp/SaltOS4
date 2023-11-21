@@ -122,7 +122,7 @@ saltos.token = {};
  * This function returns the token stored in the localStorage
  */
 saltos.token.get = () => {
-    return localStorage.getItem('saltos.token');
+    return localStorage.getItem('saltos.token.token');
 };
 
 /**
@@ -131,7 +131,7 @@ saltos.token.get = () => {
  * This function returns the expires stored in the localStorage
  */
 saltos.token.get_expires = () => {
-    return localStorage.getItem('saltos.expires');
+    return localStorage.getItem('saltos.token.expires');
 };
 
 /**
@@ -140,7 +140,7 @@ saltos.token.get_expires = () => {
  * This function returns the autorenew stored in the localStorage
  */
 saltos.token.get_autorenew = () => {
-    return localStorage.getItem('saltos.autorenew') * 1000;
+    return localStorage.getItem('saltos.token.autorenew') * 1000;
 };
 
 /**
@@ -149,7 +149,7 @@ saltos.token.get_autorenew = () => {
  * This function returns the autocheck stored in the localStorage
  */
 saltos.token.get_autocheck = () => {
-    return localStorage.getItem('saltos.autocheck') * 1000;
+    return localStorage.getItem('saltos.token.autocheck') * 1000;
 };
 
 /**
@@ -164,10 +164,10 @@ saltos.token.get_autocheck = () => {
  * @autocheck => the autocheck of the token that you can use to poll the autorenew
  */
 saltos.token.set = response => {
-    localStorage.setItem('saltos.token', response.token);
-    localStorage.setItem('saltos.expires', response.expires_at);
-    localStorage.setItem('saltos.autorenew', response.autorenew_at);
-    localStorage.setItem('saltos.autocheck', response.autocheck_at);
+    localStorage.setItem('saltos.token.token', response.token);
+    localStorage.setItem('saltos.token.expires', response.expires_at);
+    localStorage.setItem('saltos.token.autorenew', response.autorenew_at);
+    localStorage.setItem('saltos.token.autocheck', response.autocheck_at);
 };
 
 /**
@@ -176,10 +176,10 @@ saltos.token.set = response => {
  * This function removes the token and expires in the localStorage
  */
 saltos.token.unset = () => {
-    localStorage.removeItem('saltos.token');
-    localStorage.removeItem('saltos.expires');
-    localStorage.removeItem('saltos.autorenew');
-    localStorage.removeItem('saltos.autocheck');
+    localStorage.removeItem('saltos.token.token');
+    localStorage.removeItem('saltos.token.expires');
+    localStorage.removeItem('saltos.token.autorenew');
+    localStorage.removeItem('saltos.token.autocheck');
 };
 
 /**
@@ -406,4 +406,71 @@ saltos.authenticate.autorenew = on_off => {
         clearInterval(saltos.authenticate.__autorenew_timer);
         saltos.authenticate.__autorenew_timer = null;
     }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.tabs = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.tabs.listeners = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.tabs.set_listener = (name, fn) => {
+    saltos.tabs.listeners[name] = fn;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.tabs.unset_listener = (name, fn) => {
+    delete saltos.tabs.listeners[name];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.tabs.send = (name, data) => {
+    localStorage.setItem('saltos.tabs.name', name);
+    localStorage.setItem('saltos.tabs.data', data);
+    localStorage.setItem('saltos.tabs.trigger', Math.random());
+    window.dispatchEvent(new StorageEvent('storage', {
+        storageArea: localStorage,
+        key: 'saltos.tabs.trigger',
+    }));
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+window.onstorage = event => {
+    if (event.storageArea != localStorage) {
+        return;
+    }
+    if (event.key != 'saltos.tabs.trigger') {
+        return;
+    }
+    var name = localStorage.getItem('saltos.tabs.name');
+    var data = localStorage.getItem('saltos.tabs.data');
+    if (!saltos.tabs.listeners.hasOwnProperty(name)) {
+        return;
+    }
+    saltos.tabs.listeners[name](data);
 };

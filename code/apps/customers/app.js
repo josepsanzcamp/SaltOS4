@@ -44,12 +44,34 @@ saltos.customers = {};
  *
  * This function initializes the customers screen to improve the user experience.
  */
-saltos.customers.initialize = () => {
+saltos.customers.initialize_search = () => {
     document.getElementById('search').addEventListener('keydown', event => {
         if (saltos.get_keycode(event) != 13) {
             return;
         }
         saltos.customers.search();
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.customers.initialize_update_list = () => {
+    saltos.tabs.set_listener('saltos.customers.update', event => {
+        saltos.customers.search();
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.customers.initialize_update_view = () => {
+    saltos.tabs.set_listener('saltos.customers.update', event => {
+        saltos.hash.trigger();
     });
 };
 
@@ -178,6 +200,7 @@ saltos.customers.insert = () => {
                 return;
             }
             if (response.status == 'ok') {
+                saltos.tabs.send('saltos.customers.update');
                 saltos.close_window();
                 return;
             }
@@ -225,6 +248,7 @@ saltos.customers.update = () => {
                 return;
             }
             if (response.status == 'ok') {
+                saltos.tabs.send('saltos.customers.update');
                 saltos.close_window();
                 return;
             }
@@ -262,6 +286,7 @@ saltos.customers.delete = () => {
                 return;
             }
             if (response.status == 'ok') {
+                saltos.tabs.send('saltos.customers.update');
                 saltos.close_window();
                 return;
             }
