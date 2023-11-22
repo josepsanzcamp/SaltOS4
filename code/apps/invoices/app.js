@@ -58,6 +58,28 @@ saltos.invoices.initialize_search = () => {
  *
  * TODO
  */
+saltos.invoices.initialize_update_list = () => {
+    saltos.tabs.set_listener('saltos.invoices.update', event => {
+        saltos.invoices.search();
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.initialize_update_view = () => {
+    saltos.tabs.set_listener('saltos.invoices.update', event => {
+        saltos.hash.trigger();
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.invoices.initialize_buttons = () => {
     document.querySelectorAll('.container.detail button, .container.footer button').forEach(_this => {
         saltos.parentNode_search(_this, 'col-auto').remove();
@@ -256,6 +278,7 @@ saltos.invoices.insert = () => {
                 return;
             }
             if (response.status == 'ok') {
+                saltos.tabs.send('saltos.invoices.update');
                 saltos.close_window();
                 return;
             }
@@ -303,6 +326,7 @@ saltos.invoices.update = () => {
                 return;
             }
             if (response.status == 'ok') {
+                saltos.tabs.send('saltos.invoices.update');
                 saltos.close_window();
                 return;
             }
@@ -340,6 +364,7 @@ saltos.invoices.delete = () => {
                 return;
             }
             if (response.status == 'ok') {
+                saltos.tabs.send('saltos.invoices.update');
                 saltos.close_window();
                 return;
             }

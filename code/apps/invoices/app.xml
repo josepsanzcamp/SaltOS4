@@ -46,6 +46,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize_search()</inline>
+            <inline>saltos.invoices.initialize_update_list()</inline>
         </javascript>
         <document_title>Invoice's list</document_title>
     </list>
@@ -167,6 +168,7 @@
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>
             <inline>saltos.invoices.initialize_buttons()</inline>
+            <inline>saltos.invoices.initialize_update_view()</inline>
         </javascript>
         <document_title>Detail of the invoice</document_title>
     </view>
