@@ -46,6 +46,10 @@
             <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"></chartjs>
             <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"></chartjs>
         </layout>
+        <javascript>
+            <file eval="true">file_with_hash("apps/dashboard/app.js")</file>
+            <inline>saltos.dashboard.initialize()</inline>
+        </javascript>
         <document_title>Dashboard</document_title>
     </menu>
 </root>
