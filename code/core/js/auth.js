@@ -409,41 +409,58 @@ saltos.authenticate.autorenew = on_off => {
 };
 
 /**
- * TODO
+ * Tabs communication helper object
  *
- * TODO
+ * This object stores all tabs communications functions to send and listen messages
  */
 saltos.tabs = {};
 
 /**
- * TODO
+ * Listeners helper object
  *
- * TODO
+ * This object stores all listeners added by the set_listeners and used by the onstorage
  */
 saltos.tabs.listeners = {};
 
 /**
- * TODO
+ * Set listener
  *
- * TODO
+ * This function allos to set a listener function to the named event
+ *
+ * @name => the name of the event that you want to suscribe
+ * @fn   => callback executed when event named is triggered
  */
 saltos.tabs.set_listener = (name, fn) => {
     saltos.tabs.listeners[name] = fn;
 };
 
 /**
- * TODO
+ * Unset listener
  *
- * TODO
+ * This function removes a listener from the listeners object
+ *
+ * @name => the name of the event that you want to unsuscribe
  */
-saltos.tabs.unset_listener = (name, fn) => {
+saltos.tabs.unset_listener = (name) => {
     delete saltos.tabs.listeners[name];
 };
 
 /**
- * TODO
+ * Send message
  *
- * TODO
+ * This function allow to send a message to all tabs using the name and data
+ * as event and argument of the callback executed.
+ *
+ * @name => the name of the event that you want to send
+ * @data => the arguments used by the callback function
+ *
+ * Notes:
+ *
+ * The usage of the localStorage causes the execution of the onstorage function
+ * of the other tabs but not for the tab that send the message, to fix this we
+ * are dispatching an event in the current window, this allow that all tabs
+ * (including the source of the message sent) receives the notification and
+ * executes the listeners if needed
  */
 saltos.tabs.send = (name, data) => {
     localStorage.setItem('saltos.tabs.name', name);
@@ -456,9 +473,10 @@ saltos.tabs.send = (name, data) => {
 };
 
 /**
- * TODO
+ * Storage management
  *
- * TODO
+ * This function allow to SaltOS to receive the messages sended by other tabs
+ * using the localStorage.
  */
 window.onstorage = event => {
     if (event.storageArea != localStorage) {
