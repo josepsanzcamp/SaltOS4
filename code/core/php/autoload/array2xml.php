@@ -104,7 +104,7 @@ function __array2xml_write_nodes(&$array, $level = null)
                 if (!__array2xml_check_node_attr($key2)) {
                     show_php_error(["phperror" => "Invalid XML attr name '{$key2}'"]);
                 }
-                $val2 = str_replace("&", "&amp;", $val2);
+                $val2 = str_replace("&", "&amp;", strval($val2));
                 $attr[] = "{$key2}=\"{$val2}\"";
             }
             $attr = " " . implode(" ", $attr);

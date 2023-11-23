@@ -439,6 +439,7 @@ saltos.__form_field.time = field => {
 saltos.__form_field.datetime = field => {
     field.type = 'datetime-local';
     var obj = saltos.__text_helper(field);
+    field.type = 'datetime';
     obj.step = 1; // this enable the seconds
     obj = saltos.__label_combine(field, obj);
     return obj;
@@ -696,6 +697,7 @@ saltos.__form_field.multiselect = field => {
         }
     }
     obj.querySelector('.one').append(saltos.__form_field.hidden(field));
+    field.type = 'multiselect';
     obj.querySelector('.one').append(saltos.__form_field.select({
         class: field.class,
         id: field.id + '_abc',
@@ -1906,11 +1908,16 @@ saltos.__form_field.tags = field => {
     obj.append(saltos.__form_field.hidden(field));
     // The last field is the text input used to write the tags
     field.id_old = field.id;
-    field.id = field.id + '_tags';
-    field.value_old = field.value.split(',');
+    field.id_new = field.id + '_tags'
+    field.id = field.id_new;
+    field.value_old = field.value;
+    field.value_array = field.value.split(',');
+    if (field.value == '') field.value_array = [];
     field.value = '';
     field.class = 'last';
     obj.append(saltos.__form_field.text(field));
+    field.id = field.id_old;
+    field.value = field.value_old;
     // This function draws a tag and programs the delete of the same tag
     var fn = val => {
         var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2"
@@ -1961,8 +1968,8 @@ saltos.__form_field.tags = field => {
     });
     // This part of the code adds the initials tags using the fn function
     {
-        for (var key in field.value_old) {
-            var val = field.value_old[key].trim();
+        for (var key in field.value_array) {
+            var val = field.value_array[key].trim();
             fn(val);
         }
     }
@@ -1972,7 +1979,7 @@ saltos.__form_field.tags = field => {
     // contains the id with the _tags ending
     saltos.when_visible(obj, () => {
         document.querySelectorAll('label[for=' + field.id_old + ']').forEach(_this => {
-            _this.setAttribute('for', field.id);
+            _this.setAttribute('for', field.id_new);
         });
     });
     return obj;

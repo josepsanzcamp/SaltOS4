@@ -118,9 +118,8 @@
     </layout_detail>
     <layout_footer auto="true" container_class="container footer" row_class="row align-items-center" col_class="col-md-6 mb-3">
         <div col_class="col mb-3"/>
-        <label value="total" col_class="col-md-1 mb-3 text-end"/>
-        <text id="total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.invoices.add_item()" icon="plus-lg" class="btn btn-primary" col_class="col-auto mb-3" tooltip="Añadir mas conceptos"/>
+        <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
+        <button onclick="saltos.invoices.add_item()" label="-" icon="plus-lg" class="btn btn-primary" col_class="col-auto mb-3" tooltip="Añadir mas conceptos"/>
     </layout_footer>
     <data_header eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_header>
     <data_detail eval="true" template_id="detail">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</data_detail>
