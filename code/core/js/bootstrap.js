@@ -593,33 +593,33 @@ saltos.__form_field.iframe = field => {
  *
  * This function returns a select object, you can pass the follow arguments:
  *
- * @id       => the id used by the object
- * @class    => allow to add more classes to the default form-select
- * @disabled => this parameter raise the disabled flag
- * @required => this parameter raise the required flag
- * @autofocus   => this parameter raise the autofocus flag
- * @multiple => this parameter enables the multiple selection feature of the select
- * @size     => this parameter allow to see the options list opened with n (size) entries
- * @value    => the value used to detect the selected option
- * @tooltip  => this parameter raise the title flag
- * @rows     => this parameter contains the list of options, each option must be an object
- *              with label and value entries
- * @label    => this parameter is used as text for the label
+ * @id        => the id used by the object
+ * @class     => allow to add more classes to the default form-select
+ * @disabled  => this parameter raise the disabled flag
+ * @required  => this parameter raise the required flag
+ * @autofocus => this parameter raise the autofocus flag
+ * @multiple  => this parameter enables the multiple selection feature of the select
+ * @size      => this parameter allow to see the options list opened with n (size) entries
+ * @value     => the value used to detect the selected option
+ * @tooltip   => this parameter raise the title flag
+ * @rows      => this parameter contains the list of options, each option must be an object
+ *               with label and value entries
+ * @label     => this parameter is used as text for the label
  */
 saltos.__form_field.select = field => {
     saltos.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
                                 'multiple', 'size', 'value', 'tooltip']);
     saltos.check_params(field, ['rows'], []);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (field.required) {
+    if (saltos.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (field.autofocus) {
+    if (saltos.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
-    if (field.multiple) {
+    if (saltos.eval_bool(field.multiple)) {
         field.multiple = 'multiple';
     }
     if (field.size != '') {
@@ -670,7 +670,7 @@ saltos.__form_field.select = field => {
 saltos.__form_field.multiselect = field => {
     saltos.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip']);
     saltos.check_params(field, ['rows'], []);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
     var obj = saltos.html(`
@@ -780,13 +780,13 @@ saltos.__form_field.multiselect = field => {
  */
 saltos.__form_field.checkbox = field => {
     saltos.check_params(field, ['value', 'id', 'disabled', 'readonly', 'label', 'tooltip', 'class']);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (field.readonly) {
+    if (saltos.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (field.value) {
+    if (saltos.eval_bool(field.value)) {
         field.value = 1;
     } else {
         field.value = 0;
@@ -858,7 +858,7 @@ saltos.__form_field.switch = field => {
 saltos.__form_field.button = field => {
     saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip', 'icon']);
     saltos.check_params(field, ['label']);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
     }
@@ -920,16 +920,16 @@ saltos.__form_field.button = field => {
 saltos.__form_field.password = field => {
     saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
                                 'readonly', 'required', 'autofocus', 'tooltip']);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (field.readonly) {
+    if (saltos.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (field.required) {
+    if (saltos.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (field.autofocus) {
+    if (saltos.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
     var obj = saltos.html(`
@@ -996,16 +996,16 @@ saltos.__form_field.password = field => {
 saltos.__form_field.file = field => {
     saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
                                 'autofocus', 'multiple', 'tooltip']);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (field.required) {
+    if (saltos.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (field.autofocus) {
+    if (saltos.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
-    if (field.multiple) {
+    if (saltos.eval_bool(field.multiple)) {
         field.multiple = 'multiple';
     }
     var obj = saltos.html(`
@@ -1299,14 +1299,22 @@ saltos.__form_field.excel = field => {
     saltos.require('core/lib/handsontable/handsontable.full.min.css');
     saltos.require('core/lib/handsontable/handsontable.full.min.js');
     saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
-                                'contextMenu', 'rowHeaderWidth', 'colWidths']);
+                                'contextMenu', 'rowHeaderWidth', 'colWidths', 'numcols', 'numrows']);
     var obj = saltos.html(`
         <div style="width: 100%; height: 100%; overflow: auto">
             <div id="${field.id}" class="${field.class}"></div>
         </div>
     `);
+    field.numcols = parseInt(field.numcols);
+    field.numrows = parseInt(field.numrows);
+    if (!field.numcols) {
+        field.numcols = 26;
+    }
+    if (!field.numrows) {
+        field.numrows = 20;
+    }
     if (field.data == '') {
-        field.data = [...Array(20)].map(e => Array(26));
+        field.data = [...Array(field.numrows)].map(e => Array(field.numcols));
     }
     if (field.rowHeaders == '') {
         field.rowHeaders = true;
@@ -1776,7 +1784,7 @@ saltos.__form_field.alert = field => {
     if (field.body != '') {
         obj.append(saltos.html(field.body));
     }
-    if (field.close) {
+    if (saltos.eval_bool(field.close)) {
         obj.classList.add('alert-dismissible');
         obj.classList.add('fade');
         obj.classList.add('show');
@@ -1908,11 +1916,13 @@ saltos.__form_field.tags = field => {
     obj.append(saltos.__form_field.hidden(field));
     // The last field is the text input used to write the tags
     field.id_old = field.id;
-    field.id_new = field.id + '_tags'
+    field.id_new = field.id + '_tags';
     field.id = field.id_new;
     field.value_old = field.value;
     field.value_array = field.value.split(',');
-    if (field.value == '') field.value_array = [];
+    if (field.value == '') {
+        field.value_array = [];
+    }
     field.value = '';
     field.class = 'last';
     obj.append(saltos.__form_field.text(field));
@@ -2091,16 +2101,16 @@ saltos.__form_field.placeholder = field => {
 saltos.__text_helper = field => {
     saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
                                 'readonly', 'required', 'autofocus', 'tooltip', 'style']);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (field.readonly) {
+    if (saltos.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (field.required) {
+    if (saltos.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (field.autofocus) {
+    if (saltos.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
     var obj = saltos.html(`
@@ -2138,16 +2148,16 @@ saltos.__text_helper = field => {
 saltos.__textarea_helper = field => {
     saltos.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
                                 'required', 'autofocus', 'rows', 'tooltip']);
-    if (field.disabled) {
+    if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (field.readonly) {
+    if (saltos.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (field.required) {
+    if (saltos.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (field.autofocus) {
+    if (saltos.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
     var obj = saltos.html(`

@@ -43,19 +43,28 @@
             <datetime id="campo6" label="Campo 6 (datetime)" placeholder="Escriba aqui" tooltip="Tooltip 6 (datetime)"/>
             <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)">
                 <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
-                <value>SaltOS,PHP,JavaScript</value>
+                <value>SaltOS, PHP, JavaScript</value>
             </tags>
             <button id="campo8" label="Campo 8 (button)" placeholder="Escriba aqui" tooltip="Tooltip 8 (button)" value="Button text here" class="btn-primary"/>
             <button id="campo9" label="Campo 9 (button)" placeholder="Escriba aqui" tooltip="Tooltip 9 (button)" value="Modal test" class="btn-primary"/>
             <button id="campo10" label="Campo 10 (button)" placeholder="Escriba aqui" tooltip="Tooltip 10 (button)" value="Offcanvas test" class="btn-primary"/>
             <button id="campo11" label="Campo 11 (button)" placeholder="Escriba aqui" tooltip="Tooltip 11 (button)" value="Toast test" class="btn-primary"/>
-            <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)" value="Texto de prueba\n\nAdios"/>
-            <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)" value="Texto de prueba\n\nAdios"/>
+            <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba
+
+Adios</textarea>
+            <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/><br/>Adios]]></ckeditor>
             <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>
-                <tag>valor</tag>
-            </xml>]]></codemirror>
+    <tag>valor</tag>
+</xml>]]></codemirror>
             <multiselect id="campo15" label="Campo 15 (multiselect)" placeholder="Escriba aqui" tooltip="Tooltip 15 (multiselect)" value="2,3,5" size="5">
-                <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3],["label"=>"Cuatro","value"=>4],["label"=>"Cinco","value"=>5],["label"=>"Seis","value"=>6]]</rows>
+                <rows eval="true">[
+                    ["label"=>"Uno","value"=>1],
+                    ["label"=>"Dos","value"=>2],
+                    ["label"=>"Tres","value"=>3],
+                    ["label"=>"Cuatro","value"=>4],
+                    ["label"=>"Cinco","value"=>5],
+                    ["label"=>"Seis","value"=>6]
+                ]</rows>
             </multiselect>
             <label id="campo16" label="Campo 16 (label)" placeholder="Escriba aqui" tooltip="Tooltip 16 (label)"/>
             <checkbox id="campo17" label="Campo 17 (checkbox)" placeholder="Escriba aqui" tooltip="Tooltip 17 (checkbox)" value="0"/>
@@ -63,23 +72,21 @@
             <label value="Campo 19 (hidden)" placeholder="Escriba aqui" tooltip="Tooltip 19 (hidden)"/>
             <hidden id="campo19" label="Campo 19 (hidden)" placeholder="Escriba aqui" tooltip="Tooltip 19 (hidden)"/>
             <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)"/>
-            <file id="campo21" label="Campo 21 (file)" placeholder="Escriba aqui" tooltip="Tooltip 21 (file)" multiple="multiple"/>
+            <file id="campo21" label="Campo 21 (file)" placeholder="Escriba aqui" tooltip="Tooltip 21 (file)" multiple="true"/>
             <link id="campo22" label="Campo 22 (link)" placeholder="Escriba aqui" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas"/>
             <select id="campo23" label="Campo 23 (select)" placeholder="Escriba aqui" tooltip="Tooltip 23 (select)" value="2">
                 <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>
             </select>
-            <image id="campo24" label="Campo 24 (image)" placeholder="Escriba aqui" tooltip="Tooltip 24 (image)" value="apps/tester/files/philips-pm5544.svg" class="img-fluid"/>
-            <excel id="campo25" label="Campo 25 (excel)" placeholder="Escriba aqui" tooltip="Tooltip 25 (excel)" rowHeaders="1" colHeaders="1" minSpareRows="0" contextMenu="1">
-                <data eval="true">[[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]]</data>
-            </excel>
+            <image id="campo24" label="Campo 24 (image)" placeholder="Escriba aqui" tooltip="Tooltip 24 (image)" value="apps/tester/files/philips-pm5544.svg"/>
+            <excel id="campo25" label="Campo 25 (excel)" placeholder="Escriba aqui" tooltip="Tooltip 25 (excel)" numcols="26" numrows="20"/>
             <pdfjs id="campo26" label="Campo 26 (pdfjs)" placeholder="Escriba aqui" tooltip="Tooltip 26 (pdfjs)" value="apps/tester/files/test-josep-1.pdf"/>
             <iframe id="campo27" label="Campo 27 (iframe)" placeholder="Escriba aqui" tooltip="Tooltip 27 (iframe)" value="apps/tester/files/philips-pm5544.svg" height="500px"/>
             <table id="campo28" label="Campo 28 (table)" placeholder="Escriba aqui" tooltip="Tooltip 28 (table)">
-                <data eval="true"><![CDATA[[["Josep","Sanz","654 123 789"],["Jordi","Company","654 123 789"],["Andres","Diaz","654 123 789"]]]]></data>
+                <data eval="true"><![CDATA[[["Josep","Sanz","<a href='#'>654 123 789</a>"],["Jordi","Company","654 123 789"],["Andres","Diaz","654 123 789"]]]]></data>
                 <header eval="true">["Name","Surname","Phone"]</header>
                 <footer eval="true">["","Total","3"]</footer>
             </table>
-            <alert id="campo29" label="Campo 29 (alert)" placeholder="Escriba aqui" tooltip="Tooltip 29 (alert)" class="alert-success" title="The alert message!!!" text="This text can be used as you want" close="1">
+            <alert id="campo29" label="Campo 29 (alert)" placeholder="Escriba aqui" tooltip="Tooltip 29 (alert)" class="alert-success" title="The alert message!!!" text="This text can be used as you want" close="true">
                 <body><![CDATA[<hr/>More text here]]></body>
             </alert>
             <chartjs id="campo30" label="Campo 30 (chartjs)" placeholder="Escriba aqui" tooltip="Tooltip 30 (chartjs)" mode="bar">
@@ -101,15 +108,18 @@
                 <images eval="true">[["image"=>"apps\/tester\/files\/anunay-rai-WSW1txL1V84.jpg","title"=>"Foto 1"],["image"=>"apps\/tester\/files\/beasty-0BcxmQx9xas-unsplash.jpg","title"=>"Foto 2"],["image"=>"apps\/tester\/files\/krystal-ng-PrQqQVPzmlw.jpg","title"=>"Foto 3"],"apps\/tester\/files\/luke-jones-vCxjJmdj03k.jpg","apps\/tester\/files\/maryna-yazbeck-rnwDiYrHtM0.jpg","apps\/tester\/files\/mo-nm8b-BUnzuk.jpg"]</images>
             </gallery>
         </layout>
-        <document_title>Tester Demo App</document_title>
+        <javascript>
+            <file eval="true">file_with_hash("apps/tester/app.new.js")</file>
+        </javascript>
+        <document_title>New Tester Demo App</document_title>
     </menu>
     <menu id="2">
         <javascript>
             <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
-            <file eval="true">file_with_hash("apps/tester/app.js")</file>
+            <file eval="true">file_with_hash("apps/tester/app.old.js")</file>
         </javascript>
-        <document_title>Tester Demo App</document_title>
+        <document_title>Old Tester Demo App</document_title>
     </menu>
     <menu id="3">
         <temp eval="true">include_once("apps/tester/indexing.php")</temp>
