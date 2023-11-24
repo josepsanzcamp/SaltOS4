@@ -1578,7 +1578,7 @@ saltos.__form_field.table = field => {
                 iterator = val;
             }
             for (var key2 in iterator) {
-                var val2 = val[key2];
+                var val2 = saltos.toString(val[key2]);
                 var td = saltos.html('tr', `<td></td>`);
                 if (typeof val2 == 'object') {
                     if (val2.hasOwnProperty('type')) {
@@ -1597,7 +1597,8 @@ saltos.__form_field.table = field => {
                         var temp = saltos.html(`<i class="bi bi-${val2}"></i>`);
                         td.append(temp);
                     } else if (type == 'text') {
-                        td.append(val2);
+                        var temp = saltos.html(val2);
+                        td.append(temp);
                     } else {
                         var temp = `unknown type ${type}`;
                         td.append(temp);

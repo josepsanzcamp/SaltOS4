@@ -472,3 +472,28 @@ saltos.require = file => {
     // To prevent duplicates
     saltos.__require.push(file);
 };
+
+/**
+ * toString function
+ *
+ * This function tries to convert to string from any other formats as boolean,
+ * number, null, undefined or other type.
+ */
+saltos.toString = x => {
+    if (x === null) {
+        x = 'null';
+    }
+    if (typeof x == 'undefined') {
+        x = 'undefined';
+    }
+    if (typeof x == 'number') {
+        x = x.toString();
+    }
+    if (typeof x == 'boolean') {
+        x = x ? 'true' : 'false';
+    }
+    if (typeof x != 'string') {
+        console.log(`unknown typeof ${x}`);
+    }
+    return x;
+};
