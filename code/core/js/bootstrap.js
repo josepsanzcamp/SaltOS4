@@ -1519,10 +1519,14 @@ saltos.__form_field.table = field => {
             });
         }
         for (var key in field.header) {
-            var temp = field.header[key].label;
-            var th = saltos.html('tr', `<th>${temp}</th>`);
-            if (field.header[key].hasOwnProperty('align')) {
-                th.classList.add('text-' + field.header[key].align);
+            var val = field.header[key];
+            if (Array.isArray(field.header)) {
+                var th = saltos.html('tr', `<th>${val}</th>`);
+            } else {
+                var th = saltos.html('tr', `<th>${val.label}</th>`);
+            }
+            if (val.hasOwnProperty('align')) {
+                th.classList.add('text-' + val.align);
             }
             obj.querySelector('thead tr').append(th);
         }
@@ -1545,6 +1549,7 @@ saltos.__form_field.table = field => {
             });
         };
         for (var key in field.data) {
+            var val = field.data[key];
             var row = saltos.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
                 row.append(saltos.html('tr', `<td><input type="checkbox"/></td>`));
@@ -1570,13 +1575,10 @@ saltos.__form_field.table = field => {
             // This is to allow to use tables with data and without header
             var iterator = field.header;
             if (!Object.keys(iterator).length) {
-                iterator = field.data[key];
+                iterator = val;
             }
             for (var key2 in iterator) {
-                var val2 = field.data[key][key2];
-                if (val2 === null) {
-                    val2 = '';
-                }
+                var val2 = val[key2];
                 var td = saltos.html('tr', `<td></td>`);
                 if (typeof val2 == 'object') {
                     if (val2.hasOwnProperty('type')) {
@@ -1606,9 +1608,9 @@ saltos.__form_field.table = field => {
                 }
                 row.append(td);
             }
-            if (field.data[key].hasOwnProperty('actions')) {
+            if (val.hasOwnProperty('actions')) {
                 var td = saltos.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
-                var dropdown = field.data[key].actions.length > 1;
+                var dropdown = val.actions.length > 1;
                 if (dropdown) {
                     td.append(saltos.html(`
                         <div>
@@ -1623,8 +1625,8 @@ saltos.__form_field.table = field => {
                     td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', dropdown_close);
                 }
                 var first_action = true;
-                for (var key2 in field.data[key].actions) {
-                    var val2 = field.data[key].actions[key2];
+                for (var key2 in val.actions) {
+                    var val2 = val.actions[key2];
                     if (val2.url == '') {
                         val2.disabled = true;
                     } else {
@@ -1686,33 +1688,11 @@ saltos.__form_field.table = field => {
                 iterator = field.footer;
             }
             for (var key in iterator) {
-                var val = field.footer[key].value;
-                if (val === null) {
-                    val = '';
-                }
-                var td = saltos.html('tr', `<td></td>`);
-                if (typeof val == 'object') {
-                    if (val.hasOwnProperty('type')) {
-                        var temp = saltos.form_field(val);
-                        td.append(temp);
-                    } else {
-                        var temp = `object without type`;
-                        td.append(temp);
-                    }
+                var val = field.footer[key];
+                if (Array.isArray(field.footer)) {
+                    var td = saltos.html('tr', `<td>${val}</td>`);
                 } else {
-                    var type = 'text';
-                    if (iterator[key].hasOwnProperty('type')) {
-                        type = iterator[key].type;
-                    }
-                    if (type == 'icon') {
-                        var temp = saltos.html(`<i class="bi bi-${val}"></i>`);
-                        td.append(temp);
-                    } else if (type == 'text') {
-                        td.append(val);
-                    } else {
-                        var temp = `unknown type ${type}`;
-                        td.append(temp);
-                    }
+                    var td = saltos.html('tr', `<td>${val.value}</td>`);
                 }
                 if (iterator[key].hasOwnProperty('align')) {
                     td.classList.add('text-' + iterator[key].align);
