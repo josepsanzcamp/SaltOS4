@@ -52,7 +52,9 @@
             <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba
 
 Adios</textarea>
-            <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/><br/>Adios]]></ckeditor>
+            <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/>
+<br/>
+Adios]]></ckeditor>
             <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>
     <tag>valor</tag>
 </xml>]]></codemirror>
@@ -82,7 +84,7 @@ Adios</textarea>
             <pdfjs id="campo26" label="Campo 26 (pdfjs)" tooltip="Tooltip 26 (pdfjs)" value="apps/tester/files/test-josep-1.pdf"/>
             <iframe id="campo27" label="Campo 27 (iframe)" tooltip="Tooltip 27 (iframe)" value="apps/tester/files/philips-pm5544.svg" height="500px"/>
             <table id="campo28" label="Campo 28 (table)" tooltip="Tooltip 28 (table)">
-                <header eval="true">["Name","Surname","Phone"]</header>
+                <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
                 <data eval="true"><![CDATA[[["Josep","Sanz","<a href='#'>654 123 789</a>"],["Jordi","Company","654 123 789"],["Andres","Diaz","654 123 789"]]]]></data>
                 <footer eval="true">["","Total","3"]</footer>
             </table>

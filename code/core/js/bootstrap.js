@@ -1520,10 +1520,10 @@ saltos.__form_field.table = field => {
         }
         for (var key in field.header) {
             var val = field.header[key];
-            if (Array.isArray(field.header)) {
-                var th = saltos.html('tr', `<th>${val}</th>`);
-            } else {
+            if (typeof val == 'object' && val !== null) {
                 var th = saltos.html('tr', `<th>${val.label}</th>`);
+            } else {
+                var th = saltos.html('tr', `<th>${val}</th>`);
             }
             if (val.hasOwnProperty('align')) {
                 th.classList.add('text-' + val.align);
@@ -1597,9 +1597,11 @@ saltos.__form_field.table = field => {
                     if (type == 'icon') {
                         var temp = saltos.html(`<i class="bi bi-${val2}"></i>`);
                         td.append(temp);
-                    } else if (type == 'text') {
+                    } else if (type == 'html') {
                         var temp = saltos.html(val2);
                         td.append(temp);
+                    } else if (type == 'text') {
+                        td.append(val2);
                     } else {
                         var temp = `unknown type ${type}`;
                         td.append(temp);
@@ -1691,10 +1693,10 @@ saltos.__form_field.table = field => {
             }
             for (var key in iterator) {
                 var val = field.footer[key];
-                if (Array.isArray(field.footer)) {
-                    var td = saltos.html('tr', `<td>${val}</td>`);
-                } else {
+                if (typeof val == 'object' && val !== null) {
                     var td = saltos.html('tr', `<td>${val.value}</td>`);
+                } else {
+                    var td = saltos.html('tr', `<td>${val}</td>`);
                 }
                 if (iterator[key].hasOwnProperty('align')) {
                     td.classList.add('text-' + iterator[key].align);
