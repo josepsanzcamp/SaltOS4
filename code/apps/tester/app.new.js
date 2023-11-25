@@ -118,7 +118,7 @@ document.getElementById('campo11').addEventListener('click', () => {
         close: 'Cerrar',
         title: 'Hola mundo',
         subtitle: 'pues nada',
-        body: 'Pues eso, hola mundo',
+        body: 'Pues eso, hola mundo ' + new Date(),
     });
 });
 

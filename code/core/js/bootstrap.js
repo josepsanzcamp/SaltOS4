@@ -2561,13 +2561,13 @@ saltos.toast = args => {
     }
     // CHECK FOR REPETITIONS
     var hash = md5(JSON.stringify(args));
-    if (document.querySelector(`.toast[hash=${hash}]`)) {
+    if (document.querySelector(`.toast[hash=x${hash}]`)) {
         return false;
     }
     // CONTINUE
     var obj = saltos.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
-            aria-atomic="true" hash="${hash}">
+            aria-atomic="true" hash="x${hash}">
             <div class="toast-header">
                 <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
