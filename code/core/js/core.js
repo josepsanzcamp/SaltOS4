@@ -326,52 +326,6 @@ saltos.fix_key = arg => {
 };
 
 /**
- * Eval Bool
- *
- * This function returns a boolean depending on the input evaluation, the main idea
- * is to get an string, for example, and determine if must be considered true or false
- * otherwise returns the original argument and send a log message to the console.
- *
- * The valid inputs are the strings one, zero, void, true, false, on, off, yes and no
- *
- * @arg => the value that do you want to evaluates as boolean
- *
- * Notes:
- *
- * This function is the same feature that the same function proviced by the backend by the
- * core/php/autoload/xml2array.php file with more javascript details as type detection.
- */
-saltos.eval_bool = arg => {
-    if (typeof arg == 'boolean') {
-        return arg;
-    }
-    if (typeof arg == 'number') {
-        return arg ? true : false;
-    }
-    if (typeof arg == 'string') {
-        if (arg == '') {
-            return false;
-        }
-        var bools = {
-            '1': true,
-            '0': false,
-            'true': true,
-            'false': false,
-            'on': true,
-            'off': false,
-            'yes': true,
-            'no': false,
-        };
-        var bool = arg.toLowerCase();
-        if (bools.hasOwnProperty(bool)) {
-            return bools[bool];
-        }
-    }
-    console.log(`Unknown eval_bool(${arg})`);
-    return arg;
-};
-
-/**
  * Open window
  *
  * This function is intended to open new tabs in the window, at the moment only is a wrapper to
@@ -474,6 +428,58 @@ saltos.require = file => {
 };
 
 /**
+ * Eval Bool
+ *
+ * This function returns a boolean depending on the input evaluation, the main idea
+ * is to get an string, for example, and determine if must be considered true or false
+ * otherwise returns the original argument and send a log message to the console.
+ *
+ * The valid inputs are the strings one, zero, void, true, false, on, off, yes and no
+ *
+ * @arg => the value that do you want to evaluates as boolean
+ *
+ * Notes:
+ *
+ * This function is the same feature that the same function proviced by the backend by the
+ * core/php/autoload/xml2array.php file with more javascript details as type detection.
+ */
+saltos.eval_bool = arg => {
+    if (arg === null) {
+        return false;
+    }
+    if (typeof arg == 'undefined') {
+        return false;
+    }
+    if (typeof arg == 'boolean') {
+        return arg;
+    }
+    if (typeof arg == 'number') {
+        return arg ? true : false;
+    }
+    if (typeof arg == 'string') {
+        if (arg == '') {
+            return false;
+        }
+        var bools = {
+            '1': true,
+            '0': false,
+            'true': true,
+            'false': false,
+            'on': true,
+            'off': false,
+            'yes': true,
+            'no': false,
+        };
+        var bool = arg.toLowerCase();
+        if (bools.hasOwnProperty(bool)) {
+            return bools[bool];
+        }
+    }
+    console.log(`Unknown eval_bool(${arg})`);
+    return arg;
+};
+
+/**
  * toString function
  *
  * This function tries to convert to string from any other formats as boolean,
@@ -486,11 +492,11 @@ saltos.toString = x => {
     if (typeof x == 'undefined') {
         x = 'undefined';
     }
-    if (typeof x == 'number') {
-        x = x.toString();
-    }
     if (typeof x == 'boolean') {
         x = x ? 'true' : 'false';
+    }
+    if (typeof x == 'number') {
+        x = x.toString();
     }
     if (typeof x != 'string') {
         console.log(`unknown typeof ${x}`);
