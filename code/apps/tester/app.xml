@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <menu id="1">
+    <menu id="new">
         <javascript>
             <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
@@ -115,7 +115,8 @@ Adios]]></ckeditor>
         </javascript>
         <document_title>New Tester Demo App</document_title>
     </menu>
-    <menu id="2">
+
+    <menu id="old">
         <javascript>
             <inline>saltos.loading()</inline>
             <inline>saltos.clear_screen()</inline>
@@ -123,10 +124,12 @@ Adios]]></ckeditor>
         </javascript>
         <document_title>Old Tester Demo App</document_title>
     </menu>
-    <menu id="3">
+
+    <menu id="indexing">
         <temp eval="true">include_once("apps/tester/indexing.php")</temp>
     </menu>
-    <menu id="4">
+
+    <menu id="pepe">
         <temp eval="true">include_once("apps/tester/pepe.php")</temp>
     </menu>
 </root>

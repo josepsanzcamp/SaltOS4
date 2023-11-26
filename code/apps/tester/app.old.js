@@ -366,7 +366,7 @@
                 ['Jordi', 'Company', '654 123 789'],
                 ['Andres', 'Diaz', '654 123 789'],
             ];
-            var header = ['Name', 'Surname', 'Phone'];
+            var header = ['Name', 'Surname', {'label': 'Phone', 'type': 'html'}];
             var footer = ['', 'Total', '3'];
         }
         if (tipo == 'alert') {
