@@ -27,10 +27,11 @@
 
 <root>
     <menu id="new">
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>New Tester Demo App</title>
+        <navbar id="navbar" brand.name="SaltOS" brand.logo="core/img/logo_white.svg" brand.width="25" brand.height="25">
+
+        </navbar>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
             <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)">
                 <datalist eval="true">["Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez"]</datalist>
@@ -113,16 +114,14 @@ Adios]]></ckeditor>
         <javascript>
             <file eval="true">file_with_hash("apps/tester/app.new.js")</file>
         </javascript>
-        <document_title>New Tester Demo App</document_title>
     </menu>
 
     <menu id="old">
+        <screen>clear</screen>
+        <title>Old Tester Demo App</title>
         <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
             <file eval="true">file_with_hash("apps/tester/app.old.js")</file>
         </javascript>
-        <document_title>Old Tester Demo App</document_title>
     </menu>
 
     <menu id="indexing">

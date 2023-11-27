@@ -45,7 +45,7 @@ window.onhashchange = event => {
     // Reset the body interface
     saltos.modal('close');
     saltos.offcanvas('close');
-    saltos.loading(true);
+    saltos.form_app.screen('loading');
     // Do the request
     saltos.send_request(saltos.hash.get());
 };

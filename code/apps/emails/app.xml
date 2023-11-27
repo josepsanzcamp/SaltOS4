@@ -28,10 +28,8 @@
 <root>
     <!-- List part -->
     <list>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>Email's list</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
             <button ifeval="check_user('emails', 'create')" onclick="saltos.open_window('#app/emails/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo" icon="plus-lg"/>
             <div col_class="col p-0"/>
@@ -48,7 +46,6 @@
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
             <inline>saltos.emails.initialize()</inline>
         </javascript>
-        <document_title>Email's list</document_title>
     </list>
 
     <table checkbox="true" type="table" limit="50" order="datetime DESC">

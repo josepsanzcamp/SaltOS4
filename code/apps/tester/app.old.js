@@ -144,7 +144,7 @@
                             'yeti',
                             'zephyr'
                         ];
-                        //~ var current = document.querySelector('link[theme]').href;
+                        //var current = document.querySelector('link[theme]').href;
                         var current = 'core/lib/bootswatch/cosmo.min.css';
                         for (var key in menu) {
                             var val = menu[key];
@@ -208,16 +208,16 @@
                             },
                         }]
                     };
-
                 }()]
             }),
         ]
     }));
 
-    document.body.append(saltos.html(`<br/><br/><br/>`));
+    document.body.append(saltos.html(`<div class="pt-5 pb-2"></div>`));
 
     var container = saltos.form_field({
         type: 'container',
+        class: 'container-fluid mt-3',
     });
     var row = saltos.form_field({
         type: 'row',

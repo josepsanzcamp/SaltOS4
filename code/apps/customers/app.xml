@@ -28,10 +28,8 @@
 <root>
     <!-- List part -->
     <list>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>Customer's list</title>
         <layout auto="true" container_class="container mt-3" col_class="col-auto">
             <button ifeval="check_user('customers', 'create')" onclick="saltos.open_window('#app/customers/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
             <div col_class="col p-0"/>
@@ -48,7 +46,6 @@
             <inline>saltos.customers.initialize_search()</inline>
             <inline>saltos.customers.initialize_update_list()</inline>
         </javascript>
-        <document_title>Customer's list</document_title>
     </list>
 
     <table checkbox="true" type="table" limit="25" order="id DESC">
@@ -107,10 +104,8 @@
     <data eval="true">execute_query("SELECT * FROM app_customers WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
 
     <create>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>New customer</title>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
@@ -120,14 +115,11 @@
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
-        <document_title>New customer</document_title>
     </create>
 
     <view>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>Detail of the customer</title>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
@@ -142,14 +134,11 @@
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
             <inline>saltos.customers.initialize_update_view()</inline>
         </javascript>
-        <document_title>Detail of the customer</document_title>
     </view>
 
     <edit>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>Modify this customer</title>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
@@ -160,14 +149,11 @@
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
-        <document_title>Modify this customer</document_title>
     </edit>
 
     <delete>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>Delete this customer</title>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
         <layout auto="true" container_class="container" col_class="col-auto">
@@ -179,7 +165,6 @@
             <inline>saltos.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
-        <document_title>Delete this customer</document_title>
     </delete>
 
     <!-- Widget part -->

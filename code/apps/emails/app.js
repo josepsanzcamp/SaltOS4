@@ -60,7 +60,7 @@ saltos.emails.initialize = () => {
  */
 saltos.emails.search = () => {
     document.getElementById('page').value = '0';
-    saltos.loading(true);
+    saltos.form_app.screen('loading');
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
@@ -73,14 +73,14 @@ saltos.emails.search = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.loading();
+            saltos.form_app.screen('unloading');
             if (!saltos.check_response(response)) {
                 return;
             }
             document.querySelector('table').replaceWith(saltos.form_field(response));
         },
         error: request => {
-            saltos.loading();
+            saltos.form_app.screen('unloading');
             saltos.show_error({
                 text: request.statusText,
                 code: request.status,
@@ -110,7 +110,7 @@ saltos.emails.clear_filter = () => {
  */
 saltos.emails.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
-    saltos.loading(true);
+    saltos.form_app.screen('loading');
     saltos.ajax({
         url: 'index.php',
         data: JSON.stringify({
@@ -123,7 +123,7 @@ saltos.emails.read_more = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.loading();
+            saltos.form_app.screen('unloading');
             if (!saltos.check_response(response)) {
                 return;
             }
@@ -132,7 +132,7 @@ saltos.emails.read_more = () => {
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },
         error: request => {
-            saltos.loading();
+            saltos.form_app.screen('unloading');
             saltos.show_error({
                 text: request.statusText,
                 code: request.status,

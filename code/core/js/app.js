@@ -498,27 +498,36 @@ saltos.form_app.javascript = data => {
 };
 
 /**
- * Document title
+ * Form title helper
  *
- * This function sets the document title
+ * This function sets the document title, too it checks the existence of the x-powered-by
+ * header received in the ajax calls and stored in the saltos object to be used in the
+ * last part of the title.
  *
  * @title => The title that you want to set in the page
  */
-saltos.form_app.document_title = title => {
+saltos.form_app.title = title => {
+    if (!saltos.hasOwnProperty('x_powered_by')) {
+        document.title = title;
+        return;
+    }
     document.title = title + ' - ' + saltos.x_powered_by;
 };
 
 /**
- * Loading helper
+ * Form screen helper
  *
- * This function adds and removes the spinner to emulate the loading effect screen
+ * This function adds and removes the spinner to emulate the loading effect screen, too is able
+ * to clear the screen by removing all contents of the body
  *
- * @on_off => if you want to show or hide the loading spinner, the function returns
- * true when can do the action, false otherwise
+ * @action => use loading, unloading or clear to execute the desired action
  */
-saltos.loading = on_off => {
-    var obj = document.getElementById('loading');
-    if (on_off && !obj) {
+saltos.form_app.screen = action => {
+    if (action == 'loading') {
+        var obj = document.getElementById('loading');
+        if (obj) {
+            return false;
+        }
         obj = saltos.html(`
             <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 opacity-75">
                 <div class="spinner-border position-fixed top-50 start-50" role="status">
@@ -537,20 +546,19 @@ saltos.loading = on_off => {
         document.body.append(obj);
         return true;
     }
-    if (!on_off && obj) {
+    if (action == 'unloading') {
+        var obj = document.getElementById('loading');
+        if (!obj) {
+            return false;
+        }
         obj.remove();
         return true;
     }
+    if (action == 'clear') {
+        document.body.innerHTML = '';
+        return true;
+    }
     return false;
-};
-
-/**
- * Clear Screen
- *
- * This function remove all contents of the body
- */
-saltos.clear_screen = () => {
-    document.body.innerHTML = '';
 };
 
 /**

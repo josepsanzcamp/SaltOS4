@@ -27,9 +27,9 @@
 
 <root>
     <menu>
+        <screen>clear</screen>
+        <title>Dashboard</title>
         <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
             <file>core/lib/chartjs/chart.umd.min.js</file>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
@@ -50,6 +50,5 @@
             <file eval="true">file_with_hash("apps/dashboard/app.js")</file>
             <inline>saltos.dashboard.initialize()</inline>
         </javascript>
-        <document_title>Dashboard</document_title>
     </menu>
 </root>

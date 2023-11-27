@@ -27,10 +27,8 @@
 
 <root>
     <menu>
-        <javascript>
-            <inline>saltos.loading()</inline>
-            <inline>saltos.clear_screen()</inline>
-        </javascript>
+        <screen>clear</screen>
+        <title>Login form</title>
         <layout>
             <div class="vh-100 d-flex bg-body-secondary">
                 <layout auto="true" container_class="container m-auto bg-body rounded p-5" col_class="col mb-3" cols_per_row="1" container_style="max-width:400px">
@@ -47,6 +45,5 @@
             <file eval="true">file_with_hash("apps/login/app.js")</file>
             <inline>saltos.login.initialize()</inline>
         </javascript>
-        <document_title>Login form</document_title>
     </menu>
 </root>
