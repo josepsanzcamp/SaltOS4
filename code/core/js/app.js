@@ -223,7 +223,7 @@ saltos.form_app.__data_template_helper = (template_id, data, index) => {
     for (var key in data) {
         var val = data[key];
         delete data[key];
-        data[template_id + '#' + index + '#' + key] = val;
+        data[template_id + '.' + index + '.' + key] = val;
     }
     return data;
 };
@@ -243,7 +243,7 @@ saltos.form_app.__layout_template_helper = (template_id, index) => {
         var val = template.value[key];
         if (val['#attr'].hasOwnProperty('id')) {
             var id = val['#attr'].id;
-            val['#attr'].id = template_id + '#' + index + '#' + id;
+            val['#attr'].id = template_id + '.' + index + '.' + id;
         }
     }
     return template;
@@ -562,6 +562,18 @@ saltos.form_app.screen = action => {
 };
 
 /**
+ * Form navbar helper
+ *
+ * TODO
+ */
+saltos.form_app.navbar = navbar => {
+    console.log(navbar['#attr']);
+    navbar['#attr'] = saltos.parse_data(navbar['#attr']);
+    console.log(navbar['#attr']);
+
+};
+
+/**
  * Source helper
  *
  * This function is intended to provide an asynchronous sources for a field, using the source attribute,
@@ -659,41 +671,90 @@ saltos.get_data = full => {
         }
     }
     // This thick allow to add the id field of the template used
-    for (var key in saltos.__form_app.data) {
-        var id = key.split('#');
+    saltos.__form_app.data = saltos.__get_data_ids(saltos.__form_app.data);
+    // This trick allow to do more pretty the structure of some composed fields
+    saltos.__form_app.data = saltos.parse_data(saltos.__form_app.data);
+    return saltos.__form_app.data;
+};
+
+/**
+ * Get data ids helper
+ *
+ * This function allow to retrieve the needed ids in the fields used as template
+ *
+ * @data => the contents of the object with data
+ *
+ * Notes:
+ *
+ * The main idea of this function is to add the id fields if it is needed, for example
+ * if some field of the template is modified and their value contains a different value
+ * that void.
+ */
+saltos.__get_data_ids = data => {
+    for (var key in data) {
+        var id = key.split('.');
         if (id.length == 3 && id[2] != 'id') {
             id[2] = 'id';
-            id = id.join('#');
-            if (!saltos.__form_app.data.hasOwnProperty(id)) {
+            id = id.join('.');
+            if (!data.hasOwnProperty(id)) {
                 var obj = document.getElementById(id);
                 if (obj) {
                     var val = obj.value;
                     if (val != '') {
-                        saltos.__form_app.data[id] = val;
+                        data[id] = val;
                     }
                 }
             }
         }
     }
-    // This trick allow to do more pretty the structure of some composed fields
-    for (var key in saltos.__form_app.data) {
-        var id = key.split('#');
+    return data;
+};
+
+/**
+ * Parse data
+ *
+ * This function allow to join in an object the values that share the same prefix part of
+ * the key, for example, if you have an object with two ventries (a.a and a.b), then the
+ * resulted value will be an object a with two entries (a and b).
+ *
+ * @data => the contents of the object with data
+ *
+ * Notes:
+ *
+ * This function is used to allow the specification of multiples parameters, for example,
+ * in the navbar widget where the widget expects an object for the brand configuration, too
+ * is used by get_data to separate in a more pretty structure some fields as the details used
+ * in the invoices.
+ */
+saltos.parse_data = data => {
+    for (var key in data) {
+        var id = key.split('.');
+        if (id.length == 2) {
+            var id0 = id[0];
+            var id1 = id[1];
+            var val = data[key];
+            if (!data.hasOwnProperty(id0)) {
+                data[id0] = {};
+            }
+            data[id0][id1] = val;
+            delete data[key];
+        }
         if (id.length == 3) {
             var id0 = id[0];
             var id1 = id[1];
             var id2 = id[2];
-            var val = saltos.__form_app.data[key];
-            if (!saltos.__form_app.data.hasOwnProperty(id0)) {
-                saltos.__form_app.data[id0] = {};
+            var val = data[key];
+            if (!data.hasOwnProperty(id0)) {
+                data[id0] = {};
             }
-            if (!saltos.__form_app.data[id0].hasOwnProperty(id1)) {
-                saltos.__form_app.data[id0][id1] = {};
+            if (!data[id0].hasOwnProperty(id1)) {
+                data[id0][id1] = {};
             }
-            saltos.__form_app.data[id0][id1][id2] = val;
-            delete saltos.__form_app.data[key];
+            data[id0][id1][id2] = val;
+            delete data[key];
         }
     }
-    return saltos.__form_app.data;
+    return data;
 };
 
 /**

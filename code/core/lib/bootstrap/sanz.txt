@@ -4,3 +4,8 @@ wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.cs
 wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/bootstrap-icons.min.css
 wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/fonts/bootstrap-icons.woff
 wget https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.2/font/fonts/bootstrap-icons.woff2
+
+for i in bootstrap.bundle.min.js bootstrap.min.css; do
+    cat $i | grep -v sourceMappingURL > $i.new
+    mv $i.new $i
+done
