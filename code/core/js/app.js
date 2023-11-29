@@ -567,10 +567,14 @@ saltos.form_app.screen = action => {
  * TODO
  */
 saltos.form_app.navbar = navbar => {
-    console.log(navbar['#attr']);
-    navbar['#attr'] = saltos.parse_data(navbar['#attr']);
-    console.log(navbar['#attr']);
-
+    navbar = {
+        ...saltos.parse_data(navbar['#attr']),
+        ...navbar.value,
+    };
+    var obj = saltos.navbar(navbar);
+    document.body.append(obj);
+    var obj2 = saltos.html(`<div class="pt-5 pb-2"></div>`);
+    document.body.append(obj2);
 };
 
 /**
@@ -578,7 +582,7 @@ saltos.form_app.navbar = navbar => {
  *
  * This function is intended to provide an asynchronous sources for a field, using the source attribute,
  * you can program an asynchronous ajax request to retrieve the data used to create the field.
- * *
+ *
  * This function is used in the fields of type table, alert, card and chartjs, the call of this function
  * is private and is intended to be used as a helper from the builders of the previous types opening
  * another way to pass arguments.
