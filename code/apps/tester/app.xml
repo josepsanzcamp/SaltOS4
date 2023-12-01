@@ -44,6 +44,45 @@
                     </item>
                     <item name="Disabled" disabled="false" onclick="alert(6)"/>
                 </menu>
+                <menu class="navbar-nav mb-2 mb-lg-0">
+                    <item name="Themes" dropdown_menu_end="true">
+                        <menu>
+                            <item name="bootstrap" disabled="false" onclick="alert('bootstrap')"/>
+                            <item name="cerulean" disabled="false" onclick="alert('cerulean')"/>
+                            <item name="cosmo" disabled="false" onclick="alert('cosmo')"/>
+                            <item name="cyborg" disabled="false" onclick="alert('cyborg')"/>
+                            <item name="darkly" disabled="false" onclick="alert('darkly')"/>
+                            <item name="flatly" disabled="false" onclick="alert('flatly')"/>
+                            <item name="journal" disabled="false" onclick="alert('journal')"/>
+                            <item name="litera" disabled="false" onclick="alert('litera')"/>
+                            <item name="lumen" disabled="false" onclick="alert('lumen')"/>
+                            <item name="lux" disabled="false" onclick="alert('lux')"/>
+                            <item name="materia" disabled="false" onclick="alert('materia')"/>
+                            <item name="minty" disabled="false" onclick="alert('minty')"/>
+                            <item name="morph" disabled="false" onclick="alert('morph')"/>
+                            <item name="pulse" disabled="false" onclick="alert('pulse')"/>
+                            <item name="quartz" disabled="false" onclick="alert('quartz')"/>
+                            <item name="sandstone" disabled="false" onclick="alert('sandstone')"/>
+                            <item name="simplex" disabled="false" onclick="alert('simplex')"/>
+                            <item name="sketchy" disabled="false" onclick="alert('sketchy')"/>
+                            <item name="slate" disabled="false" onclick="alert('slate')"/>
+                            <item name="solar" disabled="false" onclick="alert('solar')"/>
+                            <item name="spacelab" disabled="false" onclick="alert('spacelab')"/>
+                            <item name="superhero" disabled="false" onclick="alert('superhero')"/>
+                            <item name="united" disabled="false" onclick="alert('united')"/>
+                            <item name="vapor" disabled="false" onclick="alert('vapor')"/>
+                            <item name="yeti" disabled="false" onclick="alert('yeti')"/>
+                            <item name="zephyr" disabled="false" onclick="alert('zephyr')"/>
+                        </menu>
+                    </item>
+
+                    <item icon="sun-fill" dropdown_menu_end="true">
+                        <menu>
+                            <item name="Light" icon="sun-fill" disabled="false" onclick="alert('light')"/>
+                            <item name="Dark" icon="moon-stars-fill" disabled="false" onclick="alert('dark')"/>
+                        </menu>
+                    </item>
+                </menu>
             </items>
         </navbar>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">

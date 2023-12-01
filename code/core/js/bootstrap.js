@@ -2227,6 +2227,7 @@ saltos.__label_combine = (field, old) => {
  * @menu  => an array with the follow elements:
  *
  * @name              => name of the menu
+ * @icon              => icon of the menu
  * @disabled          => this boolean allow to disable this menu entry
  * @active            => this boolean marks the option as active
  * @onclick           => the callback used when the user select the menu
@@ -2234,6 +2235,7 @@ saltos.__label_combine = (field, old) => {
  * @menu              => with this option, you can specify an array with the contents of the dropdown menu
  *
  * @name     => name of the menu
+ * @icon     => icon of the menu
  * @disabled => this boolean allow to disable this menu entry
  * @active   => this boolean marks the option as active
  * @onclick  => the callback used when the user select the menu
@@ -2245,7 +2247,7 @@ saltos.menu = args => {
     var obj = saltos.html(`<ul class="${args.class}"></ul>`);
     for (var key in args.menu) {
         var val = args.menu[key];
-        saltos.check_params(val, ['name', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
+        saltos.check_params(val, ['name', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
         saltos.check_params(val, ['menu'], []);
         if (saltos.eval_bool(val.disabled)) {
             val.disabled = 'disabled';
@@ -2267,9 +2269,15 @@ saltos.menu = args => {
                     </ul>
                 </li>
             `);
+            if (val.icon) {
+                temp.querySelector('button').prepend(saltos.html(`<i class="bi bi-${val.icon}"></i>`));
+            }
+            if (val.name && val.icon) {
+                temp.querySelector('i').classList.add('me-1');
+            }
             for (var key2 in val.menu) {
                 var val2 = val.menu[key2];
-                saltos.check_params(val2, ['name', 'disabled', 'active', 'onclick', 'divider']);
+                saltos.check_params(val2, ['name', 'icon', 'disabled', 'active', 'onclick', 'divider']);
                 if (saltos.eval_bool(val2.disabled)) {
                     val2.disabled = 'disabled';
                 }
@@ -2279,8 +2287,19 @@ saltos.menu = args => {
                 if (saltos.eval_bool(val2.divider)) {
                     var temp2 = saltos.html(`<li><hr class="dropdown-divider"></li>`);
                 } else {
-                    var temp2 = saltos.html(`<li><button
-                        class="dropdown-item ${val2.disabled} ${val2.active}">${val2.name}</button></li>`);
+                    var temp2 = saltos.html(`
+                        <li>
+                            <button class="dropdown-item ${val2.disabled} ${val2.active}">
+                                ${val2.name}
+                            </button>
+                        </li>`);
+                    if (val2.icon) {
+                        temp2.querySelector('button')
+                            .prepend(saltos.html(`<i class="bi bi-${val2.icon}"></i>`));
+                    }
+                    if (val2.name && val2.icon) {
+                        temp2.querySelector('i').classList.add('me-1');
+                    }
                     if (!saltos.eval_bool(val2.disabled)) {
                         saltos.addEventListener(temp2, 'click', val2.onclick);
                     }
@@ -2293,6 +2312,12 @@ saltos.menu = args => {
                     <button class="nav-link ${val.disabled} ${val.active}">${val.name}</button>
                 </li>
             `);
+            if (val.icon) {
+                temp.querySelector('button').prepend(saltos.html(`<i class="bi bi-${val.icon}"></i>`));
+            }
+            if (val.name && val.icon) {
+                temp.querySelector('i').classList.add('me-1');
+            }
             if (!saltos.eval_bool(val.disabled)) {
                 saltos.addEventListener(temp, 'click', val.onclick);
             }
