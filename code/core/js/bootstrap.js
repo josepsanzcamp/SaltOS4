@@ -2240,7 +2240,6 @@ saltos.__label_combine = (field, old) => {
  * @divider  => you can set this boolean to true to convert the element into a divider
  */
 saltos.menu = args => {
-    console.log(args);
     saltos.check_params(args, ['class']);
     saltos.check_params(args, ['menu'], []);
     var obj = saltos.html(`<ul class="${args.class}"></ul>`);

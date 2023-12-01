@@ -543,5 +543,5 @@ saltos.addEventListener = (obj, event, fn) => {
         obj.addEventListener(event, fn);
         return;
     }
-    console.log(`Unknown typeof ${fn}`)
+    console.log(`Unknown typeof ${fn}`);
 };

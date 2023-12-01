@@ -584,7 +584,7 @@ saltos.form_app.navbar = navbar => {
                         var val2 = val.value[key2];
                         if (typeof val2.value == 'string') {
                             menu.push(val2['#attr']);
-                        } else if(val2.value.hasOwnProperty('menu')) {
+                        } else if (val2.value.hasOwnProperty('menu')) {
                             var menu2 = [];
                             for (var key3 in val2.value.menu) {
                                 var val3 = val2.value.menu[key3];
