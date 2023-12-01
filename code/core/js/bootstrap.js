@@ -2294,8 +2294,8 @@ saltos.menu = args => {
                             </button>
                         </li>`);
                     if (val2.icon) {
-                        temp2.querySelector('button')
-                            .prepend(saltos.html(`<i class="bi bi-${val2.icon}"></i>`));
+                        temp2.querySelector('button').prepend(
+                            saltos.html(`<i class="bi bi-${val2.icon}"></i>`));
                     }
                     if (val2.name && val2.icon) {
                         temp2.querySelector('i').classList.add('me-1');

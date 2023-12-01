@@ -44,6 +44,10 @@
                     </item>
                     <item name="Disabled" disabled="false" onclick="alert(6)"/>
                 </menu>
+                <form class="d-flex">
+                    <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search"/>
+                    <button onclick="saltos.customers.search()" class="btn btn-light mx-1 text-nowrap" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
+                </form>
                 <menu class="navbar-nav mb-2 mb-lg-0">
                     <item name="Themes" dropdown_menu_end="true">
                         <menu>
@@ -75,7 +79,6 @@
                             <item name="zephyr" disabled="false" onclick="alert('zephyr')"/>
                         </menu>
                     </item>
-
                     <item icon="sun-fill" dropdown_menu_end="true">
                         <menu>
                             <item name="Light" icon="sun-fill" disabled="false" onclick="alert('light')"/>

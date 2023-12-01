@@ -580,27 +580,43 @@ saltos.form_app.navbar = navbar => {
                     if (val['#attr'].hasOwnProperty('class')) {
                         _class = val['#attr'].class;
                     }
-                    for (var key2 in val.value) {
-                        var val2 = val.value[key2];
-                        if (typeof val2.value == 'string') {
-                            menu.push(val2['#attr']);
-                        } else if (val2.value.hasOwnProperty('menu')) {
-                            var menu2 = [];
-                            for (var key3 in val2.value.menu) {
-                                var val3 = val2.value.menu[key3];
-                                menu2.push(val3['#attr']);
-                            }
-                            menu.push({
-                                ...val2['#attr'],
-                                menu: menu2,
-                            });
+                    val = val.value;
+                }
+                for (var key2 in val) {
+                    var val2 = val[key2];
+                    if (typeof val2.value == 'string') {
+                        menu.push(val2['#attr']);
+                    } else if (val2.value.hasOwnProperty('menu')) {
+                        var menu2 = [];
+                        for (var key3 in val2.value.menu) {
+                            var val3 = val2.value.menu[key3];
+                            menu2.push(val3['#attr']);
                         }
+                        menu.push({
+                            ...val2['#attr'],
+                            menu: menu2,
+                        });
                     }
                 }
                 navbar.items[key] = saltos.menu({
                     class: _class,
                     menu: menu,
                 });
+            } else if (saltos.fix_key(key) == 'form') {
+                var _class = '';
+                if (saltos.is_attr_value(val)) {
+                    if (val['#attr'].hasOwnProperty('class')) {
+                        _class = val['#attr'].class;
+                    }
+                    val = val.value;
+                }
+                var obj = saltos.html(`<form class='${_class}' onsubmit='return false'></form>`);
+                for (var key2 in val) {
+                    var val2 = val[key2];
+                    val2['#attr'].type = saltos.fix_key(key2);
+                    obj.append(saltos.form_field(val2['#attr']));
+                }
+                navbar.items[key] = obj;
             }
         }
     }
