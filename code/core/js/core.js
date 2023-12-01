@@ -475,7 +475,7 @@ saltos.eval_bool = arg => {
             return bools[bool];
         }
     }
-    console.log(`Unknown eval_bool(${arg})`);
+    console.log(`Unknown typeof ${arg}`);
     return arg;
 };
 
@@ -485,21 +485,63 @@ saltos.eval_bool = arg => {
  * This function tries to convert to string from any other formats as boolean,
  * number, null, undefined or other type.
  */
-saltos.toString = x => {
-    if (x === null) {
-        x = 'null';
+saltos.toString = arg => {
+    if (arg === null) {
+        return 'null';
     }
-    if (typeof x == 'undefined') {
-        x = 'undefined';
+    if (typeof arg == 'undefined') {
+        return 'undefined';
     }
-    if (typeof x == 'boolean') {
-        x = x ? 'true' : 'false';
+    if (typeof arg == 'boolean') {
+        return arg ? 'true' : 'false';
     }
-    if (typeof x == 'number') {
-        x = x.toString();
+    if (typeof arg == 'number') {
+        return arg.toString();
     }
-    if (typeof x != 'string') {
-        console.log(`unknown typeof ${x}`);
+    if (typeof arg == 'string') {
+        return arg;
     }
-    return x;
+    console.log(`Unknown typeof ${arg}`);
+    return arg;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.is_attr_value = data => {
+    return typeof data == 'object' && data.hasOwnProperty('#attr') && data.hasOwnProperty('value');
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.join_attr_value = data => {
+    if (saltos.is_attr_value(data)) {
+        data = {
+            ...data['#attr'],
+            ...data.value,
+        };
+    }
+    return data;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.addEventListener = (obj, event, fn) => {
+    if (typeof fn == 'string') {
+        obj.addEventListener(event, new Function(fn));
+        return;
+    }
+    if (typeof fn == 'function') {
+        obj.addEventListener(event, fn);
+        return;
+    }
+    console.log(`Unknown typeof ${fn}`)
 };

@@ -875,12 +875,7 @@ saltos.__form_field.button = field => {
     if (field.tooltip != '') {
         saltos.__tooltip_helper(obj);
     }
-    if (typeof field.onclick == 'string') {
-        obj.addEventListener('click', new Function(field.onclick));
-    }
-    if (typeof field.onclick == 'function') {
-        obj.addEventListener('click', field.onclick);
-    }
+    saltos.addEventListener(obj, 'click', field.onclick);
     if (field.label == '') {
         return obj;
     }
@@ -2245,6 +2240,7 @@ saltos.__label_combine = (field, old) => {
  * @divider  => you can set this boolean to true to convert the element into a divider
  */
 saltos.menu = args => {
+    console.log(args);
     saltos.check_params(args, ['class']);
     saltos.check_params(args, ['menu'], []);
     var obj = saltos.html(`<ul class="${args.class}"></ul>`);
@@ -2252,14 +2248,14 @@ saltos.menu = args => {
         var val = args.menu[key];
         saltos.check_params(val, ['name', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
         saltos.check_params(val, ['menu'], []);
-        if (val.disabled) {
+        if (saltos.eval_bool(val.disabled)) {
             val.disabled = 'disabled';
         }
-        if (val.active) {
+        if (saltos.eval_bool(val.active)) {
             val.active = 'active';
         }
         if (val.menu.length) {
-            if (val.dropdown_menu_end) {
+            if (saltos.eval_bool(val.dropdown_menu_end)) {
                 val.dropdown_menu_end = 'dropdown-menu-end';
             }
             var temp = saltos.html(`
@@ -2275,19 +2271,19 @@ saltos.menu = args => {
             for (var key2 in val.menu) {
                 var val2 = val.menu[key2];
                 saltos.check_params(val2, ['name', 'disabled', 'active', 'onclick', 'divider']);
-                if (val2.disabled) {
+                if (saltos.eval_bool(val2.disabled)) {
                     val2.disabled = 'disabled';
                 }
-                if (val2.active) {
+                if (saltos.eval_bool(val2.active)) {
                     val2.active = 'active';
                 }
-                if (val2.divider) {
+                if (saltos.eval_bool(val2.divider)) {
                     var temp2 = saltos.html(`<li><hr class="dropdown-divider"></li>`);
                 } else {
                     var temp2 = saltos.html(`<li><button
                         class="dropdown-item ${val2.disabled} ${val2.active}">${val2.name}</button></li>`);
-                    if (!val2.disabled) {
-                        temp2.addEventListener('click', val2.onclick);
+                    if (!saltos.eval_bool(val2.disabled)) {
+                        saltos.addEventListener(temp2, 'click', val2.onclick);
                     }
                 }
                 temp.querySelector('ul').append(temp2);
@@ -2298,8 +2294,8 @@ saltos.menu = args => {
                     <button class="nav-link ${val.disabled} ${val.active}">${val.name}</button>
                 </li>
             `);
-            if (!val.disabled) {
-                temp.addEventListener('click', val.onclick);
+            if (!saltos.eval_bool(val.disabled)) {
+                saltos.addEventListener(temp, 'click', val.onclick);
             }
         }
         obj.append(temp);
@@ -2313,6 +2309,7 @@ saltos.menu = args => {
  * This component creates a navbar intended to be used as header
  *
  * @id    => the id used by the object
+ * @space => boolean to indicate if you want to add the space div
  * @brand => contains an object with the name, logo, width and height to be used
  *
  * @name   => text used in the brand
@@ -2323,7 +2320,7 @@ saltos.menu = args => {
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.navbar = args => {
-    saltos.check_params(args, ['id']);
+    saltos.check_params(args, ['id','space']);
     saltos.check_params(args, ['brand'], {});
     saltos.check_params(args.brand, ['name', 'logo', 'width', 'height']);
     saltos.check_params(args, ['items'], []);
@@ -2348,6 +2345,12 @@ saltos.navbar = args => {
     for (var key in args.items) {
         var val = args.items[key];
         obj.querySelector('.collapse').append(val);
+    }
+    if (saltos.eval_bool(args.space)) {
+        var obj2 = saltos.html(`<div></div>`);
+        obj2.append(obj);
+        obj2.append(saltos.html(`<div class="pt-5 pb-2"></div>`));
+        return obj2;
     }
     return obj;
 };
@@ -2402,7 +2405,7 @@ saltos.modal = args => {
     // NORMAL OPERATION
     saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static']);
     var temp = '';
-    if (args.static) {
+    if (saltos.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     //if (args.class == '') {
@@ -2494,7 +2497,7 @@ saltos.offcanvas = args => {
     // NORMAL OPERATION
     saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static']);
     var temp = '';
-    if (args.static) {
+    if (saltos.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     var obj = saltos.html(`

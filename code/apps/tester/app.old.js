@@ -41,6 +41,7 @@
 
     document.body.append(saltos.navbar({
         id: saltos.uniqid(),
+        space: true,
         brand: {
             name: 'SaltOS',
             logo: 'core/img/logo_white.svg',
@@ -213,7 +214,7 @@
         ]
     }));
 
-    document.body.append(saltos.html(`<div class="pt-5 pb-2"></div>`));
+    //~ document.body.append(saltos.html(`<div class="pt-5 pb-2"></div>`));
 
     var container = saltos.form_field({
         type: 'container',

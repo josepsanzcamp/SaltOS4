@@ -285,7 +285,7 @@ saltos.form_app.layout = (layout, extra) => {
         key = saltos.fix_key(key);
         var attr = {};
         var value = val;
-        if (typeof val == 'object' && val.hasOwnProperty('value') && val.hasOwnProperty('#attr')) {
+        if (saltos.is_attr_value(val)) {
             attr = val['#attr'];
             value = val.value;
         }
@@ -567,14 +567,45 @@ saltos.form_app.screen = action => {
  * TODO
  */
 saltos.form_app.navbar = navbar => {
-    navbar = {
-        ...saltos.parse_data(navbar['#attr']),
-        ...navbar.value,
-    };
+    navbar['#attr'] = saltos.parse_data(navbar['#attr']);
+    navbar = saltos.join_attr_value(navbar);
+    if (navbar.hasOwnProperty('items')) {
+        var items = [];
+        for (var key in navbar.items) {
+            var val = navbar.items[key];
+            if (saltos.fix_key(key) == 'menu') {
+                var _class = '';
+                var menu = [];
+                if (saltos.is_attr_value(val)) {
+                    if (val['#attr'].hasOwnProperty('class')) {
+                        _class = val['#attr'].class;
+                    }
+                    for (var key2 in val.value) {
+                        var val2 = val.value[key2];
+                        if (typeof val2.value == 'string') {
+                            menu.push(val2['#attr']);
+                        } else if(val2.value.hasOwnProperty('menu')) {
+                            var menu2 = [];
+                            for (var key3 in val2.value.menu) {
+                                var val3 = val2.value.menu[key3];
+                                menu2.push(val3['#attr']);
+                            }
+                            menu.push({
+                                ...val2['#attr'],
+                                menu: menu2,
+                            });
+                        }
+                    }
+                }
+                navbar.items[key] = saltos.menu({
+                    class: _class,
+                    menu: menu,
+                });
+            }
+        }
+    }
     var obj = saltos.navbar(navbar);
     document.body.append(obj);
-    var obj2 = saltos.html(`<div class="pt-5 pb-2"></div>`);
-    document.body.append(obj2);
 };
 
 /**
@@ -675,7 +706,7 @@ saltos.get_data = full => {
         }
     }
     // This thick allow to add the id field of the template used
-    saltos.__form_app.data = saltos.__get_data_ids(saltos.__form_app.data);
+    saltos.__form_app.data = saltos.__get_data_ids_helper(saltos.__form_app.data);
     // This trick allow to do more pretty the structure of some composed fields
     saltos.__form_app.data = saltos.parse_data(saltos.__form_app.data);
     return saltos.__form_app.data;
@@ -694,7 +725,7 @@ saltos.get_data = full => {
  * if some field of the template is modified and their value contains a different value
  * that void.
  */
-saltos.__get_data_ids = data => {
+saltos.__get_data_ids_helper = data => {
     for (var key in data) {
         var id = key.split('.');
         if (id.length == 3 && id[2] != 'id') {
