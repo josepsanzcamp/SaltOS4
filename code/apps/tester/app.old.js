@@ -145,24 +145,23 @@
                             'yeti',
                             'zephyr'
                         ];
-                        //var current = document.querySelector('link[theme]').href;
-                        var current = 'core/lib/bootswatch/cosmo.min.css';
+                        var current = document.querySelector('link[rel=stylesheet]').href;
                         for (var key in menu) {
                             var val = menu[key];
                             menu[key] = {
                                 name: val,
                                 active: current.includes(val),
                                 onclick: function() {
-                                    var theme = this.textContent;
+                                    var theme = this.textContent.trim();
                                     if (theme == 'bootstrap') {
-                                        document.querySelector('link[theme]').removeAttribute('integrity');
-                                        document.querySelector('link[theme]').setAttribute(
+                                        document.querySelector('link[rel=stylesheet]').removeAttribute('integrity');
+                                        document.querySelector('link[rel=stylesheet]').setAttribute(
                                             'href',
                                             'core/lib/bootstrap/bootstrap.min.css'
                                         );
                                     } else {
-                                        document.querySelector('link[theme]').removeAttribute('integrity');
-                                        document.querySelector('link[theme]').setAttribute(
+                                        document.querySelector('link[rel=stylesheet]').removeAttribute('integrity');
+                                        document.querySelector('link[rel=stylesheet]').setAttribute(
                                             'href',
                                             'core/lib/bootswatch/' + theme + '.min.css'
                                         );
@@ -213,8 +212,6 @@
             }),
         ]
     }));
-
-    //~ document.body.append(saltos.html(`<div class="pt-5 pb-2"></div>`));
 
     var container = saltos.form_field({
         type: 'container',
