@@ -153,18 +153,12 @@
                                 active: current.includes(val),
                                 onclick: function() {
                                     var theme = this.textContent.trim();
+                                    var obj = document.querySelector('link[rel=stylesheet]');
+                                    obj.removeAttribute('integrity');
                                     if (theme == 'bootstrap') {
-                                        document.querySelector('link[rel=stylesheet]').removeAttribute('integrity');
-                                        document.querySelector('link[rel=stylesheet]').setAttribute(
-                                            'href',
-                                            'core/lib/bootstrap/bootstrap.min.css'
-                                        );
+                                        obj.setAttribute('href', 'core/lib/bootstrap/bootstrap.min.css');
                                     } else {
-                                        document.querySelector('link[rel=stylesheet]').removeAttribute('integrity');
-                                        document.querySelector('link[rel=stylesheet]').setAttribute(
-                                            'href',
-                                            'core/lib/bootswatch/' + theme + '.min.css'
-                                        );
+                                        obj.setAttribute('href', 'core/lib/bootswatch/' + theme + '.min.css');
                                     }
                                     this.parentNode.querySelector('button.active').classList.remove('active');
                                     this.querySelector('button').classList.add('active');
