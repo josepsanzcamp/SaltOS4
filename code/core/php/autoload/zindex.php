@@ -131,7 +131,7 @@ if (get_data("server/request_method") == "GET" && count(get_data("rest")) == 0) 
     output_handler([
         "data" => file_get_contents("core/htm/index.min.htm"),
         "type" => "text/html",
-        "cache" => false,
+        "cache" => true,
     ]);
 }
 
