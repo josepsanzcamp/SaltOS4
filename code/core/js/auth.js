@@ -64,7 +64,7 @@ saltos.hash = {};
  */
 saltos.hash.get = () => {
     var hash = document.location.hash;
-    if (hash.substr(0, 1) == '#') {
+    if (hash.length && hash.substr(0, 1) == '#') {
         hash = hash.substr(1);
     }
     return hash;
@@ -77,12 +77,17 @@ saltos.hash.get = () => {
  * in the hash argument
  *
  * @hash => this must contain the hash with or without the pillow
+ *
+ * Notes:
+ *
+ * The # char is added by default if it is not found in the hash, additionally the dot is
+ * added to force to remove all chars before the # char in the document.location
  */
 saltos.hash.set = hash => {
-    if (hash.substr(0, 1) != '#') {
+    if (hash.length && hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
-    history.replaceState(null, null, hash);
+    history.replaceState(null, null, '.' + hash);
 };
 
 /**
@@ -92,12 +97,17 @@ saltos.hash.set = hash => {
  * in the hash argument
  *
  * @hash => this must contain the hash with or without the pillow
+ *
+ * Notes:
+ *
+ * The # char is added by default if it is not found in the hash, additionally the dot is
+ * added to force to remove all chars before the # char in the document.location
  */
 saltos.hash.add = hash => {
-    if (hash.substr(0, 1) != '#') {
+    if (hash.length && hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
-    history.pushState(null, null, hash);
+    history.pushState(null, null, '.' + hash);
 };
 
 /**
