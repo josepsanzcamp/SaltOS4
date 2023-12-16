@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  +-----------------------------------------------------------------------+
  | This file is part of the Roundcube Webmail client                     |
  |                                                                       |
@@ -143,9 +143,10 @@ class rcube_html2text
      */
     protected $search = [
         '/\r/',                                  // Non-legal carriage return
-        '/<head[^>]*>.*?<\/head>/is',            // <head>
-        '/<script[^>]*>.*?<\/script>/is',        // <script>
-        '/<style[^>]*>.*?<\/style>/is',          // <style>
+        '/\n*<\/?html>\n*/is',                   // <html>
+        '/\n*<head[^>]*>.*?<\/head>\n*/is',      // <head>
+        '/\n*<script[^>]*>.*?<\/script>\n*/is',  // <script>
+        '/\n*<style[^>]*>.*?<\/style>\n*/is',    // <style>
         '/[\n\t]+/',                             // Newlines and tabs
         '/<p[^>]*>/i',                           // <p>
         '/<\/p>[\s\n\t]*<div[^>]*>/i',           // </p> before <div>
@@ -172,6 +173,7 @@ class rcube_html2text
      */
     protected $replace = [
         '',                                     // Non-legal carriage return
+        '',                                     // <html>|</html>
         '',                                     // <head>
         '',                                     // <script>
         '',                                     // <style>
@@ -415,7 +417,7 @@ class rcube_html2text
      */
     function print_text()
     {
-        print $this->get_text();
+        echo $this->get_text();
     }
 
     /**
@@ -502,6 +504,7 @@ class rcube_html2text
         if (($pos = stripos($text, '<body')) !== false) {
             $pos = strpos($text, '>', $pos);
             $text = substr($text, $pos + 1);
+            $text = ltrim($text);
         }
 
         // Run our defined tags search-and-replace
@@ -701,7 +704,9 @@ class rcube_html2text
 
                     // adjust text wrapping width
                     $p_width = $this->width;
-                    if ($this->width > 0) $this->width -= 2;
+                    if ($this->width > 0) {
+                        $this->width -= 2;
+                    }
 
                     // replace content with inner blockquotes
                     $this->_converter($body);
@@ -748,14 +753,14 @@ class rcube_html2text
     public function tags_preg_callback($matches)
     {
         switch (strtolower($matches[1])) {
-        case 'th':
-            return $this->_toupper("\t\t". $matches[3] ."\n");
-        case 'h':
-            return $this->_toupper("\n\n". $matches[3] ."\n\n");
-        case 'a':
-            // Remove spaces in URL (#1487805)
-            $url = str_replace(' ', '', $matches[3]);
-            return $this->_handle_link($url, $matches[4]);
+            case 'th':
+                return $this->_toupper("\t\t". $matches[3] ."\n");
+            case 'h':
+                return $this->_toupper("\n\n". $matches[3] ."\n\n");
+            case 'a':
+                // Remove spaces in URL (#1487805)
+                $url = str_replace(' ', '', $matches[3]);
+                return $this->_handle_link($url, $matches[4]);
         }
     }
 
