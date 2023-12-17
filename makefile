@@ -38,3 +38,7 @@ timestamp0:
 
 docs:
 	php scripts/makedocs.php docs/document.t2t code/core/php code/core/js code/apps/*/app.js
+
+clean:
+	rm -f code/core/js/index.min.js
+	rm -f code/core/htm/index.min.htm
