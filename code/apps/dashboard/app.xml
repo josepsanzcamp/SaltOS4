@@ -36,8 +36,8 @@
             <button ifeval="check_user('customers', 'menu')" onclick="saltos.open_window('#app/customers/list')" class="btn btn-primary fs-1 w-100 h-100" value="Customers"/>
             <button ifeval="check_user('invoices', 'menu')" onclick="saltos.open_window('#app/invoices/list')" class="btn btn-primary fs-1 w-100 h-100" value="Invoices"/>
             <button ifeval="check_user('emails', 'menu')" onclick="saltos.open_window('#app/emails/list')" class="btn btn-success fs-1 w-100 h-100" value="Email"/>
-            <button ifeval="check_user('tester', 'menu')" onclick="saltos.open_window('#app/tester/menu/new')" class="btn btn-danger fs-1 w-100 h-100" value="New tester"/>
-            <button ifeval="check_user('tester', 'menu')" onclick="saltos.open_window('#app/tester/menu/old')" class="btn btn-danger fs-1 w-100 h-100" value="Old tester"/>
+            <button ifeval="current_user()" onclick="saltos.open_window('#app/tester/menu/new')" class="btn btn-danger fs-1 w-100 h-100" value="New tester"/>
+            <button ifeval="current_user()" onclick="saltos.open_window('#app/tester/menu/old')" class="btn btn-danger fs-1 w-100 h-100" value="Old tester"/>
         </layout>
         <layout auto="true" container_class="container" col_class="col-md-4 mb-3">
             <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"></table>

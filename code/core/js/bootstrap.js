@@ -34,6 +34,13 @@
  */
 
 /**
+ * Bootstrap helper object
+ *
+ * This object stores all bootstrap functions and data
+ */
+saltos.bootstrap = {};
+
+/**
  * Form fields constructor
  *
  * This function and their helpers, allow the creation of the interface using the bootstrap

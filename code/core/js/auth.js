@@ -37,20 +37,6 @@
  */
 
 /**
- * Hash change management
- *
- * This function allow to SaltOS to update the contents when hash change
- */
-window.onhashchange = event => {
-    // Reset the body interface
-    saltos.modal('close');
-    saltos.offcanvas('close');
-    saltos.form_app.screen('loading');
-    // Do the request
-    saltos.send_request(saltos.hash.get());
-};
-
-/**
  * Hash helper object
  *
  * This object stores all hash functions to get, set and trigger a change
@@ -117,6 +103,20 @@ saltos.hash.add = hash => {
  */
 saltos.hash.trigger = () => {
     window.dispatchEvent(new HashChangeEvent('hashchange'));
+};
+
+/**
+ * Hash change management
+ *
+ * This function allow to SaltOS to update the contents when hash change
+ */
+window.onhashchange = event => {
+    // Reset the body interface
+    saltos.modal('close');
+    saltos.offcanvas('close');
+    saltos.form_app.screen('loading');
+    // Do the request
+    saltos.send_request(saltos.hash.get());
 };
 
 /**
