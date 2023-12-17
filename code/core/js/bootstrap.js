@@ -93,20 +93,20 @@ saltos.bootstrap = {};
  * @RQ => required
  * @AF => autofocus
  *
- * The saltos.__form_field object is part of this constructor and act with the constructor
+ * The saltos.bootstrap.__field object is part of this constructor and act with the constructor
  * as a helper, the idea is that the user must to call the constructor and the helpers are
  * only for internal use.
  */
-saltos.form_field = field => {
+saltos.bootstrap.field = field => {
     saltos.check_params(field, ['id', 'type']);
     if (field.id == '') {
         field.id = saltos.uniqid();
     }
-    if (typeof saltos.__form_field[field.type] != 'function') {
+    if (typeof saltos.bootstrap.__field[field.type] != 'function') {
         console.log('type ' + field.type + ' not found');
         return saltos.html('type ' + field.type + ' not found');
     }
-    return saltos.__form_field[field.type](field);
+    return saltos.bootstrap.__field[field.type](field);
 };
 
 /**
@@ -114,7 +114,7 @@ saltos.form_field = field => {
  *
  * This object allow to the constructor to use a rational structure for a quick access of each helper
  */
-saltos.__form_field = {};
+saltos.bootstrap.__field = {};
 
 /**
  * Div constructor helper
@@ -126,7 +126,7 @@ saltos.__form_field = {};
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
-saltos.__form_field.div = field => {
+saltos.bootstrap.__field.div = field => {
     saltos.check_params(field, ['class', 'id', 'style']);
     var obj = saltos.html(`<div class="${field.class}" id="${field.id}" style="${field.style}"></div>`);
     return obj;
@@ -142,12 +142,12 @@ saltos.__form_field.div = field => {
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
-saltos.__form_field.container = field => {
+saltos.bootstrap.__field.container = field => {
     saltos.check_params(field, ['class']);
     if (field.class == '') {
         field.class = 'container-fluid';
     }
-    var obj = saltos.__form_field.div(field);
+    var obj = saltos.bootstrap.__field.div(field);
     return obj;
 };
 
@@ -161,12 +161,12 @@ saltos.__form_field.container = field => {
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
-saltos.__form_field.row = field => {
+saltos.bootstrap.__field.row = field => {
     saltos.check_params(field, ['class']);
     if (field.class == '') {
         field.class = 'row';
     }
-    var obj = saltos.__form_field.div(field);
+    var obj = saltos.bootstrap.__field.div(field);
     return obj;
 };
 
@@ -180,12 +180,12 @@ saltos.__form_field.row = field => {
  * @class => the class used in the div object
  * @style => the style used in the div object
  */
-saltos.__form_field.col = field => {
+saltos.bootstrap.__field.col = field => {
     saltos.check_params(field, ['class']);
     if (field.class == '') {
         field.class = 'col';
     }
-    var obj = saltos.__form_field.div(field);
+    var obj = saltos.bootstrap.__field.div(field);
     return obj;
 };
 
@@ -208,12 +208,12 @@ saltos.__form_field.col = field => {
  * @label       => this parameter is used as text for the label
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
  */
-saltos.__form_field.text = field => {
+saltos.bootstrap.__field.text = field => {
     saltos.check_params(field, ['datalist'], []);
     field.type = 'text';
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__label_helper(field));
-    obj.append(saltos.__text_helper(field));
+    obj.append(saltos.bootstrap.__label_helper(field));
+    obj.append(saltos.bootstrap.__text_helper(field));
     if (field.datalist.length) {
         obj.querySelector('input').setAttribute('list', field.id + '_datalist');
         obj.append(saltos.html(`<datalist id="${field.id}_datalist"></datalist>`));
@@ -249,9 +249,9 @@ saltos.__form_field.text = field => {
  * and value are usually used, in some cases can be interesting to use the
  * class to identify a group of hidden input
  */
-saltos.__form_field.hidden = field => {
+saltos.bootstrap.__field.hidden = field => {
     field.type = 'hidden';
-    var obj = saltos.__text_helper(field);
+    var obj = saltos.bootstrap.__text_helper(field);
     return obj;
 };
 
@@ -280,10 +280,10 @@ saltos.__form_field.hidden = field => {
  *
  * @core/lib/imaskjs/imask.min.js
  */
-saltos.__form_field.integer = field => {
+saltos.bootstrap.__field.integer = field => {
     saltos.require('core/lib/imaskjs/imask.min.js');
     field.type = 'text';
-    var obj = saltos.__text_helper(field);
+    var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
     var element = obj;
     saltos.when_visible(element, () => {
@@ -292,7 +292,7 @@ saltos.__form_field.integer = field => {
             scale: 0,
         });
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -321,10 +321,10 @@ saltos.__form_field.integer = field => {
  *
  * @core/lib/imaskjs/imask.min.js
  */
-saltos.__form_field.float = field => {
+saltos.bootstrap.__field.float = field => {
     saltos.require('core/lib/imaskjs/imask.min.js');
     field.type = 'text';
-    var obj = saltos.__text_helper(field);
+    var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
     var element = obj;
     saltos.when_visible(element, () => {
@@ -335,7 +335,7 @@ saltos.__form_field.float = field => {
             scale: 99,
         });
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -362,15 +362,15 @@ saltos.__form_field.float = field => {
  * Ths color input launch a warning if value is not in the format #rrggbb,
  * for this reason it is set to #000000 if value is void
  */
-saltos.__form_field.color = field => {
+saltos.bootstrap.__field.color = field => {
     saltos.check_params(field, ['value']);
     if (field.value == '') {
         field.value = '#000000';
     }
     field.type = 'color';
     field.class = 'form-control-color';
-    var obj = saltos.__text_helper(field);
-    obj = saltos.__label_combine(field, obj);
+    var obj = saltos.bootstrap.__text_helper(field);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -392,10 +392,10 @@ saltos.__form_field.color = field => {
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  */
-saltos.__form_field.date = field => {
+saltos.bootstrap.__field.date = field => {
     field.type = 'date';
-    var obj = saltos.__text_helper(field);
-    obj = saltos.__label_combine(field, obj);
+    var obj = saltos.bootstrap.__text_helper(field);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -417,11 +417,11 @@ saltos.__form_field.date = field => {
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  */
-saltos.__form_field.time = field => {
+saltos.bootstrap.__field.time = field => {
     field.type = 'time';
-    var obj = saltos.__text_helper(field);
+    var obj = saltos.bootstrap.__text_helper(field);
     obj.step = 1; // this enable the seconds
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -443,12 +443,12 @@ saltos.__form_field.time = field => {
  * @tooltip     => this parameter raise the title flag
  * @label       => this parameter is used as text for the label
  */
-saltos.__form_field.datetime = field => {
+saltos.bootstrap.__field.datetime = field => {
     field.type = 'datetime-local';
-    var obj = saltos.__text_helper(field);
+    var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'datetime';
     obj.step = 1; // this enable the seconds
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -476,14 +476,14 @@ saltos.__form_field.datetime = field => {
  *
  * @core/lib/autoheight/autoheight.min.js
  */
-saltos.__form_field.textarea = field => {
+saltos.bootstrap.__field.textarea = field => {
     saltos.require('core/lib/autoheight/autoheight.min.js');
-    var obj = saltos.__textarea_helper(field);
+    var obj = saltos.bootstrap.__textarea_helper(field);
     var element = obj;
     saltos.when_visible(element, () => {
         autoheight(element);
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -511,11 +511,11 @@ saltos.__form_field.textarea = field => {
  *
  * @core/lib/ckeditor/ckeditor.min.js
  */
-saltos.__form_field.ckeditor = field => {
+saltos.bootstrap.__field.ckeditor = field => {
     saltos.require('core/lib/ckeditor/ckeditor.min.js');
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__label_helper(field));
-    obj.append(saltos.__textarea_helper(field));
+    obj.append(saltos.bootstrap.__label_helper(field));
+    obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
     saltos.when_visible(element, () => {
         ClassicEditor.create(element).catch(error => {
@@ -551,13 +551,13 @@ saltos.__form_field.ckeditor = field => {
  * @core/lib/codemirror/codemirror.min.css
  * @core/lib/codemirror/codemirror.min.js
  */
-saltos.__form_field.codemirror = field => {
+saltos.bootstrap.__field.codemirror = field => {
     saltos.require('core/lib/codemirror/codemirror.min.css');
     saltos.require('core/lib/codemirror/codemirror.min.js');
     saltos.check_params(field, ['mode']);
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__label_helper(field));
-    obj.append(saltos.__textarea_helper(field));
+    obj.append(saltos.bootstrap.__label_helper(field));
+    obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
     saltos.when_visible(element, () => {
         var cm = CodeMirror.fromTextArea(element, {
@@ -585,13 +585,13 @@ saltos.__form_field.codemirror = field => {
  * @height => the height used as height for the style parameter
  * @label  => this parameter is used as text for the label
  */
-saltos.__form_field.iframe = field => {
+saltos.bootstrap.__field.iframe = field => {
     saltos.check_params(field, ['value', 'id', 'class', 'height']);
     var obj = saltos.html(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0"
             class="form-control p-0 ${field.class}" style="height: ${field.height}"></iframe>
     `);
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -613,7 +613,7 @@ saltos.__form_field.iframe = field => {
  *               with label and value entries
  * @label     => this parameter is used as text for the label
  */
-saltos.__form_field.select = field => {
+saltos.bootstrap.__field.select = field => {
     saltos.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
                                 'multiple', 'size', 'value', 'tooltip']);
     saltos.check_params(field, ['rows'], []);
@@ -638,7 +638,7 @@ saltos.__form_field.select = field => {
     `);
     var element = obj;
     if (field.tooltip != '') {
-        saltos.__tooltip_helper(element);
+        saltos.bootstrap.__tooltip_helper(element);
     }
     for (var key in field.rows) {
         var val = field.rows[key];
@@ -648,7 +648,7 @@ saltos.__form_field.select = field => {
         }
         element.append(saltos.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
     }
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -674,7 +674,7 @@ saltos.__form_field.select = field => {
  *
  * TODO: detected a bug with this widget in chrome in mobile browsers
  */
-saltos.__form_field.multiselect = field => {
+saltos.bootstrap.__field.multiselect = field => {
     saltos.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip']);
     saltos.check_params(field, ['rows'], []);
     if (saltos.eval_bool(field.disabled)) {
@@ -703,9 +703,9 @@ saltos.__form_field.multiselect = field => {
             rows_abc.push(val);
         }
     }
-    obj.querySelector('.one').append(saltos.__form_field.hidden(field));
+    obj.querySelector('.one').append(saltos.bootstrap.__field.hidden(field));
     field.type = 'multiselect';
-    obj.querySelector('.one').append(saltos.__form_field.select({
+    obj.querySelector('.one').append(saltos.bootstrap.__field.select({
         class: field.class,
         id: field.id + '_abc',
         disabled: field.disabled,
@@ -714,7 +714,7 @@ saltos.__form_field.multiselect = field => {
         size: field.size,
         rows: rows_abc,
     }));
-    obj.querySelector('.two').append(saltos.__form_field.button({
+    obj.querySelector('.two').append(saltos.bootstrap.__field.button({
         class: 'btn-primary bi-chevron-double-right mb-3',
         disabled: field.disabled,
         //tooltip: field.tooltip,
@@ -732,7 +732,7 @@ saltos.__form_field.multiselect = field => {
         },
     }));
     obj.querySelector('.two').append(saltos.html('<br/>'));
-    obj.querySelector('.two').append(saltos.__form_field.button({
+    obj.querySelector('.two').append(saltos.bootstrap.__field.button({
         class: 'btn-primary bi-chevron-double-left',
         disabled: field.disabled,
         //tooltip: field.tooltip,
@@ -749,7 +749,7 @@ saltos.__form_field.multiselect = field => {
             document.getElementById(field.id).value = val.join(',');
         },
     }));
-    obj.querySelector('.three').append(saltos.__form_field.select({
+    obj.querySelector('.three').append(saltos.bootstrap.__field.select({
         class: field.class,
         id: field.id + '_xyz',
         disabled: field.disabled,
@@ -763,7 +763,7 @@ saltos.__form_field.multiselect = field => {
             _this.setAttribute('for', field.id + '_abc');
         });
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -785,7 +785,7 @@ saltos.__form_field.multiselect = field => {
  *
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
-saltos.__form_field.checkbox = field => {
+saltos.bootstrap.__field.checkbox = field => {
     saltos.check_params(field, ['value', 'id', 'disabled', 'readonly', 'label', 'tooltip', 'class']);
     if (saltos.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -812,7 +812,7 @@ saltos.__form_field.checkbox = field => {
     `);
     if (field.tooltip != '') {
         obj.querySelectorAll('input, label').forEach(_this => {
-            saltos.__tooltip_helper(_this);
+            saltos.bootstrap.__tooltip_helper(_this);
         });
     }
     obj.querySelector('input').addEventListener('change', event => {
@@ -839,8 +839,8 @@ saltos.__form_field.checkbox = field => {
  *
  * This widget uses the checkbox constructor
  */
-saltos.__form_field.switch = field => {
-    var obj = saltos.__form_field.checkbox(field);
+saltos.bootstrap.__field.switch = field => {
+    var obj = saltos.bootstrap.__field.checkbox(field);
     obj.classList.add('form-switch');
     obj.querySelector('input').setAttribute('role', 'switch');
     return obj;
@@ -862,7 +862,7 @@ saltos.__form_field.switch = field => {
  *
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
-saltos.__form_field.button = field => {
+saltos.bootstrap.__field.button = field => {
     saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip', 'icon']);
     saltos.check_params(field, ['label']);
     if (saltos.eval_bool(field.disabled)) {
@@ -880,14 +880,14 @@ saltos.__form_field.button = field => {
         obj.querySelector('i').classList.add('me-1');
     }
     if (field.tooltip != '') {
-        saltos.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(obj);
     }
     saltos.addEventListener(obj, 'click', field.onclick);
     if (field.label == '') {
         return obj;
     }
     var obj2 = saltos.html(`<div></div>`);
-    obj2.append(saltos.__label_helper(field));
+    obj2.append(saltos.bootstrap.__label_helper(field));
     obj2.append(saltos.html('<br/>'));
     obj2.append(obj);
     return obj2;
@@ -919,7 +919,7 @@ saltos.__form_field.button = field => {
  * button, exists a new line that is identified as another previousSibling, but not as an element
  *
  */
-saltos.__form_field.password = field => {
+saltos.bootstrap.__field.password = field => {
     saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
                                 'readonly', 'required', 'autofocus', 'tooltip']);
     if (saltos.eval_bool(field.disabled)) {
@@ -949,7 +949,7 @@ saltos.__form_field.password = field => {
     `);
     if (field.tooltip != '') {
         obj.querySelectorAll('input[type=password]').forEach(_this => {
-            saltos.__tooltip_helper(_this);
+            saltos.bootstrap.__tooltip_helper(_this);
         });
     }
     obj.querySelector('button').addEventListener('click', event => {
@@ -964,7 +964,7 @@ saltos.__form_field.password = field => {
             event.target.classList.add('bi-eye-slash');
         }
     });
-    obj.prepend(saltos.__label_helper(field));
+    obj.prepend(saltos.bootstrap.__label_helper(field));
     return obj;
 };
 
@@ -995,7 +995,7 @@ saltos.__form_field.password = field => {
  * the server and store the information related to the file on the server to be processed after
  * the real upload action.
  */
-saltos.__form_field.file = field => {
+saltos.bootstrap.__field.file = field => {
     saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
                                 'autofocus', 'multiple', 'tooltip']);
     if (saltos.eval_bool(field.disabled)) {
@@ -1034,7 +1034,7 @@ saltos.__form_field.file = field => {
     `));
     if (field.tooltip != '') {
         obj.querySelectorAll('input').forEach(_this => {
-            saltos.__tooltip_helper(_this);
+            saltos.bootstrap.__tooltip_helper(_this);
         });
     }
     // This helper programs the input file data update
@@ -1183,7 +1183,7 @@ saltos.__form_field.file = field => {
             }
         }
     });
-    obj.prepend(saltos.__label_helper(field));
+    obj.prepend(saltos.bootstrap.__label_helper(field));
     return obj;
 };
 
@@ -1204,9 +1204,9 @@ saltos.__form_field.file = field => {
  * This object is not a real link, it's a button that uses the btn-link class to get the link
  * appearance
  */
-saltos.__form_field.link = field => {
+saltos.bootstrap.__field.link = field => {
     field.class = 'btn-link';
-    var obj = saltos.__form_field.button(field);
+    var obj = saltos.bootstrap.__field.button(field);
     return obj;
 };
 
@@ -1221,7 +1221,7 @@ saltos.__form_field.link = field => {
  * @tooltip => this parameter raise the title flag
  * @value   => this parameter is used as label when label is void
  */
-saltos.__form_field.label = field => {
+saltos.bootstrap.__field.label = field => {
     saltos.check_params(field, ['id', 'class', 'label', 'tooltip', 'value']);
     if (field.label == '') {
         field.label = field.value;
@@ -1231,7 +1231,7 @@ saltos.__form_field.label = field => {
             data-bs-title="${field.tooltip}">${field.label}</label>
     `);
     if (field.tooltip != '') {
-        saltos.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(obj);
     }
     return obj;
 };
@@ -1248,7 +1248,7 @@ saltos.__form_field.label = field => {
  * @tooltip => this parameter raise the title flag
  * @label   => this parameter is used as text for the label
  */
-saltos.__form_field.image = field => {
+saltos.bootstrap.__field.image = field => {
     saltos.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height']);
     if (field.class == '') {
         field.class = 'img-fluid';
@@ -1258,9 +1258,9 @@ saltos.__form_field.image = field => {
             data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
     if (field.tooltip != '') {
-        saltos.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(obj);
     }
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -1297,7 +1297,7 @@ saltos.__form_field.image = field => {
  * @core/lib/handsontable/handsontable.full.min.css
  * @core/lib/handsontable/handsontable.full.min.js
  */
-saltos.__form_field.excel = field => {
+saltos.bootstrap.__field.excel = field => {
     saltos.require('core/lib/handsontable/handsontable.full.min.css');
     saltos.require('core/lib/handsontable/handsontable.full.min.js');
     saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
@@ -1351,7 +1351,7 @@ saltos.__form_field.excel = field => {
             }
         });
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -1378,7 +1378,7 @@ saltos.__form_field.excel = field => {
  * The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
  * that this file not appear in the next requires
  */
-saltos.__form_field.pdfjs = field => {
+saltos.bootstrap.__field.pdfjs = field => {
     saltos.require('core/lib/pdfjs/pdf_viewer.min.css');
     saltos.require('core/lib/pdfjs/pdf.min.mjs');
     saltos.require('core/lib/pdfjs/pdf_viewer.min.mjs');
@@ -1444,7 +1444,7 @@ saltos.__form_field.pdfjs = field => {
             });
         });
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -1480,11 +1480,11 @@ saltos.__form_field.pdfjs = field => {
  * or not the contraction feature
  *
  * The elements of the data cells can contains an object with the field specification used
- * to the saltos.form_field constructor, it is usefull to convert some fields to inputs
+ * to the saltos.bootstrap.field constructor, it is usefull to convert some fields to inputs
  * instead of simple text, too is able to use the type attribute in the header specification
  * to identify if you want to use a column with some special type as for example, the icons
  */
-saltos.__form_field.table = field => {
+saltos.bootstrap.__field.table = field => {
     saltos.check_params(field, ['class', 'id', 'checkbox']);
     saltos.check_params(field, ['header', 'data', 'footer'], []);
     var obj = saltos.html(`
@@ -1584,7 +1584,7 @@ saltos.__form_field.table = field => {
                 var td = saltos.html('tr', `<td></td>`);
                 if (typeof val2 == 'object' && val2 !== null) {
                     if (val2.hasOwnProperty('type')) {
-                        var temp = saltos.form_field(val2);
+                        var temp = saltos.bootstrap.field(val2);
                         td.append(temp);
                     } else {
                         var temp = `object without type`;
@@ -1652,7 +1652,7 @@ saltos.__form_field.table = field => {
                         }
                         first_action = false;
                     }
-                    var button = saltos.__form_field.button(val2);
+                    var button = saltos.bootstrap.__field.button(val2);
                     if (dropdown) {
                         button.classList.remove('btn');
                         button.classList.add('dropdown-item');
@@ -1732,7 +1732,7 @@ saltos.__form_field.table = field => {
         </style>
     `));
     // Continue
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -1756,7 +1756,7 @@ saltos.__form_field.table = field => {
  * for the style to allow the content to use the original size of the alert, in a future, I don't
  * know if I maintain this or I remove it, but at the moment, this is added by default
  */
-saltos.__form_field.alert = field => {
+saltos.bootstrap.__field.alert = field => {
     saltos.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close']);
     var obj = saltos.html(`
         <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
@@ -1785,7 +1785,7 @@ saltos.__form_field.alert = field => {
             </style>
         `));
     }
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -1805,7 +1805,7 @@ saltos.__form_field.alert = field => {
  *            to personalize the body's card
  * @label  => this parameter is used as text for the label
  */
-saltos.__form_field.card = field => {
+saltos.bootstrap.__field.card = field => {
     saltos.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
     var obj = saltos.html(`<div class="card" id="${field.id}"></div>`);
     if (field.image != '') {
@@ -1827,7 +1827,7 @@ saltos.__form_field.card = field => {
     if (field.footer != '') {
         obj.append(saltos.html(`<div class="card-footer">${field.footer}</div>`));
     }
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -1850,7 +1850,7 @@ saltos.__form_field.card = field => {
  *
  * @core/lib/chartjs/chart.umd.min.js
  */
-saltos.__form_field.chartjs = field => {
+saltos.bootstrap.__field.chartjs = field => {
     saltos.require('core/lib/chartjs/chart.umd.min.js');
     saltos.check_params(field, ['id', 'mode', 'data']);
     var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
@@ -1864,7 +1864,7 @@ saltos.__form_field.chartjs = field => {
             data: field.data,
         });
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -1892,14 +1892,14 @@ saltos.__form_field.chartjs = field => {
  * This object creates a hidden input, a text input with/without a datalist, and a badge for
  * each value, and requires the arguments of the specific widgets used in this widget
  */
-saltos.__form_field.tags = field => {
+saltos.bootstrap.__field.tags = field => {
     saltos.check_params(field, ['id', 'value']);
     // This container must have the hidden input and the text input used by the
     // user to write the tags
     var obj = saltos.html(`<div></div>`);
     // The first field is the hidden input
     field.class = 'first';
-    obj.append(saltos.__form_field.hidden(field));
+    obj.append(saltos.bootstrap.__field.hidden(field));
     // The last field is the text input used to write the tags
     field.id_old = field.id;
     field.id_new = field.id + '_tags';
@@ -1911,7 +1911,7 @@ saltos.__form_field.tags = field => {
     }
     field.value = '';
     field.class = 'last';
-    obj.append(saltos.__form_field.text(field));
+    obj.append(saltos.bootstrap.__field.text(field));
     field.id = field.id_old;
     field.value = field.value_old;
     // This function draws a tag and programs the delete of the same tag
@@ -2001,7 +2001,7 @@ saltos.__form_field.tags = field => {
  * @core/lib/masonry/masonry.pkgd.min.js
  * @core/lib/imagesloaded/imagesloaded.pkgd.min.js
  */
-saltos.__form_field.gallery = field => {
+saltos.bootstrap.__field.gallery = field => {
     saltos.require('core/lib/venobox/venobox.min.css');
     saltos.require('core/lib/venobox/venobox.min.js');
     saltos.require('core/lib/masonry/masonry.pkgd.min.js');
@@ -2043,7 +2043,7 @@ saltos.__form_field.gallery = field => {
         });
         new VenoBox();
     });
-    obj = saltos.__label_combine(field, obj);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -2054,7 +2054,7 @@ saltos.__form_field.gallery = field => {
  *
  * @id => id used in the original object, it must be replaced when the data will be available
  */
-saltos.__form_field.placeholder = field => {
+saltos.bootstrap.__field.placeholder = field => {
     saltos.check_params(field, ['id']);
     var obj = saltos.html(`
         <div id="${field.id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
@@ -2084,7 +2084,7 @@ saltos.__form_field.placeholder = field => {
  *
  * This function is intended to be used by other helpers of the form_field constructor
  */
-saltos.__text_helper = field => {
+saltos.bootstrap.__text_helper = field => {
     saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
                                 'readonly', 'required', 'autofocus', 'tooltip', 'style']);
     if (saltos.eval_bool(field.disabled)) {
@@ -2106,7 +2106,7 @@ saltos.__text_helper = field => {
                 data-bs-title="${field.tooltip}">
     `);
     if (field.tooltip != '') {
-        saltos.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(obj);
     }
     return obj;
 };
@@ -2131,7 +2131,7 @@ saltos.__text_helper = field => {
  *
  * This function is intended to be used by other helpers of the form_field constructor
  */
-saltos.__textarea_helper = field => {
+saltos.bootstrap.__textarea_helper = field => {
     saltos.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
                                 'required', 'autofocus', 'rows', 'tooltip']);
     if (saltos.eval_bool(field.disabled)) {
@@ -2153,7 +2153,7 @@ saltos.__textarea_helper = field => {
             data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != '') {
-        saltos.__tooltip_helper(obj);
+        saltos.bootstrap.__tooltip_helper(obj);
     }
     return obj;
 };
@@ -2167,7 +2167,7 @@ saltos.__textarea_helper = field => {
  *
  * @obj => the object that you want to enable the tooltip feature
  */
-saltos.__tooltip_helper = obj => {
+saltos.bootstrap.__tooltip_helper = obj => {
     var instance = new bootstrap.Tooltip(obj, {
         trigger: 'hover'
     });
@@ -2191,14 +2191,14 @@ saltos.__tooltip_helper = obj => {
  *
  * @field => the field that contains the label to be added if needed
  */
-saltos.__label_helper = field => {
+saltos.bootstrap.__label_helper = field => {
     saltos.check_params(field, ['label']);
     if (field.label == '') {
         return '';
     }
     var temp = saltos.copy_object(field);
     delete temp.class;
-    return saltos.__form_field.label(temp);
+    return saltos.bootstrap.__field.label(temp);
 };
 
 /**
@@ -2217,9 +2217,9 @@ saltos.__label_helper = field => {
  * any specific label container, in the other cases, each constructor must to implement
  * their code because each case is different
  */
-saltos.__label_combine = (field, old) => {
+saltos.bootstrap.__label_combine = (field, old) => {
     var obj = saltos.html(`<div></div>`);
-    obj.append(saltos.__label_helper(field));
+    obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(old);
     obj = saltos.optimize(obj);
     return obj;
@@ -2248,7 +2248,7 @@ saltos.__label_combine = (field, old) => {
  * @onclick  => the callback used when the user select the menu
  * @divider  => you can set this boolean to true to convert the element into a divider
  */
-saltos.menu = args => {
+saltos.bootstrap.menu = args => {
     saltos.check_params(args, ['class']);
     saltos.check_params(args, ['menu'], []);
     var obj = saltos.html(`<ul class="${args.class}"></ul>`);
@@ -2350,7 +2350,7 @@ saltos.menu = args => {
  *
  * @items => contains an array with the objects that will be added to the collapse
  */
-saltos.navbar = args => {
+saltos.bootstrap.navbar = args => {
     saltos.check_params(args, ['id','space']);
     saltos.check_params(args, ['brand'], {});
     saltos.check_params(args.brand, ['name', 'logo', 'width', 'height']);
@@ -2391,7 +2391,7 @@ saltos.navbar = args => {
  *
  * This object is used to store the element and the instance of the modal
  */
-saltos.__modal = {};
+saltos.bootstrap.__modal = {};
 
 /**
  * Modal constructor helper
@@ -2421,16 +2421,16 @@ saltos.__modal = {};
  * This modal will be destroyed (instance and element) when it closes, too is important
  * to undestand that only one modal is allowed at each moment.
  */
-saltos.modal = args => {
+saltos.bootstrap.modal = args => {
     // HELPER ACTIONS
     if (args == 'close') {
-        return typeof saltos.__modal.instance == 'object' && saltos.__modal.instance.hide();
+        return typeof saltos.bootstrap.__modal.instance == 'object' && saltos.bootstrap.__modal.instance.hide();
     }
     if (args == 'isopen') {
-        return typeof saltos.__modal.obj == 'object' && saltos.__modal.obj.classList.contains('show');
+        return typeof saltos.bootstrap.__modal.obj == 'object' && saltos.bootstrap.__modal.obj.classList.contains('show');
     }
     // ADDITIONAL CHECK
-    if (saltos.modal('isopen')) {
+    if (saltos.bootstrap.modal('isopen')) {
         return false;
     }
     // NORMAL OPERATION
@@ -2464,8 +2464,8 @@ saltos.modal = args => {
     obj.querySelector('.modal-body').append(saltos.html(args.body));
     obj.querySelector('.modal-footer').append(args.footer);
     var instance = new bootstrap.Modal(obj);
-    saltos.__modal.obj = obj;
-    saltos.__modal.instance = instance;
+    saltos.bootstrap.__modal.obj = obj;
+    saltos.bootstrap.__modal.instance = instance;
     obj.addEventListener('shown.bs.modal', event => {
         obj.querySelectorAll('[autofocus]').forEach(_this => {
             _this.focus();
@@ -2484,7 +2484,7 @@ saltos.modal = args => {
  *
  * This object is used to store the element and the instance of the offcanvas
  */
-saltos.__offcanvas = {};
+saltos.bootstrap.__offcanvas = {};
 
 /**
  * Offcanvas constructor helper
@@ -2513,16 +2513,16 @@ saltos.__offcanvas = {};
  * This offcanvas will be destroyed (instance and element) when it closes, too is important
  * to undestand that only one offcanvas is allowed at each moment.
  */
-saltos.offcanvas = args => {
+saltos.bootstrap.offcanvas = args => {
     // HELPER ACTIONS
     if (args == 'close') {
-        return typeof saltos.__offcanvas.instance == 'object' && saltos.__offcanvas.instance.hide();
+        return typeof saltos.bootstrap.__offcanvas.instance == 'object' && saltos.bootstrap.__offcanvas.instance.hide();
     }
     if (args == 'isopen') {
-        return typeof saltos.__offcanvas.obj == 'object' && saltos.__offcanvas.obj.classList.contains('show');
+        return typeof saltos.bootstrap.__offcanvas.obj == 'object' && saltos.bootstrap.__offcanvas.obj.classList.contains('show');
     }
     // ADDITIONAL CHECK
-    if (saltos.offcanvas('isopen')) {
+    if (saltos.bootstrap.offcanvas('isopen')) {
         return false;
     }
     // NORMAL OPERATION
@@ -2546,8 +2546,8 @@ saltos.offcanvas = args => {
     document.body.append(obj);
     obj.querySelector('.offcanvas-body').append(saltos.html(args.body));
     var instance = new bootstrap.Offcanvas(obj);
-    saltos.__offcanvas.obj = obj;
-    saltos.__offcanvas.instance = instance;
+    saltos.bootstrap.__offcanvas.obj = obj;
+    saltos.bootstrap.__offcanvas.instance = instance;
     obj.addEventListener('shown.bs.offcanvas', event => {
         obj.querySelectorAll('[autofocus]').forEach(_this => {
             _this.focus();
@@ -2589,7 +2589,7 @@ saltos.offcanvas = args => {
  *
  * @core/lib/md5/md5.min.js
  */
-saltos.toast = args => {
+saltos.bootstrap.toast = args => {
     saltos.require('core/lib/md5/md5.min.js');
     saltos.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
     if (document.querySelectorAll('.toast-container').length == 0) {

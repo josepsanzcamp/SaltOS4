@@ -58,18 +58,18 @@ saltos.show_error = error => {
  * @message => message of the alert modal dialog
  */
 saltos.alert = (title, message) => {
-    saltos.modal({
+    saltos.bootstrap.modal({
         title: title,
         close: 'Close',
         body: message,
         footer: (() => {
             var obj = saltos.html('<div></div>');
-            obj.append(saltos.form_field({
+            obj.append(saltos.bootstrap.field({
                 type: 'button',
                 value: 'Close',
                 class: 'btn-primary',
                 onclick: () => {
-                    saltos.modal('close');
+                    saltos.bootstrap.modal('close');
                 }
             }));
             return obj;
@@ -299,7 +299,7 @@ saltos.form_app.layout = (layout, extra) => {
             }, 'div');
             arr.push(obj);
         } else if (['container', 'col', 'row', 'div'].includes(key)) {
-            var obj = saltos.form_field(attr);
+            var obj = saltos.bootstrap.field(attr);
             var temp = saltos.form_app.layout(value, 'arr');
             for (var i in temp) {
                 obj.append(temp[i]);
@@ -321,13 +321,13 @@ saltos.form_app.layout = (layout, extra) => {
             }
             saltos.__form_app.fields.push(attr);
             if (attr.source != '') {
-                var obj = saltos.form_field({
+                var obj = saltos.bootstrap.field({
                     type: 'placeholder',
                     id: attr.id,
                 });
                 saltos.__source_helper(attr);
             } else {
-                var obj = saltos.form_field(attr);
+                var obj = saltos.bootstrap.field(attr);
             }
             arr.push(obj);
         }
@@ -598,7 +598,7 @@ saltos.form_app.navbar = navbar => {
                         });
                     }
                 }
-                navbar.items[key] = saltos.menu({
+                navbar.items[key] = saltos.bootstrap.menu({
                     class: _class,
                     menu: menu,
                 });
@@ -614,13 +614,13 @@ saltos.form_app.navbar = navbar => {
                 for (var key2 in val) {
                     var val2 = val[key2];
                     val2['#attr'].type = saltos.fix_key(key2);
-                    obj.append(saltos.form_field(val2['#attr']));
+                    obj.append(saltos.bootstrap.field(val2['#attr']));
                 }
                 navbar.items[key] = obj;
             }
         }
     }
-    var obj = saltos.navbar(navbar);
+    var obj = saltos.bootstrap.navbar(navbar);
     document.body.append(obj);
 };
 
@@ -653,7 +653,7 @@ saltos.__source_helper = field => {
                 for (var key in response) {
                     field[key] = response[key];
                 }
-                document.getElementById(field.id).replaceWith(saltos.form_field(field));
+                document.getElementById(field.id).replaceWith(saltos.bootstrap.field(field));
             },
             error: request => {
                 saltos.show_error({

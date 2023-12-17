@@ -39,7 +39,7 @@
  */
 (function() {
 
-    document.body.append(saltos.navbar({
+    document.body.append(saltos.bootstrap.navbar({
         id: saltos.uniqid(),
         space: true,
         brand: {
@@ -49,7 +49,7 @@
             height: 25,
         },
         items: [
-            saltos.menu({
+            saltos.bootstrap.menu({
                 class: 'navbar-nav me-auto mb-2 mb-lg-0',
                 menu: [{
                     name: 'Home',
@@ -97,11 +97,11 @@
             }),
             function() {
                 var obj = saltos.html(`<form class='d-flex' onsubmit='return false'></form>`);
-                obj.append(saltos.form_field({
+                obj.append(saltos.bootstrap.field({
                     type: 'text',
                     placeholder: 'Search',
                 }));
-                obj.append(saltos.form_field({
+                obj.append(saltos.bootstrap.field({
                     type: 'button',
                     value: 'Search',
                     class: 'btn-light mx-1',
@@ -111,7 +111,7 @@
                 }));
                 return obj;
             }(),
-            saltos.menu({
+            saltos.bootstrap.menu({
                 class: 'navbar-nav mb-2 mb-lg-0',
                 menu: [{
                     name: 'Themes',
@@ -207,11 +207,11 @@
         ]
     }));
 
-    var container = saltos.form_field({
+    var container = saltos.bootstrap.field({
         type: 'container',
         class: 'container-fluid mt-3',
     });
-    var row = saltos.form_field({
+    var row = saltos.bootstrap.field({
         type: 'row',
     });
     var tipos = [
@@ -259,7 +259,7 @@
         'doughnut',
     ];
     for (var i in tipos) {
-        var col = saltos.form_field({
+        var col = saltos.bootstrap.field({
             type: 'col',
             class: 'col-xl-3 col-md-4 col-sm-6 mb-3',
         });
@@ -412,7 +412,7 @@
             clase = 'btn-primary';
             valor = 'Modal test';
             onclick = () => {
-                saltos.modal({
+                saltos.bootstrap.modal({
                     static: false,
                     //~ class: 'modal-lg',
                     title: 'Titulo',
@@ -436,22 +436,22 @@
                     `,
                     footer: function() {
                         var obj = saltos.html('<div></div>');
-                        obj.append(saltos.form_field({
+                        obj.append(saltos.bootstrap.field({
                             type: 'button',
                             value: 'Aceptar',
                             class: 'btn-primary',
                             onclick: function() {
                                 console.log('OK');
-                                saltos.modal('close');
+                                saltos.bootstrap.modal('close');
                             }
                         }));
-                        obj.append(saltos.form_field({
+                        obj.append(saltos.bootstrap.field({
                             type: 'button',
                             value: 'Cancelar',
                             class: 'btn-primary ms-1',
                             onclick: function() {
                                 console.log('KO');
-                                saltos.modal('close');
+                                saltos.bootstrap.modal('close');
                             },
                         }));
                         return obj;
@@ -464,7 +464,7 @@
             clase = 'btn-primary';
             valor = 'Offcanvas test';
             onclick = () => {
-                saltos.offcanvas({
+                saltos.bootstrap.offcanvas({
                     static: false,
                     class: 'offcanvas-start',
                     title: 'Titulo',
@@ -494,7 +494,7 @@
             clase = 'btn-primary';
             valor = 'Toast test';
             onclick = () => {
-                saltos.toast({
+                saltos.bootstrap.toast({
                     //class: 'text-bg-primary',
                     close: 'Cerrar',
                     title: 'Hola mundo',
@@ -514,7 +514,7 @@
             ];
             clase = 'col-4';
         }
-        var campo = saltos.form_field({
+        var campo = saltos.bootstrap.field({
             type: tipo,
             id: 'campo' + i,
             label: 'Campo ' + i + ' (' + tipo + ')',

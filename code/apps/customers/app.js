@@ -99,7 +99,7 @@ saltos.customers.search = () => {
             if (!saltos.check_response(response)) {
                 return;
             }
-            document.querySelector('table').replaceWith(saltos.form_field(response));
+            document.querySelector('table').replaceWith(saltos.bootstrap.field(response));
         },
         error: request => {
             saltos.form_app.screen('unloading');
@@ -150,7 +150,7 @@ saltos.customers.read_more = () => {
                 return;
             }
             var obj = document.querySelector('table').querySelector('tbody');
-            var temp = saltos.form_field(response);
+            var temp = saltos.bootstrap.field(response);
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },
         error: request => {

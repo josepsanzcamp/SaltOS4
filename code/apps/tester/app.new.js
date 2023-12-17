@@ -45,7 +45,7 @@ if (campo8) {
 var campo9 = document.getElementById('campo9');
 if (campo9) {
     campo9.addEventListener('click', () => {
-        saltos.modal({
+        saltos.bootstrap.modal({
             static: false,
             title: 'Titulo',
             close: 'Cerrar',
@@ -68,22 +68,22 @@ if (campo9) {
             `,
             footer: function() {
                 var obj = saltos.html('<div></div>');
-                obj.append(saltos.form_field({
+                obj.append(saltos.bootstrap.field({
                     type: 'button',
                     value: 'Aceptar',
                     class: 'btn-primary',
                     onclick: function() {
                         console.log('OK');
-                        saltos.modal('close');
+                        saltos.bootstrap.modal('close');
                     }
                 }));
-                obj.append(saltos.form_field({
+                obj.append(saltos.bootstrap.field({
                     type: 'button',
                     value: 'Cancelar',
                     class: 'btn-primary ms-1',
                     onclick: function() {
                         console.log('KO');
-                        saltos.modal('close');
+                        saltos.bootstrap.modal('close');
                     },
                 }));
                 return obj;
@@ -95,7 +95,7 @@ if (campo9) {
 var campo10 = document.getElementById('campo10');
 if (campo10) {
     campo10.addEventListener('click', () => {
-        saltos.offcanvas({
+        saltos.bootstrap.offcanvas({
             static: false,
             class: 'offcanvas-start',
             title: 'Titulo',
@@ -124,7 +124,7 @@ if (campo10) {
 var campo11 = document.getElementById('campo11');
 if (campo11) {
     campo11.addEventListener('click', () => {
-        saltos.toast({
+        saltos.bootstrap.toast({
             //class: 'text-bg-primary',
             close: 'Cerrar',
             title: 'Hola mundo',
