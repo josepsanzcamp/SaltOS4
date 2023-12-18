@@ -2424,10 +2424,12 @@ saltos.bootstrap.__modal = {};
 saltos.bootstrap.modal = args => {
     // HELPER ACTIONS
     if (args == 'close') {
-        return typeof saltos.bootstrap.__modal.instance == 'object' && saltos.bootstrap.__modal.instance.hide();
+        return typeof saltos.bootstrap.__modal.instance == 'object' &&
+            saltos.bootstrap.__modal.instance.hide();
     }
     if (args == 'isopen') {
-        return typeof saltos.bootstrap.__modal.obj == 'object' && saltos.bootstrap.__modal.obj.classList.contains('show');
+        return typeof saltos.bootstrap.__modal.obj == 'object' &&
+            saltos.bootstrap.__modal.obj.classList.contains('show');
     }
     // ADDITIONAL CHECK
     if (saltos.bootstrap.modal('isopen')) {
@@ -2516,10 +2518,12 @@ saltos.bootstrap.__offcanvas = {};
 saltos.bootstrap.offcanvas = args => {
     // HELPER ACTIONS
     if (args == 'close') {
-        return typeof saltos.bootstrap.__offcanvas.instance == 'object' && saltos.bootstrap.__offcanvas.instance.hide();
+        return typeof saltos.bootstrap.__offcanvas.instance == 'object' &&
+            saltos.bootstrap.__offcanvas.instance.hide();
     }
     if (args == 'isopen') {
-        return typeof saltos.bootstrap.__offcanvas.obj == 'object' && saltos.bootstrap.__offcanvas.obj.classList.contains('show');
+        return typeof saltos.bootstrap.__offcanvas.obj == 'object' &&
+            saltos.bootstrap.__offcanvas.obj.classList.contains('show');
     }
     // ADDITIONAL CHECK
     if (saltos.bootstrap.offcanvas('isopen')) {
