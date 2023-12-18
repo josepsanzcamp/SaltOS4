@@ -4,7 +4,7 @@ edifact|https://github.com/php-edifact/edifact/tags.atom|<updated>|base64:PHVwZG
 locutus|https://github.com/kvz/locutus/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMi0wOC0xNVQxODoxOToxOVo8L3VwZGF0ZWQ+
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNi0xNFQyMjo0ODo1OVo8L3VwZGF0ZWQ+
-roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMi0xNlQxNDozNzo0M1o8L3VwZGF0ZWQ+
+roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMi0xN1QxMjoxNDo0NVo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOS0wNlQxNToyMDozN1o8L3VwZGF0ZWQ+
 
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4yIn0=
@@ -14,7 +14,7 @@ ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|b
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|base64:eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwLWljb25zIiwidmVyc2lvbiI6IjEuMTEuMiJ9
 imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5LmltYWdlc2xvYWRlZCIsInZlcnNpb24iOiI1LjAuMCJ9
-imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64:eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNy4yLjAifQ==
+imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64:eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNy4yLjEifQ==
 masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base64:eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
 pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuMC4yNjkifQ==
