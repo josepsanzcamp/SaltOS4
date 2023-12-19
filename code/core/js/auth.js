@@ -111,6 +111,11 @@ saltos.hash.trigger = () => {
  * This function allow to SaltOS to update the contents when hash change
  */
 window.onhashchange = event => {
+    // Token part
+    if (!saltos.token.get()) {
+        saltos.send_request('app/login');
+        return;
+    }
     // Reset the body interface
     saltos.bootstrap.modal('close');
     saltos.bootstrap.offcanvas('close');
