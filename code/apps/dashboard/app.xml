@@ -30,7 +30,7 @@
         <screen>clear</screen>
         <title>Dashboard</title>
         <javascript>
-            <file>core/lib/chartjs/chart.umd.min.js</file>
+            <file>web/lib/chartjs/chart.umd.min.js</file>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
             <button ifeval="check_user('customers', 'menu')" onclick="saltos.open_window('#app/customers/list')" class="btn btn-primary fs-1 w-100 h-100" value="Customers"/>

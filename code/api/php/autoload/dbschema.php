@@ -42,16 +42,16 @@ declare(strict_types=1);
  */
 function db_schema()
 {
-    //~ set_config("core/xml/dbschema.xml", "nada", 0);
-    $hash1 = get_config("core/xml/dbschema.xml", 0);
-    $hash2 = md5(serialize([xmlfile2array("core/xml/dbschema.xml"), xmlfile2array("core/xml/dbstatic.xml")]));
+    //~ set_config("api/xml/dbschema.xml", "nada", 0);
+    $hash1 = get_config("api/xml/dbschema.xml", 0);
+    $hash2 = md5(serialize([xmlfile2array("api/xml/dbschema.xml"), xmlfile2array("api/xml/dbstatic.xml")]));
     if ($hash1 == $hash2) {
         return;
     }
     if (!semaphore_acquire(["db_schema", "db_static"])) {
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
-    $dbschema = eval_attr(xmlfile2array("core/xml/dbschema.xml"));
+    $dbschema = eval_attr(xmlfile2array("api/xml/dbschema.xml"));
     $dbschema = __dbschema_auto_apps($dbschema);
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
@@ -139,7 +139,7 @@ function db_schema()
             }
         }
     }
-    set_config("core/xml/dbschema.xml", $hash2, 0);
+    set_config("api/xml/dbschema.xml", $hash2, 0);
     semaphore_release(["db_schema", "db_static"]);
 }
 
@@ -155,16 +155,16 @@ function db_schema()
  */
 function db_static()
 {
-    //~ set_config("core/xml/dbstatic.xml", "nada", 0);
-    $hash1 = get_config("core/xml/dbstatic.xml", 0);
-    $hash2 = md5(serialize(xmlfile2array("core/xml/dbstatic.xml")));
+    //~ set_config("api/xml/dbstatic.xml", "nada", 0);
+    $hash1 = get_config("api/xml/dbstatic.xml", 0);
+    $hash2 = md5(serialize(xmlfile2array("api/xml/dbstatic.xml")));
     if ($hash1 == $hash2) {
         return;
     }
     if (!semaphore_acquire(["db_schema", "db_static"])) {
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
-    $dbstatic = eval_attr(xmlfile2array("core/xml/dbstatic.xml"));
+    $dbstatic = eval_attr(xmlfile2array("api/xml/dbstatic.xml"));
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
@@ -176,7 +176,7 @@ function db_static()
             }
         }
     }
-    set_config("core/xml/dbstatic.xml", $hash2, 0);
+    set_config("api/xml/dbstatic.xml", $hash2, 0);
     semaphore_release(["db_schema", "db_static"]);
 }
 
@@ -301,7 +301,7 @@ function __dbschema_helper($fn, $table)
     static $fulltext = null;
     static $fkeys = null;
     if ($tables === null) {
-        $dbschema = eval_attr(xmlfile2array("core/xml/dbschema.xml"));
+        $dbschema = eval_attr(xmlfile2array("api/xml/dbschema.xml"));
         $dbschema = __dbschema_auto_apps($dbschema);
         $dbschema = __dbschema_auto_fkey($dbschema);
         $dbschema = __dbschema_auto_name($dbschema);
@@ -634,7 +634,7 @@ function __dbstatic_helper($fn, $table, $field)
     if ($apps === null) {
         $apps = [];
         $tables = [];
-        $dbstatic = eval_attr(xmlfile2array("core/xml/dbstatic.xml"));
+        $dbstatic = eval_attr(xmlfile2array("api/xml/dbstatic.xml"));
         if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
             foreach ($dbstatic["tables"] as $data) {
                 if (!isset($data["#attr"]["name"])) {

@@ -29,7 +29,7 @@
     <menu id="new">
         <screen>clear</screen>
         <title>New Tester Demo App</title>
-        <navbar id="navbar" space="true" brand.name="SaltOS" brand.logo="core/img/logo_white.svg" brand.width="25" brand.height="25">
+        <navbar id="navbar" space="true" brand.name="SaltOS" brand.logo="web/img/logo_white.svg" brand.width="25" brand.height="25">
             <items>
                 <menu class="navbar-nav me-auto mb-2 mb-lg-0">
                     <item name="Home" disabled="false" onclick="alert(1)"/>
@@ -164,7 +164,7 @@ Adios]]></ckeditor>
                 <body><![CDATA[<a href='#'>More info</a>]]></body>
             </card>
             <gallery id="campo35" label="Campo 35 (gallery)" tooltip="Tooltip 35 (gallery)" class="col-4">
-                <images eval="true">[["image"=>"apps\/tester\/files\/anunay-rai-WSW1txL1V84.jpg","title"=>"Foto 1"],["image"=>"apps\/tester\/files\/beasty-0BcxmQx9xas-unsplash.jpg","title"=>"Foto 2"],["image"=>"apps\/tester\/files\/krystal-ng-PrQqQVPzmlw.jpg","title"=>"Foto 3"],"apps\/tester\/files\/luke-jones-vCxjJmdj03k.jpg","apps\/tester\/files\/maryna-yazbeck-rnwDiYrHtM0.jpg","apps\/tester\/files\/mo-nm8b-BUnzuk.jpg"]</images>
+                <images eval="true">[["image"=>"apps/tester/files/anunay-rai-WSW1txL1V84.jpg","title"=>"Foto 1"],["image"=>"apps/tester/files/beasty-0BcxmQx9xas-unsplash.jpg","title"=>"Foto 2"],["image"=>"apps/tester/files/krystal-ng-PrQqQVPzmlw.jpg","title"=>"Foto 3"],"apps/tester/files/luke-jones-vCxjJmdj03k.jpg","apps/tester/files/maryna-yazbeck-rnwDiYrHtM0.jpg","apps/tester/files/mo-nm8b-BUnzuk.jpg"]</images>
             </gallery>
         </layout>
         <javascript>

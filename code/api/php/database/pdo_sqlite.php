@@ -28,12 +28,13 @@
 declare(strict_types=1);
 
 /**
- * SQLite3 driver
+ * PDO SQLite driver
  *
  * This file implements the MySQL improved driver. This is the recommended driver when you want
- * to use SQLite3 files as database server, this driver solves the concurrence problem using
- * POSIX semaphores, generally it is a good option for setups that don't require a fulltext
- * search optimizations suck as mroonga, intended for a personal usage or demos.
+ * to use SQLite3 files as database server and it uses the PDO extension to do it, this driver
+ * solves the concurrence problem using POSIX semaphores, generally it is a good option for setups
+ * that don't require a fulltext search optimizations suck as mroonga, intended for a personal
+ * usage or demos.
  */
 
 // phpcs:disable PSR1.Classes.ClassDeclaration
@@ -41,11 +42,11 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
- * Database SQLite3 class
+ * Database PDO SQLite class
  *
- * This class allow to SaltOS to connect to SQLite databases using the SQLite3 driver
+ * This class allow to SaltOS to connect to SQLite databases using the PDO driver
  */
-class database_sqlite3
+class database_pdo_sqlite
 {
     /**
      * Private link variable
@@ -71,11 +72,11 @@ class database_sqlite3
      */
     public function __construct($args)
     {
-        require_once "core/php/database/libsqlite.php";
-        if (!class_exists("SQLite3")) {
+        require_once "api/php/database/libsqlite.php";
+        if (!class_exists("PDO")) {
             show_php_error([
-                "phperror" => "Class SQLite3 not found",
-                "details" => "Try to install php-sqlite package",
+                "phperror" => "Class PDO not found",
+                "details" => "Try to install php-pdo package",
             ]);
             return;
         }
@@ -88,47 +89,47 @@ class database_sqlite3
             return;
         }
         try {
-            $this->link = new SQLite3($args["file"]);
-        } catch (Exception $e) {
-            show_php_error(["dberror" => $e->getMessage() . " (code " . $e->getCode() . ")"]);
+            $this->link = new PDO("sqlite:" . $args["file"]);
+        } catch (PDOException $e) {
+            show_php_error(["dberror" => $e->getMessage()]);
         }
         if ($this->link) {
-            $this->link->enableExceptions(true);
-            $this->link->busyTimeout(0);
+            $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->link->setAttribute(PDO::ATTR_TIMEOUT, 0);
             $this->db_query("PRAGMA cache_size=2000");
             $this->db_query("PRAGMA synchronous=OFF");
             $this->db_query("PRAGMA foreign_keys=OFF");
             if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
-                $this->link->createAggregate(
+                $this->link->sqliteCreateAggregate(
                     "GROUP_CONCAT",
                     "__libsqlite_group_concat_step",
                     "__libsqlite_group_concat_finalize"
                 );
             }
             if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
-                $this->link->createFunction("REPLACE", "__libsqlite_replace");
+                $this->link->sqliteCreateFunction("REPLACE", "__libsqlite_replace");
             }
-            $this->link->createFunction("LPAD", "__libsqlite_lpad");
-            $this->link->createFunction("CONCAT", "__libsqlite_concat");
-            $this->link->createFunction("UNIX_TIMESTAMP", "__libsqlite_unix_timestamp");
-            $this->link->createFunction("FROM_UNIXTIME", "__libsqlite_from_unixtime");
-            $this->link->createFunction("YEAR", "__libsqlite_year");
-            $this->link->createFunction("MONTH", "__libsqlite_month");
-            $this->link->createFunction("WEEK", "__libsqlite_week");
-            $this->link->createFunction("TRUNCATE", "__libsqlite_truncate");
-            $this->link->createFunction("DAY", "__libsqlite_day");
-            $this->link->createFunction("DAYOFYEAR", "__libsqlite_dayofyear");
-            $this->link->createFunction("DAYOFWEEK", "__libsqlite_dayofweek");
-            $this->link->createFunction("HOUR", "__libsqlite_hour");
-            $this->link->createFunction("MINUTE", "__libsqlite_minute");
-            $this->link->createFunction("SECOND", "__libsqlite_second");
-            $this->link->createFunction("MD5", "__libsqlite_md5");
-            $this->link->createFunction("REPEAT", "__libsqlite_repeat");
-            $this->link->createFunction("FIND_IN_SET", "__libsqlite_find_in_set");
-            $this->link->createFunction("IF", "__libsqlite_if");
-            $this->link->createFunction("POW", "__libsqlite_pow");
-            $this->link->createFunction("DATE_FORMAT", "__libsqlite_date_format");
-            $this->link->createFunction("NOW", "__libsqlite_now");
+            $this->link->sqliteCreateFunction("LPAD", "__libsqlite_lpad");
+            $this->link->sqliteCreateFunction("CONCAT", "__libsqlite_concat");
+            $this->link->sqliteCreateFunction("UNIX_TIMESTAMP", "__libsqlite_unix_timestamp");
+            $this->link->sqliteCreateFunction("FROM_UNIXTIME", "__libsqlite_from_unixtime");
+            $this->link->sqliteCreateFunction("YEAR", "__libsqlite_year");
+            $this->link->sqliteCreateFunction("MONTH", "__libsqlite_month");
+            $this->link->sqliteCreateFunction("WEEK", "__libsqlite_week");
+            $this->link->sqliteCreateFunction("TRUNCATE", "__libsqlite_truncate");
+            $this->link->sqliteCreateFunction("DAY", "__libsqlite_day");
+            $this->link->sqliteCreateFunction("DAYOFYEAR", "__libsqlite_dayofyear");
+            $this->link->sqliteCreateFunction("DAYOFWEEK", "__libsqlite_dayofweek");
+            $this->link->sqliteCreateFunction("HOUR", "__libsqlite_hour");
+            $this->link->sqliteCreateFunction("MINUTE", "__libsqlite_minute");
+            $this->link->sqliteCreateFunction("SECOND", "__libsqlite_second");
+            $this->link->sqliteCreateFunction("MD5", "__libsqlite_md5");
+            $this->link->sqliteCreateFunction("REPEAT", "__libsqlite_repeat");
+            $this->link->sqliteCreateFunction("FIND_IN_SET", "__libsqlite_find_in_set");
+            $this->link->sqliteCreateFunction("IF", "__libsqlite_if");
+            $this->link->sqliteCreateFunction("POW", "__libsqlite_pow");
+            $this->link->sqliteCreateFunction("DATE_FORMAT", "__libsqlite_date_format");
+            $this->link->sqliteCreateFunction("NOW", "__libsqlite_now");
         }
     }
 
@@ -144,7 +145,7 @@ class database_sqlite3
         try {
             $this->link->query($query);
             return true;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             return false;
         }
     }
@@ -205,7 +206,7 @@ class database_sqlite3
                 try {
                     $stmt = $this->link->query($query);
                     break;
-                } catch (Exception $e) {
+                } catch (PDOException $e) {
                     if ($timeout <= 0) {
                         show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                         break;
@@ -222,32 +223,28 @@ class database_sqlite3
             unset($query); // TRICK TO RELEASE MEMORY
             semaphore_release(__FUNCTION__);
             // DUMP RESULT TO MATRIX
-            if (isset($stmt) && $stmt && $stmt->numColumns()) {
+            if (isset($stmt) && $stmt && $stmt->columnCount() > 0) {
                 if ($fetch == "auto") {
-                    $fetch = $stmt->numColumns() > 1 ? "query" : "column";
+                    $fetch = $stmt->columnCount() > 1 ? "query" : "column";
                 }
                 if ($fetch == "query") {
-                    while ($row = $stmt->fetchArray(SQLITE3_ASSOC)) {
-                        $result["rows"][] = $row;
-                    }
+                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     $result["total"] = count($result["rows"]);
                     if ($result["total"] > 0) {
                         $result["header"] = array_keys($result["rows"][0]);
                     }
                 }
                 if ($fetch == "column") {
-                    while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                        $result["rows"][] = $row[0];
-                    }
+                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                     $result["total"] = count($result["rows"]);
                     $result["header"] = ["column"];
                 }
                 if ($fetch == "concat") {
-                    if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                        $result["rows"][] = $row[0];
+                    if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                        $result["rows"][] = $row;
                     }
-                    while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                        $result["rows"][0] .= "," . $row[0];
+                    while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                        $result["rows"][0] .= "," . $row;
                     }
                     $result["total"] = count($result["rows"]);
                     $result["header"] = ["concat"];
@@ -266,7 +263,6 @@ class database_sqlite3
      */
     public function db_disconnect()
     {
-        $this->link->close();
         $this->link = null;
     }
 }

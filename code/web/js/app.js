@@ -102,7 +102,7 @@ saltos.check_response = response => {
  */
 saltos.send_request = data => {
     saltos.ajax({
-        url: 'index.php?' + data,
+        url: 'api/index.php?' + data,
         success: response => {
             if (!saltos.check_response(response)) {
                 return;
@@ -644,7 +644,7 @@ saltos.__source_helper = field => {
     // Check for asynchronous load using the source param
     if (field.source != '') {
         saltos.ajax({
-            url: 'index.php?' + field.source,
+            url: 'api/index.php?' + field.source,
             success: response => {
                 if (!saltos.check_response(response)) {
                     return;

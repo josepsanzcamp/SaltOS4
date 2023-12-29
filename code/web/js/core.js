@@ -57,7 +57,7 @@ window.onerror = (event, source, lineno, colno, error) => {
         data.backtrace = error.stack;
     }
     saltos.ajax({
-        url: 'index.php',
+        url: 'api/index.php',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -80,7 +80,7 @@ saltos.addlog = msg => {
         'msg': msg,
     };
     saltos.ajax({
-        url: 'index.php',
+        url: 'api/index.php',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -441,7 +441,7 @@ saltos.require = file => {
  * Notes:
  *
  * This function is the same feature that the same function proviced by the backend by the
- * core/php/autoload/xml2array.php file with more javascript details as type detection.
+ * php/autoload/xml2array.php file with more javascript details as type detection.
  */
 saltos.eval_bool = arg => {
     if (arg === null) {

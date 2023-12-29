@@ -216,7 +216,7 @@ saltos.authenticate = {};
  */
 saltos.authenticate.authtoken = (user, pass) => {
     saltos.ajax({
-        url: 'index.php',
+        url: 'api/index.php',
         data: JSON.stringify({
             'action': 'authtoken',
             'user': user,
@@ -258,7 +258,7 @@ saltos.authenticate.authtoken = (user, pass) => {
  */
 saltos.authenticate.reauthtoken = () => {
     saltos.ajax({
-        url: 'index.php',
+        url: 'api/index.php',
         data: JSON.stringify({
             'action': 'reauthtoken',
         }),
@@ -301,7 +301,7 @@ saltos.authenticate.reauthtoken = () => {
  */
 saltos.authenticate.deauthtoken = () => {
     saltos.ajax({
-        url: 'index.php',
+        url: 'api/index.php',
         data: JSON.stringify({
             'action': 'deauthtoken',
         }),
@@ -343,7 +343,7 @@ saltos.authenticate.deauthtoken = () => {
  */
 saltos.authenticate.checktoken = () => {
     saltos.ajax({
-        url: 'index.php',
+        url: 'api/index.php',
         data: JSON.stringify({
             'action': 'checktoken',
         }),

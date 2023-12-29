@@ -162,7 +162,7 @@ saltos.invoices.search = () => {
     document.getElementById('page').value = '0';
     saltos.form_app.screen('loading');
     saltos.ajax({
-        url: 'index.php',
+        url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
             'app': saltos.hash.get().split('/').at(1),
@@ -212,7 +212,7 @@ saltos.invoices.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.form_app.screen('loading');
     saltos.ajax({
-        url: 'index.php',
+        url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
             'app': saltos.hash.get().split('/').at(1),
@@ -265,7 +265,7 @@ saltos.invoices.insert = () => {
     }
     var data = saltos.get_data();
     saltos.ajax({
-        url: 'index.php',
+        url: 'api.php',
         data: JSON.stringify({
             'action': 'insert',
             'app': saltos.hash.get().split('/').at(1),
@@ -312,7 +312,7 @@ saltos.invoices.update = () => {
         return;
     }
     saltos.ajax({
-        url: 'index.php',
+        url: 'api.php',
         data: JSON.stringify({
             'action': 'update',
             'app': saltos.hash.get().split('/').at(1),
@@ -351,7 +351,7 @@ saltos.invoices.update = () => {
  */
 saltos.invoices.delete = () => {
     saltos.ajax({
-        url: 'index.php',
+        url: 'api.php',
         data: JSON.stringify({
             'action': 'delete',
             'app': saltos.hash.get().split('/').at(1),

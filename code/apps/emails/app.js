@@ -62,7 +62,7 @@ saltos.emails.search = () => {
     document.getElementById('page').value = '0';
     saltos.form_app.screen('loading');
     saltos.ajax({
-        url: 'index.php',
+        url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
             'app': 'emails',
@@ -112,7 +112,7 @@ saltos.emails.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.form_app.screen('loading');
     saltos.ajax({
-        url: 'index.php',
+        url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
             'app': 'emails',

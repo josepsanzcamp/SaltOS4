@@ -44,7 +44,7 @@
         space: true,
         brand: {
             name: 'SaltOS',
-            logo: 'core/img/logo_white.svg',
+            logo: 'web/img/logo_white.svg',
             width: 25,
             height: 25,
         },
@@ -156,9 +156,9 @@
                                     var obj = document.querySelector('link[rel=stylesheet]');
                                     obj.removeAttribute('integrity');
                                     if (theme == 'bootstrap') {
-                                        obj.setAttribute('href', 'core/lib/bootstrap/bootstrap.min.css');
+                                        obj.setAttribute('href', 'lib/bootstrap/bootstrap.min.css');
                                     } else {
-                                        obj.setAttribute('href', 'core/lib/bootswatch/' + theme + '.min.css');
+                                        obj.setAttribute('href', 'lib/bootswatch/' + theme + '.min.css');
                                     }
                                     this.parentNode.querySelector('button.active').classList.remove('active');
                                     this.querySelector('button').classList.add('active');
