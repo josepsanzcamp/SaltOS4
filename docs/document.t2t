@@ -1,6 +1,6 @@
 Code documentation
-SaltOS 4.0 r480
-November 2023
+SaltOS 4.0 r559
+December 2023
 
 
 
@@ -9,7 +9,7 @@ November 2023
 ++Add error action++
 
 ```
-core/php/action/adderror.php
+api/php/action/adderror.php
 ```
 
 This file implements the adderror action, requires a POST JSON request
@@ -25,7 +25,7 @@ error
 ++Add files action++
 
 ```
-core/php/action/addfiles.php
+api/php/action/addfiles.php
 ```
 
 This file implements the delete files action, requires a POST JSON request
@@ -51,7 +51,7 @@ array and store the file in the upload directory
 ++Add log action++
 
 ```
-core/php/action/addlog.php
+api/php/action/addlog.php
 ```
 
 This file implements the addlog action, requires a POST JSON request
@@ -63,7 +63,7 @@ with an element in the json that contains the message to be added
 ++Application action++
 
 ```
-core/php/action/app.php
+api/php/action/app.php
 ```
 
 This file implements the app action, requires a GET REST request
@@ -79,7 +79,7 @@ and the order of the elements are:
 ++Authentication token action++
 
 ```
-core/php/action/authtoken.php
+api/php/action/authtoken.php
 ```
 
 This file implements the login action, allowing to authenticate users using the pair
@@ -98,7 +98,7 @@ status of te token instead of returns a json with an error in case of non validi
 ++Authentication update action++
 
 ```
-core/php/action/authupdate.php
+api/php/action/authupdate.php
 ```
 
 This file implements the update password action, allowing to authenticated
@@ -118,7 +118,7 @@ the password update
 ++BarCode action++
 
 ```
-core/php/action/barcode.php
+api/php/action/barcode.php
 ```
 
 This action allow to generate a barcode, you can pass the desired
@@ -138,7 +138,7 @@ message that you want to convert in barcode
 ++Captcha action++
 
 ```
-core/php/action/captcha.php
+api/php/action/captcha.php
 ```
 
 This action allo to retrieve the captcha of a randomly number or math
@@ -166,7 +166,7 @@ a json image
 ++Check token action++
 
 ```
-core/php/action/checktoken.php
+api/php/action/checktoken.php
 ```
 
 This file implements the check action, allowing to check token's validity, the check
@@ -181,7 +181,7 @@ case of non validity
 ++Deauthentication token action++
 
 ```
-core/php/action/deauthtoken.php
+api/php/action/deauthtoken.php
 ```
 
 This file implements the logout action, allowing to deauthenticate users
@@ -194,7 +194,7 @@ The unique requirement to execute this action is to have a valid token
 ++Delete action++
 
 ```
-core/php/action/delete.php
+api/php/action/delete.php
 ```
 
 This action allow to delete registers in the database associated to
@@ -206,7 +206,7 @@ TODO
 ++Delete files action++
 
 ```
-core/php/action/delfiles.php
+api/php/action/delfiles.php
 ```
 
 This file implements the delete files action, requires a POST JSON request
@@ -228,22 +228,10 @@ clear the file and hash element of the array
 - @hash  => this field contains the hash of the contents of the file
 
 
-++Form action++
-
-```
-core/php/action/form.php
-```
-
-This action tries to facility the creation of forms with the tipicals
-features ...
-
-TODO
-
-
 ++Insert action++
 
 ```
-core/php/action/insert.php
+api/php/action/insert.php
 ```
 
 This action allow to insert registers in the database associated to
@@ -255,7 +243,7 @@ TODO
 ++List action++
 
 ```
-core/php/action/list.php
+api/php/action/list.php
 ```
 
 This action tries to facility the creation of lists with the tipicals
@@ -268,7 +256,7 @@ TODO: Falta el order by desde el listado
 ++QRCode action++
 
 ```
-core/php/action/qrcode.php
+api/php/action/qrcode.php
 ```
 
 This action allow to generate a qrcode with the SaltOS logo embedded
@@ -286,7 +274,7 @@ want to convert in qrcode.
 ++Reauthentication token action++
 
 ```
-core/php/action/reauthtoken.php
+api/php/action/reauthtoken.php
 ```
 
 This file implements the renew action, allowing to renew tokens before
@@ -300,7 +288,7 @@ and have a token with available renewals
 ++Score action++
 
 ```
-core/php/action/score.php
+api/php/action/score.php
 ```
 
 This action allo to retrieve the score of a password, intended to be used
@@ -320,7 +308,7 @@ image
 ++Update action++
 
 ```
-core/php/action/update.php
+api/php/action/update.php
 ```
 
 This action allow to update registers in the database associated to
@@ -334,7 +322,7 @@ TODO
 ++Apps helper module++
 
 ```
-core/php/autoload/apps.php
+api/php/autoload/apps.php
 ```
 
 This file contains functions intended to be used as hepers of other functions, allowing to convert
@@ -352,6 +340,19 @@ dictionary of all conversions and resolves the data using it
 
 - @fn  => the caller function
 - @arg => the argument passed to the function
+
+
++++Subtables helper+++
+
+```
+function __apps_subtables_helper($subtables)
+```
+
+This function helps the follow apps to returns the subtables information into
+a structure instead of string, this is very helpfull by the code that consumes
+this information, allow to use it quickly without parsing the original string.
+
+- @subtables => the string that contains the subtables specification
 
 
 +++Id to App+++
@@ -467,7 +468,7 @@ This function detect if an app exists
 ++Array to XML helper module++
 
 ```
-core/php/autoload/array2xml.php
+api/php/autoload/array2xml.php
 ```
 
 This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
@@ -529,7 +530,7 @@ language file, to do it, uses some helpers as __array2xml_* functions
 ++Array helper module++
 
 ```
-core/php/autoload/arrayutils.php
+api/php/autoload/arrayutils.php
 ```
 
 This file contain useful array functions
@@ -565,7 +566,7 @@ and to simplify the usage of this elements in the client side
 ++Barcode helper module++
 
 ```
-core/php/autoload/barcode.php
+api/php/autoload/barcode.php
 ```
 
 This fie contains useful functions related to barcodes
@@ -598,7 +599,7 @@ the function can returns an empty string
 ++Captcha helper module++
 
 ```
-core/php/autoload/captcha.php
+api/php/autoload/captcha.php
 ```
 
 This fie contains useful functions related to captchas
@@ -682,7 +683,7 @@ as trick, checks that the output operation is performed by prime numbers
 ++Color utils helper module++
 
 ```
-core/php/autoload/colorutils.php
+api/php/autoload/colorutils.php
 ```
 
 This fie contains useful functions related to colors
@@ -707,7 +708,7 @@ Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
 ++Compatibility helper module++
 
 ```
-core/php/autoload/compat.php
+api/php/autoload/compat.php
 ```
 
 This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
@@ -752,7 +753,7 @@ https://www.php.net/manual/es/function.array-key-last.php#124007
 ++Config helper module++
 
 ```
-core/php/autoload/config.php
+api/php/autoload/config.php
 ```
 
 This fie contains useful functions related to configuration features
@@ -800,7 +801,7 @@ in the memory of the config file for negative user_id values
 ++Control helper module++
 
 ```
-core/php/autoload/control.php
+api/php/autoload/control.php
 ```
 
 This fie contains useful functions related to the control and version system, they allow to
@@ -905,7 +906,7 @@ restore versions from 1 to ver_id, and must to discard the next versions
 ++Database helper module++
 
 ```
-core/php/autoload/database.php
+api/php/autoload/database.php
 ```
 
 This fie contains useful functions related to database, allow to connect, check queries, execute
@@ -1067,7 +1068,7 @@ This function returns the name of the field identified by the index field
 ++Datetime helper module++
 
 ```
-core/php/autoload/datetime.php
+api/php/autoload/datetime.php
 ```
 
 This fie contains useful functions related to datetime, allow to get current timestamp in various
@@ -1257,7 +1258,7 @@ used to move the current time mark
 ++Database schema helper module++
 
 ```
-core/php/autoload/dbschema.php
+api/php/autoload/dbschema.php
 ```
 
 This fie contains useful functions related to database schema, allow to manage the entire database
@@ -1500,7 +1501,7 @@ indexing feature
 ++Error helper module++
 
 ```
-core/php/autoload/error.php
+api/php/autoload/error.php
 ```
 
 This fie contains useful functions related to error management, allow to trigger and manage
@@ -1698,7 +1699,7 @@ an array contents, too, this function adds the code entry to the input array
 ++Execution helper module++
 
 ```
-core/php/autoload/exec.php
+api/php/autoload/exec.php
 ```
 
 This fie contains useful functions related to execution of external programs, allow to execute,
@@ -1772,7 +1773,7 @@ Returns the string that contains the command with ths timeout control
 ++Export helper module++
 
 ```
-core/php/autoload/export.php
+api/php/autoload/export.php
 ```
 
 This fie contains useful functions related to export data, allow to generate outputs in formats
@@ -1876,7 +1877,7 @@ They will returns all data
 ++File utils helper module++
 
 ```
-core/php/autoload/fileutils.php
+api/php/autoload/fileutils.php
 ```
 
 This fie contains useful functions related to the file usage, allow to manage directories, files,
@@ -2100,7 +2101,7 @@ to know when the file has changed
 ++Garbage collector helper module++
 
 ```
-core/php/autoload/gc.php
+api/php/autoload/gc.php
 ```
 
 This fie contains useful functions related to the garbaging unused resources, currently only
@@ -2124,7 +2125,7 @@ current directory, parent directory and htaccess file
 ++Get data helper module++
 
 ```
-core/php/autoload/getdata.php
+api/php/autoload/getdata.php
 ```
 
 This fie contains useful functions related to the $_DATA global variable, allow to get and set
@@ -2158,7 +2159,7 @@ This function sets a value in the data system for the specified key
 ++Gettext helper module++
 
 ```
-core/php/autoload/gettext.php
+api/php/autoload/gettext.php
 ```
 
 This fie contains useful functions related to gettext funcionality, allow to manage the
@@ -2180,7 +2181,7 @@ to do more open as the GNU gettext
 ++Import file helper module++
 
 ```
-core/php/autoload/import.php
+api/php/autoload/import.php
 ```
 
 This fie contains useful functions related to import contents using differents formats suck as
@@ -2688,7 +2689,7 @@ mode the contents of a matrix
 ++Make index helper module++
 
 ```
-core/php/autoload/indexing.php
+api/php/autoload/indexing.php
 ```
 
 This fie contains useful functions related to the indexing feature that internally uses the
@@ -2744,7 +2745,7 @@ related to the app register
 ++Iniset helper module++
 
 ```
-core/php/autoload/iniset.php
+api/php/autoload/iniset.php
 ```
 
 This fie contains useful functions related to the evaluation of the iniset, puntenv and extra
@@ -2801,7 +2802,7 @@ accept functions with one and two arguments, otherwise an error is triggered
 ++Log helper module++
 
 ```
-core/php/autoload/log.php
+api/php/autoload/log.php
 ```
 
 This fie contains useful functions related to the logs files, allowing to add and check contents
@@ -2890,7 +2891,7 @@ problems in the error reporting because break the hash and checklog optimization
 ++Memory helper module++
 
 ```
-core/php/autoload/memory.php
+api/php/autoload/memory.php
 ```
 
 This fie contains useful functions related to memory and time usage, allow to control the usage
@@ -2973,7 +2974,7 @@ exceptionally amount of execution time
 ++Output helper module++
 
 ```
-core/php/autoload/output.php
+api/php/autoload/output.php
 ```
 
 This fie contains useful functions related to the output of the SaltOS, allow to send contents to
@@ -3014,7 +3015,7 @@ requires is the data that you want to send
 ++Password helper module++
 
 ```
-core/php/autoload/password.php
+api/php/autoload/password.php
 ```
 
 This fie contains useful functions related to password, currently only publish one feature to check
@@ -3038,7 +3039,7 @@ password
 ++Permissions helper module++
 
 ```
-core/php/autoload/perms.php
+api/php/autoload/perms.php
 ```
 
 This fie contains useful functions related to permissions, allow to apply permissions in php core
@@ -3148,7 +3149,7 @@ function returns true for perm list and form perm list|user
 ++QRCode helper module++
 
 ```
-core/php/autoload/qrcode.php
+api/php/autoload/qrcode.php
 ```
 
 This fie contains useful functions related to QRCodes
@@ -3178,7 +3179,7 @@ the function can returns an empty string
 ++Random helper module++
 
 ```
-core/php/autoload/random.php
+api/php/autoload/random.php
 ```
 
 This fie contains useful functions related to random number generator, currently only initialize
@@ -3203,7 +3204,7 @@ if it is not provided, a randomly seed is used by default
 ++Score image helper module++
 
 ```
-core/php/autoload/score.php
+api/php/autoload/score.php
 ```
 
 This fie contains useful functions related to score images
@@ -3229,7 +3230,7 @@ write the score percent
 ++Semaphore helper module++
 
 ```
-core/php/autoload/semaphores.php
+api/php/autoload/semaphores.php
 ```
 
 This fie contains useful functions related to semaphores, allow to create and use semaphores
@@ -3321,7 +3322,7 @@ function
 ++Server helper module++
 
 ```
-core/php/autoload/server.php
+api/php/autoload/server.php
 ```
 
 This fie contains useful functions related to the $_SERVER global variable, currently only publish
@@ -3354,7 +3355,7 @@ This function is intended to replace some server variabe in runtime mode
 ++SQL utils helper module++
 
 ```
-core/php/autoload/sqlutils.php
+api/php/autoload/sqlutils.php
 ```
 
 This fie contains useful functions related to SQL queries, allow to help modules that requires
@@ -3772,7 +3773,7 @@ app and the prefix to be added to the id field of the in subquery
 ++String utils helper module++
 
 ```
-core/php/autoload/strutils.php
+api/php/autoload/strutils.php
 ```
 
 This fie contains useful functions related to strings manipulations, suck as get the test in
@@ -3957,7 +3958,7 @@ This function returns a string with a new and unique token
 ++System helper module++
 
 ```
-core/php/autoload/system.php
+api/php/autoload/system.php
 ```
 
 This fie contains useful functions related to system checks, allow to detect dependencies not
@@ -3980,7 +3981,7 @@ Too, check all directories of the data directory to validate that the process ca
 ++User helper module++
 
 ```
-core/php/autoload/user.php
+api/php/autoload/user.php
 ```
 
 This file contains the functions associated to the user validation, to
@@ -4051,7 +4052,7 @@ and tokens
 ++Version helper module++
 
 ```
-core/php/autoload/version.php
+api/php/autoload/version.php
 ```
 
 This fie contains useful functions related to the version of the SaltOS of the php engine
@@ -4106,7 +4107,7 @@ version requested and the current version.
 ++XML to Array helper module++
 
 ```
-core/php/autoload/xml2array.php
+api/php/autoload/xml2array.php
 ```
 
 This fie contains useful functions related to the xml manipulation, this code is a part of the
@@ -4333,7 +4334,7 @@ The valid inputs are the strings one, zero, void, true, false, on, off, yes and 
 ++Main execution module++
 
 ```
-core/php/autoload/zindex.php
+api/php/autoload/zindex.php
 ```
 
 This file contains the old index.php file, this was moved here to simplify the index.php and to
@@ -4402,7 +4403,7 @@ As a brief resume, you can use the follow keys in get_data or set_data:
 ++SQLite3 functions library++
 
 ```
-core/php/database/libsqlite.php
+api/php/database/libsqlite.php
 ```
 
 SQLite's database allow to define external functions that can be used from the SQL language,
@@ -4634,7 +4635,7 @@ This function add the NOW to the SQLite database
 ++MySQL improved driver++
 
 ```
-core/php/database/mysqli.php
+api/php/database/mysqli.php
 ```
 
 This file implements the MySQL improved driver. This driver was coded later that the initial
@@ -4732,7 +4733,7 @@ This function close the database connection and sets the link to null
 ++PDO MsSQL driver++
 
 ```
-core/php/database/pdo_mssql.php
+api/php/database/pdo_mssql.php
 ```
 
 This file implements the MySQL improved driver. This driver uses the dblib library to connect
@@ -4829,7 +4830,7 @@ This function close the database connection and sets the link to null
 ++PDO MySQL driver++
 
 ```
-core/php/database/pdo_mysql.php
+api/php/database/pdo_mysql.php
 ```
 
 This file implements the MySQL improved driver. This is the recommended driver when you want
@@ -4927,7 +4928,7 @@ This function close the database connection and sets the link to null
 ++PDO SQLite driver++
 
 ```
-core/php/database/pdo_sqlite.php
+api/php/database/pdo_sqlite.php
 ```
 
 This file implements the MySQL improved driver. This is the recommended driver when you want
@@ -5031,7 +5032,7 @@ This function close the database connection and sets the link to null
 ++SQLite3 driver++
 
 ```
-core/php/database/sqlite3.php
+api/php/database/sqlite3.php
 ```
 
 This file implements the MySQL improved driver. This is the recommended driver when you want
@@ -5136,7 +5137,7 @@ This function close the database connection and sets the link to null
 ++Application helper module++
 
 ```
-core/js/app.js
+web/js/app.js
 ```
 
 This fie contains useful functions related to the main application, at the end of this file you
@@ -5223,6 +5224,34 @@ extra, it tries to search the field spec in the array to update the value of the
 allow that the get_data can differ between the original data and the modified data.
 
 
++++Data template helper+++
+
+```
+saltos.form_app.__data_template_helper = (template_id, data, index)
+```
+
+This function allow to convert the data object that contains the values for the fields idenfidied
+by the keys of the associative array into a data object with the keys ready to be used by the
+fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#INDEX
+
+- @template_id => the template identity used in the spec
+- @data        => the object that contains the data associated to the row
+- @index       => the index used in all fields of the template
+
+
++++Layout template helper+++
+
+```
+saltos.form_app.__layout_template_helper = (template_id, index)
+```
+
+This function returns the template identified by the template_id for the specified index, ready
+to be used by the saltos.form_app.layout function.
+
+- @template_id => the template identity used in the spec
+- @index       => the index used in all fields of the template
+
+
 +++Form layout helper+++
 
 ```
@@ -5288,25 +5317,38 @@ Note that as some part of this code appear in the core.require function, we have
 to replace it by a call to the saltos.require
 
 
-+++Loading helper+++
++++Form title helper+++
 
 ```
-saltos.loading = on_off
+saltos.form_app.title = title
 ```
 
-This function adds and removes the spinner to emulate the loading effect screen
+This function sets the document title, too it checks the existence of the x-powered-by
+header received in the ajax calls and stored in the saltos object to be used in the
+last part of the title.
 
-- @on_off => if you want to show or hide the loading spinner, the function returns
-true when can do the action, false otherwise
+- @title => The title that you want to set in the page
 
 
-+++Clear Screen+++
++++Form screen helper+++
 
 ```
-saltos.clear_screen = ()
+saltos.form_app.screen = action
 ```
 
-This function remove all contents of the body
+This function adds and removes the spinner to emulate the loading effect screen, too is able
+to clear the screen by removing all contents of the body
+
+- @action => use loading, unloading or clear to execute the desired action
+
+
++++Form navbar helper+++
+
+```
+saltos.form_app.navbar = navbar
+```
+
+TODO
 
 
 +++Source helper+++
@@ -5317,7 +5359,7 @@ saltos.__source_helper = field
 
 This function is intended to provide an asynchronous sources for a field, using the source attribute,
 you can program an asynchronous ajax request to retrieve the data used to create the field.
-*
+
 This function is used in the fields of type table, alert, card and chartjs, the call of this function
 is private and is intended to be used as a helper from the builders of the previous types opening
 another way to pass arguments.
@@ -5340,6 +5382,45 @@ function can retrieve all fields or only the fields that contains differences be
 original data and the current data.
 
 - @full => boolean to indicate if you want the entire form or only the differences
+
+
++++Get data ids helper+++
+
+```
+saltos.__get_data_ids_helper = data
+```
+
+This function allow to retrieve the needed ids in the fields used as template
+
+- @data => the contents of the object with data
+
+
+Notes:
+
+The main idea of this function is to add the id fields if it is needed, for example
+if some field of the template is modified and their value contains a different value
+that void.
+
+
++++Parse data+++
+
+```
+saltos.parse_data = data
+```
+
+This function allow to join in an object the values that share the same prefix part of
+the key, for example, if you have an object with two ventries (a.a and a.b), then the
+resulted value will be an object a with two entries (a and b).
+
+- @data => the contents of the object with data
+
+
+Notes:
+
+This function is used to allow the specification of multiples parameters, for example,
+in the navbar widget where the widget expects an object for the brand configuration, too
+is used by get_data to separate in a more pretty structure some fields as the details used
+in the invoices.
 
 
 +++Check form+++
@@ -5377,10 +5458,35 @@ to do screen for view mode.
 +++Form helper+++
 
 ```
-saltos.form_helper = (attr, bool)
+saltos.__form_helper = (attr, bool)
 ```
 
 This function is a helper used by the form_disabled and form_readonly functions
+
+
++++ParentNode Search helper+++
+
+```
+saltos.parentNode_search = (obj, search)
+```
+
+This function helps the user interface to search for parentNodes that can be identified
+by some class in the classList, it is intended to prevent the call of the parentNode in
+locations where sometimes can contains a different structure, for example, when you want
+to get the col div that contains a button with and without labels, depending on the
+usage of the label, the component can contains a different structure and you may need
+more or less parentNode calls, thanks to this function, the calls can be automated
+returning the correct object of the structure with independence of the source of the
+search.
+
+- @obj    => the initial obj where do you want to do the search
+- @search => the class name that the parentNode destination must contains
+
+
+Notes:
+
+As you can see, this search can be performed only by 100 times to prevent infinites loop
+in case of not found the search pattern.
 
 
 +++Main code+++
@@ -5391,7 +5497,7 @@ This is the code that must to be executed to initialize all requirements of this
 ++Authentication helper module++
 
 ```
-core/js/auth.js
+web/js/auth.js
 ```
 
 This file contains all code needed to manage the hash feature, includes the code to
@@ -5399,15 +5505,6 @@ process the onhashchange and too, includes the code to get and set the hash valu
 includes all code to manage tokens and to do authentications with all features suck as
 the main authentication using a user and password pair, the reauthtoken, the deauthtoken
 and the checktoken to control it.
-
-
-+++Hash change management+++
-
-```
-window.onhashchange = event
-```
-
-This function allow to SaltOS to update the contents when hash change
 
 
 +++Hash helper object+++
@@ -5440,6 +5537,12 @@ in the hash argument
 - @hash => this must contain the hash with or without the pillow
 
 
+Notes:
+
+The # char is added by default if it is not found in the hash, additionally the dot is
+added to force to remove all chars before the # char in the document.location
+
+
 +++Add hash+++
 
 ```
@@ -5452,6 +5555,12 @@ in the hash argument
 - @hash => this must contain the hash with or without the pillow
 
 
+Notes:
+
+The # char is added by default if it is not found in the hash, additionally the dot is
+added to force to remove all chars before the # char in the document.location
+
+
 +++Change trigger+++
 
 ```
@@ -5459,6 +5568,15 @@ saltos.hash.trigger = ()
 ```
 
 This function triggers the hashchange event to execute the onhashchange
+
+
++++Hash change management+++
+
+```
+window.onhashchange = event
+```
+
+This function allow to SaltOS to update the contents when hash change
 
 
 +++Token helper object+++
@@ -5473,7 +5591,7 @@ This object stores all token functions to get and set data using the localStorag
 +++Get token function+++
 
 ```
-saltos.token.get_token = ()
+saltos.token.get = ()
 ```
 
 This function returns the token stored in the localStorage
@@ -5614,20 +5732,102 @@ to be used when set or unset the token.
 - @on_off => the parameter to indicates if you want to enable or disable the feature
 
 
++++Tabs communication helper object+++
+
+```
+saltos.tabs = {};
+```
+
+This object stores all tabs communications functions to send and listen messages
+
+
++++Listeners helper object+++
+
+```
+saltos.tabs.listeners = {};
+```
+
+This object stores all listeners added by the set_listeners and used by the onstorage
+
+
++++Set listener+++
+
+```
+saltos.tabs.set_listener = (name, fn)
+```
+
+This function allos to set a listener function to the named event
+
+- @name => the name of the event that you want to suscribe
+- @fn   => callback executed when event named is triggered
+
+
++++Unset listener+++
+
+```
+saltos.tabs.unset_listener = (name)
+```
+
+This function removes a listener from the listeners object
+
+- @name => the name of the event that you want to unsuscribe
+
+
++++Send message+++
+
+```
+saltos.tabs.send = (name, data)
+```
+
+This function allow to send a message to all tabs using the name and data
+as event and argument of the callback executed.
+
+- @name => the name of the event that you want to send
+- @data => the arguments used by the callback function
+
+
+Notes:
+
+The usage of the localStorage causes the execution of the onstorage function
+of the other tabs but not for the tab that send the message, to fix this we
+are dispatching an event in the current window, this allow that all tabs
+(including the source of the message sent) receives the notification and
+executes the listeners if needed
+
+
++++Storage management+++
+
+```
+window.onstorage = event
+```
+
+This function allow to SaltOS to receive the messages sended by other tabs
+using the localStorage.
+
+
 ++Bootstrap helper module++
 
 ```
-core/js/bootstrap.js
+web/js/bootstrap.js
 ```
 
 This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
 other plugins suck as plots or rich editors
 
 
++++Bootstrap helper object+++
+
+```
+saltos.bootstrap = {};
+```
+
+This object stores all bootstrap functions and data
+
+
 +++Form fields constructor+++
 
 ```
-saltos.form_field = field
+saltos.bootstrap.field = field
 ```
 
 This function and their helpers, allow the creation of the interface using the bootstrap
@@ -5682,7 +5882,7 @@ To do more small the previous list, we have used the follow abreviations:
 - @AF => autofocus
 
 
-The saltos.__form_field object is part of this constructor and act with the constructor
+The saltos.bootstrap.__field object is part of this constructor and act with the constructor
 as a helper, the idea is that the user must to call the constructor and the helpers are
 only for internal use.
 
@@ -5690,7 +5890,7 @@ only for internal use.
 +++Form_field constructor helper object+++
 
 ```
-saltos.__form_field = {};
+saltos.bootstrap.__field = {};
 ```
 
 This object allow to the constructor to use a rational structure for a quick access of each helper
@@ -5699,7 +5899,7 @@ This object allow to the constructor to use a rational structure for a quick acc
 +++Div constructor helper+++
 
 ```
-saltos.__form_field.div = field
+saltos.bootstrap.__field.div = field
 ```
 
 This function returns an object of the type class by default, you can pass the class
@@ -5713,7 +5913,7 @@ argument in the field object to specify what kind of class do you want to use.
 +++Container constructor helper+++
 
 ```
-saltos.__form_field.container = field
+saltos.bootstrap.__field.container = field
 ```
 
 This function returns an object of the container-fluid class by default, you can pass the class
@@ -5727,7 +5927,7 @@ argument in the field object to specify what kind of container do you want to do
 +++Row constructor helper+++
 
 ```
-saltos.__form_field.row = field
+saltos.bootstrap.__field.row = field
 ```
 
 This function returns an object of the row class by default, you can pass the class argument
@@ -5741,7 +5941,7 @@ in the field object to specify what kind of row do you want to do.
 +++Col constructor helper+++
 
 ```
-saltos.__form_field.col = field
+saltos.bootstrap.__field.col = field
 ```
 
 This function returns an object of the col class by default, you can pass the class argument
@@ -5755,7 +5955,7 @@ in the field object to specify what kind of col do you want to do.
 +++Text constructor helper+++
 
 ```
-saltos.__form_field.text = field
+saltos.bootstrap.__field.text = field
 ```
 
 This function returns an input object of type text, you can pass the same arguments
@@ -5778,7 +5978,7 @@ that for the input object of type text
 +++Hidden constructor helper+++
 
 ```
-saltos.__form_field.hidden = field
+saltos.bootstrap.__field.hidden = field
 ```
 
 This function returns an input object of type hidden, you can pass the same arguments
@@ -5806,7 +6006,7 @@ class to identify a group of hidden input
 +++Integer constructor helper+++
 
 ```
-saltos.__form_field.integer = field
+saltos.bootstrap.__field.integer = field
 ```
 
 This function returns an input object of type integer, you can pass the same arguments
@@ -5830,13 +6030,13 @@ Notes:
 This widget requires the imask library and can be loaded automatically using the require
 feature:
 
-- @core/lib/imaskjs/imask.min.js
+- @web/lib/imaskjs/imask.min.js
 
 
 +++Float constructor helper+++
 
 ```
-saltos.__form_field.float = field
+saltos.bootstrap.__field.float = field
 ```
 
 This function returns an input object of type float, you can pass the same arguments
@@ -5860,13 +6060,13 @@ Notes:
 This widget requires the imask library and can be loaded automatically using the require
 feature:
 
-- @core/lib/imaskjs/imask.min.js
+- @web/lib/imaskjs/imask.min.js
 
 
 +++Color constructor helper+++
 
 ```
-saltos.__form_field.color = field
+saltos.bootstrap.__field.color = field
 ```
 
 This function returns an input object of type color, you can pass the same
@@ -5894,7 +6094,7 @@ for this reason it is set to #000000 if value is void
 +++Date constructor helper+++
 
 ```
-saltos.__form_field.date = field
+saltos.bootstrap.__field.date = field
 ```
 
 This function returns an input object of type date, you can pass the same arguments
@@ -5916,7 +6116,7 @@ that for the input object of type text
 +++Time constructor helper+++
 
 ```
-saltos.__form_field.time = field
+saltos.bootstrap.__field.time = field
 ```
 
 This function returns an input object of type time, you can pass the same arguments
@@ -5938,7 +6138,7 @@ that for the input object of type text
 +++Datetime constructor helper+++
 
 ```
-saltos.__form_field.datetime = field
+saltos.bootstrap.__field.datetime = field
 ```
 
 This function returns an input object of type datetime, you can pass the same arguments
@@ -5960,7 +6160,7 @@ that for the input object of type text
 +++Textarea constructor helper+++
 
 ```
-saltos.__form_field.textarea = field
+saltos.bootstrap.__field.textarea = field
 ```
 
 This function returns a textarea object with the autogrow plugin enabled
@@ -5983,13 +6183,13 @@ Notes:
 This widget requires the autoheight library and can be loaded automatically using the require
 feature:
 
-- @core/lib/autoheight/autoheight.min.js
+- @web/lib/autoheight/autoheight.min.js
 
 
 +++Ckeditor constructor helper+++
 
 ```
-saltos.__form_field.ckeditor = field
+saltos.bootstrap.__field.ckeditor = field
 ```
 
 This function returns a textarea object with the ckeditor plugin enabled
@@ -6012,13 +6212,13 @@ Notes:
 This widget requires the ckeditor library and can be loaded automatically using the require
 feature:
 
-- @core/lib/ckeditor/ckeditor.min.js
+- @web/lib/ckeditor/ckeditor.min.js
 
 
 +++Codemirror constructor helper+++
 
 ```
-saltos.__form_field.codemirror = field
+saltos.bootstrap.__field.codemirror = field
 ```
 
 This function returns a textarea object with the codemirror plugin enabled
@@ -6042,14 +6242,14 @@ Notes:
 This widget requires the codemirror library and can be loaded automatically using the require
 feature:
 
-- @core/lib/codemirror/codemirror.min.css
-- @core/lib/codemirror/codemirror.min.js
+- @web/lib/codemirror/codemirror.min.css
+- @web/lib/codemirror/codemirror.min.js
 
 
 +++Iframe constructor helper+++
 
 ```
-saltos.__form_field.iframe = field
+saltos.bootstrap.__field.iframe = field
 ```
 
 This function returns an iframe object, you can pass the follow arguments:
@@ -6064,29 +6264,29 @@ This function returns an iframe object, you can pass the follow arguments:
 +++Select constructor helper+++
 
 ```
-saltos.__form_field.select = field
+saltos.bootstrap.__field.select = field
 ```
 
 This function returns a select object, you can pass the follow arguments:
 
-- @id       => the id used by the object
-- @class    => allow to add more classes to the default form-select
-- @disabled => this parameter raise the disabled flag
-- @required => this parameter raise the required flag
-- @autofocus   => this parameter raise the autofocus flag
-- @multiple => this parameter enables the multiple selection feature of the select
-- @size     => this parameter allow to see the options list opened with n (size) entries
-- @value    => the value used to detect the selected option
-- @tooltip  => this parameter raise the title flag
-- @rows     => this parameter contains the list of options, each option must be an object
-             with label and value entries
-- @label    => this parameter is used as text for the label
+- @id        => the id used by the object
+- @class     => allow to add more classes to the default form-select
+- @disabled  => this parameter raise the disabled flag
+- @required  => this parameter raise the required flag
+- @autofocus => this parameter raise the autofocus flag
+- @multiple  => this parameter enables the multiple selection feature of the select
+- @size      => this parameter allow to see the options list opened with n (size) entries
+- @value     => the value used to detect the selected option
+- @tooltip   => this parameter raise the title flag
+- @rows      => this parameter contains the list of options, each option must be an object
+              with label and value entries
+- @label     => this parameter is used as text for the label
 
 
 +++Multiselect constructor helper+++
 
 ```
-saltos.__form_field.multiselect = field
+saltos.bootstrap.__field.multiselect = field
 ```
 
 This function returns a multiselect object, you can pass the follow arguments:
@@ -6113,7 +6313,7 @@ TODO: detected a bug with this widget in chrome in mobile browsers
 +++Checkbox constructor helper+++
 
 ```
-saltos.__form_field.checkbox = field
+saltos.bootstrap.__field.checkbox = field
 ```
 
 This function returns a checkbox object, you can pass the follow arguments:
@@ -6136,7 +6336,7 @@ This widget returns their value by setting a zero or one (0/1) value on the valu
 +++Switch constructor helper+++
 
 ```
-saltos.__form_field.switch = field
+saltos.bootstrap.__field.switch = field
 ```
 
 This function returns a switch object, you can pass the follow arguments:
@@ -6159,7 +6359,7 @@ This widget uses the checkbox constructor
 +++Button constructor helper+++
 
 ```
-saltos.__form_field.button = field
+saltos.bootstrap.__field.button = field
 ```
 
 This function returns a button object, you can pass the follow arguments:
@@ -6180,7 +6380,7 @@ You can add an icon before the text by addind the bi-icon class to the class arg
 +++Password constructor helper+++
 
 ```
-saltos.__form_field.password = field
+saltos.bootstrap.__field.password = field
 ```
 
 This function returns an input object of type password, you can pass some arguments as:
@@ -6211,7 +6411,7 @@ button, exists a new line that is identified as another previousSibling, but not
 +++File constructor helper+++
 
 ```
-saltos.__form_field.file = field
+saltos.bootstrap.__field.file = field
 ```
 
 This function returns an input object of type password, you can pass some arguments as:
@@ -6243,7 +6443,7 @@ the real upload action.
 +++Link constructor helper+++
 
 ```
-saltos.__form_field.link = field
+saltos.bootstrap.__field.link = field
 ```
 
 This function creates a field similar of text but with the appearance of a link using a button,
@@ -6265,7 +6465,7 @@ appearance
 +++Label constructor helper+++
 
 ```
-saltos.__form_field.label = field
+saltos.bootstrap.__field.label = field
 ```
 
 This function returns a label object, you can pass some arguments as:
@@ -6280,7 +6480,7 @@ This function returns a label object, you can pass some arguments as:
 +++Image constructor helper+++
 
 ```
-saltos.__form_field.image = field
+saltos.bootstrap.__field.image = field
 ```
 
 This function returns an image object, you can pass some arguments as:
@@ -6296,7 +6496,7 @@ This function returns an image object, you can pass some arguments as:
 +++Excel constructor helper+++
 
 ```
-saltos.__form_field.excel = field
+saltos.bootstrap.__field.excel = field
 ```
 
 This function creates and returns an excel object, to do this they use the handsontable library,
@@ -6327,14 +6527,14 @@ the widget.
 This widget requires the handsontable library and can be loaded automatically using the require
 feature:
 
-- @core/lib/handsontable/handsontable.full.min.css
-- @core/lib/handsontable/handsontable.full.min.js
+- @web/lib/handsontable/handsontable.full.min.css
+- @web/lib/handsontable/handsontable.full.min.js
 
 
 +++Pdfjs constructor helper+++
 
 ```
-saltos.__form_field.pdfjs = field
+saltos.bootstrap.__field.pdfjs = field
 ```
 
 This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
@@ -6350,10 +6550,10 @@ Notes:
 This widget requires the pdfjs library and can be loaded automatically using the require
 feature:
 
-- @core/lib/pdfjs/pdf_viewer.min.css,
-- @core/lib/pdfjs/pdf.min.mjs
-- @core/lib/pdfjs/pdf_viewer.min.mjs
-- @core/lib/pdfjs/pdf.worker.min.mjs
+- @web/lib/pdfjs/pdf_viewer.min.css,
+- @web/lib/pdfjs/pdf.min.mjs
+- @web/lib/pdfjs/pdf_viewer.min.mjs
+- @web/lib/pdfjs/pdf.worker.min.mjs
 
 
 The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
@@ -6363,7 +6563,7 @@ that this file not appear in the next requires
 +++Table constructor helper+++
 
 ```
-saltos.__form_field.table = field
+saltos.bootstrap.__field.table = field
 ```
 
 Returns a table using the follow params:
@@ -6396,7 +6596,7 @@ of the row data, and for this reason, it will define the dropdown variable that 
 or not the contraction feature
 
 The elements of the data cells can contains an object with the field specification used
-to the saltos.form_field constructor, it is usefull to convert some fields to inputs
+to the saltos.bootstrap.field constructor, it is usefull to convert some fields to inputs
 instead of simple text, too is able to use the type attribute in the header specification
 to identify if you want to use a column with some special type as for example, the icons
 
@@ -6404,7 +6604,7 @@ to identify if you want to use a column with some special type as for example, t
 +++Alert constructor helper+++
 
 ```
-saltos.__form_field.alert = field
+saltos.bootstrap.__field.alert = field
 ```
 
 This component allow to set boxes type alert in the contents, only requires:
@@ -6429,7 +6629,7 @@ know if I maintain this or I remove it, but at the moment, this is added by defa
 +++Card constructor helper+++
 
 ```
-saltos.__form_field.card = field
+saltos.bootstrap.__field.card = field
 ```
 
 This functions creates a card with a lot of options:
@@ -6449,7 +6649,7 @@ This functions creates a card with a lot of options:
 +++Chart.js constructor helper+++
 
 ```
-saltos.__form_field.chartjs = field
+saltos.bootstrap.__field.chartjs = field
 ```
 
 This function creates a chart using the chart.js library, to do this requires de follow arguments:
@@ -6467,13 +6667,13 @@ To be more practice and for stetic reasons, I'm adding to all datasets the borde
 This widget requires the chartjs library and can be loaded automatically using the require
 feature:
 
-- @core/lib/chartjs/chart.umd.min.js
+- @web/lib/chartjs/chart.umd.min.js
 
 
 +++Tags constructor helper+++
 
 ```
-saltos.__form_field.tags = field
+saltos.bootstrap.__field.tags = field
 ```
 
 This function creates a text input that allow to manage tags, each tag is paint as a badge
@@ -6502,7 +6702,7 @@ each value, and requires the arguments of the specific widgets used in this widg
 +++Gallery constructor helper+++
 
 ```
-saltos.__form_field.gallery = field
+saltos.bootstrap.__field.gallery = field
 ```
 
 This function returns a gallery object, you can pass some arguments as:
@@ -6518,16 +6718,16 @@ This widget requires venobox, masonry and imagesloaded
 This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
 automatically using the require feature:
 
-- @core/lib/venobox/venobox.min.css
-- @core/lib/venobox/venobox.min.js
-- @core/lib/masonry/masonry.pkgd.min.js
-- @core/lib/imagesloaded/imagesloaded.pkgd.min.js
+- @web/lib/venobox/venobox.min.css
+- @web/lib/venobox/venobox.min.js
+- @web/lib/masonry/masonry.pkgd.min.js
+- @web/lib/imagesloaded/imagesloaded.pkgd.min.js
 
 
 +++Placeholder helper+++
 
 ```
-saltos.__form_field.placeholder = field
+saltos.bootstrap.__field.placeholder = field
 ```
 
 This function returns a grey area that uses all space with the placeholder glow effect
@@ -6538,7 +6738,7 @@ This function returns a grey area that uses all space with the placeholder glow 
 +++Private text constructor helper+++
 
 ```
-saltos.__text_helper = field
+saltos.bootstrap.__text_helper = field
 ```
 
 This function returns an input object of type text, you can pass some arguments as:
@@ -6563,7 +6763,7 @@ This function is intended to be used by other helpers of the form_field construc
 +++Private textarea constructor helper+++
 
 ```
-saltos.__textarea_helper = field
+saltos.bootstrap.__textarea_helper = field
 ```
 
 This function returns a textarea object, you can pass the follow arguments:
@@ -6588,7 +6788,7 @@ This function is intended to be used by other helpers of the form_field construc
 +++Private tooltip constructor helper+++
 
 ```
-saltos.__tooltip_helper = obj
+saltos.bootstrap.__tooltip_helper = obj
 ```
 
 This function is intended to enable the tooltip in the object, too it try to do some
@@ -6601,7 +6801,7 @@ the focus or get the click event
 +++Label helper+++
 
 ```
-saltos.__label_helper = field
+saltos.bootstrap.__label_helper = field
 ```
 
 This function is a helper for label field, it is intended to returns the
@@ -6617,7 +6817,7 @@ optimizer to removes the unnecessary envelopment
 +++Label Combine+++
 
 ```
-saltos.__label_combine = (field, old)
+saltos.bootstrap.__label_combine = (field, old)
 ```
 
 This function combine the label with the object, to do it, tries to create a new
@@ -6638,7 +6838,7 @@ their code because each case is different
 +++Menu constructor helper+++
 
 ```
-saltos.menu = args
+saltos.bootstrap.menu = args
 ```
 
 This function creates a menu intended to be used in navbar, nabs and tabs
@@ -6648,6 +6848,7 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 
 
 - @name              => name of the menu
+- @icon              => icon of the menu
 - @disabled          => this boolean allow to disable this menu entry
 - @active            => this boolean marks the option as active
 - @onclick           => the callback used when the user select the menu
@@ -6656,6 +6857,7 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 
 
 - @name     => name of the menu
+- @icon     => icon of the menu
 - @disabled => this boolean allow to disable this menu entry
 - @active   => this boolean marks the option as active
 - @onclick  => the callback used when the user select the menu
@@ -6665,12 +6867,13 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 +++Navbar constructor helper+++
 
 ```
-saltos.navbar = args
+saltos.bootstrap.navbar = args
 ```
 
 This component creates a navbar intended to be used as header
 
 - @id    => the id used by the object
+- @space => boolean to indicate if you want to add the space div
 - @brand => contains an object with the name, logo, width and height to be used
 
 
@@ -6686,7 +6889,7 @@ This component creates a navbar intended to be used as header
 +++Modal constructor helper object+++
 
 ```
-saltos.__modal = {};
+saltos.bootstrap.__modal = {};
 ```
 
 This object is used to store the element and the instance of the modal
@@ -6695,7 +6898,7 @@ This object is used to store the element and the instance of the modal
 +++Modal constructor helper+++
 
 ```
-saltos.modal = args
+saltos.bootstrap.modal = args
 ```
 
 This function creates a bootstrap modal and open it, offers two ways of usage:
@@ -6729,7 +6932,7 @@ to undestand that only one modal is allowed at each moment.
 +++Offcanvas constructor helper object+++
 
 ```
-saltos.__offcanvas = {};
+saltos.bootstrap.__offcanvas = {};
 ```
 
 This object is used to store the element and the instance of the offcanvas
@@ -6738,7 +6941,7 @@ This object is used to store the element and the instance of the offcanvas
 +++Offcanvas constructor helper+++
 
 ```
-saltos.offcanvas = args
+saltos.bootstrap.offcanvas = args
 ```
 
 This function creates a bootstrap offcanvas and open it, offers two ways of usage:
@@ -6771,7 +6974,7 @@ to undestand that only one offcanvas is allowed at each moment.
 +++Toast constructor helper+++
 
 ```
-saltos.toast = args
+saltos.bootstrap.toast = args
 ```
 
 This function creates a bootstrap toast and show it, and can accept the follow params:
@@ -6798,13 +7001,13 @@ Each toast includes a hash to prevent the creation of repeated toasts.
 This widget requires the md5 library and can be loaded automatically using the require
 feature:
 
-- @core/lib/md5/md5.min.js
+- @web/lib/md5/md5.min.js
 
 
 ++Core helper module++
 
 ```
-core/js/core.js
+web/js/core.js
 ```
 
 This fie contains useful functions related to the core application, provides the low level features
@@ -7026,6 +7229,64 @@ case, they uses a different technique, for css the load is asynchronous and for 
 the load will be synchronous.
 
 
++++Eval Bool+++
+
+```
+saltos.eval_bool = arg
+```
+
+This function returns a boolean depending on the input evaluation, the main idea
+is to get an string, for example, and determine if must be considered true or false
+otherwise returns the original argument and send a log message to the console.
+
+The valid inputs are the strings one, zero, void, true, false, on, off, yes and no
+
+- @arg => the value that do you want to evaluates as boolean
+
+
+Notes:
+
+This function is the same feature that the same function proviced by the backend by the
+php/autoload/xml2array.php file with more javascript details as type detection.
+
+
++++toString function+++
+
+```
+saltos.toString = arg
+```
+
+This function tries to convert to string from any other formats as boolean,
+number, null, undefined or other type.
+
+
++++TODO+++
+
+```
+saltos.is_attr_value = data
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.join_attr_value = data
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.addEventListener = (obj, event, fn)
+```
+
+TODO
+
+
 +Customers+
 
 ++Customers application++
@@ -7049,10 +7310,28 @@ This object contains all SaltOS code
 +++Initialize customers+++
 
 ```
-saltos.customers.initialize = ()
+saltos.customers.initialize_search = ()
 ```
 
 This function initializes the customers screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.customers.initialize_update_list = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.initialize_update_view = ()
+```
+
+TODO
 
 
 +++TODO+++
@@ -7113,6 +7392,35 @@ TODO
 
 ```
 saltos.customers.delete = ()
+```
+
+TODO
+
+
++Dashboard+
+
+++Dashboard application++
+
+```
+apps/dashboard/app.js
+```
+
+This application implements the tipical features associated to dashboard
+
+
++++Main object+++
+
+```
+saltos.dashboard = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.dashboard.initialize = ()
 ```
 
 TODO
@@ -7206,10 +7514,73 @@ This object contains all SaltOS code
 +++Initialize invoices+++
 
 ```
-saltos.invoices.initialize = ()
+saltos.invoices.initialize_search = ()
 ```
 
 This function initializes the invoices screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_update_list = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_update_view = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_buttons = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_inputs = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.compute_total = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.remove_item = (obj)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.add_item = ()
+```
+
+TODO
 
 
 +++TODO+++
@@ -7321,25 +7692,5 @@ saltos.login.access_denied = ()
 ```
 
 This function displays a modal dialog with the tipical access denied message
-
-
-+Tester+
-
-++Tester application++
-
-```
-apps/tester/app.js
-```
-
-This application implements the tipical features associated to tester
-
-
-+++Main code+++
-
-```
-(function() {
-```
-
-This function executes the main code that allow to you to see the tester in action
 
 

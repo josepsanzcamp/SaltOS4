@@ -37,7 +37,7 @@ timestamp0:
 	ls -l scripts/timestamp.tmp
 
 docs:
-	php scripts/makedocs.php docs/document.t2t code/core/php code/core/js code/apps/*/app.js
+	php scripts/makedocs.php docs/document.t2t code/api/php code/web/js code/apps/*/app.js
 
 clean:
 	rm -f code/web/index.js
