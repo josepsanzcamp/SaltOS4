@@ -17,7 +17,7 @@ imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,ver
 imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64:eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNy4zLjAifQ==
 masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base64:eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
-pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuMC4yNjkifQ==
+pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuMC4zNzkifQ==
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuMyJ9
 
 httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPjIgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
