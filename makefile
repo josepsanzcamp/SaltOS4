@@ -2,7 +2,7 @@
 SHELL=/bin/bash
 
 all:
-	minify code/web/js/{core,bootstrap,auth,app}.js > code/web/index.js
+	minify code/web/js/{object,core,bootstrap,auth,app}.js > code/web/index.js
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/index.htm
 
 test:
@@ -26,7 +26,7 @@ libs:
 	php scripts/checklibs.php scripts/checklibs.txt
 
 devel:
-	cat code/web/htm/index.htm | php scripts/debug.php web/index.js web/js/{core,bootstrap,auth,app}.js > code/index.htm
+	cat code/web/htm/index.htm | php scripts/debug.php web/index.js web/js/{object,core,bootstrap,auth,app}.js > code/index.htm
 
 timestamp:
 	touch scripts/timestamp.tmp

@@ -46,7 +46,7 @@ saltos.invoices = {};
  */
 saltos.invoices.initialize_search = () => {
     document.getElementById('search').addEventListener('keydown', event => {
-        if (saltos.get_keycode(event) != 13) {
+        if (saltos.core.get_keycode(event) != 13) {
             return;
         }
         saltos.invoices.search();
@@ -82,7 +82,7 @@ saltos.invoices.initialize_update_view = () => {
  */
 saltos.invoices.initialize_buttons = () => {
     document.querySelectorAll('.container.detail button, .container.footer button').forEach(_this => {
-        saltos.parentNode_search(_this, 'col-auto').remove();
+        saltos.app.parentNode_search(_this, 'col-auto').remove();
     });
 };
 
@@ -130,7 +130,7 @@ saltos.invoices.compute_total = () => {
  */
 saltos.invoices.remove_item = (obj) => {
     // This long line is to do a copy of the array to iterate and remove at the same time
-    var items = Array.prototype.slice.call(saltos.parentNode_search(obj, 'row').childNodes);
+    var items = Array.prototype.slice.call(saltos.app.parentNode_search(obj, 'row').childNodes);
     items.forEach(_this => {
         if (_this.classList.contains('d-none') && _this.querySelector('input').value != '') {
             _this.querySelector('input').value *= -1;
@@ -147,8 +147,8 @@ saltos.invoices.remove_item = (obj) => {
  * TODO
  */
 saltos.invoices.add_item = () => {
-    var layout = saltos.form_app.__layout_template_helper('detail', saltos.uniqid());
-    var obj = saltos.form_app.layout(layout, 'div');
+    var layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
+    var obj = saltos.app.form.layout(layout, 'div');
     document.querySelector('.container.footer').before(obj);
     saltos.invoices.initialize_inputs();
 };
@@ -160,8 +160,8 @@ saltos.invoices.add_item = () => {
  */
 saltos.invoices.search = () => {
     document.getElementById('page').value = '0';
-    saltos.form_app.screen('loading');
-    saltos.ajax({
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
@@ -173,15 +173,15 @@ saltos.invoices.search = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.form_app.screen('unloading');
-            if (!saltos.check_response(response)) {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             document.querySelector('table').replaceWith(saltos.bootstrap.field(response));
         },
         error: request => {
-            saltos.form_app.screen('unloading');
-            saltos.show_error({
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -210,8 +210,8 @@ saltos.invoices.clear_filter = () => {
  */
 saltos.invoices.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
-    saltos.form_app.screen('loading');
-    saltos.ajax({
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
@@ -223,8 +223,8 @@ saltos.invoices.read_more = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.form_app.screen('unloading');
-            if (!saltos.check_response(response)) {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             var obj = document.querySelector('table').querySelector('tbody');
@@ -232,8 +232,8 @@ saltos.invoices.read_more = () => {
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },
         error: request => {
-            saltos.form_app.screen('unloading');
-            saltos.show_error({
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -250,7 +250,7 @@ saltos.invoices.read_more = () => {
  * TODO
  */
 saltos.invoices.cancel = () => {
-    saltos.close_window();
+    saltos.core.close_window();
 };
 
 /**
@@ -259,12 +259,12 @@ saltos.invoices.cancel = () => {
  * TODO
  */
 saltos.invoices.insert = () => {
-    if (!saltos.check_required()) {
-        saltos.alert('Warning', 'Required fields not found');
+    if (!saltos.app.check_required()) {
+        saltos.app.alert('Warning', 'Required fields not found');
         return;
     }
-    var data = saltos.get_data();
-    saltos.ajax({
+    var data = saltos.app.get_data();
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'insert',
@@ -274,18 +274,18 @@ saltos.invoices.insert = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
                 saltos.tabs.send('saltos.invoices.update');
-                saltos.close_window();
+                saltos.core.close_window();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -302,16 +302,16 @@ saltos.invoices.insert = () => {
  * TODO
  */
 saltos.invoices.update = () => {
-    if (!saltos.check_required()) {
-        saltos.alert('Warning', 'Required fields not found');
+    if (!saltos.app.check_required()) {
+        saltos.app.alert('Warning', 'Required fields not found');
         return;
     }
-    var data = saltos.get_data();
+    var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.alert('Warning', 'No changes detected');
+        saltos.app.alert('Warning', 'No changes detected');
         return;
     }
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'update',
@@ -322,18 +322,18 @@ saltos.invoices.update = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
                 saltos.tabs.send('saltos.invoices.update');
-                saltos.close_window();
+                saltos.core.close_window();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -350,7 +350,7 @@ saltos.invoices.update = () => {
  * TODO
  */
 saltos.invoices.delete = () => {
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'delete',
@@ -360,18 +360,18 @@ saltos.invoices.delete = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
                 saltos.tabs.send('saltos.invoices.update');
-                saltos.close_window();
+                saltos.core.close_window();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });

@@ -46,7 +46,7 @@ saltos.customers = {};
  */
 saltos.customers.initialize_search = () => {
     document.getElementById('search').addEventListener('keydown', event => {
-        if (saltos.get_keycode(event) != 13) {
+        if (saltos.core.get_keycode(event) != 13) {
             return;
         }
         saltos.customers.search();
@@ -82,8 +82,8 @@ saltos.customers.initialize_update_view = () => {
  */
 saltos.customers.search = () => {
     document.getElementById('page').value = '0';
-    saltos.form_app.screen('loading');
-    saltos.ajax({
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
@@ -95,15 +95,15 @@ saltos.customers.search = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.form_app.screen('unloading');
-            if (!saltos.check_response(response)) {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             document.querySelector('table').replaceWith(saltos.bootstrap.field(response));
         },
         error: request => {
-            saltos.form_app.screen('unloading');
-            saltos.show_error({
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -132,8 +132,8 @@ saltos.customers.clear_filter = () => {
  */
 saltos.customers.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
-    saltos.form_app.screen('loading');
-    saltos.ajax({
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
@@ -145,8 +145,8 @@ saltos.customers.read_more = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.form_app.screen('unloading');
-            if (!saltos.check_response(response)) {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             var obj = document.querySelector('table').querySelector('tbody');
@@ -154,8 +154,8 @@ saltos.customers.read_more = () => {
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },
         error: request => {
-            saltos.form_app.screen('unloading');
-            saltos.show_error({
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -172,7 +172,7 @@ saltos.customers.read_more = () => {
  * TODO
  */
 saltos.customers.cancel = () => {
-    saltos.close_window();
+    saltos.core.close_window();
 };
 
 /**
@@ -181,12 +181,12 @@ saltos.customers.cancel = () => {
  * TODO
  */
 saltos.customers.insert = () => {
-    if (!saltos.check_required()) {
-        saltos.alert('Warning', 'Required fields not found');
+    if (!saltos.app.check_required()) {
+        saltos.app.alert('Warning', 'Required fields not found');
         return;
     }
-    var data = saltos.get_data();
-    saltos.ajax({
+    var data = saltos.app.get_data();
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'insert',
@@ -196,18 +196,18 @@ saltos.customers.insert = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
                 saltos.tabs.send('saltos.customers.update');
-                saltos.close_window();
+                saltos.core.close_window();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -224,16 +224,16 @@ saltos.customers.insert = () => {
  * TODO
  */
 saltos.customers.update = () => {
-    if (!saltos.check_required()) {
-        saltos.alert('Warning', 'Required fields not found');
+    if (!saltos.app.check_required()) {
+        saltos.app.alert('Warning', 'Required fields not found');
         return;
     }
-    var data = saltos.get_data();
+    var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.alert('Warning', 'No changes detected');
+        saltos.app.alert('Warning', 'No changes detected');
         return;
     }
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'update',
@@ -244,18 +244,18 @@ saltos.customers.update = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
                 saltos.tabs.send('saltos.customers.update');
-                saltos.close_window();
+                saltos.core.close_window();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -272,7 +272,7 @@ saltos.customers.update = () => {
  * TODO
  */
 saltos.customers.delete = () => {
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'delete',
@@ -282,18 +282,18 @@ saltos.customers.delete = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
                 saltos.tabs.send('saltos.customers.update');
-                saltos.close_window();
+                saltos.core.close_window();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });

@@ -67,7 +67,7 @@ if (campo9) {
                 </div>
             `,
             footer: function() {
-                var obj = saltos.html('<div></div>');
+                var obj = saltos.core.html('<div></div>');
                 obj.append(saltos.bootstrap.field({
                     type: 'button',
                     value: 'Aceptar',

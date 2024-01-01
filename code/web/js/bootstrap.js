@@ -98,13 +98,13 @@ saltos.bootstrap = {};
  * only for internal use.
  */
 saltos.bootstrap.field = field => {
-    saltos.check_params(field, ['id', 'type']);
+    saltos.core.check_params(field, ['id', 'type']);
     if (field.id == '') {
-        field.id = saltos.uniqid();
+        field.id = saltos.core.uniqid();
     }
     if (typeof saltos.bootstrap.__field[field.type] != 'function') {
         console.log('type ' + field.type + ' not found');
-        return saltos.html('type ' + field.type + ' not found');
+        return saltos.core.html('type ' + field.type + ' not found');
     }
     return saltos.bootstrap.__field[field.type](field);
 };
@@ -127,8 +127,8 @@ saltos.bootstrap.__field = {};
  * @style => the style used in the div object
  */
 saltos.bootstrap.__field.div = field => {
-    saltos.check_params(field, ['class', 'id', 'style']);
-    var obj = saltos.html(`<div class="${field.class}" id="${field.id}" style="${field.style}"></div>`);
+    saltos.core.check_params(field, ['class', 'id', 'style']);
+    var obj = saltos.core.html(`<div class="${field.class}" id="${field.id}" style="${field.style}"></div>`);
     return obj;
 };
 
@@ -143,7 +143,7 @@ saltos.bootstrap.__field.div = field => {
  * @style => the style used in the div object
  */
 saltos.bootstrap.__field.container = field => {
-    saltos.check_params(field, ['class']);
+    saltos.core.check_params(field, ['class']);
     if (field.class == '') {
         field.class = 'container-fluid';
     }
@@ -162,7 +162,7 @@ saltos.bootstrap.__field.container = field => {
  * @style => the style used in the div object
  */
 saltos.bootstrap.__field.row = field => {
-    saltos.check_params(field, ['class']);
+    saltos.core.check_params(field, ['class']);
     if (field.class == '') {
         field.class = 'row';
     }
@@ -181,7 +181,7 @@ saltos.bootstrap.__field.row = field => {
  * @style => the style used in the div object
  */
 saltos.bootstrap.__field.col = field => {
-    saltos.check_params(field, ['class']);
+    saltos.core.check_params(field, ['class']);
     if (field.class == '') {
         field.class = 'col';
     }
@@ -209,20 +209,20 @@ saltos.bootstrap.__field.col = field => {
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
  */
 saltos.bootstrap.__field.text = field => {
-    saltos.check_params(field, ['datalist'], []);
+    saltos.core.check_params(field, ['datalist'], []);
     field.type = 'text';
-    var obj = saltos.html(`<div></div>`);
+    var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__text_helper(field));
     if (field.datalist.length) {
         obj.querySelector('input').setAttribute('list', field.id + '_datalist');
-        obj.append(saltos.html(`<datalist id="${field.id}_datalist"></datalist>`));
+        obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
         for (var key in field.datalist) {
             var val = field.datalist[key];
-            obj.querySelector('datalist').append(saltos.html(`<option value="${val}">`));
+            obj.querySelector('datalist').append(saltos.core.html(`<option value="${val}">`));
         }
     }
-    obj = saltos.optimize(obj);
+    obj = saltos.core.optimize(obj);
     return obj;
 };
 
@@ -281,12 +281,12 @@ saltos.bootstrap.__field.hidden = field => {
  * @web/lib/imaskjs/imask.min.js
  */
 saltos.bootstrap.__field.integer = field => {
-    saltos.require('web/lib/imaskjs/imask.min.js');
+    saltos.core.require('web/lib/imaskjs/imask.min.js');
     field.type = 'text';
     var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
     var element = obj;
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         IMask(element, {
             mask: Number,
             scale: 0,
@@ -322,12 +322,12 @@ saltos.bootstrap.__field.integer = field => {
  * @web/lib/imaskjs/imask.min.js
  */
 saltos.bootstrap.__field.float = field => {
-    saltos.require('web/lib/imaskjs/imask.min.js');
+    saltos.core.require('web/lib/imaskjs/imask.min.js');
     field.type = 'text';
     var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
     var element = obj;
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         IMask(element, {
             mask: Number,
             radix: '.',
@@ -363,7 +363,7 @@ saltos.bootstrap.__field.float = field => {
  * for this reason it is set to #000000 if value is void
  */
 saltos.bootstrap.__field.color = field => {
-    saltos.check_params(field, ['value']);
+    saltos.core.check_params(field, ['value']);
     if (field.value == '') {
         field.value = '#000000';
     }
@@ -477,10 +477,10 @@ saltos.bootstrap.__field.datetime = field => {
  * @web/lib/autoheight/autoheight.min.js
  */
 saltos.bootstrap.__field.textarea = field => {
-    saltos.require('web/lib/autoheight/autoheight.min.js');
+    saltos.core.require('web/lib/autoheight/autoheight.min.js');
     var obj = saltos.bootstrap.__textarea_helper(field);
     var element = obj;
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         autoheight(element);
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -512,12 +512,12 @@ saltos.bootstrap.__field.textarea = field => {
  * @web/lib/ckeditor/ckeditor.min.js
  */
 saltos.bootstrap.__field.ckeditor = field => {
-    saltos.require('web/lib/ckeditor/ckeditor.min.js');
-    var obj = saltos.html(`<div></div>`);
+    saltos.core.require('web/lib/ckeditor/ckeditor.min.js');
+    var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         ClassicEditor.create(element).catch(error => {
             console.error(error);
         });
@@ -552,14 +552,14 @@ saltos.bootstrap.__field.ckeditor = field => {
  * @web/lib/codemirror/codemirror.min.js
  */
 saltos.bootstrap.__field.codemirror = field => {
-    saltos.require('web/lib/codemirror/codemirror.min.css');
-    saltos.require('web/lib/codemirror/codemirror.min.js');
-    saltos.check_params(field, ['mode']);
-    var obj = saltos.html(`<div></div>`);
+    saltos.core.require('web/lib/codemirror/codemirror.min.css');
+    saltos.core.require('web/lib/codemirror/codemirror.min.js');
+    saltos.core.check_params(field, ['mode']);
+    var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         var cm = CodeMirror.fromTextArea(element, {
             mode: field.mode,
             styleActiveLine: true,
@@ -586,8 +586,8 @@ saltos.bootstrap.__field.codemirror = field => {
  * @label  => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.iframe = field => {
-    saltos.check_params(field, ['value', 'id', 'class', 'height']);
-    var obj = saltos.html(`
+    saltos.core.check_params(field, ['value', 'id', 'class', 'height']);
+    var obj = saltos.core.html(`
         <iframe src="${field.value}" id="${field.id}" frameborder="0"
             class="form-control p-0 ${field.class}" style="height: ${field.height}"></iframe>
     `);
@@ -614,25 +614,25 @@ saltos.bootstrap.__field.iframe = field => {
  * @label     => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.select = field => {
-    saltos.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
                                 'multiple', 'size', 'value', 'tooltip']);
-    saltos.check_params(field, ['rows'], []);
-    if (saltos.eval_bool(field.disabled)) {
+    saltos.core.check_params(field, ['rows'], []);
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (saltos.eval_bool(field.required)) {
+    if (saltos.core.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (saltos.eval_bool(field.autofocus)) {
+    if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
-    if (saltos.eval_bool(field.multiple)) {
+    if (saltos.core.eval_bool(field.multiple)) {
         field.multiple = 'multiple';
     }
     if (field.size != '') {
         field.size = `size="${field.size}"`;
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required}
             ${field.autofocus} ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
@@ -646,7 +646,7 @@ saltos.bootstrap.__field.select = field => {
         if (field.value.toString() == val.value.toString()) {
             selected = 'selected';
         }
-        element.append(saltos.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
+        element.append(saltos.core.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -675,12 +675,12 @@ saltos.bootstrap.__field.select = field => {
  * TODO: detected a bug with this widget in chrome in mobile browsers
  */
 saltos.bootstrap.__field.multiselect = field => {
-    saltos.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip']);
-    saltos.check_params(field, ['rows'], []);
-    if (saltos.eval_bool(field.disabled)) {
+    saltos.core.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip']);
+    saltos.core.check_params(field, ['rows'], []);
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div class="container-fluid">
             <div class="row">
                 <div class="col px-0 one">
@@ -731,7 +731,7 @@ saltos.bootstrap.__field.multiselect = field => {
             document.getElementById(field.id).value = val.join(',');
         },
     }));
-    obj.querySelector('.two').append(saltos.html('<br/>'));
+    obj.querySelector('.two').append(saltos.core.html('<br/>'));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
         class: 'btn-primary bi-chevron-double-left',
         disabled: field.disabled,
@@ -758,7 +758,7 @@ saltos.bootstrap.__field.multiselect = field => {
         size: field.size,
         rows: rows_xyz,
     }));
-    saltos.when_visible(obj, () => {
+    saltos.core.when_visible(obj, () => {
         document.querySelectorAll('label[for=' + field.id + ']').forEach(_this => {
             _this.setAttribute('for', field.id + '_abc');
         });
@@ -786,14 +786,14 @@ saltos.bootstrap.__field.multiselect = field => {
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
 saltos.bootstrap.__field.checkbox = field => {
-    saltos.check_params(field, ['value', 'id', 'disabled', 'readonly', 'label', 'tooltip', 'class']);
-    if (saltos.eval_bool(field.disabled)) {
+    saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly', 'label', 'tooltip', 'class']);
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (saltos.eval_bool(field.readonly)) {
+    if (saltos.core.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (saltos.eval_bool(field.value)) {
+    if (saltos.core.eval_bool(field.value)) {
         field.value = 1;
     } else {
         field.value = 0;
@@ -802,7 +802,7 @@ saltos.bootstrap.__field.checkbox = field => {
     if (field.value) {
         checked = 'checked';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div class="form-check ${field.class}">
             <input class="form-check-input" type="checkbox" id="${field.id}" value="${field.value}"
                 ${field.disabled} ${field.readonly} ${checked} data-bs-title="${field.tooltip}">
@@ -863,18 +863,18 @@ saltos.bootstrap.__field.switch = field => {
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.bootstrap.__field.button = field => {
-    saltos.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip', 'icon']);
-    saltos.check_params(field, ['label']);
-    if (saltos.eval_bool(field.disabled)) {
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip', 'icon']);
+    saltos.core.check_params(field, ['label']);
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <button type="button" class="btn ${field.class}" id="${field.id}"
             ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.icon) {
-        obj.prepend(saltos.html(`<i class="bi bi-${field.icon}"></i>`));
+        obj.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));
     }
     if (field.value && field.icon) {
         obj.querySelector('i').classList.add('me-1');
@@ -882,13 +882,13 @@ saltos.bootstrap.__field.button = field => {
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }
-    saltos.addEventListener(obj, 'click', field.onclick);
+    saltos.core.addEventListener(obj, 'click', field.onclick);
     if (field.label == '') {
         return obj;
     }
-    var obj2 = saltos.html(`<div></div>`);
+    var obj2 = saltos.core.html(`<div></div>`);
     obj2.append(saltos.bootstrap.__label_helper(field));
-    obj2.append(saltos.html('<br/>'));
+    obj2.append(saltos.core.html('<br/>'));
     obj2.append(obj);
     return obj2;
 };
@@ -920,21 +920,21 @@ saltos.bootstrap.__field.button = field => {
  *
  */
 saltos.bootstrap.__field.password = field => {
-    saltos.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
+    saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
                                 'readonly', 'required', 'autofocus', 'tooltip']);
-    if (saltos.eval_bool(field.disabled)) {
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (saltos.eval_bool(field.readonly)) {
+    if (saltos.core.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (saltos.eval_bool(field.required)) {
+    if (saltos.core.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (saltos.eval_bool(field.autofocus)) {
+    if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div>
             <div class="input-group">
                 <input type="password" class="form-control ${field.class}" id="${field.id}"
@@ -996,21 +996,21 @@ saltos.bootstrap.__field.password = field => {
  * the real upload action.
  */
 saltos.bootstrap.__field.file = field => {
-    saltos.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
+    saltos.core.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
                                 'autofocus', 'multiple', 'tooltip']);
-    if (saltos.eval_bool(field.disabled)) {
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (saltos.eval_bool(field.required)) {
+    if (saltos.core.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (saltos.eval_bool(field.autofocus)) {
+    if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
-    if (saltos.eval_bool(field.multiple)) {
+    if (saltos.core.eval_bool(field.multiple)) {
         field.multiple = 'multiple';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div>
             <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled}
                 ${field.required} ${field.autofocus} ${field.multiple} data-bs-title="${field.tooltip}">
@@ -1022,7 +1022,7 @@ saltos.bootstrap.__field.file = field => {
             </div>
         </div>
     `);
-    obj.append(saltos.html(`
+    obj.append(saltos.core.html(`
         <style>
             .table {
                 --bs-table-hover-bg: #fbec88;
@@ -1056,13 +1056,13 @@ saltos.bootstrap.__field.file = field => {
             files: [],
         };
         data.files[0] = row.saltos_data;
-        saltos.ajax({
+        saltos.core.ajax({
             url: 'api/index.php',
             data: JSON.stringify(data),
             method: 'post',
             content_type: 'application/json',
             success: response => {
-                if (!saltos.check_response(response)) {
+                if (!saltos.app.check_response(response)) {
                     return;
                 }
                 row.saltos_data = response[0];
@@ -1077,7 +1077,7 @@ saltos.bootstrap.__field.file = field => {
                 __update_data_input_file(input);
             },
             error: request => {
-                saltos.show_error({
+                saltos.app.show_error({
                     text: request.statusText,
                     code: request.status,
                 });
@@ -1099,7 +1099,7 @@ saltos.bootstrap.__field.file = field => {
                 files: [],
             };
             data.files[0] = {
-                id: saltos.uniqid(),
+                id: saltos.core.uniqid(),
                 name: files[i].name,
                 size: files[i].size,
                 type: files[i].type,
@@ -1111,7 +1111,7 @@ saltos.bootstrap.__field.file = field => {
             // Show the table
             table.classList.remove('d-none');
             // Add the row for the new file
-            var row = saltos.html('tbody', `
+            var row = saltos.core.html('tbody', `
                 <tr id="${data.files[0].id}">
                     <td class="text-break">${data.files[0].name}</td>
                     <td class="w-25 align-middle">
@@ -1142,20 +1142,20 @@ saltos.bootstrap.__field.file = field => {
                 data.files[0].data = reader.result;
                 // This allow multiple uploads in parallel
                 ((data, row) => {
-                    saltos.ajax({
+                    saltos.core.ajax({
                         url: 'api/index.php',
                         data: JSON.stringify(data),
                         method: 'post',
                         content_type: 'application/json',
                         success: response => {
-                            if (!saltos.check_response(response)) {
+                            if (!saltos.app.check_response(response)) {
                                 return;
                             }
                             row.saltos_data = response[0];
                             __update_data_input_file(input);
                         },
                         error: request => {
-                            saltos.show_error({
+                            saltos.app.show_error({
                                 text: request.statusText,
                                 code: request.status,
                             });
@@ -1176,7 +1176,7 @@ saltos.bootstrap.__field.file = field => {
             // If there is an error
             if (reader.error) {
                 data.files[0].error = reader.error.message;
-                saltos.show_error({
+                saltos.app.show_error({
                     text: reader.error.message,
                     code: 0,
                 });
@@ -1222,11 +1222,11 @@ saltos.bootstrap.__field.link = field => {
  * @value   => this parameter is used as label when label is void
  */
 saltos.bootstrap.__field.label = field => {
-    saltos.check_params(field, ['id', 'class', 'label', 'tooltip', 'value']);
+    saltos.core.check_params(field, ['id', 'class', 'label', 'tooltip', 'value']);
     if (field.label == '') {
         field.label = field.value;
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <label for="${field.id}" class="form-label ${field.class}"
             data-bs-title="${field.tooltip}">${field.label}</label>
     `);
@@ -1249,11 +1249,11 @@ saltos.bootstrap.__field.label = field => {
  * @label   => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.image = field => {
-    saltos.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height']);
+    saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height']);
     if (field.class == '') {
         field.class = 'img-fluid';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}"
             data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
@@ -1298,11 +1298,11 @@ saltos.bootstrap.__field.image = field => {
  * @web/lib/handsontable/handsontable.full.min.js
  */
 saltos.bootstrap.__field.excel = field => {
-    saltos.require('web/lib/handsontable/handsontable.full.min.css');
-    saltos.require('web/lib/handsontable/handsontable.full.min.js');
-    saltos.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
+    saltos.core.require('web/lib/handsontable/handsontable.full.min.css');
+    saltos.core.require('web/lib/handsontable/handsontable.full.min.js');
+    saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
                                 'contextMenu', 'rowHeaderWidth', 'colWidths', 'numcols', 'numrows']);
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div style="width: 100%; height: 100%; overflow: auto">
             <div id="${field.id}" class="${field.class}"></div>
         </div>
@@ -1337,7 +1337,7 @@ saltos.bootstrap.__field.excel = field => {
         field.colWidths = undefined;
     }
     var element = obj.querySelector('div');
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         new Handsontable(element, {
             data: field.data,
             rowHeaders: field.rowHeaders,
@@ -1379,18 +1379,18 @@ saltos.bootstrap.__field.excel = field => {
  * that this file not appear in the next requires
  */
 saltos.bootstrap.__field.pdfjs = field => {
-    saltos.require('web/lib/pdfjs/pdf_viewer.min.css');
-    saltos.require('web/lib/pdfjs/pdf.min.mjs');
-    saltos.require('web/lib/pdfjs/pdf_viewer.min.mjs');
-    saltos.check_params(field, ['id', 'class', 'value']);
-    var obj = saltos.html(`
+    saltos.core.require('web/lib/pdfjs/pdf_viewer.min.css');
+    saltos.core.require('web/lib/pdfjs/pdf.min.mjs');
+    saltos.core.require('web/lib/pdfjs/pdf_viewer.min.mjs');
+    saltos.core.check_params(field, ['id', 'class', 'value']);
+    var obj = saltos.core.html(`
         <div id="${field.id}" class="${field.class}">
             <div class="viewerContainer">
                 <div class="pdfViewer"></div>
             </div>
         </div>
     `);
-    obj.append(saltos.html(`
+    obj.append(saltos.core.html(`
         <style>
             .viewerContainer {
                 position: absolute;
@@ -1409,7 +1409,7 @@ saltos.bootstrap.__field.pdfjs = field => {
         </style>
     `));
     var element = obj.querySelector('.viewerContainer');
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'web/lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
@@ -1438,7 +1438,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             });
         },
         (message, exception) => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: message,
                 code: 0,
             });
@@ -1485,22 +1485,22 @@ saltos.bootstrap.__field.pdfjs = field => {
  * to identify if you want to use a column with some special type as for example, the icons
  */
 saltos.bootstrap.__field.table = field => {
-    saltos.check_params(field, ['class', 'id', 'checkbox']);
-    saltos.check_params(field, ['header', 'data', 'footer'], []);
-    var obj = saltos.html(`
+    saltos.core.check_params(field, ['class', 'id', 'checkbox']);
+    saltos.core.check_params(field, ['header', 'data', 'footer'], []);
+    var obj = saltos.core.html(`
         <table class="table table-striped table-hover ${field.class}"
             id="${field.id}" style="margin-bottom: 0">
         </table>
     `);
     if (Object.keys(field.header).length) {
-        obj.append(saltos.html('table', `
+        obj.append(saltos.core.html('table', `
             <thead>
                 <tr>
                 </tr>
             </thead>
         `));
         if (field.checkbox) {
-            obj.querySelector('thead tr').append(saltos.html(
+            obj.querySelector('thead tr').append(saltos.core.html(
                 'tr',
                 `<th style="width: 1%"><input type="checkbox"/></th>`
             ));
@@ -1523,9 +1523,9 @@ saltos.bootstrap.__field.table = field => {
         for (var key in field.header) {
             var val = field.header[key];
             if (typeof val == 'object' && val !== null) {
-                var th = saltos.html('tr', `<th>${val.label}</th>`);
+                var th = saltos.core.html('tr', `<th>${val.label}</th>`);
             } else {
-                var th = saltos.html('tr', `<th>${val}</th>`);
+                var th = saltos.core.html('tr', `<th>${val}</th>`);
             }
             if (val.hasOwnProperty('align')) {
                 th.classList.add('text-' + val.align);
@@ -1533,11 +1533,11 @@ saltos.bootstrap.__field.table = field => {
             obj.querySelector('thead tr').append(th);
         }
         if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-            obj.querySelector('thead tr').append(saltos.html('tr', `<th style="width: 1%"></th>`));
+            obj.querySelector('thead tr').append(saltos.core.html('tr', `<th style="width: 1%"></th>`));
         }
     }
     if (field.data.length) {
-        obj.append(saltos.html('table', `
+        obj.append(saltos.core.html('table', `
             <tbody>
             </tbody>
         `));
@@ -1552,9 +1552,9 @@ saltos.bootstrap.__field.table = field => {
         };
         for (var key in field.data) {
             var val = field.data[key];
-            var row = saltos.html('tbody', `<tr></tr>`);
+            var row = saltos.core.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
-                row.append(saltos.html('tr', `<td><input type="checkbox"/></td>`));
+                row.append(saltos.core.html('tr', `<td><input type="checkbox"/></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
                     if (event.target.checked) {
                         event.target.parentNode.parentNode.classList.add('table-active');
@@ -1581,7 +1581,7 @@ saltos.bootstrap.__field.table = field => {
             }
             for (var key2 in iterator) {
                 var val2 = val[key2];
-                var td = saltos.html('tr', `<td></td>`);
+                var td = saltos.core.html('tr', `<td></td>`);
                 if (typeof val2 == 'object' && val2 !== null) {
                     if (val2.hasOwnProperty('type')) {
                         var temp = saltos.bootstrap.field(val2);
@@ -1591,16 +1591,16 @@ saltos.bootstrap.__field.table = field => {
                         td.append(temp);
                     }
                 } else {
-                    val2 = saltos.toString(val2);
+                    val2 = saltos.core.toString(val2);
                     var type = 'text';
                     if (iterator[key2].hasOwnProperty('type')) {
                         type = iterator[key2].type;
                     }
                     if (type == 'icon') {
-                        var temp = saltos.html(`<i class="bi bi-${val2}"></i>`);
+                        var temp = saltos.core.html(`<i class="bi bi-${val2}"></i>`);
                         td.append(temp);
                     } else if (type == 'html') {
-                        var temp = saltos.html(val2);
+                        var temp = saltos.core.html(val2);
                         td.append(temp);
                     } else if (type == 'text') {
                         td.append(val2);
@@ -1615,10 +1615,10 @@ saltos.bootstrap.__field.table = field => {
                 row.append(td);
             }
             if (val.hasOwnProperty('actions')) {
-                var td = saltos.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
+                var td = saltos.core.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
                 var dropdown = val.actions.length > 1;
                 if (dropdown) {
-                    td.append(saltos.html(`
+                    td.append(saltos.core.html(`
                         <div>
                             <button class="btn border-0 dropdown-toggle" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -1636,7 +1636,7 @@ saltos.bootstrap.__field.table = field => {
                     if (val2.url == '') {
                         val2.disabled = true;
                     } else {
-                        val2.onclick = `saltos.open_window("#${val2.url}")`;
+                        val2.onclick = `saltos.core.open_window("#${val2.url}")`;
                     }
                     if (first_action) {
                         if (val2.onclick) {
@@ -1658,7 +1658,7 @@ saltos.bootstrap.__field.table = field => {
                         button.classList.add('dropdown-item');
                         // This close all dropdowns when click an option inside a dropdown
                         button.addEventListener('click', dropdown_close);
-                        var li = saltos.html(`<li></li>`);
+                        var li = saltos.core.html(`<li></li>`);
                         li.append(button);
                         td.querySelector('ul').append(li);
                     } else {
@@ -1672,7 +1672,7 @@ saltos.bootstrap.__field.table = field => {
         }
     }
     if (Object.keys(field.footer).length) {
-        obj.append(saltos.html('table', `
+        obj.append(saltos.core.html('table', `
             <tfoot class="table-group-divider">
                 <tr>
                 </tr>
@@ -1686,7 +1686,7 @@ saltos.bootstrap.__field.table = field => {
                 console.log('field.header.length != field.footer.length');
             }
             if (field.checkbox) {
-                obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
+                obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td></td>`));
             }
             // This is to allow to use tables with footer and without header
             var iterator = field.header;
@@ -1696,9 +1696,9 @@ saltos.bootstrap.__field.table = field => {
             for (var key in iterator) {
                 var val = field.footer[key];
                 if (typeof val == 'object' && val !== null) {
-                    var td = saltos.html('tr', `<td>${val.value}</td>`);
+                    var td = saltos.core.html('tr', `<td>${val.value}</td>`);
                 } else {
-                    var td = saltos.html('tr', `<td>${val}</td>`);
+                    var td = saltos.core.html('tr', `<td>${val}</td>`);
                 }
                 if (iterator[key].hasOwnProperty('align')) {
                     td.classList.add('text-' + iterator[key].align);
@@ -1706,11 +1706,11 @@ saltos.bootstrap.__field.table = field => {
                 obj.querySelector('tfoot tr').append(td);
             }
             if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-                obj.querySelector('tfoot tr').append(saltos.html('tr', `<td></td>`));
+                obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td></td>`));
             }
         }
         if (typeof field.footer == 'string') {
-            obj.querySelector('tfoot tr').append(saltos.html(
+            obj.querySelector('tfoot tr').append(saltos.core.html(
                 'tr',
                 `<td colspan="100" class="text-center">${field.footer}</td>`
             ));
@@ -1719,9 +1719,9 @@ saltos.bootstrap.__field.table = field => {
     // Convert the previous table in a responsive table
     // We are using the same div to put inside the styles instead of the table
     var old = obj;
-    obj = saltos.html(`<div class="table-responsive"></div>`);
+    obj = saltos.core.html(`<div class="table-responsive"></div>`);
     obj.append(old);
-    obj.append(saltos.html(`
+    obj.append(saltos.core.html(`
         <style>
             .table {
                 --bs-table-hover-bg: #fbec88;
@@ -1757,27 +1757,27 @@ saltos.bootstrap.__field.table = field => {
  * know if I maintain this or I remove it, but at the moment, this is added by default
  */
 saltos.bootstrap.__field.alert = field => {
-    saltos.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close']);
-    var obj = saltos.html(`
+    saltos.core.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close']);
+    var obj = saltos.core.html(`
         <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
     `);
     if (field.title != '') {
-        obj.append(saltos.html(`<h4>${field.title}</h4>`));
+        obj.append(saltos.core.html(`<h4>${field.title}</h4>`));
     }
     if (field.text != '') {
-        obj.append(saltos.html(`<p>${field.text}</p>`));
+        obj.append(saltos.core.html(`<p>${field.text}</p>`));
     }
     if (field.body != '') {
-        obj.append(saltos.html(field.body));
+        obj.append(saltos.core.html(field.body));
     }
-    if (saltos.eval_bool(field.close)) {
+    if (saltos.core.eval_bool(field.close)) {
         obj.classList.add('alert-dismissible');
         obj.classList.add('fade');
         obj.classList.add('show');
-        obj.append(saltos.html(`
+        obj.append(saltos.core.html(`
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `));
-        obj.append(saltos.html(`
+        obj.append(saltos.core.html(`
             <style>
                 .alert-dismissible {
                     padding-right: var(--bs-alert-padding-x);
@@ -1806,26 +1806,28 @@ saltos.bootstrap.__field.alert = field => {
  * @label  => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.card = field => {
-    saltos.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
-    var obj = saltos.html(`<div class="card" id="${field.id}"></div>`);
+    saltos.core.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
+    var obj = saltos.core.html(`<div class="card" id="${field.id}"></div>`);
     if (field.image != '') {
-        obj.append(saltos.html(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`));
+        obj.append(saltos.core.html(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`));
     }
     if (field.header != '') {
-        obj.append(saltos.html(`<div class="card-header">${field.header}</div>`));
+        obj.append(saltos.core.html(`<div class="card-header">${field.header}</div>`));
     }
-    obj.append(saltos.html(`<div class="card-body"></div>`));
+    obj.append(saltos.core.html(`<div class="card-body"></div>`));
     if (field.title != '') {
-        obj.querySelector('.card-body').append(saltos.html(`<h5 class="card-title">${field.title}</h5>`));
+        obj.querySelector('.card-body').append(saltos.core.html(`
+            <h5 class="card-title">${field.title}</h5>
+        `));
     }
     if (field.text != '') {
-        obj.querySelector('.card-body').append(saltos.html(`<p class="card-text">${field.text}</p>`));
+        obj.querySelector('.card-body').append(saltos.core.html(`<p class="card-text">${field.text}</p>`));
     }
     if (field.body != '') {
-        obj.querySelector('.card-body').append(saltos.html(field.body));
+        obj.querySelector('.card-body').append(saltos.core.html(field.body));
     }
     if (field.footer != '') {
-        obj.append(saltos.html(`<div class="card-footer">${field.footer}</div>`));
+        obj.append(saltos.core.html(`<div class="card-footer">${field.footer}</div>`));
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -1851,14 +1853,14 @@ saltos.bootstrap.__field.card = field => {
  * @web/lib/chartjs/chart.umd.min.js
  */
 saltos.bootstrap.__field.chartjs = field => {
-    saltos.require('web/lib/chartjs/chart.umd.min.js');
-    saltos.check_params(field, ['id', 'mode', 'data']);
-    var obj = saltos.html(`<canvas id="${field.id}"></canvas>`);
+    saltos.core.require('web/lib/chartjs/chart.umd.min.js');
+    saltos.core.check_params(field, ['id', 'mode', 'data']);
+    var obj = saltos.core.html(`<canvas id="${field.id}"></canvas>`);
     for (var key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
     var element = obj;
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         new Chart(element, {
             type: field.mode,
             data: field.data,
@@ -1893,10 +1895,10 @@ saltos.bootstrap.__field.chartjs = field => {
  * each value, and requires the arguments of the specific widgets used in this widget
  */
 saltos.bootstrap.__field.tags = field => {
-    saltos.check_params(field, ['id', 'value']);
+    saltos.core.check_params(field, ['id', 'value']);
     // This container must have the hidden input and the text input used by the
     // user to write the tags
-    var obj = saltos.html(`<div></div>`);
+    var obj = saltos.core.html(`<div></div>`);
     // The first field is the hidden input
     field.class = 'first';
     obj.append(saltos.bootstrap.__field.hidden(field));
@@ -1916,7 +1918,7 @@ saltos.bootstrap.__field.tags = field => {
     field.value = field.value_old;
     // This function draws a tag and programs the delete of the same tag
     var fn = val => {
-        var span = saltos.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2"
+        var span = saltos.core.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2"
             saltos-data="${val}">
             ${val} <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
         </span>`);
@@ -1940,7 +1942,7 @@ saltos.bootstrap.__field.tags = field => {
     // This function program the enter event that adds tags to the hidden and
     // draw the new tag using the previous function
     obj.querySelector('input.last').addEventListener('keydown', event => {
-        if (saltos.get_keycode(event) != 13) {
+        if (saltos.core.get_keycode(event) != 13) {
             return;
         }
         var input_old = obj.querySelector('input.first');
@@ -1973,7 +1975,7 @@ saltos.bootstrap.__field.tags = field => {
     // will be linked to the input type text instead of the input type hidden,
     // remember that the hidden contains the original id and the visible textbox
     // contains the id with the _tags ending
-    saltos.when_visible(obj, () => {
+    saltos.core.when_visible(obj, () => {
         document.querySelectorAll('label[for=' + field.id_old + ']').forEach(_this => {
             _this.setAttribute('for', field.id_new);
         });
@@ -2002,15 +2004,15 @@ saltos.bootstrap.__field.tags = field => {
  * @web/lib/imagesloaded/imagesloaded.pkgd.min.js
  */
 saltos.bootstrap.__field.gallery = field => {
-    saltos.require('web/lib/venobox/venobox.min.css');
-    saltos.require('web/lib/venobox/venobox.min.js');
-    saltos.require('web/lib/masonry/masonry.pkgd.min.js');
-    saltos.require('web/lib/imagesloaded/imagesloaded.pkgd.min.js');
-    saltos.check_params(field, ['id', 'class', 'images']);
+    saltos.core.require('web/lib/venobox/venobox.min.css');
+    saltos.core.require('web/lib/venobox/venobox.min.js');
+    saltos.core.require('web/lib/masonry/masonry.pkgd.min.js');
+    saltos.core.require('web/lib/imagesloaded/imagesloaded.pkgd.min.js');
+    saltos.core.check_params(field, ['id', 'class', 'images']);
     if (field.class == '') {
         field.class = 'col';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div id="${field.id}" class="container-fluid">
             <div class="row">
             </div>
@@ -2022,8 +2024,8 @@ saltos.bootstrap.__field.gallery = field => {
             if (typeof val == 'string') {
                 val = {image: val};
             }
-            saltos.check_params(val, ['image', 'title']);
-            var img = saltos.html(`
+            saltos.core.check_params(val, ['image', 'title']);
+            var img = saltos.core.html(`
                 <div class="${field.class} p-1">
                     <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
                         <img src="${val.image}" class="img-fluid img-thumbnail" />
@@ -2034,7 +2036,7 @@ saltos.bootstrap.__field.gallery = field => {
         }
     }
     var element = obj.querySelector('.row');
-    saltos.when_visible(element, () => {
+    saltos.core.when_visible(element, () => {
         var msnry = new Masonry(element, {
             percentPosition: true,
         });
@@ -2055,8 +2057,8 @@ saltos.bootstrap.__field.gallery = field => {
  * @id => id used in the original object, it must be replaced when the data will be available
  */
 saltos.bootstrap.__field.placeholder = field => {
-    saltos.check_params(field, ['id']);
-    var obj = saltos.html(`
+    saltos.core.check_params(field, ['id']);
+    var obj = saltos.core.html(`
         <div id="${field.id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
             <span class="w-100 h-100 placeholder"></span>
         </div>
@@ -2085,21 +2087,21 @@ saltos.bootstrap.__field.placeholder = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.bootstrap.__text_helper = field => {
-    saltos.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
+    saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
                                 'readonly', 'required', 'autofocus', 'tooltip', 'style']);
-    if (saltos.eval_bool(field.disabled)) {
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (saltos.eval_bool(field.readonly)) {
+    if (saltos.core.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (saltos.eval_bool(field.required)) {
+    if (saltos.core.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (saltos.eval_bool(field.autofocus)) {
+    if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <input type="${field.type}" class="form-control ${field.class}" id="${field.id}"
             style="${field.style}" placeholder="${field.placeholder}"
             value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
@@ -2132,21 +2134,21 @@ saltos.bootstrap.__text_helper = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.bootstrap.__textarea_helper = field => {
-    saltos.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
+    saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
                                 'required', 'autofocus', 'rows', 'tooltip']);
-    if (saltos.eval_bool(field.disabled)) {
+    if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
-    if (saltos.eval_bool(field.readonly)) {
+    if (saltos.core.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
     }
-    if (saltos.eval_bool(field.required)) {
+    if (saltos.core.eval_bool(field.required)) {
         field.required = 'required';
     }
-    if (saltos.eval_bool(field.autofocus)) {
+    if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <textarea class="form-control ${field.class}" id="${field.id}"
             placeholder="${field.placeholder}" rows="${field.rows}"
             ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
@@ -2192,11 +2194,11 @@ saltos.bootstrap.__tooltip_helper = obj => {
  * @field => the field that contains the label to be added if needed
  */
 saltos.bootstrap.__label_helper = field => {
-    saltos.check_params(field, ['label']);
+    saltos.core.check_params(field, ['label']);
     if (field.label == '') {
         return '';
     }
-    var temp = saltos.copy_object(field);
+    var temp = saltos.core.copy_object(field);
     delete temp.class;
     return saltos.bootstrap.__field.label(temp);
 };
@@ -2218,10 +2220,10 @@ saltos.bootstrap.__label_helper = field => {
  * their code because each case is different
  */
 saltos.bootstrap.__label_combine = (field, old) => {
-    var obj = saltos.html(`<div></div>`);
+    var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(old);
-    obj = saltos.optimize(obj);
+    obj = saltos.core.optimize(obj);
     return obj;
 };
 
@@ -2249,24 +2251,24 @@ saltos.bootstrap.__label_combine = (field, old) => {
  * @divider  => you can set this boolean to true to convert the element into a divider
  */
 saltos.bootstrap.menu = args => {
-    saltos.check_params(args, ['class']);
-    saltos.check_params(args, ['menu'], []);
-    var obj = saltos.html(`<ul class="${args.class}"></ul>`);
+    saltos.core.check_params(args, ['class']);
+    saltos.core.check_params(args, ['menu'], []);
+    var obj = saltos.core.html(`<ul class="${args.class}"></ul>`);
     for (var key in args.menu) {
         var val = args.menu[key];
-        saltos.check_params(val, ['name', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
-        saltos.check_params(val, ['menu'], []);
-        if (saltos.eval_bool(val.disabled)) {
+        saltos.core.check_params(val, ['name', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
+        saltos.core.check_params(val, ['menu'], []);
+        if (saltos.core.eval_bool(val.disabled)) {
             val.disabled = 'disabled';
         }
-        if (saltos.eval_bool(val.active)) {
+        if (saltos.core.eval_bool(val.active)) {
             val.active = 'active';
         }
         if (val.menu.length) {
-            if (saltos.eval_bool(val.dropdown_menu_end)) {
+            if (saltos.core.eval_bool(val.dropdown_menu_end)) {
                 val.dropdown_menu_end = 'dropdown-menu-end';
             }
-            var temp = saltos.html(`
+            var temp = saltos.core.html(`
                 <li class="nav-item dropdown">
                     <button class="nav-link dropdown-toggle" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -2277,24 +2279,24 @@ saltos.bootstrap.menu = args => {
                 </li>
             `);
             if (val.icon) {
-                temp.querySelector('button').prepend(saltos.html(`<i class="bi bi-${val.icon}"></i>`));
+                temp.querySelector('button').prepend(saltos.core.html(`<i class="bi bi-${val.icon}"></i>`));
             }
             if (val.name && val.icon) {
                 temp.querySelector('i').classList.add('me-1');
             }
             for (var key2 in val.menu) {
                 var val2 = val.menu[key2];
-                saltos.check_params(val2, ['name', 'icon', 'disabled', 'active', 'onclick', 'divider']);
-                if (saltos.eval_bool(val2.disabled)) {
+                saltos.core.check_params(val2, ['name', 'icon', 'disabled', 'active', 'onclick', 'divider']);
+                if (saltos.core.eval_bool(val2.disabled)) {
                     val2.disabled = 'disabled';
                 }
-                if (saltos.eval_bool(val2.active)) {
+                if (saltos.core.eval_bool(val2.active)) {
                     val2.active = 'active';
                 }
-                if (saltos.eval_bool(val2.divider)) {
-                    var temp2 = saltos.html(`<li><hr class="dropdown-divider"></li>`);
+                if (saltos.core.eval_bool(val2.divider)) {
+                    var temp2 = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
                 } else {
-                    var temp2 = saltos.html(`
+                    var temp2 = saltos.core.html(`
                         <li>
                             <button class="dropdown-item ${val2.disabled} ${val2.active}">
                                 ${val2.name}
@@ -2302,31 +2304,31 @@ saltos.bootstrap.menu = args => {
                         </li>`);
                     if (val2.icon) {
                         temp2.querySelector('button').prepend(
-                            saltos.html(`<i class="bi bi-${val2.icon}"></i>`));
+                            saltos.core.html(`<i class="bi bi-${val2.icon}"></i>`));
                     }
                     if (val2.name && val2.icon) {
                         temp2.querySelector('i').classList.add('me-1');
                     }
-                    if (!saltos.eval_bool(val2.disabled)) {
-                        saltos.addEventListener(temp2, 'click', val2.onclick);
+                    if (!saltos.core.eval_bool(val2.disabled)) {
+                        saltos.core.addEventListener(temp2, 'click', val2.onclick);
                     }
                 }
                 temp.querySelector('ul').append(temp2);
             }
         } else {
-            var temp = saltos.html(`
+            var temp = saltos.core.html(`
                 <li class="nav-item">
                     <button class="nav-link ${val.disabled} ${val.active}">${val.name}</button>
                 </li>
             `);
             if (val.icon) {
-                temp.querySelector('button').prepend(saltos.html(`<i class="bi bi-${val.icon}"></i>`));
+                temp.querySelector('button').prepend(saltos.core.html(`<i class="bi bi-${val.icon}"></i>`));
             }
             if (val.name && val.icon) {
                 temp.querySelector('i').classList.add('me-1');
             }
-            if (!saltos.eval_bool(val.disabled)) {
-                saltos.addEventListener(temp, 'click', val.onclick);
+            if (!saltos.core.eval_bool(val.disabled)) {
+                saltos.core.addEventListener(temp, 'click', val.onclick);
             }
         }
         obj.append(temp);
@@ -2351,11 +2353,11 @@ saltos.bootstrap.menu = args => {
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.bootstrap.navbar = args => {
-    saltos.check_params(args, ['id','space']);
-    saltos.check_params(args, ['brand'], {});
-    saltos.check_params(args.brand, ['name', 'logo', 'width', 'height']);
-    saltos.check_params(args, ['items'], []);
-    var obj = saltos.html(`
+    saltos.core.check_params(args, ['id','space']);
+    saltos.core.check_params(args, ['brand'], {});
+    saltos.core.check_params(args.brand, ['name', 'logo', 'width', 'height']);
+    saltos.core.check_params(args, ['items'], []);
+    var obj = saltos.core.html(`
         <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
             <div class="container-fluid">
                 <div class="navbar-brand">
@@ -2377,10 +2379,10 @@ saltos.bootstrap.navbar = args => {
         var val = args.items[key];
         obj.querySelector('.collapse').append(val);
     }
-    if (saltos.eval_bool(args.space)) {
-        var obj2 = saltos.html(`<div></div>`);
+    if (saltos.core.eval_bool(args.space)) {
+        var obj2 = saltos.core.html(`<div></div>`);
         obj2.append(obj);
-        obj2.append(saltos.html(`<div class="pt-5 pb-2"></div>`));
+        obj2.append(saltos.core.html(`<div class="pt-5 pb-2"></div>`));
         return obj2;
     }
     return obj;
@@ -2436,15 +2438,15 @@ saltos.bootstrap.modal = args => {
         return false;
     }
     // NORMAL OPERATION
-    saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static']);
+    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static']);
     var temp = '';
-    if (saltos.eval_bool(args.static)) {
+    if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
     //if (args.class == '') {
     //    args.class = 'modal-dialog-centered';
     //}
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
             aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
@@ -2463,7 +2465,7 @@ saltos.bootstrap.modal = args => {
         </div>
     `);
     document.body.append(obj);
-    obj.querySelector('.modal-body').append(saltos.html(args.body));
+    obj.querySelector('.modal-body').append(saltos.core.html(args.body));
     obj.querySelector('.modal-footer').append(args.footer);
     var instance = new bootstrap.Modal(obj);
     saltos.bootstrap.__modal.obj = obj;
@@ -2530,12 +2532,12 @@ saltos.bootstrap.offcanvas = args => {
         return false;
     }
     // NORMAL OPERATION
-    saltos.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static']);
+    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static']);
     var temp = '';
-    if (saltos.eval_bool(args.static)) {
+    if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}"
             aria-labelledby="${args.id}_label" ${temp}>
             <div class="offcanvas-header">
@@ -2548,7 +2550,7 @@ saltos.bootstrap.offcanvas = args => {
         </div>
     `);
     document.body.append(obj);
-    obj.querySelector('.offcanvas-body').append(saltos.html(args.body));
+    obj.querySelector('.offcanvas-body').append(saltos.core.html(args.body));
     var instance = new bootstrap.Offcanvas(obj);
     saltos.bootstrap.__offcanvas.obj = obj;
     saltos.bootstrap.__offcanvas.instance = instance;
@@ -2594,10 +2596,10 @@ saltos.bootstrap.offcanvas = args => {
  * @web/lib/md5/md5.min.js
  */
 saltos.bootstrap.toast = args => {
-    saltos.require('web/lib/md5/md5.min.js');
-    saltos.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
+    saltos.core.require('web/lib/md5/md5.min.js');
+    saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
     if (document.querySelectorAll('.toast-container').length == 0) {
-        document.body.append(saltos.html(`<div
+        document.body.append(saltos.core.html(`<div
             class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
     }
     // CHECK FOR REPETITIONS
@@ -2606,7 +2608,7 @@ saltos.bootstrap.toast = args => {
         return false;
     }
     // CONTINUE
-    var obj = saltos.html(`
+    var obj = saltos.core.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${hash}">
             <div class="toast-header">

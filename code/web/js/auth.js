@@ -110,19 +110,26 @@ saltos.hash.trigger = () => {
  *
  * This function allow to SaltOS to update the contents when hash change
  */
-window.onhashchange = event => {
+saltos.hash.onhashchange = event => {
     // Token part
     if (!saltos.token.get()) {
-        saltos.send_request('app/login');
+        saltos.app.send_request('app/login');
         return;
     }
     // Reset the body interface
     saltos.bootstrap.modal('close');
     saltos.bootstrap.offcanvas('close');
-    saltos.form_app.screen('loading');
+    saltos.app.form.screen('loading');
     // Do the request
-    saltos.send_request(saltos.hash.get());
+    saltos.app.send_request(saltos.hash.get());
 };
+
+/**
+ * Hash change management
+ *
+ * Attach the hash change management function to the window
+ */
+window.onhashchange = saltos.hash.onhashchange;
 
 /**
  * Token helper object
@@ -215,7 +222,7 @@ saltos.authenticate = {};
  * @pass => password used to the authentication process
  */
 saltos.authenticate.authtoken = (user, pass) => {
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'authtoken',
@@ -226,7 +233,7 @@ saltos.authenticate.authtoken = (user, pass) => {
         content_type: 'application/json',
         async: false,
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
@@ -239,10 +246,10 @@ saltos.authenticate.authtoken = (user, pass) => {
                 saltos.authenticate.autorenew();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -257,7 +264,7 @@ saltos.authenticate.authtoken = (user, pass) => {
  * credentials.
  */
 saltos.authenticate.reauthtoken = () => {
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'reauthtoken',
@@ -266,7 +273,7 @@ saltos.authenticate.reauthtoken = () => {
         content_type: 'application/json',
         async: false,
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
@@ -279,10 +286,10 @@ saltos.authenticate.reauthtoken = () => {
                 saltos.authenticate.autorenew();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -300,7 +307,7 @@ saltos.authenticate.reauthtoken = () => {
  * credentials.
  */
 saltos.authenticate.deauthtoken = () => {
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'deauthtoken',
@@ -309,7 +316,7 @@ saltos.authenticate.deauthtoken = () => {
         content_type: 'application/json',
         async: false,
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
@@ -322,10 +329,10 @@ saltos.authenticate.deauthtoken = () => {
                 saltos.authenticate.autorenew();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -342,7 +349,7 @@ saltos.authenticate.deauthtoken = () => {
  * This function uses the checktoken action to check the validity of the current token.
  */
 saltos.authenticate.checktoken = () => {
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'checktoken',
@@ -351,7 +358,7 @@ saltos.authenticate.checktoken = () => {
         content_type: 'application/json',
         async: false,
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
@@ -364,10 +371,10 @@ saltos.authenticate.checktoken = () => {
                 saltos.authenticate.autorenew();
                 return;
             }
-            saltos.show_error(response);
+            saltos.app.show_error(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -493,7 +500,7 @@ saltos.tabs.send = (name, data) => {
  * This function allow to SaltOS to receive the messages sended by other tabs
  * using the localStorage.
  */
-window.onstorage = event => {
+saltos.tabs.onstorage = event => {
     if (event.storageArea != localStorage) {
         return;
     }
@@ -507,3 +514,10 @@ window.onstorage = event => {
     }
     saltos.tabs.listeners[name](data);
 };
+
+/**
+ * Storage management
+ *
+ * Attach the storage management function to the window
+ */
+window.onstorage = saltos.tabs.onstorage;

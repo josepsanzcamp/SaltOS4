@@ -27,9 +27,9 @@
 'use strict';
 
 /**
- * Dashboard application
+ * Object helper module
  *
- * This application implements the tipical features associated to dashboard
+ * This file contains the main saltos object
  */
 
 /**
@@ -37,34 +37,4 @@
  *
  * This object contains all SaltOS code
  */
-saltos.dashboard = {};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.dashboard.initialize = () => {
-    saltos.tabs.set_listener('saltos.customers.update', event => {
-        saltos.core.ajax({
-            url: 'index.php?list/customers/widget/table1',
-            method: 'get',
-            success: response => {
-                if (!saltos.app.check_response(response)) {
-                    return;
-                }
-                document.querySelector('table').replaceWith(saltos.bootstrap.field(response));
-            },
-            error: request => {
-                saltos.app.show_error({
-                    text: request.statusText,
-                    code: request.status,
-                });
-            },
-            headers: {
-                'token': saltos.token.get(),
-            }
-        });
-
-    });
-};
+var saltos = saltos || {};

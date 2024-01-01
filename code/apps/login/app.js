@@ -46,14 +46,14 @@ saltos.login = {};
  * it uses the authenticate function that send data to the authtoken action
  */
 saltos.login.authenticate = () => {
-    if (!saltos.check_required()) {
+    if (!saltos.app.check_required()) {
         return;
     }
-    var data = saltos.get_data(true);
+    var data = saltos.app.get_data(true);
     saltos.authenticate.authtoken(data.user, data.pass);
     if (!saltos.token.get()) {
         saltos.login.access_denied();
-        saltos.send_request('app/login');
+        saltos.app.send_request('app/login');
         return;
     }
     // Hash part
@@ -70,13 +70,13 @@ saltos.login.authenticate = () => {
  */
 saltos.login.initialize = () => {
     document.getElementById('user').addEventListener('keydown', event => {
-        if (saltos.get_keycode(event) != 13) {
+        if (saltos.core.get_keycode(event) != 13) {
             return;
         }
         document.getElementById('pass').focus();
     });
     document.getElementById('pass').addEventListener('keydown', event => {
-        if (saltos.get_keycode(event) != 13) {
+        if (saltos.core.get_keycode(event) != 13) {
             return;
         }
         saltos.login.authenticate();
@@ -89,5 +89,5 @@ saltos.login.initialize = () => {
  * This function displays a modal dialog with the tipical access denied message
  */
 saltos.login.access_denied = () => {
-    saltos.alert('Access denied', 'Incorrect user or password, try again');
+    saltos.app.alert('Access denied', 'Incorrect user or password, try again');
 };

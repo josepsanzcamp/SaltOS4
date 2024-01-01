@@ -31,7 +31,7 @@
         <screen>clear</screen>
         <title>Email's list</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
-            <button ifeval="check_user('emails', 'create')" onclick="saltos.open_window('#app/emails/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo" icon="plus-lg"/>
+            <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todo el correo" id="search"/>

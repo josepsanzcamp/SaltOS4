@@ -34,18 +34,18 @@
  */
 
 /**
- * Main object
+ * Core helper object
  *
- * This object contains all SaltOS code
+ * This object stores all core functions and data
  */
-var saltos = saltos || {};
+saltos.core = {};
 
 /**
  * Error management
  *
  * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
  */
-window.onerror = (event, source, lineno, colno, error) => {
+saltos.core.onerror = (event, source, lineno, colno, error) => {
     var data = {
         'action': 'adderror',
         'jserror': event,
@@ -56,7 +56,7 @@ window.onerror = (event, source, lineno, colno, error) => {
     if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
         data.backtrace = error.stack;
     }
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api/index.php',
         data: JSON.stringify(data),
         method: 'post',
@@ -68,18 +68,25 @@ window.onerror = (event, source, lineno, colno, error) => {
 };
 
 /**
+ * Error management
+ *
+ * Attach the error management function to the window
+ */
+window.onerror = saltos.core.onerror;
+
+/**
  * Log management
  *
  * This function allow to send messages to the addlog of the server side, requires an argument:
  *
  * @msg => the message that do you want to log on the server log file
  */
-saltos.addlog = msg => {
+saltos.core.addlog = msg => {
     var data = {
         'action': 'addlog',
         'msg': msg,
     };
-    saltos.ajax({
+    saltos.core.ajax({
         url: 'api/index.php',
         data: JSON.stringify(data),
         method: 'post',
@@ -102,7 +109,7 @@ saltos.addlog = msg => {
  * @params => an array with the arguments that must to exists
  * @value  => the default value used if an argument doesn't exists
  */
-saltos.check_params = (obj, params, value) => {
+saltos.core.check_params = (obj, params, value) => {
     if (typeof value == 'undefined') {
         value = '';
     }
@@ -120,7 +127,7 @@ saltos.check_params = (obj, params, value) => {
  * values between 0 and 999999, useful when some widget requires an id and the user don't
  * provide it to the widget constructor
  */
-saltos.uniqid = () => {
+saltos.core.uniqid = () => {
     return 'id' + Math.random().toString(36).substr(2);
 };
 
@@ -135,10 +142,10 @@ saltos.uniqid = () => {
  * @fn   => the callback that you want to execute
  * @args => the arguments passed to the callback when execute it
  */
-saltos.when_visible = (obj, fn, args) => {
+saltos.core.when_visible = (obj, fn, args) => {
     // Check for the id existence
     if (!obj.getAttribute('id')) {
-        obj.setAttribute('id', saltos.uniqid());
+        obj.setAttribute('id', saltos.core.uniqid());
     }
     var id = obj.getAttribute('id');
     // Launch the interval each millisecond, the idea is wait until found
@@ -176,7 +183,7 @@ saltos.when_visible = (obj, fn, args) => {
  *
  * @event => the event that contains the keyboard data
  */
-saltos.get_keycode = event => {
+saltos.core.get_keycode = event => {
     var keycode = 0;
     if (event.keyCode) {
         keycode = event.keyCode;
@@ -205,7 +212,7 @@ saltos.get_keycode = event => {
  * builded is bad, you can see this problem in action when work with tables and try to
  * create separate portions of the table as trs or tds.
  */
-saltos.html = (...args) => {
+saltos.core.html = (...args) => {
     var type = 'div';
     var html = '';
     if (args.length == 1) {
@@ -217,7 +224,7 @@ saltos.html = (...args) => {
     }
     var obj = document.createElement(type);
     obj.innerHTML = html.trim();
-    obj = saltos.optimize(obj);
+    obj = saltos.core.optimize(obj);
     return obj;
 };
 
@@ -239,9 +246,9 @@ saltos.html = (...args) => {
  * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
  * way as jQuery do but without using jQuery.
  */
-saltos.ajax = args => {
-    saltos.check_params(args, ['url', 'data', 'method', 'success', 'error']);
-    saltos.check_params(args, ['progress', 'async', 'content_type', 'headers']);
+saltos.core.ajax = args => {
+    saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error']);
+    saltos.core.check_params(args, ['progress', 'async', 'content_type', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
@@ -311,10 +318,10 @@ saltos.ajax = args => {
  *
  * @arg => can be an string or an array of strings and returns the same structure with the keys fixed
  */
-saltos.fix_key = arg => {
+saltos.core.fix_key = arg => {
     if (typeof arg == 'object') {
         for (var key in arg) {
-            arg[key] = saltos.fix_key(arg[key]);
+            arg[key] = saltos.core.fix_key(arg[key]);
         }
         return arg;
     }
@@ -333,7 +340,7 @@ saltos.fix_key = arg => {
  *
  * @url => the url of the page to load
  */
-saltos.open_window = url => {
+saltos.core.open_window = url => {
     window.open(url);
 };
 
@@ -342,7 +349,7 @@ saltos.open_window = url => {
  *
  * This function is intended to close the current window
  */
-saltos.close_window = () => {
+saltos.core.close_window = () => {
     window.close();
 };
 
@@ -353,7 +360,7 @@ saltos.close_window = () => {
  *
  * @arg => the object that you want to copy
  */
-saltos.copy_object = arg => {
+saltos.core.copy_object = arg => {
     return JSON.parse(JSON.stringify(arg));
 };
 
@@ -366,7 +373,7 @@ saltos.copy_object = arg => {
  *
  * @obj => the object to check and optimize
  */
-saltos.optimize = obj => {
+saltos.core.optimize = obj => {
     if (obj.children.length == 1) {
         return obj.firstElementChild;
     }
@@ -378,7 +385,7 @@ saltos.optimize = obj => {
  *
  * This array allow to the require feature to control the loaded libraries
  */
-saltos.__require = [];
+saltos.core.__require = [];
 
 /**
  * Require feature
@@ -394,13 +401,13 @@ saltos.__require = [];
  * case, they uses a different technique, for css the load is asynchronous and for javascript
  * the load will be synchronous.
  */
-saltos.require = file => {
+saltos.core.require = file => {
     // To prevent duplicates
-    if (saltos.__require.includes(file)) {
+    if (saltos.core.__require.includes(file)) {
         return;
     }
     // The next call serve as prefetch
-    var ajax = saltos.ajax({
+    var ajax = saltos.core.ajax({
         url: file,
         async: false,
     });
@@ -424,7 +431,7 @@ saltos.require = file => {
         document.body.append(script);
     }
     // To prevent duplicates
-    saltos.__require.push(file);
+    saltos.core.__require.push(file);
 };
 
 /**
@@ -443,7 +450,7 @@ saltos.require = file => {
  * This function is the same feature that the same function proviced by the backend by the
  * php/autoload/xml2array.php file with more javascript details as type detection.
  */
-saltos.eval_bool = arg => {
+saltos.core.eval_bool = arg => {
     if (arg === null) {
         return false;
     }
@@ -485,7 +492,7 @@ saltos.eval_bool = arg => {
  * This function tries to convert to string from any other formats as boolean,
  * number, null, undefined or other type.
  */
-saltos.toString = arg => {
+saltos.core.toString = arg => {
     if (arg === null) {
         return 'null';
     }
@@ -510,7 +517,7 @@ saltos.toString = arg => {
  *
  * TODO
  */
-saltos.is_attr_value = data => {
+saltos.core.is_attr_value = data => {
     return typeof data == 'object' && data.hasOwnProperty('#attr') && data.hasOwnProperty('value');
 };
 
@@ -519,8 +526,8 @@ saltos.is_attr_value = data => {
  *
  * TODO
  */
-saltos.join_attr_value = data => {
-    if (saltos.is_attr_value(data)) {
+saltos.core.join_attr_value = data => {
+    if (saltos.core.is_attr_value(data)) {
         data = {
             ...data['#attr'],
             ...data.value,
@@ -534,7 +541,7 @@ saltos.join_attr_value = data => {
  *
  * TODO
  */
-saltos.addEventListener = (obj, event, fn) => {
+saltos.core.addEventListener = (obj, event, fn) => {
     if (typeof fn == 'string') {
         obj.addEventListener(event, new Function(fn));
         return;

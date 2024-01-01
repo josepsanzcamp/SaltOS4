@@ -46,7 +46,7 @@ saltos.emails = {};
  */
 saltos.emails.initialize = () => {
     document.getElementById('search').addEventListener('keydown', event => {
-        if (saltos.get_keycode(event) != 13) {
+        if (saltos.core.get_keycode(event) != 13) {
             return;
         }
         saltos.emails.search();
@@ -60,8 +60,8 @@ saltos.emails.initialize = () => {
  */
 saltos.emails.search = () => {
     document.getElementById('page').value = '0';
-    saltos.form_app.screen('loading');
-    saltos.ajax({
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
@@ -73,15 +73,15 @@ saltos.emails.search = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.form_app.screen('unloading');
-            if (!saltos.check_response(response)) {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             document.querySelector('table').replaceWith(saltos.bootstrap.field(response));
         },
         error: request => {
-            saltos.form_app.screen('unloading');
-            saltos.show_error({
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -110,8 +110,8 @@ saltos.emails.clear_filter = () => {
  */
 saltos.emails.read_more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
-    saltos.form_app.screen('loading');
-    saltos.ajax({
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
         url: 'api.php',
         data: JSON.stringify({
             'action': 'list',
@@ -123,8 +123,8 @@ saltos.emails.read_more = () => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
-            saltos.form_app.screen('unloading');
-            if (!saltos.check_response(response)) {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
                 return;
             }
             var obj = document.querySelector('table').querySelector('tbody');
@@ -132,8 +132,8 @@ saltos.emails.read_more = () => {
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },
         error: request => {
-            saltos.form_app.screen('unloading');
-            saltos.show_error({
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });

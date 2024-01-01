@@ -34,17 +34,24 @@
  */
 
 /**
+ * Application helper object
+ *
+ * This object stores all application functions and data
+ */
+saltos.app = {};
+
+/**
  * Show error helper
  *
  * This function allow to show a modal dialog with de details of an error
  */
-saltos.show_error = error => {
+saltos.app.show_error = error => {
     console.log(error);
     if (typeof error != 'object') {
-        document.body.append(saltos.html(`<pre class="m-3">${error}</pre>`));
+        document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
         return;
     }
-    saltos.alert('Error ' + error.code, error.text);
+    saltos.app.alert('Error ' + error.code, error.text);
 };
 
 /**
@@ -57,13 +64,13 @@ saltos.show_error = error => {
  * @title   => title of the alert modal dialog
  * @message => message of the alert modal dialog
  */
-saltos.alert = (title, message) => {
+saltos.app.alert = (title, message) => {
     saltos.bootstrap.modal({
         title: title,
         close: 'Close',
         body: message,
         footer: (() => {
-            var obj = saltos.html('<div></div>');
+            var obj = saltos.core.html('<div></div>');
             obj.append(saltos.bootstrap.field({
                 type: 'button',
                 value: 'Close',
@@ -80,16 +87,16 @@ saltos.alert = (title, message) => {
 /**
  * Check response helper
  *
- * This function is intended to process the response received by saltos.ajax and returns
+ * This function is intended to process the response received by saltos.core.ajax and returns
  * if an error is detected in the response.
  */
-saltos.check_response = response => {
+saltos.app.check_response = response => {
     if (typeof response != 'object') {
-        saltos.show_error(response);
+        saltos.app.show_error(response);
         return false;
     }
     if (typeof response.error == 'object') {
-        saltos.show_error(response.error);
+        saltos.app.show_error(response.error);
         return false;
     }
     return true;
@@ -100,17 +107,17 @@ saltos.check_response = response => {
  *
  * This function allow to send requests to the server and process the response
  */
-saltos.send_request = data => {
-    saltos.ajax({
+saltos.app.send_request = data => {
+    saltos.core.ajax({
         url: 'api/index.php?' + data,
         success: response => {
-            if (!saltos.check_response(response)) {
+            if (!saltos.app.check_response(response)) {
                 return;
             }
-            saltos.process_response(response);
+            saltos.app.process_response(response);
         },
         error: request => {
-            saltos.show_error({
+            saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
             });
@@ -126,16 +133,16 @@ saltos.send_request = data => {
  *
  * This function process the responses received by the send request
  */
-saltos.process_response = response => {
+saltos.app.process_response = response => {
     for (var key in response) {
         var val = response[key];
-        key = saltos.fix_key(key);
-        if (typeof saltos.form_app[key] != 'function') {
+        key = saltos.core.fix_key(key);
+        if (typeof saltos.app.form[key] != 'function') {
             console.log('type ' + key + ' not found');
-            document.body.append(saltos.html('type ' + key + ' not found'));
+            document.body.append(saltos.core.html('type ' + key + ' not found'));
             continue;
         }
-        saltos.form_app[key](val);
+        saltos.app.form[key](val);
     }
 };
 
@@ -144,14 +151,14 @@ saltos.process_response = response => {
  *
  * This object allow to the constructor to use a rational structure for a quick access of each helper
  */
-saltos.form_app = {};
+saltos.app.form = {};
 
 /**
  * Data helper object
  *
  * This object allow to the app to store the data of the fields map
  */
-saltos.__form_app = {
+saltos.app.__form = {
     fields: [],
     data: {},
     templates: {},
@@ -164,7 +171,7 @@ saltos.__form_app = {
  * extra, it tries to search the field spec in the array to update the value of the field spec to
  * allow that the get_data can differ between the original data and the modified data.
  */
-saltos.form_app.data = data => {
+saltos.app.form.data = data => {
     // Check for attr template_id
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
         var template_id = data['#attr'].template_id;
@@ -175,9 +182,9 @@ saltos.form_app.data = data => {
         for (var key in data.value) {
             var val = data.value[key];
             if (parseInt(key)) {
-                saltos.form_app.layout(saltos.form_app.__layout_template_helper(template_id, key));
+                saltos.app.form.layout(saltos.app.form.__layout_template_helper(template_id, key));
             }
-            saltos.form_app.data(saltos.form_app.__data_template_helper(template_id, val, key));
+            saltos.app.form.data(saltos.app.form.__data_template_helper(template_id, val, key));
         }
         return;
     }
@@ -201,7 +208,7 @@ saltos.form_app.data = data => {
             }
         }
         // This updates the field spec
-        var obj2 = saltos.__form_app.fields.find(elem => elem.id == key);
+        var obj2 = saltos.app.__form.fields.find(elem => elem.id == key);
         if (typeof obj2 != 'undefined') {
             obj2.value = val;
         }
@@ -219,7 +226,7 @@ saltos.form_app.data = data => {
  * @data        => the object that contains the data associated to the row
  * @index       => the index used in all fields of the template
  */
-saltos.form_app.__data_template_helper = (template_id, data, index) => {
+saltos.app.form.__data_template_helper = (template_id, data, index) => {
     for (var key in data) {
         var val = data[key];
         delete data[key];
@@ -232,13 +239,13 @@ saltos.form_app.__data_template_helper = (template_id, data, index) => {
  * Layout template helper
  *
  * This function returns the template identified by the template_id for the specified index, ready
- * to be used by the saltos.form_app.layout function.
+ * to be used by the saltos.app.form.layout function.
  *
  * @template_id => the template identity used in the spec
  * @index       => the index used in all fields of the template
  */
-saltos.form_app.__layout_template_helper = (template_id, index) => {
-    var template = saltos.copy_object(saltos.__form_app.templates[template_id]);
+saltos.app.form.__layout_template_helper = (template_id, index) => {
+    var template = saltos.core.copy_object(saltos.app.__form.templates[template_id]);
     for (var key in template.value) {
         var val = template.value[key];
         if (val['#attr'].hasOwnProperty('id')) {
@@ -262,30 +269,30 @@ saltos.form_app.__layout_template_helper = (template_id, index) => {
  *
  * Notes:
  *
- * This function add the fields to the saltos.__form_app.fields, this allow to the saltos.get_data
+ * This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
  * can retrieve the desired information of the fields.
  */
-saltos.form_app.layout = (layout, extra) => {
+saltos.app.form.layout = (layout, extra) => {
     // Check for template_id attr
     if (layout.hasOwnProperty('#attr') && layout['#attr'].hasOwnProperty('template_id')) {
         // Store the copy in the templates container
         var template_id = layout['#attr'].template_id;
-        var temp = saltos.copy_object(layout);
+        var temp = saltos.core.copy_object(layout);
         delete temp['#attr'].template_id;
-        saltos.__form_app.templates[template_id] = temp;
+        saltos.app.__form.templates[template_id] = temp;
         // Modify the id of all elements to convert it to the format TEMPLATE_ID#ID#0
-        layout = saltos.form_app.__layout_template_helper(template_id, 0);
+        layout = saltos.app.form.__layout_template_helper(template_id, 0);
     }
     // Check for auto attr
-    layout = saltos.form_app.__layout_auto_helper(layout);
+    layout = saltos.app.form.__layout_auto_helper(layout);
     // Continue with original idea of use a entire specified layout
     var arr = [];
     for (var key in layout) {
         var val = layout[key];
-        key = saltos.fix_key(key);
+        key = saltos.core.fix_key(key);
         var attr = {};
         var value = val;
-        if (saltos.is_attr_value(val)) {
+        if (saltos.core.is_attr_value(val)) {
             attr = val['#attr'];
             value = val.value;
         }
@@ -293,14 +300,14 @@ saltos.form_app.layout = (layout, extra) => {
             attr.type = key;
         }
         if (key == 'layout') {
-            var obj = saltos.form_app.layout({
+            var obj = saltos.app.form.layout({
                 'value': value,
                 '#attr': attr,
             }, 'div');
             arr.push(obj);
         } else if (['container', 'col', 'row', 'div'].includes(key)) {
             var obj = saltos.bootstrap.field(attr);
-            var temp = saltos.form_app.layout(value, 'arr');
+            var temp = saltos.app.form.layout(value, 'arr');
             for (var i in temp) {
                 obj.append(temp[i]);
             }
@@ -315,17 +322,17 @@ saltos.form_app.layout = (layout, extra) => {
             } else if (!attr.hasOwnProperty('value')) {
                 attr.value = value;
             }
-            saltos.check_params(attr, ['id', 'source']);
+            saltos.core.check_params(attr, ['id', 'source']);
             if (attr.id == '') {
-                attr.id = saltos.uniqid();
+                attr.id = saltos.core.uniqid();
             }
-            saltos.__form_app.fields.push(attr);
+            saltos.app.__form.fields.push(attr);
             if (attr.source != '') {
                 var obj = saltos.bootstrap.field({
                     type: 'placeholder',
                     id: attr.id,
                 });
-                saltos.__source_helper(attr);
+                saltos.app.__source_helper(attr);
             } else {
                 var obj = saltos.bootstrap.field(attr);
             }
@@ -336,11 +343,11 @@ saltos.form_app.layout = (layout, extra) => {
     if (extra == 'arr') {
         return arr;
     }
-    var div = saltos.html('<div></div>');
+    var div = saltos.core.html('<div></div>');
     for (var i in arr) {
         div.append(arr[i]);
     }
-    div = saltos.optimize(div);
+    div = saltos.core.optimize(div);
     // Some extra features to allow that returns only the div
     if (extra == 'div') {
         return div;
@@ -368,13 +375,13 @@ saltos.form_app.layout = (layout, extra) => {
  * @row_style       => defines the style used by the row element
  * @col_style       => defines the style used by the col element
  */
-saltos.form_app.__layout_auto_helper = layout => {
+saltos.app.form.__layout_auto_helper = layout => {
     if (layout.hasOwnProperty('value') && layout.hasOwnProperty('#attr')) {
         var attr = layout['#attr'];
         var value = layout.value;
-        saltos.check_params(attr, ['auto', 'cols_per_row']);
-        saltos.check_params(attr, ['container_class', 'row_class', 'col_class']);
-        saltos.check_params(attr, ['container_style', 'row_style', 'col_style']);
+        saltos.core.check_params(attr, ['auto', 'cols_per_row']);
+        saltos.core.check_params(attr, ['container_class', 'row_class', 'col_class']);
+        saltos.core.check_params(attr, ['container_style', 'row_style', 'col_style']);
         if (attr.cols_per_row == '') {
             attr.cols_per_row = Infinity;
         }
@@ -423,7 +430,7 @@ saltos.form_app.__layout_auto_helper = layout => {
                     }
                 }
                 // This trick allow to hide the hidden fields
-                if (saltos.fix_key(item[0]) == 'hidden') {
+                if (saltos.core.fix_key(item[0]) == 'hidden') {
                     col_class = 'd-none';
                     col_style = '';
                 }
@@ -456,19 +463,19 @@ saltos.form_app.__layout_auto_helper = layout => {
  * what kind of usage do you want to do.
  *
  * Note that as some part of this code appear in the core.require function, we have decided
- * to replace it by a call to the saltos.require
+ * to replace it by a call to the saltos.core.require
  */
-saltos.form_app.style = data => {
+saltos.app.form.style = data => {
     for (var key in data) {
         var val = data[key];
-        key = saltos.fix_key(key);
+        key = saltos.core.fix_key(key);
         if (key == 'inline') {
             var style = document.createElement('style');
             style.innerHTML = val;
             document.head.append(style);
         }
         if (key == 'file') {
-            saltos.require(val);
+            saltos.core.require(val);
         }
     }
 };
@@ -480,19 +487,19 @@ saltos.form_app.style = data => {
  * what kind of usage do you want to do.
  *
  * Note that as some part of this code appear in the core.require function, we have decided
- * to replace it by a call to the saltos.require
+ * to replace it by a call to the saltos.core.require
  */
-saltos.form_app.javascript = data => {
+saltos.app.form.javascript = data => {
     for (var key in data) {
         var val = data[key];
-        key = saltos.fix_key(key);
+        key = saltos.core.fix_key(key);
         if (key == 'inline') {
             var script = document.createElement('script');
             script.innerHTML = val;
             document.body.append(script);
         }
         if (key == 'file') {
-            saltos.require(val);
+            saltos.core.require(val);
         }
     }
 };
@@ -506,7 +513,7 @@ saltos.form_app.javascript = data => {
  *
  * @title => The title that you want to set in the page
  */
-saltos.form_app.title = title => {
+saltos.app.form.title = title => {
     if (!saltos.hasOwnProperty('x_powered_by')) {
         document.title = title;
         return;
@@ -522,13 +529,13 @@ saltos.form_app.title = title => {
  *
  * @action => use loading, unloading or clear to execute the desired action
  */
-saltos.form_app.screen = action => {
+saltos.app.form.screen = action => {
     if (action == 'loading') {
         var obj = document.getElementById('loading');
         if (obj) {
             return false;
         }
-        obj = saltos.html(`
+        obj = saltos.core.html(`
             <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 opacity-75">
                 <div class="spinner-border position-fixed top-50 start-50" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -566,17 +573,17 @@ saltos.form_app.screen = action => {
  *
  * TODO
  */
-saltos.form_app.navbar = navbar => {
-    navbar['#attr'] = saltos.parse_data(navbar['#attr']);
-    navbar = saltos.join_attr_value(navbar);
+saltos.app.form.navbar = navbar => {
+    navbar['#attr'] = saltos.app.parse_data(navbar['#attr']);
+    navbar = saltos.core.join_attr_value(navbar);
     if (navbar.hasOwnProperty('items')) {
         var items = [];
         for (var key in navbar.items) {
             var val = navbar.items[key];
-            if (saltos.fix_key(key) == 'menu') {
+            if (saltos.core.fix_key(key) == 'menu') {
                 var _class = '';
                 var menu = [];
-                if (saltos.is_attr_value(val)) {
+                if (saltos.core.is_attr_value(val)) {
                     if (val['#attr'].hasOwnProperty('class')) {
                         _class = val['#attr'].class;
                     }
@@ -602,18 +609,18 @@ saltos.form_app.navbar = navbar => {
                     class: _class,
                     menu: menu,
                 });
-            } else if (saltos.fix_key(key) == 'form') {
+            } else if (saltos.core.fix_key(key) == 'form') {
                 var _class = '';
-                if (saltos.is_attr_value(val)) {
+                if (saltos.core.is_attr_value(val)) {
                     if (val['#attr'].hasOwnProperty('class')) {
                         _class = val['#attr'].class;
                     }
                     val = val.value;
                 }
-                var obj = saltos.html(`<form class='${_class}' onsubmit='return false'></form>`);
+                var obj = saltos.core.html(`<form class='${_class}' onsubmit='return false'></form>`);
                 for (var key2 in val) {
                     var val2 = val[key2];
-                    val2['#attr'].type = saltos.fix_key(key2);
+                    val2['#attr'].type = saltos.core.fix_key(key2);
                     obj.append(saltos.bootstrap.field(val2['#attr']));
                 }
                 navbar.items[key] = obj;
@@ -639,14 +646,14 @@ saltos.form_app.navbar = navbar => {
  * @source => data source used to load asynchronously the contents of the table (header, data,
  *            footer and divider)
  */
-saltos.__source_helper = field => {
-    saltos.check_params(field, ['id', 'source']);
+saltos.app.__source_helper = field => {
+    saltos.core.check_params(field, ['id', 'source']);
     // Check for asynchronous load using the source param
     if (field.source != '') {
-        saltos.ajax({
+        saltos.core.ajax({
             url: 'api/index.php?' + field.source,
             success: response => {
-                if (!saltos.check_response(response)) {
+                if (!saltos.app.check_response(response)) {
                     return;
                 }
                 field.source = '';
@@ -656,7 +663,7 @@ saltos.__source_helper = field => {
                 document.getElementById(field.id).replaceWith(saltos.bootstrap.field(field));
             },
             error: request => {
-                saltos.show_error({
+                saltos.app.show_error({
                     text: request.statusText,
                     code: request.status,
                 });
@@ -672,18 +679,18 @@ saltos.__source_helper = field => {
  * Get data
  *
  * This function retrieves the data of the fields in the current layout. to do this it uses
- * the saltos.__form_app.fields that contains the list of all used fields in the layout, this
+ * the saltos.app.__form.fields that contains the list of all used fields in the layout, this
  * function can retrieve all fields or only the fields that contains differences between the
  * original data and the current data.
  *
  * @full => boolean to indicate if you want the entire form or only the differences
  */
-saltos.get_data = full => {
-    saltos.__form_app.data = {};
+saltos.app.get_data = full => {
+    saltos.app.__form.data = {};
     var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
                  'textarea', 'checkbox', 'password', 'file', 'select-one'];
-    for (var i in saltos.__form_app.fields) {
-        var field = saltos.__form_app.fields[i];
+    for (var i in saltos.app.__form.fields) {
+        var field = saltos.app.__form.fields[i];
         // This trick allow to ignore fields used only for presentation purposes
         if (field.hasOwnProperty('ignore') && field.ignore == 'true') {
             continue;
@@ -716,16 +723,16 @@ saltos.get_data = full => {
                     }
                 }
                 if (val != old || full) {
-                    saltos.__form_app.data[field.id] = val;
+                    saltos.app.__form.data[field.id] = val;
                 }
             }
         }
     }
     // This thick allow to add the id field of the template used
-    saltos.__form_app.data = saltos.__get_data_ids_helper(saltos.__form_app.data);
+    saltos.app.__form.data = saltos.app.__get_data_ids_helper(saltos.app.__form.data);
     // This trick allow to do more pretty the structure of some composed fields
-    saltos.__form_app.data = saltos.parse_data(saltos.__form_app.data);
-    return saltos.__form_app.data;
+    saltos.app.__form.data = saltos.app.parse_data(saltos.app.__form.data);
+    return saltos.app.__form.data;
 };
 
 /**
@@ -741,7 +748,7 @@ saltos.get_data = full => {
  * if some field of the template is modified and their value contains a different value
  * that void.
  */
-saltos.__get_data_ids_helper = data => {
+saltos.app.__get_data_ids_helper = data => {
     for (var key in data) {
         var id = key.split('.');
         if (id.length == 3 && id[2] != 'id') {
@@ -777,7 +784,7 @@ saltos.__get_data_ids_helper = data => {
  * is used by get_data to separate in a more pretty structure some fields as the details used
  * in the invoices.
  */
-saltos.parse_data = data => {
+saltos.app.parse_data = data => {
     for (var key in data) {
         var id = key.split('.');
         if (id.length == 2) {
@@ -816,7 +823,7 @@ saltos.parse_data = data => {
  * otherwise the is-invalid class will be added to the void required elements and false is
  * returned.
  */
-saltos.check_required = () => {
+saltos.app.check_required = () => {
     var obj = null;
     document.querySelectorAll('[required]').forEach(_this => {
         _this.classList.remove('is-valid');
@@ -843,8 +850,8 @@ saltos.check_required = () => {
  * This function disables all elements of the form, it is intended to be used when you need
  * to do screen for view mode.
  */
-saltos.form_disabled = bool => {
-    saltos.__form_helper('disabled', bool);
+saltos.app.form_disabled = bool => {
+    saltos.app.__form_helper('disabled', bool);
 };
 
 /**
@@ -853,8 +860,8 @@ saltos.form_disabled = bool => {
  * This function set all elements of the form as readonly, it is intended to be used when you need
  * to do screen for view mode.
  */
-saltos.form_readonly = bool => {
-    saltos.__form_helper('readonly', bool);
+saltos.app.form_readonly = bool => {
+    saltos.app.__form_helper('readonly', bool);
 };
 
 /**
@@ -862,11 +869,11 @@ saltos.form_readonly = bool => {
  *
  * This function is a helper used by the form_disabled and form_readonly functions
  */
-saltos.__form_helper = (attr, bool) => {
+saltos.app.__form_helper = (attr, bool) => {
     var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
                  'textarea', 'checkbox', 'password', 'file', 'select-one'];
-    for (var i in saltos.__form_app.fields) {
-        var field = saltos.__form_app.fields[i];
+    for (var i in saltos.app.__form.fields) {
+        var field = saltos.app.__form.fields[i];
         var obj = document.getElementById(field.id);
         if (obj) {
             if (types.includes(obj.type)) {
@@ -900,7 +907,7 @@ saltos.__form_helper = (attr, bool) => {
  * As you can see, this search can be performed only by 100 times to prevent infinites loop
  * in case of not found the search pattern.
  */
-saltos.parentNode_search = (obj, search) => {
+saltos.app.parentNode_search = (obj, search) => {
     for (var i = 0; i < 100; i++) {
         obj = obj.parentNode;
         if (obj.classList.contains(search)) {
@@ -928,7 +935,7 @@ saltos.parentNode_search = (obj, search) => {
         saltos.authenticate.checktoken();
     }
     if (!saltos.token.get()) {
-        saltos.send_request('app/login');
+        saltos.app.send_request('app/login');
         return;
     }
     // Hash part

@@ -31,7 +31,7 @@
         <screen>clear</screen>
         <title>Customer's list</title>
         <layout auto="true" container_class="container mt-3" col_class="col-auto">
-            <button ifeval="check_user('customers', 'create')" onclick="saltos.open_window('#app/customers/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
+            <button ifeval="check_user('customers', 'create')" onclick="saltos.core.open_window('#app/customers/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search"/>
@@ -125,12 +125,12 @@
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
-                <onclick eval="true">"saltos.open_window('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
+                <onclick eval="true">"saltos.core.open_window('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
             <button onclick="saltos.customers.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
         </layout>
         <javascript>
-            <inline>saltos.form_disabled(true)</inline>
+            <inline>saltos.app.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
             <inline>saltos.customers.initialize_update_view()</inline>
         </javascript>
@@ -162,7 +162,7 @@
             <button onclick="saltos.customers.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
         </layout>
         <javascript>
-            <inline>saltos.form_disabled(true)</inline>
+            <inline>saltos.app.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
         </javascript>
     </delete>

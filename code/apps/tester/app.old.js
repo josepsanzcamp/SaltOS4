@@ -40,7 +40,7 @@
 (function() {
 
     document.body.append(saltos.bootstrap.navbar({
-        id: saltos.uniqid(),
+        id: saltos.core.uniqid(),
         space: true,
         brand: {
             name: 'SaltOS',
@@ -96,7 +96,7 @@
                 }],
             }),
             function() {
-                var obj = saltos.html(`<form class='d-flex' onsubmit='return false'></form>`);
+                var obj = saltos.core.html(`<form class='d-flex' onsubmit='return false'></form>`);
                 obj.append(saltos.bootstrap.field({
                     type: 'text',
                     placeholder: 'Search',
@@ -435,7 +435,7 @@
                         </div>
                     `,
                     footer: function() {
-                        var obj = saltos.html('<div></div>');
+                        var obj = saltos.core.html('<div></div>');
                         obj.append(saltos.bootstrap.field({
                             type: 'button',
                             value: 'Aceptar',
