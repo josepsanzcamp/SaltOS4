@@ -1,6 +1,6 @@
 Code documentation
-SaltOS 4.0 r559
-December 2023
+SaltOS 4.0 r568
+January 2024
 
 
 
@@ -5144,10 +5144,19 @@ This fie contains useful functions related to the main application, at the end o
 can see the main code that launch the application to be executed from the browser
 
 
++++Application helper object+++
+
+```
+saltos.app = {};
+```
+
+This object stores all application functions and data
+
+
 +++Show error helper+++
 
 ```
-saltos.show_error = error
+saltos.app.show_error = error
 ```
 
 This function allow to show a modal dialog with de details of an error
@@ -5156,7 +5165,7 @@ This function allow to show a modal dialog with de details of an error
 +++Alert function+++
 
 ```
-saltos.alert = (title, message)
+saltos.app.alert = (title, message)
 ```
 
 This function tries to implement an alert box, the main difference between the tipical alert
@@ -5170,17 +5179,17 @@ shows one button to close it.
 +++Check response helper+++
 
 ```
-saltos.check_response = response
+saltos.app.check_response = response
 ```
 
-This function is intended to process the response received by saltos.ajax and returns
+This function is intended to process the response received by saltos.core.ajax and returns
 if an error is detected in the response.
 
 
 +++Send request helper+++
 
 ```
-saltos.send_request = data
+saltos.app.send_request = data
 ```
 
 This function allow to send requests to the server and process the response
@@ -5189,7 +5198,7 @@ This function allow to send requests to the server and process the response
 +++Process response helper+++
 
 ```
-saltos.process_response = response
+saltos.app.process_response = response
 ```
 
 This function process the responses received by the send request
@@ -5198,7 +5207,7 @@ This function process the responses received by the send request
 +++Form constructor helper object+++
 
 ```
-saltos.form_app = {};
+saltos.app.form = {};
 ```
 
 This object allow to the constructor to use a rational structure for a quick access of each helper
@@ -5207,7 +5216,7 @@ This object allow to the constructor to use a rational structure for a quick acc
 +++Data helper object+++
 
 ```
-saltos.__form_app = {
+saltos.app.__form = {
 ```
 
 This object allow to the app to store the data of the fields map
@@ -5216,7 +5225,7 @@ This object allow to the app to store the data of the fields map
 +++Form data helper+++
 
 ```
-saltos.form_app.data = data
+saltos.app.form.data = data
 ```
 
 This function sets the values of the request to the objects placed in the document, too as bonus
@@ -5227,7 +5236,7 @@ allow that the get_data can differ between the original data and the modified da
 +++Data template helper+++
 
 ```
-saltos.form_app.__data_template_helper = (template_id, data, index)
+saltos.app.form.__data_template_helper = (template_id, data, index)
 ```
 
 This function allow to convert the data object that contains the values for the fields idenfidied
@@ -5242,11 +5251,11 @@ fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#IN
 +++Layout template helper+++
 
 ```
-saltos.form_app.__layout_template_helper = (template_id, index)
+saltos.app.form.__layout_template_helper = (template_id, index)
 ```
 
 This function returns the template identified by the template_id for the specified index, ready
-to be used by the saltos.form_app.layout function.
+to be used by the saltos.app.form.layout function.
 
 - @template_id => the template identity used in the spec
 - @index       => the index used in all fields of the template
@@ -5255,7 +5264,7 @@ to be used by the saltos.form_app.layout function.
 +++Form layout helper+++
 
 ```
-saltos.form_app.layout = (layout, extra)
+saltos.app.form.layout = (layout, extra)
 ```
 
 This function process the layout command, its able to process nodes as container, row, col and div
@@ -5268,14 +5277,14 @@ of the node are created inside a container, a row, and each field inside a col.
 
 Notes:
 
-This function add the fields to the saltos.__form_app.fields, this allow to the saltos.get_data
+This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
 can retrieve the desired information of the fields.
 
 
 +++Form layout auto helper+++
 
 ```
-saltos.form_app.__layout_auto_helper = layout
+saltos.app.form.__layout_auto_helper = layout
 ```
 
 This function implements the auto feature used by the layout function, allow to specify the
@@ -5294,33 +5303,33 @@ follow arguments:
 +++Form style helper+++
 
 ```
-saltos.form_app.style = data
+saltos.app.form.style = data
 ```
 
 This function allow to specify styles, you can use the inline of file key to specify
 what kind of usage do you want to do.
 
 Note that as some part of this code appear in the core.require function, we have decided
-to replace it by a call to the saltos.require
+to replace it by a call to the saltos.core.require
 
 
 +++Form javascript helper+++
 
 ```
-saltos.form_app.javascript = data
+saltos.app.form.javascript = data
 ```
 
 This function allow to specify scripts, you can use the inline of file key to specify
 what kind of usage do you want to do.
 
 Note that as some part of this code appear in the core.require function, we have decided
-to replace it by a call to the saltos.require
+to replace it by a call to the saltos.core.require
 
 
 +++Form title helper+++
 
 ```
-saltos.form_app.title = title
+saltos.app.form.title = title
 ```
 
 This function sets the document title, too it checks the existence of the x-powered-by
@@ -5333,7 +5342,7 @@ last part of the title.
 +++Form screen helper+++
 
 ```
-saltos.form_app.screen = action
+saltos.app.form.screen = action
 ```
 
 This function adds and removes the spinner to emulate the loading effect screen, too is able
@@ -5345,7 +5354,7 @@ to clear the screen by removing all contents of the body
 +++Form navbar helper+++
 
 ```
-saltos.form_app.navbar = navbar
+saltos.app.form.navbar = navbar
 ```
 
 TODO
@@ -5354,7 +5363,7 @@ TODO
 +++Source helper+++
 
 ```
-saltos.__source_helper = field
+saltos.app.__source_helper = field
 ```
 
 This function is intended to provide an asynchronous sources for a field, using the source attribute,
@@ -5373,11 +5382,11 @@ another way to pass arguments.
 +++Get data+++
 
 ```
-saltos.get_data = full
+saltos.app.get_data = full
 ```
 
 This function retrieves the data of the fields in the current layout. to do this it uses
-the saltos.__form_app.fields that contains the list of all used fields in the layout, this
+the saltos.app.__form.fields that contains the list of all used fields in the layout, this
 function can retrieve all fields or only the fields that contains differences between the
 original data and the current data.
 
@@ -5387,7 +5396,7 @@ original data and the current data.
 +++Get data ids helper+++
 
 ```
-saltos.__get_data_ids_helper = data
+saltos.app.__get_data_ids_helper = data
 ```
 
 This function allow to retrieve the needed ids in the fields used as template
@@ -5405,7 +5414,7 @@ that void.
 +++Parse data+++
 
 ```
-saltos.parse_data = data
+saltos.app.parse_data = data
 ```
 
 This function allow to join in an object the values that share the same prefix part of
@@ -5426,7 +5435,7 @@ in the invoices.
 +++Check form+++
 
 ```
-saltos.check_required = ()
+saltos.app.check_required = ()
 ```
 
 This function tries to check if all required fields contain data, if the required field are
@@ -5438,7 +5447,7 @@ returned.
 +++Form disabled+++
 
 ```
-saltos.form_disabled = bool
+saltos.app.form_disabled = bool
 ```
 
 This function disables all elements of the form, it is intended to be used when you need
@@ -5448,7 +5457,7 @@ to do screen for view mode.
 +++Form readonly+++
 
 ```
-saltos.form_readonly = bool
+saltos.app.form_readonly = bool
 ```
 
 This function set all elements of the form as readonly, it is intended to be used when you need
@@ -5458,7 +5467,7 @@ to do screen for view mode.
 +++Form helper+++
 
 ```
-saltos.__form_helper = (attr, bool)
+saltos.app.__form_helper = (attr, bool)
 ```
 
 This function is a helper used by the form_disabled and form_readonly functions
@@ -5467,7 +5476,7 @@ This function is a helper used by the form_disabled and form_readonly functions
 +++ParentNode Search helper+++
 
 ```
-saltos.parentNode_search = (obj, search)
+saltos.app.parentNode_search = (obj, search)
 ```
 
 This function helps the user interface to search for parentNodes that can be identified
@@ -5573,10 +5582,19 @@ This function triggers the hashchange event to execute the onhashchange
 +++Hash change management+++
 
 ```
-window.onhashchange = event
+saltos.hash.onhashchange = event
 ```
 
 This function allow to SaltOS to update the contents when hash change
+
+
++++Hash change management+++
+
+```
+window.onhashchange = saltos.hash.onhashchange;
+```
+
+Attach the hash change management function to the window
 
 
 +++Token helper object+++
@@ -5798,11 +5816,20 @@ executes the listeners if needed
 +++Storage management+++
 
 ```
-window.onstorage = event
+saltos.tabs.onstorage = event
 ```
 
 This function allow to SaltOS to receive the messages sended by other tabs
 using the localStorage.
+
+
++++Storage management+++
+
+```
+window.onstorage = saltos.tabs.onstorage;
+```
+
+Attach the storage management function to the window
 
 
 ++Bootstrap helper module++
@@ -7014,28 +7041,37 @@ This fie contains useful functions related to the core application, provides the
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
 
 
-+++Main object+++
++++Core helper object+++
 
 ```
-var saltos = saltos || {};
+saltos.core = {};
 ```
 
-This object contains all SaltOS code
+This object stores all core functions and data
 
 
 +++Error management+++
 
 ```
-window.onerror = (event, source, lineno, colno, error)
+saltos.core.onerror = (event, source, lineno, colno, error)
 ```
 
 This function allow to SaltOS to log in server the javascript errors produced in the client's browser
 
 
++++Error management+++
+
+```
+window.onerror = saltos.core.onerror;
+```
+
+Attach the error management function to the window
+
+
 +++Log management+++
 
 ```
-saltos.addlog = msg
+saltos.core.addlog = msg
 ```
 
 This function allow to send messages to the addlog of the server side, requires an argument:
@@ -7046,7 +7082,7 @@ This function allow to send messages to the addlog of the server side, requires 
 +++Check params+++
 
 ```
-saltos.check_params = (obj, params, value)
+saltos.core.check_params = (obj, params, value)
 ```
 
 This function allow to prepare parameters to be used by other functions, the main idea
@@ -7062,7 +7098,7 @@ and if some param is not found, then define it using the default value passed:
 +++UniqID+++
 
 ```
-saltos.uniqid = ()
+saltos.core.uniqid = ()
 ```
 
 This function generates an unique id formed by the word 'id' and a number that can take
@@ -7073,7 +7109,7 @@ provide it to the widget constructor
 +++When visible+++
 
 ```
-saltos.when_visible = (obj, fn, args)
+saltos.core.when_visible = (obj, fn, args)
 ```
 
 This function allow to execute some code when the object is visible, useful for third part
@@ -7088,7 +7124,7 @@ code and paint the widget correctly
 +++Get keycode+++
 
 ```
-saltos.get_keycode = event
+saltos.core.get_keycode = event
 ```
 
 This function allow to get the keycode of a keyboard event detecting the browser
@@ -7099,7 +7135,7 @@ This function allow to get the keycode of a keyboard event detecting the browser
 +++HTML builder+++
 
 ```
-saltos.html = (...args)
+saltos.core.html = (...args)
 ```
 
 This function allow to create an DOM fragment from a string that contains html code, can
@@ -7121,7 +7157,7 @@ create separate portions of the table as trs or tds.
 +++AJAX+++
 
 ```
-saltos.ajax = args
+saltos.core.ajax = args
 ```
 
 This function allow to use ajax using the same form that with jQuery without jQuery
@@ -7144,7 +7180,7 @@ way as jQuery do but without using jQuery.
 +++Key cleaner+++
 
 ```
-saltos.fix_key = arg
+saltos.core.fix_key = arg
 ```
 
 This function is intended to fix the keys of the objects, this is caused because you can not
@@ -7159,7 +7195,7 @@ for this reason, exists this function here
 +++Open window+++
 
 ```
-saltos.open_window = url
+saltos.core.open_window = url
 ```
 
 This function is intended to open new tabs in the window, at the moment only is a wrapper to
@@ -7171,7 +7207,7 @@ the window.open but in a future, can add more features
 +++Close window+++
 
 ```
-saltos.close_window = ()
+saltos.core.close_window = ()
 ```
 
 This function is intended to close the current window
@@ -7180,7 +7216,7 @@ This function is intended to close the current window
 +++Copy object+++
 
 ```
-saltos.copy_object = arg
+saltos.core.copy_object = arg
 ```
 
 This function is intended to do copies of objects using as intermediate a json file
@@ -7191,7 +7227,7 @@ This function is intended to do copies of objects using as intermediate a json f
 +++Optimizer object+++
 
 ```
-saltos.optimize = obj
+saltos.core.optimize = obj
 ```
 
 This function checks an object to see if only contains one children and in this case, returns
@@ -7204,7 +7240,7 @@ original object
 +++Require helper array+++
 
 ```
-saltos.__require = [];
+saltos.core.__require = [];
 ```
 
 This array allow to the require feature to control the loaded libraries
@@ -7213,7 +7249,7 @@ This array allow to the require feature to control the loaded libraries
 +++Require feature+++
 
 ```
-saltos.require = file
+saltos.core.require = file
 ```
 
 This function allow the other functions to declare their requirements to previously load the
@@ -7232,7 +7268,7 @@ the load will be synchronous.
 +++Eval Bool+++
 
 ```
-saltos.eval_bool = arg
+saltos.core.eval_bool = arg
 ```
 
 This function returns a boolean depending on the input evaluation, the main idea
@@ -7253,7 +7289,7 @@ php/autoload/xml2array.php file with more javascript details as type detection.
 +++toString function+++
 
 ```
-saltos.toString = arg
+saltos.core.toString = arg
 ```
 
 This function tries to convert to string from any other formats as boolean,
@@ -7263,7 +7299,7 @@ number, null, undefined or other type.
 +++TODO+++
 
 ```
-saltos.is_attr_value = data
+saltos.core.is_attr_value = data
 ```
 
 TODO
@@ -7272,7 +7308,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.join_attr_value = data
+saltos.core.join_attr_value = data
 ```
 
 TODO
@@ -7281,10 +7317,28 @@ TODO
 +++TODO+++
 
 ```
-saltos.addEventListener = (obj, event, fn)
+saltos.core.addEventListener = (obj, event, fn)
 ```
 
 TODO
+
+
+++Object helper module++
+
+```
+web/js/object.js
+```
+
+This file contains the main saltos object
+
+
++++Main object+++
+
+```
+var saltos = saltos || {};
+```
+
+This object contains all SaltOS code
 
 
 +Customers+

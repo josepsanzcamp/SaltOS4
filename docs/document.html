@@ -25,8 +25,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Code documentation</h1>
-<h2>SaltOS 4.0 r559</h2>
-<h3>December 2023</h3>
+<h2>SaltOS 4.0 r568</h2>
+<h3>January 2024</h3>
 </hgroup>
 </header>
 <article>
@@ -843,385 +843,399 @@ pre{background-color:#e6e6e6;padding:5px 3px}
     <ul>
     <li><a href="#toc357">4.1. Application helper module</a>
       <ul>
-      <li><a href="#toc358">4.1.1. Show error helper</a>
+      <li><a href="#toc358">4.1.1. Application helper object</a>
       </li>
-      <li><a href="#toc359">4.1.2. Alert function</a>
+      <li><a href="#toc359">4.1.2. Show error helper</a>
       </li>
-      <li><a href="#toc360">4.1.3. Check response helper</a>
+      <li><a href="#toc360">4.1.3. Alert function</a>
       </li>
-      <li><a href="#toc361">4.1.4. Send request helper</a>
+      <li><a href="#toc361">4.1.4. Check response helper</a>
       </li>
-      <li><a href="#toc362">4.1.5. Process response helper</a>
+      <li><a href="#toc362">4.1.5. Send request helper</a>
       </li>
-      <li><a href="#toc363">4.1.6. Form constructor helper object</a>
+      <li><a href="#toc363">4.1.6. Process response helper</a>
       </li>
-      <li><a href="#toc364">4.1.7. Data helper object</a>
+      <li><a href="#toc364">4.1.7. Form constructor helper object</a>
       </li>
-      <li><a href="#toc365">4.1.8. Form data helper</a>
+      <li><a href="#toc365">4.1.8. Data helper object</a>
       </li>
-      <li><a href="#toc366">4.1.9. Data template helper</a>
+      <li><a href="#toc366">4.1.9. Form data helper</a>
       </li>
-      <li><a href="#toc367">4.1.10. Layout template helper</a>
+      <li><a href="#toc367">4.1.10. Data template helper</a>
       </li>
-      <li><a href="#toc368">4.1.11. Form layout helper</a>
+      <li><a href="#toc368">4.1.11. Layout template helper</a>
       </li>
-      <li><a href="#toc369">4.1.12. Form layout auto helper</a>
+      <li><a href="#toc369">4.1.12. Form layout helper</a>
       </li>
-      <li><a href="#toc370">4.1.13. Form style helper</a>
+      <li><a href="#toc370">4.1.13. Form layout auto helper</a>
       </li>
-      <li><a href="#toc371">4.1.14. Form javascript helper</a>
+      <li><a href="#toc371">4.1.14. Form style helper</a>
       </li>
-      <li><a href="#toc372">4.1.15. Form title helper</a>
+      <li><a href="#toc372">4.1.15. Form javascript helper</a>
       </li>
-      <li><a href="#toc373">4.1.16. Form screen helper</a>
+      <li><a href="#toc373">4.1.16. Form title helper</a>
       </li>
-      <li><a href="#toc374">4.1.17. Form navbar helper</a>
+      <li><a href="#toc374">4.1.17. Form screen helper</a>
       </li>
-      <li><a href="#toc375">4.1.18. Source helper</a>
+      <li><a href="#toc375">4.1.18. Form navbar helper</a>
       </li>
-      <li><a href="#toc376">4.1.19. Get data</a>
+      <li><a href="#toc376">4.1.19. Source helper</a>
       </li>
-      <li><a href="#toc377">4.1.20. Get data ids helper</a>
+      <li><a href="#toc377">4.1.20. Get data</a>
       </li>
-      <li><a href="#toc378">4.1.21. Parse data</a>
+      <li><a href="#toc378">4.1.21. Get data ids helper</a>
       </li>
-      <li><a href="#toc379">4.1.22. Check form</a>
+      <li><a href="#toc379">4.1.22. Parse data</a>
       </li>
-      <li><a href="#toc380">4.1.23. Form disabled</a>
+      <li><a href="#toc380">4.1.23. Check form</a>
       </li>
-      <li><a href="#toc381">4.1.24. Form readonly</a>
+      <li><a href="#toc381">4.1.24. Form disabled</a>
       </li>
-      <li><a href="#toc382">4.1.25. Form helper</a>
+      <li><a href="#toc382">4.1.25. Form readonly</a>
       </li>
-      <li><a href="#toc383">4.1.26. ParentNode Search helper</a>
+      <li><a href="#toc383">4.1.26. Form helper</a>
       </li>
-      <li><a href="#toc384">4.1.27. Main code</a>
+      <li><a href="#toc384">4.1.27. ParentNode Search helper</a>
       </li>
-      </ul>
-    </li>
-    <li><a href="#toc385">4.2. Authentication helper module</a>
-      <ul>
-      <li><a href="#toc386">4.2.1. Hash helper object</a>
-      </li>
-      <li><a href="#toc387">4.2.2. Get hash</a>
-      </li>
-      <li><a href="#toc388">4.2.3. Set hash</a>
-      </li>
-      <li><a href="#toc389">4.2.4. Add hash</a>
-      </li>
-      <li><a href="#toc390">4.2.5. Change trigger</a>
-      </li>
-      <li><a href="#toc391">4.2.6. Hash change management</a>
-      </li>
-      <li><a href="#toc392">4.2.7. Token helper object</a>
-      </li>
-      <li><a href="#toc393">4.2.8. Get token function</a>
-      </li>
-      <li><a href="#toc394">4.2.9. Get expires function</a>
-      </li>
-      <li><a href="#toc395">4.2.10. Get autorenew function</a>
-      </li>
-      <li><a href="#toc396">4.2.11. Get autocheck function</a>
-      </li>
-      <li><a href="#toc397">4.2.12. Set token and expires</a>
-      </li>
-      <li><a href="#toc398">4.2.13. Unset token and expires</a>
-      </li>
-      <li><a href="#toc399">4.2.14. Authentication helper object</a>
-      </li>
-      <li><a href="#toc400">4.2.15. Authenticate token function</a>
-      </li>
-      <li><a href="#toc401">4.2.16. Re-authenticate token function</a>
-      </li>
-      <li><a href="#toc402">4.2.17. De-authenticate token function</a>
-      </li>
-      <li><a href="#toc403">4.2.18. Check token function</a>
-      </li>
-      <li><a href="#toc404">4.2.19. Re-authenticate helper function</a>
-      </li>
-      <li><a href="#toc405">4.2.20. Variable used to store the timer</a>
-      </li>
-      <li><a href="#toc406">4.2.21. Auto-renew helper function</a>
-      </li>
-      <li><a href="#toc407">4.2.22. Tabs communication helper object</a>
-      </li>
-      <li><a href="#toc408">4.2.23. Listeners helper object</a>
-      </li>
-      <li><a href="#toc409">4.2.24. Set listener</a>
-      </li>
-      <li><a href="#toc410">4.2.25. Unset listener</a>
-      </li>
-      <li><a href="#toc411">4.2.26. Send message</a>
-      </li>
-      <li><a href="#toc412">4.2.27. Storage management</a>
+      <li><a href="#toc385">4.1.28. Main code</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc413">4.3. Bootstrap helper module</a>
+    <li><a href="#toc386">4.2. Authentication helper module</a>
       <ul>
-      <li><a href="#toc414">4.3.1. Bootstrap helper object</a>
+      <li><a href="#toc387">4.2.1. Hash helper object</a>
       </li>
-      <li><a href="#toc415">4.3.2. Form fields constructor</a>
+      <li><a href="#toc388">4.2.2. Get hash</a>
       </li>
-      <li><a href="#toc416">4.3.3. Form_field constructor helper object</a>
+      <li><a href="#toc389">4.2.3. Set hash</a>
       </li>
-      <li><a href="#toc417">4.3.4. Div constructor helper</a>
+      <li><a href="#toc390">4.2.4. Add hash</a>
       </li>
-      <li><a href="#toc418">4.3.5. Container constructor helper</a>
+      <li><a href="#toc391">4.2.5. Change trigger</a>
       </li>
-      <li><a href="#toc419">4.3.6. Row constructor helper</a>
+      <li><a href="#toc392">4.2.6. Hash change management</a>
       </li>
-      <li><a href="#toc420">4.3.7. Col constructor helper</a>
+      <li><a href="#toc393">4.2.7. Hash change management</a>
       </li>
-      <li><a href="#toc421">4.3.8. Text constructor helper</a>
+      <li><a href="#toc394">4.2.8. Token helper object</a>
       </li>
-      <li><a href="#toc422">4.3.9. Hidden constructor helper</a>
+      <li><a href="#toc395">4.2.9. Get token function</a>
       </li>
-      <li><a href="#toc423">4.3.10. Integer constructor helper</a>
+      <li><a href="#toc396">4.2.10. Get expires function</a>
       </li>
-      <li><a href="#toc424">4.3.11. Float constructor helper</a>
+      <li><a href="#toc397">4.2.11. Get autorenew function</a>
       </li>
-      <li><a href="#toc425">4.3.12. Color constructor helper</a>
+      <li><a href="#toc398">4.2.12. Get autocheck function</a>
       </li>
-      <li><a href="#toc426">4.3.13. Date constructor helper</a>
+      <li><a href="#toc399">4.2.13. Set token and expires</a>
       </li>
-      <li><a href="#toc427">4.3.14. Time constructor helper</a>
+      <li><a href="#toc400">4.2.14. Unset token and expires</a>
       </li>
-      <li><a href="#toc428">4.3.15. Datetime constructor helper</a>
+      <li><a href="#toc401">4.2.15. Authentication helper object</a>
       </li>
-      <li><a href="#toc429">4.3.16. Textarea constructor helper</a>
+      <li><a href="#toc402">4.2.16. Authenticate token function</a>
       </li>
-      <li><a href="#toc430">4.3.17. Ckeditor constructor helper</a>
+      <li><a href="#toc403">4.2.17. Re-authenticate token function</a>
       </li>
-      <li><a href="#toc431">4.3.18. Codemirror constructor helper</a>
+      <li><a href="#toc404">4.2.18. De-authenticate token function</a>
       </li>
-      <li><a href="#toc432">4.3.19. Iframe constructor helper</a>
+      <li><a href="#toc405">4.2.19. Check token function</a>
       </li>
-      <li><a href="#toc433">4.3.20. Select constructor helper</a>
+      <li><a href="#toc406">4.2.20. Re-authenticate helper function</a>
       </li>
-      <li><a href="#toc434">4.3.21. Multiselect constructor helper</a>
+      <li><a href="#toc407">4.2.21. Variable used to store the timer</a>
       </li>
-      <li><a href="#toc435">4.3.22. Checkbox constructor helper</a>
+      <li><a href="#toc408">4.2.22. Auto-renew helper function</a>
       </li>
-      <li><a href="#toc436">4.3.23. Switch constructor helper</a>
+      <li><a href="#toc409">4.2.23. Tabs communication helper object</a>
       </li>
-      <li><a href="#toc437">4.3.24. Button constructor helper</a>
+      <li><a href="#toc410">4.2.24. Listeners helper object</a>
       </li>
-      <li><a href="#toc438">4.3.25. Password constructor helper</a>
+      <li><a href="#toc411">4.2.25. Set listener</a>
       </li>
-      <li><a href="#toc439">4.3.26. File constructor helper</a>
+      <li><a href="#toc412">4.2.26. Unset listener</a>
       </li>
-      <li><a href="#toc440">4.3.27. Link constructor helper</a>
+      <li><a href="#toc413">4.2.27. Send message</a>
       </li>
-      <li><a href="#toc441">4.3.28. Label constructor helper</a>
+      <li><a href="#toc414">4.2.28. Storage management</a>
       </li>
-      <li><a href="#toc442">4.3.29. Image constructor helper</a>
-      </li>
-      <li><a href="#toc443">4.3.30. Excel constructor helper</a>
-      </li>
-      <li><a href="#toc444">4.3.31. Pdfjs constructor helper</a>
-      </li>
-      <li><a href="#toc445">4.3.32. Table constructor helper</a>
-      </li>
-      <li><a href="#toc446">4.3.33. Alert constructor helper</a>
-      </li>
-      <li><a href="#toc447">4.3.34. Card constructor helper</a>
-      </li>
-      <li><a href="#toc448">4.3.35. Chart.js constructor helper</a>
-      </li>
-      <li><a href="#toc449">4.3.36. Tags constructor helper</a>
-      </li>
-      <li><a href="#toc450">4.3.37. Gallery constructor helper</a>
-      </li>
-      <li><a href="#toc451">4.3.38. Placeholder helper</a>
-      </li>
-      <li><a href="#toc452">4.3.39. Private text constructor helper</a>
-      </li>
-      <li><a href="#toc453">4.3.40. Private textarea constructor helper</a>
-      </li>
-      <li><a href="#toc454">4.3.41. Private tooltip constructor helper</a>
-      </li>
-      <li><a href="#toc455">4.3.42. Label helper</a>
-      </li>
-      <li><a href="#toc456">4.3.43. Label Combine</a>
-      </li>
-      <li><a href="#toc457">4.3.44. Menu constructor helper</a>
-      </li>
-      <li><a href="#toc458">4.3.45. Navbar constructor helper</a>
-      </li>
-      <li><a href="#toc459">4.3.46. Modal constructor helper object</a>
-      </li>
-      <li><a href="#toc460">4.3.47. Modal constructor helper</a>
-      </li>
-      <li><a href="#toc461">4.3.48. Offcanvas constructor helper object</a>
-      </li>
-      <li><a href="#toc462">4.3.49. Offcanvas constructor helper</a>
-      </li>
-      <li><a href="#toc463">4.3.50. Toast constructor helper</a>
+      <li><a href="#toc415">4.2.29. Storage management</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc464">4.4. Core helper module</a>
+    <li><a href="#toc416">4.3. Bootstrap helper module</a>
       <ul>
-      <li><a href="#toc465">4.4.1. Main object</a>
+      <li><a href="#toc417">4.3.1. Bootstrap helper object</a>
       </li>
-      <li><a href="#toc466">4.4.2. Error management</a>
+      <li><a href="#toc418">4.3.2. Form fields constructor</a>
       </li>
-      <li><a href="#toc467">4.4.3. Log management</a>
+      <li><a href="#toc419">4.3.3. Form_field constructor helper object</a>
       </li>
-      <li><a href="#toc468">4.4.4. Check params</a>
+      <li><a href="#toc420">4.3.4. Div constructor helper</a>
       </li>
-      <li><a href="#toc469">4.4.5. UniqID</a>
+      <li><a href="#toc421">4.3.5. Container constructor helper</a>
       </li>
-      <li><a href="#toc470">4.4.6. When visible</a>
+      <li><a href="#toc422">4.3.6. Row constructor helper</a>
       </li>
-      <li><a href="#toc471">4.4.7. Get keycode</a>
+      <li><a href="#toc423">4.3.7. Col constructor helper</a>
       </li>
-      <li><a href="#toc472">4.4.8. HTML builder</a>
+      <li><a href="#toc424">4.3.8. Text constructor helper</a>
       </li>
-      <li><a href="#toc473">4.4.9. AJAX</a>
+      <li><a href="#toc425">4.3.9. Hidden constructor helper</a>
       </li>
-      <li><a href="#toc474">4.4.10. Key cleaner</a>
+      <li><a href="#toc426">4.3.10. Integer constructor helper</a>
       </li>
-      <li><a href="#toc475">4.4.11. Open window</a>
+      <li><a href="#toc427">4.3.11. Float constructor helper</a>
       </li>
-      <li><a href="#toc476">4.4.12. Close window</a>
+      <li><a href="#toc428">4.3.12. Color constructor helper</a>
       </li>
-      <li><a href="#toc477">4.4.13. Copy object</a>
+      <li><a href="#toc429">4.3.13. Date constructor helper</a>
       </li>
-      <li><a href="#toc478">4.4.14. Optimizer object</a>
+      <li><a href="#toc430">4.3.14. Time constructor helper</a>
       </li>
-      <li><a href="#toc479">4.4.15. Require helper array</a>
+      <li><a href="#toc431">4.3.15. Datetime constructor helper</a>
       </li>
-      <li><a href="#toc480">4.4.16. Require feature</a>
+      <li><a href="#toc432">4.3.16. Textarea constructor helper</a>
       </li>
-      <li><a href="#toc481">4.4.17. Eval Bool</a>
+      <li><a href="#toc433">4.3.17. Ckeditor constructor helper</a>
       </li>
-      <li><a href="#toc482">4.4.18. toString function</a>
+      <li><a href="#toc434">4.3.18. Codemirror constructor helper</a>
       </li>
-      <li><a href="#toc483">4.4.19. TODO</a>
+      <li><a href="#toc435">4.3.19. Iframe constructor helper</a>
       </li>
-      <li><a href="#toc484">4.4.20. TODO</a>
+      <li><a href="#toc436">4.3.20. Select constructor helper</a>
       </li>
-      <li><a href="#toc485">4.4.21. TODO</a>
+      <li><a href="#toc437">4.3.21. Multiselect constructor helper</a>
+      </li>
+      <li><a href="#toc438">4.3.22. Checkbox constructor helper</a>
+      </li>
+      <li><a href="#toc439">4.3.23. Switch constructor helper</a>
+      </li>
+      <li><a href="#toc440">4.3.24. Button constructor helper</a>
+      </li>
+      <li><a href="#toc441">4.3.25. Password constructor helper</a>
+      </li>
+      <li><a href="#toc442">4.3.26. File constructor helper</a>
+      </li>
+      <li><a href="#toc443">4.3.27. Link constructor helper</a>
+      </li>
+      <li><a href="#toc444">4.3.28. Label constructor helper</a>
+      </li>
+      <li><a href="#toc445">4.3.29. Image constructor helper</a>
+      </li>
+      <li><a href="#toc446">4.3.30. Excel constructor helper</a>
+      </li>
+      <li><a href="#toc447">4.3.31. Pdfjs constructor helper</a>
+      </li>
+      <li><a href="#toc448">4.3.32. Table constructor helper</a>
+      </li>
+      <li><a href="#toc449">4.3.33. Alert constructor helper</a>
+      </li>
+      <li><a href="#toc450">4.3.34. Card constructor helper</a>
+      </li>
+      <li><a href="#toc451">4.3.35. Chart.js constructor helper</a>
+      </li>
+      <li><a href="#toc452">4.3.36. Tags constructor helper</a>
+      </li>
+      <li><a href="#toc453">4.3.37. Gallery constructor helper</a>
+      </li>
+      <li><a href="#toc454">4.3.38. Placeholder helper</a>
+      </li>
+      <li><a href="#toc455">4.3.39. Private text constructor helper</a>
+      </li>
+      <li><a href="#toc456">4.3.40. Private textarea constructor helper</a>
+      </li>
+      <li><a href="#toc457">4.3.41. Private tooltip constructor helper</a>
+      </li>
+      <li><a href="#toc458">4.3.42. Label helper</a>
+      </li>
+      <li><a href="#toc459">4.3.43. Label Combine</a>
+      </li>
+      <li><a href="#toc460">4.3.44. Menu constructor helper</a>
+      </li>
+      <li><a href="#toc461">4.3.45. Navbar constructor helper</a>
+      </li>
+      <li><a href="#toc462">4.3.46. Modal constructor helper object</a>
+      </li>
+      <li><a href="#toc463">4.3.47. Modal constructor helper</a>
+      </li>
+      <li><a href="#toc464">4.3.48. Offcanvas constructor helper object</a>
+      </li>
+      <li><a href="#toc465">4.3.49. Offcanvas constructor helper</a>
+      </li>
+      <li><a href="#toc466">4.3.50. Toast constructor helper</a>
       </li>
       </ul>
     </li>
-    </ul>
-  </li>
-  <li><a href="#toc486">5. Customers</a>
-    <ul>
-    <li><a href="#toc487">5.1. Customers application</a>
+    <li><a href="#toc467">4.4. Core helper module</a>
       <ul>
-      <li><a href="#toc488">5.1.1. Main object</a>
+      <li><a href="#toc468">4.4.1. Core helper object</a>
       </li>
-      <li><a href="#toc489">5.1.2. Initialize customers</a>
+      <li><a href="#toc469">4.4.2. Error management</a>
       </li>
-      <li><a href="#toc490">5.1.3. TODO</a>
+      <li><a href="#toc470">4.4.3. Error management</a>
       </li>
-      <li><a href="#toc491">5.1.4. TODO</a>
+      <li><a href="#toc471">4.4.4. Log management</a>
       </li>
-      <li><a href="#toc492">5.1.5. TODO</a>
+      <li><a href="#toc472">4.4.5. Check params</a>
       </li>
-      <li><a href="#toc493">5.1.6. TODO</a>
+      <li><a href="#toc473">4.4.6. UniqID</a>
       </li>
-      <li><a href="#toc494">5.1.7. TODO</a>
+      <li><a href="#toc474">4.4.7. When visible</a>
       </li>
-      <li><a href="#toc495">5.1.8. TODO</a>
+      <li><a href="#toc475">4.4.8. Get keycode</a>
       </li>
-      <li><a href="#toc496">5.1.9. TODO</a>
+      <li><a href="#toc476">4.4.9. HTML builder</a>
       </li>
-      <li><a href="#toc497">5.1.10. TODO</a>
+      <li><a href="#toc477">4.4.10. AJAX</a>
       </li>
-      <li><a href="#toc498">5.1.11. TODO</a>
+      <li><a href="#toc478">4.4.11. Key cleaner</a>
+      </li>
+      <li><a href="#toc479">4.4.12. Open window</a>
+      </li>
+      <li><a href="#toc480">4.4.13. Close window</a>
+      </li>
+      <li><a href="#toc481">4.4.14. Copy object</a>
+      </li>
+      <li><a href="#toc482">4.4.15. Optimizer object</a>
+      </li>
+      <li><a href="#toc483">4.4.16. Require helper array</a>
+      </li>
+      <li><a href="#toc484">4.4.17. Require feature</a>
+      </li>
+      <li><a href="#toc485">4.4.18. Eval Bool</a>
+      </li>
+      <li><a href="#toc486">4.4.19. toString function</a>
+      </li>
+      <li><a href="#toc487">4.4.20. TODO</a>
+      </li>
+      <li><a href="#toc488">4.4.21. TODO</a>
+      </li>
+      <li><a href="#toc489">4.4.22. TODO</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc490">4.5. Object helper module</a>
+      <ul>
+      <li><a href="#toc491">4.5.1. Main object</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc499">6. Dashboard</a>
+  <li><a href="#toc492">5. Customers</a>
     <ul>
-    <li><a href="#toc500">6.1. Dashboard application</a>
+    <li><a href="#toc493">5.1. Customers application</a>
       <ul>
-      <li><a href="#toc501">6.1.1. Main object</a>
+      <li><a href="#toc494">5.1.1. Main object</a>
       </li>
-      <li><a href="#toc502">6.1.2. TODO</a>
+      <li><a href="#toc495">5.1.2. Initialize customers</a>
+      </li>
+      <li><a href="#toc496">5.1.3. TODO</a>
+      </li>
+      <li><a href="#toc497">5.1.4. TODO</a>
+      </li>
+      <li><a href="#toc498">5.1.5. TODO</a>
+      </li>
+      <li><a href="#toc499">5.1.6. TODO</a>
+      </li>
+      <li><a href="#toc500">5.1.7. TODO</a>
+      </li>
+      <li><a href="#toc501">5.1.8. TODO</a>
+      </li>
+      <li><a href="#toc502">5.1.9. TODO</a>
+      </li>
+      <li><a href="#toc503">5.1.10. TODO</a>
+      </li>
+      <li><a href="#toc504">5.1.11. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc503">7. Emails</a>
+  <li><a href="#toc505">6. Dashboard</a>
     <ul>
-    <li><a href="#toc504">7.1. Email application</a>
+    <li><a href="#toc506">6.1. Dashboard application</a>
       <ul>
-      <li><a href="#toc505">7.1.1. Main object</a>
+      <li><a href="#toc507">6.1.1. Main object</a>
       </li>
-      <li><a href="#toc506">7.1.2. Initialize emails app</a>
-      </li>
-      <li><a href="#toc507">7.1.3. TODO</a>
-      </li>
-      <li><a href="#toc508">7.1.4. TODO</a>
-      </li>
-      <li><a href="#toc509">7.1.5. TODO</a>
-      </li>
-      <li><a href="#toc510">7.1.6. TODO</a>
+      <li><a href="#toc508">6.1.2. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc511">8. Invoices</a>
+  <li><a href="#toc509">7. Emails</a>
     <ul>
-    <li><a href="#toc512">8.1. invoices application</a>
+    <li><a href="#toc510">7.1. Email application</a>
       <ul>
-      <li><a href="#toc513">8.1.1. Main object</a>
+      <li><a href="#toc511">7.1.1. Main object</a>
       </li>
-      <li><a href="#toc514">8.1.2. Initialize invoices</a>
+      <li><a href="#toc512">7.1.2. Initialize emails app</a>
       </li>
-      <li><a href="#toc515">8.1.3. TODO</a>
+      <li><a href="#toc513">7.1.3. TODO</a>
       </li>
-      <li><a href="#toc516">8.1.4. TODO</a>
+      <li><a href="#toc514">7.1.4. TODO</a>
       </li>
-      <li><a href="#toc517">8.1.5. TODO</a>
+      <li><a href="#toc515">7.1.5. TODO</a>
       </li>
-      <li><a href="#toc518">8.1.6. TODO</a>
-      </li>
-      <li><a href="#toc519">8.1.7. TODO</a>
-      </li>
-      <li><a href="#toc520">8.1.8. TODO</a>
-      </li>
-      <li><a href="#toc521">8.1.9. TODO</a>
-      </li>
-      <li><a href="#toc522">8.1.10. TODO</a>
-      </li>
-      <li><a href="#toc523">8.1.11. TODO</a>
-      </li>
-      <li><a href="#toc524">8.1.12. TODO</a>
-      </li>
-      <li><a href="#toc525">8.1.13. TODO</a>
-      </li>
-      <li><a href="#toc526">8.1.14. TODO</a>
-      </li>
-      <li><a href="#toc527">8.1.15. TODO</a>
-      </li>
-      <li><a href="#toc528">8.1.16. TODO</a>
+      <li><a href="#toc516">7.1.6. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc529">9. Login</a>
+  <li><a href="#toc517">8. Invoices</a>
     <ul>
-    <li><a href="#toc530">9.1. Login application</a>
+    <li><a href="#toc518">8.1. invoices application</a>
       <ul>
-      <li><a href="#toc531">9.1.1. Main object</a>
+      <li><a href="#toc519">8.1.1. Main object</a>
       </li>
-      <li><a href="#toc532">9.1.2. Authenticate login function</a>
+      <li><a href="#toc520">8.1.2. Initialize invoices</a>
       </li>
-      <li><a href="#toc533">9.1.3. Initialize login</a>
+      <li><a href="#toc521">8.1.3. TODO</a>
       </li>
-      <li><a href="#toc534">9.1.4. Access denied</a>
+      <li><a href="#toc522">8.1.4. TODO</a>
+      </li>
+      <li><a href="#toc523">8.1.5. TODO</a>
+      </li>
+      <li><a href="#toc524">8.1.6. TODO</a>
+      </li>
+      <li><a href="#toc525">8.1.7. TODO</a>
+      </li>
+      <li><a href="#toc526">8.1.8. TODO</a>
+      </li>
+      <li><a href="#toc527">8.1.9. TODO</a>
+      </li>
+      <li><a href="#toc528">8.1.10. TODO</a>
+      </li>
+      <li><a href="#toc529">8.1.11. TODO</a>
+      </li>
+      <li><a href="#toc530">8.1.12. TODO</a>
+      </li>
+      <li><a href="#toc531">8.1.13. TODO</a>
+      </li>
+      <li><a href="#toc532">8.1.14. TODO</a>
+      </li>
+      <li><a href="#toc533">8.1.15. TODO</a>
+      </li>
+      <li><a href="#toc534">8.1.16. TODO</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc535">9. Login</a>
+    <ul>
+    <li><a href="#toc536">9.1. Login application</a>
+      <ul>
+      <li><a href="#toc537">9.1.1. Main object</a>
+      </li>
+      <li><a href="#toc538">9.1.2. Authenticate login function</a>
+      </li>
+      <li><a href="#toc539">9.1.3. Initialize login</a>
+      </li>
+      <li><a href="#toc540">9.1.4. Access denied</a>
       </li>
       </ul>
     </li>
@@ -8719,10 +8733,22 @@ can see the main code that launch the application to be executed from the browse
 </p>
 
 <section id="toc358">
-<h3>4.1.1. Show error helper</h3>
+<h3>4.1.1. Application helper object</h3>
 
 <pre>
-saltos.show_error = error
+saltos.app = {};
+</pre>
+
+<p>
+This object stores all application functions and data
+</p>
+
+</section>
+<section id="toc359">
+<h3>4.1.2. Show error helper</h3>
+
+<pre>
+saltos.app.show_error = error
 </pre>
 
 <p>
@@ -8730,11 +8756,11 @@ This function allow to show a modal dialog with de details of an error
 </p>
 
 </section>
-<section id="toc359">
-<h3>4.1.2. Alert function</h3>
+<section id="toc360">
+<h3>4.1.3. Alert function</h3>
 
 <pre>
-saltos.alert = (title, message)
+saltos.app.alert = (title, message)
 </pre>
 
 <p>
@@ -8751,24 +8777,24 @@ shows one button to close it.
 </ul>
 
 </section>
-<section id="toc360">
-<h3>4.1.3. Check response helper</h3>
+<section id="toc361">
+<h3>4.1.4. Check response helper</h3>
 
 <pre>
-saltos.check_response = response
+saltos.app.check_response = response
 </pre>
 
 <p>
-This function is intended to process the response received by saltos.ajax and returns
+This function is intended to process the response received by saltos.core.ajax and returns
 if an error is detected in the response.
 </p>
 
 </section>
-<section id="toc361">
-<h3>4.1.4. Send request helper</h3>
+<section id="toc362">
+<h3>4.1.5. Send request helper</h3>
 
 <pre>
-saltos.send_request = data
+saltos.app.send_request = data
 </pre>
 
 <p>
@@ -8776,11 +8802,11 @@ This function allow to send requests to the server and process the response
 </p>
 
 </section>
-<section id="toc362">
-<h3>4.1.5. Process response helper</h3>
+<section id="toc363">
+<h3>4.1.6. Process response helper</h3>
 
 <pre>
-saltos.process_response = response
+saltos.app.process_response = response
 </pre>
 
 <p>
@@ -8788,11 +8814,11 @@ This function process the responses received by the send request
 </p>
 
 </section>
-<section id="toc363">
-<h3>4.1.6. Form constructor helper object</h3>
+<section id="toc364">
+<h3>4.1.7. Form constructor helper object</h3>
 
 <pre>
-saltos.form_app = {};
+saltos.app.form = {};
 </pre>
 
 <p>
@@ -8800,11 +8826,11 @@ This object allow to the constructor to use a rational structure for a quick acc
 </p>
 
 </section>
-<section id="toc364">
-<h3>4.1.7. Data helper object</h3>
+<section id="toc365">
+<h3>4.1.8. Data helper object</h3>
 
 <pre>
-saltos.__form_app = {
+saltos.app.__form = {
 </pre>
 
 <p>
@@ -8812,11 +8838,11 @@ This object allow to the app to store the data of the fields map
 </p>
 
 </section>
-<section id="toc365">
-<h3>4.1.8. Form data helper</h3>
+<section id="toc366">
+<h3>4.1.9. Form data helper</h3>
 
 <pre>
-saltos.form_app.data = data
+saltos.app.form.data = data
 </pre>
 
 <p>
@@ -8826,11 +8852,11 @@ allow that the get_data can differ between the original data and the modified da
 </p>
 
 </section>
-<section id="toc366">
-<h3>4.1.9. Data template helper</h3>
+<section id="toc367">
+<h3>4.1.10. Data template helper</h3>
 
 <pre>
-saltos.form_app.__data_template_helper = (template_id, data, index)
+saltos.app.form.__data_template_helper = (template_id, data, index)
 </pre>
 
 <p>
@@ -8849,16 +8875,16 @@ fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#IN
 </ul>
 
 </section>
-<section id="toc367">
-<h3>4.1.10. Layout template helper</h3>
+<section id="toc368">
+<h3>4.1.11. Layout template helper</h3>
 
 <pre>
-saltos.form_app.__layout_template_helper = (template_id, index)
+saltos.app.form.__layout_template_helper = (template_id, index)
 </pre>
 
 <p>
 This function returns the template identified by the template_id for the specified index, ready
-to be used by the saltos.form_app.layout function.
+to be used by the saltos.app.form.layout function.
 </p>
 
 <ul>
@@ -8869,11 +8895,11 @@ to be used by the saltos.form_app.layout function.
 </ul>
 
 </section>
-<section id="toc368">
-<h3>4.1.11. Form layout helper</h3>
+<section id="toc369">
+<h3>4.1.12. Form layout helper</h3>
 
 <pre>
-saltos.form_app.layout = (layout, extra)
+saltos.app.form.layout = (layout, extra)
 </pre>
 
 <p>
@@ -8891,16 +8917,16 @@ of the node are created inside a container, a row, and each field inside a col.
 Notes:
 </p>
 <p>
-This function add the fields to the saltos.__form_app.fields, this allow to the saltos.get_data
+This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
 can retrieve the desired information of the fields.
 </p>
 
 </section>
-<section id="toc369">
-<h3>4.1.12. Form layout auto helper</h3>
+<section id="toc370">
+<h3>4.1.13. Form layout auto helper</h3>
 
 <pre>
-saltos.form_app.__layout_auto_helper = layout
+saltos.app.form.__layout_auto_helper = layout
 </pre>
 
 <p>
@@ -8928,11 +8954,11 @@ follow arguments:
 </ul>
 
 </section>
-<section id="toc370">
-<h3>4.1.13. Form style helper</h3>
+<section id="toc371">
+<h3>4.1.14. Form style helper</h3>
 
 <pre>
-saltos.form_app.style = data
+saltos.app.form.style = data
 </pre>
 
 <p>
@@ -8941,15 +8967,15 @@ what kind of usage do you want to do.
 </p>
 <p>
 Note that as some part of this code appear in the core.require function, we have decided
-to replace it by a call to the saltos.require
+to replace it by a call to the saltos.core.require
 </p>
 
 </section>
-<section id="toc371">
-<h3>4.1.14. Form javascript helper</h3>
+<section id="toc372">
+<h3>4.1.15. Form javascript helper</h3>
 
 <pre>
-saltos.form_app.javascript = data
+saltos.app.form.javascript = data
 </pre>
 
 <p>
@@ -8958,15 +8984,15 @@ what kind of usage do you want to do.
 </p>
 <p>
 Note that as some part of this code appear in the core.require function, we have decided
-to replace it by a call to the saltos.require
+to replace it by a call to the saltos.core.require
 </p>
 
 </section>
-<section id="toc372">
-<h3>4.1.15. Form title helper</h3>
+<section id="toc373">
+<h3>4.1.16. Form title helper</h3>
 
 <pre>
-saltos.form_app.title = title
+saltos.app.form.title = title
 </pre>
 
 <p>
@@ -8981,11 +9007,11 @@ last part of the title.
 </ul>
 
 </section>
-<section id="toc373">
-<h3>4.1.16. Form screen helper</h3>
+<section id="toc374">
+<h3>4.1.17. Form screen helper</h3>
 
 <pre>
-saltos.form_app.screen = action
+saltos.app.form.screen = action
 </pre>
 
 <p>
@@ -8999,11 +9025,11 @@ to clear the screen by removing all contents of the body
 </ul>
 
 </section>
-<section id="toc374">
-<h3>4.1.17. Form navbar helper</h3>
+<section id="toc375">
+<h3>4.1.18. Form navbar helper</h3>
 
 <pre>
-saltos.form_app.navbar = navbar
+saltos.app.form.navbar = navbar
 </pre>
 
 <p>
@@ -9011,11 +9037,11 @@ TODO
 </p>
 
 </section>
-<section id="toc375">
-<h3>4.1.18. Source helper</h3>
+<section id="toc376">
+<h3>4.1.19. Source helper</h3>
 
 <pre>
-saltos.__source_helper = field
+saltos.app.__source_helper = field
 </pre>
 
 <p>
@@ -9039,16 +9065,16 @@ another way to pass arguments.
 </ul>
 
 </section>
-<section id="toc376">
-<h3>4.1.19. Get data</h3>
+<section id="toc377">
+<h3>4.1.20. Get data</h3>
 
 <pre>
-saltos.get_data = full
+saltos.app.get_data = full
 </pre>
 
 <p>
 This function retrieves the data of the fields in the current layout. to do this it uses
-the saltos.__form_app.fields that contains the list of all used fields in the layout, this
+the saltos.app.__form.fields that contains the list of all used fields in the layout, this
 function can retrieve all fields or only the fields that contains differences between the
 original data and the current data.
 </p>
@@ -9059,11 +9085,11 @@ original data and the current data.
 </ul>
 
 </section>
-<section id="toc377">
-<h3>4.1.20. Get data ids helper</h3>
+<section id="toc378">
+<h3>4.1.21. Get data ids helper</h3>
 
 <pre>
-saltos.__get_data_ids_helper = data
+saltos.app.__get_data_ids_helper = data
 </pre>
 
 <p>
@@ -9085,11 +9111,11 @@ that void.
 </p>
 
 </section>
-<section id="toc378">
-<h3>4.1.21. Parse data</h3>
+<section id="toc379">
+<h3>4.1.22. Parse data</h3>
 
 <pre>
-saltos.parse_data = data
+saltos.app.parse_data = data
 </pre>
 
 <p>
@@ -9114,11 +9140,11 @@ in the invoices.
 </p>
 
 </section>
-<section id="toc379">
-<h3>4.1.22. Check form</h3>
+<section id="toc380">
+<h3>4.1.23. Check form</h3>
 
 <pre>
-saltos.check_required = ()
+saltos.app.check_required = ()
 </pre>
 
 <p>
@@ -9129,11 +9155,11 @@ returned.
 </p>
 
 </section>
-<section id="toc380">
-<h3>4.1.23. Form disabled</h3>
+<section id="toc381">
+<h3>4.1.24. Form disabled</h3>
 
 <pre>
-saltos.form_disabled = bool
+saltos.app.form_disabled = bool
 </pre>
 
 <p>
@@ -9142,11 +9168,11 @@ to do screen for view mode.
 </p>
 
 </section>
-<section id="toc381">
-<h3>4.1.24. Form readonly</h3>
+<section id="toc382">
+<h3>4.1.25. Form readonly</h3>
 
 <pre>
-saltos.form_readonly = bool
+saltos.app.form_readonly = bool
 </pre>
 
 <p>
@@ -9155,11 +9181,11 @@ to do screen for view mode.
 </p>
 
 </section>
-<section id="toc382">
-<h3>4.1.25. Form helper</h3>
+<section id="toc383">
+<h3>4.1.26. Form helper</h3>
 
 <pre>
-saltos.__form_helper = (attr, bool)
+saltos.app.__form_helper = (attr, bool)
 </pre>
 
 <p>
@@ -9167,11 +9193,11 @@ This function is a helper used by the form_disabled and form_readonly functions
 </p>
 
 </section>
-<section id="toc383">
-<h3>4.1.26. ParentNode Search helper</h3>
+<section id="toc384">
+<h3>4.1.27. ParentNode Search helper</h3>
 
 <pre>
-saltos.parentNode_search = (obj, search)
+saltos.app.parentNode_search = (obj, search)
 </pre>
 
 <p>
@@ -9201,8 +9227,8 @@ in case of not found the search pattern.
 </p>
 
 </section>
-<section id="toc384">
-<h3>4.1.27. Main code</h3>
+<section id="toc385">
+<h3>4.1.28. Main code</h3>
 
 <p>
 This is the code that must to be executed to initialize all requirements of this module
@@ -9210,7 +9236,7 @@ This is the code that must to be executed to initialize all requirements of this
 
 </section>
 </section>
-<section id="toc385">
+<section id="toc386">
 <h2>4.2. Authentication helper module</h2>
 
 <pre>
@@ -9225,7 +9251,7 @@ the main authentication using a user and password pair, the reauthtoken, the dea
 and the checktoken to control it.
 </p>
 
-<section id="toc386">
+<section id="toc387">
 <h3>4.2.1. Hash helper object</h3>
 
 <pre>
@@ -9237,7 +9263,7 @@ This object stores all hash functions to get, set and trigger a change
 </p>
 
 </section>
-<section id="toc387">
+<section id="toc388">
 <h3>4.2.2. Get hash</h3>
 
 <pre>
@@ -9249,7 +9275,7 @@ Function intended to return the current hash without the pillow
 </p>
 
 </section>
-<section id="toc388">
+<section id="toc389">
 <h3>4.2.3. Set hash</h3>
 
 <pre>
@@ -9275,7 +9301,7 @@ added to force to remove all chars before the # char in the document.location
 </p>
 
 </section>
-<section id="toc389">
+<section id="toc390">
 <h3>4.2.4. Add hash</h3>
 
 <pre>
@@ -9301,7 +9327,7 @@ added to force to remove all chars before the # char in the document.location
 </p>
 
 </section>
-<section id="toc390">
+<section id="toc391">
 <h3>4.2.5. Change trigger</h3>
 
 <pre>
@@ -9313,11 +9339,11 @@ This function triggers the hashchange event to execute the onhashchange
 </p>
 
 </section>
-<section id="toc391">
+<section id="toc392">
 <h3>4.2.6. Hash change management</h3>
 
 <pre>
-window.onhashchange = event
+saltos.hash.onhashchange = event
 </pre>
 
 <p>
@@ -9325,8 +9351,20 @@ This function allow to SaltOS to update the contents when hash change
 </p>
 
 </section>
-<section id="toc392">
-<h3>4.2.7. Token helper object</h3>
+<section id="toc393">
+<h3>4.2.7. Hash change management</h3>
+
+<pre>
+window.onhashchange = saltos.hash.onhashchange;
+</pre>
+
+<p>
+Attach the hash change management function to the window
+</p>
+
+</section>
+<section id="toc394">
+<h3>4.2.8. Token helper object</h3>
 
 <pre>
 saltos.token = {};
@@ -9337,8 +9375,8 @@ This object stores all token functions to get and set data using the localStorag
 </p>
 
 </section>
-<section id="toc393">
-<h3>4.2.8. Get token function</h3>
+<section id="toc395">
+<h3>4.2.9. Get token function</h3>
 
 <pre>
 saltos.token.get = ()
@@ -9349,8 +9387,8 @@ This function returns the token stored in the localStorage
 </p>
 
 </section>
-<section id="toc394">
-<h3>4.2.9. Get expires function</h3>
+<section id="toc396">
+<h3>4.2.10. Get expires function</h3>
 
 <pre>
 saltos.token.get_expires = ()
@@ -9361,8 +9399,8 @@ This function returns the expires stored in the localStorage
 </p>
 
 </section>
-<section id="toc395">
-<h3>4.2.10. Get autorenew function</h3>
+<section id="toc397">
+<h3>4.2.11. Get autorenew function</h3>
 
 <pre>
 saltos.token.get_autorenew = ()
@@ -9373,8 +9411,8 @@ This function returns the autorenew stored in the localStorage
 </p>
 
 </section>
-<section id="toc396">
-<h3>4.2.11. Get autocheck function</h3>
+<section id="toc398">
+<h3>4.2.12. Get autocheck function</h3>
 
 <pre>
 saltos.token.get_autocheck = ()
@@ -9385,8 +9423,8 @@ This function returns the autocheck stored in the localStorage
 </p>
 
 </section>
-<section id="toc397">
-<h3>4.2.12. Set token and expires</h3>
+<section id="toc399">
+<h3>4.2.13. Set token and expires</h3>
 
 <pre>
 saltos.token.set = response
@@ -9410,8 +9448,8 @@ This function store the token and expires in the localStorage
 </ul>
 
 </section>
-<section id="toc398">
-<h3>4.2.13. Unset token and expires</h3>
+<section id="toc400">
+<h3>4.2.14. Unset token and expires</h3>
 
 <pre>
 saltos.token.unset = ()
@@ -9422,8 +9460,8 @@ This function removes the token and expires in the localStorage
 </p>
 
 </section>
-<section id="toc399">
-<h3>4.2.14. Authentication helper object</h3>
+<section id="toc401">
+<h3>4.2.15. Authentication helper object</h3>
 
 <pre>
 saltos.authenticate = {};
@@ -9435,8 +9473,8 @@ the access and the deauthtoken to close the access
 </p>
 
 </section>
-<section id="toc400">
-<h3>4.2.15. Authenticate token function</h3>
+<section id="toc402">
+<h3>4.2.16. Authenticate token function</h3>
 
 <pre>
 saltos.authenticate.authtoken = (user, pass)
@@ -9455,8 +9493,8 @@ credentials passed by argument.
 </ul>
 
 </section>
-<section id="toc401">
-<h3>4.2.16. Re-authenticate token function</h3>
+<section id="toc403">
+<h3>4.2.17. Re-authenticate token function</h3>
 
 <pre>
 saltos.authenticate.reauthtoken = ()
@@ -9468,8 +9506,8 @@ credentials.
 </p>
 
 </section>
-<section id="toc402">
-<h3>4.2.17. De-authenticate token function</h3>
+<section id="toc404">
+<h3>4.2.18. De-authenticate token function</h3>
 
 <pre>
 saltos.authenticate.deauthtoken = ()
@@ -9481,8 +9519,8 @@ credentials.
 </p>
 
 </section>
-<section id="toc403">
-<h3>4.2.18. Check token function</h3>
+<section id="toc405">
+<h3>4.2.19. Check token function</h3>
 
 <pre>
 saltos.authenticate.checktoken = ()
@@ -9493,8 +9531,8 @@ This function uses the checktoken action to check the validity of the current to
 </p>
 
 </section>
-<section id="toc404">
-<h3>4.2.19. Re-authenticate helper function</h3>
+<section id="toc406">
+<h3>4.2.20. Re-authenticate helper function</h3>
 
 <pre>
 saltos.authenticate.checkrenew = ()
@@ -9506,8 +9544,8 @@ token action.
 </p>
 
 </section>
-<section id="toc405">
-<h3>4.2.20. Variable used to store the timer</h3>
+<section id="toc407">
+<h3>4.2.21. Variable used to store the timer</h3>
 
 <pre>
 saltos.authenticate.__autorenew_timer = null;
@@ -9518,8 +9556,8 @@ This variable must contains the timer of the auto renew token feature
 </p>
 
 </section>
-<section id="toc406">
-<h3>4.2.21. Auto-renew helper function</h3>
+<section id="toc408">
+<h3>4.2.22. Auto-renew helper function</h3>
 
 <pre>
 saltos.authenticate.autorenew = on_off
@@ -9537,8 +9575,8 @@ to be used when set or unset the token.
 </ul>
 
 </section>
-<section id="toc407">
-<h3>4.2.22. Tabs communication helper object</h3>
+<section id="toc409">
+<h3>4.2.23. Tabs communication helper object</h3>
 
 <pre>
 saltos.tabs = {};
@@ -9549,8 +9587,8 @@ This object stores all tabs communications functions to send and listen messages
 </p>
 
 </section>
-<section id="toc408">
-<h3>4.2.23. Listeners helper object</h3>
+<section id="toc410">
+<h3>4.2.24. Listeners helper object</h3>
 
 <pre>
 saltos.tabs.listeners = {};
@@ -9561,8 +9599,8 @@ This object stores all listeners added by the set_listeners and used by the onst
 </p>
 
 </section>
-<section id="toc409">
-<h3>4.2.24. Set listener</h3>
+<section id="toc411">
+<h3>4.2.25. Set listener</h3>
 
 <pre>
 saltos.tabs.set_listener = (name, fn)
@@ -9580,8 +9618,8 @@ This function allos to set a listener function to the named event
 </ul>
 
 </section>
-<section id="toc410">
-<h3>4.2.25. Unset listener</h3>
+<section id="toc412">
+<h3>4.2.26. Unset listener</h3>
 
 <pre>
 saltos.tabs.unset_listener = (name)
@@ -9597,8 +9635,8 @@ This function removes a listener from the listeners object
 </ul>
 
 </section>
-<section id="toc411">
-<h3>4.2.26. Send message</h3>
+<section id="toc413">
+<h3>4.2.27. Send message</h3>
 
 <pre>
 saltos.tabs.send = (name, data)
@@ -9628,11 +9666,11 @@ executes the listeners if needed
 </p>
 
 </section>
-<section id="toc412">
-<h3>4.2.27. Storage management</h3>
+<section id="toc414">
+<h3>4.2.28. Storage management</h3>
 
 <pre>
-window.onstorage = event
+saltos.tabs.onstorage = event
 </pre>
 
 <p>
@@ -9641,8 +9679,20 @@ using the localStorage.
 </p>
 
 </section>
+<section id="toc415">
+<h3>4.2.29. Storage management</h3>
+
+<pre>
+window.onstorage = saltos.tabs.onstorage;
+</pre>
+
+<p>
+Attach the storage management function to the window
+</p>
+
 </section>
-<section id="toc413">
+</section>
+<section id="toc416">
 <h2>4.3. Bootstrap helper module</h2>
 
 <pre>
@@ -9654,7 +9704,7 @@ This fie contains useful functions related to the bootstrap widgets, allow to cr
 other plugins suck as plots or rich editors
 </p>
 
-<section id="toc414">
+<section id="toc417">
 <h3>4.3.1. Bootstrap helper object</h3>
 
 <pre>
@@ -9666,7 +9716,7 @@ This object stores all bootstrap functions and data
 </p>
 
 </section>
-<section id="toc415">
+<section id="toc418">
 <h3>4.3.2. Form fields constructor</h3>
 
 <pre>
@@ -9779,7 +9829,7 @@ only for internal use.
 </p>
 
 </section>
-<section id="toc416">
+<section id="toc419">
 <h3>4.3.3. Form_field constructor helper object</h3>
 
 <pre>
@@ -9791,7 +9841,7 @@ This object allow to the constructor to use a rational structure for a quick acc
 </p>
 
 </section>
-<section id="toc417">
+<section id="toc420">
 <h3>4.3.4. Div constructor helper</h3>
 
 <pre>
@@ -9813,7 +9863,7 @@ argument in the field object to specify what kind of class do you want to use.
 </ul>
 
 </section>
-<section id="toc418">
+<section id="toc421">
 <h3>4.3.5. Container constructor helper</h3>
 
 <pre>
@@ -9835,7 +9885,7 @@ argument in the field object to specify what kind of container do you want to do
 </ul>
 
 </section>
-<section id="toc419">
+<section id="toc422">
 <h3>4.3.6. Row constructor helper</h3>
 
 <pre>
@@ -9857,7 +9907,7 @@ in the field object to specify what kind of row do you want to do.
 </ul>
 
 </section>
-<section id="toc420">
+<section id="toc423">
 <h3>4.3.7. Col constructor helper</h3>
 
 <pre>
@@ -9879,7 +9929,7 @@ in the field object to specify what kind of col do you want to do.
 </ul>
 
 </section>
-<section id="toc421">
+<section id="toc424">
 <h3>4.3.8. Text constructor helper</h3>
 
 <pre>
@@ -9919,7 +9969,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc422">
+<section id="toc425">
 <h3>4.3.9. Hidden constructor helper</h3>
 
 <pre>
@@ -9964,7 +10014,7 @@ class to identify a group of hidden input
 </p>
 
 </section>
-<section id="toc423">
+<section id="toc426">
 <h3>4.3.10. Integer constructor helper</h3>
 
 <pre>
@@ -10015,7 +10065,7 @@ feature:
 </ul>
 
 </section>
-<section id="toc424">
+<section id="toc427">
 <h3>4.3.11. Float constructor helper</h3>
 
 <pre>
@@ -10066,7 +10116,7 @@ feature:
 </ul>
 
 </section>
-<section id="toc425">
+<section id="toc428">
 <h3>4.3.12. Color constructor helper</h3>
 
 <pre>
@@ -10112,7 +10162,7 @@ for this reason it is set to #000000 if value is void
 </p>
 
 </section>
-<section id="toc426">
+<section id="toc429">
 <h3>4.3.13. Date constructor helper</h3>
 
 <pre>
@@ -10150,7 +10200,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc427">
+<section id="toc430">
 <h3>4.3.14. Time constructor helper</h3>
 
 <pre>
@@ -10188,7 +10238,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc428">
+<section id="toc431">
 <h3>4.3.15. Datetime constructor helper</h3>
 
 <pre>
@@ -10226,7 +10276,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc429">
+<section id="toc432">
 <h3>4.3.16. Textarea constructor helper</h3>
 
 <pre>
@@ -10276,7 +10326,7 @@ feature:
 </ul>
 
 </section>
-<section id="toc430">
+<section id="toc433">
 <h3>4.3.17. Ckeditor constructor helper</h3>
 
 <pre>
@@ -10326,7 +10376,7 @@ feature:
 </ul>
 
 </section>
-<section id="toc431">
+<section id="toc434">
 <h3>4.3.18. Codemirror constructor helper</h3>
 
 <pre>
@@ -10380,7 +10430,7 @@ feature:
 </ul>
 
 </section>
-<section id="toc432">
+<section id="toc435">
 <h3>4.3.19. Iframe constructor helper</h3>
 
 <pre>
@@ -10405,7 +10455,7 @@ This function returns an iframe object, you can pass the follow arguments:
 </ul>
 
 </section>
-<section id="toc433">
+<section id="toc436">
 <h3>4.3.20. Select constructor helper</h3>
 
 <pre>
@@ -10443,7 +10493,7 @@ This function returns a select object, you can pass the follow arguments:
 </ul>
 
 </section>
-<section id="toc434">
+<section id="toc437">
 <h3>4.3.21. Multiselect constructor helper</h3>
 
 <pre>
@@ -10486,7 +10536,7 @@ TODO: detected a bug with this widget in chrome in mobile browsers
 </p>
 
 </section>
-<section id="toc435">
+<section id="toc438">
 <h3>4.3.22. Checkbox constructor helper</h3>
 
 <pre>
@@ -10523,7 +10573,7 @@ This widget returns their value by setting a zero or one (0/1) value on the valu
 </p>
 
 </section>
-<section id="toc436">
+<section id="toc439">
 <h3>4.3.23. Switch constructor helper</h3>
 
 <pre>
@@ -10560,7 +10610,7 @@ This widget uses the checkbox constructor
 </p>
 
 </section>
-<section id="toc437">
+<section id="toc440">
 <h3>4.3.24. Button constructor helper</h3>
 
 <pre>
@@ -10594,7 +10644,7 @@ You can add an icon before the text by addind the bi-icon class to the class arg
 </p>
 
 </section>
-<section id="toc438">
+<section id="toc441">
 <h3>4.3.25. Password constructor helper</h3>
 
 <pre>
@@ -10642,7 +10692,7 @@ button, exists a new line that is identified as another previousSibling, but not
 </p>
 
 </section>
-<section id="toc439">
+<section id="toc442">
 <h3>4.3.26. File constructor helper</h3>
 
 <pre>
@@ -10691,7 +10741,7 @@ the real upload action.
 </p>
 
 </section>
-<section id="toc440">
+<section id="toc443">
 <h3>4.3.27. Link constructor helper</h3>
 
 <pre>
@@ -10725,7 +10775,7 @@ appearance
 </p>
 
 </section>
-<section id="toc441">
+<section id="toc444">
 <h3>4.3.28. Label constructor helper</h3>
 
 <pre>
@@ -10750,7 +10800,7 @@ This function returns a label object, you can pass some arguments as:
 </ul>
 
 </section>
-<section id="toc442">
+<section id="toc445">
 <h3>4.3.29. Image constructor helper</h3>
 
 <pre>
@@ -10777,7 +10827,7 @@ This function returns an image object, you can pass some arguments as:
 </ul>
 
 </section>
-<section id="toc443">
+<section id="toc446">
 <h3>4.3.30. Excel constructor helper</h3>
 
 <pre>
@@ -10838,7 +10888,7 @@ feature:
 </ul>
 
 </section>
-<section id="toc444">
+<section id="toc447">
 <h3>4.3.31. Pdfjs constructor helper</h3>
 
 <pre>
@@ -10885,7 +10935,7 @@ that this file not appear in the next requires
 </p>
 
 </section>
-<section id="toc445">
+<section id="toc448">
 <h3>4.3.32. Table constructor helper</h3>
 
 <pre>
@@ -10945,7 +10995,7 @@ to identify if you want to use a column with some special type as for example, t
 </p>
 
 </section>
-<section id="toc446">
+<section id="toc449">
 <h3>4.3.33. Alert constructor helper</h3>
 
 <pre>
@@ -10984,7 +11034,7 @@ know if I maintain this or I remove it, but at the moment, this is added by defa
 </p>
 
 </section>
-<section id="toc447">
+<section id="toc450">
 <h3>4.3.34. Card constructor helper</h3>
 
 <pre>
@@ -11018,7 +11068,7 @@ This functions creates a card with a lot of options:
 </ul>
 
 </section>
-<section id="toc448">
+<section id="toc451">
 <h3>4.3.35. Chart.js constructor helper</h3>
 
 <pre>
@@ -11057,7 +11107,7 @@ feature:
 </ul>
 
 </section>
-<section id="toc449">
+<section id="toc452">
 <h3>4.3.36. Tags constructor helper</h3>
 
 <pre>
@@ -11105,7 +11155,7 @@ each value, and requires the arguments of the specific widgets used in this widg
 </p>
 
 </section>
-<section id="toc450">
+<section id="toc453">
 <h3>4.3.37. Gallery constructor helper</h3>
 
 <pre>
@@ -11147,7 +11197,7 @@ automatically using the require feature:
 </ul>
 
 </section>
-<section id="toc451">
+<section id="toc454">
 <h3>4.3.38. Placeholder helper</h3>
 
 <pre>
@@ -11164,7 +11214,7 @@ This function returns a grey area that uses all space with the placeholder glow 
 </ul>
 
 </section>
-<section id="toc452">
+<section id="toc455">
 <h3>4.3.39. Private text constructor helper</h3>
 
 <pre>
@@ -11206,7 +11256,7 @@ This function is intended to be used by other helpers of the form_field construc
 </p>
 
 </section>
-<section id="toc453">
+<section id="toc456">
 <h3>4.3.40. Private textarea constructor helper</h3>
 
 <pre>
@@ -11248,7 +11298,7 @@ This function is intended to be used by other helpers of the form_field construc
 </p>
 
 </section>
-<section id="toc454">
+<section id="toc457">
 <h3>4.3.41. Private tooltip constructor helper</h3>
 
 <pre>
@@ -11267,7 +11317,7 @@ the focus or get the click event
 </ul>
 
 </section>
-<section id="toc455">
+<section id="toc458">
 <h3>4.3.42. Label helper</h3>
 
 <pre>
@@ -11289,7 +11339,7 @@ optimizer to removes the unnecessary envelopment
 </ul>
 
 </section>
-<section id="toc456">
+<section id="toc459">
 <h3>4.3.43. Label Combine</h3>
 
 <pre>
@@ -11319,7 +11369,7 @@ their code because each case is different
 </p>
 
 </section>
-<section id="toc457">
+<section id="toc460">
 <h3>4.3.44. Menu constructor helper</h3>
 
 <pre>
@@ -11370,7 +11420,7 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 </ul>
 
 </section>
-<section id="toc458">
+<section id="toc461">
 <h3>4.3.45. Navbar constructor helper</h3>
 
 <pre>
@@ -11407,7 +11457,7 @@ This component creates a navbar intended to be used as header
 </ul>
 
 </section>
-<section id="toc459">
+<section id="toc462">
 <h3>4.3.46. Modal constructor helper object</h3>
 
 <pre>
@@ -11419,7 +11469,7 @@ This object is used to store the element and the instance of the modal
 </p>
 
 </section>
-<section id="toc460">
+<section id="toc463">
 <h3>4.3.47. Modal constructor helper</h3>
 
 <pre>
@@ -11474,7 +11524,7 @@ to undestand that only one modal is allowed at each moment.
 </p>
 
 </section>
-<section id="toc461">
+<section id="toc464">
 <h3>4.3.48. Offcanvas constructor helper object</h3>
 
 <pre>
@@ -11486,7 +11536,7 @@ This object is used to store the element and the instance of the offcanvas
 </p>
 
 </section>
-<section id="toc462">
+<section id="toc465">
 <h3>4.3.49. Offcanvas constructor helper</h3>
 
 <pre>
@@ -11539,7 +11589,7 @@ to undestand that only one offcanvas is allowed at each moment.
 </p>
 
 </section>
-<section id="toc463">
+<section id="toc466">
 <h3>4.3.50. Toast constructor helper</h3>
 
 <pre>
@@ -11593,7 +11643,7 @@ feature:
 
 </section>
 </section>
-<section id="toc464">
+<section id="toc467">
 <h2>4.4. Core helper module</h2>
 
 <pre>
@@ -11605,23 +11655,23 @@ This fie contains useful functions related to the core application, provides the
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
 </p>
 
-<section id="toc465">
-<h3>4.4.1. Main object</h3>
+<section id="toc468">
+<h3>4.4.1. Core helper object</h3>
 
 <pre>
-var saltos = saltos || {};
+saltos.core = {};
 </pre>
 
 <p>
-This object contains all SaltOS code
+This object stores all core functions and data
 </p>
 
 </section>
-<section id="toc466">
+<section id="toc469">
 <h3>4.4.2. Error management</h3>
 
 <pre>
-window.onerror = (event, source, lineno, colno, error)
+saltos.core.onerror = (event, source, lineno, colno, error)
 </pre>
 
 <p>
@@ -11629,11 +11679,23 @@ This function allow to SaltOS to log in server the javascript errors produced in
 </p>
 
 </section>
-<section id="toc467">
-<h3>4.4.3. Log management</h3>
+<section id="toc470">
+<h3>4.4.3. Error management</h3>
 
 <pre>
-saltos.addlog = msg
+window.onerror = saltos.core.onerror;
+</pre>
+
+<p>
+Attach the error management function to the window
+</p>
+
+</section>
+<section id="toc471">
+<h3>4.4.4. Log management</h3>
+
+<pre>
+saltos.core.addlog = msg
 </pre>
 
 <p>
@@ -11646,11 +11708,11 @@ This function allow to send messages to the addlog of the server side, requires 
 </ul>
 
 </section>
-<section id="toc468">
-<h3>4.4.4. Check params</h3>
+<section id="toc472">
+<h3>4.4.5. Check params</h3>
 
 <pre>
-saltos.check_params = (obj, params, value)
+saltos.core.check_params = (obj, params, value)
 </pre>
 
 <p>
@@ -11670,11 +11732,11 @@ and if some param is not found, then define it using the default value passed:
 </ul>
 
 </section>
-<section id="toc469">
-<h3>4.4.5. UniqID</h3>
+<section id="toc473">
+<h3>4.4.6. UniqID</h3>
 
 <pre>
-saltos.uniqid = ()
+saltos.core.uniqid = ()
 </pre>
 
 <p>
@@ -11684,11 +11746,11 @@ provide it to the widget constructor
 </p>
 
 </section>
-<section id="toc470">
-<h3>4.4.6. When visible</h3>
+<section id="toc474">
+<h3>4.4.7. When visible</h3>
 
 <pre>
-saltos.when_visible = (obj, fn, args)
+saltos.core.when_visible = (obj, fn, args)
 </pre>
 
 <p>
@@ -11707,11 +11769,11 @@ code and paint the widget correctly
 </ul>
 
 </section>
-<section id="toc471">
-<h3>4.4.7. Get keycode</h3>
+<section id="toc475">
+<h3>4.4.8. Get keycode</h3>
 
 <pre>
-saltos.get_keycode = event
+saltos.core.get_keycode = event
 </pre>
 
 <p>
@@ -11724,11 +11786,11 @@ This function allow to get the keycode of a keyboard event detecting the browser
 </ul>
 
 </section>
-<section id="toc472">
-<h3>4.4.8. HTML builder</h3>
+<section id="toc476">
+<h3>4.4.9. HTML builder</h3>
 
 <pre>
-saltos.html = (...args)
+saltos.core.html = (...args)
 </pre>
 
 <p>
@@ -11754,11 +11816,11 @@ create separate portions of the table as trs or tds.
 </p>
 
 </section>
-<section id="toc473">
-<h3>4.4.9. AJAX</h3>
+<section id="toc477">
+<h3>4.4.10. AJAX</h3>
 
 <pre>
-saltos.ajax = args
+saltos.core.ajax = args
 </pre>
 
 <p>
@@ -11792,11 +11854,11 @@ way as jQuery do but without using jQuery.
 </p>
 
 </section>
-<section id="toc474">
-<h3>4.4.10. Key cleaner</h3>
+<section id="toc478">
+<h3>4.4.11. Key cleaner</h3>
 
 <pre>
-saltos.fix_key = arg
+saltos.core.fix_key = arg
 </pre>
 
 <p>
@@ -11813,11 +11875,11 @@ for this reason, exists this function here
 </ul>
 
 </section>
-<section id="toc475">
-<h3>4.4.11. Open window</h3>
+<section id="toc479">
+<h3>4.4.12. Open window</h3>
 
 <pre>
-saltos.open_window = url
+saltos.core.open_window = url
 </pre>
 
 <p>
@@ -11831,11 +11893,11 @@ the window.open but in a future, can add more features
 </ul>
 
 </section>
-<section id="toc476">
-<h3>4.4.12. Close window</h3>
+<section id="toc480">
+<h3>4.4.13. Close window</h3>
 
 <pre>
-saltos.close_window = ()
+saltos.core.close_window = ()
 </pre>
 
 <p>
@@ -11843,11 +11905,11 @@ This function is intended to close the current window
 </p>
 
 </section>
-<section id="toc477">
-<h3>4.4.13. Copy object</h3>
+<section id="toc481">
+<h3>4.4.14. Copy object</h3>
 
 <pre>
-saltos.copy_object = arg
+saltos.core.copy_object = arg
 </pre>
 
 <p>
@@ -11860,11 +11922,11 @@ This function is intended to do copies of objects using as intermediate a json f
 </ul>
 
 </section>
-<section id="toc478">
-<h3>4.4.14. Optimizer object</h3>
+<section id="toc482">
+<h3>4.4.15. Optimizer object</h3>
 
 <pre>
-saltos.optimize = obj
+saltos.core.optimize = obj
 </pre>
 
 <p>
@@ -11879,11 +11941,11 @@ original object
 </ul>
 
 </section>
-<section id="toc479">
-<h3>4.4.15. Require helper array</h3>
+<section id="toc483">
+<h3>4.4.16. Require helper array</h3>
 
 <pre>
-saltos.__require = [];
+saltos.core.__require = [];
 </pre>
 
 <p>
@@ -11891,11 +11953,11 @@ This array allow to the require feature to control the loaded libraries
 </p>
 
 </section>
-<section id="toc480">
-<h3>4.4.16. Require feature</h3>
+<section id="toc484">
+<h3>4.4.17. Require feature</h3>
 
 <pre>
-saltos.require = file
+saltos.core.require = file
 </pre>
 
 <p>
@@ -11918,11 +11980,11 @@ the load will be synchronous.
 </p>
 
 </section>
-<section id="toc481">
-<h3>4.4.17. Eval Bool</h3>
+<section id="toc485">
+<h3>4.4.18. Eval Bool</h3>
 
 <pre>
-saltos.eval_bool = arg
+saltos.core.eval_bool = arg
 </pre>
 
 <p>
@@ -11948,11 +12010,11 @@ php/autoload/xml2array.php file with more javascript details as type detection.
 </p>
 
 </section>
-<section id="toc482">
-<h3>4.4.18. toString function</h3>
+<section id="toc486">
+<h3>4.4.19. toString function</h3>
 
 <pre>
-saltos.toString = arg
+saltos.core.toString = arg
 </pre>
 
 <p>
@@ -11961,23 +12023,11 @@ number, null, undefined or other type.
 </p>
 
 </section>
-<section id="toc483">
-<h3>4.4.19. TODO</h3>
-
-<pre>
-saltos.is_attr_value = data
-</pre>
-
-<p>
-TODO
-</p>
-
-</section>
-<section id="toc484">
+<section id="toc487">
 <h3>4.4.20. TODO</h3>
 
 <pre>
-saltos.join_attr_value = data
+saltos.core.is_attr_value = data
 </pre>
 
 <p>
@@ -11985,11 +12035,23 @@ TODO
 </p>
 
 </section>
-<section id="toc485">
+<section id="toc488">
 <h3>4.4.21. TODO</h3>
 
 <pre>
-saltos.addEventListener = (obj, event, fn)
+saltos.core.join_attr_value = data
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc489">
+<h3>4.4.22. TODO</h3>
+
+<pre>
+saltos.core.addEventListener = (obj, event, fn)
 </pre>
 
 <p>
@@ -11998,11 +12060,35 @@ TODO
 
 </section>
 </section>
+<section id="toc490">
+<h2>4.5. Object helper module</h2>
+
+<pre>
+web/js/object.js
+</pre>
+
+<p>
+This file contains the main saltos object
+</p>
+
+<section id="toc491">
+<h3>4.5.1. Main object</h3>
+
+<pre>
+var saltos = saltos || {};
+</pre>
+
+<p>
+This object contains all SaltOS code
+</p>
+
 </section>
-<section id="toc486">
+</section>
+</section>
+<section id="toc492">
 <h1>5. Customers</h1>
 
-<section id="toc487">
+<section id="toc493">
 <h2>5.1. Customers application</h2>
 
 <pre>
@@ -12013,7 +12099,7 @@ apps/customers/app.js
 This application implements the tipical features associated to customers
 </p>
 
-<section id="toc488">
+<section id="toc494">
 <h3>5.1.1. Main object</h3>
 
 <pre>
@@ -12025,7 +12111,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc489">
+<section id="toc495">
 <h3>5.1.2. Initialize customers</h3>
 
 <pre>
@@ -12037,7 +12123,7 @@ This function initializes the customers screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc490">
+<section id="toc496">
 <h3>5.1.3. TODO</h3>
 
 <pre>
@@ -12049,7 +12135,7 @@ TODO
 </p>
 
 </section>
-<section id="toc491">
+<section id="toc497">
 <h3>5.1.4. TODO</h3>
 
 <pre>
@@ -12061,7 +12147,7 @@ TODO
 </p>
 
 </section>
-<section id="toc492">
+<section id="toc498">
 <h3>5.1.5. TODO</h3>
 
 <pre>
@@ -12073,7 +12159,7 @@ TODO
 </p>
 
 </section>
-<section id="toc493">
+<section id="toc499">
 <h3>5.1.6. TODO</h3>
 
 <pre>
@@ -12085,7 +12171,7 @@ TODO
 </p>
 
 </section>
-<section id="toc494">
+<section id="toc500">
 <h3>5.1.7. TODO</h3>
 
 <pre>
@@ -12097,7 +12183,7 @@ TODO
 </p>
 
 </section>
-<section id="toc495">
+<section id="toc501">
 <h3>5.1.8. TODO</h3>
 
 <pre>
@@ -12109,7 +12195,7 @@ TODO
 </p>
 
 </section>
-<section id="toc496">
+<section id="toc502">
 <h3>5.1.9. TODO</h3>
 
 <pre>
@@ -12121,7 +12207,7 @@ TODO
 </p>
 
 </section>
-<section id="toc497">
+<section id="toc503">
 <h3>5.1.10. TODO</h3>
 
 <pre>
@@ -12133,7 +12219,7 @@ TODO
 </p>
 
 </section>
-<section id="toc498">
+<section id="toc504">
 <h3>5.1.11. TODO</h3>
 
 <pre>
@@ -12147,10 +12233,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc499">
+<section id="toc505">
 <h1>6. Dashboard</h1>
 
-<section id="toc500">
+<section id="toc506">
 <h2>6.1. Dashboard application</h2>
 
 <pre>
@@ -12161,7 +12247,7 @@ apps/dashboard/app.js
 This application implements the tipical features associated to dashboard
 </p>
 
-<section id="toc501">
+<section id="toc507">
 <h3>6.1.1. Main object</h3>
 
 <pre>
@@ -12173,7 +12259,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc502">
+<section id="toc508">
 <h3>6.1.2. TODO</h3>
 
 <pre>
@@ -12187,10 +12273,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc503">
+<section id="toc509">
 <h1>7. Emails</h1>
 
-<section id="toc504">
+<section id="toc510">
 <h2>7.1. Email application</h2>
 
 <pre>
@@ -12201,7 +12287,7 @@ apps/emails/app.js
 This application implements the tipical features associated to emails
 </p>
 
-<section id="toc505">
+<section id="toc511">
 <h3>7.1.1. Main object</h3>
 
 <pre>
@@ -12213,7 +12299,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc506">
+<section id="toc512">
 <h3>7.1.2. Initialize emails app</h3>
 
 <pre>
@@ -12225,7 +12311,7 @@ This function initializes the emails app screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc507">
+<section id="toc513">
 <h3>7.1.3. TODO</h3>
 
 <pre>
@@ -12237,7 +12323,7 @@ TODO
 </p>
 
 </section>
-<section id="toc508">
+<section id="toc514">
 <h3>7.1.4. TODO</h3>
 
 <pre>
@@ -12249,7 +12335,7 @@ TODO
 </p>
 
 </section>
-<section id="toc509">
+<section id="toc515">
 <h3>7.1.5. TODO</h3>
 
 <pre>
@@ -12261,7 +12347,7 @@ TODO
 </p>
 
 </section>
-<section id="toc510">
+<section id="toc516">
 <h3>7.1.6. TODO</h3>
 
 <pre>
@@ -12275,10 +12361,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc511">
+<section id="toc517">
 <h1>8. Invoices</h1>
 
-<section id="toc512">
+<section id="toc518">
 <h2>8.1. invoices application</h2>
 
 <pre>
@@ -12289,7 +12375,7 @@ apps/invoices/app.js
 This application implements the tipical features associated to invoices
 </p>
 
-<section id="toc513">
+<section id="toc519">
 <h3>8.1.1. Main object</h3>
 
 <pre>
@@ -12301,7 +12387,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc514">
+<section id="toc520">
 <h3>8.1.2. Initialize invoices</h3>
 
 <pre>
@@ -12313,7 +12399,7 @@ This function initializes the invoices screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc515">
+<section id="toc521">
 <h3>8.1.3. TODO</h3>
 
 <pre>
@@ -12325,7 +12411,7 @@ TODO
 </p>
 
 </section>
-<section id="toc516">
+<section id="toc522">
 <h3>8.1.4. TODO</h3>
 
 <pre>
@@ -12337,7 +12423,7 @@ TODO
 </p>
 
 </section>
-<section id="toc517">
+<section id="toc523">
 <h3>8.1.5. TODO</h3>
 
 <pre>
@@ -12349,7 +12435,7 @@ TODO
 </p>
 
 </section>
-<section id="toc518">
+<section id="toc524">
 <h3>8.1.6. TODO</h3>
 
 <pre>
@@ -12361,7 +12447,7 @@ TODO
 </p>
 
 </section>
-<section id="toc519">
+<section id="toc525">
 <h3>8.1.7. TODO</h3>
 
 <pre>
@@ -12373,7 +12459,7 @@ TODO
 </p>
 
 </section>
-<section id="toc520">
+<section id="toc526">
 <h3>8.1.8. TODO</h3>
 
 <pre>
@@ -12385,7 +12471,7 @@ TODO
 </p>
 
 </section>
-<section id="toc521">
+<section id="toc527">
 <h3>8.1.9. TODO</h3>
 
 <pre>
@@ -12397,7 +12483,7 @@ TODO
 </p>
 
 </section>
-<section id="toc522">
+<section id="toc528">
 <h3>8.1.10. TODO</h3>
 
 <pre>
@@ -12409,7 +12495,7 @@ TODO
 </p>
 
 </section>
-<section id="toc523">
+<section id="toc529">
 <h3>8.1.11. TODO</h3>
 
 <pre>
@@ -12421,7 +12507,7 @@ TODO
 </p>
 
 </section>
-<section id="toc524">
+<section id="toc530">
 <h3>8.1.12. TODO</h3>
 
 <pre>
@@ -12433,7 +12519,7 @@ TODO
 </p>
 
 </section>
-<section id="toc525">
+<section id="toc531">
 <h3>8.1.13. TODO</h3>
 
 <pre>
@@ -12445,7 +12531,7 @@ TODO
 </p>
 
 </section>
-<section id="toc526">
+<section id="toc532">
 <h3>8.1.14. TODO</h3>
 
 <pre>
@@ -12457,7 +12543,7 @@ TODO
 </p>
 
 </section>
-<section id="toc527">
+<section id="toc533">
 <h3>8.1.15. TODO</h3>
 
 <pre>
@@ -12469,7 +12555,7 @@ TODO
 </p>
 
 </section>
-<section id="toc528">
+<section id="toc534">
 <h3>8.1.16. TODO</h3>
 
 <pre>
@@ -12483,10 +12569,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc529">
+<section id="toc535">
 <h1>9. Login</h1>
 
-<section id="toc530">
+<section id="toc536">
 <h2>9.1. Login application</h2>
 
 <pre>
@@ -12497,7 +12583,7 @@ apps/login/app.js
 This application implements the tipical features associated to login
 </p>
 
-<section id="toc531">
+<section id="toc537">
 <h3>9.1.1. Main object</h3>
 
 <pre>
@@ -12509,7 +12595,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc532">
+<section id="toc538">
 <h3>9.1.2. Authenticate login function</h3>
 
 <pre>
@@ -12522,7 +12608,7 @@ it uses the authenticate function that send data to the authtoken action
 </p>
 
 </section>
-<section id="toc533">
+<section id="toc539">
 <h3>9.1.3. Initialize login</h3>
 
 <pre>
@@ -12534,7 +12620,7 @@ This function initializes the login screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc534">
+<section id="toc540">
 <h3>9.1.4. Access denied</h3>
 
 <pre>
