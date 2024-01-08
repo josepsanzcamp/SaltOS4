@@ -6,16 +6,14 @@ all:
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/index.htm
 
 test:
-	$(shell test -f scripts/timestamp.tmp || touch -t 197001011200.00 scripts/timestamp.tmp)
-
-	$(eval files := $(shell find code/api/index.php code/api/php scripts code/apps -name \*.php -newer scripts/timestamp.tmp | sort))
+	$(eval files := $(shell svn st code/api/index.php code/api/php scripts code/apps | tr ' ' '\n' | grep .php$ | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs --standard=scripts/rules.xml $$i; \
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
-	$(eval files := $(shell find code/web/js scripts code/apps -name \*.js -newer scripts/timestamp.tmp | sort))
+	$(eval files := $(shell svn st code/web/js scripts code/apps | tr ' ' '\n' | grep .js$ | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		jscs --config=scripts/rules.json $$i 2>/dev/null; \

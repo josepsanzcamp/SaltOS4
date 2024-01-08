@@ -514,11 +514,11 @@ saltos.app.form.javascript = data => {
  * @title => The title that you want to set in the page
  */
 saltos.app.form.title = title => {
-    if (!saltos.hasOwnProperty('x_powered_by')) {
+    if (!saltos.core.hasOwnProperty('x_powered_by')) {
         document.title = title;
         return;
     }
-    document.title = title + ' - ' + saltos.x_powered_by;
+    document.title = title + ' - ' + saltos.core.x_powered_by;
 };
 
 /**

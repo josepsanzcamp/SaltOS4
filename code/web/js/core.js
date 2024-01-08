@@ -271,9 +271,9 @@ saltos.core.ajax = args => {
         if (ajax.readyState == 4) {
             if (ajax.status == 200) {
                 if (typeof args.success == 'function') {
-                    if (!saltos.hasOwnProperty('x_powered_by')) {
+                    if (!saltos.core.hasOwnProperty('x_powered_by')) {
                         if (ajax.getResponseHeader('x-powered-by')) {
-                            saltos.x_powered_by = ajax.getResponseHeader('x-powered-by');
+                            saltos.core.x_powered_by = ajax.getResponseHeader('x-powered-by');
                         }
                     }
                     var data = ajax.response;
