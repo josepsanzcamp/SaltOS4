@@ -32,8 +32,12 @@ function head($lines, $data)
 
 function wget($url)
 {
+    $opt = "-O - -q -T 5 -t 1";
+    if (strpos($url, "github") && strpos($url, "atom")) {
+        $opt .= " --header='Accept:text/xml'";
+    }
     ob_start();
-    passthru("wget -O - -q -T 5 -t 1 $url");
+    passthru("wget $opt $url");
     $buffer = ob_get_clean();
     return $buffer;
 }
