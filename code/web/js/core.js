@@ -426,8 +426,7 @@ saltos.core.require = file => {
     if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
         var script = document.createElement('script');
         script.type = 'module';
-        script.src = file;
-        script.async = false;
+        script.innerHTML = ajax.response;
         document.body.append(script);
     }
     // To prevent duplicates
