@@ -71,7 +71,7 @@ class database_sqlite3
      */
     public function __construct($args)
     {
-        require_once "api/php/database/libsqlite.php";
+        require_once "php/database/libsqlite.php";
         if (!class_exists("SQLite3")) {
             show_php_error([
                 "phperror" => "Class SQLite3 not found",

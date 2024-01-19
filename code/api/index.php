@@ -41,8 +41,7 @@ if (version_compare(PHP_VERSION, "7.0", "<")) {
  * and prevent errors with old php versions that not supports the null
  * coalescing operator
  */
-chdir("..");
-foreach (glob("api/php/autoload/*.php") as $file) {
+foreach (glob("php/autoload/*.php") as $file) {
     require $file;
 }
 

@@ -278,10 +278,10 @@ saltos.bootstrap.__field.hidden = field => {
  * This widget requires the imask library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/imaskjs/imask.min.js
+ * @lib/imaskjs/imask.min.js
  */
 saltos.bootstrap.__field.integer = field => {
-    saltos.core.require('web/lib/imaskjs/imask.min.js');
+    saltos.core.require('lib/imaskjs/imask.min.js');
     field.type = 'text';
     var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
@@ -319,10 +319,10 @@ saltos.bootstrap.__field.integer = field => {
  * This widget requires the imask library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/imaskjs/imask.min.js
+ * @lib/imaskjs/imask.min.js
  */
 saltos.bootstrap.__field.float = field => {
-    saltos.core.require('web/lib/imaskjs/imask.min.js');
+    saltos.core.require('lib/imaskjs/imask.min.js');
     field.type = 'text';
     var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
@@ -474,10 +474,10 @@ saltos.bootstrap.__field.datetime = field => {
  * This widget requires the autoheight library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/autoheight/autoheight.min.js
+ * @lib/autoheight/autoheight.min.js
  */
 saltos.bootstrap.__field.textarea = field => {
-    saltos.core.require('web/lib/autoheight/autoheight.min.js');
+    saltos.core.require('lib/autoheight/autoheight.min.js');
     var obj = saltos.bootstrap.__textarea_helper(field);
     var element = obj;
     saltos.core.when_visible(element, () => {
@@ -509,10 +509,10 @@ saltos.bootstrap.__field.textarea = field => {
  * This widget requires the ckeditor library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/ckeditor/ckeditor.min.js
+ * @lib/ckeditor/ckeditor.min.js
  */
 saltos.bootstrap.__field.ckeditor = field => {
-    saltos.core.require('web/lib/ckeditor/ckeditor.min.js');
+    saltos.core.require('lib/ckeditor/ckeditor.min.js');
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
@@ -548,12 +548,12 @@ saltos.bootstrap.__field.ckeditor = field => {
  * This widget requires the codemirror library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/codemirror/codemirror.min.css
- * @web/lib/codemirror/codemirror.min.js
+ * @lib/codemirror/codemirror.min.css
+ * @lib/codemirror/codemirror.min.js
  */
 saltos.bootstrap.__field.codemirror = field => {
-    saltos.core.require('web/lib/codemirror/codemirror.min.css');
-    saltos.core.require('web/lib/codemirror/codemirror.min.js');
+    saltos.core.require('lib/codemirror/codemirror.min.css');
+    saltos.core.require('lib/codemirror/codemirror.min.js');
     saltos.core.check_params(field, ['mode']);
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
@@ -1294,12 +1294,12 @@ saltos.bootstrap.__field.image = field => {
  * This widget requires the handsontable library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/handsontable/handsontable.full.min.css
- * @web/lib/handsontable/handsontable.full.min.js
+ * @lib/handsontable/handsontable.full.min.css
+ * @lib/handsontable/handsontable.full.min.js
  */
 saltos.bootstrap.__field.excel = field => {
-    saltos.core.require('web/lib/handsontable/handsontable.full.min.css');
-    saltos.core.require('web/lib/handsontable/handsontable.full.min.js');
+    saltos.core.require('lib/handsontable/handsontable.full.min.css');
+    saltos.core.require('lib/handsontable/handsontable.full.min.js');
     saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
                                 'contextMenu', 'rowHeaderWidth', 'colWidths', 'numcols', 'numrows']);
     var obj = saltos.core.html(`
@@ -1370,18 +1370,18 @@ saltos.bootstrap.__field.excel = field => {
  * This widget requires the pdfjs library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/pdfjs/pdf_viewer.min.css,
- * @web/lib/pdfjs/pdf.min.mjs
- * @web/lib/pdfjs/pdf_viewer.min.mjs
- * @web/lib/pdfjs/pdf.worker.min.mjs
+ * @lib/pdfjs/pdf_viewer.min.css,
+ * @lib/pdfjs/pdf.min.mjs
+ * @lib/pdfjs/pdf_viewer.min.mjs
+ * @lib/pdfjs/pdf.worker.min.mjs
  *
  * The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
  * that this file not appear in the next requires
  */
 saltos.bootstrap.__field.pdfjs = field => {
-    saltos.core.require('web/lib/pdfjs/pdf_viewer.min.css');
-    saltos.core.require('web/lib/pdfjs/pdf.min.mjs');
-    saltos.core.require('web/lib/pdfjs/pdf_viewer.min.mjs');
+    saltos.core.require('lib/pdfjs/pdf_viewer.min.css');
+    saltos.core.require('lib/pdfjs/pdf.min.mjs');
+    saltos.core.require('lib/pdfjs/pdf_viewer.min.mjs');
     saltos.core.check_params(field, ['id', 'class', 'value']);
     var obj = saltos.core.html(`
         <div id="${field.id}" class="${field.class}">
@@ -1410,7 +1410,7 @@ saltos.bootstrap.__field.pdfjs = field => {
     `));
     var element = obj.querySelector('.viewerContainer');
     saltos.core.when_visible(element, () => {
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'web/lib/pdfjs/pdf.worker.min.mjs';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
                 return;
@@ -1850,10 +1850,10 @@ saltos.bootstrap.__field.card = field => {
  * This widget requires the chartjs library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/chartjs/chart.umd.min.js
+ * @lib/chartjs/chart.umd.min.js
  */
 saltos.bootstrap.__field.chartjs = field => {
-    saltos.core.require('web/lib/chartjs/chart.umd.min.js');
+    saltos.core.require('lib/chartjs/chart.umd.min.js');
     saltos.core.check_params(field, ['id', 'mode', 'data']);
     var obj = saltos.core.html(`<canvas id="${field.id}"></canvas>`);
     for (var key in field.data.datasets) {
@@ -1998,16 +1998,16 @@ saltos.bootstrap.__field.tags = field => {
  * This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
  * automatically using the require feature:
  *
- * @web/lib/venobox/venobox.min.css
- * @web/lib/venobox/venobox.min.js
- * @web/lib/masonry/masonry.pkgd.min.js
- * @web/lib/imagesloaded/imagesloaded.pkgd.min.js
+ * @lib/venobox/venobox.min.css
+ * @lib/venobox/venobox.min.js
+ * @lib/masonry/masonry.pkgd.min.js
+ * @lib/imagesloaded/imagesloaded.pkgd.min.js
  */
 saltos.bootstrap.__field.gallery = field => {
-    saltos.core.require('web/lib/venobox/venobox.min.css');
-    saltos.core.require('web/lib/venobox/venobox.min.js');
-    saltos.core.require('web/lib/masonry/masonry.pkgd.min.js');
-    saltos.core.require('web/lib/imagesloaded/imagesloaded.pkgd.min.js');
+    saltos.core.require('lib/venobox/venobox.min.css');
+    saltos.core.require('lib/venobox/venobox.min.js');
+    saltos.core.require('lib/masonry/masonry.pkgd.min.js');
+    saltos.core.require('lib/imagesloaded/imagesloaded.pkgd.min.js');
     saltos.core.check_params(field, ['id', 'class', 'images']);
     if (field.class == '') {
         field.class = 'col';
@@ -2593,10 +2593,10 @@ saltos.bootstrap.offcanvas = args => {
  * This widget requires the md5 library and can be loaded automatically using the require
  * feature:
  *
- * @web/lib/md5/md5.min.js
+ * @lib/md5/md5.min.js
  */
 saltos.bootstrap.toast = args => {
-    saltos.core.require('web/lib/md5/md5.min.js');
+    saltos.core.require('lib/md5/md5.min.js');
     saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
     if (document.querySelectorAll('.toast-container').length == 0) {
         document.body.append(saltos.core.html(`<div

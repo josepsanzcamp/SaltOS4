@@ -3,7 +3,7 @@ SHELL=/bin/bash
 
 all:
 	minify code/web/js/{object,core,bootstrap,auth,app}.js > code/web/index.js
-	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/index.htm
+	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 test:
 	$(eval files := $(shell svn st code/api/index.php code/api/php scripts code/apps | tr ' ' '\n' | grep .php$ | sort))
@@ -39,11 +39,11 @@ libs:
 	php scripts/checklibs.php scripts/checklibs.txt
 
 devel:
-	cat code/web/htm/index.htm | php scripts/debug.php web/index.js web/js/{object,core,bootstrap,auth,app}.js > code/index.htm
+	cat code/web/htm/index.htm | php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js > code/web/index.htm
 
 docs:
 	php scripts/makedocs.php docs/document.t2t code/api/php code/web/js code/apps/*/app.js
 
 clean:
 	rm -f code/web/index.js
-	rm -f code/index.htm
+	rm -f code/web/index.htm
