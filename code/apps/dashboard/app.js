@@ -47,7 +47,7 @@ saltos.dashboard = {};
 saltos.dashboard.initialize = () => {
     saltos.tabs.set_listener('saltos.customers.update', event => {
         saltos.core.ajax({
-            url: 'index.php?list/customers/widget/table1',
+            url: 'api/index.php?list/customers/widget/table1',
             method: 'get',
             success: response => {
                 if (!saltos.app.check_response(response)) {
