@@ -1,0 +1,3 @@
+<Files app.*.js>
+Allow from all
+</Files>

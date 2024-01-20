@@ -44,7 +44,7 @@
         space: true,
         brand: {
             name: 'SaltOS',
-            logo: 'web/img/logo_white.svg',
+            logo: 'img/logo_white.svg',
             width: 25,
             height: 25,
         },
