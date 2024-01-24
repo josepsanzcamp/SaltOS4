@@ -3,7 +3,7 @@ autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|b
 edifact|https://github.com/php-edifact/edifact/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMC0yNVQxMjo0MjozMFo8L3VwZGF0ZWQ+
 locutus|https://github.com/kvz/locutus/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMi0wOC0xNVQxODoxOToxOVo8L3VwZGF0ZWQ+
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
-phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wNi0xNFQyMjo0ODo1OVo8L3VwZGF0ZWQ+
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMS0yNFQxMDo0MTo1NVo8L3VwZGF0ZWQ+
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMS0yMlQwNzowNTo1OVo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOS0wNlQxNToyMDozN1o8L3VwZGF0ZWQ+
 
