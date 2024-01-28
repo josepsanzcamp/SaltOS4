@@ -47,3 +47,13 @@ docs:
 clean:
 	rm -f code/web/index.js
 	rm -f code/web/index.htm
+
+check:
+	@echo -n web/api:" "
+	@test -e code/web/api && echo Ok || echo Ko
+	@echo -n web/apps:" "
+	@test -e code/web/apps && echo Ok || echo Ko
+	@echo -n api/apps:" "
+	@test -e code/api/apps && echo Ok || echo Ko
+	@echo -n api/data:" "
+	@test -e code/api/data && echo Ok || echo Ko
