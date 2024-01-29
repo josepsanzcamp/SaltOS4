@@ -66,7 +66,6 @@
         ")</data>
         <actions eval="true">[
             ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver detalle correo"],
-            ["app" => "emails", "action" => "edit", "value" => "Edit", "icon" => "pencil", "tooltip" => "Editar correo"],
             ["app" => "emails", "action" => "delete", "value" => "Delete", "icon" => "trash", "tooltip" => "Borrar correo"],
         ]</actions>
         <footer eval="true">"Total: " . execute_query("
@@ -77,6 +76,97 @@
             AND ".check_sql("emails", "list")."
         ")</footer>
     </table>
+
+    <create>
+        <screen>clear</screen>
+        <title>New email</title>
+        <layout auto="true" container_class="container mt-3" col_class="col-md-12 mb-3">
+            <select id="from" label="From" required="true" autofocus="true">
+                <rows eval="true">[
+                    ["label"=>"address1@gmail.com","value"=>"address1@gmail.com"],
+                    ["label"=>"address2@gmail.com","value"=>"address2@gmail.com"],
+                    ["label"=>"address3@gmail.com","value"=>"address3@gmail.com"],
+                ]</rows>
+            </select>
+            <text id="to" label="To"/>
+            <text id="cc" label="CC"/>
+            <text id="bcc" label="BCC"/>
+            <checkbox id="state_crt" label="Solicitar confirmación de recepción" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
+            <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                <rows eval="true">[
+                    ["label"=>"Low","value"=>-1],
+                    ["label"=>"Normal","value"=>0],
+                    ["label"=>"High","value"=>1],
+                ]</rows>
+            </select>
+            <select id="sensitivity" label="Sensitivity" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                <rows eval="true">[
+                    ["label"=>"Normal","value"=>0],
+                    ["label"=>"Personal","value"=>1],
+                    ["label"=>"Private","value"=>2],
+                    ["label"=>"Confidential","value"=>3],
+                ]</rows>
+            </select>
+            <text id="subject" label="Subject"/>
+            <ckeditor id="body" label="Body"/>
+        </layout>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button onclick="saltos.emails.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
+            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_hash("apps/emails/app.js")</file>
+        </javascript>
+    </create>
+
+    <view>
+        <screen>clear</screen>
+        <title>Detail of the email</title>
+        <layout auto="true" container_class="container mt-3" col_class="col-md-12 mb-3">
+            <text id="from" label="From"/>
+            <text id="to" label="To"/>
+            <text id="cc" label="CC"/>
+            <text id="bcc" label="BCC"/>
+            <datetime id="datetime" label="Datetime" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
+            <text id="uidl" label="UIDL" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
+            <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
+                <rows eval="true">[
+                    ["label"=>"Low","value"=>-1],
+                    ["label"=>"Normal","value"=>0],
+                    ["label"=>"High","value"=>1],
+                ]</rows>
+            </select>
+            <select id="sensitivity" label="Sensitivity" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
+                <rows eval="true">[
+                    ["label"=>"Normal","value"=>0],
+                    ["label"=>"Personal","value"=>1],
+                    ["label"=>"Private","value"=>2],
+                    ["label"=>"Confidential","value"=>3],
+                ]</rows>
+            </select>
+            <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+            <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+            <checkbox id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+            <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+            <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+            <checkbox id="state_crt" label="Solicitar confirmación de recepción" col_class="col-sm-9 col-md-10 col-lg-10 mb-3"/>
+            <text id="subject" label="Subject"/>
+            <textarea id="body" label="Body"/>
+        </layout>
+        <data eval="true">execute_query("SELECT * FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+        <layout auto="true" container_class="container" col_class="col-auto">
+            <div col_class="col mb-3"/>
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
+                <onclick eval="true">"saltos.core.open_window('#app/emails/edit/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
+            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <inline>saltos.app.form_disabled(true)</inline>
+            <file eval="true">file_with_hash("apps/emails/app.js")</file>
+        </javascript>
+    </view>
 
     <!-- TODO -->
 </root>
