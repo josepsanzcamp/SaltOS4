@@ -61,7 +61,7 @@ saltos.bootstrap = {};
  * @textarea    => id, class, PL, value, DS, RO, RQ, AF, rows, tooltip, label
  * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, rows, label
  * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
- * @iframe      => id, class, value, height, tooltip, label
+ * @iframe      => id, class, src, srcdoc, height, label
  * @select      => id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
  * @multiselect => id, class, DS, RQ, AF, rows, multiple, size, value, multiple, tooltip, label
  * @checkbox    => id, class, DS, RO, label, value, tooltip
@@ -478,12 +478,18 @@ saltos.bootstrap.__field.datetime = field => {
  */
 saltos.bootstrap.__field.textarea = field => {
     saltos.core.require('lib/autoheight/autoheight.min.js');
-    var obj = saltos.bootstrap.__textarea_helper(field);
-    var element = obj;
+    saltos.core.check_params(field, ['height']);
+    var obj = saltos.core.html(`<div></div>`);
+    obj.append(saltos.bootstrap.__label_helper(field));
+    obj.append(saltos.bootstrap.__textarea_helper(field));
+    var element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
         autoheight(element);
     });
-    obj = saltos.bootstrap.__label_combine(field, obj);
+    if (field.height) {
+        element.style.minHeight = field.height;
+    }
+    obj = saltos.core.optimize(obj);
     return obj;
 };
 
@@ -513,15 +519,29 @@ saltos.bootstrap.__field.textarea = field => {
  */
 saltos.bootstrap.__field.ckeditor = field => {
     saltos.core.require('lib/ckeditor/ckeditor.min.js');
+    saltos.core.check_params(field, ['height']);
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
-        ClassicEditor.create(element).catch(error => {
-            console.error(error);
+        ClassicEditor.create(element, {
+            // Nothing to do
+        }).then(editor => {
+            // Nothing to do
+        }).catch(error => {
+            console.log(error);
         });
     });
+    if (field.height) {
+        obj.append(saltos.core.html(`
+            <style>
+                textarea[id=${field.id}]+div .ck-editor__editable {
+                    min-height: ${field.height};
+                }
+            </style>
+        `));
+    }
     return obj;
 };
 
@@ -554,7 +574,7 @@ saltos.bootstrap.__field.ckeditor = field => {
 saltos.bootstrap.__field.codemirror = field => {
     saltos.core.require('lib/codemirror/codemirror.min.css');
     saltos.core.require('lib/codemirror/codemirror.min.js');
-    saltos.core.check_params(field, ['mode']);
+    saltos.core.check_params(field, ['mode', 'height']);
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
@@ -570,6 +590,9 @@ saltos.bootstrap.__field.codemirror = field => {
         element.nextElementSibling.classList.add('p-0');
         element.nextElementSibling.style.height = 'auto';
         cm.on('change', cm.save);
+        if (field.height) {
+            element.nextElementSibling.querySelector('.CodeMirror-scroll').style.minHeight = field.height;
+        }
     });
     return obj;
 };
@@ -580,17 +603,34 @@ saltos.bootstrap.__field.codemirror = field => {
  * This function returns an iframe object, you can pass the follow arguments:
  *
  * @id     => the id used by the object
- * @value  => the value used as src parameter
+ * @src    => the value used as src parameter
+ * @srcdoc => the value used as srcdoc parameter
  * @class  => allow to add more classes to the default form-control
  * @height => the height used as height for the style parameter
  * @label  => this parameter is used as text for the label
+ *
+ * Notes:
+ *
+ * The autosize is computed by adding 1em to the contents height to prevent the scroll usage
  */
 saltos.bootstrap.__field.iframe = field => {
-    saltos.core.check_params(field, ['value', 'id', 'class', 'height']);
+    saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height']);
     var obj = saltos.core.html(`
-        <iframe src="${field.value}" id="${field.id}" frameborder="0"
-            class="form-control p-0 ${field.class}" style="height: ${field.height}"></iframe>
+        <iframe id="${field.id}" frameborder="0" class="form-control p-0 ${field.class}"></iframe>
     `);
+    if (field.src) {
+        obj.src = field.src;
+    }
+    if (field.srcdoc) {
+        obj.srcdoc = field.srcdoc;
+    }
+    if (field.height) {
+        obj.style.minHeight = field.height;
+    }
+    obj.onload = event => {
+        var size = event.target.contentWindow.document.documentElement.scrollHeight;
+        event.target.style.height = 'calc(1em + ' + size + 'px)';
+    };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -2353,7 +2393,7 @@ saltos.bootstrap.menu = args => {
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.bootstrap.navbar = args => {
-    saltos.core.check_params(args, ['id','space']);
+    saltos.core.check_params(args, ['id', 'space']);
     saltos.core.check_params(args, ['brand'], {});
     saltos.core.check_params(args.brand, ['name', 'logo', 'width', 'height']);
     saltos.core.check_params(args, ['items'], []);

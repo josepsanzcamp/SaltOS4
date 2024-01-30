@@ -206,6 +206,13 @@ saltos.app.form.data = data => {
             if (obj.type == 'checkbox') {
                 obj.checked = val ? true : false;
             }
+            // Special case for iframes
+            if (obj.hasAttribute('src')) {
+                obj.src = val;
+            }
+            if (obj.hasAttribute('srcdoc')) {
+                obj.srcdoc = val;
+            }
         }
         // This updates the field spec
         var obj2 = saltos.app.__form.fields.find(elem => elem.id == key);

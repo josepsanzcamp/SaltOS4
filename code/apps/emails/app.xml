@@ -91,7 +91,7 @@
             <text id="to" label="To"/>
             <text id="cc" label="CC"/>
             <text id="bcc" label="BCC"/>
-            <checkbox id="state_crt" label="Solicitar confirmación de recepción" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
+            <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
             <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                 <rows eval="true">[
                     ["label"=>"Low","value"=>-1],
@@ -108,7 +108,7 @@
                 ]</rows>
             </select>
             <text id="subject" label="Subject"/>
-            <ckeditor id="body" label="Body"/>
+            <ckeditor id="body" label="Body" height="200px"/>
         </layout>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
@@ -152,7 +152,7 @@
             <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
             <checkbox id="state_crt" label="Solicitar confirmación de recepción" col_class="col-sm-9 col-md-10 col-lg-10 mb-3"/>
             <text id="subject" label="Subject"/>
-            <textarea id="body" label="Body"/>
+            <iframe id="body" label="Body" height="200px" srcdoc="#"/>
         </layout>
         <data eval="true">execute_query("SELECT * FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
         <layout auto="true" container_class="container" col_class="col-auto">
