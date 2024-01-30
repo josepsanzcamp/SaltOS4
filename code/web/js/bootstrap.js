@@ -608,10 +608,6 @@ saltos.bootstrap.__field.codemirror = field => {
  * @class  => allow to add more classes to the default form-control
  * @height => the height used as height for the style parameter
  * @label  => this parameter is used as text for the label
- *
- * Notes:
- *
- * The autosize is computed by adding 1em to the contents height to prevent the scroll usage
  */
 saltos.bootstrap.__field.iframe = field => {
     saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height']);
@@ -627,10 +623,14 @@ saltos.bootstrap.__field.iframe = field => {
     if (field.height) {
         obj.style.minHeight = field.height;
     }
-    obj.onload = event => {
-        var size = event.target.contentWindow.document.documentElement.scrollHeight;
-        event.target.style.height = 'calc(1em + ' + size + 'px)';
-    };
+    obj.addEventListener('load', event => {
+        var _this = event.target;
+        window.addEventListener('resize', event => {
+            var size = _this.contentWindow.document.documentElement.offsetHeight + 2;
+            _this.style.height = size + 'px';
+        });
+        window.dispatchEvent(new Event('resize'));
+    });
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
