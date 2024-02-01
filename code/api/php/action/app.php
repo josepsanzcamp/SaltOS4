@@ -74,22 +74,13 @@ if (!check_user(get_data("rest/1"), get_data("rest/2"))) {
 }
 
 // Trick to allow request as widget/table2
-$dict = [];
 foreach ($array as $key => $val) {
-    if (fix_key($key) == get_data("rest/2") && isset($val["#attr"]["id"])) {
-        $dict[get_data("rest/2") . "/" . $val["#attr"]["id"]] = $key;
+    if (isset($val["#attr"]["id"])) {
+        if (fix_key($key) == get_data("rest/2") && $val["#attr"]["id"] == get_data("rest/3")) {
+            set_data("rest/2", $key);
+        }
         unset($array[$key]["#attr"]["id"]);
     }
-}
-if (count($dict) > 1) {
-    if (get_data("rest/3") == "") {
-        show_json_error("Multiples subapp found without rest/3");
-    }
-    $key = get_data("rest/2") . "/" . get_data("rest/3");
-    if (!isset($dict[$key])) {
-        show_json_error("subapp $key not found");
-    }
-    set_data("rest/2", $dict[$key]);
 }
 
 // Get only the subapp part

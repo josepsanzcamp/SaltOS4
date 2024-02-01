@@ -997,7 +997,5 @@ function get_email_body($id)
         }
     }
     $buffer .= __HTML_PAGE_CLOSE__;
-    return [
-        "body" => $buffer,
-    ];
+    return $buffer;
 }

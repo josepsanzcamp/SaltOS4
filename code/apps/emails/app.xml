@@ -152,11 +152,15 @@
             <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
             <checkbox id="state_crt" label="Solicitar confirmación de recepción" col_class="col-sm-9 col-md-10 col-lg-10 mb-3"/>
             <text id="subject" label="Subject"/>
-            <iframe id="body" label="Body" height="200px" srcdoc="Loading..."/>
+            <iframe id="body" height="200px" srcdoc="Loading...">
+                <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
+            </iframe>
+            <table id="files" col_class="col-md-12 mb-3">
+                <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
+            </table>
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
-        <data require="apps/emails/php/getmail.php" eval="true">get_email_body(intval(get_data("rest/3")))</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
@@ -168,6 +172,28 @@
             <inline>saltos.app.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
         </javascript>
+    </view>
+
+    <view id="body">
+        <srcdoc require="apps/emails/php/getmail.php" eval="true">get_email_body(intval(get_data("rest/4")))</srcdoc>
+    </view>
+
+    <view id="files" checkbox="true" type="table">
+        <header>
+            <name>Filename</name>
+            <size>Size</size>
+        </header>
+        <data eval="true">execute_query_array("
+            SELECT id, name, size
+            FROM app_emails_files
+            WHERE 1 = 1
+            AND reg_id=".intval(get_data("rest/4"))."
+            ORDER BY id ASC
+        ")</data>
+        <actions eval="true">[
+            ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver adjunto"],
+            ["app" => "emails", "action" => "view", "value" => "Download", "icon" => "download", "tooltip" => "Descargar adjunto"],
+        ]</actions>
     </view>
 
     <!-- TODO -->
