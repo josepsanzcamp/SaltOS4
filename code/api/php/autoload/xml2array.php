@@ -428,6 +428,16 @@ function eval_attr($array)
                             }
                             unset($attr[$key2]);
                             break;
+                        case "require":
+                            $val2 = explode(",", $val2);
+                            foreach ($val2 as $file) {
+                                if (!file_exists($file)) {
+                                    show_php_error(["xmlerror" => "Require '$file' not found"]);
+                                }
+                                require_once $file;
+                            }
+                            unset($attr[$key2]);
+                            break;
                     }
                 }
                 if (!$remove) {

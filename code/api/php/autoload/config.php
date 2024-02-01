@@ -106,7 +106,7 @@ function set_config($key, $val, $user_id = -1)
             $_CONFIG[$keys[0]][$keys[1]] = $val;
             return;
         }
-        show_php_error(["phperror" => "key $key not found " . __FUNCTION__]);
+        show_php_error(["phperror" => "key $key not found in " . __FUNCTION__]);
     }
     // Try to insert or update the key for the specified user
     // In this case, zero user is allowed and used as global user

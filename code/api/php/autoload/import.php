@@ -266,7 +266,9 @@ function __import_struct2array(&$data)
         } elseif ($type == "cdata") {
             // Nothing to do
         } else {
-            xml_error("Unknown tag type with name '&lt;/$name&gt;'", $linea);
+            show_php_error([
+                "xmlerror" => "Unknown tag type with name '&lt;/$name&gt;' (at line $linea)",
+            ]);
         }
     }
     return $array;

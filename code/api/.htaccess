@@ -4,3 +4,7 @@ Options -Indexes
 <Files index.php>
 Allow from all
 </Files>
+
+<Files tester.php>
+Allow from all
+</Files>
