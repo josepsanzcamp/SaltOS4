@@ -155,7 +155,7 @@
             <iframe id="body" height="200px" srcdoc="Loading...">
                 <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
             </iframe>
-            <table id="files" col_class="col-md-12 mb-3">
+            <table id="files" col_class="col-md-12 mb-3" require="apps/emails/php/getmail.php" ifeval="count(get_email_files(intval(get_data('rest/3'))))">
                 <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
             </table>
         </layout>
@@ -183,13 +183,7 @@
             <name>Filename</name>
             <size>Size</size>
         </header>
-        <data eval="true">execute_query_array("
-            SELECT id, name, size
-            FROM app_emails_files
-            WHERE 1 = 1
-            AND reg_id=".intval(get_data("rest/4"))."
-            ORDER BY id ASC
-        ")</data>
+        <data require="apps/emails/php/getmail.php" eval="true">get_email_files(intval(get_data("rest/4")))</data>
         <actions eval="true">[
             ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver adjunto"],
             ["app" => "emails", "action" => "view", "value" => "Download", "icon" => "download", "tooltip" => "Descargar adjunto"],

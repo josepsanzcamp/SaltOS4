@@ -1040,20 +1040,16 @@ function get_email_files($id)
     }
     // CONTINUE
     $result = __getmail_getfiles(__getmail_getnode("0", $decoded));
-    $buffer = "";
-    $first = 1;
+    $array = [];
     foreach ($result as $file) {
-        $cname = $file["cname"];
-        $chash = $file["chash"];
-        $hsize = $file["hsize"];
-        if (!$first) {
-            $buffer .= " | ";
-        }
-        $buffer .= "<a href='javascript:void(0)' onclick='download2(\"correo\",\"{$id}\",\"{$chash}\")'>";
-        $buffer .= "<b>{$cname}</b></a> ({$hsize})";
-        $first = 0;
+        $array[] = [
+            "id" => $id,
+            "cid" => $file["chash"],
+            "name" => $file["cname"],
+            "size" => $file["hsize"],
+        ];
     }
-    return $buffer;
+    return $array;
 }
 
 /**

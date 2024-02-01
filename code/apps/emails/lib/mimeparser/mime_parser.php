@@ -936,22 +936,12 @@ class mime_parser_class
 	{
 		$first = strtolower(trim(strtok($value, ';')));
 		$values = trim(strtok(''));
-		// BEGIN TO SOLVE A SPURIOUS PROBLEM IN PHP8.3 WITH OPCACHE BY SANZ
-		if ($first && ! $values && strpos($value, ';')) {
-			$values = trim(substr($value, strpos($value, ';') + 1));
-		}
-		// END TO SOLVE A SPURIOUS PROBLEM IN PHP8.3 WITH OPCACHE BY SANZ
 		$parameters = array();
 		$return_value = '';
 		while(strlen($values))
 		{
 			$parameter = trim(strtolower(strtok($values, '=')));
 			$value = trim(strtok(';'));
-			// BEGIN TO SOLVE A SPURIOUS PROBLEM IN PHP8.3 WITH OPCACHE BY SANZ
-			if ($parameter && !$value && strpos($values, '=')) {
-				$value = trim(substr($values, strpos($values, '=') + 1));
-			}
-			// END TO SOLVE A SPURIOUS PROBLEM IN PHP8.3 WITH OPCACHE BY SANZ
 			$l = strlen($value);
 			if($l > 1
 			&& !strcmp($value[0], '"')
