@@ -49,6 +49,7 @@ saltos.app.show_error = error => {
     console.log(error);
     if (typeof error != 'object') {
         document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
+        saltos.app.form.screen('unloading');
         return;
     }
     saltos.app.alert('Error ' + error.code, error.text);
