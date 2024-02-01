@@ -95,7 +95,7 @@ function __getmail_processmessage($disp, $type)
  */
 function __getmail_processplainhtml($disp, $type)
 {
-    return (in_array($type, array("plain","html")) && $disp == "inline");
+    return (in_array($type, ["plain", "html"]) && $disp == "inline");
 }
 
 /**
@@ -107,7 +107,7 @@ function __getmail_processfile($disp, $type)
 {
     return (
         $disp == "attachment" ||
-        ($disp == "inline" && !in_array($type, array("plain","html","message","alternative","multipart")))
+        ($disp == "inline" && !in_array($type, ["plain", "html", "message", "alternative", "multipart"]))
     );
 }
 
@@ -211,7 +211,7 @@ function __getmail_getmime($id)
         if (!file_exists($file)) {
             return "";
         }
-        $decoded = __getmail_mime_decode_protected(array("File" => "compress.zlib://" . $file));
+        $decoded = __getmail_mime_decode_protected(["File" => "compress.zlib://" . $file]);
         file_put_contents($cache, serialize($decoded));
         chmod($cache, 0666);
     } else {
@@ -299,7 +299,7 @@ function __getmail_getdisposition($array)
 // RETURN AN ARRAY OF ATTACHMENTS FILES
 function __getmail_getfiles($array, $level = 0)
 {
-    $result = array();
+    $result = [];
     $disp = __getmail_getdisposition($array);
     $type = __getmail_gettype($array);
     if (__getmail_processfile($disp, $type)) {
@@ -327,8 +327,8 @@ function __getmail_getfiles($array, $level = 0)
             if ($cname != "") {
                 $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
                 $hsize = __getmail_gethumansize($csize);
-                $chash = md5(serialize(array(md5($temp),$cid,$cname,$ctype,$csize))); // MD5 INSIDE AS MEMORY TRICK
-                $result[] = array(
+                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // MD5 INSIDE AS MEMORY TRICK
+                $result[] = [
                     "disp" => $disp,
                     "type" => $type,
                     "ctype" => $ctype,
@@ -337,8 +337,8 @@ function __getmail_getfiles($array, $level = 0)
                     "csize" => $csize,
                     "hsize" => $hsize,
                     "chash" => $chash,
-                    "body" => $temp
-                );
+                    "body" => $temp,
+                ];
             }
         }
     } elseif (__getmail_processplainhtml($disp, $type)) {
@@ -346,12 +346,12 @@ function __getmail_getfiles($array, $level = 0)
         $temp = __getmail_getnode("Body", $array);
         if ($temp) {
             $temp = getutf8($temp);
-            $result[] = array("disp" => $disp,"type" => $type,"body" => $temp);
+            $result[] = ["disp" => $disp, "type" => $type, "body" => $temp];
         }
     } elseif (__getmail_processmessage($disp, $type)) {
         $temp = __getmail_getnode("Body", $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(array("Data" => $temp));
+            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
             $result = array_merge($result, __getmail_getfiles(__getmail_getnode("0", $decoded), $level + 1));
         }
     }
@@ -416,19 +416,38 @@ function __getmail_gethumansize($size)
 function __getmail_getinfo($array)
 {
     //~ echo "<pre>" . sprintr(__getmail_removebody($array)) . "</pre>";
-    $result = array("emails" => array(),"datetime" => "","subject" => "","spam" => "","files" => array(),"crt" => 0,
-        "priority" => 0,"sensitivity" => 0,"from" => "","to" => "","cc" => "","bcc" => "");
+    $result = [
+        "emails" => [],
+        "datetime" => "",
+        "subject" => "",
+        "spam" => "",
+        "files" => [],
+        "crt" => 0,
+        "priority" => 0,
+        "sensitivity" => 0,
+        "from" => "",
+        "to" => "",
+        "cc" => "",
+        "bcc" => "",
+    ];
     // CREATE THE FROM, TO, CC AND BCC STRING
-    $lista = array(1 => "from",2 => "to",3 => "cc",4 => "bcc",
-        5 => "return-path",6 => "reply-to",7 => "disposition-notification-to");
+    $lista = [
+        1 => "from",
+        2 => "to",
+        3 => "cc",
+        4 => "bcc",
+        5 => "return-path",
+        6 => "reply-to",
+        7 => "disposition-notification-to",
+    ];
     foreach ($lista as $key => $val) {
         $addresses = __getmail_getnode("ExtractedAddresses/{$val}:", $array);
         if ($addresses) {
-            $temp = array();
+            $temp = [];
             foreach ($addresses as $a) {
                 $name = getutf8(__getmail_fixstring(__getmail_getnode("name", $a)));
                 $addr = getutf8(__getmail_fixstring(__getmail_getnode("address", $a)));
-                $result["emails"][] = array("id_tipo" => $key,"tipo" => $val,"nombre" => $name,"valor" => $addr);
+                $result["emails"][] = ["id_tipo" => $key, "tipo" => $val, "nombre" => $name, "valor" => $addr];
                 $temp[] = ($name != "") ? $name . " <" . $addr . ">" : $addr;
             }
             $temp = implode("; ", $temp);
@@ -470,18 +489,18 @@ function __getmail_getinfo($array)
     }
     // GET THE PRIORITY IF EXISTS
     $priority = strtolower(__getmail_fixstring(__getmail_getnode("Headers/x-priority:", $array)));
-    $priorities = array("low" => 5,"high" => 1);
+    $priorities = ["low" => 5, "high" => 1];
     if (isset($priorities[$priority])) {
         $priority = $priorities[$priority];
     }
     $priority = intval($priority);
-    $priorities = array(5 => -1,4 => -1,3 => 0,2 => 1,1 => 1);
+    $priorities = [5 => -1, 4 => -1, 3 => 0, 2 => 1, 1 => 1];
     if (isset($priorities[$priority])) {
         $result["priority"] = $priorities[$priority];
     }
     // GET THE SENSITIVITY IF EXISTS
     $sensitivity = strtolower(__getmail_fixstring(__getmail_getnode("Headers/sensitivity:", $array)));
-    $sensitivities = array("personal" => 1,"private" => 2,"company-confidential" => 3,"company confidential" => 3);
+    $sensitivities = ["personal" => 1, "private" => 2, "company-confidential" => 3, "company confidential" => 3];
     if (isset($sensitivities[$sensitivity])) {
         $result["sensitivity"] = $sensitivities[$sensitivity];
     }
@@ -514,7 +533,7 @@ function __getmail_fixstring($arg)
 // RETURN ALL TEXT BODY CONCATENATED
 function __getmail_gettextbody($array, $level = 0)
 {
-    $result = array();
+    $result = [];
     $disp = __getmail_getdisposition($array);
     $type = __getmail_gettype($array);
     if (__getmail_processplainhtml($disp, $type)) {
@@ -524,18 +543,18 @@ function __getmail_gettextbody($array, $level = 0)
             if ($type == "html") {
                 $temp = html2text($temp);
             }
-            $result[] = array("type" => $type,"body" => $temp);
+            $result[] = ["type" => $type, "body" => $temp];
         }
     } elseif (__getmail_processmessage($disp, $type)) {
         $temp = __getmail_getnode("Body", $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(array("Data" => $temp));
-            $result[] = array("type" => $type,"body" => __getmail_gettextbody(__getmail_getnode("0", $decoded)));
+            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
+            $result[] = ["type" => $type, "body" => __getmail_gettextbody(__getmail_getnode("0", $decoded))];
         }
     }
     $parts = __getmail_getnode("Parts", $array);
     if ($parts) {
-        $recursive = array();
+        $recursive = [];
         foreach ($parts as $index => $node) {
             $recursive = array_merge($recursive, __getmail_gettextbody($node, $level + 1));
         }
@@ -577,19 +596,19 @@ function __getmail_gettextbody($array, $level = 0)
 // RETURN ALL BODY AND ATTACHMENTS INFORMATION
 function __getmail_getfullbody($array)
 {
-    $result = array();
+    $result = [];
     $disp = __getmail_getdisposition($array);
     $type = __getmail_gettype($array);
     if (__getmail_processplainhtml($disp, $type)) {
         $temp = __getmail_getnode("Body", $array);
         if ($temp) {
             $temp = getutf8($temp);
-            $result[] = array("disp" => $disp,"type" => $type,"body" => $temp);
+            $result[] = ["disp" => $disp, "type" => $type, "body" => $temp];
         }
     } elseif (__getmail_processmessage($disp, $type)) {
         $temp = __getmail_getnode("Body", $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(array("Data" => $temp));
+            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
             $result = array_merge($result, __getmail_getfullbody(__getmail_getnode("0", $decoded)));
         }
     } else {
@@ -617,8 +636,8 @@ function __getmail_getfullbody($array)
             if ($cid != "" || $cname != "") {
                 $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
                 $hsize = __getmail_gethumansize($csize);
-                $chash = md5(serialize(array(md5($temp),$cid,$cname,$ctype,$csize))); // MD5 INSIDE AS MEMORY TRICK
-                $result[] = array(
+                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // MD5 INSIDE AS MEMORY TRICK
+                $result[] = [
                     "disp" => $disp,
                     "type" => $type,
                     "ctype" => $ctype,
@@ -627,14 +646,14 @@ function __getmail_getfullbody($array)
                     "csize" => $csize,
                     "hsize" => $hsize,
                     "chash" => $chash,
-                    "body" => $temp
-                );
+                    "body" => $temp,
+                ];
             }
         }
     }
     $parts = __getmail_getnode("Parts", $array);
     if ($parts) {
-        $recursive = array();
+        $recursive = [];
         foreach ($parts as $index => $node) {
             $recursive = array_merge($recursive, __getmail_getfullbody($node));
         }
@@ -675,7 +694,7 @@ function __getmail_getcid($array, $hash)
     if (__getmail_processmessage($disp, $type)) {
         $temp = __getmail_getnode("Body", $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(array("Data" => $temp));
+            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
             $result = __getmail_getcid(__getmail_getnode("0", $decoded), $hash);
             if ($result) {
                 return $result;
@@ -704,10 +723,10 @@ function __getmail_getcid($array, $hash)
                 $cname = encode_bad_chars($ctype) . ".eml";
             }
             $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
-            $chash = md5(serialize(array(md5($temp),$cid,$cname,$ctype,$csize))); // MD5 INSIDE AS MEMORY TRICK
+            $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // MD5 INSIDE AS MEMORY TRICK
             if ($chash == $hash) {
                 $hsize = __getmail_gethumansize($csize);
-                return array(
+                return [
                     "disp" => $disp,
                     "type" => $type,
                     "ctype" => $ctype,
@@ -716,21 +735,21 @@ function __getmail_getcid($array, $hash)
                     "csize" => $csize,
                     "hsize" => $hsize,
                     "chash" => $chash,
-                    "body" => $temp
-                );
+                    "body" => $temp,
+                ];
             }
             // FOR COMPATIBILITY WITH OLD SALTOS VERSIONS
             if (
-                in_array($hash, array(
+                in_array($hash, [
                     md5(md5($temp) . md5($cid) . md5($cname) . md5($ctype) . md5($csize)),
-                    md5(serialize(array($temp,$cid,$cname,$ctype,$csize))),
-                    md5(serialize(array(md5($temp),$cid,$cname,$ctype,$csize))),
-                    md5(serialize(array(md5($temp),null,$cname,$ctype,$csize))),
-                    md5(json_encode(array(md5($temp),$cid,$cname,$ctype,$csize))),
-                ))
+                    md5(serialize([$temp, $cid, $cname, $ctype, $csize])),
+                    md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])),
+                    md5(serialize([md5($temp), null, $cname, $ctype, $csize])),
+                    md5(json_encode([md5($temp), $cid, $cname, $ctype, $csize])),
+                ])
             ) {
                 $hsize = __getmail_gethumansize($csize);
-                return array(
+                return [
                     "disp" => $disp,
                     "type" => $type,
                     "ctype" => $ctype,
@@ -739,8 +758,8 @@ function __getmail_getcid($array, $hash)
                     "csize" => $csize,
                     "hsize" => $hsize,
                     "chash" => $chash,
-                    "body" => $temp
-                );
+                    "body" => $temp,
+                ];
             }
             // END OF COMPATIBILITY CODE
         }
@@ -780,15 +799,15 @@ function __getmail_insert(
     $id_aplicacion = app2id("emails");
     $datetime = current_datetime();
     // DECODE THE MESSAGE
-    $decoded = __getmail_mime_decode_protected(array("File" => "compress.zlib://" . $file));
+    $decoded = __getmail_mime_decode_protected(["File" => "compress.zlib://" . $file]);
     $info = __getmail_getinfo(__getmail_getnode("0", $decoded));
     $body = __getmail_gettextbody(__getmail_getnode("0", $decoded));
     unset($decoded); // TRICK TO RELEASE MEMORY
     // INSERT THE NEW EMAIL
     if (!semaphore_acquire(__FUNCTION__)) {
-        show_php_error(array("phperror" => "Could not acquire the semaphore"));
+        show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
-    $query = make_insert_query("app_emails", array(
+    $query = make_insert_query("app_emails", [
         "account_id" => $account_id,
         "uidl" => $uidl,
         "size" => $size,
@@ -811,8 +830,8 @@ function __getmail_insert(
         "para" => $info["to"],
         "cc" => $info["cc"],
         "bcc" => $info["bcc"],
-        "files" => count($info["files"])
-    ));
+        "files" => count($info["files"]),
+    ]);
     unset($body); // TRICK TO RELEASE MEMORY
     db_query($query);
     // GET LAST_ID
@@ -826,17 +845,17 @@ function __getmail_insert(
     semaphore_release(__FUNCTION__);
     // INSERT ALL ADDRESS
     foreach ($info["emails"] as $email) {
-        $query = make_insert_query("app_emails_a", array(
+        $query = make_insert_query("app_emails_a", [
             "id_correo" => $last_id,
             "id_tipo" => $email["id_tipo"],
             "nombre" => $email["nombre"],
-            "valor" => $email["valor"]
-        ));
+            "valor" => $email["valor"],
+        ]);
         db_query($query);
     }
     // INSERT ALL ATTACHMENTS
     foreach ($info["files"] as $file) {
-        $query = make_insert_query("tbl_ficheros", array(
+        $query = make_insert_query("tbl_ficheros", [
             "id_aplicacion" => $id_aplicacion,
             "id_registro" => $last_id,
             "id_usuario" => $id_usuario,
@@ -844,8 +863,8 @@ function __getmail_insert(
             "fichero" => $file["cname"],
             "fichero_size" => $file["csize"],
             "fichero_type" => $file["ctype"],
-            "fichero_hash" => $file["chash"]
-        ));
+            "fichero_hash" => $file["chash"],
+        ]);
         db_query($query);
     }
     // INSERT THE CONTROL REGISTER
@@ -861,11 +880,11 @@ function __getmail_insert(
  */
 function __getmail_update($campo, $valor, $id)
 {
-    $query = make_update_query("app_emails", array(
-        $campo => $valor
-    ), make_where_query(array(
-        "id" => $id
-    )));
+    $query = make_update_query("app_emails", [
+        $campo => $valor,
+    ], make_where_query([
+        "id" => $id,
+    ]));
     db_query($query);
 }
 
@@ -892,29 +911,30 @@ function __getmail_add_bcc($id, $bcc)
 {
     foreach ($bcc as $addr) {
         list($valor,$nombre) = __sendmail_parser($addr);
-        $query = make_insert_query("app_emails_a", array(
+        $query = make_insert_query("app_emails_a", [
             "id_correo" => $id,
             "id_tipo" => 4, // DEFINED IN __getmail_getinfo FUNCTION
             "nombre" => $nombre,
-            "valor" => $valor
-        ));
+            "valor" => $valor,
+        ]);
         db_query($query);
     }
     $bcc = implode("; ", $bcc);
-    $query = make_update_query("app_emails", array(
-        "bcc" => $bcc
-    ), make_where_query(array(
-        "id" => $id
-    )));
+    $query = make_update_query("app_emails", [
+        "bcc" => $bcc,
+    ], make_where_query([
+        "id" => $id,
+    ]));
     db_query($query);
 }
 
 /**
- * TODO
+ * Get email body
  *
  * TODO
  */
-function get_email_body($id) {
+function get_email_body($id)
+{
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
     }
@@ -936,8 +956,8 @@ function get_email_body($id) {
                 $temp = wordwrap($temp, 120);
                 $temp = htmlentities($temp, ENT_COMPAT, "UTF-8");
                 $temp = str_replace(
-                    array(" ","\t","\n"),
-                    array("&nbsp;",str_repeat("&nbsp;", 8),"<br/>\n"),
+                    [" ", "\t", "\n"],
+                    ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>\n"],
                     $temp
                 );
                 $temp = href_replace($temp);
