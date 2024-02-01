@@ -999,3 +999,87 @@ function get_email_body($id)
     $buffer .= __HTML_PAGE_CLOSE__;
     return $buffer;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function get_email_source($id)
+{
+    if (!__getmail_checkperm($id)) {
+        show_php_error(["phperror" => "Permission denied"]);
+    }
+    $source = __getmail_getsource($id, 8192);
+    $source = getutf8($source);
+    $source = wordwrap($source, 120);
+    $source = htmlentities($source, ENT_COMPAT, "UTF-8");
+    $source = str_replace([" ", "\t", "\n"], ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>"], $source);
+    $buffer = "";
+    $buffer .= __HTML_PAGE_OPEN__;
+    $buffer .= __PLAIN_TEXT_OPEN__;
+    $buffer .= $source;
+    $buffer .= __PLAIN_TEXT_CLOSE__;
+    $buffer .= __HTML_PAGE_CLOSE__;
+    return $buffer;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function get_email_files($id)
+{
+    if (!__getmail_checkperm($id)) {
+        show_php_error(["phperror" => "Permission denied"]);
+    }
+    $decoded = __getmail_getmime($id);
+    if (!$decoded) {
+        show_php_error(["phperror" => "Could not decode de message"]);
+    }
+    // CONTINUE
+    $result = __getmail_getfiles(__getmail_getnode("0", $decoded));
+    $buffer = "";
+    $first = 1;
+    foreach ($result as $file) {
+        $cname = $file["cname"];
+        $chash = $file["chash"];
+        $hsize = $file["hsize"];
+        if (!$first) {
+            $buffer .= " | ";
+        }
+        $buffer .= "<a href='javascript:void(0)' onclick='download2(\"correo\",\"{$id}\",\"{$chash}\")'>";
+        $buffer .= "<b>{$cname}</b></a> ({$hsize})";
+        $first = 0;
+    }
+    return $buffer;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function get_email_cid($id, $cid)
+{
+    if (!__getmail_checkperm($id)) {
+        show_php_error(["phperror" => "Permission denied"]);
+    }
+    $decoded = __getmail_getmime($id);
+    if (!$decoded) {
+        show_php_error(["phperror" => "Could not decode de message"]);
+    }
+    // CONTINUE
+    $result = __getmail_getcid(__getmail_getnode("0", $decoded), $cid);
+    if (!$result) {
+        die();
+    }
+    $name = $result["cname"] ? $result["cname"] : $result["cid"];
+    return [
+        "data" => $result["body"],
+        "type" => $result["ctype"],
+        "size" => $result["csize"],
+        "name" => $name,
+    ];
+}
