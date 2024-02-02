@@ -53,8 +53,8 @@
             <from_to label="From/To"/>
             <subject label="Subject"/>
             <date_time label="Date"/>
-            <state label="State"/>
-            <style label="Style"/>
+            <state label="State" class="style"/>
+            <files label="" type="icon" align="center"/>
         </header>
         <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) from_to, subject,
@@ -72,10 +72,11 @@
                     CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
                     CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
                 )) state,
-                CASE WHEN state_error!='' THEN 'error'
-                    WHEN state_spam=1 THEN 'spam'
-                    WHEN state_new=1 THEN 'new'
-                    WHEN state_wait=1 THEN 'wait'
+                CASE WHEN files THEN 'paperclip' ELSE '' END files,
+                CASE WHEN state_error!='' THEN 'danger'
+                    WHEN state_spam=1 THEN 'danger'
+                    WHEN state_new=1 THEN 'success'
+                    WHEN state_wait=1 THEN 'primary'
                     ELSE ''
                 END style
             FROM app_emails
