@@ -1654,7 +1654,7 @@ saltos.bootstrap.__field.table = field => {
                 }
                 if (iterator[key2].hasOwnProperty('class')) {
                     if (val.hasOwnProperty(iterator[key2].class)) {
-                        td.classList.add('text-bg-' + val[iterator[key2].class]);
+                        td.classList.add('table-' + val[iterator[key2].class]);
                     }
                 }
                 row.append(td);
