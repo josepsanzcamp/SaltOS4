@@ -1079,3 +1079,29 @@ function get_email_cid($id, $cid)
         "name" => $name,
     ];
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function get_email_is_outbox($id)
+{
+    if (!__getmail_checkperm($id)) {
+        show_php_error(["phperror" => "Permission denied"]);
+    }
+    return execute_query("SELECT is_outbox FROM app_emails WHERE id=$id");
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function get_email_count_address($id)
+{
+    if (!__getmail_checkperm($id)) {
+        show_php_error(["phperror" => "Permission denied"]);
+    }
+    return execute_query("SELECT COUNT(*) FROM app_emails_address WHERE email_id=$id AND type_id IN (2,3)");
+}

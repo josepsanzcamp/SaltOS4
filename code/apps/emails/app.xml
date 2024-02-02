@@ -31,16 +31,16 @@
         <screen>clear</screen>
         <title>Email's list</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
-            <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo correo" tooltip="Para enviar un nuevo correo" icon="plus-lg"/>
+            <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" col_class="col-auto pe-0" class="btn btn-primary" value="New email" tooltip="To send a new email" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
-            <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todo el correo" id="search"/>
-            <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todo el correo" icon="search"/>
-            <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-            <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Enviar y recibir" tooltip="Para enviar el correo pendiente y recibir nuevo correo" icon="envelope"/>
+            <text col_class="col-auto p-0" placeholder="Search" tooltip="To search in all emails contents" id="search"/>
+            <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
+            <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send pending mail and receive new mail" icon="envelope"/>
             <table col_class="col-md-12 my-3" source="list/emails/table"/>
             <div col_class="col mb-3"/>
-            <button onclick="saltos.emails.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más correos" tooltip="Para cargar mas correos en el listado" icon="view-list"/>
+            <button onclick="saltos.emails.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="See more emails" tooltip="To load more emails in the list" icon="view-list"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -50,13 +50,34 @@
 
     <table checkbox="true" type="table" limit="50" order="datetime DESC">
         <header>
-            <from_to label="De/Para"/>
-            <subject label="Asunto"/>
-            <date_time label="Fecha"/>
+            <from_to label="From/To"/>
+            <subject label="Subject"/>
+            <date_time label="Date"/>
+            <state label="State"/>
+            <style label="Style"/>
         </header>
         <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) from_to, subject,
-                IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time
+                IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time,
+                TRIM(CONCAT_WS(' ',
+                    CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
+                    CASE state_error WHEN '' THEN '' ELSE 'Error' END,
+                    CASE WHEN is_outbox=1 AND state_sent=0 AND state_error='' THEN 'Unsent' ELSE '' END,
+                    CASE state_new WHEN 1 THEN 'New' ELSE '' END,
+                    CASE state_reply WHEN 1 THEN 'Reply' ELSE '' END,
+                    CASE state_forward WHEN 1 THEN 'Forward' ELSE '' END,
+                    CASE state_wait WHEN 1 THEN 'Wait' ELSE '' END,
+                    CASE state_spam WHEN 1 THEN 'Spam' ELSE '' END,
+                    CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
+                    CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
+                    CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
+                )) state,
+                CASE WHEN state_error!='' THEN 'error'
+                    WHEN state_spam=1 THEN 'spam'
+                    WHEN state_new=1 THEN 'new'
+                    WHEN state_wait=1 THEN 'wait'
+                    ELSE ''
+                END style
             FROM app_emails
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
@@ -112,8 +133,8 @@
         </layout>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
-            <button onclick="saltos.emails.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
-            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+            <button onclick="saltos.emails.send()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Send" tooltip="To send the email" icon="check-lg"/>
+            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -145,12 +166,13 @@
                     ["label"=>"Confidential","value"=>3],
                 ]</rows>
             </select>
-            <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-            <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+            <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" require="apps/emails/php/getmail.php" ifeval="get_email_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!get_email_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!get_email_is_outbox(intval(get_data('rest/3')))"/>
             <checkbox id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
             <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-            <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-            <checkbox id="state_crt" label="Solicitar confirmación de recepción" col_class="col-sm-9 col-md-10 col-lg-10 mb-3"/>
+            <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!get_email_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
             <text id="subject" label="Subject"/>
             <iframe id="body" height="200px" srcdoc="Loading...">
                 <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
@@ -159,14 +181,25 @@
                 <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
             </table>
         </layout>
-        <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
+        <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
         <layout auto="true" container_class="container" col_class="col-auto">
             <div col_class="col mb-3"/>
-            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
-                <onclick eval="true">"saltos.core.open_window('#app/emails/edit/".intval(get_data("rest/3"))."')"</onclick>
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply" tooltip="To reply this email" icon="reply">
+                <onclick eval="true">"saltos.core.open_window('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
+                <disabled ifeval="get_email_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
             </button>
-            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply all" tooltip="To reply all this email" icon="reply-all">
+                <onclick eval="true">"saltos.core.open_window('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
+                <disabled ifeval="get_email_is_outbox(intval(get_data('rest/3'))) || get_email_count_address(intval(get_data('rest/3')))&lt;2">disabled</disabled>
+            </button>
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Forward" tooltip="To forward this email" icon="forward">
+                <onclick eval="true">"saltos.core.open_window('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
+            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Delete" tooltip="To delete this email" icon="trash">
+                <onclick eval="true">"saltos.core.open_window('#app/emails/delete/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
+            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Close" tooltip="To close this email" icon="x-lg"/>
         </layout>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
