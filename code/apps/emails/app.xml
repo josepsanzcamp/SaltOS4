@@ -52,9 +52,9 @@
         <header>
             <from_to label="From/To"/>
             <subject label="Subject"/>
-            <date_time label="Date"/>
-            <state label="State" class="style"/>
-            <files label="" type="icon" align="center"/>
+            <date_time label="Date" align="center"/>
+            <state label="State" class="state2" align="center"/>
+            <files label="" type="icon" class="files2" align="center"/>
         </header>
         <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) from_to, subject,
@@ -72,13 +72,14 @@
                     CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
                     CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
                 )) state,
-                CASE WHEN files THEN 'paperclip' ELSE '' END files,
                 CASE WHEN state_error!='' THEN 'danger'
                     WHEN state_spam=1 THEN 'danger'
                     WHEN state_new=1 THEN 'success'
                     WHEN state_wait=1 THEN 'primary'
                     ELSE ''
-                END style
+                END state2,
+                CASE WHEN files THEN 'paperclip' ELSE '' END files,
+                CASE WHEN files THEN 'dark' ELSE '' END files2
             FROM app_emails
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
@@ -175,10 +176,10 @@
             <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!get_email_is_outbox(intval(get_data('rest/3')))"/>
             <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
             <text id="subject" label="Subject"/>
-            <iframe id="body" height="200px" srcdoc="Loading...">
+            <iframe id="body" label="Body" height="200px" srcdoc="Loading...">
                 <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
             </iframe>
-            <table id="files" col_class="col-md-12 mb-3" require="apps/emails/php/getmail.php" ifeval="count(get_email_files(intval(get_data('rest/3'))))">
+            <table id="files" label="Files" col_class="col-md-12 mb-3" require="apps/emails/php/getmail.php" ifeval="count(get_email_files(intval(get_data('rest/3'))))">
                 <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
             </table>
         </layout>
