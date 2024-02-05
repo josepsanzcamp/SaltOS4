@@ -1654,7 +1654,9 @@ saltos.bootstrap.__field.table = field => {
                 }
                 if (iterator[key2].hasOwnProperty('class')) {
                     if (val.hasOwnProperty(iterator[key2].class)) {
-                        td.classList.add('table-' + val[iterator[key2].class]);
+                        if (val[iterator[key2].class] != '') {
+                            td.classList.add('text-bg-' + val[iterator[key2].class]);
+                        }
                     }
                 }
                 row.append(td);
@@ -1768,7 +1770,7 @@ saltos.bootstrap.__field.table = field => {
     obj.append(old);
     obj.append(saltos.core.html(`
         <style>
-            .table {
+            .table td:not([class*="text-bg-"]) {
                 --bs-table-hover-bg: #fbec88;
                 --bs-table-active-bg: #fbec88;
                 --bs-table-hover-color: #373a3c;
