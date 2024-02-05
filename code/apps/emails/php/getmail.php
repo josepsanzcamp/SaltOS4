@@ -36,11 +36,21 @@ declare(strict_types=1);
 // phpcs:disable Generic.Files.LineLength
 // phpcs:disable PSR1.Files.SideEffects
 
+/**
+ * TODO
+ *
+ * TODO
+ */
 // NEEDED INCLUDES
 require_once "apps/emails/lib/mimeparser/mime_parser.php";
 require_once "apps/emails/lib/mimeparser/rfc822_addresses.php";
 require_once "apps/emails/lib/pop3class/pop3.php";
 
+/**
+ * TODO
+ *
+ * TODO
+ */
 // SOME DEFINES
 define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:0px;}</style></head><body>');
 define("__HTML_PAGE_CLOSE__", '</body></html>');
@@ -119,22 +129,18 @@ function __getmail_processfile($disp, $type)
 // CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
 function __getmail_checkperm($id)
 {
-    // TODO: ARREGLAR PARTE TABLAS QUE FALTAN
-    return true;
     $query = "SELECT a.id
         FROM (
             SELECT a2.*,uc.email_privated email_privated
             FROM app_emails a2
-            LEFT JOIN tbl_usuarios_c uc ON a2.account_id=uc.id
+            LEFT JOIN app_emails_accounts uc ON a2.account_id=uc.id
         ) a
-        LEFT JOIN tbl_registros e ON e.id_aplicacion='" . app2id("emails") . "'
-            AND e.id_registro=a.id
-            AND e.first=1
-        LEFT JOIN tbl_usuarios d ON e.id_usuario=d.id
+        LEFT JOIN app_emails_control e ON e.id=a.id
+        LEFT JOIN tbl_users d ON e.user_id=d.id
         WHERE a.id='" . abs($id) . "'
             AND (
                 TRIM(IFNULL(email_privated,0))='0' OR
-                (TRIM(IFNULL(email_privated,0))='1' AND e.id_usuario='" . current_user() . "')
+                (TRIM(IFNULL(email_privated,0))='1' AND e.user_id='" . current_user() . "')
             )
             AND " . check_sql("emails", "view");
     return execute_query($query);
@@ -977,9 +983,9 @@ function get_email_body($id)
                     $cid2 = $node2["cid"];
                     if ($cid2 != "") {
                         $chash2 = $node2["chash"];
+                        $ctype2 = $node2["ctype"];
                         $data = base64_encode($node2["body"]);
-                        // TODO: ARREGLAR ERROR AL PONER EL MIME FIJO
-                        $data = "data:image/png;base64,{$data}";
+                        $data = "data:{$ctype2};base64,{$data}";
                         $temp = str_replace("cid:{$cid2}", $data, $temp);
                     }
                 }

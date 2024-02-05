@@ -260,6 +260,35 @@ that maintain the database using as reference this file
                 <field name="datetime" type="DATETIME"/>
             </fields>
         </table>
+		<table name="app_emails_accounts">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="email_name" type="VARCHAR(255)"/>
+				<field name="email_from" type="VARCHAR(255)"/>
+				<field name="email_signature" type="VARCHAR(255)"/>
+				<field name="email_signature_file" type="VARCHAR(255)"/>
+				<field name="email_signature_type" type="VARCHAR(255)"/>
+				<field name="email_signature_size" type="INT(11)"/>
+				<field name="pop3_host" type="VARCHAR(255)"/>
+				<field name="pop3_port" type="VARCHAR(255)"/>
+				<field name="pop3_extra" type="VARCHAR(255)"/>
+				<field name="pop3_user" type="VARCHAR(255)"/>
+				<field name="pop3_pass" type="VARCHAR(255)"/>
+				<field name="pop3_delete" type="INT(11)"/>
+				<field name="pop3_days" type="INT(11)"/>
+				<field name="smtp_host" type="VARCHAR(255)"/>
+				<field name="smtp_port" type="VARCHAR(255)"/>
+				<field name="smtp_extra" type="VARCHAR(255)"/>
+				<field name="smtp_user" type="VARCHAR(255)"/>
+				<field name="smtp_pass" type="VARCHAR(255)"/>
+				<field name="email_disabled" type="INT(11)"/>
+				<field name="email_privated" type="INT(11)"/>
+				<field name="email_default" type="INT(11)"/>
+				<field name="email_addmetocc" type="INT(11)"/>
+				<field name="email_crt" type="INT(11)"/>
+			</fields>
+		</table>
 
         <!--
         This tables are specific for the customers app
