@@ -110,6 +110,7 @@ class database_sqlite3
             }
             $this->link->createFunction("LPAD", "__libsqlite_lpad");
             $this->link->createFunction("CONCAT", "__libsqlite_concat");
+            $this->link->createFunction("CONCAT_WS", "__libsqlite_concat_ws");
             $this->link->createFunction("UNIX_TIMESTAMP", "__libsqlite_unix_timestamp");
             $this->link->createFunction("FROM_UNIXTIME", "__libsqlite_from_unixtime");
             $this->link->createFunction("YEAR", "__libsqlite_year");

@@ -96,6 +96,19 @@ function __libsqlite_concat()
 }
 
 /**
+ * CONCAT_WS
+ *
+ * This function add the CONCAT_WS to the SQLite database
+ */
+function __libsqlite_concat_ws()
+{
+    $array = func_get_args();
+    $separator = array_shift($array);
+    $array = array_diff($array, [null]);
+    return implode($separator, $array);
+}
+
+/**
  * UNIX_TIMESTAMP
  *
  * This function add the UNIX_TIMESTAMP to the SQLite database

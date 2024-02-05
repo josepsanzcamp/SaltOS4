@@ -179,7 +179,7 @@
             <iframe id="body" label="Body" height="200px" srcdoc="Loading...">
                 <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
             </iframe>
-            <table id="files" label="Files" col_class="col-md-12 mb-3" require="apps/emails/php/getmail.php" ifeval="count(get_email_files(intval(get_data('rest/3'))))">
+            <table id="files" label="Files" col_class="col-md-12 mb-3" ifeval="count(get_email_files(intval(get_data('rest/3'))))">
                 <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
             </table>
         </layout>
