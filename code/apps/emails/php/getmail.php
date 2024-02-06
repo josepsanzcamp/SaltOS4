@@ -167,7 +167,7 @@ function __getmail_getsource($id, $max = 0)
     $fp = gzopen($file, "r");
     $message = "";
     if (!$max) {
-        $max = gzfilesize($file);
+        $max = gzfilesize($file) + 1;
     }
     while (!feof($fp) && strlen($message) < $max) {
         $message .= gzread($fp, min(8192, $max - strlen($message)));
@@ -935,6 +935,29 @@ function __getmail_add_bcc($id, $bcc)
 }
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
+function gzfilesize($filename)
+{
+    $gzfs = false;
+    if (($zp = fopen($filename, 'r')) !== false) {
+        if (@fread($zp, 2) == "\x1F\x8B") { // this is a gzip'd file
+            fseek($zp, -4, SEEK_END);
+            if (strlen($datum = @fread($zp, 4)) == 4) {
+                extract(unpack('Vgzfs', $datum));
+            }
+        } else { // not a gzip'd file, revert to regular filesize function
+            $gzfs = filesize($filename);
+        }
+        fclose($zp);
+    }
+    return($gzfs);
+}
+
+/**
  * Get email body
  *
  * TODO
@@ -1016,7 +1039,7 @@ function get_email_source($id)
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
     }
-    $source = __getmail_getsource($id, 8192);
+    $source = __getmail_getsource($id);
     $source = getutf8($source);
     $source = wordwrap($source, 120);
     $source = htmlentities($source, ENT_COMPAT, "UTF-8");

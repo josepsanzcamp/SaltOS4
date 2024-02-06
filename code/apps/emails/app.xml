@@ -31,10 +31,10 @@
         <screen>clear</screen>
         <title>Email's list</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
-            <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" col_class="col-auto pe-0" class="btn btn-primary" value="New email" tooltip="To send a new email" icon="plus-lg"/>
+            <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" col_class="col-auto pe-0 me-1" class="btn btn-primary" value="New email" tooltip="To send a new email" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
-            <text col_class="col-auto p-0" placeholder="Search" tooltip="To search in all emails contents" id="search"/>
+            <text col_class="col-auto p-0 ms-1" placeholder="Search" tooltip="To search in all emails contents" id="search"/>
             <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
             <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send pending mail and receive new mail" icon="envelope"/>
@@ -186,6 +186,9 @@
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
         <layout auto="true" container_class="container" col_class="col-auto">
+            <button col_class="col-auto mb-3 pe-0 me-1" class="btn btn-primary" value="Source" tooltip="To see the source of this email" icon="source">
+                <onclick eval="true">"saltos.core.open_window('#app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply" tooltip="To reply this email" icon="reply">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
@@ -223,6 +226,16 @@
             ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver adjunto"],
             ["app" => "emails", "action" => "view", "value" => "Download", "icon" => "download", "tooltip" => "Descargar adjunto"],
         ]</actions>
+    </view>
+
+    <view id="source">
+        <screen>clear</screen>
+        <title>Source of the email</title>
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
+            <iframe id="source" height="200px" class="border-0">
+                <srcdoc require="apps/emails/php/getmail.php" eval="true">get_email_source(intval(get_data("rest/4")))</srcdoc>
+            </iframe>
+        </layout>
     </view>
 
     <!-- TODO -->
