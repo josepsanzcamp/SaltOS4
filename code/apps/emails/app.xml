@@ -193,7 +193,7 @@
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply all" tooltip="To reply all this email" icon="reply-all">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
-                <disabled ifeval="get_email_is_outbox(intval(get_data('rest/3'))) || get_email_count_address(intval(get_data('rest/3')))&lt;2">disabled</disabled>
+                <disabled ifeval="get_email_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Forward" tooltip="To forward this email" icon="forward">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
