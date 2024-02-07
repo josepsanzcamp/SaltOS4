@@ -28,46 +28,54 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Send email library
  *
- * TODO
+ * This library provides the necesary functions to send emails.
  */
 
 /**
- * TODO
+ * Used libraries
  *
- * TODO
+ * This use loads the external libraries needed to run this library.
  */
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
 /**
- * TODO
+ * Sendmail
  *
- * TODO
+ * This function send an email in synchronous and/or asynchronous mode
+ *
+ * $account_id => the account id used to detect the source of the email
+ * $to         => can be an string with the destination email or an array with
+ *                the follow prefixes => to:, cc:, bcc:, crt:, priority:,
+ *                sensitivity:, replyto
+ * $subject    => the subject string
+ * $body       => the body string
+ * $files      => an array with files
  */
-function sendmail($id_cuenta, $to, $subject, $body, $files = "")
+function sendmail($account_id, $to, $subject, $body, $files = "")
 {
     require_once "lib/phpmailer/vendor/autoload.php";
     require_once "php/getmail.php";
-    // CHECK FOR SPECIAL ID_CUENTA CASE
-    if (is_array($id_cuenta)) {
-        if (count($id_cuenta) != 2) {
-            return "id_cuenta error1";
+    // Check for special account_id case
+    if (is_array($account_id)) {
+        if (count($account_id) != 2) {
+            return "account_id error1";
         }
-        list($id_cuenta0,$id_cuenta1) = array_values($id_cuenta);
-        if (is_numeric($id_cuenta1) && is_string($id_cuenta0)) {
-            list($id_cuenta0,$id_cuenta1) = [$id_cuenta1, $id_cuenta0];
+        list($account_id0,$account_id1) = array_values($account_id);
+        if (is_numeric($account_id1) && is_string($account_id0)) {
+            list($account_id0,$account_id1) = [$account_id1, $account_id0];
         }
-        if (!is_numeric($id_cuenta0) || !is_string($id_cuenta1)) {
-            return "id_cuenta error2";
+        if (!is_numeric($account_id0) || !is_string($account_id1)) {
+            return "account_id error2";
         }
     }
     // FIND ACCOUNT DATA
-    if (isset($id_cuenta0)) {
-        $id_cuenta = $id_cuenta0;
+    if (isset($account_id0)) {
+        $account_id = $account_id0;
     }
-    $query = "SELECT * FROM tbl_usuarios_c WHERE id='$id_cuenta'";
+    $query = "SELECT * FROM tbl_usuarios_c WHERE id='$account_id'";
     $result = execute_query($query);
     if (!isset($result["id"])) {
         return "id not found";
@@ -98,8 +106,8 @@ function sendmail($id_cuenta, $to, $subject, $body, $files = "")
     if (!$mail->set("CharSet", "UTF-8")) {
         return $mail->ErrorInfo;
     }
-    if (isset($id_cuenta1)) {
-        $fromname = $id_cuenta1;
+    if (isset($account_id1)) {
+        $fromname = $account_id1;
     }
     if (!$mail->SetFrom($from, $fromname)) {
         return $mail->ErrorInfo;
@@ -218,49 +226,49 @@ function sendmail($id_cuenta, $to, $subject, $body, $files = "")
             if ($type == $valids[0]) {
                 if (!$mail->AddAddress($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
-                                        return $mail->ErrorInfo;
+                        return $mail->ErrorInfo;
                     }
                 }
             }
             if ($type == $valids[1]) {
                 if (!$mail->AddCC($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
-                                        return $mail->ErrorInfo;
+                        return $mail->ErrorInfo;
                     }
                 }
             }
             if ($type == $valids[2]) {
                 if (!$mail->AddBCC($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
-                                        return $mail->ErrorInfo;
+                        return $mail->ErrorInfo;
                     }
                 }
             }
             if ($type == $valids[3]) {
                 if (!$mail->set("ConfirmReadingTo", $addr)) {
                     if ($mail->ErrorInfo) {
-                                        return $mail->ErrorInfo;
+                        return $mail->ErrorInfo;
                     }
                 }
             }
             if ($type == $valids[4]) {
                 if (!$mail->set("Priority", $addr)) {
                     if ($mail->ErrorInfo) {
-                                        return $mail->ErrorInfo;
+                        return $mail->ErrorInfo;
                     }
                 }
             }
             if ($type == $valids[5]) {
                 if (!$mail->AddCustomHeader("Sensitivity", $addr)) {
                     if ($mail->ErrorInfo) {
-                                        return $mail->ErrorInfo;
+                        return $mail->ErrorInfo;
                     }
                 }
             }
             if ($type == $valids[6]) {
                 if (!$mail->AddReplyTo($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
-                                        return $mail->ErrorInfo;
+                        return $mail->ErrorInfo;
                     }
                 }
             }
@@ -280,7 +288,7 @@ function sendmail($id_cuenta, $to, $subject, $body, $files = "")
     if (!semaphore_acquire(__FUNCTION__)) {
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
-    $messageid = __sendmail_messageid($id_cuenta, $mail->From);
+    $messageid = __sendmail_messageid($account_id, $mail->From);
     $file1 = __sendmail_emlsaver($mail->GetSentMIMEMessage(), $messageid);
     $file2 = __sendmail_objsaver($mail, $messageid);
     $last_id = __getmail_insert($file1, $messageid, 0, 0, 0, 0, 0, 1, 1, "");
@@ -323,9 +331,13 @@ function sendmail($id_cuenta, $to, $subject, $body, $files = "")
 }
 
 /**
- * TODO
+ * Parser
  *
- * TODO
+ * This function gets an address and tries to detect the name part and the addr
+ * part of the argument. It's returns an array with two elements, the first is
+ * for the addr and the second is for the name.
+ *
+ * @oldaddr => the string that must to be processed
  */
 function __sendmail_parser($oldaddr)
 {
@@ -342,14 +354,19 @@ function __sendmail_parser($oldaddr)
 }
 
 /**
- * TODO
+ * Message Id
  *
- * TODO
+ * This function returns the message id for a new email, to do it, tries
+ * to detect the outbox directory, compute an aproximation to the newest
+ * value and checks that is unique in the system to prevent concurrence.
+ *
+ * @account_id => the account id used to send the new email
+ * @from       => the from used to compute the crc32
  */
-function __sendmail_messageid($id_cuenta, $from)
+function __sendmail_messageid($account_id, $from)
 {
     require_once "php/getmail.php";
-    $prefix = get_directory("dirs/outboxdir") . $id_cuenta;
+    $prefix = get_directory("dirs/outboxdir") . $account_id;
     if (!file_exists($prefix)) {
         mkdir($prefix);
         chmod($prefix, 0777);
@@ -368,13 +385,16 @@ function __sendmail_messageid($id_cuenta, $from)
         }
         $count++;
     }
-    return $id_cuenta . "/" . $uidl1 . $uidl2;
+    return $account_id . "/" . $uidl1 . $uidl2;
 }
 
 /**
- * TODO
+ * Eml saver
  *
- * TODO
+ * This function is intended to save the RFC822 message into the eml gzfile
+ *
+ * @message   => the contents in RFC822 format of the message
+ * @messageid => the message id computed previously
  */
 function __sendmail_emlsaver($message, $messageid)
 {
@@ -389,9 +409,12 @@ function __sendmail_emlsaver($message, $messageid)
 }
 
 /**
- * TODO
+ * Obj saver
  *
- * TODO
+ * This function is intended to save the PHPMailer object into the obj file
+ *
+ * @mail      => the PHPMailer object of the asynchronous transaction
+ * @messageid => the message id computed previously
  */
 function __sendmail_objsaver($mail, $messageid)
 {

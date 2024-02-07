@@ -8714,67 +8714,98 @@ function get_email_receive()
 This function implements the old getmail action of the old saltos.
 
 \hypertarget{toc560}{}
-\section{TODO}
+\section{Send email library}
 
 \begin{lstlisting}
 apps/emails/php/sendmail.php
 \end{lstlisting}
 
-TODO
+This library provides the necesary functions to send emails.
 
 \hypertarget{toc561}{}
-\subsection{TODO}
+\subsection{Used libraries}
 
 \begin{lstlisting}
 use PHPMailer\PHPMailer\PHPMailer;
 \end{lstlisting}
 
-TODO
+This use loads the external libraries needed to run this library.
 
 \hypertarget{toc562}{}
-\subsection{TODO}
+\subsection{Sendmail}
 
 \begin{lstlisting}
-function sendmail($id_cuenta, $to, $subject, $body, $files = "")
+function sendmail($account_id, $to, $subject, $body, $files = "")
 \end{lstlisting}
 
-TODO
+This function send an email in synchronous and/or asynchronous mode
+
+\$account\_id =$>$ the account id used to detect the source of the email
+\$to         =$>$ can be an string with the destination email or an array with
+               the follow prefixes =$>$ to:, cc:, bcc:, crt:, priority:,
+               sensitivity:, replyto
+\$subject    =$>$ the subject string
+\$body       =$>$ the body string
+\$files      =$>$ an array with files
 
 \hypertarget{toc563}{}
-\subsection{TODO}
+\subsection{Parser}
 
 \begin{lstlisting}
 function __sendmail_parser($oldaddr)
 \end{lstlisting}
 
-TODO
+This function gets an address and tries to detect the name part and the addr
+part of the argument. It's returns an array with two elements, the first is
+for the addr and the second is for the name.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @oldaddr =$>$ the string that must to be processed
+\end{compactitem}
 
 \hypertarget{toc564}{}
-\subsection{TODO}
+\subsection{Message Id}
 
 \begin{lstlisting}
-function __sendmail_messageid($id_cuenta, $from)
+function __sendmail_messageid($account_id, $from)
 \end{lstlisting}
 
-TODO
+This function returns the message id for a new email, to do it, tries
+to detect the outbox directory, compute an aproximation to the newest
+value and checks that is unique in the system to prevent concurrence.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @account\_id =$>$ the account id used to send the new email
+\item[\color{myblue}$\bullet$] @from       =$>$ the from used to compute the crc32
+\end{compactitem}
 
 \hypertarget{toc565}{}
-\subsection{TODO}
+\subsection{Eml saver}
 
 \begin{lstlisting}
 function __sendmail_emlsaver($message, $messageid)
 \end{lstlisting}
 
-TODO
+This function is intended to save the RFC822 message into the eml gzfile
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @message   =$>$ the contents in RFC822 format of the message
+\item[\color{myblue}$\bullet$] @messageid =$>$ the message id computed previously
+\end{compactitem}
 
 \hypertarget{toc566}{}
-\subsection{TODO}
+\subsection{Obj saver}
 
 \begin{lstlisting}
 function __sendmail_objsaver($mail, $messageid)
 \end{lstlisting}
 
-TODO
+This function is intended to save the PHPMailer object into the obj file
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @mail      =$>$ the PHPMailer object of the asynchronous transaction
+\item[\color{myblue}$\bullet$] @messageid =$>$ the message id computed previously
+\end{compactitem}
 
 
 \hypertarget{toc567}{}

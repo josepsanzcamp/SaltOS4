@@ -1277,19 +1277,19 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       </ul>
     </li>
-    <li><a href="#toc560">7.3. TODO</a>
+    <li><a href="#toc560">7.3. Send email library</a>
       <ul>
-      <li><a href="#toc561">7.3.1. TODO</a>
+      <li><a href="#toc561">7.3.1. Used libraries</a>
       </li>
-      <li><a href="#toc562">7.3.2. TODO</a>
+      <li><a href="#toc562">7.3.2. Sendmail</a>
       </li>
-      <li><a href="#toc563">7.3.3. TODO</a>
+      <li><a href="#toc563">7.3.3. Parser</a>
       </li>
-      <li><a href="#toc564">7.3.4. TODO</a>
+      <li><a href="#toc564">7.3.4. Message Id</a>
       </li>
-      <li><a href="#toc565">7.3.5. TODO</a>
+      <li><a href="#toc565">7.3.5. Eml saver</a>
       </li>
-      <li><a href="#toc566">7.3.6. TODO</a>
+      <li><a href="#toc566">7.3.6. Obj saver</a>
       </li>
       </ul>
     </li>
@@ -13223,86 +13223,125 @@ This function implements the old getmail action of the old saltos.
 </section>
 </section>
 <section id="toc560">
-<h2>7.3. TODO</h2>
+<h2>7.3. Send email library</h2>
 
 <pre>
 apps/emails/php/sendmail.php
 </pre>
 
 <p>
-TODO
+This library provides the necesary functions to send emails.
 </p>
 
 <section id="toc561">
-<h3>7.3.1. TODO</h3>
+<h3>7.3.1. Used libraries</h3>
 
 <pre>
 use PHPMailer\PHPMailer\PHPMailer;
 </pre>
 
 <p>
-TODO
+This use loads the external libraries needed to run this library.
 </p>
 
 </section>
 <section id="toc562">
-<h3>7.3.2. TODO</h3>
+<h3>7.3.2. Sendmail</h3>
 
 <pre>
-function sendmail($id_cuenta, $to, $subject, $body, $files = "")
+function sendmail($account_id, $to, $subject, $body, $files = "")
 </pre>
 
 <p>
-TODO
+This function send an email in synchronous and/or asynchronous mode
+</p>
+<p>
+$account_id =&gt; the account id used to detect the source of the email
+$to         =&gt; can be an string with the destination email or an array with
+               the follow prefixes =&gt; to:, cc:, bcc:, crt:, priority:,
+               sensitivity:, replyto
+$subject    =&gt; the subject string
+$body       =&gt; the body string
+$files      =&gt; an array with files
 </p>
 
 </section>
 <section id="toc563">
-<h3>7.3.3. TODO</h3>
+<h3>7.3.3. Parser</h3>
 
 <pre>
 function __sendmail_parser($oldaddr)
 </pre>
 
 <p>
-TODO
+This function gets an address and tries to detect the name part and the addr
+part of the argument. It's returns an array with two elements, the first is
+for the addr and the second is for the name.
 </p>
+
+<ul>
+<li>@oldaddr =&gt; the string that must to be processed
+</li>
+</ul>
 
 </section>
 <section id="toc564">
-<h3>7.3.4. TODO</h3>
+<h3>7.3.4. Message Id</h3>
 
 <pre>
-function __sendmail_messageid($id_cuenta, $from)
+function __sendmail_messageid($account_id, $from)
 </pre>
 
 <p>
-TODO
+This function returns the message id for a new email, to do it, tries
+to detect the outbox directory, compute an aproximation to the newest
+value and checks that is unique in the system to prevent concurrence.
 </p>
+
+<ul>
+<li>@account_id =&gt; the account id used to send the new email
+</li>
+<li>@from       =&gt; the from used to compute the crc32
+</li>
+</ul>
 
 </section>
 <section id="toc565">
-<h3>7.3.5. TODO</h3>
+<h3>7.3.5. Eml saver</h3>
 
 <pre>
 function __sendmail_emlsaver($message, $messageid)
 </pre>
 
 <p>
-TODO
+This function is intended to save the RFC822 message into the eml gzfile
 </p>
+
+<ul>
+<li>@message   =&gt; the contents in RFC822 format of the message
+</li>
+<li>@messageid =&gt; the message id computed previously
+</li>
+</ul>
 
 </section>
 <section id="toc566">
-<h3>7.3.6. TODO</h3>
+<h3>7.3.6. Obj saver</h3>
 
 <pre>
 function __sendmail_objsaver($mail, $messageid)
 </pre>
 
 <p>
-TODO
+This function is intended to save the PHPMailer object into the obj file
 </p>
+
+<ul>
+<li>@mail      =&gt; the PHPMailer object of the asynchronous transaction
+</li>
+<li>@messageid =&gt; the message id computed previously
+</li>
+</ul>
 
 </section>
 </section>
