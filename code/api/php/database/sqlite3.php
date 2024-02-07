@@ -27,6 +27,10 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+
 /**
  * SQLite3 driver
  *
@@ -35,10 +39,6 @@ declare(strict_types=1);
  * POSIX semaphores, generally it is a good option for setups that don't require a fulltext
  * search optimizations suck as mroonga, intended for a personal usage or demos.
  */
-
-// phpcs:disable PSR1.Classes.ClassDeclaration
-// phpcs:disable Squiz.Classes.ValidClassName
-// phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
  * Database SQLite3 class

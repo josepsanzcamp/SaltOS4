@@ -22,6 +22,17 @@ foreach ($argv as $path) {
     sort($temp);
     $files = array_merge($files, $temp);
 }
+// Trick to sort only the code/apps/*
+$temp = [];
+foreach ($files as $key => $val) {
+    if (substr($val, 0, 10) == "code/apps/") {
+        $temp[] = $val;
+        unset($files[$key]);
+    }
+}
+sort($temp);
+$files = array_merge($files, $temp);
+// Continue
 $files = array_flip($files);
 //~ $files = ["core/php/autoload/import.php" => ""];
 //~ print_r($files);
@@ -99,11 +110,19 @@ echo "\n";
 echo "\n";
 $path = "";
 foreach ($files as $file => $contents) {
-    $path2 = dirname($file);
+    $path2 = basename(dirname($file));
+    if ($path2 == "php") {
+        $path2 = basename(dirname(dirname($file)));
+    }
+    if ($path2 == "action") {
+        $path2 = "actions";
+    }
+    if ($path2 == "js") {
+        $path2 = "javascript";
+    }
+    $path2 = ucwords($path2);
     if ($path != $path2) {
-        $path3 = ucwords(basename($path2));
-        $path3 = str_replace(["Action", "Js"], ["Actions", "JavaScript"], $path3);
-        echo "+$path3+\n";
+        echo "+$path2+\n";
         echo "\n";
         $path = $path2;
     }

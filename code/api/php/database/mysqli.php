@@ -27,6 +27,10 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+
 /**
  * MySQL improved driver
  *
@@ -34,10 +38,6 @@ declare(strict_types=1);
  * mysql driver and contains lots of improvements respect to the old mysql driver. The old mysql
  * driver was removed in the PHP 7.0 release.
  */
-
-// phpcs:disable PSR1.Classes.ClassDeclaration
-// phpcs:disable Squiz.Classes.ValidClassName
-// phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
  * Database MySQL improved class

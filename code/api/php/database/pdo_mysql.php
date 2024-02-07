@@ -27,6 +27,10 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+
 /**
  * PDO MySQL driver
  *
@@ -34,10 +38,6 @@ declare(strict_types=1);
  * to use MySQL servers, it uses the PDO extension and alow to connect to MySQL servers with a
  * good performance.
  */
-
-// phpcs:disable PSR1.Classes.ClassDeclaration
-// phpcs:disable Squiz.Classes.ValidClassName
-// phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
  * Database PDO MySQL class

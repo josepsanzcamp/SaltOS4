@@ -25,8 +25,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Code documentation</h1>
-<h2>SaltOS 4.0 r568</h2>
-<h3>January 2024</h3>
+<h2>SaltOS 4.0 r620</h2>
+<h3>February 2024</h3>
 </hgroup>
 </header>
 <article>
@@ -105,23 +105,23 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       </ul>
     </li>
-    <li><a href="#toc34">2.2. Array to XML helper module</a>
+    <li><a href="#toc34">2.2. Array helper module</a>
       <ul>
-      <li><a href="#toc35">2.2.1. Check Node Name</a>
+      <li><a href="#toc35">2.2.1. Null to array converter</a>
       </li>
-      <li><a href="#toc36">2.2.2. Check Attr Name</a>
-      </li>
-      <li><a href="#toc37">2.2.3. Write Nodes array2xml helper</a>
-      </li>
-      <li><a href="#toc38">2.2.4. Array to XML</a>
+      <li><a href="#toc36">2.2.2. Join for array</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc39">2.3. Array helper module</a>
+    <li><a href="#toc37">2.3. Array to XML helper module</a>
       <ul>
-      <li><a href="#toc40">2.3.1. Null to array converter</a>
+      <li><a href="#toc38">2.3.1. Check Node Name</a>
       </li>
-      <li><a href="#toc41">2.3.2. Join for array</a>
+      <li><a href="#toc39">2.3.2. Check Attr Name</a>
+      </li>
+      <li><a href="#toc40">2.3.3. Write Nodes array2xml helper</a>
+      </li>
+      <li><a href="#toc41">2.3.4. Array to XML</a>
       </li>
       </ul>
     </li>
@@ -367,875 +367,985 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       </ul>
     </li>
-    <li><a href="#toc147">2.20. Import file helper module</a>
+    <li><a href="#toc147">2.20. Html helper module</a>
       <ul>
-      <li><a href="#toc148">2.20.1. Import File main function</a>
+      <li><a href="#toc148">2.20.1. Remove Script Tag</a>
       </li>
-      <li><a href="#toc149">2.20.2. UTF8 BOM helper</a>
+      <li><a href="#toc149">2.20.2. Remove Style Tag</a>
       </li>
-      <li><a href="#toc150">2.20.3. XML to Array</a>
-      </li>
-      <li><a href="#toc151">2.20.4. Struct to Array helper</a>
-      </li>
-      <li><a href="#toc152">2.20.5. Get Node helper</a>
-      </li>
-      <li><a href="#toc153">2.20.6. Get Value helper</a>
-      </li>
-      <li><a href="#toc154">2.20.7. Get Attr helper</a>
-      </li>
-      <li><a href="#toc155">2.20.8. Set Node helper</a>
-      </li>
-      <li><a href="#toc156">2.20.9. Del Node helper</a>
-      </li>
-      <li><a href="#toc157">2.20.10. Add Node helper</a>
-      </li>
-      <li><a href="#toc158">2.20.11. Special Chars helper</a>
-      </li>
-      <li><a href="#toc159">2.20.12. CSV to Array helper</a>
-      </li>
-      <li><a href="#toc160">2.20.13. XLS to Array helper</a>
-      </li>
-      <li><a href="#toc161">2.20.14. Bytes to Array helper</a>
-      </li>
-      <li><a href="#toc162">2.20.15. Edit to Array helper</a>
-      </li>
-      <li><a href="#toc163">2.20.16. JSON to Array helper</a>
-      </li>
-      <li><a href="#toc164">2.20.17. Check Real Matrix helper</a>
-      </li>
-      <li><a href="#toc165">2.20.18. Remove Void helper</a>
-      </li>
-      <li><a href="#toc166">2.20.19. Array to Tree helper</a>
-      </li>
-      <li><a href="#toc167">2.20.20. Array Intersect</a>
-      </li>
-      <li><a href="#toc168">2.20.21. Array to Tree Set helper</a>
-      </li>
-      <li><a href="#toc169">2.20.22. Array to Tree Clean helper</a>
-      </li>
-      <li><a href="#toc170">2.20.23. Tree to Array</a>
-      </li>
-      <li><a href="#toc171">2.20.24. Column to Name helper</a>
-      </li>
-      <li><a href="#toc172">2.20.25. Name to Column helper</a>
-      </li>
-      <li><a href="#toc173">2.20.26. Is Name helper</a>
-      </li>
-      <li><a href="#toc174">2.20.27. Cell to Column and Row helper</a>
-      </li>
-      <li><a href="#toc175">2.20.28. Get Keys</a>
-      </li>
-      <li><a href="#toc176">2.20.29. Filter helper</a>
-      </li>
-      <li><a href="#toc177">2.20.30. Filter Recursive helper</a>
-      </li>
-      <li><a href="#toc178">2.20.31. Apply Patch</a>
-      </li>
-      <li><a href="#toc179">2.20.32. Apply Patch Recursive helper</a>
-      </li>
-      <li><a href="#toc180">2.20.33. Make Table ASCII</a>
+      <li><a href="#toc150">2.20.3. TODO</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc181">2.21. Make index helper module</a>
+    <li><a href="#toc151">2.21. Import file helper module</a>
       <ul>
-      <li><a href="#toc182">2.21.1. Make Index main function</a>
+      <li><a href="#toc152">2.21.1. Import File main function</a>
       </li>
-      <li><a href="#toc183">2.21.2. Make Index helper</a>
+      <li><a href="#toc153">2.21.2. UTF8 BOM helper</a>
+      </li>
+      <li><a href="#toc154">2.21.3. XML to Array</a>
+      </li>
+      <li><a href="#toc155">2.21.4. Struct to Array helper</a>
+      </li>
+      <li><a href="#toc156">2.21.5. Get Node helper</a>
+      </li>
+      <li><a href="#toc157">2.21.6. Get Value helper</a>
+      </li>
+      <li><a href="#toc158">2.21.7. Get Attr helper</a>
+      </li>
+      <li><a href="#toc159">2.21.8. Set Node helper</a>
+      </li>
+      <li><a href="#toc160">2.21.9. Del Node helper</a>
+      </li>
+      <li><a href="#toc161">2.21.10. Add Node helper</a>
+      </li>
+      <li><a href="#toc162">2.21.11. Special Chars helper</a>
+      </li>
+      <li><a href="#toc163">2.21.12. CSV to Array helper</a>
+      </li>
+      <li><a href="#toc164">2.21.13. XLS to Array helper</a>
+      </li>
+      <li><a href="#toc165">2.21.14. Bytes to Array helper</a>
+      </li>
+      <li><a href="#toc166">2.21.15. Edit to Array helper</a>
+      </li>
+      <li><a href="#toc167">2.21.16. JSON to Array helper</a>
+      </li>
+      <li><a href="#toc168">2.21.17. Check Real Matrix helper</a>
+      </li>
+      <li><a href="#toc169">2.21.18. Remove Void helper</a>
+      </li>
+      <li><a href="#toc170">2.21.19. Array to Tree helper</a>
+      </li>
+      <li><a href="#toc171">2.21.20. Array Intersect</a>
+      </li>
+      <li><a href="#toc172">2.21.21. Array to Tree Set helper</a>
+      </li>
+      <li><a href="#toc173">2.21.22. Array to Tree Clean helper</a>
+      </li>
+      <li><a href="#toc174">2.21.23. Tree to Array</a>
+      </li>
+      <li><a href="#toc175">2.21.24. Column to Name helper</a>
+      </li>
+      <li><a href="#toc176">2.21.25. Name to Column helper</a>
+      </li>
+      <li><a href="#toc177">2.21.26. Is Name helper</a>
+      </li>
+      <li><a href="#toc178">2.21.27. Cell to Column and Row helper</a>
+      </li>
+      <li><a href="#toc179">2.21.28. Get Keys</a>
+      </li>
+      <li><a href="#toc180">2.21.29. Filter helper</a>
+      </li>
+      <li><a href="#toc181">2.21.30. Filter Recursive helper</a>
+      </li>
+      <li><a href="#toc182">2.21.31. Apply Patch</a>
+      </li>
+      <li><a href="#toc183">2.21.32. Apply Patch Recursive helper</a>
+      </li>
+      <li><a href="#toc184">2.21.33. Make Table ASCII</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc184">2.22. Iniset helper module</a>
+    <li><a href="#toc185">2.22. Make index helper module</a>
       <ul>
-      <li><a href="#toc185">2.22.1. Eval Iniset</a>
+      <li><a href="#toc186">2.22.1. Make Index main function</a>
       </li>
-      <li><a href="#toc186">2.22.2. Eval Putenv</a>
-      </li>
-      <li><a href="#toc187">2.22.3. Eval Extras</a>
+      <li><a href="#toc187">2.22.2. Make Index helper</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc188">2.23. Log helper module</a>
+    <li><a href="#toc188">2.23. Iniset helper module</a>
       <ul>
-      <li><a href="#toc189">2.23.1. Check Log</a>
+      <li><a href="#toc189">2.23.1. Eval Iniset</a>
       </li>
-      <li><a href="#toc190">2.23.2. Add Log</a>
+      <li><a href="#toc190">2.23.2. Eval Putenv</a>
       </li>
-      <li><a href="#toc191">2.23.3. Add Trace</a>
-      </li>
-      <li><a href="#toc192">2.23.4. Get Trace</a>
-      </li>
-      <li><a href="#toc193">2.23.5. Session Backtrace</a>
+      <li><a href="#toc191">2.23.3. Eval Extras</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc194">2.24. Memory helper module</a>
+    <li><a href="#toc192">2.24. Log helper module</a>
       <ul>
-      <li><a href="#toc195">2.24.1. Memory Get Free</a>
+      <li><a href="#toc193">2.24.1. Check Log</a>
       </li>
-      <li><a href="#toc196">2.24.2. Get Time Usage</a>
+      <li><a href="#toc194">2.24.2. Add Log</a>
       </li>
-      <li><a href="#toc197">2.24.3. Get Free Time</a>
+      <li><a href="#toc195">2.24.3. Add Trace</a>
       </li>
-      <li><a href="#toc198">2.24.4. Init Time Get</a>
+      <li><a href="#toc196">2.24.4. Get Trace</a>
       </li>
-      <li><a href="#toc199">2.24.5. Get Time helper</a>
-      </li>
-      <li><a href="#toc200">2.24.6. Set Max Memory Limit</a>
-      </li>
-      <li><a href="#toc201">2.24.7. Set Max Execution Time</a>
+      <li><a href="#toc197">2.24.5. Session Backtrace</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc202">2.25. Output helper module</a>
+    <li><a href="#toc198">2.25. Math utils helper module</a>
       <ul>
-      <li><a href="#toc203">2.25.1. Output Handler</a>
-      </li>
-      <li><a href="#toc204">2.25.2. Output Handler JSON</a>
+      <li><a href="#toc199">2.25.1. Sign function</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc205">2.26. Password helper module</a>
+    <li><a href="#toc200">2.26. Memory helper module</a>
       <ul>
-      <li><a href="#toc206">2.26.1. Password Strength</a>
+      <li><a href="#toc201">2.26.1. Memory Get Free</a>
+      </li>
+      <li><a href="#toc202">2.26.2. Get Time Usage</a>
+      </li>
+      <li><a href="#toc203">2.26.3. Get Free Time</a>
+      </li>
+      <li><a href="#toc204">2.26.4. Init Time Get</a>
+      </li>
+      <li><a href="#toc205">2.26.5. Get Time helper</a>
+      </li>
+      <li><a href="#toc206">2.26.6. Set Max Memory Limit</a>
+      </li>
+      <li><a href="#toc207">2.26.7. Set Max Execution Time</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc207">2.27. Permissions helper module</a>
+    <li><a href="#toc208">2.27. Mime helper module</a>
       <ul>
-      <li><a href="#toc208">2.27.1. Check User</a>
+      <li><a href="#toc209">2.27.1. SaltOS Content Type</a>
       </li>
-      <li><a href="#toc209">2.27.2. Check SQL</a>
+      <li><a href="#toc210">2.27.2. SaltOS Content Type first helper</a>
       </li>
-      <li><a href="#toc210">2.27.3. Perms helper function</a>
-      </li>
-      <li><a href="#toc211">2.27.4. Id to Perm</a>
-      </li>
-      <li><a href="#toc212">2.27.5. Perm to Id</a>
-      </li>
-      <li><a href="#toc213">2.27.6. Perm Exists</a>
+      <li><a href="#toc211">2.27.3. SaltOS Content Type second helper</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc214">2.28. QRCode helper module</a>
+    <li><a href="#toc212">2.28. Output helper module</a>
       <ul>
-      <li><a href="#toc215">2.28.1. QRCode function</a>
+      <li><a href="#toc213">2.28.1. Output Handler</a>
+      </li>
+      <li><a href="#toc214">2.28.2. Output Handler JSON</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc216">2.29. Random helper module</a>
+    <li><a href="#toc215">2.29. Password helper module</a>
       <ul>
-      <li><a href="#toc217">2.29.1. Init Random</a>
+      <li><a href="#toc216">2.29.1. Password Strength</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc218">2.30. Score image helper module</a>
+    <li><a href="#toc217">2.30. Permissions helper module</a>
       <ul>
-      <li><a href="#toc219">2.30.1. Score Image function</a>
+      <li><a href="#toc218">2.30.1. Check User</a>
+      </li>
+      <li><a href="#toc219">2.30.2. Check SQL</a>
+      </li>
+      <li><a href="#toc220">2.30.3. Perms helper function</a>
+      </li>
+      <li><a href="#toc221">2.30.4. Id to Perm</a>
+      </li>
+      <li><a href="#toc222">2.30.5. Perm to Id</a>
+      </li>
+      <li><a href="#toc223">2.30.6. Perm Exists</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc220">2.31. Semaphore helper module</a>
+    <li><a href="#toc224">2.31. QRCode helper module</a>
       <ul>
-      <li><a href="#toc221">2.31.1. Semaphore Acquire</a>
-      </li>
-      <li><a href="#toc222">2.31.2. Semaphore Release</a>
-      </li>
-      <li><a href="#toc223">2.31.3. Semaphore Shutdown</a>
-      </li>
-      <li><a href="#toc224">2.31.4. Semaphore File</a>
-      </li>
-      <li><a href="#toc225">2.31.5. Semaphore helper</a>
-      </li>
-      <li><a href="#toc226">2.31.6. Semaphore USleep helper</a>
+      <li><a href="#toc225">2.31.1. QRCode function</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc227">2.32. Server helper module</a>
+    <li><a href="#toc226">2.32. Random helper module</a>
       <ul>
-      <li><a href="#toc228">2.32.1. Get Server</a>
-      </li>
-      <li><a href="#toc229">2.32.2. Set Server</a>
+      <li><a href="#toc227">2.32.1. Init Random</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc230">2.33. SQL utils helper module</a>
+    <li><a href="#toc228">2.33. Score image helper module</a>
       <ul>
-      <li><a href="#toc231">2.33.1. Parse Query</a>
-      </li>
-      <li><a href="#toc232">2.33.2. Parse Query Type helper</a>
-      </li>
-      <li><a href="#toc233">2.33.3. Parse Query Strpos helper</a>
-      </li>
-      <li><a href="#toc234">2.33.4. Execute Query</a>
-      </li>
-      <li><a href="#toc235">2.33.5. Execute Query Array</a>
-      </li>
-      <li><a href="#toc236">2.33.6. Get Fields</a>
-      </li>
-      <li><a href="#toc237">2.33.7. Get Indexes</a>
-      </li>
-      <li><a href="#toc238">2.33.8. Get Tables</a>
-      </li>
-      <li><a href="#toc239">2.33.9. Get Field Type</a>
-      </li>
-      <li><a href="#toc240">2.33.10. Get Field Size</a>
-      </li>
-      <li><a href="#toc241">2.33.11. SQL Create Table</a>
-      </li>
-      <li><a href="#toc242">2.33.12. Has Engine</a>
-      </li>
-      <li><a href="#toc243">2.33.13. SQL Alter Table</a>
-      </li>
-      <li><a href="#toc244">2.33.14. SQL Insert From Select</a>
-      </li>
-      <li><a href="#toc245">2.33.15. SQL Drop Table</a>
-      </li>
-      <li><a href="#toc246">2.33.16. SQL Create Index</a>
-      </li>
-      <li><a href="#toc247">2.33.17. SQL Drop Index</a>
-      </li>
-      <li><a href="#toc248">2.33.18. Make Insert Query</a>
-      </li>
-      <li><a href="#toc249">2.33.19. Make Update Query</a>
-      </li>
-      <li><a href="#toc250">2.33.20. Make Where Query</a>
-      </li>
-      <li><a href="#toc251">2.33.21. Escape Reserved Word</a>
-      </li>
-      <li><a href="#toc252">2.33.22. Make Like Query</a>
-      </li>
-      <li><a href="#toc253">2.33.23. Make Fulltext Query Helper</a>
-      </li>
-      <li><a href="#toc254">2.33.24. Make Fulltext Query</a>
+      <li><a href="#toc229">2.33.1. Score Image function</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc255">2.34. String utils helper module</a>
+    <li><a href="#toc230">2.34. Semaphore helper module</a>
       <ul>
-      <li><a href="#toc256">2.34.1. Remove Bar Chars</a>
+      <li><a href="#toc231">2.34.1. Semaphore Acquire</a>
       </li>
-      <li><a href="#toc257">2.34.2. Encode Bar Chars</a>
+      <li><a href="#toc232">2.34.2. Semaphore Release</a>
       </li>
-      <li><a href="#toc258">2.34.3. Prepare Words</a>
+      <li><a href="#toc233">2.34.3. Semaphore Shutdown</a>
       </li>
-      <li><a href="#toc259">2.34.4. Sprintr</a>
+      <li><a href="#toc234">2.34.4. Semaphore File</a>
       </li>
-      <li><a href="#toc260">2.34.5. Get Unique ID MD5</a>
+      <li><a href="#toc235">2.34.5. Semaphore helper</a>
       </li>
-      <li><a href="#toc261">2.34.6. Intelligence Cut</a>
-      </li>
-      <li><a href="#toc262">2.34.7. Normalize Value</a>
-      </li>
-      <li><a href="#toc263">2.34.8. HTML to Text</a>
-      </li>
-      <li><a href="#toc264">2.34.9. Get UTF-8</a>
-      </li>
-      <li><a href="#toc265">2.34.10. Words Exists</a>
-      </li>
-      <li><a href="#toc266">2.34.11. String Replace Assoc</a>
-      </li>
-      <li><a href="#toc267">2.34.12. Get Part From String</a>
-      </li>
-      <li><a href="#toc268">2.34.13. Get Unique Token</a>
+      <li><a href="#toc236">2.34.6. Semaphore USleep helper</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc269">2.35. System helper module</a>
+    <li><a href="#toc237">2.35. Server helper module</a>
       <ul>
-      <li><a href="#toc270">2.35.1. Check System</a>
+      <li><a href="#toc238">2.35.1. Get Server</a>
+      </li>
+      <li><a href="#toc239">2.35.2. Set Server</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc271">2.36. User helper module</a>
+    <li><a href="#toc240">2.36. SQL utils helper module</a>
       <ul>
-      <li><a href="#toc272">2.36.1. Current Token</a>
+      <li><a href="#toc241">2.36.1. Parse Query</a>
       </li>
-      <li><a href="#toc273">2.36.2. Current User</a>
+      <li><a href="#toc242">2.36.2. Parse Query Type helper</a>
       </li>
-      <li><a href="#toc274">2.36.3. Current Group</a>
+      <li><a href="#toc243">2.36.3. Parse Query Strpos helper</a>
       </li>
-      <li><a href="#toc275">2.36.4. Current Groups</a>
+      <li><a href="#toc244">2.36.4. Execute Query</a>
       </li>
-      <li><a href="#toc276">2.36.5. Crontab Users</a>
+      <li><a href="#toc245">2.36.5. Execute Query Array</a>
+      </li>
+      <li><a href="#toc246">2.36.6. Get Fields</a>
+      </li>
+      <li><a href="#toc247">2.36.7. Get Indexes</a>
+      </li>
+      <li><a href="#toc248">2.36.8. Get Tables</a>
+      </li>
+      <li><a href="#toc249">2.36.9. Get Field Type</a>
+      </li>
+      <li><a href="#toc250">2.36.10. Get Field Size</a>
+      </li>
+      <li><a href="#toc251">2.36.11. SQL Create Table</a>
+      </li>
+      <li><a href="#toc252">2.36.12. Has Engine</a>
+      </li>
+      <li><a href="#toc253">2.36.13. SQL Alter Table</a>
+      </li>
+      <li><a href="#toc254">2.36.14. SQL Insert From Select</a>
+      </li>
+      <li><a href="#toc255">2.36.15. SQL Drop Table</a>
+      </li>
+      <li><a href="#toc256">2.36.16. SQL Create Index</a>
+      </li>
+      <li><a href="#toc257">2.36.17. SQL Drop Index</a>
+      </li>
+      <li><a href="#toc258">2.36.18. Make Insert Query</a>
+      </li>
+      <li><a href="#toc259">2.36.19. Make Update Query</a>
+      </li>
+      <li><a href="#toc260">2.36.20. Make Where Query</a>
+      </li>
+      <li><a href="#toc261">2.36.21. Escape Reserved Word</a>
+      </li>
+      <li><a href="#toc262">2.36.22. Make Like Query</a>
+      </li>
+      <li><a href="#toc263">2.36.23. Make Fulltext Query Helper</a>
+      </li>
+      <li><a href="#toc264">2.36.24. Make Fulltext Query</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc277">2.37. Version helper module</a>
+    <li><a href="#toc265">2.37. String utils helper module</a>
       <ul>
-      <li><a href="#toc278">2.37.1. Get Name Version Revision</a>
+      <li><a href="#toc266">2.37.1. Remove Bar Chars</a>
       </li>
-      <li><a href="#toc279">2.37.2. SVN Version</a>
+      <li><a href="#toc267">2.37.2. Encode Bar Chars</a>
       </li>
-      <li><a href="#toc280">2.37.3. GIT Version</a>
+      <li><a href="#toc268">2.37.3. Prepare Words</a>
       </li>
-      <li><a href="#toc281">2.37.4. IS PHP</a>
+      <li><a href="#toc269">2.37.4. Sprintr</a>
+      </li>
+      <li><a href="#toc270">2.37.5. Get Unique ID MD5</a>
+      </li>
+      <li><a href="#toc271">2.37.6. Intelligence Cut</a>
+      </li>
+      <li><a href="#toc272">2.37.7. Normalize Value</a>
+      </li>
+      <li><a href="#toc273">2.37.8. HTML to Text</a>
+      </li>
+      <li><a href="#toc274">2.37.9. Get UTF-8</a>
+      </li>
+      <li><a href="#toc275">2.37.10. Words Exists</a>
+      </li>
+      <li><a href="#toc276">2.37.11. String Replace Assoc</a>
+      </li>
+      <li><a href="#toc277">2.37.12. Get Part From String</a>
+      </li>
+      <li><a href="#toc278">2.37.13. Get Unique Token</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc282">2.38. XML to Array helper module</a>
+    <li><a href="#toc279">2.38. System helper module</a>
       <ul>
-      <li><a href="#toc283">2.38.1. Eval Protected</a>
-      </li>
-      <li><a href="#toc284">2.38.2. Set Array</a>
-      </li>
-      <li><a href="#toc285">2.38.3. Unset Array</a>
-      </li>
-      <li><a href="#toc286">2.38.4. Fix Key</a>
-      </li>
-      <li><a href="#toc287">2.38.5. Detect Recursion</a>
-      </li>
-      <li><a href="#toc288">2.38.6. XML File to Array</a>
-      </li>
-      <li><a href="#toc289">2.38.7. XML to Array</a>
-      </li>
-      <li><a href="#toc290">2.38.8. XML to Struct</a>
-      </li>
-      <li><a href="#toc291">2.38.9. Struct to Array</a>
-      </li>
-      <li><a href="#toc292">2.38.10. Eval Attributes</a>
-      </li>
-      <li><a href="#toc293">2.38.11. Eval Bool</a>
+      <li><a href="#toc280">2.38.1. Check System</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc294">2.39. Main execution module</a>
+    <li><a href="#toc281">2.39. User helper module</a>
+      <ul>
+      <li><a href="#toc282">2.39.1. Current Token</a>
+      </li>
+      <li><a href="#toc283">2.39.2. Current User</a>
+      </li>
+      <li><a href="#toc284">2.39.3. Current Group</a>
+      </li>
+      <li><a href="#toc285">2.39.4. Current Groups</a>
+      </li>
+      <li><a href="#toc286">2.39.5. Crontab Users</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc287">2.40. Version helper module</a>
+      <ul>
+      <li><a href="#toc288">2.40.1. Get Name Version Revision</a>
+      </li>
+      <li><a href="#toc289">2.40.2. SVN Version</a>
+      </li>
+      <li><a href="#toc290">2.40.3. GIT Version</a>
+      </li>
+      <li><a href="#toc291">2.40.4. IS PHP</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc292">2.41. XML to Array helper module</a>
+      <ul>
+      <li><a href="#toc293">2.41.1. Eval Protected</a>
+      </li>
+      <li><a href="#toc294">2.41.2. Set Array</a>
+      </li>
+      <li><a href="#toc295">2.41.3. Unset Array</a>
+      </li>
+      <li><a href="#toc296">2.41.4. Fix Key</a>
+      </li>
+      <li><a href="#toc297">2.41.5. Detect Recursion</a>
+      </li>
+      <li><a href="#toc298">2.41.6. XML File to Array</a>
+      </li>
+      <li><a href="#toc299">2.41.7. XML to Array</a>
+      </li>
+      <li><a href="#toc300">2.41.8. XML to Struct</a>
+      </li>
+      <li><a href="#toc301">2.41.9. Struct to Array</a>
+      </li>
+      <li><a href="#toc302">2.41.10. Eval Attributes</a>
+      </li>
+      <li><a href="#toc303">2.41.11. Eval Bool</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc304">2.42. Main execution module</a>
     </li>
     </ul>
   </li>
-  <li><a href="#toc295">3. Database</a>
+  <li><a href="#toc305">3. Database</a>
     <ul>
-    <li><a href="#toc296">3.1. SQLite3 functions library</a>
+    <li><a href="#toc306">3.1. SQLite3 functions library</a>
       <ul>
-      <li><a href="#toc297">3.1.1. GROUP_CONCAT</a>
+      <li><a href="#toc307">3.1.1. GROUP_CONCAT</a>
       </li>
-      <li><a href="#toc298">3.1.2. GROUP_CONCAT</a>
+      <li><a href="#toc308">3.1.2. GROUP_CONCAT</a>
       </li>
-      <li><a href="#toc299">3.1.3. REPLACE</a>
+      <li><a href="#toc309">3.1.3. REPLACE</a>
       </li>
-      <li><a href="#toc300">3.1.4. LPAD</a>
+      <li><a href="#toc310">3.1.4. LPAD</a>
       </li>
-      <li><a href="#toc301">3.1.5. CONCAT</a>
+      <li><a href="#toc311">3.1.5. CONCAT</a>
       </li>
-      <li><a href="#toc302">3.1.6. UNIX_TIMESTAMP</a>
+      <li><a href="#toc312">3.1.6. CONCAT_WS</a>
       </li>
-      <li><a href="#toc303">3.1.7. FROM_UNIXTIME</a>
+      <li><a href="#toc313">3.1.7. UNIX_TIMESTAMP</a>
       </li>
-      <li><a href="#toc304">3.1.8. YEAR</a>
+      <li><a href="#toc314">3.1.8. FROM_UNIXTIME</a>
       </li>
-      <li><a href="#toc305">3.1.9. MONTH</a>
+      <li><a href="#toc315">3.1.9. YEAR</a>
       </li>
-      <li><a href="#toc306">3.1.10. WEEK</a>
+      <li><a href="#toc316">3.1.10. MONTH</a>
       </li>
-      <li><a href="#toc307">3.1.11. TRUNCATE</a>
+      <li><a href="#toc317">3.1.11. WEEK</a>
       </li>
-      <li><a href="#toc308">3.1.12. DAY</a>
+      <li><a href="#toc318">3.1.12. TRUNCATE</a>
       </li>
-      <li><a href="#toc309">3.1.13. DAYOFYEAR</a>
+      <li><a href="#toc319">3.1.13. DAY</a>
       </li>
-      <li><a href="#toc310">3.1.14. DAYOFWEEK</a>
+      <li><a href="#toc320">3.1.14. DAYOFYEAR</a>
       </li>
-      <li><a href="#toc311">3.1.15. HOUR</a>
+      <li><a href="#toc321">3.1.15. DAYOFWEEK</a>
       </li>
-      <li><a href="#toc312">3.1.16. MINUTE</a>
+      <li><a href="#toc322">3.1.16. HOUR</a>
       </li>
-      <li><a href="#toc313">3.1.17. SECOND</a>
+      <li><a href="#toc323">3.1.17. MINUTE</a>
       </li>
-      <li><a href="#toc314">3.1.18. MD5</a>
+      <li><a href="#toc324">3.1.18. SECOND</a>
       </li>
-      <li><a href="#toc315">3.1.19. REPEAT</a>
+      <li><a href="#toc325">3.1.19. MD5</a>
       </li>
-      <li><a href="#toc316">3.1.20. FIND_IN_SET</a>
+      <li><a href="#toc326">3.1.20. REPEAT</a>
       </li>
-      <li><a href="#toc317">3.1.21. IF</a>
+      <li><a href="#toc327">3.1.21. FIND_IN_SET</a>
       </li>
-      <li><a href="#toc318">3.1.22. POW</a>
+      <li><a href="#toc328">3.1.22. IF</a>
       </li>
-      <li><a href="#toc319">3.1.23. DATE_FORMAT</a>
+      <li><a href="#toc329">3.1.23. POW</a>
       </li>
-      <li><a href="#toc320">3.1.24. NOW</a>
+      <li><a href="#toc330">3.1.24. DATE_FORMAT</a>
+      </li>
+      <li><a href="#toc331">3.1.25. NOW</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc321">3.2. MySQL improved driver</a>
+    <li><a href="#toc332">3.2. MySQL improved driver</a>
       <ul>
-      <li><a href="#toc322">3.2.1. Database MySQL improved class</a>
+      <li><a href="#toc333">3.2.1. Database MySQL improved class</a>
       </li>
-      <li><a href="#toc323">3.2.2. Private link variable</a>
+      <li><a href="#toc334">3.2.2. Private link variable</a>
       </li>
-      <li><a href="#toc324">3.2.3. Constructor</a>
+      <li><a href="#toc335">3.2.3. Constructor</a>
       </li>
-      <li><a href="#toc325">3.2.4. DB Check</a>
+      <li><a href="#toc336">3.2.4. DB Check</a>
       </li>
-      <li><a href="#toc326">3.2.5. DB Query</a>
+      <li><a href="#toc337">3.2.5. DB Query</a>
       </li>
-      <li><a href="#toc327">3.2.6. DB Disconnect</a>
+      <li><a href="#toc338">3.2.6. DB Disconnect</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc328">3.3. PDO MsSQL driver</a>
+    <li><a href="#toc339">3.3. PDO MsSQL driver</a>
       <ul>
-      <li><a href="#toc329">3.3.1. Database PDO MsSQL class</a>
+      <li><a href="#toc340">3.3.1. Database PDO MsSQL class</a>
       </li>
-      <li><a href="#toc330">3.3.2. Private link variable</a>
+      <li><a href="#toc341">3.3.2. Private link variable</a>
       </li>
-      <li><a href="#toc331">3.3.3. Constructor</a>
+      <li><a href="#toc342">3.3.3. Constructor</a>
       </li>
-      <li><a href="#toc332">3.3.4. DB Check</a>
+      <li><a href="#toc343">3.3.4. DB Check</a>
       </li>
-      <li><a href="#toc333">3.3.5. DB Query</a>
+      <li><a href="#toc344">3.3.5. DB Query</a>
       </li>
-      <li><a href="#toc334">3.3.6. DB Disconnect</a>
+      <li><a href="#toc345">3.3.6. DB Disconnect</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc335">3.4. PDO MySQL driver</a>
+    <li><a href="#toc346">3.4. PDO MySQL driver</a>
       <ul>
-      <li><a href="#toc336">3.4.1. Database PDO MySQL class</a>
+      <li><a href="#toc347">3.4.1. Database PDO MySQL class</a>
       </li>
-      <li><a href="#toc337">3.4.2. Private link variable</a>
+      <li><a href="#toc348">3.4.2. Private link variable</a>
       </li>
-      <li><a href="#toc338">3.4.3. Constructor</a>
+      <li><a href="#toc349">3.4.3. Constructor</a>
       </li>
-      <li><a href="#toc339">3.4.4. DB Check</a>
+      <li><a href="#toc350">3.4.4. DB Check</a>
       </li>
-      <li><a href="#toc340">3.4.5. DB Query</a>
+      <li><a href="#toc351">3.4.5. DB Query</a>
       </li>
-      <li><a href="#toc341">3.4.6. DB Disconnect</a>
+      <li><a href="#toc352">3.4.6. DB Disconnect</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc342">3.5. PDO SQLite driver</a>
+    <li><a href="#toc353">3.5. PDO SQLite driver</a>
       <ul>
-      <li><a href="#toc343">3.5.1. Database PDO SQLite class</a>
+      <li><a href="#toc354">3.5.1. Database PDO SQLite class</a>
       </li>
-      <li><a href="#toc344">3.5.2. Private link variable</a>
+      <li><a href="#toc355">3.5.2. Private link variable</a>
       </li>
-      <li><a href="#toc345">3.5.3. Constructor</a>
+      <li><a href="#toc356">3.5.3. Constructor</a>
       </li>
-      <li><a href="#toc346">3.5.4. DB Check</a>
+      <li><a href="#toc357">3.5.4. DB Check</a>
       </li>
-      <li><a href="#toc347">3.5.5. DB Query</a>
+      <li><a href="#toc358">3.5.5. DB Query</a>
       </li>
-      <li><a href="#toc348">3.5.6. DB Disconnect</a>
+      <li><a href="#toc359">3.5.6. DB Disconnect</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc349">3.6. SQLite3 driver</a>
+    <li><a href="#toc360">3.6. SQLite3 driver</a>
       <ul>
-      <li><a href="#toc350">3.6.1. Database SQLite3 class</a>
+      <li><a href="#toc361">3.6.1. Database SQLite3 class</a>
       </li>
-      <li><a href="#toc351">3.6.2. Private link variable</a>
+      <li><a href="#toc362">3.6.2. Private link variable</a>
       </li>
-      <li><a href="#toc352">3.6.3. Constructor</a>
+      <li><a href="#toc363">3.6.3. Constructor</a>
       </li>
-      <li><a href="#toc353">3.6.4. DB Check</a>
+      <li><a href="#toc364">3.6.4. DB Check</a>
       </li>
-      <li><a href="#toc354">3.6.5. DB Query</a>
+      <li><a href="#toc365">3.6.5. DB Query</a>
       </li>
-      <li><a href="#toc355">3.6.6. DB Disconnect</a>
-      </li>
-      </ul>
-    </li>
-    </ul>
-  </li>
-  <li><a href="#toc356">4. JavaScript</a>
-    <ul>
-    <li><a href="#toc357">4.1. Application helper module</a>
-      <ul>
-      <li><a href="#toc358">4.1.1. Application helper object</a>
-      </li>
-      <li><a href="#toc359">4.1.2. Show error helper</a>
-      </li>
-      <li><a href="#toc360">4.1.3. Alert function</a>
-      </li>
-      <li><a href="#toc361">4.1.4. Check response helper</a>
-      </li>
-      <li><a href="#toc362">4.1.5. Send request helper</a>
-      </li>
-      <li><a href="#toc363">4.1.6. Process response helper</a>
-      </li>
-      <li><a href="#toc364">4.1.7. Form constructor helper object</a>
-      </li>
-      <li><a href="#toc365">4.1.8. Data helper object</a>
-      </li>
-      <li><a href="#toc366">4.1.9. Form data helper</a>
-      </li>
-      <li><a href="#toc367">4.1.10. Data template helper</a>
-      </li>
-      <li><a href="#toc368">4.1.11. Layout template helper</a>
-      </li>
-      <li><a href="#toc369">4.1.12. Form layout helper</a>
-      </li>
-      <li><a href="#toc370">4.1.13. Form layout auto helper</a>
-      </li>
-      <li><a href="#toc371">4.1.14. Form style helper</a>
-      </li>
-      <li><a href="#toc372">4.1.15. Form javascript helper</a>
-      </li>
-      <li><a href="#toc373">4.1.16. Form title helper</a>
-      </li>
-      <li><a href="#toc374">4.1.17. Form screen helper</a>
-      </li>
-      <li><a href="#toc375">4.1.18. Form navbar helper</a>
-      </li>
-      <li><a href="#toc376">4.1.19. Source helper</a>
-      </li>
-      <li><a href="#toc377">4.1.20. Get data</a>
-      </li>
-      <li><a href="#toc378">4.1.21. Get data ids helper</a>
-      </li>
-      <li><a href="#toc379">4.1.22. Parse data</a>
-      </li>
-      <li><a href="#toc380">4.1.23. Check form</a>
-      </li>
-      <li><a href="#toc381">4.1.24. Form disabled</a>
-      </li>
-      <li><a href="#toc382">4.1.25. Form readonly</a>
-      </li>
-      <li><a href="#toc383">4.1.26. Form helper</a>
-      </li>
-      <li><a href="#toc384">4.1.27. ParentNode Search helper</a>
-      </li>
-      <li><a href="#toc385">4.1.28. Main code</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc386">4.2. Authentication helper module</a>
-      <ul>
-      <li><a href="#toc387">4.2.1. Hash helper object</a>
-      </li>
-      <li><a href="#toc388">4.2.2. Get hash</a>
-      </li>
-      <li><a href="#toc389">4.2.3. Set hash</a>
-      </li>
-      <li><a href="#toc390">4.2.4. Add hash</a>
-      </li>
-      <li><a href="#toc391">4.2.5. Change trigger</a>
-      </li>
-      <li><a href="#toc392">4.2.6. Hash change management</a>
-      </li>
-      <li><a href="#toc393">4.2.7. Hash change management</a>
-      </li>
-      <li><a href="#toc394">4.2.8. Token helper object</a>
-      </li>
-      <li><a href="#toc395">4.2.9. Get token function</a>
-      </li>
-      <li><a href="#toc396">4.2.10. Get expires function</a>
-      </li>
-      <li><a href="#toc397">4.2.11. Get autorenew function</a>
-      </li>
-      <li><a href="#toc398">4.2.12. Get autocheck function</a>
-      </li>
-      <li><a href="#toc399">4.2.13. Set token and expires</a>
-      </li>
-      <li><a href="#toc400">4.2.14. Unset token and expires</a>
-      </li>
-      <li><a href="#toc401">4.2.15. Authentication helper object</a>
-      </li>
-      <li><a href="#toc402">4.2.16. Authenticate token function</a>
-      </li>
-      <li><a href="#toc403">4.2.17. Re-authenticate token function</a>
-      </li>
-      <li><a href="#toc404">4.2.18. De-authenticate token function</a>
-      </li>
-      <li><a href="#toc405">4.2.19. Check token function</a>
-      </li>
-      <li><a href="#toc406">4.2.20. Re-authenticate helper function</a>
-      </li>
-      <li><a href="#toc407">4.2.21. Variable used to store the timer</a>
-      </li>
-      <li><a href="#toc408">4.2.22. Auto-renew helper function</a>
-      </li>
-      <li><a href="#toc409">4.2.23. Tabs communication helper object</a>
-      </li>
-      <li><a href="#toc410">4.2.24. Listeners helper object</a>
-      </li>
-      <li><a href="#toc411">4.2.25. Set listener</a>
-      </li>
-      <li><a href="#toc412">4.2.26. Unset listener</a>
-      </li>
-      <li><a href="#toc413">4.2.27. Send message</a>
-      </li>
-      <li><a href="#toc414">4.2.28. Storage management</a>
-      </li>
-      <li><a href="#toc415">4.2.29. Storage management</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc416">4.3. Bootstrap helper module</a>
-      <ul>
-      <li><a href="#toc417">4.3.1. Bootstrap helper object</a>
-      </li>
-      <li><a href="#toc418">4.3.2. Form fields constructor</a>
-      </li>
-      <li><a href="#toc419">4.3.3. Form_field constructor helper object</a>
-      </li>
-      <li><a href="#toc420">4.3.4. Div constructor helper</a>
-      </li>
-      <li><a href="#toc421">4.3.5. Container constructor helper</a>
-      </li>
-      <li><a href="#toc422">4.3.6. Row constructor helper</a>
-      </li>
-      <li><a href="#toc423">4.3.7. Col constructor helper</a>
-      </li>
-      <li><a href="#toc424">4.3.8. Text constructor helper</a>
-      </li>
-      <li><a href="#toc425">4.3.9. Hidden constructor helper</a>
-      </li>
-      <li><a href="#toc426">4.3.10. Integer constructor helper</a>
-      </li>
-      <li><a href="#toc427">4.3.11. Float constructor helper</a>
-      </li>
-      <li><a href="#toc428">4.3.12. Color constructor helper</a>
-      </li>
-      <li><a href="#toc429">4.3.13. Date constructor helper</a>
-      </li>
-      <li><a href="#toc430">4.3.14. Time constructor helper</a>
-      </li>
-      <li><a href="#toc431">4.3.15. Datetime constructor helper</a>
-      </li>
-      <li><a href="#toc432">4.3.16. Textarea constructor helper</a>
-      </li>
-      <li><a href="#toc433">4.3.17. Ckeditor constructor helper</a>
-      </li>
-      <li><a href="#toc434">4.3.18. Codemirror constructor helper</a>
-      </li>
-      <li><a href="#toc435">4.3.19. Iframe constructor helper</a>
-      </li>
-      <li><a href="#toc436">4.3.20. Select constructor helper</a>
-      </li>
-      <li><a href="#toc437">4.3.21. Multiselect constructor helper</a>
-      </li>
-      <li><a href="#toc438">4.3.22. Checkbox constructor helper</a>
-      </li>
-      <li><a href="#toc439">4.3.23. Switch constructor helper</a>
-      </li>
-      <li><a href="#toc440">4.3.24. Button constructor helper</a>
-      </li>
-      <li><a href="#toc441">4.3.25. Password constructor helper</a>
-      </li>
-      <li><a href="#toc442">4.3.26. File constructor helper</a>
-      </li>
-      <li><a href="#toc443">4.3.27. Link constructor helper</a>
-      </li>
-      <li><a href="#toc444">4.3.28. Label constructor helper</a>
-      </li>
-      <li><a href="#toc445">4.3.29. Image constructor helper</a>
-      </li>
-      <li><a href="#toc446">4.3.30. Excel constructor helper</a>
-      </li>
-      <li><a href="#toc447">4.3.31. Pdfjs constructor helper</a>
-      </li>
-      <li><a href="#toc448">4.3.32. Table constructor helper</a>
-      </li>
-      <li><a href="#toc449">4.3.33. Alert constructor helper</a>
-      </li>
-      <li><a href="#toc450">4.3.34. Card constructor helper</a>
-      </li>
-      <li><a href="#toc451">4.3.35. Chart.js constructor helper</a>
-      </li>
-      <li><a href="#toc452">4.3.36. Tags constructor helper</a>
-      </li>
-      <li><a href="#toc453">4.3.37. Gallery constructor helper</a>
-      </li>
-      <li><a href="#toc454">4.3.38. Placeholder helper</a>
-      </li>
-      <li><a href="#toc455">4.3.39. Private text constructor helper</a>
-      </li>
-      <li><a href="#toc456">4.3.40. Private textarea constructor helper</a>
-      </li>
-      <li><a href="#toc457">4.3.41. Private tooltip constructor helper</a>
-      </li>
-      <li><a href="#toc458">4.3.42. Label helper</a>
-      </li>
-      <li><a href="#toc459">4.3.43. Label Combine</a>
-      </li>
-      <li><a href="#toc460">4.3.44. Menu constructor helper</a>
-      </li>
-      <li><a href="#toc461">4.3.45. Navbar constructor helper</a>
-      </li>
-      <li><a href="#toc462">4.3.46. Modal constructor helper object</a>
-      </li>
-      <li><a href="#toc463">4.3.47. Modal constructor helper</a>
-      </li>
-      <li><a href="#toc464">4.3.48. Offcanvas constructor helper object</a>
-      </li>
-      <li><a href="#toc465">4.3.49. Offcanvas constructor helper</a>
-      </li>
-      <li><a href="#toc466">4.3.50. Toast constructor helper</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc467">4.4. Core helper module</a>
-      <ul>
-      <li><a href="#toc468">4.4.1. Core helper object</a>
-      </li>
-      <li><a href="#toc469">4.4.2. Error management</a>
-      </li>
-      <li><a href="#toc470">4.4.3. Error management</a>
-      </li>
-      <li><a href="#toc471">4.4.4. Log management</a>
-      </li>
-      <li><a href="#toc472">4.4.5. Check params</a>
-      </li>
-      <li><a href="#toc473">4.4.6. UniqID</a>
-      </li>
-      <li><a href="#toc474">4.4.7. When visible</a>
-      </li>
-      <li><a href="#toc475">4.4.8. Get keycode</a>
-      </li>
-      <li><a href="#toc476">4.4.9. HTML builder</a>
-      </li>
-      <li><a href="#toc477">4.4.10. AJAX</a>
-      </li>
-      <li><a href="#toc478">4.4.11. Key cleaner</a>
-      </li>
-      <li><a href="#toc479">4.4.12. Open window</a>
-      </li>
-      <li><a href="#toc480">4.4.13. Close window</a>
-      </li>
-      <li><a href="#toc481">4.4.14. Copy object</a>
-      </li>
-      <li><a href="#toc482">4.4.15. Optimizer object</a>
-      </li>
-      <li><a href="#toc483">4.4.16. Require helper array</a>
-      </li>
-      <li><a href="#toc484">4.4.17. Require feature</a>
-      </li>
-      <li><a href="#toc485">4.4.18. Eval Bool</a>
-      </li>
-      <li><a href="#toc486">4.4.19. toString function</a>
-      </li>
-      <li><a href="#toc487">4.4.20. TODO</a>
-      </li>
-      <li><a href="#toc488">4.4.21. TODO</a>
-      </li>
-      <li><a href="#toc489">4.4.22. TODO</a>
-      </li>
-      </ul>
-    </li>
-    <li><a href="#toc490">4.5. Object helper module</a>
-      <ul>
-      <li><a href="#toc491">4.5.1. Main object</a>
+      <li><a href="#toc366">3.6.6. DB Disconnect</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc492">5. Customers</a>
+  <li><a href="#toc367">4. Javascript</a>
     <ul>
-    <li><a href="#toc493">5.1. Customers application</a>
+    <li><a href="#toc368">4.1. Application helper module</a>
       <ul>
-      <li><a href="#toc494">5.1.1. Main object</a>
+      <li><a href="#toc369">4.1.1. Application helper object</a>
       </li>
-      <li><a href="#toc495">5.1.2. Initialize customers</a>
+      <li><a href="#toc370">4.1.2. Show error helper</a>
       </li>
-      <li><a href="#toc496">5.1.3. TODO</a>
+      <li><a href="#toc371">4.1.3. Alert function</a>
       </li>
-      <li><a href="#toc497">5.1.4. TODO</a>
+      <li><a href="#toc372">4.1.4. Check response helper</a>
       </li>
-      <li><a href="#toc498">5.1.5. TODO</a>
+      <li><a href="#toc373">4.1.5. Send request helper</a>
       </li>
-      <li><a href="#toc499">5.1.6. TODO</a>
+      <li><a href="#toc374">4.1.6. Process response helper</a>
       </li>
-      <li><a href="#toc500">5.1.7. TODO</a>
+      <li><a href="#toc375">4.1.7. Form constructor helper object</a>
       </li>
-      <li><a href="#toc501">5.1.8. TODO</a>
+      <li><a href="#toc376">4.1.8. Data helper object</a>
       </li>
-      <li><a href="#toc502">5.1.9. TODO</a>
+      <li><a href="#toc377">4.1.9. Form data helper</a>
       </li>
-      <li><a href="#toc503">5.1.10. TODO</a>
+      <li><a href="#toc378">4.1.10. Data template helper</a>
       </li>
-      <li><a href="#toc504">5.1.11. TODO</a>
+      <li><a href="#toc379">4.1.11. Layout template helper</a>
+      </li>
+      <li><a href="#toc380">4.1.12. Form layout helper</a>
+      </li>
+      <li><a href="#toc381">4.1.13. Form layout auto helper</a>
+      </li>
+      <li><a href="#toc382">4.1.14. Form style helper</a>
+      </li>
+      <li><a href="#toc383">4.1.15. Form javascript helper</a>
+      </li>
+      <li><a href="#toc384">4.1.16. Form title helper</a>
+      </li>
+      <li><a href="#toc385">4.1.17. Form screen helper</a>
+      </li>
+      <li><a href="#toc386">4.1.18. Form navbar helper</a>
+      </li>
+      <li><a href="#toc387">4.1.19. Source helper</a>
+      </li>
+      <li><a href="#toc388">4.1.20. Get data</a>
+      </li>
+      <li><a href="#toc389">4.1.21. Get data ids helper</a>
+      </li>
+      <li><a href="#toc390">4.1.22. Parse data</a>
+      </li>
+      <li><a href="#toc391">4.1.23. Check form</a>
+      </li>
+      <li><a href="#toc392">4.1.24. Form disabled</a>
+      </li>
+      <li><a href="#toc393">4.1.25. Form readonly</a>
+      </li>
+      <li><a href="#toc394">4.1.26. Form helper</a>
+      </li>
+      <li><a href="#toc395">4.1.27. ParentNode Search helper</a>
+      </li>
+      <li><a href="#toc396">4.1.28. Main code</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc397">4.2. Authentication helper module</a>
+      <ul>
+      <li><a href="#toc398">4.2.1. Hash helper object</a>
+      </li>
+      <li><a href="#toc399">4.2.2. Get hash</a>
+      </li>
+      <li><a href="#toc400">4.2.3. Set hash</a>
+      </li>
+      <li><a href="#toc401">4.2.4. Add hash</a>
+      </li>
+      <li><a href="#toc402">4.2.5. Change trigger</a>
+      </li>
+      <li><a href="#toc403">4.2.6. Hash change management</a>
+      </li>
+      <li><a href="#toc404">4.2.7. Hash change management</a>
+      </li>
+      <li><a href="#toc405">4.2.8. Token helper object</a>
+      </li>
+      <li><a href="#toc406">4.2.9. Get token function</a>
+      </li>
+      <li><a href="#toc407">4.2.10. Get expires function</a>
+      </li>
+      <li><a href="#toc408">4.2.11. Get autorenew function</a>
+      </li>
+      <li><a href="#toc409">4.2.12. Get autocheck function</a>
+      </li>
+      <li><a href="#toc410">4.2.13. Set token and expires</a>
+      </li>
+      <li><a href="#toc411">4.2.14. Unset token and expires</a>
+      </li>
+      <li><a href="#toc412">4.2.15. Authentication helper object</a>
+      </li>
+      <li><a href="#toc413">4.2.16. Authenticate token function</a>
+      </li>
+      <li><a href="#toc414">4.2.17. Re-authenticate token function</a>
+      </li>
+      <li><a href="#toc415">4.2.18. De-authenticate token function</a>
+      </li>
+      <li><a href="#toc416">4.2.19. Check token function</a>
+      </li>
+      <li><a href="#toc417">4.2.20. Re-authenticate helper function</a>
+      </li>
+      <li><a href="#toc418">4.2.21. Variable used to store the timer</a>
+      </li>
+      <li><a href="#toc419">4.2.22. Auto-renew helper function</a>
+      </li>
+      <li><a href="#toc420">4.2.23. Tabs communication helper object</a>
+      </li>
+      <li><a href="#toc421">4.2.24. Listeners helper object</a>
+      </li>
+      <li><a href="#toc422">4.2.25. Set listener</a>
+      </li>
+      <li><a href="#toc423">4.2.26. Unset listener</a>
+      </li>
+      <li><a href="#toc424">4.2.27. Send message</a>
+      </li>
+      <li><a href="#toc425">4.2.28. Storage management</a>
+      </li>
+      <li><a href="#toc426">4.2.29. Storage management</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc427">4.3. Bootstrap helper module</a>
+      <ul>
+      <li><a href="#toc428">4.3.1. Bootstrap helper object</a>
+      </li>
+      <li><a href="#toc429">4.3.2. Form fields constructor</a>
+      </li>
+      <li><a href="#toc430">4.3.3. Form_field constructor helper object</a>
+      </li>
+      <li><a href="#toc431">4.3.4. Div constructor helper</a>
+      </li>
+      <li><a href="#toc432">4.3.5. Container constructor helper</a>
+      </li>
+      <li><a href="#toc433">4.3.6. Row constructor helper</a>
+      </li>
+      <li><a href="#toc434">4.3.7. Col constructor helper</a>
+      </li>
+      <li><a href="#toc435">4.3.8. Text constructor helper</a>
+      </li>
+      <li><a href="#toc436">4.3.9. Hidden constructor helper</a>
+      </li>
+      <li><a href="#toc437">4.3.10. Integer constructor helper</a>
+      </li>
+      <li><a href="#toc438">4.3.11. Float constructor helper</a>
+      </li>
+      <li><a href="#toc439">4.3.12. Color constructor helper</a>
+      </li>
+      <li><a href="#toc440">4.3.13. Date constructor helper</a>
+      </li>
+      <li><a href="#toc441">4.3.14. Time constructor helper</a>
+      </li>
+      <li><a href="#toc442">4.3.15. Datetime constructor helper</a>
+      </li>
+      <li><a href="#toc443">4.3.16. Textarea constructor helper</a>
+      </li>
+      <li><a href="#toc444">4.3.17. Ckeditor constructor helper</a>
+      </li>
+      <li><a href="#toc445">4.3.18. Codemirror constructor helper</a>
+      </li>
+      <li><a href="#toc446">4.3.19. Iframe constructor helper</a>
+      </li>
+      <li><a href="#toc447">4.3.20. Select constructor helper</a>
+      </li>
+      <li><a href="#toc448">4.3.21. Multiselect constructor helper</a>
+      </li>
+      <li><a href="#toc449">4.3.22. Checkbox constructor helper</a>
+      </li>
+      <li><a href="#toc450">4.3.23. Switch constructor helper</a>
+      </li>
+      <li><a href="#toc451">4.3.24. Button constructor helper</a>
+      </li>
+      <li><a href="#toc452">4.3.25. Password constructor helper</a>
+      </li>
+      <li><a href="#toc453">4.3.26. File constructor helper</a>
+      </li>
+      <li><a href="#toc454">4.3.27. Link constructor helper</a>
+      </li>
+      <li><a href="#toc455">4.3.28. Label constructor helper</a>
+      </li>
+      <li><a href="#toc456">4.3.29. Image constructor helper</a>
+      </li>
+      <li><a href="#toc457">4.3.30. Excel constructor helper</a>
+      </li>
+      <li><a href="#toc458">4.3.31. Pdfjs constructor helper</a>
+      </li>
+      <li><a href="#toc459">4.3.32. Table constructor helper</a>
+      </li>
+      <li><a href="#toc460">4.3.33. Alert constructor helper</a>
+      </li>
+      <li><a href="#toc461">4.3.34. Card constructor helper</a>
+      </li>
+      <li><a href="#toc462">4.3.35. Chart.js constructor helper</a>
+      </li>
+      <li><a href="#toc463">4.3.36. Tags constructor helper</a>
+      </li>
+      <li><a href="#toc464">4.3.37. Gallery constructor helper</a>
+      </li>
+      <li><a href="#toc465">4.3.38. Placeholder helper</a>
+      </li>
+      <li><a href="#toc466">4.3.39. Private text constructor helper</a>
+      </li>
+      <li><a href="#toc467">4.3.40. Private textarea constructor helper</a>
+      </li>
+      <li><a href="#toc468">4.3.41. Private tooltip constructor helper</a>
+      </li>
+      <li><a href="#toc469">4.3.42. Label helper</a>
+      </li>
+      <li><a href="#toc470">4.3.43. Label Combine</a>
+      </li>
+      <li><a href="#toc471">4.3.44. Menu constructor helper</a>
+      </li>
+      <li><a href="#toc472">4.3.45. Navbar constructor helper</a>
+      </li>
+      <li><a href="#toc473">4.3.46. Modal constructor helper object</a>
+      </li>
+      <li><a href="#toc474">4.3.47. Modal constructor helper</a>
+      </li>
+      <li><a href="#toc475">4.3.48. Offcanvas constructor helper object</a>
+      </li>
+      <li><a href="#toc476">4.3.49. Offcanvas constructor helper</a>
+      </li>
+      <li><a href="#toc477">4.3.50. Toast constructor helper</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc478">4.4. Core helper module</a>
+      <ul>
+      <li><a href="#toc479">4.4.1. Core helper object</a>
+      </li>
+      <li><a href="#toc480">4.4.2. Error management</a>
+      </li>
+      <li><a href="#toc481">4.4.3. Error management</a>
+      </li>
+      <li><a href="#toc482">4.4.4. Log management</a>
+      </li>
+      <li><a href="#toc483">4.4.5. Check params</a>
+      </li>
+      <li><a href="#toc484">4.4.6. UniqID</a>
+      </li>
+      <li><a href="#toc485">4.4.7. When visible</a>
+      </li>
+      <li><a href="#toc486">4.4.8. Get keycode</a>
+      </li>
+      <li><a href="#toc487">4.4.9. HTML builder</a>
+      </li>
+      <li><a href="#toc488">4.4.10. AJAX</a>
+      </li>
+      <li><a href="#toc489">4.4.11. Key cleaner</a>
+      </li>
+      <li><a href="#toc490">4.4.12. Open window</a>
+      </li>
+      <li><a href="#toc491">4.4.13. Close window</a>
+      </li>
+      <li><a href="#toc492">4.4.14. Copy object</a>
+      </li>
+      <li><a href="#toc493">4.4.15. Optimizer object</a>
+      </li>
+      <li><a href="#toc494">4.4.16. Require helper array</a>
+      </li>
+      <li><a href="#toc495">4.4.17. Require feature</a>
+      </li>
+      <li><a href="#toc496">4.4.18. Eval Bool</a>
+      </li>
+      <li><a href="#toc497">4.4.19. toString function</a>
+      </li>
+      <li><a href="#toc498">4.4.20. TODO</a>
+      </li>
+      <li><a href="#toc499">4.4.21. TODO</a>
+      </li>
+      <li><a href="#toc500">4.4.22. TODO</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc501">4.5. Object helper module</a>
+      <ul>
+      <li><a href="#toc502">4.5.1. Main object</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc505">6. Dashboard</a>
+  <li><a href="#toc503">5. Customers</a>
     <ul>
-    <li><a href="#toc506">6.1. Dashboard application</a>
+    <li><a href="#toc504">5.1. Customers application</a>
       <ul>
-      <li><a href="#toc507">6.1.1. Main object</a>
+      <li><a href="#toc505">5.1.1. Main object</a>
       </li>
-      <li><a href="#toc508">6.1.2. TODO</a>
+      <li><a href="#toc506">5.1.2. Initialize customers</a>
+      </li>
+      <li><a href="#toc507">5.1.3. TODO</a>
+      </li>
+      <li><a href="#toc508">5.1.4. TODO</a>
+      </li>
+      <li><a href="#toc509">5.1.5. TODO</a>
+      </li>
+      <li><a href="#toc510">5.1.6. TODO</a>
+      </li>
+      <li><a href="#toc511">5.1.7. TODO</a>
+      </li>
+      <li><a href="#toc512">5.1.8. TODO</a>
+      </li>
+      <li><a href="#toc513">5.1.9. TODO</a>
+      </li>
+      <li><a href="#toc514">5.1.10. TODO</a>
+      </li>
+      <li><a href="#toc515">5.1.11. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc509">7. Emails</a>
+  <li><a href="#toc516">6. Dashboard</a>
     <ul>
-    <li><a href="#toc510">7.1. Email application</a>
+    <li><a href="#toc517">6.1. Dashboard application</a>
       <ul>
-      <li><a href="#toc511">7.1.1. Main object</a>
+      <li><a href="#toc518">6.1.1. Main object</a>
       </li>
-      <li><a href="#toc512">7.1.2. Initialize emails app</a>
-      </li>
-      <li><a href="#toc513">7.1.3. TODO</a>
-      </li>
-      <li><a href="#toc514">7.1.4. TODO</a>
-      </li>
-      <li><a href="#toc515">7.1.5. TODO</a>
-      </li>
-      <li><a href="#toc516">7.1.6. TODO</a>
+      <li><a href="#toc519">6.1.2. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc517">8. Invoices</a>
+  <li><a href="#toc520">7. Emails</a>
     <ul>
-    <li><a href="#toc518">8.1. invoices application</a>
+    <li><a href="#toc521">7.1. Email application</a>
       <ul>
-      <li><a href="#toc519">8.1.1. Main object</a>
+      <li><a href="#toc522">7.1.1. Main object</a>
       </li>
-      <li><a href="#toc520">8.1.2. Initialize invoices</a>
+      <li><a href="#toc523">7.1.2. Initialize emails app</a>
       </li>
-      <li><a href="#toc521">8.1.3. TODO</a>
+      <li><a href="#toc524">7.1.3. TODO</a>
       </li>
-      <li><a href="#toc522">8.1.4. TODO</a>
+      <li><a href="#toc525">7.1.4. TODO</a>
       </li>
-      <li><a href="#toc523">8.1.5. TODO</a>
+      <li><a href="#toc526">7.1.5. TODO</a>
       </li>
-      <li><a href="#toc524">8.1.6. TODO</a>
+      <li><a href="#toc527">7.1.6. TODO</a>
       </li>
-      <li><a href="#toc525">8.1.7. TODO</a>
+      </ul>
+    </li>
+    <li><a href="#toc528">7.2. TODO</a>
+      <ul>
+      <li><a href="#toc529">7.2.1. TODO</a>
       </li>
-      <li><a href="#toc526">8.1.8. TODO</a>
+      <li><a href="#toc530">7.2.2. TODO</a>
       </li>
-      <li><a href="#toc527">8.1.9. TODO</a>
+      <li><a href="#toc531">7.2.3. TODO</a>
       </li>
-      <li><a href="#toc528">8.1.10. TODO</a>
+      <li><a href="#toc532">7.2.4. TODO</a>
       </li>
-      <li><a href="#toc529">8.1.11. TODO</a>
+      <li><a href="#toc533">7.2.5. TODO</a>
       </li>
-      <li><a href="#toc530">8.1.12. TODO</a>
+      <li><a href="#toc534">7.2.6. TODO</a>
       </li>
-      <li><a href="#toc531">8.1.13. TODO</a>
+      <li><a href="#toc535">7.2.7. TODO</a>
       </li>
-      <li><a href="#toc532">8.1.14. TODO</a>
+      <li><a href="#toc536">7.2.8. TODO</a>
       </li>
-      <li><a href="#toc533">8.1.15. TODO</a>
+      <li><a href="#toc537">7.2.9. TODO</a>
       </li>
-      <li><a href="#toc534">8.1.16. TODO</a>
+      <li><a href="#toc538">7.2.10. TODO</a>
+      </li>
+      <li><a href="#toc539">7.2.11. TODO</a>
+      </li>
+      <li><a href="#toc540">7.2.12. TODO</a>
+      </li>
+      <li><a href="#toc541">7.2.13. TODO</a>
+      </li>
+      <li><a href="#toc542">7.2.14. TODO</a>
+      </li>
+      <li><a href="#toc543">7.2.15. TODO</a>
+      </li>
+      <li><a href="#toc544">7.2.16. TODO</a>
+      </li>
+      <li><a href="#toc545">7.2.17. TODO</a>
+      </li>
+      <li><a href="#toc546">7.2.18. TODO</a>
+      </li>
+      <li><a href="#toc547">7.2.19. TODO</a>
+      </li>
+      <li><a href="#toc548">7.2.20. TODO</a>
+      </li>
+      <li><a href="#toc549">7.2.21. TODO</a>
+      </li>
+      <li><a href="#toc550">7.2.22. TODO</a>
+      </li>
+      <li><a href="#toc551">7.2.23. TODO</a>
+      </li>
+      <li><a href="#toc552">7.2.24. TODO</a>
+      </li>
+      <li><a href="#toc553">7.2.25. TODO</a>
+      </li>
+      <li><a href="#toc554">7.2.26. Get email body</a>
+      </li>
+      <li><a href="#toc555">7.2.27. TODO</a>
+      </li>
+      <li><a href="#toc556">7.2.28. TODO</a>
+      </li>
+      <li><a href="#toc557">7.2.29. TODO</a>
+      </li>
+      <li><a href="#toc558">7.2.30. TODO</a>
+      </li>
+      <li><a href="#toc559">7.2.31. TODO</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc560">7.3. TODO</a>
+      <ul>
+      <li><a href="#toc561">7.3.1. TODO</a>
+      </li>
+      <li><a href="#toc562">7.3.2. TODO</a>
+      </li>
+      <li><a href="#toc563">7.3.3. TODO</a>
+      </li>
+      <li><a href="#toc564">7.3.4. TODO</a>
+      </li>
+      <li><a href="#toc565">7.3.5. TODO</a>
+      </li>
+      <li><a href="#toc566">7.3.6. TODO</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc535">9. Login</a>
+  <li><a href="#toc567">8. Invoices</a>
     <ul>
-    <li><a href="#toc536">9.1. Login application</a>
+    <li><a href="#toc568">8.1. invoices application</a>
       <ul>
-      <li><a href="#toc537">9.1.1. Main object</a>
+      <li><a href="#toc569">8.1.1. Main object</a>
       </li>
-      <li><a href="#toc538">9.1.2. Authenticate login function</a>
+      <li><a href="#toc570">8.1.2. Initialize invoices</a>
       </li>
-      <li><a href="#toc539">9.1.3. Initialize login</a>
+      <li><a href="#toc571">8.1.3. TODO</a>
       </li>
-      <li><a href="#toc540">9.1.4. Access denied</a>
+      <li><a href="#toc572">8.1.4. TODO</a>
+      </li>
+      <li><a href="#toc573">8.1.5. TODO</a>
+      </li>
+      <li><a href="#toc574">8.1.6. TODO</a>
+      </li>
+      <li><a href="#toc575">8.1.7. TODO</a>
+      </li>
+      <li><a href="#toc576">8.1.8. TODO</a>
+      </li>
+      <li><a href="#toc577">8.1.9. TODO</a>
+      </li>
+      <li><a href="#toc578">8.1.10. TODO</a>
+      </li>
+      <li><a href="#toc579">8.1.11. TODO</a>
+      </li>
+      <li><a href="#toc580">8.1.12. TODO</a>
+      </li>
+      <li><a href="#toc581">8.1.13. TODO</a>
+      </li>
+      <li><a href="#toc582">8.1.14. TODO</a>
+      </li>
+      <li><a href="#toc583">8.1.15. TODO</a>
+      </li>
+      <li><a href="#toc584">8.1.16. TODO</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc585">9. Login</a>
+    <ul>
+    <li><a href="#toc586">9.1. Login application</a>
+      <ul>
+      <li><a href="#toc587">9.1.1. Main object</a>
+      </li>
+      <li><a href="#toc588">9.1.2. Authenticate login function</a>
+      </li>
+      <li><a href="#toc589">9.1.3. Initialize login</a>
+      </li>
+      <li><a href="#toc590">9.1.4. Access denied</a>
       </li>
       </ul>
     </li>
@@ -1938,110 +2048,18 @@ This function detect if an app exists
 </section>
 </section>
 <section id="toc34">
-<h2>2.2. Array to XML helper module</h2>
+<h2>2.2. Array helper module</h2>
 
 <pre>
-api/php/autoload/array2xml.php
-</pre>
-
-<p>
-This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
-to an XML string, currently it is little used because the most important module compared to this
-is the inverse xml2array module
-</p>
-
-<section id="toc35">
-<h3>2.2.1. Check Node Name</h3>
-
-<pre>
-function __array2xml_check_node_name($name)
-</pre>
-
-<p>
-This function acts as helper of the array2xml function, is intended to
-return if the node name is valid
-</p>
-
-<ul>
-<li>@name =&gt; the name that you want to validate
-</li>
-</ul>
-
-</section>
-<section id="toc36">
-<h3>2.2.2. Check Attr Name</h3>
-
-<pre>
-function __array2xml_check_node_attr($name)
-</pre>
-
-<p>
-This function acts as helper of the array2xml function, is intended to
-return if the attribute name is valid
-</p>
-
-<ul>
-<li>@name =&gt; the name that you want to validate
-</li>
-</ul>
-
-</section>
-<section id="toc37">
-<h3>2.2.3. Write Nodes array2xml helper</h3>
-
-<pre>
-function __array2xml_write_nodes(&amp;$array, $level = null)
-</pre>
-
-<p>
-This function acts as helper of the array2xml function, is intended to
-return a string with the tree array
-</p>
-
-<ul>
-<li>@array =&gt; the tree array that you want to convert to XML
-</li>
-<li>@level =&gt; can be null to minify the output zero to indent the XML contents
-</li>
-</ul>
-
-</section>
-<section id="toc38">
-<h3>2.2.4. Array to XML</h3>
-
-<pre>
-function array2xml($array, $usecache = true, $usexmlminify = true)
-</pre>
-
-<p>
-This function returns a string with the contents of array converted into a XML
-language file, to do it, uses some helpers as __array2xml_* functions
-</p>
-
-<ul>
-<li>@array        =&gt; the array that contains the tree structure that you want to convert to XML
-</li>
-<li>@usecache     =&gt; a boolean to enable or disable the cache usage
-</li>
-<li>@usexmlminify =&gt; a boolean to enable or disable the minify feature
-</li>
-</ul>
-
-</section>
-</section>
-<section id="toc39">
-<h2>2.3. Array helper module</h2>
-
-<pre>
-api/php/autoload/arrayutils.php
+api/php/autoload/array.php
 </pre>
 
 <p>
 This file contain useful array functions
 </p>
 
-<section id="toc40">
-<h3>2.3.1. Null to array converter</h3>
+<section id="toc35">
+<h3>2.2.1. Null to array converter</h3>
 
 <pre>
 function null2array($arr)
@@ -2060,8 +2078,8 @@ an array in all cases
 </ul>
 
 </section>
-<section id="toc41">
-<h3>2.3.2. Join for array</h3>
+<section id="toc36">
+<h3>2.2.2. Join for array</h3>
 
 <pre>
 function join4array($array)
@@ -2075,6 +2093,98 @@ and to simplify the usage of this elements in the client side
 
 <ul>
 <li>@array =&gt; the input that can contains an array with #attr and value
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc37">
+<h2>2.3. Array to XML helper module</h2>
+
+<pre>
+api/php/autoload/array2xml.php
+</pre>
+
+<p>
+This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
+to an XML string, currently it is little used because the most important module compared to this
+is the inverse xml2array module
+</p>
+
+<section id="toc38">
+<h3>2.3.1. Check Node Name</h3>
+
+<pre>
+function __array2xml_check_node_name($name)
+</pre>
+
+<p>
+This function acts as helper of the array2xml function, is intended to
+return if the node name is valid
+</p>
+
+<ul>
+<li>@name =&gt; the name that you want to validate
+</li>
+</ul>
+
+</section>
+<section id="toc39">
+<h3>2.3.2. Check Attr Name</h3>
+
+<pre>
+function __array2xml_check_node_attr($name)
+</pre>
+
+<p>
+This function acts as helper of the array2xml function, is intended to
+return if the attribute name is valid
+</p>
+
+<ul>
+<li>@name =&gt; the name that you want to validate
+</li>
+</ul>
+
+</section>
+<section id="toc40">
+<h3>2.3.3. Write Nodes array2xml helper</h3>
+
+<pre>
+function __array2xml_write_nodes(&amp;$array, $level = null)
+</pre>
+
+<p>
+This function acts as helper of the array2xml function, is intended to
+return a string with the tree array
+</p>
+
+<ul>
+<li>@array =&gt; the tree array that you want to convert to XML
+</li>
+<li>@level =&gt; can be null to minify the output zero to indent the XML contents
+</li>
+</ul>
+
+</section>
+<section id="toc41">
+<h3>2.3.4. Array to XML</h3>
+
+<pre>
+function array2xml($array, $usecache = true, $usexmlminify = true)
+</pre>
+
+<p>
+This function returns a string with the contents of array converted into a XML
+language file, to do it, uses some helpers as __array2xml_* functions
+</p>
+
+<ul>
+<li>@array        =&gt; the array that contains the tree structure that you want to convert to XML
+</li>
+<li>@usecache     =&gt; a boolean to enable or disable the cache usage
+</li>
+<li>@usexmlminify =&gt; a boolean to enable or disable the minify feature
 </li>
 </ul>
 
@@ -2268,7 +2378,7 @@ as trick, checks that the output operation is performed by prime numbers
 <h2>2.6. Color utils helper module</h2>
 
 <pre>
-api/php/autoload/colorutils.php
+api/php/autoload/color.php
 </pre>
 
 <p>
@@ -4018,7 +4128,7 @@ They will returns all data
 <h2>2.16. File utils helper module</h2>
 
 <pre>
-api/php/autoload/fileutils.php
+api/php/autoload/file.php
 </pre>
 
 <p>
@@ -4448,7 +4558,65 @@ to do more open as the GNU gettext
 </section>
 </section>
 <section id="toc147">
-<h2>2.20. Import file helper module</h2>
+<h2>2.20. Html helper module</h2>
+
+<pre>
+api/php/autoload/html.php
+</pre>
+
+<p>
+This file contain useful html helper functions
+</p>
+
+<section id="toc148">
+<h3>2.20.1. Remove Script Tag</h3>
+
+<pre>
+function remove_script_tag($temp)
+</pre>
+
+<p>
+This function tries to remove all &lt;script&gt; tags of the string
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc149">
+<h3>2.20.2. Remove Style Tag</h3>
+
+<pre>
+function remove_style_tag($temp)
+</pre>
+
+<p>
+This function tries to remove all &lt;style&gt; tags of the string
+</p>
+
+<ul>
+<li>@temp =&gt; the string that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc150">
+<h3>2.20.3. TODO</h3>
+
+<pre>
+function href_replace($temp)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+</section>
+<section id="toc151">
+<h2>2.21. Import file helper module</h2>
 
 <pre>
 api/php/autoload/import.php
@@ -4461,8 +4629,8 @@ array of the core of the SaltOS, allowing to add, modify and remove nodes, too c
 of the memory data and paint arrays as ascii tables
 </p>
 
-<section id="toc148">
-<h3>2.20.1. Import File main function</h3>
+<section id="toc152">
+<h3>2.21.1. Import File main function</h3>
 
 <pre>
 function import_file($args)
@@ -4511,8 +4679,8 @@ Can return a matrix or tree, depending the nodes parameter
 </p>
 
 </section>
-<section id="toc149">
-<h3>2.20.2. UTF8 BOM helper</h3>
+<section id="toc153">
+<h3>2.21.2. UTF8 BOM helper</h3>
 
 <pre>
 function __import_utf8bom($data)
@@ -4532,8 +4700,8 @@ Returns the data without the bom characters
 </p>
 
 </section>
-<section id="toc150">
-<h3>2.20.3. XML to Array</h3>
+<section id="toc154">
+<h3>2.21.3. XML to Array</h3>
 
 <pre>
 function __import_xml2array($file)
@@ -4553,8 +4721,8 @@ Returns an array with the contents of the xml
 </p>
 
 </section>
-<section id="toc151">
-<h3>2.20.4. Struct to Array helper</h3>
+<section id="toc155">
+<h3>2.21.4. Struct to Array helper</h3>
 
 <pre>
 function __import_struct2array(&amp;$data)
@@ -4574,8 +4742,8 @@ Returns an array with the correct structure that matches the xml structure
 </p>
 
 </section>
-<section id="toc152">
-<h3>2.20.5. Get Node helper</h3>
+<section id="toc156">
+<h3>2.21.5. Get Node helper</h3>
 
 <pre>
 function __import_getnode($path, $array)
@@ -4597,8 +4765,8 @@ Returns the contents of the node of the specified path
 </p>
 
 </section>
-<section id="toc153">
-<h3>2.20.6. Get Value helper</h3>
+<section id="toc157">
+<h3>2.21.6. Get Value helper</h3>
 
 <pre>
 function __import_getvalue($array)
@@ -4618,8 +4786,8 @@ Retusn the value if exists, otherwise the same input
 </p>
 
 </section>
-<section id="toc154">
-<h3>2.20.7. Get Attr helper</h3>
+<section id="toc158">
+<h3>2.21.7. Get Attr helper</h3>
 
 <pre>
 function __import_getattr($elem, $array)
@@ -4641,8 +4809,8 @@ Returns the attr if exists, otherwise null
 </p>
 
 </section>
-<section id="toc155">
-<h3>2.20.8. Set Node helper</h3>
+<section id="toc159">
+<h3>2.21.8. Set Node helper</h3>
 
 <pre>
 function __import_setnode($path, &amp;$array, $value)
@@ -4666,8 +4834,8 @@ Returns true if the function can set the value, false otherwise
 </p>
 
 </section>
-<section id="toc156">
-<h3>2.20.9. Del Node helper</h3>
+<section id="toc160">
+<h3>2.21.9. Del Node helper</h3>
 
 <pre>
 function __import_delnode($path, &amp;$array)
@@ -4689,8 +4857,8 @@ Returns true if the function can remove the path, false otherwise
 </p>
 
 </section>
-<section id="toc157">
-<h3>2.20.10. Add Node helper</h3>
+<section id="toc161">
+<h3>2.21.10. Add Node helper</h3>
 
 <pre>
 function __import_addnode($path, &amp;$array, $value)
@@ -4714,8 +4882,8 @@ true if the function can add the data, false otherwise
 </p>
 
 </section>
-<section id="toc158">
-<h3>2.20.11. Special Chars helper</h3>
+<section id="toc162">
+<h3>2.21.11. Special Chars helper</h3>
 
 <pre>
 function __import_specialchars($arg)
@@ -4735,8 +4903,8 @@ Returns the input with the expected replacements
 </p>
 
 </section>
-<section id="toc159">
-<h3>2.20.12. CSV to Array helper</h3>
+<section id="toc163">
+<h3>2.21.12. CSV to Array helper</h3>
 
 <pre>
 function __import_csv2array($file, $sep)
@@ -4758,8 +4926,8 @@ Returns a matrix with the contents
 </p>
 
 </section>
-<section id="toc160">
-<h3>2.20.13. XLS to Array helper</h3>
+<section id="toc164">
+<h3>2.21.13. XLS to Array helper</h3>
 
 <pre>
 function __import_xls2array($file, $sheet)
@@ -4789,8 +4957,8 @@ Returns a matrix with the contents
 </p>
 
 </section>
-<section id="toc161">
-<h3>2.20.14. Bytes to Array helper</h3>
+<section id="toc165">
+<h3>2.21.14. Bytes to Array helper</h3>
 
 <pre>
 function __import_bytes2array($file, $map, $offset, $nomb)
@@ -4824,8 +4992,8 @@ The map must be an array of strings of the follow form:
 </p>
 
 </section>
-<section id="toc162">
-<h3>2.20.15. Edit to Array helper</h3>
+<section id="toc166">
+<h3>2.21.15. Edit to Array helper</h3>
 
 <pre>
 function __import_edi2array($file)
@@ -4841,8 +5009,8 @@ This fuction can convert an excel file into a tree structure
 </ul>
 
 </section>
-<section id="toc163">
-<h3>2.20.16. JSON to Array helper</h3>
+<section id="toc167">
+<h3>2.21.16. JSON to Array helper</h3>
 
 <pre>
 function __import_json2array($file)
@@ -4858,8 +5026,8 @@ This fuction can convert an excel file into a tree structure
 </ul>
 
 </section>
-<section id="toc164">
-<h3>2.20.17. Check Real Matrix helper</h3>
+<section id="toc168">
+<h3>2.21.17. Check Real Matrix helper</h3>
 
 <pre>
 function __import_check_real_matrix($array)
@@ -4878,8 +5046,8 @@ checks that the keys are numeric and that all values are non arrays
 </ul>
 
 </section>
-<section id="toc165">
-<h3>2.20.18. Remove Void helper</h3>
+<section id="toc169">
+<h3>2.21.18. Remove Void helper</h3>
 
 <pre>
 function __import_removevoid($array)
@@ -4895,8 +5063,8 @@ This function is able to remove an entire row or column if it is void
 </ul>
 
 </section>
-<section id="toc166">
-<h3>2.20.19. Array to Tree helper</h3>
+<section id="toc170">
+<h3>2.21.19. Array to Tree helper</h3>
 
 <pre>
 function __import_array2tree($array, $nodes, $nohead, $noletter)
@@ -4923,8 +5091,8 @@ specification
 </ul>
 
 </section>
-<section id="toc167">
-<h3>2.20.20. Array Intersect</h3>
+<section id="toc171">
+<h3>2.21.20. Array Intersect</h3>
 
 <pre>
 function __import_array_intersect($data, $filter)
@@ -4943,8 +5111,8 @@ maintaining the order of the filter array.
 </ul>
 
 </section>
-<section id="toc168">
-<h3>2.20.21. Array to Tree Set helper</h3>
+<section id="toc172">
+<h3>2.21.21. Array to Tree Set helper</h3>
 
 <pre>
 function __import_array2tree_set(&amp;$result, $parts)
@@ -4964,8 +5132,8 @@ by the tree setting the values of each pair of key val
 </ul>
 
 </section>
-<section id="toc169">
-<h3>2.20.22. Array to Tree Clean helper</h3>
+<section id="toc173">
+<h3>2.21.22. Array to Tree Clean helper</h3>
 
 <pre>
 function __import_array2tree_clean($array)
@@ -4981,8 +5149,8 @@ This function tries to clean the tree by setting an automatic indexes
 </ul>
 
 </section>
-<section id="toc170">
-<h3>2.20.23. Tree to Array</h3>
+<section id="toc174">
+<h3>2.21.23. Tree to Array</h3>
 
 <pre>
 function __import_tree2array($array)
@@ -4999,8 +5167,8 @@ a tree structure into a csv, for example
 </ul>
 
 </section>
-<section id="toc171">
-<h3>2.20.24. Column to Name helper</h3>
+<section id="toc175">
+<h3>2.21.24. Column to Name helper</h3>
 
 <pre>
 function __import_col2name($n)
@@ -5028,8 +5196,8 @@ This function was copied from:
 </ul>
 
 </section>
-<section id="toc172">
-<h3>2.20.25. Name to Column helper</h3>
+<section id="toc176">
+<h3>2.21.25. Name to Column helper</h3>
 
 <pre>
 function __import_name2col($a)
@@ -5057,8 +5225,8 @@ This function was copied from:
 </ul>
 
 </section>
-<section id="toc173">
-<h3>2.20.26. Is Name helper</h3>
+<section id="toc177">
+<h3>2.21.26. Is Name helper</h3>
 
 <pre>
 function __import_isname($name)
@@ -5075,8 +5243,8 @@ used in the name of the column
 </ul>
 
 </section>
-<section id="toc174">
-<h3>2.20.27. Cell to Column and Row helper</h3>
+<section id="toc178">
+<h3>2.21.27. Cell to Column and Row helper</h3>
 
 <pre>
 function __import_cell2colrow($cell)
@@ -5100,8 +5268,8 @@ the cell AX23, the function returns [AX,23]
 </p>
 
 </section>
-<section id="toc175">
-<h3>2.20.28. Get Keys</h3>
+<section id="toc179">
+<h3>2.21.28. Get Keys</h3>
 
 <pre>
 function __import_getkeys($array)
@@ -5118,8 +5286,8 @@ in the tree
 </ul>
 
 </section>
-<section id="toc176">
-<h3>2.20.29. Filter helper</h3>
+<section id="toc180">
+<h3>2.21.29. Filter helper</h3>
 
 <pre>
 function __import_filter($array, $filter, $eval = 0)
@@ -5141,8 +5309,8 @@ A=M23
 </ul>
 
 </section>
-<section id="toc177">
-<h3>2.20.30. Filter Recursive helper</h3>
+<section id="toc181">
+<h3>2.21.30. Filter Recursive helper</h3>
 
 <pre>
 function __import_filter_rec($node, $filter, $eval, $parent = [])
@@ -5165,8 +5333,8 @@ same but with recursivity
 </ul>
 
 </section>
-<section id="toc178">
-<h3>2.20.31. Apply Patch</h3>
+<section id="toc182">
+<h3>2.21.31. Apply Patch</h3>
 
 <pre>
 function __import_apply_patch(&amp;$array, $key, $val)
@@ -5187,8 +5355,8 @@ update the desired branch of the tree using a xpath notation
 </ul>
 
 </section>
-<section id="toc179">
-<h3>2.20.32. Apply Patch Recursive helper</h3>
+<section id="toc183">
+<h3>2.21.32. Apply Patch Recursive helper</h3>
 
 <pre>
 function __import_apply_patch_rec(&amp;$array, $key, $val)
@@ -5209,8 +5377,8 @@ same but with recursivity
 </ul>
 
 </section>
-<section id="toc180">
-<h3>2.20.33. Make Table ASCII</h3>
+<section id="toc184">
+<h3>2.21.33. Make Table ASCII</h3>
 
 <pre>
 function __import_make_table_ascii($array)
@@ -5232,8 +5400,8 @@ mode the contents of a matrix
 
 </section>
 </section>
-<section id="toc181">
-<h2>2.21. Make index helper module</h2>
+<section id="toc185">
+<h2>2.22. Make index helper module</h2>
 
 <pre>
 api/php/autoload/indexing.php
@@ -5244,8 +5412,8 @@ This fie contains useful functions related to the indexing feature that internal
 mroonga engine to search in the fulltext string generated by this feature
 </p>
 
-<section id="toc182">
-<h3>2.21.1. Make Index main function</h3>
+<section id="toc186">
+<h3>2.22.1. Make Index main function</h3>
 
 <pre>
 function make_index($app, $reg_id)
@@ -5291,8 +5459,8 @@ As you can see, negative values denotes an error and positive values denotes a s
 </p>
 
 </section>
-<section id="toc183">
-<h3>2.21.2. Make Index helper</h3>
+<section id="toc187">
+<h3>2.22.2. Make Index helper</h3>
 
 <pre>
 function __make_index_helper($table, $id = "")
@@ -5313,8 +5481,8 @@ related to the app register
 
 </section>
 </section>
-<section id="toc184">
-<h2>2.22. Iniset helper module</h2>
+<section id="toc188">
+<h2>2.23. Iniset helper module</h2>
 
 <pre>
 api/php/autoload/iniset.php
@@ -5325,8 +5493,8 @@ This fie contains useful functions related to the evaluation of the iniset, punt
 directives configures in the config.xml file
 </p>
 
-<section id="toc185">
-<h3>2.22.1. Eval Iniset</h3>
+<section id="toc189">
+<h3>2.23.1. Eval Iniset</h3>
 
 <pre>
 function eval_iniset($array)
@@ -5346,8 +5514,8 @@ or mbstring.detect_order that must to be set by using another mb_* functions
 </ul>
 
 </section>
-<section id="toc186">
-<h3>2.22.2. Eval Putenv</h3>
+<section id="toc190">
+<h3>2.23.2. Eval Putenv</h3>
 
 <pre>
 function eval_putenv($array)
@@ -5365,8 +5533,8 @@ if is needed to change or not the current setting
 </ul>
 
 </section>
-<section id="toc187">
-<h3>2.22.3. Eval Extras</h3>
+<section id="toc191">
+<h3>2.23.3. Eval Extras</h3>
 
 <pre>
 function eval_extras($array)
@@ -5393,8 +5561,8 @@ accept functions with one and two arguments, otherwise an error is triggered
 
 </section>
 </section>
-<section id="toc188">
-<h2>2.23. Log helper module</h2>
+<section id="toc192">
+<h2>2.24. Log helper module</h2>
 
 <pre>
 api/php/autoload/log.php
@@ -5405,8 +5573,8 @@ This fie contains useful functions related to the logs files, allowing to add an
 to the logs file, useful for debug purposes
 </p>
 
-<section id="toc189">
-<h3>2.23.1. Check Log</h3>
+<section id="toc193">
+<h3>2.24.1. Check Log</h3>
 
 <pre>
 function checklog($hash, $file)
@@ -5428,8 +5596,8 @@ replacement that is able to found the hash in the file
 </ul>
 
 </section>
-<section id="toc190">
-<h3>2.23.2. Add Log</h3>
+<section id="toc194">
+<h3>2.24.2. Add Log</h3>
 
 <pre>
 function addlog($msg, $file = "")
@@ -5460,8 +5628,8 @@ This function performs the log rotation is the maxfilesize is reached
 </p>
 
 </section>
-<section id="toc191">
-<h3>2.23.3. Add Trace</h3>
+<section id="toc195">
+<h3>2.24.3. Add Trace</h3>
 
 <pre>
 function addtrace($array, $file)
@@ -5482,8 +5650,8 @@ and then, saves the log to the specified file
 </ul>
 
 </section>
-<section id="toc192">
-<h3>2.23.4. Get Trace</h3>
+<section id="toc196">
+<h3>2.24.4. Get Trace</h3>
 
 <pre>
 function gettrace($array)
@@ -5500,8 +5668,8 @@ information and convert all array into a string
 </ul>
 
 </section>
-<section id="toc193">
-<h3>2.23.5. Session Backtrace</h3>
+<section id="toc197">
+<h3>2.24.5. Session Backtrace</h3>
 
 <pre>
 function session_backtrace()
@@ -5521,8 +5689,37 @@ problems in the error reporting because break the hash and checklog optimization
 
 </section>
 </section>
-<section id="toc194">
-<h2>2.24. Memory helper module</h2>
+<section id="toc198">
+<h2>2.25. Math utils helper module</h2>
+
+<pre>
+api/php/autoload/math.php
+</pre>
+
+<p>
+This fie contains useful functions related to math operations
+</p>
+
+<section id="toc199">
+<h3>2.25.1. Sign function</h3>
+
+<pre>
+function sign($n)
+</pre>
+
+<p>
+This function returns 1 for positive, -1 for negative and 0 for zero.
+</p>
+
+<ul>
+<li>@n =&gt; the number that you want to be processed
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc200">
+<h2>2.26. Memory helper module</h2>
 
 <pre>
 api/php/autoload/memory.php
@@ -5534,8 +5731,8 @@ of time and/or memory of a process, intended to prevent crashes in processes tha
 time or memory resources that the defined by the system limits
 </p>
 
-<section id="toc195">
-<h3>2.24.1. Memory Get Free</h3>
+<section id="toc201">
+<h3>2.26.1. Memory Get Free</h3>
 
 <pre>
 function memory_get_free($bytes = false)
@@ -5551,8 +5748,8 @@ This function returns the free memory in bytes or the percentage of the memory_l
 </ul>
 
 </section>
-<section id="toc196">
-<h3>2.24.2. Get Time Usage</h3>
+<section id="toc202">
+<h3>2.26.2. Get Time Usage</h3>
 
 <pre>
 function time_get_usage($secs = false)
@@ -5568,8 +5765,8 @@ This function returns the time usage in seconds or in percentage of the max_exec
 </ul>
 
 </section>
-<section id="toc197">
-<h3>2.24.3. Get Free Time</h3>
+<section id="toc203">
+<h3>2.26.3. Get Free Time</h3>
 
 <pre>
 function time_get_free($secs = false)
@@ -5585,8 +5782,8 @@ This function returns the free time in seconds or in percentage of the max_execu
 </ul>
 
 </section>
-<section id="toc198">
-<h3>2.24.4. Init Time Get</h3>
+<section id="toc204">
+<h3>2.26.4. Init Time Get</h3>
 
 <pre>
 function init_timer()
@@ -5597,8 +5794,8 @@ This function call the helper to initialize the static ini to the current microt
 </p>
 
 </section>
-<section id="toc199">
-<h3>2.24.5. Get Time helper</h3>
+<section id="toc205">
+<h3>2.26.5. Get Time helper</h3>
 
 <pre>
 function __time_get_helper($fn, $secs)
@@ -5610,8 +5807,8 @@ check the time usage and the free time that remain to finish the execution of th
 </p>
 
 </section>
-<section id="toc200">
-<h3>2.24.6. Set Max Memory Limit</h3>
+<section id="toc206">
+<h3>2.26.6. Set Max Memory Limit</h3>
 
 <pre>
 function set_max_memory_limit()
@@ -5623,8 +5820,8 @@ exceptionally amount of memory usage
 </p>
 
 </section>
-<section id="toc201">
-<h3>2.24.7. Set Max Execution Time</h3>
+<section id="toc207">
+<h3>2.26.7. Set Max Execution Time</h3>
 
 <pre>
 function set_max_execution_time()
@@ -5637,8 +5834,75 @@ exceptionally amount of execution time
 
 </section>
 </section>
-<section id="toc202">
-<h2>2.25. Output helper module</h2>
+<section id="toc208">
+<h2>2.27. Mime helper module</h2>
+
+<pre>
+api/php/autoload/mime.php
+</pre>
+
+<p>
+This file contains the mimetype feature provided by saltos using different techniques
+suck as the extension file, using the mime_content_type or the finfo_file functions.
+</p>
+
+<section id="toc209">
+<h3>2.27.1. SaltOS Content Type</h3>
+
+<pre>
+function saltos_content_type($file)
+</pre>
+
+<p>
+This function is intended to returns the mime content-type string using different
+techniques.
+</p>
+
+<ul>
+<li>@file =&gt; the file of which you want to know the content-type
+</li>
+</ul>
+
+</section>
+<section id="toc210">
+<h3>2.27.2. SaltOS Content Type first helper</h3>
+
+<pre>
+function saltos_content_type0($mime)
+</pre>
+
+<p>
+This function returns the first part of the content-type, for example, if you
+pass the string image/jpeg, this function will returns the string image.
+</p>
+
+<ul>
+<li>@mime =&gt; the mime that you want to process
+</li>
+</ul>
+
+</section>
+<section id="toc211">
+<h3>2.27.3. SaltOS Content Type second helper</h3>
+
+<pre>
+function saltos_content_type1($mime)
+</pre>
+
+<p>
+This function returns the second part of the content-type, for example, if you
+pass the string image/jpeg, this function will returns the string jpeg.
+</p>
+
+<ul>
+<li>@mime =&gt; the mime that you want to process
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc212">
+<h2>2.28. Output helper module</h2>
 
 <pre>
 api/php/autoload/output.php
@@ -5650,8 +5914,8 @@ the clients using the specified format and configuration, useful to return conte
 a specific output for the json format that is the most format used by the new SaltOS
 </p>
 
-<section id="toc203">
-<h3>2.25.1. Output Handler</h3>
+<section id="toc213">
+<h3>2.28.1. Output Handler</h3>
 
 <pre>
 function output_handler($array)
@@ -5680,8 +5944,8 @@ the follow arguments:
 </ul>
 
 </section>
-<section id="toc204">
-<h3>2.25.2. Output Handler JSON</h3>
+<section id="toc214">
+<h3>2.28.2. Output Handler JSON</h3>
 
 <pre>
 function output_handler_json($array)
@@ -5699,8 +5963,8 @@ requires is the data that you want to send
 
 </section>
 </section>
-<section id="toc205">
-<h2>2.26. Password helper module</h2>
+<section id="toc215">
+<h2>2.29. Password helper module</h2>
 
 <pre>
 api/php/autoload/password.php
@@ -5711,8 +5975,8 @@ This fie contains useful functions related to password, currently only publish o
 the password strength, but is open to be used to add more password features if it is needed
 </p>
 
-<section id="toc206">
-<h3>2.26.1. Password Strength</h3>
+<section id="toc216">
+<h3>2.29.1. Password Strength</h3>
 
 <pre>
 function password_strength($pass)
@@ -5732,8 +5996,8 @@ password
 
 </section>
 </section>
-<section id="toc207">
-<h2>2.27. Permissions helper module</h2>
+<section id="toc217">
+<h2>2.30. Permissions helper module</h2>
 
 <pre>
 api/php/autoload/perms.php
@@ -5745,8 +6009,8 @@ or in sql queries, to do it, uses all permissions tables and predefined configur
 in each function
 </p>
 
-<section id="toc208">
-<h3>2.27.1. Check User</h3>
+<section id="toc218">
+<h3>2.30.1. Check User</h3>
 
 <pre>
 function check_user($app, $perm)
@@ -5770,8 +6034,8 @@ an integrity error is launched.
 </ul>
 
 </section>
-<section id="toc209">
-<h3>2.27.2. Check SQL</h3>
+<section id="toc219">
+<h3>2.30.2. Check SQL</h3>
 
 <pre>
 function check_sql($app, $perm)
@@ -5800,8 +6064,8 @@ return a true expression to improve the performance
 </p>
 
 </section>
-<section id="toc210">
-<h3>2.27.3. Perms helper function</h3>
+<section id="toc220">
+<h3>2.30.3. Perms helper function</h3>
 
 <pre>
 function __perms($fn, $arg)
@@ -5820,8 +6084,8 @@ dictionary of all conversions and resolves the data using it
 </ul>
 
 </section>
-<section id="toc211">
-<h3>2.27.4. Id to Perm</h3>
+<section id="toc221">
+<h3>2.30.4. Id to Perm</h3>
 
 <pre>
 function id2perm($id)
@@ -5837,8 +6101,8 @@ This function resolves the code of the perm from the perm id
 </ul>
 
 </section>
-<section id="toc212">
-<h3>2.27.5. Perm to Id</h3>
+<section id="toc222">
+<h3>2.30.5. Perm to Id</h3>
 
 <pre>
 function perm2id($perm)
@@ -5862,8 +6126,8 @@ if the app is using the owner parameter or not
 </p>
 
 </section>
-<section id="toc213">
-<h3>2.27.6. Perm Exists</h3>
+<section id="toc223">
+<h3>2.30.6. Perm Exists</h3>
 
 <pre>
 function perm_exists($perm)
@@ -5890,8 +6154,8 @@ function returns true for perm list and form perm list|user
 
 </section>
 </section>
-<section id="toc214">
-<h2>2.28. QRCode helper module</h2>
+<section id="toc224">
+<h2>2.31. QRCode helper module</h2>
 
 <pre>
 api/php/autoload/qrcode.php
@@ -5901,8 +6165,8 @@ api/php/autoload/qrcode.php
 This fie contains useful functions related to QRCodes
 </p>
 
-<section id="toc215">
-<h3>2.28.1. QRCode function</h3>
+<section id="toc225">
+<h3>2.31.1. QRCode function</h3>
 
 <pre>
 function __qrcode($msg, $s, $m)
@@ -5933,8 +6197,8 @@ the function can returns an empty string
 
 </section>
 </section>
-<section id="toc216">
-<h2>2.29. Random helper module</h2>
+<section id="toc226">
+<h2>2.32. Random helper module</h2>
 
 <pre>
 api/php/autoload/random.php
@@ -5945,8 +6209,8 @@ This fie contains useful functions related to random number generator, currently
 the internal generator, but in the future we can add more features if it is needed
 </p>
 
-<section id="toc217">
-<h3>2.29.1. Init Random</h3>
+<section id="toc227">
+<h3>2.32.1. Init Random</h3>
 
 <pre>
 function init_random()
@@ -5966,8 +6230,8 @@ if it is not provided, a randomly seed is used by default
 
 </section>
 </section>
-<section id="toc218">
-<h2>2.30. Score image helper module</h2>
+<section id="toc228">
+<h2>2.33. Score image helper module</h2>
 
 <pre>
 api/php/autoload/score.php
@@ -5977,8 +6241,8 @@ api/php/autoload/score.php
 This fie contains useful functions related to score images
 </p>
 
-<section id="toc219">
-<h3>2.30.1. Score Image function</h3>
+<section id="toc229">
+<h3>2.33.1. Score Image function</h3>
 
 <pre>
 function __score_image($score, $width, $height, $size)
@@ -6004,8 +6268,8 @@ write the score percent
 
 </section>
 </section>
-<section id="toc220">
-<h2>2.31. Semaphore helper module</h2>
+<section id="toc230">
+<h2>2.34. Semaphore helper module</h2>
 
 <pre>
 api/php/autoload/semaphores.php
@@ -6016,8 +6280,8 @@ This fie contains useful functions related to semaphores, allow to create and us
 for acquiring and release semaphores that guaranty the exclusivity of the code execution
 </p>
 
-<section id="toc221">
-<h3>2.31.1. Semaphore Acquire</h3>
+<section id="toc231">
+<h3>2.34.1. Semaphore Acquire</h3>
 
 <pre>
 function semaphore_acquire($name = "", $timeout = INF)
@@ -6035,8 +6299,8 @@ This function implement the acquire of a semaphore
 </ul>
 
 </section>
-<section id="toc222">
-<h3>2.31.2. Semaphore Release</h3>
+<section id="toc232">
+<h3>2.34.2. Semaphore Release</h3>
 
 <pre>
 function semaphore_release($name = "")
@@ -6052,8 +6316,8 @@ This function implement the release of the semaphore
 </ul>
 
 </section>
-<section id="toc223">
-<h3>2.31.3. Semaphore Shutdown</h3>
+<section id="toc233">
+<h3>2.34.3. Semaphore Shutdown</h3>
 
 <pre>
 function semaphore_shutdown()
@@ -6066,8 +6330,8 @@ null the semaphore pointer
 </p>
 
 </section>
-<section id="toc224">
-<h3>2.31.4. Semaphore File</h3>
+<section id="toc234">
+<h3>2.34.4. Semaphore File</h3>
 
 <pre>
 function semaphore_file($name = "")
@@ -6084,8 +6348,8 @@ named semaphore, useful for debug purposes
 </ul>
 
 </section>
-<section id="toc225">
-<h3>2.31.5. Semaphore helper</h3>
+<section id="toc235">
+<h3>2.34.5. Semaphore helper</h3>
 
 <pre>
 function __semaphore_helper($fn, $name, $timeout)
@@ -6109,8 +6373,8 @@ class and each if stripos acts as a methods of a class
 </ul>
 
 </section>
-<section id="toc226">
-<h3>2.31.6. Semaphore USleep helper</h3>
+<section id="toc236">
+<h3>2.34.6. Semaphore USleep helper</h3>
 
 <pre>
 function __semaphore_usleep($usec)
@@ -6136,8 +6400,8 @@ function
 
 </section>
 </section>
-<section id="toc227">
-<h2>2.32. Server helper module</h2>
+<section id="toc237">
+<h2>2.35. Server helper module</h2>
 
 <pre>
 api/php/autoload/server.php
@@ -6148,8 +6412,8 @@ This fie contains useful functions related to the $_SERVER global variable, curr
 a getter function, but in the future, can store more features if it is needed
 </p>
 
-<section id="toc228">
-<h3>2.32.1. Get Server</h3>
+<section id="toc238">
+<h3>2.35.1. Get Server</h3>
 
 <pre>
 function get_server($key)
@@ -6165,8 +6429,8 @@ This function returns the server variable requested by index if it exists
 </ul>
 
 </section>
-<section id="toc229">
-<h3>2.32.2. Set Server</h3>
+<section id="toc239">
+<h3>2.35.2. Set Server</h3>
 
 <pre>
 function set_server($key, $val)
@@ -6185,11 +6449,11 @@ This function is intended to replace some server variabe in runtime mode
 
 </section>
 </section>
-<section id="toc230">
-<h2>2.33. SQL utils helper module</h2>
+<section id="toc240">
+<h2>2.36. SQL utils helper module</h2>
 
 <pre>
-api/php/autoload/sqlutils.php
+api/php/autoload/sql.php
 </pre>
 
 <p>
@@ -6204,8 +6468,8 @@ or match again combinations for the fulltext search engine, see all detailed inf
 reading the list of functions of this module
 </p>
 
-<section id="toc231">
-<h3>2.33.1. Parse Query</h3>
+<section id="toc241">
+<h3>2.36.1. Parse Query</h3>
 
 <pre>
 function parse_query($query, $type = "")
@@ -6230,8 +6494,8 @@ because we can not put comments inside another comment!!!
 </ul>
 
 </section>
-<section id="toc232">
-<h3>2.33.2. Parse Query Type helper</h3>
+<section id="toc242">
+<h3>2.36.2. Parse Query Type helper</h3>
 
 <pre>
 function __parse_query_type()
@@ -6243,8 +6507,8 @@ dbtype of the config file, currently only allow to return MYSQL and/or SQLITE
 </p>
 
 </section>
-<section id="toc233">
-<h3>2.33.3. Parse Query Strpos helper</h3>
+<section id="toc243">
+<h3>2.36.3. Parse Query Strpos helper</h3>
 
 <pre>
 function __parse_query_strpos($haystack, $needle, $offset = 0)
@@ -6270,8 +6534,8 @@ The arguments are the same that the strpos function
 </ul>
 
 </section>
-<section id="toc234">
-<h3>2.33.4. Execute Query</h3>
+<section id="toc244">
+<h3>2.36.4. Execute Query</h3>
 
 <pre>
 function execute_query($query)
@@ -6321,8 +6585,8 @@ need to be more standarized in the output types, see the execute_query_array
 </p>
 
 </section>
-<section id="toc235">
-<h3>2.33.5. Execute Query Array</h3>
+<section id="toc245">
+<h3>2.36.5. Execute Query Array</h3>
 
 <pre>
 function execute_query_array($query)
@@ -6341,8 +6605,8 @@ in a foreach, for example
 </ul>
 
 </section>
-<section id="toc236">
-<h3>2.33.6. Get Fields</h3>
+<section id="toc246">
+<h3>2.36.6. Get Fields</h3>
 
 <pre>
 function get_fields($table)
@@ -6358,8 +6622,8 @@ This function returns the fields of the requested table
 </ul>
 
 </section>
-<section id="toc237">
-<h3>2.33.7. Get Indexes</h3>
+<section id="toc247">
+<h3>2.36.7. Get Indexes</h3>
 
 <pre>
 function get_indexes($table)
@@ -6375,8 +6639,8 @@ This function returns the indexes of the requested table
 </ul>
 
 </section>
-<section id="toc238">
-<h3>2.33.8. Get Tables</h3>
+<section id="toc248">
+<h3>2.36.8. Get Tables</h3>
 
 <pre>
 function get_tables()
@@ -6387,8 +6651,8 @@ This function returns the tables of the database
 </p>
 
 </section>
-<section id="toc239">
-<h3>2.33.9. Get Field Type</h3>
+<section id="toc249">
+<h3>2.36.9. Get Field Type</h3>
 
 <pre>
 function get_field_type($type)
@@ -6405,8 +6669,8 @@ the real database, for example, returns string if the field is of TEXT type
 </ul>
 
 </section>
-<section id="toc240">
-<h3>2.33.10. Get Field Size</h3>
+<section id="toc250">
+<h3>2.36.10. Get Field Size</h3>
 
 <pre>
 function get_field_size($type)
@@ -6423,8 +6687,8 @@ example, returns 65535 if the field is of TEXT type
 </ul>
 
 </section>
-<section id="toc241">
-<h3>2.33.11. SQL Create Table</h3>
+<section id="toc251">
+<h3>2.36.11. SQL Create Table</h3>
 
 <pre>
 function sql_create_table($tablespec)
@@ -6447,8 +6711,8 @@ foreign key, and detect fulltext indexes with mroonga engines
 </p>
 
 </section>
-<section id="toc242">
-<h3>2.33.12. Has Engine</h3>
+<section id="toc252">
+<h3>2.36.12. Has Engine</h3>
 
 <pre>
 function __has_engine($engine)
@@ -6465,8 +6729,8 @@ availabie
 </ul>
 
 </section>
-<section id="toc243">
-<h3>2.33.13. SQL Alter Table</h3>
+<section id="toc253">
+<h3>2.36.13. SQL Alter Table</h3>
 
 <pre>
 function sql_alter_table($orig, $dest)
@@ -6484,8 +6748,8 @@ This function returns the alter table command
 </ul>
 
 </section>
-<section id="toc244">
-<h3>2.33.14. SQL Insert From Select</h3>
+<section id="toc254">
+<h3>2.36.14. SQL Insert From Select</h3>
 
 <pre>
 function sql_insert_from_select($dest, $orig)
@@ -6503,8 +6767,8 @@ This function returns the insert from select command
 </ul>
 
 </section>
-<section id="toc245">
-<h3>2.33.15. SQL Drop Table</h3>
+<section id="toc255">
+<h3>2.36.15. SQL Drop Table</h3>
 
 <pre>
 function sql_drop_table($table)
@@ -6520,8 +6784,8 @@ This function returns the drop table command
 </ul>
 
 </section>
-<section id="toc246">
-<h3>2.33.16. SQL Create Index</h3>
+<section id="toc256">
+<h3>2.36.16. SQL Create Index</h3>
 
 <pre>
 function sql_create_index($indexspec)
@@ -6543,8 +6807,8 @@ This function creates the index, supports fulltext indexes
 </p>
 
 </section>
-<section id="toc247">
-<h3>2.33.17. SQL Drop Index</h3>
+<section id="toc257">
+<h3>2.36.17. SQL Drop Index</h3>
 
 <pre>
 function sql_drop_index($index, $table)
@@ -6562,8 +6826,8 @@ This function returns the drop index command
 </ul>
 
 </section>
-<section id="toc248">
-<h3>2.33.18. Make Insert Query</h3>
+<section id="toc258">
+<h3>2.36.18. Make Insert Query</h3>
 
 <pre>
 function make_insert_query($table, $array)
@@ -6600,8 +6864,8 @@ null, for example
 </p>
 
 </section>
-<section id="toc249">
-<h3>2.33.19. Make Update Query</h3>
+<section id="toc259">
+<h3>2.36.19. Make Update Query</h3>
 
 <pre>
 function make_update_query($table, $array, $where)
@@ -6641,8 +6905,8 @@ null, for example
 </p>
 
 </section>
-<section id="toc250">
-<h3>2.33.20. Make Where Query</h3>
+<section id="toc260">
+<h3>2.36.20. Make Where Query</h3>
 
 <pre>
 function make_where_query($array)
@@ -6669,8 +6933,8 @@ operators are &gt;, &lt;, =, &gt;=, &lt;=, !=
 </p>
 
 </section>
-<section id="toc251">
-<h3>2.33.21. Escape Reserved Word</h3>
+<section id="toc261">
+<h3>2.36.21. Escape Reserved Word</h3>
 
 <pre>
 function escape_reserved_word($word)
@@ -6689,8 +6953,8 @@ to escape table names too
 </ul>
 
 </section>
-<section id="toc252">
-<h3>2.33.22. Make Like Query</h3>
+<section id="toc262">
+<h3>2.36.22. Make Like Query</h3>
 
 <pre>
 function make_like_query($keys, $values, $args = [])
@@ -6724,8 +6988,8 @@ conjunction in each like group
 </p>
 
 </section>
-<section id="toc253">
-<h3>2.33.23. Make Fulltext Query Helper</h3>
+<section id="toc263">
+<h3>2.36.23. Make Fulltext Query Helper</h3>
 
 <pre>
 function __make_fulltext_query_helper($values, $args = [])
@@ -6757,8 +7021,8 @@ field named search
 </p>
 
 </section>
-<section id="toc254">
-<h3>2.33.24. Make Fulltext Query</h3>
+<section id="toc264">
+<h3>2.36.24. Make Fulltext Query</h3>
 
 <pre>
 function make_fulltext_query($values, $app, $args = [])
@@ -6786,11 +7050,11 @@ app and the prefix to be added to the id field of the in subquery
 
 </section>
 </section>
-<section id="toc255">
-<h2>2.34. String utils helper module</h2>
+<section id="toc265">
+<h2>2.37. String utils helper module</h2>
 
 <pre>
-api/php/autoload/strutils.php
+api/php/autoload/strings.php
 </pre>
 
 <p>
@@ -6799,8 +7063,8 @@ UTF8, remove bad chars, of apply filters to the text, manipulate texts of other 
 with strings
 </p>
 
-<section id="toc256">
-<h3>2.34.1. Remove Bar Chars</h3>
+<section id="toc266">
+<h3>2.37.1. Remove Bar Chars</h3>
 
 <pre>
 function remove_bad_chars($temp, $pad = "")
@@ -6819,8 +7083,8 @@ newline, return)
 </ul>
 
 </section>
-<section id="toc257">
-<h3>2.34.2. Encode Bar Chars</h3>
+<section id="toc267">
+<h3>2.37.2. Encode Bar Chars</h3>
 
 <pre>
 function encode_bad_chars($cad, $pad = "_", $extra = "")
@@ -6847,8 +7111,8 @@ only allow one pading char at time
 </ul>
 
 </section>
-<section id="toc258">
-<h3>2.34.3. Prepare Words</h3>
+<section id="toc268">
+<h3>2.37.3. Prepare Words</h3>
 
 <pre>
 function prepare_words($cad, $pad = " ")
@@ -6874,8 +7138,8 @@ remove padding chars in the start and in the end of the string
 </p>
 
 </section>
-<section id="toc259">
-<h3>2.34.4. Sprintr</h3>
+<section id="toc269">
+<h3>2.37.4. Sprintr</h3>
 
 <pre>
 function sprintr($array)
@@ -6894,8 +7158,8 @@ are removed, optimizing the output string
 </ul>
 
 </section>
-<section id="toc260">
-<h3>2.34.5. Get Unique ID MD5</h3>
+<section id="toc270">
+<h3>2.37.5. Get Unique ID MD5</h3>
 
 <pre>
 function get_unique_id_md5()
@@ -6906,8 +7170,8 @@ This function returns an unique hash using the random generator
 </p>
 
 </section>
-<section id="toc261">
-<h3>2.34.6. Intelligence Cut</h3>
+<section id="toc271">
+<h3>2.37.6. Intelligence Cut</h3>
 
 <pre>
 function intelligence_cut($txt, $max, $end = "...")
@@ -6927,8 +7191,8 @@ This function allow to cut text by searching spaces to prevent to break words
 </ul>
 
 </section>
-<section id="toc262">
-<h3>2.34.7. Normalize Value</h3>
+<section id="toc272">
+<h3>2.37.7. Normalize Value</h3>
 
 <pre>
 function normalize_value($value)
@@ -6946,8 +7210,8 @@ get the number without factor
 </ul>
 
 </section>
-<section id="toc263">
-<h3>2.34.8. HTML to Text</h3>
+<section id="toc273">
+<h3>2.37.8. HTML to Text</h3>
 
 <pre>
 function html2text($html)
@@ -6966,8 +7230,8 @@ example
 </ul>
 
 </section>
-<section id="toc264">
-<h3>2.34.9. Get UTF-8</h3>
+<section id="toc274">
+<h3>2.37.9. Get UTF-8</h3>
 
 <pre>
 function getutf8($str)
@@ -6983,8 +7247,8 @@ This function returns the string codified in a UTF-8 encoding
 </ul>
 
 </section>
-<section id="toc265">
-<h3>2.34.10. Words Exists</h3>
+<section id="toc275">
+<h3>2.37.10. Words Exists</h3>
 
 <pre>
 function words_exists($words, $buffer)
@@ -7002,8 +7266,8 @@ This function check that all words exists in the buffer
 </ul>
 
 </section>
-<section id="toc266">
-<h3>2.34.11. String Replace Assoc</h3>
+<section id="toc276">
+<h3>2.37.11. String Replace Assoc</h3>
 
 <pre>
 function str_replace_assoc($array, $cad)
@@ -7023,8 +7287,8 @@ to do more prerry the code
 </ul>
 
 </section>
-<section id="toc267">
-<h3>2.34.12. Get Part From String</h3>
+<section id="toc277">
+<h3>2.37.12. Get Part From String</h3>
 
 <pre>
 function get_part_from_string($input, $delim, $index)
@@ -7045,8 +7309,8 @@ of the index position
 </ul>
 
 </section>
-<section id="toc268">
-<h3>2.34.13. Get Unique Token</h3>
+<section id="toc278">
+<h3>2.37.13. Get Unique Token</h3>
 
 <pre>
 function get_unique_token()
@@ -7058,8 +7322,8 @@ This function returns a string with a new and unique token
 
 </section>
 </section>
-<section id="toc269">
-<h2>2.35. System helper module</h2>
+<section id="toc279">
+<h2>2.38. System helper module</h2>
 
 <pre>
 api/php/autoload/system.php
@@ -7070,8 +7334,8 @@ This fie contains useful functions related to system checks, allow to detect dep
 installed on the system, or misconfigurations on the SaltOS installation
 </p>
 
-<section id="toc270">
-<h3>2.35.1. Check System</h3>
+<section id="toc280">
+<h3>2.38.1. Check System</h3>
 
 <pre>
 function check_system()
@@ -7088,8 +7352,8 @@ Too, check all directories of the data directory to validate that the process ca
 
 </section>
 </section>
-<section id="toc271">
-<h2>2.36. User helper module</h2>
+<section id="toc281">
+<h2>2.39. User helper module</h2>
 
 <pre>
 api/php/autoload/user.php
@@ -7101,8 +7365,8 @@ improve the performance, all functions are using a cache based trick
 that performs an important speed up
 </p>
 
-<section id="toc272">
-<h3>2.36.1. Current Token</h3>
+<section id="toc282">
+<h3>2.39.1. Current Token</h3>
 
 <pre>
 function current_token()
@@ -7115,8 +7379,8 @@ can be performed by the same origin that execute the login action
 </p>
 
 </section>
-<section id="toc273">
-<h3>2.36.2. Current User</h3>
+<section id="toc283">
+<h3>2.39.2. Current User</h3>
 
 <pre>
 function current_user()
@@ -7128,8 +7392,8 @@ using the token of the request
 </p>
 
 </section>
-<section id="toc274">
-<h3>2.36.3. Current Group</h3>
+<section id="toc284">
+<h3>2.39.3. Current Group</h3>
 
 <pre>
 function current_group()
@@ -7141,8 +7405,8 @@ using the token of the request
 </p>
 
 </section>
-<section id="toc275">
-<h3>2.36.4. Current Groups</h3>
+<section id="toc285">
+<h3>2.39.4. Current Groups</h3>
 
 <pre>
 function current_groups()
@@ -7156,8 +7420,8 @@ permissions checks
 </p>
 
 </section>
-<section id="toc276">
-<h3>2.36.5. Crontab Users</h3>
+<section id="toc286">
+<h3>2.39.5. Crontab Users</h3>
 
 <pre>
 function crontab_users()
@@ -7179,8 +7443,8 @@ and tokens
 
 </section>
 </section>
-<section id="toc277">
-<h2>2.37. Version helper module</h2>
+<section id="toc287">
+<h2>2.40. Version helper module</h2>
 
 <pre>
 api/php/autoload/version.php
@@ -7190,8 +7454,8 @@ api/php/autoload/version.php
 This fie contains useful functions related to the version of the SaltOS of the php engine
 </p>
 
-<section id="toc278">
-<h3>2.37.1. Get Name Version Revision</h3>
+<section id="toc288">
+<h3>2.40.1. Get Name Version Revision</h3>
 
 <pre>
 function get_name_version_revision($copyright = false)
@@ -7208,8 +7472,8 @@ copyright if needed
 </ul>
 
 </section>
-<section id="toc279">
-<h3>2.37.2. SVN Version</h3>
+<section id="toc289">
+<h3>2.40.2. SVN Version</h3>
 
 <pre>
 function svnversion($dir = ".")
@@ -7225,8 +7489,8 @@ This function tries to return the svn version of the project
 </ul>
 
 </section>
-<section id="toc280">
-<h3>2.37.3. GIT Version</h3>
+<section id="toc290">
+<h3>2.40.3. GIT Version</h3>
 
 <pre>
 function gitversion($dir = ".")
@@ -7242,8 +7506,8 @@ This function tries to return the git version of the project
 </ul>
 
 </section>
-<section id="toc281">
-<h3>2.37.4. IS PHP</h3>
+<section id="toc291">
+<h3>2.40.4. IS PHP</h3>
 
 <pre>
 function isphp($version)
@@ -7261,8 +7525,8 @@ version requested and the current version.
 
 </section>
 </section>
-<section id="toc282">
-<h2>2.38. XML to Array helper module</h2>
+<section id="toc292">
+<h2>2.41. XML to Array helper module</h2>
 
 <pre>
 api/php/autoload/xml2array.php
@@ -7275,8 +7539,8 @@ compare this code, you can see more accuracy in the specification to be more spe
 but this code is a part of all the SaltOS versions
 </p>
 
-<section id="toc283">
-<h3>2.38.1. Eval Protected</h3>
+<section id="toc293">
+<h3>2.41.1. Eval Protected</h3>
 
 <pre>
 function eval_protected($input, $global = "")
@@ -7295,8 +7559,8 @@ environment, you can specify some global variables to improve the eval execution
 </ul>
 
 </section>
-<section id="toc284">
-<h3>2.38.2. Set Array</h3>
+<section id="toc294">
+<h3>2.41.2. Set Array</h3>
 
 <pre>
 function set_array(&amp;$array, $name, $value)
@@ -7325,8 +7589,8 @@ added to allow multiples instances of the same key in an associative array
 </ul>
 
 </section>
-<section id="toc285">
-<h3>2.38.3. Unset Array</h3>
+<section id="toc295">
+<h3>2.41.3. Unset Array</h3>
 
 <pre>
 function unset_array(&amp;$array, $name)
@@ -7347,8 +7611,8 @@ will remove "test", "test#1" and "test#2"
 </ul>
 
 </section>
-<section id="toc286">
-<h3>2.38.4. Fix Key</h3>
+<section id="toc296">
+<h3>2.41.4. Fix Key</h3>
 
 <pre>
 function fix_key($arg)
@@ -7366,8 +7630,8 @@ the fix_key of the "test#2", the function will returns "test"
 </ul>
 
 </section>
-<section id="toc287">
-<h3>2.38.5. Detect Recursion</h3>
+<section id="toc297">
+<h3>2.41.5. Detect Recursion</h3>
 
 <pre>
 function detect_recursion($fn)
@@ -7387,8 +7651,8 @@ or the function, and returns the count of times that appear
 </ul>
 
 </section>
-<section id="toc288">
-<h3>2.38.6. XML File to Array</h3>
+<section id="toc298">
+<h3>2.41.6. XML File to Array</h3>
 
 <pre>
 function xmlfile2array($file, $usecache = true)
@@ -7412,8 +7676,8 @@ management to optimize the usage
 </ul>
 
 </section>
-<section id="toc289">
-<h3>2.38.7. XML to Array</h3>
+<section id="toc299">
+<h3>2.41.7. XML to Array</h3>
 
 <pre>
 function xml2array($xml, $file = "")
@@ -7431,8 +7695,8 @@ This function allow to convert a XML string to an array
 </ul>
 
 </section>
-<section id="toc290">
-<h3>2.38.8. XML to Struct</h3>
+<section id="toc300">
+<h3>2.41.8. XML to Struct</h3>
 
 <pre>
 function xml2struct($xml, $file = "")
@@ -7468,8 +7732,8 @@ the key of this feature and this function
 </ul>
 
 </section>
-<section id="toc291">
-<h3>2.38.9. Struct to Array</h3>
+<section id="toc301">
+<h3>2.41.9. Struct to Array</h3>
 
 <pre>
 function struct2array(&amp;$data, $file = "")
@@ -7508,8 +7772,8 @@ and the pop instead of only shift
 </p>
 
 </section>
-<section id="toc292">
-<h3>2.38.10. Eval Attributes</h3>
+<section id="toc302">
+<h3>2.41.10. Eval Attributes</h3>
 
 <pre>
 function eval_attr($array)
@@ -7560,8 +7824,8 @@ attributes can be maintained in order to be used by other processes
 </p>
 
 </section>
-<section id="toc293">
-<h3>2.38.11. Eval Bool</h3>
+<section id="toc303">
+<h3>2.41.11. Eval Bool</h3>
 
 <pre>
 function eval_bool($arg)
@@ -7583,8 +7847,8 @@ The valid inputs are the strings one, zero, void, true, false, on, off, yes and 
 
 </section>
 </section>
-<section id="toc294">
-<h2>2.39. Main execution module</h2>
+<section id="toc304">
+<h2>2.42. Main execution module</h2>
 
 <pre>
 api/php/autoload/zindex.php
@@ -7694,10 +7958,10 @@ As a brief resume, you can use the follow keys in get_data or set_data:
 
 </section>
 </section>
-<section id="toc295">
+<section id="toc305">
 <h1>3. Database</h1>
 
-<section id="toc296">
+<section id="toc306">
 <h2>3.1. SQLite3 functions library</h2>
 
 <pre>
@@ -7721,7 +7985,7 @@ More info about this feature by searching:
 </li>
 </ul>
 
-<section id="toc297">
+<section id="toc307">
 <h3>3.1.1. GROUP_CONCAT</h3>
 
 <pre>
@@ -7733,7 +7997,7 @@ This function add the GROUP_CONCAT to the SQLite database
 </p>
 
 </section>
-<section id="toc298">
+<section id="toc308">
 <h3>3.1.2. GROUP_CONCAT</h3>
 
 <pre>
@@ -7745,7 +8009,7 @@ This function add the GROUP_CONCAT to the SQLite database
 </p>
 
 </section>
-<section id="toc299">
+<section id="toc309">
 <h3>3.1.3. REPLACE</h3>
 
 <pre>
@@ -7757,7 +8021,7 @@ This function add the REPLACE to the SQLite database
 </p>
 
 </section>
-<section id="toc300">
+<section id="toc310">
 <h3>3.1.4. LPAD</h3>
 
 <pre>
@@ -7769,7 +8033,7 @@ This function add the LPAD to the SQLite database
 </p>
 
 </section>
-<section id="toc301">
+<section id="toc311">
 <h3>3.1.5. CONCAT</h3>
 
 <pre>
@@ -7781,8 +8045,20 @@ This function add the CONCAT to the SQLite database
 </p>
 
 </section>
-<section id="toc302">
-<h3>3.1.6. UNIX_TIMESTAMP</h3>
+<section id="toc312">
+<h3>3.1.6. CONCAT_WS</h3>
+
+<pre>
+function __libsqlite_concat_ws()
+</pre>
+
+<p>
+This function add the CONCAT_WS to the SQLite database
+</p>
+
+</section>
+<section id="toc313">
+<h3>3.1.7. UNIX_TIMESTAMP</h3>
 
 <pre>
 function __libsqlite_unix_timestamp($date)
@@ -7793,8 +8069,8 @@ This function add the UNIX_TIMESTAMP to the SQLite database
 </p>
 
 </section>
-<section id="toc303">
-<h3>3.1.7. FROM_UNIXTIME</h3>
+<section id="toc314">
+<h3>3.1.8. FROM_UNIXTIME</h3>
 
 <pre>
 function __libsqlite_from_unixtime($timestamp)
@@ -7805,8 +8081,8 @@ This function add the FROM_UNIXTIME to the SQLite database
 </p>
 
 </section>
-<section id="toc304">
-<h3>3.1.8. YEAR</h3>
+<section id="toc315">
+<h3>3.1.9. YEAR</h3>
 
 <pre>
 function __libsqlite_year($date)
@@ -7817,8 +8093,8 @@ This function add the YEAR to the SQLite database
 </p>
 
 </section>
-<section id="toc305">
-<h3>3.1.9. MONTH</h3>
+<section id="toc316">
+<h3>3.1.10. MONTH</h3>
 
 <pre>
 function __libsqlite_month($date)
@@ -7829,8 +8105,8 @@ This function add the MONTH to the SQLite database
 </p>
 
 </section>
-<section id="toc306">
-<h3>3.1.10. WEEK</h3>
+<section id="toc317">
+<h3>3.1.11. WEEK</h3>
 
 <pre>
 function __libsqlite_week($date, $mode)
@@ -7841,8 +8117,8 @@ This function add the WEEK to the SQLite database
 </p>
 
 </section>
-<section id="toc307">
-<h3>3.1.11. TRUNCATE</h3>
+<section id="toc318">
+<h3>3.1.12. TRUNCATE</h3>
 
 <pre>
 function __libsqlite_truncate($n, $d)
@@ -7853,8 +8129,8 @@ This function add the TRUNCATE to the SQLite database
 </p>
 
 </section>
-<section id="toc308">
-<h3>3.1.12. DAY</h3>
+<section id="toc319">
+<h3>3.1.13. DAY</h3>
 
 <pre>
 function __libsqlite_day($date)
@@ -7865,8 +8141,8 @@ This function add the DAY to the SQLite database
 </p>
 
 </section>
-<section id="toc309">
-<h3>3.1.13. DAYOFYEAR</h3>
+<section id="toc320">
+<h3>3.1.14. DAYOFYEAR</h3>
 
 <pre>
 function __libsqlite_dayofyear($date)
@@ -7877,8 +8153,8 @@ This function add the DAYOFYEAR to the SQLite database
 </p>
 
 </section>
-<section id="toc310">
-<h3>3.1.14. DAYOFWEEK</h3>
+<section id="toc321">
+<h3>3.1.15. DAYOFWEEK</h3>
 
 <pre>
 function __libsqlite_dayofweek($date)
@@ -7889,8 +8165,8 @@ This function add the DAYOFWEEK to the SQLite database
 </p>
 
 </section>
-<section id="toc311">
-<h3>3.1.15. HOUR</h3>
+<section id="toc322">
+<h3>3.1.16. HOUR</h3>
 
 <pre>
 function __libsqlite_hour($date)
@@ -7901,8 +8177,8 @@ This function add the HOUR to the SQLite database
 </p>
 
 </section>
-<section id="toc312">
-<h3>3.1.16. MINUTE</h3>
+<section id="toc323">
+<h3>3.1.17. MINUTE</h3>
 
 <pre>
 function __libsqlite_minute($date)
@@ -7913,8 +8189,8 @@ This function add the MINUTE to the SQLite database
 </p>
 
 </section>
-<section id="toc313">
-<h3>3.1.17. SECOND</h3>
+<section id="toc324">
+<h3>3.1.18. SECOND</h3>
 
 <pre>
 function __libsqlite_second($date)
@@ -7925,8 +8201,8 @@ This function add the SECOND to the SQLite database
 </p>
 
 </section>
-<section id="toc314">
-<h3>3.1.18. MD5</h3>
+<section id="toc325">
+<h3>3.1.19. MD5</h3>
 
 <pre>
 function __libsqlite_md5($temp)
@@ -7937,8 +8213,8 @@ This function add the MD5 to the SQLite database
 </p>
 
 </section>
-<section id="toc315">
-<h3>3.1.19. REPEAT</h3>
+<section id="toc326">
+<h3>3.1.20. REPEAT</h3>
 
 <pre>
 function __libsqlite_repeat($str, $count)
@@ -7949,8 +8225,8 @@ This function add the REPEAT to the SQLite database
 </p>
 
 </section>
-<section id="toc316">
-<h3>3.1.20. FIND_IN_SET</h3>
+<section id="toc327">
+<h3>3.1.21. FIND_IN_SET</h3>
 
 <pre>
 function __libsqlite_find_in_set($str, $strlist)
@@ -7961,8 +8237,8 @@ This function add the FIND_IN_SET to the SQLite database
 </p>
 
 </section>
-<section id="toc317">
-<h3>3.1.21. IF</h3>
+<section id="toc328">
+<h3>3.1.22. IF</h3>
 
 <pre>
 function __libsqlite_if($condition, $value_if_true, $value_if_false)
@@ -7973,8 +8249,8 @@ This function add the IF to the SQLite database
 </p>
 
 </section>
-<section id="toc318">
-<h3>3.1.22. POW</h3>
+<section id="toc329">
+<h3>3.1.23. POW</h3>
 
 <pre>
 function __libsqlite_pow($base, $exp)
@@ -7985,8 +8261,8 @@ This function add the POW to the SQLite database
 </p>
 
 </section>
-<section id="toc319">
-<h3>3.1.23. DATE_FORMAT</h3>
+<section id="toc330">
+<h3>3.1.24. DATE_FORMAT</h3>
 
 <pre>
 function __libsqlite_date_format($date, $format)
@@ -7997,8 +8273,8 @@ This function add the DATE_FORMAT to the SQLite database
 </p>
 
 </section>
-<section id="toc320">
-<h3>3.1.24. NOW</h3>
+<section id="toc331">
+<h3>3.1.25. NOW</h3>
 
 <pre>
 function __libsqlite_now()
@@ -8010,7 +8286,7 @@ This function add the NOW to the SQLite database
 
 </section>
 </section>
-<section id="toc321">
+<section id="toc332">
 <h2>3.2. MySQL improved driver</h2>
 
 <pre>
@@ -8023,7 +8299,7 @@ mysql driver and contains lots of improvements respect to the old mysql driver. 
 driver was removed in the PHP 7.0 release.
 </p>
 
-<section id="toc322">
+<section id="toc333">
 <h3>3.2.1. Database MySQL improved class</h3>
 
 <pre>
@@ -8035,7 +8311,7 @@ This class allow to SaltOS to connect to MySQL databases using the MySQL improve
 </p>
 
 </section>
-<section id="toc323">
+<section id="toc334">
 <h3>3.2.2. Private link variable</h3>
 
 <pre>
@@ -8047,7 +8323,7 @@ This private variable contains the link to the database
 </p>
 
 </section>
-<section id="toc324">
+<section id="toc335">
 <h3>3.2.3. Constructor</h3>
 
 <pre>
@@ -8074,7 +8350,7 @@ This public function is intended to stablish the connection to the database
 </ul>
 
 </section>
-<section id="toc325">
+<section id="toc336">
 <h3>3.2.4. DB Check</h3>
 
 <pre>
@@ -8091,7 +8367,7 @@ This public function is intended to check that the query execution will not trig
 </ul>
 
 </section>
-<section id="toc326">
+<section id="toc337">
 <h3>3.2.5. DB Query</h3>
 
 <pre>
@@ -8137,7 +8413,7 @@ ids instead of an array where each element is an id
 </p>
 
 </section>
-<section id="toc327">
+<section id="toc338">
 <h3>3.2.6. DB Disconnect</h3>
 
 <pre>
@@ -8150,7 +8426,7 @@ This function close the database connection and sets the link to null
 
 </section>
 </section>
-<section id="toc328">
+<section id="toc339">
 <h2>3.3. PDO MsSQL driver</h2>
 
 <pre>
@@ -8162,7 +8438,7 @@ This file implements the MySQL improved driver. This driver uses the dblib libra
 with SQL servers.
 </p>
 
-<section id="toc329">
+<section id="toc340">
 <h3>3.3.1. Database PDO MsSQL class</h3>
 
 <pre>
@@ -8174,7 +8450,7 @@ This class allow to SaltOS to connect to MsSQL databases using the PDO driver
 </p>
 
 </section>
-<section id="toc330">
+<section id="toc341">
 <h3>3.3.2. Private link variable</h3>
 
 <pre>
@@ -8186,7 +8462,7 @@ This private variable contains the link to the database
 </p>
 
 </section>
-<section id="toc331">
+<section id="toc342">
 <h3>3.3.3. Constructor</h3>
 
 <pre>
@@ -8213,7 +8489,7 @@ This public function is intended to stablish the connection to the database
 </ul>
 
 </section>
-<section id="toc332">
+<section id="toc343">
 <h3>3.3.4. DB Check</h3>
 
 <pre>
@@ -8230,7 +8506,7 @@ This public function is intended to check that the query execution will not trig
 </ul>
 
 </section>
-<section id="toc333">
+<section id="toc344">
 <h3>3.3.5. DB Query</h3>
 
 <pre>
@@ -8276,7 +8552,7 @@ ids instead of an array where each element is an id
 </p>
 
 </section>
-<section id="toc334">
+<section id="toc345">
 <h3>3.3.6. DB Disconnect</h3>
 
 <pre>
@@ -8289,7 +8565,7 @@ This function close the database connection and sets the link to null
 
 </section>
 </section>
-<section id="toc335">
+<section id="toc346">
 <h2>3.4. PDO MySQL driver</h2>
 
 <pre>
@@ -8302,7 +8578,7 @@ to use MySQL servers, it uses the PDO extension and alow to connect to MySQL ser
 good performance.
 </p>
 
-<section id="toc336">
+<section id="toc347">
 <h3>3.4.1. Database PDO MySQL class</h3>
 
 <pre>
@@ -8314,7 +8590,7 @@ This class allow to SaltOS to connect to MySQL databases using the PDO driver
 </p>
 
 </section>
-<section id="toc337">
+<section id="toc348">
 <h3>3.4.2. Private link variable</h3>
 
 <pre>
@@ -8326,7 +8602,7 @@ This private variable contains the link to the database
 </p>
 
 </section>
-<section id="toc338">
+<section id="toc349">
 <h3>3.4.3. Constructor</h3>
 
 <pre>
@@ -8353,7 +8629,7 @@ This public function is intended to stablish the connection to the database
 </ul>
 
 </section>
-<section id="toc339">
+<section id="toc350">
 <h3>3.4.4. DB Check</h3>
 
 <pre>
@@ -8370,7 +8646,7 @@ This public function is intended to check that the query execution will not trig
 </ul>
 
 </section>
-<section id="toc340">
+<section id="toc351">
 <h3>3.4.5. DB Query</h3>
 
 <pre>
@@ -8416,7 +8692,7 @@ ids instead of an array where each element is an id
 </p>
 
 </section>
-<section id="toc341">
+<section id="toc352">
 <h3>3.4.6. DB Disconnect</h3>
 
 <pre>
@@ -8429,7 +8705,7 @@ This function close the database connection and sets the link to null
 
 </section>
 </section>
-<section id="toc342">
+<section id="toc353">
 <h2>3.5. PDO SQLite driver</h2>
 
 <pre>
@@ -8444,7 +8720,7 @@ that don't require a fulltext search optimizations suck as mroonga, intended for
 usage or demos.
 </p>
 
-<section id="toc343">
+<section id="toc354">
 <h3>3.5.1. Database PDO SQLite class</h3>
 
 <pre>
@@ -8456,7 +8732,7 @@ This class allow to SaltOS to connect to SQLite databases using the PDO driver
 </p>
 
 </section>
-<section id="toc344">
+<section id="toc355">
 <h3>3.5.2. Private link variable</h3>
 
 <pre>
@@ -8468,7 +8744,7 @@ This private variable contains the link to the database
 </p>
 
 </section>
-<section id="toc345">
+<section id="toc356">
 <h3>3.5.3. Constructor</h3>
 
 <pre>
@@ -8497,7 +8773,7 @@ used in a lot of queries by SaltOS
 </p>
 
 </section>
-<section id="toc346">
+<section id="toc357">
 <h3>3.5.4. DB Check</h3>
 
 <pre>
@@ -8514,7 +8790,7 @@ This public function is intended to check that the query execution will not trig
 </ul>
 
 </section>
-<section id="toc347">
+<section id="toc358">
 <h3>3.5.5. DB Query</h3>
 
 <pre>
@@ -8560,7 +8836,7 @@ ids instead of an array where each element is an id
 </p>
 
 </section>
-<section id="toc348">
+<section id="toc359">
 <h3>3.5.6. DB Disconnect</h3>
 
 <pre>
@@ -8573,7 +8849,7 @@ This function close the database connection and sets the link to null
 
 </section>
 </section>
-<section id="toc349">
+<section id="toc360">
 <h2>3.6. SQLite3 driver</h2>
 
 <pre>
@@ -8587,7 +8863,7 @@ POSIX semaphores, generally it is a good option for setups that don't require a 
 search optimizations suck as mroonga, intended for a personal usage or demos.
 </p>
 
-<section id="toc350">
+<section id="toc361">
 <h3>3.6.1. Database SQLite3 class</h3>
 
 <pre>
@@ -8599,7 +8875,7 @@ This class allow to SaltOS to connect to SQLite databases using the SQLite3 driv
 </p>
 
 </section>
-<section id="toc351">
+<section id="toc362">
 <h3>3.6.2. Private link variable</h3>
 
 <pre>
@@ -8611,7 +8887,7 @@ This private variable contains the link to the database
 </p>
 
 </section>
-<section id="toc352">
+<section id="toc363">
 <h3>3.6.3. Constructor</h3>
 
 <pre>
@@ -8640,7 +8916,7 @@ used in a lot of queries by SaltOS
 </p>
 
 </section>
-<section id="toc353">
+<section id="toc364">
 <h3>3.6.4. DB Check</h3>
 
 <pre>
@@ -8657,7 +8933,7 @@ This public function is intended to check that the query execution will not trig
 </ul>
 
 </section>
-<section id="toc354">
+<section id="toc365">
 <h3>3.6.5. DB Query</h3>
 
 <pre>
@@ -8703,7 +8979,7 @@ ids instead of an array where each element is an id
 </p>
 
 </section>
-<section id="toc355">
+<section id="toc366">
 <h3>3.6.6. DB Disconnect</h3>
 
 <pre>
@@ -8717,10 +8993,10 @@ This function close the database connection and sets the link to null
 </section>
 </section>
 </section>
-<section id="toc356">
-<h1>4. JavaScript</h1>
+<section id="toc367">
+<h1>4. Javascript</h1>
 
-<section id="toc357">
+<section id="toc368">
 <h2>4.1. Application helper module</h2>
 
 <pre>
@@ -8732,7 +9008,7 @@ This fie contains useful functions related to the main application, at the end o
 can see the main code that launch the application to be executed from the browser
 </p>
 
-<section id="toc358">
+<section id="toc369">
 <h3>4.1.1. Application helper object</h3>
 
 <pre>
@@ -8744,7 +9020,7 @@ This object stores all application functions and data
 </p>
 
 </section>
-<section id="toc359">
+<section id="toc370">
 <h3>4.1.2. Show error helper</h3>
 
 <pre>
@@ -8756,7 +9032,7 @@ This function allow to show a modal dialog with de details of an error
 </p>
 
 </section>
-<section id="toc360">
+<section id="toc371">
 <h3>4.1.3. Alert function</h3>
 
 <pre>
@@ -8777,7 +9053,7 @@ shows one button to close it.
 </ul>
 
 </section>
-<section id="toc361">
+<section id="toc372">
 <h3>4.1.4. Check response helper</h3>
 
 <pre>
@@ -8790,7 +9066,7 @@ if an error is detected in the response.
 </p>
 
 </section>
-<section id="toc362">
+<section id="toc373">
 <h3>4.1.5. Send request helper</h3>
 
 <pre>
@@ -8802,7 +9078,7 @@ This function allow to send requests to the server and process the response
 </p>
 
 </section>
-<section id="toc363">
+<section id="toc374">
 <h3>4.1.6. Process response helper</h3>
 
 <pre>
@@ -8814,7 +9090,7 @@ This function process the responses received by the send request
 </p>
 
 </section>
-<section id="toc364">
+<section id="toc375">
 <h3>4.1.7. Form constructor helper object</h3>
 
 <pre>
@@ -8826,7 +9102,7 @@ This object allow to the constructor to use a rational structure for a quick acc
 </p>
 
 </section>
-<section id="toc365">
+<section id="toc376">
 <h3>4.1.8. Data helper object</h3>
 
 <pre>
@@ -8838,7 +9114,7 @@ This object allow to the app to store the data of the fields map
 </p>
 
 </section>
-<section id="toc366">
+<section id="toc377">
 <h3>4.1.9. Form data helper</h3>
 
 <pre>
@@ -8852,7 +9128,7 @@ allow that the get_data can differ between the original data and the modified da
 </p>
 
 </section>
-<section id="toc367">
+<section id="toc378">
 <h3>4.1.10. Data template helper</h3>
 
 <pre>
@@ -8875,7 +9151,7 @@ fields of a template, this fields are of the follow structure: TEMPLATE_ID#ID#IN
 </ul>
 
 </section>
-<section id="toc368">
+<section id="toc379">
 <h3>4.1.11. Layout template helper</h3>
 
 <pre>
@@ -8895,7 +9171,7 @@ to be used by the saltos.app.form.layout function.
 </ul>
 
 </section>
-<section id="toc369">
+<section id="toc380">
 <h3>4.1.12. Form layout helper</h3>
 
 <pre>
@@ -8922,7 +9198,7 @@ can retrieve the desired information of the fields.
 </p>
 
 </section>
-<section id="toc370">
+<section id="toc381">
 <h3>4.1.13. Form layout auto helper</h3>
 
 <pre>
@@ -8954,7 +9230,7 @@ follow arguments:
 </ul>
 
 </section>
-<section id="toc371">
+<section id="toc382">
 <h3>4.1.14. Form style helper</h3>
 
 <pre>
@@ -8971,7 +9247,7 @@ to replace it by a call to the saltos.core.require
 </p>
 
 </section>
-<section id="toc372">
+<section id="toc383">
 <h3>4.1.15. Form javascript helper</h3>
 
 <pre>
@@ -8988,7 +9264,7 @@ to replace it by a call to the saltos.core.require
 </p>
 
 </section>
-<section id="toc373">
+<section id="toc384">
 <h3>4.1.16. Form title helper</h3>
 
 <pre>
@@ -9007,7 +9283,7 @@ last part of the title.
 </ul>
 
 </section>
-<section id="toc374">
+<section id="toc385">
 <h3>4.1.17. Form screen helper</h3>
 
 <pre>
@@ -9025,7 +9301,7 @@ to clear the screen by removing all contents of the body
 </ul>
 
 </section>
-<section id="toc375">
+<section id="toc386">
 <h3>4.1.18. Form navbar helper</h3>
 
 <pre>
@@ -9037,7 +9313,7 @@ TODO
 </p>
 
 </section>
-<section id="toc376">
+<section id="toc387">
 <h3>4.1.19. Source helper</h3>
 
 <pre>
@@ -9065,7 +9341,7 @@ another way to pass arguments.
 </ul>
 
 </section>
-<section id="toc377">
+<section id="toc388">
 <h3>4.1.20. Get data</h3>
 
 <pre>
@@ -9085,7 +9361,7 @@ original data and the current data.
 </ul>
 
 </section>
-<section id="toc378">
+<section id="toc389">
 <h3>4.1.21. Get data ids helper</h3>
 
 <pre>
@@ -9111,7 +9387,7 @@ that void.
 </p>
 
 </section>
-<section id="toc379">
+<section id="toc390">
 <h3>4.1.22. Parse data</h3>
 
 <pre>
@@ -9140,7 +9416,7 @@ in the invoices.
 </p>
 
 </section>
-<section id="toc380">
+<section id="toc391">
 <h3>4.1.23. Check form</h3>
 
 <pre>
@@ -9155,7 +9431,7 @@ returned.
 </p>
 
 </section>
-<section id="toc381">
+<section id="toc392">
 <h3>4.1.24. Form disabled</h3>
 
 <pre>
@@ -9168,7 +9444,7 @@ to do screen for view mode.
 </p>
 
 </section>
-<section id="toc382">
+<section id="toc393">
 <h3>4.1.25. Form readonly</h3>
 
 <pre>
@@ -9181,7 +9457,7 @@ to do screen for view mode.
 </p>
 
 </section>
-<section id="toc383">
+<section id="toc394">
 <h3>4.1.26. Form helper</h3>
 
 <pre>
@@ -9193,7 +9469,7 @@ This function is a helper used by the form_disabled and form_readonly functions
 </p>
 
 </section>
-<section id="toc384">
+<section id="toc395">
 <h3>4.1.27. ParentNode Search helper</h3>
 
 <pre>
@@ -9227,7 +9503,7 @@ in case of not found the search pattern.
 </p>
 
 </section>
-<section id="toc385">
+<section id="toc396">
 <h3>4.1.28. Main code</h3>
 
 <p>
@@ -9236,7 +9512,7 @@ This is the code that must to be executed to initialize all requirements of this
 
 </section>
 </section>
-<section id="toc386">
+<section id="toc397">
 <h2>4.2. Authentication helper module</h2>
 
 <pre>
@@ -9251,7 +9527,7 @@ the main authentication using a user and password pair, the reauthtoken, the dea
 and the checktoken to control it.
 </p>
 
-<section id="toc387">
+<section id="toc398">
 <h3>4.2.1. Hash helper object</h3>
 
 <pre>
@@ -9263,7 +9539,7 @@ This object stores all hash functions to get, set and trigger a change
 </p>
 
 </section>
-<section id="toc388">
+<section id="toc399">
 <h3>4.2.2. Get hash</h3>
 
 <pre>
@@ -9275,7 +9551,7 @@ Function intended to return the current hash without the pillow
 </p>
 
 </section>
-<section id="toc389">
+<section id="toc400">
 <h3>4.2.3. Set hash</h3>
 
 <pre>
@@ -9301,7 +9577,7 @@ added to force to remove all chars before the # char in the document.location
 </p>
 
 </section>
-<section id="toc390">
+<section id="toc401">
 <h3>4.2.4. Add hash</h3>
 
 <pre>
@@ -9327,7 +9603,7 @@ added to force to remove all chars before the # char in the document.location
 </p>
 
 </section>
-<section id="toc391">
+<section id="toc402">
 <h3>4.2.5. Change trigger</h3>
 
 <pre>
@@ -9339,7 +9615,7 @@ This function triggers the hashchange event to execute the onhashchange
 </p>
 
 </section>
-<section id="toc392">
+<section id="toc403">
 <h3>4.2.6. Hash change management</h3>
 
 <pre>
@@ -9351,7 +9627,7 @@ This function allow to SaltOS to update the contents when hash change
 </p>
 
 </section>
-<section id="toc393">
+<section id="toc404">
 <h3>4.2.7. Hash change management</h3>
 
 <pre>
@@ -9363,7 +9639,7 @@ Attach the hash change management function to the window
 </p>
 
 </section>
-<section id="toc394">
+<section id="toc405">
 <h3>4.2.8. Token helper object</h3>
 
 <pre>
@@ -9375,7 +9651,7 @@ This object stores all token functions to get and set data using the localStorag
 </p>
 
 </section>
-<section id="toc395">
+<section id="toc406">
 <h3>4.2.9. Get token function</h3>
 
 <pre>
@@ -9387,7 +9663,7 @@ This function returns the token stored in the localStorage
 </p>
 
 </section>
-<section id="toc396">
+<section id="toc407">
 <h3>4.2.10. Get expires function</h3>
 
 <pre>
@@ -9399,7 +9675,7 @@ This function returns the expires stored in the localStorage
 </p>
 
 </section>
-<section id="toc397">
+<section id="toc408">
 <h3>4.2.11. Get autorenew function</h3>
 
 <pre>
@@ -9411,7 +9687,7 @@ This function returns the autorenew stored in the localStorage
 </p>
 
 </section>
-<section id="toc398">
+<section id="toc409">
 <h3>4.2.12. Get autocheck function</h3>
 
 <pre>
@@ -9423,7 +9699,7 @@ This function returns the autocheck stored in the localStorage
 </p>
 
 </section>
-<section id="toc399">
+<section id="toc410">
 <h3>4.2.13. Set token and expires</h3>
 
 <pre>
@@ -9448,7 +9724,7 @@ This function store the token and expires in the localStorage
 </ul>
 
 </section>
-<section id="toc400">
+<section id="toc411">
 <h3>4.2.14. Unset token and expires</h3>
 
 <pre>
@@ -9460,7 +9736,7 @@ This function removes the token and expires in the localStorage
 </p>
 
 </section>
-<section id="toc401">
+<section id="toc412">
 <h3>4.2.15. Authentication helper object</h3>
 
 <pre>
@@ -9473,7 +9749,7 @@ the access and the deauthtoken to close the access
 </p>
 
 </section>
-<section id="toc402">
+<section id="toc413">
 <h3>4.2.16. Authenticate token function</h3>
 
 <pre>
@@ -9493,7 +9769,7 @@ credentials passed by argument.
 </ul>
 
 </section>
-<section id="toc403">
+<section id="toc414">
 <h3>4.2.17. Re-authenticate token function</h3>
 
 <pre>
@@ -9506,7 +9782,7 @@ credentials.
 </p>
 
 </section>
-<section id="toc404">
+<section id="toc415">
 <h3>4.2.18. De-authenticate token function</h3>
 
 <pre>
@@ -9519,7 +9795,7 @@ credentials.
 </p>
 
 </section>
-<section id="toc405">
+<section id="toc416">
 <h3>4.2.19. Check token function</h3>
 
 <pre>
@@ -9531,7 +9807,7 @@ This function uses the checktoken action to check the validity of the current to
 </p>
 
 </section>
-<section id="toc406">
+<section id="toc417">
 <h3>4.2.20. Re-authenticate helper function</h3>
 
 <pre>
@@ -9544,7 +9820,7 @@ token action.
 </p>
 
 </section>
-<section id="toc407">
+<section id="toc418">
 <h3>4.2.21. Variable used to store the timer</h3>
 
 <pre>
@@ -9556,7 +9832,7 @@ This variable must contains the timer of the auto renew token feature
 </p>
 
 </section>
-<section id="toc408">
+<section id="toc419">
 <h3>4.2.22. Auto-renew helper function</h3>
 
 <pre>
@@ -9575,7 +9851,7 @@ to be used when set or unset the token.
 </ul>
 
 </section>
-<section id="toc409">
+<section id="toc420">
 <h3>4.2.23. Tabs communication helper object</h3>
 
 <pre>
@@ -9587,7 +9863,7 @@ This object stores all tabs communications functions to send and listen messages
 </p>
 
 </section>
-<section id="toc410">
+<section id="toc421">
 <h3>4.2.24. Listeners helper object</h3>
 
 <pre>
@@ -9599,7 +9875,7 @@ This object stores all listeners added by the set_listeners and used by the onst
 </p>
 
 </section>
-<section id="toc411">
+<section id="toc422">
 <h3>4.2.25. Set listener</h3>
 
 <pre>
@@ -9618,7 +9894,7 @@ This function allos to set a listener function to the named event
 </ul>
 
 </section>
-<section id="toc412">
+<section id="toc423">
 <h3>4.2.26. Unset listener</h3>
 
 <pre>
@@ -9635,7 +9911,7 @@ This function removes a listener from the listeners object
 </ul>
 
 </section>
-<section id="toc413">
+<section id="toc424">
 <h3>4.2.27. Send message</h3>
 
 <pre>
@@ -9666,7 +9942,7 @@ executes the listeners if needed
 </p>
 
 </section>
-<section id="toc414">
+<section id="toc425">
 <h3>4.2.28. Storage management</h3>
 
 <pre>
@@ -9679,7 +9955,7 @@ using the localStorage.
 </p>
 
 </section>
-<section id="toc415">
+<section id="toc426">
 <h3>4.2.29. Storage management</h3>
 
 <pre>
@@ -9692,7 +9968,7 @@ Attach the storage management function to the window
 
 </section>
 </section>
-<section id="toc416">
+<section id="toc427">
 <h2>4.3. Bootstrap helper module</h2>
 
 <pre>
@@ -9704,7 +9980,7 @@ This fie contains useful functions related to the bootstrap widgets, allow to cr
 other plugins suck as plots or rich editors
 </p>
 
-<section id="toc417">
+<section id="toc428">
 <h3>4.3.1. Bootstrap helper object</h3>
 
 <pre>
@@ -9716,7 +9992,7 @@ This object stores all bootstrap functions and data
 </p>
 
 </section>
-<section id="toc418">
+<section id="toc429">
 <h3>4.3.2. Form fields constructor</h3>
 
 <pre>
@@ -9759,7 +10035,7 @@ widgets, the types that can be called are the follow:
 </li>
 <li>@codemirror  =&gt; id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
 </li>
-<li>@iframe      =&gt; id, class, value, height, tooltip, label
+<li>@iframe      =&gt; id, class, src, srcdoc, height, label
 </li>
 <li>@select      =&gt; id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
 </li>
@@ -9829,7 +10105,7 @@ only for internal use.
 </p>
 
 </section>
-<section id="toc419">
+<section id="toc430">
 <h3>4.3.3. Form_field constructor helper object</h3>
 
 <pre>
@@ -9841,7 +10117,7 @@ This object allow to the constructor to use a rational structure for a quick acc
 </p>
 
 </section>
-<section id="toc420">
+<section id="toc431">
 <h3>4.3.4. Div constructor helper</h3>
 
 <pre>
@@ -9863,7 +10139,7 @@ argument in the field object to specify what kind of class do you want to use.
 </ul>
 
 </section>
-<section id="toc421">
+<section id="toc432">
 <h3>4.3.5. Container constructor helper</h3>
 
 <pre>
@@ -9885,7 +10161,7 @@ argument in the field object to specify what kind of container do you want to do
 </ul>
 
 </section>
-<section id="toc422">
+<section id="toc433">
 <h3>4.3.6. Row constructor helper</h3>
 
 <pre>
@@ -9907,7 +10183,7 @@ in the field object to specify what kind of row do you want to do.
 </ul>
 
 </section>
-<section id="toc423">
+<section id="toc434">
 <h3>4.3.7. Col constructor helper</h3>
 
 <pre>
@@ -9929,7 +10205,7 @@ in the field object to specify what kind of col do you want to do.
 </ul>
 
 </section>
-<section id="toc424">
+<section id="toc435">
 <h3>4.3.8. Text constructor helper</h3>
 
 <pre>
@@ -9969,7 +10245,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc425">
+<section id="toc436">
 <h3>4.3.9. Hidden constructor helper</h3>
 
 <pre>
@@ -10014,7 +10290,7 @@ class to identify a group of hidden input
 </p>
 
 </section>
-<section id="toc426">
+<section id="toc437">
 <h3>4.3.10. Integer constructor helper</h3>
 
 <pre>
@@ -10060,12 +10336,12 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/imaskjs/imask.min.js
+<li>@lib/imaskjs/imask.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc427">
+<section id="toc438">
 <h3>4.3.11. Float constructor helper</h3>
 
 <pre>
@@ -10111,12 +10387,12 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/imaskjs/imask.min.js
+<li>@lib/imaskjs/imask.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc428">
+<section id="toc439">
 <h3>4.3.12. Color constructor helper</h3>
 
 <pre>
@@ -10162,7 +10438,7 @@ for this reason it is set to #000000 if value is void
 </p>
 
 </section>
-<section id="toc429">
+<section id="toc440">
 <h3>4.3.13. Date constructor helper</h3>
 
 <pre>
@@ -10200,7 +10476,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc430">
+<section id="toc441">
 <h3>4.3.14. Time constructor helper</h3>
 
 <pre>
@@ -10238,7 +10514,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc431">
+<section id="toc442">
 <h3>4.3.15. Datetime constructor helper</h3>
 
 <pre>
@@ -10276,7 +10552,7 @@ that for the input object of type text
 </ul>
 
 </section>
-<section id="toc432">
+<section id="toc443">
 <h3>4.3.16. Textarea constructor helper</h3>
 
 <pre>
@@ -10321,12 +10597,12 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/autoheight/autoheight.min.js
+<li>@lib/autoheight/autoheight.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc433">
+<section id="toc444">
 <h3>4.3.17. Ckeditor constructor helper</h3>
 
 <pre>
@@ -10371,12 +10647,12 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/ckeditor/ckeditor.min.js
+<li>@lib/ckeditor/ckeditor.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc434">
+<section id="toc445">
 <h3>4.3.18. Codemirror constructor helper</h3>
 
 <pre>
@@ -10423,14 +10699,14 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/codemirror/codemirror.min.css
+<li>@lib/codemirror/codemirror.min.css
 </li>
-<li>@web/lib/codemirror/codemirror.min.js
+<li>@lib/codemirror/codemirror.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc435">
+<section id="toc446">
 <h3>4.3.19. Iframe constructor helper</h3>
 
 <pre>
@@ -10444,7 +10720,9 @@ This function returns an iframe object, you can pass the follow arguments:
 <ul>
 <li>@id     =&gt; the id used by the object
 </li>
-<li>@value  =&gt; the value used as src parameter
+<li>@src    =&gt; the value used as src parameter
+</li>
+<li>@srcdoc =&gt; the value used as srcdoc parameter
 </li>
 <li>@class  =&gt; allow to add more classes to the default form-control
 </li>
@@ -10455,7 +10733,7 @@ This function returns an iframe object, you can pass the follow arguments:
 </ul>
 
 </section>
-<section id="toc436">
+<section id="toc447">
 <h3>4.3.20. Select constructor helper</h3>
 
 <pre>
@@ -10493,7 +10771,7 @@ This function returns a select object, you can pass the follow arguments:
 </ul>
 
 </section>
-<section id="toc437">
+<section id="toc448">
 <h3>4.3.21. Multiselect constructor helper</h3>
 
 <pre>
@@ -10536,7 +10814,7 @@ TODO: detected a bug with this widget in chrome in mobile browsers
 </p>
 
 </section>
-<section id="toc438">
+<section id="toc449">
 <h3>4.3.22. Checkbox constructor helper</h3>
 
 <pre>
@@ -10573,7 +10851,7 @@ This widget returns their value by setting a zero or one (0/1) value on the valu
 </p>
 
 </section>
-<section id="toc439">
+<section id="toc450">
 <h3>4.3.23. Switch constructor helper</h3>
 
 <pre>
@@ -10610,7 +10888,7 @@ This widget uses the checkbox constructor
 </p>
 
 </section>
-<section id="toc440">
+<section id="toc451">
 <h3>4.3.24. Button constructor helper</h3>
 
 <pre>
@@ -10644,7 +10922,7 @@ You can add an icon before the text by addind the bi-icon class to the class arg
 </p>
 
 </section>
-<section id="toc441">
+<section id="toc452">
 <h3>4.3.25. Password constructor helper</h3>
 
 <pre>
@@ -10692,7 +10970,7 @@ button, exists a new line that is identified as another previousSibling, but not
 </p>
 
 </section>
-<section id="toc442">
+<section id="toc453">
 <h3>4.3.26. File constructor helper</h3>
 
 <pre>
@@ -10741,7 +11019,7 @@ the real upload action.
 </p>
 
 </section>
-<section id="toc443">
+<section id="toc454">
 <h3>4.3.27. Link constructor helper</h3>
 
 <pre>
@@ -10775,7 +11053,7 @@ appearance
 </p>
 
 </section>
-<section id="toc444">
+<section id="toc455">
 <h3>4.3.28. Label constructor helper</h3>
 
 <pre>
@@ -10800,7 +11078,7 @@ This function returns a label object, you can pass some arguments as:
 </ul>
 
 </section>
-<section id="toc445">
+<section id="toc456">
 <h3>4.3.29. Image constructor helper</h3>
 
 <pre>
@@ -10827,7 +11105,7 @@ This function returns an image object, you can pass some arguments as:
 </ul>
 
 </section>
-<section id="toc446">
+<section id="toc457">
 <h3>4.3.30. Excel constructor helper</h3>
 
 <pre>
@@ -10881,14 +11159,14 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/handsontable/handsontable.full.min.css
+<li>@lib/handsontable/handsontable.full.min.css
 </li>
-<li>@web/lib/handsontable/handsontable.full.min.js
+<li>@lib/handsontable/handsontable.full.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc447">
+<section id="toc458">
 <h3>4.3.31. Pdfjs constructor helper</h3>
 
 <pre>
@@ -10919,13 +11197,13 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/pdfjs/pdf_viewer.min.css,
+<li>@lib/pdfjs/pdf_viewer.min.css,
 </li>
-<li>@web/lib/pdfjs/pdf.min.mjs
+<li>@lib/pdfjs/pdf.min.mjs
 </li>
-<li>@web/lib/pdfjs/pdf_viewer.min.mjs
+<li>@lib/pdfjs/pdf_viewer.min.mjs
 </li>
-<li>@web/lib/pdfjs/pdf.worker.min.mjs
+<li>@lib/pdfjs/pdf.worker.min.mjs
 </li>
 </ul>
 
@@ -10935,7 +11213,7 @@ that this file not appear in the next requires
 </p>
 
 </section>
-<section id="toc448">
+<section id="toc459">
 <h3>4.3.32. Table constructor helper</h3>
 
 <pre>
@@ -10995,7 +11273,7 @@ to identify if you want to use a column with some special type as for example, t
 </p>
 
 </section>
-<section id="toc449">
+<section id="toc460">
 <h3>4.3.33. Alert constructor helper</h3>
 
 <pre>
@@ -11034,7 +11312,7 @@ know if I maintain this or I remove it, but at the moment, this is added by defa
 </p>
 
 </section>
-<section id="toc450">
+<section id="toc461">
 <h3>4.3.34. Card constructor helper</h3>
 
 <pre>
@@ -11068,7 +11346,7 @@ This functions creates a card with a lot of options:
 </ul>
 
 </section>
-<section id="toc451">
+<section id="toc462">
 <h3>4.3.35. Chart.js constructor helper</h3>
 
 <pre>
@@ -11102,12 +11380,12 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/chartjs/chart.umd.min.js
+<li>@lib/chartjs/chart.umd.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc452">
+<section id="toc463">
 <h3>4.3.36. Tags constructor helper</h3>
 
 <pre>
@@ -11155,7 +11433,7 @@ each value, and requires the arguments of the specific widgets used in this widg
 </p>
 
 </section>
-<section id="toc453">
+<section id="toc464">
 <h3>4.3.37. Gallery constructor helper</h3>
 
 <pre>
@@ -11186,18 +11464,18 @@ automatically using the require feature:
 </p>
 
 <ul>
-<li>@web/lib/venobox/venobox.min.css
+<li>@lib/venobox/venobox.min.css
 </li>
-<li>@web/lib/venobox/venobox.min.js
+<li>@lib/venobox/venobox.min.js
 </li>
-<li>@web/lib/masonry/masonry.pkgd.min.js
+<li>@lib/masonry/masonry.pkgd.min.js
 </li>
-<li>@web/lib/imagesloaded/imagesloaded.pkgd.min.js
+<li>@lib/imagesloaded/imagesloaded.pkgd.min.js
 </li>
 </ul>
 
 </section>
-<section id="toc454">
+<section id="toc465">
 <h3>4.3.38. Placeholder helper</h3>
 
 <pre>
@@ -11214,7 +11492,7 @@ This function returns a grey area that uses all space with the placeholder glow 
 </ul>
 
 </section>
-<section id="toc455">
+<section id="toc466">
 <h3>4.3.39. Private text constructor helper</h3>
 
 <pre>
@@ -11256,7 +11534,7 @@ This function is intended to be used by other helpers of the form_field construc
 </p>
 
 </section>
-<section id="toc456">
+<section id="toc467">
 <h3>4.3.40. Private textarea constructor helper</h3>
 
 <pre>
@@ -11298,7 +11576,7 @@ This function is intended to be used by other helpers of the form_field construc
 </p>
 
 </section>
-<section id="toc457">
+<section id="toc468">
 <h3>4.3.41. Private tooltip constructor helper</h3>
 
 <pre>
@@ -11317,7 +11595,7 @@ the focus or get the click event
 </ul>
 
 </section>
-<section id="toc458">
+<section id="toc469">
 <h3>4.3.42. Label helper</h3>
 
 <pre>
@@ -11339,7 +11617,7 @@ optimizer to removes the unnecessary envelopment
 </ul>
 
 </section>
-<section id="toc459">
+<section id="toc470">
 <h3>4.3.43. Label Combine</h3>
 
 <pre>
@@ -11369,7 +11647,7 @@ their code because each case is different
 </p>
 
 </section>
-<section id="toc460">
+<section id="toc471">
 <h3>4.3.44. Menu constructor helper</h3>
 
 <pre>
@@ -11420,7 +11698,7 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 </ul>
 
 </section>
-<section id="toc461">
+<section id="toc472">
 <h3>4.3.45. Navbar constructor helper</h3>
 
 <pre>
@@ -11457,7 +11735,7 @@ This component creates a navbar intended to be used as header
 </ul>
 
 </section>
-<section id="toc462">
+<section id="toc473">
 <h3>4.3.46. Modal constructor helper object</h3>
 
 <pre>
@@ -11469,7 +11747,7 @@ This object is used to store the element and the instance of the modal
 </p>
 
 </section>
-<section id="toc463">
+<section id="toc474">
 <h3>4.3.47. Modal constructor helper</h3>
 
 <pre>
@@ -11524,7 +11802,7 @@ to undestand that only one modal is allowed at each moment.
 </p>
 
 </section>
-<section id="toc464">
+<section id="toc475">
 <h3>4.3.48. Offcanvas constructor helper object</h3>
 
 <pre>
@@ -11536,7 +11814,7 @@ This object is used to store the element and the instance of the offcanvas
 </p>
 
 </section>
-<section id="toc465">
+<section id="toc476">
 <h3>4.3.49. Offcanvas constructor helper</h3>
 
 <pre>
@@ -11589,7 +11867,7 @@ to undestand that only one offcanvas is allowed at each moment.
 </p>
 
 </section>
-<section id="toc466">
+<section id="toc477">
 <h3>4.3.50. Toast constructor helper</h3>
 
 <pre>
@@ -11637,13 +11915,13 @@ feature:
 </p>
 
 <ul>
-<li>@web/lib/md5/md5.min.js
+<li>@lib/md5/md5.min.js
 </li>
 </ul>
 
 </section>
 </section>
-<section id="toc467">
+<section id="toc478">
 <h2>4.4. Core helper module</h2>
 
 <pre>
@@ -11655,7 +11933,7 @@ This fie contains useful functions related to the core application, provides the
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
 </p>
 
-<section id="toc468">
+<section id="toc479">
 <h3>4.4.1. Core helper object</h3>
 
 <pre>
@@ -11667,7 +11945,7 @@ This object stores all core functions and data
 </p>
 
 </section>
-<section id="toc469">
+<section id="toc480">
 <h3>4.4.2. Error management</h3>
 
 <pre>
@@ -11679,7 +11957,7 @@ This function allow to SaltOS to log in server the javascript errors produced in
 </p>
 
 </section>
-<section id="toc470">
+<section id="toc481">
 <h3>4.4.3. Error management</h3>
 
 <pre>
@@ -11691,7 +11969,7 @@ Attach the error management function to the window
 </p>
 
 </section>
-<section id="toc471">
+<section id="toc482">
 <h3>4.4.4. Log management</h3>
 
 <pre>
@@ -11708,7 +11986,7 @@ This function allow to send messages to the addlog of the server side, requires 
 </ul>
 
 </section>
-<section id="toc472">
+<section id="toc483">
 <h3>4.4.5. Check params</h3>
 
 <pre>
@@ -11732,7 +12010,7 @@ and if some param is not found, then define it using the default value passed:
 </ul>
 
 </section>
-<section id="toc473">
+<section id="toc484">
 <h3>4.4.6. UniqID</h3>
 
 <pre>
@@ -11746,7 +12024,7 @@ provide it to the widget constructor
 </p>
 
 </section>
-<section id="toc474">
+<section id="toc485">
 <h3>4.4.7. When visible</h3>
 
 <pre>
@@ -11769,7 +12047,7 @@ code and paint the widget correctly
 </ul>
 
 </section>
-<section id="toc475">
+<section id="toc486">
 <h3>4.4.8. Get keycode</h3>
 
 <pre>
@@ -11786,7 +12064,7 @@ This function allow to get the keycode of a keyboard event detecting the browser
 </ul>
 
 </section>
-<section id="toc476">
+<section id="toc487">
 <h3>4.4.9. HTML builder</h3>
 
 <pre>
@@ -11816,7 +12094,7 @@ create separate portions of the table as trs or tds.
 </p>
 
 </section>
-<section id="toc477">
+<section id="toc488">
 <h3>4.4.10. AJAX</h3>
 
 <pre>
@@ -11854,7 +12132,7 @@ way as jQuery do but without using jQuery.
 </p>
 
 </section>
-<section id="toc478">
+<section id="toc489">
 <h3>4.4.11. Key cleaner</h3>
 
 <pre>
@@ -11875,7 +12153,7 @@ for this reason, exists this function here
 </ul>
 
 </section>
-<section id="toc479">
+<section id="toc490">
 <h3>4.4.12. Open window</h3>
 
 <pre>
@@ -11893,7 +12171,7 @@ the window.open but in a future, can add more features
 </ul>
 
 </section>
-<section id="toc480">
+<section id="toc491">
 <h3>4.4.13. Close window</h3>
 
 <pre>
@@ -11905,7 +12183,7 @@ This function is intended to close the current window
 </p>
 
 </section>
-<section id="toc481">
+<section id="toc492">
 <h3>4.4.14. Copy object</h3>
 
 <pre>
@@ -11922,7 +12200,7 @@ This function is intended to do copies of objects using as intermediate a json f
 </ul>
 
 </section>
-<section id="toc482">
+<section id="toc493">
 <h3>4.4.15. Optimizer object</h3>
 
 <pre>
@@ -11941,7 +12219,7 @@ original object
 </ul>
 
 </section>
-<section id="toc483">
+<section id="toc494">
 <h3>4.4.16. Require helper array</h3>
 
 <pre>
@@ -11953,7 +12231,7 @@ This array allow to the require feature to control the loaded libraries
 </p>
 
 </section>
-<section id="toc484">
+<section id="toc495">
 <h3>4.4.17. Require feature</h3>
 
 <pre>
@@ -11980,7 +12258,7 @@ the load will be synchronous.
 </p>
 
 </section>
-<section id="toc485">
+<section id="toc496">
 <h3>4.4.18. Eval Bool</h3>
 
 <pre>
@@ -12010,7 +12288,7 @@ php/autoload/xml2array.php file with more javascript details as type detection.
 </p>
 
 </section>
-<section id="toc486">
+<section id="toc497">
 <h3>4.4.19. toString function</h3>
 
 <pre>
@@ -12023,7 +12301,7 @@ number, null, undefined or other type.
 </p>
 
 </section>
-<section id="toc487">
+<section id="toc498">
 <h3>4.4.20. TODO</h3>
 
 <pre>
@@ -12035,7 +12313,7 @@ TODO
 </p>
 
 </section>
-<section id="toc488">
+<section id="toc499">
 <h3>4.4.21. TODO</h3>
 
 <pre>
@@ -12047,7 +12325,7 @@ TODO
 </p>
 
 </section>
-<section id="toc489">
+<section id="toc500">
 <h3>4.4.22. TODO</h3>
 
 <pre>
@@ -12060,7 +12338,7 @@ TODO
 
 </section>
 </section>
-<section id="toc490">
+<section id="toc501">
 <h2>4.5. Object helper module</h2>
 
 <pre>
@@ -12071,11 +12349,11 @@ web/js/object.js
 This file contains the main saltos object
 </p>
 
-<section id="toc491">
+<section id="toc502">
 <h3>4.5.1. Main object</h3>
 
 <pre>
-var saltos = saltos || {};
+var saltos = {};
 </pre>
 
 <p>
@@ -12085,10 +12363,10 @@ This object contains all SaltOS code
 </section>
 </section>
 </section>
-<section id="toc492">
+<section id="toc503">
 <h1>5. Customers</h1>
 
-<section id="toc493">
+<section id="toc504">
 <h2>5.1. Customers application</h2>
 
 <pre>
@@ -12099,7 +12377,7 @@ apps/customers/app.js
 This application implements the tipical features associated to customers
 </p>
 
-<section id="toc494">
+<section id="toc505">
 <h3>5.1.1. Main object</h3>
 
 <pre>
@@ -12111,7 +12389,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc495">
+<section id="toc506">
 <h3>5.1.2. Initialize customers</h3>
 
 <pre>
@@ -12123,7 +12401,7 @@ This function initializes the customers screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc496">
+<section id="toc507">
 <h3>5.1.3. TODO</h3>
 
 <pre>
@@ -12135,7 +12413,7 @@ TODO
 </p>
 
 </section>
-<section id="toc497">
+<section id="toc508">
 <h3>5.1.4. TODO</h3>
 
 <pre>
@@ -12147,7 +12425,7 @@ TODO
 </p>
 
 </section>
-<section id="toc498">
+<section id="toc509">
 <h3>5.1.5. TODO</h3>
 
 <pre>
@@ -12159,7 +12437,7 @@ TODO
 </p>
 
 </section>
-<section id="toc499">
+<section id="toc510">
 <h3>5.1.6. TODO</h3>
 
 <pre>
@@ -12171,7 +12449,7 @@ TODO
 </p>
 
 </section>
-<section id="toc500">
+<section id="toc511">
 <h3>5.1.7. TODO</h3>
 
 <pre>
@@ -12183,7 +12461,7 @@ TODO
 </p>
 
 </section>
-<section id="toc501">
+<section id="toc512">
 <h3>5.1.8. TODO</h3>
 
 <pre>
@@ -12195,7 +12473,7 @@ TODO
 </p>
 
 </section>
-<section id="toc502">
+<section id="toc513">
 <h3>5.1.9. TODO</h3>
 
 <pre>
@@ -12207,7 +12485,7 @@ TODO
 </p>
 
 </section>
-<section id="toc503">
+<section id="toc514">
 <h3>5.1.10. TODO</h3>
 
 <pre>
@@ -12219,7 +12497,7 @@ TODO
 </p>
 
 </section>
-<section id="toc504">
+<section id="toc515">
 <h3>5.1.11. TODO</h3>
 
 <pre>
@@ -12233,10 +12511,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc505">
+<section id="toc516">
 <h1>6. Dashboard</h1>
 
-<section id="toc506">
+<section id="toc517">
 <h2>6.1. Dashboard application</h2>
 
 <pre>
@@ -12247,7 +12525,7 @@ apps/dashboard/app.js
 This application implements the tipical features associated to dashboard
 </p>
 
-<section id="toc507">
+<section id="toc518">
 <h3>6.1.1. Main object</h3>
 
 <pre>
@@ -12259,7 +12537,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc508">
+<section id="toc519">
 <h3>6.1.2. TODO</h3>
 
 <pre>
@@ -12273,10 +12551,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc509">
+<section id="toc520">
 <h1>7. Emails</h1>
 
-<section id="toc510">
+<section id="toc521">
 <h2>7.1. Email application</h2>
 
 <pre>
@@ -12287,7 +12565,7 @@ apps/emails/app.js
 This application implements the tipical features associated to emails
 </p>
 
-<section id="toc511">
+<section id="toc522">
 <h3>7.1.1. Main object</h3>
 
 <pre>
@@ -12299,7 +12577,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc512">
+<section id="toc523">
 <h3>7.1.2. Initialize emails app</h3>
 
 <pre>
@@ -12311,7 +12589,7 @@ This function initializes the emails app screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc513">
+<section id="toc524">
 <h3>7.1.3. TODO</h3>
 
 <pre>
@@ -12323,7 +12601,7 @@ TODO
 </p>
 
 </section>
-<section id="toc514">
+<section id="toc525">
 <h3>7.1.4. TODO</h3>
 
 <pre>
@@ -12335,7 +12613,7 @@ TODO
 </p>
 
 </section>
-<section id="toc515">
+<section id="toc526">
 <h3>7.1.5. TODO</h3>
 
 <pre>
@@ -12347,7 +12625,7 @@ TODO
 </p>
 
 </section>
-<section id="toc516">
+<section id="toc527">
 <h3>7.1.6. TODO</h3>
 
 <pre>
@@ -12360,11 +12638,479 @@ TODO
 
 </section>
 </section>
+<section id="toc528">
+<h2>7.2. TODO</h2>
+
+<pre>
+apps/emails/php/getmail.php
+</pre>
+
+<p>
+TODO
+</p>
+
+<section id="toc529">
+<h3>7.2.1. TODO</h3>
+
+<pre>
+// NEEDED INCLUDES
+</pre>
+
+<p>
+TODO
+</p>
+
 </section>
-<section id="toc517">
+<section id="toc530">
+<h3>7.2.2. TODO</h3>
+
+<pre>
+// SOME DEFINES
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc531">
+<h3>7.2.3. TODO</h3>
+
+<pre>
+// REMOVE ALL BODY (ONLY FOR DEBUG PURPOSES)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc532">
+<h3>7.2.4. TODO</h3>
+
+<pre>
+// THE FOLLOW FUNCTIONS UNIFY THE CONCEPT OF PROCESS
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc533">
+<h3>7.2.5. TODO</h3>
+
+<pre>
+function __getmail_processplainhtml($disp, $type)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc534">
+<h3>7.2.6. TODO</h3>
+
+<pre>
+function __getmail_processfile($disp, $type)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc535">
+<h3>7.2.7. TODO</h3>
+
+<pre>
+// CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc536">
+<h3>7.2.8. TODO</h3>
+
+<pre>
+// RETURN THE ORIGINAL RFC822 MESSAGE
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc537">
+<h3>7.2.9. TODO</h3>
+
+<pre>
+// RETURN THE DECODED MIME STRUCTURE OF MESSAGE
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc538">
+<h3>7.2.10. TODO</h3>
+
+<pre>
+// RETURN THE DECODED MIME STRUCTURE BY ID
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc539">
+<h3>7.2.11. TODO</h3>
+
+<pre>
+// RETURN A NODE USING A XPATH NOTATION
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc540">
+<h3>7.2.12. TODO</h3>
+
+<pre>
+// RETURN INTERNAL CONTENT TYPE
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc541">
+<h3>7.2.13. TODO</h3>
+
+<pre>
+// RETURN INTERNAL DISPOSITION
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc542">
+<h3>7.2.14. TODO</h3>
+
+<pre>
+// RETURN AN ARRAY OF ATTACHMENTS FILES
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc543">
+<h3>7.2.15. TODO</h3>
+
+<pre>
+// RETURN THE HUMAN SIZE (GBYTES, MBYTES, KBYTES OR BYTES)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc544">
+<h3>7.2.16. TODO</h3>
+
+<pre>
+// RETURN ALL INFORMATION OF THE DECODED MESSAGE
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc545">
+<h3>7.2.17. TODO</h3>
+
+<pre>
+function __getmail_fixstring($arg)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc546">
+<h3>7.2.18. TODO</h3>
+
+<pre>
+// RETURN ALL TEXT BODY CONCATENATED
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc547">
+<h3>7.2.19. TODO</h3>
+
+<pre>
+// RETURN ALL BODY AND ATTACHMENTS INFORMATION
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc548">
+<h3>7.2.20. TODO</h3>
+
+<pre>
+// RETURN THE ATTACHMENT REQUESTED
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc549">
+<h3>7.2.21. TODO</h3>
+
+<pre>
+function __getmail_insert(
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc550">
+<h3>7.2.22. TODO</h3>
+
+<pre>
+function __getmail_update($campo, $valor, $id)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc551">
+<h3>7.2.23. TODO</h3>
+
+<pre>
+// FOR RAWURLDECODE AUTO DETECTION
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc552">
+<h3>7.2.24. TODO</h3>
+
+<pre>
+function __getmail_add_bcc($id, $bcc)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc553">
+<h3>7.2.25. TODO</h3>
+
+<pre>
+// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc554">
+<h3>7.2.26. Get email body</h3>
+
+<pre>
+function get_email_body($id)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc555">
+<h3>7.2.27. TODO</h3>
+
+<pre>
+function get_email_source($id)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc556">
+<h3>7.2.28. TODO</h3>
+
+<pre>
+function get_email_files($id)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc557">
+<h3>7.2.29. TODO</h3>
+
+<pre>
+function get_email_cid($id, $cid)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc558">
+<h3>7.2.30. TODO</h3>
+
+<pre>
+function get_email_is_outbox($id)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc559">
+<h3>7.2.31. TODO</h3>
+
+<pre>
+function get_email_receive()
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+</section>
+<section id="toc560">
+<h2>7.3. TODO</h2>
+
+<pre>
+apps/emails/php/sendmail.php
+</pre>
+
+<p>
+TODO
+</p>
+
+<section id="toc561">
+<h3>7.3.1. TODO</h3>
+
+<pre>
+use PHPMailer\PHPMailer\PHPMailer;
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc562">
+<h3>7.3.2. TODO</h3>
+
+<pre>
+function sendmail($id_cuenta, $to, $subject, $body, $files = "")
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc563">
+<h3>7.3.3. TODO</h3>
+
+<pre>
+function __sendmail_parser($oldaddr)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc564">
+<h3>7.3.4. TODO</h3>
+
+<pre>
+function __sendmail_messageid($id_cuenta, $from)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc565">
+<h3>7.3.5. TODO</h3>
+
+<pre>
+function __sendmail_emlsaver($message, $messageid)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+<section id="toc566">
+<h3>7.3.6. TODO</h3>
+
+<pre>
+function __sendmail_objsaver($mail, $messageid)
+</pre>
+
+<p>
+TODO
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc567">
 <h1>8. Invoices</h1>
 
-<section id="toc518">
+<section id="toc568">
 <h2>8.1. invoices application</h2>
 
 <pre>
@@ -12375,7 +13121,7 @@ apps/invoices/app.js
 This application implements the tipical features associated to invoices
 </p>
 
-<section id="toc519">
+<section id="toc569">
 <h3>8.1.1. Main object</h3>
 
 <pre>
@@ -12387,7 +13133,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc520">
+<section id="toc570">
 <h3>8.1.2. Initialize invoices</h3>
 
 <pre>
@@ -12399,7 +13145,7 @@ This function initializes the invoices screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc521">
+<section id="toc571">
 <h3>8.1.3. TODO</h3>
 
 <pre>
@@ -12411,7 +13157,7 @@ TODO
 </p>
 
 </section>
-<section id="toc522">
+<section id="toc572">
 <h3>8.1.4. TODO</h3>
 
 <pre>
@@ -12423,7 +13169,7 @@ TODO
 </p>
 
 </section>
-<section id="toc523">
+<section id="toc573">
 <h3>8.1.5. TODO</h3>
 
 <pre>
@@ -12435,7 +13181,7 @@ TODO
 </p>
 
 </section>
-<section id="toc524">
+<section id="toc574">
 <h3>8.1.6. TODO</h3>
 
 <pre>
@@ -12447,7 +13193,7 @@ TODO
 </p>
 
 </section>
-<section id="toc525">
+<section id="toc575">
 <h3>8.1.7. TODO</h3>
 
 <pre>
@@ -12459,7 +13205,7 @@ TODO
 </p>
 
 </section>
-<section id="toc526">
+<section id="toc576">
 <h3>8.1.8. TODO</h3>
 
 <pre>
@@ -12471,7 +13217,7 @@ TODO
 </p>
 
 </section>
-<section id="toc527">
+<section id="toc577">
 <h3>8.1.9. TODO</h3>
 
 <pre>
@@ -12483,7 +13229,7 @@ TODO
 </p>
 
 </section>
-<section id="toc528">
+<section id="toc578">
 <h3>8.1.10. TODO</h3>
 
 <pre>
@@ -12495,7 +13241,7 @@ TODO
 </p>
 
 </section>
-<section id="toc529">
+<section id="toc579">
 <h3>8.1.11. TODO</h3>
 
 <pre>
@@ -12507,7 +13253,7 @@ TODO
 </p>
 
 </section>
-<section id="toc530">
+<section id="toc580">
 <h3>8.1.12. TODO</h3>
 
 <pre>
@@ -12519,7 +13265,7 @@ TODO
 </p>
 
 </section>
-<section id="toc531">
+<section id="toc581">
 <h3>8.1.13. TODO</h3>
 
 <pre>
@@ -12531,7 +13277,7 @@ TODO
 </p>
 
 </section>
-<section id="toc532">
+<section id="toc582">
 <h3>8.1.14. TODO</h3>
 
 <pre>
@@ -12543,7 +13289,7 @@ TODO
 </p>
 
 </section>
-<section id="toc533">
+<section id="toc583">
 <h3>8.1.15. TODO</h3>
 
 <pre>
@@ -12555,7 +13301,7 @@ TODO
 </p>
 
 </section>
-<section id="toc534">
+<section id="toc584">
 <h3>8.1.16. TODO</h3>
 
 <pre>
@@ -12569,10 +13315,10 @@ TODO
 </section>
 </section>
 </section>
-<section id="toc535">
+<section id="toc585">
 <h1>9. Login</h1>
 
-<section id="toc536">
+<section id="toc586">
 <h2>9.1. Login application</h2>
 
 <pre>
@@ -12583,7 +13329,7 @@ apps/login/app.js
 This application implements the tipical features associated to login
 </p>
 
-<section id="toc537">
+<section id="toc587">
 <h3>9.1.1. Main object</h3>
 
 <pre>
@@ -12595,7 +13341,7 @@ This object contains all SaltOS code
 </p>
 
 </section>
-<section id="toc538">
+<section id="toc588">
 <h3>9.1.2. Authenticate login function</h3>
 
 <pre>
@@ -12608,7 +13354,7 @@ it uses the authenticate function that send data to the authtoken action
 </p>
 
 </section>
-<section id="toc539">
+<section id="toc589">
 <h3>9.1.3. Initialize login</h3>
 
 <pre>
@@ -12620,7 +13366,7 @@ This function initializes the login screen to improve the user experience.
 </p>
 
 </section>
-<section id="toc540">
+<section id="toc590">
 <h3>9.1.4. Access denied</h3>
 
 <pre>

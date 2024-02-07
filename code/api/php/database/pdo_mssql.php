@@ -27,16 +27,16 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+
 /**
  * PDO MsSQL driver
  *
  * This file implements the MySQL improved driver. This driver uses the dblib library to connect
  * with SQL servers.
  */
-
-// phpcs:disable PSR1.Classes.ClassDeclaration
-// phpcs:disable Squiz.Classes.ValidClassName
-// phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
  * Database PDO MsSQL class

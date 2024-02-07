@@ -27,6 +27,10 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+
 /**
  * PDO SQLite driver
  *
@@ -36,10 +40,6 @@ declare(strict_types=1);
  * that don't require a fulltext search optimizations suck as mroonga, intended for a personal
  * usage or demos.
  */
-
-// phpcs:disable PSR1.Classes.ClassDeclaration
-// phpcs:disable Squiz.Classes.ValidClassName
-// phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 /**
  * Database PDO SQLite class

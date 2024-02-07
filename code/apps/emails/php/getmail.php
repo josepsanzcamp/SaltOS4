@@ -27,14 +27,14 @@
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength
+// phpcs:disable PSR1.Files.SideEffects
+
 /**
  * TODO
  *
  * TODO
  */
-
-// phpcs:disable Generic.Files.LineLength
-// phpcs:disable PSR1.Files.SideEffects
 
 /**
  * TODO

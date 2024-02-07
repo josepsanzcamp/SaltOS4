@@ -28,9 +28,9 @@
 
 
 \title{Code documentation}
-\author{SaltOS 4.0 r568}
+\author{SaltOS 4.0 r620}
 \begin{document}
-\date{January 2024}
+\date{February 2024}
 \maketitle
 \clearpage
 
@@ -551,85 +551,15 @@ This function detect if an app exists
 \end{compactitem}
 
 \hypertarget{toc34}{}
-\section{Array to XML helper module}
-
-\begin{lstlisting}
-api/php/autoload/array2xml.php
-\end{lstlisting}
-
-This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
-to an XML string, currently it is little used because the most important module compared to this
-is the inverse xml2array module
-
-\hypertarget{toc35}{}
-\subsection{Check Node Name}
-
-\begin{lstlisting}
-function __array2xml_check_node_name($name)
-\end{lstlisting}
-
-This function acts as helper of the array2xml function, is intended to
-return if the node name is valid
-
-\begin{compactitem}
-\item[\color{myblue}$\bullet$] @name =$>$ the name that you want to validate
-\end{compactitem}
-
-\hypertarget{toc36}{}
-\subsection{Check Attr Name}
-
-\begin{lstlisting}
-function __array2xml_check_node_attr($name)
-\end{lstlisting}
-
-This function acts as helper of the array2xml function, is intended to
-return if the attribute name is valid
-
-\begin{compactitem}
-\item[\color{myblue}$\bullet$] @name =$>$ the name that you want to validate
-\end{compactitem}
-
-\hypertarget{toc37}{}
-\subsection{Write Nodes array2xml helper}
-
-\begin{lstlisting}
-function __array2xml_write_nodes(&$array, $level = null)
-\end{lstlisting}
-
-This function acts as helper of the array2xml function, is intended to
-return a string with the tree array
-
-\begin{compactitem}
-\item[\color{myblue}$\bullet$] @array =$>$ the tree array that you want to convert to XML
-\item[\color{myblue}$\bullet$] @level =$>$ can be null to minify the output zero to indent the XML contents
-\end{compactitem}
-
-\hypertarget{toc38}{}
-\subsection{Array to XML}
-
-\begin{lstlisting}
-function array2xml($array, $usecache = true, $usexmlminify = true)
-\end{lstlisting}
-
-This function returns a string with the contents of array converted into a XML
-language file, to do it, uses some helpers as \_\_array2xml\_* functions
-
-\begin{compactitem}
-\item[\color{myblue}$\bullet$] @array        =$>$ the array that contains the tree structure that you want to convert to XML
-\item[\color{myblue}$\bullet$] @usecache     =$>$ a boolean to enable or disable the cache usage
-\item[\color{myblue}$\bullet$] @usexmlminify =$>$ a boolean to enable or disable the minify feature
-\end{compactitem}
-
-\hypertarget{toc39}{}
 \section{Array helper module}
 
 \begin{lstlisting}
-api/php/autoload/arrayutils.php
+api/php/autoload/array.php
 \end{lstlisting}
 
 This file contain useful array functions
 
-\hypertarget{toc40}{}
+\hypertarget{toc35}{}
 \subsection{Null to array converter}
 
 \begin{lstlisting}
@@ -645,7 +575,7 @@ an array in all cases
         then a void array will be returned
 \end{compactitem}
 
-\hypertarget{toc41}{}
+\hypertarget{toc36}{}
 \subsection{Join for array}
 
 \begin{lstlisting}
@@ -658,6 +588,76 @@ and to simplify the usage of this elements in the client side
 
 \begin{compactitem}
 \item[\color{myblue}$\bullet$] @array =$>$ the input that can contains an array with \#attr and value
+\end{compactitem}
+
+\hypertarget{toc37}{}
+\section{Array to XML helper module}
+
+\begin{lstlisting}
+api/php/autoload/array2xml.php
+\end{lstlisting}
+
+This fie is a part of the most old files of the SaltOS, accomplish the task to convert an array
+to an XML string, currently it is little used because the most important module compared to this
+is the inverse xml2array module
+
+\hypertarget{toc38}{}
+\subsection{Check Node Name}
+
+\begin{lstlisting}
+function __array2xml_check_node_name($name)
+\end{lstlisting}
+
+This function acts as helper of the array2xml function, is intended to
+return if the node name is valid
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @name =$>$ the name that you want to validate
+\end{compactitem}
+
+\hypertarget{toc39}{}
+\subsection{Check Attr Name}
+
+\begin{lstlisting}
+function __array2xml_check_node_attr($name)
+\end{lstlisting}
+
+This function acts as helper of the array2xml function, is intended to
+return if the attribute name is valid
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @name =$>$ the name that you want to validate
+\end{compactitem}
+
+\hypertarget{toc40}{}
+\subsection{Write Nodes array2xml helper}
+
+\begin{lstlisting}
+function __array2xml_write_nodes(&$array, $level = null)
+\end{lstlisting}
+
+This function acts as helper of the array2xml function, is intended to
+return a string with the tree array
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the tree array that you want to convert to XML
+\item[\color{myblue}$\bullet$] @level =$>$ can be null to minify the output zero to indent the XML contents
+\end{compactitem}
+
+\hypertarget{toc41}{}
+\subsection{Array to XML}
+
+\begin{lstlisting}
+function array2xml($array, $usecache = true, $usexmlminify = true)
+\end{lstlisting}
+
+This function returns a string with the contents of array converted into a XML
+language file, to do it, uses some helpers as \_\_array2xml\_* functions
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array        =$>$ the array that contains the tree structure that you want to convert to XML
+\item[\color{myblue}$\bullet$] @usecache     =$>$ a boolean to enable or disable the cache usage
+\item[\color{myblue}$\bullet$] @usexmlminify =$>$ a boolean to enable or disable the minify feature
 \end{compactitem}
 
 \hypertarget{toc42}{}
@@ -793,7 +793,7 @@ as trick, checks that the output operation is performed by prime numbers
 \section{Color utils helper module}
 
 \begin{lstlisting}
-api/php/autoload/colorutils.php
+api/php/autoload/color.php
 \end{lstlisting}
 
 This fie contains useful functions related to colors
@@ -2076,7 +2076,7 @@ They will returns all data
 \section{File utils helper module}
 
 \begin{lstlisting}
-api/php/autoload/fileutils.php
+api/php/autoload/file.php
 \end{lstlisting}
 
 This fie contains useful functions related to the file usage, allow to manage directories, files,
@@ -2401,6 +2401,50 @@ feature, is based in the original system of the SaltOS 3 with improvements
 to do more open as the GNU gettext
 
 \hypertarget{toc147}{}
+\section{Html helper module}
+
+\begin{lstlisting}
+api/php/autoload/html.php
+\end{lstlisting}
+
+This file contain useful html helper functions
+
+\hypertarget{toc148}{}
+\subsection{Remove Script Tag}
+
+\begin{lstlisting}
+function remove_script_tag($temp)
+\end{lstlisting}
+
+This function tries to remove all $<$script$>$ tags of the string
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
+\end{compactitem}
+
+\hypertarget{toc149}{}
+\subsection{Remove Style Tag}
+
+\begin{lstlisting}
+function remove_style_tag($temp)
+\end{lstlisting}
+
+This function tries to remove all $<$style$>$ tags of the string
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to process
+\end{compactitem}
+
+\hypertarget{toc150}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function href_replace($temp)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc151}{}
 \section{Import file helper module}
 
 \begin{lstlisting}
@@ -2412,7 +2456,7 @@ excel, csv, edi, json, xml and bytes. Too this module allow to manipulate data u
 array of the core of the SaltOS, allowing to add, modify and remove nodes, too can apply patch
 of the memory data and paint arrays as ascii tables
 
-\hypertarget{toc148}{}
+\hypertarget{toc152}{}
 \subsection{Import File main function}
 
 \begin{lstlisting}
@@ -2442,7 +2486,7 @@ This function is intended to import data in the supported formats
 This function returns an array with the loaded data from file
 Can return a matrix or tree, depending the nodes parameter
 
-\hypertarget{toc149}{}
+\hypertarget{toc153}{}
 \subsection{UTF8 BOM helper}
 
 \begin{lstlisting}
@@ -2457,7 +2501,7 @@ This function remove the bom header of the string
 
 Returns the data without the bom characters
 
-\hypertarget{toc150}{}
+\hypertarget{toc154}{}
 \subsection{XML to Array}
 
 \begin{lstlisting}
@@ -2472,7 +2516,7 @@ This function convert an xml into an array
 
 Returns an array with the contents of the xml
 
-\hypertarget{toc151}{}
+\hypertarget{toc155}{}
 \subsection{Struct to Array helper}
 
 \begin{lstlisting}
@@ -2487,7 +2531,7 @@ This function is a helper of the \_\_import\_xml2array
 
 Returns an array with the correct structure that matches the xml structure
 
-\hypertarget{toc152}{}
+\hypertarget{toc156}{}
 \subsection{Get Node helper}
 
 \begin{lstlisting}
@@ -2503,7 +2547,7 @@ This function is a helper used to get a node in a xml structure
 
 Returns the contents of the node of the specified path
 
-\hypertarget{toc153}{}
+\hypertarget{toc157}{}
 \subsection{Get Value helper}
 
 \begin{lstlisting}
@@ -2518,7 +2562,7 @@ This function is a helper used to get a value if exists of a node structure
 
 Retusn the value if exists, otherwise the same input
 
-\hypertarget{toc154}{}
+\hypertarget{toc158}{}
 \subsection{Get Attr helper}
 
 \begin{lstlisting}
@@ -2534,7 +2578,7 @@ This function is a helper used to get a attr element if exists of a node structu
 
 Returns the attr if exists, otherwise null
 
-\hypertarget{toc155}{}
+\hypertarget{toc159}{}
 \subsection{Set Node helper}
 
 \begin{lstlisting}
@@ -2551,7 +2595,7 @@ This function is used to set data into a xml structure
 
 Returns true if the function can set the value, false otherwise
 
-\hypertarget{toc156}{}
+\hypertarget{toc160}{}
 \subsection{Del Node helper}
 
 \begin{lstlisting}
@@ -2567,7 +2611,7 @@ This function is used to remove data of the xml structure
 
 Returns true if the function can remove the path, false otherwise
 
-\hypertarget{toc157}{}
+\hypertarget{toc161}{}
 \subsection{Add Node helper}
 
 \begin{lstlisting}
@@ -2584,7 +2628,7 @@ This function is used to add data into a xml structure
 
 true if the function can add the data, false otherwise
 
-\hypertarget{toc158}{}
+\hypertarget{toc162}{}
 \subsection{Special Chars helper}
 
 \begin{lstlisting}
@@ -2599,7 +2643,7 @@ This function is a helper used by the csv2array function
 
 Returns the input with the expected replacements
 
-\hypertarget{toc159}{}
+\hypertarget{toc163}{}
 \subsection{CSV to Array helper}
 
 \begin{lstlisting}
@@ -2615,7 +2659,7 @@ This function is a helper of the \_\_import\_xml2array
 
 Returns a matrix with the contents
 
-\hypertarget{toc160}{}
+\hypertarget{toc164}{}
 \subsection{XLS to Array helper}
 
 \begin{lstlisting}
@@ -2637,7 +2681,7 @@ This fuction can convert an excel file into a matrix structure, it has some addi
 
 Returns a matrix with the contents
 
-\hypertarget{toc161}{}
+\hypertarget{toc165}{}
 \subsection{Bytes to Array helper}
 
 \begin{lstlisting}
@@ -2661,7 +2705,7 @@ Notes:
 The map must be an array of strings of the follow form:
 ["field1;0;10", "field2;10;20", "field3;20;40"]
 
-\hypertarget{toc162}{}
+\hypertarget{toc166}{}
 \subsection{Edit to Array helper}
 
 \begin{lstlisting}
@@ -2674,7 +2718,7 @@ This fuction can convert an excel file into a tree structure
 \item[\color{myblue}$\bullet$] @file =$>$ local filename used to load the data
 \end{compactitem}
 
-\hypertarget{toc163}{}
+\hypertarget{toc167}{}
 \subsection{JSON to Array helper}
 
 \begin{lstlisting}
@@ -2687,7 +2731,7 @@ This fuction can convert an excel file into a tree structure
 \item[\color{myblue}$\bullet$] @file =$>$ local filename used to load the data
 \end{compactitem}
 
-\hypertarget{toc164}{}
+\hypertarget{toc168}{}
 \subsection{Check Real Matrix helper}
 
 \begin{lstlisting}
@@ -2703,7 +2747,7 @@ checks that the keys are numeric and that all values are non arrays
 \item[\color{myblue}$\bullet$] @array =$>$ the array to check
 \end{compactitem}
 
-\hypertarget{toc165}{}
+\hypertarget{toc169}{}
 \subsection{Remove Void helper}
 
 \begin{lstlisting}
@@ -2716,7 +2760,7 @@ This function is able to remove an entire row or column if it is void
 \item[\color{myblue}$\bullet$] @array =$>$ the array to fix
 \end{compactitem}
 
-\hypertarget{toc166}{}
+\hypertarget{toc170}{}
 \subsection{Array to Tree helper}
 
 \begin{lstlisting}
@@ -2737,7 +2781,7 @@ specification
              previous option is set to true
 \end{compactitem}
 
-\hypertarget{toc167}{}
+\hypertarget{toc171}{}
 \subsection{Array Intersect}
 
 \begin{lstlisting}
@@ -2752,7 +2796,7 @@ maintaining the order of the filter array.
 \item[\color{myblue}$\bullet$] @filter =$>$ the array where obtain the keys to apply the filter
 \end{compactitem}
 
-\hypertarget{toc168}{}
+\hypertarget{toc172}{}
 \subsection{Array to Tree Set helper}
 
 \begin{lstlisting}
@@ -2768,7 +2812,7 @@ by the tree setting the values of each pair of key val
 \item[\color{myblue}$\bullet$] @parts  =$>$ an array with pairs of key val
 \end{compactitem}
 
-\hypertarget{toc169}{}
+\hypertarget{toc173}{}
 \subsection{Array to Tree Clean helper}
 
 \begin{lstlisting}
@@ -2781,7 +2825,7 @@ This function tries to clean the tree by setting an automatic indexes
 \item[\color{myblue}$\bullet$] @array =$>$ the array to clean
 \end{compactitem}
 
-\hypertarget{toc170}{}
+\hypertarget{toc174}{}
 \subsection{Tree to Array}
 
 \begin{lstlisting}
@@ -2795,7 +2839,7 @@ a tree structure into a csv, for example
 \item[\color{myblue}$\bullet$] @array =$>$ the tree that you want to convert into a 2D matrix
 \end{compactitem}
 
-\hypertarget{toc171}{}
+\hypertarget{toc175}{}
 \subsection{Column to Name helper}
 
 \begin{lstlisting}
@@ -2816,7 +2860,7 @@ This function was copied from:
 \item[\color{myblue}$\bullet$] \htmladdnormallink{http://www.php.net/manual/en/function.base-convert.php\#94874}{http://www.php.net/manual/en/function.base-convert.php\#94874}
 \end{compactitem}
 
-\hypertarget{toc172}{}
+\hypertarget{toc176}{}
 \subsection{Name to Column helper}
 
 \begin{lstlisting}
@@ -2837,7 +2881,7 @@ This function was copied from:
 \item[\color{myblue}$\bullet$] \htmladdnormallink{http://www.php.net/manual/en/function.base-convert.php\#94874}{http://www.php.net/manual/en/function.base-convert.php\#94874}
 \end{compactitem}
 
-\hypertarget{toc173}{}
+\hypertarget{toc177}{}
 \subsection{Is Name helper}
 
 \begin{lstlisting}
@@ -2851,7 +2895,7 @@ used in the name of the column
 \item[\color{myblue}$\bullet$] @name =$>$ the name that you want to check
 \end{compactitem}
 
-\hypertarget{toc174}{}
+\hypertarget{toc178}{}
 \subsection{Cell to Column and Row helper}
 
 \begin{lstlisting}
@@ -2869,7 +2913,7 @@ Notes:
 This function tries to retusn an array with two elements, for example, for
 the cell AX23, the function returns [AX,23]
 
-\hypertarget{toc175}{}
+\hypertarget{toc179}{}
 \subsection{Get Keys}
 
 \begin{lstlisting}
@@ -2883,7 +2927,7 @@ in the tree
 \item[\color{myblue}$\bullet$] @array =$>$ the tree array that you want to process
 \end{compactitem}
 
-\hypertarget{toc176}{}
+\hypertarget{toc180}{}
 \subsection{Filter helper}
 
 \begin{lstlisting}
@@ -2900,7 +2944,7 @@ A=M23
 \item[\color{myblue}$\bullet$] @eval   =$>$ set to 1 if you want to enable the eval feature
 \end{compactitem}
 
-\hypertarget{toc177}{}
+\hypertarget{toc181}{}
 \subsection{Filter Recursive helper}
 
 \begin{lstlisting}
@@ -2917,7 +2961,7 @@ same but with recursivity
 \item[\color{myblue}$\bullet$] @parent =$>$ this parameter is intended to be used internaly by the function
 \end{compactitem}
 
-\hypertarget{toc178}{}
+\hypertarget{toc182}{}
 \subsection{Apply Patch}
 
 \begin{lstlisting}
@@ -2933,7 +2977,7 @@ update the desired branch of the tree using a xpath notation
 \item[\color{myblue}$\bullet$] @val   =$>$ the val that you want to put in the desired xpath
 \end{compactitem}
 
-\hypertarget{toc179}{}
+\hypertarget{toc183}{}
 \subsection{Apply Patch Recursive helper}
 
 \begin{lstlisting}
@@ -2949,7 +2993,7 @@ same but with recursivity
 \item[\color{myblue}$\bullet$] @val   =$>$ the val that you want to put in the desired xpath
 \end{compactitem}
 
-\hypertarget{toc180}{}
+\hypertarget{toc184}{}
 \subsection{Make Table ASCII}
 
 \begin{lstlisting}
@@ -2965,7 +3009,7 @@ mode the contents of a matrix
 \item[\color{myblue}$\bullet$] @compact =$>$ set to true if you want to minify the ascii table
 \end{compactitem}
 
-\hypertarget{toc181}{}
+\hypertarget{toc185}{}
 \section{Make index helper module}
 
 \begin{lstlisting}
@@ -2975,7 +3019,7 @@ api/php/autoload/indexing.php
 This fie contains useful functions related to the indexing feature that internally uses the
 mroonga engine to search in the fulltext string generated by this feature
 
-\hypertarget{toc182}{}
+\hypertarget{toc186}{}
 \subsection{Make Index main function}
 
 \begin{lstlisting}
@@ -3006,7 +3050,7 @@ This function returns an integer as response about the index action:
 
 As you can see, negative values denotes an error and positive values denotes a successfully situation
 
-\hypertarget{toc183}{}
+\hypertarget{toc187}{}
 \subsection{Make Index helper}
 
 \begin{lstlisting}
@@ -3023,7 +3067,7 @@ This function uses a cache technique to improve the performance, returns
 an array with all fields and subqueries to allow to retrieve all data
 related to the app register
 
-\hypertarget{toc184}{}
+\hypertarget{toc188}{}
 \section{Iniset helper module}
 
 \begin{lstlisting}
@@ -3033,7 +3077,7 @@ api/php/autoload/iniset.php
 This fie contains useful functions related to the evaluation of the iniset, puntenv and extra
 directives configures in the config.xml file
 
-\hypertarget{toc185}{}
+\hypertarget{toc189}{}
 \subsection{Eval Iniset}
 
 \begin{lstlisting}
@@ -3050,7 +3094,7 @@ or mbstring.detect\_order that must to be set by using another mb\_* functions
 \item[\color{myblue}$\bullet$] @array =$>$ the array with the pairs of keys vals
 \end{compactitem}
 
-\hypertarget{toc186}{}
+\hypertarget{toc190}{}
 \subsection{Eval Putenv}
 
 \begin{lstlisting}
@@ -3065,7 +3109,7 @@ if is needed to change or not the current setting
 \item[\color{myblue}$\bullet$] @array =$>$ the array with the pairs of keys vals
 \end{compactitem}
 
-\hypertarget{toc187}{}
+\hypertarget{toc191}{}
 \subsection{Eval Extras}
 
 \begin{lstlisting}
@@ -3085,7 +3129,7 @@ If the val of the pair key val is an array, then each value of the array is
 used as an argument for the key function, only is intended at the moment to
 accept functions with one and two arguments, otherwise an error is triggered
 
-\hypertarget{toc188}{}
+\hypertarget{toc192}{}
 \section{Log helper module}
 
 \begin{lstlisting}
@@ -3095,7 +3139,7 @@ api/php/autoload/log.php
 This fie contains useful functions related to the logs files, allowing to add and check contents
 to the logs file, useful for debug purposes
 
-\hypertarget{toc189}{}
+\hypertarget{toc193}{}
 \subsection{Check Log}
 
 \begin{lstlisting}
@@ -3113,7 +3157,7 @@ replacement that is able to found the hash in the file
 \item[\color{myblue}$\bullet$] @file =$>$ the file where search the pattern
 \end{compactitem}
 
-\hypertarget{toc190}{}
+\hypertarget{toc194}{}
 \subsection{Add Log}
 
 \begin{lstlisting}
@@ -3135,7 +3179,7 @@ The logs files are stored in the logsdir (/data/logs)
 
 This function performs the log rotation is the maxfilesize is reached
 
-\hypertarget{toc191}{}
+\hypertarget{toc195}{}
 \subsection{Add Trace}
 
 \begin{lstlisting}
@@ -3152,7 +3196,7 @@ and then, saves the log to the specified file
 \item[\color{myblue}$\bullet$] @file  =$>$ the file where do you want to store the log contents
 \end{compactitem}
 
-\hypertarget{toc192}{}
+\hypertarget{toc196}{}
 \subsection{Get Trace}
 
 \begin{lstlisting}
@@ -3166,7 +3210,7 @@ information and convert all array into a string
 \item[\color{myblue}$\bullet$] @array =$>$ the array that can contains the same info that show\_php\_error
 \end{compactitem}
 
-\hypertarget{toc193}{}
+\hypertarget{toc197}{}
 \subsection{Session Backtrace}
 
 \begin{lstlisting}
@@ -3181,7 +3225,29 @@ The fields of this array allow to do low level debug processes, this data is
 generally used by the semaphores and some forced addtrace calls, but causes
 problems in the error reporting because break the hash and checklog optimization
 
-\hypertarget{toc194}{}
+\hypertarget{toc198}{}
+\section{Math utils helper module}
+
+\begin{lstlisting}
+api/php/autoload/math.php
+\end{lstlisting}
+
+This fie contains useful functions related to math operations
+
+\hypertarget{toc199}{}
+\subsection{Sign function}
+
+\begin{lstlisting}
+function sign($n)
+\end{lstlisting}
+
+This function returns 1 for positive, -1 for negative and 0 for zero.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @n =$>$ the number that you want to be processed
+\end{compactitem}
+
+\hypertarget{toc200}{}
 \section{Memory helper module}
 
 \begin{lstlisting}
@@ -3192,7 +3258,7 @@ This fie contains useful functions related to memory and time usage, allow to co
 of time and/or memory of a process, intended to prevent crashes in processes that requires more
 time or memory resources that the defined by the system limits
 
-\hypertarget{toc195}{}
+\hypertarget{toc201}{}
 \subsection{Memory Get Free}
 
 \begin{lstlisting}
@@ -3205,7 +3271,7 @@ This function returns the free memory in bytes or the percentage of the memory\_
 \item[\color{myblue}$\bullet$] @bytes =$>$ if true, returns the free bytes, if false, returns the percentage
 \end{compactitem}
 
-\hypertarget{toc196}{}
+\hypertarget{toc202}{}
 \subsection{Get Time Usage}
 
 \begin{lstlisting}
@@ -3218,7 +3284,7 @@ This function returns the time usage in seconds or in percentage of the max\_exe
 \item[\color{myblue}$\bullet$] @secs =$>$ if true, returns the used seconds, if false, returns the percentage
 \end{compactitem}
 
-\hypertarget{toc197}{}
+\hypertarget{toc203}{}
 \subsection{Get Free Time}
 
 \begin{lstlisting}
@@ -3231,7 +3297,7 @@ This function returns the free time in seconds or in percentage of the max\_exec
 \item[\color{myblue}$\bullet$] @secs =$>$ if true, returns the used seconds, if false, returns the percentage
 \end{compactitem}
 
-\hypertarget{toc198}{}
+\hypertarget{toc204}{}
 \subsection{Init Time Get}
 
 \begin{lstlisting}
@@ -3240,7 +3306,7 @@ function init_timer()
 
 This function call the helper to initialize the static ini to the current microtime
 
-\hypertarget{toc199}{}
+\hypertarget{toc205}{}
 \subsection{Get Time helper}
 
 \begin{lstlisting}
@@ -3250,7 +3316,7 @@ function __time_get_helper($fn, $secs)
 This function is a helper of the time\_get\_usage and time\_get\_free functions, is used to
 check the time usage and the free time that remain to finish the execution of the script
 
-\hypertarget{toc200}{}
+\hypertarget{toc206}{}
 \subsection{Set Max Memory Limit}
 
 \begin{lstlisting}
@@ -3260,7 +3326,7 @@ function set_max_memory_limit()
 This function is intended to do a ini\_set with a more greather value to allow an
 exceptionally amount of memory usage
 
-\hypertarget{toc201}{}
+\hypertarget{toc207}{}
 \subsection{Set Max Execution Time}
 
 \begin{lstlisting}
@@ -3270,7 +3336,59 @@ function set_max_execution_time()
 This function is intended to do a ini\_set with a more greather value to allow an
 exceptionally amount of execution time
 
-\hypertarget{toc202}{}
+\hypertarget{toc208}{}
+\section{Mime helper module}
+
+\begin{lstlisting}
+api/php/autoload/mime.php
+\end{lstlisting}
+
+This file contains the mimetype feature provided by saltos using different techniques
+suck as the extension file, using the mime\_content\_type or the finfo\_file functions.
+
+\hypertarget{toc209}{}
+\subsection{SaltOS Content Type}
+
+\begin{lstlisting}
+function saltos_content_type($file)
+\end{lstlisting}
+
+This function is intended to returns the mime content-type string using different
+techniques.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @file =$>$ the file of which you want to know the content-type
+\end{compactitem}
+
+\hypertarget{toc210}{}
+\subsection{SaltOS Content Type first helper}
+
+\begin{lstlisting}
+function saltos_content_type0($mime)
+\end{lstlisting}
+
+This function returns the first part of the content-type, for example, if you
+pass the string image/jpeg, this function will returns the string image.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @mime =$>$ the mime that you want to process
+\end{compactitem}
+
+\hypertarget{toc211}{}
+\subsection{SaltOS Content Type second helper}
+
+\begin{lstlisting}
+function saltos_content_type1($mime)
+\end{lstlisting}
+
+This function returns the second part of the content-type, for example, if you
+pass the string image/jpeg, this function will returns the string jpeg.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @mime =$>$ the mime that you want to process
+\end{compactitem}
+
+\hypertarget{toc212}{}
 \section{Output helper module}
 
 \begin{lstlisting}
@@ -3281,7 +3399,7 @@ This fie contains useful functions related to the output of the SaltOS, allow to
 the clients using the specified format and configuration, useful to return contents, too implement
 a specific output for the json format that is the most format used by the new SaltOS
 
-\hypertarget{toc203}{}
+\hypertarget{toc213}{}
 \subsection{Output Handler}
 
 \begin{lstlisting}
@@ -3301,7 +3419,7 @@ the follow arguments:
 \item[\color{myblue}$\bullet$] @extra =$>$ headers that you can add to the transfer
 \end{compactitem}
 
-\hypertarget{toc204}{}
+\hypertarget{toc214}{}
 \subsection{Output Handler JSON}
 
 \begin{lstlisting}
@@ -3315,7 +3433,7 @@ requires is the data that you want to send
 \item[\color{myblue}$\bullet$] @array =$>$ content to convert to json and send to the output channel
 \end{compactitem}
 
-\hypertarget{toc205}{}
+\hypertarget{toc215}{}
 \section{Password helper module}
 
 \begin{lstlisting}
@@ -3325,7 +3443,7 @@ api/php/autoload/password.php
 This fie contains useful functions related to password, currently only publish one feature to check
 the password strength, but is open to be used to add more password features if it is needed
 
-\hypertarget{toc206}{}
+\hypertarget{toc216}{}
 \subsection{Password Strength}
 
 \begin{lstlisting}
@@ -3341,7 +3459,7 @@ password
 \item[\color{myblue}$\bullet$] @pass =$>$ password that do you want to check
 \end{compactitem}
 
-\hypertarget{toc207}{}
+\hypertarget{toc217}{}
 \section{Permissions helper module}
 
 \begin{lstlisting}
@@ -3352,7 +3470,7 @@ This fie contains useful functions related to permissions, allow to apply permis
 or in sql queries, to do it, uses all permissions tables and predefined configurations, more info
 in each function
 
-\hypertarget{toc208}{}
+\hypertarget{toc218}{}
 \subsection{Check User}
 
 \begin{lstlisting}
@@ -3372,7 +3490,7 @@ an integrity error is launched.
 \item[\color{myblue}$\bullet$] @perm =$>$ the perm to check
 \end{compactitem}
 
-\hypertarget{toc209}{}
+\hypertarget{toc219}{}
 \subsection{Check SQL}
 
 \begin{lstlisting}
@@ -3394,7 +3512,7 @@ associated to an user with a specific permission and to an specific
 register, as an optimization, it detects if the all owner is on and
 return a true expression to improve the performance
 
-\hypertarget{toc210}{}
+\hypertarget{toc220}{}
 \subsection{Perms helper function}
 
 \begin{lstlisting}
@@ -3409,7 +3527,7 @@ dictionary of all conversions and resolves the data using it
 \item[\color{myblue}$\bullet$] @arg =$>$ the argument passed to the function
 \end{compactitem}
 
-\hypertarget{toc211}{}
+\hypertarget{toc221}{}
 \subsection{Id to Perm}
 
 \begin{lstlisting}
@@ -3422,7 +3540,7 @@ This function resolves the code of the perm from the perm id
 \item[\color{myblue}$\bullet$] @id =$>$ the id used to resolve the perm
 \end{compactitem}
 
-\hypertarget{toc212}{}
+\hypertarget{toc222}{}
 \subsection{Perm to Id}
 
 \begin{lstlisting}
@@ -3440,7 +3558,7 @@ Notes:
 This function can return an integer or an array of integers, depending
 if the app is using the owner parameter or not
 
-\hypertarget{toc213}{}
+\hypertarget{toc223}{}
 \subsection{Perm Exists}
 
 \begin{lstlisting}
@@ -3460,7 +3578,7 @@ of the owner parameter, the function will return true for a perm that
 contains the owner and for the perm without the owner, for exampe, this
 function returns true for perm list and form perm list$|$user
 
-\hypertarget{toc214}{}
+\hypertarget{toc224}{}
 \section{QRCode helper module}
 
 \begin{lstlisting}
@@ -3469,7 +3587,7 @@ api/php/autoload/qrcode.php
 
 This fie contains useful functions related to QRCodes
 
-\hypertarget{toc215}{}
+\hypertarget{toc225}{}
 \subsection{QRCode function}
 
 \begin{lstlisting}
@@ -3491,7 +3609,7 @@ Notes:
 The normal behavior is returns a png image, but if something was wrong,
 the function can returns an empty string
 
-\hypertarget{toc216}{}
+\hypertarget{toc226}{}
 \section{Random helper module}
 
 \begin{lstlisting}
@@ -3501,7 +3619,7 @@ api/php/autoload/random.php
 This fie contains useful functions related to random number generator, currently only initialize
 the internal generator, but in the future we can add more features if it is needed
 
-\hypertarget{toc217}{}
+\hypertarget{toc227}{}
 \subsection{Init Random}
 
 \begin{lstlisting}
@@ -3516,7 +3634,7 @@ This function previously sets the seed using the microtime, but reading
 the srand php documentation, I see that the seed is not needed because
 if it is not provided, a randomly seed is used by default
 
-\hypertarget{toc218}{}
+\hypertarget{toc228}{}
 \section{Score image helper module}
 
 \begin{lstlisting}
@@ -3525,7 +3643,7 @@ api/php/autoload/score.php
 
 This fie contains useful functions related to score images
 
-\hypertarget{toc219}{}
+\hypertarget{toc229}{}
 \subsection{Score Image function}
 
 \begin{lstlisting}
@@ -3544,7 +3662,7 @@ write the score percent
 \item[\color{myblue}$\bullet$] @size   =$>$ the size of the font of the generated image
 \end{compactitem}
 
-\hypertarget{toc220}{}
+\hypertarget{toc230}{}
 \section{Semaphore helper module}
 
 \begin{lstlisting}
@@ -3554,7 +3672,7 @@ api/php/autoload/semaphores.php
 This fie contains useful functions related to semaphores, allow to create and use semaphores
 for acquiring and release semaphores that guaranty the exclusivity of the code execution
 
-\hypertarget{toc221}{}
+\hypertarget{toc231}{}
 \subsection{Semaphore Acquire}
 
 \begin{lstlisting}
@@ -3568,7 +3686,7 @@ This function implement the acquire of a semaphore
 \item[\color{myblue}$\bullet$] @timeout =$>$ the timeout used in waiting operations
 \end{compactitem}
 
-\hypertarget{toc222}{}
+\hypertarget{toc232}{}
 \subsection{Semaphore Release}
 
 \begin{lstlisting}
@@ -3581,7 +3699,7 @@ This function implement the release of the semaphore
 \item[\color{myblue}$\bullet$] @name =$>$ the name of the semaphore
 \end{compactitem}
 
-\hypertarget{toc223}{}
+\hypertarget{toc233}{}
 \subsection{Semaphore Shutdown}
 
 \begin{lstlisting}
@@ -3592,7 +3710,7 @@ This function implement the shutdown of all semaphores, to do it,
 the function will iterate in each semaphore to release and set to
 null the semaphore pointer
 
-\hypertarget{toc224}{}
+\hypertarget{toc234}{}
 \subsection{Semaphore File}
 
 \begin{lstlisting}
@@ -3606,7 +3724,7 @@ named semaphore, useful for debug purposes
 \item[\color{myblue}$\bullet$] @name =$>$ the name of the semaphore
 \end{compactitem}
 
-\hypertarget{toc225}{}
+\hypertarget{toc235}{}
 \subsection{Semaphore helper}
 
 \begin{lstlisting}
@@ -3625,7 +3743,7 @@ class and each if stripos acts as a methods of a class
 \item[\color{myblue}$\bullet$] @timeout =$>$ the timeout used in waiting operations
 \end{compactitem}
 
-\hypertarget{toc226}{}
+\hypertarget{toc236}{}
 \subsection{Semaphore USleep helper}
 
 \begin{lstlisting}
@@ -3646,7 +3764,7 @@ function
 \item[\color{myblue}$\bullet$] @usec =$>$ the micro seconds that you want to sleep
 \end{compactitem}
 
-\hypertarget{toc227}{}
+\hypertarget{toc237}{}
 \section{Server helper module}
 
 \begin{lstlisting}
@@ -3656,7 +3774,7 @@ api/php/autoload/server.php
 This fie contains useful functions related to the \$\_SERVER global variable, currently only publish
 a getter function, but in the future, can store more features if it is needed
 
-\hypertarget{toc228}{}
+\hypertarget{toc238}{}
 \subsection{Get Server}
 
 \begin{lstlisting}
@@ -3669,7 +3787,7 @@ This function returns the server variable requested by index if it exists
 \item[\color{myblue}$\bullet$] @key =$>$ the index key used to get the value of the server
 \end{compactitem}
 
-\hypertarget{toc229}{}
+\hypertarget{toc239}{}
 \subsection{Set Server}
 
 \begin{lstlisting}
@@ -3683,11 +3801,11 @@ This function is intended to replace some server variabe in runtime mode
 \item[\color{myblue}$\bullet$] @val =$>$ the value that you want to set in the server array
 \end{compactitem}
 
-\hypertarget{toc230}{}
+\hypertarget{toc240}{}
 \section{SQL utils helper module}
 
 \begin{lstlisting}
-api/php/autoload/sqlutils.php
+api/php/autoload/sql.php
 \end{lstlisting}
 
 This fie contains useful functions related to SQL queries, allow to help modules that requires
@@ -3699,7 +3817,7 @@ Too it provides functions to do subparts of the where queries suck as special li
 or match again combinations for the fulltext search engine, see all detailed information by
 reading the list of functions of this module
 
-\hypertarget{toc231}{}
+\hypertarget{toc241}{}
 \subsection{Parse Query}
 
 \begin{lstlisting}
@@ -3719,7 +3837,7 @@ because we can not put comments inside another comment!!!
 \item[\color{myblue}$\bullet$] @type  =$>$ the db type that you want to allow by the filters
 \end{compactitem}
 
-\hypertarget{toc232}{}
+\hypertarget{toc242}{}
 \subsection{Parse Query Type helper}
 
 \begin{lstlisting}
@@ -3729,7 +3847,7 @@ function __parse_query_type()
 This function returns the type used by parse\_query using as detector the
 dbtype of the config file, currently only allow to return MYSQL and/or SQLITE
 
-\hypertarget{toc233}{}
+\hypertarget{toc243}{}
 \subsection{Parse Query Strpos helper}
 
 \begin{lstlisting}
@@ -3749,7 +3867,7 @@ The arguments are the same that the strpos function
 \item[\color{myblue}$\bullet$] @offset   =$>$ bias applied to begin the search of the needle
 \end{compactitem}
 
-\hypertarget{toc234}{}
+\hypertarget{toc244}{}
 \subsection{Execute Query}
 
 \begin{lstlisting}
@@ -3788,7 +3906,7 @@ Be carefully to use the output of this command in an foreach, for example
 because you can get for the same query differents output types, if you
 need to be more standarized in the output types, see the execute\_query\_array
 
-\hypertarget{toc235}{}
+\hypertarget{toc245}{}
 \subsection{Execute Query Array}
 
 \begin{lstlisting}
@@ -3804,7 +3922,7 @@ in a foreach, for example
 \item[\color{myblue}$\bullet$] @query =$>$ the SQL query that you want to execute
 \end{compactitem}
 
-\hypertarget{toc236}{}
+\hypertarget{toc246}{}
 \subsection{Get Fields}
 
 \begin{lstlisting}
@@ -3817,7 +3935,7 @@ This function returns the fields of the requested table
 \item[\color{myblue}$\bullet$] @table =$>$ the table where that you want to know the fields
 \end{compactitem}
 
-\hypertarget{toc237}{}
+\hypertarget{toc247}{}
 \subsection{Get Indexes}
 
 \begin{lstlisting}
@@ -3830,7 +3948,7 @@ This function returns the indexes of the requested table
 \item[\color{myblue}$\bullet$] @table =$>$ the table where that you want to know the indexes
 \end{compactitem}
 
-\hypertarget{toc238}{}
+\hypertarget{toc248}{}
 \subsection{Get Tables}
 
 \begin{lstlisting}
@@ -3839,7 +3957,7 @@ function get_tables()
 
 This function returns the tables of the database
 
-\hypertarget{toc239}{}
+\hypertarget{toc249}{}
 \subsection{Get Field Type}
 
 \begin{lstlisting}
@@ -3853,7 +3971,7 @@ the real database, for example, returns string if the field is of TEXT type
 \item[\color{myblue}$\bullet$] @type =$>$ the real type in the database
 \end{compactitem}
 
-\hypertarget{toc240}{}
+\hypertarget{toc250}{}
 \subsection{Get Field Size}
 
 \begin{lstlisting}
@@ -3867,7 +3985,7 @@ example, returns 65535 if the field is of TEXT type
 \item[\color{myblue}$\bullet$] @type =$>$ the real type in the database
 \end{compactitem}
 
-\hypertarget{toc241}{}
+\hypertarget{toc251}{}
 \subsection{SQL Create Table}
 
 \begin{lstlisting}
@@ -3885,7 +4003,7 @@ tablespec argument
 This function creates the table, supports the primary key, supports the
 foreign key, and detect fulltext indexes with mroonga engines
 
-\hypertarget{toc242}{}
+\hypertarget{toc252}{}
 \subsection{Has Engine}
 
 \begin{lstlisting}
@@ -3899,7 +4017,7 @@ availabie
 \item[\color{myblue}$\bullet$] @engine =$>$ the engine that you want to get information about existence
 \end{compactitem}
 
-\hypertarget{toc243}{}
+\hypertarget{toc253}{}
 \subsection{SQL Alter Table}
 
 \begin{lstlisting}
@@ -3913,7 +4031,7 @@ This function returns the alter table command
 \item[\color{myblue}$\bullet$] @dest =$>$ destination table
 \end{compactitem}
 
-\hypertarget{toc244}{}
+\hypertarget{toc254}{}
 \subsection{SQL Insert From Select}
 
 \begin{lstlisting}
@@ -3927,7 +4045,7 @@ This function returns the insert from select command
 \item[\color{myblue}$\bullet$] @dest =$>$ destination table
 \end{compactitem}
 
-\hypertarget{toc245}{}
+\hypertarget{toc255}{}
 \subsection{SQL Drop Table}
 
 \begin{lstlisting}
@@ -3940,7 +4058,7 @@ This function returns the drop table command
 \item[\color{myblue}$\bullet$] @table =$>$ table that you want to drop
 \end{compactitem}
 
-\hypertarget{toc246}{}
+\hypertarget{toc256}{}
 \subsection{SQL Create Index}
 
 \begin{lstlisting}
@@ -3957,7 +4075,7 @@ indexspec argument
 
 This function creates the index, supports fulltext indexes
 
-\hypertarget{toc247}{}
+\hypertarget{toc257}{}
 \subsection{SQL Drop Index}
 
 \begin{lstlisting}
@@ -3971,7 +4089,7 @@ This function returns the drop index command
 \item[\color{myblue}$\bullet$] @table =$>$ table where the indes is part of
 \end{compactitem}
 
-\hypertarget{toc248}{}
+\hypertarget{toc258}{}
 \subsection{Make Insert Query}
 
 \begin{lstlisting}
@@ -4000,7 +4118,7 @@ This function uses the array\_key\_exists instead of isset because the
 check of the \$array[\$name] fails when the item exists but is false or
 null, for example
 
-\hypertarget{toc249}{}
+\hypertarget{toc259}{}
 \subsection{Make Update Query}
 
 \begin{lstlisting}
@@ -4031,7 +4149,7 @@ This function uses the array\_key\_exists instead of isset because the
 check of the \$array[\$name] fails when the item exists but is false or
 null, for example
 
-\hypertarget{toc250}{}
+\hypertarget{toc260}{}
 \subsection{Make Where Query}
 
 \begin{lstlisting}
@@ -4052,7 +4170,7 @@ a different comparison operator, you can use the field name and add the
 operator that you want to use in the comparison, the allowed comparison
 operators are $>$, $<$, =, $>$=, $<$=, !=
 
-\hypertarget{toc251}{}
+\hypertarget{toc261}{}
 \subsection{Escape Reserved Word}
 
 \begin{lstlisting}
@@ -4068,7 +4186,7 @@ to escape table names too
 \item[\color{myblue}$\bullet$] @word =$>$ the word that must to be escape if needed
 \end{compactitem}
 
-\hypertarget{toc252}{}
+\hypertarget{toc262}{}
 \subsection{Make Like Query}
 
 \begin{lstlisting}
@@ -4093,7 +4211,7 @@ search string, this allow to the function to use the like or not like
 depending the sign of the word, and too to use the disjunction or
 conjunction in each like group
 
-\hypertarget{toc253}{}
+\hypertarget{toc263}{}
 \subsection{Make Fulltext Query Helper}
 
 \begin{lstlisting}
@@ -4117,7 +4235,7 @@ This function differs between the make\_like\_query in the idea that this
 function only is used to search using fulltext indexes and in one unique
 field named search
 
-\hypertarget{toc254}{}
+\hypertarget{toc264}{}
 \subsection{Make Fulltext Query}
 
 \begin{lstlisting}
@@ -4137,18 +4255,18 @@ app and the prefix to be added to the id field of the in subquery
 \item[\color{myblue}$\bullet$] @default =$>$ sql fraement returned if some thing was wrong
 \end{compactitem}
 
-\hypertarget{toc255}{}
+\hypertarget{toc265}{}
 \section{String utils helper module}
 
 \begin{lstlisting}
-api/php/autoload/strutils.php
+api/php/autoload/strings.php
 \end{lstlisting}
 
 This fie contains useful functions related to strings manipulations, suck as get the test in
 UTF8, remove bad chars, of apply filters to the text, manipulate texts of other related tasks
 with strings
 
-\hypertarget{toc256}{}
+\hypertarget{toc266}{}
 \subsection{Remove Bar Chars}
 
 \begin{lstlisting}
@@ -4163,7 +4281,7 @@ newline, return)
 \item[\color{myblue}$\bullet$] @pad  =$>$ padding string used as replacement for bar chars (void by default)
 \end{compactitem}
 
-\hypertarget{toc257}{}
+\hypertarget{toc267}{}
 \subsection{Encode Bar Chars}
 
 \begin{lstlisting}
@@ -4185,7 +4303,7 @@ only allow one pading char at time
 \item[\color{myblue}$\bullet$] @extra =$>$ the list of chars allowed to appear in the output
 \end{compactitem}
 
-\hypertarget{toc258}{}
+\hypertarget{toc268}{}
 \subsection{Prepare Words}
 
 \begin{lstlisting}
@@ -4204,7 +4322,7 @@ Notes:
 Apart of remove repetitions of the padding char, the function will try to
 remove padding chars in the start and in the end of the string
 
-\hypertarget{toc259}{}
+\hypertarget{toc269}{}
 \subsection{Sprintr}
 
 \begin{lstlisting}
@@ -4220,7 +4338,7 @@ are removed, optimizing the output string
 \item[\color{myblue}$\bullet$] @array =$>$ the array that do you want to convert into string
 \end{compactitem}
 
-\hypertarget{toc260}{}
+\hypertarget{toc270}{}
 \subsection{Get Unique ID MD5}
 
 \begin{lstlisting}
@@ -4229,7 +4347,7 @@ function get_unique_id_md5()
 
 This function returns an unique hash using the random generator
 
-\hypertarget{toc261}{}
+\hypertarget{toc271}{}
 \subsection{Intelligence Cut}
 
 \begin{lstlisting}
@@ -4244,7 +4362,7 @@ This function allow to cut text by searching spaces to prevent to break words
 \item[\color{myblue}$\bullet$] @end =$>$ the suffix added if the text is cutted
 \end{compactitem}
 
-\hypertarget{toc262}{}
+\hypertarget{toc272}{}
 \subsection{Normalize Value}
 
 \begin{lstlisting}
@@ -4259,7 +4377,7 @@ get the number without factor
 \item[\color{myblue}$\bullet$] @value =$>$ the string that contain the number, for example "123k"
 \end{compactitem}
 
-\hypertarget{toc263}{}
+\hypertarget{toc273}{}
 \subsection{HTML to Text}
 
 \begin{lstlisting}
@@ -4275,7 +4393,7 @@ example
 \item[\color{myblue}$\bullet$] @html =$>$ the html code that you want to convert to plain text
 \end{compactitem}
 
-\hypertarget{toc264}{}
+\hypertarget{toc274}{}
 \subsection{Get UTF-8}
 
 \begin{lstlisting}
@@ -4288,7 +4406,7 @@ This function returns the string codified in a UTF-8 encoding
 \item[\color{myblue}$\bullet$] @str =$>$ the input string that you want to covnert to UTF-8
 \end{compactitem}
 
-\hypertarget{toc265}{}
+\hypertarget{toc275}{}
 \subsection{Words Exists}
 
 \begin{lstlisting}
@@ -4302,7 +4420,7 @@ This function check that all words exists in the buffer
 \item[\color{myblue}$\bullet$] @buffer =$>$ the string where we must to found the words
 \end{compactitem}
 
-\hypertarget{toc266}{}
+\hypertarget{toc276}{}
 \subsection{String Replace Assoc}
 
 \begin{lstlisting}
@@ -4318,7 +4436,7 @@ to do more prerry the code
 \item[\color{myblue}$\bullet$] @cad   =$>$ the string that you want to apply the replacement
 \end{compactitem}
 
-\hypertarget{toc267}{}
+\hypertarget{toc277}{}
 \subsection{Get Part From String}
 
 \begin{lstlisting}
@@ -4334,7 +4452,7 @@ of the index position
 \item[\color{myblue}$\bullet$] @index =$>$ the index that you want to request of the explode result
 \end{compactitem}
 
-\hypertarget{toc268}{}
+\hypertarget{toc278}{}
 \subsection{Get Unique Token}
 
 \begin{lstlisting}
@@ -4343,7 +4461,7 @@ function get_unique_token()
 
 This function returns a string with a new and unique token
 
-\hypertarget{toc269}{}
+\hypertarget{toc279}{}
 \section{System helper module}
 
 \begin{lstlisting}
@@ -4353,7 +4471,7 @@ api/php/autoload/system.php
 This fie contains useful functions related to system checks, allow to detect dependencies not
 installed on the system, or misconfigurations on the SaltOS installation
 
-\hypertarget{toc270}{}
+\hypertarget{toc280}{}
 \subsection{Check System}
 
 \begin{lstlisting}
@@ -4366,7 +4484,7 @@ that is triggered if the dependency is not satisfied
 
 Too, check all directories of the data directory to validate that the process can write inside it
 
-\hypertarget{toc271}{}
+\hypertarget{toc281}{}
 \section{User helper module}
 
 \begin{lstlisting}
@@ -4377,7 +4495,7 @@ This file contains the functions associated to the user validation, to
 improve the performance, all functions are using a cache based trick
 that performs an important speed up
 
-\hypertarget{toc272}{}
+\hypertarget{toc282}{}
 \subsection{Current Token}
 
 \begin{lstlisting}
@@ -4388,7 +4506,7 @@ This function returns the id of the current token, this info is retrieved
 using the token of the request, for security reasons, this validation only
 can be performed by the same origin that execute the login action
 
-\hypertarget{toc273}{}
+\hypertarget{toc283}{}
 \subsection{Current User}
 
 \begin{lstlisting}
@@ -4398,7 +4516,7 @@ function current_user()
 This function returns the id of the current user, this info is retrieved
 using the token of the request
 
-\hypertarget{toc274}{}
+\hypertarget{toc284}{}
 \subsection{Current Group}
 
 \begin{lstlisting}
@@ -4408,7 +4526,7 @@ function current_group()
 This function returns the id of the current group, this info is retrieved
 using the token of the request
 
-\hypertarget{toc275}{}
+\hypertarget{toc285}{}
 \subsection{Current Groups}
 
 \begin{lstlisting}
@@ -4420,7 +4538,7 @@ using the token of the request and the main idea of this function is to
 returns the list of all groups associated to the current user to facily the
 permissions checks
 
-\hypertarget{toc276}{}
+\hypertarget{toc286}{}
 \subsection{Crontab Users}
 
 \begin{lstlisting}
@@ -4437,7 +4555,7 @@ and only accepts the first execution, this is to prevent that multiples calls
 to other actions and functions that requires the integrity of the passwords
 and tokens
 
-\hypertarget{toc277}{}
+\hypertarget{toc287}{}
 \section{Version helper module}
 
 \begin{lstlisting}
@@ -4446,7 +4564,7 @@ api/php/autoload/version.php
 
 This fie contains useful functions related to the version of the SaltOS of the php engine
 
-\hypertarget{toc278}{}
+\hypertarget{toc288}{}
 \subsection{Get Name Version Revision}
 
 \begin{lstlisting}
@@ -4460,7 +4578,7 @@ copyright if needed
 \item[\color{myblue}$\bullet$] @copyright =$>$ boolean to specify if you want to add the copyright to the output
 \end{compactitem}
 
-\hypertarget{toc279}{}
+\hypertarget{toc289}{}
 \subsection{SVN Version}
 
 \begin{lstlisting}
@@ -4473,7 +4591,7 @@ This function tries to return the svn version of the project
 \item[\color{myblue}$\bullet$] @dir =$>$ allow to specify where do you want to execute the svnversion command
 \end{compactitem}
 
-\hypertarget{toc280}{}
+\hypertarget{toc290}{}
 \subsection{GIT Version}
 
 \begin{lstlisting}
@@ -4486,7 +4604,7 @@ This function tries to return the git version of the project
 \item[\color{myblue}$\bullet$] @dir =$>$ allow to specify where do you want to execute the gitversion command
 \end{compactitem}
 
-\hypertarget{toc281}{}
+\hypertarget{toc291}{}
 \subsection{IS PHP}
 
 \begin{lstlisting}
@@ -4500,7 +4618,7 @@ version requested and the current version.
 \item[\color{myblue}$\bullet$] @version =$>$ the version where do you want to compare
 \end{compactitem}
 
-\hypertarget{toc282}{}
+\hypertarget{toc292}{}
 \section{XML to Array helper module}
 
 \begin{lstlisting}
@@ -4512,7 +4630,7 @@ main version of the SaltOS because the main idea defined some years ago continue
 compare this code, you can see more accuracy in the specification to be more specific and precise
 but this code is a part of all the SaltOS versions
 
-\hypertarget{toc283}{}
+\hypertarget{toc293}{}
 \subsection{Eval Protected}
 
 \begin{lstlisting}
@@ -4527,7 +4645,7 @@ environment, you can specify some global variables to improve the eval execution
 \item[\color{myblue}$\bullet$] @global =$>$ the list (separated by comma) of global variables that you want to use
 \end{compactitem}
 
-\hypertarget{toc284}{}
+\hypertarget{toc294}{}
 \subsection{Set Array}
 
 \begin{lstlisting}
@@ -4550,7 +4668,7 @@ added to allow multiples instances of the same key in an associative array
 \item[\color{myblue}$\bullet$] @value =$>$ the value that you want to set in this position of the array
 \end{compactitem}
 
-\hypertarget{toc285}{}
+\hypertarget{toc295}{}
 \subsection{Unset Array}
 
 \begin{lstlisting}
@@ -4567,7 +4685,7 @@ will remove "test", "test\#1" and "test\#2"
 \item[\color{myblue}$\bullet$] @name  =$>$ the key used in the array and as prefix of the entries of the array
 \end{compactitem}
 
-\hypertarget{toc286}{}
+\hypertarget{toc296}{}
 \subsection{Fix Key}
 
 \begin{lstlisting}
@@ -4582,7 +4700,7 @@ the fix\_key of the "test\#2", the function will returns "test"
 \item[\color{myblue}$\bullet$] @arg =$>$ the name of the key that you want to remove the suffix part (if exists)
 \end{compactitem}
 
-\hypertarget{toc287}{}
+\hypertarget{toc297}{}
 \subsection{Detect Recursion}
 
 \begin{lstlisting}
@@ -4599,7 +4717,7 @@ or the function, and returns the count of times that appear
        by a comma
 \end{compactitem}
 
-\hypertarget{toc288}{}
+\hypertarget{toc298}{}
 \subsection{XML File to Array}
 
 \begin{lstlisting}
@@ -4618,7 +4736,7 @@ management to optimize the usage
 \item[\color{myblue}$\bullet$] @usecache =$>$ if do you want to enable the cache feature
 \end{compactitem}
 
-\hypertarget{toc289}{}
+\hypertarget{toc299}{}
 \subsection{XML to Array}
 
 \begin{lstlisting}
@@ -4632,7 +4750,7 @@ This function allow to convert a XML string to an array
 \item[\color{myblue}$\bullet$] @file =$>$ filename of the contents, only used when an errors occurs
 \end{compactitem}
 
-\hypertarget{toc290}{}
+\hypertarget{toc300}{}
 \subsection{XML to Struct}
 
 \begin{lstlisting}
@@ -4661,7 +4779,7 @@ the key of this feature and this function
 \item[\color{myblue}$\bullet$] @file =$>$ the source filename, it is used only to generate error reports
 \end{compactitem}
 
-\hypertarget{toc291}{}
+\hypertarget{toc301}{}
 \subsection{Struct to Array}
 
 \begin{lstlisting}
@@ -4692,7 +4810,7 @@ reorder all keys of the resulted array and this add a very big cost if the xml
 is big, this problem was detected in 2014 and was optimized by add the reverse
 and the pop instead of only shift
 
-\hypertarget{toc292}{}
+\hypertarget{toc302}{}
 \subsection{Eval Attributes}
 
 \begin{lstlisting}
@@ -4733,7 +4851,7 @@ that this version only accepts three internal commands and the other
 attributes can be maintained in order to be used by other processes
 (internally or externally)
 
-\hypertarget{toc293}{}
+\hypertarget{toc303}{}
 \subsection{Eval Bool}
 
 \begin{lstlisting}
@@ -4750,7 +4868,7 @@ The valid inputs are the strings one, zero, void, true, false, on, off, yes and 
 \item[\color{myblue}$\bullet$] @arg =$>$ the value that do you want to evaluates as boolean
 \end{compactitem}
 
-\hypertarget{toc294}{}
+\hypertarget{toc304}{}
 \section{Main execution module}
 
 \begin{lstlisting}
@@ -4823,10 +4941,10 @@ As a brief resume, you can use the follow keys in get\_data or set\_data:
 \end{compactitem}
 
 
-\hypertarget{toc295}{}
+\hypertarget{toc305}{}
 \chapter{Database}
 
-\hypertarget{toc296}{}
+\hypertarget{toc306}{}
 \section{SQLite3 functions library}
 
 \begin{lstlisting}
@@ -4845,7 +4963,7 @@ More info about this feature by searching:
 \item[\color{myblue}$\bullet$] @SQLite3 =$>$ createFunction/createAggregate
 \end{compactitem}
 
-\hypertarget{toc297}{}
+\hypertarget{toc307}{}
 \subsection{GROUP\_CONCAT}
 
 \begin{lstlisting}
@@ -4854,7 +4972,7 @@ function __libsqlite_group_concat_step($context, $rows, $string, $separator = ",
 
 This function add the GROUP\_CONCAT to the SQLite database
 
-\hypertarget{toc298}{}
+\hypertarget{toc308}{}
 \subsection{GROUP\_CONCAT}
 
 \begin{lstlisting}
@@ -4863,7 +4981,7 @@ function __libsqlite_group_concat_finalize($context, $rows)
 
 This function add the GROUP\_CONCAT to the SQLite database
 
-\hypertarget{toc299}{}
+\hypertarget{toc309}{}
 \subsection{REPLACE}
 
 \begin{lstlisting}
@@ -4872,7 +4990,7 @@ function __libsqlite_replace($subject, $search, $replace)
 
 This function add the REPLACE to the SQLite database
 
-\hypertarget{toc300}{}
+\hypertarget{toc310}{}
 \subsection{LPAD}
 
 \begin{lstlisting}
@@ -4881,7 +4999,7 @@ function __libsqlite_lpad($input, $length, $char)
 
 This function add the LPAD to the SQLite database
 
-\hypertarget{toc301}{}
+\hypertarget{toc311}{}
 \subsection{CONCAT}
 
 \begin{lstlisting}
@@ -4890,7 +5008,16 @@ function __libsqlite_concat()
 
 This function add the CONCAT to the SQLite database
 
-\hypertarget{toc302}{}
+\hypertarget{toc312}{}
+\subsection{CONCAT\_WS}
+
+\begin{lstlisting}
+function __libsqlite_concat_ws()
+\end{lstlisting}
+
+This function add the CONCAT\_WS to the SQLite database
+
+\hypertarget{toc313}{}
 \subsection{UNIX\_TIMESTAMP}
 
 \begin{lstlisting}
@@ -4899,7 +5026,7 @@ function __libsqlite_unix_timestamp($date)
 
 This function add the UNIX\_TIMESTAMP to the SQLite database
 
-\hypertarget{toc303}{}
+\hypertarget{toc314}{}
 \subsection{FROM\_UNIXTIME}
 
 \begin{lstlisting}
@@ -4908,7 +5035,7 @@ function __libsqlite_from_unixtime($timestamp)
 
 This function add the FROM\_UNIXTIME to the SQLite database
 
-\hypertarget{toc304}{}
+\hypertarget{toc315}{}
 \subsection{YEAR}
 
 \begin{lstlisting}
@@ -4917,7 +5044,7 @@ function __libsqlite_year($date)
 
 This function add the YEAR to the SQLite database
 
-\hypertarget{toc305}{}
+\hypertarget{toc316}{}
 \subsection{MONTH}
 
 \begin{lstlisting}
@@ -4926,7 +5053,7 @@ function __libsqlite_month($date)
 
 This function add the MONTH to the SQLite database
 
-\hypertarget{toc306}{}
+\hypertarget{toc317}{}
 \subsection{WEEK}
 
 \begin{lstlisting}
@@ -4935,7 +5062,7 @@ function __libsqlite_week($date, $mode)
 
 This function add the WEEK to the SQLite database
 
-\hypertarget{toc307}{}
+\hypertarget{toc318}{}
 \subsection{TRUNCATE}
 
 \begin{lstlisting}
@@ -4944,7 +5071,7 @@ function __libsqlite_truncate($n, $d)
 
 This function add the TRUNCATE to the SQLite database
 
-\hypertarget{toc308}{}
+\hypertarget{toc319}{}
 \subsection{DAY}
 
 \begin{lstlisting}
@@ -4953,7 +5080,7 @@ function __libsqlite_day($date)
 
 This function add the DAY to the SQLite database
 
-\hypertarget{toc309}{}
+\hypertarget{toc320}{}
 \subsection{DAYOFYEAR}
 
 \begin{lstlisting}
@@ -4962,7 +5089,7 @@ function __libsqlite_dayofyear($date)
 
 This function add the DAYOFYEAR to the SQLite database
 
-\hypertarget{toc310}{}
+\hypertarget{toc321}{}
 \subsection{DAYOFWEEK}
 
 \begin{lstlisting}
@@ -4971,7 +5098,7 @@ function __libsqlite_dayofweek($date)
 
 This function add the DAYOFWEEK to the SQLite database
 
-\hypertarget{toc311}{}
+\hypertarget{toc322}{}
 \subsection{HOUR}
 
 \begin{lstlisting}
@@ -4980,7 +5107,7 @@ function __libsqlite_hour($date)
 
 This function add the HOUR to the SQLite database
 
-\hypertarget{toc312}{}
+\hypertarget{toc323}{}
 \subsection{MINUTE}
 
 \begin{lstlisting}
@@ -4989,7 +5116,7 @@ function __libsqlite_minute($date)
 
 This function add the MINUTE to the SQLite database
 
-\hypertarget{toc313}{}
+\hypertarget{toc324}{}
 \subsection{SECOND}
 
 \begin{lstlisting}
@@ -4998,7 +5125,7 @@ function __libsqlite_second($date)
 
 This function add the SECOND to the SQLite database
 
-\hypertarget{toc314}{}
+\hypertarget{toc325}{}
 \subsection{MD5}
 
 \begin{lstlisting}
@@ -5007,7 +5134,7 @@ function __libsqlite_md5($temp)
 
 This function add the MD5 to the SQLite database
 
-\hypertarget{toc315}{}
+\hypertarget{toc326}{}
 \subsection{REPEAT}
 
 \begin{lstlisting}
@@ -5016,7 +5143,7 @@ function __libsqlite_repeat($str, $count)
 
 This function add the REPEAT to the SQLite database
 
-\hypertarget{toc316}{}
+\hypertarget{toc327}{}
 \subsection{FIND\_IN\_SET}
 
 \begin{lstlisting}
@@ -5025,7 +5152,7 @@ function __libsqlite_find_in_set($str, $strlist)
 
 This function add the FIND\_IN\_SET to the SQLite database
 
-\hypertarget{toc317}{}
+\hypertarget{toc328}{}
 \subsection{IF}
 
 \begin{lstlisting}
@@ -5034,7 +5161,7 @@ function __libsqlite_if($condition, $value_if_true, $value_if_false)
 
 This function add the IF to the SQLite database
 
-\hypertarget{toc318}{}
+\hypertarget{toc329}{}
 \subsection{POW}
 
 \begin{lstlisting}
@@ -5043,7 +5170,7 @@ function __libsqlite_pow($base, $exp)
 
 This function add the POW to the SQLite database
 
-\hypertarget{toc319}{}
+\hypertarget{toc330}{}
 \subsection{DATE\_FORMAT}
 
 \begin{lstlisting}
@@ -5052,7 +5179,7 @@ function __libsqlite_date_format($date, $format)
 
 This function add the DATE\_FORMAT to the SQLite database
 
-\hypertarget{toc320}{}
+\hypertarget{toc331}{}
 \subsection{NOW}
 
 \begin{lstlisting}
@@ -5061,7 +5188,7 @@ function __libsqlite_now()
 
 This function add the NOW to the SQLite database
 
-\hypertarget{toc321}{}
+\hypertarget{toc332}{}
 \section{MySQL improved driver}
 
 \begin{lstlisting}
@@ -5072,7 +5199,7 @@ This file implements the MySQL improved driver. This driver was coded later that
 mysql driver and contains lots of improvements respect to the old mysql driver. The old mysql
 driver was removed in the PHP 7.0 release.
 
-\hypertarget{toc322}{}
+\hypertarget{toc333}{}
 \subsection{Database MySQL improved class}
 
 \begin{lstlisting}
@@ -5081,7 +5208,7 @@ class database_mysqli
 
 This class allow to SaltOS to connect to MySQL databases using the MySQL improved driver
 
-\hypertarget{toc323}{}
+\hypertarget{toc334}{}
 \subsection{Private link variable}
 
 \begin{lstlisting}
@@ -5090,7 +5217,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc324}{}
+\hypertarget{toc335}{}
 \subsection{Constructor}
 
 \begin{lstlisting}
@@ -5108,7 +5235,7 @@ This public function is intended to stablish the connection to the database
 \item[\color{myblue}$\bullet$] @pass =$>$ pass used to stablish the connection
 \end{compactitem}
 
-\hypertarget{toc325}{}
+\hypertarget{toc336}{}
 \subsection{DB Check}
 
 \begin{lstlisting}
@@ -5121,7 +5248,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc326}{}
+\hypertarget{toc337}{}
 \subsection{DB Query}
 
 \begin{lstlisting}
@@ -5155,7 +5282,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc327}{}
+\hypertarget{toc338}{}
 \subsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5164,7 +5291,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc328}{}
+\hypertarget{toc339}{}
 \section{PDO MsSQL driver}
 
 \begin{lstlisting}
@@ -5174,7 +5301,7 @@ api/php/database/pdo_mssql.php
 This file implements the MySQL improved driver. This driver uses the dblib library to connect
 with SQL servers.
 
-\hypertarget{toc329}{}
+\hypertarget{toc340}{}
 \subsection{Database PDO MsSQL class}
 
 \begin{lstlisting}
@@ -5183,7 +5310,7 @@ class database_pdo_mssql
 
 This class allow to SaltOS to connect to MsSQL databases using the PDO driver
 
-\hypertarget{toc330}{}
+\hypertarget{toc341}{}
 \subsection{Private link variable}
 
 \begin{lstlisting}
@@ -5192,7 +5319,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc331}{}
+\hypertarget{toc342}{}
 \subsection{Constructor}
 
 \begin{lstlisting}
@@ -5210,7 +5337,7 @@ This public function is intended to stablish the connection to the database
 \item[\color{myblue}$\bullet$] @pass =$>$ pass used to stablish the connection
 \end{compactitem}
 
-\hypertarget{toc332}{}
+\hypertarget{toc343}{}
 \subsection{DB Check}
 
 \begin{lstlisting}
@@ -5223,7 +5350,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc333}{}
+\hypertarget{toc344}{}
 \subsection{DB Query}
 
 \begin{lstlisting}
@@ -5257,7 +5384,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc334}{}
+\hypertarget{toc345}{}
 \subsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5266,7 +5393,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc335}{}
+\hypertarget{toc346}{}
 \section{PDO MySQL driver}
 
 \begin{lstlisting}
@@ -5277,7 +5404,7 @@ This file implements the MySQL improved driver. This is the recommended driver w
 to use MySQL servers, it uses the PDO extension and alow to connect to MySQL servers with a
 good performance.
 
-\hypertarget{toc336}{}
+\hypertarget{toc347}{}
 \subsection{Database PDO MySQL class}
 
 \begin{lstlisting}
@@ -5286,7 +5413,7 @@ class database_pdo_mysql
 
 This class allow to SaltOS to connect to MySQL databases using the PDO driver
 
-\hypertarget{toc337}{}
+\hypertarget{toc348}{}
 \subsection{Private link variable}
 
 \begin{lstlisting}
@@ -5295,7 +5422,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc338}{}
+\hypertarget{toc349}{}
 \subsection{Constructor}
 
 \begin{lstlisting}
@@ -5313,7 +5440,7 @@ This public function is intended to stablish the connection to the database
 \item[\color{myblue}$\bullet$] @pass =$>$ pass used to stablish the connection
 \end{compactitem}
 
-\hypertarget{toc339}{}
+\hypertarget{toc350}{}
 \subsection{DB Check}
 
 \begin{lstlisting}
@@ -5326,7 +5453,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc340}{}
+\hypertarget{toc351}{}
 \subsection{DB Query}
 
 \begin{lstlisting}
@@ -5360,7 +5487,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc341}{}
+\hypertarget{toc352}{}
 \subsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5369,7 +5496,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc342}{}
+\hypertarget{toc353}{}
 \section{PDO SQLite driver}
 
 \begin{lstlisting}
@@ -5382,7 +5509,7 @@ solves the concurrence problem using POSIX semaphores, generally it is a good op
 that don't require a fulltext search optimizations suck as mroonga, intended for a personal
 usage or demos.
 
-\hypertarget{toc343}{}
+\hypertarget{toc354}{}
 \subsection{Database PDO SQLite class}
 
 \begin{lstlisting}
@@ -5391,7 +5518,7 @@ class database_pdo_sqlite
 
 This class allow to SaltOS to connect to SQLite databases using the PDO driver
 
-\hypertarget{toc344}{}
+\hypertarget{toc355}{}
 \subsection{Private link variable}
 
 \begin{lstlisting}
@@ -5400,7 +5527,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc345}{}
+\hypertarget{toc356}{}
 \subsection{Constructor}
 
 \begin{lstlisting}
@@ -5421,7 +5548,7 @@ this is a great feature that allow to use SQLite as MySQL, and using this featur
 database, this driver uses the libsqlite to add a lot of features found in MySQL and
 used in a lot of queries by SaltOS
 
-\hypertarget{toc346}{}
+\hypertarget{toc357}{}
 \subsection{DB Check}
 
 \begin{lstlisting}
@@ -5434,7 +5561,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc347}{}
+\hypertarget{toc358}{}
 \subsection{DB Query}
 
 \begin{lstlisting}
@@ -5468,7 +5595,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc348}{}
+\hypertarget{toc359}{}
 \subsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5477,7 +5604,7 @@ public function db_disconnect()
 
 This function close the database connection and sets the link to null
 
-\hypertarget{toc349}{}
+\hypertarget{toc360}{}
 \section{SQLite3 driver}
 
 \begin{lstlisting}
@@ -5489,7 +5616,7 @@ to use SQLite3 files as database server, this driver solves the concurrence prob
 POSIX semaphores, generally it is a good option for setups that don't require a fulltext
 search optimizations suck as mroonga, intended for a personal usage or demos.
 
-\hypertarget{toc350}{}
+\hypertarget{toc361}{}
 \subsection{Database SQLite3 class}
 
 \begin{lstlisting}
@@ -5498,7 +5625,7 @@ class database_sqlite3
 
 This class allow to SaltOS to connect to SQLite databases using the SQLite3 driver
 
-\hypertarget{toc351}{}
+\hypertarget{toc362}{}
 \subsection{Private link variable}
 
 \begin{lstlisting}
@@ -5507,7 +5634,7 @@ private $link = null;
 
 This private variable contains the link to the database
 
-\hypertarget{toc352}{}
+\hypertarget{toc363}{}
 \subsection{Constructor}
 
 \begin{lstlisting}
@@ -5528,7 +5655,7 @@ this is a great feature that allow to use SQLite as MySQL, and using this featur
 database, this driver uses the libsqlite to add a lot of features found in MySQL and
 used in a lot of queries by SaltOS
 
-\hypertarget{toc353}{}
+\hypertarget{toc364}{}
 \subsection{DB Check}
 
 \begin{lstlisting}
@@ -5541,7 +5668,7 @@ This public function is intended to check that the query execution will not trig
 \item[\color{myblue}$\bullet$] @query =$>$ the query that you want to validate
 \end{compactitem}
 
-\hypertarget{toc354}{}
+\hypertarget{toc365}{}
 \subsection{DB Query}
 
 \begin{lstlisting}
@@ -5575,7 +5702,7 @@ arrays, this is useful when you want to get all ids of a query and you want to g
 sized array, in this case, is more efficient to get an string separated by commas with all
 ids instead of an array where each element is an id
 
-\hypertarget{toc355}{}
+\hypertarget{toc366}{}
 \subsection{DB Disconnect}
 
 \begin{lstlisting}
@@ -5585,10 +5712,10 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-\hypertarget{toc356}{}
-\chapter{JavaScript}
+\hypertarget{toc367}{}
+\chapter{Javascript}
 
-\hypertarget{toc357}{}
+\hypertarget{toc368}{}
 \section{Application helper module}
 
 \begin{lstlisting}
@@ -5598,7 +5725,7 @@ web/js/app.js
 This fie contains useful functions related to the main application, at the end of this file you
 can see the main code that launch the application to be executed from the browser
 
-\hypertarget{toc358}{}
+\hypertarget{toc369}{}
 \subsection{Application helper object}
 
 \begin{lstlisting}
@@ -5607,7 +5734,7 @@ saltos.app = {};
 
 This object stores all application functions and data
 
-\hypertarget{toc359}{}
+\hypertarget{toc370}{}
 \subsection{Show error helper}
 
 \begin{lstlisting}
@@ -5616,7 +5743,7 @@ saltos.app.show_error = error
 
 This function allow to show a modal dialog with de details of an error
 
-\hypertarget{toc360}{}
+\hypertarget{toc371}{}
 \subsection{Alert function}
 
 \begin{lstlisting}
@@ -5632,7 +5759,7 @@ shows one button to close it.
 \item[\color{myblue}$\bullet$] @message =$>$ message of the alert modal dialog
 \end{compactitem}
 
-\hypertarget{toc361}{}
+\hypertarget{toc372}{}
 \subsection{Check response helper}
 
 \begin{lstlisting}
@@ -5642,7 +5769,7 @@ saltos.app.check_response = response
 This function is intended to process the response received by saltos.core.ajax and returns
 if an error is detected in the response.
 
-\hypertarget{toc362}{}
+\hypertarget{toc373}{}
 \subsection{Send request helper}
 
 \begin{lstlisting}
@@ -5651,7 +5778,7 @@ saltos.app.send_request = data
 
 This function allow to send requests to the server and process the response
 
-\hypertarget{toc363}{}
+\hypertarget{toc374}{}
 \subsection{Process response helper}
 
 \begin{lstlisting}
@@ -5660,7 +5787,7 @@ saltos.app.process_response = response
 
 This function process the responses received by the send request
 
-\hypertarget{toc364}{}
+\hypertarget{toc375}{}
 \subsection{Form constructor helper object}
 
 \begin{lstlisting}
@@ -5669,7 +5796,7 @@ saltos.app.form = {};
 
 This object allow to the constructor to use a rational structure for a quick access of each helper
 
-\hypertarget{toc365}{}
+\hypertarget{toc376}{}
 \subsection{Data helper object}
 
 \begin{lstlisting}
@@ -5678,7 +5805,7 @@ saltos.app.__form = {
 
 This object allow to the app to store the data of the fields map
 
-\hypertarget{toc366}{}
+\hypertarget{toc377}{}
 \subsection{Form data helper}
 
 \begin{lstlisting}
@@ -5689,7 +5816,7 @@ This function sets the values of the request to the objects placed in the docume
 extra, it tries to search the field spec in the array to update the value of the field spec to
 allow that the get\_data can differ between the original data and the modified data.
 
-\hypertarget{toc367}{}
+\hypertarget{toc378}{}
 \subsection{Data template helper}
 
 \begin{lstlisting}
@@ -5706,7 +5833,7 @@ fields of a template, this fields are of the follow structure: TEMPLATE\_ID\#ID\
 \item[\color{myblue}$\bullet$] @index       =$>$ the index used in all fields of the template
 \end{compactitem}
 
-\hypertarget{toc368}{}
+\hypertarget{toc379}{}
 \subsection{Layout template helper}
 
 \begin{lstlisting}
@@ -5721,7 +5848,7 @@ to be used by the saltos.app.form.layout function.
 \item[\color{myblue}$\bullet$] @index       =$>$ the index used in all fields of the template
 \end{compactitem}
 
-\hypertarget{toc369}{}
+\hypertarget{toc380}{}
 \subsection{Form layout helper}
 
 \begin{lstlisting}
@@ -5741,7 +5868,7 @@ Notes:
 This function add the fields to the saltos.app.\_\_form.fields, this allow to the saltos.app.get\_data
 can retrieve the desired information of the fields.
 
-\hypertarget{toc370}{}
+\hypertarget{toc381}{}
 \subsection{Form layout auto helper}
 
 \begin{lstlisting}
@@ -5762,7 +5889,7 @@ follow arguments:
 \item[\color{myblue}$\bullet$] @col\_style       =$>$ defines the style used by the col element
 \end{compactitem}
 
-\hypertarget{toc371}{}
+\hypertarget{toc382}{}
 \subsection{Form style helper}
 
 \begin{lstlisting}
@@ -5775,7 +5902,7 @@ what kind of usage do you want to do.
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.core.require
 
-\hypertarget{toc372}{}
+\hypertarget{toc383}{}
 \subsection{Form javascript helper}
 
 \begin{lstlisting}
@@ -5788,7 +5915,7 @@ what kind of usage do you want to do.
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.core.require
 
-\hypertarget{toc373}{}
+\hypertarget{toc384}{}
 \subsection{Form title helper}
 
 \begin{lstlisting}
@@ -5803,7 +5930,7 @@ last part of the title.
 \item[\color{myblue}$\bullet$] @title =$>$ The title that you want to set in the page
 \end{compactitem}
 
-\hypertarget{toc374}{}
+\hypertarget{toc385}{}
 \subsection{Form screen helper}
 
 \begin{lstlisting}
@@ -5817,7 +5944,7 @@ to clear the screen by removing all contents of the body
 \item[\color{myblue}$\bullet$] @action =$>$ use loading, unloading or clear to execute the desired action
 \end{compactitem}
 
-\hypertarget{toc375}{}
+\hypertarget{toc386}{}
 \subsection{Form navbar helper}
 
 \begin{lstlisting}
@@ -5826,7 +5953,7 @@ saltos.app.form.navbar = navbar
 
 TODO
 
-\hypertarget{toc376}{}
+\hypertarget{toc387}{}
 \subsection{Source helper}
 
 \begin{lstlisting}
@@ -5847,7 +5974,7 @@ another way to pass arguments.
            footer and divider)
 \end{compactitem}
 
-\hypertarget{toc377}{}
+\hypertarget{toc388}{}
 \subsection{Get data}
 
 \begin{lstlisting}
@@ -5863,7 +5990,7 @@ original data and the current data.
 \item[\color{myblue}$\bullet$] @full =$>$ boolean to indicate if you want the entire form or only the differences
 \end{compactitem}
 
-\hypertarget{toc378}{}
+\hypertarget{toc389}{}
 \subsection{Get data ids helper}
 
 \begin{lstlisting}
@@ -5882,7 +6009,7 @@ The main idea of this function is to add the id fields if it is needed, for exam
 if some field of the template is modified and their value contains a different value
 that void.
 
-\hypertarget{toc379}{}
+\hypertarget{toc390}{}
 \subsection{Parse data}
 
 \begin{lstlisting}
@@ -5904,7 +6031,7 @@ in the navbar widget where the widget expects an object for the brand configurat
 is used by get\_data to separate in a more pretty structure some fields as the details used
 in the invoices.
 
-\hypertarget{toc380}{}
+\hypertarget{toc391}{}
 \subsection{Check form}
 
 \begin{lstlisting}
@@ -5916,7 +6043,7 @@ right, the is-valid class will be applied to all required elements and true is r
 otherwise the is-invalid class will be added to the void required elements and false is
 returned.
 
-\hypertarget{toc381}{}
+\hypertarget{toc392}{}
 \subsection{Form disabled}
 
 \begin{lstlisting}
@@ -5926,7 +6053,7 @@ saltos.app.form_disabled = bool
 This function disables all elements of the form, it is intended to be used when you need
 to do screen for view mode.
 
-\hypertarget{toc382}{}
+\hypertarget{toc393}{}
 \subsection{Form readonly}
 
 \begin{lstlisting}
@@ -5936,7 +6063,7 @@ saltos.app.form_readonly = bool
 This function set all elements of the form as readonly, it is intended to be used when you need
 to do screen for view mode.
 
-\hypertarget{toc383}{}
+\hypertarget{toc394}{}
 \subsection{Form helper}
 
 \begin{lstlisting}
@@ -5945,7 +6072,7 @@ saltos.app.__form_helper = (attr, bool)
 
 This function is a helper used by the form\_disabled and form\_readonly functions
 
-\hypertarget{toc384}{}
+\hypertarget{toc395}{}
 \subsection{ParentNode Search helper}
 
 \begin{lstlisting}
@@ -5971,12 +6098,12 @@ Notes:
 As you can see, this search can be performed only by 100 times to prevent infinites loop
 in case of not found the search pattern.
 
-\hypertarget{toc385}{}
+\hypertarget{toc396}{}
 \subsection{Main code}
 
 This is the code that must to be executed to initialize all requirements of this module
 
-\hypertarget{toc386}{}
+\hypertarget{toc397}{}
 \section{Authentication helper module}
 
 \begin{lstlisting}
@@ -5989,7 +6116,7 @@ includes all code to manage tokens and to do authentications with all features s
 the main authentication using a user and password pair, the reauthtoken, the deauthtoken
 and the checktoken to control it.
 
-\hypertarget{toc387}{}
+\hypertarget{toc398}{}
 \subsection{Hash helper object}
 
 \begin{lstlisting}
@@ -5998,7 +6125,7 @@ saltos.hash = {};
 
 This object stores all hash functions to get, set and trigger a change
 
-\hypertarget{toc388}{}
+\hypertarget{toc399}{}
 \subsection{Get hash}
 
 \begin{lstlisting}
@@ -6007,7 +6134,7 @@ saltos.hash.get = ()
 
 Function intended to return the current hash without the pillow
 
-\hypertarget{toc389}{}
+\hypertarget{toc400}{}
 \subsection{Set hash}
 
 \begin{lstlisting}
@@ -6026,7 +6153,7 @@ Notes:
 The \# char is added by default if it is not found in the hash, additionally the dot is
 added to force to remove all chars before the \# char in the document.location
 
-\hypertarget{toc390}{}
+\hypertarget{toc401}{}
 \subsection{Add hash}
 
 \begin{lstlisting}
@@ -6045,7 +6172,7 @@ Notes:
 The \# char is added by default if it is not found in the hash, additionally the dot is
 added to force to remove all chars before the \# char in the document.location
 
-\hypertarget{toc391}{}
+\hypertarget{toc402}{}
 \subsection{Change trigger}
 
 \begin{lstlisting}
@@ -6054,7 +6181,7 @@ saltos.hash.trigger = ()
 
 This function triggers the hashchange event to execute the onhashchange
 
-\hypertarget{toc392}{}
+\hypertarget{toc403}{}
 \subsection{Hash change management}
 
 \begin{lstlisting}
@@ -6063,7 +6190,7 @@ saltos.hash.onhashchange = event
 
 This function allow to SaltOS to update the contents when hash change
 
-\hypertarget{toc393}{}
+\hypertarget{toc404}{}
 \subsection{Hash change management}
 
 \begin{lstlisting}
@@ -6072,7 +6199,7 @@ window.onhashchange = saltos.hash.onhashchange;
 
 Attach the hash change management function to the window
 
-\hypertarget{toc394}{}
+\hypertarget{toc405}{}
 \subsection{Token helper object}
 
 \begin{lstlisting}
@@ -6081,7 +6208,7 @@ saltos.token = {};
 
 This object stores all token functions to get and set data using the localStorage
 
-\hypertarget{toc395}{}
+\hypertarget{toc406}{}
 \subsection{Get token function}
 
 \begin{lstlisting}
@@ -6090,7 +6217,7 @@ saltos.token.get = ()
 
 This function returns the token stored in the localStorage
 
-\hypertarget{toc396}{}
+\hypertarget{toc407}{}
 \subsection{Get expires function}
 
 \begin{lstlisting}
@@ -6099,7 +6226,7 @@ saltos.token.get_expires = ()
 
 This function returns the expires stored in the localStorage
 
-\hypertarget{toc397}{}
+\hypertarget{toc408}{}
 \subsection{Get autorenew function}
 
 \begin{lstlisting}
@@ -6108,7 +6235,7 @@ saltos.token.get_autorenew = ()
 
 This function returns the autorenew stored in the localStorage
 
-\hypertarget{toc398}{}
+\hypertarget{toc409}{}
 \subsection{Get autocheck function}
 
 \begin{lstlisting}
@@ -6117,7 +6244,7 @@ saltos.token.get_autocheck = ()
 
 This function returns the autocheck stored in the localStorage
 
-\hypertarget{toc399}{}
+\hypertarget{toc410}{}
 \subsection{Set token and expires}
 
 \begin{lstlisting}
@@ -6134,7 +6261,7 @@ This function store the token and expires in the localStorage
 \item[\color{myblue}$\bullet$] @autocheck =$>$ the autocheck of the token that you can use to poll the autorenew
 \end{compactitem}
 
-\hypertarget{toc400}{}
+\hypertarget{toc411}{}
 \subsection{Unset token and expires}
 
 \begin{lstlisting}
@@ -6143,7 +6270,7 @@ saltos.token.unset = ()
 
 This function removes the token and expires in the localStorage
 
-\hypertarget{toc401}{}
+\hypertarget{toc412}{}
 \subsection{Authentication helper object}
 
 \begin{lstlisting}
@@ -6153,7 +6280,7 @@ saltos.authenticate = {};
 This object stores all authentication functions to get access, renew tokens to maintain
 the access and the deauthtoken to close the access
 
-\hypertarget{toc402}{}
+\hypertarget{toc413}{}
 \subsection{Authenticate token function}
 
 \begin{lstlisting}
@@ -6168,7 +6295,7 @@ credentials passed by argument.
 \item[\color{myblue}$\bullet$] @pass =$>$ password used to the authentication process
 \end{compactitem}
 
-\hypertarget{toc403}{}
+\hypertarget{toc414}{}
 \subsection{Re-authenticate token function}
 
 \begin{lstlisting}
@@ -6178,7 +6305,7 @@ saltos.authenticate.reauthtoken = ()
 This function uses the reauthtoken action to try to re-authenticate an user with the token
 credentials.
 
-\hypertarget{toc404}{}
+\hypertarget{toc415}{}
 \subsection{De-authenticate token function}
 
 \begin{lstlisting}
@@ -6188,7 +6315,7 @@ saltos.authenticate.deauthtoken = ()
 This function uses the deauthtoken action to try to de-authenticate an user with the token
 credentials.
 
-\hypertarget{toc405}{}
+\hypertarget{toc416}{}
 \subsection{Check token function}
 
 \begin{lstlisting}
@@ -6197,7 +6324,7 @@ saltos.authenticate.checktoken = ()
 
 This function uses the checktoken action to check the validity of the current token.
 
-\hypertarget{toc406}{}
+\hypertarget{toc417}{}
 \subsection{Re-authenticate helper function}
 
 \begin{lstlisting}
@@ -6207,7 +6334,7 @@ saltos.authenticate.checkrenew = ()
 This function checks the reminder of the token's expires and if is needed, execute the renew
 token action.
 
-\hypertarget{toc407}{}
+\hypertarget{toc418}{}
 \subsection{Variable used to store the timer}
 
 \begin{lstlisting}
@@ -6216,7 +6343,7 @@ saltos.authenticate.__autorenew_timer = null;
 
 This variable must contains the timer of the auto renew token feature
 
-\hypertarget{toc408}{}
+\hypertarget{toc419}{}
 \subsection{Auto-renew helper function}
 
 \begin{lstlisting}
@@ -6231,7 +6358,7 @@ to be used when set or unset the token.
 \item[\color{myblue}$\bullet$] @on\_off =$>$ the parameter to indicates if you want to enable or disable the feature
 \end{compactitem}
 
-\hypertarget{toc409}{}
+\hypertarget{toc420}{}
 \subsection{Tabs communication helper object}
 
 \begin{lstlisting}
@@ -6240,7 +6367,7 @@ saltos.tabs = {};
 
 This object stores all tabs communications functions to send and listen messages
 
-\hypertarget{toc410}{}
+\hypertarget{toc421}{}
 \subsection{Listeners helper object}
 
 \begin{lstlisting}
@@ -6249,7 +6376,7 @@ saltos.tabs.listeners = {};
 
 This object stores all listeners added by the set\_listeners and used by the onstorage
 
-\hypertarget{toc411}{}
+\hypertarget{toc422}{}
 \subsection{Set listener}
 
 \begin{lstlisting}
@@ -6263,7 +6390,7 @@ This function allos to set a listener function to the named event
 \item[\color{myblue}$\bullet$] @fn   =$>$ callback executed when event named is triggered
 \end{compactitem}
 
-\hypertarget{toc412}{}
+\hypertarget{toc423}{}
 \subsection{Unset listener}
 
 \begin{lstlisting}
@@ -6276,7 +6403,7 @@ This function removes a listener from the listeners object
 \item[\color{myblue}$\bullet$] @name =$>$ the name of the event that you want to unsuscribe
 \end{compactitem}
 
-\hypertarget{toc413}{}
+\hypertarget{toc424}{}
 \subsection{Send message}
 
 \begin{lstlisting}
@@ -6299,7 +6426,7 @@ are dispatching an event in the current window, this allow that all tabs
 (including the source of the message sent) receives the notification and
 executes the listeners if needed
 
-\hypertarget{toc414}{}
+\hypertarget{toc425}{}
 \subsection{Storage management}
 
 \begin{lstlisting}
@@ -6309,7 +6436,7 @@ saltos.tabs.onstorage = event
 This function allow to SaltOS to receive the messages sended by other tabs
 using the localStorage.
 
-\hypertarget{toc415}{}
+\hypertarget{toc426}{}
 \subsection{Storage management}
 
 \begin{lstlisting}
@@ -6318,7 +6445,7 @@ window.onstorage = saltos.tabs.onstorage;
 
 Attach the storage management function to the window
 
-\hypertarget{toc416}{}
+\hypertarget{toc427}{}
 \section{Bootstrap helper module}
 
 \begin{lstlisting}
@@ -6328,7 +6455,7 @@ web/js/bootstrap.js
 This fie contains useful functions related to the bootstrap widgets, allow to create widgets and
 other plugins suck as plots or rich editors
 
-\hypertarget{toc417}{}
+\hypertarget{toc428}{}
 \subsection{Bootstrap helper object}
 
 \begin{lstlisting}
@@ -6337,7 +6464,7 @@ saltos.bootstrap = {};
 
 This object stores all bootstrap functions and data
 
-\hypertarget{toc418}{}
+\hypertarget{toc429}{}
 \subsection{Form fields constructor}
 
 \begin{lstlisting}
@@ -6363,7 +6490,7 @@ widgets, the types that can be called are the follow:
 \item[\color{myblue}$\bullet$] @textarea    =$>$ id, class, PL, value, DS, RO, RQ, AF, rows, tooltip, label
 \item[\color{myblue}$\bullet$] @ckeditor    =$>$ id, class, PL, value, DS, RO, RQ, AF, rows, label
 \item[\color{myblue}$\bullet$] @codemirror  =$>$ id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
-\item[\color{myblue}$\bullet$] @iframe      =$>$ id, class, value, height, tooltip, label
+\item[\color{myblue}$\bullet$] @iframe      =$>$ id, class, src, srcdoc, height, label
 \item[\color{myblue}$\bullet$] @select      =$>$ id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
 \item[\color{myblue}$\bullet$] @multiselect =$>$ id, class, DS, RQ, AF, rows, multiple, size, value, multiple, tooltip, label
 \item[\color{myblue}$\bullet$] @checkbox    =$>$ id, class, DS, RO, label, value, tooltip
@@ -6402,7 +6529,7 @@ The saltos.bootstrap.\_\_field object is part of this constructor and act with t
 as a helper, the idea is that the user must to call the constructor and the helpers are
 only for internal use.
 
-\hypertarget{toc419}{}
+\hypertarget{toc430}{}
 \subsection{Form\_field constructor helper object}
 
 \begin{lstlisting}
@@ -6411,7 +6538,7 @@ saltos.bootstrap.__field = {};
 
 This object allow to the constructor to use a rational structure for a quick access of each helper
 
-\hypertarget{toc420}{}
+\hypertarget{toc431}{}
 \subsection{Div constructor helper}
 
 \begin{lstlisting}
@@ -6427,7 +6554,7 @@ argument in the field object to specify what kind of class do you want to use.
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc421}{}
+\hypertarget{toc432}{}
 \subsection{Container constructor helper}
 
 \begin{lstlisting}
@@ -6443,7 +6570,7 @@ argument in the field object to specify what kind of container do you want to do
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc422}{}
+\hypertarget{toc433}{}
 \subsection{Row constructor helper}
 
 \begin{lstlisting}
@@ -6459,7 +6586,7 @@ in the field object to specify what kind of row do you want to do.
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc423}{}
+\hypertarget{toc434}{}
 \subsection{Col constructor helper}
 
 \begin{lstlisting}
@@ -6475,7 +6602,7 @@ in the field object to specify what kind of col do you want to do.
 \item[\color{myblue}$\bullet$] @style =$>$ the style used in the div object
 \end{compactitem}
 
-\hypertarget{toc424}{}
+\hypertarget{toc435}{}
 \subsection{Text constructor helper}
 
 \begin{lstlisting}
@@ -6500,7 +6627,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @datalist    =$>$ array with options for the datalist, used as autocomplete for the text input
 \end{compactitem}
 
-\hypertarget{toc425}{}
+\hypertarget{toc436}{}
 \subsection{Hidden constructor helper}
 
 \begin{lstlisting}
@@ -6529,7 +6656,7 @@ This function allow the previous parameters but for hidden inputs, only id
 and value are usually used, in some cases can be interesting to use the
 class to identify a group of hidden input
 
-\hypertarget{toc426}{}
+\hypertarget{toc437}{}
 \subsection{Integer constructor helper}
 
 \begin{lstlisting}
@@ -6559,10 +6686,10 @@ This widget requires the imask library and can be loaded automatically using the
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/imaskjs/imask.min.js
+\item[\color{myblue}$\bullet$] @lib/imaskjs/imask.min.js
 \end{compactitem}
 
-\hypertarget{toc427}{}
+\hypertarget{toc438}{}
 \subsection{Float constructor helper}
 
 \begin{lstlisting}
@@ -6592,10 +6719,10 @@ This widget requires the imask library and can be loaded automatically using the
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/imaskjs/imask.min.js
+\item[\color{myblue}$\bullet$] @lib/imaskjs/imask.min.js
 \end{compactitem}
 
-\hypertarget{toc428}{}
+\hypertarget{toc439}{}
 \subsection{Color constructor helper}
 
 \begin{lstlisting}
@@ -6624,7 +6751,7 @@ Notes:
 Ths color input launch a warning if value is not in the format \#rrggbb,
 for this reason it is set to \#000000 if value is void
 
-\hypertarget{toc429}{}
+\hypertarget{toc440}{}
 \subsection{Date constructor helper}
 
 \begin{lstlisting}
@@ -6648,7 +6775,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc430}{}
+\hypertarget{toc441}{}
 \subsection{Time constructor helper}
 
 \begin{lstlisting}
@@ -6672,7 +6799,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc431}{}
+\hypertarget{toc442}{}
 \subsection{Datetime constructor helper}
 
 \begin{lstlisting}
@@ -6696,7 +6823,7 @@ that for the input object of type text
 \item[\color{myblue}$\bullet$] @label       =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc432}{}
+\hypertarget{toc443}{}
 \subsection{Textarea constructor helper}
 
 \begin{lstlisting}
@@ -6725,10 +6852,10 @@ This widget requires the autoheight library and can be loaded automatically usin
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/autoheight/autoheight.min.js
+\item[\color{myblue}$\bullet$] @lib/autoheight/autoheight.min.js
 \end{compactitem}
 
-\hypertarget{toc433}{}
+\hypertarget{toc444}{}
 \subsection{Ckeditor constructor helper}
 
 \begin{lstlisting}
@@ -6757,10 +6884,10 @@ This widget requires the ckeditor library and can be loaded automatically using 
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/ckeditor/ckeditor.min.js
+\item[\color{myblue}$\bullet$] @lib/ckeditor/ckeditor.min.js
 \end{compactitem}
 
-\hypertarget{toc434}{}
+\hypertarget{toc445}{}
 \subsection{Codemirror constructor helper}
 
 \begin{lstlisting}
@@ -6790,11 +6917,11 @@ This widget requires the codemirror library and can be loaded automatically usin
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/codemirror/codemirror.min.css
-\item[\color{myblue}$\bullet$] @web/lib/codemirror/codemirror.min.js
+\item[\color{myblue}$\bullet$] @lib/codemirror/codemirror.min.css
+\item[\color{myblue}$\bullet$] @lib/codemirror/codemirror.min.js
 \end{compactitem}
 
-\hypertarget{toc435}{}
+\hypertarget{toc446}{}
 \subsection{Iframe constructor helper}
 
 \begin{lstlisting}
@@ -6805,13 +6932,14 @@ This function returns an iframe object, you can pass the follow arguments:
 
 \begin{compactitem}
 \item[\color{myblue}$\bullet$] @id     =$>$ the id used by the object
-\item[\color{myblue}$\bullet$] @value  =$>$ the value used as src parameter
+\item[\color{myblue}$\bullet$] @src    =$>$ the value used as src parameter
+\item[\color{myblue}$\bullet$] @srcdoc =$>$ the value used as srcdoc parameter
 \item[\color{myblue}$\bullet$] @class  =$>$ allow to add more classes to the default form-control
 \item[\color{myblue}$\bullet$] @height =$>$ the height used as height for the style parameter
 \item[\color{myblue}$\bullet$] @label  =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc436}{}
+\hypertarget{toc447}{}
 \subsection{Select constructor helper}
 
 \begin{lstlisting}
@@ -6835,7 +6963,7 @@ This function returns a select object, you can pass the follow arguments:
 \item[\color{myblue}$\bullet$] @label     =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc437}{}
+\hypertarget{toc448}{}
 \subsection{Multiselect constructor helper}
 
 \begin{lstlisting}
@@ -6863,7 +6991,7 @@ using the hidden input that is builded using the original id passed by argument.
 
 TODO: detected a bug with this widget in chrome in mobile browsers
 
-\hypertarget{toc438}{}
+\hypertarget{toc449}{}
 \subsection{Checkbox constructor helper}
 
 \begin{lstlisting}
@@ -6887,7 +7015,7 @@ Notes:
 
 This widget returns their value by setting a zero or one (0/1) value on the value of the input.
 
-\hypertarget{toc439}{}
+\hypertarget{toc450}{}
 \subsection{Switch constructor helper}
 
 \begin{lstlisting}
@@ -6911,7 +7039,7 @@ Notes:
 
 This widget uses the checkbox constructor
 
-\hypertarget{toc440}{}
+\hypertarget{toc451}{}
 \subsection{Button constructor helper}
 
 \begin{lstlisting}
@@ -6933,7 +7061,7 @@ Notes:
 
 You can add an icon before the text by addind the bi-icon class to the class argument
 
-\hypertarget{toc441}{}
+\hypertarget{toc452}{}
 \subsection{Password constructor helper}
 
 \begin{lstlisting}
@@ -6964,7 +7092,7 @@ password and text type, allowing to do visible or not the contents of the input
 I'm using previousElementSibling instead of previousSibling because between the input and the
 button, exists a new line that is identified as another previousSibling, but not as an element
 
-\hypertarget{toc442}{}
+\hypertarget{toc453}{}
 \subsection{File constructor helper}
 
 \begin{lstlisting}
@@ -6997,7 +7125,7 @@ The difference between this control and the older controls is that they send the
 the server and store the information related to the file on the server to be processed after
 the real upload action.
 
-\hypertarget{toc443}{}
+\hypertarget{toc454}{}
 \subsection{Link constructor helper}
 
 \begin{lstlisting}
@@ -7020,7 +7148,7 @@ Notes:
 This object is not a real link, it's a button that uses the btn-link class to get the link
 appearance
 
-\hypertarget{toc444}{}
+\hypertarget{toc455}{}
 \subsection{Label constructor helper}
 
 \begin{lstlisting}
@@ -7037,7 +7165,7 @@ This function returns a label object, you can pass some arguments as:
 \item[\color{myblue}$\bullet$] @value   =$>$ this parameter is used as label when label is void
 \end{compactitem}
 
-\hypertarget{toc445}{}
+\hypertarget{toc456}{}
 \subsection{Image constructor helper}
 
 \begin{lstlisting}
@@ -7055,7 +7183,7 @@ This function returns an image object, you can pass some arguments as:
 \item[\color{myblue}$\bullet$] @label   =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc446}{}
+\hypertarget{toc457}{}
 \subsection{Excel constructor helper}
 
 \begin{lstlisting}
@@ -7092,11 +7220,11 @@ This widget requires the handsontable library and can be loaded automatically us
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/handsontable/handsontable.full.min.css
-\item[\color{myblue}$\bullet$] @web/lib/handsontable/handsontable.full.min.js
+\item[\color{myblue}$\bullet$] @lib/handsontable/handsontable.full.min.css
+\item[\color{myblue}$\bullet$] @lib/handsontable/handsontable.full.min.js
 \end{compactitem}
 
-\hypertarget{toc447}{}
+\hypertarget{toc458}{}
 \subsection{Pdfjs constructor helper}
 
 \begin{lstlisting}
@@ -7118,16 +7246,16 @@ This widget requires the pdfjs library and can be loaded automatically using the
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/pdfjs/pdf\_viewer.min.css,
-\item[\color{myblue}$\bullet$] @web/lib/pdfjs/pdf.min.mjs
-\item[\color{myblue}$\bullet$] @web/lib/pdfjs/pdf\_viewer.min.mjs
-\item[\color{myblue}$\bullet$] @web/lib/pdfjs/pdf.worker.min.mjs
+\item[\color{myblue}$\bullet$] @lib/pdfjs/pdf\_viewer.min.css,
+\item[\color{myblue}$\bullet$] @lib/pdfjs/pdf.min.mjs
+\item[\color{myblue}$\bullet$] @lib/pdfjs/pdf\_viewer.min.mjs
+\item[\color{myblue}$\bullet$] @lib/pdfjs/pdf.worker.min.mjs
 \end{compactitem}
 
 The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
 that this file not appear in the next requires
 
-\hypertarget{toc448}{}
+\hypertarget{toc459}{}
 \subsection{Table constructor helper}
 
 \begin{lstlisting}
@@ -7169,7 +7297,7 @@ to the saltos.bootstrap.field constructor, it is usefull to convert some fields 
 instead of simple text, too is able to use the type attribute in the header specification
 to identify if you want to use a column with some special type as for example, the icons
 
-\hypertarget{toc449}{}
+\hypertarget{toc460}{}
 \subsection{Alert constructor helper}
 
 \begin{lstlisting}
@@ -7195,7 +7323,7 @@ I have added the dismissible option using the close attribute, too I have added 
 for the style to allow the content to use the original size of the alert, in a future, I don't
 know if I maintain this or I remove it, but at the moment, this is added by default
 
-\hypertarget{toc450}{}
+\hypertarget{toc461}{}
 \subsection{Card constructor helper}
 
 \begin{lstlisting}
@@ -7217,7 +7345,7 @@ This functions creates a card with a lot of options:
 \item[\color{myblue}$\bullet$] @label  =$>$ this parameter is used as text for the label
 \end{compactitem}
 
-\hypertarget{toc451}{}
+\hypertarget{toc462}{}
 \subsection{Chart.js constructor helper}
 
 \begin{lstlisting}
@@ -7241,10 +7369,10 @@ This widget requires the chartjs library and can be loaded automatically using t
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/chartjs/chart.umd.min.js
+\item[\color{myblue}$\bullet$] @lib/chartjs/chart.umd.min.js
 \end{compactitem}
 
-\hypertarget{toc452}{}
+\hypertarget{toc463}{}
 \subsection{Tags constructor helper}
 
 \begin{lstlisting}
@@ -7274,7 +7402,7 @@ Notes:
 This object creates a hidden input, a text input with/without a datalist, and a badge for
 each value, and requires the arguments of the specific widgets used in this widget
 
-\hypertarget{toc453}{}
+\hypertarget{toc464}{}
 \subsection{Gallery constructor helper}
 
 \begin{lstlisting}
@@ -7296,13 +7424,13 @@ This widget requires the venobox, masonry and imagesloaded libraries and can be 
 automatically using the require feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/venobox/venobox.min.css
-\item[\color{myblue}$\bullet$] @web/lib/venobox/venobox.min.js
-\item[\color{myblue}$\bullet$] @web/lib/masonry/masonry.pkgd.min.js
-\item[\color{myblue}$\bullet$] @web/lib/imagesloaded/imagesloaded.pkgd.min.js
+\item[\color{myblue}$\bullet$] @lib/venobox/venobox.min.css
+\item[\color{myblue}$\bullet$] @lib/venobox/venobox.min.js
+\item[\color{myblue}$\bullet$] @lib/masonry/masonry.pkgd.min.js
+\item[\color{myblue}$\bullet$] @lib/imagesloaded/imagesloaded.pkgd.min.js
 \end{compactitem}
 
-\hypertarget{toc454}{}
+\hypertarget{toc465}{}
 \subsection{Placeholder helper}
 
 \begin{lstlisting}
@@ -7315,7 +7443,7 @@ This function returns a grey area that uses all space with the placeholder glow 
 \item[\color{myblue}$\bullet$] @id =$>$ id used in the original object, it must be replaced when the data will be available
 \end{compactitem}
 
-\hypertarget{toc455}{}
+\hypertarget{toc466}{}
 \subsection{Private text constructor helper}
 
 \begin{lstlisting}
@@ -7341,7 +7469,7 @@ Notes:
 
 This function is intended to be used by other helpers of the form\_field constructor
 
-\hypertarget{toc456}{}
+\hypertarget{toc467}{}
 \subsection{Private textarea constructor helper}
 
 \begin{lstlisting}
@@ -7367,7 +7495,7 @@ Notes:
 
 This function is intended to be used by other helpers of the form\_field constructor
 
-\hypertarget{toc457}{}
+\hypertarget{toc468}{}
 \subsection{Private tooltip constructor helper}
 
 \begin{lstlisting}
@@ -7382,7 +7510,7 @@ the focus or get the click event
 \item[\color{myblue}$\bullet$] @obj =$>$ the object that you want to enable the tooltip feature
 \end{compactitem}
 
-\hypertarget{toc458}{}
+\hypertarget{toc469}{}
 \subsection{Label helper}
 
 \begin{lstlisting}
@@ -7400,7 +7528,7 @@ optimizer to removes the unnecessary envelopment
 \item[\color{myblue}$\bullet$] @field =$>$ the field that contains the label to be added if needed
 \end{compactitem}
 
-\hypertarget{toc459}{}
+\hypertarget{toc470}{}
 \subsection{Label Combine}
 
 \begin{lstlisting}
@@ -7422,7 +7550,7 @@ This function acts as helper to add a label by the constructors that not impleme
 any specific label container, in the other cases, each constructor must to implement
 their code because each case is different
 
-\hypertarget{toc460}{}
+\hypertarget{toc471}{}
 \subsection{Menu constructor helper}
 
 \begin{lstlisting}
@@ -7455,7 +7583,7 @@ This function creates a menu intended to be used in navbar, nabs and tabs
 \item[\color{myblue}$\bullet$] @divider  =$>$ you can set this boolean to true to convert the element into a divider
 \end{compactitem}
 
-\hypertarget{toc461}{}
+\hypertarget{toc472}{}
 \subsection{Navbar constructor helper}
 
 \begin{lstlisting}
@@ -7481,7 +7609,7 @@ This component creates a navbar intended to be used as header
 \item[\color{myblue}$\bullet$] @items =$>$ contains an array with the objects that will be added to the collapse
 \end{compactitem}
 
-\hypertarget{toc462}{}
+\hypertarget{toc473}{}
 \subsection{Modal constructor helper object}
 
 \begin{lstlisting}
@@ -7490,7 +7618,7 @@ saltos.bootstrap.__modal = {};
 
 This object is used to store the element and the instance of the modal
 
-\hypertarget{toc463}{}
+\hypertarget{toc474}{}
 \subsection{Modal constructor helper}
 
 \begin{lstlisting}
@@ -7526,7 +7654,7 @@ Notes:
 This modal will be destroyed (instance and element) when it closes, too is important
 to undestand that only one modal is allowed at each moment.
 
-\hypertarget{toc464}{}
+\hypertarget{toc475}{}
 \subsection{Offcanvas constructor helper object}
 
 \begin{lstlisting}
@@ -7535,7 +7663,7 @@ saltos.bootstrap.__offcanvas = {};
 
 This object is used to store the element and the instance of the offcanvas
 
-\hypertarget{toc465}{}
+\hypertarget{toc476}{}
 \subsection{Offcanvas constructor helper}
 
 \begin{lstlisting}
@@ -7570,7 +7698,7 @@ Notes:
 This offcanvas will be destroyed (instance and element) when it closes, too is important
 to undestand that only one offcanvas is allowed at each moment.
 
-\hypertarget{toc466}{}
+\hypertarget{toc477}{}
 \subsection{Toast constructor helper}
 
 \begin{lstlisting}
@@ -7603,10 +7731,10 @@ This widget requires the md5 library and can be loaded automatically using the r
 feature:
 
 \begin{compactitem}
-\item[\color{myblue}$\bullet$] @web/lib/md5/md5.min.js
+\item[\color{myblue}$\bullet$] @lib/md5/md5.min.js
 \end{compactitem}
 
-\hypertarget{toc467}{}
+\hypertarget{toc478}{}
 \section{Core helper module}
 
 \begin{lstlisting}
@@ -7616,7 +7744,7 @@ web/js/core.js
 This fie contains useful functions related to the core application, provides the low level features
 for manage errors, logs, manipulates html and DOM objects, manage ajax requests, and more things
 
-\hypertarget{toc468}{}
+\hypertarget{toc479}{}
 \subsection{Core helper object}
 
 \begin{lstlisting}
@@ -7625,7 +7753,7 @@ saltos.core = {};
 
 This object stores all core functions and data
 
-\hypertarget{toc469}{}
+\hypertarget{toc480}{}
 \subsection{Error management}
 
 \begin{lstlisting}
@@ -7634,7 +7762,7 @@ saltos.core.onerror = (event, source, lineno, colno, error)
 
 This function allow to SaltOS to log in server the javascript errors produced in the client's browser
 
-\hypertarget{toc470}{}
+\hypertarget{toc481}{}
 \subsection{Error management}
 
 \begin{lstlisting}
@@ -7643,7 +7771,7 @@ window.onerror = saltos.core.onerror;
 
 Attach the error management function to the window
 
-\hypertarget{toc471}{}
+\hypertarget{toc482}{}
 \subsection{Log management}
 
 \begin{lstlisting}
@@ -7656,7 +7784,7 @@ This function allow to send messages to the addlog of the server side, requires 
 \item[\color{myblue}$\bullet$] @msg =$>$ the message that do you want to log on the server log file
 \end{compactitem}
 
-\hypertarget{toc472}{}
+\hypertarget{toc483}{}
 \subsection{Check params}
 
 \begin{lstlisting}
@@ -7674,7 +7802,7 @@ and if some param is not found, then define it using the default value passed:
 \item[\color{myblue}$\bullet$] @value  =$>$ the default value used if an argument doesn't exists
 \end{compactitem}
 
-\hypertarget{toc473}{}
+\hypertarget{toc484}{}
 \subsection{UniqID}
 
 \begin{lstlisting}
@@ -7685,7 +7813,7 @@ This function generates an unique id formed by the word 'id' and a number that c
 values between 0 and 999999, useful when some widget requires an id and the user don't
 provide it to the widget constructor
 
-\hypertarget{toc474}{}
+\hypertarget{toc485}{}
 \subsection{When visible}
 
 \begin{lstlisting}
@@ -7702,7 +7830,7 @@ code and paint the widget correctly
 \item[\color{myblue}$\bullet$] @args =$>$ the arguments passed to the callback when execute it
 \end{compactitem}
 
-\hypertarget{toc475}{}
+\hypertarget{toc486}{}
 \subsection{Get keycode}
 
 \begin{lstlisting}
@@ -7715,7 +7843,7 @@ This function allow to get the keycode of a keyboard event detecting the browser
 \item[\color{myblue}$\bullet$] @event =$>$ the event that contains the keyboard data
 \end{compactitem}
 
-\hypertarget{toc476}{}
+\hypertarget{toc487}{}
 \subsection{HTML builder}
 
 \begin{lstlisting}
@@ -7738,7 +7866,7 @@ a breaked portion of the element and they don't works as expected because the DO
 builded is bad, you can see this problem in action when work with tables and try to
 create separate portions of the table as trs or tds.
 
-\hypertarget{toc477}{}
+\hypertarget{toc488}{}
 \subsection{AJAX}
 
 \begin{lstlisting}
@@ -7762,7 +7890,7 @@ This function allow to use ajax using the same form that with jQuery without jQu
 The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
 way as jQuery do but without using jQuery.
 
-\hypertarget{toc478}{}
+\hypertarget{toc489}{}
 \subsection{Key cleaner}
 
 \begin{lstlisting}
@@ -7779,7 +7907,7 @@ for this reason, exists this function here
 \item[\color{myblue}$\bullet$] @arg =$>$ can be an string or an array of strings and returns the same structure with the keys fixed
 \end{compactitem}
 
-\hypertarget{toc479}{}
+\hypertarget{toc490}{}
 \subsection{Open window}
 
 \begin{lstlisting}
@@ -7793,7 +7921,7 @@ the window.open but in a future, can add more features
 \item[\color{myblue}$\bullet$] @url =$>$ the url of the page to load
 \end{compactitem}
 
-\hypertarget{toc480}{}
+\hypertarget{toc491}{}
 \subsection{Close window}
 
 \begin{lstlisting}
@@ -7802,7 +7930,7 @@ saltos.core.close_window = ()
 
 This function is intended to close the current window
 
-\hypertarget{toc481}{}
+\hypertarget{toc492}{}
 \subsection{Copy object}
 
 \begin{lstlisting}
@@ -7815,7 +7943,7 @@ This function is intended to do copies of objects using as intermediate a json f
 \item[\color{myblue}$\bullet$] @arg =$>$ the object that you want to copy
 \end{compactitem}
 
-\hypertarget{toc482}{}
+\hypertarget{toc493}{}
 \subsection{Optimizer object}
 
 \begin{lstlisting}
@@ -7830,7 +7958,7 @@ original object
 \item[\color{myblue}$\bullet$] @obj =$>$ the object to check and optimize
 \end{compactitem}
 
-\hypertarget{toc483}{}
+\hypertarget{toc494}{}
 \subsection{Require helper array}
 
 \begin{lstlisting}
@@ -7839,7 +7967,7 @@ saltos.core.__require = [];
 
 This array allow to the require feature to control the loaded libraries
 
-\hypertarget{toc484}{}
+\hypertarget{toc495}{}
 \subsection{Require feature}
 
 \begin{lstlisting}
@@ -7859,7 +7987,7 @@ This function is intended to load styles (css files) or javacript code (js files
 case, they uses a different technique, for css the load is asynchronous and for javascript
 the load will be synchronous.
 
-\hypertarget{toc485}{}
+\hypertarget{toc496}{}
 \subsection{Eval Bool}
 
 \begin{lstlisting}
@@ -7881,7 +8009,7 @@ Notes:
 This function is the same feature that the same function proviced by the backend by the
 php/autoload/xml2array.php file with more javascript details as type detection.
 
-\hypertarget{toc486}{}
+\hypertarget{toc497}{}
 \subsection{toString function}
 
 \begin{lstlisting}
@@ -7891,7 +8019,7 @@ saltos.core.toString = arg
 This function tries to convert to string from any other formats as boolean,
 number, null, undefined or other type.
 
-\hypertarget{toc487}{}
+\hypertarget{toc498}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7900,7 +8028,7 @@ saltos.core.is_attr_value = data
 
 TODO
 
-\hypertarget{toc488}{}
+\hypertarget{toc499}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7909,7 +8037,7 @@ saltos.core.join_attr_value = data
 
 TODO
 
-\hypertarget{toc489}{}
+\hypertarget{toc500}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7918,7 +8046,7 @@ saltos.core.addEventListener = (obj, event, fn)
 
 TODO
 
-\hypertarget{toc490}{}
+\hypertarget{toc501}{}
 \section{Object helper module}
 
 \begin{lstlisting}
@@ -7927,20 +8055,20 @@ web/js/object.js
 
 This file contains the main saltos object
 
-\hypertarget{toc491}{}
+\hypertarget{toc502}{}
 \subsection{Main object}
 
 \begin{lstlisting}
-var saltos = saltos || {};
+var saltos = {};
 \end{lstlisting}
 
 This object contains all SaltOS code
 
 
-\hypertarget{toc492}{}
+\hypertarget{toc503}{}
 \chapter{Customers}
 
-\hypertarget{toc493}{}
+\hypertarget{toc504}{}
 \section{Customers application}
 
 \begin{lstlisting}
@@ -7949,7 +8077,7 @@ apps/customers/app.js
 
 This application implements the tipical features associated to customers
 
-\hypertarget{toc494}{}
+\hypertarget{toc505}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -7958,7 +8086,7 @@ saltos.customers = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc495}{}
+\hypertarget{toc506}{}
 \subsection{Initialize customers}
 
 \begin{lstlisting}
@@ -7967,7 +8095,7 @@ saltos.customers.initialize_search = ()
 
 This function initializes the customers screen to improve the user experience.
 
-\hypertarget{toc496}{}
+\hypertarget{toc507}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7976,7 +8104,7 @@ saltos.customers.initialize_update_list = ()
 
 TODO
 
-\hypertarget{toc497}{}
+\hypertarget{toc508}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7985,7 +8113,7 @@ saltos.customers.initialize_update_view = ()
 
 TODO
 
-\hypertarget{toc498}{}
+\hypertarget{toc509}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -7994,7 +8122,7 @@ saltos.customers.search = ()
 
 TODO
 
-\hypertarget{toc499}{}
+\hypertarget{toc510}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8003,7 +8131,7 @@ saltos.customers.clear_filter = ()
 
 TODO
 
-\hypertarget{toc500}{}
+\hypertarget{toc511}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8012,7 +8140,7 @@ saltos.customers.read_more = ()
 
 TODO
 
-\hypertarget{toc501}{}
+\hypertarget{toc512}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8021,7 +8149,7 @@ saltos.customers.cancel = ()
 
 TODO
 
-\hypertarget{toc502}{}
+\hypertarget{toc513}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8030,7 +8158,7 @@ saltos.customers.insert = ()
 
 TODO
 
-\hypertarget{toc503}{}
+\hypertarget{toc514}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8039,7 +8167,7 @@ saltos.customers.update = ()
 
 TODO
 
-\hypertarget{toc504}{}
+\hypertarget{toc515}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8049,10 +8177,10 @@ saltos.customers.delete = ()
 TODO
 
 
-\hypertarget{toc505}{}
+\hypertarget{toc516}{}
 \chapter{Dashboard}
 
-\hypertarget{toc506}{}
+\hypertarget{toc517}{}
 \section{Dashboard application}
 
 \begin{lstlisting}
@@ -8061,7 +8189,7 @@ apps/dashboard/app.js
 
 This application implements the tipical features associated to dashboard
 
-\hypertarget{toc507}{}
+\hypertarget{toc518}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -8070,7 +8198,7 @@ saltos.dashboard = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc508}{}
+\hypertarget{toc519}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8080,10 +8208,10 @@ saltos.dashboard.initialize = ()
 TODO
 
 
-\hypertarget{toc509}{}
+\hypertarget{toc520}{}
 \chapter{Emails}
 
-\hypertarget{toc510}{}
+\hypertarget{toc521}{}
 \section{Email application}
 
 \begin{lstlisting}
@@ -8092,7 +8220,7 @@ apps/emails/app.js
 
 This application implements the tipical features associated to emails
 
-\hypertarget{toc511}{}
+\hypertarget{toc522}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -8101,7 +8229,7 @@ saltos.emails = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc512}{}
+\hypertarget{toc523}{}
 \subsection{Initialize emails app}
 
 \begin{lstlisting}
@@ -8110,7 +8238,7 @@ saltos.emails.initialize = ()
 
 This function initializes the emails app screen to improve the user experience.
 
-\hypertarget{toc513}{}
+\hypertarget{toc524}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8119,7 +8247,7 @@ saltos.emails.search = ()
 
 TODO
 
-\hypertarget{toc514}{}
+\hypertarget{toc525}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8128,7 +8256,7 @@ saltos.emails.clear_filter = ()
 
 TODO
 
-\hypertarget{toc515}{}
+\hypertarget{toc526}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8137,7 +8265,7 @@ saltos.emails.read_more = ()
 
 TODO
 
-\hypertarget{toc516}{}
+\hypertarget{toc527}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8146,105 +8274,11 @@ saltos.emails.send_and_get = ()
 
 TODO
 
-
-\hypertarget{toc517}{}
-\chapter{Invoices}
-
-\hypertarget{toc518}{}
-\section{invoices application}
-
-\begin{lstlisting}
-apps/invoices/app.js
-\end{lstlisting}
-
-This application implements the tipical features associated to invoices
-
-\hypertarget{toc519}{}
-\subsection{Main object}
-
-\begin{lstlisting}
-saltos.invoices = {};
-\end{lstlisting}
-
-This object contains all SaltOS code
-
-\hypertarget{toc520}{}
-\subsection{Initialize invoices}
-
-\begin{lstlisting}
-saltos.invoices.initialize_search = ()
-\end{lstlisting}
-
-This function initializes the invoices screen to improve the user experience.
-
-\hypertarget{toc521}{}
-\subsection{TODO}
-
-\begin{lstlisting}
-saltos.invoices.initialize_update_list = ()
-\end{lstlisting}
-
-TODO
-
-\hypertarget{toc522}{}
-\subsection{TODO}
-
-\begin{lstlisting}
-saltos.invoices.initialize_update_view = ()
-\end{lstlisting}
-
-TODO
-
-\hypertarget{toc523}{}
-\subsection{TODO}
-
-\begin{lstlisting}
-saltos.invoices.initialize_buttons = ()
-\end{lstlisting}
-
-TODO
-
-\hypertarget{toc524}{}
-\subsection{TODO}
-
-\begin{lstlisting}
-saltos.invoices.initialize_inputs = ()
-\end{lstlisting}
-
-TODO
-
-\hypertarget{toc525}{}
-\subsection{TODO}
-
-\begin{lstlisting}
-saltos.invoices.compute_total = ()
-\end{lstlisting}
-
-TODO
-
-\hypertarget{toc526}{}
-\subsection{TODO}
-
-\begin{lstlisting}
-saltos.invoices.remove_item = (obj)
-\end{lstlisting}
-
-TODO
-
-\hypertarget{toc527}{}
-\subsection{TODO}
-
-\begin{lstlisting}
-saltos.invoices.add_item = ()
-\end{lstlisting}
-
-TODO
-
 \hypertarget{toc528}{}
-\subsection{TODO}
+\section{TODO}
 
 \begin{lstlisting}
-saltos.invoices.search = ()
+apps/emails/php/getmail.php
 \end{lstlisting}
 
 TODO
@@ -8253,7 +8287,7 @@ TODO
 \subsection{TODO}
 
 \begin{lstlisting}
-saltos.invoices.clear_filter = ()
+// NEEDED INCLUDES
 \end{lstlisting}
 
 TODO
@@ -8262,7 +8296,7 @@ TODO
 \subsection{TODO}
 
 \begin{lstlisting}
-saltos.invoices.read_more = ()
+// SOME DEFINES
 \end{lstlisting}
 
 TODO
@@ -8271,7 +8305,7 @@ TODO
 \subsection{TODO}
 
 \begin{lstlisting}
-saltos.invoices.cancel = ()
+// REMOVE ALL BODY (ONLY FOR DEBUG PURPOSES)
 \end{lstlisting}
 
 TODO
@@ -8280,7 +8314,7 @@ TODO
 \subsection{TODO}
 
 \begin{lstlisting}
-saltos.invoices.insert = ()
+// THE FOLLOW FUNCTIONS UNIFY THE CONCEPT OF PROCESS
 \end{lstlisting}
 
 TODO
@@ -8289,12 +8323,457 @@ TODO
 \subsection{TODO}
 
 \begin{lstlisting}
-saltos.invoices.update = ()
+function __getmail_processplainhtml($disp, $type)
 \end{lstlisting}
 
 TODO
 
 \hypertarget{toc534}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __getmail_processfile($disp, $type)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc535}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc536}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN THE ORIGINAL RFC822 MESSAGE
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc537}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN THE DECODED MIME STRUCTURE OF MESSAGE
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc538}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN THE DECODED MIME STRUCTURE BY ID
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc539}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN A NODE USING A XPATH NOTATION
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc540}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN INTERNAL CONTENT TYPE
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc541}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN INTERNAL DISPOSITION
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc542}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN AN ARRAY OF ATTACHMENTS FILES
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc543}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN THE HUMAN SIZE (GBYTES, MBYTES, KBYTES OR BYTES)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc544}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN ALL INFORMATION OF THE DECODED MESSAGE
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc545}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __getmail_fixstring($arg)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc546}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN ALL TEXT BODY CONCATENATED
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc547}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN ALL BODY AND ATTACHMENTS INFORMATION
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc548}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// RETURN THE ATTACHMENT REQUESTED
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc549}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __getmail_insert(
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc550}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __getmail_update($campo, $valor, $id)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc551}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// FOR RAWURLDECODE AUTO DETECTION
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc552}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __getmail_add_bcc($id, $bcc)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc553}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc554}{}
+\subsection{Get email body}
+
+\begin{lstlisting}
+function get_email_body($id)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc555}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function get_email_source($id)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc556}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function get_email_files($id)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc557}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function get_email_cid($id, $cid)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc558}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function get_email_is_outbox($id)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc559}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function get_email_receive()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc560}{}
+\section{TODO}
+
+\begin{lstlisting}
+apps/emails/php/sendmail.php
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc561}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+use PHPMailer\PHPMailer\PHPMailer;
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc562}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function sendmail($id_cuenta, $to, $subject, $body, $files = "")
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc563}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __sendmail_parser($oldaddr)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc564}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __sendmail_messageid($id_cuenta, $from)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc565}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __sendmail_emlsaver($message, $messageid)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc566}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function __sendmail_objsaver($mail, $messageid)
+\end{lstlisting}
+
+TODO
+
+
+\hypertarget{toc567}{}
+\chapter{Invoices}
+
+\hypertarget{toc568}{}
+\section{invoices application}
+
+\begin{lstlisting}
+apps/invoices/app.js
+\end{lstlisting}
+
+This application implements the tipical features associated to invoices
+
+\hypertarget{toc569}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.invoices = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc570}{}
+\subsection{Initialize invoices}
+
+\begin{lstlisting}
+saltos.invoices.initialize_search = ()
+\end{lstlisting}
+
+This function initializes the invoices screen to improve the user experience.
+
+\hypertarget{toc571}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_update_list = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc572}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_update_view = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc573}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_buttons = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc574}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_inputs = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc575}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.compute_total = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc576}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.remove_item = (obj)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc577}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.add_item = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc578}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc579}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.clear_filter = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc580}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.read_more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc581}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.cancel = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc582}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.insert = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc583}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.update = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc584}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -8304,10 +8783,10 @@ saltos.invoices.delete = ()
 TODO
 
 
-\hypertarget{toc535}{}
+\hypertarget{toc585}{}
 \chapter{Login}
 
-\hypertarget{toc536}{}
+\hypertarget{toc586}{}
 \section{Login application}
 
 \begin{lstlisting}
@@ -8316,7 +8795,7 @@ apps/login/app.js
 
 This application implements the tipical features associated to login
 
-\hypertarget{toc537}{}
+\hypertarget{toc587}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -8325,7 +8804,7 @@ saltos.login = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc538}{}
+\hypertarget{toc588}{}
 \subsection{Authenticate login function}
 
 \begin{lstlisting}
@@ -8335,7 +8814,7 @@ saltos.login.authenticate = ()
 This function tries to authenticate the user using the user and pass fields of the form, to do
 it uses the authenticate function that send data to the authtoken action
 
-\hypertarget{toc539}{}
+\hypertarget{toc589}{}
 \subsection{Initialize login}
 
 \begin{lstlisting}
@@ -8344,7 +8823,7 @@ saltos.login.initialize = ()
 
 This function initializes the login screen to improve the user experience.
 
-\hypertarget{toc540}{}
+\hypertarget{toc590}{}
 \subsection{Access denied}
 
 \begin{lstlisting}

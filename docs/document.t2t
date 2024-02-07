@@ -1,6 +1,6 @@
 Code documentation
-SaltOS 4.0 r568
-January 2024
+SaltOS 4.0 r620
+February 2024
 
 
 
@@ -465,6 +465,42 @@ This function detect if an app exists
 - @app => the app that you want to check if exists
 
 
+++Array helper module++
+
+```
+api/php/autoload/array.php
+```
+
+This file contain useful array functions
+
+
++++Null to array converter+++
+
+```
+function null2array($arr)
+```
+
+This function convert all nulls into an array, is intended to be
+used as helper for example in the glob output, to force to have
+an array in all cases
+
+- @arr => the input, generally must to be an array, if a null is passed,
+        then a void array will be returned
+
+
++++Join for array+++
+
+```
+function join4array($array)
+```
+
+This function allow to join the #attr and value to get only an associative
+array, it is intended to be used to simplify the specification of some elements
+and to simplify the usage of this elements in the client side
+
+- @array => the input that can contains an array with #attr and value
+
+
 ++Array to XML helper module++
 
 ```
@@ -525,42 +561,6 @@ language file, to do it, uses some helpers as __array2xml_* functions
 - @array        => the array that contains the tree structure that you want to convert to XML
 - @usecache     => a boolean to enable or disable the cache usage
 - @usexmlminify => a boolean to enable or disable the minify feature
-
-
-++Array helper module++
-
-```
-api/php/autoload/arrayutils.php
-```
-
-This file contain useful array functions
-
-
-+++Null to array converter+++
-
-```
-function null2array($arr)
-```
-
-This function convert all nulls into an array, is intended to be
-used as helper for example in the glob output, to force to have
-an array in all cases
-
-- @arr => the input, generally must to be an array, if a null is passed,
-        then a void array will be returned
-
-
-+++Join for array+++
-
-```
-function join4array($array)
-```
-
-This function allow to join the #attr and value to get only an associative
-array, it is intended to be used to simplify the specification of some elements
-and to simplify the usage of this elements in the client side
-
-- @array => the input that can contains an array with #attr and value
 
 
 ++Barcode helper module++
@@ -683,7 +683,7 @@ as trick, checks that the output operation is performed by prime numbers
 ++Color utils helper module++
 
 ```
-api/php/autoload/colorutils.php
+api/php/autoload/color.php
 ```
 
 This fie contains useful functions related to colors
@@ -1877,7 +1877,7 @@ They will returns all data
 ++File utils helper module++
 
 ```
-api/php/autoload/fileutils.php
+api/php/autoload/file.php
 ```
 
 This fie contains useful functions related to the file usage, allow to manage directories, files,
@@ -2176,6 +2176,46 @@ function T($text)
 This function replaces the gettext abreviation _() using the SaltOS gettext
 feature, is based in the original system of the SaltOS 3 with improvements
 to do more open as the GNU gettext
+
+
+++Html helper module++
+
+```
+api/php/autoload/html.php
+```
+
+This file contain useful html helper functions
+
+
++++Remove Script Tag+++
+
+```
+function remove_script_tag($temp)
+```
+
+This function tries to remove all <script> tags of the string
+
+- @temp => the string that you want to process
+
+
++++Remove Style Tag+++
+
+```
+function remove_style_tag($temp)
+```
+
+This function tries to remove all <style> tags of the string
+
+- @temp => the string that you want to process
+
+
++++TODO+++
+
+```
+function href_replace($temp)
+```
+
+TODO
 
 
 ++Import file helper module++
@@ -2888,6 +2928,26 @@ generally used by the semaphores and some forced addtrace calls, but causes
 problems in the error reporting because break the hash and checklog optimization
 
 
+++Math utils helper module++
+
+```
+api/php/autoload/math.php
+```
+
+This fie contains useful functions related to math operations
+
+
++++Sign function+++
+
+```
+function sign($n)
+```
+
+This function returns 1 for positive, -1 for negative and 0 for zero.
+
+- @n => the number that you want to be processed
+
+
 ++Memory helper module++
 
 ```
@@ -2969,6 +3029,52 @@ function set_max_execution_time()
 
 This function is intended to do a ini_set with a more greather value to allow an
 exceptionally amount of execution time
+
+
+++Mime helper module++
+
+```
+api/php/autoload/mime.php
+```
+
+This file contains the mimetype feature provided by saltos using different techniques
+suck as the extension file, using the mime_content_type or the finfo_file functions.
+
+
++++SaltOS Content Type+++
+
+```
+function saltos_content_type($file)
+```
+
+This function is intended to returns the mime content-type string using different
+techniques.
+
+- @file => the file of which you want to know the content-type
+
+
++++SaltOS Content Type first helper+++
+
+```
+function saltos_content_type0($mime)
+```
+
+This function returns the first part of the content-type, for example, if you
+pass the string image/jpeg, this function will returns the string image.
+
+- @mime => the mime that you want to process
+
+
++++SaltOS Content Type second helper+++
+
+```
+function saltos_content_type1($mime)
+```
+
+This function returns the second part of the content-type, for example, if you
+pass the string image/jpeg, this function will returns the string jpeg.
+
+- @mime => the mime that you want to process
 
 
 ++Output helper module++
@@ -3355,7 +3461,7 @@ This function is intended to replace some server variabe in runtime mode
 ++SQL utils helper module++
 
 ```
-api/php/autoload/sqlutils.php
+api/php/autoload/sql.php
 ```
 
 This fie contains useful functions related to SQL queries, allow to help modules that requires
@@ -3773,7 +3879,7 @@ app and the prefix to be added to the id field of the in subquery
 ++String utils helper module++
 
 ```
-api/php/autoload/strutils.php
+api/php/autoload/strings.php
 ```
 
 This fie contains useful functions related to strings manipulations, suck as get the test in
@@ -4461,6 +4567,15 @@ function __libsqlite_concat()
 This function add the CONCAT to the SQLite database
 
 
++++CONCAT_WS+++
+
+```
+function __libsqlite_concat_ws()
+```
+
+This function add the CONCAT_WS to the SQLite database
+
+
 +++UNIX_TIMESTAMP+++
 
 ```
@@ -5132,7 +5247,7 @@ public function db_disconnect()
 This function close the database connection and sets the link to null
 
 
-+JavaScript+
++Javascript+
 
 ++Application helper module++
 
@@ -5875,7 +5990,7 @@ widgets, the types that can be called are the follow:
 - @textarea    => id, class, PL, value, DS, RO, RQ, AF, rows, tooltip, label
 - @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, rows, label
 - @codemirror  => id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
-- @iframe      => id, class, value, height, tooltip, label
+- @iframe      => id, class, src, srcdoc, height, label
 - @select      => id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
 - @multiselect => id, class, DS, RQ, AF, rows, multiple, size, value, multiple, tooltip, label
 - @checkbox    => id, class, DS, RO, label, value, tooltip
@@ -6057,7 +6172,7 @@ Notes:
 This widget requires the imask library and can be loaded automatically using the require
 feature:
 
-- @web/lib/imaskjs/imask.min.js
+- @lib/imaskjs/imask.min.js
 
 
 +++Float constructor helper+++
@@ -6087,7 +6202,7 @@ Notes:
 This widget requires the imask library and can be loaded automatically using the require
 feature:
 
-- @web/lib/imaskjs/imask.min.js
+- @lib/imaskjs/imask.min.js
 
 
 +++Color constructor helper+++
@@ -6210,7 +6325,7 @@ Notes:
 This widget requires the autoheight library and can be loaded automatically using the require
 feature:
 
-- @web/lib/autoheight/autoheight.min.js
+- @lib/autoheight/autoheight.min.js
 
 
 +++Ckeditor constructor helper+++
@@ -6239,7 +6354,7 @@ Notes:
 This widget requires the ckeditor library and can be loaded automatically using the require
 feature:
 
-- @web/lib/ckeditor/ckeditor.min.js
+- @lib/ckeditor/ckeditor.min.js
 
 
 +++Codemirror constructor helper+++
@@ -6269,8 +6384,8 @@ Notes:
 This widget requires the codemirror library and can be loaded automatically using the require
 feature:
 
-- @web/lib/codemirror/codemirror.min.css
-- @web/lib/codemirror/codemirror.min.js
+- @lib/codemirror/codemirror.min.css
+- @lib/codemirror/codemirror.min.js
 
 
 +++Iframe constructor helper+++
@@ -6282,7 +6397,8 @@ saltos.bootstrap.__field.iframe = field
 This function returns an iframe object, you can pass the follow arguments:
 
 - @id     => the id used by the object
-- @value  => the value used as src parameter
+- @src    => the value used as src parameter
+- @srcdoc => the value used as srcdoc parameter
 - @class  => allow to add more classes to the default form-control
 - @height => the height used as height for the style parameter
 - @label  => this parameter is used as text for the label
@@ -6554,8 +6670,8 @@ the widget.
 This widget requires the handsontable library and can be loaded automatically using the require
 feature:
 
-- @web/lib/handsontable/handsontable.full.min.css
-- @web/lib/handsontable/handsontable.full.min.js
+- @lib/handsontable/handsontable.full.min.css
+- @lib/handsontable/handsontable.full.min.js
 
 
 +++Pdfjs constructor helper+++
@@ -6577,10 +6693,10 @@ Notes:
 This widget requires the pdfjs library and can be loaded automatically using the require
 feature:
 
-- @web/lib/pdfjs/pdf_viewer.min.css,
-- @web/lib/pdfjs/pdf.min.mjs
-- @web/lib/pdfjs/pdf_viewer.min.mjs
-- @web/lib/pdfjs/pdf.worker.min.mjs
+- @lib/pdfjs/pdf_viewer.min.css,
+- @lib/pdfjs/pdf.min.mjs
+- @lib/pdfjs/pdf_viewer.min.mjs
+- @lib/pdfjs/pdf.worker.min.mjs
 
 
 The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
@@ -6694,7 +6810,7 @@ To be more practice and for stetic reasons, I'm adding to all datasets the borde
 This widget requires the chartjs library and can be loaded automatically using the require
 feature:
 
-- @web/lib/chartjs/chart.umd.min.js
+- @lib/chartjs/chart.umd.min.js
 
 
 +++Tags constructor helper+++
@@ -6745,10 +6861,10 @@ This widget requires venobox, masonry and imagesloaded
 This widget requires the venobox, masonry and imagesloaded libraries and can be loaded
 automatically using the require feature:
 
-- @web/lib/venobox/venobox.min.css
-- @web/lib/venobox/venobox.min.js
-- @web/lib/masonry/masonry.pkgd.min.js
-- @web/lib/imagesloaded/imagesloaded.pkgd.min.js
+- @lib/venobox/venobox.min.css
+- @lib/venobox/venobox.min.js
+- @lib/masonry/masonry.pkgd.min.js
+- @lib/imagesloaded/imagesloaded.pkgd.min.js
 
 
 +++Placeholder helper+++
@@ -7028,7 +7144,7 @@ Each toast includes a hash to prevent the creation of repeated toasts.
 This widget requires the md5 library and can be loaded automatically using the require
 feature:
 
-- @web/lib/md5/md5.min.js
+- @lib/md5/md5.min.js
 
 
 ++Core helper module++
@@ -7335,7 +7451,7 @@ This file contains the main saltos object
 +++Main object+++
 
 ```
-var saltos = saltos || {};
+var saltos = {};
 ```
 
 This object contains all SaltOS code
@@ -7540,6 +7656,357 @@ TODO
 
 ```
 saltos.emails.send_and_get = ()
+```
+
+TODO
+
+
+++TODO++
+
+```
+apps/emails/php/getmail.php
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// NEEDED INCLUDES
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// SOME DEFINES
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// REMOVE ALL BODY (ONLY FOR DEBUG PURPOSES)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// THE FOLLOW FUNCTIONS UNIFY THE CONCEPT OF PROCESS
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __getmail_processplainhtml($disp, $type)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __getmail_processfile($disp, $type)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN THE ORIGINAL RFC822 MESSAGE
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN THE DECODED MIME STRUCTURE OF MESSAGE
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN THE DECODED MIME STRUCTURE BY ID
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN A NODE USING A XPATH NOTATION
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN INTERNAL CONTENT TYPE
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN INTERNAL DISPOSITION
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN AN ARRAY OF ATTACHMENTS FILES
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN THE HUMAN SIZE (GBYTES, MBYTES, KBYTES OR BYTES)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN ALL INFORMATION OF THE DECODED MESSAGE
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __getmail_fixstring($arg)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN ALL TEXT BODY CONCATENATED
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN ALL BODY AND ATTACHMENTS INFORMATION
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// RETURN THE ATTACHMENT REQUESTED
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __getmail_insert(
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __getmail_update($campo, $valor, $id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// FOR RAWURLDECODE AUTO DETECTION
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __getmail_add_bcc($id, $bcc)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
+```
+
+TODO
+
+
++++Get email body+++
+
+```
+function get_email_body($id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function get_email_source($id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function get_email_files($id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function get_email_cid($id, $cid)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function get_email_is_outbox($id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function get_email_receive()
+```
+
+TODO
+
+
+++TODO++
+
+```
+apps/emails/php/sendmail.php
+```
+
+TODO
+
+
++++TODO+++
+
+```
+use PHPMailer\PHPMailer\PHPMailer;
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function sendmail($id_cuenta, $to, $subject, $body, $files = "")
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __sendmail_parser($oldaddr)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __sendmail_messageid($id_cuenta, $from)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __sendmail_emlsaver($message, $messageid)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __sendmail_objsaver($mail, $messageid)
 ```
 
 TODO
