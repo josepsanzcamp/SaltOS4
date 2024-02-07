@@ -7661,238 +7661,319 @@ saltos.emails.send_and_get = ()
 TODO
 
 
-++TODO++
+++Get email library++
 
 ```
 apps/emails/php/getmail.php
 ```
 
-TODO
+This library provides the necesary functions to download, parse and manage emails.
 
 
-+++TODO+++
-
-```
-// NEEDED INCLUDES
-```
-
-TODO
-
-
-+++TODO+++
++++Requires section+++
 
 ```
-// SOME DEFINES
+require_once "apps/emails/lib/mimeparser/mime_parser.php";
 ```
 
-TODO
+This requires loads the external libraries needed to run this library.
 
 
-+++TODO+++
-
-```
-// REMOVE ALL BODY (ONLY FOR DEBUG PURPOSES)
-```
-
-TODO
-
-
-+++TODO+++
++++Defines section+++
 
 ```
-// THE FOLLOW FUNCTIONS UNIFY THE CONCEPT OF PROCESS
+define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:0px;}</style></head><body>');
 ```
 
-TODO
+This defines allow to define some usefull standards to do html pages and more.
 
 
-+++TODO+++
++++Remove all body+++
+
+```
+function __getmail_removebody($array)
+```
+
+This function removes the body entry in the array, it is only for debug purposes
+
+- @aarray => The array that you want to process
+
+
++++Process message+++
+
+```
+function __getmail_processmessage($disp, $type)
+```
+
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+- @disp => disposition, can be inline or attachment
+- @type => type, can be message, html or plain
+
+
++++Process plain html+++
 
 ```
 function __getmail_processplainhtml($disp, $type)
 ```
 
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+- @disp => disposition, can be inline or attachment
+- @type => type, can be message, html or plain
 
 
-+++TODO+++
++++Process file+++
 
 ```
 function __getmail_processfile($disp, $type)
 ```
 
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+- @disp => disposition, can be inline or attachment
+- @type => type, can be message, html or plain
 
 
-+++TODO+++
-
-```
-// CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
-```
-
-TODO
-
-
-+++TODO+++
++++Check permissions+++
 
 ```
-// RETURN THE ORIGINAL RFC822 MESSAGE
+function __getmail_checkperm($id)
 ```
 
-TODO
+This function allow to check if the current user has permissions to view the
+message identified by the id argument
+
+- @id => id of the email
 
 
-+++TODO+++
-
-```
-// RETURN THE DECODED MIME STRUCTURE OF MESSAGE
-```
-
-TODO
-
-
-+++TODO+++
++++Get source+++
 
 ```
-// RETURN THE DECODED MIME STRUCTURE BY ID
+function __getmail_getsource($id, $max = 0)
 ```
 
-TODO
+This function returns the original RFC822 message as string
+
+- @id  => id of the email
+- @max => max size that can be processed
 
 
-+++TODO+++
-
-```
-// RETURN A NODE USING A XPATH NOTATION
-```
-
-TODO
-
-
-+++TODO+++
++++Mime decode protected+++
 
 ```
-// RETURN INTERNAL CONTENT TYPE
+function __getmail_mime_decode_protected($input)
 ```
 
-TODO
+This function decodes the input string that contains the RFC822 message
+using the mime_parser_class to do it, and returns the decoded array.
+
+- @input => the RFC822 string that contains the message
 
 
-+++TODO+++
-
-```
-// RETURN INTERNAL DISPOSITION
-```
-
-TODO
-
-
-+++TODO+++
++++Get mime+++
 
 ```
-// RETURN AN ARRAY OF ATTACHMENTS FILES
+function __getmail_getmime($id)
 ```
 
-TODO
+This function returns the decoded array of the email identified by the id
+argument, to do this more optimal, this function uses an internal cache
+file to improve the performance for repeated executions.
+
+- @id  => id of the email
 
 
-+++TODO+++
-
-```
-// RETURN THE HUMAN SIZE (GBYTES, MBYTES, KBYTES OR BYTES)
-```
-
-TODO
-
-
-+++TODO+++
++++Get Node+++
 
 ```
-// RETURN ALL INFORMATION OF THE DECODED MESSAGE
+function __getmail_getnode($path, $array)
 ```
 
-TODO
+This function returns the node using a xpath notation
+
+- @path  => xpath that identify the desired path that must to be returned
+- @array => the decoded message in an array format
 
 
-+++TODO+++
++++Get type+++
+
+```
+function __getmail_gettype($array)
+```
+
+This function tries to unify the differents content-type to standarize it into
+the follow formats: html, plain, messsage, alternative, multipart or other.
+
+- @array => the decoded message in an array format
+
+
++++Get disposition+++
+
+```
+function __getmail_getdisposition($array)
+```
+
+This function tries to unify the differents content-dispoaition to standarize
+it into the follow formats: attachment, inline or other.
+
+- @array => the decoded message in an array format
+
+
++++Get files+++
+
+```
+function __getmail_getfiles($array, $level = 0)
+```
+
+This function returns an array with the attachment files of the message
+
+- @array => the decoded message in an array format
+- @level => this parameter is internally used to detect recursion
+
+
++++Get human size+++
+
+```
+function __getmail_gethumansize($size)
+```
+
+This function returns an string containing the size in human format
+
+- @size => the number of bytes to convert to human format
+
+
++++Get info+++
+
+```
+function __getmail_getinfo($array)
+```
+
+Returns all information of the decoded message in a structured format
+
+- @array => the decoded message in an array format
+
+
++++Fix string+++
 
 ```
 function __getmail_fixstring($arg)
 ```
 
-TODO
+This function is a helper used by all functions that pcoesses the headers
+of the decoded message.
+
+- @arg => the string that must to be checked and fixed if needed
 
 
-+++TODO+++
-
-```
-// RETURN ALL TEXT BODY CONCATENATED
-```
-
-TODO
-
-
-+++TODO+++
++++Get text body+++
 
 ```
-// RETURN ALL BODY AND ATTACHMENTS INFORMATION
+function __getmail_gettextbody($array, $level = 0)
 ```
 
-TODO
+This function returns all text body concatenated as an unique string
+
+- @array => the decoded message in an array format
+- @level => this parameter is internally used to detect recursion
 
 
-+++TODO+++
++++Get full body+++
 
 ```
-// RETURN THE ATTACHMENT REQUESTED
+function __getmail_getfullbody($array)
 ```
 
-TODO
+This function returns all body and attachments information as an array
+
+- @array => the decoded message in an array format
 
 
-+++TODO+++
++++Get cid+++
+
+```
+function __getmail_getcid($array, $hash)
+```
+
+This function returns the requested attachment indentified by the hash argument
+
+- @array => the decoded message in an array format
+- @hash  => the hash of the content requested
+
+
++++Insert+++
 
 ```
 function __getmail_insert(
 ```
 
-TODO
+This function do the insert in the app_emails table, and
+
+- @file          => the gzfile that contains the message in RFC822 format
+- @messageid     => the id of the message (account_id/uidl)
+- @state_new     => the 0/1 that sets the state new flag
+- @state_reply   => the 0/1 that sets the state reply flag
+- @state_forward => the 0/1 that sets the state forward flag
+- @state_wait    => the 0/1 that sets the state wait flag
+- @id_correo     => the id of the related email (used to create relations between emails)
+- @is_outbox     => the 0/1 that sets the is outbox flag
+- @state_sent    => the 0/1 that sets the state sent flag
+- @state_error   => the string that contains the error (if exists an error)
 
 
-+++TODO+++
++++Update+++
 
 ```
-function __getmail_update($campo, $valor, $id)
+function __getmail_update($field, $value, $id)
 ```
 
-TODO
+This function updates the field with the value of the app_emails for the
+register identified by the id argument.
+
+- @field => field that you want to update
+- @value => value that you want to set
+- @id    => id of the register to do the update
 
 
-+++TODO+++
++++Raw url decode+++
 
 ```
-// FOR RAWURLDECODE AUTO DETECTION
+function __getmail_rawurldecode($temp)
 ```
 
-TODO
+This function tries to detect if the argument contains the %20 string
+to try to detect url encoded strings and fix it if is needed
+
+- @temp => the string that you want to check and fix
 
 
-+++TODO+++
++++Add bcc+++
 
 ```
 function __getmail_add_bcc($id, $bcc)
 ```
 
-TODO
+This function adds the bbc to the database, this is because the messages
+does not contains the bcc field (is hidden in theory), and only is available
+if the current execution is the sender of the message.
+
+- @id  => id of the email
+- @bcc => an array with the addresses of the emails
 
 
-+++TODO+++
++++Gzfile size+++
 
 ```
-// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
+function gzfilesize($filename)
 ```
 
-TODO
+This function is copied from http://php.net/manual/es/function.gzread.php#110078
+and allow to know the file size of the file after a gzip descompression.
+
+- @filename => the gzip filename that you want to know the size
 
 
 +++Get email body+++
@@ -7901,52 +7982,66 @@ TODO
 function get_email_body($id)
 ```
 
-TODO
+This function returns the string that contains the body of the email
+intended to be rendered in an iframe, for example
+
+- @id => id of the email
 
 
-+++TODO+++
++++Get email source+++
 
 ```
 function get_email_source($id)
 ```
 
-TODO
+This function returns the string that contains the source of the email
+intended to be rendered in an iframe, for example
+
+- @id => id of the email
 
 
-+++TODO+++
++++Get email files+++
 
 ```
 function get_email_files($id)
 ```
 
-TODO
+This function returns an arryy that contains the files of the email
+intended to be rendered in an table, for example
+
+- @id => id of the email
 
 
-+++TODO+++
++++Get cid+++
 
 ```
 function get_email_cid($id, $cid)
 ```
 
-TODO
+This function returns the requested attachment indentified by the cid argument
+
+- @id  => id of the email
+- @cid => the cid of the content requested
 
 
-+++TODO+++
++++Is outbox+++
 
 ```
 function get_email_is_outbox($id)
 ```
 
-TODO
+Returns the is_outbox flag of the email identified by the id argument
+
+- @id => id of the email
 
 
-+++TODO+++
++++Receive+++
 
 ```
 function get_email_receive()
 ```
 
-TODO
+This function implements the old getmail action of the old saltos.
 
 
 ++TODO++

@@ -8275,238 +8275,365 @@ saltos.emails.send_and_get = ()
 TODO
 
 \hypertarget{toc528}{}
-\section{TODO}
+\section{Get email library}
 
 \begin{lstlisting}
 apps/emails/php/getmail.php
 \end{lstlisting}
 
-TODO
+This library provides the necesary functions to download, parse and manage emails.
 
 \hypertarget{toc529}{}
-\subsection{TODO}
+\subsection{Requires section}
 
 \begin{lstlisting}
-// NEEDED INCLUDES
+require_once "apps/emails/lib/mimeparser/mime_parser.php";
 \end{lstlisting}
 
-TODO
+This requires loads the external libraries needed to run this library.
 
 \hypertarget{toc530}{}
-\subsection{TODO}
+\subsection{Defines section}
 
 \begin{lstlisting}
-// SOME DEFINES
+define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:0px;}</style></head><body>');
 \end{lstlisting}
 
-TODO
+This defines allow to define some usefull standards to do html pages and more.
 
 \hypertarget{toc531}{}
-\subsection{TODO}
+\subsection{Remove all body}
 
 \begin{lstlisting}
-// REMOVE ALL BODY (ONLY FOR DEBUG PURPOSES)
+function __getmail_removebody($array)
 \end{lstlisting}
 
-TODO
+This function removes the body entry in the array, it is only for debug purposes
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @aarray =$>$ The array that you want to process
+\end{compactitem}
 
 \hypertarget{toc532}{}
-\subsection{TODO}
+\subsection{Process message}
 
 \begin{lstlisting}
-// THE FOLLOW FUNCTIONS UNIFY THE CONCEPT OF PROCESS
+function __getmail_processmessage($disp, $type)
 \end{lstlisting}
 
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @disp =$>$ disposition, can be inline or attachment
+\item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
+\end{compactitem}
 
 \hypertarget{toc533}{}
-\subsection{TODO}
+\subsection{Process plain html}
 
 \begin{lstlisting}
 function __getmail_processplainhtml($disp, $type)
 \end{lstlisting}
 
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @disp =$>$ disposition, can be inline or attachment
+\item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
+\end{compactitem}
 
 \hypertarget{toc534}{}
-\subsection{TODO}
+\subsection{Process file}
 
 \begin{lstlisting}
 function __getmail_processfile($disp, $type)
 \end{lstlisting}
 
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @disp =$>$ disposition, can be inline or attachment
+\item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
+\end{compactitem}
 
 \hypertarget{toc535}{}
-\subsection{TODO}
+\subsection{Check permissions}
 
 \begin{lstlisting}
-// CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
+function __getmail_checkperm($id)
 \end{lstlisting}
 
-TODO
+This function allow to check if the current user has permissions to view the
+message identified by the id argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
 
 \hypertarget{toc536}{}
-\subsection{TODO}
+\subsection{Get source}
 
 \begin{lstlisting}
-// RETURN THE ORIGINAL RFC822 MESSAGE
+function __getmail_getsource($id, $max = 0)
 \end{lstlisting}
 
-TODO
+This function returns the original RFC822 message as string
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @max =$>$ max size that can be processed
+\end{compactitem}
 
 \hypertarget{toc537}{}
-\subsection{TODO}
+\subsection{Mime decode protected}
 
 \begin{lstlisting}
-// RETURN THE DECODED MIME STRUCTURE OF MESSAGE
+function __getmail_mime_decode_protected($input)
 \end{lstlisting}
 
-TODO
+This function decodes the input string that contains the RFC822 message
+using the mime\_parser\_class to do it, and returns the decoded array.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @input =$>$ the RFC822 string that contains the message
+\end{compactitem}
 
 \hypertarget{toc538}{}
-\subsection{TODO}
+\subsection{Get mime}
 
 \begin{lstlisting}
-// RETURN THE DECODED MIME STRUCTURE BY ID
+function __getmail_getmime($id)
 \end{lstlisting}
 
-TODO
+This function returns the decoded array of the email identified by the id
+argument, to do this more optimal, this function uses an internal cache
+file to improve the performance for repeated executions.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\end{compactitem}
 
 \hypertarget{toc539}{}
-\subsection{TODO}
+\subsection{Get Node}
 
 \begin{lstlisting}
-// RETURN A NODE USING A XPATH NOTATION
+function __getmail_getnode($path, $array)
 \end{lstlisting}
 
-TODO
+This function returns the node using a xpath notation
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @path  =$>$ xpath that identify the desired path that must to be returned
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
 
 \hypertarget{toc540}{}
-\subsection{TODO}
+\subsection{Get type}
 
 \begin{lstlisting}
-// RETURN INTERNAL CONTENT TYPE
+function __getmail_gettype($array)
 \end{lstlisting}
 
-TODO
+This function tries to unify the differents content-type to standarize it into
+the follow formats: html, plain, messsage, alternative, multipart or other.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
 
 \hypertarget{toc541}{}
-\subsection{TODO}
+\subsection{Get disposition}
 
 \begin{lstlisting}
-// RETURN INTERNAL DISPOSITION
+function __getmail_getdisposition($array)
 \end{lstlisting}
 
-TODO
+This function tries to unify the differents content-dispoaition to standarize
+it into the follow formats: attachment, inline or other.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
 
 \hypertarget{toc542}{}
-\subsection{TODO}
+\subsection{Get files}
 
 \begin{lstlisting}
-// RETURN AN ARRAY OF ATTACHMENTS FILES
+function __getmail_getfiles($array, $level = 0)
 \end{lstlisting}
 
-TODO
+This function returns an array with the attachment files of the message
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\item[\color{myblue}$\bullet$] @level =$>$ this parameter is internally used to detect recursion
+\end{compactitem}
 
 \hypertarget{toc543}{}
-\subsection{TODO}
+\subsection{Get human size}
 
 \begin{lstlisting}
-// RETURN THE HUMAN SIZE (GBYTES, MBYTES, KBYTES OR BYTES)
+function __getmail_gethumansize($size)
 \end{lstlisting}
 
-TODO
+This function returns an string containing the size in human format
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @size =$>$ the number of bytes to convert to human format
+\end{compactitem}
 
 \hypertarget{toc544}{}
-\subsection{TODO}
+\subsection{Get info}
 
 \begin{lstlisting}
-// RETURN ALL INFORMATION OF THE DECODED MESSAGE
+function __getmail_getinfo($array)
 \end{lstlisting}
 
-TODO
+Returns all information of the decoded message in a structured format
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
 
 \hypertarget{toc545}{}
-\subsection{TODO}
+\subsection{Fix string}
 
 \begin{lstlisting}
 function __getmail_fixstring($arg)
 \end{lstlisting}
 
-TODO
+This function is a helper used by all functions that pcoesses the headers
+of the decoded message.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @arg =$>$ the string that must to be checked and fixed if needed
+\end{compactitem}
 
 \hypertarget{toc546}{}
-\subsection{TODO}
+\subsection{Get text body}
 
 \begin{lstlisting}
-// RETURN ALL TEXT BODY CONCATENATED
+function __getmail_gettextbody($array, $level = 0)
 \end{lstlisting}
 
-TODO
+This function returns all text body concatenated as an unique string
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\item[\color{myblue}$\bullet$] @level =$>$ this parameter is internally used to detect recursion
+\end{compactitem}
 
 \hypertarget{toc547}{}
-\subsection{TODO}
+\subsection{Get full body}
 
 \begin{lstlisting}
-// RETURN ALL BODY AND ATTACHMENTS INFORMATION
+function __getmail_getfullbody($array)
 \end{lstlisting}
 
-TODO
+This function returns all body and attachments information as an array
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
 
 \hypertarget{toc548}{}
-\subsection{TODO}
+\subsection{Get cid}
 
 \begin{lstlisting}
-// RETURN THE ATTACHMENT REQUESTED
+function __getmail_getcid($array, $hash)
 \end{lstlisting}
 
-TODO
+This function returns the requested attachment indentified by the hash argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\item[\color{myblue}$\bullet$] @hash  =$>$ the hash of the content requested
+\end{compactitem}
 
 \hypertarget{toc549}{}
-\subsection{TODO}
+\subsection{Insert}
 
 \begin{lstlisting}
 function __getmail_insert(
 \end{lstlisting}
 
-TODO
+This function do the insert in the app\_emails table, and
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @file          =$>$ the gzfile that contains the message in RFC822 format
+\item[\color{myblue}$\bullet$] @messageid     =$>$ the id of the message (account\_id/uidl)
+\item[\color{myblue}$\bullet$] @state\_new     =$>$ the 0/1 that sets the state new flag
+\item[\color{myblue}$\bullet$] @state\_reply   =$>$ the 0/1 that sets the state reply flag
+\item[\color{myblue}$\bullet$] @state\_forward =$>$ the 0/1 that sets the state forward flag
+\item[\color{myblue}$\bullet$] @state\_wait    =$>$ the 0/1 that sets the state wait flag
+\item[\color{myblue}$\bullet$] @id\_correo     =$>$ the id of the related email (used to create relations between emails)
+\item[\color{myblue}$\bullet$] @is\_outbox     =$>$ the 0/1 that sets the is outbox flag
+\item[\color{myblue}$\bullet$] @state\_sent    =$>$ the 0/1 that sets the state sent flag
+\item[\color{myblue}$\bullet$] @state\_error   =$>$ the string that contains the error (if exists an error)
+\end{compactitem}
 
 \hypertarget{toc550}{}
-\subsection{TODO}
+\subsection{Update}
 
 \begin{lstlisting}
-function __getmail_update($campo, $valor, $id)
+function __getmail_update($field, $value, $id)
 \end{lstlisting}
 
-TODO
+This function updates the field with the value of the app\_emails for the
+register identified by the id argument.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @field =$>$ field that you want to update
+\item[\color{myblue}$\bullet$] @value =$>$ value that you want to set
+\item[\color{myblue}$\bullet$] @id    =$>$ id of the register to do the update
+\end{compactitem}
 
 \hypertarget{toc551}{}
-\subsection{TODO}
+\subsection{Raw url decode}
 
 \begin{lstlisting}
-// FOR RAWURLDECODE AUTO DETECTION
+function __getmail_rawurldecode($temp)
 \end{lstlisting}
 
-TODO
+This function tries to detect if the argument contains the \%20 string
+to try to detect url encoded strings and fix it if is needed
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to check and fix
+\end{compactitem}
 
 \hypertarget{toc552}{}
-\subsection{TODO}
+\subsection{Add bcc}
 
 \begin{lstlisting}
 function __getmail_add_bcc($id, $bcc)
 \end{lstlisting}
 
-TODO
+This function adds the bbc to the database, this is because the messages
+does not contains the bcc field (is hidden in theory), and only is available
+if the current execution is the sender of the message.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @bcc =$>$ an array with the addresses of the emails
+\end{compactitem}
 
 \hypertarget{toc553}{}
-\subsection{TODO}
+\subsection{Gzfile size}
 
 \begin{lstlisting}
-// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
+function gzfilesize($filename)
 \end{lstlisting}
 
-TODO
+This function is copied from \htmladdnormallink{http://php.net/manual/es/function.gzread.php\#110078}{http://php.net/manual/es/function.gzread.php\#110078}
+and allow to know the file size of the file after a gzip descompression.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @filename =$>$ the gzip filename that you want to know the size
+\end{compactitem}
 
 \hypertarget{toc554}{}
 \subsection{Get email body}
@@ -8515,52 +8642,76 @@ TODO
 function get_email_body($id)
 \end{lstlisting}
 
-TODO
+This function returns the string that contains the body of the email
+intended to be rendered in an iframe, for example
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
 
 \hypertarget{toc555}{}
-\subsection{TODO}
+\subsection{Get email source}
 
 \begin{lstlisting}
 function get_email_source($id)
 \end{lstlisting}
 
-TODO
+This function returns the string that contains the source of the email
+intended to be rendered in an iframe, for example
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
 
 \hypertarget{toc556}{}
-\subsection{TODO}
+\subsection{Get email files}
 
 \begin{lstlisting}
 function get_email_files($id)
 \end{lstlisting}
 
-TODO
+This function returns an arryy that contains the files of the email
+intended to be rendered in an table, for example
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
 
 \hypertarget{toc557}{}
-\subsection{TODO}
+\subsection{Get cid}
 
 \begin{lstlisting}
 function get_email_cid($id, $cid)
 \end{lstlisting}
 
-TODO
+This function returns the requested attachment indentified by the cid argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
+\end{compactitem}
 
 \hypertarget{toc558}{}
-\subsection{TODO}
+\subsection{Is outbox}
 
 \begin{lstlisting}
 function get_email_is_outbox($id)
 \end{lstlisting}
 
-TODO
+Returns the is\_outbox flag of the email identified by the id argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
 
 \hypertarget{toc559}{}
-\subsection{TODO}
+\subsection{Receive}
 
 \begin{lstlisting}
 function get_email_receive()
 \end{lstlisting}
 
-TODO
+This function implements the old getmail action of the old saltos.
 
 \hypertarget{toc560}{}
 \section{TODO}

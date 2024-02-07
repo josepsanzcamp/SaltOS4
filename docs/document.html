@@ -1211,69 +1211,69 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       </ul>
     </li>
-    <li><a href="#toc528">7.2. TODO</a>
+    <li><a href="#toc528">7.2. Get email library</a>
       <ul>
-      <li><a href="#toc529">7.2.1. TODO</a>
+      <li><a href="#toc529">7.2.1. Requires section</a>
       </li>
-      <li><a href="#toc530">7.2.2. TODO</a>
+      <li><a href="#toc530">7.2.2. Defines section</a>
       </li>
-      <li><a href="#toc531">7.2.3. TODO</a>
+      <li><a href="#toc531">7.2.3. Remove all body</a>
       </li>
-      <li><a href="#toc532">7.2.4. TODO</a>
+      <li><a href="#toc532">7.2.4. Process message</a>
       </li>
-      <li><a href="#toc533">7.2.5. TODO</a>
+      <li><a href="#toc533">7.2.5. Process plain html</a>
       </li>
-      <li><a href="#toc534">7.2.6. TODO</a>
+      <li><a href="#toc534">7.2.6. Process file</a>
       </li>
-      <li><a href="#toc535">7.2.7. TODO</a>
+      <li><a href="#toc535">7.2.7. Check permissions</a>
       </li>
-      <li><a href="#toc536">7.2.8. TODO</a>
+      <li><a href="#toc536">7.2.8. Get source</a>
       </li>
-      <li><a href="#toc537">7.2.9. TODO</a>
+      <li><a href="#toc537">7.2.9. Mime decode protected</a>
       </li>
-      <li><a href="#toc538">7.2.10. TODO</a>
+      <li><a href="#toc538">7.2.10. Get mime</a>
       </li>
-      <li><a href="#toc539">7.2.11. TODO</a>
+      <li><a href="#toc539">7.2.11. Get Node</a>
       </li>
-      <li><a href="#toc540">7.2.12. TODO</a>
+      <li><a href="#toc540">7.2.12. Get type</a>
       </li>
-      <li><a href="#toc541">7.2.13. TODO</a>
+      <li><a href="#toc541">7.2.13. Get disposition</a>
       </li>
-      <li><a href="#toc542">7.2.14. TODO</a>
+      <li><a href="#toc542">7.2.14. Get files</a>
       </li>
-      <li><a href="#toc543">7.2.15. TODO</a>
+      <li><a href="#toc543">7.2.15. Get human size</a>
       </li>
-      <li><a href="#toc544">7.2.16. TODO</a>
+      <li><a href="#toc544">7.2.16. Get info</a>
       </li>
-      <li><a href="#toc545">7.2.17. TODO</a>
+      <li><a href="#toc545">7.2.17. Fix string</a>
       </li>
-      <li><a href="#toc546">7.2.18. TODO</a>
+      <li><a href="#toc546">7.2.18. Get text body</a>
       </li>
-      <li><a href="#toc547">7.2.19. TODO</a>
+      <li><a href="#toc547">7.2.19. Get full body</a>
       </li>
-      <li><a href="#toc548">7.2.20. TODO</a>
+      <li><a href="#toc548">7.2.20. Get cid</a>
       </li>
-      <li><a href="#toc549">7.2.21. TODO</a>
+      <li><a href="#toc549">7.2.21. Insert</a>
       </li>
-      <li><a href="#toc550">7.2.22. TODO</a>
+      <li><a href="#toc550">7.2.22. Update</a>
       </li>
-      <li><a href="#toc551">7.2.23. TODO</a>
+      <li><a href="#toc551">7.2.23. Raw url decode</a>
       </li>
-      <li><a href="#toc552">7.2.24. TODO</a>
+      <li><a href="#toc552">7.2.24. Add bcc</a>
       </li>
-      <li><a href="#toc553">7.2.25. TODO</a>
+      <li><a href="#toc553">7.2.25. Gzfile size</a>
       </li>
       <li><a href="#toc554">7.2.26. Get email body</a>
       </li>
-      <li><a href="#toc555">7.2.27. TODO</a>
+      <li><a href="#toc555">7.2.27. Get email source</a>
       </li>
-      <li><a href="#toc556">7.2.28. TODO</a>
+      <li><a href="#toc556">7.2.28. Get email files</a>
       </li>
-      <li><a href="#toc557">7.2.29. TODO</a>
+      <li><a href="#toc557">7.2.29. Get cid</a>
       </li>
-      <li><a href="#toc558">7.2.30. TODO</a>
+      <li><a href="#toc558">7.2.30. Is outbox</a>
       </li>
-      <li><a href="#toc559">7.2.31. TODO</a>
+      <li><a href="#toc559">7.2.31. Receive</a>
       </li>
       </ul>
     </li>
@@ -12639,314 +12639,484 @@ TODO
 </section>
 </section>
 <section id="toc528">
-<h2>7.2. TODO</h2>
+<h2>7.2. Get email library</h2>
 
 <pre>
 apps/emails/php/getmail.php
 </pre>
 
 <p>
-TODO
+This library provides the necesary functions to download, parse and manage emails.
 </p>
 
 <section id="toc529">
-<h3>7.2.1. TODO</h3>
+<h3>7.2.1. Requires section</h3>
 
 <pre>
-// NEEDED INCLUDES
+require_once "apps/emails/lib/mimeparser/mime_parser.php";
 </pre>
 
 <p>
-TODO
+This requires loads the external libraries needed to run this library.
 </p>
 
 </section>
 <section id="toc530">
-<h3>7.2.2. TODO</h3>
+<h3>7.2.2. Defines section</h3>
 
 <pre>
-// SOME DEFINES
+define("__HTML_PAGE_OPEN__", '&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;style type="text/css"&gt;body{margin:0px;padding:0px;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;');
 </pre>
 
 <p>
-TODO
+This defines allow to define some usefull standards to do html pages and more.
 </p>
 
 </section>
 <section id="toc531">
-<h3>7.2.3. TODO</h3>
+<h3>7.2.3. Remove all body</h3>
 
 <pre>
-// REMOVE ALL BODY (ONLY FOR DEBUG PURPOSES)
+function __getmail_removebody($array)
 </pre>
 
 <p>
-TODO
+This function removes the body entry in the array, it is only for debug purposes
 </p>
+
+<ul>
+<li>@aarray =&gt; The array that you want to process
+</li>
+</ul>
 
 </section>
 <section id="toc532">
-<h3>7.2.4. TODO</h3>
+<h3>7.2.4. Process message</h3>
 
 <pre>
-// THE FOLLOW FUNCTIONS UNIFY THE CONCEPT OF PROCESS
+function __getmail_processmessage($disp, $type)
 </pre>
 
 <p>
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
 </p>
+
+<ul>
+<li>@disp =&gt; disposition, can be inline or attachment
+</li>
+<li>@type =&gt; type, can be message, html or plain
+</li>
+</ul>
 
 </section>
 <section id="toc533">
-<h3>7.2.5. TODO</h3>
+<h3>7.2.5. Process plain html</h3>
 
 <pre>
 function __getmail_processplainhtml($disp, $type)
 </pre>
 
 <p>
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
 </p>
+
+<ul>
+<li>@disp =&gt; disposition, can be inline or attachment
+</li>
+<li>@type =&gt; type, can be message, html or plain
+</li>
+</ul>
 
 </section>
 <section id="toc534">
-<h3>7.2.6. TODO</h3>
+<h3>7.2.6. Process file</h3>
 
 <pre>
 function __getmail_processfile($disp, $type)
 </pre>
 
 <p>
-TODO
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
 </p>
+
+<ul>
+<li>@disp =&gt; disposition, can be inline or attachment
+</li>
+<li>@type =&gt; type, can be message, html or plain
+</li>
+</ul>
 
 </section>
 <section id="toc535">
-<h3>7.2.7. TODO</h3>
+<h3>7.2.7. Check permissions</h3>
 
 <pre>
-// CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
+function __getmail_checkperm($id)
 </pre>
 
 <p>
-TODO
+This function allow to check if the current user has permissions to view the
+message identified by the id argument
 </p>
+
+<ul>
+<li>@id =&gt; id of the email
+</li>
+</ul>
 
 </section>
 <section id="toc536">
-<h3>7.2.8. TODO</h3>
+<h3>7.2.8. Get source</h3>
 
 <pre>
-// RETURN THE ORIGINAL RFC822 MESSAGE
+function __getmail_getsource($id, $max = 0)
 </pre>
 
 <p>
-TODO
+This function returns the original RFC822 message as string
 </p>
+
+<ul>
+<li>@id  =&gt; id of the email
+</li>
+<li>@max =&gt; max size that can be processed
+</li>
+</ul>
 
 </section>
 <section id="toc537">
-<h3>7.2.9. TODO</h3>
+<h3>7.2.9. Mime decode protected</h3>
 
 <pre>
-// RETURN THE DECODED MIME STRUCTURE OF MESSAGE
+function __getmail_mime_decode_protected($input)
 </pre>
 
 <p>
-TODO
+This function decodes the input string that contains the RFC822 message
+using the mime_parser_class to do it, and returns the decoded array.
 </p>
+
+<ul>
+<li>@input =&gt; the RFC822 string that contains the message
+</li>
+</ul>
 
 </section>
 <section id="toc538">
-<h3>7.2.10. TODO</h3>
+<h3>7.2.10. Get mime</h3>
 
 <pre>
-// RETURN THE DECODED MIME STRUCTURE BY ID
+function __getmail_getmime($id)
 </pre>
 
 <p>
-TODO
+This function returns the decoded array of the email identified by the id
+argument, to do this more optimal, this function uses an internal cache
+file to improve the performance for repeated executions.
 </p>
+
+<ul>
+<li>@id  =&gt; id of the email
+</li>
+</ul>
 
 </section>
 <section id="toc539">
-<h3>7.2.11. TODO</h3>
+<h3>7.2.11. Get Node</h3>
 
 <pre>
-// RETURN A NODE USING A XPATH NOTATION
+function __getmail_getnode($path, $array)
 </pre>
 
 <p>
-TODO
+This function returns the node using a xpath notation
 </p>
+
+<ul>
+<li>@path  =&gt; xpath that identify the desired path that must to be returned
+</li>
+<li>@array =&gt; the decoded message in an array format
+</li>
+</ul>
 
 </section>
 <section id="toc540">
-<h3>7.2.12. TODO</h3>
+<h3>7.2.12. Get type</h3>
 
 <pre>
-// RETURN INTERNAL CONTENT TYPE
+function __getmail_gettype($array)
 </pre>
 
 <p>
-TODO
+This function tries to unify the differents content-type to standarize it into
+the follow formats: html, plain, messsage, alternative, multipart or other.
 </p>
+
+<ul>
+<li>@array =&gt; the decoded message in an array format
+</li>
+</ul>
 
 </section>
 <section id="toc541">
-<h3>7.2.13. TODO</h3>
+<h3>7.2.13. Get disposition</h3>
 
 <pre>
-// RETURN INTERNAL DISPOSITION
+function __getmail_getdisposition($array)
 </pre>
 
 <p>
-TODO
+This function tries to unify the differents content-dispoaition to standarize
+it into the follow formats: attachment, inline or other.
 </p>
+
+<ul>
+<li>@array =&gt; the decoded message in an array format
+</li>
+</ul>
 
 </section>
 <section id="toc542">
-<h3>7.2.14. TODO</h3>
+<h3>7.2.14. Get files</h3>
 
 <pre>
-// RETURN AN ARRAY OF ATTACHMENTS FILES
+function __getmail_getfiles($array, $level = 0)
 </pre>
 
 <p>
-TODO
+This function returns an array with the attachment files of the message
 </p>
+
+<ul>
+<li>@array =&gt; the decoded message in an array format
+</li>
+<li>@level =&gt; this parameter is internally used to detect recursion
+</li>
+</ul>
 
 </section>
 <section id="toc543">
-<h3>7.2.15. TODO</h3>
+<h3>7.2.15. Get human size</h3>
 
 <pre>
-// RETURN THE HUMAN SIZE (GBYTES, MBYTES, KBYTES OR BYTES)
+function __getmail_gethumansize($size)
 </pre>
 
 <p>
-TODO
+This function returns an string containing the size in human format
 </p>
+
+<ul>
+<li>@size =&gt; the number of bytes to convert to human format
+</li>
+</ul>
 
 </section>
 <section id="toc544">
-<h3>7.2.16. TODO</h3>
+<h3>7.2.16. Get info</h3>
 
 <pre>
-// RETURN ALL INFORMATION OF THE DECODED MESSAGE
+function __getmail_getinfo($array)
 </pre>
 
 <p>
-TODO
+Returns all information of the decoded message in a structured format
 </p>
+
+<ul>
+<li>@array =&gt; the decoded message in an array format
+</li>
+</ul>
 
 </section>
 <section id="toc545">
-<h3>7.2.17. TODO</h3>
+<h3>7.2.17. Fix string</h3>
 
 <pre>
 function __getmail_fixstring($arg)
 </pre>
 
 <p>
-TODO
+This function is a helper used by all functions that pcoesses the headers
+of the decoded message.
 </p>
+
+<ul>
+<li>@arg =&gt; the string that must to be checked and fixed if needed
+</li>
+</ul>
 
 </section>
 <section id="toc546">
-<h3>7.2.18. TODO</h3>
+<h3>7.2.18. Get text body</h3>
 
 <pre>
-// RETURN ALL TEXT BODY CONCATENATED
+function __getmail_gettextbody($array, $level = 0)
 </pre>
 
 <p>
-TODO
+This function returns all text body concatenated as an unique string
 </p>
+
+<ul>
+<li>@array =&gt; the decoded message in an array format
+</li>
+<li>@level =&gt; this parameter is internally used to detect recursion
+</li>
+</ul>
 
 </section>
 <section id="toc547">
-<h3>7.2.19. TODO</h3>
+<h3>7.2.19. Get full body</h3>
 
 <pre>
-// RETURN ALL BODY AND ATTACHMENTS INFORMATION
+function __getmail_getfullbody($array)
 </pre>
 
 <p>
-TODO
+This function returns all body and attachments information as an array
 </p>
+
+<ul>
+<li>@array =&gt; the decoded message in an array format
+</li>
+</ul>
 
 </section>
 <section id="toc548">
-<h3>7.2.20. TODO</h3>
+<h3>7.2.20. Get cid</h3>
 
 <pre>
-// RETURN THE ATTACHMENT REQUESTED
+function __getmail_getcid($array, $hash)
 </pre>
 
 <p>
-TODO
+This function returns the requested attachment indentified by the hash argument
 </p>
+
+<ul>
+<li>@array =&gt; the decoded message in an array format
+</li>
+<li>@hash  =&gt; the hash of the content requested
+</li>
+</ul>
 
 </section>
 <section id="toc549">
-<h3>7.2.21. TODO</h3>
+<h3>7.2.21. Insert</h3>
 
 <pre>
 function __getmail_insert(
 </pre>
 
 <p>
-TODO
+This function do the insert in the app_emails table, and
 </p>
+
+<ul>
+<li>@file          =&gt; the gzfile that contains the message in RFC822 format
+</li>
+<li>@messageid     =&gt; the id of the message (account_id/uidl)
+</li>
+<li>@state_new     =&gt; the 0/1 that sets the state new flag
+</li>
+<li>@state_reply   =&gt; the 0/1 that sets the state reply flag
+</li>
+<li>@state_forward =&gt; the 0/1 that sets the state forward flag
+</li>
+<li>@state_wait    =&gt; the 0/1 that sets the state wait flag
+</li>
+<li>@id_correo     =&gt; the id of the related email (used to create relations between emails)
+</li>
+<li>@is_outbox     =&gt; the 0/1 that sets the is outbox flag
+</li>
+<li>@state_sent    =&gt; the 0/1 that sets the state sent flag
+</li>
+<li>@state_error   =&gt; the string that contains the error (if exists an error)
+</li>
+</ul>
 
 </section>
 <section id="toc550">
-<h3>7.2.22. TODO</h3>
+<h3>7.2.22. Update</h3>
 
 <pre>
-function __getmail_update($campo, $valor, $id)
+function __getmail_update($field, $value, $id)
 </pre>
 
 <p>
-TODO
+This function updates the field with the value of the app_emails for the
+register identified by the id argument.
 </p>
+
+<ul>
+<li>@field =&gt; field that you want to update
+</li>
+<li>@value =&gt; value that you want to set
+</li>
+<li>@id    =&gt; id of the register to do the update
+</li>
+</ul>
 
 </section>
 <section id="toc551">
-<h3>7.2.23. TODO</h3>
+<h3>7.2.23. Raw url decode</h3>
 
 <pre>
-// FOR RAWURLDECODE AUTO DETECTION
+function __getmail_rawurldecode($temp)
 </pre>
 
 <p>
-TODO
+This function tries to detect if the argument contains the %20 string
+to try to detect url encoded strings and fix it if is needed
 </p>
+
+<ul>
+<li>@temp =&gt; the string that you want to check and fix
+</li>
+</ul>
 
 </section>
 <section id="toc552">
-<h3>7.2.24. TODO</h3>
+<h3>7.2.24. Add bcc</h3>
 
 <pre>
 function __getmail_add_bcc($id, $bcc)
 </pre>
 
 <p>
-TODO
+This function adds the bbc to the database, this is because the messages
+does not contains the bcc field (is hidden in theory), and only is available
+if the current execution is the sender of the message.
 </p>
+
+<ul>
+<li>@id  =&gt; id of the email
+</li>
+<li>@bcc =&gt; an array with the addresses of the emails
+</li>
+</ul>
 
 </section>
 <section id="toc553">
-<h3>7.2.25. TODO</h3>
+<h3>7.2.25. Gzfile size</h3>
 
 <pre>
-// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
+function gzfilesize($filename)
 </pre>
 
 <p>
-TODO
+This function is copied from <a href="http://php.net/manual/es/function.gzread.php#110078">http://php.net/manual/es/function.gzread.php#110078</a>
+and allow to know the file size of the file after a gzip descompression.
 </p>
+
+<ul>
+<li>@filename =&gt; the gzip filename that you want to know the size
+</li>
+</ul>
 
 </section>
 <section id="toc554">
@@ -12957,67 +13127,97 @@ function get_email_body($id)
 </pre>
 
 <p>
-TODO
+This function returns the string that contains the body of the email
+intended to be rendered in an iframe, for example
 </p>
+
+<ul>
+<li>@id =&gt; id of the email
+</li>
+</ul>
 
 </section>
 <section id="toc555">
-<h3>7.2.27. TODO</h3>
+<h3>7.2.27. Get email source</h3>
 
 <pre>
 function get_email_source($id)
 </pre>
 
 <p>
-TODO
+This function returns the string that contains the source of the email
+intended to be rendered in an iframe, for example
 </p>
+
+<ul>
+<li>@id =&gt; id of the email
+</li>
+</ul>
 
 </section>
 <section id="toc556">
-<h3>7.2.28. TODO</h3>
+<h3>7.2.28. Get email files</h3>
 
 <pre>
 function get_email_files($id)
 </pre>
 
 <p>
-TODO
+This function returns an arryy that contains the files of the email
+intended to be rendered in an table, for example
 </p>
+
+<ul>
+<li>@id =&gt; id of the email
+</li>
+</ul>
 
 </section>
 <section id="toc557">
-<h3>7.2.29. TODO</h3>
+<h3>7.2.29. Get cid</h3>
 
 <pre>
 function get_email_cid($id, $cid)
 </pre>
 
 <p>
-TODO
+This function returns the requested attachment indentified by the cid argument
 </p>
+
+<ul>
+<li>@id  =&gt; id of the email
+</li>
+<li>@cid =&gt; the cid of the content requested
+</li>
+</ul>
 
 </section>
 <section id="toc558">
-<h3>7.2.30. TODO</h3>
+<h3>7.2.30. Is outbox</h3>
 
 <pre>
 function get_email_is_outbox($id)
 </pre>
 
 <p>
-TODO
+Returns the is_outbox flag of the email identified by the id argument
 </p>
+
+<ul>
+<li>@id =&gt; id of the email
+</li>
+</ul>
 
 </section>
 <section id="toc559">
-<h3>7.2.31. TODO</h3>
+<h3>7.2.31. Receive</h3>
 
 <pre>
 function get_email_receive()
 </pre>
 
 <p>
-TODO
+This function implements the old getmail action of the old saltos.
 </p>
 
 </section>

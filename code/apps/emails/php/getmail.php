@@ -31,27 +31,25 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * TODO
+ * Get email library
  *
- * TODO
+ * This library provides the necesary functions to download, parse and manage emails.
  */
 
 /**
- * TODO
+ * Requires section
  *
- * TODO
+ * This requires loads the external libraries needed to run this library.
  */
-// NEEDED INCLUDES
 require_once "apps/emails/lib/mimeparser/mime_parser.php";
 require_once "apps/emails/lib/mimeparser/rfc822_addresses.php";
 require_once "apps/emails/lib/pop3class/pop3.php";
 
 /**
- * TODO
+ * Defines section
  *
- * TODO
+ * This defines allow to define some usefull standards to do html pages and more.
  */
-// SOME DEFINES
 define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:0px;}</style></head><body>');
 define("__HTML_PAGE_CLOSE__", '</body></html>');
 define("__HTML_BOX_OPEN__", '<div style="background:#ffffff">');
@@ -68,11 +66,12 @@ define("__SIGNATURE_OPEN__", '<div style="font-family:Arial,Helvetica,sans-serif
 define("__SIGNATURE_CLOSE__", '</div>');
 
 /**
- * TODO
+ * Remove all body
  *
- * TODO
+ * This function removes the body entry in the array, it is only for debug purposes
+ *
+ * @aarray => The array that you want to process
  */
-// REMOVE ALL BODY (ONLY FOR DEBUG PURPOSES)
 function __getmail_removebody($array)
 {
     if (isset($array["Body"])) {
@@ -88,20 +87,27 @@ function __getmail_removebody($array)
 }
 
 /**
- * TODO
+ * Process message
  *
- * TODO
+ * This function returns a boolean that identify if the disposition and the type
+ * allow the node to be processed.
+ *
+ * @disp => disposition, can be inline or attachment
+ * @type => type, can be message, html or plain
  */
-// THE FOLLOW FUNCTIONS UNIFY THE CONCEPT OF PROCESS
 function __getmail_processmessage($disp, $type)
 {
     return ($type == "message" && $disp == "inline");
 }
 
 /**
- * TODO
+ * Process plain html
  *
- * TODO
+ * This function returns a boolean that identify if the disposition and the type
+ * allow the node to be processed.
+ *
+ * @disp => disposition, can be inline or attachment
+ * @type => type, can be message, html or plain
  */
 function __getmail_processplainhtml($disp, $type)
 {
@@ -109,9 +115,13 @@ function __getmail_processplainhtml($disp, $type)
 }
 
 /**
- * TODO
+ * Process file
  *
- * TODO
+ * This function returns a boolean that identify if the disposition and the type
+ * allow the node to be processed.
+ *
+ * @disp => disposition, can be inline or attachment
+ * @type => type, can be message, html or plain
  */
 function __getmail_processfile($disp, $type)
 {
@@ -122,11 +132,13 @@ function __getmail_processfile($disp, $type)
 }
 
 /**
- * TODO
+ * Check permissions
  *
- * TODO
+ * This function allow to check if the current user has permissions to view the
+ * message identified by the id argument
+ *
+ * @id => id of the email
  */
-// CHECK VIEW PERMISION FOR THE CURRENT USER AND THE REQUESTED EMAIL
 function __getmail_checkperm($id)
 {
     $query = "SELECT a.id
@@ -147,11 +159,13 @@ function __getmail_checkperm($id)
 }
 
 /**
- * TODO
+ * Get source
  *
- * TODO
+ * This function returns the original RFC822 message as string
+ *
+ * @id  => id of the email
+ * @max => max size that can be processed
  */
-// RETURN THE ORIGINAL RFC822 MESSAGE
 function __getmail_getsource($id, $max = 0)
 {
     $query = "SELECT account_id,uidl,is_outbox FROM app_emails WHERE id='$id'";
@@ -180,11 +194,13 @@ function __getmail_getsource($id, $max = 0)
 }
 
 /**
- * TODO
+ * Mime decode protected
  *
- * TODO
+ * This function decodes the input string that contains the RFC822 message
+ * using the mime_parser_class to do it, and returns the decoded array.
+ *
+ * @input => the RFC822 string that contains the message
  */
-// RETURN THE DECODED MIME STRUCTURE OF MESSAGE
 function __getmail_mime_decode_protected($input)
 {
     $mime = new mime_parser_class();
@@ -198,11 +214,14 @@ function __getmail_mime_decode_protected($input)
 }
 
 /**
- * TODO
+ * Get mime
  *
- * TODO
+ * This function returns the decoded array of the email identified by the id
+ * argument, to do this more optimal, this function uses an internal cache
+ * file to improve the performance for repeated executions.
+ *
+ * @id  => id of the email
  */
-// RETURN THE DECODED MIME STRUCTURE BY ID
 function __getmail_getmime($id)
 {
     $query = "SELECT account_id,uidl,is_outbox FROM app_emails WHERE id='$id'";
@@ -227,11 +246,13 @@ function __getmail_getmime($id)
 }
 
 /**
- * TODO
+ * Get Node
  *
- * TODO
+ * This function returns the node using a xpath notation
+ *
+ * @path  => xpath that identify the desired path that must to be returned
+ * @array => the decoded message in an array format
  */
-// RETURN A NODE USING A XPATH NOTATION
 function __getmail_getnode($path, $array)
 {
     if (!is_array($path)) {
@@ -248,11 +269,13 @@ function __getmail_getnode($path, $array)
 }
 
 /**
- * TODO
+ * Get type
  *
- * TODO
+ * This function tries to unify the differents content-type to standarize it into
+ * the follow formats: html, plain, messsage, alternative, multipart or other.
+ *
+ * @array => the decoded message in an array format
  */
-// RETURN INTERNAL CONTENT TYPE
 function __getmail_gettype($array)
 {
     $ctype = strtoupper(__getmail_fixstring(__getmail_getnode("Headers/content-type:", $array)));
@@ -276,11 +299,13 @@ function __getmail_gettype($array)
 }
 
 /**
- * TODO
+ * Get disposition
  *
- * TODO
+ * This function tries to unify the differents content-dispoaition to standarize
+ * it into the follow formats: attachment, inline or other.
+ *
+ * @array => the decoded message in an array format
  */
-// RETURN INTERNAL DISPOSITION
 function __getmail_getdisposition($array)
 {
     $cdisp = strtoupper(__getmail_fixstring(__getmail_getnode("Headers/content-disposition:", $array)));
@@ -298,11 +323,13 @@ function __getmail_getdisposition($array)
 }
 
 /**
- * TODO
+ * Get files
  *
- * TODO
+ * This function returns an array with the attachment files of the message
+ *
+ * @array => the decoded message in an array format
+ * @level => this parameter is internally used to detect recursion
  */
-// RETURN AN ARRAY OF ATTACHMENTS FILES
 function __getmail_getfiles($array, $level = 0)
 {
     $result = [];
@@ -333,7 +360,7 @@ function __getmail_getfiles($array, $level = 0)
             if ($cname != "") {
                 $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
                 $hsize = __getmail_gethumansize($csize);
-                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // MD5 INSIDE AS MEMORY TRICK
+                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
                 $result[] = [
                     "disp" => $disp,
                     "type" => $type,
@@ -348,7 +375,7 @@ function __getmail_getfiles($array, $level = 0)
             }
         }
     } elseif (__getmail_processplainhtml($disp, $type)) {
-        // THIS DATA IS USED BY THE NEXT TRICK
+        // This data is used by the next trick
         $temp = __getmail_getnode("Body", $array);
         if ($temp) {
             $temp = getutf8($temp);
@@ -368,7 +395,7 @@ function __getmail_getfiles($array, $level = 0)
         }
     }
     if ($level == 0) {
-        // TRICK TO REMOVE THE FILES THAT CONTAIN NAME AND CID
+        // Trick to remove the files that contain name and cid
         foreach ($result as $index => $node) {
             $disp = $node["disp"];
             $type = $node["type"];
@@ -394,11 +421,12 @@ function __getmail_getfiles($array, $level = 0)
 }
 
 /**
- * TODO
+ * Get human size
  *
- * TODO
+ * This function returns an string containing the size in human format
+ *
+ * @size => the number of bytes to convert to human format
  */
-// RETURN THE HUMAN SIZE (GBYTES, MBYTES, KBYTES OR BYTES)
 function __getmail_gethumansize($size)
 {
     if ($size >= 1073741824) {
@@ -414,11 +442,12 @@ function __getmail_gethumansize($size)
 }
 
 /**
- * TODO
+ * Get info
  *
- * TODO
+ * Returns all information of the decoded message in a structured format
+ *
+ * @array => the decoded message in an array format
  */
-// RETURN ALL INFORMATION OF THE DECODED MESSAGE
 function __getmail_getinfo($array)
 {
     //~ echo "<pre>" . sprintr(__getmail_removebody($array)) . "</pre>";
@@ -436,7 +465,7 @@ function __getmail_getinfo($array)
         "cc" => "",
         "bcc" => "",
     ];
-    // CREATE THE FROM, TO, CC AND BCC STRING
+    // Create the from, to, cc and bcc string
     $lista = [
         1 => "from",
         2 => "to",
@@ -462,7 +491,7 @@ function __getmail_getinfo($array)
             }
         }
     }
-    // CREATE THE DATETIME STRING
+    // Create the datetime string
     $datetime = __getmail_fixstring(__getmail_getnode("Headers/date:", $array));
     if (!$datetime) {
         $datetime = __getmail_fixstring(__getmail_getnode("Headers/delivery-date:", $array));
@@ -476,24 +505,24 @@ function __getmail_getinfo($array)
     if (!$datetime) {
         $result["datetime"] = current_datetime();
     }
-    // CREATE THE SUBJECT STRING
+    // Create the subject string
     $subject = __getmail_fixstring(__getmail_getnode("DecodedHeaders/subject:/0/0/Value", $array));
     if (!$subject) {
         $subject = __getmail_fixstring(__getmail_getnode("Headers/subject:", $array));
     }
     $result["subject"] = prepare_words(str_replace("\t", " ", getutf8($subject)));
-    // CHECK X-SPAM-STATUS HEADER
+    // Check x-spam-status header
     $spam = strtoupper(trim(__getmail_fixstring(__getmail_getnode("Headers/x-spam-status:", $array))));
     $result["spam"] = (substr($spam, 0, 3) == "YES" || substr($spam, -3, 3) == "YES") ? "1" : "0";
-    // GET THE NUMBER OF ATTACHMENTS
+    // Get the number of attachments
     $result["files"] = __getmail_getfiles($array);
-    // GET THE CRT IF EXISTS
+    // Get the crt if exists
     foreach ($result["emails"] as $email) {
         if ($email["id_tipo"] == 7) {
             $result["crt"] = 1;
         }
     }
-    // GET THE PRIORITY IF EXISTS
+    // Get the priority if exists
     $priority = strtolower(__getmail_fixstring(__getmail_getnode("Headers/x-priority:", $array)));
     $priorities = ["low" => 5, "high" => 1];
     if (isset($priorities[$priority])) {
@@ -504,13 +533,13 @@ function __getmail_getinfo($array)
     if (isset($priorities[$priority])) {
         $result["priority"] = $priorities[$priority];
     }
-    // GET THE SENSITIVITY IF EXISTS
+    // Get the sensitivity if exists
     $sensitivity = strtolower(__getmail_fixstring(__getmail_getnode("Headers/sensitivity:", $array)));
     $sensitivities = ["personal" => 1, "private" => 2, "company-confidential" => 3, "company confidential" => 3];
     if (isset($sensitivities[$sensitivity])) {
         $result["sensitivity"] = $sensitivities[$sensitivity];
     }
-    // RETURN THE RESULT
+    // Return the result
     //~ $result["body"] = __getmail_gettextbody($array);
     //~ echo "<pre>" . sprintr($result) . "</pre>";
     //~ die();
@@ -518,9 +547,12 @@ function __getmail_getinfo($array)
 }
 
 /**
- * TODO
+ * Fix string
  *
- * TODO
+ * This function is a helper used by all functions that pcoesses the headers
+ * of the decoded message.
+ *
+ * @arg => the string that must to be checked and fixed if needed
  */
 function __getmail_fixstring($arg)
 {
@@ -532,11 +564,13 @@ function __getmail_fixstring($arg)
 }
 
 /**
- * TODO
+ * Get text body
  *
- * TODO
+ * This function returns all text body concatenated as an unique string
+ *
+ * @array => the decoded message in an array format
+ * @level => this parameter is internally used to detect recursion
  */
-// RETURN ALL TEXT BODY CONCATENATED
 function __getmail_gettextbody($array, $level = 0)
 {
     $result = [];
@@ -595,11 +629,12 @@ function __getmail_gettextbody($array, $level = 0)
 }
 
 /**
- * TODO
+ * Get full body
  *
- * TODO
+ * This function returns all body and attachments information as an array
+ *
+ * @array => the decoded message in an array format
  */
-// RETURN ALL BODY AND ATTACHMENTS INFORMATION
 function __getmail_getfullbody($array)
 {
     $result = [];
@@ -688,11 +723,13 @@ function __getmail_getfullbody($array)
 }
 
 /**
- * TODO
+ * Get cid
  *
- * TODO
+ * This function returns the requested attachment indentified by the hash argument
+ *
+ * @array => the decoded message in an array format
+ * @hash  => the hash of the content requested
  */
-// RETURN THE ATTACHMENT REQUESTED
 function __getmail_getcid($array, $hash)
 {
     $disp = __getmail_getdisposition($array);
@@ -729,7 +766,7 @@ function __getmail_getcid($array, $hash)
                 $cname = encode_bad_chars($ctype) . ".eml";
             }
             $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
-            $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // MD5 INSIDE AS MEMORY TRICK
+            $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
             if ($chash == $hash) {
                 $hsize = __getmail_gethumansize($csize);
                 return [
@@ -744,7 +781,7 @@ function __getmail_getcid($array, $hash)
                     "body" => $temp,
                 ];
             }
-            // FOR COMPATIBILITY WITH OLD SALTOS VERSIONS
+            // For compatibility with old saltos versions
             if (
                 in_array($hash, [
                     md5(md5($temp) . md5($cid) . md5($cname) . md5($ctype) . md5($csize)),
@@ -767,7 +804,7 @@ function __getmail_getcid($array, $hash)
                     "body" => $temp,
                 ];
             }
-            // END OF COMPATIBILITY CODE
+            // End of compatibility code
         }
     }
     $parts = __getmail_getnode("Parts", $array);
@@ -783,9 +820,20 @@ function __getmail_getcid($array, $hash)
 }
 
 /**
- * TODO
+ * Insert
  *
- * TODO
+ * This function do the insert in the app_emails table, and
+ *
+ * @file          => the gzfile that contains the message in RFC822 format
+ * @messageid     => the id of the message (account_id/uidl)
+ * @state_new     => the 0/1 that sets the state new flag
+ * @state_reply   => the 0/1 that sets the state reply flag
+ * @state_forward => the 0/1 that sets the state forward flag
+ * @state_wait    => the 0/1 that sets the state wait flag
+ * @id_correo     => the id of the related email (used to create relations between emails)
+ * @is_outbox     => the 0/1 that sets the is outbox flag
+ * @state_sent    => the 0/1 that sets the state sent flag
+ * @state_error   => the string that contains the error (if exists an error)
  */
 function __getmail_insert(
     $file,
@@ -804,12 +852,12 @@ function __getmail_insert(
     $id_usuario = current_user();
     $id_aplicacion = app2id("emails");
     $datetime = current_datetime();
-    // DECODE THE MESSAGE
+    // Decode the message
     $decoded = __getmail_mime_decode_protected(["File" => "compress.zlib://" . $file]);
     $info = __getmail_getinfo(__getmail_getnode("0", $decoded));
     $body = __getmail_gettextbody(__getmail_getnode("0", $decoded));
-    unset($decoded); // TRICK TO RELEASE MEMORY
-    // INSERT THE NEW EMAIL
+    unset($decoded); // Trick to release memory
+    // Insert the new email
     if (!semaphore_acquire(__FUNCTION__)) {
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
@@ -838,9 +886,9 @@ function __getmail_insert(
         "bcc" => $info["bcc"],
         "files" => count($info["files"]),
     ]);
-    unset($body); // TRICK TO RELEASE MEMORY
+    unset($body); // Trick to release memory
     db_query($query);
-    // GET LAST_ID
+    // Get last_id
     $query = "SELECT id
         FROM app_emails
         WHERE account_id='{$account_id}'
@@ -849,7 +897,7 @@ function __getmail_insert(
         LIMIT 1";
     $last_id = execute_query($query);
     semaphore_release(__FUNCTION__);
-    // INSERT ALL ADDRESS
+    // Insert all address
     foreach ($info["emails"] as $email) {
         $query = make_insert_query("app_emails_a", [
             "id_correo" => $last_id,
@@ -859,7 +907,7 @@ function __getmail_insert(
         ]);
         db_query($query);
     }
-    // INSERT ALL ATTACHMENTS
+    // Insert all attachments
     foreach ($info["files"] as $file) {
         $query = make_insert_query("tbl_ficheros", [
             "id_aplicacion" => $id_aplicacion,
@@ -873,21 +921,26 @@ function __getmail_insert(
         ]);
         db_query($query);
     }
-    // INSERT THE CONTROL REGISTER
+    // Insert the control register
     make_control($id_aplicacion, $last_id);
     make_indexing($id_aplicacion, $last_id);
     return $last_id;
 }
 
 /**
- * TODO
+ * Update
  *
- * TODO
+ * This function updates the field with the value of the app_emails for the
+ * register identified by the id argument.
+ *
+ * @field => field that you want to update
+ * @value => value that you want to set
+ * @id    => id of the register to do the update
  */
-function __getmail_update($campo, $valor, $id)
+function __getmail_update($field, $value, $id)
 {
     $query = make_update_query("app_emails", [
-        $campo => $valor,
+        $field => $value,
     ], make_where_query([
         "id" => $id,
     ]));
@@ -895,11 +948,13 @@ function __getmail_update($campo, $valor, $id)
 }
 
 /**
- * TODO
+ * Raw url decode
  *
- * TODO
+ * This function tries to detect if the argument contains the %20 string
+ * to try to detect url encoded strings and fix it if is needed
+ *
+ * @temp => the string that you want to check and fix
  */
-// FOR RAWURLDECODE AUTO DETECTION
 function __getmail_rawurldecode($temp)
 {
     if (strpos($temp, "%20") !== false) {
@@ -909,9 +964,14 @@ function __getmail_rawurldecode($temp)
 }
 
 /**
- * TODO
+ * Add bcc
  *
- * TODO
+ * This function adds the bbc to the database, this is because the messages
+ * does not contains the bcc field (is hidden in theory), and only is available
+ * if the current execution is the sender of the message.
+ *
+ * @id  => id of the email
+ * @bcc => an array with the addresses of the emails
  */
 function __getmail_add_bcc($id, $bcc)
 {
@@ -919,7 +979,7 @@ function __getmail_add_bcc($id, $bcc)
         list($valor,$nombre) = __sendmail_parser($addr);
         $query = make_insert_query("app_emails_a", [
             "id_correo" => $id,
-            "id_tipo" => 4, // DEFINED IN __getmail_getinfo FUNCTION
+            "id_tipo" => 4, // defined in __getmail_getinfo function
             "nombre" => $nombre,
             "valor" => $valor,
         ]);
@@ -935,11 +995,13 @@ function __getmail_add_bcc($id, $bcc)
 }
 
 /**
- * TODO
+ * Gzfile size
  *
- * TODO
+ * This function is copied from http://php.net/manual/es/function.gzread.php#110078
+ * and allow to know the file size of the file after a gzip descompression.
+ *
+ * @filename => the gzip filename that you want to know the size
  */
-// COPIED FROM http://php.net/manual/es/function.gzread.php#110078
 function gzfilesize($filename)
 {
     $gzfs = false;
@@ -960,7 +1022,10 @@ function gzfilesize($filename)
 /**
  * Get email body
  *
- * TODO
+ * This function returns the string that contains the body of the email
+ * intended to be rendered in an iframe, for example
+ *
+ * @id => id of the email
  */
 function get_email_body($id)
 {
@@ -1030,9 +1095,12 @@ function get_email_body($id)
 }
 
 /**
- * TODO
+ * Get email source
  *
- * TODO
+ * This function returns the string that contains the source of the email
+ * intended to be rendered in an iframe, for example
+ *
+ * @id => id of the email
  */
 function get_email_source($id)
 {
@@ -1054,9 +1122,12 @@ function get_email_source($id)
 }
 
 /**
- * TODO
+ * Get email files
  *
- * TODO
+ * This function returns an arryy that contains the files of the email
+ * intended to be rendered in an table, for example
+ *
+ * @id => id of the email
  */
 function get_email_files($id)
 {
@@ -1082,9 +1153,12 @@ function get_email_files($id)
 }
 
 /**
- * TODO
+ * Get cid
  *
- * TODO
+ * This function returns the requested attachment indentified by the cid argument
+ *
+ * @id  => id of the email
+ * @cid => the cid of the content requested
  */
 function get_email_cid($id, $cid)
 {
@@ -1095,7 +1169,7 @@ function get_email_cid($id, $cid)
     if (!$decoded) {
         show_php_error(["phperror" => "Could not decode de message"]);
     }
-    // CONTINUE
+    // continue
     $result = __getmail_getcid(__getmail_getnode("0", $decoded), $cid);
     if (!$result) {
         die();
@@ -1110,9 +1184,11 @@ function get_email_cid($id, $cid)
 }
 
 /**
- * TODO
+ * Is outbox
  *
- * TODO
+ * Returns the is_outbox flag of the email identified by the id argument
+ *
+ * @id => id of the email
  */
 function get_email_is_outbox($id)
 {
@@ -1123,9 +1199,9 @@ function get_email_is_outbox($id)
 }
 
 /**
- * TODO
+ * Receive
  *
- * TODO
+ * This function implements the old getmail action of the old saltos.
  */
 function get_email_receive()
 {
