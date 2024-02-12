@@ -203,7 +203,7 @@ function url_get_contents($url)
  */
 function __url_get_contents($url, $args = [])
 {
-    require_once "core/lib/httpclient/http.php";
+    require_once "lib/httpclient/http.php";
     $http = new http_class();
     $http->user_agent = get_name_version_revision();
     $http->follow_redirect = 1;
@@ -373,7 +373,7 @@ function chmod_protected($file, $mode)
 function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $timeout = null)
 {
     if ($timeout == null) {
-        $timeout = ini_get("default_socket_timeout");
+        $timeout = floatval(ini_get("default_socket_timeout"));
     }
     return stream_socket_client(
         $hostname . ":" . $port,

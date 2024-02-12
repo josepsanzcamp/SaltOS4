@@ -40,7 +40,20 @@ declare(strict_types=1);
  *       of specific customer using the id
  */
 
-// Check for first argument, that is the name of the app to load
+// With this code, we allow rest and json at the same time
+if (get_data("json/app") != "" && get_data("rest/1") == "") {
+    set_data("rest/1", get_data("json/app"));
+}
+
+if (get_data("json/subapp") != "" && get_data("rest/2") == "") {
+    set_data("rest/2", get_data("json/subapp"));
+}
+
+if (get_data("json/id") != "" && get_data("rest/3") == "") {
+    set_data("rest/3", get_data("json/id"));
+}
+
+// Check for rest/1, that is the name of the app to load
 if (get_data("rest/1") == "") {
     show_json_error("app not found");
 }
@@ -54,7 +67,7 @@ if (!file_exists($file)) {
 // Load the app xml file
 $array = xmlfile2array($file);
 
-// Check for second argument, that is the subapp to load
+// Check for rest/2, that is the name of the subapp to load
 if (get_data("rest/2") == "" && count($array) == 1) {
     set_data("rest/2", key($array));
 }
@@ -73,7 +86,7 @@ if (!check_user(get_data("rest/1"), get_data("rest/2"))) {
     show_json_error("Permission denied");
 }
 
-// Trick to allow request as widget/table2
+// Trick to allow requests like widget/table2
 foreach ($array as $key => $val) {
     if (isset($val["#attr"]["id"])) {
         if (fix_key($key) == get_data("rest/2") && $val["#attr"]["id"] == get_data("rest/3")) {

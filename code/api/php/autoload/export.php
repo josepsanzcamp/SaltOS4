@@ -221,7 +221,7 @@ function __export_file_csv(
  */
 function __export_file_excel($matrix, $title = "", $type = "Xlsx")
 {
-    require_once "core/lib/phpspreadsheet/vendor/autoload.php";
+    require_once "lib/phpspreadsheet/vendor/autoload.php";
     $objPHPExcel = new PhpOffice\PhpSpreadsheet\Spreadsheet();
     $objPHPExcel->getProperties()->setCreator(get_name_version_revision());
     $objPHPExcel->getProperties()->setLastModifiedBy(current_datetime());
@@ -294,7 +294,7 @@ function __export_file_edi($matrix, $wrap = false)
         }
     }
     // Continue
-    require_once "core/lib/edifact/vendor/autoload.php";
+    require_once "lib/edifact/vendor/autoload.php";
     $encoder = new EDI\Encoder();
     $encoder->encode($matrix, $wrap);
     $buffer = $encoder->get();

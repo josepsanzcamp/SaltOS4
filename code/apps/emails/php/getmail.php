@@ -220,7 +220,7 @@ function __getmail_mime_decode_protected($input)
  * argument, to do this more optimal, this function uses an internal cache
  * file to improve the performance for repeated executions.
  *
- * @id  => id of the email
+ * @id => id of the email
  */
 function __getmail_getmime($id)
 {
@@ -850,7 +850,6 @@ function __getmail_insert(
     list($account_id,$uidl) = explode("/", $messageid);
     $size = gzfilesize($file);
     $id_usuario = current_user();
-    $id_aplicacion = app2id("emails");
     $datetime = current_datetime();
     // Decode the message
     $decoded = __getmail_mime_decode_protected(["File" => "compress.zlib://" . $file]);
@@ -880,8 +879,8 @@ function __getmail_insert(
         "state_crt" => $info["crt"],
         "priority" => $info["priority"],
         "sensitivity" => $info["sensitivity"],
-        "de" => $info["from"],
-        "para" => $info["to"],
+        "from" => $info["from"],
+        "to" => $info["to"],
         "cc" => $info["cc"],
         "bcc" => $info["bcc"],
         "files" => count($info["files"]),
@@ -899,31 +898,30 @@ function __getmail_insert(
     semaphore_release(__FUNCTION__);
     // Insert all address
     foreach ($info["emails"] as $email) {
-        $query = make_insert_query("app_emails_a", [
-            "id_correo" => $last_id,
-            "id_tipo" => $email["id_tipo"],
-            "nombre" => $email["nombre"],
-            "valor" => $email["valor"],
+        $query = make_insert_query("app_emails_address", [
+            "email_id" => $last_id,
+            "type_id" => $email["id_tipo"],
+            "name" => $email["nombre"],
+            "value" => $email["valor"],
         ]);
         db_query($query);
     }
     // Insert all attachments
     foreach ($info["files"] as $file) {
-        $query = make_insert_query("tbl_ficheros", [
-            "id_aplicacion" => $id_aplicacion,
-            "id_registro" => $last_id,
-            "id_usuario" => $id_usuario,
+        $query = make_insert_query("app_emails_files", [
+            "reg_id" => $last_id,
+            "user_id" => $id_usuario,
             "datetime" => $datetime,
-            "fichero" => $file["cname"],
-            "fichero_size" => $file["csize"],
-            "fichero_type" => $file["ctype"],
-            "fichero_hash" => $file["chash"],
+            "name" => $file["cname"],
+            "size" => $file["csize"],
+            "type" => $file["ctype"],
+            "hash" => $file["chash"],
         ]);
         db_query($query);
     }
     // Insert the control register
-    make_control($id_aplicacion, $last_id);
-    make_indexing($id_aplicacion, $last_id);
+    make_control("emails", $last_id);
+    make_index("emails", $last_id);
     return $last_id;
 }
 
@@ -1027,7 +1025,7 @@ function gzfilesize($filename)
  *
  * @id => id of the email
  */
-function get_email_body($id)
+function getmail_body($id)
 {
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
@@ -1102,7 +1100,7 @@ function get_email_body($id)
  *
  * @id => id of the email
  */
-function get_email_source($id)
+function getmail_source($id)
 {
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
@@ -1129,7 +1127,7 @@ function get_email_source($id)
  *
  * @id => id of the email
  */
-function get_email_files($id)
+function getmail_files($id)
 {
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
@@ -1160,7 +1158,7 @@ function get_email_files($id)
  * @id  => id of the email
  * @cid => the cid of the content requested
  */
-function get_email_cid($id, $cid)
+function getmail_cid($id, $cid)
 {
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
@@ -1190,7 +1188,7 @@ function get_email_cid($id, $cid)
  *
  * @id => id of the email
  */
-function get_email_is_outbox($id)
+function getmail_is_outbox($id)
 {
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
@@ -1203,47 +1201,36 @@ function get_email_is_outbox($id)
  *
  * This function implements the old getmail action of the old saltos.
  */
-function get_email_receive()
+function getmail_receive()
 {
     // CHECK THE SEMAPHORE
-    $semaphore = [getParam("action"), current_user()];
-    if (!semaphore_acquire($semaphore, getDefault("semaphoretimeout", 100000))) {
-        if (!getParam("ajax")) {
-            session_error(LANG("msgerrorsemaphore") . getParam("action"));
-            javascript_history(-1);
-        } else {
-            javascript_error(LANG("msgerrorsemaphore") . getParam("action"));
-        }
-        die();
+    $semaphore = [__FUNCTION__, current_user()];
+    if (!semaphore_acquire($semaphore)) {
+        show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
-    // FOR DEBUG PURPOSES
-    if (getDefault("debug/getmailmsgid")) {
-        $file = get_directory("dirs/inboxdir") . getDefault("debug/getmailmsgid") . ".eml.gz";
-        if (!file_exists($file)) {
-            $file = get_directory("dirs/outboxdir") . getDefault("debug/getmailmsgid") . ".eml.gz";
-        }
-        __getmail_insert($file, getDefault("debug/getmailmsgid"), 1, 0, 0, 0, 0, 0, 0, "");
-        die();
-    }
+    //~ // FOR DEBUG PURPOSES
+    //~ if (getDefault("debug/getmailmsgid")) {
+        //~ $file = get_directory("dirs/inboxdir") . getDefault("debug/getmailmsgid") . ".eml.gz";
+        //~ if (!file_exists($file)) {
+            //~ $file = get_directory("dirs/outboxdir") . getDefault("debug/getmailmsgid") . ".eml.gz";
+        //~ }
+        //~ __getmail_insert($file, getDefault("debug/getmailmsgid"), 1, 0, 0, 0, 0, 0, 0, "");
+        //~ die();
+    //~ }
     // DATOS POP3
-    $query = "SELECT * FROM tbl_usuarios_c WHERE id_usuario='" . current_user() . "' AND email_disabled='0'";
+    $query = "SELECT * FROM app_emails_accounts WHERE user_id='" . current_user() . "' AND email_disabled='0'";
     $result = execute_query_array($query);
     if (!count($result)) {
-        if (!getParam("ajax")) {
-            session_error(LANG("msgnotpop3email", "correo"));
-            javascript_history(-1);
-        }
         semaphore_release($semaphore);
-        javascript_headers();
-        die();
+        show_php_error(["phperror" => "Could not found configuration"]);
     }
     // BEGIN THE LOOP
     $newemail = 0;
     $haserror = 0;
     foreach ($result as $row) {
-        if (time_get_usage() > getDefault("server/percentstop")) {
-            break;
-        }
+        //~ if (time_get_usage() > getDefault("server/percentstop")) {
+            //~ break;
+        //~ }
         $error = "";
         if ($row["pop3_host"] == "") {
             $temp = $row["email_from"];
@@ -1253,7 +1240,7 @@ function get_email_receive()
             if ($temp) {
                 $temp = " ($temp)";
             }
-            $error = LANG("msgnotpop3host", "correo") . $temp;
+            $error = "Not configured the POP3 server" . $temp;
         }
         if ($error == "") {
             $id_cuenta = $row["id"];
@@ -1263,9 +1250,9 @@ function get_email_receive()
                 chmod($prefix, 0777);
             }
             // DB code
-            $query = "SELECT uidl FROM tbl_correo WHERE id_cuenta='{$id_cuenta}'";
+            $query = "SELECT uidl FROM app_emails WHERE account_id='{$id_cuenta}'";
             $olduidls = execute_query_array($query);
-            $query = "SELECT uidl FROM tbl_correo_d WHERE id_cuenta='{$id_cuenta}'";
+            $query = "SELECT uidl FROM app_emails_deletes WHERE account_id='{$id_cuenta}'";
             $olduidls_d = execute_query_array($query);
             $olduidls = array_merge($olduidls, $olduidls_d);
             // POP3 code
@@ -1275,29 +1262,29 @@ function get_email_receive()
                 $pop3->port = $row["pop3_port"];
             }
             $pop3->tls = ($row["pop3_extra"] == "tls") ? 1 : 0;
-            capture_next_error();
+            ob_start();
             $error = $pop3->Open();
-            $error2 = get_clear_error();
+            $error2 = ob_get_clean();
             if ($error2 != "") {
-                if (stripos($error2, "connection refused") !== false) {
-                    $error = LANG("msgconnrefusedpop3email", "correo");
-                } elseif (stripos($error2, "unable to connect to") !== false) {
-                    $error = LANG("msgconnerrorpop3email", "correo");
-                } else {
+                //~ if (stripos($error2, "connection refused") !== false) {
+                    //~ $error = LANG("msgconnrefusedpop3email", "correo");
+                //~ } elseif (stripos($error2, "unable to connect to") !== false) {
+                    //~ $error = LANG("msgconnerrorpop3email", "correo");
+                //~ } else {
                     $error = $error2;
-                }
+                //~ }
             }
         }
         if ($error == "") {
-            capture_next_error();
+            ob_start();
             $error = $pop3->Login($row["pop3_user"], $row["pop3_pass"]);
-            $error2 = get_clear_error();
+            $error2 = ob_get_clean();
             if ($error2 != "") {
-                if (stripos($error2, "connection reset by peer") !== false) {
-                    $error = LANG("msgconnerrorpop3email", "correo");
-                } else {
+                //~ if (stripos($error2, "connection reset by peer") !== false) {
+                    //~ $error = LANG("msgconnerrorpop3email", "correo");
+                //~ } else {
                     $error = $error2;
-                }
+                //~ }
             }
         }
         if ($error == "") {
@@ -1316,9 +1303,9 @@ function get_email_receive()
             // RETRIEVE ALL NEW MESSAGES
             $retrieve = array_diff($uidls, $olduidls);
             foreach ($retrieve as $index => $uidl) {
-                if (time_get_usage() > getDefault("server/percentstop")) {
-                    break;
-                }
+                //~ if (time_get_usage() > getDefault("server/percentstop")) {
+                    //~ break;
+                //~ }
                 if ($error == "") {
                     $file = $prefix . "/" . $uidls[$index] . ".eml.gz";
                     if (!file_exists($file)) {
@@ -1355,13 +1342,13 @@ function get_email_receive()
             $delete = "'" . implode("','", $uidls) . "'";
             $query = "SELECT uidl,datetime FROM (
                 SELECT uidl,datetime
-                FROM tbl_correo
-                WHERE id_cuenta='{$id_cuenta}'
+                FROM app_emails
+                WHERE account_id='{$id_cuenta}'
                     AND uidl IN ($delete)
                 UNION
                 SELECT uidl,datetime
-                FROM tbl_correo_d
-                WHERE id_cuenta='{$id_cuenta}'
+                FROM app_emails_deletes
+                WHERE account_id='{$id_cuenta}'
                     AND uidl IN ($delete)) a";
             $result2 = execute_query_array($query);
             $time1 = strtotime(current_datetime());
@@ -1384,39 +1371,43 @@ function get_email_receive()
             // REMOVE ALL UNUSED UIDLS
             $delete = array_diff($olduidls_d, $uidls);
             $delete = "'" . implode("','", $delete) . "'";
-            $query = "DELETE FROM tbl_correo_d WHERE id_cuenta='{$id_cuenta}' AND uidl IN ({$delete})";
+            $query = "DELETE FROM app_emails_deletes WHERE account_id='{$id_cuenta}' AND uidl IN ({$delete})";
             db_query($query);
         }
         if ($error != "") {
-            if (!getParam("ajax")) {
-                session_error(LANG("msgerrorpop3email", "correo") . $error . " (" . $row["pop3_host"] . ")");
-            } else {
-                javascript_error(LANG("msgerrorpop3email", "correo") . $error . " (" . $row["pop3_host"] . ")");
-            }
+            //~ if (!getParam("ajax")) {
+                //~ session_error(LANG("msgerrorpop3email", "correo") . $error . " (" . $row["pop3_host"] . ")");
+            //~ } else {
+                //~ javascript_error(LANG("msgerrorpop3email", "correo") . $error . " (" . $row["pop3_host"] . ")");
+            //~ }
+            show_php_error(["phperror" => "There has been the following error: " . $error . " (" . $row["pop3_host"] . ")"]);
             $haserror = 1;
         }
     }
     // GO BACK
-    if (!getParam("ajax")) {
-        if ($newemail > 0) {
-            session_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo"));
-        } elseif (!$haserror) {
-            session_alert(LANG("msgnewkopop3email", "correo"));
-        }
-        javascript_history(-1);
-    } else {
-        if ($newemail > 0) {
-            $gotoemail = " [<a href='javascript:void(0)' onclick='gotoemail()'>" . LANG("msggotoemail", "correo") . "</a>]";
-            $condition = "update_correo_list()";
-            javascript_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo"), $condition);
-            javascript_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo") . $gotoemail, "!($condition)");
-            javascript_template("update_numbers('correo',{$newemail});");
-            javascript_template("update_favicon({$newemail});");
-            javascript_history(0, $condition);
-        }
-    }
+    //~ if (!getParam("ajax")) {
+        //~ if ($newemail > 0) {
+            //~ session_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo"));
+        //~ } elseif (!$haserror) {
+            //~ session_alert(LANG("msgnewkopop3email", "correo"));
+        //~ }
+        //~ javascript_history(-1);
+    //~ } else {
+        //~ if ($newemail > 0) {
+            //~ $gotoemail = " [<a href='javascript:void(0)' onclick='gotoemail()'>" . LANG("msggotoemail", "correo") . "</a>]";
+            //~ $condition = "update_correo_list()";
+            //~ javascript_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo"), $condition);
+            //~ javascript_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo") . $gotoemail, "!($condition)");
+            //~ javascript_template("update_numbers('correo',{$newemail});");
+            //~ javascript_template("update_favicon({$newemail});");
+            //~ javascript_history(0, $condition);
+        //~ }
+    //~ }
     // RELEASE SEMAPHORE
     semaphore_release($semaphore);
-    javascript_headers();
-    die();
+    //~ javascript_headers();
+    //~ die();
+    return [
+        "newemail" => $newemail,
+    ];
 }

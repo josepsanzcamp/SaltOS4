@@ -77,7 +77,8 @@ saltos.emails.search = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            document.querySelector('table').replaceWith(saltos.bootstrap.field(response));
+            var temp = saltos.bootstrap.field(response);
+            document.querySelector('table').replaceWith(temp);
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -150,6 +151,34 @@ saltos.emails.read_more = () => {
  * TODO
  */
 saltos.emails.send_and_get = () => {
-    // TODO
-    console.log('saltos.emails.send_and_get');
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: 'api/index.php',
+        data: JSON.stringify({
+            'action': 'app',
+            'app': 'emails',
+            'subapp': 'action',
+            'id': 'getmail',
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            // TODO
+            console.log(response);
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get(),
+        }
+    });
 };

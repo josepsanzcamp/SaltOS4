@@ -46,7 +46,7 @@ declare(strict_types=1);
  */
 function password_strength($pass)
 {
-    require_once "core/lib/wolfsoftware/password_strength.class.php";
+    require_once "lib/wolfsoftware/password_strength.class.php";
     $ps = new Password_Strength();
     $ps->set_password($pass);
     $ps->calculate();

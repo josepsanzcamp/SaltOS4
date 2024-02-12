@@ -42,7 +42,15 @@ if (get_data("rest/1") != "" && get_data("json/app") == "") {
     set_data("json/app", get_data("rest/1"));
 }
 
-// Check for first argument, that is the name of the app to load
+if (get_data("rest/2") != "" && get_data("json/subapp") == "") {
+    set_data("json/subapp", get_data("rest/2"));
+}
+
+if (get_data("rest/3") != "" && get_data("json/id") == "") {
+    set_data("json/id", get_data("rest/3"));
+}
+
+// Check for json/app, that is the name of the app to load
 if (get_data("json/app") == "") {
     show_json_error("app not found");
 }
@@ -53,20 +61,14 @@ if (!file_exists($file)) {
     show_json_error("app " . get_data("json/app") . " not found");
 }
 
-// Check permissions
-if (!check_user(get_data("json/app"), "list")) {
-    show_json_error("Permission denied");
-}
-
 // Load the app xml file
 $array = xmlfile2array($file);
 
-// With this code, we allow rest and json at the same time
-if (get_data("rest/2") != "" && get_data("json/subapp") == "") {
-    set_data("json/subapp", get_data("rest/2"));
+// Check for json/subapp, that is the name of the subapp to load
+if (get_data("json/subapp") == "" && count($array) == 1) {
+    set_data("json/subapp", key($array));
 }
 
-// Check for second argument, that is the subapp to load
 if (get_data("json/subapp") == "") {
     show_json_error("subapp not found");
 }
@@ -76,12 +78,12 @@ if (!isset($array[get_data("json/subapp")])) {
     show_json_error("subapp " . get_data("json/subapp") . " not found");
 }
 
-// With this code, we allow rest and json at the same time
-if (get_data("rest/3") != "" && get_data("json/id") == "") {
-    set_data("json/id", get_data("rest/3"));
+// Check permissions
+if (!check_user(get_data("json/app"), "list")) {
+    show_json_error("Permission denied");
 }
 
-// Trick to allow request as widget/table2
+// Trick to allow requests like widget/table2
 foreach ($array as $key => $val) {
     if (isset($val["#attr"]["id"])) {
         if (fix_key($key) == get_data("json/subapp") && $val["#attr"]["id"] == get_data("json/id")) {

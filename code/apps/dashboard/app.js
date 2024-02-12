@@ -53,7 +53,8 @@ saltos.dashboard.initialize = () => {
                 if (!saltos.app.check_response(response)) {
                     return;
                 }
-                document.querySelector('table').replaceWith(saltos.bootstrap.field(response));
+                var temp = saltos.bootstrap.field(response);
+                document.querySelector('table').replaceWith(temp);
             },
             error: request => {
                 saltos.app.show_error({

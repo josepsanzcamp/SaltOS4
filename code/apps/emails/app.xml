@@ -168,18 +168,18 @@
                     ["label"=>"Confidential","value"=>3],
                 ]</rows>
             </select>
-            <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" require="apps/emails/php/getmail.php" ifeval="get_email_is_outbox(intval(get_data('rest/3')))"/>
-            <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!get_email_is_outbox(intval(get_data('rest/3')))"/>
-            <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!get_email_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" require="apps/emails/php/getmail.php" ifeval="getmail_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_is_outbox(intval(get_data('rest/3')))"/>
             <checkbox id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
             <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-            <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!get_email_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_is_outbox(intval(get_data('rest/3')))"/>
             <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
             <text id="subject" label="Subject"/>
             <iframe id="body" label="Body" height="200px" srcdoc="Loading...">
                 <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
             </iframe>
-            <table id="files" label="Files" col_class="col-md-12 mb-3" ifeval="count(get_email_files(intval(get_data('rest/3'))))">
+            <table id="files" label="Files" col_class="col-md-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
                 <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
             </table>
         </layout>
@@ -192,11 +192,11 @@
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply" tooltip="To reply this email" icon="reply">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
-                <disabled ifeval="get_email_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
+                <disabled ifeval="getmail_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply all" tooltip="To reply all this email" icon="reply-all">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
-                <disabled ifeval="get_email_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
+                <disabled ifeval="getmail_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Forward" tooltip="To forward this email" icon="forward">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
@@ -213,7 +213,7 @@
     </view>
 
     <view id="body">
-        <srcdoc require="apps/emails/php/getmail.php" eval="true">get_email_body(intval(get_data("rest/4")))</srcdoc>
+        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")))</srcdoc>
     </view>
 
     <view id="files" checkbox="true" type="table">
@@ -221,7 +221,7 @@
             <name>Filename</name>
             <size>Size</size>
         </header>
-        <data require="apps/emails/php/getmail.php" eval="true">get_email_files(intval(get_data("rest/4")))</data>
+        <data require="apps/emails/php/getmail.php" eval="true">getmail_files(intval(get_data("rest/4")))</data>
         <actions eval="true">[
             ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver adjunto"],
             ["app" => "emails", "action" => "view", "value" => "Download", "icon" => "download", "tooltip" => "Descargar adjunto"],
@@ -233,10 +233,14 @@
         <title>Source of the email</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
             <iframe id="source" height="200px" class="border-0">
-                <srcdoc require="apps/emails/php/getmail.php" eval="true">get_email_source(intval(get_data("rest/4")))</srcdoc>
+                <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
             </iframe>
         </layout>
     </view>
+
+    <action id="getmail">
+        <getmail require="apps/emails/php/getmail.php" eval="true">getmail_receive()</getmail>
+    </action>
 
     <!-- TODO -->
 </root>
