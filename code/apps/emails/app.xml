@@ -37,6 +37,7 @@
             <text col_class="col-auto p-0 ms-1" placeholder="Search" tooltip="To search in all emails contents" id="search"/>
             <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
             <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            <button onclick="saltos.emails.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
             <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send pending mail and receive new mail" icon="envelope"/>
             <table col_class="col-md-12 my-3" source="list/emails/table"/>
             <div col_class="col mb-3"/>
@@ -149,8 +150,8 @@
         <layout auto="true" container_class="container mt-3" col_class="col-md-12 mb-3">
             <text id="from" label="From"/>
             <text id="to" label="To"/>
-            <text id="cc" label="CC"/>
-            <text id="bcc" label="BCC"/>
+            <text id="cc" label="CC" require="apps/emails/php/getmail.php" ifeval="getmail_field('cc',intval(get_data('rest/3')))"/>
+            <text id="bcc" label="BCC" ifeval="getmail_field('bcc',intval(get_data('rest/3')))"/>
             <datetime id="datetime" label="Datetime" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
             <text id="uidl" label="UIDL" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
             <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
@@ -168,12 +169,12 @@
                     ["label"=>"Confidential","value"=>3],
                 ]</rows>
             </select>
-            <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" require="apps/emails/php/getmail.php" ifeval="getmail_is_outbox(intval(get_data('rest/3')))"/>
-            <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_is_outbox(intval(get_data('rest/3')))"/>
-            <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+            <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+            <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
             <checkbox id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
             <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-            <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_is_outbox(intval(get_data('rest/3')))"/>
+            <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
             <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
             <text id="subject" label="Subject"/>
             <iframe id="body" label="Body" height="200px" srcdoc="Loading...">
@@ -192,18 +193,16 @@
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply" tooltip="To reply this email" icon="reply">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
-                <disabled ifeval="getmail_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
+                <disabled ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))">disabled</disabled>
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply all" tooltip="To reply all this email" icon="reply-all">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
-                <disabled ifeval="getmail_is_outbox(intval(get_data('rest/3')))">disabled</disabled>
+                <disabled ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))">disabled</disabled>
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Forward" tooltip="To forward this email" icon="forward">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Delete" tooltip="To delete this email" icon="trash">
-                <onclick eval="true">"saltos.core.open_window('#app/emails/delete/".intval(get_data("rest/3"))."')"</onclick>
-            </button>
+            <button onclick="saltos.emails.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
             <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Close" tooltip="To close this email" icon="x-lg"/>
         </layout>
         <javascript>

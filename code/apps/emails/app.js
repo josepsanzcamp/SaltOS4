@@ -182,3 +182,12 @@ saltos.emails.send_and_get = () => {
         }
     });
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.delete = () => {
+    // TODO
+};

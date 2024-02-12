@@ -1184,16 +1184,17 @@ function getmail_cid($id, $cid)
 /**
  * Is outbox
  *
- * Returns the is_outbox flag of the email identified by the id argument
+ * Returns the field of the email identified by the id argument
  *
- * @id => id of the email
+ * @field => field requested
+ * @id    => id of the email
  */
-function getmail_is_outbox($id)
+function getmail_field($field, $id)
 {
     if (!__getmail_checkperm($id)) {
         show_php_error(["phperror" => "Permission denied"]);
     }
-    return execute_query("SELECT is_outbox FROM app_emails WHERE id=$id");
+    return execute_query("SELECT $field FROM app_emails WHERE id=$id");
 }
 
 /**
