@@ -1596,10 +1596,13 @@ saltos.bootstrap.__field.table = field => {
             if (field.checkbox) {
                 row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}"/></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
-                    if (event.target.checked) {
-                        event.target.parentNode.parentNode.classList.add('table-active');
-                    } else {
-                        event.target.parentNode.parentNode.classList.remove('table-active');
+                    var tds = event.target.parentNode.parentNode.querySelectorAll('td');
+                    for (var i = 0; i < tds.length; i++) {
+                        if (event.target.checked) {
+                            tds[i].classList.add('table-active');
+                        } else {
+                            tds[i].classList.remove('table-active');
+                        }
                     }
                     dropdown_close();
                 });
