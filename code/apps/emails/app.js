@@ -189,5 +189,6 @@ saltos.emails.send_and_get = () => {
  * TODO
  */
 saltos.emails.delete = () => {
-    // TODO
+    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    console.log(ids);
 };

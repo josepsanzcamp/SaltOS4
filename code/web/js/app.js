@@ -824,6 +824,23 @@ saltos.app.parse_data = data => {
 };
 
 /**
+ * Checkbox ids
+ *
+ * Retrieve the selected checkboxes contained in an obj, usefull for the checkboxes
+ * that appear in the bootstrap table widget.
+ *
+ * @obj => the object that contains the checkboxes, generally the table widget
+ */
+saltos.app.checkbox_ids = obj => {
+    var nodes = obj.querySelectorAll('input[type=checkbox]:checked[value]');
+    var values = [];
+    for (var i = 0; i < nodes.length; i++) {
+        values.push(nodes[i].value);
+    }
+    return values;
+};
+
+/**
  * Check form
  *
  * This function tries to check if all required fields contain data, if the required field are

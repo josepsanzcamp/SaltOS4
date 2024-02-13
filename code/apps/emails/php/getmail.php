@@ -1412,3 +1412,83 @@ function getmail_receive()
         "newemail" => $newemail,
     ];
 }
+
+/**
+ * Delete
+ *
+ * This function implements the old delete action of the old saltos.
+ */
+function getmail_delete($ids)
+{
+    $numids = count(explode(",", $ids));
+    $query = "SELECT id FROM
+        app_emails a
+        WHERE id IN ($ids)
+            AND id IN (
+                SELECT id
+                FROM app_emails_control b
+                WHERE b.id=a.id
+                    AND user_id='" . current_user() . "')";
+    $result = execute_query_array($query);
+    $numresult = count($result);
+    if ($numresult != $numids) {
+        show_php_error(["phperror" => "Permission denied"]);
+    }
+    // CREAR DATOS EN TABLA DE CORREOS BORRADOS (SOLO LOS DEL INBOX)
+    $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
+        SELECT account_id,uidl,datetime
+        FROM app_emails
+        WHERE id IN ({$ids})
+            AND is_outbox=0";
+    db_query($query);
+    // BORRAR FICHEROS .EML.GZ DEL INBOX
+    $query = "SELECT CONCAT('" . get_directory("dirs/inboxdir") . "',account_id,'/',uidl,'.eml.gz') action_delete
+        FROM app_emails
+        WHERE id IN ($ids)
+            AND is_outbox='0'";
+    $result = execute_query_array($query);
+    foreach ($result as $delete) {
+        if (file_exists($delete) && is_file($delete)) {
+            unlink($delete);
+        }
+    }
+    // BORRAR FICHEROS .EML.GZ DEL OUTBOX
+    $query = "SELECT CONCAT('" . get_directory("dirs/outboxdir") . "',account_id,'/',uidl,'.eml.gz') action_delete
+        FROM app_emails
+        WHERE id IN ($ids)
+            AND is_outbox='1'";
+    $result = execute_query_array($query);
+    foreach ($result as $delete) {
+        if (file_exists($delete) && is_file($delete)) {
+            unlink($delete);
+        }
+    }
+    // BORRAR FICHEROS .OBJ DEL OUTBOX
+    $query = "SELECT CONCAT('" . get_directory("dirs/outboxdir") . "',account_id,'/',uidl,'.obj') action_delete
+        FROM app_emails
+        WHERE id IN ($ids)
+            AND is_outbox='1'";
+    $result = execute_query_array($query);
+    foreach ($result as $delete) {
+        if (file_exists($delete) && is_file($delete)) {
+            unlink($delete);
+        }
+    }
+    // BORRAR CORREOS
+    $query = "DELETE FROM app_emails WHERE id IN ({$ids})";
+    db_query($query);
+    // BORRAR DIRECCIONES DE LOS CORREOS
+    $query = "DELETE FROM app_emails_address WHERE account_id IN ({$ids})";
+    db_query($query);
+    // BORRAR FICHEROS ADJUNTOS DE LOS CORREOS
+    $query = "DELETE FROM app_emails_files WHERE reg_id IN ({$ids})";
+    db_query($query);
+    // BORRAR REGISTRO DE LOS CORREOS
+    make_control("emails", $ids);
+    make_index("emails", $ids);
+    // MOSTRAR RESULTADO
+    //~ session_alert(
+        //~ LANG("msgnumdelete", "correo") . $numids . LANG("message" . min($numids, 2), "correo")
+    //~ );
+    return ["numids" => $numids];
+}

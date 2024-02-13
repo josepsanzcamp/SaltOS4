@@ -1498,7 +1498,7 @@ saltos.bootstrap.__field.pdfjs = field => {
  * @header   => array with the header to use
  * @data     => 2D array with the data used to mount the body table
  * @footer   => array with the footer to use
- * @checkbox => add a checkbox at the first of each row, for mono or multi selection
+ * @checkbox => add a checkbox in the first cell of each row, for mono or multi selection
  * @actions  => each row of the data can contain an array with the actions of each row
  * @label    => this parameter is used as text for the label
  *
@@ -1594,7 +1594,7 @@ saltos.bootstrap.__field.table = field => {
             var val = field.data[key];
             var row = saltos.core.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
-                row.append(saltos.core.html('tr', `<td><input type="checkbox"/></td>`));
+                row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}"/></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
                     if (event.target.checked) {
                         event.target.parentNode.parentNode.classList.add('table-active');
@@ -1637,13 +1637,19 @@ saltos.bootstrap.__field.table = field => {
                         type = iterator[key2].type;
                     }
                     if (type == 'icon') {
-                        var temp = saltos.core.html(`<i class="bi bi-${val2}"></i>`);
-                        td.append(temp);
+                        if (val2) {
+                            var temp = saltos.core.html(`<i class="bi bi-${val2}"></i>`);
+                            td.append(temp);
+                        }
                     } else if (type == 'html') {
-                        var temp = saltos.core.html(val2);
-                        td.append(temp);
+                        if (val2) {
+                            var temp = saltos.core.html(val2);
+                            td.append(temp);
+                        }
                     } else if (type == 'text') {
-                        td.append(val2);
+                        if (val2) {
+                            td.append(val2);
+                        }
                     } else {
                         var temp = `unknown type ${type}`;
                         td.append(temp);

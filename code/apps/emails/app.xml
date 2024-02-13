@@ -39,7 +39,7 @@
             <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             <button onclick="saltos.emails.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
             <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send pending mail and receive new mail" icon="envelope"/>
-            <table col_class="col-md-12 my-3" source="list/emails/table"/>
+            <table col_class="col-md-12 my-3" source="list/emails/table" id="table"/>
             <div col_class="col mb-3"/>
             <button onclick="saltos.emails.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="See more emails" tooltip="To load more emails in the list" icon="view-list"/>
         </layout>
