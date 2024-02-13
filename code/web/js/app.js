@@ -67,9 +67,12 @@ saltos.app.show_error = error => {
  */
 saltos.app.alert = (title, message, buttons) => {
     if (typeof buttons == 'undefined') {
-        buttons = [
-            ['Close', 'btn-primary', () => {}],
-        ];
+        buttons = [{
+            label: 'Close',
+            class: 'btn-primary',
+            icon: 'x-lg',
+            onclick: () => {},
+        }];
     }
     saltos.bootstrap.modal({
         title: title,
@@ -81,10 +84,11 @@ saltos.app.alert = (title, message, buttons) => {
                 (button => {
                     obj.append(saltos.bootstrap.field({
                         type: 'button',
-                        value: button[0],
-                        class: `${button[1]} ms-1`,
+                        value: button.label,
+                        class: `${button.class} ms-1`,
+                        icon: button.icon,
                         onclick: () => {
-                            button[2]();
+                            button.onclick();
                             saltos.bootstrap.modal('close');
                         }
                     }));
