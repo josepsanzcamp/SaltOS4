@@ -198,7 +198,7 @@ saltos.invoices.search = () => {
  *
  * TODO
  */
-saltos.invoices.clear_filter = () => {
+saltos.invoices.reset = () => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
     saltos.invoices.search();
@@ -209,7 +209,7 @@ saltos.invoices.clear_filter = () => {
  *
  * TODO
  */
-saltos.invoices.read_more = () => {
+saltos.invoices.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -243,6 +243,15 @@ saltos.invoices.read_more = () => {
             'token': saltos.token.get(),
         }
     });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.close = () => {
+    saltos.core.close_window();
 };
 
 /**

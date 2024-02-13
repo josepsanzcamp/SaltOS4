@@ -103,8 +103,7 @@ saltos.bootstrap.field = field => {
         field.id = saltos.core.uniqid();
     }
     if (typeof saltos.bootstrap.__field[field.type] != 'function') {
-        console.log('type ' + field.type + ' not found');
-        return saltos.core.html('type ' + field.type + ' not found');
+        throw `type ${field.type} not found`;
     }
     return saltos.bootstrap.__field[field.type](field);
 };
@@ -530,7 +529,7 @@ saltos.bootstrap.__field.ckeditor = field => {
         }).then(editor => {
             // Nothing to do
         }).catch(error => {
-            console.log(error);
+            throw error;
         });
     });
     if (field.height) {
@@ -1739,7 +1738,7 @@ saltos.bootstrap.__field.table = field => {
         }
         if (typeof field.footer == 'object') {
             if (Object.keys(field.header).length != Object.keys(field.footer).length) {
-                console.log('field.header.length != field.footer.length');
+                throw `field.header.length != field.footer.length`;
             }
             if (field.checkbox) {
                 obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td></td>`));

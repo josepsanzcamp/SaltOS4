@@ -1408,9 +1408,7 @@ function getmail_receive()
     semaphore_release($semaphore);
     //~ javascript_headers();
     //~ die();
-    return [
-        "newemail" => $newemail,
-    ];
+    return $newemail;
 }
 
 /**
@@ -1496,5 +1494,5 @@ function getmail_delete($ids)
     //~ session_alert(
         //~ LANG("msgnumdelete", "correo") . $numids . LANG("message" . min($numids, 2), "correo")
     //~ );
-    return ["numids" => $numids];
+    return $numids;
 }

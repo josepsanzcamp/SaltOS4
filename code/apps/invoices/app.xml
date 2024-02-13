@@ -36,10 +36,10 @@
             <hidden id="page" value="0"/>
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los invoices" id="search"/>
             <button onclick="saltos.invoices.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los invoices" icon="search"/>
-            <button onclick="saltos.invoices.clear_filter()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+            <button onclick="saltos.invoices.reset()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
             <table col_class="col-md-12 my-3" source="list/invoices/table"/>
             <div col_class="col mb-3"/>
-            <button onclick="saltos.invoices.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="view-list"/>
+            <button onclick="saltos.invoices.more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="view-list"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/app.js")</file>

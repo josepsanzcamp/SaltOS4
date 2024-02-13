@@ -36,12 +36,12 @@
             <hidden id="page" value="0"/>
             <text col_class="col-auto p-0 ms-1" placeholder="Search" tooltip="To search in all emails contents" id="search"/>
             <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
-            <button onclick="saltos.emails.clear_filter()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-            <button onclick="saltos.emails.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
-            <button onclick="saltos.emails.send_and_get()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send pending mail and receive new mail" icon="envelope"/>
+            <button onclick="saltos.emails.reset()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            <button onclick="saltos.emails.delete1()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete the selected emails" icon="trash"/>
+            <button onclick="saltos.emails.getmail()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
             <table col_class="col-md-12 my-3" source="list/emails/table" id="table"/>
             <div col_class="col mb-3"/>
-            <button onclick="saltos.emails.read_more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="See more emails" tooltip="To load more emails in the list" icon="view-list"/>
+            <button onclick="saltos.emails.more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="See more emails" tooltip="To load more emails in the list" icon="view-list"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -192,17 +192,17 @@
             <div col_class="col mb-3"/>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply" tooltip="To reply this email" icon="reply">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
-                <disabled ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))">disabled</disabled>
+                <disabled ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))">true</disabled>
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply all" tooltip="To reply all this email" icon="reply-all">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
-                <disabled ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))">disabled</disabled>
+                <disabled ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))">true</disabled>
             </button>
             <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Forward" tooltip="To forward this email" icon="forward">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button onclick="saltos.emails.delete()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
-            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Close" tooltip="To close this email" icon="x-lg"/>
+            <button onclick="saltos.emails.delete2()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
+            <button onclick="saltos.emails.close()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Close" tooltip="To close this email" icon="x-lg"/>
         </layout>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
@@ -237,11 +237,11 @@
     </view>
 
     <action id="getmail">
-        <response require="apps/emails/php/getmail.php" eval="true">getmail_receive()</response>
+        <total require="apps/emails/php/getmail.php" eval="true">getmail_receive()</total>
     </action>
 
     <action id="delete">
-        <response require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("json/ids"))</response>
+        <total require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("json/ids"))</total>
     </action>
 
     <!-- TODO -->

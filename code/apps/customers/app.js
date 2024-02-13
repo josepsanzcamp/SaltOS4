@@ -120,7 +120,7 @@ saltos.customers.search = () => {
  *
  * TODO
  */
-saltos.customers.clear_filter = () => {
+saltos.customers.reset = () => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
     saltos.customers.search();
@@ -131,7 +131,7 @@ saltos.customers.clear_filter = () => {
  *
  * TODO
  */
-saltos.customers.read_more = () => {
+saltos.customers.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -165,6 +165,15 @@ saltos.customers.read_more = () => {
             'token': saltos.token.get(),
         }
     });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.customers.close = () => {
+    saltos.core.close_window();
 };
 
 /**

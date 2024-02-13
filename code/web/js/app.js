@@ -46,7 +46,6 @@ saltos.app = {};
  * This function allow to show a modal dialog with de details of an error
  */
 saltos.app.show_error = error => {
-    console.log(error);
     if (typeof error != 'object') {
         document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
         saltos.app.form.screen('unloading');
@@ -64,24 +63,47 @@ saltos.app.show_error = error => {
  *
  * @title   => title of the alert modal dialog
  * @message => message of the alert modal dialog
+ * @buttons => array of buttons
  */
-saltos.app.alert = (title, message) => {
+saltos.app.alert = (title, message, buttons) => {
+    if (typeof buttons == 'undefined') {
+        buttons = [
+            ['Close', 'btn-primary', () => {}],
+        ];
+    }
     saltos.bootstrap.modal({
         title: title,
         close: 'Close',
         body: message,
         footer: (() => {
             var obj = saltos.core.html('<div></div>');
-            obj.append(saltos.bootstrap.field({
-                type: 'button',
-                value: 'Close',
-                class: 'btn-primary',
-                onclick: () => {
-                    saltos.bootstrap.modal('close');
-                }
-            }));
+            for (var key in buttons) {
+                (button => {
+                    obj.append(saltos.bootstrap.field({
+                        type: 'button',
+                        value: button[0],
+                        class: `${button[1]} ms-1`,
+                        onclick: () => {
+                            button[2]();
+                            saltos.bootstrap.modal('close');
+                        }
+                    }));
+                })(buttons[key]);
+            }
             return obj;
         })()
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.toast = (title, message) => {
+    saltos.bootstrap.toast({
+        'title': title,
+        'body': message,
     });
 };
 
@@ -139,7 +161,7 @@ saltos.app.process_response = response => {
         var val = response[key];
         key = saltos.core.fix_key(key);
         if (typeof saltos.app.form[key] != 'function') {
-            console.log('type ' + key + ' not found');
+            throw `type ${key} not found`;
             document.body.append(saltos.core.html('type ' + key + ' not found'));
             continue;
         }
@@ -177,8 +199,7 @@ saltos.app.form.data = data => {
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
         var template_id = data['#attr'].template_id;
         if (!Array.isArray(data.value)) {
-            console.log('data for template ' + template_id + ' is not an array of rows');
-            return;
+            throw `data for template ${template_id} is not an array of rows`;
         }
         for (var key in data.value) {
             var val = data.value[key];
@@ -191,8 +212,7 @@ saltos.app.form.data = data => {
     }
     // Continue with the normal behaviour
     if (Array.isArray(data)) {
-        console.log('data is an array instead of an object of key and val pairs');
-        return;
+        throw `data is an array instead of an object of key and val pairs`;
     }
     for (var key in data) {
         var val = data[key];
