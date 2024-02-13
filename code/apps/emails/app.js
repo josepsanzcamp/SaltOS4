@@ -167,8 +167,7 @@ saltos.emails.send_and_get = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            // TODO
-            console.log(response);
+            saltos.emails.clear_filter();
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -189,6 +188,39 @@ saltos.emails.send_and_get = () => {
  * TODO
  */
 saltos.emails.delete = () => {
-    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
-    console.log(ids);
+    var ids = saltos.app.checkbox_ids(document.querySelector('table'));
+    if (!ids.length) {
+        // TODO
+        return;
+    }
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: 'api/index.php',
+        data: JSON.stringify({
+            'action': 'app',
+            'app': 'emails',
+            'subapp': 'action',
+            'id': 'delete',
+            'ids': ids,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            saltos.emails.clear_filter();
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get(),
+        }
+    });
 };

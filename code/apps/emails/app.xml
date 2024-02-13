@@ -89,8 +89,7 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions eval="true">[
-            ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver detalle correo"],
-            ["app" => "emails", "action" => "delete", "value" => "Delete", "icon" => "trash", "tooltip" => "Borrar correo"],
+            ["app" => "emails", "action" => "view", "icon" => "search", "tooltip" => "View email"],
         ]</actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -238,7 +237,11 @@
     </view>
 
     <action id="getmail">
-        <getmail require="apps/emails/php/getmail.php" eval="true">getmail_receive()</getmail>
+        <response require="apps/emails/php/getmail.php" eval="true">getmail_receive()</response>
+    </action>
+
+    <action id="delete">
+        <response require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("json/ids"))</response>
     </action>
 
     <!-- TODO -->

@@ -1417,10 +1417,13 @@ function getmail_receive()
  * Delete
  *
  * This function implements the old delete action of the old saltos.
+ *
+ * @ids => array with the emails id
  */
 function getmail_delete($ids)
 {
-    $numids = count(explode(",", $ids));
+    $numids = count($ids);
+    $ids = implode(",", $ids);
     $query = "SELECT id FROM
         app_emails a
         WHERE id IN ($ids)
@@ -1438,7 +1441,7 @@ function getmail_delete($ids)
     $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
         SELECT account_id,uidl,datetime
         FROM app_emails
-        WHERE id IN ({$ids})
+        WHERE id IN ($ids)
             AND is_outbox=0";
     db_query($query);
     // BORRAR FICHEROS .EML.GZ DEL INBOX
@@ -1475,17 +1478,20 @@ function getmail_delete($ids)
         }
     }
     // BORRAR CORREOS
-    $query = "DELETE FROM app_emails WHERE id IN ({$ids})";
+    $query = "DELETE FROM app_emails WHERE id IN ($ids)";
     db_query($query);
     // BORRAR DIRECCIONES DE LOS CORREOS
-    $query = "DELETE FROM app_emails_address WHERE account_id IN ({$ids})";
+    $query = "DELETE FROM app_emails_address WHERE email_id IN ($ids)";
     db_query($query);
     // BORRAR FICHEROS ADJUNTOS DE LOS CORREOS
-    $query = "DELETE FROM app_emails_files WHERE reg_id IN ({$ids})";
+    $query = "DELETE FROM app_emails_files WHERE reg_id IN ($ids)";
     db_query($query);
     // BORRAR REGISTRO DE LOS CORREOS
-    make_control("emails", $ids);
-    make_index("emails", $ids);
+    $ids = explode(",", $ids);
+    foreach ($ids as $id) {
+        make_control("emails", $id);
+        make_index("emails", $id);
+    }
     // MOSTRAR RESULTADO
     //~ session_alert(
         //~ LANG("msgnumdelete", "correo") . $numids . LANG("message" . min($numids, 2), "correo")
