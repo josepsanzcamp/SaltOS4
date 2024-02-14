@@ -282,6 +282,8 @@
         var datalist = [];
         var close = '';
         var images = [];
+        var src = '';
+        var srcdoc = '';
         if (tipo == 'text') {
             datalist = [
                 'Uno',
@@ -307,7 +309,7 @@
             mode = 'xml';
         }
         if (tipo == 'iframe') {
-            valor = 'apps/tester/files/philips-pm5544.svg';
+            src = 'apps/tester/files/philips-pm5544.svg';
             height = '500px';
         }
         if (tipo == 'select') {
@@ -350,7 +352,7 @@
             valor = 'apps/tester/files/philips-pm5544.svg';
         }
         if (tipo == 'pdfjs') {
-            valor = 'apps/tester/files/test-josep-1.pdf';
+            src = 'apps/tester/files/test-josep-1.pdf';
         }
         if (tipo == 'table') {
             var data = [
@@ -538,6 +540,8 @@
             datalist: datalist,
             close: close,
             images: images,
+            src: src,
+            srcdoc: srcdoc,
         });
         col.append(campo);
         row.append(col);

@@ -246,21 +246,21 @@
 
     <view id="pdf">
         <screen>clear</screen>
-        <title>PDF</title>
+        <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <iframe id="source" height="200px" class="border-0">
-                <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
-            </iframe>
+            <pdfjs id="pdf">
+                <srcdoc eval="true">base64_encode(getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["data"])</srcdoc>
+            </pdfjs>
         </layout>
     </view>
 
     <view id="download">
         <screen>clear</screen>
-        <title>DOWNLOAD</title>
+        <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <iframe id="source" height="200px" class="border-0">
-                <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
-            </iframe>
+            <pdfjs id="pdf">
+                <srcdoc eval="true">base64_encode(getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["data"])</srcdoc>
+            </pdfjs>
         </layout>
     </view>
 

@@ -1399,10 +1399,11 @@ saltos.bootstrap.__field.excel = field => {
  *
  * This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
  *
- * @id    => the id used to set the reference for to the object
- * @class => allow to set the class to the div object used to allocate the widget
- * @value => the file or data that contains the pdf document
- * @label => this parameter is used as text for the label
+ * @id     => the id used to set the reference for to the object
+ * @class  => allow to set the class to the div object used to allocate the widget
+ * @src    => the file that contains the pdf document
+ * @srcdoc => the data that contains the pdf document
+ * @label  => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -1421,7 +1422,10 @@ saltos.bootstrap.__field.pdfjs = field => {
     saltos.core.require('lib/pdfjs/pdf_viewer.min.css');
     saltos.core.require('lib/pdfjs/pdf.min.mjs');
     saltos.core.require('lib/pdfjs/pdf_viewer.min.mjs');
-    saltos.core.check_params(field, ['id', 'class', 'value']);
+    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc']);
+    if (field.srcdoc != '') {
+        field.src = {data: atob(field.srcdoc)};
+    }
     var obj = saltos.core.html(`
         <div id="${field.id}" class="${field.class}">
             <div class="viewerContainer">
@@ -1450,7 +1454,7 @@ saltos.bootstrap.__field.pdfjs = field => {
     var element = obj.querySelector('.viewerContainer');
     saltos.core.when_visible(element, () => {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
-        pdfjsLib.getDocument(field.value).promise.then(pdfDocument => {
+        pdfjsLib.getDocument(field.src).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
                 return;
             }
@@ -1652,6 +1656,7 @@ saltos.bootstrap.__field.table = field => {
                 row.addEventListener('click', event => {
                     var obj = event.target.parentNode.querySelector('input[type=checkbox]');
                     if (obj) {
+                        //~ obj.click();
                         // ctrlKey propagation is important to allow the multiple selection feature
                         obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
                     }
