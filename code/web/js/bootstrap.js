@@ -1606,12 +1606,41 @@ saltos.bootstrap.__field.table = field => {
                     dropdown_close();
                 });
                 row.querySelector('input[type=checkbox]').addEventListener('click', event => {
+                    // here program the multiple selection feature using the ctrlKey
+                    if (!event.ctrlKey) {
+                        // first state, sets the id1
+                        saltos.bootstrap.__checkbox_id1 = event.target.value;
+                        saltos.bootstrap.__checkbox_id2 = null;
+                    } else {
+                        // second state, sets the id2
+                        saltos.bootstrap.__checkbox_id2 = event.target.value;
+                    }
+                    if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
+                        var obj = event.target.parentNode.parentNode.parentNode;
+                        var nodes = obj.querySelectorAll('input[type=checkbox][value]');
+                        var found = false;
+                        var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
+                        for (var i = 0; i < nodes.length; i++) {
+                            if (ids.includes(nodes[i].value)) {
+                                found = !found;
+                            }
+                            if (found) {
+                                if (!nodes[i].checked) {
+                                    nodes[i].click();
+                                }
+                            }
+                        }
+                        // reset the ids to restart the state machine
+                        saltos.bootstrap.__checkbox_id1 = null;
+                        saltos.bootstrap.__checkbox_id2 = null;
+                    }
                     event.stopPropagation();
                 });
                 row.addEventListener('click', event => {
                     var obj = event.target.parentNode.querySelector('input[type=checkbox]');
                     if (obj) {
-                        obj.click();
+                        // ctrlKey propagation is important to allow the multiple selection feature
+                        obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
                     }
                     event.stopPropagation();
                 });
