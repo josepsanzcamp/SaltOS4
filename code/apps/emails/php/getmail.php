@@ -1495,3 +1495,48 @@ function getmail_delete($ids)
     //~ );
     return "$numids email(s) deleted";
 }
+
+/**
+ * Get viewpdf
+ *
+ * This function returns the requested attachment indentified by the cid argument
+ * in a pdf format for the viewpdf widget
+ *
+ * @id  => id of the email
+ * @cid => the cid of the content requested
+ */
+function getmail_viewpdf($id, $cid)
+{
+    $file = getmail_cid($id, $cid);
+    $ext = strtolower(extension($file["name"]));
+    if (!$ext) {
+        $ext = strtolower(saltos_content_type1($file["type"]));
+    }
+    $cache1 = get_cache_file([$id, $cid], $ext);
+    file_put_contents($cache1, $file["data"]);
+    // CREAR THUMBS SI ES NECESARIO
+    $cache2 = get_cache_file([$id, $cid], "pdf");
+    if (!file_exists($cache2)) {
+        file_put_contents($cache2, unoconv2pdf($cache1));
+    }
+    if (!file_exists($cache2)) {
+        show_php_error(["phperror" => "File not found"]);
+    }
+    return base64_encode(file_get_contents($cache2));
+}
+
+/**
+ * Get download
+ *
+ * This function returns the requested attachment indentified by the cid argument
+ * in an array format for the download feature
+ *
+ * @id  => id of the email
+ * @cid => the cid of the content requested
+ */
+function getmail_download($id, $cid)
+{
+    $file = getmail_cid($id, $cid);
+    $file["data"] = base64_encode($file["data"]);
+    return $file;
+}

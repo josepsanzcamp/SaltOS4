@@ -324,3 +324,35 @@ saltos.emails.send = () => {
 saltos.emails.cancel = () => {
     saltos.core.close_window();
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.download = (file) => {
+    saltos.core.ajax({
+        url: 'api/index.php?' + file,
+        method: 'get',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            var a = document.createElement('a');
+            a.download = response.file.name;
+            a.href = `data:${response.file.type};base64,${response.file.data}`;
+            a.click();
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get(),
+        }
+    });
+};

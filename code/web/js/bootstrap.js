@@ -1740,6 +1740,8 @@ saltos.bootstrap.__field.table = field => {
                     var val2 = val.actions[key2];
                     if (val2.url == '') {
                         val2.disabled = true;
+                    } else if (val2.hasOwnProperty('onclick')) {
+                        val2.onclick = `${val2.onclick}("${val2.url}")`;
                     } else {
                         val2.onclick = `saltos.core.open_window("#${val2.url}")`;
                     }

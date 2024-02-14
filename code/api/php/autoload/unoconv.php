@@ -114,10 +114,10 @@ function unoconv2txt($input)
  */
 function __unoconv_list()
 {
-    if (!check_commands(get_default("commands/soffice"), 60)) {
+    if (!check_commands(get_config("unoconv/soffice"), 60)) {
         return [];
     }
-    return explode(",", get_default("commands/__soffice_formats__"));
+    return explode(",", get_config("unoconv/__soffice_formats__"));
 }
 
 /**
@@ -127,13 +127,13 @@ function __unoconv_list()
  */
 function __unoconv_pdf2txt($input, $output)
 {
-    if (!check_commands(get_default("commands/pdftotext"), 60)) {
+    if (!check_commands(get_config("unoconv/pdftotext"), 60)) {
         return;
     }
     ob_passthru(str_replace_assoc([
         "__INPUT__" => $input,
         "__OUTPUT__" => $output,
-    ], get_default("commands/__pdftotext__")));
+    ], get_config("unoconv/__pdftotext__")));
     if (file_exists($output)) {
         $freq = count_chars(file_get_contents($output));
         $freq = [array_sum(array_slice($freq, 33, 128 - 33)), array_sum(array_slice($freq, 128))];
@@ -161,7 +161,7 @@ function __unoconv_all2pdf($input, $output)
  */
 function __unoconv_convert($input, $output, $format)
 {
-    if (!check_commands(get_default("commands/soffice"), 60)) {
+    if (!check_commands(get_config("unoconv/soffice"), 60)) {
         return;
     }
     $input = realpath($input);
@@ -178,7 +178,7 @@ function __unoconv_convert($input, $output, $format)
         "__FORMAT__" => $format,
         "__INPUT__" => $input2,
         "__OUTDIR__" => dirname($input2),
-    ], get_default("commands/__soffice__"))));
+    ], get_config("unoconv/__soffice__"))));
     if ($fix) {
         unlink($input2);
     }
@@ -198,7 +198,7 @@ function __unoconv_convert($input, $output, $format)
  */
 function __unoconv_img2ocr($file)
 {
-    if (!check_commands([get_default("commands/convert"), get_default("commands/tesseract")], 60)) {
+    if (!check_commands([get_config("unoconv/convert"), get_config("unoconv/tesseract")], 60)) {
         return "";
     }
     $type = saltos_content_type($file);
@@ -209,7 +209,7 @@ function __unoconv_img2ocr($file)
             ob_passthru(str_replace_assoc([
                 "__INPUT__" => $file,
                 "__OUTPUT__" => $tiff,
-            ], get_default("commands/__convert__")));
+            ], get_config("unoconv/__convert__")));
             if (!file_exists($tiff)) {
                 return "";
             }
@@ -228,7 +228,7 @@ function __unoconv_img2ocr($file)
         ob_passthru(__exec_timeout(str_replace_assoc([
             "__INPUT__" => $file,
             "__OUTPUT__" => $base,
-        ], get_default("commands/__tesseract__"))));
+        ], get_config("unoconv/__tesseract__"))));
         if (file_exists($html)) {
             $hocr = $html;
         }
@@ -256,7 +256,7 @@ function __unoconv_img2ocr($file)
  */
 function __unoconv_pdf2ocr($pdf)
 {
-    if (!check_commands(get_default("commands/pdftoppm"), 60)) {
+    if (!check_commands(get_config("unoconv/pdftoppm"), 60)) {
         return "";
     }
     // EXTRACT ALL IMAGES FROM PDF
@@ -267,7 +267,7 @@ function __unoconv_pdf2ocr($pdf)
         ob_passthru(str_replace_assoc([
             "__INPUT__" => $pdf,
             "__OUTPUT__" => $root,
-        ], get_default("commands/__pdftoppm__")));
+        ], get_config("unoconv/__pdftoppm__")));
     }
     // EXTRACT ALL TEXT FROM TIFF
     $files = glob("{$root}-*");

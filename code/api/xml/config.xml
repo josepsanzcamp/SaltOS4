@@ -105,5 +105,18 @@
         <mb_internal_encoding>UTF-8</mb_internal_encoding>
         <mb_detect_order ifeval="!isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16,Windows-1250,Windows-1251,Windows-1252,Windows-1253,Windows-1254,Windows-1255,Windows-1256,Windows-1257,Windows-1258,CP1256,CP1250,CP1252,CP437,CP737,CP850,CP852,CP855,CP857,CP858,CP860,CP861,CP862,CP863,CP865,CP866,CP869,CP37,CP930,CP1047</mb_detect_order>
         <mb_detect_order ifeval="isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16</mb_detect_order>
-   </extras>
+    </extras>
+    <unoconv>
+        <soffice>soffice</soffice><!-- for unoconv module -->
+        <__soffice__>soffice --headless --convert-to __FORMAT__ --outdir __OUTDIR__ __INPUT__</__soffice__>
+        <__soffice_formats__>bib,doc,xml,docx,fodt,html,ltx,txt,odt,ott,pdb,pdf,psw,rtf,sdw,stw,sxw,uot,vor,wps,bmp,emf,eps,fodg,gif,jpg,met,odd,otg,pbm,pct,pgm,png,ppm,ras,std,svg,svm,swf,sxd,tiff,wmf,xhtml,xpm,fodp,odg,odp,otp,potm,pot,pptx,pps,ppt,pwp,sda,sdd,sti,sxi,uop,csv,dbf,dif,fods,ods,xlsx,ots,pxl,sdc,slk,stc,sxc,uos,xls,xlt</__soffice_formats__>
+        <pdftotext>pdftotext</pdftotext><!-- for unoconv module -->
+        <__pdftotext__>pdftotext -nopgbrk -layout __INPUT__ __OUTPUT__</__pdftotext__>
+        <pdftoppm>pdftoppm</pdftoppm><!-- for ocr module included in unoconv -->
+        <__pdftoppm__>pdftoppm -r 300 -l 1000 __INPUT__ __OUTPUT__</__pdftoppm__>
+        <convert>convert</convert><!-- for ocr module included in unoconv -->
+        <__convert__>convert __INPUT__ -quality 100 __OUTPUT__</__convert__>
+        <tesseract>tesseract</tesseract><!-- for ocr module included in unoconv -->
+        <__tesseract__>tesseract __INPUT__ __OUTPUT__ --psm 1 hocr</__tesseract__>
+    </unoconv>
 </root>
