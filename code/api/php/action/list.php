@@ -145,8 +145,8 @@ foreach ($array["data"] as $key => $row) {
         $action = join4array($action);
         $table = app2table($action["app"]);
         $id = $row["id"];
-        $sql = check_sql($action["app"], $action["action"]);
-        $query = "SELECT id FROM $table WHERE id=$id AND $sql";
+        $sql = check_sql($action["app"], strtok($action["action"], "/"));
+        $query = "SELECT id FROM $table WHERE id=" . strtok(strval($id), "/") . " AND $sql";
         $has_perm = execute_query($query);
         if ($has_perm) {
             $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";

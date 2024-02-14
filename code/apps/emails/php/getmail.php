@@ -1141,8 +1141,7 @@ function getmail_files($id)
     $array = [];
     foreach ($result as $file) {
         $array[] = [
-            "id" => $id,
-            "cid" => $file["chash"],
+            "id" => $id . "/" . $file["chash"],
             "name" => $file["cname"],
             "size" => $file["hsize"],
         ];

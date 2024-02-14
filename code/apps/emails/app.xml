@@ -221,8 +221,8 @@
         </header>
         <data require="apps/emails/php/getmail.php" eval="true">getmail_files(intval(get_data("rest/4")))</data>
         <actions eval="true">[
-            ["app" => "emails", "action" => "view", "icon" => "search", "tooltip" => "Ver adjunto"],
-            ["app" => "emails", "action" => "view", "icon" => "save", "tooltip" => "Descargar adjunto"],
+            ["app" => "emails", "action" => "view/pdf", "icon" => "search", "tooltip" => "Ver adjunto"],
+            ["app" => "emails", "action" => "view/download", "icon" => "save", "tooltip" => "Descargar adjunto"],
         ]</actions>
     </view>
 
@@ -243,6 +243,26 @@
     <action id="delete">
         <text require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("json/ids"))</text>
     </action>
+
+    <view id="pdf">
+        <screen>clear</screen>
+        <title>PDF</title>
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
+            <iframe id="source" height="200px" class="border-0">
+                <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
+            </iframe>
+        </layout>
+    </view>
+
+    <view id="download">
+        <screen>clear</screen>
+        <title>DOWNLOAD</title>
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
+            <iframe id="source" height="200px" class="border-0">
+                <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
+            </iframe>
+        </layout>
+    </view>
 
     <!-- TODO -->
 </root>
