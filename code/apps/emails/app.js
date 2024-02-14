@@ -170,10 +170,10 @@ saltos.emails.getmail = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            saltos.app.toast('Response', response.total + ' email(s) received');
-            if (response.total) {
-                saltos.tabs.send('saltos.emails.update');
+            for (var key in response.array) {
+                saltos.app.toast('Response', response.array[key]);
             }
+            saltos.tabs.send('saltos.emails.update');
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -224,10 +224,8 @@ saltos.emails.delete1 = () => {
                     if (!saltos.app.check_response(response)) {
                         return;
                     }
-                    saltos.app.toast('Response', response.total + ' email(s) deleted');
-                    if (response.total) {
-                        saltos.tabs.send('saltos.emails.update');
-                    }
+                    saltos.app.toast('Response', response.text);
+                    saltos.tabs.send('saltos.emails.update');
                 },
                 error: request => {
                     saltos.app.form.screen('unloading');
@@ -277,10 +275,8 @@ saltos.emails.delete2 = () => {
                     if (!saltos.app.check_response(response)) {
                         return;
                     }
-                    if (response.total) {
-                        saltos.tabs.send('saltos.emails.update');
-                        saltos.emails.close();
-                    }
+                    saltos.tabs.send('saltos.emails.update');
+                    saltos.emails.close();
                 },
                 error: request => {
                     saltos.app.form.screen('unloading');

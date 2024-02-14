@@ -1204,10 +1204,10 @@ function getmail_field($field, $id)
  */
 function getmail_receive()
 {
-    // CHECK THE SEMAPHORE
+    // check the semaphore
     $semaphore = [__FUNCTION__, current_user()];
     if (!semaphore_acquire($semaphore)) {
-        show_php_error(["phperror" => "Could not acquire the semaphore"]);
+        return "Could not acquire the semaphore";
     }
     //~ // FOR DEBUG PURPOSES
     //~ if (getDefault("debug/getmailmsgid")) {
@@ -1218,16 +1218,16 @@ function getmail_receive()
         //~ __getmail_insert($file, getDefault("debug/getmailmsgid"), 1, 0, 0, 0, 0, 0, 0, "");
         //~ die();
     //~ }
-    // DATOS POP3
+    // datos pop3
     $query = "SELECT * FROM app_emails_accounts WHERE user_id='" . current_user() . "' AND email_disabled='0'";
     $result = execute_query_array($query);
     if (!count($result)) {
         semaphore_release($semaphore);
-        show_php_error(["phperror" => "Could not found configuration"]);
+        return "Could not found configuration";
     }
-    // BEGIN THE LOOP
+    // begin the loop
     $newemail = 0;
-    $haserror = 0;
+    $haserror = [];
     foreach ($result as $row) {
         //~ if (time_get_usage() > getDefault("server/percentstop")) {
             //~ break;
@@ -1250,13 +1250,13 @@ function getmail_receive()
                 mkdir($prefix);
                 chmod($prefix, 0777);
             }
-            // DB code
+            // db code
             $query = "SELECT uidl FROM app_emails WHERE account_id='{$id_cuenta}'";
             $olduidls = execute_query_array($query);
             $query = "SELECT uidl FROM app_emails_deletes WHERE account_id='{$id_cuenta}'";
             $olduidls_d = execute_query_array($query);
             $olduidls = array_merge($olduidls, $olduidls_d);
-            // POP3 code
+            // pop3 code
             $pop3 = new pop3_class();
             $pop3->hostname = $row["pop3_host"];
             if ($row["pop3_port"]) {
@@ -1301,7 +1301,7 @@ function getmail_receive()
             }
         }
         if ($error == "") {
-            // RETRIEVE ALL NEW MESSAGES
+            // retrieve all new messages
             $retrieve = array_diff($uidls, $olduidls);
             foreach ($retrieve as $index => $uidl) {
                 //~ if (time_get_usage() > getDefault("server/percentstop")) {
@@ -1310,7 +1310,7 @@ function getmail_receive()
                 if ($error == "") {
                     $file = $prefix . "/" . $uidls[$index] . ".eml.gz";
                     if (!file_exists($file)) {
-                        // RETRIEVE THE ENTIRE MESSAGE
+                        // retrieve the entire message
                         $error = $pop3->OpenMessage($index, -1);
                         if ($error == "") {
                             $message = "";
@@ -1322,12 +1322,12 @@ function getmail_receive()
                             }
                         }
                         if ($error == "") {
-                            // STORE THE MESSAGE INTO SINGLE FILE
+                            // store the message into single file
                             $fp = gzopen($file, "w");
                             gzwrite($fp, $message);
                             gzclose($fp);
                             chmod($file, 0666);
-                            $message = ""; // TRICK TO RELEASE MEMORY
+                            $message = ""; // trick to release memory
                         }
                     }
                     if ($error == "") {
@@ -1339,7 +1339,7 @@ function getmail_receive()
             }
         }
         if ($error == "" && $row["pop3_delete"]) {
-            // REMOVE ALL EXPIRED MESSAGES (IF CHECKED THE DELETE OPTION)
+            // remove all expired messages (if checked the delete option)
             $delete = "'" . implode("','", $uidls) . "'";
             $query = "SELECT uidl,datetime FROM (
                 SELECT uidl,datetime
@@ -1369,7 +1369,7 @@ function getmail_receive()
             $error = $pop3->Close();
         }
         if ($error == "") {
-            // REMOVE ALL UNUSED UIDLS
+            // remove all unused uidls
             $delete = array_diff($olduidls_d, $uidls);
             $delete = "'" . implode("','", $delete) . "'";
             $query = "DELETE FROM app_emails_deletes WHERE account_id='{$id_cuenta}' AND uidl IN ({$delete})";
@@ -1381,8 +1381,7 @@ function getmail_receive()
             //~ } else {
                 //~ javascript_error(LANG("msgerrorpop3email", "correo") . $error . " (" . $row["pop3_host"] . ")");
             //~ }
-            show_php_error(["phperror" => "There has been the following error: " . $error . " (" . $row["pop3_host"] . ")"]);
-            $haserror = 1;
+            $haserror[] = "There has been the following error: " . $error . " (" . $row["pop3_host"] . ")";
         }
     }
     // GO BACK
@@ -1408,7 +1407,8 @@ function getmail_receive()
     semaphore_release($semaphore);
     //~ javascript_headers();
     //~ die();
-    return $newemail;
+    $haserror[] = "$newemail email(s) received";
+    return $haserror;
 }
 
 /**
@@ -1433,7 +1433,7 @@ function getmail_delete($ids)
     $result = execute_query_array($query);
     $numresult = count($result);
     if ($numresult != $numids) {
-        show_php_error(["phperror" => "Permission denied"]);
+        return "Permission denied";
     }
     // CREAR DATOS EN TABLA DE CORREOS BORRADOS (SOLO LOS DEL INBOX)
     $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
@@ -1494,5 +1494,5 @@ function getmail_delete($ids)
     //~ session_alert(
         //~ LANG("msgnumdelete", "correo") . $numids . LANG("message" . min($numids, 2), "correo")
     //~ );
-    return $numids;
+    return "$numids email(s) deleted";
 }

@@ -37,7 +37,7 @@
             <text col_class="col-auto p-0 ms-1" placeholder="Search" tooltip="To search in all emails contents" id="search"/>
             <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
             <button onclick="saltos.emails.reset()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-            <button onclick="saltos.emails.delete1()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete the selected emails" icon="trash"/>
+            <button onclick="saltos.emails.delete1()" col_class="col-auto p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete the selected emails" icon="trash"/>
             <button onclick="saltos.emails.getmail()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
             <table col_class="col-md-12 my-3" source="list/emails/table" id="table"/>
             <div col_class="col mb-3"/>
@@ -214,15 +214,15 @@
         <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")))</srcdoc>
     </view>
 
-    <view id="files" checkbox="true" type="table">
+    <view id="files" checkbox="true" dropdown="false" type="table">
         <header>
             <name>Filename</name>
             <size>Size</size>
         </header>
         <data require="apps/emails/php/getmail.php" eval="true">getmail_files(intval(get_data("rest/4")))</data>
         <actions eval="true">[
-            ["app" => "emails", "action" => "view", "value" => "View", "icon" => "search", "tooltip" => "Ver adjunto"],
-            ["app" => "emails", "action" => "view", "value" => "Download", "icon" => "download", "tooltip" => "Descargar adjunto"],
+            ["app" => "emails", "action" => "view", "icon" => "search", "tooltip" => "Ver adjunto"],
+            ["app" => "emails", "action" => "view", "icon" => "save", "tooltip" => "Descargar adjunto"],
         ]</actions>
     </view>
 
@@ -237,11 +237,11 @@
     </view>
 
     <action id="getmail">
-        <total require="apps/emails/php/getmail.php" eval="true">getmail_receive()</total>
+        <array require="apps/emails/php/getmail.php" eval="true">getmail_receive()</array>
     </action>
 
     <action id="delete">
-        <total require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("json/ids"))</total>
+        <text require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("json/ids"))</text>
     </action>
 
     <!-- TODO -->

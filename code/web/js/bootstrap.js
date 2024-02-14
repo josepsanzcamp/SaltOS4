@@ -1524,8 +1524,11 @@ saltos.bootstrap.__field.pdfjs = field => {
  * to identify if you want to use a column with some special type as for example, the icons
  */
 saltos.bootstrap.__field.table = field => {
-    saltos.core.check_params(field, ['class', 'id', 'checkbox']);
+    saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown']);
     saltos.core.check_params(field, ['header', 'data', 'footer'], []);
+    if (field.checkbox != '') {
+        field.checkbox = saltos.core.eval_bool(field.checkbox);
+    }
     var obj = saltos.core.html(`
         <table class="table table-striped table-hover ${field.class}"
             id="${field.id}" style="margin-bottom: 0">
@@ -1711,6 +1714,9 @@ saltos.bootstrap.__field.table = field => {
             if (val.hasOwnProperty('actions')) {
                 var td = saltos.core.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
                 var dropdown = val.actions.length > 1;
+                if (field.dropdown != '') {
+                    dropdown = saltos.core.eval_bool(field.dropdown);
+                }
                 if (dropdown) {
                     td.append(saltos.core.html(`
                         <div>
