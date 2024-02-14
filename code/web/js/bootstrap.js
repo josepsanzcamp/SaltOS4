@@ -1618,15 +1618,25 @@ saltos.bootstrap.__field.table = field => {
                     if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
                         var obj = event.target.parentNode.parentNode.parentNode;
                         var nodes = obj.querySelectorAll('input[type=checkbox][value]');
-                        var found = false;
                         var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
+                        // check that the two ids are presents
+                        var count = 0;
                         for (var i = 0; i < nodes.length; i++) {
                             if (ids.includes(nodes[i].value)) {
-                                found = !found;
+                                count++;
                             }
-                            if (found) {
-                                if (!nodes[i].checked) {
-                                    nodes[i].click();
+                        }
+                        // if the two ids are present, then apply
+                        if (count == 2) {
+                            var found = false;
+                            for (var i = 0; i < nodes.length; i++) {
+                                if (ids.includes(nodes[i].value)) {
+                                    found = !found;
+                                }
+                                if (found) {
+                                    if (!nodes[i].checked) {
+                                        nodes[i].click();
+                                    }
                                 }
                             }
                         }
