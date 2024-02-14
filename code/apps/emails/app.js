@@ -341,6 +341,7 @@ saltos.emails.download = (file) => {
             }
             var a = document.createElement('a');
             a.download = response.file.name;
+            response.file.type = 'application/force-download'; // to force download dialog
             a.href = `data:${response.file.type};base64,${response.file.data}`;
             a.click();
         },
