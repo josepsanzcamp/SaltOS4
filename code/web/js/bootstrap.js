@@ -2562,9 +2562,9 @@ saltos.bootstrap.modal = args => {
             aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header text-bg-primary">
                         <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="${args.close}"></button>
                     </div>
                     <div class="modal-body">
@@ -2651,9 +2651,9 @@ saltos.bootstrap.offcanvas = args => {
     var obj = saltos.core.html(`
         <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}"
             aria-labelledby="${args.id}_label" ${temp}>
-            <div class="offcanvas-header">
+            <div class="offcanvas-header text-bg-primary">
                 <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="${args.close}"></button>
             </div>
             <div class="offcanvas-body">
@@ -2722,10 +2722,10 @@ saltos.bootstrap.toast = args => {
     var obj = saltos.core.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${hash}">
-            <div class="toast-header">
+            <div class="toast-header text-bg-primary">
                 <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast"
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
                     aria-label="${args.close}"></button>
             </div>
             <div class="toast-body">
