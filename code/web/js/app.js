@@ -65,14 +65,20 @@ saltos.app.show_error = error => {
  * @message => message of the alert modal dialog
  * @buttons => array of buttons
  */
-saltos.app.alert = (title, message, buttons) => {
-    if (typeof buttons == 'undefined') {
-        buttons = [{
+saltos.app.alert = (title, message, extra) => {
+    if (typeof extra == 'undefined') {
+        var extra = {};
+    }
+    if (!extra.hasOwnProperty('buttons')) {
+        extra.buttons = [{
             label: 'Close',
             class: 'btn-primary',
             icon: 'x-lg',
             onclick: () => {},
         }];
+    }
+    if (!extra.hasOwnProperty('style')) {
+        extra.style = 'primary';
     }
     saltos.bootstrap.modal({
         title: title,
@@ -80,7 +86,7 @@ saltos.app.alert = (title, message, buttons) => {
         body: message,
         footer: (() => {
             var obj = saltos.core.html('<div></div>');
-            for (var key in buttons) {
+            for (var key in extra.buttons) {
                 (button => {
                     obj.append(saltos.bootstrap.field({
                         type: 'button',
@@ -92,10 +98,11 @@ saltos.app.alert = (title, message, buttons) => {
                             saltos.bootstrap.modal('close');
                         }
                     }));
-                })(buttons[key]);
+                })(extra.buttons[key]);
             }
             return obj;
-        })()
+        })(),
+        style: extra.style,
     });
 };
 
@@ -104,10 +111,17 @@ saltos.app.alert = (title, message, buttons) => {
  *
  * TODO
  */
-saltos.app.toast = (title, message) => {
+saltos.app.toast = (title, message, extra) => {
+    if (typeof extra == 'undefined') {
+        var extra = {};
+    }
+    if (!extra.hasOwnProperty('style')) {
+        extra.style = 'primary';
+    }
     saltos.bootstrap.toast({
-        'title': title,
-        'body': message,
+        title: title,
+        body: message,
+        style: extra.style,
     });
 };
 
@@ -877,6 +891,7 @@ saltos.app.check_required = () => {
     document.querySelectorAll('[required]').forEach(_this => {
         _this.classList.remove('is-valid');
         _this.classList.remove('is-invalid');
+        _this.classList.remove('border-primary');
         if (_this.value == '') {
             _this.classList.add('is-invalid');
             if (!obj) {

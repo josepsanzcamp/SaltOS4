@@ -68,7 +68,7 @@ saltos.emails.search = () => {
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'emails',
+            'app': saltos.hash.get().split('/').at(1),
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -119,7 +119,7 @@ saltos.emails.more = () => {
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'list',
-            'app': 'emails',
+            'app': saltos.hash.get().split('/').at(1),
             'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -129,6 +129,10 @@ saltos.emails.more = () => {
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (!response.data.length) {
+                saltos.app.toast('Response', 'There is no more data', {style: 'warning'});
                 return;
             }
             var obj = document.querySelector('table').querySelector('tbody');
@@ -159,7 +163,7 @@ saltos.emails.getmail = () => {
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'app',
-            'app': 'emails',
+            'app': saltos.hash.get().split('/').at(1),
             'subapp': 'action',
             'id': 'getmail',
         }),
@@ -198,53 +202,59 @@ saltos.emails.delete1 = () => {
     if (!ids.length) {
         saltos.app.alert(
             'Select emails',
-            'You must select the desired emails to be deleted'
+            'You must select the desired emails to be deleted',
+            {
+                style: 'danger',
+            },
         );
         return;
     }
-    saltos.app.alert('Delete emails???', 'Do you want to delete the selected emails???', [{
-        label: 'Yes',
-        class: 'btn-success',
-        icon: 'check-lg',
-        onclick: () => {
-            saltos.app.form.screen('loading');
-            saltos.core.ajax({
-                url: 'api/index.php',
-                data: JSON.stringify({
-                    'action': 'app',
-                    'app': 'emails',
-                    'subapp': 'action',
-                    'id': 'delete',
-                    'ids': ids,
-                }),
-                method: 'post',
-                content_type: 'application/json',
-                success: response => {
-                    saltos.app.form.screen('unloading');
-                    if (!saltos.app.check_response(response)) {
-                        return;
+    saltos.app.alert('Delete emails???', 'Do you want to delete the selected emails???', {
+        buttons: [{
+            label: 'Yes',
+            class: 'btn-success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'app',
+                        'app': saltos.hash.get().split('/').at(1),
+                        'subapp': 'action',
+                        'id': 'delete',
+                        'ids': ids,
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        saltos.app.form.screen('unloading');
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        saltos.app.toast('Response', response.text);
+                        saltos.tabs.send('saltos.emails.update');
+                    },
+                    error: request => {
+                        saltos.app.form.screen('unloading');
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
                     }
-                    saltos.app.toast('Response', response.text);
-                    saltos.tabs.send('saltos.emails.update');
-                },
-                error: request => {
-                    saltos.app.form.screen('unloading');
-                    saltos.app.show_error({
-                        text: request.statusText,
-                        code: request.status,
-                    });
-                },
-                headers: {
-                    'token': saltos.token.get(),
-                }
-            });
-        },
-    },{
-        label: 'No',
-        class: 'btn-danger',
-        icon: 'x-lg',
-        onclick: () => {},
-    }]);
+                });
+            },
+        },{
+            label: 'No',
+            class: 'btn-danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        style: 'danger',
+    });
 };
 
 /**
@@ -253,49 +263,52 @@ saltos.emails.delete1 = () => {
  * TODO
  */
 saltos.emails.delete2 = () => {
-    saltos.app.alert('Delete this email???', 'Do you want to delete this email???', [{
-        label: 'Yes',
-        class: 'btn-success',
-        icon: 'check-lg',
-        onclick: () => {
-            saltos.app.form.screen('loading');
-            saltos.core.ajax({
-                url: 'api/index.php',
-                data: JSON.stringify({
-                    'action': 'app',
-                    'app': 'emails',
-                    'subapp': 'action',
-                    'id': 'delete',
-                    'ids': [saltos.hash.get().split('/').at(3)],
-                }),
-                method: 'post',
-                content_type: 'application/json',
-                success: response => {
-                    saltos.app.form.screen('unloading');
-                    if (!saltos.app.check_response(response)) {
-                        return;
+    saltos.app.alert('Delete this email???', 'Do you want to delete this email???',
+        buttons: [{
+            label: 'Yes',
+            class: 'btn-success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'app',
+                        'app': saltos.hash.get().split('/').at(1),
+                        'subapp': 'action',
+                        'id': 'delete',
+                        'ids': [saltos.hash.get().split('/').at(3)],
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        saltos.app.form.screen('unloading');
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        saltos.tabs.send('saltos.emails.update');
+                        saltos.emails.close();
+                    },
+                    error: request => {
+                        saltos.app.form.screen('unloading');
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
                     }
-                    saltos.tabs.send('saltos.emails.update');
-                    saltos.emails.close();
-                },
-                error: request => {
-                    saltos.app.form.screen('unloading');
-                    saltos.app.show_error({
-                        text: request.statusText,
-                        code: request.status,
-                    });
-                },
-                headers: {
-                    'token': saltos.token.get(),
-                }
-            });
-        },
-    },{
-        label: 'No',
-        class: 'btn-danger',
-        icon: 'x-lg',
-        onclick: () => {},
-    }]);
+                });
+            },
+        },{
+            label: 'No',
+            class: 'btn-danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        style: 'danger',
+    });
 };
 
 /**
@@ -368,7 +381,7 @@ saltos.emails.setter = what => {
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'app',
-            'app': 'emails',
+            'app': saltos.hash.get().split('/').at(1),
             'subapp': 'action',
             'id': 'setter',
             'ids': [saltos.hash.get().split('/').at(3)],

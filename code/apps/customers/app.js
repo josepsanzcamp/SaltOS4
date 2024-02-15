@@ -150,6 +150,10 @@ saltos.customers.more = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
+            if (!response.data.length) {
+                saltos.app.toast('Response', 'There is no more data', {style: 'warning'});
+                return;
+            }
             var obj = document.querySelector('table').querySelector('tbody');
             var temp = saltos.bootstrap.field(response);
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
@@ -192,7 +196,7 @@ saltos.customers.cancel = () => {
  */
 saltos.customers.insert = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found');
+        saltos.app.alert('Warning', 'Required fields not found', {style: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
@@ -235,12 +239,12 @@ saltos.customers.insert = () => {
  */
 saltos.customers.update = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found');
+        saltos.app.alert('Warning', 'Required fields not found', {style: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.app.alert('Warning', 'No changes detected');
+        saltos.app.alert('Warning', 'No changes detected', {style: 'danger'});
         return;
     }
     saltos.core.ajax({
@@ -281,35 +285,104 @@ saltos.customers.update = () => {
  *
  * TODO
  */
-saltos.customers.delete = () => {
-    saltos.core.ajax({
-        url: 'api/index.php',
-        data: JSON.stringify({
-            'action': 'delete',
-            'app': saltos.hash.get().split('/').at(1),
-            'id': saltos.hash.get().split('/').at(3),
-        }),
-        method: 'post',
-        content_type: 'application/json',
-        success: response => {
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-            if (response.status == 'ok') {
-                saltos.tabs.send('saltos.customers.update');
-                saltos.core.close_window();
-                return;
-            }
-            saltos.app.show_error(response);
-        },
-        error: request => {
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        headers: {
-            'token': saltos.token.get(),
-        }
+saltos.customers.delete1 = arg => {
+    saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
+        buttons: [{
+            label: 'Yes',
+            class: 'btn-success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'delete',
+                        'app': arg.split('/').at(1),
+                        'id': arg.split('/').at(3),
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        if (response.status == 'ok') {
+                            saltos.tabs.send('saltos.customers.update');
+                            return;
+                        }
+                        saltos.app.show_error(response);
+                    },
+                    error: request => {
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
+                    }
+                });
+            },
+        },{
+            label: 'No',
+            class: 'btn-danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        style: 'danger',
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.customers.delete2 = () => {
+    saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
+        buttons: [{
+            label: 'Yes',
+            class: 'btn-success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'delete',
+                        'app': saltos.hash.get().split('/').at(1),
+                        'id': saltos.hash.get().split('/').at(3),
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        if (response.status == 'ok') {
+                            saltos.tabs.send('saltos.customers.update');
+                            saltos.core.close_window();
+                            return;
+                        }
+                        saltos.app.show_error(response);
+                    },
+                    error: request => {
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
+                    }
+                });
+            },
+        },{
+            label: 'No',
+            class: 'btn-danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        style: 'danger',
     });
 };

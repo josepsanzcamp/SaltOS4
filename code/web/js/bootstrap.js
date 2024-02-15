@@ -2526,6 +2526,7 @@ saltos.bootstrap.__modal = {};
  * @footer => the content used in the modal's footer
  * @static => forces the modal to be static (prevent close by clicking outside the modal or
  *            by pressing the escape key)
+ * @style  => the style used in the modal (primary, secondary, success, danger, warning, info)
  *
  * Returns a boolean that indicates if the modal can be open or not
  *
@@ -2535,7 +2536,7 @@ saltos.bootstrap.__modal = {};
  * to undestand that only one modal is allowed at each moment.
  */
 saltos.bootstrap.modal = args => {
-    // HELPER ACTIONS
+    // Helper actions
     if (args == 'close') {
         return typeof saltos.bootstrap.__modal.instance == 'object' &&
             saltos.bootstrap.__modal.instance.hide();
@@ -2544,12 +2545,12 @@ saltos.bootstrap.modal = args => {
         return typeof saltos.bootstrap.__modal.obj == 'object' &&
             saltos.bootstrap.__modal.obj.classList.contains('show');
     }
-    // ADDITIONAL CHECK
+    // Additional check
     if (saltos.bootstrap.modal('isopen')) {
         return false;
     }
-    // NORMAL OPERATION
-    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static']);
+    // Normal operation
+    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static', 'style']);
     var temp = '';
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
@@ -2557,12 +2558,15 @@ saltos.bootstrap.modal = args => {
     //if (args.class == '') {
     //    args.class = 'modal-dialog-centered';
     //}
+    if (!args.style) {
+        args.style = 'primary';
+    }
     var obj = saltos.core.html(`
         <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
             aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
                 <div class="modal-content">
-                    <div class="modal-header text-bg-primary">
+                    <div class="modal-header text-bg-${args.style}">
                         <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="${args.close}"></button>
@@ -2620,6 +2624,7 @@ saltos.bootstrap.__offcanvas = {};
  * @body   => the content used in the offcanvas's body
  * @static => forces the offcanvas to be static (prevent close by clicking outside the
  *            offcanvas or by pressing the escape key)
+ * @style  => the style used in the modal (primary, secondary, success, danger, warning, info)
  *
  * Returns a boolean that indicates if the offcanvas can be open or not
  *
@@ -2629,7 +2634,7 @@ saltos.bootstrap.__offcanvas = {};
  * to undestand that only one offcanvas is allowed at each moment.
  */
 saltos.bootstrap.offcanvas = args => {
-    // HELPER ACTIONS
+    // Helper actions
     if (args == 'close') {
         return typeof saltos.bootstrap.__offcanvas.instance == 'object' &&
             saltos.bootstrap.__offcanvas.instance.hide();
@@ -2638,20 +2643,23 @@ saltos.bootstrap.offcanvas = args => {
         return typeof saltos.bootstrap.__offcanvas.obj == 'object' &&
             saltos.bootstrap.__offcanvas.obj.classList.contains('show');
     }
-    // ADDITIONAL CHECK
+    // Additional check
     if (saltos.bootstrap.offcanvas('isopen')) {
         return false;
     }
-    // NORMAL OPERATION
-    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static']);
+    // Normal operation
+    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static', 'style']);
     var temp = '';
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
+    if (!args.style) {
+        args.style = 'primary';
+    }
     var obj = saltos.core.html(`
         <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}"
             aria-labelledby="${args.id}_label" ${temp}>
-            <div class="offcanvas-header text-bg-primary">
+            <div class="offcanvas-header text-bg-${args.style}">
                 <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="${args.close}"></button>
@@ -2689,6 +2697,7 @@ saltos.bootstrap.offcanvas = args => {
  * @subtitle => small text used by the toast
  * @close    => text used in the close button for aria purposes
  * @body     => the content used in the toast's body
+ * @style  => the style used in the modal (primary, secondary, success, danger, warning, info)
  *
  * Returns a boolean that indicates if the toast can be created (see the hash note)
  *
@@ -2708,21 +2717,24 @@ saltos.bootstrap.offcanvas = args => {
  */
 saltos.bootstrap.toast = args => {
     saltos.core.require('lib/md5/md5.min.js');
-    saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body']);
+    saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'style']);
     if (document.querySelectorAll('.toast-container').length == 0) {
         document.body.append(saltos.core.html(`<div
             class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
     }
-    // CHECK FOR REPETITIONS
+    // Check for repetitions
     var hash = md5(JSON.stringify(args));
     if (document.querySelector(`.toast[hash=x${hash}]`)) {
         return false;
     }
-    // CONTINUE
+    // Continue
+    if (!args.style) {
+        args.style = 'primary';
+    }
     var obj = saltos.core.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${hash}">
-            <div class="toast-header text-bg-primary">
+            <div class="toast-header text-bg-${args.style}">
                 <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"

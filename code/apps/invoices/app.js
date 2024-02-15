@@ -128,6 +128,18 @@ saltos.invoices.compute_total = () => {
  *
  * TODO
  */
+saltos.invoices.add_item = () => {
+    var layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
+    var obj = saltos.app.form.layout(layout, 'div');
+    document.querySelector('.container.footer').before(obj);
+    saltos.invoices.initialize_inputs();
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.invoices.remove_item = (obj) => {
     // This long line is to do a copy of the array to iterate and remove at the same time
     var items = Array.prototype.slice.call(saltos.app.parentNode_search(obj, 'row').childNodes);
@@ -139,18 +151,6 @@ saltos.invoices.remove_item = (obj) => {
         }
     });
     saltos.invoices.compute_total();
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.invoices.add_item = () => {
-    var layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
-    var obj = saltos.app.form.layout(layout, 'div');
-    document.querySelector('.container.footer').before(obj);
-    saltos.invoices.initialize_inputs();
 };
 
 /**
@@ -228,6 +228,10 @@ saltos.invoices.more = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
+            if (!response.data.length) {
+                saltos.app.toast('Response', 'There is no more data', {style: 'warning'});
+                return;
+            }
             var obj = document.querySelector('table').querySelector('tbody');
             var temp = saltos.bootstrap.field(response);
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
@@ -270,7 +274,7 @@ saltos.invoices.cancel = () => {
  */
 saltos.invoices.insert = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found');
+        saltos.app.alert('Warning', 'Required fields not found', {style: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
@@ -313,12 +317,12 @@ saltos.invoices.insert = () => {
  */
 saltos.invoices.update = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found');
+        saltos.app.alert('Warning', 'Required fields not found', {style: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.app.alert('Warning', 'No changes detected');
+        saltos.app.alert('Warning', 'No changes detected', {style: 'danger'});
         return;
     }
     saltos.core.ajax({
@@ -359,35 +363,104 @@ saltos.invoices.update = () => {
  *
  * TODO
  */
-saltos.invoices.delete = () => {
-    saltos.core.ajax({
-        url: 'api/index.php',
-        data: JSON.stringify({
-            'action': 'delete',
-            'app': saltos.hash.get().split('/').at(1),
-            'id': saltos.hash.get().split('/').at(3),
-        }),
-        method: 'post',
-        content_type: 'application/json',
-        success: response => {
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-            if (response.status == 'ok') {
-                saltos.tabs.send('saltos.invoices.update');
-                saltos.core.close_window();
-                return;
-            }
-            saltos.app.show_error(response);
-        },
-        error: request => {
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        headers: {
-            'token': saltos.token.get(),
-        }
+saltos.invoices.delete1 = arg => {
+    saltos.app.alert('Delete this invoice???', 'Do you want to delete this invoice???', {
+        buttons: [{
+            label: 'Yes',
+            class: 'btn-success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'delete',
+                        'app': arg.split('/').at(1),
+                        'id': arg.split('/').at(3),
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        if (response.status == 'ok') {
+                            saltos.tabs.send('saltos.invoices.update');
+                            return;
+                        }
+                        saltos.app.show_error(response);
+                    },
+                    error: request => {
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
+                    }
+                });
+            },
+        },{
+            label: 'No',
+            class: 'btn-danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        style: 'danger',
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.delete2 = () => {
+    saltos.app.alert('Delete this invoice???', 'Do you want to delete this invoice???', {
+        buttons: [{
+            label: 'Yes',
+            class: 'btn-success',
+            icon: 'check-lg',
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'delete',
+                        'app': saltos.hash.get().split('/').at(1),
+                        'id': saltos.hash.get().split('/').at(3),
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        if (response.status == 'ok') {
+                            saltos.tabs.send('saltos.invoices.update');
+                            saltos.core.close_window();
+                            return;
+                        }
+                        saltos.app.show_error(response);
+                    },
+                    error: request => {
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
+                    }
+                });
+            },
+        },{
+            label: 'No',
+            class: 'btn-danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        style: 'danger',
     });
 };
