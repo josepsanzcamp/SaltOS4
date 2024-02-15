@@ -263,7 +263,7 @@ saltos.emails.delete1 = () => {
  * TODO
  */
 saltos.emails.delete2 = () => {
-    saltos.app.alert('Delete this email???', 'Do you want to delete this email???',
+    saltos.app.alert('Delete this email???', 'Do you want to delete this email???', {
         buttons: [{
             label: 'Yes',
             class: 'btn-success',
