@@ -1262,30 +1262,10 @@ function getmail_receive()
                 $pop3->port = $row["pop3_port"];
             }
             $pop3->tls = ($row["pop3_extra"] == "tls") ? 1 : 0;
-            ob_start();
             $error = $pop3->Open();
-            $error2 = ob_get_clean();
-            if ($error2 != "") {
-                //~ if (stripos($error2, "connection refused") !== false) {
-                    //~ $error = LANG("msgconnrefusedpop3email", "correo");
-                //~ } elseif (stripos($error2, "unable to connect to") !== false) {
-                    //~ $error = LANG("msgconnerrorpop3email", "correo");
-                //~ } else {
-                    $error = $error2;
-                //~ }
-            }
         }
         if ($error == "") {
-            ob_start();
             $error = $pop3->Login($row["pop3_user"], $row["pop3_pass"]);
-            $error2 = ob_get_clean();
-            if ($error2 != "") {
-                //~ if (stripos($error2, "connection reset by peer") !== false) {
-                    //~ $error = LANG("msgconnerrorpop3email", "correo");
-                //~ } else {
-                    $error = $error2;
-                //~ }
-            }
         }
         if ($error == "") {
             $sizes = $pop3->ListMessages("", 0);
@@ -1375,37 +1355,11 @@ function getmail_receive()
             db_query($query);
         }
         if ($error != "") {
-            //~ if (!getParam("ajax")) {
-                //~ session_error(LANG("msgerrorpop3email", "correo") . $error . " (" . $row["pop3_host"] . ")");
-            //~ } else {
-                //~ javascript_error(LANG("msgerrorpop3email", "correo") . $error . " (" . $row["pop3_host"] . ")");
-            //~ }
             $haserror[] = "There has been the following error: " . $error . " (" . $row["pop3_host"] . ")";
         }
     }
-    // GO BACK
-    //~ if (!getParam("ajax")) {
-        //~ if ($newemail > 0) {
-            //~ session_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo"));
-        //~ } elseif (!$haserror) {
-            //~ session_alert(LANG("msgnewkopop3email", "correo"));
-        //~ }
-        //~ javascript_history(-1);
-    //~ } else {
-        //~ if ($newemail > 0) {
-            //~ $gotoemail = " [<a href='javascript:void(0)' onclick='gotoemail()'>" . LANG("msggotoemail", "correo") . "</a>]";
-            //~ $condition = "update_correo_list()";
-            //~ javascript_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo"), $condition);
-            //~ javascript_alert($newemail . LANG("msgnewokpop3email" . min($newemail, 2), "correo") . $gotoemail, "!($condition)");
-            //~ javascript_template("update_numbers('correo',{$newemail});");
-            //~ javascript_template("update_favicon({$newemail});");
-            //~ javascript_history(0, $condition);
-        //~ }
-    //~ }
-    // RELEASE SEMAPHORE
+    // release semaphore
     semaphore_release($semaphore);
-    //~ javascript_headers();
-    //~ die();
     $haserror[] = "$newemail email(s) received";
     return $haserror;
 }
@@ -1539,4 +1493,75 @@ function getmail_download($id, $cid)
     $file = getmail_cid($id, $cid);
     $file["data"] = base64_encode($file["data"]);
     return $file;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function getmail_setter($ids, $action2)
+{
+    $numids = count($ids);
+    $ids = implode(",", $ids);
+    $query = "SELECT id FROM
+        app_emails a
+        WHERE id IN ($ids)
+            AND id IN (
+                SELECT id
+                FROM app_emails_control b
+                WHERE b.id=a.id
+                    AND user_id='" . current_user() . "')";
+    $result = execute_query_array($query);
+    $numresult = count($result);
+    if ($numresult != $numids) {
+        return "Permission denied";
+    }
+    // process the real action
+    $action2 = explode("=", $action2);
+    if ($action2[0] == "new") {
+        // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
+        $query = "SELECT COUNT(*)
+            FROM app_emails
+            WHERE id IN ($ids)
+                AND state_new!='{$action2[1]}'
+                AND is_outbox='0'";
+        $numids = execute_query($query);
+        // PONER STATE_NEW=0 EN LOS CORREOS SELECCIONADOS
+        $query = make_update_query("app_emails", array(
+            "state_new" => $action2[1]
+        ), "id IN ({$ids}) AND state_new!='{$action2[1]}' AND is_outbox='0'");
+        db_query($query);
+    } elseif ($action2[0] == "wait") {
+        // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
+        $query = "SELECT COUNT(*)
+            FROM app_emails
+            WHERE id IN ($ids)
+                AND state_wait!='{$action2[1]}'";
+        $numids = execute_query($query);
+        // PONER STATE_WAIT=1 EN LOS CORREOS SELECCIONADOS
+        $query = make_update_query("app_emails", array(
+            "state_new" => "0",
+            "state_wait" => $action2[1]
+        ), "id IN ({$ids}) AND state_wait!='{$action2[1]}'");
+        db_query($query);
+    } elseif ($action2[0] == "spam") {
+        // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
+        $query = "SELECT COUNT(*)
+            FROM app_emails
+            WHERE id IN ($ids)
+                AND state_spam!='{$action2[1]}'
+                AND is_outbox='0'";
+        $numids = execute_query($query);
+        // PONER STATE_SPAM=1 EN LOS CORREOS SELECCIONADOS
+        $query = make_update_query("app_emails", array(
+            "state_new" => "0",
+            "state_spam" => $action2[1]
+        ), "id IN ({$ids})
+            AND state_spam!='{$action2[1]}'
+            AND is_outbox='0'");
+        db_query($query);
+    }
+    // return the response
+    return "$numids email(s) modified successfully";
 }

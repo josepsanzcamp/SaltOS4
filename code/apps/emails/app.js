@@ -313,7 +313,7 @@ saltos.emails.close = () => {
  * TODO
  */
 saltos.emails.send = () => {
-
+    // TODO
 };
 
 /**
@@ -344,6 +344,45 @@ saltos.emails.download = (file) => {
             response.file.type = 'application/force-download'; // to force download dialog
             a.href = `data:${response.file.type};base64,${response.file.data}`;
             a.click();
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        headers: {
+            'token': saltos.token.get(),
+        }
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.setter = what => {
+    saltos.core.ajax({
+        url: 'api/index.php',
+        data: JSON.stringify({
+            'action': 'app',
+            'app': 'emails',
+            'subapp': 'action',
+            'id': 'setter',
+            'ids': [saltos.hash.get().split('/').at(3)],
+            'what': what,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            saltos.tabs.send('saltos.emails.update');
+            saltos.hash.trigger();
         },
         error: request => {
             saltos.app.form.screen('unloading');

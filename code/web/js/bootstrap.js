@@ -625,8 +625,10 @@ saltos.bootstrap.__field.iframe = field => {
     obj.addEventListener('load', event => {
         var _this = event.target;
         window.addEventListener('resize', event => {
-            var size = _this.contentWindow.document.documentElement.offsetHeight + 2;
-            _this.style.height = size + 'px';
+            if (_this.contentWindow) {
+                var size = _this.contentWindow.document.documentElement.offsetHeight + 2;
+                _this.style.height = size + 'px';
+            }
         });
         window.dispatchEvent(new Event('resize'));
     });
