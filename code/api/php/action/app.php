@@ -91,8 +91,8 @@ foreach ($array as $key => $val) {
     if (isset($val["#attr"]["id"])) {
         if (fix_key($key) == get_data("rest/2") && $val["#attr"]["id"] == get_data("rest/3")) {
             set_data("rest/2", $key);
+            unset($array[$key]["#attr"]["id"]);
         }
-        unset($array[$key]["#attr"]["id"]);
     }
 }
 

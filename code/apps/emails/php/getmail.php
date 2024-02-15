@@ -50,7 +50,7 @@ require_once "apps/emails/lib/pop3class/pop3.php";
  *
  * This defines allow to define some usefull standards to do html pages and more.
  */
-define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:0px;}</style></head><body>');
+define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
 define("__HTML_PAGE_CLOSE__", '</body></html>');
 define("__HTML_BOX_OPEN__", '<div style="background:#ffffff">');
 define("__HTML_BOX_CLOSE__", '</div>');
@@ -1528,9 +1528,9 @@ function getmail_setter($ids, $action2)
                 AND is_outbox='0'";
         $numids = execute_query($query);
         // PONER STATE_NEW=0 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query("app_emails", array(
-            "state_new" => $action2[1]
-        ), "id IN ({$ids}) AND state_new!='{$action2[1]}' AND is_outbox='0'");
+        $query = make_update_query("app_emails", [
+            "state_new" => $action2[1],
+        ], "id IN ({$ids}) AND state_new!='{$action2[1]}' AND is_outbox='0'");
         db_query($query);
     } elseif ($action2[0] == "wait") {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
@@ -1540,10 +1540,10 @@ function getmail_setter($ids, $action2)
                 AND state_wait!='{$action2[1]}'";
         $numids = execute_query($query);
         // PONER STATE_WAIT=1 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query("app_emails", array(
+        $query = make_update_query("app_emails", [
             "state_new" => "0",
-            "state_wait" => $action2[1]
-        ), "id IN ({$ids}) AND state_wait!='{$action2[1]}'");
+            "state_wait" => $action2[1],
+        ], "id IN ({$ids}) AND state_wait!='{$action2[1]}'");
         db_query($query);
     } elseif ($action2[0] == "spam") {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
@@ -1554,10 +1554,10 @@ function getmail_setter($ids, $action2)
                 AND is_outbox='0'";
         $numids = execute_query($query);
         // PONER STATE_SPAM=1 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query("app_emails", array(
+        $query = make_update_query("app_emails", [
             "state_new" => "0",
-            "state_spam" => $action2[1]
-        ), "id IN ({$ids})
+            "state_spam" => $action2[1],
+        ], "id IN ({$ids})
             AND state_spam!='{$action2[1]}'
             AND is_outbox='0'");
         db_query($query);

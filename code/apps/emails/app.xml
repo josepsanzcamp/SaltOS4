@@ -241,7 +241,7 @@
         <screen>clear</screen>
         <title>Source of the email</title>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <iframe height="200px" class="border-0">
+            <iframe height="200px">
                 <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
             </iframe>
         </layout>

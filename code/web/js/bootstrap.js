@@ -527,7 +527,8 @@ saltos.bootstrap.__field.ckeditor = field => {
         ClassicEditor.create(element, {
             // Nothing to do
         }).then(editor => {
-            // Nothing to do
+            element.nextElementSibling.classList.add('border');
+            element.nextElementSibling.classList.add('border-primary');
         }).catch(error => {
             throw error;
         });
@@ -585,8 +586,8 @@ saltos.bootstrap.__field.codemirror = field => {
             lineNumbers: true,
             lineWrapping: true,
         });
-        element.nextElementSibling.classList.add('form-control');
-        element.nextElementSibling.classList.add('p-0');
+        element.nextElementSibling.classList.add('border');
+        element.nextElementSibling.classList.add('border-primary');
         element.nextElementSibling.style.height = 'auto';
         cm.on('change', cm.save);
         if (field.height) {
@@ -611,7 +612,8 @@ saltos.bootstrap.__field.codemirror = field => {
 saltos.bootstrap.__field.iframe = field => {
     saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height']);
     var obj = saltos.core.html(`
-        <iframe id="${field.id}" frameborder="0" class="form-control p-0 ${field.class}"></iframe>
+        <iframe id="${field.id}" frameborder="0"
+            class="form-control p-0 border-primary ${field.class}"></iframe>
     `);
     if (field.src) {
         obj.src = field.src;
@@ -674,8 +676,9 @@ saltos.bootstrap.__field.select = field => {
         field.size = `size="${field.size}"`;
     }
     var obj = saltos.core.html(`
-        <select class="form-select ${field.class}" id="${field.id}" ${field.disabled} ${field.required}
-            ${field.autofocus} ${field.multiple} ${field.size} data-bs-title="${field.tooltip}"></select>
+        <select class="form-select border-primary ${field.class}" id="${field.id}"
+            ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
+            ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
     var element = obj;
     if (field.tooltip != '') {
@@ -845,8 +848,9 @@ saltos.bootstrap.__field.checkbox = field => {
     }
     var obj = saltos.core.html(`
         <div class="form-check ${field.class}">
-            <input class="form-check-input" type="checkbox" id="${field.id}" value="${field.value}"
-                ${field.disabled} ${field.readonly} ${checked} data-bs-title="${field.tooltip}">
+            <input class="form-check-input border-primary" type="checkbox" id="${field.id}"
+                value="${field.value}" ${field.disabled} ${field.readonly} ${checked}
+                data-bs-title="${field.tooltip}">
             <label class="form-check-label" for="${field.id}"
                 data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
@@ -978,7 +982,7 @@ saltos.bootstrap.__field.password = field => {
     var obj = saltos.core.html(`
         <div>
             <div class="input-group">
-                <input type="password" class="form-control ${field.class}" id="${field.id}"
+                <input type="password" class="form-control border-primary ${field.class}" id="${field.id}"
                     placeholder="${field.placeholder}" value="${field.value}"
                     ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
@@ -1053,8 +1057,9 @@ saltos.bootstrap.__field.file = field => {
     }
     var obj = saltos.core.html(`
         <div>
-            <input type="file" class="form-control ${field.class}" id="${field.id}" ${field.disabled}
-                ${field.required} ${field.autofocus} ${field.multiple} data-bs-title="${field.tooltip}">
+            <input type="file" class="form-control border-primary ${field.class}" id="${field.id}"
+                ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
+                data-bs-title="${field.tooltip}">
             <div class="overflow-auto">
                 <table class="table table-striped table-hover d-none">
                     <tbody>
@@ -1295,7 +1300,8 @@ saltos.bootstrap.__field.image = field => {
         field.class = 'img-fluid';
     }
     var obj = saltos.core.html(`
-        <img id="${field.id}" src="${field.value}" class="${field.class}" alt="${field.alt}"
+        <img id="${field.id}" src="${field.value}"
+            class="border border-primary ${field.class}" alt="${field.alt}"
             data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
     `);
     if (field.tooltip != '') {
@@ -1344,7 +1350,7 @@ saltos.bootstrap.__field.excel = field => {
     saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
                                 'contextMenu', 'rowHeaderWidth', 'colWidths', 'numcols', 'numrows']);
     var obj = saltos.core.html(`
-        <div style="width: 100%; height: 100%; overflow: auto">
+        <div style="width: 100%; height: 100%; overflow: auto" class="border border-primary">
             <div id="${field.id}" class="${field.class}"></div>
         </div>
     `);
@@ -1473,6 +1479,10 @@ saltos.bootstrap.__field.pdfjs = field => {
                 container.querySelectorAll('a').forEach(_this => {
                     _this.setAttribute('target', '_blank');
                 });
+                container.querySelectorAll('.viewerContainer .canvasWrapper').forEach(_this => {
+                    _this.classList.add('border');
+                    _this.classList.add('border-primary');
+                });
             });
             pdfViewer.removePageBorders = true;
             pdfViewer.setDocument(pdfDocument);
@@ -1516,9 +1526,6 @@ saltos.bootstrap.__field.pdfjs = field => {
  * data without filters, the recomendation is to use header to specify which fields must
  * to be painted, the order, the type and the alignment.
  *
- * The divider will be added dynamically depending the contents of the table, the main idea
- * is to use the divider to separate each block of the table (header, data and footer)
- *
  * The actions will be added using a dropdown menu if more than one action appear in the
  * the row data, the idea of this feature is to prevent that the icons uses lot of space
  * of the row data, and for this reason, it will define the dropdown variable that enables
@@ -1536,7 +1543,7 @@ saltos.bootstrap.__field.table = field => {
         field.checkbox = saltos.core.eval_bool(field.checkbox);
     }
     var obj = saltos.core.html(`
-        <table class="table table-striped table-hover ${field.class}"
+        <table class="table table-striped table-hover border-primary ${field.class}"
             id="${field.id}" style="margin-bottom: 0">
         </table>
     `);
@@ -1550,7 +1557,7 @@ saltos.bootstrap.__field.table = field => {
         if (field.checkbox) {
             obj.querySelector('thead tr').append(saltos.core.html(
                 'tr',
-                `<th style="width: 1%"><input type="checkbox"/></th>`
+                `<th class="text-bg-primary" style="width: 1%"><input type="checkbox"/></th>`
             ));
             obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
                 var _this = event.target;
@@ -1571,9 +1578,9 @@ saltos.bootstrap.__field.table = field => {
         for (var key in field.header) {
             var val = field.header[key];
             if (typeof val == 'object' && val !== null) {
-                var th = saltos.core.html('tr', `<th>${val.label}</th>`);
+                var th = saltos.core.html('tr', `<th class="text-bg-primary">${val.label}</th>`);
             } else {
-                var th = saltos.core.html('tr', `<th>${val}</th>`);
+                var th = saltos.core.html('tr', `<th class="text-bg-primary">${val}</th>`);
             }
             if (val.hasOwnProperty('align')) {
                 th.classList.add('text-' + val.align);
@@ -1581,7 +1588,8 @@ saltos.bootstrap.__field.table = field => {
             obj.querySelector('thead tr').append(th);
         }
         if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-            obj.querySelector('thead tr').append(saltos.core.html('tr', `<th style="width: 1%"></th>`));
+            var th = saltos.core.html('tr', `<th class="text-bg-primary" style="width: 1%"></th>`);
+            obj.querySelector('thead tr').append(th);
         }
     }
     if (field.data.length) {
@@ -1589,9 +1597,6 @@ saltos.bootstrap.__field.table = field => {
             <tbody>
             </tbody>
         `));
-        if (Object.keys(field.header).length) {
-            obj.querySelector('tbody').classList.add('table-group-divider');
-        }
         // This function close all dropdowns
         var dropdown_close = () => {
             obj.querySelectorAll('.show').forEach(_this => {
@@ -1782,14 +1787,11 @@ saltos.bootstrap.__field.table = field => {
     }
     if (Object.keys(field.footer).length) {
         obj.append(saltos.core.html('table', `
-            <tfoot class="table-group-divider">
+            <tfoot>
                 <tr>
                 </tr>
             </tfoot>
         `));
-        if (field.data.length) {
-            obj.querySelector('tfoot').classList.add('table-group-divider');
-        }
         if (typeof field.footer == 'object') {
             if (Object.keys(field.header).length != Object.keys(field.footer).length) {
                 throw `field.header.length != field.footer.length`;
@@ -2211,7 +2213,7 @@ saltos.bootstrap.__text_helper = field => {
         field.autofocus = 'autofocus';
     }
     var obj = saltos.core.html(`
-        <input type="${field.type}" class="form-control ${field.class}" id="${field.id}"
+        <input type="${field.type}" class="form-control border-primary ${field.class}" id="${field.id}"
             style="${field.style}" placeholder="${field.placeholder}"
             value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                 data-bs-title="${field.tooltip}">
@@ -2258,7 +2260,7 @@ saltos.bootstrap.__textarea_helper = field => {
         field.autofocus = 'autofocus';
     }
     var obj = saltos.core.html(`
-        <textarea class="form-control ${field.class}" id="${field.id}"
+        <textarea class="form-control border-primary ${field.class}" id="${field.id}"
             placeholder="${field.placeholder}" rows="${field.rows}"
             ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
             data-bs-title="${field.tooltip}">${field.value}</textarea>
