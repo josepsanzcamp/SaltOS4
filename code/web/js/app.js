@@ -41,20 +41,6 @@
 saltos.app = {};
 
 /**
- * Show error helper
- *
- * This function allow to show a modal dialog with de details of an error
- */
-saltos.app.show_error = error => {
-    if (typeof error != 'object') {
-        document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
-        saltos.app.form.screen('unloading');
-        return;
-    }
-    saltos.app.alert('Error ' + error.code, error.text);
-};
-
-/**
  * Alert function
  *
  * This function tries to implement an alert box, the main difference between the tipical alert
@@ -63,7 +49,7 @@ saltos.app.show_error = error => {
  *
  * @title   => title of the alert modal dialog
  * @message => message of the alert modal dialog
- * @buttons => array of buttons
+ * @extra   => object with array of buttons and style
  */
 saltos.app.alert = (title, message, extra) => {
     if (typeof extra == 'undefined') {
@@ -107,9 +93,13 @@ saltos.app.alert = (title, message, extra) => {
 };
 
 /**
- * TODO
+ * Toast function
  *
- * TODO
+ * This function tries to implement a toast notice.
+ *
+ * @title   => title of the toast
+ * @message => message of the toast
+ * @extra   => object with array of buttons and style
  */
 saltos.app.toast = (title, message, extra) => {
     if (typeof extra == 'undefined') {
@@ -123,6 +113,20 @@ saltos.app.toast = (title, message, extra) => {
         body: message,
         style: extra.style,
     });
+};
+
+/**
+ * Show error helper
+ *
+ * This function allow to show a modal dialog with de details of an error
+ */
+saltos.app.show_error = error => {
+    if (typeof error != 'object') {
+        document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
+        saltos.app.form.screen('unloading');
+        return;
+    }
+    saltos.app.alert('Error ' + error.code, error.text, {style: 'danger'});
 };
 
 /**
