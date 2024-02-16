@@ -81,7 +81,7 @@ saltos.bootstrap = {};
  * @chartjs     => id, mode, data, value, label
  * @tags        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
  * @gallery     => id, class, label, images
- * @PL => id
+ * @placeholder => id
  *
  * Notes:
  *
@@ -1807,9 +1807,9 @@ saltos.bootstrap.__field.table = field => {
             for (var key in iterator) {
                 var val = field.footer[key];
                 if (typeof val == 'object' && val !== null) {
-                    var td = saltos.core.html('tr', `<td>${val.value}</td>`);
+                    var td = saltos.core.html('tr', `<td class="bg-primary-subtle">${val.value}</td>`);
                 } else {
-                    var td = saltos.core.html('tr', `<td>${val}</td>`);
+                    var td = saltos.core.html('tr', `<td class="bg-primary-subtle">${val}</td>`);
                 }
                 if (iterator[key].hasOwnProperty('align')) {
                     td.classList.add('text-' + iterator[key].align);
@@ -1823,7 +1823,7 @@ saltos.bootstrap.__field.table = field => {
         if (typeof field.footer == 'string') {
             obj.querySelector('tfoot tr').append(saltos.core.html(
                 'tr',
-                `<td colspan="100" class="text-center">${field.footer}</td>`
+                `<td colspan="100" class="text-center bg-primary-subtle">${field.footer}</td>`
             ));
         }
     }
@@ -1918,12 +1918,16 @@ saltos.bootstrap.__field.alert = field => {
  */
 saltos.bootstrap.__field.card = field => {
     saltos.core.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
-    var obj = saltos.core.html(`<div class="card" id="${field.id}"></div>`);
+    var obj = saltos.core.html(`<div class="card border-primary" id="${field.id}"></div>`);
     if (field.image != '') {
-        obj.append(saltos.core.html(`<img src="${field.image}" class="card-img-top" alt="${field.alt}">`));
+        obj.append(saltos.core.html(`
+            <img src="${field.image}" class="card-img-top" alt="${field.alt}">
+        `));
     }
     if (field.header != '') {
-        obj.append(saltos.core.html(`<div class="card-header">${field.header}</div>`));
+        obj.append(saltos.core.html(`
+            <div class="card-header border-primary text-bg-primary">${field.header}</div>
+        `));
     }
     obj.append(saltos.core.html(`<div class="card-body"></div>`));
     if (field.title != '') {
@@ -1932,13 +1936,17 @@ saltos.bootstrap.__field.card = field => {
         `));
     }
     if (field.text != '') {
-        obj.querySelector('.card-body').append(saltos.core.html(`<p class="card-text">${field.text}</p>`));
+        obj.querySelector('.card-body').append(saltos.core.html(`
+            <p class="card-text">${field.text}</p>
+        `));
     }
     if (field.body != '') {
         obj.querySelector('.card-body').append(saltos.core.html(field.body));
     }
     if (field.footer != '') {
-        obj.append(saltos.core.html(`<div class="card-footer">${field.footer}</div>`));
+        obj.append(saltos.core.html(`
+            <div class="card-footer border-primary bg-primary-subtle">${field.footer}</div>
+        `));
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -2139,7 +2147,7 @@ saltos.bootstrap.__field.gallery = field => {
             var img = saltos.core.html(`
                 <div class="${field.class} p-1">
                     <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
-                        <img src="${val.image}" class="img-fluid img-thumbnail" />
+                        <img src="${val.image}" class="img-fluid img-thumbnail border-primary p-0" />
                     </a>
                 </div>
             `);
