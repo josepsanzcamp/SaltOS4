@@ -6,6 +6,7 @@ mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZW
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMS0yNFQxMDo0MTo1NVo8L3VwZGF0ZWQ+
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMi0wNlQwNzoyODoxOVo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOS0wNlQxNToyMDozN1o8L3VwZGF0ZWQ+
+phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMS0yNVQyMjoyMzo1OFo8L3VwZGF0ZWQ+
 
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4yIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMiJ9
@@ -21,3 +22,6 @@ pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuNiJ9
 
 httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPjMgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
+mimeparser|http://www.phpclasses.org/browse/file/14670.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjItMDEtMjMgMDA6MTk6MjQiPjIgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
+pop3|http://www.phpclasses.org/browse/file/3.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPjEgeWVhciBhZ288L3NwYW4+PC9URD4=
+rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPjcgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
