@@ -461,14 +461,6 @@ saltos.app.form.__layout_auto_helper = layout => {
     var addrow = 1;
     while (temp.length) {
         var item = temp.shift();
-        if (item[1].hasOwnProperty('#attr')) {
-            if (item[1]['#attr'].hasOwnProperty('auto')) {
-                if (item[1]['#attr'].auto == 'newrow') {
-                    numcol = 0;
-                    addrow = 1;
-                }
-            }
-        }
         if (addrow) {
             numrow++;
             layout.container.value['row#' + numrow] = {
