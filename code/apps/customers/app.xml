@@ -37,8 +37,8 @@
             <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="f"/>
             <button onclick="saltos.customers.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
             <button onclick="saltos.customers.reset()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-            <table col_class="col-md-12 my-3" source="list/customers/table"/>
-            <div col_class="col mb-3"/>
+            <table col_class="col-md-12 my-3" source="list/customers/table" auto="newrow"/>
+            <div col_class="col mb-3" auto="newrow"/>
             <button onclick="saltos.customers.more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
         </layout>
         <javascript>

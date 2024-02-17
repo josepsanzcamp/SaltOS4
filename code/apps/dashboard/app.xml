@@ -38,11 +38,9 @@
             <button ifeval="check_user('emails', 'menu')" onclick="saltos.core.open_window('#app/emails/list')" class="btn btn-success fs-1 w-100 h-100" value="Email"/>
             <button ifeval="current_user()" onclick="saltos.core.open_window('#app/tester/menu/new')" class="btn btn-danger fs-1 w-100 h-100" value="New tester"/>
             <button ifeval="current_user()" onclick="saltos.core.open_window('#app/tester/menu/old')" class="btn btn-danger fs-1 w-100 h-100" value="Old tester"/>
-        </layout>
-        <layout auto="true" container_class="container" col_class="col-md-4 mb-3">
-            <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"></table>
+            <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3" auto="newrow"></table>
             <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table2" col_class="col-md-6 mb-3"></table>
-            <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"></chartjs>
+            <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie" auto="newrow"></chartjs>
             <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"></chartjs>
             <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"></chartjs>
         </layout>
