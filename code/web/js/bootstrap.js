@@ -1108,8 +1108,11 @@ saltos.bootstrap.__field.file = field => {
             method: 'post',
             content_type: 'application/json',
             success: response => {
-                if (!saltos.app.check_response(response)) {
-                    return;
+                if (typeof response != 'object') {
+                    throw response;
+                }
+                if (typeof response.error == 'object') {
+                    throw response.error;
                 }
                 row.saltos_data = response[0];
                 // If server removes the file, i remove the row
@@ -1123,10 +1126,7 @@ saltos.bootstrap.__field.file = field => {
                 __update_data_input_file(input);
             },
             error: request => {
-                saltos.app.show_error({
-                    text: request.statusText,
-                    code: request.status,
-                });
+                throw request;
             },
             headers: {
                 'token': saltos.token.get(),
@@ -1194,17 +1194,17 @@ saltos.bootstrap.__field.file = field => {
                         method: 'post',
                         content_type: 'application/json',
                         success: response => {
-                            if (!saltos.app.check_response(response)) {
-                                return;
+                            if (typeof response != 'object') {
+                                throw response;
+                            }
+                            if (typeof response.error == 'object') {
+                                throw response.error;
                             }
                             row.saltos_data = response[0];
                             __update_data_input_file(input);
                         },
                         error: request => {
-                            saltos.app.show_error({
-                                text: request.statusText,
-                                code: request.status,
-                            });
+                            throw request;
                         },
                         progress: event => {
                             if (event.lengthComputable) {
@@ -1222,10 +1222,7 @@ saltos.bootstrap.__field.file = field => {
             // If there is an error
             if (reader.error) {
                 data.files[0].error = reader.error.message;
-                saltos.app.show_error({
-                    text: reader.error.message,
-                    code: 0,
-                });
+                throw reader.error;
             }
         }
     });
@@ -1493,10 +1490,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             });
         },
         (message, exception) => {
-            saltos.app.show_error({
-                text: message,
-                code: 0,
-            });
+            throw message;
         });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
