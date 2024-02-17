@@ -166,7 +166,7 @@ saltos.core.when_visible = (obj, fn, args) => {
             if (!obj2) {
                 // Here, the object has disappeared, we can stop the timer
                 clearInterval(interval);
-                throw `#${id} not found`;
+                throw new Error(`#${id} not found`);
             } else if (obj2.offsetParent) {
                 // Here, the object is visible, we can finish our mission
                 clearInterval(interval);
@@ -263,7 +263,7 @@ saltos.core.ajax = args => {
     }
     args.method = args.method.toUpperCase();
     if (!['GET', 'POST'].includes(args.method)) {
-        throw `unknown ${args.method} method`;
+        throw new Error(`unknown ${args.method} method`);
     }
     var ajax = new XMLHttpRequest();
     ajax.onreadystatechange = () => {
@@ -482,7 +482,7 @@ saltos.core.eval_bool = arg => {
             return bools[bool];
         }
     }
-    throw `Unknown typeof ${arg}`;
+    throw new Error(`Unknown typeof ${arg}`);
 };
 
 /**
@@ -507,7 +507,7 @@ saltos.core.toString = arg => {
     if (typeof arg == 'string') {
         return arg;
     }
-    throw `Unknown typeof ${arg}`;
+    throw new Error(`Unknown typeof ${arg}`);
 };
 
 /**
@@ -548,5 +548,5 @@ saltos.core.addEventListener = (obj, event, fn) => {
         obj.addEventListener(event, fn);
         return;
     }
-    throw `Unknown typeof ${fn}`;
+    throw new Error(`Unknown typeof ${fn}`);
 };

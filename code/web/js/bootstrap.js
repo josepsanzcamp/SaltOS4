@@ -104,7 +104,7 @@ saltos.bootstrap.field = field => {
         field.id = saltos.core.uniqid();
     }
     if (typeof saltos.bootstrap.__field[field.type] != 'function') {
-        throw `type ${field.type} not found`;
+        throw new Error(`type ${field.type} not found`);
     }
     return saltos.bootstrap.__field[field.type](field);
 };
@@ -541,7 +541,7 @@ saltos.bootstrap.__field.ckeditor = field => {
             element.nextElementSibling.classList.add('border');
             element.nextElementSibling.classList.add('border-primary');
         }).catch(error => {
-            throw error;
+            throw new Error(error);
         });
     });
     if (field.height) {
@@ -1129,10 +1129,10 @@ saltos.bootstrap.__field.file = field => {
             content_type: 'application/json',
             success: response => {
                 if (typeof response != 'object') {
-                    throw response;
+                    throw new Error(response);
                 }
                 if (typeof response.error == 'object') {
-                    throw response.error;
+                    throw new Error(response.error);
                 }
                 row.saltos_data = response[0];
                 // If server removes the file, i remove the row
@@ -1146,7 +1146,7 @@ saltos.bootstrap.__field.file = field => {
                 __update_data_input_file(input);
             },
             error: request => {
-                throw request;
+                throw new Error(request);
             },
             headers: {
                 'token': saltos.token.get(),
@@ -1215,16 +1215,16 @@ saltos.bootstrap.__field.file = field => {
                         content_type: 'application/json',
                         success: response => {
                             if (typeof response != 'object') {
-                                throw response;
+                                throw new Error(response);
                             }
                             if (typeof response.error == 'object') {
-                                throw response.error;
+                                throw new Error(response.error);
                             }
                             row.saltos_data = response[0];
                             __update_data_input_file(input);
                         },
                         error: request => {
-                            throw request;
+                            throw new Error(request);
                         },
                         progress: event => {
                             if (event.lengthComputable) {
@@ -1242,7 +1242,7 @@ saltos.bootstrap.__field.file = field => {
             // If there is an error
             if (reader.error) {
                 data.files[0].error = reader.error.message;
-                throw reader.error;
+                throw new Error(reader.error);
             }
         }
     });
@@ -1511,7 +1511,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             });
         },
         (message, exception) => {
-            throw message;
+            throw new Error(message);
         });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -1809,7 +1809,7 @@ saltos.bootstrap.__field.table = field => {
         `));
         if (typeof field.footer == 'object') {
             if (Object.keys(field.header).length != Object.keys(field.footer).length) {
-                throw `field.header.length != field.footer.length`;
+                throw new Error(`field.header.length != field.footer.length`);
             }
             if (field.checkbox) {
                 obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td></td>`));

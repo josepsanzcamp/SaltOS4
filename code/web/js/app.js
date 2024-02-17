@@ -183,9 +183,8 @@ saltos.app.process_response = response => {
         var val = response[key];
         key = saltos.core.fix_key(key);
         if (typeof saltos.app.form[key] != 'function') {
-            throw `type ${key} not found`;
             document.body.append(saltos.core.html('type ' + key + ' not found'));
-            continue;
+            throw new Error(`type ${key} not found`);
         }
         saltos.app.form[key](val);
     }
@@ -221,7 +220,7 @@ saltos.app.form.data = data => {
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
         var template_id = data['#attr'].template_id;
         if (!Array.isArray(data.value)) {
-            throw `data for template ${template_id} is not an array of rows`;
+            throw new Error(`data for template ${template_id} is not an array of rows`);
         }
         for (var key in data.value) {
             var val = data.value[key];
@@ -234,7 +233,7 @@ saltos.app.form.data = data => {
     }
     // Continue with the normal behaviour
     if (Array.isArray(data)) {
-        throw `data is an array instead of an object of key and val pairs`;
+        throw new Error(`data is an array instead of an object of key and val pairs`);
     }
     for (var key in data) {
         var val = data[key];
