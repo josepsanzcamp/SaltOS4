@@ -30,16 +30,16 @@
     <list>
         <screen>clear</screen>
         <title>Customer's list</title>
-        <layout auto="true" container_class="container mt-3" col_class="col-auto">
-            <button ifeval="check_user('customers', 'create')" onclick="saltos.core.open_window('#app/customers/create')" col_class="col-auto pe-0" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
-            <div col_class="col p-0"/>
+        <layout auto="true" container_class="container my-3" row_class="row g-1" col_class="col-auto">
+            <button ifeval="check_user('customers', 'create')" onclick="saltos.core.open_window('#app/customers/create')" class="btn btn-primary" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
+            <div col_class="col"/>
             <hidden id="page" value="0"/>
-            <text col_class="col-auto p-0" placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="f"/>
-            <button onclick="saltos.customers.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
-            <button onclick="saltos.customers.reset()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+            <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="f"/>
+            <button onclick="saltos.customers.search()" class="btn btn-primary" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
+            <button onclick="saltos.customers.reset()" class="btn btn-primary" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
             <table col_class="col-md-12 my-3" source="list/customers/table"/>
-            <div col_class="col mb-3"/>
-            <button onclick="saltos.customers.more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
+            <div col_class="col"/>
+            <button onclick="saltos.customers.more()" class="btn btn-primary" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
@@ -107,10 +107,10 @@
         <screen>clear</screen>
         <title>New customer</title>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
-        <layout auto="true" container_class="container" col_class="col-auto">
-            <div col_class="col mb-3"/>
-            <button onclick="saltos.customers.insert()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
-            <button onclick="saltos.customers.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+        <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.customers.insert()" class="btn btn-primary" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
+            <button onclick="saltos.customers.cancel()" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
@@ -122,13 +122,13 @@
         <title>Detail of the customer</title>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
-        <layout auto="true" container_class="container" col_class="col-auto">
-            <div col_class="col mb-3"/>
-            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
+        <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
+            <div col_class="col"/>
+            <button class="btn btn-primary" value="Editar" tooltip="Para editar el cliente" icon="pencil">
                 <onclick eval="true">"saltos.core.open_window('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button onclick="saltos.customers.delete2()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
-            <button onclick="saltos.customers.close()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+            <button onclick="saltos.customers.delete2()" class="btn btn-danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
+            <button onclick="saltos.customers.close()" class="btn btn-primary" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
         </layout>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
@@ -142,10 +142,10 @@
         <title>Modify this customer</title>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
-        <layout auto="true" container_class="container" col_class="col-auto">
-            <div col_class="col mb-3"/>
-            <button onclick="saltos.customers.update()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
-            <button onclick="saltos.customers.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+        <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.customers.update()" class="btn btn-primary" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
+            <button onclick="saltos.customers.cancel()" class="btn btn-primary" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>

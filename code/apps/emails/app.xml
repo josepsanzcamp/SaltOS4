@@ -30,18 +30,18 @@
     <list>
         <screen>clear</screen>
         <title>Email's list</title>
-        <layout auto="true" container_class="container-fluid mt-3" col_class="col-auto">
-            <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" col_class="col-auto pe-0 me-1" class="btn btn-primary" value="New email" tooltip="To send a new email" icon="plus-lg"/>
-            <div col_class="col p-0"/>
+        <layout auto="true" container_class="container-fluid my-3" row_class="row g-1" col_class="col-auto">
+            <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" class="btn btn-primary" value="New email" tooltip="To send a new email" icon="plus-lg"/>
+            <div col_class="col"/>
             <hidden id="page" value="0"/>
-            <text col_class="col-auto p-0 ms-1" placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="f"/>
-            <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
-            <button onclick="saltos.emails.reset()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-            <button onclick="saltos.emails.delete1()" col_class="col-auto p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="d"/>
-            <button onclick="saltos.emails.getmail()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
+            <text placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="f"/>
+            <button onclick="saltos.emails.search()" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
+            <button onclick="saltos.emails.reset()" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            <button onclick="saltos.emails.delete1()" class="btn btn-danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="d"/>
+            <button onclick="saltos.emails.getmail()" class="btn btn-primary" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
             <table col_class="col-md-12 my-3" source="list/emails/table"/>
-            <div col_class="col mb-3"/>
-            <button onclick="saltos.emails.more()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
+            <div col_class="col"/>
+            <button onclick="saltos.emails.more()" class="btn btn-primary" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -133,10 +133,10 @@
             <text id="subject" label="Subject"/>
             <ckeditor id="body" label="Body" height="200px"/>
         </layout>
-        <layout auto="true" container_class="container" col_class="col-auto">
-            <div col_class="col mb-3"/>
-            <button onclick="saltos.emails.send()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Send" tooltip="To send the email" icon="check-lg"/>
-            <button onclick="saltos.emails.cancel()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
+        <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.emails.send()" class="btn btn-primary" value="Send" tooltip="To send the email" icon="check-lg"/>
+            <button onclick="saltos.emails.cancel()" class="btn btn-primary" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -185,35 +185,34 @@
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
-        <layout auto="true" container_class="container" col_class="col-auto">
-            <button col_class="col-auto mb-3 pe-0 me-1" class="btn btn-primary" value="Source" tooltip="To see the source of this email" icon="file-text">
+        <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
+            <button class="btn btn-primary" value="Source" tooltip="To see the source of this email" icon="file-text">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
             </button>
             <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
-                onclick="saltos.emails.setter('new=1')" col_class="col-auto mb-3 p-0 me-1" class="btn btn-success" value="New" tooltip="To mark this email as new" icon="patch-check"/>
-
+                onclick="saltos.emails.setter('new=1')" class="btn btn-success" value="New" tooltip="To mark this email as new" icon="patch-check"/>
             <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_new',intval(get_data('rest/3')))"
-                onclick="saltos.emails.setter('new=0')" col_class="col-auto mb-3 p-0 me-1" class="btn btn-success" value="No new" tooltip="To unmark this email as new" icon="patch-check"/>
+                onclick="saltos.emails.setter('new=0')" class="btn btn-success" value="No new" tooltip="To unmark this email as new" icon="patch-check"/>
             <button ifeval="!getmail_field('state_wait',intval(get_data('rest/3')))"
-                onclick="saltos.emails.setter('wait=1')" col_class="col-auto mb-3 p-0 me-1" class="btn btn-primary" value="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
+                onclick="saltos.emails.setter('wait=1')" class="btn btn-primary" value="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
             <button ifeval="getmail_field('state_wait',intval(get_data('rest/3')))"
-                onclick="saltos.emails.setter('wait=0')" col_class="col-auto mb-3 p-0 me-1" class="btn btn-primary" value="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
+                onclick="saltos.emails.setter('wait=0')" class="btn btn-primary" value="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
             <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_spam',intval(get_data('rest/3')))"
-                onclick="saltos.emails.setter('spam=1')" col_class="col-auto mb-3 p-0 me-1" class="btn btn-danger" value="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
+                onclick="saltos.emails.setter('spam=1')" class="btn btn-danger" value="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
             <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_spam',intval(get_data('rest/3')))"
-                onclick="saltos.emails.setter('spam=0')" col_class="col-auto mb-3 p-0 me-1" class="btn btn-danger" value="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
-            <div col_class="col mb-3"/>
-            <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply" tooltip="To reply this email" icon="reply">
+                onclick="saltos.emails.setter('spam=0')" class="btn btn-danger" value="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
+            <div col_class="col"/>
+            <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" class="btn btn-primary" value="Reply" tooltip="To reply this email" icon="reply">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Reply all" tooltip="To reply all this email" icon="reply-all">
+            <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" class="btn btn-primary" value="Reply all" tooltip="To reply all this email" icon="reply-all">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button col_class="col-auto mb-3 p-0 ms-1" class="btn btn-primary" value="Forward" tooltip="To forward this email" icon="forward">
+            <button class="btn btn-primary" value="Forward" tooltip="To forward this email" icon="forward">
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button onclick="saltos.emails.delete2()" col_class="col-auto mb-3 p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
-            <button onclick="saltos.emails.close()" col_class="col-auto mb-3 ps-0 ms-1" class="btn btn-primary" value="Close" tooltip="To close this email" icon="x-lg"/>
+            <button onclick="saltos.emails.delete2()" class="btn btn-danger" value="Delete" tooltip="To delete this email" icon="trash"/>
+            <button onclick="saltos.emails.close()" class="btn btn-primary" value="Close" tooltip="To close this email" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
