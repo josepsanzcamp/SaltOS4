@@ -50,26 +50,26 @@ saltos.bootstrap = {};
  * @container   => id, class, style
  * @row         => id, class, style
  * @col         => id, class, style
- * @text        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
- * @hidden      => id, class, PL, value, DS, RO, RQ, AF, tooltip
- * @integer     => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
- * @float       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
- * @color       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
- * @date        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
- * @time        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
- * @datetime    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
- * @textarea    => id, class, PL, value, DS, RO, RQ, AF, rows, tooltip, label
- * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, rows, label
- * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
+ * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label
+ * @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip
+ * @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
+ * @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
+ * @color       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
+ * @date        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
+ * @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
+ * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
+ * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label
+ * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label
+ * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label
  * @iframe      => id, class, src, srcdoc, height, label
- * @select      => id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
- * @multiselect => id, class, DS, RQ, AF, rows, multiple, size, value, multiple, tooltip, label
- * @checkbox    => id, class, DS, RO, label, value, tooltip
- * @switch      => id, class, DS, RO, label, value, tooltip
- * @button      => id, class, DS, value, onclick, tooltip
- * @password    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
- * @file        => id, class, DS, RQ, AF, multiple, tooltip, label
- * @link        => id, DS, value, onclick, tooltip, label
+ * @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label
+ * @multiselect => id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label
+ * @checkbox    => id, class, DS, RO, AK, label, value, tooltip
+ * @switch      => id, class, DS, RO, AK, label, value, tooltip
+ * @button      => id, class, DS, AK, value, onclick, tooltip
+ * @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
+ * @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label
+ * @link        => id, DS, AK, value, onclick, tooltip, label
  * @label       => id, class, label, tooltip, value
  * @image       => id, class, value, alt, tooltip, label
  * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
@@ -79,7 +79,7 @@ saltos.bootstrap = {};
  * @alert       => id, class, title, text, body, value, label
  * @card        => id, image, alt, header, footer, title, text, body, value, label
  * @chartjs     => id, mode, data, value, label
- * @tags        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
+ * @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label
  * @gallery     => id, class, label, images
  * @placeholder => id
  *
@@ -92,6 +92,7 @@ saltos.bootstrap = {};
  * @RO => readonly
  * @RQ => required
  * @AF => autofocus
+ * @AK => accesskey
  *
  * The saltos.bootstrap.__field object is part of this constructor and act with the constructor
  * as a helper, the idea is that the user must to call the constructor and the helpers are
@@ -204,6 +205,7 @@ saltos.bootstrap.__field.col = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
  */
@@ -241,6 +243,7 @@ saltos.bootstrap.__field.text = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  *
  * Notes:
  *
@@ -270,6 +273,7 @@ saltos.bootstrap.__field.hidden = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  *
  * Notes:
@@ -311,6 +315,7 @@ saltos.bootstrap.__field.integer = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  *
  * Notes:
@@ -354,6 +359,7 @@ saltos.bootstrap.__field.float = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  *
  * Notes:
@@ -389,6 +395,7 @@ saltos.bootstrap.__field.color = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.date = field => {
@@ -414,6 +421,7 @@ saltos.bootstrap.__field.date = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.time = field => {
@@ -440,6 +448,7 @@ saltos.bootstrap.__field.time = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.datetime = field => {
@@ -465,6 +474,7 @@ saltos.bootstrap.__field.datetime = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
  *
@@ -506,6 +516,7 @@ saltos.bootstrap.__field.textarea = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
  *
@@ -560,6 +571,7 @@ saltos.bootstrap.__field.ckeditor = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
  *
@@ -652,13 +664,14 @@ saltos.bootstrap.__field.iframe = field => {
  * @size      => this parameter allow to see the options list opened with n (size) entries
  * @value     => the value used to detect the selected option
  * @tooltip   => this parameter raise the title flag
+ * @accesskey => the key used as accesskey parameter
  * @rows      => this parameter contains the list of options, each option must be an object
  *               with label and value entries
  * @label     => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.select = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
-                                'multiple', 'size', 'value', 'tooltip']);
+                                    'multiple', 'size', 'value', 'tooltip', 'accesskey']);
     saltos.core.check_params(field, ['rows'], []);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -678,7 +691,7 @@ saltos.bootstrap.__field.select = field => {
     var obj = saltos.core.html(`
         <select class="form-select border-primary ${field.class}" id="${field.id}"
             ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
-            ${field.size} data-bs-title="${field.tooltip}"></select>
+            accesskey="${field.accesskey}" ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
     var element = obj;
     if (field.tooltip != '') {
@@ -701,15 +714,16 @@ saltos.bootstrap.__field.select = field => {
  *
  * This function returns a multiselect object, you can pass the follow arguments:
  *
- * @id       => the id used by the object
- * @class    => allow to add more classes to the default form-select
- * @disabled => this parameter raise the disabled flag
- * @size     => this parameter allow to see the options list opened with n (size) entries
- * @value    => the value used as src parameter
- * @tooltip  => this parameter raise the title flag
- * @rows     => this parameter contains the list of options, each option must be an object
- *              with label and value entries
- * @label    => this parameter is used as text for the label
+ * @id        => the id used by the object
+ * @class     => allow to add more classes to the default form-select
+ * @disabled  => this parameter raise the disabled flag
+ * @size      => this parameter allow to see the options list opened with n (size) entries
+ * @value     => the value used as src parameter
+ * @tooltip   => this parameter raise the title flag
+ * @accesskey => the key used as accesskey parameter
+ * @rows      => this parameter contains the list of options, each option must be an object
+ *               with label and value entries
+ * @label     => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -816,21 +830,23 @@ saltos.bootstrap.__field.multiselect = field => {
  *
  * This function returns a checkbox object, you can pass the follow arguments:
  *
- * @id       => the id used by the object
- * @class    => allow to add more classes to the default form-check
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @label    => this parameter is used as label for the checkbox
- * @value    => this parameter is used to check or unckeck the checkbox, the value
- *              must contain a number that raise as true or false in the if condition
- * @tooltip  => this parameter raise the title flag
+ * @id        => the id used by the object
+ * @class     => allow to add more classes to the default form-check
+ * @disabled  => this parameter raise the disabled flag
+ * @readonly  => this parameter raise the readonly flag
+ * @label     => this parameter is used as label for the checkbox
+ * @value     => this parameter is used to check or unckeck the checkbox, the value
+ *               must contain a number that raise as true or false in the if condition
+ * @tooltip   => this parameter raise the title flag
+ * @accesskey => the key used as accesskey parameter
  *
  * Notes:
  *
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
 saltos.bootstrap.__field.checkbox = field => {
-    saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly', 'label', 'tooltip', 'class']);
+    saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly',
+                                    'label', 'tooltip', 'class', 'accesskey']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -850,7 +866,7 @@ saltos.bootstrap.__field.checkbox = field => {
         <div class="form-check ${field.class}">
             <input class="form-check-input border-primary" type="checkbox" id="${field.id}"
                 value="${field.value}" ${field.disabled} ${field.readonly} ${checked}
-                data-bs-title="${field.tooltip}">
+                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
             <label class="form-check-label" for="${field.id}"
                 data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
@@ -871,14 +887,15 @@ saltos.bootstrap.__field.checkbox = field => {
  *
  * This function returns a switch object, you can pass the follow arguments:
  *
- * @id       => the id used by the object
- * @class    => allow to add more classes to the default form-check and form-switch
- * @disabled => this parameter raise the disabled flag
- * @readonly => this parameter raise the readonly flag
- * @label    => this parameter is used as label for the switch
- * @value    => this parameter is used to check or unckeck the switch, the value
- *              must contain a number that raise as true or false in the if condition
- * @tooltip  => this parameter raise the title flag
+ * @id        => the id used by the object
+ * @class     => allow to add more classes to the default form-check and form-switch
+ * @disabled  => this parameter raise the disabled flag
+ * @readonly  => this parameter raise the readonly flag
+ * @label     => this parameter is used as label for the switch
+ * @value     => this parameter is used to check or unckeck the switch, the value
+ *               must contain a number that raise as true or false in the if condition
+ * @tooltip   => this parameter raise the title flag
+ * @accesskey => the key used as accesskey parameter
  *
  * Notes:
  *
@@ -896,26 +913,27 @@ saltos.bootstrap.__field.switch = field => {
  *
  * This function returns a button object, you can pass the follow arguments:
  *
- * @id       => the id used by the object
- * @class    => allow to add more classes to the default form-select
- * @disabled => this parameter raise the disabled flag
- * @value    => value to be used as text in the contents of the buttons
- * @onclick  => callback function that is executed when the button is pressed
- * @tooltip  => this parameter raise the title flag
+ * @id        => the id used by the object
+ * @class     => allow to add more classes to the default form-select
+ * @disabled  => this parameter raise the disabled flag
+ * @value     => value to be used as text in the contents of the buttons
+ * @onclick   => callback function that is executed when the button is pressed
+ * @tooltip   => this parameter raise the title flag
+ * @accesskey => the key used as accesskey parameter
  *
  * Notes:
  *
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.bootstrap.__field.button = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick', 'tooltip', 'icon']);
-    saltos.core.check_params(field, ['label']);
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick',
+                                    'tooltip', 'icon', 'label', 'accesskey']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
     }
     var obj = saltos.core.html(`
-        <button type="button" class="btn ${field.class}" id="${field.id}"
+        <button type="button" class="btn ${field.class}" id="${field.id}" accesskey="${field.accesskey}"
             ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.icon) {
@@ -952,6 +970,7 @@ saltos.bootstrap.__field.button = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  *
  * Notes:
@@ -966,7 +985,7 @@ saltos.bootstrap.__field.button = field => {
  */
 saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
-                                'readonly', 'required', 'autofocus', 'tooltip']);
+                                    'readonly', 'required', 'autofocus', 'tooltip', 'accesskey']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -983,7 +1002,7 @@ saltos.bootstrap.__field.password = field => {
         <div>
             <div class="input-group">
                 <input type="password" class="form-control border-primary ${field.class}" id="${field.id}"
-                    placeholder="${field.placeholder}" value="${field.value}"
+                    placeholder="${field.placeholder}" value="${field.value}" accesskey="${field.accesskey}"
                     ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
                     data-bs-title="${field.tooltip}">
@@ -1018,14 +1037,15 @@ saltos.bootstrap.__field.password = field => {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
- * @id       => the id used by the object
- * @class    => allow to add more classes to the default form-control
- * @disabled => this parameter raise the disabled flag
- * @required => this parameter raise the required flag
- * @autofocus   => this parameter raise the autofocus flag
- * @multiple => this parameter raise the multiple flag, intended to select more files at time
- * @tooltip  => this parameter raise the title flag
- * @label    => this parameter is used as text for the label
+ * @id        => the id used by the object
+ * @class     => allow to add more classes to the default form-control
+ * @disabled  => this parameter raise the disabled flag
+ * @required  => this parameter raise the required flag
+ * @autofocus => this parameter raise the autofocus flag
+ * @multiple  => this parameter raise the multiple flag, intended to select more files at time
+ * @tooltip   => this parameter raise the title flag
+ * @accesskey => the key used as accesskey parameter
+ * @label     => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -1042,7 +1062,7 @@ saltos.bootstrap.__field.password = field => {
  */
 saltos.bootstrap.__field.file = field => {
     saltos.core.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
-                                'autofocus', 'multiple', 'tooltip']);
+                                    'autofocus', 'multiple', 'tooltip', 'accesskey']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1059,7 +1079,7 @@ saltos.bootstrap.__field.file = field => {
         <div>
             <input type="file" class="form-control border-primary ${field.class}" id="${field.id}"
                 ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
-                data-bs-title="${field.tooltip}">
+                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
             <div class="overflow-auto">
                 <table class="table table-striped table-hover d-none">
                     <tbody>
@@ -1236,11 +1256,12 @@ saltos.bootstrap.__field.file = field => {
  * This function creates a field similar of text but with the appearance of a link using a button,
  * the object can receive the follow arguments:
  *
- * @label    => this parameter is used as text for the label
- * @id       => the id used by the object
- * @disabled => this parameter raise the disabled flag
- * @value    => the value is conveted as label to be used in the button with the appearance of a link
- * @onclick  => callback function that is executed when the button is pressed
+ * @label     => this parameter is used as text for the label
+ * @id        => the id used by the object
+ * @disabled  => this parameter raise the disabled flag
+ * @value     => the value is conveted as label to be used in the button with the appearance of a link
+ * @onclick   => callback function that is executed when the button is pressed
+ * @accesskey => the key used as accesskey parameter
  *
  * Notes:
  *
@@ -2001,6 +2022,7 @@ saltos.bootstrap.__field.chartjs = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
  *
  * Notes:
  *
@@ -2201,7 +2223,7 @@ saltos.bootstrap.__field.placeholder = field => {
  */
 saltos.bootstrap.__text_helper = field => {
     saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
-                                'readonly', 'required', 'autofocus', 'tooltip', 'style']);
+                                    'readonly', 'required', 'autofocus', 'tooltip', 'style', 'accesskey']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -2216,7 +2238,7 @@ saltos.bootstrap.__text_helper = field => {
     }
     var obj = saltos.core.html(`
         <input type="${field.type}" class="form-control border-primary ${field.class}" id="${field.id}"
-            style="${field.style}" placeholder="${field.placeholder}"
+            style="${field.style}" placeholder="${field.placeholder}" accesskey="${field.accesskey}"
             value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                 data-bs-title="${field.tooltip}">
     `);
@@ -2248,7 +2270,7 @@ saltos.bootstrap.__text_helper = field => {
  */
 saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
-                                'required', 'autofocus', 'rows', 'tooltip']);
+                                    'required', 'autofocus', 'rows', 'tooltip', 'accesskey']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -2263,7 +2285,7 @@ saltos.bootstrap.__textarea_helper = field => {
     }
     var obj = saltos.core.html(`
         <textarea class="form-control border-primary ${field.class}" id="${field.id}"
-            placeholder="${field.placeholder}" rows="${field.rows}"
+            placeholder="${field.placeholder}" rows="${field.rows}" accesskey="${field.accesskey}"
             ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
             data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);

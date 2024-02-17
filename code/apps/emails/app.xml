@@ -34,10 +34,10 @@
             <button ifeval="check_user('emails', 'create')" onclick="saltos.core.open_window('#app/emails/create')" col_class="col-auto pe-0 me-1" class="btn btn-primary" value="New email" tooltip="To send a new email" icon="plus-lg"/>
             <div col_class="col p-0"/>
             <hidden id="page" value="0"/>
-            <text col_class="col-auto p-0 ms-1" placeholder="Search" tooltip="To search in all emails contents" id="search"/>
+            <text col_class="col-auto p-0 ms-1" placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="f"/>
             <button onclick="saltos.emails.search()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Search" tooltip="To search in all emails contents" icon="search"/>
             <button onclick="saltos.emails.reset()" col_class="col-auto p-0 ms-1" class="btn btn-primary" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-            <button onclick="saltos.emails.delete1()" col_class="col-auto p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete the selected emails" icon="trash"/>
+            <button onclick="saltos.emails.delete1()" col_class="col-auto p-0 ms-1" class="btn btn-danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="d"/>
             <button onclick="saltos.emails.getmail()" col_class="col-auto ps-0 ms-1" class="btn btn-primary" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
             <table col_class="col-md-12 my-3" source="list/emails/table"/>
             <div col_class="col mb-3"/>
