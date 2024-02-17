@@ -430,14 +430,11 @@ saltos.app.form.__layout_auto_helper = layout => {
     }
     var attr = layout['#attr'];
     var value = layout.value;
-    saltos.core.check_params(attr, ['auto', 'cols_per_row', 'objs_per_col']);
+    saltos.core.check_params(attr, ['auto', 'cols_per_row']);
     saltos.core.check_params(attr, ['container_class', 'row_class', 'col_class']);
     saltos.core.check_params(attr, ['container_style', 'row_style', 'col_style']);
     if (!saltos.core.eval_bool(attr.auto)) {
         return value;
-    }
-    if (attr.objs_per_col == '') {
-        attr.objs_per_col = 1;
     }
     if (attr.cols_per_row == '') {
         attr.cols_per_row = Infinity;
@@ -461,9 +458,7 @@ saltos.app.form.__layout_auto_helper = layout => {
     // this counters and flag are used to add rows using the cols_per_row parameter
     var numrow = 0;
     var numcol = 0;
-    var numobj = 0;
     var addrow = 1;
-    var addcol = 1;
     while (temp.length) {
         var item = temp.shift();
         if (item[1].hasOwnProperty('#attr')) {
@@ -471,8 +466,6 @@ saltos.app.form.__layout_auto_helper = layout => {
                 if (item[1]['#attr'].auto == 'newrow') {
                     numcol = 0;
                     addrow = 1;
-                    numobj = 0;
-                    addcol = 1;
                 }
             }
         }
@@ -486,44 +479,35 @@ saltos.app.form.__layout_auto_helper = layout => {
                 }
             };
         }
-        if (addcol) {
-            numcol++;
-            var col_class = attr.col_class;
-            var col_style = attr.col_style;
-            if (item[1].hasOwnProperty('#attr')) {
-                if (item[1]['#attr'].hasOwnProperty('col_class')) {
-                    col_class = item[1]['#attr'].col_class;
-                }
-                if (item[1]['#attr'].hasOwnProperty('col_style')) {
-                    col_style = item[1]['#attr'].col_style;
-                }
+        numcol++;
+        var col_class = attr.col_class;
+        var col_style = attr.col_style;
+        if (item[1].hasOwnProperty('#attr')) {
+            if (item[1]['#attr'].hasOwnProperty('col_class')) {
+                col_class = item[1]['#attr'].col_class;
             }
-            // This trick allow to hide the hidden fields
-            if (saltos.core.fix_key(item[0]) == 'hidden') {
-                col_class = 'd-none';
-                col_style = '';
+            if (item[1]['#attr'].hasOwnProperty('col_style')) {
+                col_style = item[1]['#attr'].col_style;
             }
-            layout.container.value['row#' + numrow].value['col#' + numcol] = {
-                'value': {},
-                '#attr': {
-                    class: col_class,
-                    style: col_style,
-                }
-            };
         }
-        numobj++;
+        // This trick allow to hide the hidden fields
+        if (saltos.core.fix_key(item[0]) == 'hidden') {
+            col_class = 'd-none';
+            col_style = '';
+        }
+        layout.container.value['row#' + numrow].value['col#' + numcol] = {
+            'value': {},
+            '#attr': {
+                class: col_class,
+                style: col_style,
+            }
+        };
         layout.container.value['row#' + numrow].value['col#' + numcol].value[item[0]] = item[1];
         if (numcol >= attr.cols_per_row) {
             numcol = 0;
             addrow = 1;
         } else {
             addrow = 0;
-        }
-        if (numobj >= attr.objs_per_col) {
-            numobj = 0;
-            addcol = 1;
-        } else {
-            addcol = 0;
         }
     }
     return layout;
