@@ -427,7 +427,7 @@ saltos.bootstrap.__field.date = field => {
 saltos.bootstrap.__field.time = field => {
     field.type = 'time';
     var obj = saltos.bootstrap.__text_helper(field);
-    obj.step = 1; // this enable the seconds
+    obj.step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -455,7 +455,7 @@ saltos.bootstrap.__field.datetime = field => {
     field.type = 'datetime-local';
     var obj = saltos.bootstrap.__text_helper(field);
     field.type = 'datetime';
-    obj.step = 1; // this enable the seconds
+    obj.step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -933,8 +933,9 @@ saltos.bootstrap.__field.button = field => {
         field.class += ' opacity-25';
     }
     var obj = saltos.core.html(`
-        <button type="button" class="btn ${field.class}" id="${field.id}" accesskey="${field.accesskey}"
-            ${field.disabled} data-bs-title="${field.tooltip}">${field.value}</button>
+        <button type="button" class="btn ${field.class}" id="${field.id}"
+            accesskey="${field.accesskey}" ${field.disabled}
+            data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.icon) {
         obj.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));
@@ -946,14 +947,15 @@ saltos.bootstrap.__field.button = field => {
         saltos.bootstrap.__tooltip_helper(obj);
     }
     saltos.core.addEventListener(obj, 'click', field.onclick);
-    if (field.label == '') {
-        return obj;
+    if (field.label != '') {
+        // Special case, that adds the label to the button forcing a new line
+        var obj2 = saltos.core.html(`<div></div>`);
+        obj2.append(saltos.bootstrap.__label_helper(field));
+        obj2.append(saltos.core.html('<br/>'));
+        obj2.append(obj);
+        return obj2;
     }
-    var obj2 = saltos.core.html(`<div></div>`);
-    obj2.append(saltos.bootstrap.__label_helper(field));
-    obj2.append(saltos.core.html('<br/>'));
-    obj2.append(obj);
-    return obj2;
+    return obj;
 };
 
 /**
@@ -1635,27 +1637,27 @@ saltos.bootstrap.__field.table = field => {
                     dropdown_close();
                 });
                 row.querySelector('input[type=checkbox]').addEventListener('click', event => {
-                    // here program the multiple selection feature using the ctrlKey
+                    // Here program the multiple selection feature using the ctrlKey
                     if (!event.ctrlKey) {
-                        // first state, sets the id1
+                        // First state, sets the id1
                         saltos.bootstrap.__checkbox_id1 = event.target.value;
                         saltos.bootstrap.__checkbox_id2 = null;
                     } else {
-                        // second state, sets the id2
+                        // Second state, sets the id2
                         saltos.bootstrap.__checkbox_id2 = event.target.value;
                     }
                     if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
                         var obj = event.target.parentNode.parentNode.parentNode;
                         var nodes = obj.querySelectorAll('input[type=checkbox][value]');
                         var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
-                        // check that the two ids are presents
+                        // Check that the two ids are presents
                         var count = 0;
                         for (var i = 0; i < nodes.length; i++) {
                             if (ids.includes(nodes[i].value)) {
                                 count++;
                             }
                         }
-                        // if the two ids are present, then apply
+                        // If the two ids are present, then apply
                         if (count == 2) {
                             var found = false;
                             for (var i = 0; i < nodes.length; i++) {
@@ -1669,7 +1671,7 @@ saltos.bootstrap.__field.table = field => {
                                 }
                             }
                         }
-                        // reset the ids to restart the state machine
+                        // Reset the ids to restart the state machine
                         saltos.bootstrap.__checkbox_id1 = null;
                         saltos.bootstrap.__checkbox_id2 = null;
                     }
