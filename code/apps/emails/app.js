@@ -132,7 +132,7 @@ saltos.emails.more = () => {
                 return;
             }
             if (!response.data.length) {
-                saltos.app.toast('Response', 'There is no more data', {style: 'warning'});
+                saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 return;
             }
             var obj = document.querySelector('table').querySelector('tbody');
@@ -204,7 +204,7 @@ saltos.emails.delete1 = () => {
             'Select emails',
             'You must select the desired emails to be deleted',
             {
-                style: 'danger',
+                color: 'danger',
             },
         );
         return;
@@ -253,7 +253,7 @@ saltos.emails.delete1 = () => {
             icon: 'x-lg',
             onclick: () => {},
         }],
-        style: 'danger',
+        color: 'danger',
     });
 };
 
@@ -307,7 +307,7 @@ saltos.emails.delete2 = () => {
             icon: 'x-lg',
             onclick: () => {},
         }],
-        style: 'danger',
+        color: 'danger',
     });
 };
 

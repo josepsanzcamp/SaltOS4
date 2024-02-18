@@ -49,7 +49,7 @@ saltos.app = {};
  *
  * @title   => title of the alert modal dialog
  * @message => message of the alert modal dialog
- * @extra   => object with array of buttons and style
+ * @extra   => object with array of buttons and color
  */
 saltos.app.alert = (title, message, extra) => {
     if (typeof extra == 'undefined') {
@@ -63,8 +63,8 @@ saltos.app.alert = (title, message, extra) => {
             onclick: () => {},
         }];
     }
-    if (!extra.hasOwnProperty('style')) {
-        extra.style = 'primary';
+    if (!extra.hasOwnProperty('color')) {
+        extra.color = 'primary';
     }
     saltos.bootstrap.modal({
         title: title,
@@ -88,7 +88,7 @@ saltos.app.alert = (title, message, extra) => {
             }
             return obj;
         })(),
-        style: extra.style,
+        color: extra.color,
     });
 };
 
@@ -99,19 +99,19 @@ saltos.app.alert = (title, message, extra) => {
  *
  * @title   => title of the toast
  * @message => message of the toast
- * @extra   => object with array of buttons and style
+ * @extra   => object with array of buttons and color
  */
 saltos.app.toast = (title, message, extra) => {
     if (typeof extra == 'undefined') {
         var extra = {};
     }
-    if (!extra.hasOwnProperty('style')) {
-        extra.style = 'primary';
+    if (!extra.hasOwnProperty('color')) {
+        extra.color = 'primary';
     }
     saltos.bootstrap.toast({
         title: title,
         body: message,
-        style: extra.style,
+        color: extra.color,
     });
 };
 
@@ -126,7 +126,7 @@ saltos.app.show_error = error => {
         saltos.app.form.screen('unloading');
         return;
     }
-    saltos.app.alert('Error ' + error.code, error.text, {style: 'danger'});
+    saltos.app.alert('Error ' + error.code, error.text, {color: 'danger'});
 };
 
 /**

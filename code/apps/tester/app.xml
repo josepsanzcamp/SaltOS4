@@ -102,10 +102,10 @@
                 <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
                 <value>SaltOS, PHP, JavaScript</value>
             </tags>
-            <button id="campo8" label="Campo 8 (button)" tooltip="Tooltip 8 (button)" value="Button text here" class="btn-primary"/>
-            <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test" class="btn-primary"/>
-            <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test" class="btn-primary"/>
-            <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test" class="btn-primary"/>
+            <button id="campo8" label="Campo 8 (button)" tooltip="Tooltip 8 (button)" value="Button text here"/>
+            <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test"/>
+            <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test"/>
+            <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test"/>
             <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba
 
 Adios</textarea>
@@ -145,7 +145,7 @@ Adios]]></ckeditor>
                 <data eval="true"><![CDATA[[["Josep","Sanz","<a href='#'>654 123 789</a>"],["Jordi","Company","654 123 789"],["Andres","Diaz","654 123 789"]]]]></data>
                 <footer eval="true">["","Total","3"]</footer>
             </table>
-            <alert id="campo29" label="Campo 29 (alert)" tooltip="Tooltip 29 (alert)" class="alert-success" title="The alert message!!!" text="This text can be used as you want" close="true">
+            <alert id="campo29" label="Campo 29 (alert)" tooltip="Tooltip 29 (alert)" color="success" title="The alert message!!!" text="This text can be used as you want" close="true">
                 <body><![CDATA[<hr/>More text here]]></body>
             </alert>
             <chartjs id="campo30" label="Campo 30 (chartjs)" tooltip="Tooltip 30 (chartjs)" mode="bar">

@@ -50,38 +50,38 @@ saltos.bootstrap = {};
  * @container   => id, class, style
  * @row         => id, class, style
  * @col         => id, class, style
- * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label
- * @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip
- * @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
- * @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
- * @color       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
- * @date        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
- * @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
- * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
- * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label
- * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label
- * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label
- * @iframe      => id, class, src, srcdoc, height, label
- * @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label
- * @multiselect => id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label
- * @checkbox    => id, class, DS, RO, AK, label, value, tooltip
- * @switch      => id, class, DS, RO, AK, label, value, tooltip
- * @button      => id, class, DS, AK, value, onclick, tooltip
- * @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label
- * @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label
- * @link        => id, DS, AK, value, onclick, tooltip, label
+ * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color
+ * @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color
+ * @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @color       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @date        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color
+ * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color
+ * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color
+ * @iframe      => id, class, src, srcdoc, height, label, color
+ * @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label, color
+ * @multiselect => id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label, color
+ * @checkbox    => id, class, DS, RO, AK, label, value, tooltip, color
+ * @switch      => id, class, DS, RO, AK, label, value, tooltip, color
+ * @button      => id, class, DS, AK, value, onclick, tooltip, color
+ * @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label, color
+ * @link        => id, DS, AK, value, onclick, tooltip, label, color
  * @label       => id, class, label, tooltip, value
- * @image       => id, class, value, alt, tooltip, label
+ * @image       => id, class, value, alt, tooltip, label, color
  * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
- *                 colWidths, label
- * @pdfjs       => id, class, value, label
- * @table       => id, class, header, data, footer, value, label
- * @alert       => id, class, title, text, body, value, label
- * @card        => id, image, alt, header, footer, title, text, body, value, label
- * @chartjs     => id, mode, data, value, label
- * @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label
- * @gallery     => id, class, label, images
- * @placeholder => id
+ *                 colWidths, label, color
+ * @pdfjs       => id, class, value, label, color
+ * @table       => id, class, header, data, footer, value, label, color
+ * @alert       => id, class, title, text, body, value, label, color
+ * @card        => id, image, alt, header, footer, title, text, body, value, label, color
+ * @chartjs     => id, mode, data, value, label, color
+ * @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color
+ * @gallery     => id, class, label, images, color
+ * @placeholder => id, color
  *
  * Notes:
  *
@@ -197,7 +197,6 @@ saltos.bootstrap.__field.col = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -208,6 +207,7 @@ saltos.bootstrap.__field.col = field => {
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.text = field => {
     saltos.core.check_params(field, ['datalist'], []);
@@ -220,7 +220,7 @@ saltos.bootstrap.__field.text = field => {
         obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
         for (var key in field.datalist) {
             var val = field.datalist[key];
-            obj.querySelector('datalist').append(saltos.core.html(`<option value="${val}">`));
+            obj.querySelector('datalist').append(saltos.core.html(`<option value="${val}" />`));
         }
     }
     obj = saltos.core.optimize(obj);
@@ -235,7 +235,6 @@ saltos.bootstrap.__field.text = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -244,6 +243,7 @@ saltos.bootstrap.__field.text = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -265,7 +265,6 @@ saltos.bootstrap.__field.hidden = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -275,6 +274,7 @@ saltos.bootstrap.__field.hidden = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -307,7 +307,6 @@ saltos.bootstrap.__field.integer = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -317,6 +316,7 @@ saltos.bootstrap.__field.integer = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -351,7 +351,6 @@ saltos.bootstrap.__field.float = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -361,6 +360,7 @@ saltos.bootstrap.__field.float = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -387,7 +387,6 @@ saltos.bootstrap.__field.color = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -397,6 +396,7 @@ saltos.bootstrap.__field.color = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.date = field => {
     field.type = 'date';
@@ -413,7 +413,6 @@ saltos.bootstrap.__field.date = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -423,6 +422,7 @@ saltos.bootstrap.__field.date = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.time = field => {
     field.type = 'time';
@@ -440,7 +440,6 @@ saltos.bootstrap.__field.time = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -450,6 +449,7 @@ saltos.bootstrap.__field.time = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.datetime = field => {
     field.type = 'datetime-local';
@@ -477,6 +477,7 @@ saltos.bootstrap.__field.datetime = field => {
  * @accesskey   => the key used as accesskey parameter
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -519,6 +520,7 @@ saltos.bootstrap.__field.textarea = field => {
  * @accesskey   => the key used as accesskey parameter
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -529,7 +531,10 @@ saltos.bootstrap.__field.textarea = field => {
  */
 saltos.bootstrap.__field.ckeditor = field => {
     saltos.core.require('lib/ckeditor/ckeditor.min.js');
-    saltos.core.check_params(field, ['height']);
+    saltos.core.check_params(field, ['height', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
@@ -539,7 +544,7 @@ saltos.bootstrap.__field.ckeditor = field => {
             // Nothing to do
         }).then(editor => {
             element.nextElementSibling.classList.add('border');
-            element.nextElementSibling.classList.add('border-primary');
+            element.nextElementSibling.classList.add('border-' + field.color);
         }).catch(error => {
             throw new Error(error);
         });
@@ -574,6 +579,7 @@ saltos.bootstrap.__field.ckeditor = field => {
  * @accesskey   => the key used as accesskey parameter
  * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -586,7 +592,10 @@ saltos.bootstrap.__field.ckeditor = field => {
 saltos.bootstrap.__field.codemirror = field => {
     saltos.core.require('lib/codemirror/codemirror.min.css');
     saltos.core.require('lib/codemirror/codemirror.min.js');
-    saltos.core.check_params(field, ['mode', 'height']);
+    saltos.core.check_params(field, ['mode', 'height', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
@@ -599,7 +608,7 @@ saltos.bootstrap.__field.codemirror = field => {
             lineWrapping: true,
         });
         element.nextElementSibling.classList.add('border');
-        element.nextElementSibling.classList.add('border-primary');
+        element.nextElementSibling.classList.add('border-' + field.color);
         element.nextElementSibling.style.height = 'auto';
         cm.on('change', cm.save);
         if (field.height) {
@@ -620,12 +629,16 @@ saltos.bootstrap.__field.codemirror = field => {
  * @class  => allow to add more classes to the default form-control
  * @height => the height used as height for the style parameter
  * @label  => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.iframe = field => {
-    saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height']);
+    saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
         <iframe id="${field.id}" frameborder="0"
-            class="form-control p-0 border-primary ${field.class}"></iframe>
+            class="form-control p-0 border-${field.color} ${field.class}"></iframe>
     `);
     if (field.src) {
         obj.src = field.src;
@@ -668,10 +681,11 @@ saltos.bootstrap.__field.iframe = field => {
  * @rows      => this parameter contains the list of options, each option must be an object
  *               with label and value entries
  * @label     => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.select = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
-                                    'multiple', 'size', 'value', 'tooltip', 'accesskey']);
+                                    'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
     saltos.core.check_params(field, ['rows'], []);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -688,8 +702,11 @@ saltos.bootstrap.__field.select = field => {
     if (field.size != '') {
         field.size = `size="${field.size}"`;
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <select class="form-select border-primary ${field.class}" id="${field.id}"
+        <select class="form-select border-${field.color} ${field.class}" id="${field.id}"
             ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
             accesskey="${field.accesskey}" ${field.size} data-bs-title="${field.tooltip}"></select>
     `);
@@ -724,6 +741,7 @@ saltos.bootstrap.__field.select = field => {
  * @rows      => this parameter contains the list of options, each option must be an object
  *               with label and value entries
  * @label     => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -733,10 +751,13 @@ saltos.bootstrap.__field.select = field => {
  * TODO: detected a bug with this widget in chrome in mobile browsers
  */
 saltos.bootstrap.__field.multiselect = field => {
-    saltos.core.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip']);
+    saltos.core.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip', 'color']);
     saltos.core.check_params(field, ['rows'], []);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
+    }
+    if (!field.color) {
+        field.color = 'primary';
     }
     var obj = saltos.core.html(`
         <div class="container-fluid">
@@ -764,7 +785,7 @@ saltos.bootstrap.__field.multiselect = field => {
     obj.querySelector('.one').append(saltos.bootstrap.__field.hidden(field));
     field.type = 'multiselect';
     obj.querySelector('.one').append(saltos.bootstrap.__field.select({
-        class: field.class,
+        color: field.color,
         id: field.id + '_abc',
         disabled: field.disabled,
         tooltip: field.tooltip,
@@ -773,7 +794,7 @@ saltos.bootstrap.__field.multiselect = field => {
         rows: rows_abc,
     }));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
-        class: 'btn-primary bi-chevron-double-right mb-3',
+        class: `btn-${field.color} bi-chevron-double-right mb-3`,
         disabled: field.disabled,
         //tooltip: field.tooltip,
         onclick: () => {
@@ -789,9 +810,9 @@ saltos.bootstrap.__field.multiselect = field => {
             document.getElementById(field.id).value = val.join(',');
         },
     }));
-    obj.querySelector('.two').append(saltos.core.html('<br/>'));
+    obj.querySelector('.two').append(saltos.core.html('<br />'));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
-        class: 'btn-primary bi-chevron-double-left',
+        class: `btn-${field.color} bi-chevron-double-left`,
         disabled: field.disabled,
         //tooltip: field.tooltip,
         onclick: () => {
@@ -808,7 +829,7 @@ saltos.bootstrap.__field.multiselect = field => {
         },
     }));
     obj.querySelector('.three').append(saltos.bootstrap.__field.select({
-        class: field.class,
+        color: field.color,
         id: field.id + '_xyz',
         disabled: field.disabled,
         tooltip: field.tooltip,
@@ -839,6 +860,7 @@ saltos.bootstrap.__field.multiselect = field => {
  *               must contain a number that raise as true or false in the if condition
  * @tooltip   => this parameter raise the title flag
  * @accesskey => the key used as accesskey parameter
+ * @color     => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -846,7 +868,7 @@ saltos.bootstrap.__field.multiselect = field => {
  */
 saltos.bootstrap.__field.checkbox = field => {
     saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly',
-                                    'label', 'tooltip', 'class', 'accesskey']);
+                                    'label', 'tooltip', 'class', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -862,11 +884,14 @@ saltos.bootstrap.__field.checkbox = field => {
     if (field.value) {
         checked = 'checked';
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
         <div class="form-check ${field.class}">
-            <input class="form-check-input border-primary" type="checkbox" id="${field.id}"
+            <input class="form-check-input border-${field.color}" type="checkbox" id="${field.id}"
                 value="${field.value}" ${field.disabled} ${field.readonly} ${checked}
-                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
+                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <label class="form-check-label" for="${field.id}"
                 data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
@@ -896,6 +921,7 @@ saltos.bootstrap.__field.checkbox = field => {
  *               must contain a number that raise as true or false in the if condition
  * @tooltip   => this parameter raise the title flag
  * @accesskey => the key used as accesskey parameter
+ * @color     => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -920,6 +946,7 @@ saltos.bootstrap.__field.switch = field => {
  * @onclick   => callback function that is executed when the button is pressed
  * @tooltip   => this parameter raise the title flag
  * @accesskey => the key used as accesskey parameter
+ * @color     => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -927,13 +954,16 @@ saltos.bootstrap.__field.switch = field => {
  */
 saltos.bootstrap.__field.button = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick',
-                                    'tooltip', 'icon', 'label', 'accesskey']);
+                                    'tooltip', 'icon', 'label', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <button type="button" class="btn ${field.class}" id="${field.id}"
+        <button type="button" class="btn btn-${field.color} ${field.class}" id="${field.id}"
             accesskey="${field.accesskey}" ${field.disabled}
             data-bs-title="${field.tooltip}">${field.value}</button>
     `);
@@ -951,7 +981,7 @@ saltos.bootstrap.__field.button = field => {
         // Special case, that adds the label to the button forcing a new line
         var obj2 = saltos.core.html(`<div></div>`);
         obj2.append(saltos.bootstrap.__label_helper(field));
-        obj2.append(saltos.core.html('<br/>'));
+        obj2.append(saltos.core.html('<br />'));
         obj2.append(obj);
         return obj2;
     }
@@ -974,6 +1004,7 @@ saltos.bootstrap.__field.button = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -987,7 +1018,7 @@ saltos.bootstrap.__field.button = field => {
  */
 saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
-                                    'readonly', 'required', 'autofocus', 'tooltip', 'accesskey']);
+                                    'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1000,15 +1031,18 @@ saltos.bootstrap.__field.password = field => {
     if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
         <div>
             <div class="input-group">
-                <input type="password" class="form-control border-primary ${field.class}" id="${field.id}"
-                    placeholder="${field.placeholder}" value="${field.value}" accesskey="${field.accesskey}"
+                <input type="password" class="form-control border-${field.color} ${field.class}"
+                    id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
                     ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
-                    data-bs-title="${field.tooltip}">
-                <button class="btn btn-primary bi-eye-slash" type="button" id="${field.id}_button"
+                    accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
+                <button class="btn btn-${field.color} bi-eye-slash" type="button" id="${field.id}_button"
                 data-bs-title="${field.tooltip}"></button>
             </div>
         </div>
@@ -1048,6 +1082,7 @@ saltos.bootstrap.__field.password = field => {
  * @tooltip   => this parameter raise the title flag
  * @accesskey => the key used as accesskey parameter
  * @label     => this parameter is used as text for the label
+ * @color     => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -1064,7 +1099,7 @@ saltos.bootstrap.__field.password = field => {
  */
 saltos.bootstrap.__field.file = field => {
     saltos.core.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
-                                    'autofocus', 'multiple', 'tooltip', 'accesskey']);
+                                    'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1077,11 +1112,14 @@ saltos.bootstrap.__field.file = field => {
     if (saltos.core.eval_bool(field.multiple)) {
         field.multiple = 'multiple';
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
         <div>
-            <input type="file" class="form-control border-primary ${field.class}" id="${field.id}"
+            <input type="file" class="form-control border-${field.color} ${field.class}" id="${field.id}"
                 ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
-                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}">
+                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <div class="overflow-auto">
                 <table class="table table-striped table-hover d-none">
                     <tbody>
@@ -1188,8 +1226,8 @@ saltos.bootstrap.__field.file = field => {
                             <div class="progress-bar" style="width: 0%"></div>
                         </div>
                     </td>
-                    <td class="p-0 align-middle" style="width: 1%"><button class="btn bi-trash border-0"
-                        type="button"></button></td>
+                    <td class="p-0 align-middle" style="width: 1%"><button
+                        class="btn bi-trash border-0" type="button"></button></td>
                 </tr>
             `);
             // Store the data in the row
@@ -1264,6 +1302,7 @@ saltos.bootstrap.__field.file = field => {
  * @value     => the value is conveted as label to be used in the button with the appearance of a link
  * @onclick   => callback function that is executed when the button is pressed
  * @accesskey => the key used as accesskey parameter
+ * @color     => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -1271,7 +1310,7 @@ saltos.bootstrap.__field.file = field => {
  * appearance
  */
 saltos.bootstrap.__field.link = field => {
-    field.class = 'btn-link';
+    field.color = 'link';
     var obj = saltos.bootstrap.__field.button(field);
     return obj;
 };
@@ -1313,16 +1352,24 @@ saltos.bootstrap.__field.label = field => {
  * @alt     => this parameter is used as text for the alt parameter
  * @tooltip => this parameter raise the title flag
  * @label   => this parameter is used as text for the label
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.image = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height']);
+    saltos.core.check_params(field, ['id', 'class', 'value', 'alt',
+                                    'tooltip', 'width', 'height', 'color']);
     if (field.class == '') {
         field.class = 'img-fluid';
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
+    var temp = `border border-${field.color}`;
+    if (field.color == 'none') {
+        temp = '';
+    }
     var obj = saltos.core.html(`
-        <img id="${field.id}" src="${field.value}"
-            class="border border-primary ${field.class}" alt="${field.alt}"
-            data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}">
+        <img id="${field.id}" src="${field.value}" class="${temp} ${field.class}" alt="${field.alt}"
+            data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}" />
     `);
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
@@ -1352,6 +1399,7 @@ saltos.bootstrap.__field.image = field => {
  * @rowHeaderWidth => can be a number with the width of the headers rows
  * @colWidths      => can be an array with the widths of the headers cols
  * @label          => this parameter is used as text for the label
+ * @color          => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -1367,10 +1415,14 @@ saltos.bootstrap.__field.image = field => {
 saltos.bootstrap.__field.excel = field => {
     saltos.core.require('lib/handsontable/handsontable.full.min.css');
     saltos.core.require('lib/handsontable/handsontable.full.min.js');
-    saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
-                                'contextMenu', 'rowHeaderWidth', 'colWidths', 'numcols', 'numrows']);
+    saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders',
+                                    'minSpareRows', 'contextMenu', 'rowHeaderWidth',
+                                    'colWidths', 'numcols', 'numrows', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <div style="width: 100%; height: 100%; overflow: auto" class="border border-primary">
+        <div style="width: 100%; height: 100%; overflow: auto" class="border border-${field.color}">
             <div id="${field.id}" class="${field.class}"></div>
         </div>
     `);
@@ -1432,6 +1484,7 @@ saltos.bootstrap.__field.excel = field => {
  * @src    => the file that contains the pdf document
  * @srcdoc => the data that contains the pdf document
  * @label  => this parameter is used as text for the label
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -1450,9 +1503,12 @@ saltos.bootstrap.__field.pdfjs = field => {
     saltos.core.require('lib/pdfjs/pdf_viewer.min.css');
     saltos.core.require('lib/pdfjs/pdf.min.mjs');
     saltos.core.require('lib/pdfjs/pdf_viewer.min.mjs');
-    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc']);
+    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color']);
     if (field.srcdoc != '') {
         field.src = {data: atob(field.srcdoc)};
+    }
+    if (!field.color) {
+        field.color = 'primary';
     }
     var obj = saltos.core.html(`
         <div id="${field.id}" class="${field.class}">
@@ -1501,7 +1557,7 @@ saltos.bootstrap.__field.pdfjs = field => {
                 });
                 container.querySelectorAll('.viewerContainer .canvasWrapper').forEach(_this => {
                     _this.classList.add('border');
-                    _this.classList.add('border-primary');
+                    _this.classList.add('border-' + field.color);
                 });
             });
             pdfViewer.removePageBorders = true;
@@ -1533,6 +1589,7 @@ saltos.bootstrap.__field.pdfjs = field => {
  * @checkbox => add a checkbox in the first cell of each row, for mono or multi selection
  * @actions  => each row of the data can contain an array with the actions of each row
  * @label    => this parameter is used as text for the label
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -1554,13 +1611,16 @@ saltos.bootstrap.__field.pdfjs = field => {
  * to identify if you want to use a column with some special type as for example, the icons
  */
 saltos.bootstrap.__field.table = field => {
-    saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown']);
+    saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color']);
     saltos.core.check_params(field, ['header', 'data', 'footer'], []);
     if (field.checkbox != '') {
         field.checkbox = saltos.core.eval_bool(field.checkbox);
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <table class="table table-striped table-hover border-primary ${field.class}"
+        <table class="table table-striped table-hover border-${field.color} ${field.class}"
             id="${field.id}" style="margin-bottom: 0">
         </table>
     `);
@@ -1574,7 +1634,7 @@ saltos.bootstrap.__field.table = field => {
         if (field.checkbox) {
             obj.querySelector('thead tr').append(saltos.core.html(
                 'tr',
-                `<th class="text-bg-primary" style="width: 1%"><input type="checkbox"/></th>`
+                `<th class="text-bg-${field.color}" style="width: 1%"><input type="checkbox" /></th>`
             ));
             obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
                 var _this = event.target;
@@ -1595,9 +1655,9 @@ saltos.bootstrap.__field.table = field => {
         for (var key in field.header) {
             var val = field.header[key];
             if (typeof val == 'object' && val !== null) {
-                var th = saltos.core.html('tr', `<th class="text-bg-primary">${val.label}</th>`);
+                var th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val.label}</th>`);
             } else {
-                var th = saltos.core.html('tr', `<th class="text-bg-primary">${val}</th>`);
+                var th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val}</th>`);
             }
             if (val.hasOwnProperty('align')) {
                 th.classList.add('text-' + val.align);
@@ -1605,7 +1665,7 @@ saltos.bootstrap.__field.table = field => {
             obj.querySelector('thead tr').append(th);
         }
         if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-            var th = saltos.core.html('tr', `<th class="text-bg-primary" style="width: 1%"></th>`);
+            var th = saltos.core.html('tr', `<th class="text-bg-${field.color}" style="width: 1%"></th>`);
             obj.querySelector('thead tr').append(th);
         }
     }
@@ -1624,7 +1684,7 @@ saltos.bootstrap.__field.table = field => {
             var val = field.data[key];
             var row = saltos.core.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
-                row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}"/></td>`));
+                row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}" /></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
                     var tds = event.target.parentNode.parentNode.querySelectorAll('td');
                     for (var i = 0; i < tds.length; i++) {
@@ -1824,9 +1884,9 @@ saltos.bootstrap.__field.table = field => {
             for (var key in iterator) {
                 var val = field.footer[key];
                 if (typeof val == 'object' && val !== null) {
-                    var td = saltos.core.html('tr', `<td class="bg-primary-subtle">${val.value}</td>`);
+                    var td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val.value}</td>`);
                 } else {
-                    var td = saltos.core.html('tr', `<td class="bg-primary-subtle">${val}</td>`);
+                    var td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val}</td>`);
                 }
                 if (iterator[key].hasOwnProperty('align')) {
                     td.classList.add('text-' + iterator[key].align);
@@ -1840,7 +1900,7 @@ saltos.bootstrap.__field.table = field => {
         if (typeof field.footer == 'string') {
             obj.querySelector('tfoot tr').append(saltos.core.html(
                 'tr',
-                `<td colspan="100" class="text-center bg-primary-subtle">${field.footer}</td>`
+                `<td colspan="100" class="text-center bg-${field.color}-subtle">${field.footer}</td>`
             ));
         }
     }
@@ -1877,6 +1937,7 @@ saltos.bootstrap.__field.table = field => {
  *           to personalize the body's card
  * @close => boolean to specify if you want to add the dismissible option to the alert
  * @label => this parameter is used as text for the label
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Note:
  *
@@ -1885,9 +1946,12 @@ saltos.bootstrap.__field.table = field => {
  * know if I maintain this or I remove it, but at the moment, this is added by default
  */
 saltos.bootstrap.__field.alert = field => {
-    saltos.core.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close']);
+    saltos.core.check_params(field, ['class', 'id', 'title', 'text', 'body', 'close', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <div class="alert ${field.class}" role="alert" id="${field.id}"></div>
+        <div class="alert alert-${field.color} ${field.class}" role="alert" id="${field.id}"></div>
     `);
     if (field.title != '') {
         obj.append(saltos.core.html(`<h4>${field.title}</h4>`));
@@ -1932,18 +1996,23 @@ saltos.bootstrap.__field.alert = field => {
  * @body   => this option allow to specify an specific html to the body of the card, intended
  *            to personalize the body's card
  * @label  => this parameter is used as text for the label
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  */
 saltos.bootstrap.__field.card = field => {
-    saltos.core.check_params(field, ['id', 'image', 'alt', 'header', 'footer', 'title', 'text', 'body']);
-    var obj = saltos.core.html(`<div class="card border-primary" id="${field.id}"></div>`);
+    saltos.core.check_params(field, ['id', 'image', 'alt', 'header',
+                                    'footer', 'title', 'text', 'body', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
+    var obj = saltos.core.html(`<div class="card border-${field.color}" id="${field.id}"></div>`);
     if (field.image != '') {
         obj.append(saltos.core.html(`
-            <img src="${field.image}" class="card-img-top" alt="${field.alt}">
+            <img src="${field.image}" class="card-img-top" alt="${field.alt}" />
         `));
     }
     if (field.header != '') {
         obj.append(saltos.core.html(`
-            <div class="card-header border-primary text-bg-primary">${field.header}</div>
+            <div class="card-header border-${field.color} text-bg-${field.color}">${field.header}</div>
         `));
     }
     obj.append(saltos.core.html(`<div class="card-body"></div>`));
@@ -1962,7 +2031,7 @@ saltos.bootstrap.__field.card = field => {
     }
     if (field.footer != '') {
         obj.append(saltos.core.html(`
-            <div class="card-footer border-primary bg-primary-subtle">${field.footer}</div>
+            <div class="card-footer border-${field.color} bg-${field.color}-subtle">${field.footer}</div>
         `));
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -2017,7 +2086,6 @@ saltos.bootstrap.__field.chartjs = field => {
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
  * @label       => this parameter is used as text for the label
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @disabled    => this parameter raise the disabled flag
  * @readonly    => this parameter raise the readonly flag
@@ -2025,6 +2093,7 @@ saltos.bootstrap.__field.chartjs = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -2032,7 +2101,10 @@ saltos.bootstrap.__field.chartjs = field => {
  * each value, and requires the arguments of the specific widgets used in this widget
  */
 saltos.bootstrap.__field.tags = field => {
-    saltos.core.check_params(field, ['id', 'value']);
+    saltos.core.check_params(field, ['id', 'value', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     // This container must have the hidden input and the text input used by the
     // user to write the tags
     var obj = saltos.core.html(`<div></div>`);
@@ -2055,10 +2127,11 @@ saltos.bootstrap.__field.tags = field => {
     field.value = field.value_old;
     // This function draws a tag and programs the delete of the same tag
     var fn = val => {
-        var span = saltos.core.html(`<span class="badge text-bg-primary mt-1 me-1 fs-6 fw-normal pe-2"
-            saltos-data="${val}">
-            ${val} <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
-        </span>`);
+        var span = saltos.core.html(`
+            <span class="badge text-bg-${field.color} mt-1 me-1 fs-6 fw-normal pe-2" saltos-data="${val}">
+                ${val} <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
+            </span>
+        `);
         obj.append(span);
         span.querySelector('i').addEventListener('click', event => {
             var a = event.target.parentNode;
@@ -2129,6 +2202,7 @@ saltos.bootstrap.__field.tags = field => {
  * @class  => allow to add more classes to the default img-fluid
  * @label  => this parameter is used as text for the label
  * @images => the array with images, each image can be an string or object
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * This widget requires venobox, masonry and imagesloaded
  *
@@ -2145,9 +2219,12 @@ saltos.bootstrap.__field.gallery = field => {
     saltos.core.require('lib/venobox/venobox.min.js');
     saltos.core.require('lib/masonry/masonry.pkgd.min.js');
     saltos.core.require('lib/imagesloaded/imagesloaded.pkgd.min.js');
-    saltos.core.check_params(field, ['id', 'class', 'images']);
+    saltos.core.check_params(field, ['id', 'class', 'images', 'color']);
     if (field.class == '') {
         field.class = 'col';
+    }
+    if (!field.color) {
+        field.color = 'primary';
     }
     var obj = saltos.core.html(`
         <div id="${field.id}" class="container-fluid">
@@ -2165,7 +2242,7 @@ saltos.bootstrap.__field.gallery = field => {
             var img = saltos.core.html(`
                 <div class="${field.class} p-1">
                     <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
-                        <img src="${val.image}" class="img-fluid img-thumbnail border-primary p-0" />
+                        <img src="${val.image}" class="img-fluid img-thumbnail border-${field.color} p-0" />
                     </a>
                 </div>
             `);
@@ -2194,9 +2271,12 @@ saltos.bootstrap.__field.gallery = field => {
  * @id => id used in the original object, it must be replaced when the data will be available
  */
 saltos.bootstrap.__field.placeholder = field => {
-    saltos.core.check_params(field, ['id']);
+    saltos.core.check_params(field, ['id', 'color']);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <div id="${field.id}" class="w-100 h-100 placeholder-glow" aria-hidden="true">
+        <div id="${field.id}" class="w-100 h-100 placeholder-glow text-${field.color}" aria-hidden="true">
             <span class="w-100 h-100 placeholder"></span>
         </div>
     `);
@@ -2210,7 +2290,6 @@ saltos.bootstrap.__field.placeholder = field => {
  *
  * @id          => the id used by the object
  * @class       => allow to add more classes to the default form-control
- * @style       => the style used in the div object
  * @placeholder => the text used as placeholder parameter
  * @value       => the value used as value parameter
  * @disabled    => this parameter raise the disabled flag
@@ -2218,6 +2297,7 @@ saltos.bootstrap.__field.placeholder = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -2225,7 +2305,7 @@ saltos.bootstrap.__field.placeholder = field => {
  */
 saltos.bootstrap.__text_helper = field => {
     saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
-                                    'readonly', 'required', 'autofocus', 'tooltip', 'style', 'accesskey']);
+                                    'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -2238,11 +2318,14 @@ saltos.bootstrap.__text_helper = field => {
     if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <input type="${field.type}" class="form-control border-primary ${field.class}" id="${field.id}"
-            style="${field.style}" placeholder="${field.placeholder}" accesskey="${field.accesskey}"
-            value="${field.value}" ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
-                data-bs-title="${field.tooltip}">
+        <input type="${field.type}" class="form-control border-${field.color} ${field.class}" id="${field.id}"
+            placeholder="${field.placeholder}" accesskey="${field.accesskey}" value="${field.value}"
+            ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
+            data-bs-title="${field.tooltip}" />
     `);
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
@@ -2265,6 +2348,7 @@ saltos.bootstrap.__text_helper = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @rows        => the number used as rows parameter
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Notes:
  *
@@ -2272,7 +2356,7 @@ saltos.bootstrap.__text_helper = field => {
  */
 saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
-                                    'required', 'autofocus', 'rows', 'tooltip', 'accesskey']);
+                                    'required', 'autofocus', 'rows', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -2285,8 +2369,11 @@ saltos.bootstrap.__textarea_helper = field => {
     if (saltos.core.eval_bool(field.autofocus)) {
         field.autofocus = 'autofocus';
     }
+    if (!field.color) {
+        field.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <textarea class="form-control border-primary ${field.class}" id="${field.id}"
+        <textarea class="form-control border-${field.color} ${field.class}" id="${field.id}"
             placeholder="${field.placeholder}" rows="${field.rows}" accesskey="${field.accesskey}"
             ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
             data-bs-title="${field.tooltip}">${field.value}</textarea>
@@ -2481,6 +2568,7 @@ saltos.bootstrap.menu = args => {
  * @id    => the id used by the object
  * @space => boolean to indicate if you want to add the space div
  * @brand => contains an object with the name, logo, width and height to be used
+ * @color => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * @name   => text used in the brand
  * @logo   => filename of the brand image
@@ -2490,16 +2578,19 @@ saltos.bootstrap.menu = args => {
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.bootstrap.navbar = args => {
-    saltos.core.check_params(args, ['id', 'space']);
+    saltos.core.check_params(args, ['id', 'space', 'color']);
     saltos.core.check_params(args, ['brand'], {});
     saltos.core.check_params(args.brand, ['name', 'logo', 'width', 'height']);
     saltos.core.check_params(args, ['items'], []);
+    if (!args.color) {
+        args.color = 'primary';
+    }
     var obj = saltos.core.html(`
-        <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-${args.color} fixed-top">
             <div class="container-fluid">
                 <div class="navbar-brand">
                     <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}"
-                        height="${args.brand.height}" class="d-inline-block align-text-top">
+                        height="${args.brand.height}" class="d-inline-block align-text-top" />
                     ${args.brand.name}
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -2552,7 +2643,7 @@ saltos.bootstrap.__modal = {};
  * @footer => the content used in the modal's footer
  * @static => forces the modal to be static (prevent close by clicking outside the modal or
  *            by pressing the escape key)
- * @style  => the style used in the modal (primary, secondary, success, danger, warning, info)
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Returns a boolean that indicates if the modal can be open or not
  *
@@ -2576,7 +2667,7 @@ saltos.bootstrap.modal = args => {
         return false;
     }
     // Normal operation
-    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static', 'style']);
+    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static', 'color']);
     var temp = '';
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
@@ -2584,15 +2675,15 @@ saltos.bootstrap.modal = args => {
     //if (args.class == '') {
     //    args.class = 'modal-dialog-centered';
     //}
-    if (!args.style) {
-        args.style = 'primary';
+    if (!args.color) {
+        args.color = 'primary';
     }
     var obj = saltos.core.html(`
         <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
             aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
                 <div class="modal-content">
-                    <div class="modal-header text-bg-${args.style}">
+                    <div class="modal-header text-bg-${args.color}">
                         <h1 class="modal-title fs-5" id="${args.id}_label">${args.title}</h1>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="${args.close}"></button>
@@ -2650,7 +2741,7 @@ saltos.bootstrap.__offcanvas = {};
  * @body   => the content used in the offcanvas's body
  * @static => forces the offcanvas to be static (prevent close by clicking outside the
  *            offcanvas or by pressing the escape key)
- * @style  => the style used in the modal (primary, secondary, success, danger, warning, info)
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Returns a boolean that indicates if the offcanvas can be open or not
  *
@@ -2674,18 +2765,18 @@ saltos.bootstrap.offcanvas = args => {
         return false;
     }
     // Normal operation
-    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static', 'style']);
+    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static', 'color']);
     var temp = '';
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
-    if (!args.style) {
-        args.style = 'primary';
+    if (!args.color) {
+        args.color = 'primary';
     }
     var obj = saltos.core.html(`
         <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}"
             aria-labelledby="${args.id}_label" ${temp}>
-            <div class="offcanvas-header text-bg-${args.style}">
+            <div class="offcanvas-header text-bg-${args.color}">
                 <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="${args.close}"></button>
@@ -2723,7 +2814,7 @@ saltos.bootstrap.offcanvas = args => {
  * @subtitle => small text used by the toast
  * @close    => text used in the close button for aria purposes
  * @body     => the content used in the toast's body
- * @style  => the style used in the modal (primary, secondary, success, danger, warning, info)
+ * @color    => the color of the widget (primary, secondary, success, danger, warning, info)
  *
  * Returns a boolean that indicates if the toast can be created (see the hash note)
  *
@@ -2743,10 +2834,11 @@ saltos.bootstrap.offcanvas = args => {
  */
 saltos.bootstrap.toast = args => {
     saltos.core.require('lib/md5/md5.min.js');
-    saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'style']);
+    saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'color']);
     if (document.querySelectorAll('.toast-container').length == 0) {
-        document.body.append(saltos.core.html(`<div
-            class="toast-container position-fixed bottom-0 end-0 p-3"></div>`));
+        document.body.append(saltos.core.html(`
+            <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+        `));
     }
     // Check for repetitions
     var hash = md5(JSON.stringify(args));
@@ -2754,13 +2846,13 @@ saltos.bootstrap.toast = args => {
         return false;
     }
     // Continue
-    if (!args.style) {
-        args.style = 'primary';
+    if (!args.color) {
+        args.color = 'primary';
     }
     var obj = saltos.core.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${hash}">
-            <div class="toast-header text-bg-${args.style}">
+            <div class="toast-header text-bg-${args.color}">
                 <strong class="me-auto">${args.title}</strong>
                 <small>${args.subtitle}</small>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"

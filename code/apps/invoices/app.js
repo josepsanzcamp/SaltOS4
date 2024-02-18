@@ -229,7 +229,7 @@ saltos.invoices.more = () => {
                 return;
             }
             if (!response.data.length) {
-                saltos.app.toast('Response', 'There is no more data', {style: 'warning'});
+                saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 return;
             }
             var obj = document.querySelector('table').querySelector('tbody');
@@ -274,7 +274,7 @@ saltos.invoices.cancel = () => {
  */
 saltos.invoices.insert = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {style: 'danger'});
+        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
@@ -317,12 +317,12 @@ saltos.invoices.insert = () => {
  */
 saltos.invoices.update = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {style: 'danger'});
+        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.app.alert('Warning', 'No changes detected', {style: 'danger'});
+        saltos.app.alert('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
     saltos.core.ajax({
@@ -407,7 +407,7 @@ saltos.invoices.delete1 = arg => {
             icon: 'x-lg',
             onclick: () => {},
         }],
-        style: 'danger',
+        color: 'danger',
     });
 };
 
@@ -461,6 +461,6 @@ saltos.invoices.delete2 = () => {
             icon: 'x-lg',
             onclick: () => {},
         }],
-        style: 'danger',
+        color: 'danger',
     });
 };
