@@ -1843,6 +1843,7 @@ saltos.bootstrap.__field.table = field => {
                         }
                         first_action = false;
                     }
+                    val2.color = 'none';
                     var button = saltos.bootstrap.__field.button(val2);
                     if (dropdown) {
                         button.classList.remove('btn');
