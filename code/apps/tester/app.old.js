@@ -100,11 +100,13 @@
                 obj.append(saltos.bootstrap.field({
                     type: 'text',
                     placeholder: 'Search',
+                    color: 'light',
                 }));
                 obj.append(saltos.bootstrap.field({
                     type: 'button',
                     value: 'Search',
-                    class: 'btn-light mx-1',
+                    class: 'mx-1',
+                    color: 'light',
                     onclick: function() {
                         alert(7);
                     },

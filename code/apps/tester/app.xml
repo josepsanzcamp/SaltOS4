@@ -45,8 +45,8 @@
                     <item name="Disabled" disabled="false" onclick="alert(6)"/>
                 </menu>
                 <form class="d-flex">
-                    <text placeholder="Search" id="search"/>
-                    <button onclick="alert(7)" class="btn btn-light mx-1 text-nowrap" value="Search"/>
+                    <text placeholder="Search" color="light" id="search"/>
+                    <button onclick="alert(7)" color="light" class=" mx-1 text-nowrap" value="Search"/>
                 </form>
                 <menu class="navbar-nav mb-2 mb-lg-0">
                     <item name="Themes" dropdown_menu_end="true">
