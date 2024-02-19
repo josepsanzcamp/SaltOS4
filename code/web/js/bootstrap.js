@@ -1137,17 +1137,19 @@ saltos.bootstrap.__field.file = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    var border1 = `border border-${field.color}`;
+    var border2 = `border-${field.color}`;
     if (field.color == 'none') {
-        border = 'border-0';
+        border1 = 'border-0';
+        border2 = '';
     }
     var obj = saltos.core.html(`
         <div>
-            <input type="file" class="form-control ${border} ${field.class}" id="${field.id}"
+            <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
                 ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
                 accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <div class="overflow-auto">
-                <table class="table table-striped table-hover d-none">
+                <table class="table table-striped table-hover ${border2} d-none">
                     <tbody>
                     </tbody>
                 </table>
