@@ -898,7 +898,7 @@ saltos.app.check_required = () => {
         _this.classList.remove('is-invalid');
         _this.classList.remove('border');
         _this.classList.forEach(_this2 => {
-            if (_this2.substr(0,7) == 'border-') {
+            if (_this2.substr(0, 7) == 'border-') {
                 _this.classList.remove(_this2);
             }
         });
