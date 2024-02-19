@@ -42,6 +42,7 @@
             <table col_class="col-md-12 my-3" source="list/emails/table"/>
             <div col_class="col"/>
             <button onclick="saltos.emails.more()" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
+            <button onclick="saltos.core.close_window();" value="Close" tooltip="To close this list" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -136,7 +137,7 @@
         <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.emails.send()" value="Send" tooltip="To send the email" icon="check-lg"/>
-            <button onclick="saltos.emails.cancel()" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
+            <button onclick="saltos.core.close_window()" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -212,7 +213,7 @@
                 <onclick eval="true">"saltos.core.open_window('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
             </button>
             <button onclick="saltos.emails.delete2()" color="danger" value="Delete" tooltip="To delete this email" icon="trash"/>
-            <button onclick="saltos.emails.close()" value="Close" tooltip="To close this email" icon="x-lg"/>
+            <button onclick="saltos.core.close_window();" value="Close" tooltip="To close this email" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/app.js")</file>
@@ -239,20 +240,24 @@
     <view id="source">
         <screen>clear</screen>
         <title>Source of the email</title>
-        <layout auto="true" container_class="container-fluid" col_class="col-md-12 p-0">
-            <iframe height="200px" color="none">
+        <layout auto="true" container_class="container-fluid my-3" col_class="col-auto">
+            <iframe height="200px" col_class="col-md-12 mb-3">
                 <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
             </iframe>
+            <div col_class="col"/>
+            <button onclick="saltos.core.close_window();" value="Close" tooltip="To close this list" icon="x-lg"/>
         </layout>
     </view>
 
     <view id="viewpdf">
         <screen>clear</screen>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
-        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12">
-            <pdfjs color="black">
+        <layout auto="true" container_class="container-fluid my-3" col_class="col-auto">
+            <pdfjs col_class="col-md-12 mb-2">
                 <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
             </pdfjs>
+            <div col_class="col"/>
+            <button onclick="saltos.core.close_window();" value="Close" tooltip="To close this list" icon="x-lg"/>
         </layout>
     </view>
 

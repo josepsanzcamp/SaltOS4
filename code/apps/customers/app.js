@@ -176,24 +176,6 @@ saltos.customers.more = () => {
  *
  * TODO
  */
-saltos.customers.close = () => {
-    saltos.core.close_window();
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.customers.cancel = () => {
-    saltos.core.close_window();
-};
-
-/**
- * TODO
- *
- * TODO
- */
 saltos.customers.insert = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});

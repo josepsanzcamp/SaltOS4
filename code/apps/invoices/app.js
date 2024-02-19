@@ -254,24 +254,6 @@ saltos.invoices.more = () => {
  *
  * TODO
  */
-saltos.invoices.close = () => {
-    saltos.core.close_window();
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.invoices.cancel = () => {
-    saltos.core.close_window();
-};
-
-/**
- * TODO
- *
- * TODO
- */
 saltos.invoices.insert = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});

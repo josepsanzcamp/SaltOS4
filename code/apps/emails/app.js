@@ -287,7 +287,7 @@ saltos.emails.delete2 = () => {
                             return;
                         }
                         saltos.tabs.send('saltos.emails.update');
-                        saltos.emails.close();
+                        saltos.core.close_window();
                     },
                     error: request => {
                         saltos.app.form.screen('unloading');
@@ -316,26 +316,8 @@ saltos.emails.delete2 = () => {
  *
  * TODO
  */
-saltos.emails.close = () => {
-    saltos.core.close_window();
-};
-
-/**
- * TODO
- *
- * TODO
- */
 saltos.emails.send = () => {
     // TODO
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.emails.cancel = () => {
-    saltos.core.close_window();
 };
 
 /**

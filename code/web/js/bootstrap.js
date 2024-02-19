@@ -1551,12 +1551,9 @@ saltos.bootstrap.__field.pdfjs = field => {
         <style>
             .viewerContainer {
                 position: absolute;
-                width: 100%;
+                width: calc(100% - 2px);
                 left: -9px;
-                top: -9px;
-            }
-            .viewerContainer .canvasWrapper {
-                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1)!important;
+                top: -10px;
             }
             .viewerContainer *,
             .viewerContainer *::before,

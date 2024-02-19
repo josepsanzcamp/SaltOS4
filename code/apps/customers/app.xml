@@ -40,6 +40,7 @@
             <table col_class="col-md-12 my-3" source="list/customers/table"/>
             <div col_class="col"/>
             <button onclick="saltos.customers.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
+            <button onclick="saltos.core.close_window()" value="Close" tooltip="To close this list" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
@@ -110,7 +111,7 @@
         <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.customers.insert()" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
-            <button onclick="saltos.customers.cancel()" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+            <button onclick="saltos.core.close_window()" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
@@ -128,7 +129,7 @@
                 <onclick eval="true">"saltos.core.open_window('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
             <button onclick="saltos.customers.delete2()" color="danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
-            <button onclick="saltos.customers.close()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+            <button onclick="saltos.core.close_window()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
         </layout>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
@@ -145,7 +146,7 @@
         <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.customers.update()" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
-            <button onclick="saltos.customers.cancel()" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+            <button onclick="saltos.core.close_window()" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/customers/app.js")</file>
