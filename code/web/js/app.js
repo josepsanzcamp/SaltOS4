@@ -896,7 +896,12 @@ saltos.app.check_required = () => {
     document.querySelectorAll('[required]').forEach(_this => {
         _this.classList.remove('is-valid');
         _this.classList.remove('is-invalid');
-        _this.classList.remove('border-primary');
+        _this.classList.remove('border');
+        _this.classList.forEach(_this2 => {
+            if (_this2.substr(0,7) == 'border-') {
+                _this.classList.remove(_this2);
+            }
+        });
         if (_this.value == '') {
             _this.classList.add('is-invalid');
             if (!obj) {
