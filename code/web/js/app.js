@@ -620,6 +620,8 @@ saltos.app.form.screen = action => {
 /**
  * Form navbar helper
  *
+ * This function create a navbar with their menus on the top of the page
+ *
  * TODO
  */
 saltos.app.form.navbar = navbar => {

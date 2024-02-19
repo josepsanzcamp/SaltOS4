@@ -239,8 +239,8 @@
     <view id="source">
         <screen>clear</screen>
         <title>Source of the email</title>
-        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <iframe height="200px">
+        <layout auto="true" container_class="container-fluid" col_class="col-md-12 p-0">
+            <iframe height="200px" color="none">
                 <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
             </iframe>
         </layout>
@@ -249,8 +249,8 @@
     <view id="viewpdf">
         <screen>clear</screen>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
-        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <pdfjs>
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12">
+            <pdfjs color="black">
                 <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
             </pdfjs>
         </layout>
