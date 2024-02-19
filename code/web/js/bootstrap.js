@@ -2524,23 +2524,26 @@ saltos.bootstrap.menu = args => {
         var val = args.menu[key];
         saltos.core.check_params(val, ['name', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
         saltos.core.check_params(val, ['menu'], []);
+        var disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
-            val.disabled = 'disabled';
+            disabled = 'disabled';
         }
+        var active = '';
         if (saltos.core.eval_bool(val.active)) {
-            val.active = 'active';
+            active = 'active';
         }
         if (val.menu.length) {
+            var dropdown_menu_end = '';
             if (saltos.core.eval_bool(val.dropdown_menu_end)) {
-                val.dropdown_menu_end = 'dropdown-menu-end';
+                dropdown_menu_end = 'dropdown-menu-end';
             }
             var temp = saltos.core.html(`
                 <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="nav-link dropdown-toggle ${disabled} ${active}"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.name}
                     </button>
-                    <ul class="dropdown-menu ${val.dropdown_menu_end}">
+                    <ul class="dropdown-menu ${dropdown_menu_end}">
                     </ul>
                 </li>
             `);
@@ -2553,18 +2556,20 @@ saltos.bootstrap.menu = args => {
             for (var key2 in val.menu) {
                 var val2 = val.menu[key2];
                 saltos.core.check_params(val2, ['name', 'icon', 'disabled', 'active', 'onclick', 'divider']);
+                var disabled2 = '';
                 if (saltos.core.eval_bool(val2.disabled)) {
-                    val2.disabled = 'disabled';
+                    disabled2 = 'disabled';
                 }
+                var active2 = '';
                 if (saltos.core.eval_bool(val2.active)) {
-                    val2.active = 'active';
+                    active2 = 'active';
                 }
                 if (saltos.core.eval_bool(val2.divider)) {
                     var temp2 = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
                 } else {
                     var temp2 = saltos.core.html(`
                         <li>
-                            <button class="dropdown-item ${val2.disabled} ${val2.active}">
+                            <button class="dropdown-item ${disabled2} ${active2}">
                                 ${val2.name}
                             </button>
                         </li>`);
@@ -2584,7 +2589,7 @@ saltos.bootstrap.menu = args => {
         } else {
             var temp = saltos.core.html(`
                 <li class="nav-item">
-                    <button class="nav-link ${val.disabled} ${val.active}">${val.name}</button>
+                    <button class="nav-link ${disabled} ${active}">${val.name}</button>
                 </li>
             `);
             if (val.icon) {

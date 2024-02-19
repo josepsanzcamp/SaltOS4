@@ -29,6 +29,7 @@
     <menu>
         <screen>clear</screen>
         <title>Dashboard</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <javascript>
             <file>lib/chartjs/chart.umd.min.js</file>
         </javascript>

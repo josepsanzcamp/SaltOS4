@@ -30,6 +30,7 @@
     <list>
         <screen>clear</screen>
         <title>Customer's list</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container my-3" row_class="row g-1" col_class="col-auto">
             <button ifeval="check_user('customers', 'create')" onclick="saltos.window.open('#app/customers/create')" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
             <div col_class="col"/>
@@ -107,6 +108,7 @@
     <create>
         <screen>clear</screen>
         <title>New customer</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
             <div col_class="col"/>
@@ -121,6 +123,7 @@
     <view>
         <screen>clear</screen>
         <title>Detail of the customer</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
         <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
@@ -141,6 +144,7 @@
     <edit>
         <screen>clear</screen>
         <title>Modify this customer</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
         <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">

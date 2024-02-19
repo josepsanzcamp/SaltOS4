@@ -30,6 +30,7 @@
     <list>
         <screen>clear</screen>
         <title>Email's list</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid my-3" row_class="row g-1" col_class="col-auto">
             <button ifeval="check_user('emails', 'create')" onclick="saltos.window.open('#app/emails/create')" value="New email" tooltip="To send a new email" icon="plus-lg"/>
             <div col_class="col"/>
@@ -104,6 +105,7 @@
     <create>
         <screen>clear</screen>
         <title>New email</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container mt-3" col_class="col-md-12 mb-3">
             <select id="from" label="From" required="true" autofocus="true">
                 <rows eval="true">[
@@ -147,6 +149,7 @@
     <view>
         <screen>clear</screen>
         <title>Detail of the email</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container mt-3" col_class="col-md-12 mb-3">
             <text id="from" label="From"/>
             <text id="to" label="To"/>
@@ -240,6 +243,7 @@
     <view id="source">
         <screen>clear</screen>
         <title>Source of the email</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid my-3" col_class="col-auto">
             <iframe height="200px" col_class="col-md-12 mb-3">
                 <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
@@ -252,6 +256,7 @@
     <view id="viewpdf">
         <screen>clear</screen>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid my-3" col_class="col-auto">
             <pdfjs col_class="col-md-12 mb-2">
                 <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
