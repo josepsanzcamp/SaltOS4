@@ -720,11 +720,14 @@ saltos.bootstrap.__field.select = field => {
     var obj = saltos.core.html(`
         <select class="form-select ${border} ${field.class}" id="${field.id}"
             ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
-            accesskey="${field.accesskey}" ${field.size} data-bs-title="${field.tooltip}"></select>
+            data-bs-accesskey="${field.accesskey}" ${field.size}
+            data-bs-title="${field.tooltip}"></select>
     `);
-    var element = obj;
     if (field.tooltip != '') {
-        saltos.bootstrap.__tooltip_helper(element);
+        saltos.bootstrap.__tooltip_helper(obj);
+    }
+    if (field.accesskey != '') {
+        saltos.bootstrap.__accesskey_helper(obj);
     }
     for (var key in field.rows) {
         var val = field.rows[key];
@@ -732,7 +735,7 @@ saltos.bootstrap.__field.select = field => {
         if (field.value.toString() == val.value.toString()) {
             selected = 'selected';
         }
-        element.append(saltos.core.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
+        obj.append(saltos.core.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -909,7 +912,7 @@ saltos.bootstrap.__field.checkbox = field => {
         <div class="form-check ${field.class}">
             <input class="form-check-input ${border}" type="checkbox" id="${field.id}"
                 value="${field.value}" ${field.disabled} ${field.readonly} ${checked}
-                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
+                data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <label class="form-check-label" for="${field.id}"
                 data-bs-title="${field.tooltip}">${field.label}</label>
         </div>
@@ -917,6 +920,11 @@ saltos.bootstrap.__field.checkbox = field => {
     if (field.tooltip != '') {
         obj.querySelectorAll('input, label').forEach(_this => {
             saltos.bootstrap.__tooltip_helper(_this);
+        });
+    }
+    if (field.accesskey != '') {
+        obj.querySelectorAll('input, label').forEach(_this => {
+            saltos.bootstrap.__accesskey_helper(_this);
         });
     }
     obj.querySelector('input').addEventListener('change', event => {
@@ -981,8 +989,8 @@ saltos.bootstrap.__field.button = field => {
         field.color = 'primary';
     }
     var obj = saltos.core.html(`
-        <button type="button" class="btn btn-${field.color} ${field.class}" id="${field.id}"
-            accesskey="${field.accesskey}" ${field.disabled}
+        <button type="button" class="btn btn-${field.color} ${field.class}"
+            id="${field.id}" data-bs-accesskey="${field.accesskey}" ${field.disabled}
             data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.icon) {
@@ -993,6 +1001,9 @@ saltos.bootstrap.__field.button = field => {
     }
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
+    }
+    if (field.accesskey != '') {
+        saltos.bootstrap.__accesskey_helper(obj);
     }
     saltos.core.addEventListener(obj, 'click', field.onclick);
     if (field.label != '') {
@@ -1063,15 +1074,20 @@ saltos.bootstrap.__field.password = field => {
                     id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
                     ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
-                    accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
-                <button class="btn btn-${field.color} bi-eye-slash" type="button" id="${field.id}_button"
-                data-bs-title="${field.tooltip}"></button>
+                    data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
+                <button class="btn btn-${field.color} bi-eye-slash" type="button"
+                    id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
             </div>
         </div>
     `);
     if (field.tooltip != '') {
         obj.querySelectorAll('input[type=password]').forEach(_this => {
             saltos.bootstrap.__tooltip_helper(_this);
+        });
+    }
+    if (field.accesskey != '') {
+        obj.querySelectorAll('input[type=password]').forEach(_this => {
+            saltos.bootstrap.__accesskey_helper(_this);
         });
     }
     obj.querySelector('button').addEventListener('click', event => {
@@ -1147,7 +1163,7 @@ saltos.bootstrap.__field.file = field => {
         <div>
             <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
                 ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
-                accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
+                data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <div class="overflow-auto">
                 <table class="table table-striped table-hover ${border2} d-none">
                     <tbody>
@@ -1169,6 +1185,11 @@ saltos.bootstrap.__field.file = field => {
     if (field.tooltip != '') {
         obj.querySelectorAll('input').forEach(_this => {
             saltos.bootstrap.__tooltip_helper(_this);
+        });
+    }
+    if (field.accesskey != '') {
+        obj.querySelectorAll('input').forEach(_this => {
+            saltos.bootstrap.__accesskey_helper(_this);
         });
     }
     // This helper programs the input file data update
@@ -2362,13 +2383,16 @@ saltos.bootstrap.__text_helper = field => {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
-        <input type="${field.type}" class="form-control ${border} ${field.class}" id="${field.id}"
-            placeholder="${field.placeholder}" accesskey="${field.accesskey}" value="${field.value}"
+        <input type="${field.type}" class="form-control ${border} ${field.class}"
+            placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
-            data-bs-title="${field.tooltip}" />
+            id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
     `);
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
+    }
+    if (field.accesskey != '') {
+        saltos.bootstrap.__accesskey_helper(obj);
     }
     return obj;
 };
@@ -2417,13 +2441,16 @@ saltos.bootstrap.__textarea_helper = field => {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
-        <textarea class="form-control ${border} ${field.class}" id="${field.id}"
-            placeholder="${field.placeholder}" rows="${field.rows}" accesskey="${field.accesskey}"
+        <textarea rows="${field.rows}" class="form-control ${border} ${field.class}"
+            placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
-            data-bs-title="${field.tooltip}">${field.value}</textarea>
+            id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
+    }
+    if (field.accesskey != '') {
+        saltos.bootstrap.__accesskey_helper(obj);
     }
     return obj;
 };
@@ -2920,4 +2947,161 @@ saltos.bootstrap.toast = args => {
     });
     toast.show();
     return true;
+};
+
+/**
+ * Private accesskey helper
+ *
+ * This function is intended to improve the default accesskey in the object by
+ * adding features suck as combinations of keys like alt+f or alt+delete
+ *
+ * @obj => the object that you want to enable the accesskey feature
+ */
+saltos.bootstrap.__accesskey_helper = obj => {
+    document.addEventListener('keydown', event => {
+        var keycodes = {
+            'backspace': 8,
+            'tab': 9,
+            'enter': 13,
+            'pauseBreak': 19,
+            'capsLock': 20,
+            'escape': 27,
+            'space': 32,
+            'pageUp': 33,
+            'pageDown': 34,
+            'end': 35,
+            'home': 36,
+            'leftArrow': 37,
+            'upArrow': 38,
+            'rightArrow': 39,
+            'downArrow': 40,
+            'insert': 45,
+            'delete': 46,
+            '0': 48,
+            '1': 49,
+            '2': 50,
+            '3': 51,
+            '4': 52,
+            '5': 53,
+            '6': 54,
+            '7': 55,
+            '8': 56,
+            '9': 57,
+            'a': 65,
+            'b': 66,
+            'c': 67,
+            'd': 68,
+            'e': 69,
+            'f': 70,
+            'g': 71,
+            'h': 72,
+            'i': 73,
+            'j': 74,
+            'k': 75,
+            'l': 76,
+            'm': 77,
+            'n': 78,
+            'o': 79,
+            'p': 80,
+            'q': 81,
+            'r': 82,
+            's': 83,
+            't': 84,
+            'u': 85,
+            'v': 86,
+            'w': 87,
+            'x': 88,
+            'y': 89,
+            'z': 90,
+            'leftWindowKey': 91,
+            'rightWindowKey': 92,
+            'selectKey': 93,
+            'numpad0': 96,
+            'numpad1': 97,
+            'numpad2': 98,
+            'numpad3': 99,
+            'numpad4': 100,
+            'numpad5': 101,
+            'numpad6': 102,
+            'numpad7': 103,
+            'numpad8': 104,
+            'numpad9': 105,
+            'multiply': 106,
+            'add': 107,
+            'subtract': 109,
+            'decimalPoint': 110,
+            'divide': 111,
+            'f1': 112,
+            'f2': 113,
+            'f3': 114,
+            'f4': 115,
+            'f5': 116,
+            'f6': 117,
+            'f7': 118,
+            'f8': 119,
+            'f9': 120,
+            'f10': 121,
+            'f11': 122,
+            'f12': 123,
+            'numLock': 144,
+            'scrollLock': 145,
+            'semiColon': 186,
+            'equalSign': 187,
+            'comma': 188,
+            'dash': 189,
+            'period': 190,
+            'forwardSlash': 191,
+            'graveAccent': 192,
+            'openBracket': 219,
+            'backSlash': 220,
+            'closeBraket': 221,
+            'singleQuote': 222
+        };
+        var temp = obj.getAttribute('data-bs-accesskey').split('+');
+        var useAlt = false;
+        var useCtrl = false;
+        var useShift = false;
+        var key = null;
+        for (var i = 0,len = temp.length; i < len; i++) {
+            if (temp[i] == 'alt') {
+                useAlt = true;
+            } else if (temp[i] == 'ctrl') {
+                useCtrl = true;
+            } else if (temp[i] == 'shift') {
+                useShift = true;
+            } else {
+                key = keycodes[temp[i]];
+            }
+        }
+        var count = 0;
+        if (useAlt && event.altKey) {
+            count++;
+        }
+        if (!useAlt && !event.altKey) {
+            count++;
+        }
+        if (useCtrl && event.ctrlKey) {
+            count++;
+        }
+        if (!useCtrl && !event.ctrlKey) {
+            count++;
+        }
+        if (useShift && event.shiftKey) {
+            count++;
+        }
+        if (!useShift && !event.shiftKey) {
+            count++;
+        }
+        if (key == saltos.core.get_keycode(event)) {
+            count++;
+        }
+        if (count == 4) {
+            if (['button', 'a'].includes(obj.tagName.toLowerCase())) {
+                obj.click();
+            }
+            if (['input', 'select', 'textarea'].includes(obj.tagName.toLowerCase())) {
+                obj.focus();
+            }
+        }
+    });
 };
