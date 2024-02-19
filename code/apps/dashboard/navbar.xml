@@ -42,7 +42,7 @@
                 <item name="Disabled" disabled="true" onclick="alert(6)"/>
             </menu>
             <form class="d-flex">
-                <text placeholder="Search" color="light" id="search"/>
+                <text placeholder="Search" color="light" id="oldsearch"/>
                 <button onclick="alert(7)" color="light" class="mx-1 text-nowrap" value="Search"/>
             </form>
             <menu class="navbar-nav mb-2 mb-lg-0">
