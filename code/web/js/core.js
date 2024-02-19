@@ -307,7 +307,7 @@ saltos.core.ajax = args => {
 };
 
 /**
- * Key cleaner
+ * Fix key
  *
  * This function is intended to fix the keys of the objects, this is caused because you can not
  * have 2 repeated keys in an object, to have more entries with the same name, SaltOS add a suffix
@@ -329,27 +329,6 @@ saltos.core.fix_key = arg => {
         arg = arg.substr(0, pos);
     }
     return arg;
-};
-
-/**
- * Open window
- *
- * This function is intended to open new tabs in the window, at the moment only is a wrapper to
- * the window.open but in a future, can add more features
- *
- * @url => the url of the page to load
- */
-saltos.core.open_window = url => {
-    window.open(url);
-};
-
-/**
- * Close window
- *
- * This function is intended to close the current window
- */
-saltos.core.close_window = () => {
-    window.close();
 };
 
 /**

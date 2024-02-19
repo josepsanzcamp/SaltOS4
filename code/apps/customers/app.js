@@ -59,7 +59,7 @@ saltos.customers.initialize_search = () => {
  * TODO
  */
 saltos.customers.initialize_update_list = () => {
-    saltos.tabs.set_listener('saltos.customers.update', event => {
+    saltos.window.set_listener('saltos.customers.update', event => {
         saltos.customers.search();
     });
 };
@@ -70,7 +70,7 @@ saltos.customers.initialize_update_list = () => {
  * TODO
  */
 saltos.customers.initialize_update_view = () => {
-    saltos.tabs.set_listener('saltos.customers.update', event => {
+    saltos.window.set_listener('saltos.customers.update', event => {
         saltos.hash.trigger();
     });
 };
@@ -196,8 +196,8 @@ saltos.customers.insert = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.tabs.send('saltos.customers.update');
-                saltos.core.close_window();
+                saltos.window.send('saltos.customers.update');
+                saltos.window.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -244,8 +244,8 @@ saltos.customers.update = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.tabs.send('saltos.customers.update');
-                saltos.core.close_window();
+                saltos.window.send('saltos.customers.update');
+                saltos.window.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -289,7 +289,7 @@ saltos.customers.delete1 = arg => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.tabs.send('saltos.customers.update');
+                            saltos.window.send('saltos.customers.update');
                             return;
                         }
                         saltos.app.show_error(response);
@@ -342,8 +342,8 @@ saltos.customers.delete2 = () => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.tabs.send('saltos.customers.update');
-                            saltos.core.close_window();
+                            saltos.window.send('saltos.customers.update');
+                            saltos.window.close();
                             return;
                         }
                         saltos.app.show_error(response);

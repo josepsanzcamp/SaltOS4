@@ -431,18 +431,39 @@ saltos.authenticate.autorenew = on_off => {
 };
 
 /**
- * Tabs communication helper object
+ * Window communication helper object
  *
- * This object stores all tabs communications functions to send and listen messages
+ * This object stores all windows communications functions to send and listen messages
  */
-saltos.tabs = {};
+saltos.window = {};
+
+/**
+ * Open window
+ *
+ * This function is intended to open new tabs in the window, at the moment only is a wrapper to
+ * the window.open but in a future, can add more features
+ *
+ * @url => the url of the page to load
+ */
+saltos.window.open = url => {
+    window.open(url);
+};
+
+/**
+ * Close window
+ *
+ * This function is intended to close the current window
+ */
+saltos.window.close = () => {
+    window.close();
+};
 
 /**
  * Listeners helper object
  *
  * This object stores all listeners added by the set_listeners and used by the onstorage
  */
-saltos.tabs.listeners = {};
+saltos.window.listeners = {};
 
 /**
  * Set listener
@@ -452,8 +473,8 @@ saltos.tabs.listeners = {};
  * @name => the name of the event that you want to suscribe
  * @fn   => callback executed when event named is triggered
  */
-saltos.tabs.set_listener = (name, fn) => {
-    saltos.tabs.listeners[name] = fn;
+saltos.window.set_listener = (name, fn) => {
+    saltos.window.listeners[name] = fn;
 };
 
 /**
@@ -463,8 +484,8 @@ saltos.tabs.set_listener = (name, fn) => {
  *
  * @name => the name of the event that you want to unsuscribe
  */
-saltos.tabs.unset_listener = (name) => {
-    delete saltos.tabs.listeners[name];
+saltos.window.unset_listener = (name) => {
+    delete saltos.window.listeners[name];
 };
 
 /**
@@ -484,13 +505,13 @@ saltos.tabs.unset_listener = (name) => {
  * (including the source of the message sent) receives the notification and
  * executes the listeners if needed
  */
-saltos.tabs.send = (name, data) => {
-    localStorage.setItem('saltos.tabs.name', name);
-    localStorage.setItem('saltos.tabs.data', data);
-    localStorage.setItem('saltos.tabs.trigger', Math.random());
+saltos.window.send = (name, data) => {
+    localStorage.setItem('saltos.window.name', name);
+    localStorage.setItem('saltos.window.data', data);
+    localStorage.setItem('saltos.window.trigger', Math.random());
     window.dispatchEvent(new StorageEvent('storage', {
         storageArea: localStorage,
-        key: 'saltos.tabs.trigger',
+        key: 'saltos.window.trigger',
     }));
 };
 
@@ -500,19 +521,19 @@ saltos.tabs.send = (name, data) => {
  * This function allow to SaltOS to receive the messages sended by other tabs
  * using the localStorage.
  */
-saltos.tabs.onstorage = event => {
+saltos.window.onstorage = event => {
     if (event.storageArea != localStorage) {
         return;
     }
-    if (event.key != 'saltos.tabs.trigger') {
+    if (event.key != 'saltos.window.trigger') {
         return;
     }
-    var name = localStorage.getItem('saltos.tabs.name');
-    var data = localStorage.getItem('saltos.tabs.data');
-    if (!saltos.tabs.listeners.hasOwnProperty(name)) {
+    var name = localStorage.getItem('saltos.window.name');
+    var data = localStorage.getItem('saltos.window.data');
+    if (!saltos.window.listeners.hasOwnProperty(name)) {
         return;
     }
-    saltos.tabs.listeners[name](data);
+    saltos.window.listeners[name](data);
 };
 
 /**
@@ -520,4 +541,4 @@ saltos.tabs.onstorage = event => {
  *
  * Attach the storage management function to the window
  */
-window.onstorage = saltos.tabs.onstorage;
+window.onstorage = saltos.window.onstorage;

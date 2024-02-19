@@ -33,11 +33,11 @@
             <file>lib/chartjs/chart.umd.min.js</file>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
-            <button ifeval="check_user('customers', 'menu')" onclick="saltos.core.open_window('#app/customers/list')" class="fs-1 w-100 h-100" value="Customers"/>
-            <button ifeval="check_user('invoices', 'menu')" onclick="saltos.core.open_window('#app/invoices/list')" class="fs-1 w-100 h-100" value="Invoices"/>
-            <button ifeval="check_user('emails', 'menu')" onclick="saltos.core.open_window('#app/emails/list')" color="success" class="fs-1 w-100 h-100" value="Email"/>
-            <button ifeval="current_user()" onclick="saltos.core.open_window('#app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" value="New tester"/>
-            <button ifeval="current_user()" onclick="saltos.core.open_window('#app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" value="Old tester"/>
+            <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers/list')" class="fs-1 w-100 h-100" value="Customers"/>
+            <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices/list')" class="fs-1 w-100 h-100" value="Invoices"/>
+            <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails/list')" color="success" class="fs-1 w-100 h-100" value="Email"/>
+            <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" value="New tester"/>
+            <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" value="Old tester"/>
             <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"></table>
             <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table2" col_class="col-md-6 mb-3"></table>
             <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"></chartjs>

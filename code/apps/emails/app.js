@@ -51,7 +51,7 @@ saltos.emails.initialize = () => {
         }
         saltos.emails.search();
     });
-    saltos.tabs.set_listener('saltos.emails.update', event => {
+    saltos.window.set_listener('saltos.emails.update', event => {
         saltos.emails.search();
     });
 };
@@ -177,7 +177,7 @@ saltos.emails.getmail = () => {
             for (var key in response.array) {
                 saltos.app.toast('Response', response.array[key]);
             }
-            saltos.tabs.send('saltos.emails.update');
+            saltos.window.send('saltos.emails.update');
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -233,7 +233,7 @@ saltos.emails.delete1 = () => {
                             return;
                         }
                         saltos.app.toast('Response', response.text);
-                        saltos.tabs.send('saltos.emails.update');
+                        saltos.window.send('saltos.emails.update');
                     },
                     error: request => {
                         saltos.app.form.screen('unloading');
@@ -286,8 +286,8 @@ saltos.emails.delete2 = () => {
                         if (!saltos.app.check_response(response)) {
                             return;
                         }
-                        saltos.tabs.send('saltos.emails.update');
-                        saltos.core.close_window();
+                        saltos.window.send('saltos.emails.update');
+                        saltos.window.close();
                     },
                     error: request => {
                         saltos.app.form.screen('unloading');
@@ -376,7 +376,7 @@ saltos.emails.setter = what => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            saltos.tabs.send('saltos.emails.update');
+            saltos.window.send('saltos.emails.update');
             saltos.hash.trigger();
         },
         error: request => {

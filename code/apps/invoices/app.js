@@ -59,7 +59,7 @@ saltos.invoices.initialize_search = () => {
  * TODO
  */
 saltos.invoices.initialize_update_list = () => {
-    saltos.tabs.set_listener('saltos.invoices.update', event => {
+    saltos.window.set_listener('saltos.invoices.update', event => {
         saltos.invoices.search();
     });
 };
@@ -70,7 +70,7 @@ saltos.invoices.initialize_update_list = () => {
  * TODO
  */
 saltos.invoices.initialize_update_view = () => {
-    saltos.tabs.set_listener('saltos.invoices.update', event => {
+    saltos.window.set_listener('saltos.invoices.update', event => {
         saltos.hash.trigger();
     });
 };
@@ -274,8 +274,8 @@ saltos.invoices.insert = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.tabs.send('saltos.invoices.update');
-                saltos.core.close_window();
+                saltos.window.send('saltos.invoices.update');
+                saltos.window.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -322,8 +322,8 @@ saltos.invoices.update = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.tabs.send('saltos.invoices.update');
-                saltos.core.close_window();
+                saltos.window.send('saltos.invoices.update');
+                saltos.window.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -367,7 +367,7 @@ saltos.invoices.delete1 = arg => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.tabs.send('saltos.invoices.update');
+                            saltos.window.send('saltos.invoices.update');
                             return;
                         }
                         saltos.app.show_error(response);
@@ -420,8 +420,8 @@ saltos.invoices.delete2 = () => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.tabs.send('saltos.invoices.update');
-                            saltos.core.close_window();
+                            saltos.window.send('saltos.invoices.update');
+                            saltos.window.close();
                             return;
                         }
                         saltos.app.show_error(response);

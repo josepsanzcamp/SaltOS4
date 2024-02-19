@@ -1856,7 +1856,7 @@ saltos.bootstrap.__field.table = field => {
                     } else if (val2.hasOwnProperty('onclick')) {
                         val2.onclick = `${val2.onclick}("${val2.url}")`;
                     } else {
-                        val2.onclick = `saltos.core.open_window("#${val2.url}")`;
+                        val2.onclick = `saltos.window.open("#${val2.url}")`;
                     }
                     if (first_action) {
                         if (val2.onclick) {
