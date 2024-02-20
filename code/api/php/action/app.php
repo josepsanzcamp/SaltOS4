@@ -68,7 +68,7 @@ if (!file_exists($file)) {
 $array = xmlfile2array($file);
 
 // Check for rest/2, that is the name of the subapp to load
-if (get_data("rest/2") == "" && count($array) == 1) {
+if (get_data("rest/2") == "" && count($array) >= 1) {
     set_data("rest/2", key($array));
 }
 

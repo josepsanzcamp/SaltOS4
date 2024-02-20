@@ -50,4 +50,22 @@
             <inline>saltos.dashboard.initialize()</inline>
         </javascript>
     </menu>
+
+    <config>
+        <screen>clear</screen>
+        <title>Profile</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
+            <textarea height="200px" value="TODO..." />
+        </layout>
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.dashboard.update()" value="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
+            <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_hash("apps/dashboard/app.js")</file>
+        </javascript>
+    </config>
+
 </root>

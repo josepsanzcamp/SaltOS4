@@ -31,7 +31,7 @@
         <screen>clear</screen>
         <title>Email's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
-        <layout auto="true" container_class="container-fluid my-3" row_class="row g-1" col_class="col-auto">
+        <layout auto="true" container_class="container-fluid mt-3" row_class="row g-1" col_class="col-auto">
             <button ifeval="check_user('emails', 'create')" onclick="saltos.window.open('#app/emails/create')" value="New email" tooltip="To send a new email" icon="plus-lg"/>
             <div col_class="col"/>
             <hidden id="page" value="0"/>
@@ -40,7 +40,11 @@
             <button onclick="saltos.emails.reset()" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             <button onclick="saltos.emails.delete1()" color="danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="alt+delete"/>
             <button onclick="saltos.emails.getmail()" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
-            <table col_class="col-md-12 my-3" source="list/emails/table"/>
+        </layout>
+        <layout auto="true" container_class="container-fluid my-3" col_class="col-md-12">
+            <table source="list/emails/table"/>
+        </layout>
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.emails.more()" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
             <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
@@ -102,6 +106,7 @@
         ")</footer>
     </table>
 
+    <!-- Form part -->
     <create>
         <screen>clear</screen>
         <title>New email</title>
@@ -136,7 +141,7 @@
             <text id="subject" label="Subject"/>
             <ckeditor id="body" label="Body" height="200px"/>
         </layout>
-        <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
+        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.emails.send()" value="Send" tooltip="To send the email" icon="check-lg"/>
             <button onclick="saltos.window.close()" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
@@ -189,7 +194,7 @@
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
-        <layout auto="true" container_class="container" row_class="row g-1 mb-3" col_class="col-auto">
+        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
             <button value="Source" tooltip="To see the source of this email" icon="file-text">
                 <onclick eval="true">"saltos.window.open('#app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
             </button>
@@ -244,10 +249,12 @@
         <screen>clear</screen>
         <title>Source of the email</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
-        <layout auto="true" container_class="container-fluid my-3" col_class="col-auto">
-            <iframe height="200px" col_class="col-md-12 mb-3">
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
+            <iframe>
                 <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
             </iframe>
+        </layout>
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
         </layout>
@@ -257,10 +264,12 @@
         <screen>clear</screen>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
-        <layout auto="true" container_class="container-fluid my-3" col_class="col-auto">
-            <pdfjs col_class="col-md-12 mb-2">
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
+            <pdfjs>
                 <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
             </pdfjs>
+        </layout>
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
         </layout>
@@ -270,6 +279,7 @@
         <file require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data("rest/4")),get_data("rest/5"))</file>
     </view>
 
+    <!-- Actions part -->
     <action id="getmail">
         <array require="apps/emails/php/getmail.php" eval="true">getmail_receive()</array>
     </action>
@@ -282,5 +292,18 @@
         <text require="apps/emails/php/getmail.php" eval="true">getmail_setter(get_data("json/ids"), get_data("json/what"))</text>
     </action>
 
-    <!-- TODO -->
+    <!-- Config part -->
+    <config>
+        <screen>clear</screen>
+        <title>Config of the email</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
+            <textarea height="200px" value="TODO..." />
+        </layout>
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+        </layout>
+    </config>
+
 </root>

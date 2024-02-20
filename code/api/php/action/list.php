@@ -65,7 +65,7 @@ if (!file_exists($file)) {
 $array = xmlfile2array($file);
 
 // Check for json/subapp, that is the name of the subapp to load
-if (get_data("json/subapp") == "" && count($array) == 1) {
+if (get_data("json/subapp") == "" && count($array) >= 1) {
     set_data("json/subapp", key($array));
 }
 
