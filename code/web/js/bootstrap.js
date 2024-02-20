@@ -1599,7 +1599,7 @@ saltos.bootstrap.__field.pdfjs = field => {
                 eventBus: eventBus,
             });
             eventBus.on('pagesinit', () => {
-                pdfViewer.currentScaleValue = 'page-width';
+                pdfViewer.currentScaleValue = 'auto';
             });
             eventBus.on('annotationlayerrendered', () => {
                 container.querySelectorAll('a').forEach(_this => {
@@ -1616,8 +1616,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             pdfViewer.setDocument(pdfDocument);
             container.style.position = 'relative';
             window.addEventListener('resize', () => {
-                pdfViewer.currentScaleValue = pdfViewer.currentScale * 2;
-                pdfViewer.currentScaleValue = 'page-width';
+                pdfViewer.currentScaleValue = 'auto';
             });
         },
         (message, exception) => {
