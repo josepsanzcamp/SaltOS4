@@ -60,6 +60,7 @@ saltos.app.alert = (title, message, extra) => {
             label: 'Close',
             class: 'btn-primary',
             icon: 'x-lg',
+            autofocus: true,
             onclick: () => {},
         }];
     }
@@ -74,11 +75,13 @@ saltos.app.alert = (title, message, extra) => {
             var obj = saltos.core.html('<div></div>');
             for (var key in extra.buttons) {
                 (button => {
+                    saltos.core.check_params(button, ['label', 'class', 'icon', 'autofocus', 'onclick']);
                     obj.append(saltos.bootstrap.field({
                         type: 'button',
                         value: button.label,
                         class: `${button.class} ms-1`,
                         icon: button.icon,
+                        autofocus: button.autofocus,
                         onclick: () => {
                             button.onclick();
                             saltos.bootstrap.modal('close');

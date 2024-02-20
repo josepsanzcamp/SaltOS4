@@ -968,6 +968,7 @@ saltos.bootstrap.__field.switch = field => {
  * @id        => the id used by the object
  * @class     => allow to add more classes to the default form-select
  * @disabled  => this parameter raise the disabled flag
+ * @autofocus => this parameter raise the autofocus flag
  * @value     => value to be used as text in the contents of the buttons
  * @onclick   => callback function that is executed when the button is pressed
  * @tooltip   => this parameter raise the title flag
@@ -979,11 +980,14 @@ saltos.bootstrap.__field.switch = field => {
  * You can add an icon before the text by addind the bi-icon class to the class argument
  */
 saltos.bootstrap.__field.button = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'value', 'onclick',
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'value', 'onclick',
                                     'tooltip', 'icon', 'label', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
+    }
+    if (saltos.core.eval_bool(field.autofocus)) {
+        field.autofocus = 'autofocus';
     }
     if (!field.color) {
         field.color = 'primary';
@@ -991,7 +995,7 @@ saltos.bootstrap.__field.button = field => {
     var obj = saltos.core.html(`
         <button type="button" class="btn btn-${field.color} ${field.class}"
             id="${field.id}" data-bs-accesskey="${field.accesskey}" ${field.disabled}
-            data-bs-title="${field.tooltip}">${field.value}</button>
+            ${field.autofocus} data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.icon) {
         obj.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));
@@ -3097,9 +3101,11 @@ saltos.bootstrap.__accesskey_helper = obj => {
         if (count == 4) {
             if (['button', 'a'].includes(obj.tagName.toLowerCase())) {
                 obj.click();
+                event.preventDefault();
             }
             if (['input', 'select', 'textarea'].includes(obj.tagName.toLowerCase())) {
                 obj.focus();
+                event.preventDefault();
             }
         }
     });

@@ -204,7 +204,7 @@ saltos.emails.delete1 = () => {
             'Select emails',
             'You must select the desired emails to be deleted',
             {
-                color: 'danger',
+                color: 'warning',
             },
         );
         return;
@@ -251,6 +251,7 @@ saltos.emails.delete1 = () => {
             label: 'No',
             class: 'btn-danger',
             icon: 'x-lg',
+            autofocus: true,
             onclick: () => {},
         }],
         color: 'danger',
