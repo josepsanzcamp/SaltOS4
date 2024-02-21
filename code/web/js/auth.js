@@ -494,8 +494,9 @@ saltos.window.unset_listener = (name) => {
  * This function allow to send a message to all tabs using the name and data
  * as event and argument of the callback executed.
  *
- * @name => the name of the event that you want to send
- * @data => the arguments used by the callback function
+ * @name  => the name of the event that you want to send
+ * @data  => the arguments used by the callback function
+ * @scope => the scope where the event must to be triggered (me, all, other)
  *
  * Notes:
  *
@@ -505,14 +506,21 @@ saltos.window.unset_listener = (name) => {
  * (including the source of the message sent) receives the notification and
  * executes the listeners if needed
  */
-saltos.window.send = (name, data) => {
+saltos.window.send = (name, data, scope) => {
+    if (typeof scope == 'undefined') {
+        var scope = 'all';
+    }
     localStorage.setItem('saltos.window.name', name);
     localStorage.setItem('saltos.window.data', data);
-    localStorage.setItem('saltos.window.trigger', Math.random());
-    window.dispatchEvent(new StorageEvent('storage', {
-        storageArea: localStorage,
-        key: 'saltos.window.trigger',
-    }));
+    if (['all', 'other'].includes(scope)) {
+        localStorage.setItem('saltos.window.trigger', Math.random());
+    }
+    if (['all', 'me'].includes(scope)) {
+        window.dispatchEvent(new StorageEvent('storage', {
+            storageArea: localStorage,
+            key: 'saltos.window.trigger',
+        }));
+    }
 };
 
 /**

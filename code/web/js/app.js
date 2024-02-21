@@ -698,6 +698,11 @@ saltos.app.form.navbar = navbar => {
  * @type   => the type used to set the type for to the object
  * @source => data source used to load asynchronously the contents of the table (header, data,
  *            footer and divider)
+ *
+ * Notes:
+ *
+ * At the end of the object replacement, the load event is triggered to the old object to notify
+ * that the update was finished.
  */
 saltos.app.__source_helper = field => {
     saltos.core.check_params(field, ['id', 'source']);
@@ -713,7 +718,9 @@ saltos.app.__source_helper = field => {
                 for (var key in response) {
                     field[key] = response[key];
                 }
-                document.getElementById(field.id).replaceWith(saltos.bootstrap.field(field));
+                var obj = document.getElementById(field.id);
+                obj.replaceWith(saltos.bootstrap.field(field));
+                obj.dispatchEvent(new Event('load'));
             },
             error: request => {
                 saltos.app.show_error({

@@ -375,11 +375,11 @@ saltos.customers.delete2 = () => {
  * TODO
  */
 saltos.customers.initialize_preview = () => {
-    setTimeout(() => {
+    document.getElementById('table').addEventListener('load', event => {
         var trs = document.getElementById('table').querySelectorAll('tbody tr');
         trs.forEach(_this => {
             _this.addEventListener('click', event => {
-                var id = _this.querySelector("input[type=checkbox][value]").value;
+                var id = _this.querySelector('input[type=checkbox][value]').value;
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
                     url: 'api/index.php',
@@ -397,7 +397,7 @@ saltos.customers.initialize_preview = () => {
                         if (!saltos.app.check_response(response)) {
                             return;
                         }
-                        var obj = document.getElementById('detail');
+                        var obj = document.getElementById('form');
                         obj.innerHTML = '';
                         for (var key in response) {
                             var val = response[key];
@@ -411,7 +411,6 @@ saltos.customers.initialize_preview = () => {
                                 saltos.app.form[key](val);
                             }
                         }
-
                     },
                     error: request => {
                         saltos.app.form.screen('unloading');
@@ -424,8 +423,8 @@ saltos.customers.initialize_preview = () => {
                         'token': saltos.token.get(),
                     }
                 });
-
             });
         });
-    },100);
+        document.getElementById('table').querySelector('tbody tr').click();
+    });
 };
