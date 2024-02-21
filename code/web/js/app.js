@@ -186,7 +186,6 @@ saltos.app.process_response = response => {
         var val = response[key];
         key = saltos.core.fix_key(key);
         if (typeof saltos.app.form[key] != 'function') {
-            document.body.append(saltos.core.html('type ' + key + ' not found'));
             throw new Error(`type ${key} not found`);
         }
         saltos.app.form[key](val);
