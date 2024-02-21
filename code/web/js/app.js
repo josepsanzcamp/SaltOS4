@@ -884,11 +884,10 @@ saltos.app.parse_data = data => {
  * @obj => the object that contains the checkboxes, generally the table widget
  */
 saltos.app.checkbox_ids = obj => {
-    var nodes = obj.querySelectorAll('input[type=checkbox]:checked[value]');
     var values = [];
-    for (var i = 0; i < nodes.length; i++) {
-        values.push(nodes[i].value);
-    }
+    obj.querySelectorAll('input[type=checkbox]:checked[value]').forEach(_this => {
+        values.push(_this.value);
+    });
     return values;
 };
 

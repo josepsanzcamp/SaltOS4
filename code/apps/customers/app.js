@@ -380,6 +380,22 @@ saltos.customers.initialize_preview = () => {
         trs.forEach(_this => {
             _this.addEventListener('click', event => {
                 var id = _this.querySelector('input[type=checkbox][value]').value;
+                // This is for unselect the selected registers of the table
+                trs.forEach(_this2 => {
+                    var obj = _this2.querySelector('input[type=checkbox][value]');
+                    if (id != obj.value && obj.checked) {
+                        obj.checked = false;
+                        _this2.querySelectorAll('td').forEach(_this3 => {
+                            _this3.classList.remove('table-active');
+                        });
+                    } else if (id == obj.value && !obj.checked) {
+                        obj.checked = true;
+                        _this2.querySelectorAll('td').forEach(_this3 => {
+                            _this3.classList.add('table-active');
+                        });
+                    }
+                });
+                // Continue
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
                     url: 'api/index.php',

@@ -1741,14 +1741,13 @@ saltos.bootstrap.__field.table = field => {
             if (field.checkbox) {
                 row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}" /></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
-                    var tds = event.target.parentNode.parentNode.querySelectorAll('td');
-                    for (var i = 0; i < tds.length; i++) {
+                    event.target.parentNode.parentNode.querySelectorAll('td').forEach(_this => {
                         if (event.target.checked) {
-                            tds[i].classList.add('table-active');
+                            _this.classList.add('table-active');
                         } else {
-                            tds[i].classList.remove('table-active');
+                            _this.classList.remove('table-active');
                         }
-                    }
+                    });
                     dropdown_close();
                 });
                 row.querySelector('input[type=checkbox]').addEventListener('click', event => {
@@ -1767,24 +1766,24 @@ saltos.bootstrap.__field.table = field => {
                         var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
                         // Check that the two ids are presents
                         var count = 0;
-                        for (var i = 0; i < nodes.length; i++) {
-                            if (ids.includes(nodes[i].value)) {
+                        nodes.forEach(_this => {
+                            if (ids.includes(_this.value)) {
                                 count++;
                             }
-                        }
+                        });
                         // If the two ids are present, then apply
                         if (count == 2) {
                             var found = false;
-                            for (var i = 0; i < nodes.length; i++) {
-                                if (ids.includes(nodes[i].value)) {
+                            nodes.forEach(_this => {
+                                if (ids.includes(_this.value)) {
                                     found = !found;
                                 }
                                 if (found) {
-                                    if (!nodes[i].checked) {
-                                        nodes[i].click();
+                                    if (!_this.checked) {
+                                        _this.click();
                                     }
                                 }
-                            }
+                            });
                         }
                         // Reset the ids to restart the state machine
                         saltos.bootstrap.__checkbox_id1 = null;
