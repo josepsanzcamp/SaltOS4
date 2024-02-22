@@ -34,14 +34,13 @@ and the main permissions for the user
 
 <root>
     <tables>
+        <!-- Apps specs -->
         <table name="tbl_apps">
             <row id="1" active="1" code="dashboard" name="Dashboard" description="Dashboard app"/>
             <row id="2" active="1" code="login" name="Login" description="Pantalla login"/>
             <row id="3" active="1" code="tester" name="Tester" description="App para test"/>
-            <row id="11" active="1" code="customers" name="Customers" description="Customer's application" table="app_customers" field="nombre" has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1"/>
-            <row id="12" active="1" code="invoices" name="Invoices" description="Invoices application" table="app_invoices" field="CONCAT(nombre,' - ',cif,' - ',num)" subtables="detail:app_invoices_concepts(id_factura),app_invoices_expirations(id_factura)" has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1"/>
-            <row id="13" active="1" code="emails" name="Emails" description="Emails app client" table="app_emails" field="CONCAT(IF(is_outbox, `to`, `from`),' - ',subject)" subtables="app_emails_address(email_id)" has_index="1" has_control="1" has_files="1"/>
         </table>
+
         <!-- Valid values for owner are 'user', 'group' and 'all' -->
         <table name="tbl_perms">
             <row id="1" active="1" code="menu" name="Mostrar entrada en el menu"/>
@@ -62,6 +61,7 @@ and the main permissions for the user
             <row id="42" active="1" code="delete" owner="group" name="Eliminar los registros del usuario y grupo"/>
             <row id="43" active="1" code="delete" owner="all" name="Eliminar todos los registros"/>
         </table>
+
         <!-- This part is for devel purposes -->
         <table name="tbl_users">
             <row id="1" active="1" group_id="1" login="admin" name="Admin" description="Admin user" start="00:00:00" end="24:00:00" days="1111111"/>
@@ -72,17 +72,11 @@ and the main permissions for the user
         <table name="tbl_groups">
             <row id="1" active="1" code="admin" name="Admin" description="Admin group"/>
         </table>
-        <!-- This part is for devel purposes -->
+
+        <!-- This part is for all purposes -->
         <table name="tbl_apps_perms">
             <row app_id="1,2,3" perm_id="1" allow="1" deny="0"/>
-            <row app_id="11,12,13" perm_id="1,2,3,4,5,11,12,13,21,22,23,31,32,33,41,42,43" allow="0" deny="0"/>
             <row app_id="1" perm_id="5" allow="1" deny="0"/>
-        </table>
-        <table name="tbl_users_apps_perms">
-            <row user_id="1" app_id="11,12,13" perm_id="1,2,3,4,5,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
-        </table>
-        <table name="tbl_groups_apps_perms">
-            <row group_id="1" app_id="11,12,13" perm_id="1,2,3,4,5,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
         </table>
     </tables>
 </root>

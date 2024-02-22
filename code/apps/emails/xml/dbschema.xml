@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!--
+This file allow to define the database needed by this application
+-->
+
+<root>
+    <tables>
+        <!--
+        This table allow to define the needed tables for this app
+        -->
+        <table name="app_emails">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="account_id" type="INT(11)" fkey="app_emails_accounts"/>
+                <field name="uidl" type="VARCHAR(250)"/>
+                <field name="datetime" type="DATETIME"/>
+                <field name="size" type="INT(11)"/>
+                <field name="subject" type="TEXT"/>
+                <field name="body" type="MEDIUMTEXT"/>
+                <field name="state_new" type="INT(11)"/>
+                <field name="state_reply" type="INT(11)"/>
+                <field name="state_forward" type="INT(11)"/>
+                <field name="state_wait" type="INT(11)"/>
+                <field name="state_spam" type="INT(11)"/>
+                <field name="id_correo" type="INT(11)"/>
+                <field name="is_outbox" type="INT(11)"/>
+                <field name="state_sent" type="INT(11)"/>
+                <field name="state_error" type="TEXT"/>
+                <field name="state_crt" type="INT(11)"/>
+                <field name="priority" type="INT(11)"/>
+                <field name="sensitivity" type="INT(11)"/>
+                <field name="from" type="TEXT"/>
+                <field name="to" type="TEXT"/>
+                <field name="cc" type="TEXT"/>
+                <field name="bcc" type="TEXT"/>
+                <field name="files" type="INT(11)"/>
+            </fields>
+        </table>
+        <table name="app_emails_address">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="email_id" type="INT(11)" fkey="app_emails"/>
+                <field name="type_id" type="INT(11)"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="value" type="VARCHAR(255)"/>
+            </fields>
+        </table>
+        <table name="app_emails_deletes">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="account_id" type="INT(11)" fkey="tbl_emails_accounts"/>
+                <field name="uidl" type="VARCHAR(250)"/>
+                <field name="datetime" type="DATETIME"/>
+            </fields>
+        </table>
+		<table name="app_emails_accounts">
+			<fields>
+				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="email_name" type="VARCHAR(255)"/>
+				<field name="email_from" type="VARCHAR(255)"/>
+				<field name="email_signature" type="VARCHAR(255)"/>
+				<field name="email_signature_file" type="VARCHAR(255)"/>
+				<field name="email_signature_type" type="VARCHAR(255)"/>
+				<field name="email_signature_size" type="INT(11)"/>
+				<field name="pop3_host" type="VARCHAR(255)"/>
+				<field name="pop3_port" type="VARCHAR(255)"/>
+				<field name="pop3_extra" type="VARCHAR(255)"/>
+				<field name="pop3_user" type="VARCHAR(255)"/>
+				<field name="pop3_pass" type="VARCHAR(255)"/>
+				<field name="pop3_delete" type="INT(11)"/>
+				<field name="pop3_days" type="INT(11)"/>
+				<field name="smtp_host" type="VARCHAR(255)"/>
+				<field name="smtp_port" type="VARCHAR(255)"/>
+				<field name="smtp_extra" type="VARCHAR(255)"/>
+				<field name="smtp_user" type="VARCHAR(255)"/>
+				<field name="smtp_pass" type="VARCHAR(255)"/>
+				<field name="email_disabled" type="INT(11)"/>
+				<field name="email_privated" type="INT(11)"/>
+				<field name="email_default" type="INT(11)"/>
+				<field name="email_addmetocc" type="INT(11)"/>
+				<field name="email_crt" type="INT(11)"/>
+			</fields>
+		</table>
+
+    </tables>
+</root>

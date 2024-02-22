@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!--
+This file allow to define the database needed by this application
+-->
+
+<root>
+    <tables>
+        <!--
+        This table allow to define the needed tables for this app
+        -->
+        <table name="app_customers">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="id_campanya" type="INT(11)"/>
+                <field name="id_tipo" type="INT(11)"/>
+                <field name="codigo" type="VARCHAR(255)"/>
+                <field name="nombre" type="VARCHAR(255)"/>
+                <field name="nombre1" type="VARCHAR(255)"/>
+                <field name="nombre2" type="VARCHAR(255)"/>
+                <field name="cif" type="VARCHAR(255)"/>
+                <field name="comentarios" type="TEXT"/>
+                <field name="corriente" type="VARCHAR(255)"/>
+                <field name="contable" type="VARCHAR(255)"/>
+                <field name="diapago" type="INT(11)"/>
+                <field name="direccion" type="VARCHAR(255)"/>
+                <field name="id_pais" type="INT(11)"/>
+                <field name="id_provincia" type="INT(11)"/>
+                <field name="id_poblacion" type="INT(11)"/>
+                <field name="id_codpostal" type="INT(11)"/>
+                <field name="nombre_pais" type="VARCHAR(255)"/>
+                <field name="nombre_provincia" type="VARCHAR(255)"/>
+                <field name="nombre_poblacion" type="VARCHAR(255)"/>
+                <field name="nombre_codpostal" type="VARCHAR(255)"/>
+                <field name="email" type="VARCHAR(255)"/>
+                <field name="web" type="VARCHAR(255)"/>
+                <field name="tel_fijo" type="VARCHAR(255)"/>
+                <field name="tel_movil" type="VARCHAR(255)"/>
+                <field name="fax" type="VARCHAR(255)"/>
+                <field name="activo" type="INT(11)"/>
+            </fields>
+        </table>
+
+    </tables>
+</root>
