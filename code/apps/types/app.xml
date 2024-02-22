@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <!-- List part -->
+    <list>
+        <screen>clear</screen>
+        <title>Customer's list</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <layout auto="true" container_class="container mt-3" row_class="row g-1" col_class="col-auto">
+            <button ifeval="check_user('customers', 'create')" onclick="saltos.window.open('#app/customers/create')" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
+            <div col_class="col"/>
+            <hidden id="page" value="0"/>
+            <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="ctrl+f"/>
+            <button onclick="saltos.customers.search()" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
+            <button onclick="saltos.customers.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+        </layout>
+        <layout auto="true" container_class="container my-3" col_class="col-md-12">
+            <table id="table" source="list/customers/table"/>
+        </layout>
+        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.customers.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
+            <button onclick="saltos.window.close()" value="Close" tooltip="To close this list" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_hash("apps/customers/app.js")</file>
+            <inline>saltos.customers.initialize_search()</inline>
+            <inline>saltos.customers.initialize_update_list()</inline>
+        </javascript>
+    </list>
+
+    <table id="table" checkbox="true" type="table" limit="25" order="id DESC">
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
+        <data eval="true">execute_query_array("
+            SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("customers", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
+        ")</data>
+        <actions>
+            <action app="customers" action="view" value="View" icon="search" tooltip="Ver detalle cliente"/>
+            <action app="customers" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente"/>
+            <action app="customers" action="delete" value="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.customers.delete1"/>
+        </actions>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("customers", "list")."
+        ")</footer>
+    </table>
+
+    <!-- Form part -->
+    <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
+        <text id="codigo" label="Codigo"/>
+        <switch id="activo" label="Activo"/>
+        <text id="nombre" label="Nombre" required="true" autofocus="true"/>
+        <text id="nombre1" label="Nombre1"/>
+        <text id="nombre2" label="Nombre2"/>
+        <text id="cif" label="CIF" required="true"/>
+        <textarea id="comentarios" label="Comentarios"/>
+        <text id="corriente" label="C. corriente"/>
+        <text id="contable" label="C. contable"/>
+        <text id="diapago" label="Dia de pago"/>
+        <text id="direccion" label="Dirección"/>
+        <text id="nombre_pais" label="Pais"/>
+        <text id="nombre_provincia" label="Provincia"/>
+        <text id="nombre_poblacion" label="Poblacion" required="true"/>
+        <text id="nombre_codpostal" label="Cod. postal" required="true"/>
+        <text id="email" label="Email"/>
+        <text id="web" label="Web"/>
+        <text id="tel_fijo" label="Tel fijo"/>
+        <text id="tel_movil" label="Tel movil"/>
+        <text id="fax" label="Fax"/>
+    </layout>
+    <data eval="true">execute_query("SELECT * FROM app_customers WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+
+    <create>
+        <screen>clear</screen>
+        <title>New customer</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
+        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.customers.insert()" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
+            <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_hash("apps/customers/app.js")</file>
+        </javascript>
+    </create>
+
+    <view>
+        <screen>clear</screen>
+        <title>Detail of the customer</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
+        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+            <div col_class="col"/>
+            <button value="Editar" tooltip="Para editar el cliente" icon="pencil">
+                <onclick eval="true">"saltos.window.open('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
+            <button onclick="saltos.customers.delete2()" color="danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
+            <button onclick="saltos.window.close()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <inline>saltos.app.form_disabled(true)</inline>
+            <file eval="true">file_with_hash("apps/customers/app.js")</file>
+            <inline>saltos.customers.initialize_update_view()</inline>
+        </javascript>
+    </view>
+
+    <edit>
+        <screen>clear</screen>
+        <title>Modify this customer</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <layout eval="true">xmlfile2array("apps/customers/app.xml")["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/customers/app.xml")["data"]</data>
+        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+            <div col_class="col"/>
+            <button onclick="saltos.customers.update()" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
+            <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+        </layout>
+        <javascript>
+            <file eval="true">file_with_hash("apps/customers/app.js")</file>
+        </javascript>
+    </edit>
+
+    <!-- Widget part -->
+    <widget id="table1" type="table" order="id DESC" limit="5">
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
+        <data eval="true">execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".check_sql("customers", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
+        <actions>
+            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente"/>
+        </actions>
+        <footer eval="true">"Total: 5 registros"</footer>
+    </widget>
+
+    <widget id="table2" order="id ASC" limit="5">
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
+        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".check_sql("customers", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
+        <footer>
+            <nombre value="A"/>
+            <cif value="B"/>
+            <nombre_poblacion value="C"/>
+            <nombre_codpostal value="D"/>
+        </footer>
+    </widget>
+
+    <widget id="plot1">
+        <data eval="true">[
+            "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            "datasets" => [[
+                    "label" => 'First round',
+                    "data" => [8, 5, 3, 5, 2, 3],
+                ],[
+                    "label" => 'Second round',
+                    "data" => [7, 6, 4, 6, 9, 6],
+                ],[
+                    "label" => 'Third round',
+                    "data" => [6, 7, 6, 7, 5, 4],
+                ]]
+        ]</data>
+    </widget>
+
+    <widget id="plot2">
+        <data eval="true">[
+            "labels" => ['Red', 'Blue', 'Yellow', 'Green'],
+            "datasets" => [[
+                    "label" => 'First round',
+                    "data" => [8, 5, 3, 5],
+                ]]
+        ]</data>
+    </widget>
+
+    <!-- With preview part -->
+    <list id="preview">
+        <screen>clear</screen>
+        <title>Customer's list</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <javascript>
+            <file eval="true">file_with_hash("apps/customers/app.js")</file>
+        </javascript>
+        <layout auto="true" container_class="container-fluid my-3" col_class="col-md-6">
+            <row id="list">
+                <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
+                    <button ifeval="check_user('customers', 'create')" onclick="saltos.window.open('#app/customers/create')" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
+                    <div col_class="col"/>
+                    <hidden id="page" value="0"/>
+                    <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="ctrl+f"/>
+                    <button onclick="saltos.customers.search()" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
+                    <button onclick="saltos.customers.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+                </layout>
+                <layout auto="true" container_class="container-fluid mb-3" col_class="col-md-12">
+                    <table id="table" source="list/customers/table"/>
+                </layout>
+                <layout auto="true" container_class="container-fluid" row_class="row g-1" col_class="col-auto">
+                    <div col_class="col"/>
+                    <button onclick="saltos.customers.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
+                </layout>
+            </row>
+            <row id="form"/>
+        </layout>
+        <javascript>
+            <inline>saltos.customers.initialize_search()</inline>
+            <inline>saltos.customers.initialize_preview()</inline>
+        </javascript>
+    </list>
+
+    <view id="preview">
+        <javascript>
+            <inline>saltos.app.__form.fields = [];</inline>
+        </javascript>
+        <layout auto="true" container_class="container" col_class="col-md-4 mb-3">
+            <text id="codigo" label="Codigo"/>
+            <switch id="activo" label="Activo"/>
+            <text id="nombre" label="Nombre" required="true" autofocus="true"/>
+            <text id="nombre1" label="Nombre1"/>
+            <text id="nombre2" label="Nombre2"/>
+            <text id="cif" label="CIF" required="true"/>
+            <textarea id="comentarios" label="Comentarios" col_class="col-md-12 mb-3"/>
+            <text id="corriente" label="C. corriente"/>
+            <text id="contable" label="C. contable"/>
+            <text id="diapago" label="Dia de pago"/>
+            <text id="direccion" label="Dirección"/>
+            <text id="nombre_pais" label="Pais"/>
+            <text id="nombre_provincia" label="Provincia"/>
+            <text id="nombre_poblacion" label="Poblacion" required="true"/>
+            <text id="nombre_codpostal" label="Cod. postal" required="true"/>
+            <text id="email" label="Email"/>
+            <text id="web" label="Web"/>
+            <text id="tel_fijo" label="Tel fijo"/>
+            <text id="tel_movil" label="Tel movil"/>
+            <text id="fax" label="Fax"/>
+        </layout>
+        <data eval="true">execute_query("SELECT * FROM app_customers WHERE id=".intval(get_data("json/ids"))." AND ".check_sql(get_data("json/app"), get_data("json/subapp")))</data>
+        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+            <div col_class="col"/>
+            <button value="Editar" tooltip="Para editar el cliente" icon="pencil">
+                <onclick eval="true">"saltos.window.open('#app/customers/edit/".intval(get_data("json/ids"))."')"</onclick>
+            </button>
+        </layout>
+        <javascript>
+            <inline>saltos.app.form_disabled(true)</inline>
+        </javascript>
+    </view>
+
+</root>

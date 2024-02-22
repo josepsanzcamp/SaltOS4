@@ -132,32 +132,39 @@ function fix_key($arg)
 }
 
 /**
- * Detect Recursion
+ * XML Files to Array
  *
- * This function allow to SaltOS to detect the recursión, to do it, uses the debug_backtrace
- * function that returns all information about the execution of the current function, the
- * main idea of this function is to detect in what lines of the backtrace appear the file
- * or the function, and returns the count of times that appear
+ * This function allow to convert all XML files to an array, allow to use cache to
+ * optimize repetitive calls of the same file
  *
- * @fn => the name of the function or file, can be multiples functions or files separated
- *        by a comma
+ * As an special mention, this function internally implements the old xml_join feature
+ * that allow to merge multiple files into one using the fix_key of the keys in the first
+ * level as key to join.
+ *
+ * @file     => the detect_apps_files file that you want to convert from xml to array
+ * @usecache => if do you want to enable the cache feature
  */
-function detect_recursion($fn)
+function xmlfiles2array($file, $usecache = true)
 {
-    if (!is_array($fn)) {
-        $fn = explode(",", $fn);
-    }
-    $temp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-    foreach ($temp as $key => $val) {
-        if (isset($val["function"]) && in_array($val["function"], $fn)) {
-            continue;
+    $files = array_merge(glob($file), glob("apps/*/{$file}"));
+    $result = [];
+    foreach ($files as $file) {
+        $array = xmlfile2array($file, $usecache);
+        foreach ($array as $key => $val) {
+            $key = fix_key($key);
+            if (is_array($val)) {
+                if (!isset($result[$key])) {
+                    $result[$key] = [];
+                }
+                foreach ($val as $key2 => $val2) {
+                    set_array($result[$key], $key2, $val2);
+                }
+            } else {
+                set_array($result, $key, $val);
+            }
         }
-        if (isset($val["file"]) && in_array(basename($val["file"]), $fn)) {
-            continue;
-        }
-        unset($temp[$key]);
     }
-    return count($temp);
+    return $result;
 }
 
 /**

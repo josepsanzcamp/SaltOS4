@@ -434,3 +434,32 @@ function show_json_array($array)
     $array["code"] = __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
     output_handler_json($array);
 }
+
+/**
+ * Detect Recursion
+ *
+ * This function allow to SaltOS to detect the recursión, to do it, uses the debug_backtrace
+ * function that returns all information about the execution of the current function, the
+ * main idea of this function is to detect in what lines of the backtrace appear the file
+ * or the function, and returns the count of times that appear
+ *
+ * @fn => the name of the function or file, can be multiples functions or files separated
+ *        by a comma
+ */
+function detect_recursion($fn)
+{
+    if (!is_array($fn)) {
+        $fn = explode(",", $fn);
+    }
+    $temp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    foreach ($temp as $key => $val) {
+        if (isset($val["function"]) && in_array($val["function"], $fn)) {
+            continue;
+        }
+        if (isset($val["file"]) && in_array(basename($val["file"]), $fn)) {
+            continue;
+        }
+        unset($temp[$key]);
+    }
+    return count($temp);
+}

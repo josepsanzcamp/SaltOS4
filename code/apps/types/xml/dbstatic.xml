@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<!--
+This file allow to define the static information for this app
+-->
+
+<root>
+    <tables>
+        <table name="tbl_apps">
+            <row id="14" active="1" code="types" name="Types" description="Types application" table="app_types" field="name" has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1"/>
+        </table>
+        <!-- This part is for devel purposes -->
+        <table name="tbl_apps_perms">
+            <row app_id="14" perm_id="1,2,3,4,5,11,12,13,21,22,23,31,32,33,41,42,43" allow="0" deny="0"/>
+        </table>
+        <table name="tbl_users_apps_perms">
+            <row user_id="1" app_id="14" perm_id="1,2,3,4,5,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
+        </table>
+        <table name="tbl_groups_apps_perms">
+            <row group_id="1" app_id="14" perm_id="1,2,3,4,5,11,12,13,21,22,23,31,32,33,41,42,43" allow="1" deny="0"/>
+        </table>
+    </tables>
+</root>

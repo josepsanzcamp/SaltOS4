@@ -333,3 +333,25 @@ function get_unique_token()
         bin2hex(random_bytes(6)),
     ]);
 }
+
+/**
+ * Check IDS
+ *
+ * This function checks the correctness of the list of ids and returns
+ * a valid list available to be used in sql queries
+ *
+ * @ids => the string containing the list of ids
+ */
+function check_ids()
+{
+    $value = [];
+    foreach (func_get_args() as $arg) {
+        $arg = is_array($arg) ? $arg : explode(",", $arg);
+        $value = array_merge($value, $arg);
+    }
+    foreach ($value as $key => $val) {
+        $value[$key] = abs(intval($val));
+    }
+    $value = count($value) ? implode(",", $value) : "0";
+    return $value;
+}
