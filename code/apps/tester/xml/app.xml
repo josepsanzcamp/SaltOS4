@@ -168,7 +168,7 @@ Adios]]></ckeditor>
             </gallery>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/tester/app.new.js")</file>
+            <file eval="true">file_with_hash("apps/tester/js/app.new.js")</file>
         </javascript>
     </menu>
 
@@ -176,15 +176,15 @@ Adios]]></ckeditor>
         <screen>clear</screen>
         <title>Old Tester Demo App</title>
         <javascript>
-            <file eval="true">file_with_hash("apps/tester/app.old.js")</file>
+            <file eval="true">file_with_hash("apps/tester/js/app.old.js")</file>
         </javascript>
     </menu>
 
-    <menu id="indexing">
-        <temp eval="true">include_once("apps/tester/indexing.php")</temp>
-    </menu>
+    <action id="indexing">
+        <temp eval="true">include_once("apps/tester/php/indexing.php")</temp>
+    </action>
 
-    <menu id="pepe">
-        <temp eval="true">include_once("apps/tester/pepe.php")</temp>
-    </menu>
+    <action id="pepe">
+        <temp eval="true">include_once("apps/tester/php/pepe.php")</temp>
+    </action>
 </root>

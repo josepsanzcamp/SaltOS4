@@ -59,7 +59,7 @@ if (get_data("rest/1") == "") {
 }
 
 set_data("rest/1", encode_bad_chars(get_data("rest/1")));
-$file = "apps/" . get_data("rest/1") . "/app.xml";
+$file = "apps/" . get_data("rest/1") . "/xml/app.xml";
 if (!file_exists($file)) {
     show_json_error("app " . get_data("rest/1") . " not found");
 }

@@ -29,7 +29,7 @@
     <menu>
         <screen>clear</screen>
         <title>Dashboard</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <javascript>
             <file>lib/chartjs/chart.umd.min.js</file>
         </javascript>
@@ -47,7 +47,7 @@
             <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"></chartjs>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/dashboard/app.js")</file>
+            <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
             <inline>saltos.dashboard.initialize()</inline>
         </javascript>
     </menu>
@@ -55,7 +55,7 @@
     <config>
         <screen>clear</screen>
         <title>Profile</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
             <textarea height="200px" value="TODO..." />
         </layout>
@@ -65,7 +65,7 @@
             <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/dashboard/app.js")</file>
+            <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
         </javascript>
     </config>
 

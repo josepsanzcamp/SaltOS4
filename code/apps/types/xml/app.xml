@@ -29,8 +29,8 @@
     <!-- List part -->
     <list>
         <screen>clear</screen>
-        <title>types list</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
+        <title>Types list</title>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid my-3" col_class="col-md-6">
             <row id="list">
                 <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
@@ -52,7 +52,7 @@
             <row id="form"/>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/types/app.js")</file>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
             <inline>saltos.types.initialize_search()</inline>
             <inline>saltos.types.initialize_update_list()</inline>
             <inline>saltos.types.initialize_preview()</inline>
@@ -99,15 +99,15 @@
     <create>
         <screen>clear</screen>
         <title>New types</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/navbar.xml")["navbar"]</navbar>
-        <layout eval="true">xmlfile2array("apps/types/app.xml")["layout"]</layout>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
         <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.types.insert()" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
             <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/types/app.js")</file>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
         </javascript>
     </create>
 
@@ -115,8 +115,8 @@
         <javascript>
             <inline>saltos.app.__form.fields = [];</inline>
         </javascript>
-        <layout eval="true">xmlfile2array("apps/types/app.xml")["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/types/app.xml")["data"]</data>
+        <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
         <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
@@ -129,7 +129,7 @@
         </javascript>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
-            <file eval="true">file_with_hash("apps/types/app.js")</file>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
             <inline>saltos.types.initialize_update_view()</inline>
         </javascript>
     </view>
@@ -138,8 +138,8 @@
         <javascript>
             <inline>saltos.app.__form.fields = [];</inline>
         </javascript>
-        <layout eval="true">xmlfile2array("apps/types/app.xml")["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/types/app.xml")["data"]</data>
+        <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
+        <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
         <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.types.update()" value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg"/>
@@ -148,7 +148,7 @@
             </button>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/types/app.js")</file>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
         </javascript>
     </edit>
 

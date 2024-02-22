@@ -56,7 +56,7 @@ if (get_data("json/app") == "") {
 }
 
 set_data("json/app", encode_bad_chars(get_data("json/app")));
-$file = "apps/" . get_data("json/app") . "/app.xml";
+$file = "apps/" . get_data("json/app") . "/xml/app.xml";
 if (!file_exists($file)) {
     show_json_error("app " . get_data("json/app") . " not found");
 }
