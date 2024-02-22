@@ -27,9 +27,9 @@
 'use strict';
 
 /**
- * Customers application
+ * Types application
  *
- * This application implements the tipical features associated to customers
+ * This application implements the tipical features associated to types
  */
 
 /**
@@ -37,19 +37,19 @@
  *
  * This object contains all SaltOS code
  */
-saltos.customers = {};
+saltos.types = {};
 
 /**
- * Initialize customers
+ * Initialize types
  *
- * This function initializes the customers screen to improve the user experience.
+ * This function initializes the types screen to improve the user experience.
  */
-saltos.customers.initialize_search = () => {
+saltos.types.initialize_search = () => {
     document.getElementById('search').addEventListener('keydown', event => {
         if (saltos.core.get_keycode(event) != 13) {
             return;
         }
-        saltos.customers.search();
+        saltos.types.search();
     });
 };
 
@@ -58,9 +58,9 @@ saltos.customers.initialize_search = () => {
  *
  * TODO
  */
-saltos.customers.initialize_update_list = () => {
-    saltos.window.set_listener('saltos.customers.update', event => {
-        saltos.customers.search();
+saltos.types.initialize_update_list = () => {
+    saltos.window.set_listener('saltos.types.update', event => {
+        saltos.types.search();
     });
 };
 
@@ -69,8 +69,8 @@ saltos.customers.initialize_update_list = () => {
  *
  * TODO
  */
-saltos.customers.initialize_update_view = () => {
-    saltos.window.set_listener('saltos.customers.update', event => {
+saltos.types.initialize_update_view = () => {
+    saltos.window.set_listener('saltos.types.update', event => {
         saltos.hash.trigger();
     });
 };
@@ -80,7 +80,7 @@ saltos.customers.initialize_update_view = () => {
  *
  * TODO
  */
-saltos.customers.search = () => {
+saltos.types.search = () => {
     document.getElementById('page').value = '0';
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -120,10 +120,10 @@ saltos.customers.search = () => {
  *
  * TODO
  */
-saltos.customers.reset = () => {
+saltos.types.reset = () => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
-    saltos.customers.search();
+    saltos.types.search();
 };
 
 /**
@@ -131,7 +131,7 @@ saltos.customers.reset = () => {
  *
  * TODO
  */
-saltos.customers.more = () => {
+saltos.types.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -176,7 +176,7 @@ saltos.customers.more = () => {
  *
  * TODO
  */
-saltos.customers.insert = () => {
+saltos.types.insert = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -196,7 +196,7 @@ saltos.customers.insert = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.window.send('saltos.customers.update');
+                saltos.window.send('saltos.types.update');
                 saltos.window.close();
                 return;
             }
@@ -219,7 +219,7 @@ saltos.customers.insert = () => {
  *
  * TODO
  */
-saltos.customers.update = () => {
+saltos.types.update = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -244,7 +244,7 @@ saltos.customers.update = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.window.send('saltos.customers.update');
+                saltos.window.send('saltos.types.update');
                 saltos.window.close();
                 return;
             }
@@ -267,8 +267,8 @@ saltos.customers.update = () => {
  *
  * TODO
  */
-saltos.customers.delete1 = arg => {
-    saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
+saltos.types.delete1 = arg => {
+    saltos.app.alert('Delete this type???', 'Do you want to delete this type???', {
         buttons: [{
             label: 'Yes',
             class: 'btn-success',
@@ -289,7 +289,7 @@ saltos.customers.delete1 = arg => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.window.send('saltos.customers.update');
+                            saltos.window.send('saltos.types.update');
                             return;
                         }
                         saltos.app.show_error(response);
@@ -320,8 +320,8 @@ saltos.customers.delete1 = arg => {
  *
  * TODO
  */
-saltos.customers.delete2 = () => {
-    saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
+saltos.types.delete2 = () => {
+    saltos.app.alert('Delete this type???', 'Do you want to delete this type???', {
         buttons: [{
             label: 'Yes',
             class: 'btn-success',
@@ -342,7 +342,7 @@ saltos.customers.delete2 = () => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.window.send('saltos.customers.update');
+                            saltos.window.send('saltos.types.update');
                             saltos.window.close();
                             return;
                         }
@@ -374,7 +374,7 @@ saltos.customers.delete2 = () => {
  *
  * TODO
  */
-saltos.customers.initialize_preview = () => {
+saltos.types.initialize_preview = () => {
     document.getElementById('table').addEventListener('load', event => {
         var trs = document.getElementById('table').querySelectorAll('tbody tr');
         trs.forEach(_this => {
@@ -403,8 +403,7 @@ saltos.customers.initialize_preview = () => {
                         'action': 'app',
                         'app': saltos.hash.get().split('/').at(1),
                         'subapp': 'view',
-                        'id': 'preview',
-                        'ids': id,
+                        'id': id,
                     }),
                     method: 'post',
                     content_type: 'application/json',
