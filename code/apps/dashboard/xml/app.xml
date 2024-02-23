@@ -34,12 +34,12 @@
             <file>lib/chartjs/chart.umd.min.js</file>
         </javascript>
         <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
-            <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers/list')" class="fs-1 w-100 h-100" value="Customers"/>
-            <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices/list')" class="fs-1 w-100 h-100" value="Invoices"/>
-            <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails/list')" color="success" class="fs-1 w-100 h-100" value="Email"/>
+            <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" value="Customers"/>
+            <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" value="Invoices"/>
+            <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" value="Email"/>
             <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" value="New tester"/>
             <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" value="Old tester"/>
-            <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('#app/types/list')" class="fs-1 w-100 h-100" value="Types app"/>
+            <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('#app/types')" class="fs-1 w-100 h-100" value="Types"/>
             <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"></table>
             <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table2" col_class="col-md-6 mb-3"></table>
             <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"></chartjs>
@@ -57,7 +57,7 @@
         <title>Profile</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <textarea height="200px" value="TODO..." />
+            <textarea height="10em" value="TODO..." />
         </layout>
         <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>

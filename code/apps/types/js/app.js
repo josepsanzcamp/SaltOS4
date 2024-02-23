@@ -44,35 +44,90 @@ saltos.types = {};
  *
  * This function initializes the types screen to improve the user experience.
  */
-saltos.types.initialize_search = () => {
+saltos.types.initialize = () => {
     document.getElementById('search').addEventListener('keydown', event => {
         if (saltos.core.get_keycode(event) != 13) {
             return;
         }
         saltos.types.search();
     });
-};
 
-/**
- * TODO
- *
- * TODO
- */
-saltos.types.initialize_update_list = () => {
-    saltos.window.set_listener('saltos.types.update', event => {
-        saltos.types.search();
-    });
-};
+    //~ saltos.window.set_listener('saltos.types.update', event => {
+    //~     saltos.types.search();
+    //~ });
 
-/**
- * TODO
- *
- * TODO
- */
-saltos.types.initialize_update_view = () => {
-    saltos.window.set_listener('saltos.types.update', event => {
-        saltos.hash.trigger();
+    //~ saltos.window.set_listener('saltos.types.update', event => {
+    //~     saltos.hash.trigger();
+    //~ });
+
+    document.getElementById('table').addEventListener('load', event => {
+        var trs = document.getElementById('table').querySelectorAll('tbody tr');
+        trs.forEach(_this => {
+            _this.addEventListener('click', event => {
+                var id = _this.querySelector('input[type=checkbox][value]').value;
+                // This is for unselect the selected registers of the table
+                trs.forEach(_this2 => {
+                    var obj = _this2.querySelector('input[type=checkbox][value]');
+                    if (id != obj.value && obj.checked) {
+                        obj.checked = false;
+                        _this2.querySelectorAll('td').forEach(_this3 => {
+                            _this3.classList.remove('table-active');
+                        });
+                    } else if (id == obj.value && !obj.checked) {
+                        obj.checked = true;
+                        _this2.querySelectorAll('td').forEach(_this3 => {
+                            _this3.classList.add('table-active');
+                        });
+                    }
+                });
+                // Continue
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'app',
+                        'app': saltos.hash.get().split('/').at(1),
+                        'subapp': 'view',
+                        'id': id,
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        saltos.app.form.screen('unloading');
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        var obj = document.getElementById('form');
+                        obj.innerHTML = '';
+                        for (var key in response) {
+                            var val = response[key];
+                            key = saltos.core.fix_key(key);
+                            if (typeof saltos.app.form[key] != 'function') {
+                                throw new Error(`type ${key} not found`);
+                            }
+                            if (key == 'layout') {
+                                obj.append(saltos.app.form.layout(val, 'div'));
+                            } else {
+                                saltos.app.form[key](val);
+                            }
+                        }
+                    },
+                    error: request => {
+                        saltos.app.form.screen('unloading');
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
+                    }
+                });
+            });
+        });
+        document.getElementById('table').querySelector('tbody tr').click();
     });
+
 };
 
 /**
@@ -267,7 +322,7 @@ saltos.types.update = () => {
  *
  * TODO
  */
-saltos.types.delete1 = arg => {
+saltos.types.delete = arg => {
     saltos.app.alert('Delete this type???', 'Do you want to delete this type???', {
         buttons: [{
             label: 'Yes',
@@ -312,134 +367,5 @@ saltos.types.delete1 = arg => {
             onclick: () => {},
         }],
         color: 'danger',
-    });
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.types.delete2 = () => {
-    saltos.app.alert('Delete this type???', 'Do you want to delete this type???', {
-        buttons: [{
-            label: 'Yes',
-            class: 'btn-success',
-            icon: 'check-lg',
-            onclick: () => {
-                saltos.app.form.screen('loading');
-                saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'delete',
-                        'app': saltos.hash.get().split('/').at(1),
-                        'id': saltos.hash.get().split('/').at(3),
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
-                    success: response => {
-                        if (!saltos.app.check_response(response)) {
-                            return;
-                        }
-                        if (response.status == 'ok') {
-                            saltos.window.send('saltos.types.update');
-                            saltos.window.close();
-                            return;
-                        }
-                        saltos.app.show_error(response);
-                    },
-                    error: request => {
-                        saltos.app.show_error({
-                            text: request.statusText,
-                            code: request.status,
-                        });
-                    },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
-                });
-            },
-        },{
-            label: 'No',
-            class: 'btn-danger',
-            icon: 'x-lg',
-            onclick: () => {},
-        }],
-        color: 'danger',
-    });
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.types.initialize_preview = () => {
-    document.getElementById('table').addEventListener('load', event => {
-        var trs = document.getElementById('table').querySelectorAll('tbody tr');
-        trs.forEach(_this => {
-            _this.addEventListener('click', event => {
-                var id = _this.querySelector('input[type=checkbox][value]').value;
-                // This is for unselect the selected registers of the table
-                trs.forEach(_this2 => {
-                    var obj = _this2.querySelector('input[type=checkbox][value]');
-                    if (id != obj.value && obj.checked) {
-                        obj.checked = false;
-                        _this2.querySelectorAll('td').forEach(_this3 => {
-                            _this3.classList.remove('table-active');
-                        });
-                    } else if (id == obj.value && !obj.checked) {
-                        obj.checked = true;
-                        _this2.querySelectorAll('td').forEach(_this3 => {
-                            _this3.classList.add('table-active');
-                        });
-                    }
-                });
-                // Continue
-                saltos.app.form.screen('loading');
-                saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'app',
-                        'app': saltos.hash.get().split('/').at(1),
-                        'subapp': 'view',
-                        'id': id,
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
-                    success: response => {
-                        saltos.app.form.screen('unloading');
-                        if (!saltos.app.check_response(response)) {
-                            return;
-                        }
-                        var obj = document.getElementById('form');
-                        obj.innerHTML = '';
-                        for (var key in response) {
-                            var val = response[key];
-                            key = saltos.core.fix_key(key);
-                            if (typeof saltos.app.form[key] != 'function') {
-                                throw new Error(`type ${key} not found`);
-                            }
-                            if (key == 'layout') {
-                                obj.append(saltos.app.form.layout(val, 'div'));
-                            } else {
-                                saltos.app.form[key](val);
-                            }
-                        }
-                    },
-                    error: request => {
-                        saltos.app.form.screen('unloading');
-                        saltos.app.show_error({
-                            text: request.statusText,
-                            code: request.status,
-                        });
-                    },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
-                });
-            });
-        });
-        document.getElementById('table').querySelector('tbody tr').click();
     });
 };

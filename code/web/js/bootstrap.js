@@ -58,9 +58,9 @@ saltos.bootstrap = {};
  * @date        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
  * @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
  * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
- * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color
- * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color
- * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color
+ * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height
+ * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height
+ * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height
  * @iframe      => id, class, src, srcdoc, height, label, color
  * @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label, color
  * @multiselect => id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label, color
@@ -71,7 +71,7 @@ saltos.bootstrap = {};
  * @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label, color
  * @link        => id, DS, AK, value, onclick, tooltip, label, color
  * @label       => id, class, label, tooltip, value
- * @image       => id, class, value, alt, tooltip, label, color
+ * @image       => id, class, value, alt, tooltip, width, height, label, color
  * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
  *                 colWidths, label, color
  * @pdfjs       => id, class, value, label, color
@@ -475,9 +475,9 @@ saltos.bootstrap.__field.datetime = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
- * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @height      => the height used as style.minHeight parameter
  *
  * Notes:
  *
@@ -518,9 +518,9 @@ saltos.bootstrap.__field.textarea = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
- * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @height      => the height used as style.minHeight parameter
  *
  * Notes:
  *
@@ -579,9 +579,9 @@ saltos.bootstrap.__field.ckeditor = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
- * @rows        => the number used as rows parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @height      => the height used as style.minHeight parameter
  *
  * Notes:
  *
@@ -631,7 +631,7 @@ saltos.bootstrap.__field.codemirror = field => {
  * @src    => the value used as src parameter
  * @srcdoc => the value used as srcdoc parameter
  * @class  => allow to add more classes to the default form-control
- * @height => the height used as height for the style parameter
+ * @height => the height used as style.minHeight parameter
  * @label  => this parameter is used as text for the label
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
@@ -957,6 +957,7 @@ saltos.bootstrap.__field.switch = field => {
     var obj = saltos.bootstrap.__field.checkbox(field);
     obj.classList.add('form-switch');
     obj.querySelector('input').setAttribute('role', 'switch');
+    obj.querySelector('input').classList.add('rounded-pill'); // to do more pretty with cosmo
     return obj;
 };
 
@@ -1405,6 +1406,8 @@ saltos.bootstrap.__field.label = field => {
  * @alt     => this parameter is used as text for the alt parameter
  * @tooltip => this parameter raise the title flag
  * @label   => this parameter is used as text for the label
+ * @width   => this parameter is used as width for the image
+ * @height  => this parameter is used as height for the image
  * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.image = field => {
@@ -2413,7 +2416,6 @@ saltos.bootstrap.__text_helper = field => {
  * @required    => this parameter raise the required flag
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
- * @rows        => the number used as rows parameter
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  *
  * Notes:
@@ -2422,7 +2424,7 @@ saltos.bootstrap.__text_helper = field => {
  */
 saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
-                                    'required', 'autofocus', 'rows', 'tooltip', 'accesskey', 'color']);
+                                    'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -2443,7 +2445,7 @@ saltos.bootstrap.__textarea_helper = field => {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
-        <textarea rows="${field.rows}" class="form-control ${border} ${field.class}"
+        <textarea class="form-control ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
             id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>

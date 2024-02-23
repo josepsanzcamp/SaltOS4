@@ -67,13 +67,13 @@ if (!file_exists($file)) {
 // Load the app xml file
 $array = xmlfile2array($file);
 
-// Check for rest/2, that is the name of the subapp to load
-if (get_data("rest/2") == "" && count($array) >= 1) {
-    set_data("rest/2", key($array));
+if (!is_array($array) || !count($array)) {
+    show_json_error("internal error");
 }
 
+// Check for rest/2, that is the name of the subapp to load
 if (get_data("rest/2") == "") {
-    show_json_error("subapp not found");
+    set_data("rest/2", key($array));
 }
 
 set_data("rest/2", encode_bad_chars(get_data("rest/2")));

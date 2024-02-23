@@ -29,7 +29,10 @@
     <!-- List part -->
     <list>
         <screen>clear</screen>
-        <title>Types list</title>
+        <title>Types app</title>
+        <javascript>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
+        </javascript>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid my-3" col_class="col-md-6">
             <row id="list">
@@ -52,14 +55,11 @@
             <row id="form"/>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
-            <inline>saltos.types.initialize_search()</inline>
-            <inline>saltos.types.initialize_update_list()</inline>
-            <inline>saltos.types.initialize_preview()</inline>
+            <inline>saltos.types.initialize()</inline>
         </javascript>
     </list>
 
-    <table id="table" checkbox="true" type="table" limit="25" order="id DESC">
+    <table id="table" checkbox="true" type="table" limit="15" order="id DESC">
         <header>
             <name label="Name"/>
             <active label="Active"/>
@@ -89,26 +89,23 @@
     </table>
 
     <!-- Form part -->
-    <layout auto="true" container_class="container mt-3" col_class="col-md-6 mb-3">
-        <text id="name" label="Name" required="true" autofocus="true"/>
+    <layout auto="true" container_class="container-fluid" col_class="col-md-12 mb-3">
         <switch id="active" label="Active"/>
-        <textarea id="description" label="Description" col_class="col-md-12 mb-3"/>
+        <text id="name" label="Name" required="true" autofocus="true"/>
+        <textarea id="description" label="Description" height="10em"/>
     </layout>
     <data eval="true">execute_query("SELECT * FROM app_types WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
 
     <create>
-        <screen>clear</screen>
-        <title>New types</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <javascript>
+            <inline>saltos.app.__form.fields = [];</inline>
+        </javascript>
         <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
-        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.types.insert()" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
             <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
         </layout>
-        <javascript>
-            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
-        </javascript>
     </create>
 
     <view>
@@ -117,21 +114,18 @@
         </javascript>
         <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
-        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
                 <onclick eval="true">"saltos.window.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
             <button onclick="saltos.types.delete2()" color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash"/>
         </layout>
+<!--
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
         </javascript>
-        <javascript>
-            <inline>saltos.app.form_disabled(true)</inline>
-            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
-            <inline>saltos.types.initialize_update_view()</inline>
-        </javascript>
+-->
     </view>
 
     <edit>
@@ -140,16 +134,13 @@
         </javascript>
         <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
-        <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
+        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.types.update()" value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg"/>
             <button value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg">
                 <onclick eval="true">"saltos.window.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
         </layout>
-        <javascript>
-            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
-        </javascript>
     </edit>
 
 </root>

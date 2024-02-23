@@ -64,13 +64,13 @@ if (!file_exists($file)) {
 // Load the app xml file
 $array = xmlfile2array($file);
 
-// Check for json/subapp, that is the name of the subapp to load
-if (get_data("json/subapp") == "" && count($array) >= 1) {
-    set_data("json/subapp", key($array));
+if (!is_array($array) || !count($array)) {
+    show_json_error("internal error");
 }
 
+// Check for json/subapp, that is the name of the subapp to load
 if (get_data("json/subapp") == "") {
-    show_json_error("subapp not found");
+    set_data("json/subapp", key($array));
 }
 
 set_data("json/subapp", encode_bad_chars(get_data("json/subapp")));

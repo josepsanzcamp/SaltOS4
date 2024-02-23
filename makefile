@@ -6,14 +6,14 @@ all:
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 test:
-	$(eval files := $(shell svn st code/api/index.php code/api/php scripts code/apps | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
+	$(eval files := $(shell svn st code/api/index.php code/api/php scripts code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs --standard=scripts/rules.xml $$i; \
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
-	$(eval files := $(shell svn st code/web/js scripts code/apps | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'js$$ | sort))
+	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'js$$ | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		jscs --config=scripts/rules.json $$i 2>/dev/null; \
@@ -28,7 +28,7 @@ testall:
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
-	$(eval files := $(shell find code/web/js scripts code/apps -name *.js | sort))
+	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		jscs --config=scripts/rules.json $$i 2>/dev/null; \

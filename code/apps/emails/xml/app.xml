@@ -139,7 +139,7 @@
                 ]</rows>
             </select>
             <text id="subject" label="Subject"/>
-            <ckeditor id="body" label="Body" height="200px"/>
+            <ckeditor id="body" label="Body" height="10em"/>
         </layout>
         <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
@@ -185,7 +185,7 @@
             <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
             <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
             <text id="subject" label="Subject"/>
-            <iframe id="body" label="Body" height="200px" srcdoc="Loading...">
+            <iframe id="body" label="Body" height="10em" srcdoc="Loading...">
                 <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
             </iframe>
             <table id="files" label="Files" col_class="col-md-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
@@ -298,7 +298,7 @@
         <title>Config of the email</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <textarea height="200px" value="TODO..." />
+            <textarea height="10em" value="TODO..." />
         </layout>
         <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
