@@ -54,7 +54,7 @@
         </javascript>
     </list>
 
-    <table checkbox="true" type="table" limit="25" order="id DESC">
+    <table id="table" checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <nombre label="Nombre"/>
             <cif label="CIF"/>

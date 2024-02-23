@@ -715,10 +715,10 @@ saltos.app.__source_helper = field => {
                     return;
                 }
                 field.source = '';
+                var obj = document.getElementById(field.id);
                 for (var key in response) {
                     field[key] = response[key];
                 }
-                var obj = document.getElementById(field.id);
                 obj.replaceWith(saltos.bootstrap.field(field));
                 obj.dispatchEvent(new Event('load'));
             },

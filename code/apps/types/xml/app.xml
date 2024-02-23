@@ -34,7 +34,7 @@
             <file eval="true">file_with_hash("apps/types/js/app.js")</file>
         </javascript>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout auto="true" container_class="container-fluid my-3" col_class="col-md-6">
+        <layout auto="true" container_class="container-fluid my-3" col_class="col-xl-6">
             <row id="list">
                 <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
                     <button ifeval="check_user('types', 'create')" onclick="saltos.window.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
@@ -52,14 +52,18 @@
                     <button onclick="saltos.types.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
                 </layout>
             </row>
-            <row id="form"/>
+            <row id="form">
+                <col class="col-12">
+                    <placeholder/>
+                </col>
+            </row>
         </layout>
         <javascript>
             <inline>saltos.types.initialize()</inline>
         </javascript>
     </list>
 
-    <table id="table" checkbox="true" type="table" limit="15" order="id DESC">
+    <table id="table" checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <name label="Name"/>
             <active label="Active"/>
@@ -89,7 +93,7 @@
     </table>
 
     <!-- Form part -->
-    <layout auto="true" container_class="container-fluid" col_class="col-md-12 mb-3">
+    <layout auto="true" container_class="container-fluid" col_class="col-md-10 mb-3 offset-md-1">
         <switch id="active" label="Active"/>
         <text id="name" label="Name" required="true" autofocus="true"/>
         <textarea id="description" label="Description" height="10em"/>
@@ -121,11 +125,9 @@
             </button>
             <button onclick="saltos.types.delete2()" color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash"/>
         </layout>
-<!--
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
         </javascript>
--->
     </view>
 
     <edit>

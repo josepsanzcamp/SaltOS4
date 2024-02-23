@@ -178,7 +178,7 @@ saltos.invoices.search = () => {
                 return;
             }
             var temp = saltos.bootstrap.field(response);
-            document.querySelector('table').replaceWith(temp);
+            document.getElementById('table').parentNode.replaceWith(temp);
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -232,7 +232,7 @@ saltos.invoices.more = () => {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 return;
             }
-            var obj = document.querySelector('table').querySelector('tbody');
+            var obj = document.getElementById('table').querySelector('tbody');
             var temp = saltos.bootstrap.field(response);
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },

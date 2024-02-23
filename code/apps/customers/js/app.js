@@ -100,7 +100,7 @@ saltos.customers.search = () => {
                 return;
             }
             var temp = saltos.bootstrap.field(response);
-            document.getElementById('table').replaceWith(temp);
+            document.getElementById('table').parentNode.replaceWith(temp);
         },
         error: request => {
             saltos.app.form.screen('unloading');

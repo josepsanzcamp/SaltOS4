@@ -40,6 +40,74 @@
 saltos.types = {};
 
 /**
+ *
+ */
+saltos.types.addEventListener = _this => {
+    _this.addEventListener('click', event => {
+        var id = _this.querySelector('input[type=checkbox][value]').value;
+        // This is for unselect the selected registers of the table
+        var trs = _this.parentNode.querySelectorAll("tr");
+        trs.forEach(_this2 => {
+            var obj = _this2.querySelector('input[type=checkbox][value]');
+            if (id != obj.value && obj.checked) {
+                obj.checked = false;
+                _this2.querySelectorAll('td').forEach(_this3 => {
+                    _this3.classList.remove('table-active');
+                });
+            } else if (id == obj.value && !obj.checked) {
+                obj.checked = true;
+                _this2.querySelectorAll('td').forEach(_this3 => {
+                    _this3.classList.add('table-active');
+                });
+            }
+        });
+        // Continue
+        saltos.app.form.screen('loading');
+        saltos.core.ajax({
+            url: 'api/index.php',
+            data: JSON.stringify({
+                'action': 'app',
+                'app': saltos.hash.get().split('/').at(1),
+                'subapp': 'view',
+                'id': id,
+            }),
+            method: 'post',
+            content_type: 'application/json',
+            success: response => {
+                saltos.app.form.screen('unloading');
+                if (!saltos.app.check_response(response)) {
+                    return;
+                }
+                var obj = document.getElementById('form');
+                obj.innerHTML = '';
+                for (var key in response) {
+                    var val = response[key];
+                    key = saltos.core.fix_key(key);
+                    if (typeof saltos.app.form[key] != 'function') {
+                        throw new Error(`type ${key} not found`);
+                    }
+                    if (key == 'layout') {
+                        obj.append(saltos.app.form.layout(val, 'div'));
+                    } else {
+                        saltos.app.form[key](val);
+                    }
+                }
+            },
+            error: request => {
+                saltos.app.form.screen('unloading');
+                saltos.app.show_error({
+                    text: request.statusText,
+                    code: request.status,
+                });
+            },
+            headers: {
+                'token': saltos.token.get(),
+            }
+        });
+    });
+};
+
+/**
  * Initialize types
  *
  * This function initializes the types screen to improve the user experience.
@@ -62,70 +130,12 @@ saltos.types.initialize = () => {
 
     document.getElementById('table').addEventListener('load', event => {
         var trs = document.getElementById('table').querySelectorAll('tbody tr');
-        trs.forEach(_this => {
-            _this.addEventListener('click', event => {
-                var id = _this.querySelector('input[type=checkbox][value]').value;
-                // This is for unselect the selected registers of the table
-                trs.forEach(_this2 => {
-                    var obj = _this2.querySelector('input[type=checkbox][value]');
-                    if (id != obj.value && obj.checked) {
-                        obj.checked = false;
-                        _this2.querySelectorAll('td').forEach(_this3 => {
-                            _this3.classList.remove('table-active');
-                        });
-                    } else if (id == obj.value && !obj.checked) {
-                        obj.checked = true;
-                        _this2.querySelectorAll('td').forEach(_this3 => {
-                            _this3.classList.add('table-active');
-                        });
-                    }
-                });
-                // Continue
-                saltos.app.form.screen('loading');
-                saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'app',
-                        'app': saltos.hash.get().split('/').at(1),
-                        'subapp': 'view',
-                        'id': id,
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
-                    success: response => {
-                        saltos.app.form.screen('unloading');
-                        if (!saltos.app.check_response(response)) {
-                            return;
-                        }
-                        var obj = document.getElementById('form');
-                        obj.innerHTML = '';
-                        for (var key in response) {
-                            var val = response[key];
-                            key = saltos.core.fix_key(key);
-                            if (typeof saltos.app.form[key] != 'function') {
-                                throw new Error(`type ${key} not found`);
-                            }
-                            if (key == 'layout') {
-                                obj.append(saltos.app.form.layout(val, 'div'));
-                            } else {
-                                saltos.app.form[key](val);
-                            }
-                        }
-                    },
-                    error: request => {
-                        saltos.app.form.screen('unloading');
-                        saltos.app.show_error({
-                            text: request.statusText,
-                            code: request.status,
-                        });
-                    },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
-                });
-            });
-        });
+        trs.forEach(saltos.types.addEventListener);
         document.getElementById('table').querySelector('tbody tr').click();
+    });
+
+    window.addEventListener('scroll', event => {
+        document.getElementById('form').style.marginTop = window.scrollY + 'px';
     });
 
 };
@@ -155,7 +165,13 @@ saltos.types.search = () => {
                 return;
             }
             var temp = saltos.bootstrap.field(response);
-            document.getElementById('table').replaceWith(temp);
+            document.getElementById('table').parentNode.replaceWith(temp);
+            var trs = document.getElementById('table').querySelectorAll('tbody tr');
+            trs.forEach(saltos.types.addEventListener);
+            var obj = document.getElementById('table').querySelector('tbody tr');
+            if (obj) {
+                obj.click();
+            }
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -211,7 +227,10 @@ saltos.types.more = () => {
             }
             var obj = document.getElementById('table').querySelector('tbody');
             var temp = saltos.bootstrap.field(response);
-            temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+            temp.querySelectorAll('table tbody tr').forEach(_this => {
+                obj.append(_this);
+                saltos.types.addEventListener(_this);
+            });
         },
         error: request => {
             saltos.app.form.screen('unloading');

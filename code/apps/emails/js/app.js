@@ -81,7 +81,7 @@ saltos.emails.search = () => {
                 return;
             }
             var temp = saltos.bootstrap.field(response);
-            document.querySelector('table').replaceWith(temp);
+            document.getElementById('table').parentNode.replaceWith(temp);
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -135,7 +135,7 @@ saltos.emails.more = () => {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 return;
             }
-            var obj = document.querySelector('table').querySelector('tbody');
+            var obj = document.getElementById('table').querySelector('tbody');
             var temp = saltos.bootstrap.field(response);
             temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
         },
@@ -198,7 +198,7 @@ saltos.emails.getmail = () => {
  * TODO
  */
 saltos.emails.delete1 = () => {
-    var ids = saltos.app.checkbox_ids(document.querySelector('table'));
+    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
     if (!ids.length) {
         saltos.app.alert(
             'Select emails',

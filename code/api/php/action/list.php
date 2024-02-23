@@ -88,7 +88,6 @@ foreach ($array as $key => $val) {
     if (isset($val["#attr"]["id"])) {
         if (fix_key($key) == get_data("json/subapp") && $val["#attr"]["id"] == get_data("json/id")) {
             set_data("json/subapp", $key);
-            unset($array[$key]["#attr"]["id"]);
         }
     }
 }
