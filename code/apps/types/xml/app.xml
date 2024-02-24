@@ -63,7 +63,7 @@
         </javascript>
     </list>
 
-    <table id="table" checkbox="true" type="table" limit="25" order="id DESC">
+    <table checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <name label="Name"/>
             <active label="Active"/>

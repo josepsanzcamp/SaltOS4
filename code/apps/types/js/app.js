@@ -164,6 +164,7 @@ saltos.types.search = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
+            response.id = 'table';
             var temp = saltos.bootstrap.field(response);
             document.getElementById('table').parentNode.replaceWith(temp);
             var trs = document.getElementById('table').querySelectorAll('tbody tr');

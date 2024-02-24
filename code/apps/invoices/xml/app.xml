@@ -40,7 +40,7 @@
             <button onclick="saltos.invoices.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
         </layout>
         <layout auto="true" container_class="container my-3" col_class="col-md-12">
-            <table source="list/invoices/table"/>
+            <table id="table" source="list/invoices/table"/>
         </layout>
         <layout auto="true" container_class="container mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
@@ -54,7 +54,7 @@
         </javascript>
     </list>
 
-    <table id="table" checkbox="true" type="table" limit="25" order="id DESC">
+    <table checkbox="true" type="table" limit="25" order="id DESC">
         <header>
             <nombre label="Nombre"/>
             <cif label="CIF"/>

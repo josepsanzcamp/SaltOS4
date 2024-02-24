@@ -80,6 +80,7 @@ saltos.emails.search = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
+            response.id = 'table';
             var temp = saltos.bootstrap.field(response);
             document.getElementById('table').parentNode.replaceWith(temp);
         },

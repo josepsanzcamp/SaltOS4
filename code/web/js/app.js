@@ -185,6 +185,11 @@ saltos.app.process_response = response => {
     for (var key in response) {
         var val = response[key];
         key = saltos.core.fix_key(key);
+        // This is to prevent that some ids causes problems in this level
+        if (key == 'id') {
+            continue;
+        }
+        // Continue
         if (typeof saltos.app.form[key] != 'function') {
             throw new Error(`type ${key} not found`);
         }
@@ -715,10 +720,11 @@ saltos.app.__source_helper = field => {
                     return;
                 }
                 field.source = '';
-                var obj = document.getElementById(field.id);
+                delete response.id;
                 for (var key in response) {
                     field[key] = response[key];
                 }
+                var obj = document.getElementById(field.id);
                 obj.replaceWith(saltos.bootstrap.field(field));
                 obj.dispatchEvent(new Event('load'));
             },
