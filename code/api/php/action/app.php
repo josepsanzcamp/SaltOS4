@@ -73,7 +73,15 @@ if (!is_array($array) || !count($array)) {
 
 // Check for rest/2, that is the name of the subapp to load
 if (get_data("rest/2") == "") {
-    set_data("rest/2", key($array));
+    foreach ($array as $key => $val) {
+        if (isset($val["#attr"]["default"]) && eval_bool($val["#attr"]["default"])) {
+            set_data("rest/2", $key);
+        }
+    }
+}
+
+if (get_data("rest/2") == "") {
+    show_json_error("subapp not found");
 }
 
 set_data("rest/2", encode_bad_chars(get_data("rest/2")));

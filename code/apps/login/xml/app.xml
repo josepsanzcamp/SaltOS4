@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <menu>
+    <menu default="true">
         <screen>clear</screen>
         <title>Login form</title>
         <layout>

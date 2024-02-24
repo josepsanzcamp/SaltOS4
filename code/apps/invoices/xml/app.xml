@@ -27,7 +27,7 @@
 
 <root>
     <!-- List part -->
-    <list>
+    <list default="true">
         <screen>clear</screen>
         <title>Invoice's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>

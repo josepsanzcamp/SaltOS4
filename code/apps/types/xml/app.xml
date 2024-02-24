@@ -27,7 +27,7 @@
 
 <root>
     <!-- List part -->
-    <list>
+    <list default="true">
         <screen>clear</screen>
         <title>Types app</title>
         <javascript>

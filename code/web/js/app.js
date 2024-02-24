@@ -185,8 +185,8 @@ saltos.app.process_response = response => {
     for (var key in response) {
         var val = response[key];
         key = saltos.core.fix_key(key);
-        // This is to prevent that some ids causes problems in this level
-        if (key == 'id') {
+        // This is to prevent some attr that causes problems here
+        if (['id', 'default'].includes(key)) {
             continue;
         }
         // Continue

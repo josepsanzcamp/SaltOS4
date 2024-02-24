@@ -70,7 +70,15 @@ if (!is_array($array) || !count($array)) {
 
 // Check for json/subapp, that is the name of the subapp to load
 if (get_data("json/subapp") == "") {
-    set_data("json/subapp", key($array));
+    foreach ($array as $key => $val) {
+        if (isset($val["#attr"]["default"]) && eval_bool($val["#attr"]["default"])) {
+            set_data("json/subapp", $key);
+        }
+    }
+}
+
+if (get_data("json/subapp") == "") {
+    show_json_error("subapp not found");
 }
 
 set_data("json/subapp", encode_bad_chars(get_data("json/subapp")));
