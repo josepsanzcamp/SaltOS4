@@ -230,3 +230,16 @@ function app_exists($app)
 {
     return __apps(__FUNCTION__, $app);
 }
+
+/**
+ * Detect apps files
+ *
+ * This function returns the files found in the main path and in the apps path
+ *
+ * @file => the pattern used to search files
+ */
+function detect_apps_files($file)
+{
+    $files = array_merge(glob($file), glob("apps/*/{$file}"));
+    return $files;
+}

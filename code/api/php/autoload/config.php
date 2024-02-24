@@ -131,3 +131,16 @@ function set_config($key, $val, $user_id = -1)
         db_query($query);
     }
 }
+
+/**
+ * Detect config files
+ *
+ * This function returns the files found in the main path, in the apps path and in the files path
+ *
+ * @file => the pattern used to search files
+ */
+function detect_config_files($file)
+{
+    $files = array_merge(glob("data/files/" . basename($file)), glob($file), glob("apps/*/{$file}"));
+    return $files;
+}

@@ -1208,15 +1208,15 @@ function getmail_receive()
     if (!semaphore_acquire($semaphore)) {
         return "Could not acquire the semaphore";
     }
-    //~ // FOR DEBUG PURPOSES
-    //~ if (getDefault("debug/getmailmsgid")) {
-        //~ $file = get_directory("dirs/inboxdir") . getDefault("debug/getmailmsgid") . ".eml.gz";
-        //~ if (!file_exists($file)) {
-            //~ $file = get_directory("dirs/outboxdir") . getDefault("debug/getmailmsgid") . ".eml.gz";
-        //~ }
-        //~ __getmail_insert($file, getDefault("debug/getmailmsgid"), 1, 0, 0, 0, 0, 0, 0, "");
-        //~ die();
-    //~ }
+    // FOR DEBUG PURPOSES
+    if (get_config("emails/getmailmsgid")) {
+        $file = get_directory("dirs/inboxdir") . get_config("emails/getmailmsgid") . ".eml.gz";
+        if (!file_exists($file)) {
+            $file = get_directory("dirs/outboxdir") . get_config("emails/getmailmsgid") . ".eml.gz";
+        }
+        __getmail_insert($file, get_config("emails/getmailmsgid"), 1, 0, 0, 0, 0, 0, 0, "");
+        die();
+    }
     // datos pop3
     $query = "SELECT * FROM app_emails_accounts WHERE user_id='" . current_user() . "' AND email_disabled='0'";
     $result = execute_query_array($query);
@@ -1228,9 +1228,9 @@ function getmail_receive()
     $newemail = 0;
     $haserror = [];
     foreach ($result as $row) {
-        //~ if (time_get_usage() > getDefault("server/percentstop")) {
-            //~ break;
-        //~ }
+        if (time_get_usage() > get_config("emails/percentstop")) {
+            break;
+        }
         $error = "";
         if ($row["pop3_host"] == "") {
             $temp = $row["email_from"];
@@ -1283,9 +1283,9 @@ function getmail_receive()
             // retrieve all new messages
             $retrieve = array_diff($uidls, $olduidls);
             foreach ($retrieve as $index => $uidl) {
-                //~ if (time_get_usage() > getDefault("server/percentstop")) {
-                    //~ break;
-                //~ }
+                if (time_get_usage() > get_config("emails/percentstop")) {
+                    break;
+                }
                 if ($error == "") {
                     $file = $prefix . "/" . $uidls[$index] . ".eml.gz";
                     if (!file_exists($file)) {

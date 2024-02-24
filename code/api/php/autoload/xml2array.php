@@ -79,8 +79,13 @@ function set_array(&$array, $name, $value)
         $array[$name] = $value;
     } else {
         $name .= "#";
-        $last = array_key_last($array);
-        $count = intval(substr($last, strlen($name))) + 1;
+        $len = strlen($name);
+        $key = array_key_last($array);
+        if (strncmp($name, $key, $len) == 0) {
+            $count = intval(substr($key, $len)) + 1;
+        } else {
+            $count = 1;
+        }
         while (isset($array[$name . $count])) {
             $count++;
         }
@@ -141,12 +146,11 @@ function fix_key($arg)
  * that allow to merge multiple files into one using the fix_key of the keys in the first
  * level as key to join.
  *
- * @file     => the detect_apps_files file that you want to convert from xml to array
+ * @files    => the files that you want to convert from xml to array
  * @usecache => if do you want to enable the cache feature
  */
-function xmlfiles2array($file, $usecache = true)
+function xmlfiles2array($files, $usecache = true)
 {
-    $files = array_merge(glob($file), glob("apps/*/{$file}"));
     $result = [];
     foreach ($files as $file) {
         $array = xmlfile2array($file, $usecache);
