@@ -31,6 +31,12 @@ declare(strict_types=1);
  * TODO
  */
 
+for ($i = 1; $i <= 53; $i++) {
+    make_index("types", $i);
+    make_control("types", $i);
+}
+die();
+
 //~ make_index("customers", 51);
 //~ make_control("customers", 51);
 

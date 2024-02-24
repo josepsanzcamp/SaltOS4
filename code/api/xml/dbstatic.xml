@@ -35,11 +35,8 @@ and the main permissions for the user
 <root>
     <tables>
         <!-- Apps specs -->
-        <table name="tbl_apps">
-            <row id="1" active="1" code="dashboard" name="Dashboard" description="Dashboard app"/>
-            <row id="2" active="1" code="login" name="Login" description="Pantalla login"/>
-            <row id="3" active="1" code="tester" name="Tester" description="App para test"/>
-        </table>
+        <!--<table name="tbl_apps">
+        </table>-->
 
         <!-- Valid values for owner are 'user', 'group' and 'all' -->
         <table name="tbl_perms">
@@ -74,9 +71,7 @@ and the main permissions for the user
         </table>
 
         <!-- This part is for all purposes -->
-        <table name="tbl_apps_perms">
-            <row app_id="1,2,3" perm_id="1" allow="1" deny="0"/>
-            <row app_id="1" perm_id="5" allow="1" deny="0"/>
-        </table>
+        <!--<table name="tbl_apps_perms">
+        </table>-->
     </tables>
 </root>
