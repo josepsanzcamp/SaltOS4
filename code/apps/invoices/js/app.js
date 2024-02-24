@@ -40,20 +40,6 @@
 saltos.invoices = {};
 
 /**
- * Initialize invoices
- *
- * This function initializes the invoices screen to improve the user experience.
- */
-saltos.invoices.initialize_search = () => {
-    document.getElementById('search').addEventListener('keydown', event => {
-        if (saltos.core.get_keycode(event) != 13) {
-            return;
-        }
-        saltos.invoices.search();
-    });
-};
-
-/**
  * TODO
  *
  * TODO

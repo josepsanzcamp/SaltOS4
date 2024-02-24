@@ -64,26 +64,6 @@ saltos.login.authenticate = () => {
 };
 
 /**
- * Initialize login
- *
- * This function initializes the login screen to improve the user experience.
- */
-saltos.login.initialize = () => {
-    document.getElementById('user').addEventListener('keydown', event => {
-        if (saltos.core.get_keycode(event) != 13) {
-            return;
-        }
-        document.getElementById('pass').focus();
-    });
-    document.getElementById('pass').addEventListener('keydown', event => {
-        if (saltos.core.get_keycode(event) != 13) {
-            return;
-        }
-        saltos.login.authenticate();
-    });
-};
-
-/**
  * Access denied
  *
  * This function displays a modal dialog with the tipical access denied message

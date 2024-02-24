@@ -46,7 +46,7 @@ saltos.types.addEventListener = _this => {
     _this.addEventListener('click', event => {
         var id = _this.querySelector('input[type=checkbox][value]').value;
         // This is for unselect the selected registers of the table
-        var trs = _this.parentNode.querySelectorAll("tr");
+        var trs = _this.parentNode.querySelectorAll('tr');
         trs.forEach(_this2 => {
             var obj = _this2.querySelector('input[type=checkbox][value]');
             if (id != obj.value && obj.checked) {
@@ -113,13 +113,6 @@ saltos.types.addEventListener = _this => {
  * This function initializes the types screen to improve the user experience.
  */
 saltos.types.initialize = () => {
-    document.getElementById('search').addEventListener('keydown', event => {
-        if (saltos.core.get_keycode(event) != 13) {
-            return;
-        }
-        saltos.types.search();
-    });
-
     //~ saltos.window.set_listener('saltos.types.update', event => {
     //~     saltos.types.search();
     //~ });

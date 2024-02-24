@@ -40,20 +40,6 @@
 saltos.customers = {};
 
 /**
- * Initialize customers
- *
- * This function initializes the customers screen to improve the user experience.
- */
-saltos.customers.initialize_search = () => {
-    document.getElementById('search').addEventListener('keydown', event => {
-        if (saltos.core.get_keycode(event) != 13) {
-            return;
-        }
-        saltos.customers.search();
-    });
-};
-
-/**
  * TODO
  *
  * TODO

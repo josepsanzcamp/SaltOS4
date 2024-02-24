@@ -40,7 +40,7 @@
                     <button ifeval="check_user('types', 'create')" onclick="saltos.window.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
                     <div col_class="col"/>
                     <hidden id="page" value="0"/>
-                    <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f"/>
+                    <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" onenter="saltos.types.search()"/>
                     <button onclick="saltos.types.search()" value="Buscar" tooltip="Para buscar en todos los types" icon="search"/>
                     <button onclick="saltos.types.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
                 </layout>

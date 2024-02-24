@@ -50,14 +50,14 @@ saltos.bootstrap = {};
  * @container   => id, class, style
  * @row         => id, class, style
  * @col         => id, class, style
- * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color
- * @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color
- * @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
- * @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
- * @color       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
- * @date        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
- * @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
- * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, onenter
+ * @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color, onenter
+ * @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+ * @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+ * @color       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+ * @date        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+ * @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+ * @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
  * @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height
  * @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height
  * @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height
@@ -67,7 +67,7 @@ saltos.bootstrap = {};
  * @checkbox    => id, class, DS, RO, AK, label, value, tooltip, color
  * @switch      => id, class, DS, RO, AK, label, value, tooltip, color
  * @button      => id, class, DS, AK, value, onclick, tooltip, color
- * @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color
+ * @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
  * @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label, color
  * @link        => id, DS, AK, value, onclick, tooltip, label, color
  * @label       => id, class, label, tooltip, value
@@ -208,6 +208,7 @@ saltos.bootstrap.__field.col = field => {
  * @label       => this parameter is used as text for the label
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  */
 saltos.bootstrap.__field.text = field => {
     saltos.core.check_params(field, ['datalist'], []);
@@ -244,6 +245,7 @@ saltos.bootstrap.__field.text = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  *
  * Notes:
  *
@@ -275,6 +277,7 @@ saltos.bootstrap.__field.hidden = field => {
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  *
  * Notes:
  *
@@ -317,6 +320,7 @@ saltos.bootstrap.__field.integer = field => {
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  *
  * Notes:
  *
@@ -361,6 +365,7 @@ saltos.bootstrap.__field.float = field => {
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  *
  * Notes:
  *
@@ -397,6 +402,7 @@ saltos.bootstrap.__field.color = field => {
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  */
 saltos.bootstrap.__field.date = field => {
     field.type = 'date';
@@ -423,6 +429,7 @@ saltos.bootstrap.__field.date = field => {
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  */
 saltos.bootstrap.__field.time = field => {
     field.type = 'time';
@@ -450,6 +457,7 @@ saltos.bootstrap.__field.time = field => {
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  */
 saltos.bootstrap.__field.datetime = field => {
     field.type = 'datetime-local';
@@ -1051,7 +1059,7 @@ saltos.bootstrap.__field.button = field => {
  *
  */
 saltos.bootstrap.__field.password = field => {
-    saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
+    saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled', 'onenter',
                                     'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -1093,6 +1101,11 @@ saltos.bootstrap.__field.password = field => {
     if (field.accesskey != '') {
         obj.querySelectorAll('input[type=password]').forEach(_this => {
             saltos.bootstrap.__accesskey_helper(_this);
+        });
+    }
+    if (field.onenter != '') {
+        obj.querySelectorAll('input[type=password]').forEach(_this => {
+            saltos.bootstrap.__onenter_helper(_this, field.onenter);
         });
     }
     obj.querySelector('button').addEventListener('click', event => {
@@ -2360,13 +2373,14 @@ saltos.bootstrap.__field.placeholder = field => {
  * @autofocus   => this parameter raise the autofocus flag
  * @tooltip     => this parameter raise the title flag
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter     => the function executed when enter key is pressed
  *
  * Notes:
  *
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.bootstrap.__text_helper = field => {
-    saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled',
+    saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled', 'onenter',
                                     'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -2398,6 +2412,9 @@ saltos.bootstrap.__text_helper = field => {
     }
     if (field.accesskey != '') {
         saltos.bootstrap.__accesskey_helper(obj);
+    }
+    if (field.onenter != '') {
+        saltos.bootstrap.__onenter_helper(obj, field.onenter);
     }
     return obj;
 };
@@ -2524,6 +2541,31 @@ saltos.bootstrap.__label_combine = (field, old) => {
     obj.append(old);
     obj = saltos.core.optimize(obj);
     return obj;
+};
+
+/**
+ * Onenter helper
+ *
+ * This function adds the event and detects the enter key in order to execute fn
+ *
+ * @obj => the object that you want to enable the onenter feature
+ * @fn  => the function executed when the onenter is raised
+ */
+saltos.bootstrap.__onenter_helper = (obj, fn) => {
+    obj.addEventListener('keydown', event => {
+        if (saltos.core.get_keycode(event) != 13) {
+            return;
+        }
+        if (typeof fn == 'string') {
+            eval(fn);
+            return;
+        }
+        if (typeof fn == 'function') {
+            fn();
+            return;
+        }
+        throw new Error(`Unknown typeof ${field.onenter}`);
+    });
 };
 
 /**

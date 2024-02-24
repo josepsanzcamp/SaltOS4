@@ -45,12 +45,6 @@ saltos.emails = {};
  * This function initializes the emails app screen to improve the user experience.
  */
 saltos.emails.initialize = () => {
-    document.getElementById('search').addEventListener('keydown', event => {
-        if (saltos.core.get_keycode(event) != 13) {
-            return;
-        }
-        saltos.emails.search();
-    });
     saltos.window.set_listener('saltos.emails.update', event => {
         saltos.emails.search();
     });

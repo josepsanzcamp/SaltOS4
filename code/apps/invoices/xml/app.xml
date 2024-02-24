@@ -35,7 +35,7 @@
             <button ifeval="check_user('invoices', 'create')" onclick="saltos.window.open('#app/invoices/create')" value="Nueva factura" tooltip="Para crear una nueva factura" icon="plus-lg"/>
             <div col_class="col"/>
             <hidden id="page" value="0"/>
-            <text placeholder="Buscar" tooltip="Para buscar en todos los invoices" id="search" accesskey="ctrl+f"/>
+            <text placeholder="Buscar" tooltip="Para buscar en todos los invoices" id="search" accesskey="ctrl+f" onenter="saltos.invoices.search()"/>
             <button onclick="saltos.invoices.search()" value="Buscar" tooltip="Para buscar en todos los invoices" icon="search"/>
             <button onclick="saltos.invoices.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
         </layout>
@@ -49,7 +49,6 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.invoices.initialize_search()</inline>
             <inline>saltos.invoices.initialize_update_list()</inline>
         </javascript>
     </list>
