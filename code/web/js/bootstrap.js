@@ -1658,9 +1658,19 @@ saltos.bootstrap.__field.pdfjs = field => {
  * @data     => 2D array with the data used to mount the body table
  * @footer   => array with the footer to use
  * @checkbox => add a checkbox in the first cell of each row, for mono or multi selection
- * @actions  => each row of the data can contain an array with the actions of each row
+ * @dropdown => a boolean value to force the usage of the dropdown feature, void for auto detection
  * @label    => this parameter is used as text for the label
  * @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @actions  => each row of the data can contain an array with the actions of each row
+ *
+ * Each action can contain:
+ *
+ * @app     => the application that must be used to check the permissions
+ * @action  => the accion that must to be used to check the permissions
+ * @value   => the text used as label in the button of the action
+ * @icon    => the icon used in the button of the action
+ * @tooltip => the tooltip used in the button of the action
+ * @onclick => the onclick function that receives as argument the url to access the action
  *
  * Notes:
  *

@@ -37,7 +37,7 @@
         <layout auto="true" container_class="container-fluid my-3" col_class="col-xl-6">
             <row id="list">
                 <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
-                    <button ifeval="check_user('types', 'create')" onclick="saltos.window.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
+                    <button ifeval="check_user('types', 'create')" onclick="saltos.types.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
                     <div col_class="col"/>
                     <hidden id="page" value="0"/>
                     <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" onenter="saltos.types.search()"/>
@@ -52,25 +52,22 @@
                     <button onclick="saltos.types.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
                 </layout>
             </row>
-            <row id="form">
-                <col class="col-12">
-                    <placeholder/>
-                </col>
-            </row>
+            <row id="form"></row>
         </layout>
         <javascript>
             <inline>saltos.types.initialize()</inline>
         </javascript>
     </list>
 
-    <table checkbox="true" type="table" limit="25" order="id DESC">
+    <table checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
         <header>
             <name label="Name"/>
-            <active label="Active"/>
             <description label="Description"/>
+            <active label="Active" type="icon"/>
         </header>
         <data eval="true">execute_query_array("
-            SELECT id, name, active, description
+            SELECT id, name, description,
+            CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
             FROM app_types
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "types", ["minsize" => 1, "default" => "1=1"])."
@@ -79,9 +76,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="types" action="view" value="View" icon="search" tooltip="Ver detalle tipo" onclick="saltos.window.open"/>
-            <action app="types" action="edit" value="Edit" icon="pencil" tooltip="Editar tipo" onclick="saltos.window.open"/>
-            <action app="types" action="delete" value="Delete" icon="trash" tooltip="Borrar tipo" onclick="saltos.types.delete1"/>
+            <action app="types" action="view" icon="search" tooltip="View" onclick="saltos.types.open"/>
+            <action app="types" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.types.open"/>
+            <action app="types" action="delete" icon="trash" tooltip="Delete" onclick="saltos.types.delete"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -107,8 +104,8 @@
         <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
         <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
-            <button onclick="saltos.types.insert()" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
-            <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
+            <button onclick="saltos.types.insert('#app/types/insert')" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
+            <button onclick="saltos.types.cancel()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
         </layout>
     </create>
 
@@ -121,9 +118,11 @@
         <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
-                <onclick eval="true">"saltos.window.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
+                <onclick eval="true">"saltos.types.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button onclick="saltos.types.delete2()" color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash"/>
+            <button color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash">
+                <onclick eval="true">"saltos.types.delete('#app/types/delete/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
         </layout>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
@@ -138,10 +137,10 @@
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
         <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
-            <button onclick="saltos.types.update()" value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg"/>
-            <button value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg">
-                <onclick eval="true">"saltos.window.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
+            <button value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg">
+                <onclick eval="true">"saltos.types.update('#app/types/update/".intval(get_data("rest/3"))."')"</onclick>
             </button>
+            <button onclick="saltos.types.cancel()" value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg"/>
         </layout>
     </edit>
 
