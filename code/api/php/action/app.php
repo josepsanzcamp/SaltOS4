@@ -72,6 +72,10 @@ if (!is_array($array) || !count($array)) {
 }
 
 // Check for rest/2, that is the name of the subapp to load
+if (get_data("rest/2") == "" && count($array) == 1) {
+    set_data("rest/2", key($array));
+}
+
 if (get_data("rest/2") == "") {
     foreach ($array as $key => $val) {
         if (isset($val["#attr"]["default"]) && eval_bool($val["#attr"]["default"])) {

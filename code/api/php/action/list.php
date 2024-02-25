@@ -69,6 +69,10 @@ if (!is_array($array) || !count($array)) {
 }
 
 // Check for json/subapp, that is the name of the subapp to load
+if (get_data("json/subapp") == "" && count($array) == 1) {
+    set_data("json/subapp", key($array));
+}
+
 if (get_data("json/subapp") == "") {
     foreach ($array as $key => $val) {
         if (isset($val["#attr"]["default"]) && eval_bool($val["#attr"]["default"])) {
