@@ -128,7 +128,11 @@ saltos.types.initialize = () => {
     });
 
     window.addEventListener('scroll', event => {
-        document.getElementById('form').style.marginTop = window.scrollY + 'px';
+        if (document.getElementById('form').offsetLeft) {
+            document.getElementById('form').style.marginTop = window.scrollY + 'px';
+        } else {
+            document.getElementById('form').style.marginTop = '0px';
+        }
     });
 
 };
