@@ -30,9 +30,6 @@
     <list default="true">
         <screen>clear</screen>
         <title>Types app</title>
-        <javascript>
-            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
-        </javascript>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout auto="true" container_class="container-fluid my-3" col_class="col-xl-6">
             <row id="list">
@@ -55,6 +52,7 @@
             <row id="form"></row>
         </layout>
         <javascript>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
             <inline>saltos.types.initialize()</inline>
         </javascript>
     </list>

@@ -45,6 +45,13 @@ saltos.types = {};
  * This function initializes the types screen to improve the user experience.
  */
 saltos.types.initialize = () => {
+    var hash = saltos.hash.get();
+    hash = hash.split('/');
+    if (hash.length >= 4) {
+        hash.splice(2, 1);
+        saltos.types.__open_helper('#' + hash.join('/'));
+    }
+
     window.addEventListener('scroll', event => {
         if (document.getElementById('form').offsetLeft) {
             document.getElementById('form').style.marginTop = window.scrollY + 'px';
@@ -157,6 +164,18 @@ saltos.types.more = () => {
  * TODO
  */
 saltos.types.open = arg => {
+    var temp = arg.split('/');
+    temp.splice(0, 2);
+    saltos.hash.add('app/types/list/' + temp.join('/'));
+    saltos.types.__open_helper(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.types.__open_helper = arg => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/index.php?' + arg.substr(1),
@@ -201,6 +220,7 @@ saltos.types.open = arg => {
  */
 saltos.types.cancel = () => {
     document.getElementById('form').innerHTML = '';
+    saltos.hash.add('app/types');
 };
 
 /**
