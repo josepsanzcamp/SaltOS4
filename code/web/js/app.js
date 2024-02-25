@@ -726,7 +726,6 @@ saltos.app.__source_helper = field => {
                 }
                 var obj = document.getElementById(field.id);
                 obj.replaceWith(saltos.bootstrap.field(field));
-                obj.dispatchEvent(new Event('load'));
             },
             error: request => {
                 saltos.app.show_error({
