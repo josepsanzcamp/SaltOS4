@@ -156,7 +156,7 @@ foreach ($array["data"] as $key => $row) {
         $query = "SELECT id FROM $table WHERE id=" . strtok(strval($id), "/") . " AND $sql";
         $has_perm = execute_query($query);
         if ($has_perm) {
-            $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            $action["url"] = "#app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
         } else {
             $action["url"] = "";
         }

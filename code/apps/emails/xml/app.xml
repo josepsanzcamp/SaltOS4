@@ -94,9 +94,9 @@
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
-        <actions eval="true">[
-            ["app" => "emails", "action" => "view", "icon" => "search", "tooltip" => "View email"],
-        ]</actions>
+        <actions>
+            <action app="emails" action="view" icon="search" tooltip="View email" onclick="saltos.window.open"/>
+        </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM app_emails
@@ -239,10 +239,10 @@
             <size>Size</size>
         </header>
         <data require="apps/emails/php/getmail.php" eval="true">getmail_files(intval(get_data("rest/4")))</data>
-        <actions eval="true">[
-            ["app" => "emails", "action" => "view/viewpdf", "icon" => "search", "tooltip" => "Ver adjunto"],
-            ["app" => "emails", "action" => "view/download", "icon" => "save", "tooltip" => "Descargar adjunto", "onclick" => "saltos.emails.download"],
-        ]</actions>
+        <actions>
+            <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.window.open"/>
+            <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.emails.download"/>
+        </actions>
     </view>
 
     <view id="source">

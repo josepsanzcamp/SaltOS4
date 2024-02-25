@@ -79,8 +79,8 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="types" action="view" value="View" icon="search" tooltip="Ver detalle tipo"/>
-            <action app="types" action="edit" value="Edit" icon="pencil" tooltip="Editar tipo"/>
+            <action app="types" action="view" value="View" icon="search" tooltip="Ver detalle tipo" onclick="saltos.window.open"/>
+            <action app="types" action="edit" value="Edit" icon="pencil" tooltip="Editar tipo" onclick="saltos.window.open"/>
             <action app="types" action="delete" value="Delete" icon="trash" tooltip="Borrar tipo" onclick="saltos.types.delete1"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("

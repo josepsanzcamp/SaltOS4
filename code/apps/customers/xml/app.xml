@@ -70,8 +70,8 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="customers" action="view" value="View" icon="search" tooltip="Ver detalle cliente"/>
-            <action app="customers" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente"/>
+            <action app="customers" action="view" value="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.window.open"/>
+            <action app="customers" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.window.open"/>
             <action app="customers" action="delete" value="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.customers.delete1"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
@@ -175,9 +175,14 @@
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <actions>
-            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente"/>
+            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.window.open"/>
         </actions>
-        <footer eval="true">"Total: 5 registros"</footer>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".check_sql("customers", "list")."
+        ")</footer>
     </widget>
 
     <widget id="table2" order="id ASC" limit="5">

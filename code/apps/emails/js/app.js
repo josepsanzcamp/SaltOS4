@@ -323,7 +323,7 @@ saltos.emails.send = () => {
  */
 saltos.emails.download = (file) => {
     saltos.core.ajax({
-        url: 'api/index.php?' + file,
+        url: 'api/index.php?' + file.substr(1),
         method: 'get',
         success: response => {
             saltos.app.form.screen('unloading');

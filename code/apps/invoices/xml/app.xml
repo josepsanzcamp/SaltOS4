@@ -78,8 +78,8 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="invoices" action="view" value="View" icon="search" tooltip="Ver detalle factura"/>
-            <action app="invoices" action="edit" value="Edit" icon="pencil" tooltip="Editar factura"/>
+            <action app="invoices" action="view" value="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.window.open"/>
+            <action app="invoices" action="edit" value="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.window.open"/>
             <action app="invoices" action="delete" value="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.invoices.delete1"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
