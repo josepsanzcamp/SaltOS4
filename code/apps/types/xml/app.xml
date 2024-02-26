@@ -54,7 +54,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/types/js/app.js")</file>
-            <inline>saltos.types.initialize()</inline>
+            <inline eval="true">"saltos.types.initialize(".intval(execute_query("SELECT MAX(id) FROM app_types WHERE 1=1 AND ".check_sql("types", "list"))).")"</inline>
         </javascript>
     </list>
 

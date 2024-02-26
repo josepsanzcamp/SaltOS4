@@ -44,12 +44,14 @@ saltos.types = {};
  *
  * This function initializes the types screen to improve the user experience.
  */
-saltos.types.initialize = () => {
+saltos.types.initialize = (id) => {
     var hash = saltos.hash.get();
     hash = hash.split('/').filter(x => x.length);
     if (hash.length >= 4) {
         hash.splice(2, 1);
         saltos.types.__open_helper('#' + hash.join('/'));
+    } else {
+        saltos.types.__open_helper(`#app/types/view/${id}`);
     }
 
     // This var store the initial offsetTop, this value changes
