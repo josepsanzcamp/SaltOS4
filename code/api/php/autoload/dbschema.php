@@ -376,7 +376,7 @@ function __dbschema_helper($fn, $table)
         }
         return [];
     }
-    show_php_error(["phperror" => "Unknown fn '$fn' in " . __FUNCTION__]);
+    show_php_error(["phperror" => "Unknown fn '$fn'"]);
 }
 
 /**
@@ -673,5 +673,5 @@ function __dbstatic_helper($fn, $table, $field)
         }
         return "";
     }
-    show_php_error(["phperror" => "Unknown fn '$fn' in " . __FUNCTION__]);
+    show_php_error(["phperror" => "Unknown fn '$fn'"]);
 }

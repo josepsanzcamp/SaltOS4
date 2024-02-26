@@ -77,7 +77,7 @@ function check_user($app, $perm)
         foreach (array_merge($from_users_apps_perms, $from_groups_apps_perms) as $row) {
             $key = $row["app_id"] . "|" . $row["perm_id"];
             if (!isset($array[$key])) {
-                show_php_error(["phperror" => "Integrity error for $key in " . __FUNCTION__]);
+                show_php_error(["phperror" => "Integrity error for $key"]);
             }
             $array[$key]["allow"] += $row["allow"];
             $array[$key]["deny"] += $row["deny"];
@@ -94,10 +94,10 @@ function check_user($app, $perm)
      * perm exists, other thing is that the user not has permission, in this
      * case the last isset returns false and nothing to do */
     if (!app_exists($app)) {
-        show_php_error(["phperror" => "App $app not found in " . __FUNCTION__]);
+        show_php_error(["phperror" => "App $app not found"]);
     }
     if (!perm_exists($perm)) {
-        show_php_error(["phperror" => "Perm $perm not found in " . __FUNCTION__]);
+        show_php_error(["phperror" => "Perm $perm not found"]);
     }
     // Special case when ask for perm with owners
     $app_id = app2id($app);

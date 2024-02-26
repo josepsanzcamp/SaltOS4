@@ -342,7 +342,7 @@ function get_field_type($type)
     if (isset($datatypes[$type1])) {
         return $datatypes[$type1];
     }
-    show_php_error(["phperror" => "Unknown type '$type1' in " . __FUNCTION__]);
+    show_php_error(["phperror" => "Unknown type '$type1'"]);
 }
 
 /**
@@ -370,7 +370,7 @@ function get_field_size($type)
     if ($type2 != "") {
         return intval($type2);
     }
-    show_php_error(["phperror" => "Unknown type '$type1' in " . __FUNCTION__]);
+    show_php_error(["phperror" => "Unknown type '$type1'"]);
 }
 
 /**
@@ -406,7 +406,7 @@ function sql_create_table($tablespec)
         } elseif ($type2 == "string") {
             $def = "";
         } else {
-            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
+            show_php_error(["phperror" => "Unknown type '$type'"]);
         }
         $extra = "NOT NULL DEFAULT '$def'";
         if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
@@ -514,7 +514,7 @@ function sql_insert_from_select($dest, $orig)
         } elseif ($type2 == "string") {
             $defs[] = "";
         } else {
-            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
+            show_php_error(["phperror" => "Unknown type '$type'"]);
         }
     }
     $keys = [];
@@ -615,7 +615,7 @@ function make_insert_query($table, $array)
 {
     $fields = get_fields_from_dbschema($table);
     if (!count($fields)) {
-        show_php_error(["phperror" => "Unknown fields in " . __FUNCTION__]);
+        show_php_error(["phperror" => "Fields not found"]);
     }
     $list1 = [];
     $list2 = [];
@@ -640,7 +640,7 @@ function make_insert_query($table, $array)
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
-            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
+            show_php_error(["phperror" => "Unknown type '$type'"]);
         }
         $name2 = escape_reserved_word($name);
         $list1[] = $name2;
@@ -649,7 +649,7 @@ function make_insert_query($table, $array)
     }
     if (count($array)) {
         $temp = implode(", ", array_keys($array));
-        show_php_error(["phperror" => "Unused data '$temp' in " . __FUNCTION__]);
+        show_php_error(["phperror" => "Unused data '$temp'"]);
     }
     $list1 = implode(",", $list1);
     $list2 = implode(",", $list2);
@@ -686,7 +686,7 @@ function make_update_query($table, $array, $where)
 {
     $fields = get_fields_from_dbschema($table);
     if (!count($fields)) {
-        show_php_error(["phperror" => "Unknown fields in " . __FUNCTION__]);
+        show_php_error(["phperror" => "Fields not found"]);
     }
     $list = [];
     foreach ($fields as $field) {
@@ -710,7 +710,7 @@ function make_update_query($table, $array, $where)
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
-            show_php_error(["phperror" => "Unknown type '$type' in " . __FUNCTION__]);
+            show_php_error(["phperror" => "Unknown type '$type'"]);
         }
         $name2 = escape_reserved_word($name);
         $list[] = "$name2='$temp'";
@@ -718,7 +718,7 @@ function make_update_query($table, $array, $where)
     }
     if (count($array)) {
         $temp = implode(", ", array_keys($array));
-        show_php_error(["phperror" => "Unused data '$temp' in " . __FUNCTION__]);
+        show_php_error(["phperror" => "Unused data '$temp'"]);
     }
     $list = implode(",", $list);
     $query = "UPDATE $table SET $list WHERE $where";

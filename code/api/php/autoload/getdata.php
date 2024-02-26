@@ -53,7 +53,7 @@ function get_data($key)
     if ($count == 2) {
         return $_DATA[$keys[0]][$keys[1]] ?? null;
     }
-    show_php_error(["phperror" => "key $key not found in " . __FUNCTION__]);
+    show_php_error(["phperror" => "key $key not found"]);
 }
 
 /**
@@ -77,5 +77,5 @@ function set_data($key, $val)
         $_DATA[$keys[0]][$keys[1]] = $val;
         return;
     }
-    show_php_error(["phperror" => "key $key not found " . __FUNCTION__]);
+    show_php_error(["phperror" => "key $key not found"]);
 }
