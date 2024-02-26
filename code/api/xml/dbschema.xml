@@ -116,6 +116,11 @@ that maintain the database using as reference this file
                 <field name="expires" type="DATETIME"/>
                 <field name="renewals" type="INT(11)"/>
             </fields>
+            <indexes>
+                <index fields="token"/>
+                <index fields="active,expires"/>
+                <index fields="active,user_id"/>
+            </indexes>
         </table>
         <table name="tbl_groups">
             <fields>

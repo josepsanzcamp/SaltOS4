@@ -37,6 +37,20 @@ for ($i = 1; $i <= 53; $i++) {
 }
 die();
 
+for ($i = 0; $i <= 1000000; $i++) {
+    $query = make_insert_query("tbl_users_tokens", [
+        "user_id" => 1,
+        "active" => 0,
+        "datetime" => current_datetime(),
+        "remote_addr" => get_server("REMOTE_ADDR"),
+        "user_agent" => get_server("HTTP_USER_AGENT"),
+        "token" => get_unique_token(),
+        "expires" => current_datetime(get_config("auth/tokenexpires")),
+    ]);
+    db_query($query);
+}
+die();
+
 //~ make_index("customers", 51);
 //~ make_control("customers", 51);
 
