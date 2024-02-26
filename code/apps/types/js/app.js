@@ -52,11 +52,20 @@ saltos.types.initialize = () => {
         saltos.types.__open_helper('#' + hash.join('/'));
     }
 
+    // This var store the initial offsetTop, this value changes
+    // when modify the style.martinTop, and is important to use
+    // the initial value in the sum with the offsetHeight
+    var offsetTop = document.getElementById('form').offsetTop;
     window.addEventListener('scroll', event => {
-        if (document.getElementById('form').offsetLeft) {
-            document.getElementById('form').style.marginTop = window.scrollY + 'px';
+        var form = document.getElementById('form');
+        if (form.offsetLeft) {
+            if (window.innerHeight > form.offsetHeight + offsetTop) {
+                form.style.marginTop = window.scrollY + 'px';
+            } else {
+                form.style.marginTop = '0px';
+            }
         } else {
-            document.getElementById('form').style.marginTop = '0px';
+            form.style.marginTop = '0px';
         }
     });
 };

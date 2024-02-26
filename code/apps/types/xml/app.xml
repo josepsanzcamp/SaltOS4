@@ -106,6 +106,7 @@
             <div col_class="col"/>
             <button onclick="saltos.types.insert('#app/types/insert')" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
             <button onclick="saltos.types.cancel()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
+            <div col_class="col-md-1"/>
         </layout>
     </create>
 
@@ -124,6 +125,7 @@
             <button color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash">
                 <onclick eval="true">"saltos.types.delete('#app/types/delete/".intval(get_data("rest/3"))."')"</onclick>
             </button>
+            <div col_class="col-md-1"/>
         </layout>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
@@ -145,6 +147,7 @@
             <button value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg">
                 <onclick eval="true">"saltos.types.open('#app/types/view/".intval(get_data("rest/3"))."')"</onclick>
             </button>
+            <div col_class="col-md-1"/>
         </layout>
     </edit>
 
