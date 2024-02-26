@@ -209,6 +209,7 @@ saltos.emails.delete1 = () => {
             label: 'Yes',
             class: 'btn-success',
             icon: 'check-lg',
+            autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
@@ -246,7 +247,6 @@ saltos.emails.delete1 = () => {
             label: 'No',
             class: 'btn-danger',
             icon: 'x-lg',
-            autofocus: true,
             onclick: () => {},
         }],
         color: 'danger',
@@ -264,6 +264,7 @@ saltos.emails.delete2 = () => {
             label: 'Yes',
             class: 'btn-success',
             icon: 'check-lg',
+            autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
