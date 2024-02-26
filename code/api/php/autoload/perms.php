@@ -259,3 +259,51 @@ function perm_exists($perm)
 {
     return __perms(__FUNCTION__, $perm);
 }
+
+/**
+ * Check App Perm Id
+ *
+ * This function returns true if the app, the perm and the id accomplishes the
+ * expected level of permissions, it is intended to be used before the execution
+ * of each action, to guarantee the security
+ *
+ * @app  => the app to check
+ * @perm => the perm to check
+ * @id   => the id to check, if needed, you can omit in the create case
+ */
+function check_app_perm_id($app, $perm, $id = null)
+{
+    if (!check_user($app, $perm)) {
+        return false;
+    }
+    if ($id === null) {
+        return true;
+    }
+    $table = app2table($app);
+    $sql = check_sql($app, $perm);
+    $id = intval($id);
+    $query = "SELECT id FROM $table WHERE id = $id AND $sql";
+    $exists = execute_query($query);
+    if (!$exists) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Check App Perm Id as Json
+ *
+ * This function trigger a json error if the app, the perm and the id not
+ * accomplishes the expected level of permissions, it is intended to be used
+ * before the execution of each action, to guarantee the security
+ *
+ * @app  => the app to check
+ * @perm => the perm to check
+ * @id   => the id to check, if needed, you can omit in the create case
+ */
+function check_app_perm_id_json($app, $perm, $id = null)
+{
+    if (!check_app_perm_id($app, $perm, $id)) {
+        show_json_error("Permission denied");
+    }
+}

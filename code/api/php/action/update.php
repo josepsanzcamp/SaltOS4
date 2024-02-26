@@ -45,18 +45,11 @@ $app = get_data("json/app");
 $id = intval(get_data("json/id"));
 $data = get_data("json/data");
 
-if (!check_user($app, "edit")) {
+if (!check_app_perm_id($app, "edit", $id)) {
     show_json_error("Permission denied");
 }
 
 $table = app2table($app);
-$sql = check_sql($app, "edit");
-$query = "SELECT id FROM $table WHERE id = $id AND $sql";
-$exists = execute_query($query);
-if (!$exists) {
-    show_json_error("Permission denied");
-}
-
 $fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
 $subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
 $error = array_diff_key($data, $fields, $subtables);

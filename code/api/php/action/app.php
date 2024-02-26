@@ -94,7 +94,7 @@ if (!isset($array[get_data("rest/2")])) {
 }
 
 // Check permissions
-if (!check_user(get_data("rest/1"), get_data("rest/2"))) {
+if (!check_app_perm_id(get_data("rest/1"), get_data("rest/2"))) {
     show_json_error("Permission denied");
 }
 
@@ -109,6 +109,7 @@ foreach ($array as $key => $val) {
 
 // Get only the subapp part
 $array = $array[get_data("rest/2")];
+set_data("rest/2", fix_key(get_data("rest/2")));
 
 // This line is a trick to allow attr in the subapp
 $array = join4array($array);

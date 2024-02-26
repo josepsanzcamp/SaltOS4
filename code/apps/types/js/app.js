@@ -191,7 +191,7 @@ saltos.types.__open_helper = arg => {
                 var val = response[key];
                 key = saltos.core.fix_key(key);
                 // This is to prevent some attr that causes problems here
-                if (['id', 'default'].includes(key)) {
+                if (['id', 'default', 'check'].includes(key)) {
                     continue;
                 }
                 // Continue

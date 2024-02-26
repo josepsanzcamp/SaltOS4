@@ -28,6 +28,7 @@
 <root>
     <!-- List part -->
     <list default="true">
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
         <title>Invoice's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -128,6 +129,7 @@
     <data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_footer>
 
     <create>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
         <title>New invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -146,6 +148,7 @@
     </create>
 
     <view>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <screen>clear</screen>
         <title>Detail of the invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -172,6 +175,7 @@
     </view>
 
     <edit>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <screen>clear</screen>
         <title>Modify this invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>

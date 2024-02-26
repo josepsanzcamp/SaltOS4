@@ -27,6 +27,7 @@
 
 <root>
     <menu>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
         <title>Login form</title>
         <layout>

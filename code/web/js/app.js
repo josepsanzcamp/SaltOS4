@@ -186,7 +186,7 @@ saltos.app.process_response = response => {
         var val = response[key];
         key = saltos.core.fix_key(key);
         // This is to prevent some attr that causes problems here
-        if (['id', 'default'].includes(key)) {
+        if (['id', 'default', 'check'].includes(key)) {
             continue;
         }
         // Continue
@@ -223,6 +223,10 @@ saltos.app.__form = {
  * allow that the get_data can differ between the original data and the modified data.
  */
 saltos.app.form.data = data => {
+    // Check that data is found
+    if (data === null) {
+        return;
+    }
     // Check for attr template_id
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
         var template_id = data['#attr'].template_id;
@@ -238,10 +242,11 @@ saltos.app.form.data = data => {
         }
         return;
     }
-    // Continue with the normal behaviour
+    // Check for the correctness of the data
     if (Array.isArray(data)) {
         throw new Error(`data is an array instead of an object of key and val pairs`);
     }
+    // Continue with the normal behaviour
     for (var key in data) {
         var val = data[key];
         if (val === null) {

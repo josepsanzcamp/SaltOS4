@@ -91,7 +91,7 @@ if (!isset($array[get_data("json/subapp")])) {
 }
 
 // Check permissions
-if (!check_user(get_data("json/app"), "list")) {
+if (!check_app_perm_id(get_data("json/app"), "list")) {
     show_json_error("Permission denied");
 }
 
@@ -106,6 +106,7 @@ foreach ($array as $key => $val) {
 
 // Get only the subapp part
 $array = $array[get_data("json/subapp")];
+set_data("json/subapp", fix_key(get_data("json/subapp")));
 
 // This line is a trick to allow attr in the subapp
 $array = join4array($array);
@@ -154,12 +155,13 @@ foreach ($array["data"] as $key => $row) {
     $actions = [];
     foreach ($array["actions"] as $action) {
         $action = join4array($action);
-        $table = app2table($action["app"]);
-        $id = $row["id"];
-        $sql = check_sql($action["app"], strtok($action["action"], "/"));
-        $query = "SELECT id FROM $table WHERE id=" . strtok(strval($id), "/") . " AND $sql";
-        $has_perm = execute_query($query);
-        if ($has_perm) {
+        if (
+            check_app_perm_id(
+                $action["app"],
+                strtok($action["action"], "/"),
+                strtok(strval($row["id"]), "/")
+            )
+        ) {
             $action["url"] = "#app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
         } else {
             $action["url"] = "";

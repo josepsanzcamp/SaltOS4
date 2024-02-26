@@ -44,7 +44,7 @@ if (!$user_id) {
 $app = get_data("json/app");
 $data = get_data("json/data");
 
-if (!check_user($app, "create")) {
+if (!check_app_perm_id($app, "create")) {
     show_json_error("Permission denied");
 }
 
