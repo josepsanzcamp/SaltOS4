@@ -51,7 +51,7 @@ saltos.types.initialize = (id) => {
         hash.splice(2, 1);
         saltos.types.__open_helper('#' + hash.join('/'));
     } else {
-        saltos.types.__open_helper(`#app/types/view/${id}`);
+        saltos.types.default();
     }
 
     // This var store the initial offsetTop, this value changes
@@ -99,6 +99,7 @@ saltos.types.search = () => {
             response.id = 'table';
             var temp = saltos.bootstrap.field(response);
             document.getElementById('table').parentNode.replaceWith(temp);
+            saltos.types.default();
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -234,9 +235,16 @@ saltos.types.__open_helper = arg => {
  *
  * TODO
  */
-saltos.types.cancel = () => {
-    document.getElementById('form').innerHTML = '';
-    saltos.hash.add('app/types');
+saltos.types.default = () => {
+    //~ document.getElementById('form').innerHTML = '';
+    var interval = setInterval(() => {
+        var obj = document.querySelector("#list input[type=checkbox][value]");
+        if (obj) {
+            saltos.types.__open_helper(`#app/types/view/${obj.value}`);
+            saltos.hash.add('app/types');
+            clearInterval(interval);
+        }
+    }, 1);
 };
 
 /**
@@ -265,7 +273,6 @@ saltos.types.insert = arg => {
             }
             if (response.status == 'ok') {
                 saltos.types.search();
-                saltos.types.cancel();
                 return;
             }
             saltos.app.show_error(response);
@@ -313,7 +320,6 @@ saltos.types.update = arg => {
             }
             if (response.status == 'ok') {
                 saltos.types.search();
-                saltos.types.open('#app/types/view/' + arg.split('/').at(3));
                 return;
             }
             saltos.app.show_error(response);
@@ -358,7 +364,6 @@ saltos.types.delete = arg => {
                         }
                         if (response.status == 'ok') {
                             saltos.types.search();
-                            saltos.types.cancel();
                             return;
                         }
                         saltos.app.show_error(response);

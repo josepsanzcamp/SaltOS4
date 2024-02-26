@@ -54,7 +54,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/types/js/app.js")</file>
-            <inline eval="true">"saltos.types.initialize(".intval(execute_query("SELECT MAX(id) FROM app_types WHERE 1=1 AND ".check_sql("types", "list"))).")"</inline>
+            <inline>saltos.types.initialize()</inline>
         </javascript>
     </list>
 
@@ -105,7 +105,7 @@
         <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
             <div col_class="col"/>
             <button onclick="saltos.types.insert('#app/types/insert')" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
-            <button onclick="saltos.types.cancel()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
+            <button onclick="saltos.types.default()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
             <div col_class="col-md-1"/>
         </layout>
     </create>
