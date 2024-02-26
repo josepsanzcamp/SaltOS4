@@ -46,7 +46,7 @@ saltos.types = {};
  */
 saltos.types.initialize = () => {
     var hash = saltos.hash.get();
-    hash = hash.split('/');
+    hash = hash.split('/').filter(x => x.length);
     if (hash.length >= 4) {
         hash.splice(2, 1);
         saltos.types.__open_helper('#' + hash.join('/'));
@@ -190,6 +190,11 @@ saltos.types.__open_helper = arg => {
             for (var key in response) {
                 var val = response[key];
                 key = saltos.core.fix_key(key);
+                // This is to prevent some attr that causes problems here
+                if (['id', 'default'].includes(key)) {
+                    continue;
+                }
+                // Continue
                 if (typeof saltos.app.form[key] != 'function') {
                     throw new Error(`type ${key} not found`);
                 }

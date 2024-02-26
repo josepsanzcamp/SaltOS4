@@ -138,7 +138,9 @@
             <button value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg">
                 <onclick eval="true">"saltos.types.update('#app/types/update/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button onclick="saltos.types.cancel()" value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg"/>
+            <button value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg">
+                <onclick eval="true">"saltos.types.open('#app/types/view/".intval(get_data("rest/3"))."')"</onclick>
+            </button>
         </layout>
     </edit>
 
