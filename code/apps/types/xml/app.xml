@@ -91,7 +91,7 @@
     <layout auto="true" container_class="container-fluid" col_class="col-md-10 mb-3 offset-md-1">
         <switch id="active" label="Active"/>
         <text id="name" label="Name" required="true" autofocus="true"/>
-        <textarea id="description" label="Description" height="10em"/>
+        <textarea id="description" label="Description" required="true" height="10em"/>
     </layout>
     <data eval="true">execute_query("SELECT * FROM app_types WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
 
