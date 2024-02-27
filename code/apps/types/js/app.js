@@ -349,7 +349,7 @@ saltos.types.delete = arg => {
     saltos.app.alert('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
-            class: 'btn-success',
+            color: 'success',
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
@@ -386,7 +386,7 @@ saltos.types.delete = arg => {
             },
         },{
             label: 'No',
-            class: 'btn-danger',
+            color: 'danger',
             icon: 'x-lg',
             onclick: () => {},
         }],

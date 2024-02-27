@@ -71,7 +71,6 @@ if (campo9) {
                 obj.append(saltos.bootstrap.field({
                     type: 'button',
                     value: 'Aceptar',
-                    class: 'btn-primary',
                     onclick: function() {
                         console.log('OK');
                         saltos.bootstrap.modal('close');
@@ -80,7 +79,7 @@ if (campo9) {
                 obj.append(saltos.bootstrap.field({
                     type: 'button',
                     value: 'Cancelar',
-                    class: 'btn-primary ms-1',
+                    class: 'ms-1',
                     onclick: function() {
                         console.log('KO');
                         saltos.bootstrap.modal('close');

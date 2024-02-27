@@ -258,7 +258,7 @@ saltos.customers.delete1 = arg => {
     saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
         buttons: [{
             label: 'Yes',
-            class: 'btn-success',
+            color: 'success',
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
@@ -295,7 +295,7 @@ saltos.customers.delete1 = arg => {
             },
         },{
             label: 'No',
-            class: 'btn-danger',
+            color: 'danger',
             icon: 'x-lg',
             onclick: () => {},
         }],
@@ -312,7 +312,7 @@ saltos.customers.delete2 = () => {
     saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
         buttons: [{
             label: 'Yes',
-            class: 'btn-success',
+            color: 'success',
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
@@ -350,7 +350,7 @@ saltos.customers.delete2 = () => {
             },
         },{
             label: 'No',
-            class: 'btn-danger',
+            color: 'danger',
             icon: 'x-lg',
             onclick: () => {},
         }],

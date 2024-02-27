@@ -58,7 +58,7 @@ saltos.app.alert = (title, message, extra) => {
     if (!extra.hasOwnProperty('buttons')) {
         extra.buttons = [{
             label: 'Close',
-            class: 'btn-primary',
+            color: 'primary',
             icon: 'x-lg',
             autofocus: true,
             onclick: () => {},
@@ -75,11 +75,13 @@ saltos.app.alert = (title, message, extra) => {
             var obj = saltos.core.html('<div></div>');
             for (var key in extra.buttons) {
                 (button => {
-                    saltos.core.check_params(button, ['label', 'class', 'icon', 'autofocus', 'onclick']);
+                    saltos.core.check_params(button, ['label', 'class', 'color',
+                                                    'icon', 'autofocus', 'onclick']);
                     obj.append(saltos.bootstrap.field({
                         type: 'button',
                         value: button.label,
                         class: `${button.class} ms-1`,
+                        color: button.color,
                         icon: button.icon,
                         autofocus: button.autofocus,
                         onclick: () => {

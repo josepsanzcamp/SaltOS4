@@ -994,9 +994,10 @@ saltos.bootstrap.__field.button = field => {
         field.color = 'primary';
     }
     var obj = saltos.core.html(`
-        <button type="button" class="btn btn-${field.color} ${field.class}"
-            id="${field.id}" data-bs-accesskey="${field.accesskey}" ${field.disabled}
-            ${field.autofocus} data-bs-title="${field.tooltip}">${field.value}</button>
+        <button type="button" id="${field.id}" ${field.disabled} ${field.autofocus}
+            class="btn btn-${field.color} focus-ring focus-ring-${field.color} ${field.class}"
+            data-bs-accesskey="${field.accesskey}"
+            data-bs-title="${field.tooltip}">${field.value}</button>
     `);
     if (field.icon) {
         obj.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));

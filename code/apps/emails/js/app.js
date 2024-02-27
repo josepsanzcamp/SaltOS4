@@ -207,7 +207,7 @@ saltos.emails.delete1 = () => {
     saltos.app.alert('Delete emails???', 'Do you want to delete the selected emails???', {
         buttons: [{
             label: 'Yes',
-            class: 'btn-success',
+            color: 'success',
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
@@ -245,7 +245,7 @@ saltos.emails.delete1 = () => {
             },
         },{
             label: 'No',
-            class: 'btn-danger',
+            color: 'danger',
             icon: 'x-lg',
             onclick: () => {},
         }],
@@ -262,7 +262,7 @@ saltos.emails.delete2 = () => {
     saltos.app.alert('Delete this email???', 'Do you want to delete this email???', {
         buttons: [{
             label: 'Yes',
-            class: 'btn-success',
+            color: 'success',
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
@@ -300,7 +300,7 @@ saltos.emails.delete2 = () => {
             },
         },{
             label: 'No',
-            class: 'btn-danger',
+            color: 'danger',
             icon: 'x-lg',
             onclick: () => {},
         }],
