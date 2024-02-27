@@ -351,6 +351,7 @@ saltos.types.delete = arg => {
             label: 'Yes',
             class: 'btn-success',
             icon: 'check-lg',
+            autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
