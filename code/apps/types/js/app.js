@@ -57,7 +57,7 @@ saltos.types.initialize = (id) => {
     // This var store the initial offsetTop, this value changes
     // when modify the style.martinTop, and is important to use
     // the initial value in the sum with the offsetHeight
-    var offsetTop = document.getElementById('form').offsetTop;
+    /*var offsetTop = document.getElementById('form').offsetTop;
     window.addEventListener('scroll', event => {
         var form = document.getElementById('form');
         if (form.offsetLeft) {
@@ -69,7 +69,7 @@ saltos.types.initialize = (id) => {
         } else {
             form.style.marginTop = '0px';
         }
-    });
+    });*/
 };
 
 /**
@@ -216,6 +216,10 @@ saltos.types.__open_helper = arg => {
                     saltos.app.form[key](val);
                 }
             }
+            obj.querySelectorAll('[autofocus]').forEach(_this => {
+                _this.focus();
+            });
+
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -238,7 +242,7 @@ saltos.types.__open_helper = arg => {
 saltos.types.default = () => {
     //~ document.getElementById('form').innerHTML = '';
     var interval = setInterval(() => {
-        var obj = document.querySelector("#list input[type=checkbox][value]");
+        var obj = document.querySelector('#list input[type=checkbox][value]');
         if (obj) {
             saltos.types.__open_helper(`#app/types/view/${obj.value}`);
             saltos.hash.add('app/types');

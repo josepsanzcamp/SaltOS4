@@ -38,7 +38,7 @@
                     <button ifeval="check_user('types', 'create')" onclick="saltos.types.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
                     <div col_class="col"/>
                     <hidden id="page" value="0"/>
-                    <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" onenter="saltos.types.search()"/>
+                    <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" autofocus="true" onenter="saltos.types.search()"/>
                     <button onclick="saltos.types.search()" value="Buscar" tooltip="Para buscar en todos los types" icon="search"/>
                     <button onclick="saltos.types.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
                 </layout>
@@ -122,7 +122,7 @@
             <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
                 <onclick eval="true">"saltos.types.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
             </button>
-            <button color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash">
+            <button color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash" accesskey="ctrl+delete">
                 <onclick eval="true">"saltos.types.delete('#app/types/delete/".intval(get_data("rest/3"))."')"</onclick>
             </button>
             <div col_class="col-md-1"/>
