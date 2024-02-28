@@ -1,2 +1,4 @@
 
-wget https://cdnjs.cloudflare.com/ajax/libs/imask/7.4.0/imask.min.js
+wget https://cdnjs.cloudflare.com/ajax/libs/imask/7.5.0/imask.min.js
+cat imask.min.js | grep -v sourceMappingURL > imask.min.js.new
+mv imask.min.js.new imask.min.js
