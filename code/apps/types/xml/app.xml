@@ -32,25 +32,25 @@
         <screen>clear</screen>
         <title>Types app</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout auto="true" container_class="container-fluid my-3" col_class="col-xl-6">
-            <row id="list">
-                <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
-                    <button ifeval="check_user('types', 'create')" onclick="saltos.types.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
-                    <div col_class="col"/>
-                    <hidden id="page" value="0"/>
-                    <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" autofocus="true" onenter="saltos.types.search()"/>
-                    <button onclick="saltos.types.search()" value="Buscar" tooltip="Para buscar en todos los types" icon="search"/>
-                    <button onclick="saltos.types.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-                </layout>
-                <layout auto="true" container_class="container-fluid mb-3" col_class="col-md-12">
-                    <table id="table" source="list/types/table"/>
-                </layout>
-                <layout auto="true" container_class="container-fluid" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.types.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
-                </layout>
-            </row>
-            <row id="form"></row>
+        <layout>
+            <container class="container-fluid my-3">
+                <row class="row">
+                    <col id="list" class="col-xl-6">
+                        <row id="list" auto="true" row_class="row g-1" col_class="col-auto">
+                            <button ifeval="check_user('types', 'create')" onclick="saltos.types.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
+                            <div col_class="col"/>
+                            <hidden id="page" value="0"/>
+                            <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" autofocus="true" onenter="saltos.types.search()"/>
+                            <button onclick="saltos.types.search()" value="Buscar" tooltip="Para buscar en todos los types" icon="search"/>
+                            <button onclick="saltos.types.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+                            <table id="table" source="list/types/table" col_class="col-md-12 my-3"/>
+                            <div col_class="col"/>
+                            <button onclick="saltos.types.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
+                        </row>
+                    </col>
+                    <col id="form" class="col-xl-6"></col>
+                </row>
+            </container>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/types/js/app.js")</file>
@@ -89,11 +89,11 @@
     </table>
 
     <!-- Form part -->
-    <layout auto="true" container_class="container-fluid" col_class="col-md-10 mb-3 offset-md-1">
+    <form>
         <switch id="active" label="Active"/>
         <text id="name" label="Name" required="true" autofocus="true"/>
         <textarea id="description" label="Description" required="true" height="10em"/>
-    </layout>
+    </form>
     <data eval="true">execute_query("SELECT * FROM app_types WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
 
     <create>
@@ -101,12 +101,14 @@
         <javascript>
             <inline>saltos.app.__form.fields = [];</inline>
         </javascript>
-        <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
-        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
-            <div col_class="col"/>
-            <button onclick="saltos.types.insert('#app/types/insert')" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
-            <button onclick="saltos.types.default()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
-            <div col_class="col-md-1"/>
+        <layout>
+            <row auto="true" col_class="col-md-10 mb-3 offset-md-1" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.types.insert('#app/types/insert')" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
+                <button onclick="saltos.types.default()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
+                <div col_class="col-md-1"/>
+            </row>
         </layout>
     </create>
 
@@ -115,18 +117,20 @@
         <javascript>
             <inline>saltos.app.__form.fields = [];</inline>
         </javascript>
-        <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
-        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
-            <div col_class="col"/>
-            <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
-                <onclick eval="true">"saltos.types.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
-            </button>
-            <button color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash" accesskey="ctrl+delete">
-                <onclick eval="true">"saltos.types.delete('#app/types/delete/".intval(get_data("rest/3"))."')"</onclick>
-            </button>
-            <div col_class="col-md-1"/>
+        <layout>
+            <row auto="true" col_class="col-md-10 mb-3 offset-md-1" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
+                    <onclick eval="true">"saltos.types.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash" accesskey="ctrl+delete">
+                    <onclick eval="true">"saltos.types.delete('#app/types/delete/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <div col_class="col-md-1"/>
+            </row>
         </layout>
+         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
         </javascript>
@@ -137,18 +141,20 @@
         <javascript>
             <inline>saltos.app.__form.fields = [];</inline>
         </javascript>
-        <layout eval="true">xmlfile2array("apps/types/xml/app.xml")["layout"]</layout>
-        <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
-        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
-            <div col_class="col"/>
-            <button value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg">
-                <onclick eval="true">"saltos.types.update('#app/types/update/".intval(get_data("rest/3"))."')"</onclick>
-            </button>
-            <button value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg">
-                <onclick eval="true">"saltos.types.open('#app/types/view/".intval(get_data("rest/3"))."')"</onclick>
-            </button>
-            <div col_class="col-md-1"/>
+        <layout>
+            <row auto="true" col_class="col-md-10 mb-3 offset-md-1" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg">
+                    <onclick eval="true">"saltos.types.update('#app/types/update/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg">
+                    <onclick eval="true">"saltos.types.open('#app/types/view/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <div col_class="col-md-1"/>
+            </row>
         </layout>
+        <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
     </edit>
 
 </root>

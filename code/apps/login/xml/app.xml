@@ -32,14 +32,14 @@
         <title>Login form</title>
         <layout>
             <div class="vh-100 d-flex bg-body-secondary">
-                <layout auto="true" container_class="container m-auto bg-body rounded p-5" col_class="col mb-3" cols_per_row="1" container_style="max-width:400px">
-                    <image width="100px" height="100px" value="img/logo_red.svg"  col_class="col mb-3 text-center" color="none"/>
+                <container auto="true" container_class="container m-auto bg-body rounded p-5" col_class="col-12 mb-3" container_style="max-width:400px">
+                    <image width="100px" height="100px" value="img/logo_red.svg"  col_class="col-12 mb-3 text-center" color="none"/>
                     <label class="fs-2 w-100 text-center" value="Please login"/>
                     <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
-                    <button class="w-100" onclick="saltos.login.authenticate();" value="Login" icon="box-arrow-in-right" col_class="col my-3"/>
-                    <label class="w-100 text-center" value="(C) 2024 The SaltOS Project" col_class="col mt-3"/>
-                </layout>
+                    <button class="w-100" onclick="saltos.login.authenticate();" value="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
+                    <label class="w-100 text-center" value="(C) 2024 The SaltOS Project" col_class="col-12 mt-3"/>
+                </container>
             </div>
         </layout>
         <javascript>

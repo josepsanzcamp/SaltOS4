@@ -238,7 +238,10 @@ saltos.app.form.data = data => {
         for (var key in data.value) {
             var val = data.value[key];
             if (parseInt(key)) {
-                saltos.app.form.layout(saltos.app.form.__layout_template_helper(template_id, key));
+                var temp1 = saltos.app.form.__layout_template_helper(template_id, key);
+                var temp2 = saltos.app.form.layout(temp1, 'div');
+                var temp3 = document.getElementById(template_id + '.' + (key - 1));
+                temp3.after(temp2);
             }
             saltos.app.form.data(saltos.app.form.__data_template_helper(template_id, val, key));
         }
@@ -309,6 +312,7 @@ saltos.app.form.__data_template_helper = (template_id, data, index) => {
  */
 saltos.app.form.__layout_template_helper = (template_id, index) => {
     var template = saltos.core.copy_object(saltos.app.__form.templates[template_id]);
+    template['#attr'].id = template_id + '.' + index;
     for (var key in template.value) {
         var val = template.value[key];
         if (val['#attr'].hasOwnProperty('id')) {
@@ -320,35 +324,16 @@ saltos.app.form.__layout_template_helper = (template_id, index) => {
 };
 
 /**
- * Form layout helper
+ * TODO
  *
- * This function process the layout command, its able to process nodes as container, row, col and div
- * and all form_field defined in the bootstrap file, too have 2 modes of work:
- *
- * 1) normal mode => requires that the user specify all layout, container, row, col and fields.
- *
- * 2) auto mode => only requires set auto='true' to the layout node, and with this, all childrens
- * of the node are created inside a container, a row, and each field inside a col.
- *
- * Notes:
- *
- * This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
- * can retrieve the desired information of the fields.
+ * TODO
  */
 saltos.app.form.layout = (layout, extra) => {
-    // Check for template_id attr
-    if (layout.hasOwnProperty('#attr') && layout['#attr'].hasOwnProperty('template_id')) {
-        // Store the copy in the templates container
-        var template_id = layout['#attr'].template_id;
-        var temp = saltos.core.copy_object(layout);
-        delete temp['#attr'].template_id;
-        saltos.app.__form.templates[template_id] = temp;
-        // Modify the id of all elements to convert it to the format TEMPLATE_ID#ID#0
-        layout = saltos.app.form.__layout_template_helper(template_id, 0);
+    // This code fix a problem when layout contains the content of a template
+    if (saltos.core.is_attr_value(layout)) {
+        layout = {[layout['#attr'].type]: layout};
     }
-    // Check for auto attr
-    layout = saltos.app.form.__layout_auto_helper(layout);
-    // Continue with original idea of use a entire specified layout
+    // Continue
     var arr = [];
     for (var key in layout) {
         var val = layout[key];
@@ -362,12 +347,26 @@ saltos.app.form.layout = (layout, extra) => {
         if (!attr.hasOwnProperty('type')) {
             attr.type = key;
         }
-        if (key == 'layout') {
-            var obj = saltos.app.form.layout({
-                'value': value,
-                '#attr': attr,
-            }, 'div');
-            arr.push(obj);
+        // Check for template_id attr
+        if (attr.hasOwnProperty('template_id')) {
+            // Store it in the templates container
+            var template_id = attr.template_id;
+            delete val['#attr'].template_id;
+            saltos.app.__form.templates[template_id] = val;
+            // Modify the id of the first elements to convert it to the format TEMPLATE_ID#ID#0
+            // Note: the follow line returns a copy of the object!!!
+            val = saltos.app.form.__layout_template_helper(template_id, 0);
+        }
+        // Continue with original idea of use an entire specified layout
+        if (
+            ['container', 'col', 'row'].includes(key) &&
+            attr.hasOwnProperty('auto') && saltos.core.eval_bool(attr.auto)
+        ) {
+            val = saltos.app.form.__layout_auto_helper[key](val);
+            var temp = saltos.app.form.layout(val, 'arr');
+            for (var i in temp) {
+                arr.push(temp[i]);
+            }
         } else if (['container', 'col', 'row', 'div'].includes(key)) {
             var obj = saltos.bootstrap.field(attr);
             var temp = saltos.app.form.layout(value, 'arr');
@@ -425,69 +424,100 @@ saltos.app.form.layout = (layout, extra) => {
 /**
  * Form layout auto helper
  *
- * This function implements the auto feature used by the layout function, allow to specify the
+ * This functions implements the auto feature used by the layout function, allow to specify the
  * follow arguments:
  *
  * @auto            => this boolean allow to enable or not this feature
- * @cols_per_row    => specify the number of cols inside of each row
  * @container_class => defines the class used by the container element
- * @row_class       => defines the class used by the row element
- * @col_class       => defines the class used by the col element
  * @container_style => defines the style used by the container element
+ * @row_class       => defines the class used by the row element
  * @row_style       => defines the style used by the row element
+ * @col_class       => defines the class used by the col element
  * @col_style       => defines the style used by the col element
  */
-saltos.app.form.__layout_auto_helper = layout => {
-    if (!layout.hasOwnProperty('value') || !layout.hasOwnProperty('#attr')) {
-        return layout;
-    }
+saltos.app.form.__layout_auto_helper = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.form.__layout_auto_helper.container = layout => {
     var attr = layout['#attr'];
-    var value = layout.value;
-    saltos.core.check_params(attr, ['auto', 'cols_per_row']);
-    saltos.core.check_params(attr, ['container_class', 'row_class', 'col_class']);
-    saltos.core.check_params(attr, ['container_style', 'row_style', 'col_style']);
-    if (!saltos.core.eval_bool(attr.auto)) {
-        return value;
-    }
-    if (attr.cols_per_row == '') {
-        attr.cols_per_row = Infinity;
-    }
-    // This trick convert all entries of the object in an array with the keys and values
-    var temp = [];
-    for (var key in value) {
-        temp.push([key, value[key]]);
-    }
-    // This is the new layout object created with one container, rows, cols and all original
-    // fields, too can specify what class use in each object created
+    saltos.core.check_params(attr, ['id', 'container_class', 'container_style',
+                                    'row_class', 'row_style', 'col_class', 'col_style']);
+    // Store and delete to prevent the id propagation to the next childrens
+    var id = layout['#attr'].id;
+    delete layout['#attr'].id;
+    var temp = saltos.app.form.__layout_auto_helper.row(layout);
+    // This is the new layout object created with one container and the row inside
     layout = {
         container: {
             'value': {},
             '#attr': {
+                id: id,
                 class: attr.container_class,
                 style: attr.container_style,
             }
         }
     };
-    // this counters and flag are used to add rows using the cols_per_row parameter
-    var numrow = 0;
+    for (var i in temp) {
+        layout.container.value[i] = temp[i];
+    }
+    return layout;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.form.__layout_auto_helper.row = layout => {
+    var attr = layout['#attr'];
+    saltos.core.check_params(attr, ['id', 'row_class', 'row_style', 'col_class', 'col_style']);
+    // Store and delete to prevent the id propagation to the next childrens
+    var id = layout['#attr'].id;
+    delete layout['#attr'].id;
+    var temp = saltos.app.form.__layout_auto_helper.col(layout);
+    // This is the new layout object created with one row and the cols inside
+    layout = {
+        row: {
+            'value': {},
+            '#attr': {
+                id: id,
+                class: attr.row_class,
+                style: attr.row_style,
+            }
+        }
+    };
+    for (var i in temp) {
+        layout.row.value[i] = temp[i];
+    }
+    return layout;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.form.__layout_auto_helper.col = layout => {
+    var attr = layout['#attr'];
+    var value = layout.value;
+    saltos.core.check_params(attr, ['col_class', 'col_style']);
+    // This trick convert all entries of the object in an array with the keys and values
+    var temp = [];
+    for (var key in value) {
+        temp.push([key, value[key]]);
+    }
+    // This is the new layout object created with one cols by each original field
+    layout = {};
     var numcol = 0;
-    var addrow = 1;
     while (temp.length) {
         var item = temp.shift();
-        if (addrow) {
-            numrow++;
-            layout.container.value['row#' + numrow] = {
-                'value': {},
-                '#attr': {
-                    class: attr.row_class,
-                    style: attr.row_style,
-                }
-            };
-        }
-        numcol++;
         var col_class = attr.col_class;
         var col_style = attr.col_style;
-        if (item[1].hasOwnProperty('#attr')) {
+        if (saltos.core.is_attr_value(item[1])) {
             if (item[1]['#attr'].hasOwnProperty('col_class')) {
                 col_class = item[1]['#attr'].col_class;
             }
@@ -500,20 +530,15 @@ saltos.app.form.__layout_auto_helper = layout => {
             col_class = 'd-none';
             col_style = '';
         }
-        layout.container.value['row#' + numrow].value['col#' + numcol] = {
+        layout['col#' + numcol] = {
             'value': {},
             '#attr': {
                 class: col_class,
                 style: col_style,
             }
         };
-        layout.container.value['row#' + numrow].value['col#' + numcol].value[item[0]] = item[1];
-        if (numcol >= attr.cols_per_row) {
-            numcol = 0;
-            addrow = 1;
-        } else {
-            addrow = 0;
-        }
+        layout['col#' + numcol].value[item[0]] = item[1];
+        numcol++;
     }
     return layout;
 };

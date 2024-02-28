@@ -211,7 +211,10 @@ saltos.types.__open_helper = arg => {
                     throw new Error(`type ${key} not found`);
                 }
                 if (key == 'layout') {
-                    obj.append(saltos.app.form.layout(val, 'div'));
+                    var temp = saltos.app.form.layout(val, 'arr');
+                    for (var i in temp) {
+                        obj.append(temp[i]);
+                    }
                 } else {
                     saltos.app.form[key](val);
                 }

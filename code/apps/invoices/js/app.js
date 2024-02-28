@@ -67,7 +67,7 @@ saltos.invoices.initialize_update_view = () => {
  * TODO
  */
 saltos.invoices.initialize_buttons = () => {
-    document.querySelectorAll('.container.detail button, .container.footer button').forEach(_this => {
+    document.querySelectorAll('.detail button, .footer button').forEach(_this => {
         saltos.app.parentNode_search(_this, 'col-auto').remove();
     });
 };
@@ -94,7 +94,7 @@ saltos.invoices.initialize_inputs = () => {
  */
 saltos.invoices.compute_total = () => {
     var total = 0;
-    document.querySelectorAll('.container.detail').forEach(_this => {
+    document.querySelectorAll('.detail').forEach(_this => {
         if (_this.querySelector('[id*=unidades]') === null) {
             return;
         }
@@ -117,7 +117,7 @@ saltos.invoices.compute_total = () => {
 saltos.invoices.add_item = () => {
     var layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
     var obj = saltos.app.form.layout(layout, 'div');
-    document.querySelector('.container.footer').before(obj);
+    document.querySelector('.footer').before(obj);
     saltos.invoices.initialize_inputs();
 };
 

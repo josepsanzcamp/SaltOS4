@@ -34,18 +34,20 @@
         <javascript>
             <file>lib/chartjs/chart.umd.min.js</file>
         </javascript>
-        <layout auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
-            <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" value="Customers"/>
-            <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" value="Invoices"/>
-            <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" value="Email"/>
-            <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" value="New tester"/>
-            <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" value="Old tester"/>
-            <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('#app/types')" class="fs-1 w-100 h-100" value="Types"/>
-            <table id="table1" ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"></table>
-            <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table2" col_class="col-md-6 mb-3"></table>
-            <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"></chartjs>
-            <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"></chartjs>
-            <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"></chartjs>
+        <layout>
+            <container auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
+                <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" value="Customers"/>
+                <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" value="Invoices"/>
+                <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" value="Email"/>
+                <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" value="New tester"/>
+                <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" value="Old tester"/>
+                <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('#app/types')" class="fs-1 w-100 h-100" value="Types"/>
+                <table id="table1" ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"/>
+                <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table2" col_class="col-md-6 mb-3"></table>
+                <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"/>
+                <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"/>
+                <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"/>
+            </container>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
@@ -58,13 +60,17 @@
         <screen>clear</screen>
         <title>Profile</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout auto="true" container_class="container-fluid mt-3" col_class="col-md-12 mb-3">
-            <textarea height="10em" value="TODO..." />
-        </layout>
-        <layout auto="true" container_class="container-fluid mb-3" row_class="row g-1" col_class="col-auto">
-            <div col_class="col"/>
-            <button onclick="saltos.dashboard.update()" value="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
-            <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+        <layout>
+            <container class="container my-3">
+                <row auto="true" col_class="col-md-12 mb-3">
+                    <textarea height="10em" value="TODO..." />
+                </row>
+                <row auto="true" row_class="row g-1" col_class="col-auto">
+                    <div col_class="col"/>
+                    <button onclick="saltos.dashboard.update()" value="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
+                    <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+                </row>
+            </container>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>

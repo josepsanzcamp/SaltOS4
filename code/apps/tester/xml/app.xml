@@ -88,84 +88,86 @@
                 </menu>
             </items>
         </navbar>
-        <layout auto="true" container_class="container-fluid mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
-            <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)">
-                <datalist eval="true">["Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez"]</datalist>
-            </text>
-            <integer id="campo1" label="Campo 1 (integer)" placeholder="Escriba aqui" tooltip="Tooltip 1 (integer)"/>
-            <float id="campo2" label="Campo 2 (float)" placeholder="Escriba aqui" tooltip="Tooltip 2 (float)"/>
-            <color id="campo3" label="Campo 3 (color)" placeholder="Escriba aqui" tooltip="Tooltip 3 (color)"/>
-            <date id="campo4" label="Campo 4 (date)" placeholder="Escriba aqui" tooltip="Tooltip 4 (date)"/>
-            <time id="campo5" label="Campo 5 (time)" placeholder="Escriba aqui" tooltip="Tooltip 5 (time)"/>
-            <datetime id="campo6" label="Campo 6 (datetime)" placeholder="Escriba aqui" tooltip="Tooltip 6 (datetime)"/>
-            <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)">
-                <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
-                <value>SaltOS, PHP, JavaScript</value>
-            </tags>
-            <button id="campo8" label="Campo 8 (button)" tooltip="Tooltip 8 (button)" value="Button text here"/>
-            <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test"/>
-            <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test"/>
-            <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test"/>
-            <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba
+        <layout>
+            <container auto="true" container_class="container-fluid mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
+                <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)">
+                    <datalist eval="true">["Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez"]</datalist>
+                </text>
+                <integer id="campo1" label="Campo 1 (integer)" placeholder="Escriba aqui" tooltip="Tooltip 1 (integer)"/>
+                <float id="campo2" label="Campo 2 (float)" placeholder="Escriba aqui" tooltip="Tooltip 2 (float)"/>
+                <color id="campo3" label="Campo 3 (color)" placeholder="Escriba aqui" tooltip="Tooltip 3 (color)"/>
+                <date id="campo4" label="Campo 4 (date)" placeholder="Escriba aqui" tooltip="Tooltip 4 (date)"/>
+                <time id="campo5" label="Campo 5 (time)" placeholder="Escriba aqui" tooltip="Tooltip 5 (time)"/>
+                <datetime id="campo6" label="Campo 6 (datetime)" placeholder="Escriba aqui" tooltip="Tooltip 6 (datetime)"/>
+                <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)">
+                    <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
+                    <value>SaltOS, PHP, JavaScript</value>
+                </tags>
+                <button id="campo8" label="Campo 8 (button)" tooltip="Tooltip 8 (button)" value="Button text here"/>
+                <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test"/>
+                <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test"/>
+                <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test"/>
+                <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba
 
-Adios</textarea>
-            <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/>
-<br/>
-Adios]]></ckeditor>
-            <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>
-    <tag>valor</tag>
-</xml>]]></codemirror>
-            <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2,3,5" size="5">
-                <rows eval="true">[
-                    ["label"=>"Uno","value"=>1],
-                    ["label"=>"Dos","value"=>2],
-                    ["label"=>"Tres","value"=>3],
-                    ["label"=>"Cuatro","value"=>4],
-                    ["label"=>"Cinco","value"=>5],
-                    ["label"=>"Seis","value"=>6]
-                ]</rows>
-            </multiselect>
-            <label id="campo16" label="Campo 16 (label)" tooltip="Tooltip 16 (label)"/>
-            <checkbox id="campo17" label="Campo 17 (checkbox)" tooltip="Tooltip 17 (checkbox)" value="0"/>
-            <switch id="campo18" label="Campo 18 (switch)" tooltip="Tooltip 18 (switch)" value="0"/>
-            <label value="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
-            <hidden id="campo19" label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
-            <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)"/>
-            <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true"/>
-            <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas"/>
-            <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2">
-                <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>
-            </select>
-            <image id="campo24" label="Campo 24 (image)" tooltip="Tooltip 24 (image)" value="apps/tester/files/philips-pm5544.svg"/>
-            <excel id="campo25" label="Campo 25 (excel)" tooltip="Tooltip 25 (excel)" numcols="26" numrows="20"/>
-            <pdfjs id="campo26" label="Campo 26 (pdfjs)" tooltip="Tooltip 26 (pdfjs)" src="apps/tester/files/test-josep-1.pdf"/>
-            <iframe id="campo27" label="Campo 27 (iframe)" tooltip="Tooltip 27 (iframe)" src="apps/tester/files/philips-pm5544.svg" height="500px"/>
-            <table id="campo28" label="Campo 28 (table)" tooltip="Tooltip 28 (table)">
-                <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
-                <data eval="true"><![CDATA[[["Josep","Sanz","<a href='#'>654 123 789</a>"],["Jordi","Company","654 123 789"],["Andres","Diaz","654 123 789"]]]]></data>
-                <footer eval="true">["","Total","3"]</footer>
-            </table>
-            <alert id="campo29" label="Campo 29 (alert)" tooltip="Tooltip 29 (alert)" color="success" title="The alert message!!!" text="This text can be used as you want" close="true">
-                <body><![CDATA[<hr/>More text here]]></body>
-            </alert>
-            <chartjs id="campo30" label="Campo 30 (chartjs)" tooltip="Tooltip 30 (chartjs)" mode="bar">
-                <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
-            </chartjs>
-            <chartjs id="campo31" label="Campo 31 (chartjs)" tooltip="Tooltip 31 (chartjs)" mode="line">
-                <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
-            </chartjs>
-            <chartjs id="campo32" label="Campo 32 (chartjs)" tooltip="Tooltip 32 (chartjs)" mode="pie">
-                <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
-            </chartjs>
-            <chartjs id="campo33" label="Campo 33 (chartjs)" tooltip="Tooltip 33 (chartjs)" mode="doughnut">
-                <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
-            </chartjs>
-            <card id="campo34" label="Campo 34 (card)" tooltip="Tooltip 34 (card)" header="Cabecera" footer="Pie" image="apps/tester/files/bootstrap-card.svg" title="Titulo" text="Texto del card">
-                <body><![CDATA[<a href='#'>More info</a>]]></body>
-            </card>
-            <gallery id="campo35" label="Campo 35 (gallery)" tooltip="Tooltip 35 (gallery)" class="col-4">
-                <images eval="true">[["image"=>"apps/tester/files/anunay-rai-WSW1txL1V84.jpg","title"=>"Foto 1"],["image"=>"apps/tester/files/beasty-0BcxmQx9xas-unsplash.jpg","title"=>"Foto 2"],["image"=>"apps/tester/files/krystal-ng-PrQqQVPzmlw.jpg","title"=>"Foto 3"],"apps/tester/files/luke-jones-vCxjJmdj03k.jpg","apps/tester/files/maryna-yazbeck-rnwDiYrHtM0.jpg","apps/tester/files/mo-nm8b-BUnzuk.jpg"]</images>
-            </gallery>
+    Adios</textarea>
+                <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/>
+    <br/>
+    Adios]]></ckeditor>
+                <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>
+        <tag>valor</tag>
+    </xml>]]></codemirror>
+                <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2,3,5" size="5">
+                    <rows eval="true">[
+                        ["label"=>"Uno","value"=>1],
+                        ["label"=>"Dos","value"=>2],
+                        ["label"=>"Tres","value"=>3],
+                        ["label"=>"Cuatro","value"=>4],
+                        ["label"=>"Cinco","value"=>5],
+                        ["label"=>"Seis","value"=>6]
+                    ]</rows>
+                </multiselect>
+                <label id="campo16" label="Campo 16 (label)" tooltip="Tooltip 16 (label)"/>
+                <checkbox id="campo17" label="Campo 17 (checkbox)" tooltip="Tooltip 17 (checkbox)" value="0"/>
+                <switch id="campo18" label="Campo 18 (switch)" tooltip="Tooltip 18 (switch)" value="0"/>
+                <label value="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
+                <hidden id="campo19" label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
+                <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)"/>
+                <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true"/>
+                <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas"/>
+                <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2">
+                    <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>
+                </select>
+                <image id="campo24" label="Campo 24 (image)" tooltip="Tooltip 24 (image)" value="apps/tester/files/philips-pm5544.svg"/>
+                <excel id="campo25" label="Campo 25 (excel)" tooltip="Tooltip 25 (excel)" numcols="26" numrows="20"/>
+                <pdfjs id="campo26" label="Campo 26 (pdfjs)" tooltip="Tooltip 26 (pdfjs)" src="apps/tester/files/test-josep-1.pdf"/>
+                <iframe id="campo27" label="Campo 27 (iframe)" tooltip="Tooltip 27 (iframe)" src="apps/tester/files/philips-pm5544.svg" height="500px"/>
+                <table id="campo28" label="Campo 28 (table)" tooltip="Tooltip 28 (table)">
+                    <header eval="true">["Name","Surname",["label"=>"Phone","type"=>"html"]]</header>
+                    <data eval="true"><![CDATA[[["Josep","Sanz","<a href='#'>654 123 789</a>"],["Jordi","Company","654 123 789"],["Andres","Diaz","654 123 789"]]]]></data>
+                    <footer eval="true">["","Total","3"]</footer>
+                </table>
+                <alert id="campo29" label="Campo 29 (alert)" tooltip="Tooltip 29 (alert)" color="success" title="The alert message!!!" text="This text can be used as you want" close="true">
+                    <body><![CDATA[<hr/>More text here]]></body>
+                </alert>
+                <chartjs id="campo30" label="Campo 30 (chartjs)" tooltip="Tooltip 30 (chartjs)" mode="bar">
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                </chartjs>
+                <chartjs id="campo31" label="Campo 31 (chartjs)" tooltip="Tooltip 31 (chartjs)" mode="line">
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                </chartjs>
+                <chartjs id="campo32" label="Campo 32 (chartjs)" tooltip="Tooltip 32 (chartjs)" mode="pie">
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                </chartjs>
+                <chartjs id="campo33" label="Campo 33 (chartjs)" tooltip="Tooltip 33 (chartjs)" mode="doughnut">
+                    <data eval="true">["labels"=>["Red","Blue","Yellow","Green","Purple","Orange"],"datasets"=>[["label"=>"First round","data"=>[8,5,3,5,2,3],"borderWidth"=>1],["label"=>"Second round","data"=>[7,6,4,6,9,6],"borderWidth"=>1],["label"=>"Third round","data"=>[6,7,6,7,5,4],"borderWidth"=>1]]]</data>
+                </chartjs>
+                <card id="campo34" label="Campo 34 (card)" tooltip="Tooltip 34 (card)" header="Cabecera" footer="Pie" image="apps/tester/files/bootstrap-card.svg" title="Titulo" text="Texto del card">
+                    <body><![CDATA[<a href='#'>More info</a>]]></body>
+                </card>
+                <gallery id="campo35" label="Campo 35 (gallery)" tooltip="Tooltip 35 (gallery)" class="col-4">
+                    <images eval="true">[["image"=>"apps/tester/files/anunay-rai-WSW1txL1V84.jpg","title"=>"Foto 1"],["image"=>"apps/tester/files/beasty-0BcxmQx9xas-unsplash.jpg","title"=>"Foto 2"],["image"=>"apps/tester/files/krystal-ng-PrQqQVPzmlw.jpg","title"=>"Foto 3"],"apps/tester/files/luke-jones-vCxjJmdj03k.jpg","apps/tester/files/maryna-yazbeck-rnwDiYrHtM0.jpg","apps/tester/files/mo-nm8b-BUnzuk.jpg"]</images>
+                </gallery>
+            </container>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/tester/js/app.new.js")</file>
