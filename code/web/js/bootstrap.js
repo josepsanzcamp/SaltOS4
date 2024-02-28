@@ -978,7 +978,8 @@ saltos.bootstrap.__field.switch = field => {
  *
  * Notes:
  *
- * You can add an icon before the text by addind the bi-icon class to the class argument
+ * The buttons adds the focus-ring classes to use this new feature that solves issues suck as
+ * hidden focus when you try to focus a button inside a modal, for example.
  */
 saltos.bootstrap.__field.button = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'value', 'onclick',

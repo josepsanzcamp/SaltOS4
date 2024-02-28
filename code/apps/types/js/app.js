@@ -219,7 +219,6 @@ saltos.types.__open_helper = arg => {
             obj.querySelectorAll('[autofocus]').forEach(_this => {
                 _this.focus();
             });
-
         },
         error: request => {
             saltos.app.form.screen('unloading');
