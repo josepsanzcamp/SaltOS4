@@ -33,17 +33,23 @@
         <title>Customer's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
-            <container auto="true" container_class="container my-3" row_class="row g-1" col_class="col-auto">
-                <button ifeval="check_user('customers', 'create')" onclick="saltos.window.open('#app/customers/create')" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
-                <div col_class="col"/>
-                <hidden id="page" value="0"/>
-                <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="ctrl+f" onenter="saltos.customers.search()"/>
-                <button onclick="saltos.customers.search()" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
-                <button onclick="saltos.customers.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-                <table id="table" source="list/customers/table" col_class="col-md-12 my-3"/>
-                <div col_class="col"/>
-                <button onclick="saltos.customers.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
-                <button onclick="saltos.window.close()" value="Close" tooltip="To close this list" icon="x-lg"/>
+            <container class="container my-3">
+                <row auto="true" row_class="row g-1" col_class="col-auto">
+                    <button ifeval="check_user('customers', 'create')" onclick="saltos.window.open('#app/customers/create')" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
+                    <div col_class="col"/>
+                    <hidden id="page" value="0"/>
+                    <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="ctrl+f" onenter="saltos.customers.search()"/>
+                    <button onclick="saltos.customers.search()" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
+                    <button onclick="saltos.customers.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+                </row>
+                <row auto="true" col_class="col-md-12 my-3">
+                    <table id="table" source="list/customers/table"/>
+                </row>
+                <row auto="true" row_class="row g-1" col_class="col-auto">
+                    <div col_class="col"/>
+                    <button onclick="saltos.customers.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
+                    <button onclick="saltos.window.close()" value="Close" tooltip="To close this list" icon="x-lg"/>
+                </row>
             </container>
         </layout>
         <javascript>

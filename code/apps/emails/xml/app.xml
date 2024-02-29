@@ -33,19 +33,25 @@
         <title>Email's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
-            <container auto="true" container_class="container-fluid my-3" row_class="row g-1" col_class="col-auto">
-                <button ifeval="check_user('emails', 'create')" onclick="saltos.window.open('#app/emails/create')" value="New email" tooltip="To send a new email" icon="plus-lg"/>
-                <div col_class="col"/>
-                <hidden id="page" value="0"/>
-                <text placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="ctrl+f" onenter="saltos.emails.search()" autofocus="true"/>
-                <button onclick="saltos.emails.search()" value="Search" tooltip="To search in all emails contents" icon="search"/>
-                <button onclick="saltos.emails.reset()" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-                <button onclick="saltos.emails.delete1()" color="danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
-                <button onclick="saltos.emails.getmail()" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
-                <table id="table" source="list/emails/table" col_class="col-md-12 my-3"/>
-                <div col_class="col"/>
-                <button onclick="saltos.emails.more()" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
-                <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+            <container class="container-fluid my-3">
+                <row auto="true" row_class="row g-1" col_class="col-auto">
+                    <button ifeval="check_user('emails', 'create')" onclick="saltos.window.open('#app/emails/create')" value="New email" tooltip="To send a new email" icon="plus-lg"/>
+                    <div col_class="col"/>
+                    <hidden id="page" value="0"/>
+                    <text placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="ctrl+f" onenter="saltos.emails.search()" autofocus="true"/>
+                    <button onclick="saltos.emails.search()" value="Search" tooltip="To search in all emails contents" icon="search"/>
+                    <button onclick="saltos.emails.reset()" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+                    <button onclick="saltos.emails.delete1()" color="danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
+                    <button onclick="saltos.emails.getmail()" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
+                </row>
+                <row auto="true" col_class="col-md-12 my-3">
+                    <table id="table" source="list/emails/table"/>
+                </row>
+                <row auto="true" row_class="row g-1" col_class="col-auto">
+                    <div col_class="col"/>
+                    <button onclick="saltos.emails.more()" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
+                    <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+                </row>
             </container>
         </layout>
         <javascript>
