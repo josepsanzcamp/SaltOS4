@@ -27,9 +27,9 @@
 'use strict';
 
 /**
- * Types application
+ * types2 application
  *
- * This application implements the tipical features associated to types
+ * This application implements the tipical features associated to types2
  */
 
 /**
@@ -37,39 +37,17 @@
  *
  * This object contains all SaltOS code
  */
-saltos.types = {};
+saltos.types2 = {};
 
 /**
- * Initialize types
+ * TODO
  *
- * This function initializes the types screen to improve the user experience.
+ * TODO
  */
-saltos.types.initialize = (id) => {
-    var hash = saltos.hash.get();
-    hash = hash.split('/').filter(x => x.length);
-    if (hash.length >= 4) {
-        hash.splice(2, 1);
-        saltos.types.__open_helper('#' + hash.join('/'));
-    } else {
-        saltos.types.default();
-    }
-
-    // This var store the initial offsetTop, this value changes
-    // when modify the style.martinTop, and is important to use
-    // the initial value in the sum with the offsetHeight
-    /*var offsetTop = document.getElementById('form').offsetTop;
-    window.addEventListener('scroll', event => {
-        var form = document.getElementById('form');
-        if (form.offsetLeft) {
-            if (window.innerHeight > form.offsetHeight + offsetTop) {
-                form.style.marginTop = window.scrollY + 'px';
-            } else {
-                form.style.marginTop = '0px';
-            }
-        } else {
-            form.style.marginTop = '0px';
-        }
-    });*/
+saltos.types2.initialize_update_list = () => {
+    saltos.window.set_listener('saltos.types2.update', event => {
+        saltos.types2.search();
+    });
 };
 
 /**
@@ -77,7 +55,18 @@ saltos.types.initialize = (id) => {
  *
  * TODO
  */
-saltos.types.search = () => {
+saltos.types2.initialize_update_view = () => {
+    saltos.window.set_listener('saltos.types2.update', event => {
+        saltos.hash.trigger();
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.types2.search = () => {
     document.getElementById('page').value = '0';
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -99,7 +88,6 @@ saltos.types.search = () => {
             response.id = 'table';
             var temp = saltos.bootstrap.field(response);
             document.getElementById('table').parentNode.replaceWith(temp);
-            saltos.types.default();
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -119,10 +107,10 @@ saltos.types.search = () => {
  *
  * TODO
  */
-saltos.types.reset = () => {
+saltos.types2.reset = () => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
-    saltos.types.search();
+    saltos.types2.search();
 };
 
 /**
@@ -130,7 +118,7 @@ saltos.types.reset = () => {
  *
  * TODO
  */
-saltos.types.more = () => {
+saltos.types2.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -175,95 +163,7 @@ saltos.types.more = () => {
  *
  * TODO
  */
-saltos.types.open = arg => {
-    var temp = arg.split('/');
-    temp.splice(0, 2);
-    saltos.hash.add('app/types/list/' + temp.join('/'));
-    saltos.types.__open_helper(arg);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.types.__open_helper = arg => {
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: 'api/index.php?' + arg.substr(1),
-        method: 'get',
-        success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-            var obj = document.getElementById('form');
-            obj.innerHTML = '';
-            for (var key in response) {
-                var val = response[key];
-                key = saltos.core.fix_key(key);
-                // This is to prevent some attr that causes problems here
-                if (['id', 'default', 'check'].includes(key)) {
-                    continue;
-                }
-                // Continue
-                if (typeof saltos.app.form[key] != 'function') {
-                    throw new Error(`type ${key} not found`);
-                }
-                if (key == 'layout') {
-                    var temp = saltos.app.form.layout(val, 'arr');
-                    for (var i in temp) {
-                        obj.append(temp[i]);
-                    }
-                } else {
-                    saltos.app.form[key](val);
-                }
-            }
-            obj.querySelectorAll('[autofocus]').forEach(_this => {
-                _this.focus();
-            });
-        },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        headers: {
-            'token': saltos.token.get(),
-        }
-    });
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.types.default = () => {
-    document.getElementById('form').innerHTML = '';
-    document.getElementById('form').append(saltos.bootstrap.field({
-        'type': 'div',
-        'class': 'bg-primary-subtle h-100',
-    }));
-    saltos.hash.add('app/types');
-    //~ var interval = setInterval(() => {
-        //~ var obj = document.querySelector('#list input[type=checkbox][value]');
-        //~ if (obj) {
-            //~ saltos.types.__open_helper(`#app/types/view/${obj.value}`);
-            //~ saltos.hash.add('app/types');
-            //~ clearInterval(interval);
-        //~ }
-    //~ }, 1);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.types.insert = arg => {
+saltos.types2.insert = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -273,7 +173,7 @@ saltos.types.insert = arg => {
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'insert',
-            'app': arg.split('/').at(1),
+            'app': saltos.hash.get().split('/').at(1),
             'data': data,
         }),
         method: 'post',
@@ -283,7 +183,8 @@ saltos.types.insert = arg => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.types.search();
+                saltos.window.send('saltos.types2.update');
+                saltos.window.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -305,7 +206,7 @@ saltos.types.insert = arg => {
  *
  * TODO
  */
-saltos.types.update = arg => {
+saltos.types2.update = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -319,8 +220,8 @@ saltos.types.update = arg => {
         url: 'api/index.php',
         data: JSON.stringify({
             'action': 'update',
-            'app': arg.split('/').at(1),
-            'id': arg.split('/').at(3),
+            'app': saltos.hash.get().split('/').at(1),
+            'id': saltos.hash.get().split('/').at(3),
             'data': data,
         }),
         method: 'post',
@@ -330,7 +231,8 @@ saltos.types.update = arg => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.types.search();
+                saltos.window.send('saltos.types2.update');
+                saltos.window.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -352,8 +254,8 @@ saltos.types.update = arg => {
  *
  * TODO
  */
-saltos.types.delete = arg => {
-    saltos.app.alert('Delete this register???', 'Do you want to delete this register???', {
+saltos.types2.delete1 = arg => {
+    saltos.app.alert('Delete this type2???', 'Do you want to delete this type2???', {
         buttons: [{
             label: 'Yes',
             color: 'success',
@@ -375,7 +277,62 @@ saltos.types.delete = arg => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.types.search();
+                            saltos.window.send('saltos.types2.update');
+                            return;
+                        }
+                        saltos.app.show_error(response);
+                    },
+                    error: request => {
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    headers: {
+                        'token': saltos.token.get(),
+                    }
+                });
+            },
+        },{
+            label: 'No',
+            color: 'danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        color: 'danger',
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.types2.delete2 = () => {
+    saltos.app.alert('Delete this type2???', 'Do you want to delete this type2???', {
+        buttons: [{
+            label: 'Yes',
+            color: 'success',
+            icon: 'check-lg',
+            autofocus: true,
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                saltos.core.ajax({
+                    url: 'api/index.php',
+                    data: JSON.stringify({
+                        'action': 'delete',
+                        'app': saltos.hash.get().split('/').at(1),
+                        'id': saltos.hash.get().split('/').at(3),
+                    }),
+                    method: 'post',
+                    content_type: 'application/json',
+                    success: response => {
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        if (response.status == 'ok') {
+                            saltos.window.send('saltos.types2.update');
+                            saltos.window.close();
                             return;
                         }
                         saltos.app.show_error(response);
