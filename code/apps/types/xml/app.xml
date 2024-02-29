@@ -33,9 +33,9 @@
         <title>Types app</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
-            <container class="container-fluid my-3">
+            <container class="container-fluid">
                 <row class="row">
-                    <col id="list" class="col-xl-6">
+                    <col id="list" class="col-xl-6 py-3">
                         <row auto="true" row_class="row g-1" col_class="col-auto">
                             <button ifeval="check_user('types', 'create')" onclick="saltos.types.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
                             <div col_class="col"/>
@@ -52,7 +52,7 @@
                             <button onclick="saltos.types.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
                         </row>
                     </col>
-                    <col id="form" class="col-xl-6"></col>
+                    <col id="form" class="col-xl-6 py-3"></col>
                 </row>
             </container>
         </layout>
@@ -60,6 +60,16 @@
             <file eval="true">file_with_hash("apps/types/js/app.js")</file>
             <inline>saltos.types.initialize()</inline>
         </javascript>
+        <style>
+            <inline>
+                @media (min-width: 1200px) {
+                    #list, #form {
+                        height: calc(100vh - 56px);
+                        overflow: auto;
+                    }
+                }
+            </inline>
+        </style>
     </list>
 
     <table checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
