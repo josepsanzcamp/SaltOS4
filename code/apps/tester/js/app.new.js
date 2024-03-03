@@ -33,109 +33,123 @@
  */
 
 /**
- * Program the buttons
+ * Tester object
+ *
+ * This object stores all function used by this app
  */
-var campo8 = document.getElementById('campo8');
-if (campo8) {
-    campo8.addEventListener('click', () => {
-        alert('button onclick');
-    });
-}
+saltos.tester = {};
 
-var campo9 = document.getElementById('campo9');
-if (campo9) {
-    campo9.addEventListener('click', () => {
-        saltos.bootstrap.modal({
-            static: false,
-            title: 'Titulo',
-            close: 'Cerrar',
-            body: `
-                <div>
-                    Some text as placeholder. In real life you can have the elements you have
-                    chosen. Like, text, images, lists, etc.
-                </div>
-                <div class='dropdown mt-3'>
-                    <button class='btn btn-secondary dropdown-toggle' type='button'
-                    data-bs-toggle='dropdown'>
-                        Dropdown button
-                    </button>
-                    <ul class='dropdown-menu'>
-                        <li><a class='dropdown-item' href='#'>Action</a></li>
-                        <li><a class='dropdown-item' href='#'>Another action</a></li>
-                        <li><a class='dropdown-item' href='#'>Something else here</a></li>
-                    </ul>
-                </div>
-            `,
-            footer: function() {
-                var obj = saltos.core.html('<div></div>');
-                obj.append(saltos.bootstrap.field({
-                    type: 'button',
-                    value: 'Aceptar',
-                    onclick: function() {
-                        console.log('OK');
-                        saltos.bootstrap.modal('close');
-                    }
-                }));
-                obj.append(saltos.bootstrap.field({
-                    type: 'button',
-                    value: 'Cancelar',
-                    class: 'ms-1',
-                    onclick: function() {
-                        console.log('KO');
-                        saltos.bootstrap.modal('close');
-                    },
-                }));
-                return obj;
-            }()
-        });
-    });
-}
+/**
+ * Campo 8
+ *
+ * TODO
+ */
+saltos.tester.campo8 = () => {
+    alert('button onclick');
+};
 
-var campo10 = document.getElementById('campo10');
-if (campo10) {
-    campo10.addEventListener('click', () => {
-        saltos.bootstrap.offcanvas({
-            static: false,
-            class: 'offcanvas-start',
-            title: 'Titulo',
-            close: 'Cerrar',
-            body: `
-                <div>
-                    Some text as placeholder. In real life you can have the elements you have
-                    chosen. Like, text, images, lists, etc.
-                </div>
-                <div class='dropdown mt-3'>
-                    <button class='btn btn-secondary dropdown-toggle' type='button'
-                    data-bs-toggle='dropdown'>
-                        Dropdown button
-                    </button>
-                    <ul class='dropdown-menu'>
-                        <li><a class='dropdown-item' href='#'>Action</a></li>
-                        <li><a class='dropdown-item' href='#'>Another action</a></li>
-                        <li><a class='dropdown-item' href='#'>Something else here</a></li>
-                    </ul>
-                </div>
-            `,
-        });
+/**
+ * Campo 9
+ *
+ * TODO
+ */
+saltos.tester.campo9 = () => {
+    saltos.bootstrap.modal({
+        static: false,
+        title: 'Titulo',
+        close: 'Cerrar',
+        body: `
+            <div>
+                Some text as placeholder. In real life you can have the elements you have
+                chosen. Like, text, images, lists, etc.
+            </div>
+            <div class='dropdown mt-3'>
+                <button class='btn btn-secondary dropdown-toggle' type='button'
+                data-bs-toggle='dropdown'>
+                    Dropdown button
+                </button>
+                <ul class='dropdown-menu'>
+                    <li><a class='dropdown-item' href='#'>Action</a></li>
+                    <li><a class='dropdown-item' href='#'>Another action</a></li>
+                    <li><a class='dropdown-item' href='#'>Something else here</a></li>
+                </ul>
+            </div>
+        `,
+        footer: function() {
+            var obj = saltos.core.html('<div></div>');
+            obj.append(saltos.bootstrap.field({
+                type: 'button',
+                value: 'Aceptar',
+                onclick: function() {
+                    console.log('OK');
+                    saltos.bootstrap.modal('close');
+                }
+            }));
+            obj.append(saltos.bootstrap.field({
+                type: 'button',
+                value: 'Cancelar',
+                class: 'ms-1',
+                onclick: function() {
+                    console.log('KO');
+                    saltos.bootstrap.modal('close');
+                },
+            }));
+            return obj;
+        }()
     });
-}
+};
 
-var campo11 = document.getElementById('campo11');
-if (campo11) {
-    campo11.addEventListener('click', () => {
-        saltos.bootstrap.toast({
-            //class: 'text-bg-primary',
-            close: 'Cerrar',
-            title: 'Hola mundo',
-            subtitle: 'pues nada',
-            body: 'Pues eso, hola mundo ' + new Date(),
-        });
+/**
+ * Campo 10
+ *
+ * TODO
+ */
+saltos.tester.campo10 = () => {
+    saltos.bootstrap.offcanvas({
+        static: false,
+        class: 'offcanvas-start',
+        title: 'Titulo',
+        close: 'Cerrar',
+        body: `
+            <div>
+                Some text as placeholder. In real life you can have the elements you have
+                chosen. Like, text, images, lists, etc.
+            </div>
+            <div class='dropdown mt-3'>
+                <button class='btn btn-secondary dropdown-toggle' type='button'
+                data-bs-toggle='dropdown'>
+                    Dropdown button
+                </button>
+                <ul class='dropdown-menu'>
+                    <li><a class='dropdown-item' href='#'>Action</a></li>
+                    <li><a class='dropdown-item' href='#'>Another action</a></li>
+                    <li><a class='dropdown-item' href='#'>Something else here</a></li>
+                </ul>
+            </div>
+        `,
     });
-}
+};
 
-var campo22 = document.getElementById('campo22');
-if (campo22) {
-    campo22.addEventListener('click', () => {
-        window.open('https://www.saltos.org/portal/es/estadisticas');
+/**
+ * Campo 11
+ *
+ * TODO
+ */
+saltos.tester.campo11 = () => {
+    saltos.bootstrap.toast({
+        //class: 'text-bg-primary',
+        close: 'Cerrar',
+        title: 'Hola mundo',
+        subtitle: 'pues nada',
+        body: 'Pues eso, hola mundo ' + new Date(),
     });
-}
+};
+
+/**
+ * Campo 22
+ *
+ * TODO
+ */
+saltos.tester.campo22 = () => {
+    window.open('https://www.saltos.org/portal/es/estadisticas');
+};

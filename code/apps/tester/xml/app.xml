@@ -103,10 +103,10 @@
                     <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
                     <value>SaltOS, PHP, JavaScript</value>
                 </tags>
-                <button id="campo8" label="Campo 8 (button)" tooltip="Tooltip 8 (button)" value="Button text here"/>
-                <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test"/>
-                <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test"/>
-                <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test"/>
+                <button id="campo8" label="Campo 8 (button)" tooltip="Tooltip 8 (button)" value="Button text here" onclick="saltos.tester.campo8()"/>
+                <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test" onclick="saltos.tester.campo9()"/>
+                <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test" onclick="saltos.tester.campo10()"/>
+                <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test" onclick="saltos.tester.campo11()"/>
                 <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba
 
     Adios</textarea>
@@ -133,7 +133,7 @@
                 <hidden id="campo19" label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
                 <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)"/>
                 <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true"/>
-                <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas"/>
+                <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas" onclick="saltos.tester.campo22()"/>
                 <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2">
                     <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>
                 </select>
