@@ -35,25 +35,25 @@
         <layout>
             <container class="container my-3">
                 <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <button ifeval="check_user('types2', 'create')" onclick="saltos.window.open('#app/types2/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
+                    <button ifeval="check_user('types', 'create')" onclick="saltos.window.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
                     <div col_class="col"/>
                     <hidden id="page" value="0"/>
-                    <text placeholder="Buscar" tooltip="Para buscar en todos los types2" id="search" accesskey="ctrl+f" autofocus="true" onenter="saltos.types2.search()"/>
-                    <button onclick="saltos.types2.search()" value="Buscar" tooltip="Para buscar en todos los types2" icon="search"/>
-                    <button onclick="saltos.types2.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+                    <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" autofocus="true" onenter="saltos.types.search()"/>
+                    <button onclick="saltos.types.search()" value="Buscar" tooltip="Para buscar en todos los types" icon="search"/>
+                    <button onclick="saltos.types.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
                 </row>
                 <row auto="true" col_class="col-md-12 my-3">
-                    <table id="table" source="list/types2/table"/>
+                    <table id="table" source="list/types/table"/>
                 </row>
                 <row auto="true" row_class="row g-1" col_class="col-auto">
                     <div col_class="col"/>
-                    <button onclick="saltos.types2.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
+                    <button onclick="saltos.types.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
                 </row>
             </container>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/types2/js/app.js")</file>
-            <inline>saltos.types2.initialize_update_list()</inline>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
+            <inline>saltos.types.initialize_update_list()</inline>
         </javascript>
     </list>
 
@@ -74,9 +74,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="types2" action="view" icon="search" tooltip="View" onclick="saltos.window.open"/>
-            <action app="types2" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.window.open"/>
-            <action app="types2" action="delete" icon="trash" tooltip="Delete" onclick="saltos.types2.delete1"/>
+            <action app="types" action="view" icon="search" tooltip="View" onclick="saltos.window.open"/>
+            <action app="types" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.window.open"/>
+            <action app="types" action="delete" icon="trash" tooltip="Delete" onclick="saltos.types.delete1"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -102,16 +102,16 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">
-                <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types2/xml/app.xml")["form"]</row>
+                <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
                 <row auto="true" row_class="row g-1" col_class="col-auto">
                     <div col_class="col"/>
-                    <button onclick="saltos.types2.insert()" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
+                    <button onclick="saltos.types.insert()" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
                     <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
                 </row>
             </container>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/types2/js/app.js")</file>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
         </javascript>
     </create>
 
@@ -122,22 +122,22 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">
-                <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types2/xml/app.xml")["form"]</row>
+                <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
                 <row auto="true" row_class="row g-1" col_class="col-auto">
                     <div col_class="col"/>
                     <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
-                        <onclick eval="true">"saltos.window.open('#app/types2/edit/".intval(get_data("rest/3"))."')"</onclick>
+                        <onclick eval="true">"saltos.window.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
                     </button>
-                    <button onclick="saltos.types2.delete2()" color="danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
+                    <button onclick="saltos.types.delete2()" color="danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
                     <button onclick="saltos.window.close()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
                 </row>
             </container>
         </layout>
-        <data eval="true">xmlfile2array("apps/types2/xml/app.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
         <javascript>
             <inline>saltos.app.form_disabled(true)</inline>
-            <file eval="true">file_with_hash("apps/types2/js/app.js")</file>
-            <inline>saltos.types2.initialize_update_view()</inline>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
+            <inline>saltos.types.initialize_update_view()</inline>
         </javascript>
     </view>
 
@@ -148,17 +148,17 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">
-                <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types2/xml/app.xml")["form"]</row>
+                <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
                 <row auto="true" row_class="row g-1" col_class="col-auto">
                     <div col_class="col"/>
-                    <button onclick="saltos.types2.update()" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
+                    <button onclick="saltos.types.update()" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
                     <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
                 </row>
             </container>
         </layout>
-        <data eval="true">xmlfile2array("apps/types2/xml/app.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
         <javascript>
-            <file eval="true">file_with_hash("apps/types2/js/app.js")</file>
+            <file eval="true">file_with_hash("apps/types/js/app.js")</file>
         </javascript>
     </edit>
 

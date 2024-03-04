@@ -27,9 +27,9 @@
 'use strict';
 
 /**
- * types2 application
+ * types application
  *
- * This application implements the tipical features associated to types2
+ * This application implements the tipical features associated to types
  */
 
 /**
@@ -37,16 +37,16 @@
  *
  * This object contains all SaltOS code
  */
-saltos.types2 = {};
+saltos.types = {};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.types2.initialize_update_list = () => {
-    saltos.window.set_listener('saltos.types2.update', event => {
-        saltos.types2.search();
+saltos.types.initialize_update_list = () => {
+    saltos.window.set_listener('saltos.types.update', event => {
+        saltos.types.search();
     });
 };
 
@@ -55,8 +55,8 @@ saltos.types2.initialize_update_list = () => {
  *
  * TODO
  */
-saltos.types2.initialize_update_view = () => {
-    saltos.window.set_listener('saltos.types2.update', event => {
+saltos.types.initialize_update_view = () => {
+    saltos.window.set_listener('saltos.types.update', event => {
         saltos.hash.trigger();
     });
 };
@@ -66,7 +66,7 @@ saltos.types2.initialize_update_view = () => {
  *
  * TODO
  */
-saltos.types2.search = () => {
+saltos.types.search = () => {
     document.getElementById('page').value = '0';
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -107,10 +107,10 @@ saltos.types2.search = () => {
  *
  * TODO
  */
-saltos.types2.reset = () => {
+saltos.types.reset = () => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
-    saltos.types2.search();
+    saltos.types.search();
 };
 
 /**
@@ -118,7 +118,7 @@ saltos.types2.reset = () => {
  *
  * TODO
  */
-saltos.types2.more = () => {
+saltos.types.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
     saltos.core.ajax({
@@ -163,7 +163,7 @@ saltos.types2.more = () => {
  *
  * TODO
  */
-saltos.types2.insert = () => {
+saltos.types.insert = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -183,7 +183,7 @@ saltos.types2.insert = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.window.send('saltos.types2.update');
+                saltos.window.send('saltos.types.update');
                 saltos.window.close();
                 return;
             }
@@ -206,7 +206,7 @@ saltos.types2.insert = () => {
  *
  * TODO
  */
-saltos.types2.update = () => {
+saltos.types.update = () => {
     if (!saltos.app.check_required()) {
         saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -231,7 +231,7 @@ saltos.types2.update = () => {
                 return;
             }
             if (response.status == 'ok') {
-                saltos.window.send('saltos.types2.update');
+                saltos.window.send('saltos.types.update');
                 saltos.window.close();
                 return;
             }
@@ -254,8 +254,8 @@ saltos.types2.update = () => {
  *
  * TODO
  */
-saltos.types2.delete1 = arg => {
-    saltos.app.alert('Delete this type2???', 'Do you want to delete this type2???', {
+saltos.types.delete1 = arg => {
+    saltos.app.alert('Delete this type???', 'Do you want to delete this type???', {
         buttons: [{
             label: 'Yes',
             color: 'success',
@@ -277,7 +277,7 @@ saltos.types2.delete1 = arg => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.window.send('saltos.types2.update');
+                            saltos.window.send('saltos.types.update');
                             return;
                         }
                         saltos.app.show_error(response);
@@ -308,8 +308,8 @@ saltos.types2.delete1 = arg => {
  *
  * TODO
  */
-saltos.types2.delete2 = () => {
-    saltos.app.alert('Delete this type2???', 'Do you want to delete this type2???', {
+saltos.types.delete2 = () => {
+    saltos.app.alert('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
             color: 'success',
@@ -331,7 +331,7 @@ saltos.types2.delete2 = () => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            saltos.window.send('saltos.types2.update');
+                            saltos.window.send('saltos.types.update');
                             saltos.window.close();
                             return;
                         }
