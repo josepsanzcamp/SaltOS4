@@ -1009,7 +1009,7 @@ saltos.bootstrap.__field.button = field => {
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }
-    saltos.core.addEventListener(obj, 'click', field.onclick);
+    saltos.bootstrap.__onclick_helper(obj, field.onclick);
     if (field.label != '') {
         // Special case, that adds the label to the button forcing a new line
         var obj2 = saltos.core.html(`<div></div>`);
@@ -2530,6 +2530,27 @@ saltos.bootstrap.__label_combine = (field, old) => {
 };
 
 /**
+ * Onclick helper
+ *
+ * This function is a helper function that adds the onclick event listener to the obj 
+ * using the correct way to do it, to do it, checks the type of fn.
+ *
+ * @obj   => the object where you want to add the onclick event
+ * @fn    => the function that must be executed when onclick
+ */
+saltos.bootstrap.__onclick_helper = (obj, fn) => {
+    if (typeof fn == 'string') {
+        obj.addEventListener('click', new Function(fn));
+        return;
+    }
+    if (typeof fn == 'function') {
+        obj.addEventListener('click', fn);
+        return;
+    }
+    throw new Error(`Unknown typeof ${fn}`);
+};
+
+/**
  * Onenter helper
  *
  * This function adds the event and detects the enter key in order to execute fn
@@ -2642,7 +2663,7 @@ saltos.bootstrap.menu = args => {
                         temp2.querySelector('i').classList.add('me-1');
                     }
                     if (!saltos.core.eval_bool(val2.disabled)) {
-                        saltos.core.addEventListener(temp2, 'click', val2.onclick);
+                        saltos.bootstrap.__onclick_helper(temp2, val2.onclick);
                     }
                 }
                 temp.querySelector('ul').append(temp2);
@@ -2660,7 +2681,7 @@ saltos.bootstrap.menu = args => {
                 temp.querySelector('i').classList.add('me-1');
             }
             if (!saltos.core.eval_bool(val.disabled)) {
-                saltos.core.addEventListener(temp, 'click', val.onclick);
+                saltos.bootstrap.__onclick_helper(temp, val.onclick);
             }
         }
         obj.append(temp);

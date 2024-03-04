@@ -516,25 +516,3 @@ saltos.core.join_attr_value = data => {
     }
     return data;
 };
-
-/**
- * Add event listener
- *
- * This function is a helper function that adds the event listener to the obj using
- * the correct way to do it, to do it, checks the type of fn.
- *
- * @obj   => the object where you want to add the event
- * @event => the event that must trigger the action
- * @fn    => the function that must be executed on event fire
- */
-saltos.core.addEventListener = (obj, event, fn) => {
-    if (typeof fn == 'string') {
-        obj.addEventListener(event, new Function(fn));
-        return;
-    }
-    if (typeof fn == 'function') {
-        obj.addEventListener(event, fn);
-        return;
-    }
-    throw new Error(`Unknown typeof ${fn}`);
-};
