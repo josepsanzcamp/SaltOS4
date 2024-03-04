@@ -74,6 +74,9 @@ class database_mysqli
             ]);
             return;
         }
+        // this two lines are equivalent to PDO::ATTR_ERRMODE = PDO::ERRMODE_EXCEPTION
+        $driver = new mysqli_driver();
+        $driver->report_mode = MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT;
         try {
             $this->link = new mysqli(
                 $args["host"] . ":" . $args["port"],
@@ -144,7 +147,8 @@ class database_mysqli
         }
         // DO QUERY
         try {
-            $stmt = $this->link->query($query);
+            // the last argument is equivalent to PDO::MYSQL_ATTR_USE_BUFFERED_QUERY = false
+            $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
         }
