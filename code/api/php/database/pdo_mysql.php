@@ -76,8 +76,7 @@ class database_pdo_mysql
         }
         try {
             $this->link = new PDO(
-                "mysql:host=" . $args["host"] . ";" .
-                "port=" . $args["port"] . ";" .
+                "mysql:host=" . $args["host"] . ":" . $args["port"] . ";" .
                 "dbname=" . $args["name"],
                 $args["user"], $args["pass"]
             );
@@ -153,7 +152,7 @@ class database_pdo_mysql
         }
         //~ unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
-        if (isset($stmt) && $stmt && $stmt->columnCount() > 0) {
+        if (!is_bool($stmt) && $stmt->columnCount() > 0) {
             if ($fetch == "auto") {
                 $fetch = $stmt->columnCount() > 1 ? "query" : "column";
             }

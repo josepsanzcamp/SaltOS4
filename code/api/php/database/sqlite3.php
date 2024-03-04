@@ -90,7 +90,7 @@ class database_sqlite3
         try {
             $this->link = new SQLite3($args["file"]);
         } catch (Exception $e) {
-            show_php_error(["dberror" => $e->getMessage() . " (code " . $e->getCode() . ")"]);
+            show_php_error(["dberror" => $e->getMessage()]);
         }
         if ($this->link) {
             $this->link->enableExceptions(true);
@@ -223,7 +223,7 @@ class database_sqlite3
             unset($query); // TRICK TO RELEASE MEMORY
             semaphore_release(__FUNCTION__);
             // DUMP RESULT TO MATRIX
-            if (isset($stmt) && $stmt && $stmt->numColumns()) {
+            if (!is_bool($stmt) && $stmt->numColumns() > 0) {
                 if ($fetch == "auto") {
                     $fetch = $stmt->numColumns() > 1 ? "query" : "column";
                 }

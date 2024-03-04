@@ -224,7 +224,7 @@ class database_pdo_sqlite
             unset($query); // TRICK TO RELEASE MEMORY
             semaphore_release(__FUNCTION__);
             // DUMP RESULT TO MATRIX
-            if (isset($stmt) && $stmt && $stmt->columnCount() > 0) {
+            if (!is_bool($stmt) && $stmt->columnCount() > 0) {
                 if ($fetch == "auto") {
                     $fetch = $stmt->columnCount() > 1 ? "query" : "column";
                 }

@@ -67,19 +67,22 @@ class database_mysqli
      */
     public function __construct($args)
     {
-        if (!function_exists("mysqli_connect")) {
+        if (!class_exists("mysqli")) {
             show_php_error([
-                "phperror" => "mysqli_connect not found",
+                "phperror" => "Class mysqli not found",
                 "details" => "Try to install php-mysql package",
             ]);
             return;
         }
-        $args["port"] = intval($args["port"]);
-        $this->link = mysqli_connect(
-            $args["host"],
-            $args["user"], $args["pass"],
-            $args["name"], $args["port"]
-        );
+        try {
+            $this->link = new mysqli(
+                $args["host"] . ":" . $args["port"],
+                $args["user"], $args["pass"],
+                $args["name"]
+            );
+        } catch (Exception $e) {
+            show_php_error(["dberror" => $e->getMessage()]);
+        }
         if ($this->link) {
             $this->db_query("SET NAMES 'utf8mb4'");
             $this->db_query("SET FOREIGN_KEY_CHECKS=0");
@@ -97,7 +100,7 @@ class database_mysqli
     public function db_check($query)
     {
         try {
-            mysqli_query($this->link, $query);
+            $this->link->query($query);
             return true;
         } catch (Exception $e) {
             return false;
@@ -141,44 +144,44 @@ class database_mysqli
         }
         // DO QUERY
         try {
-            $stmt = mysqli_query($this->link, $query);
+            $stmt = $this->link->query($query);
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
         }
         unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
-        if (!is_bool($stmt) && mysqli_num_fields($stmt) > 0) {
+        if (!is_bool($stmt) && $stmt->field_count > 0) {
             if ($fetch == "auto") {
-                $fetch = mysqli_num_fields($stmt) > 1 ? "query" : "column";
+                $fetch = $stmt->field_count > 1 ? "query" : "column";
             }
             if ($fetch == "query") {
-                while ($row = mysqli_fetch_assoc($stmt)) {
+                while ($row = $stmt->fetch_assoc()) {
                     $result["rows"][] = $row;
                 }
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
                     $result["header"] = array_keys($result["rows"][0]);
                 }
-                mysqli_free_result($stmt);
+                $stmt->free_result();
             }
             if ($fetch == "column") {
-                while ($row = mysqli_fetch_row($stmt)) {
+                while ($row = $stmt->fetch_row()) {
                     $result["rows"][] = $row[0];
                 }
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
-                mysqli_free_result($stmt);
+                $stmt->free_result();
             }
             if ($fetch == "concat") {
-                if ($row = mysqli_fetch_row($stmt)) {
+                if ($row = $stmt->fetch_row()) {
                     $result["rows"][] = $row[0];
                 }
-                while ($row = mysqli_fetch_row($stmt)) {
+                while ($row = $stmt->fetch_row()) {
                     $result["rows"][0] .= "," . $row[0];
                 }
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];
-                mysql_free_result($stmt);
+                $stmt->free_result();
             }
         }
         return $result;
@@ -191,7 +194,7 @@ class database_mysqli
      */
     public function db_disconnect()
     {
-        mysqli_close($this->link);
+        $this->link->close();
         $this->link = null;
     }
 }

@@ -148,7 +148,7 @@ class database_pdo_mssql
         }
         unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
-        if (isset($stmt) && $stmt && $stmt->columnCount() > 0) {
+        if (!is_bool($stmt) && $stmt->columnCount() > 0) {
             if ($fetch == "auto") {
                 $fetch = $stmt->columnCount() > 1 ? "query" : "column";
             }
