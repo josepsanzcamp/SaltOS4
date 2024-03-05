@@ -248,14 +248,14 @@ saltos.types.default = () => {
         'class': 'bg-primary-subtle h-100',
     }));
     saltos.hash.add('app/types');
-    //~ var interval = setInterval(() => {
-        //~ var obj = document.querySelector('#list input[type=checkbox][value]');
-        //~ if (obj) {
-            //~ saltos.types.__open_helper(`#app/types/view/${obj.value}`);
-            //~ saltos.hash.add('app/types');
-            //~ clearInterval(interval);
-        //~ }
-    //~ }, 1);
+    /*var interval = setInterval(() => {
+        var obj = document.querySelector('#list input[type=checkbox][value]');
+        if (obj) {
+            saltos.types.__open_helper(`#app/types/view/${obj.value}`);
+            saltos.hash.add('app/types');
+            clearInterval(interval);
+        }
+    }, 1);*/
 };
 
 /**
