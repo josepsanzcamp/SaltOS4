@@ -64,6 +64,11 @@ class database_mysqli
      * @name => name of the database for the connection
      * @user => user used to stablish the connection
      * @pass => pass used to stablish the connection
+     *
+     * Notes of this driver:
+     *
+     * MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT are the same that PDO::ERRMODE_EXCEPTION
+     * MYSQLI_USE_RESULT is the same that PDO::MYSQL_ATTR_USE_BUFFERED_QUERY = false
      */
     public function __construct($args)
     {
@@ -74,9 +79,7 @@ class database_mysqli
             ]);
             return;
         }
-        // this two lines are equivalent to PDO::ATTR_ERRMODE = PDO::ERRMODE_EXCEPTION
-        $driver = new mysqli_driver();
-        $driver->report_mode = MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT;
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
             $this->link = new mysqli(
                 $args["host"] . ":" . $args["port"],
@@ -147,7 +150,6 @@ class database_mysqli
         }
         // DO QUERY
         try {
-            // the last argument is equivalent to PDO::MYSQL_ATTR_USE_BUFFERED_QUERY = false
             $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
