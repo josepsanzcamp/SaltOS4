@@ -61,4 +61,4 @@ check:
 .PHONY: utest docs
 
 utest:
-	phpunit --testdox utest/*.php
+	phpunit --testdox utest

@@ -50,7 +50,7 @@ require_once "php/autoload/exec.php";
 require_once "php/autoload/sql.php";
 require_once "php/autoload/semaphores.php";
 
-final class database_test extends TestCase
+final class databaseTest extends TestCase
 {
     private function test_helper($obj, $number_to_string = false): void
     {
