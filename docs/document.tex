@@ -28,7 +28,7 @@
 
 
 \title{Code documentation}
-\author{SaltOS 4.0 r726}
+\author{SaltOS 4.0 r727}
 \begin{document}
 \date{March 2024}
 \maketitle
@@ -9513,25 +9513,106 @@ saltos.login.access_denied = ()
 
 This function displays a modal dialog with the tipical access denied message
 
-
 \hypertarget{toc627}{}
-\chapter{Tester}
+\section{Tester application}
+
+\begin{lstlisting}
+apps/tester/js/app.new.js
+\end{lstlisting}
+
+This application implements the tipical features associated to tester
 
 \hypertarget{toc628}{}
+\subsection{Tester object}
+
+\begin{lstlisting}
+saltos.tester = {};
+\end{lstlisting}
+
+This object stores all function used by this app
+
+\hypertarget{toc629}{}
+\subsection{Campo 8}
+
+\begin{lstlisting}
+saltos.tester.campo8 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc630}{}
+\subsection{Campo 9}
+
+\begin{lstlisting}
+saltos.tester.campo9 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc631}{}
+\subsection{Campo 10}
+
+\begin{lstlisting}
+saltos.tester.campo10 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc632}{}
+\subsection{Campo 11}
+
+\begin{lstlisting}
+saltos.tester.campo11 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc633}{}
+\subsection{Campo 22}
+
+\begin{lstlisting}
+saltos.tester.campo22 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc634}{}
+\section{Tester application}
+
+\begin{lstlisting}
+apps/tester/js/app.old.js
+\end{lstlisting}
+
+This application implements the tipical features associated to tester
+
+\hypertarget{toc635}{}
+\subsection{Main code}
+
+\begin{lstlisting}
+(function() {
+\end{lstlisting}
+
+This function executes the main code that allow to you to see the tester in action
+
+
+\hypertarget{toc636}{}
+\chapter{Tester}
+
+\hypertarget{toc637}{}
 \section{TODO}
 
 \begin{lstlisting}
 apps/tester/php/indexing.php
 \end{lstlisting}
 
-\hypertarget{toc629}{}
+\hypertarget{toc638}{}
 \section{TODO}
 
 \begin{lstlisting}
 apps/tester/php/insert.php
 \end{lstlisting}
 
-\hypertarget{toc630}{}
+\hypertarget{toc639}{}
 \section{TODO}
 
 \begin{lstlisting}
@@ -9539,19 +9620,19 @@ apps/tester/php/pepe.php
 \end{lstlisting}
 
 
-\hypertarget{toc631}{}
+\hypertarget{toc640}{}
 \chapter{Javascript}
 
-\hypertarget{toc632}{}
+\hypertarget{toc641}{}
 \section{Types application}
 
 \begin{lstlisting}
-apps/types/js/app.js
+apps/types/js/app.1.js
 \end{lstlisting}
 
 This application implements the tipical features associated to types
 
-\hypertarget{toc633}{}
+\hypertarget{toc642}{}
 \subsection{Main object}
 
 \begin{lstlisting}
@@ -9560,7 +9641,7 @@ saltos.types = {};
 
 This object contains all SaltOS code
 
-\hypertarget{toc634}{}
+\hypertarget{toc643}{}
 \subsection{Initialize types}
 
 \begin{lstlisting}
@@ -9569,7 +9650,7 @@ saltos.types.initialize = (id)
 
 This function initializes the types screen to improve the user experience.
 
-\hypertarget{toc635}{}
+\hypertarget{toc644}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9578,7 +9659,7 @@ saltos.types.search = ()
 
 TODO
 
-\hypertarget{toc636}{}
+\hypertarget{toc645}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9587,7 +9668,7 @@ saltos.types.reset = ()
 
 TODO
 
-\hypertarget{toc637}{}
+\hypertarget{toc646}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9596,7 +9677,7 @@ saltos.types.more = ()
 
 TODO
 
-\hypertarget{toc638}{}
+\hypertarget{toc647}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9605,7 +9686,7 @@ saltos.types.open = arg
 
 TODO
 
-\hypertarget{toc639}{}
+\hypertarget{toc648}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9614,7 +9695,7 @@ saltos.types.__open_helper = arg
 
 TODO
 
-\hypertarget{toc640}{}
+\hypertarget{toc649}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9623,7 +9704,7 @@ saltos.types.default = ()
 
 TODO
 
-\hypertarget{toc641}{}
+\hypertarget{toc650}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9632,7 +9713,7 @@ saltos.types.insert = arg
 
 TODO
 
-\hypertarget{toc642}{}
+\hypertarget{toc651}{}
 \subsection{TODO}
 
 \begin{lstlisting}
@@ -9641,7 +9722,214 @@ saltos.types.update = arg
 
 TODO
 
-\hypertarget{toc643}{}
+\hypertarget{toc652}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.delete = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc653}{}
+\section{types application}
+
+\begin{lstlisting}
+apps/types/js/app.2.js
+\end{lstlisting}
+
+This application implements the tipical features associated to types
+
+\hypertarget{toc654}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.types = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc655}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.initialize_update_list = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc656}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.initialize_update_view = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc657}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc658}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc659}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc660}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.insert = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc661}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.update = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc662}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.delete1 = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc663}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.delete2 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc664}{}
+\section{Types application}
+
+\begin{lstlisting}
+apps/types/js/app.js
+\end{lstlisting}
+
+This application implements the tipical features associated to types
+
+\hypertarget{toc665}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.types = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc666}{}
+\subsection{Initialize types}
+
+\begin{lstlisting}
+saltos.types.initialize = (id)
+\end{lstlisting}
+
+This function initializes the types screen to improve the user experience.
+
+\hypertarget{toc667}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc668}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc669}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc670}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.open = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc671}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.__open_helper = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc672}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.default = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc673}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.insert = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc674}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.update = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc675}{}
 \subsection{TODO}
 
 \begin{lstlisting}

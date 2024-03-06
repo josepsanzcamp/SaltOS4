@@ -1,5 +1,5 @@
 Code documentation
-SaltOS 4.0 r726
+SaltOS 4.0 r727
 March 2024
 
 
@@ -8807,6 +8807,87 @@ saltos.login.access_denied = ()
 This function displays a modal dialog with the tipical access denied message
 
 
+++Tester application++
+
+```
+apps/tester/js/app.new.js
+```
+
+This application implements the tipical features associated to tester
+
+
++++Tester object+++
+
+```
+saltos.tester = {};
+```
+
+This object stores all function used by this app
+
+
++++Campo 8+++
+
+```
+saltos.tester.campo8 = ()
+```
+
+TODO
+
+
++++Campo 9+++
+
+```
+saltos.tester.campo9 = ()
+```
+
+TODO
+
+
++++Campo 10+++
+
+```
+saltos.tester.campo10 = ()
+```
+
+TODO
+
+
++++Campo 11+++
+
+```
+saltos.tester.campo11 = ()
+```
+
+TODO
+
+
++++Campo 22+++
+
+```
+saltos.tester.campo22 = ()
+```
+
+TODO
+
+
+++Tester application++
+
+```
+apps/tester/js/app.old.js
+```
+
+This application implements the tipical features associated to tester
+
+
++++Main code+++
+
+```
+(function() {
+```
+
+This function executes the main code that allow to you to see the tester in action
+
+
 +Tester+
 
 ++TODO++
@@ -8831,6 +8912,213 @@ apps/tester/php/pepe.php
 
 
 +Javascript+
+
+++Types application++
+
+```
+apps/types/js/app.1.js
+```
+
+This application implements the tipical features associated to types
+
+
++++Main object+++
+
+```
+saltos.types = {};
+```
+
+This object contains all SaltOS code
+
+
++++Initialize types+++
+
+```
+saltos.types.initialize = (id)
+```
+
+This function initializes the types screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.types.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.open = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.__open_helper = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.default = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.insert = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.update = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete = arg
+```
+
+TODO
+
+
+++types application++
+
+```
+apps/types/js/app.2.js
+```
+
+This application implements the tipical features associated to types
+
+
++++Main object+++
+
+```
+saltos.types = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.types.initialize_update_list = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.initialize_update_view = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.insert = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.update = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete1 = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete2 = ()
+```
+
+TODO
+
 
 ++Types application++
 
