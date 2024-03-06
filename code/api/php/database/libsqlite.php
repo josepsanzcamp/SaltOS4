@@ -81,7 +81,7 @@ function __libsqlite_replace($subject, $search, $replace)
  */
 function __libsqlite_lpad($input, $length, $char)
 {
-    return str_pad($input, $length, $char, STR_PAD_LEFT);
+    return str_pad($input, intval($length), $char, STR_PAD_LEFT);
 }
 
 /**
@@ -135,7 +135,7 @@ function __libsqlite_from_unixtime($timestamp)
  */
 function __libsqlite_year($date)
 {
-    return date("Y", strtotime($date));
+    return intval(date("Y", strtotime($date)));
 }
 
 /**
@@ -145,7 +145,7 @@ function __libsqlite_year($date)
  */
 function __libsqlite_month($date)
 {
-    return date("m", strtotime($date));
+    return intval(date("m", strtotime($date)));
 }
 
 /**
@@ -153,10 +153,10 @@ function __libsqlite_month($date)
  *
  * This function add the WEEK to the SQLite database
  */
-function __libsqlite_week($date, $mode)
+function __libsqlite_week($date, $mode = 0)
 {
     $mode = $mode * 86400;
-    return date("W", strtotime($date) + $mode);
+    return intval(date("W", strtotime($date) + $mode));
 }
 
 /**
@@ -167,7 +167,7 @@ function __libsqlite_week($date, $mode)
 function __libsqlite_truncate($n, $d)
 {
     $d = pow(10, $d);
-    return intval($n * $d) / $d;
+    return strval(intval($n * $d) / $d);
 }
 
 /**
@@ -257,7 +257,8 @@ function __libsqlite_repeat($str, $count)
  */
 function __libsqlite_find_in_set($str, $strlist)
 {
-    return in_array($str, explode(",", $strlist)) ? 1 : 0;
+    $index = array_search($str, explode(",", $strlist));
+    return $index !== false ? $index + 1 : 0;
 }
 
 /**
@@ -277,7 +278,7 @@ function __libsqlite_if($condition, $value_if_true, $value_if_false)
  */
 function __libsqlite_pow($base, $exp)
 {
-    return pow($base, $exp);
+    return floatval(pow($base, $exp));
 }
 
 /**

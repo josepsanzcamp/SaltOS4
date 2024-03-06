@@ -220,7 +220,6 @@ class database_sqlite3
                     }
                 }
             }
-            unset($query); // TRICK TO RELEASE MEMORY
             semaphore_release(__FUNCTION__);
             // DUMP RESULT TO MATRIX
             if (!is_bool($stmt) && $stmt->numColumns() > 0) {
@@ -228,8 +227,12 @@ class database_sqlite3
                     $fetch = $stmt->numColumns() > 1 ? "query" : "column";
                 }
                 if ($fetch == "query") {
-                    while ($row = $stmt->fetchArray(SQLITE3_ASSOC)) {
-                        $result["rows"][] = $row;
+                    try {
+                        while ($row = $stmt->fetchArray(SQLITE3_ASSOC)) {
+                            $result["rows"][] = $row;
+                        }
+                    } catch (Exception $e) {
+                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                     }
                     $result["total"] = count($result["rows"]);
                     if ($result["total"] > 0) {
@@ -237,18 +240,26 @@ class database_sqlite3
                     }
                 }
                 if ($fetch == "column") {
-                    while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                        $result["rows"][] = $row[0];
+                    try {
+                        while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
+                            $result["rows"][] = $row[0];
+                        }
+                    } catch (Exception $e) {
+                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                     }
                     $result["total"] = count($result["rows"]);
                     $result["header"] = ["column"];
                 }
                 if ($fetch == "concat") {
-                    if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                        $result["rows"][] = $row[0];
-                    }
-                    while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                        $result["rows"][0] .= "," . $row[0];
+                    try {
+                        if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
+                            $result["rows"][] = $row[0];
+                        }
+                        while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
+                            $result["rows"][0] .= "," . $row[0];
+                        }
+                    } catch (Exception $e) {
+                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                     }
                     $result["total"] = count($result["rows"]);
                     $result["header"] = ["concat"];

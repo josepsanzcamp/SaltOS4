@@ -154,15 +154,18 @@ class database_mysqli
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
         }
-        unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->field_count > 0) {
             if ($fetch == "auto") {
                 $fetch = $stmt->field_count > 1 ? "query" : "column";
             }
             if ($fetch == "query") {
-                while ($row = $stmt->fetch_assoc()) {
-                    $result["rows"][] = $row;
+                try {
+                    while ($row = $stmt->fetch_assoc()) {
+                        $result["rows"][] = $row;
+                    }
+                } catch (Exception $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
@@ -171,19 +174,27 @@ class database_mysqli
                 $stmt->free_result();
             }
             if ($fetch == "column") {
-                while ($row = $stmt->fetch_row()) {
-                    $result["rows"][] = $row[0];
+                try {
+                    while ($row = $stmt->fetch_row()) {
+                        $result["rows"][] = $row[0];
+                    }
+                } catch (Exception $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
                 $stmt->free_result();
             }
             if ($fetch == "concat") {
-                if ($row = $stmt->fetch_row()) {
-                    $result["rows"][] = $row[0];
-                }
-                while ($row = $stmt->fetch_row()) {
-                    $result["rows"][0] .= "," . $row[0];
+                try {
+                    if ($row = $stmt->fetch_row()) {
+                        $result["rows"][] = $row[0];
+                    }
+                    while ($row = $stmt->fetch_row()) {
+                        $result["rows"][0] .= "," . $row[0];
+                    }
+                } catch (Exception $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];

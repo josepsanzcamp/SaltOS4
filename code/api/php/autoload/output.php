@@ -90,7 +90,7 @@ function output_handler($array)
     if ($file != "" && $data == "") {
         header("Content-Encoding: none");
     } else {
-        $encoding = get_server("HTTP_ACCEPT_ENCODING");
+        $encoding = strval(get_server("HTTP_ACCEPT_ENCODING"));
         if (stripos($encoding, "gzip") !== false && function_exists("gzencode")) {
             header("Content-Encoding: gzip");
             $data = gzencode($data);

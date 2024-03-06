@@ -6,7 +6,7 @@ all:
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 test:
-	$(eval files := $(shell svn st code/api/index.php code/api/php scripts code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
+	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs --standard=scripts/rules.xml $$i; \
@@ -21,7 +21,7 @@ test:
 	done
 
 testall:
-	$(eval files := $(shell find code/api/index.php code/api/php scripts code/apps/*/php -name *.php | sort))
+	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs --standard=scripts/rules.xml $$i; \
@@ -41,7 +41,7 @@ libs:
 devel:
 	cat code/web/htm/index.htm | php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js > code/web/index.htm
 
-docs:
+docs: .
 	php scripts/makedocs.php docs/document.t2t code/api/php code/web/js code/apps/*/js code/apps/*/php
 
 clean:
@@ -57,3 +57,8 @@ check:
 	@test -e code/api/apps && echo Ok || echo Ko
 	@echo -n api/data:" "
 	@test -e code/api/data && echo Ok || echo Ko
+
+.PHONY: utest docs
+
+utest:
+	phpunit --testdox utest/*.php

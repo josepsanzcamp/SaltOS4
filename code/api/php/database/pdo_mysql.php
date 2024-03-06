@@ -150,7 +150,6 @@ class database_pdo_mysql
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
         }
-        //~ unset($query); // TRICK TO RELEASE MEMORY
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
             if ($fetch == "auto") {
