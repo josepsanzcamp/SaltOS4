@@ -2532,7 +2532,7 @@ saltos.bootstrap.__label_combine = (field, old) => {
 /**
  * Onclick helper
  *
- * This function is a helper function that adds the onclick event listener to the obj 
+ * This function is a helper function that adds the onclick event listener to the obj
  * using the correct way to do it, to do it, checks the type of fn.
  *
  * @obj   => the object where you want to add the onclick event
