@@ -9,7 +9,7 @@ test:
 	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
 	@for i in ${files}; do \
 		echo $$i; \
-		phpcs --standard=scripts/rules.xml $$i; \
+		phpcs --colors --standard=scripts/rules.xml $$i; \
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
@@ -24,7 +24,7 @@ testall:
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
 	@for i in ${files}; do \
 		echo $$i; \
-		phpcs --standard=scripts/rules.xml $$i; \
+		phpcs --colors --standard=scripts/rules.xml $$i; \
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
@@ -61,4 +61,4 @@ check:
 .PHONY: utest docs
 
 utest:
-	phpunit --testdox utest
+	phpunit --testdox --colors=auto utest
