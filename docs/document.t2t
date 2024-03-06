@@ -1,6 +1,6 @@
 Code documentation
-SaltOS 4.0 r620
-February 2024
+SaltOS 4.0 r726
+March 2024
 
 
 
@@ -250,7 +250,7 @@ This action tries to facility the creation of lists with the tipicals
 features suck as rows, actions for each row, and other improvements as
 the list with count and without count.
 
-TODO: Falta el order by desde el listado
+TODO: pending to add the order by from the list header
 
 
 ++QRCode action++
@@ -463,6 +463,17 @@ function app_exists($app)
 This function detect if an app exists
 
 - @app => the app that you want to check if exists
+
+
++++Detect apps files+++
+
+```
+function detect_apps_files($file)
+```
+
+This function returns the files found in the main path and in the apps path
+
+- @file => the pattern used to search files
 
 
 ++Array helper module++
@@ -796,6 +807,17 @@ in the memory of the config file for negative user_id values
 - @key     => the key that you want to set
 - @val     => the value that you want to set
 - @user_id => the user_id used as filter
+
+
++++Detect config files+++
+
+```
+function detect_config_files($file)
+```
+
+This function returns the files found in the main path, in the apps path and in the files path
+
+- @file => the pattern used to search files
 
 
 ++Control helper module++
@@ -1694,6 +1716,21 @@ This function is intended to be used when you need to generate a json response b
 an array contents, too, this function adds the code entry to the input array
 
 - @array => The input array used in the output_handler_json without the code entry
+
+
++++Detect Recursion+++
+
+```
+function detect_recursion($fn)
+```
+
+This function allow to SaltOS to detect the recursión, to do it, uses the debug_backtrace
+function that returns all information about the execution of the current function, the
+main idea of this function is to detect in what lines of the backtrace appear the file
+or the function, and returns the count of times that appear
+
+- @fn => the name of the function or file, can be multiples functions or files separated
+       by a comma
 
 
 ++Execution helper module++
@@ -3252,6 +3289,36 @@ contains the owner and for the perm without the owner, for exampe, this
 function returns true for perm list and form perm list|user
 
 
++++Check App Perm Id+++
+
+```
+function check_app_perm_id($app, $perm, $id = null)
+```
+
+This function returns true if the app, the perm and the id accomplishes the
+expected level of permissions, it is intended to be used before the execution
+of each action, to guarantee the security
+
+- @app  => the app to check
+- @perm => the perm to check
+- @id   => the id to check, if needed, you can omit in the create case
+
+
++++Check App Perm Id as Json+++
+
+```
+function check_app_perm_id_json($app, $perm, $id = null)
+```
+
+This function trigger a json error if the app, the perm and the id not
+accomplishes the expected level of permissions, it is intended to be used
+before the execution of each action, to guarantee the security
+
+- @app  => the app to check
+- @perm => the perm to check
+- @id   => the id to check, if needed, you can omit in the create case
+
+
 ++QRCode helper module++
 
 ```
@@ -4061,6 +4128,18 @@ function get_unique_token()
 This function returns a string with a new and unique token
 
 
++++Check IDS+++
+
+```
+function check_ids()
+```
+
+This function checks the correctness of the list of ids and returns
+a valid list available to be used in sql queries
+
+- @ids => the string containing the list of ids
+
+
 ++System helper module++
 
 ```
@@ -4082,6 +4161,177 @@ defines an array with the type (class or function), the name and some extra info
 that is triggered if the dependency is not satisfied
 
 Too, check all directories of the data directory to validate that the process can write inside it
+
+
+++TODO++
+
+```
+api/php/autoload/unoconv.php
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function unoconv2pdf($input)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function unoconv2txt($input)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_list()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_pdf2txt($input, $output)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_all2pdf($input, $output)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_convert($input, $output, $format)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_img2ocr($file)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_pdf2ocr($pdf)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_histogram($values, $usage1, $usage2)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_rotate($posx, $posy, $angle)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_node2attr($node)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_node2value($node)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_lines2matrix($lines, $width, $height)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_hocr2txt($hocr)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_substr($string, $start, $length, $reference)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_substr2d($page, $x1, $x2, $x3, $y1, $y2, $y3)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __unoconv_remove_margins($page)
+```
+
+TODO
 
 
 ++User helper module++
@@ -4284,19 +4534,21 @@ the fix_key of the "test#2", the function will returns "test"
 - @arg => the name of the key that you want to remove the suffix part (if exists)
 
 
-+++Detect Recursion+++
++++XML Files to Array+++
 
 ```
-function detect_recursion($fn)
+function xmlfiles2array($files, $usecache = true)
 ```
 
-This function allow to SaltOS to detect the recursión, to do it, uses the debug_backtrace
-function that returns all information about the execution of the current function, the
-main idea of this function is to detect in what lines of the backtrace appear the file
-or the function, and returns the count of times that appear
+This function allow to convert all XML files to an array, allow to use cache to
+optimize repetitive calls of the same file
 
-- @fn => the name of the function or file, can be multiples functions or files separated
-       by a comma
+As an special mention, this function internally implements the old xml_join feature
+that allow to merge multiple files into one using the fix_key of the keys in the first
+level as key to join.
+
+- @files    => the files that you want to convert from xml to array
+- @usecache => if do you want to enable the cache feature
 
 
 +++XML File to Array+++
@@ -4792,6 +5044,12 @@ This public function is intended to stablish the connection to the database
 - @pass => pass used to stablish the connection
 
 
+Notes of this driver:
+
+MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT are the same that PDO::ERRMODE_EXCEPTION
+MYSQLI_USE_RESULT is the same that PDO::MYSQL_ATTR_USE_BUFFERED_QUERY = false
+
+
 +++DB Check+++
 
 ```
@@ -5268,19 +5526,10 @@ saltos.app = {};
 This object stores all application functions and data
 
 
-+++Show error helper+++
-
-```
-saltos.app.show_error = error
-```
-
-This function allow to show a modal dialog with de details of an error
-
-
 +++Alert function+++
 
 ```
-saltos.app.alert = (title, message)
+saltos.app.alert = (title, message, extra)
 ```
 
 This function tries to implement an alert box, the main difference between the tipical alert
@@ -5289,6 +5538,29 @@ shows one button to close it.
 
 - @title   => title of the alert modal dialog
 - @message => message of the alert modal dialog
+- @extra   => object with array of buttons and color
+
+
++++Toast function+++
+
+```
+saltos.app.toast = (title, message, extra)
+```
+
+This function tries to implement a toast notice.
+
+- @title   => title of the toast
+- @message => message of the toast
+- @extra   => object with array of buttons and color
+
+
++++Show error helper+++
+
+```
+saltos.app.show_error = error
+```
+
+This function allow to show a modal dialog with de details of an error
 
 
 +++Check response helper+++
@@ -5376,43 +5648,58 @@ to be used by the saltos.app.form.layout function.
 - @index       => the index used in all fields of the template
 
 
-+++Form layout helper+++
++++TODO+++
 
 ```
 saltos.app.form.layout = (layout, extra)
 ```
 
-This function process the layout command, its able to process nodes as container, row, col and div
-and all form_field defined in the bootstrap file, too have 2 modes of work:
-
-1) normal mode => requires that the user specify all layout, container, row, col and fields.
-
-2) auto mode => only requires set auto='true' to the layout node, and with this, all childrens
-of the node are created inside a container, a row, and each field inside a col.
-
-Notes:
-
-This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
-can retrieve the desired information of the fields.
+TODO
 
 
 +++Form layout auto helper+++
 
 ```
-saltos.app.form.__layout_auto_helper = layout
+saltos.app.form.__layout_auto_helper = {};
 ```
 
-This function implements the auto feature used by the layout function, allow to specify the
+This functions implements the auto feature used by the layout function, allow to specify the
 follow arguments:
 
 - @auto            => this boolean allow to enable or not this feature
-- @cols_per_row    => specify the number of cols inside of each row
 - @container_class => defines the class used by the container element
-- @row_class       => defines the class used by the row element
-- @col_class       => defines the class used by the col element
 - @container_style => defines the style used by the container element
+- @row_class       => defines the class used by the row element
 - @row_style       => defines the style used by the row element
+- @col_class       => defines the class used by the col element
 - @col_style       => defines the style used by the col element
+
+
++++TODO+++
+
+```
+saltos.app.form.__layout_auto_helper.container = layout
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.app.form.__layout_auto_helper.row = layout
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.app.form.__layout_auto_helper.col = layout
+```
+
+TODO
 
 
 +++Form style helper+++
@@ -5472,6 +5759,8 @@ to clear the screen by removing all contents of the body
 saltos.app.form.navbar = navbar
 ```
 
+This function create a navbar with their menus on the top of the page
+
 TODO
 
 
@@ -5492,6 +5781,12 @@ another way to pass arguments.
 - @type   => the type used to set the type for to the object
 - @source => data source used to load asynchronously the contents of the table (header, data,
            footer and divider)
+
+
+Notes:
+
+At the end of the object replacement, the load event is triggered to the old object to notify
+that the update was finished.
 
 
 +++Get data+++
@@ -5545,6 +5840,18 @@ This function is used to allow the specification of multiples parameters, for ex
 in the navbar widget where the widget expects an object for the brand configuration, too
 is used by get_data to separate in a more pretty structure some fields as the details used
 in the invoices.
+
+
++++Checkbox ids+++
+
+```
+saltos.app.checkbox_ids = obj
+```
+
+Retrieve the selected checkboxes contained in an obj, usefull for the checkboxes
+that appear in the bootstrap table widget.
+
+- @obj => the object that contains the checkboxes, generally the table widget
 
 
 +++Check form+++
@@ -5865,19 +6172,40 @@ to be used when set or unset the token.
 - @on_off => the parameter to indicates if you want to enable or disable the feature
 
 
-+++Tabs communication helper object+++
++++Window communication helper object+++
 
 ```
-saltos.tabs = {};
+saltos.window = {};
 ```
 
-This object stores all tabs communications functions to send and listen messages
+This object stores all windows communications functions to send and listen messages
+
+
++++Open window+++
+
+```
+saltos.window.open = url
+```
+
+This function is intended to open new tabs in the window, at the moment only is a wrapper to
+the window.open but in a future, can add more features
+
+- @url => the url of the page to load
+
+
++++Close window+++
+
+```
+saltos.window.close = ()
+```
+
+This function is intended to close the current window
 
 
 +++Listeners helper object+++
 
 ```
-saltos.tabs.listeners = {};
+saltos.window.listeners = {};
 ```
 
 This object stores all listeners added by the set_listeners and used by the onstorage
@@ -5886,7 +6214,7 @@ This object stores all listeners added by the set_listeners and used by the onst
 +++Set listener+++
 
 ```
-saltos.tabs.set_listener = (name, fn)
+saltos.window.set_listener = (name, fn)
 ```
 
 This function allos to set a listener function to the named event
@@ -5898,7 +6226,7 @@ This function allos to set a listener function to the named event
 +++Unset listener+++
 
 ```
-saltos.tabs.unset_listener = (name)
+saltos.window.unset_listener = (name)
 ```
 
 This function removes a listener from the listeners object
@@ -5909,14 +6237,15 @@ This function removes a listener from the listeners object
 +++Send message+++
 
 ```
-saltos.tabs.send = (name, data)
+saltos.window.send = (name, data, scope)
 ```
 
 This function allow to send a message to all tabs using the name and data
 as event and argument of the callback executed.
 
-- @name => the name of the event that you want to send
-- @data => the arguments used by the callback function
+- @name  => the name of the event that you want to send
+- @data  => the arguments used by the callback function
+- @scope => the scope where the event must to be triggered (me, all, other)
 
 
 Notes:
@@ -5931,7 +6260,7 @@ executes the listeners if needed
 +++Storage management+++
 
 ```
-saltos.tabs.onstorage = event
+saltos.window.onstorage = event
 ```
 
 This function allow to SaltOS to receive the messages sended by other tabs
@@ -5941,7 +6270,7 @@ using the localStorage.
 +++Storage management+++
 
 ```
-window.onstorage = saltos.tabs.onstorage;
+window.onstorage = saltos.window.onstorage;
 ```
 
 Attach the storage management function to the window
@@ -5979,38 +6308,38 @@ widgets, the types that can be called are the follow:
 - @container   => id, class, style
 - @row         => id, class, style
 - @col         => id, class, style
-- @text        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
-- @hidden      => id, class, PL, value, DS, RO, RQ, AF, tooltip
-- @integer     => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
-- @float       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
-- @color       => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
-- @date        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
-- @time        => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
-- @datetime    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
-- @textarea    => id, class, PL, value, DS, RO, RQ, AF, rows, tooltip, label
-- @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, rows, label
-- @codemirror  => id, class, PL, value, DS, RO, RQ, AF, rows, mode, label
-- @iframe      => id, class, src, srcdoc, height, label
-- @select      => id, class, DS, RQ, AF, rows, multiple, size, value, tooltip, label
-- @multiselect => id, class, DS, RQ, AF, rows, multiple, size, value, multiple, tooltip, label
-- @checkbox    => id, class, DS, RO, label, value, tooltip
-- @switch      => id, class, DS, RO, label, value, tooltip
-- @button      => id, class, DS, value, onclick, tooltip
-- @password    => id, class, PL, value, DS, RO, RQ, AF, tooltip, label
-- @file        => id, class, DS, RQ, AF, multiple, tooltip, label
-- @link        => id, DS, value, onclick, tooltip, label
+- @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, onenter
+- @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color, onenter
+- @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+- @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+- @color       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+- @date        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+- @time        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+- @datetime    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+- @textarea    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, tooltip, label, color, height
+- @ckeditor    => id, class, PL, value, DS, RO, RQ, AF, AK, rows, label, color, height
+- @codemirror  => id, class, PL, value, DS, RO, RQ, AF, AK, rows, mode, label, color, height
+- @iframe      => id, class, src, srcdoc, height, label, color
+- @select      => id, class, DS, RQ, AF, AK, rows, multiple, size, value, tooltip, label, color
+- @multiselect => id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label, color
+- @checkbox    => id, class, DS, RO, AK, label, value, tooltip, color
+- @switch      => id, class, DS, RO, AK, label, value, tooltip, color
+- @button      => id, class, DS, AK, value, onclick, tooltip, color
+- @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
+- @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label, color
+- @link        => id, DS, AK, value, onclick, tooltip, label, color
 - @label       => id, class, label, tooltip, value
-- @image       => id, class, value, alt, tooltip, label
+- @image       => id, class, value, alt, tooltip, width, height, label, color
 - @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
-                colWidths, label
-- @pdfjs       => id, class, value, label
-- @table       => id, class, header, data, footer, value, label
-- @alert       => id, class, title, text, body, value, label
-- @card        => id, image, alt, header, footer, title, text, body, value, label
-- @chartjs     => id, mode, data, value, label
-- @tags        => id, class, PL, value, DS, RO, RQ, AF, datalist, tooltip, label
-- @gallery     => id, class, label, images
-- @PL => id
+                colWidths, label, color
+- @pdfjs       => id, class, value, label, color
+- @table       => id, class, header, data, footer, value, label, color
+- @alert       => id, class, title, text, body, value, label, color
+- @card        => id, image, alt, header, footer, title, text, body, value, label, color
+- @chartjs     => id, mode, data, value, label, color
+- @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color
+- @gallery     => id, class, label, images, color
+- @placeholder => id, color
 
 
 Notes:
@@ -6022,6 +6351,7 @@ To do more small the previous list, we have used the follow abreviations:
 - @RO => readonly
 - @RQ => required
 - @AF => autofocus
+- @AK => accesskey
 
 
 The saltos.bootstrap.__field object is part of this constructor and act with the constructor
@@ -6105,7 +6435,6 @@ that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6113,8 +6442,11 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
 - @datalist    => array with options for the datalist, used as autocomplete for the text input
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 +++Hidden constructor helper+++
@@ -6128,7 +6460,6 @@ that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6136,6 +6467,9 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 Notes:
@@ -6156,7 +6490,6 @@ that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6164,7 +6497,10 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 Notes:
@@ -6186,7 +6522,6 @@ that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6194,7 +6529,10 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 Notes:
@@ -6216,7 +6554,6 @@ arguments that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6224,7 +6561,10 @@ arguments that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 Notes:
@@ -6244,7 +6584,6 @@ that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6252,7 +6591,10 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 +++Time constructor helper+++
@@ -6266,7 +6608,6 @@ that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6274,7 +6615,10 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 +++Datetime constructor helper+++
@@ -6288,7 +6632,6 @@ that for the input object of type text
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6296,7 +6639,10 @@ that for the input object of type text
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 +++Textarea constructor helper+++
@@ -6316,8 +6662,10 @@ This function returns a textarea object with the autogrow plugin enabled
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
-- @rows        => the number used as rows parameter
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @height      => the height used as style.minHeight parameter
 
 
 Notes:
@@ -6345,8 +6693,10 @@ This function returns a textarea object with the ckeditor plugin enabled
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
-- @rows        => the number used as rows parameter
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @height      => the height used as style.minHeight parameter
 
 
 Notes:
@@ -6375,8 +6725,10 @@ This function returns a textarea object with the codemirror plugin enabled
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
-- @rows        => the number used as rows parameter
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @height      => the height used as style.minHeight parameter
 
 
 Notes:
@@ -6400,8 +6752,9 @@ This function returns an iframe object, you can pass the follow arguments:
 - @src    => the value used as src parameter
 - @srcdoc => the value used as srcdoc parameter
 - @class  => allow to add more classes to the default form-control
-- @height => the height used as height for the style parameter
+- @height => the height used as style.minHeight parameter
 - @label  => this parameter is used as text for the label
+- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 +++Select constructor helper+++
@@ -6421,9 +6774,11 @@ This function returns a select object, you can pass the follow arguments:
 - @size      => this parameter allow to see the options list opened with n (size) entries
 - @value     => the value used to detect the selected option
 - @tooltip   => this parameter raise the title flag
+- @accesskey => the key used as accesskey parameter
 - @rows      => this parameter contains the list of options, each option must be an object
               with label and value entries
 - @label     => this parameter is used as text for the label
+- @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 +++Multiselect constructor helper+++
@@ -6434,15 +6789,17 @@ saltos.bootstrap.__field.multiselect = field
 
 This function returns a multiselect object, you can pass the follow arguments:
 
-- @id       => the id used by the object
-- @class    => allow to add more classes to the default form-select
-- @disabled => this parameter raise the disabled flag
-- @size     => this parameter allow to see the options list opened with n (size) entries
-- @value    => the value used as src parameter
-- @tooltip  => this parameter raise the title flag
-- @rows     => this parameter contains the list of options, each option must be an object
-             with label and value entries
-- @label    => this parameter is used as text for the label
+- @id        => the id used by the object
+- @class     => allow to add more classes to the default form-select
+- @disabled  => this parameter raise the disabled flag
+- @size      => this parameter allow to see the options list opened with n (size) entries
+- @value     => the value used as src parameter
+- @tooltip   => this parameter raise the title flag
+- @accesskey => the key used as accesskey parameter
+- @rows      => this parameter contains the list of options, each option must be an object
+              with label and value entries
+- @label     => this parameter is used as text for the label
+- @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6461,14 +6818,16 @@ saltos.bootstrap.__field.checkbox = field
 
 This function returns a checkbox object, you can pass the follow arguments:
 
-- @id       => the id used by the object
-- @class    => allow to add more classes to the default form-check
-- @disabled => this parameter raise the disabled flag
-- @readonly => this parameter raise the readonly flag
-- @label    => this parameter is used as label for the checkbox
-- @value    => this parameter is used to check or unckeck the checkbox, the value
-             must contain a number that raise as true or false in the if condition
-- @tooltip  => this parameter raise the title flag
+- @id        => the id used by the object
+- @class     => allow to add more classes to the default form-check
+- @disabled  => this parameter raise the disabled flag
+- @readonly  => this parameter raise the readonly flag
+- @label     => this parameter is used as label for the checkbox
+- @value     => this parameter is used to check or unckeck the checkbox, the value
+              must contain a number that raise as true or false in the if condition
+- @tooltip   => this parameter raise the title flag
+- @accesskey => the key used as accesskey parameter
+- @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6484,14 +6843,16 @@ saltos.bootstrap.__field.switch = field
 
 This function returns a switch object, you can pass the follow arguments:
 
-- @id       => the id used by the object
-- @class    => allow to add more classes to the default form-check and form-switch
-- @disabled => this parameter raise the disabled flag
-- @readonly => this parameter raise the readonly flag
-- @label    => this parameter is used as label for the switch
-- @value    => this parameter is used to check or unckeck the switch, the value
-             must contain a number that raise as true or false in the if condition
-- @tooltip  => this parameter raise the title flag
+- @id        => the id used by the object
+- @class     => allow to add more classes to the default form-check and form-switch
+- @disabled  => this parameter raise the disabled flag
+- @readonly  => this parameter raise the readonly flag
+- @label     => this parameter is used as label for the switch
+- @value     => this parameter is used to check or unckeck the switch, the value
+              must contain a number that raise as true or false in the if condition
+- @tooltip   => this parameter raise the title flag
+- @accesskey => the key used as accesskey parameter
+- @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6507,17 +6868,21 @@ saltos.bootstrap.__field.button = field
 
 This function returns a button object, you can pass the follow arguments:
 
-- @id       => the id used by the object
-- @class    => allow to add more classes to the default form-select
-- @disabled => this parameter raise the disabled flag
-- @value    => value to be used as text in the contents of the buttons
-- @onclick  => callback function that is executed when the button is pressed
-- @tooltip  => this parameter raise the title flag
+- @id        => the id used by the object
+- @class     => allow to add more classes to the default form-select
+- @disabled  => this parameter raise the disabled flag
+- @autofocus => this parameter raise the autofocus flag
+- @value     => value to be used as text in the contents of the buttons
+- @onclick   => callback function that is executed when the button is pressed
+- @tooltip   => this parameter raise the title flag
+- @accesskey => the key used as accesskey parameter
+- @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
 
-You can add an icon before the text by addind the bi-icon class to the class argument
+The buttons adds the focus-ring classes to use this new feature that solves issues suck as
+hidden focus when you try to focus a button inside a modal, for example.
 
 
 +++Password constructor helper+++
@@ -6537,7 +6902,9 @@ This function returns an input object of type password, you can pass some argume
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
 - @label       => this parameter is used as text for the label
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6559,14 +6926,16 @@ saltos.bootstrap.__field.file = field
 
 This function returns an input object of type password, you can pass some arguments as:
 
-- @id       => the id used by the object
-- @class    => allow to add more classes to the default form-control
-- @disabled => this parameter raise the disabled flag
-- @required => this parameter raise the required flag
-- @autofocus   => this parameter raise the autofocus flag
-- @multiple => this parameter raise the multiple flag, intended to select more files at time
-- @tooltip  => this parameter raise the title flag
-- @label    => this parameter is used as text for the label
+- @id        => the id used by the object
+- @class     => allow to add more classes to the default form-control
+- @disabled  => this parameter raise the disabled flag
+- @required  => this parameter raise the required flag
+- @autofocus => this parameter raise the autofocus flag
+- @multiple  => this parameter raise the multiple flag, intended to select more files at time
+- @tooltip   => this parameter raise the title flag
+- @accesskey => the key used as accesskey parameter
+- @label     => this parameter is used as text for the label
+- @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6592,11 +6961,13 @@ saltos.bootstrap.__field.link = field
 This function creates a field similar of text but with the appearance of a link using a button,
 the object can receive the follow arguments:
 
-- @label    => this parameter is used as text for the label
-- @id       => the id used by the object
-- @disabled => this parameter raise the disabled flag
-- @value    => the value is conveted as label to be used in the button with the appearance of a link
-- @onclick  => callback function that is executed when the button is pressed
+- @label     => this parameter is used as text for the label
+- @id        => the id used by the object
+- @disabled  => this parameter raise the disabled flag
+- @value     => the value is conveted as label to be used in the button with the appearance of a link
+- @onclick   => callback function that is executed when the button is pressed
+- @accesskey => the key used as accesskey parameter
+- @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6634,6 +7005,9 @@ This function returns an image object, you can pass some arguments as:
 - @alt     => this parameter is used as text for the alt parameter
 - @tooltip => this parameter raise the title flag
 - @label   => this parameter is used as text for the label
+- @width   => this parameter is used as width for the image
+- @height  => this parameter is used as height for the image
+- @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 +++Excel constructor helper+++
@@ -6660,6 +7034,7 @@ This widget can receive the following arguments:
 - @rowHeaderWidth => can be a number with the width of the headers rows
 - @colWidths      => can be an array with the widths of the headers cols
 - @label          => this parameter is used as text for the label
+- @color          => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6682,10 +7057,12 @@ saltos.bootstrap.__field.pdfjs = field
 
 This function creates and returns a pdfviewer object, to do this they use the pdf.js library.
 
-- @id    => the id used to set the reference for to the object
-- @class => allow to set the class to the div object used to allocate the widget
-- @value => the file or data that contains the pdf document
-- @label => this parameter is used as text for the label
+- @id     => the id used to set the reference for to the object
+- @class  => allow to set the class to the div object used to allocate the widget
+- @src    => the file that contains the pdf document
+- @srcdoc => the data that contains the pdf document
+- @label  => this parameter is used as text for the label
+- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6716,9 +7093,21 @@ Returns a table using the follow params:
 - @header   => array with the header to use
 - @data     => 2D array with the data used to mount the body table
 - @footer   => array with the footer to use
-- @checkbox => add a checkbox at the first of each row, for mono or multi selection
-- @actions  => each row of the data can contain an array with the actions of each row
+- @checkbox => add a checkbox in the first cell of each row, for mono or multi selection
+- @dropdown => a boolean value to force the usage of the dropdown feature, void for auto detection
 - @label    => this parameter is used as text for the label
+- @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @actions  => each row of the data can contain an array with the actions of each row
+
+
+Each action can contain:
+
+- @app     => the application that must be used to check the permissions
+- @action  => the accion that must to be used to check the permissions
+- @value   => the text used as label in the button of the action
+- @icon    => the icon used in the button of the action
+- @tooltip => the tooltip used in the button of the action
+- @onclick => the onclick function that receives as argument the url to access the action
 
 
 Notes:
@@ -6729,9 +7118,6 @@ The header field must be an object with the labels, types, aligns, ..., of each 
 if the header is ommited, then the data will be painted using the default order of the
 data without filters, the recomendation is to use header to specify which fields must
 to be painted, the order, the type and the alignment.
-
-The divider will be added dynamically depending the contents of the table, the main idea
-is to use the divider to separate each block of the table (header, data and footer)
 
 The actions will be added using a dropdown menu if more than one action appear in the
 the row data, the idea of this feature is to prevent that the icons uses lot of space
@@ -6760,6 +7146,7 @@ This component allow to set boxes type alert in the contents, only requires:
           to personalize the body's card
 - @close => boolean to specify if you want to add the dismissible option to the alert
 - @label => this parameter is used as text for the label
+- @color => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Note:
@@ -6787,6 +7174,7 @@ This functions creates a card with a lot of options:
 - @body   => this option allow to specify an specific html to the body of the card, intended
            to personalize the body's card
 - @label  => this parameter is used as text for the label
+- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 +++Chart.js constructor helper+++
@@ -6827,13 +7215,14 @@ and each tag can be deleted, the result is stored in a text using a comma separa
 - @datalist    => array with options for the datalist, used as autocomplete for the text input
 - @label       => this parameter is used as text for the label
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @disabled    => this parameter raise the disabled flag
 - @readonly    => this parameter raise the readonly flag
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @accesskey   => the key used as accesskey parameter
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6854,6 +7243,7 @@ This function returns a gallery object, you can pass some arguments as:
 - @class  => allow to add more classes to the default img-fluid
 - @label  => this parameter is used as text for the label
 - @images => the array with images, each image can be an string or object
+- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 This widget requires venobox, masonry and imagesloaded
@@ -6888,7 +7278,6 @@ This function returns an input object of type text, you can pass some arguments 
 
 - @id          => the id used by the object
 - @class       => allow to add more classes to the default form-control
-- @style       => the style used in the div object
 - @placeholder => the text used as placeholder parameter
 - @value       => the value used as value parameter
 - @disabled    => this parameter raise the disabled flag
@@ -6896,6 +7285,8 @@ This function returns an input object of type text, you can pass some arguments 
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @onenter     => the function executed when enter key is pressed
 
 
 Notes:
@@ -6920,7 +7311,7 @@ This function returns a textarea object, you can pass the follow arguments:
 - @required    => this parameter raise the required flag
 - @autofocus   => this parameter raise the autofocus flag
 - @tooltip     => this parameter raise the title flag
-- @rows        => the number used as rows parameter
+- @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Notes:
@@ -6978,6 +7369,31 @@ any specific label container, in the other cases, each constructor must to imple
 their code because each case is different
 
 
++++Onclick helper+++
+
+```
+saltos.bootstrap.__onclick_helper = (obj, fn)
+```
+
+This function is a helper function that adds the onclick event listener to the obj
+using the correct way to do it, to do it, checks the type of fn.
+
+- @obj   => the object where you want to add the onclick event
+- @fn    => the function that must be executed when onclick
+
+
++++Onenter helper+++
+
+```
+saltos.bootstrap.__onenter_helper = (obj, fn)
+```
+
+This function adds the event and detects the enter key in order to execute fn
+
+- @obj => the object that you want to enable the onenter feature
+- @fn  => the function executed when the onenter is raised
+
+
 +++Menu constructor helper+++
 
 ```
@@ -7018,6 +7434,7 @@ This component creates a navbar intended to be used as header
 - @id    => the id used by the object
 - @space => boolean to indicate if you want to add the space div
 - @brand => contains an object with the name, logo, width and height to be used
+- @color => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 - @name   => text used in the brand
@@ -7062,6 +7479,7 @@ This function creates a bootstrap modal and open it, offers two ways of usage:
 - @footer => the content used in the modal's footer
 - @static => forces the modal to be static (prevent close by clicking outside the modal or
            by pressing the escape key)
+- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Returns a boolean that indicates if the modal can be open or not
@@ -7104,6 +7522,7 @@ This function creates a bootstrap offcanvas and open it, offers two ways of usag
 - @body   => the content used in the offcanvas's body
 - @static => forces the offcanvas to be static (prevent close by clicking outside the
            offcanvas or by pressing the escape key)
+- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Returns a boolean that indicates if the offcanvas can be open or not
@@ -7128,6 +7547,7 @@ This function creates a bootstrap toast and show it, and can accept the follow p
 - @subtitle => small text used by the toast
 - @close    => text used in the close button for aria purposes
 - @body     => the content used in the toast's body
+- @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
 Returns a boolean that indicates if the toast can be created (see the hash note)
@@ -7145,6 +7565,27 @@ This widget requires the md5 library and can be loaded automatically using the r
 feature:
 
 - @lib/md5/md5.min.js
+
+
++++Accesskey listener+++
+
+```
+saltos.bootstrap.__accesskey_listener = event
+```
+
+This function is intended to improve the default accesskey in the object by
+adding features suck as combinations of keys like alt+f or alt+delete
+
+- @obj => the object that you want to enable the accesskey feature
+
+
++++Accesskey listener+++
+
+```
+document.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
+```
+
+Attach the accesskey listener function to the keydown event of the document
 
 
 ++Core helper module++
@@ -7293,7 +7734,7 @@ The main idea of this function is to abstract the usage of the XMLHttpRequest in
 way as jQuery do but without using jQuery.
 
 
-+++Key cleaner+++
++++Fix key+++
 
 ```
 saltos.core.fix_key = arg
@@ -7306,27 +7747,6 @@ and convert it to an array structure, and when convert this to json, the same pr
 for this reason, exists this function here
 
 - @arg => can be an string or an array of strings and returns the same structure with the keys fixed
-
-
-+++Open window+++
-
-```
-saltos.core.open_window = url
-```
-
-This function is intended to open new tabs in the window, at the moment only is a wrapper to
-the window.open but in a future, can add more features
-
-- @url => the url of the page to load
-
-
-+++Close window+++
-
-```
-saltos.core.close_window = ()
-```
-
-This function is intended to close the current window
 
 
 +++Copy object+++
@@ -7412,31 +7832,26 @@ This function tries to convert to string from any other formats as boolean,
 number, null, undefined or other type.
 
 
-+++TODO+++
++++Is attr value+++
 
 ```
 saltos.core.is_attr_value = data
 ```
 
-TODO
+This function return true if the data argument is an object with #attr and value
+
+- @data => the data that wants to check
 
 
-+++TODO+++
++++Join attr value+++
 
 ```
 saltos.core.join_attr_value = data
 ```
 
-TODO
+This function return an object that contains all elements of the #attr and value
 
-
-+++TODO+++
-
-```
-saltos.core.addEventListener = (obj, event, fn)
-```
-
-TODO
+- @data => the data that wants to join
 
 
 ++Object helper module++
@@ -7457,12 +7872,10 @@ var saltos = {};
 This object contains all SaltOS code
 
 
-+Customers+
-
 ++Customers application++
 
 ```
-apps/customers/app.js
+apps/customers/js/app.js
 ```
 
 This application implements the tipical features associated to customers
@@ -7475,15 +7888,6 @@ saltos.customers = {};
 ```
 
 This object contains all SaltOS code
-
-
-+++Initialize customers+++
-
-```
-saltos.customers.initialize_search = ()
-```
-
-This function initializes the customers screen to improve the user experience.
 
 
 +++TODO+++
@@ -7516,7 +7920,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.customers.clear_filter = ()
+saltos.customers.reset = ()
 ```
 
 TODO
@@ -7525,16 +7929,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.customers.read_more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.cancel = ()
+saltos.customers.more = ()
 ```
 
 TODO
@@ -7561,18 +7956,25 @@ TODO
 +++TODO+++
 
 ```
-saltos.customers.delete = ()
+saltos.customers.delete1 = arg
 ```
 
 TODO
 
 
-+Dashboard+
++++TODO+++
+
+```
+saltos.customers.delete2 = ()
+```
+
+TODO
+
 
 ++Dashboard application++
 
 ```
-apps/dashboard/app.js
+apps/dashboard/js/app.js
 ```
 
 This application implements the tipical features associated to dashboard
@@ -7596,12 +7998,10 @@ saltos.dashboard.initialize = ()
 TODO
 
 
-+Emails+
-
 ++Email application++
 
 ```
-apps/emails/app.js
+apps/emails/js/app.js
 ```
 
 This application implements the tipical features associated to emails
@@ -7637,7 +8037,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.clear_filter = ()
+saltos.emails.reset = ()
 ```
 
 TODO
@@ -7646,7 +8046,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.read_more = ()
+saltos.emails.more = ()
 ```
 
 TODO
@@ -7655,11 +8055,58 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.send_and_get = ()
+saltos.emails.getmail = ()
 ```
 
 TODO
 
+
++++TODO+++
+
+```
+saltos.emails.delete1 = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.delete2 = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.send = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.download = (file)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.setter = what
+```
+
+TODO
+
+
++Emails+
 
 ++Get email library++
 
@@ -7682,7 +8129,7 @@ This requires loads the external libraries needed to run this library.
 +++Defines section+++
 
 ```
-define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:0px;}</style></head><body>');
+define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
 ```
 
 This defines allow to define some usefull standards to do html pages and more.
@@ -7784,7 +8231,7 @@ This function returns the decoded array of the email identified by the id
 argument, to do this more optimal, this function uses an internal cache
 file to improve the performance for repeated executions.
 
-- @id  => id of the email
+- @id => id of the email
 
 
 +++Get Node+++
@@ -7979,7 +8426,7 @@ and allow to know the file size of the file after a gzip descompression.
 +++Get email body+++
 
 ```
-function get_email_body($id)
+function getmail_body($id)
 ```
 
 This function returns the string that contains the body of the email
@@ -7991,7 +8438,7 @@ intended to be rendered in an iframe, for example
 +++Get email source+++
 
 ```
-function get_email_source($id)
+function getmail_source($id)
 ```
 
 This function returns the string that contains the source of the email
@@ -8003,7 +8450,7 @@ intended to be rendered in an iframe, for example
 +++Get email files+++
 
 ```
-function get_email_files($id)
+function getmail_files($id)
 ```
 
 This function returns an arryy that contains the files of the email
@@ -8015,7 +8462,7 @@ intended to be rendered in an table, for example
 +++Get cid+++
 
 ```
-function get_email_cid($id, $cid)
+function getmail_cid($id, $cid)
 ```
 
 This function returns the requested attachment indentified by the cid argument
@@ -8027,21 +8474,68 @@ This function returns the requested attachment indentified by the cid argument
 +++Is outbox+++
 
 ```
-function get_email_is_outbox($id)
+function getmail_field($field, $id)
 ```
 
-Returns the is_outbox flag of the email identified by the id argument
+Returns the field of the email identified by the id argument
 
-- @id => id of the email
+- @field => field requested
+- @id    => id of the email
 
 
 +++Receive+++
 
 ```
-function get_email_receive()
+function getmail_receive()
 ```
 
 This function implements the old getmail action of the old saltos.
+
+
++++Delete+++
+
+```
+function getmail_delete($ids)
+```
+
+This function implements the old delete action of the old saltos.
+
+- @ids => array with the emails id
+
+
++++Get viewpdf+++
+
+```
+function getmail_viewpdf($id, $cid)
+```
+
+This function returns the requested attachment indentified by the cid argument
+in a pdf format for the viewpdf widget
+
+- @id  => id of the email
+- @cid => the cid of the content requested
+
+
++++Get download+++
+
+```
+function getmail_download($id, $cid)
+```
+
+This function returns the requested attachment indentified by the cid argument
+in an array format for the download feature
+
+- @id  => id of the email
+- @cid => the cid of the content requested
+
+
++++TODO+++
+
+```
+function getmail_setter($ids, $action2)
+```
+
+TODO
 
 
 ++Send email library++
@@ -8130,12 +8624,12 @@ This function is intended to save the PHPMailer object into the obj file
 - @messageid => the message id computed previously
 
 
-+Invoices+
++Javascript+
 
 ++invoices application++
 
 ```
-apps/invoices/app.js
+apps/invoices/js/app.js
 ```
 
 This application implements the tipical features associated to invoices
@@ -8148,15 +8642,6 @@ saltos.invoices = {};
 ```
 
 This object contains all SaltOS code
-
-
-+++Initialize invoices+++
-
-```
-saltos.invoices.initialize_search = ()
-```
-
-This function initializes the invoices screen to improve the user experience.
 
 
 +++TODO+++
@@ -8207,7 +8692,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.invoices.remove_item = (obj)
+saltos.invoices.add_item = ()
 ```
 
 TODO
@@ -8216,7 +8701,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.invoices.add_item = ()
+saltos.invoices.remove_item = (obj)
 ```
 
 TODO
@@ -8234,7 +8719,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.invoices.clear_filter = ()
+saltos.invoices.reset = ()
 ```
 
 TODO
@@ -8243,16 +8728,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.invoices.read_more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.cancel = ()
+saltos.invoices.more = ()
 ```
 
 TODO
@@ -8279,18 +8755,25 @@ TODO
 +++TODO+++
 
 ```
-saltos.invoices.delete = ()
+saltos.invoices.delete1 = arg
 ```
 
 TODO
 
 
-+Login+
++++TODO+++
+
+```
+saltos.invoices.delete2 = ()
+```
+
+TODO
+
 
 ++Login application++
 
 ```
-apps/login/app.js
+apps/login/js/app.js
 ```
 
 This application implements the tipical features associated to login
@@ -8315,15 +8798,6 @@ This function tries to authenticate the user using the user and pass fields of t
 it uses the authenticate function that send data to the authtoken action
 
 
-+++Initialize login+++
-
-```
-saltos.login.initialize = ()
-```
-
-This function initializes the login screen to improve the user experience.
-
-
 +++Access denied+++
 
 ```
@@ -8331,5 +8805,138 @@ saltos.login.access_denied = ()
 ```
 
 This function displays a modal dialog with the tipical access denied message
+
+
++Tester+
+
+++TODO++
+
+```
+apps/tester/php/indexing.php
+```
+
+
+++TODO++
+
+```
+apps/tester/php/insert.php
+```
+
+
+++TODO++
+
+```
+apps/tester/php/pepe.php
+```
+
+
++Javascript+
+
+++Types application++
+
+```
+apps/types/js/app.js
+```
+
+This application implements the tipical features associated to types
+
+
++++Main object+++
+
+```
+saltos.types = {};
+```
+
+This object contains all SaltOS code
+
+
++++Initialize types+++
+
+```
+saltos.types.initialize = (id)
+```
+
+This function initializes the types screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.types.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.open = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.__open_helper = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.default = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.insert = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.update = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete = arg
+```
+
+TODO
 
 

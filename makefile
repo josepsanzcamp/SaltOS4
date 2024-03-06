@@ -42,7 +42,7 @@ devel:
 	cat code/web/htm/index.htm | php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js > code/web/index.htm
 
 docs:
-	php scripts/makedocs.php docs/document.t2t code/api/php code/web/js code/apps/*/app.js code/apps/*/php
+	php scripts/makedocs.php docs/document.t2t code/api/php code/web/js code/apps/*/js/app.js code/apps/*/php
 
 clean:
 	rm -f code/web/index.js
