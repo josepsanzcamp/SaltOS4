@@ -1,5 +1,5 @@
 Code documentation
-SaltOS 4.0 r727
+SaltOS 4.0 r733
 March 2024
 
 
@@ -4867,7 +4867,7 @@ This function add the MONTH to the SQLite database
 +++WEEK+++
 
 ```
-function __libsqlite_week($date, $mode)
+function __libsqlite_week($date, $mode = 0)
 ```
 
 This function add the WEEK to the SQLite database
@@ -5576,7 +5576,7 @@ if an error is detected in the response.
 +++Send request helper+++
 
 ```
-saltos.app.send_request = data
+saltos.app.send_request = hash
 ```
 
 This function allow to send requests to the server and process the response
@@ -5648,25 +5648,51 @@ to be used by the saltos.app.form.layout function.
 - @index       => the index used in all fields of the template
 
 
-+++TODO+++
++++Form layout helper+++
 
 ```
 saltos.app.form.layout = (layout, extra)
 ```
 
-TODO
+This function process the layout command, its able to process nodes as container, row, col and div
+and all form_field defined in the bootstrap file.
+
+Each objects as container, rows and cols, have two modes of works:
+
+1) normal mode => requires that the user specify all layout, container, row, col and fields.
+
+2) auto mode => only requires set auto='true' to the container, row or col, and with this, all childrens
+of the node are created inside the correct element, if the auto appear in the container then a container,
+a row and one col for each field are created, if the auto appear in the row then a row with one col for
+each field are created, if the auto appear in the col then one col for each field are created, this mode
+allow to optimize and speedup the creation of each screen by allow to reduce the amount of xml needed
+to define each screen but allowing to be a lot of specific and define from all to zero auto features.
+
+Notes:
+
+This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
+can retrieve the desired information of the fields.
 
 
-+++Form layout auto helper+++
++++Form layout auto helper object+++
 
 ```
 saltos.app.form.__layout_auto_helper = {};
 ```
 
+This object stores the functions used as layout_auto_helper for containers, rows and cols
+
+
++++Form layout auto helper for containers+++
+
+```
+saltos.app.form.__layout_auto_helper.container = layout
+```
+
 This functions implements the auto feature used by the layout function, allow to specify the
 follow arguments:
 
-- @auto            => this boolean allow to enable or not this feature
+- @id              => defines the id used by the container element
 - @container_class => defines the class used by the container element
 - @container_style => defines the style used by the container element
 - @row_class       => defines the class used by the row element
@@ -5675,31 +5701,40 @@ follow arguments:
 - @col_style       => defines the style used by the col element
 
 
-+++TODO+++
-
-```
-saltos.app.form.__layout_auto_helper.container = layout
-```
-
-TODO
-
-
-+++TODO+++
++++Form layout auto helper for rows+++
 
 ```
 saltos.app.form.__layout_auto_helper.row = layout
 ```
 
-TODO
+This functions implements the auto feature used by the layout function, allow to specify the
+follow arguments:
+
+- @id              => defines the id used by the container element
+- @row_class       => defines the class used by the row element
+- @row_style       => defines the style used by the row element
+- @col_class       => defines the class used by the col element
+- @col_style       => defines the style used by the col element
 
 
-+++TODO+++
++++Form layout auto helper for cols+++
 
 ```
 saltos.app.form.__layout_auto_helper.col = layout
 ```
 
-TODO
+This functions implements the auto feature used by the layout function, allow to specify the
+follow arguments:
+
+- @col_class       => defines the class used by the col element
+- @col_style       => defines the style used by the col element
+
+
+Notes:
+
+This function not allow to specify the id because in this functions, each object of the
+layout is embedded inside of a col object and is not suitable to put an id attribute
+to each col without repetitions.
 
 
 +++Form style helper+++
@@ -5714,6 +5749,8 @@ what kind of usage do you want to do.
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.core.require
 
+- @data => the object that contains the styles requirements (can be file or inline)
+
 
 +++Form javascript helper+++
 
@@ -5726,6 +5763,8 @@ what kind of usage do you want to do.
 
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.core.require
+
+- @data => the object that contains the javascript requirements (can be file or inline)
 
 
 +++Form title helper+++
@@ -5759,9 +5798,10 @@ to clear the screen by removing all contents of the body
 saltos.app.form.navbar = navbar
 ```
 
-This function create a navbar with their menus on the top of the page
+This function create a navbar with their menus on the top of the page, more
+info about this feature in the bootstrap documentation
 
-TODO
+- @navbar
 
 
 +++Source helper+++

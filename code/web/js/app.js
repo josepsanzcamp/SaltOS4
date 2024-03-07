@@ -157,9 +157,9 @@ saltos.app.check_response = response => {
  *
  * This function allow to send requests to the server and process the response
  */
-saltos.app.send_request = data => {
+saltos.app.send_request = hash => {
     saltos.core.ajax({
-        url: 'api/index.php?' + data,
+        url: 'api/index.php?' + hash,
         success: response => {
             if (!saltos.app.check_response(response)) {
                 return;
@@ -324,9 +324,26 @@ saltos.app.form.__layout_template_helper = (template_id, index) => {
 };
 
 /**
- * TODO
+ * Form layout helper
  *
- * TODO
+ * This function process the layout command, its able to process nodes as container, row, col and div
+ * and all form_field defined in the bootstrap file.
+ *
+ * Each objects as container, rows and cols, have two modes of works:
+ *
+ * 1) normal mode => requires that the user specify all layout, container, row, col and fields.
+ *
+ * 2) auto mode => only requires set auto='true' to the container, row or col, and with this, all childrens
+ * of the node are created inside the correct element, if the auto appear in the container then a container,
+ * a row and one col for each field are created, if the auto appear in the row then a row with one col for
+ * each field are created, if the auto appear in the col then one col for each field are created, this mode
+ * allow to optimize and speedup the creation of each screen by allow to reduce the amount of xml needed
+ * to define each screen but allowing to be a lot of specific and define from all to zero auto features.
+ *
+ * Notes:
+ *
+ * This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
+ * can retrieve the desired information of the fields.
  */
 saltos.app.form.layout = (layout, extra) => {
     // This code fix a problem when layout contains the content of a template
@@ -422,25 +439,25 @@ saltos.app.form.layout = (layout, extra) => {
 };
 
 /**
- * Form layout auto helper
+ * Form layout auto helper object
+ *
+ * This object stores the functions used as layout_auto_helper for containers, rows and cols
+ */
+saltos.app.form.__layout_auto_helper = {};
+
+/**
+ * Form layout auto helper for containers
  *
  * This functions implements the auto feature used by the layout function, allow to specify the
  * follow arguments:
  *
- * @auto            => this boolean allow to enable or not this feature
+ * @id              => defines the id used by the container element
  * @container_class => defines the class used by the container element
  * @container_style => defines the style used by the container element
  * @row_class       => defines the class used by the row element
  * @row_style       => defines the style used by the row element
  * @col_class       => defines the class used by the col element
  * @col_style       => defines the style used by the col element
- */
-saltos.app.form.__layout_auto_helper = {};
-
-/**
- * TODO
- *
- * TODO
  */
 saltos.app.form.__layout_auto_helper.container = layout => {
     var attr = layout['#attr'];
@@ -468,9 +485,16 @@ saltos.app.form.__layout_auto_helper.container = layout => {
 };
 
 /**
- * TODO
+ * Form layout auto helper for rows
  *
- * TODO
+ * This functions implements the auto feature used by the layout function, allow to specify the
+ * follow arguments:
+ *
+ * @id              => defines the id used by the container element
+ * @row_class       => defines the class used by the row element
+ * @row_style       => defines the style used by the row element
+ * @col_class       => defines the class used by the col element
+ * @col_style       => defines the style used by the col element
  */
 saltos.app.form.__layout_auto_helper.row = layout => {
     var attr = layout['#attr'];
@@ -497,9 +521,19 @@ saltos.app.form.__layout_auto_helper.row = layout => {
 };
 
 /**
- * TODO
+ * Form layout auto helper for cols
  *
- * TODO
+ * This functions implements the auto feature used by the layout function, allow to specify the
+ * follow arguments:
+ *
+ * @col_class       => defines the class used by the col element
+ * @col_style       => defines the style used by the col element
+ *
+ * Notes:
+ *
+ * This function not allow to specify the id because in this functions, each object of the
+ * layout is embedded inside of a col object and is not suitable to put an id attribute
+ * to each col without repetitions.
  */
 saltos.app.form.__layout_auto_helper.col = layout => {
     var attr = layout['#attr'];
@@ -551,6 +585,8 @@ saltos.app.form.__layout_auto_helper.col = layout => {
  *
  * Note that as some part of this code appear in the core.require function, we have decided
  * to replace it by a call to the saltos.core.require
+ *
+ * @data => the object that contains the styles requirements (can be file or inline)
  */
 saltos.app.form.style = data => {
     for (var key in data) {
@@ -575,6 +611,8 @@ saltos.app.form.style = data => {
  *
  * Note that as some part of this code appear in the core.require function, we have decided
  * to replace it by a call to the saltos.core.require
+ *
+ * @data => the object that contains the javascript requirements (can be file or inline)
  */
 saltos.app.form.javascript = data => {
     for (var key in data) {
@@ -658,9 +696,10 @@ saltos.app.form.screen = action => {
 /**
  * Form navbar helper
  *
- * This function create a navbar with their menus on the top of the page
+ * This function create a navbar with their menus on the top of the page, more
+ * info about this feature in the bootstrap documentation
  *
- * TODO
+ * @navbar
  */
 saltos.app.form.navbar = navbar => {
     navbar['#attr'] = saltos.app.parse_data(navbar['#attr']);

@@ -25,7 +25,7 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Code documentation</h1>
-<h2>SaltOS 4.0 r727</h2>
+<h2>SaltOS 4.0 r733</h2>
 <h3>March 2024</h3>
 </hgroup>
 </header>
@@ -947,15 +947,15 @@ pre{background-color:#e6e6e6;padding:5px 3px}
       </li>
       <li><a href="#toc405">4.1.12. Layout template helper</a>
       </li>
-      <li><a href="#toc406">4.1.13. TODO</a>
+      <li><a href="#toc406">4.1.13. Form layout helper</a>
       </li>
-      <li><a href="#toc407">4.1.14. Form layout auto helper</a>
+      <li><a href="#toc407">4.1.14. Form layout auto helper object</a>
       </li>
-      <li><a href="#toc408">4.1.15. TODO</a>
+      <li><a href="#toc408">4.1.15. Form layout auto helper for containers</a>
       </li>
-      <li><a href="#toc409">4.1.16. TODO</a>
+      <li><a href="#toc409">4.1.16. Form layout auto helper for rows</a>
       </li>
-      <li><a href="#toc410">4.1.17. TODO</a>
+      <li><a href="#toc410">4.1.17. Form layout auto helper for cols</a>
       </li>
       <li><a href="#toc411">4.1.18. Form style helper</a>
       </li>
@@ -8640,7 +8640,7 @@ This function add the MONTH to the SQLite database
 <h3>3.1.11. WEEK</h3>
 
 <pre>
-function __libsqlite_week($date, $mode)
+function __libsqlite_week($date, $mode = 0)
 </pre>
 
 <p>
@@ -9632,7 +9632,7 @@ if an error is detected in the response.
 <h3>4.1.6. Send request helper</h3>
 
 <pre>
-saltos.app.send_request = data
+saltos.app.send_request = hash
 </pre>
 
 <p>
@@ -9734,22 +9734,56 @@ to be used by the saltos.app.form.layout function.
 
 </section>
 <section id="toc406">
-<h3>4.1.13. TODO</h3>
+<h3>4.1.13. Form layout helper</h3>
 
 <pre>
 saltos.app.form.layout = (layout, extra)
 </pre>
 
 <p>
-TODO
+This function process the layout command, its able to process nodes as container, row, col and div
+and all form_field defined in the bootstrap file.
+</p>
+<p>
+Each objects as container, rows and cols, have two modes of works:
+</p>
+<p>
+1) normal mode =&gt; requires that the user specify all layout, container, row, col and fields.
+</p>
+<p>
+2) auto mode =&gt; only requires set auto='true' to the container, row or col, and with this, all childrens
+of the node are created inside the correct element, if the auto appear in the container then a container,
+a row and one col for each field are created, if the auto appear in the row then a row with one col for
+each field are created, if the auto appear in the col then one col for each field are created, this mode
+allow to optimize and speedup the creation of each screen by allow to reduce the amount of xml needed
+to define each screen but allowing to be a lot of specific and define from all to zero auto features.
+</p>
+<p>
+Notes:
+</p>
+<p>
+This function add the fields to the saltos.app.__form.fields, this allow to the saltos.app.get_data
+can retrieve the desired information of the fields.
 </p>
 
 </section>
 <section id="toc407">
-<h3>4.1.14. Form layout auto helper</h3>
+<h3>4.1.14. Form layout auto helper object</h3>
 
 <pre>
 saltos.app.form.__layout_auto_helper = {};
+</pre>
+
+<p>
+This object stores the functions used as layout_auto_helper for containers, rows and cols
+</p>
+
+</section>
+<section id="toc408">
+<h3>4.1.15. Form layout auto helper for containers</h3>
+
+<pre>
+saltos.app.form.__layout_auto_helper.container = layout
 </pre>
 
 <p>
@@ -9758,7 +9792,7 @@ follow arguments:
 </p>
 
 <ul>
-<li>@auto            =&gt; this boolean allow to enable or not this feature
+<li>@id              =&gt; defines the id used by the container element
 </li>
 <li>@container_class =&gt; defines the class used by the container element
 </li>
@@ -9775,39 +9809,58 @@ follow arguments:
 </ul>
 
 </section>
-<section id="toc408">
-<h3>4.1.15. TODO</h3>
-
-<pre>
-saltos.app.form.__layout_auto_helper.container = layout
-</pre>
-
-<p>
-TODO
-</p>
-
-</section>
 <section id="toc409">
-<h3>4.1.16. TODO</h3>
+<h3>4.1.16. Form layout auto helper for rows</h3>
 
 <pre>
 saltos.app.form.__layout_auto_helper.row = layout
 </pre>
 
 <p>
-TODO
+This functions implements the auto feature used by the layout function, allow to specify the
+follow arguments:
 </p>
+
+<ul>
+<li>@id              =&gt; defines the id used by the container element
+</li>
+<li>@row_class       =&gt; defines the class used by the row element
+</li>
+<li>@row_style       =&gt; defines the style used by the row element
+</li>
+<li>@col_class       =&gt; defines the class used by the col element
+</li>
+<li>@col_style       =&gt; defines the style used by the col element
+</li>
+</ul>
 
 </section>
 <section id="toc410">
-<h3>4.1.17. TODO</h3>
+<h3>4.1.17. Form layout auto helper for cols</h3>
 
 <pre>
 saltos.app.form.__layout_auto_helper.col = layout
 </pre>
 
 <p>
-TODO
+This functions implements the auto feature used by the layout function, allow to specify the
+follow arguments:
+</p>
+
+<ul>
+<li>@col_class       =&gt; defines the class used by the col element
+</li>
+<li>@col_style       =&gt; defines the style used by the col element
+</li>
+</ul>
+
+<p>
+Notes:
+</p>
+<p>
+This function not allow to specify the id because in this functions, each object of the
+layout is embedded inside of a col object and is not suitable to put an id attribute
+to each col without repetitions.
 </p>
 
 </section>
@@ -9827,6 +9880,11 @@ Note that as some part of this code appear in the core.require function, we have
 to replace it by a call to the saltos.core.require
 </p>
 
+<ul>
+<li>@data =&gt; the object that contains the styles requirements (can be file or inline)
+</li>
+</ul>
+
 </section>
 <section id="toc412">
 <h3>4.1.19. Form javascript helper</h3>
@@ -9843,6 +9901,11 @@ what kind of usage do you want to do.
 Note that as some part of this code appear in the core.require function, we have decided
 to replace it by a call to the saltos.core.require
 </p>
+
+<ul>
+<li>@data =&gt; the object that contains the javascript requirements (can be file or inline)
+</li>
+</ul>
 
 </section>
 <section id="toc413">
@@ -9890,11 +9953,14 @@ saltos.app.form.navbar = navbar
 </pre>
 
 <p>
-This function create a navbar with their menus on the top of the page
+This function create a navbar with their menus on the top of the page, more
+info about this feature in the bootstrap documentation
 </p>
-<p>
-TODO
-</p>
+
+<ul>
+<li>@navbar
+</li>
+</ul>
 
 </section>
 <section id="toc416">
