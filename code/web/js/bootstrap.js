@@ -2791,15 +2791,20 @@ saltos.bootstrap.__modal = {};
 saltos.bootstrap.modal = args => {
     // Helper actions
     if (args == 'close') {
-        return typeof saltos.bootstrap.__modal.instance == 'object' &&
-            saltos.bootstrap.__modal.instance.hide();
+        var bool = typeof saltos.bootstrap.__modal.instance == 'object';
+        if (bool) {
+            saltos.bootstrap.__modal.instance.dispose();
+            saltos.bootstrap.__modal.obj.remove();
+            delete saltos.bootstrap.__modal.instance;
+            delete saltos.bootstrap.__modal.obj;
+        }
+        return bool;
     }
     if (args == 'isopen') {
-        return typeof saltos.bootstrap.__modal.obj == 'object' &&
-            saltos.bootstrap.__modal.obj.classList.contains('show');
+        return typeof saltos.bootstrap.__modal.instance == 'object';
     }
     // Additional check
-    if (saltos.bootstrap.modal('isopen')) {
+    if (typeof saltos.bootstrap.__modal.instance == 'object') {
         return false;
     }
     // Normal operation
@@ -2856,8 +2861,10 @@ saltos.bootstrap.modal = args => {
         });
     });
     obj.addEventListener('hidden.bs.modal', event => {
-        instance.dispose();
-        obj.remove();
+        saltos.bootstrap.__modal.instance.dispose();
+        saltos.bootstrap.__modal.obj.remove();
+        delete saltos.bootstrap.__modal.instance;
+        delete saltos.bootstrap.__modal.obj;
     });
     instance.show();
     return true;
@@ -2877,10 +2884,10 @@ saltos.bootstrap.__offcanvas = {};
  *
  * 1) you can pass a string to get a quick action
  *
- * @close  => this string close the current modal
- * @isopen => this string is used to check if some modal is open at the moment
+ * @close  => this string close the current offcanvas
+ * @isopen => this string is used to check if some offcanvas is open at the moment
  *
- * 2) you can pass an object with the follow items, intended to open a new modal
+ * 2) you can pass an object with the follow items, intended to open a new offcanvas
  *
  * @id     => the id used by the object
  * @class  => allow to add more classes to the default offcanvas
@@ -2903,15 +2910,20 @@ saltos.bootstrap.__offcanvas = {};
 saltos.bootstrap.offcanvas = args => {
     // Helper actions
     if (args == 'close') {
-        return typeof saltos.bootstrap.__offcanvas.instance == 'object' &&
-            saltos.bootstrap.__offcanvas.instance.hide();
+        var bool = typeof saltos.bootstrap.__offcanvas.instance == 'object';
+        if (bool) {
+            saltos.bootstrap.__offcanvas.instance.dispose();
+            saltos.bootstrap.__offcanvas.obj.remove();
+            delete saltos.bootstrap.__offcanvas.instance;
+            delete saltos.bootstrap.__offcanvas.obj;
+        }
+        return bool;
     }
     if (args == 'isopen') {
-        return typeof saltos.bootstrap.__offcanvas.obj == 'object' &&
-            saltos.bootstrap.__offcanvas.obj.classList.contains('show');
+        return typeof saltos.bootstrap.__offcanvas.instance == 'object';
     }
     // Additional check
-    if (saltos.bootstrap.offcanvas('isopen')) {
+    if (typeof saltos.bootstrap.__offcanvas.instance == 'object') {
         return false;
     }
     // Normal operation
@@ -2950,8 +2962,10 @@ saltos.bootstrap.offcanvas = args => {
         });
     });
     obj.addEventListener('hidden.bs.offcanvas', event => {
-        instance.dispose();
-        obj.remove();
+        saltos.bootstrap.__offcanvas.instance.dispose();
+        saltos.bootstrap.__offcanvas.obj.remove();
+        delete saltos.bootstrap.__offcanvas.instance;
+        delete saltos.bootstrap.__offcanvas.obj;
     });
     instance.show();
     return true;

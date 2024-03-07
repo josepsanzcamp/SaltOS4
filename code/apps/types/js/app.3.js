@@ -185,7 +185,6 @@ saltos.types.open = arg => {
  * TODO
  */
 saltos.types.__open_helper = arg => {
-    saltos.bootstrap.modal("close");
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/index.php?' + arg.substr(1),
@@ -211,12 +210,19 @@ saltos.types.__open_helper = arg => {
                     var title = val;
                 } else if (key == 'layout') {
                     var obj = saltos.app.form.layout(val, 'div');
-                    saltos.bootstrap.modal({
+                    if (!saltos.bootstrap.modal({
                         title: title,
                         close: 'Close',
                         body: obj,
                         class: 'modal-lg',
-                    });
+                    })) {
+                        document.querySelector('.modal-title').innerHTML = title;
+                        document.querySelector('.modal-body').innerHTML = '';
+                        document.querySelector('.modal-body').append(obj);
+                        document.querySelectorAll('.modal-body [autofocus]').forEach(_this => {
+                            _this.focus();
+                        });
+                    }
                 } else {
                     saltos.app.form[key](val);
                 }
@@ -241,7 +247,7 @@ saltos.types.__open_helper = arg => {
  * TODO
  */
 saltos.types.default = () => {
-    saltos.bootstrap.modal("close");
+    saltos.bootstrap.modal('close');
     saltos.hash.add('app/types');
 };
 
@@ -342,6 +348,7 @@ saltos.types.update = arg => {
  * TODO
  */
 saltos.types.delete = arg => {
+    saltos.bootstrap.modal('close');
     saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
