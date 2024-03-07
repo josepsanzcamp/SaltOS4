@@ -2264,7 +2264,7 @@ saltos.bootstrap.__field.tags = field => {
  * @id     => the id used to set the reference for to the object
  * @class  => allow to add more classes to the default img-fluid
  * @label  => this parameter is used as text for the label
- * @images => the array with images, each image can be an string or object
+ * @images => the array with images, each image can be a string or object
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
  *
  * This widget requires venobox, masonry and imagesloaded
@@ -2757,7 +2757,7 @@ saltos.bootstrap.__modal = {};
  *
  * This function creates a bootstrap modal and open it, offers two ways of usage:
  *
- * 1) you can pass an string to get a quick action
+ * 1) you can pass a string to get a quick action
  *
  * @close  => this string close the current modal
  * @isopen => this string is used to check if some modal is open at the moment
@@ -2780,6 +2780,13 @@ saltos.bootstrap.__modal = {};
  *
  * This modal will be destroyed (instance and element) when it closes, too is important
  * to undestand that only one modal is allowed at each moment.
+ *
+ * Body and footer allow to use a string containing a html fragment or an object, and
+ * the footer too detects that the string contains something different to void, and if
+ * void content is detected, then the footer is removed.
+ *
+ * As an extra bonus, this widget has some tricks to improve the style of the footer, as
+ * you can see in the modal-footer part by removing the border and the top padding.
  */
 saltos.bootstrap.modal = args => {
     // Helper actions
@@ -2819,15 +2826,27 @@ saltos.bootstrap.modal = args => {
                     </div>
                     <div class="modal-body">
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer border-top-0 pt-0">
                     </div>
                 </div>
             </div>
         </div>
     `);
     document.body.append(obj);
-    obj.querySelector('.modal-body').append(saltos.core.html(args.body));
-    obj.querySelector('.modal-footer').append(args.footer);
+    if (typeof args.body == 'string') {
+        obj.querySelector('.modal-body').append(saltos.core.html(args.body));
+    } else {
+        obj.querySelector('.modal-body').append(args.body);
+    }
+    if (typeof args.footer == 'string') {
+        if (args.footer != '') {
+            obj.querySelector('.modal-footer').append(saltos.core.html(args.footer));
+        } else {
+            obj.querySelector('.modal-footer').remove();
+        }
+    } else {
+        obj.querySelector('.modal-footer').append(args.footer);
+    }
     var instance = new bootstrap.Modal(obj);
     saltos.bootstrap.__modal.obj = obj;
     saltos.bootstrap.__modal.instance = instance;
@@ -2856,7 +2875,7 @@ saltos.bootstrap.__offcanvas = {};
  *
  * This function creates a bootstrap offcanvas and open it, offers two ways of usage:
  *
- * 1) you can pass an string to get a quick action
+ * 1) you can pass a string to get a quick action
  *
  * @close  => this string close the current modal
  * @isopen => this string is used to check if some modal is open at the moment
@@ -2878,6 +2897,8 @@ saltos.bootstrap.__offcanvas = {};
  *
  * This offcanvas will be destroyed (instance and element) when it closes, too is important
  * to undestand that only one offcanvas is allowed at each moment.
+ *
+ * Body allow to use a string containing a html fragment or an object, as the modal body.
  */
 saltos.bootstrap.offcanvas = args => {
     // Helper actions
@@ -2915,7 +2936,11 @@ saltos.bootstrap.offcanvas = args => {
         </div>
     `);
     document.body.append(obj);
-    obj.querySelector('.offcanvas-body').append(saltos.core.html(args.body));
+    if (typeof args.body == 'string') {
+        obj.querySelector('.offcanvas-body').append(saltos.core.html(args.body));
+    } else {
+        obj.querySelector('.offcanvas-body').append(args.body);
+    }
     var instance = new bootstrap.Offcanvas(obj);
     saltos.bootstrap.__offcanvas.obj = obj;
     saltos.bootstrap.__offcanvas.instance = instance;
@@ -2960,6 +2985,8 @@ saltos.bootstrap.offcanvas = args => {
  * feature:
  *
  * @lib/md5/md5.min.js
+ *
+ * Body allow to use a string containing a html fragment or an object, as the modal body.
  */
 saltos.bootstrap.toast = args => {
     saltos.core.require('lib/md5/md5.min.js');
@@ -2992,7 +3019,11 @@ saltos.bootstrap.toast = args => {
         </div>
     `);
     document.querySelector('.toast-container').append(obj);
-    obj.querySelector('.toast-body').append(args.body);
+    if (typeof args.body == 'string') {
+        obj.querySelector('.toast-body').append(saltos.core.html(args.body));
+    } else {
+        obj.querySelector('.toast-body').append(args.body);
+    }
     var toast = new bootstrap.Toast(obj);
     obj.addEventListener('hidden.bs.toast', event => {
         toast.dispose();

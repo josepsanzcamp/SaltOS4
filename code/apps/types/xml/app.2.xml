@@ -30,7 +30,7 @@
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
-        <title>type2's list</title>
+        <title>Types list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">
@@ -98,7 +98,7 @@
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
-        <title>New type2</title>
+        <title>New type</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">
@@ -118,7 +118,7 @@
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <screen>clear</screen>
-        <title>Detail of the type2</title>
+        <title>Detail of the type</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">
@@ -144,7 +144,7 @@
     <edit>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <screen>clear</screen>
-        <title>Modify this type2</title>
+        <title>Modify this type</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">

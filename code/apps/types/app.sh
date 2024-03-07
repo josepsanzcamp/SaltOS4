@@ -1,4 +1,13 @@
 #!/bin/bash
 
-cp -f xml/app.$1.xml xml/app.xml
-cp -f js/app.$1.js js/app.js
+cd xml
+rm -f app.xml
+touch app.$1.xml
+ln -s app.$1.xml app.xml
+cd ..
+
+cd js
+rm -f app.js
+touch app.$1.js
+ln -s app.$1.js app.js
+cd ..

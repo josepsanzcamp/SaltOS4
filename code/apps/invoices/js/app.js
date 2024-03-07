@@ -243,7 +243,7 @@ saltos.invoices.more = () => {
  */
 saltos.invoices.insert = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
@@ -286,12 +286,12 @@ saltos.invoices.insert = () => {
  */
 saltos.invoices.update = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.app.alert('Warning', 'No changes detected', {color: 'danger'});
+        saltos.app.modal('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
     saltos.core.ajax({
@@ -333,7 +333,7 @@ saltos.invoices.update = () => {
  * TODO
  */
 saltos.invoices.delete1 = arg => {
-    saltos.app.alert('Delete this invoice???', 'Do you want to delete this invoice???', {
+    saltos.app.modal('Delete this invoice???', 'Do you want to delete this invoice???', {
         buttons: [{
             label: 'Yes',
             color: 'success',
@@ -387,7 +387,7 @@ saltos.invoices.delete1 = arg => {
  * TODO
  */
 saltos.invoices.delete2 = () => {
-    saltos.app.alert('Delete this invoice???', 'Do you want to delete this invoice???', {
+    saltos.app.modal('Delete this invoice???', 'Do you want to delete this invoice???', {
         buttons: [{
             label: 'Yes',
             color: 'success',

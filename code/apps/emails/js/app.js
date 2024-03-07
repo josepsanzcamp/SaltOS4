@@ -195,7 +195,7 @@ saltos.emails.getmail = () => {
 saltos.emails.delete1 = () => {
     var ids = saltos.app.checkbox_ids(document.getElementById('table'));
     if (!ids.length) {
-        saltos.app.alert(
+        saltos.app.modal(
             'Select emails',
             'You must select the desired emails to be deleted',
             {
@@ -204,7 +204,7 @@ saltos.emails.delete1 = () => {
         );
         return;
     }
-    saltos.app.alert('Delete emails???', 'Do you want to delete the selected emails???', {
+    saltos.app.modal('Delete emails???', 'Do you want to delete the selected emails???', {
         buttons: [{
             label: 'Yes',
             color: 'success',
@@ -259,7 +259,7 @@ saltos.emails.delete1 = () => {
  * TODO
  */
 saltos.emails.delete2 = () => {
-    saltos.app.alert('Delete this email???', 'Do you want to delete this email???', {
+    saltos.app.modal('Delete this email???', 'Do you want to delete this email???', {
         buttons: [{
             label: 'Yes',
             color: 'success',

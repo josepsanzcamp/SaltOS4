@@ -165,7 +165,7 @@ saltos.customers.more = () => {
  */
 saltos.customers.insert = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
@@ -208,12 +208,12 @@ saltos.customers.insert = () => {
  */
 saltos.customers.update = () => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.app.alert('Warning', 'No changes detected', {color: 'danger'});
+        saltos.app.modal('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
     saltos.core.ajax({
@@ -255,7 +255,7 @@ saltos.customers.update = () => {
  * TODO
  */
 saltos.customers.delete1 = arg => {
-    saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
+    saltos.app.modal('Delete this customer???', 'Do you want to delete this customer???', {
         buttons: [{
             label: 'Yes',
             color: 'success',
@@ -309,7 +309,7 @@ saltos.customers.delete1 = arg => {
  * TODO
  */
 saltos.customers.delete2 = () => {
-    saltos.app.alert('Delete this customer???', 'Do you want to delete this customer???', {
+    saltos.app.modal('Delete this customer???', 'Do you want to delete this customer???', {
         buttons: [{
             label: 'Yes',
             color: 'success',

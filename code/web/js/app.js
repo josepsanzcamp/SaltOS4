@@ -41,17 +41,17 @@
 saltos.app = {};
 
 /**
- * Alert function
+ * Modal function
  *
- * This function tries to implement an alert box, the main difference between the tipical alert
+ * This function tries to implement a modal box, the main difference between the tipical alert
  * is that this alert allow to you to specify the title and a more complex message, but it only
  * shows one button to close it.
  *
- * @title   => title of the alert modal dialog
- * @message => message of the alert modal dialog
+ * @title   => title of the modal dialog
+ * @message => message of the modal dialog
  * @extra   => object with array of buttons and color
  */
-saltos.app.alert = (title, message, extra) => {
+saltos.app.modal = (title, message, extra) => {
     if (typeof extra == 'undefined') {
         var extra = {};
     }
@@ -131,7 +131,7 @@ saltos.app.show_error = error => {
         saltos.app.form.screen('unloading');
         return;
     }
-    saltos.app.alert('Error ' + error.code, error.text, {color: 'danger'});
+    saltos.app.modal('Error ' + error.code, error.text, {color: 'danger'});
 };
 
 /**

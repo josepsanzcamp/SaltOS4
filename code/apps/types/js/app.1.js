@@ -265,7 +265,7 @@ saltos.types.default = () => {
  */
 saltos.types.insert = arg => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
@@ -307,12 +307,12 @@ saltos.types.insert = arg => {
  */
 saltos.types.update = arg => {
     if (!saltos.app.check_required()) {
-        saltos.app.alert('Warning', 'Required fields not found', {color: 'danger'});
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.app.alert('Warning', 'No changes detected', {color: 'danger'});
+        saltos.app.modal('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
     saltos.core.ajax({
@@ -353,7 +353,7 @@ saltos.types.update = arg => {
  * TODO
  */
 saltos.types.delete = arg => {
-    saltos.app.alert('Delete this register???', 'Do you want to delete this register???', {
+    saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
             color: 'success',
