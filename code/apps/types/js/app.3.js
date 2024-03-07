@@ -44,30 +44,13 @@ saltos.types = {};
  *
  * This function initializes the types screen to improve the user experience.
  */
-saltos.types.initialize = (id) => {
+saltos.types.initialize = () => {
     var hash = saltos.hash.get();
     hash = hash.split('/').filter(x => x.length);
     if (hash.length >= 4) {
         hash.splice(2, 1);
         saltos.types.__open_helper('#' + hash.join('/'));
     }
-
-    // This var store the initial offsetTop, this value changes
-    // when modify the style.martinTop, and is important to use
-    // the initial value in the sum with the offsetHeight
-    /*var offsetTop = document.getElementById('form').offsetTop;
-    window.addEventListener('scroll', event => {
-        var form = document.getElementById('form');
-        if (form.offsetLeft) {
-            if (window.innerHeight > form.offsetHeight + offsetTop) {
-                form.style.marginTop = window.scrollY + 'px';
-            } else {
-                form.style.marginTop = '0px';
-            }
-        } else {
-            form.style.marginTop = '0px';
-        }
-    });*/
 };
 
 /**
@@ -246,7 +229,7 @@ saltos.types.__open_helper = arg => {
  *
  * TODO
  */
-saltos.types.default = () => {
+saltos.types.close = () => {
     saltos.bootstrap.modal('close');
     saltos.hash.add('app/types');
 };
@@ -277,7 +260,7 @@ saltos.types.insert = arg => {
             }
             if (response.status == 'ok') {
                 saltos.types.search();
-                saltos.types.default();
+                saltos.types.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -325,7 +308,7 @@ saltos.types.update = arg => {
             }
             if (response.status == 'ok') {
                 saltos.types.search();
-                saltos.types.default();
+                saltos.types.close();
                 return;
             }
             saltos.app.show_error(response);

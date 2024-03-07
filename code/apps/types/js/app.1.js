@@ -44,32 +44,15 @@ saltos.types = {};
  *
  * This function initializes the types screen to improve the user experience.
  */
-saltos.types.initialize = (id) => {
+saltos.types.initialize = () => {
     var hash = saltos.hash.get();
     hash = hash.split('/').filter(x => x.length);
     if (hash.length >= 4) {
         hash.splice(2, 1);
         saltos.types.__open_helper('#' + hash.join('/'));
     } else {
-        saltos.types.default();
+        saltos.types.close();
     }
-
-    // This var store the initial offsetTop, this value changes
-    // when modify the style.martinTop, and is important to use
-    // the initial value in the sum with the offsetHeight
-    /*var offsetTop = document.getElementById('form').offsetTop;
-    window.addEventListener('scroll', event => {
-        var form = document.getElementById('form');
-        if (form.offsetLeft) {
-            if (window.innerHeight > form.offsetHeight + offsetTop) {
-                form.style.marginTop = window.scrollY + 'px';
-            } else {
-                form.style.marginTop = '0px';
-            }
-        } else {
-            form.style.marginTop = '0px';
-        }
-    });*/
 };
 
 /**
@@ -99,7 +82,7 @@ saltos.types.search = () => {
             response.id = 'table';
             var temp = saltos.bootstrap.field(response);
             document.getElementById('table').parentNode.replaceWith(temp);
-            saltos.types.default();
+            saltos.types.close();
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -241,21 +224,13 @@ saltos.types.__open_helper = arg => {
  *
  * TODO
  */
-saltos.types.default = () => {
+saltos.types.close = () => {
     document.getElementById('form').innerHTML = '';
     document.getElementById('form').append(saltos.bootstrap.field({
         'type': 'div',
         'class': 'bg-primary-subtle h-100',
     }));
     saltos.hash.add('app/types');
-    /*var interval = setInterval(() => {
-        var obj = document.querySelector('#list input[type=checkbox][value]');
-        if (obj) {
-            saltos.types.__open_helper(`#app/types/view/${obj.value}`);
-            saltos.hash.add('app/types');
-            clearInterval(interval);
-        }
-    }, 1);*/
 };
 
 /**

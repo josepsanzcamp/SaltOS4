@@ -116,7 +116,7 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.types.insert('#app/types/insert')" value="Crear" tooltip="Para crear el nuevo tipo" icon="check-lg"/>
-                <button onclick="saltos.types.default()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
+                <button onclick="saltos.types.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo tipo" icon="x-lg"/>
             </row>
         </layout>
     </create>
@@ -137,7 +137,7 @@
                 <button color="danger" value="Borrar" tooltip="Para borrar el tipo" icon="trash" accesskey="ctrl+delete">
                     <onclick eval="true">"saltos.types.delete('#app/types/delete/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.types.default()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+                <button onclick="saltos.types.close()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
@@ -159,7 +159,7 @@
                 <button value="Guardar" tooltip="Para guardar los cambios del tipo" icon="check-lg">
                     <onclick eval="true">"saltos.types.update('#app/types/update/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.types.default()" value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg"/>
+                <button onclick="saltos.types.close()" value="Cancelar" tooltip="Para cancelar la edición del tipo" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
