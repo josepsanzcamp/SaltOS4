@@ -199,11 +199,10 @@ saltos.types.__open_helper = arg => {
                         body: obj,
                         class: 'modal-lg',
                     })) {
-                        document.querySelector('.modal-title').innerHTML = title;
-                        document.querySelector('.modal-body').innerHTML = '';
-                        document.querySelector('.modal-body').append(obj);
-                        document.querySelectorAll('.modal-body [autofocus]').forEach(_this => {
-                            _this.focus();
+                        saltos.bootstrap.modal({
+                            replace: true,
+                            title: title,
+                            body: obj,
                         });
                     }
                 } else {

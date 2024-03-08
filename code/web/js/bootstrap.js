@@ -2759,20 +2759,21 @@ saltos.bootstrap.__modal = {};
  *
  * 1) you can pass a string to get a quick action
  *
- * @close  => this string close the current modal
- * @isopen => this string is used to check if some modal is open at the moment
+ * @close   => this string close the current modal
+ * @isopen  => this string is used to check if some modal is open at the moment
  *
  * 2) you can pass an object with the follow items, intended to open a new modal
  *
- * @id     => the id used by the object
- * @class  => allow to add more classes to the default dialog
- * @title  => title used by the modal
- * @close  => text used in the close button for aria purposes
- * @body   => the content used in the modal's body
- * @footer => the content used in the modal's footer
- * @static => forces the modal to be static (prevent close by clicking outside the modal or
- *            by pressing the escape key)
- * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @id      => the id used by the object
+ * @class   => allow to add more classes to the default dialog
+ * @title   => title used by the modal
+ * @close   => text used in the close button for aria purposes
+ * @body    => the content used in the modal's body
+ * @footer  => the content used in the modal's footer
+ * @static  => forces the modal to be static (prevent close by clicking outside the modal or
+ *             by pressing the escape key)
+ * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @replace => boolean that allow to replace the title, body and footer of an active modal
  *
  * Returns a boolean that indicates if the modal can be open or not
  *
@@ -2802,6 +2803,34 @@ saltos.bootstrap.modal = args => {
     }
     if (args == 'isopen') {
         return typeof saltos.bootstrap.__modal.instance == 'object';
+    }
+    if (args.hasOwnProperty('replace') && saltos.core.eval_bool(args.replace)) {
+        var bool = typeof saltos.bootstrap.__modal.instance == 'object';
+        if (bool) {
+            var obj = saltos.bootstrap.__modal.obj;
+            obj.querySelector('.modal-title').innerHTML = args.title;
+            obj.querySelector('.modal-body').innerHTML = '';
+            if (typeof args.body == 'string') {
+                obj.querySelector('.modal-body').append(saltos.core.html(args.body));
+            } else {
+                obj.querySelector('.modal-body').append(args.body);
+            }
+            if (obj.querySelector('.modal-footer')) {
+                if (typeof args.footer == 'string') {
+                    if (args.footer != '') {
+                        obj.querySelector('.modal-footer').append(saltos.core.html(args.footer));
+                    } else {
+                        obj.querySelector('.modal-footer').remove();
+                    }
+                } else {
+                    obj.querySelector('.modal-footer').append(args.footer);
+                }
+            }
+            obj.querySelectorAll('[autofocus]').forEach(_this => {
+                _this.focus();
+            });
+        }
+        return bool;
     }
     // Additional check
     if (typeof saltos.bootstrap.__modal.instance == 'object') {
