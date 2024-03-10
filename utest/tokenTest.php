@@ -35,9 +35,9 @@ declare(strict_types=1);
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-final class tokensTest extends TestCase
+final class tokenTest extends TestCase
 {
-    public function test_authtoken(): Array
+    public function test_authtoken(): array
     {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?authtoken", [
             "method" => "post",
@@ -97,6 +97,5 @@ final class tokensTest extends TestCase
         $json = json_decode($response["body"], true);
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 1);
-        $this->assertArrayHasKey("status", $json);
     }
 }

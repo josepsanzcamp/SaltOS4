@@ -62,4 +62,4 @@ check:
 
 utest:
 	cd code/api; \
-	phpunit --testdox --colors=auto ../../utest
+	phpunit -c ../../utest/phpunit.xml
