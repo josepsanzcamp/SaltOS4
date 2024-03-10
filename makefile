@@ -61,4 +61,5 @@ check:
 .PHONY: utest docs
 
 utest:
-	phpunit --testdox --colors=auto utest
+	cd code/api; \
+	phpunit --testdox --colors=auto ../../utest

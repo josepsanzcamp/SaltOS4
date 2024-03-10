@@ -34,25 +34,9 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-chdir("code/api");
-
-require_once "php/autoload/database.php";
-require_once "php/autoload/error.php";
-require_once "php/autoload/strings.php";
-require_once "php/autoload/log.php";
-require_once "php/autoload/datetime.php";
-require_once "php/autoload/server.php";
-require_once "php/autoload/file.php";
-require_once "php/autoload/config.php";
-require_once "php/autoload/output.php";
-require_once "php/autoload/version.php";
-require_once "php/autoload/exec.php";
-require_once "php/autoload/sql.php";
-require_once "php/autoload/semaphores.php";
-
 final class databaseTest extends TestCase
 {
-    private function test_helper($obj, $number_to_string = false): void
+    private function test_helper($obj): void
     {
         ini_set("date.timezone", "Europe/Madrid");
 
@@ -62,10 +46,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => [1],
             "rows" => [
-                [1 => $number_to_string ? "1" : 1],
+                [1 => 1],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // GROUP_CONCAT test part
         $query = "SELECT GROUP_CONCAT(a) test FROM (SELECT 1 a UNION SELECT 2 a UNION SELECT 3 a) a;";
@@ -128,10 +112,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "1706787296" : 1706787296],
+                ["test" => 1706787296],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // FROM_UNIXTIME test part
         $query = "SELECT FROM_UNIXTIME(1706787296) test";
@@ -150,10 +134,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "2024" : 2024],
+                ["test" => 2024],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // MONTH test part
         $query = "SELECT MONTH('2024-02-01 12:34:56') test";
@@ -161,10 +145,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "2" : 2],
+                ["test" => 2],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // WEEK test part
         $query = "SELECT WEEK('2024-02-01 12:34:56', 1) test";
@@ -172,10 +156,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "5" : 5],
+                ["test" => 5],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // TRUNCATE test part
         $query = "SELECT TRUNCATE(1.2345, 2) test";
@@ -194,10 +178,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "1" : 1],
+                ["test" => 1],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // DAYOFYEAR test part
         $query = "SELECT DAYOFYEAR('2024-02-01 12:34:56') test";
@@ -205,10 +189,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "32" : 32],
+                ["test" => 32],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // DAYOFWEEK test part
         $query = "SELECT DAYOFWEEK('2024-02-01 12:34:56') test";
@@ -216,10 +200,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "5" : 5],
+                ["test" => 5],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // HOUR test part
         $query = "SELECT HOUR('2024-02-01 12:34:56') test";
@@ -227,10 +211,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "12" : 12],
+                ["test" => 12],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // MINUTE test part
         $query = "SELECT MINUTE('2024-02-01 12:34:56') test";
@@ -238,10 +222,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "34" : 34],
+                ["test" => 34],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // SECOND test part
         $query = "SELECT SECOND('2024-02-01 12:34:56') test";
@@ -249,10 +233,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "56" : 56],
+                ["test" => 56],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // MD5 test part
         $query = "SELECT MD5('fortuna') test";
@@ -282,30 +266,30 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "3" : 3],
+                ["test" => 3],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         $query = "SELECT FIND_IN_SET(6,'1,2,3,4,5') test";
         $result = [
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "0" : 0],
+                ["test" => 0],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         $query = "SELECT FIND_IN_SET(3,'12345') test";
         $result = [
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "0" : 0],
+                ["test" => 0],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // IF test part
         $query = "SELECT IF(true, 'ok', 'ko') test";
@@ -344,10 +328,10 @@ final class databaseTest extends TestCase
             "total" => 1,
             "header" => ["test"],
             "rows" => [
-                ["test" => $number_to_string ? "256" : 256.],
+                ["test" => 256],
             ],
         ];
-        $this->assertSame($obj->db_query($query), $result);
+        $this->assertEquals($obj->db_query($query), $result);
 
         // DATE_FORMAT test part
         $query = "SELECT DATE_FORMAT('2024-02-01 12:34:56', '%Y-%m-%d %H:%i:%s') test";
