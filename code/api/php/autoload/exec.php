@@ -81,7 +81,7 @@ function ob_passthru($cmd, $expires = 0)
     }
     if ($expires) {
         file_put_contents($cache, $buffer);
-        chmod($cache, 0666);
+        chmod_protected($cache, 0666);
     }
     return $buffer;
 }

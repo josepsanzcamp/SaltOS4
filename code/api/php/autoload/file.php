@@ -349,16 +349,21 @@ function glob_protected($pattern)
  * Chmod Protected
  *
  * This function tries to change the mode of the file using the chmod function
- * only if the fileperms of the file are different that the requested mode
+ * only if the fileperms of the file are different that the requested mode and
+ * the fileowner of the file is the same user that is executing the script
  *
  * @file => file used by the chmod function
  * @mode => mode used by the chmod function
  */
 function chmod_protected($file, $mode)
 {
-    if ((fileperms($file) & 0777) != $mode) {
-        chmod($file, $mode);
+    if ((fileperms($file) & 0777) === $mode) {
+        return;
     }
+    if (fileowner($file) !== posix_getuid()) {
+        return;
+    }
+    chmod($file, $mode);
 }
 
 /**

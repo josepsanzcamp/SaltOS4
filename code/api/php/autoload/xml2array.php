@@ -206,7 +206,7 @@ function xmlfile2array($file, $usecache = true)
     $array = xml2array($xml, $file);
     if ($usecache) {
         file_put_contents($cache, serialize($array));
-        chmod($cache, 0666);
+        chmod_protected($cache, 0666);
     }
     semaphore_release($file);
     return $array["root"];
