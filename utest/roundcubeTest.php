@@ -33,36 +33,18 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
-final class autoloadTest extends TestCase
+final class roundcubeTest extends TestCase
 {
-    public function test_autoload(): void
+    public function test_html2Text(): void
     {
-        $count = 0;
-        foreach (glob("php/autoload/*.php") as $file) {
-            if (basename($file) == "zindex.php") {
-                continue;
-            }
-            require $file;
-            $count++;
-        }
-        $this->assertSame($count, 42);
-    }
+        $html = 'The SaltOS project<br/><a href="https://www.saltos.org">www.saltos.org</a>';
+        $text = 'The SaltOS project
+www.saltos.org [1]
 
-    public function test_timer(): void
-    {
-        init_timer();
-        $this->assertTrue(true);
-    }
-
-    public function test_random(): void
-    {
-        init_random();
-        $this->assertTrue(true);
-    }
-
-    public function test_system(): void
-    {
-        check_system();
-        $this->assertTrue(true);
+Links:
+------
+[1] https://www.saltos.org
+';
+        $this->assertSame(html2text($html), $text);
     }
 }
