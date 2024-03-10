@@ -47,7 +47,6 @@ saltos.core = {};
  */
 saltos.core.onerror = (event, source, lineno, colno, error) => {
     var data = {
-        'action': 'adderror',
         'jserror': event,
         'details': 'Error on file ' + source + ':' + lineno + ':' + colno +
                    ', userAgent is ' + navigator.userAgent,
@@ -57,7 +56,7 @@ saltos.core.onerror = (event, source, lineno, colno, error) => {
         data.backtrace = error.stack;
     }
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: 'api/index.php?adderror',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -83,11 +82,10 @@ window.onerror = saltos.core.onerror;
  */
 saltos.core.addlog = msg => {
     var data = {
-        'action': 'addlog',
         'msg': msg,
     };
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: 'api/index.php?addlog',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',

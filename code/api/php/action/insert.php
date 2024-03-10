@@ -41,7 +41,7 @@ if (!$user_id) {
     show_json_error("Permission denied");
 }
 
-$app = get_data("json/app");
+$app = get_data("rest/1");
 $data = get_data("json/data");
 
 if (!check_app_perm_id($app, "create")) {

@@ -40,19 +40,6 @@ declare(strict_types=1);
  *       of specific customer using the id
  */
 
-// With this code, we allow rest and json at the same time
-if (get_data("json/app") != "" && get_data("rest/1") == "") {
-    set_data("rest/1", get_data("json/app"));
-}
-
-if (get_data("json/subapp") != "" && get_data("rest/2") == "") {
-    set_data("rest/2", get_data("json/subapp"));
-}
-
-if (get_data("json/id") != "" && get_data("rest/3") == "") {
-    set_data("rest/3", get_data("json/id"));
-}
-
 // Check for rest/1, that is the name of the app to load
 if (get_data("rest/1") == "") {
     show_json_error("app not found");

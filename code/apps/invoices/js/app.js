@@ -147,12 +147,10 @@ saltos.invoices.remove_item = (obj) => {
 saltos.invoices.search = () => {
     document.getElementById('page').value = '0';
     saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?list/${app}/table`,
         data: JSON.stringify({
-            'action': 'list',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
         }),
@@ -199,12 +197,10 @@ saltos.invoices.reset = () => {
 saltos.invoices.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?list/${app}/table`,
         data: JSON.stringify({
-            'action': 'list',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
         }),
@@ -247,11 +243,10 @@ saltos.invoices.insert = () => {
         return;
     }
     var data = saltos.app.get_data();
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?insert/${app}`,
         data: JSON.stringify({
-            'action': 'insert',
-            'app': saltos.hash.get().split('/').at(1),
             'data': data,
         }),
         method: 'post',
@@ -294,12 +289,11 @@ saltos.invoices.update = () => {
         saltos.app.modal('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
+    var app = saltos.hash.get().split('/').at(1);
+    var id = saltos.hash.get().split('/').at(3);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?update/${app}/${id}`,
         data: JSON.stringify({
-            'action': 'update',
-            'app': saltos.hash.get().split('/').at(1),
-            'id': saltos.hash.get().split('/').at(3),
             'data': data,
         }),
         method: 'post',
@@ -341,15 +335,10 @@ saltos.invoices.delete1 = arg => {
             autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
+                var app = arg.split('/').at(1);
+                var id = arg.split('/').at(3);
                 saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'delete',
-                        'app': arg.split('/').at(1),
-                        'id': arg.split('/').at(3),
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
+                    url: `api/index.php?delete/${app}/${id}`,
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;
@@ -395,15 +384,10 @@ saltos.invoices.delete2 = () => {
             autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
+                var app = saltos.hash.get().split('/').at(1);
+                var id = saltos.hash.get().split('/').at(3);
                 saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'delete',
-                        'app': saltos.hash.get().split('/').at(1),
-                        'id': saltos.hash.get().split('/').at(3),
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
+                    url: `api/index.php?delete/${app}/${id}`,
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;

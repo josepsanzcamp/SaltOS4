@@ -223,9 +223,8 @@ saltos.authenticate = {};
  */
 saltos.authenticate.authtoken = (user, pass) => {
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: 'api/index.php?authtoken',
         data: JSON.stringify({
-            'action': 'authtoken',
             'user': user,
             'pass': pass,
         }),
@@ -265,12 +264,7 @@ saltos.authenticate.authtoken = (user, pass) => {
  */
 saltos.authenticate.reauthtoken = () => {
     saltos.core.ajax({
-        url: 'api/index.php',
-        data: JSON.stringify({
-            'action': 'reauthtoken',
-        }),
-        method: 'post',
-        content_type: 'application/json',
+        url: 'api/index.php?reauthtoken',
         async: false,
         success: response => {
             if (!saltos.app.check_response(response)) {
@@ -308,12 +302,7 @@ saltos.authenticate.reauthtoken = () => {
  */
 saltos.authenticate.deauthtoken = () => {
     saltos.core.ajax({
-        url: 'api/index.php',
-        data: JSON.stringify({
-            'action': 'deauthtoken',
-        }),
-        method: 'post',
-        content_type: 'application/json',
+        url: 'api/index.php?deauthtoken',
         async: false,
         success: response => {
             if (!saltos.app.check_response(response)) {
@@ -350,12 +339,7 @@ saltos.authenticate.deauthtoken = () => {
  */
 saltos.authenticate.checktoken = () => {
     saltos.core.ajax({
-        url: 'api/index.php',
-        data: JSON.stringify({
-            'action': 'checktoken',
-        }),
-        method: 'post',
-        content_type: 'application/json',
+        url: 'api/index.php?checktoken',
         async: false,
         success: response => {
             if (!saltos.app.check_response(response)) {

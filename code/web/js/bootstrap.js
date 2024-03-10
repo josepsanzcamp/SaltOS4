@@ -1206,12 +1206,11 @@ saltos.bootstrap.__field.file = field => {
         var table = row.parentNode.parentNode;
         var input = table.parentNode.previousElementSibling;
         var data = {
-            action: 'delfiles',
             files: [],
         };
         data.files[0] = row.saltos_data;
         saltos.core.ajax({
-            url: 'api/index.php',
+            url: 'api/index.php?delfiles',
             data: JSON.stringify(data),
             method: 'post',
             content_type: 'application/json',
@@ -1249,7 +1248,6 @@ saltos.bootstrap.__field.file = field => {
         for (var i = 0; i < files.length; i++) {
             // Prepare the data to send
             var data = {
-                action: 'addfiles',
                 files: [],
             };
             data.files[0] = {
@@ -1297,7 +1295,7 @@ saltos.bootstrap.__field.file = field => {
                 // This allow multiple uploads in parallel
                 ((data, row) => {
                     saltos.core.ajax({
-                        url: 'api/index.php',
+                        url: 'api/index.php?addfiles',
                         data: JSON.stringify(data),
                         method: 'post',
                         content_type: 'application/json',
@@ -2794,10 +2792,7 @@ saltos.bootstrap.modal = args => {
     if (args == 'close') {
         var bool = typeof saltos.bootstrap.__modal.instance == 'object';
         if (bool) {
-            saltos.bootstrap.__modal.instance.dispose();
-            saltos.bootstrap.__modal.obj.remove();
-            delete saltos.bootstrap.__modal.instance;
-            delete saltos.bootstrap.__modal.obj;
+            saltos.bootstrap.__modal.instance.hide();
         }
         return bool;
     }
@@ -2941,10 +2936,7 @@ saltos.bootstrap.offcanvas = args => {
     if (args == 'close') {
         var bool = typeof saltos.bootstrap.__offcanvas.instance == 'object';
         if (bool) {
-            saltos.bootstrap.__offcanvas.instance.dispose();
-            saltos.bootstrap.__offcanvas.obj.remove();
-            delete saltos.bootstrap.__offcanvas.instance;
-            delete saltos.bootstrap.__offcanvas.obj;
+            saltos.bootstrap.__offcanvas.instance.hide();
         }
         return bool;
     }

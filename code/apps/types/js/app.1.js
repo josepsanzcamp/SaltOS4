@@ -63,12 +63,10 @@ saltos.types.initialize = () => {
 saltos.types.search = () => {
     document.getElementById('page').value = '0';
     saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?list/${app}/table`,
         data: JSON.stringify({
-            'action': 'list',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
         }),
@@ -116,12 +114,10 @@ saltos.types.reset = () => {
 saltos.types.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?list/${app}/table`,
         data: JSON.stringify({
-            'action': 'list',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
         }),
@@ -174,7 +170,6 @@ saltos.types.__open_helper = arg => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/index.php?' + arg.substr(1),
-        method: 'get',
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
@@ -244,11 +239,10 @@ saltos.types.insert = arg => {
         return;
     }
     var data = saltos.app.get_data();
+    var app = arg.split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?insert/${app}`,
         data: JSON.stringify({
-            'action': 'insert',
-            'app': arg.split('/').at(1),
             'data': data,
         }),
         method: 'post',
@@ -290,12 +284,11 @@ saltos.types.update = arg => {
         saltos.app.modal('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
+    var app = arg.split('/').at(1);
+    var id = arg.split('/').at(3);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?update/${app}/${id}`,
         data: JSON.stringify({
-            'action': 'update',
-            'app': arg.split('/').at(1),
-            'id': arg.split('/').at(3),
             'data': data,
         }),
         method: 'post',
@@ -336,15 +329,10 @@ saltos.types.delete = arg => {
             autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
+                var app = arg.split('/').at(1);
+                var id = arg.split('/').at(3);
                 saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'delete',
-                        'app': arg.split('/').at(1),
-                        'id': arg.split('/').at(3),
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
+                    url: `api/index.php?delete/${app}/${id}`,
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;

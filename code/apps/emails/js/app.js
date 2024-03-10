@@ -58,12 +58,10 @@ saltos.emails.initialize = () => {
 saltos.emails.search = () => {
     document.getElementById('page').value = '0';
     saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?list/${app}/table`,
         data: JSON.stringify({
-            'action': 'list',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
         }),
@@ -110,12 +108,10 @@ saltos.emails.reset = () => {
 saltos.emails.more = () => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?list/${app}/table`,
         data: JSON.stringify({
-            'action': 'list',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'table',
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
         }),
@@ -154,16 +150,9 @@ saltos.emails.more = () => {
  */
 saltos.emails.getmail = () => {
     saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: 'api/index.php',
-        data: JSON.stringify({
-            'action': 'app',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'action',
-            'id': 'getmail',
-        }),
-        method: 'post',
-        content_type: 'application/json',
+        url: `api/index.php?app/${app}/action/getmail`,
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
@@ -212,17 +201,10 @@ saltos.emails.delete1 = () => {
             autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
+                var app = saltos.hash.get().split('/').at(1);
+                ids = ids.join(',');
                 saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'app',
-                        'app': saltos.hash.get().split('/').at(1),
-                        'subapp': 'action',
-                        'id': 'delete',
-                        'ids': ids,
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
+                    url: `api/index.php?app/${app}/action/delete/${ids}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
@@ -267,17 +249,10 @@ saltos.emails.delete2 = () => {
             autofocus: true,
             onclick: () => {
                 saltos.app.form.screen('loading');
+                var app = saltos.hash.get().split('/').at(1);
+                var id = saltos.hash.get().split('/').at(3);
                 saltos.core.ajax({
-                    url: 'api/index.php',
-                    data: JSON.stringify({
-                        'action': 'app',
-                        'app': saltos.hash.get().split('/').at(1),
-                        'subapp': 'action',
-                        'id': 'delete',
-                        'ids': [saltos.hash.get().split('/').at(3)],
-                    }),
-                    method: 'post',
-                    content_type: 'application/json',
+                    url: `api/index.php?app/${app}/action/delete/${id}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
@@ -325,7 +300,6 @@ saltos.emails.send = () => {
 saltos.emails.download = (file) => {
     saltos.core.ajax({
         url: 'api/index.php?' + file.substr(1),
-        method: 'get',
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
@@ -356,14 +330,11 @@ saltos.emails.download = (file) => {
  * TODO
  */
 saltos.emails.setter = what => {
+    var app = saltos.hash.get().split('/').at(1);
+    var id = saltos.hash.get().split('/').at(3);
     saltos.core.ajax({
-        url: 'api/index.php',
+        url: `api/index.php?app/${app}/action/setter/${id}`,
         data: JSON.stringify({
-            'action': 'app',
-            'app': saltos.hash.get().split('/').at(1),
-            'subapp': 'action',
-            'id': 'setter',
-            'ids': [saltos.hash.get().split('/').at(3)],
             'what': what,
         }),
         method: 'post',

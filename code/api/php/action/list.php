@@ -37,28 +37,15 @@ declare(strict_types=1);
  * TODO: pending to add the order by from the list header
  */
 
-// With this code, we allow rest and json at the same time
-if (get_data("rest/1") != "" && get_data("json/app") == "") {
-    set_data("json/app", get_data("rest/1"));
-}
-
-if (get_data("rest/2") != "" && get_data("json/subapp") == "") {
-    set_data("json/subapp", get_data("rest/2"));
-}
-
-if (get_data("rest/3") != "" && get_data("json/id") == "") {
-    set_data("json/id", get_data("rest/3"));
-}
-
-// Check for json/app, that is the name of the app to load
-if (get_data("json/app") == "") {
+// Check for rest/1, that is the name of the app to load
+if (get_data("rest/1") == "") {
     show_json_error("app not found");
 }
 
-set_data("json/app", encode_bad_chars(get_data("json/app")));
-$file = "apps/" . get_data("json/app") . "/xml/app.xml";
+set_data("rest/1", encode_bad_chars(get_data("rest/1")));
+$file = "apps/" . get_data("rest/1") . "/xml/app.xml";
 if (!file_exists($file)) {
-    show_json_error("app " . get_data("json/app") . " not found");
+    show_json_error("app " . get_data("rest/1") . " not found");
 }
 
 // Load the app xml file
@@ -68,45 +55,45 @@ if (!is_array($array) || !count($array)) {
     show_json_error("internal error");
 }
 
-// Check for json/subapp, that is the name of the subapp to load
-if (get_data("json/subapp") == "" && count($array) == 1) {
-    set_data("json/subapp", key($array));
+// Check for rest/2, that is the name of the subapp to load
+if (get_data("rest/2") == "" && count($array) == 1) {
+    set_data("rest/2", key($array));
 }
 
-if (get_data("json/subapp") == "") {
+if (get_data("rest/2") == "") {
     foreach ($array as $key => $val) {
         if (isset($val["#attr"]["default"]) && eval_bool($val["#attr"]["default"])) {
-            set_data("json/subapp", $key);
+            set_data("rest/2", $key);
         }
     }
 }
 
-if (get_data("json/subapp") == "") {
+if (get_data("rest/2") == "") {
     show_json_error("subapp not found");
 }
 
-set_data("json/subapp", encode_bad_chars(get_data("json/subapp")));
-if (!isset($array[get_data("json/subapp")])) {
-    show_json_error("subapp " . get_data("json/subapp") . " not found");
+set_data("rest/2", encode_bad_chars(get_data("rest/2")));
+if (!isset($array[get_data("rest/2")])) {
+    show_json_error("subapp " . get_data("rest/2") . " not found");
 }
 
 // Check permissions
-if (!check_app_perm_id(get_data("json/app"), "list")) {
+if (!check_app_perm_id(get_data("rest/1"), "list")) {
     show_json_error("Permission denied");
 }
 
 // Trick to allow requests like widget/table2
 foreach ($array as $key => $val) {
     if (isset($val["#attr"]["id"])) {
-        if (fix_key($key) == get_data("json/subapp") && $val["#attr"]["id"] == get_data("json/id")) {
-            set_data("json/subapp", $key);
+        if (fix_key($key) == get_data("rest/2") && $val["#attr"]["id"] == get_data("rest/3")) {
+            set_data("rest/2", $key);
         }
     }
 }
 
 // Get only the subapp part
-$array = $array[get_data("json/subapp")];
-set_data("json/subapp", fix_key(get_data("json/subapp")));
+$array = $array[get_data("rest/2")];
+set_data("rest/2", fix_key(get_data("rest/2")));
 
 // This line is a trick to allow attr in the subapp
 $array = join4array($array);

@@ -1373,8 +1373,8 @@ function getmail_receive()
  */
 function getmail_delete($ids)
 {
-    $numids = count($ids);
-    $ids = implode(",", $ids);
+    $ids = check_ids($ids);
+    $numids = count(explode(",", $ids));
     $query = "SELECT id FROM
         app_emails a
         WHERE id IN ($ids)
@@ -1444,9 +1444,6 @@ function getmail_delete($ids)
         make_index("emails", $id);
     }
     // MOSTRAR RESULTADO
-    //~ session_alert(
-        //~ LANG("msgnumdelete", "correo") . $numids . LANG("message" . min($numids, 2), "correo")
-    //~ );
     return "$numids email(s) deleted";
 }
 
@@ -1502,8 +1499,8 @@ function getmail_download($id, $cid)
  */
 function getmail_setter($ids, $action2)
 {
-    $numids = count($ids);
-    $ids = implode(",", $ids);
+    $ids = check_ids($ids);
+    $numids = count(explode(",", $ids));
     $query = "SELECT id FROM
         app_emails a
         WHERE id IN ($ids)

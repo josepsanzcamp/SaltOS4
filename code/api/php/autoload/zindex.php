@@ -136,11 +136,10 @@ if (get_data("server/request_method") == "GET" && get_data("rest/0") != "") {
 
 // Check for a POST JSON action request
 if (
-    get_data("server/request_method") == "POST" &&
-    get_data("server/content_type") == "application/json" &&
-    get_data("json/action") != ""
+    get_data("server/request_method") == "POST" && get_data("rest/0") != "" &&
+    get_data("server/content_type") == "application/json" && count(get_data("json"))
 ) {
-    $action = "php/action/" . encode_bad_chars(get_data("json/action")) . ".php";
+    $action = "php/action/" . encode_bad_chars(get_data("rest/0")) . ".php";
     if (file_exists($action)) {
         require $action;
     }
