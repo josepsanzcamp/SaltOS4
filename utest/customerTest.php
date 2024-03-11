@@ -34,7 +34,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-final class tokenTest extends TestCase
+final class customerTest extends TestCase
 {
     public function test_authtoken(): array
     {
@@ -56,45 +56,72 @@ final class tokenTest extends TestCase
     }
 
     #[Depends('test_authtoken')]
-    public function test_checktoken(array $json): array
+    public function test_insert(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?insert/customers", [
+            "body" => json_encode([
+                "data" => [
+                    "nombre" => "The SaltOS project",
+                    "cif" => "12345678X",
+                    "nombre_poblacion" => "Barcelona",
+                    "nombre_codpostal" => "08001",
+                ],
+            ]),
+            "method" => "post",
             "headers" => [
+                "Content-Type" => "application/json",
                 "token" => $json["token"],
             ],
         ]);
-        $json = json_decode($response["body"], true);
-        $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 7);
-        $this->assertArrayHasKey("token", $json);
-        return $json;
+        $json2 = json_decode($response["body"], true);
+        $this->assertSame($json2["status"], "ok");
+        $this->assertSame(count($json2), 2);
+        $this->assertArrayHasKey("created_id", $json2);
+        return [
+            "token" => $json["token"],
+            "created_id" => $json2["created_id"],
+        ];
     }
 
-    #[Depends('test_checktoken')]
-    public function test_reauthtoken(array $json): array
+    #[Depends('test_insert')]
+    public function test_update(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?reauthtoken", [
+        $id = $json["created_id"];
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?update/customers/$id", [
+            "body" => json_encode([
+                "data" => [
+                    "nombre" => "The SaltOS project v2",
+                    "cif" => "12345678Z",
+                ],
+            ]),
+            "method" => "post",
             "headers" => [
+                "Content-Type" => "application/json",
                 "token" => $json["token"],
             ],
         ]);
-        $json = json_decode($response["body"], true);
-        $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 7);
-        $this->assertArrayHasKey("token", $json);
-        return $json;
+        $json2 = json_decode($response["body"], true);
+        $this->assertSame($json2["status"], "ok");
+        $this->assertSame(count($json2), 2);
+        $this->assertArrayHasKey("updated_id", $json2);
+        return [
+            "token" => $json["token"],
+            "updated_id" => $json2["updated_id"],
+        ];
     }
 
-    #[Depends('test_reauthtoken')]
-    public function test_deauthtoken(array $json): void
+    #[Depends('test_update')]
+    public function test_delete(array $json): void
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?deauthtoken", [
+        $id = $json["updated_id"];
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?delete/customers/$id", [
             "headers" => [
                 "token" => $json["token"],
             ],
         ]);
-        $json = json_decode($response["body"], true);
-        $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 1);
+        $json2 = json_decode($response["body"], true);
+        $this->assertSame($json2["status"], "ok");
+        $this->assertSame(count($json2), 2);
+        $this->assertArrayHasKey("deleted_id", $json2);
     }
 }

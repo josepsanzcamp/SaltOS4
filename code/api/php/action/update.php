@@ -49,12 +49,16 @@ if (!check_app_perm_id($app, "edit", $id)) {
     show_json_error("Permission denied");
 }
 
+if (!is_array($data) || !count($data)) {
+    show_json_error("Data not found");
+}
+
 $table = app2table($app);
 $fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
 $subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
 $error = array_diff_key($data, $fields, $subtables);
 if (count($error)) {
-    show_json_error("Permission denied");
+    show_json_error("Fields mismatch");
 }
 
 // Separate the data associated to a subtables
@@ -104,4 +108,5 @@ add_version($app, $id);
 
 output_handler_json([
     "status" => "ok",
+    "updated_id" => $id,
 ]);

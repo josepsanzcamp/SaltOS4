@@ -68,4 +68,5 @@ add_version($app, $id);
 
 output_handler_json([
     "status" => "ok",
+    "deleted_id" => $id,
 ]);
