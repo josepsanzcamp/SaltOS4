@@ -30,6 +30,7 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable Generic.Files.LineLength
 
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
@@ -56,6 +57,20 @@ final class customerTest extends TestCase
     }
 
     #[Depends('test_authtoken')]
+    public function test_create(array $json): array
+    {
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/create", [
+            "headers" => [
+                "token" => $json["token"],
+            ],
+        ]);
+        $json2 = json_decode($response["body"], true);
+        $this->assertArrayHasKey("layout", $json2);
+        $this->assertArrayNotHasKey("data", $json2);
+        return $json;
+    }
+
+    #[Depends('test_create')]
     public function test_insert(array $json): array
     {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?insert/customers", [
@@ -84,7 +99,7 @@ final class customerTest extends TestCase
     }
 
     #[Depends('test_insert')]
-    public function test_table(array $json): array
+    public function test_list(array $json): array
     {
         $search = "The SaltOS project 12345678X";
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?list/customers/table", [
@@ -106,7 +121,43 @@ final class customerTest extends TestCase
         ];
     }
 
-    #[Depends('test_table')]
+    #[Depends('test_list')]
+    public function test_view(array $json): array
+    {
+        $id = $json["created_id"];
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/view/$id", [
+            "headers" => [
+                "token" => $json["token"],
+            ],
+        ]);
+        $json2 = json_decode($response["body"], true);
+        $this->assertArrayHasKey("layout", $json2);
+        $this->assertArrayHasKey("data", $json2);
+        return [
+            "token" => $json["token"],
+            "created_id" => $json["created_id"],
+        ];
+    }
+
+    #[Depends('test_view')]
+    public function test_edit(array $json): array
+    {
+        $id = $json["created_id"];
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/edit/$id", [
+            "headers" => [
+                "token" => $json["token"],
+            ],
+        ]);
+        $json2 = json_decode($response["body"], true);
+        $this->assertArrayHasKey("layout", $json2);
+        $this->assertArrayHasKey("data", $json2);
+        return [
+            "token" => $json["token"],
+            "created_id" => $json["created_id"],
+        ];
+    }
+
+    #[Depends('test_edit')]
     public function test_update(array $json): array
     {
         $id = $json["created_id"];
