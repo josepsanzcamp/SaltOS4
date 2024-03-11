@@ -75,9 +75,7 @@ declare(strict_types=1);
  * @rest/2                => to get only the element that contains "view"
  * @rest/3                => to get only the element that contains "2"
  * @json                  => to get an array with all json data, for the above example they
- *                           must return some thing like this:
- *                           ["action"=>"authtoken", "user"=>"xxx", "pass"=>"xxx"]
- * @json/action           => to get only the element that contains "authtoken"
+ *                           must return some thing like this: ["user"=>"xxx", "pass"=>"xxx"]
  * @json/user             => to get only the element that contains the user
  * @json/pass             => to get only the element that contains the pass
  * @server                => to get an array with all server data
@@ -108,8 +106,8 @@ db_static(); // TODO: This is necessary or can be called when needed
 // Collect all input data
 $_DATA = [
     //~ "headers" => getallheaders(),
-    "json" => null2array(json_decode(file_get_contents("php://input"), true)),
     "rest" => array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""]),
+    "json" => null2array(json_decode(file_get_contents("php://input"), true)),
     "server" => [
         "request_method" => strtoupper(get_server("REQUEST_METHOD") ?? ""),
         "content_type" => strtolower(get_server("CONTENT_TYPE") ?? ""),
@@ -119,30 +117,56 @@ $_DATA = [
     ],
 ];
 
-//~ set_server("HTTP_TOKEN", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
-//~ set_server("REMOTE_ADDR", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
-//~ set_server("HTTP_USER_AGENT", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
+// This allow to use SaltOS from the command line using the CLI SAPI
+if (isset($argv) && defined("STDIN")) {
+    set_data("rest", array_diff(explode("/", implode("/", array_slice($argv, 1))), [""]));
+    stream_set_blocking(STDIN, false); // Important if stdin is not used
+    set_data("json", null2array(json_decode(stream_get_contents(STDIN), true)));
+    set_data("server/request_method", "GET");
+    if (count(get_data("json"))) {
+        set_data("server/request_method", "POST");
+        set_data("server/content_type", "application/json");
+    }
+}
+
+//~ echo sprintr($_DATA); die();
+
+//~ set_data("server/token", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/remote_addr", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/user_agent", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
 
 //~ addlog(sprintr($_DATA));
 //~ addlog(sprintr($_SERVER));
 
-// Check for a GET REST action request
-if (get_data("server/request_method") == "GET" && get_data("rest/0") != "") {
-    $action = "php/action/" . encode_bad_chars(get_data("rest/0")) . ".php";
-    if (file_exists($action)) {
-        require $action;
+// Check for the main requirement: rest/0
+if (get_data("rest/0") == "") {
+    show_json_error("Unknown request");
+}
+
+// Check for a valid request_method
+if (!in_array(get_data("server/request_method"), ["GET", "POST"])) {
+    show_json_error("Unknown request");
+}
+
+// Check for a bad GET request_method
+if (get_data("server/request_method") == "GET") {
+    if (get_data("server/content_type") != "" || count(get_data("json"))) {
+        show_json_error("Unknown request");
     }
 }
 
-// Check for a POST JSON action request
-if (
-    get_data("server/request_method") == "POST" && get_data("rest/0") != "" &&
-    get_data("server/content_type") == "application/json" && count(get_data("json"))
-) {
-    $action = "php/action/" . encode_bad_chars(get_data("rest/0")) . ".php";
-    if (file_exists($action)) {
-        require $action;
+// Check for a bad POST request_method
+if (get_data("server/request_method") == "POST") {
+    if (get_data("server/content_type") != "application/json" || !count(get_data("json"))) {
+        show_json_error("Unknown request");
     }
+}
+
+// Try to execute the rest/0 if exists
+set_data("rest/0", encode_bad_chars(get_data("rest/0")));
+$action = "php/action/" . get_data("rest/0") . ".php";
+if (file_exists($action)) {
+    require $action;
 }
 
 // Otherwise, we don't know what to do with this request

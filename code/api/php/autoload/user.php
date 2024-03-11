@@ -51,10 +51,10 @@ function current_token()
     // Continue
     crontab_users();
     $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query([
-        "token" => get_server("HTTP_TOKEN"),
+        "token" => get_data("server/token"),
         "active" => 1,
-        "remote_addr" => get_server("REMOTE_ADDR"),
-        "user_agent" => get_server("HTTP_USER_AGENT"),
+        "remote_addr" => get_data("server/remote_addr"),
+        "user_agent" => get_data("server/user_agent"),
     ]));
     $token_id = intval($token_id);
     return $token_id;

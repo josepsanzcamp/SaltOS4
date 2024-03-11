@@ -123,8 +123,8 @@ $query = make_insert_query("tbl_users_tokens", [
     "user_id" => $row["id"],
     "active" => 1,
     "datetime" => $datetime,
-    "remote_addr" => get_server("REMOTE_ADDR"),
-    "user_agent" => get_server("HTTP_USER_AGENT"),
+    "remote_addr" => get_data("server/remote_addr"),
+    "user_agent" => get_data("server/user_agent"),
     "token" => $token,
     "expires" => $expires,
 ]);

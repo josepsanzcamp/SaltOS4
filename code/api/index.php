@@ -36,6 +36,12 @@ if (version_compare(PHP_VERSION, "7.0", "<")) {
 }
 
 /**
+ * This chdir allow to execute this script from a command line and locate
+ * all filese needed for the correct execution
+ */
+chdir(dirname($_SERVER["SCRIPT_NAME"]));
+
+/**
  * We include all core files, note that the last file (zindex.php) launches
  * the old index.php code, this is separated to simplify the code structure
  * and prevent errors with old php versions that not supports the null
