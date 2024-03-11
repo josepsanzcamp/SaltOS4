@@ -58,7 +58,7 @@ $fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
 $subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
 $error = array_diff_key($data, $fields, $subtables);
 if (count($error)) {
-    show_json_error("Fields mismatch");
+    show_json_error("Fields mismatch: " . implode(", ", array_keys($error)));
 }
 
 // Separate the data associated to a subtables
@@ -77,8 +77,13 @@ foreach ($subtables as $temp) {
     $alias = $temp["alias"];
     $subtable = $temp["subtable"];
     $field = $temp["field"];
+    $fields = array_flip(array_column(get_fields_from_dbschema($subtable), "name"));
     if (isset($subdata[$alias])) {
         foreach ($subdata[$alias] as $temp2) {
+            $error = array_diff_key($temp2, $fields);
+            if (count($error)) {
+                show_json_error("Fields mismatch: " . implode(", ", array_keys($error)));
+            }
             if (!isset($temp2["id"])) {
                 // Insert new subdata
                 $temp2[$field] = $id;

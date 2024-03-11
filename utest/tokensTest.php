@@ -34,7 +34,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 
-final class tokenTest extends TestCase
+final class tokensTest extends TestCase
 {
     public function test_authtoken(): array
     {
