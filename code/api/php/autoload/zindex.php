@@ -127,9 +127,11 @@ if (isset($argv) && defined("STDIN")) {
         set_data("server/request_method", "POST");
         set_data("server/content_type", "application/json");
     }
+    set_data("server/token", getenv("TOKEN"));
 }
 
 //~ echo sprintr($_DATA); die();
+//~ echo sprintr($_SERVER); die();
 
 //~ set_data("server/token", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
 //~ set_data("server/remote_addr", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
