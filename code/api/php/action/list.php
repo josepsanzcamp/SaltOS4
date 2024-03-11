@@ -173,5 +173,13 @@ if (isset($array["footer"]) && is_array($array["footer"])) {
     }
 }
 
+// Add json arguments if they are found
+if (!isset($array["search"]) && get_data("json/search")) {
+    $array["search"] = get_data("json/search");
+}
+if (!isset($array["page"]) && get_data("json/page")) {
+    $array["page"] = get_data("json/page");
+}
+
 // The end
 output_handler_json($array);

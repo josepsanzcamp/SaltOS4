@@ -84,6 +84,29 @@ final class customerTest extends TestCase
     }
 
     #[Depends('test_insert')]
+    public function test_table(array $json): array
+    {
+        $search = "The SaltOS project 12345678X";
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?list/customers/table", [
+            "body" => json_encode([
+                "search" => $search,
+            ]),
+            "method" => "post",
+            "headers" => [
+                "Content-Type" => "application/json",
+                "token" => $json["token"],
+            ],
+        ]);
+        $json2 = json_decode($response["body"], true);
+        $this->assertTrue(count($json2["data"]) >= 1);
+        $this->assertSame($json2["search"], $search);
+        return [
+            "token" => $json["token"],
+            "created_id" => $json["created_id"],
+        ];
+    }
+
+    #[Depends('test_table')]
     public function test_update(array $json): array
     {
         $id = $json["created_id"];
