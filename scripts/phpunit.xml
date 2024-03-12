@@ -9,7 +9,7 @@
     stopOnFailure="false">
     <testsuites>
         <testsuite name="utest">
-            <directory>.</directory>
+            <directory>../utest</directory>
         </testsuite>
     </testsuites>
 </phpunit>
