@@ -51,7 +51,7 @@ final class invoicesTest extends TestCase
         ]);
         $json = json_decode($response["body"], true);
         $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 7);
+        $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);
         return $json;
     }

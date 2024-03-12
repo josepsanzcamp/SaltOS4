@@ -73,7 +73,7 @@ function current_time($offset = 0)
  */
 function current_datetime($offset = 0)
 {
-    return current_date($offset) . " " . current_time($offset);
+    return date("Y-m-d H:i:s", time() + (int)$offset);
 }
 
 /**

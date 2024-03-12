@@ -159,10 +159,10 @@ function crontab_users()
     $time = current_time();
     $dow = current_dow();
     // Disable tokens that have been expired
-    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
+    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires_at <= '$datetime'";
     db_query($query);
     // Disable passwords that have been expired
-    $query = "UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires <= '$datetime'";
+    $query = "UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires_at <= '$datetime'";
     db_query($query);
     // Disable tokens that have not an active password
     $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id NOT IN (

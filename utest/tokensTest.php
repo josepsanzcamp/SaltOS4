@@ -50,7 +50,7 @@ final class tokensTest extends TestCase
         ]);
         $json = json_decode($response["body"], true);
         $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 7);
+        $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);
         return $json;
     }
@@ -65,27 +65,12 @@ final class tokensTest extends TestCase
         ]);
         $json = json_decode($response["body"], true);
         $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 7);
+        $this->assertSame(count($json), 5);
         $this->assertArrayHasKey("token", $json);
         return $json;
     }
 
     #[Depends('test_checktoken')]
-    public function test_reauthtoken(array $json): array
-    {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?reauthtoken", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json = json_decode($response["body"], true);
-        $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 7);
-        $this->assertArrayHasKey("token", $json);
-        return $json;
-    }
-
-    #[Depends('test_reauthtoken')]
     public function test_deauthtoken(array $json): void
     {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?deauthtoken", [

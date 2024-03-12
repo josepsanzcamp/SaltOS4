@@ -37,11 +37,8 @@
         <semaphoretimeout>10000000</semaphoretimeout><!-- in microseconds, for SQLite -->
     </db>
     <auth>
-        <tokenexpires eval="true">3600*12</tokenexpires><!-- in seconds, half day -->
-        <tokenrenewals>60</tokenrenewals><!-- times that you can renew a token, around one month approx. -->
-        <!-- the next parameters indicate the remain time of the token to renew it automatically -->
-        <tokenautorenew>600</tokenautorenew><!-- in seconds, 600 are ten minutes -->
-        <tokenautocheck>60</tokenautocheck><!-- in seconds, 60 is one minute -->
+        <tokenshortexpires eval="true">86400*1</tokenshortexpires><!-- in seconds, one day -->
+        <tokenlongexpires eval="true">86400*30</tokenlongexpires><!-- in seconds, around one month -->
         <passwordexpires eval="true">86400*365</passwordexpires><!-- in seconds, around one year -->
         <passwordminscore>50</passwordminscore><!-- min password strength score -->
     </auth>

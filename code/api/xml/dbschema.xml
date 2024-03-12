@@ -97,11 +97,11 @@ that maintain the database using as reference this file
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-                <field name="datetime" type="DATETIME"/>
+                <field name="created_at" type="DATETIME"/>
                 <field name="remote_addr" type="VARCHAR(255)"/>
                 <field name="user_agent" type="VARCHAR(255)"/>
                 <field name="password" type="VARCHAR(255)"/>
-                <field name="expires" type="DATETIME"/>
+                <field name="expires_at" type="DATETIME"/>
             </fields>
         </table>
         <table name="tbl_users_tokens">
@@ -109,16 +109,16 @@ that maintain the database using as reference this file
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="active" type="INT(11)"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
-                <field name="datetime" type="DATETIME"/>
+                <field name="created_at" type="DATETIME"/>
+                <field name="updated_at" type="DATETIME"/>
                 <field name="remote_addr" type="VARCHAR(255)"/>
                 <field name="user_agent" type="VARCHAR(255)"/>
                 <field name="token" type="VARCHAR(255)"/>
-                <field name="expires" type="DATETIME"/>
-                <field name="renewals" type="INT(11)"/>
+                <field name="expires_at" type="DATETIME"/>
             </fields>
             <indexes>
                 <index fields="token"/>
-                <index fields="active,expires"/>
+                <index fields="active,expires_at"/>
                 <index fields="active,user_id"/>
             </indexes>
         </table>

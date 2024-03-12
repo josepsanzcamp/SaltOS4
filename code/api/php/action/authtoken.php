@@ -112,21 +112,19 @@ $query = make_update_query("tbl_users_tokens", [
 ]));
 db_query($query);
 
-$datetime = current_datetime();
+$created_at = current_datetime();
 $token = get_unique_token();
-$expires = current_datetime(get_config("auth/tokenexpires"));
-$renewals = intval(get_config("auth/tokenrenewals"));
-$autorenew = intval(get_config("auth/tokenautorenew"));
-$autocheck = intval(get_config("auth/tokenautocheck"));
+$short_expires = current_datetime(get_config("auth/tokenshortexpires"));
+$long_expires = current_datetime(get_config("auth/tokenlongexpires"));
 
 $query = make_insert_query("tbl_users_tokens", [
     "user_id" => $row["id"],
     "active" => 1,
-    "datetime" => $datetime,
+    "created_at" => $created_at,
     "remote_addr" => get_data("server/remote_addr"),
     "user_agent" => get_data("server/user_agent"),
     "token" => $token,
-    "expires" => $expires,
+    "expires_at" => min($short_expires, $long_expires),
 ]);
 db_query($query);
 
@@ -134,9 +132,6 @@ semaphore_release("token");
 output_handler_json([
     "status" => "ok",
     "token" => $token,
-    "created_at" => $datetime,
-    "expires_at" => $expires,
-    "pending_renewals" => $renewals,
-    "autorenew_at" => $autorenew,
-    "autocheck_at" => $autocheck,
+    "created_at" => $created_at,
+    "expires_at" => min($short_expires, $long_expires),
 ]);

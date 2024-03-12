@@ -64,7 +64,7 @@ and the main permissions for the user
             <row id="1" active="1" group_id="1" login="admin" name="Admin" description="Admin user" start="00:00:00" end="24:00:00" days="1111111"/>
         </table>
         <table name="tbl_users_passwords">
-            <row id="1" active="1" user_id="1" remote_addr="" user_agent="" password="$2y$10$2BJ1gSSnaBIGmKz.4M8iWeMdcC5Y5MmL8LqE8tv.cR1Lx.r8cl9Cy" expires="9999-99-99 99:99:99"/>
+            <row id="1" active="1" user_id="1" remote_addr="" user_agent="" password="$2y$10$2BJ1gSSnaBIGmKz.4M8iWeMdcC5Y5MmL8LqE8tv.cR1Lx.r8cl9Cy" expires_at="9999-99-99 99:99:99"/>
         </table>
         <table name="tbl_groups">
             <row id="1" active="1" code="admin" name="Admin" description="Admin group"/>

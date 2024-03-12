@@ -56,17 +56,24 @@ if (!$token_id) {
 
 $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
 $row = execute_query($query);
-$renewals = intval(get_config("auth/tokenrenewals"));
-$autorenew = intval(get_config("auth/tokenautorenew"));
-$autocheck = intval(get_config("auth/tokenautocheck"));
+
+$updated_at = current_datetime();
+$short_expires = current_datetime(get_config("auth/tokenshortexpires"));
+$long_expires = date("Y-m-d H:i:s", strtotime($row["created_at"]) + get_config("auth/tokenlongexpires"));
+
+$query = make_update_query("tbl_users_tokens", [
+    "updated_at" => $updated_at,
+    "expires_at" => min($short_expires, $long_expires),
+], make_where_query([
+    "id" => $token_id,
+]));
+db_query($query);
 
 semaphore_release("token");
 output_handler_json([
     "status" => "ok",
     "token" => $row["token"],
-    "created_at" => $row["datetime"],
-    "expires_at" => $row["expires"],
-    "pending_renewals" => $renewals - $row["renewals"],
-    "autorenew_at" => $autorenew,
-    "autocheck_at" => $autocheck,
+    "created_at" => $row["created_at"],
+    "updated_at" => $updated_at,
+    "expires_at" => min($short_expires, $long_expires),
 ]);

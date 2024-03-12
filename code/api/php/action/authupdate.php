@@ -113,23 +113,23 @@ $query = make_update_query("tbl_users_passwords", [
 db_query($query);
 
 $newpass = password_hash($newpass, PASSWORD_DEFAULT);
-$datetime = current_datetime();
-$expires = current_datetime(get_config("auth/passwordexpires"));
+$created_at = current_datetime();
+$expires_at = current_datetime(get_config("auth/passwordexpires"));
 
 $query = make_insert_query("tbl_users_passwords", [
     "active" => 1,
     "user_id" => $user_id,
-    "datetime" => $datetime,
+    "created_at" => $created_at,
     "remote_addr" => get_data("server/remote_addr"),
     "user_agent" => get_data("server/user_agent"),
     "password" => $newpass,
-    "expires" => $expires,
+    "expires_at" => $expires_at,
 ]);
 db_query($query);
 
 semaphore_release("token");
 output_handler_json([
     "status" => "ok",
-    "updated_at" => $datetime,
-    "expires_at" => $expires,
+    "updated_at" => $created_at,
+    "expires_at" => $expires_at,
 ]);
