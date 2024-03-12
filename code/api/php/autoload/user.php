@@ -174,6 +174,6 @@ function crontab_users()
             start = end OR
             (start < end AND ('$time' < start OR '$time' > end)) OR
             (start > end AND '$time' < start AND '$time' > end) OR
-            substr(days, $dow, 1) = '0'))";
+            SUBSTR(days, $dow, 1) = '0'))";
     db_query($query);
 }
