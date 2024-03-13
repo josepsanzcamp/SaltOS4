@@ -80,8 +80,7 @@ check:
 	@echo -n cloc:" "; which cloc > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
 
 utest:
-	cd code/api; \
-	phpunit -c ../../scripts/phpunit.xml
+	phpunit -c scripts/phpunit.xml
 
 cloc:
 	cloc --exclude-dir=lib .

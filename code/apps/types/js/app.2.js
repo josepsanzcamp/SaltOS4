@@ -40,9 +40,9 @@
 saltos.types = {};
 
 /**
- * TODO
+ * Initialize types
  *
- * TODO
+ * This function initializes the types screen to improve the user experience.
  */
 saltos.types.initialize_update_list = () => {
     saltos.window.set_listener('saltos.types.update', event => {
@@ -249,7 +249,7 @@ saltos.types.update = () => {
  * TODO
  */
 saltos.types.delete1 = arg => {
-    saltos.app.modal('Delete this type???', 'Do you want to delete this type???', {
+    saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
             color: 'success',

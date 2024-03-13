@@ -172,7 +172,6 @@ saltos.types.__open_helper = arg => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            //~ var obj = saltos.core.html('<div></div>');
             for (var key in response) {
                 var val = response[key];
                 key = saltos.core.fix_key(key);

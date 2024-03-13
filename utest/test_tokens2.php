@@ -31,38 +31,26 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-final class autoloadTest extends TestCase
+final class test_tokens2 extends TestCase
 {
-    public function test_autoload(): void
+    #[DependsOnClass('test_customers')]
+    #[DependsOnClass('test_invoices')]
+    #[DependsExternal('test_tokens1', 'test_authtoken')]
+    #[testdox('deauthtoken action')]
+    public function test_deauthtoken(array $json): void
     {
-        $count = 0;
-        foreach (glob("php/autoload/*.php") as $file) {
-            if (basename($file) == "zindex.php") {
-                continue;
-            }
-            require $file;
-            $count++;
-        }
-        $this->assertSame($count, 42);
-    }
-
-    public function test_timer(): void
-    {
-        init_timer();
-        $this->assertTrue(true);
-    }
-
-    public function test_random(): void
-    {
-        init_random();
-        $this->assertTrue(true);
-    }
-
-    public function test_system(): void
-    {
-        check_system();
-        $this->assertTrue(true);
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?deauthtoken", [
+            "headers" => [
+                "token" => $json["token"],
+            ],
+        ]);
+        $json = json_decode($response["body"], true);
+        $this->assertSame($json["status"], "ok");
+        $this->assertSame(count($json), 1);
     }
 }

@@ -27,24 +27,13 @@
 
 declare(strict_types=1);
 
-// phpcs:disable PSR1.Classes.ClassDeclaration
-// phpcs:disable Squiz.Classes.ValidClassName
-// phpcs:disable PSR1.Methods.CamelCapsMethodName
-
-use PHPUnit\Framework\TestCase;
-
-final class roundcubeTest extends TestCase
-{
-    public function test_html2Text(): void
-    {
-        $html = 'The SaltOS project<br/><a href="https://www.saltos.org">www.saltos.org</a>';
-        $text = 'The SaltOS project
-www.saltos.org [1]
-
-Links:
-------
-[1] https://www.saltos.org
-';
-        $this->assertSame(html2text($html), $text);
+chdir("code/api");
+foreach (glob("php/autoload/*.php") as $file) {
+    if (basename($file) == "zindex.php") {
+        continue;
     }
+    require $file;
 }
+init_timer();
+init_random();
+check_system();

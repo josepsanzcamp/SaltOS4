@@ -31,9 +31,10 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-final class databaseTest extends TestCase
+final class test_database extends TestCase
 {
     private function test_helper($obj): void
     {
@@ -355,6 +356,7 @@ final class databaseTest extends TestCase
         $this->assertSame($obj->db_query($query), $result);
     }
 
+    #[testdox('pdo_mysql driver')]
     public function test_pdo_mysql(): void
     {
         // Connection part
@@ -375,6 +377,7 @@ final class databaseTest extends TestCase
         $obj->db_disconnect();
     }
 
+    #[testdox('mysqli driver')]
     public function test_mysqli(): void
     {
         // Connection part
@@ -395,6 +398,7 @@ final class databaseTest extends TestCase
         $obj->db_disconnect();
     }
 
+    #[testdox('pdo_sqlite driver')]
     public function test_pdo_sqlite(): void
     {
         // Connection part
@@ -411,6 +415,7 @@ final class databaseTest extends TestCase
         $obj->db_disconnect();
     }
 
+    #[testdox('sqlite3 driver')]
     public function test_sqlite3(): void
     {
         // Connection part
@@ -427,7 +432,8 @@ final class databaseTest extends TestCase
         $obj->db_disconnect();
     }
 
-    /*public function test_pdo_mssql(): void
+    /*#[testdox('pdo_mssql driver')]
+    public function test_pdo_mssql(): void
     {
         // Connection part
         $obj = db_connect([

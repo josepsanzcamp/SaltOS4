@@ -32,10 +32,12 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-final class tokensTest extends TestCase
+final class test_tokens1 extends TestCase
 {
+    #[testdox('authtoken action')]
     public function test_authtoken(): array
     {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?authtoken", [
@@ -56,6 +58,7 @@ final class tokensTest extends TestCase
     }
 
     #[Depends('test_authtoken')]
+    #[testdox('checktoken action')]
     public function test_checktoken(array $json): array
     {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
@@ -68,18 +71,5 @@ final class tokensTest extends TestCase
         $this->assertSame(count($json), 5);
         $this->assertArrayHasKey("token", $json);
         return $json;
-    }
-
-    #[Depends('test_checktoken')]
-    public function test_deauthtoken(array $json): void
-    {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?deauthtoken", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json = json_decode($response["body"], true);
-        $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 1);
     }
 }

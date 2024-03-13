@@ -2,6 +2,7 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="../utest/autoload.php"
     colors="true"
     testdox="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
@@ -9,7 +10,7 @@
     stopOnFailure="false">
     <testsuites>
         <testsuite name="utest">
-            <directory>../utest</directory>
+            <directory prefix="test_" suffix=".php">../utest</directory>
         </testsuite>
     </testsuites>
 </phpunit>
