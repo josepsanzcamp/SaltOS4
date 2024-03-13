@@ -31,45 +31,26 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
-use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-final class test_tokens1 extends TestCase
+final class test_web_tokens2 extends TestCase
 {
-    #[testdox('authtoken action')]
-    public function test_authtoken(): array
+    #[DependsOnClass('test_web_customers')]
+    #[DependsOnClass('test_web_invoices')]
+    #[DependsExternal('test_web_tokens1', 'test_authtoken')]
+    #[testdox('deauthtoken action')]
+    public function test_deauthtoken(array $json): void
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?authtoken", [
-            "body" => json_encode([
-                "user" => "admin",
-                "pass" => "admin",
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-        ]);
-        $json = json_decode($response["body"], true);
-        $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 4);
-        $this->assertArrayHasKey("token", $json);
-        return $json;
-    }
-
-    #[Depends('test_authtoken')]
-    #[testdox('checktoken action')]
-    public function test_checktoken(array $json): array
-    {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?deauthtoken", [
             "headers" => [
                 "token" => $json["token"],
             ],
         ]);
         $json = json_decode($response["body"], true);
         $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 5);
-        $this->assertArrayHasKey("token", $json);
-        return $json;
+        $this->assertSame(count($json), 1);
     }
 }

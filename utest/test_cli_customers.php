@@ -37,18 +37,15 @@ use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
-final class test_customers extends TestCase
+final class test_cli_customers extends TestCase
 {
-    #[DependsExternal('test_tokens1', 'test_authtoken')]
+    #[DependsExternal('test_cli_tokens1', 'test_authtoken')]
     #[testdox('create action')]
     public function test_create(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/create", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $token = $json["token"];
+        $response = ob_passthru("TOKEN=$token php index.php app/customers/create");
+        $json2 = json_decode($response, true);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayNotHasKey("data", $json2);
         return $json;
@@ -58,22 +55,17 @@ final class test_customers extends TestCase
     #[testdox('insert action')]
     public function test_insert(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?insert/customers", [
-            "body" => json_encode([
-                "data" => [
-                    "nombre" => "The SaltOS project",
-                    "cif" => "12345678X",
-                    "nombre_poblacion" => "Barcelona",
-                    "nombre_codpostal" => "08001",
-                ],
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
+        $token = $json["token"];
+        file_put_contents("/tmp/input", json_encode([
+            "data" => [
+                "nombre" => "The SaltOS project",
+                "cif" => "12345678X",
+                "nombre_poblacion" => "Barcelona",
+                "nombre_codpostal" => "08001",
             ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        ]));
+        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php insert/customers");
+        $json2 = json_decode($response, true);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("created_id", $json2);
@@ -88,17 +80,12 @@ final class test_customers extends TestCase
     public function test_list(array $json): array
     {
         $search = "The SaltOS project 12345678X";
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?list/customers/table", [
-            "body" => json_encode([
-                "search" => $search,
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $token = $json["token"];
+        file_put_contents("/tmp/input", json_encode([
+            "search" => $search,
+        ]));
+        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php list/customers/table");
+        $json2 = json_decode($response, true);
         $this->assertTrue(count($json2["data"]) >= 1);
         $this->assertSame($json2["search"], $search);
         return [
@@ -112,12 +99,9 @@ final class test_customers extends TestCase
     public function test_view(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/view/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $token = $json["token"];
+        $response = ob_passthru("TOKEN=$token php index.php app/customers/view/$id");
+        $json2 = json_decode($response, true);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         return [
@@ -131,12 +115,9 @@ final class test_customers extends TestCase
     public function test_edit(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/edit/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $token = $json["token"];
+        $response = ob_passthru("TOKEN=$token php index.php app/customers/edit/$id");
+        $json2 = json_decode($response, true);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         return [
@@ -150,20 +131,15 @@ final class test_customers extends TestCase
     public function test_update(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?update/customers/$id", [
-            "body" => json_encode([
-                "data" => [
-                    "nombre" => "The SaltOS project v2",
-                    "cif" => "12345678Z",
-                ],
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
+        $token = $json["token"];
+        file_put_contents("/tmp/input", json_encode([
+            "data" => [
+                "nombre" => "The SaltOS project v2",
+                "cif" => "12345678Z",
             ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        ]));
+        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php update/customers/$id");
+        $json2 = json_decode($response, true);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("updated_id", $json2);
@@ -178,12 +154,9 @@ final class test_customers extends TestCase
     public function test_delete(array $json): void
     {
         $id = $json["updated_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?delete/customers/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $token = $json["token"];
+        $response = ob_passthru("TOKEN=$token php index.php delete/customers/$id");
+        $json2 = json_decode($response, true);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("deleted_id", $json2);
