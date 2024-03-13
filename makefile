@@ -83,4 +83,4 @@ utest:
 	phpunit -c scripts/phpunit.xml
 
 cloc:
-	cloc --exclude-dir=lib .
+	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale}
