@@ -42,12 +42,10 @@ final class test_cli_tokens1 extends TestCase
     #[testdox('authtoken action')]
     public function test_authtoken(): array
     {
-        file_put_contents("/tmp/input", json_encode([
+        $json = test_cli_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ]));
-        $response = ob_passthru("cat /tmp/input | php index.php authtoken");
-        $json = json_decode($response, true);
+        ], "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);
@@ -58,9 +56,7 @@ final class test_cli_tokens1 extends TestCase
     #[testdox('checktoken action')]
     public function test_checktoken(array $json): array
     {
-        $token = $json["token"];
-        $response = ob_passthru("TOKEN=$token php index.php checktoken");
-        $json = json_decode($response, true);
+        $json = test_cli_helper("checktoken", "", $json["token"]);
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 5);
         $this->assertArrayHasKey("token", $json);

@@ -43,9 +43,7 @@ final class test_cli_tokens2 extends TestCase
     #[testdox('deauthtoken action')]
     public function test_deauthtoken(array $json): void
     {
-        $token = $json["token"];
-        $response = ob_passthru("TOKEN=$token php index.php deauthtoken");
-        $json = json_decode($response, true);
+        $json = test_cli_helper("deauthtoken", "", $json["token"]);
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 1);
     }

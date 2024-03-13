@@ -44,12 +44,7 @@ final class test_web_tokens2 extends TestCase
     #[testdox('deauthtoken action')]
     public function test_deauthtoken(array $json): void
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?deauthtoken", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json = json_decode($response["body"], true);
+        $json = test_web_helper("deauthtoken", "", $json["token"]);
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 1);
     }

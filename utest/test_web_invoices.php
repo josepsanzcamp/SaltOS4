@@ -43,12 +43,7 @@ final class test_web_invoices extends TestCase
     #[testdox('create action')]
     public function test_create(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/invoices/create", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("app/invoices/create", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayNotHasKey("data", $json2);
         return $json;
@@ -58,40 +53,32 @@ final class test_web_invoices extends TestCase
     #[testdox('insert action')]
     public function test_insert(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?insert/invoices", [
-            "body" => json_encode([
-                "data" => [
-                    "nombre" => "The SaltOS project",
-                    "direccion" => "X",
-                    "nombre_pais" => "Y",
-                    "nombre_provincia" => "Z",
-                    "nombre_poblacion" => "Barcelona",
-                    "nombre_codpostal" => "08001",
-                    "cif" => "12345678X",
-                    "iva" => "21",
-                    "irpf" => "15",
-                    "detail" => [
-                        [
-                            "concepto" => "ABC",
-                            "unidades" => "1",
-                            "precio" => "2",
-                            "descuento" => "3",
-                        ], [
-                            "concepto" => "DEF",
-                            "unidades" => "4",
-                            "precio" => "5",
-                            "descuento" => "6",
-                        ],
+        $json2 = test_web_helper("insert/invoices", [
+            "data" => [
+                "nombre" => "The SaltOS project",
+                "direccion" => "X",
+                "nombre_pais" => "Y",
+                "nombre_provincia" => "Z",
+                "nombre_poblacion" => "Barcelona",
+                "nombre_codpostal" => "08001",
+                "cif" => "12345678X",
+                "iva" => "21",
+                "irpf" => "15",
+                "detail" => [
+                    [
+                        "concepto" => "ABC",
+                        "unidades" => "1",
+                        "precio" => "2",
+                        "descuento" => "3",
+                    ], [
+                        "concepto" => "DEF",
+                        "unidades" => "4",
+                        "precio" => "5",
+                        "descuento" => "6",
                     ],
                 ],
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
             ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        ], $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("created_id", $json2);
@@ -106,17 +93,9 @@ final class test_web_invoices extends TestCase
     public function test_list(array $json): array
     {
         $search = "The SaltOS project 12345678X";
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?list/invoices/table", [
-            "body" => json_encode([
-                "search" => $search,
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("list/invoices/table", [
+            "search" => $search,
+        ], $json["token"]);
         $this->assertTrue(count($json2["data"]) >= 1);
         $this->assertSame($json2["search"], $search);
         return [
@@ -130,12 +109,7 @@ final class test_web_invoices extends TestCase
     public function test_view(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/invoices/view/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("app/invoices/view/$id", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         $this->assertArrayHasKey("data#1", $json2);
@@ -151,12 +125,7 @@ final class test_web_invoices extends TestCase
     public function test_edit(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/invoices/edit/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("app/invoices/edit/$id", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         $this->assertArrayHasKey("data#1", $json2);
@@ -172,28 +141,20 @@ final class test_web_invoices extends TestCase
     public function test_update(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?update/invoices/$id", [
-            "body" => json_encode([
-                "data" => [
-                    "nombre" => "The SaltOS project v2",
-                    "cif" => "12345678Z",
-                    "detail" => [
-                        [
-                            "concepto" => "GHI",
-                            "unidades" => "7",
-                            "precio" => "8",
-                            "descuento" => "9",
-                        ],
+        $json2 = test_web_helper("update/invoices/$id", [
+            "data" => [
+                "nombre" => "The SaltOS project v2",
+                "cif" => "12345678Z",
+                "detail" => [
+                    [
+                        "concepto" => "GHI",
+                        "unidades" => "7",
+                        "precio" => "8",
+                        "descuento" => "9",
                     ],
                 ],
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
             ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        ], $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("updated_id", $json2);
@@ -208,12 +169,7 @@ final class test_web_invoices extends TestCase
     public function test_delete(array $json): void
     {
         $id = $json["updated_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?delete/invoices/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("delete/invoices/$id", "", $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("deleted_id", $json2);

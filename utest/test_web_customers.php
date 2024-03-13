@@ -43,12 +43,7 @@ final class test_web_customers extends TestCase
     #[testdox('create action')]
     public function test_create(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/create", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("app/customers/create", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayNotHasKey("data", $json2);
         return $json;
@@ -58,22 +53,14 @@ final class test_web_customers extends TestCase
     #[testdox('insert action')]
     public function test_insert(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?insert/customers", [
-            "body" => json_encode([
-                "data" => [
-                    "nombre" => "The SaltOS project",
-                    "cif" => "12345678X",
-                    "nombre_poblacion" => "Barcelona",
-                    "nombre_codpostal" => "08001",
-                ],
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
+        $json2 = test_web_helper("insert/customers", [
+            "data" => [
+                "nombre" => "The SaltOS project",
+                "cif" => "12345678X",
+                "nombre_poblacion" => "Barcelona",
+                "nombre_codpostal" => "08001",
             ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        ], $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("created_id", $json2);
@@ -88,17 +75,9 @@ final class test_web_customers extends TestCase
     public function test_list(array $json): array
     {
         $search = "The SaltOS project 12345678X";
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?list/customers/table", [
-            "body" => json_encode([
-                "search" => $search,
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("list/customers/table", [
+            "search" => $search,
+        ], $json["token"]);
         $this->assertTrue(count($json2["data"]) >= 1);
         $this->assertSame($json2["search"], $search);
         return [
@@ -112,12 +91,7 @@ final class test_web_customers extends TestCase
     public function test_view(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/view/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("app/customers/view/$id", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         return [
@@ -131,12 +105,7 @@ final class test_web_customers extends TestCase
     public function test_edit(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?app/customers/edit/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("app/customers/edit/$id", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         return [
@@ -150,20 +119,12 @@ final class test_web_customers extends TestCase
     public function test_update(array $json): array
     {
         $id = $json["created_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?update/customers/$id", [
-            "body" => json_encode([
-                "data" => [
-                    "nombre" => "The SaltOS project v2",
-                    "cif" => "12345678Z",
-                ],
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "token" => $json["token"],
+        $json2 = test_web_helper("update/customers/$id", [
+            "data" => [
+                "nombre" => "The SaltOS project v2",
+                "cif" => "12345678Z",
             ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        ], $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("updated_id", $json2);
@@ -178,12 +139,7 @@ final class test_web_customers extends TestCase
     public function test_delete(array $json): void
     {
         $id = $json["updated_id"];
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?delete/customers/$id", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json2 = json_decode($response["body"], true);
+        $json2 = test_web_helper("delete/customers/$id", "", $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("deleted_id", $json2);

@@ -40,17 +40,10 @@ final class test_web_tokens1 extends TestCase
     #[testdox('authtoken action')]
     public function test_authtoken(): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?authtoken", [
-            "body" => json_encode([
-                "user" => "admin",
-                "pass" => "admin",
-            ]),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-            ],
-        ]);
-        $json = json_decode($response["body"], true);
+        $json = test_web_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "admin",
+        ], "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);
@@ -61,12 +54,7 @@ final class test_web_tokens1 extends TestCase
     #[testdox('checktoken action')]
     public function test_checktoken(array $json): array
     {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
-            "headers" => [
-                "token" => $json["token"],
-            ],
-        ]);
-        $json = json_decode($response["body"], true);
+        $json = test_web_helper("checktoken", "", $json["token"]);
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 5);
         $this->assertArrayHasKey("token", $json);

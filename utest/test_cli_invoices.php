@@ -43,9 +43,7 @@ final class test_cli_invoices extends TestCase
     #[testdox('create action')]
     public function test_create(array $json): array
     {
-        $token = $json["token"];
-        $response = ob_passthru("TOKEN=$token php index.php app/invoices/create");
-        $json2 = json_decode($response, true);
+        $json2 = test_cli_helper("app/invoices/create", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayNotHasKey("data", $json2);
         return $json;
@@ -55,8 +53,7 @@ final class test_cli_invoices extends TestCase
     #[testdox('insert action')]
     public function test_insert(array $json): array
     {
-        $token = $json["token"];
-        file_put_contents("/tmp/input", json_encode([
+        $json2 = test_cli_helper("insert/invoices", [
             "data" => [
                 "nombre" => "The SaltOS project",
                 "direccion" => "X",
@@ -81,9 +78,7 @@ final class test_cli_invoices extends TestCase
                     ],
                 ],
             ],
-        ]));
-        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php insert/invoices");
-        $json2 = json_decode($response, true);
+        ], $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("created_id", $json2);
@@ -98,12 +93,9 @@ final class test_cli_invoices extends TestCase
     public function test_list(array $json): array
     {
         $search = "The SaltOS project 12345678X";
-        $token = $json["token"];
-        file_put_contents("/tmp/input", json_encode([
+        $json2 = test_cli_helper("list/invoices/table", [
             "search" => $search,
-        ]));
-        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php list/invoices/table");
-        $json2 = json_decode($response, true);
+        ], $json["token"]);
         $this->assertTrue(count($json2["data"]) >= 1);
         $this->assertSame($json2["search"], $search);
         return [
@@ -117,9 +109,7 @@ final class test_cli_invoices extends TestCase
     public function test_view(array $json): array
     {
         $id = $json["created_id"];
-        $token = $json["token"];
-        $response = ob_passthru("TOKEN=$token php index.php app/invoices/view/$id");
-        $json2 = json_decode($response, true);
+        $json2 = test_cli_helper("app/invoices/view/$id", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         $this->assertArrayHasKey("data#1", $json2);
@@ -135,9 +125,7 @@ final class test_cli_invoices extends TestCase
     public function test_edit(array $json): array
     {
         $id = $json["created_id"];
-        $token = $json["token"];
-        $response = ob_passthru("TOKEN=$token php index.php app/invoices/edit/$id");
-        $json2 = json_decode($response, true);
+        $json2 = test_cli_helper("app/invoices/edit/$id", "", $json["token"]);
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         $this->assertArrayHasKey("data#1", $json2);
@@ -153,8 +141,7 @@ final class test_cli_invoices extends TestCase
     public function test_update(array $json): array
     {
         $id = $json["created_id"];
-        $token = $json["token"];
-        file_put_contents("/tmp/input", json_encode([
+        $json2 = test_cli_helper("update/invoices/$id", [
             "data" => [
                 "nombre" => "The SaltOS project v2",
                 "cif" => "12345678Z",
@@ -167,9 +154,7 @@ final class test_cli_invoices extends TestCase
                     ],
                 ],
             ],
-        ]));
-        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php update/invoices/$id");
-        $json2 = json_decode($response, true);
+        ], $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("updated_id", $json2);
@@ -184,9 +169,7 @@ final class test_cli_invoices extends TestCase
     public function test_delete(array $json): void
     {
         $id = $json["updated_id"];
-        $token = $json["token"];
-        $response = ob_passthru("TOKEN=$token php index.php delete/invoices/$id");
-        $json2 = json_decode($response, true);
+        $json2 = test_cli_helper("delete/invoices/$id", "", $json["token"]);
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("deleted_id", $json2);

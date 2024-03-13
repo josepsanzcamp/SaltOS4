@@ -27,15 +27,37 @@
 
 declare(strict_types=1);
 
-chdir("code/api");
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
-        continue;
+function test_cli_helper($rest, $data, $token): array
+{
+    if ($data) {
+        file_put_contents("/tmp/input", json_encode($data));
+        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php $rest");
+        unlink("/tmp/input");
+    } else {
+        $response = ob_passthru("TOKEN=$token php index.php $rest");
     }
-    require $file;
+    $json = json_decode($response, true);
+    return $json;
 }
-init_timer();
-init_random();
-check_system();
 
-require "functions.php";
+function test_web_helper($rest, $data, $token): array
+{
+    if ($data) {
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?$rest", [
+            "body" => json_encode($data),
+            "method" => "post",
+            "headers" => [
+                "Content-Type" => "application/json",
+                "token" => $token,
+            ],
+        ]);
+    } else {
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?$rest", [
+            "headers" => [
+                "token" => $token,
+            ],
+        ]);
+    }
+    $json = json_decode($response["body"], true);
+    return $json;
+}
