@@ -392,7 +392,7 @@ final class test_database extends TestCase
         $this->assertSame($obj instanceof database_mysqli, true);
 
         // Helper part
-        $this->test_helper($obj, true);
+        $this->test_helper($obj);
 
         // Close connection
         $obj->db_disconnect();

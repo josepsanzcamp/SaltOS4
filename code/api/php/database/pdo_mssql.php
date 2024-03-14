@@ -71,7 +71,6 @@ class database_pdo_mssql
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package",
             ]);
-            return;
         }
         try {
             $this->link = new PDO(
@@ -83,9 +82,7 @@ class database_pdo_mssql
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage()]);
         }
-        if ($this->link) {
-            $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
+        $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     /**

@@ -1,16 +1,25 @@
-<?xml version="1.0"?>
-<phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-    bootstrap="../utest/autoload.php"
-    colors="true"
-    testdox="true"
-    displayDetailsOnTestsThatTriggerWarnings="true"
-    cacheResult="false"
-    stopOnFailure="false">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+         bootstrap="../utest/autoload.php"
+         colors="true"
+         testdox="true"
+         cacheDirectory="/tmp/phpunit.cache"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         stopOnFailure="false">
     <testsuites>
         <testsuite name="utest">
             <directory prefix="test_" suffix=".php">../utest</directory>
         </testsuite>
     </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">../code/api/php</directory>
+        </include>
+    </source>
+    <coverage>
+        <report>
+            <text outputFile="php://stdout" showOnlySummary="true"/>
+        </report>
+    </coverage>
 </phpunit>

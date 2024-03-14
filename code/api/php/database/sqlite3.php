@@ -77,60 +77,55 @@ class database_sqlite3
                 "phperror" => "Class SQLite3 not found",
                 "details" => "Try to install php-sqlite package",
             ]);
-            return;
         }
         if (!file_exists($args["file"])) {
             show_php_error(["phperror" => "File '" . $args["file"] . "' not found"]);
-            return;
         }
         if (!is_writable($args["file"])) {
             show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
-            return;
         }
         try {
             $this->link = new SQLite3($args["file"]);
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage()]);
         }
-        if ($this->link) {
-            $this->link->enableExceptions(true);
-            $this->link->busyTimeout(0);
-            $this->db_query("PRAGMA cache_size=2000");
-            $this->db_query("PRAGMA synchronous=OFF");
-            $this->db_query("PRAGMA foreign_keys=OFF");
-            if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
-                $this->link->createAggregate(
-                    "GROUP_CONCAT",
-                    "__libsqlite_group_concat_step",
-                    "__libsqlite_group_concat_finalize"
-                );
-            }
-            if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
-                $this->link->createFunction("REPLACE", "__libsqlite_replace");
-            }
-            $this->link->createFunction("LPAD", "__libsqlite_lpad");
-            $this->link->createFunction("CONCAT", "__libsqlite_concat");
-            $this->link->createFunction("CONCAT_WS", "__libsqlite_concat_ws");
-            $this->link->createFunction("UNIX_TIMESTAMP", "__libsqlite_unix_timestamp");
-            $this->link->createFunction("FROM_UNIXTIME", "__libsqlite_from_unixtime");
-            $this->link->createFunction("YEAR", "__libsqlite_year");
-            $this->link->createFunction("MONTH", "__libsqlite_month");
-            $this->link->createFunction("WEEK", "__libsqlite_week");
-            $this->link->createFunction("TRUNCATE", "__libsqlite_truncate");
-            $this->link->createFunction("DAY", "__libsqlite_day");
-            $this->link->createFunction("DAYOFYEAR", "__libsqlite_dayofyear");
-            $this->link->createFunction("DAYOFWEEK", "__libsqlite_dayofweek");
-            $this->link->createFunction("HOUR", "__libsqlite_hour");
-            $this->link->createFunction("MINUTE", "__libsqlite_minute");
-            $this->link->createFunction("SECOND", "__libsqlite_second");
-            $this->link->createFunction("MD5", "__libsqlite_md5");
-            $this->link->createFunction("REPEAT", "__libsqlite_repeat");
-            $this->link->createFunction("FIND_IN_SET", "__libsqlite_find_in_set");
-            $this->link->createFunction("IF", "__libsqlite_if");
-            $this->link->createFunction("POW", "__libsqlite_pow");
-            $this->link->createFunction("DATE_FORMAT", "__libsqlite_date_format");
-            $this->link->createFunction("NOW", "__libsqlite_now");
+        $this->link->enableExceptions(true);
+        $this->link->busyTimeout(0);
+        $this->db_query("PRAGMA cache_size=2000");
+        $this->db_query("PRAGMA synchronous=OFF");
+        $this->db_query("PRAGMA foreign_keys=OFF");
+        if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
+            $this->link->createAggregate(
+                "GROUP_CONCAT",
+                "__libsqlite_group_concat_step",
+                "__libsqlite_group_concat_finalize"
+            );
         }
+        if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
+            $this->link->createFunction("REPLACE", "__libsqlite_replace");
+        }
+        $this->link->createFunction("LPAD", "__libsqlite_lpad");
+        $this->link->createFunction("CONCAT", "__libsqlite_concat");
+        $this->link->createFunction("CONCAT_WS", "__libsqlite_concat_ws");
+        $this->link->createFunction("UNIX_TIMESTAMP", "__libsqlite_unix_timestamp");
+        $this->link->createFunction("FROM_UNIXTIME", "__libsqlite_from_unixtime");
+        $this->link->createFunction("YEAR", "__libsqlite_year");
+        $this->link->createFunction("MONTH", "__libsqlite_month");
+        $this->link->createFunction("WEEK", "__libsqlite_week");
+        $this->link->createFunction("TRUNCATE", "__libsqlite_truncate");
+        $this->link->createFunction("DAY", "__libsqlite_day");
+        $this->link->createFunction("DAYOFYEAR", "__libsqlite_dayofyear");
+        $this->link->createFunction("DAYOFWEEK", "__libsqlite_dayofweek");
+        $this->link->createFunction("HOUR", "__libsqlite_hour");
+        $this->link->createFunction("MINUTE", "__libsqlite_minute");
+        $this->link->createFunction("SECOND", "__libsqlite_second");
+        $this->link->createFunction("MD5", "__libsqlite_md5");
+        $this->link->createFunction("REPEAT", "__libsqlite_repeat");
+        $this->link->createFunction("FIND_IN_SET", "__libsqlite_find_in_set");
+        $this->link->createFunction("IF", "__libsqlite_if");
+        $this->link->createFunction("POW", "__libsqlite_pow");
+        $this->link->createFunction("DATE_FORMAT", "__libsqlite_date_format");
+        $this->link->createFunction("NOW", "__libsqlite_now");
     }
 
     /**
@@ -209,14 +204,12 @@ class database_sqlite3
                 } catch (Exception $e) {
                     if ($timeout <= 0) {
                         show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                        break;
                     } elseif (stripos($e->getMessage(), "database is locked") !== false) {
                         $timeout -= __semaphore_usleep(rand(0, 1000));
                     } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
                         $timeout -= __semaphore_usleep(rand(0, 1000));
                     } else {
                         show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                        break;
                     }
                 }
             }

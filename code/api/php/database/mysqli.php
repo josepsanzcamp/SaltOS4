@@ -77,7 +77,6 @@ class database_mysqli
                 "phperror" => "Class mysqli not found",
                 "details" => "Try to install php-mysql package",
             ]);
-            return;
         }
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
@@ -89,11 +88,9 @@ class database_mysqli
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage()]);
         }
-        if ($this->link) {
-            $this->db_query("SET NAMES 'utf8mb4'");
-            $this->db_query("SET FOREIGN_KEY_CHECKS=0");
-            $this->db_query("SET GROUP_CONCAT_MAX_LEN:=@@MAX_ALLOWED_PACKET");
-        }
+        $this->db_query("SET NAMES 'utf8mb4'");
+        $this->db_query("SET FOREIGN_KEY_CHECKS=0");
+        $this->db_query("SET GROUP_CONCAT_MAX_LEN:=@@MAX_ALLOWED_PACKET");
     }
 
     /**
