@@ -109,7 +109,7 @@ if (isset($argv) && defined("STDIN")) {
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
         "rest" => array_diff(explode("/", implode("/", array_slice($argv, 1))), [""]),
-        "json" => null2array(json_decode(file_get_contents("php://stdin"), true)),
+        "json" => array_protected(json_decode(file_get_contents("php://stdin"), true)),
         "server" => [
             "request_method" => "GET",
             "content_type" => "",
@@ -125,7 +125,7 @@ if (isset($argv) && defined("STDIN")) {
 } else {
     $_DATA = [
         "rest" => array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""]),
-        "json" => null2array(json_decode(file_get_contents("php://input"), true)),
+        "json" => array_protected(json_decode(file_get_contents("php://input"), true)),
         "server" => [
             "request_method" => strtoupper(get_server("REQUEST_METHOD") ?? ""),
             "content_type" => strtolower(get_server("CONTENT_TYPE") ?? ""),

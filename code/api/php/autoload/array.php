@@ -43,12 +43,21 @@ declare(strict_types=1);
  * @arr => the input, generally must to be an array, if a null is passed,
  *         then a void array will be returned
  */
-function null2array($arr)
+function array_protected($x)
 {
-    if ($arr === null) {
+    if ($x === null) {
         return [];
     }
-    return $arr;
+    if (is_string($x)) {
+        if ($x != "") {
+            return [$x];
+        }
+        return [];
+    }
+    if (!is_array($x)) {
+        return [$x];
+    }
+    return $x;
 }
 
 /**
