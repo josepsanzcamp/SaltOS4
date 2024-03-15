@@ -66,9 +66,10 @@ $query = "SELECT * FROM tbl_users WHERE " . make_where_query([
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
     semaphore_release("token");
-    show_json_array([
+    output_handler_json([
         "status" => "ko",
         "reason" => "permission denied",
+        "code" => __get_code_from_trace(),
     ]);
 }
 
@@ -80,9 +81,10 @@ $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
 $row2 = execute_query($query);
 if (!is_array($row2) || !isset($row2["password"])) {
     semaphore_release("token");
-    show_json_array([
+    output_handler_json([
         "status" => "ko",
         "reason" => "permission denied",
+        "code" => __get_code_from_trace(),
     ]);
 } elseif (password_verify($pass, $row2["password"])) {
     // Nothing to do, password is correct!!!
@@ -97,9 +99,10 @@ if (!is_array($row2) || !isset($row2["password"])) {
     db_query($query);
 } else {
     semaphore_release("token");
-    show_json_array([
+    output_handler_json([
         "status" => "ko",
         "reason" => "permission denied",
+        "code" => __get_code_from_trace(),
     ]);
 }
 

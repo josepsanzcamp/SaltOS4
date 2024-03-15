@@ -422,20 +422,6 @@ function __get_code_from_file_and_line($file, $line)
 }
 
 /**
- * Show JSON Array
- *
- * This function is intended to be used when you need to generate a json response based on
- * an array contents, too, this function adds the code entry to the input array
- *
- * @array => The input array used in the output_handler_json without the code entry
- */
-function show_json_array($array)
-{
-    $array["code"] = __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
-    output_handler_json($array);
-}
-
-/**
  * Detect Recursion
  *
  * This function allow to SaltOS to detect the recursión, to do it, uses the debug_backtrace

@@ -48,9 +48,10 @@ crontab_users();
 $token_id = current_token();
 if (!$token_id) {
     semaphore_release("token");
-    show_json_array([
+    output_handler_json([
         "status" => "ko",
         "reason" => "permission denied",
+        "code" => __get_code_from_trace(),
     ]);
 }
 
