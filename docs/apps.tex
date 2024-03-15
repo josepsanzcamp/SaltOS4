@@ -1,4 +1,4 @@
-\documentclass[a4paper]{book}
+\documentclass[a4paper]{article}
 \usepackage{graphicx}
 \usepackage{paralist} % needed for compact lists
 \usepackage[normalem]{ulem} % needed by strike
@@ -22,13 +22,12 @@
 \usepackage{courier}
 \lstset{basicstyle=\ttfamily,backgroundcolor=\color{mygrey},breaklines=true}
 \usepackage{tocloft}
-\usepackage{calc}
-\setlength{\cftsubsecnumwidth}{\widthof{\large\bfseries{}1.11.11}}
+\setlength{\cftsubsubsecnumwidth}{13mm}
 \setlength\cftparskip{3mm}
 
 
 \title{Application Documentation}
-\author{SaltOS 4.0 r760}
+\author{SaltOS 4.0 r761}
 \begin{document}
 \date{March 2024}
 \maketitle
@@ -39,10 +38,10 @@
 
 
 \hypertarget{toc1}{}
-\chapter{Javascript}
+\section{Javascript}
 
 \hypertarget{toc2}{}
-\section{Customers application}
+\subsection{Customers application}
 
 \begin{lstlisting}
 apps/customers/js/app.js
@@ -51,7 +50,7 @@ apps/customers/js/app.js
 This application implements the tipical features associated to customers
 
 \hypertarget{toc3}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.customers = {};
@@ -60,7 +59,7 @@ saltos.customers = {};
 This object contains all SaltOS code
 
 \hypertarget{toc4}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.initialize_update_list = ()
@@ -69,7 +68,7 @@ saltos.customers.initialize_update_list = ()
 TODO
 
 \hypertarget{toc5}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.initialize_update_view = ()
@@ -78,7 +77,7 @@ saltos.customers.initialize_update_view = ()
 TODO
 
 \hypertarget{toc6}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.search = ()
@@ -87,7 +86,7 @@ saltos.customers.search = ()
 TODO
 
 \hypertarget{toc7}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.reset = ()
@@ -96,7 +95,7 @@ saltos.customers.reset = ()
 TODO
 
 \hypertarget{toc8}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.more = ()
@@ -105,7 +104,7 @@ saltos.customers.more = ()
 TODO
 
 \hypertarget{toc9}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.insert = ()
@@ -114,7 +113,7 @@ saltos.customers.insert = ()
 TODO
 
 \hypertarget{toc10}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.update = ()
@@ -123,7 +122,7 @@ saltos.customers.update = ()
 TODO
 
 \hypertarget{toc11}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.delete1 = arg
@@ -132,7 +131,7 @@ saltos.customers.delete1 = arg
 TODO
 
 \hypertarget{toc12}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.customers.delete2 = ()
@@ -141,7 +140,7 @@ saltos.customers.delete2 = ()
 TODO
 
 \hypertarget{toc13}{}
-\section{Dashboard application}
+\subsection{Dashboard application}
 
 \begin{lstlisting}
 apps/dashboard/js/app.js
@@ -150,7 +149,7 @@ apps/dashboard/js/app.js
 This application implements the tipical features associated to dashboard
 
 \hypertarget{toc14}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.dashboard = {};
@@ -159,7 +158,7 @@ saltos.dashboard = {};
 This object contains all SaltOS code
 
 \hypertarget{toc15}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.dashboard.initialize = ()
@@ -168,7 +167,7 @@ saltos.dashboard.initialize = ()
 TODO
 
 \hypertarget{toc16}{}
-\section{Email application}
+\subsection{Email application}
 
 \begin{lstlisting}
 apps/emails/js/app.js
@@ -177,7 +176,7 @@ apps/emails/js/app.js
 This application implements the tipical features associated to emails
 
 \hypertarget{toc17}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.emails = {};
@@ -186,7 +185,7 @@ saltos.emails = {};
 This object contains all SaltOS code
 
 \hypertarget{toc18}{}
-\subsection{Initialize emails app}
+\subsubsection{Initialize emails app}
 
 \begin{lstlisting}
 saltos.emails.initialize = ()
@@ -195,7 +194,7 @@ saltos.emails.initialize = ()
 This function initializes the emails app screen to improve the user experience.
 
 \hypertarget{toc19}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.search = ()
@@ -204,7 +203,7 @@ saltos.emails.search = ()
 TODO
 
 \hypertarget{toc20}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.reset = ()
@@ -213,7 +212,7 @@ saltos.emails.reset = ()
 TODO
 
 \hypertarget{toc21}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.more = ()
@@ -222,7 +221,7 @@ saltos.emails.more = ()
 TODO
 
 \hypertarget{toc22}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.getmail = ()
@@ -231,7 +230,7 @@ saltos.emails.getmail = ()
 TODO
 
 \hypertarget{toc23}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.delete1 = ()
@@ -240,7 +239,7 @@ saltos.emails.delete1 = ()
 TODO
 
 \hypertarget{toc24}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.delete2 = ()
@@ -249,7 +248,7 @@ saltos.emails.delete2 = ()
 TODO
 
 \hypertarget{toc25}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.send = ()
@@ -258,7 +257,7 @@ saltos.emails.send = ()
 TODO
 
 \hypertarget{toc26}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.download = (file)
@@ -267,7 +266,7 @@ saltos.emails.download = (file)
 TODO
 
 \hypertarget{toc27}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.emails.setter = what
@@ -277,10 +276,10 @@ TODO
 
 
 \hypertarget{toc28}{}
-\chapter{Emails}
+\section{Emails}
 
 \hypertarget{toc29}{}
-\section{Get email library}
+\subsection{Get email library}
 
 \begin{lstlisting}
 apps/emails/php/getmail.php
@@ -289,7 +288,7 @@ apps/emails/php/getmail.php
 This library provides the necesary functions to download, parse and manage emails.
 
 \hypertarget{toc30}{}
-\subsection{Requires section}
+\subsubsection{Requires section}
 
 \begin{lstlisting}
 require_once "apps/emails/lib/mimeparser/mime_parser.php";
@@ -298,7 +297,7 @@ require_once "apps/emails/lib/mimeparser/mime_parser.php";
 This requires loads the external libraries needed to run this library.
 
 \hypertarget{toc31}{}
-\subsection{Defines section}
+\subsubsection{Defines section}
 
 \begin{lstlisting}
 define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
@@ -307,7 +306,7 @@ define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">
 This defines allow to define some usefull standards to do html pages and more.
 
 \hypertarget{toc32}{}
-\subsection{Remove all body}
+\subsubsection{Remove all body}
 
 \begin{lstlisting}
 function __getmail_removebody($array)
@@ -320,7 +319,7 @@ This function removes the body entry in the array, it is only for debug purposes
 \end{compactitem}
 
 \hypertarget{toc33}{}
-\subsection{Process message}
+\subsubsection{Process message}
 
 \begin{lstlisting}
 function __getmail_processmessage($disp, $type)
@@ -335,7 +334,7 @@ allow the node to be processed.
 \end{compactitem}
 
 \hypertarget{toc34}{}
-\subsection{Process plain html}
+\subsubsection{Process plain html}
 
 \begin{lstlisting}
 function __getmail_processplainhtml($disp, $type)
@@ -350,7 +349,7 @@ allow the node to be processed.
 \end{compactitem}
 
 \hypertarget{toc35}{}
-\subsection{Process file}
+\subsubsection{Process file}
 
 \begin{lstlisting}
 function __getmail_processfile($disp, $type)
@@ -365,7 +364,7 @@ allow the node to be processed.
 \end{compactitem}
 
 \hypertarget{toc36}{}
-\subsection{Check permissions}
+\subsubsection{Check permissions}
 
 \begin{lstlisting}
 function __getmail_checkperm($id)
@@ -379,7 +378,7 @@ message identified by the id argument
 \end{compactitem}
 
 \hypertarget{toc37}{}
-\subsection{Get source}
+\subsubsection{Get source}
 
 \begin{lstlisting}
 function __getmail_getsource($id, $max = 0)
@@ -393,7 +392,7 @@ This function returns the original RFC822 message as string
 \end{compactitem}
 
 \hypertarget{toc38}{}
-\subsection{Mime decode protected}
+\subsubsection{Mime decode protected}
 
 \begin{lstlisting}
 function __getmail_mime_decode_protected($input)
@@ -407,7 +406,7 @@ using the mime\_parser\_class to do it, and returns the decoded array.
 \end{compactitem}
 
 \hypertarget{toc39}{}
-\subsection{Get mime}
+\subsubsection{Get mime}
 
 \begin{lstlisting}
 function __getmail_getmime($id)
@@ -422,7 +421,7 @@ file to improve the performance for repeated executions.
 \end{compactitem}
 
 \hypertarget{toc40}{}
-\subsection{Get Node}
+\subsubsection{Get Node}
 
 \begin{lstlisting}
 function __getmail_getnode($path, $array)
@@ -436,7 +435,7 @@ This function returns the node using a xpath notation
 \end{compactitem}
 
 \hypertarget{toc41}{}
-\subsection{Get type}
+\subsubsection{Get type}
 
 \begin{lstlisting}
 function __getmail_gettype($array)
@@ -450,7 +449,7 @@ the follow formats: html, plain, messsage, alternative, multipart or other.
 \end{compactitem}
 
 \hypertarget{toc42}{}
-\subsection{Get disposition}
+\subsubsection{Get disposition}
 
 \begin{lstlisting}
 function __getmail_getdisposition($array)
@@ -464,7 +463,7 @@ it into the follow formats: attachment, inline or other.
 \end{compactitem}
 
 \hypertarget{toc43}{}
-\subsection{Get files}
+\subsubsection{Get files}
 
 \begin{lstlisting}
 function __getmail_getfiles($array, $level = 0)
@@ -478,7 +477,7 @@ This function returns an array with the attachment files of the message
 \end{compactitem}
 
 \hypertarget{toc44}{}
-\subsection{Get human size}
+\subsubsection{Get human size}
 
 \begin{lstlisting}
 function __getmail_gethumansize($size)
@@ -491,7 +490,7 @@ This function returns an string containing the size in human format
 \end{compactitem}
 
 \hypertarget{toc45}{}
-\subsection{Get info}
+\subsubsection{Get info}
 
 \begin{lstlisting}
 function __getmail_getinfo($array)
@@ -504,7 +503,7 @@ Returns all information of the decoded message in a structured format
 \end{compactitem}
 
 \hypertarget{toc46}{}
-\subsection{Fix string}
+\subsubsection{Fix string}
 
 \begin{lstlisting}
 function __getmail_fixstring($arg)
@@ -518,7 +517,7 @@ of the decoded message.
 \end{compactitem}
 
 \hypertarget{toc47}{}
-\subsection{Get text body}
+\subsubsection{Get text body}
 
 \begin{lstlisting}
 function __getmail_gettextbody($array, $level = 0)
@@ -532,7 +531,7 @@ This function returns all text body concatenated as an unique string
 \end{compactitem}
 
 \hypertarget{toc48}{}
-\subsection{Get full body}
+\subsubsection{Get full body}
 
 \begin{lstlisting}
 function __getmail_getfullbody($array)
@@ -545,7 +544,7 @@ This function returns all body and attachments information as an array
 \end{compactitem}
 
 \hypertarget{toc49}{}
-\subsection{Get cid}
+\subsubsection{Get cid}
 
 \begin{lstlisting}
 function __getmail_getcid($array, $hash)
@@ -559,7 +558,7 @@ This function returns the requested attachment indentified by the hash argument
 \end{compactitem}
 
 \hypertarget{toc50}{}
-\subsection{Insert}
+\subsubsection{Insert}
 
 \begin{lstlisting}
 function __getmail_insert(
@@ -581,7 +580,7 @@ This function do the insert in the app\_emails table, and
 \end{compactitem}
 
 \hypertarget{toc51}{}
-\subsection{Update}
+\subsubsection{Update}
 
 \begin{lstlisting}
 function __getmail_update($field, $value, $id)
@@ -597,7 +596,7 @@ register identified by the id argument.
 \end{compactitem}
 
 \hypertarget{toc52}{}
-\subsection{Raw url decode}
+\subsubsection{Raw url decode}
 
 \begin{lstlisting}
 function __getmail_rawurldecode($temp)
@@ -611,7 +610,7 @@ to try to detect url encoded strings and fix it if is needed
 \end{compactitem}
 
 \hypertarget{toc53}{}
-\subsection{Add bcc}
+\subsubsection{Add bcc}
 
 \begin{lstlisting}
 function __getmail_add_bcc($id, $bcc)
@@ -627,7 +626,7 @@ if the current execution is the sender of the message.
 \end{compactitem}
 
 \hypertarget{toc54}{}
-\subsection{Gzfile size}
+\subsubsection{Gzfile size}
 
 \begin{lstlisting}
 function gzfilesize($filename)
@@ -641,7 +640,7 @@ and allow to know the file size of the file after a gzip descompression.
 \end{compactitem}
 
 \hypertarget{toc55}{}
-\subsection{Get email body}
+\subsubsection{Get email body}
 
 \begin{lstlisting}
 function getmail_body($id)
@@ -655,7 +654,7 @@ intended to be rendered in an iframe, for example
 \end{compactitem}
 
 \hypertarget{toc56}{}
-\subsection{Get email source}
+\subsubsection{Get email source}
 
 \begin{lstlisting}
 function getmail_source($id)
@@ -669,7 +668,7 @@ intended to be rendered in an iframe, for example
 \end{compactitem}
 
 \hypertarget{toc57}{}
-\subsection{Get email files}
+\subsubsection{Get email files}
 
 \begin{lstlisting}
 function getmail_files($id)
@@ -683,7 +682,7 @@ intended to be rendered in an table, for example
 \end{compactitem}
 
 \hypertarget{toc58}{}
-\subsection{Get cid}
+\subsubsection{Get cid}
 
 \begin{lstlisting}
 function getmail_cid($id, $cid)
@@ -697,7 +696,7 @@ This function returns the requested attachment indentified by the cid argument
 \end{compactitem}
 
 \hypertarget{toc59}{}
-\subsection{Is outbox}
+\subsubsection{Is outbox}
 
 \begin{lstlisting}
 function getmail_field($field, $id)
@@ -711,7 +710,7 @@ Returns the field of the email identified by the id argument
 \end{compactitem}
 
 \hypertarget{toc60}{}
-\subsection{Receive}
+\subsubsection{Receive}
 
 \begin{lstlisting}
 function getmail_receive()
@@ -720,7 +719,7 @@ function getmail_receive()
 This function implements the old getmail action of the old saltos.
 
 \hypertarget{toc61}{}
-\subsection{Delete}
+\subsubsection{Delete}
 
 \begin{lstlisting}
 function getmail_delete($ids)
@@ -733,7 +732,7 @@ This function implements the old delete action of the old saltos.
 \end{compactitem}
 
 \hypertarget{toc62}{}
-\subsection{Get viewpdf}
+\subsubsection{Get viewpdf}
 
 \begin{lstlisting}
 function getmail_viewpdf($id, $cid)
@@ -748,7 +747,7 @@ in a pdf format for the viewpdf widget
 \end{compactitem}
 
 \hypertarget{toc63}{}
-\subsection{Get download}
+\subsubsection{Get download}
 
 \begin{lstlisting}
 function getmail_download($id, $cid)
@@ -763,7 +762,7 @@ in an array format for the download feature
 \end{compactitem}
 
 \hypertarget{toc64}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 function getmail_setter($ids, $action2)
@@ -772,7 +771,7 @@ function getmail_setter($ids, $action2)
 TODO
 
 \hypertarget{toc65}{}
-\section{Send email library}
+\subsection{Send email library}
 
 \begin{lstlisting}
 apps/emails/php/sendmail.php
@@ -781,7 +780,7 @@ apps/emails/php/sendmail.php
 This library provides the necesary functions to send emails.
 
 \hypertarget{toc66}{}
-\subsection{Used libraries}
+\subsubsection{Used libraries}
 
 \begin{lstlisting}
 use PHPMailer\PHPMailer\PHPMailer;
@@ -790,7 +789,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 This use loads the external libraries needed to run this library.
 
 \hypertarget{toc67}{}
-\subsection{Sendmail}
+\subsubsection{Sendmail}
 
 \begin{lstlisting}
 function sendmail($account_id, $to, $subject, $body, $files = "")
@@ -807,7 +806,7 @@ This function send an email in synchronous and/or asynchronous mode
 \$files      =$>$ an array with files
 
 \hypertarget{toc68}{}
-\subsection{Parser}
+\subsubsection{Parser}
 
 \begin{lstlisting}
 function __sendmail_parser($oldaddr)
@@ -822,7 +821,7 @@ for the addr and the second is for the name.
 \end{compactitem}
 
 \hypertarget{toc69}{}
-\subsection{Message Id}
+\subsubsection{Message Id}
 
 \begin{lstlisting}
 function __sendmail_messageid($account_id, $from)
@@ -838,7 +837,7 @@ value and checks that is unique in the system to prevent concurrence.
 \end{compactitem}
 
 \hypertarget{toc70}{}
-\subsection{Eml saver}
+\subsubsection{Eml saver}
 
 \begin{lstlisting}
 function __sendmail_emlsaver($message, $messageid)
@@ -852,7 +851,7 @@ This function is intended to save the RFC822 message into the eml gzfile
 \end{compactitem}
 
 \hypertarget{toc71}{}
-\subsection{Obj saver}
+\subsubsection{Obj saver}
 
 \begin{lstlisting}
 function __sendmail_objsaver($mail, $messageid)
@@ -867,10 +866,10 @@ This function is intended to save the PHPMailer object into the obj file
 
 
 \hypertarget{toc72}{}
-\chapter{Javascript}
+\section{Javascript}
 
 \hypertarget{toc73}{}
-\section{invoices application}
+\subsection{invoices application}
 
 \begin{lstlisting}
 apps/invoices/js/app.js
@@ -879,7 +878,7 @@ apps/invoices/js/app.js
 This application implements the tipical features associated to invoices
 
 \hypertarget{toc74}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.invoices = {};
@@ -888,7 +887,7 @@ saltos.invoices = {};
 This object contains all SaltOS code
 
 \hypertarget{toc75}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.initialize_update_list = ()
@@ -897,7 +896,7 @@ saltos.invoices.initialize_update_list = ()
 TODO
 
 \hypertarget{toc76}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.initialize_update_view = ()
@@ -906,7 +905,7 @@ saltos.invoices.initialize_update_view = ()
 TODO
 
 \hypertarget{toc77}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.initialize_buttons = ()
@@ -915,7 +914,7 @@ saltos.invoices.initialize_buttons = ()
 TODO
 
 \hypertarget{toc78}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.initialize_inputs = ()
@@ -924,7 +923,7 @@ saltos.invoices.initialize_inputs = ()
 TODO
 
 \hypertarget{toc79}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.compute_total = ()
@@ -933,7 +932,7 @@ saltos.invoices.compute_total = ()
 TODO
 
 \hypertarget{toc80}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.add_item = ()
@@ -942,7 +941,7 @@ saltos.invoices.add_item = ()
 TODO
 
 \hypertarget{toc81}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.remove_item = (obj)
@@ -951,7 +950,7 @@ saltos.invoices.remove_item = (obj)
 TODO
 
 \hypertarget{toc82}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.search = ()
@@ -960,7 +959,7 @@ saltos.invoices.search = ()
 TODO
 
 \hypertarget{toc83}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.reset = ()
@@ -969,7 +968,7 @@ saltos.invoices.reset = ()
 TODO
 
 \hypertarget{toc84}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.more = ()
@@ -978,7 +977,7 @@ saltos.invoices.more = ()
 TODO
 
 \hypertarget{toc85}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.insert = ()
@@ -987,7 +986,7 @@ saltos.invoices.insert = ()
 TODO
 
 \hypertarget{toc86}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.update = ()
@@ -996,7 +995,7 @@ saltos.invoices.update = ()
 TODO
 
 \hypertarget{toc87}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.delete1 = arg
@@ -1005,7 +1004,7 @@ saltos.invoices.delete1 = arg
 TODO
 
 \hypertarget{toc88}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.invoices.delete2 = ()
@@ -1014,7 +1013,7 @@ saltos.invoices.delete2 = ()
 TODO
 
 \hypertarget{toc89}{}
-\section{Login application}
+\subsection{Login application}
 
 \begin{lstlisting}
 apps/login/js/app.js
@@ -1023,7 +1022,7 @@ apps/login/js/app.js
 This application implements the tipical features associated to login
 
 \hypertarget{toc90}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.login = {};
@@ -1032,7 +1031,7 @@ saltos.login = {};
 This object contains all SaltOS code
 
 \hypertarget{toc91}{}
-\subsection{Authenticate login function}
+\subsubsection{Authenticate login function}
 
 \begin{lstlisting}
 saltos.login.authenticate = ()
@@ -1042,7 +1041,7 @@ This function tries to authenticate the user using the user and pass fields of t
 it uses the authenticate function that send data to the authtoken action
 
 \hypertarget{toc92}{}
-\subsection{Access denied}
+\subsubsection{Access denied}
 
 \begin{lstlisting}
 saltos.login.access_denied = ()
@@ -1051,7 +1050,7 @@ saltos.login.access_denied = ()
 This function displays a modal dialog with the tipical access denied message
 
 \hypertarget{toc93}{}
-\section{Tester application}
+\subsection{Tester application}
 
 \begin{lstlisting}
 apps/tester/js/app.new.js
@@ -1060,7 +1059,7 @@ apps/tester/js/app.new.js
 This application implements the tipical features associated to tester
 
 \hypertarget{toc94}{}
-\subsection{Tester object}
+\subsubsection{Tester object}
 
 \begin{lstlisting}
 saltos.tester = {};
@@ -1069,7 +1068,7 @@ saltos.tester = {};
 This object stores all function used by this app
 
 \hypertarget{toc95}{}
-\subsection{Campo 8}
+\subsubsection{Campo 8}
 
 \begin{lstlisting}
 saltos.tester.campo8 = ()
@@ -1078,7 +1077,7 @@ saltos.tester.campo8 = ()
 TODO
 
 \hypertarget{toc96}{}
-\subsection{Campo 9}
+\subsubsection{Campo 9}
 
 \begin{lstlisting}
 saltos.tester.campo9 = ()
@@ -1087,7 +1086,7 @@ saltos.tester.campo9 = ()
 TODO
 
 \hypertarget{toc97}{}
-\subsection{Campo 10}
+\subsubsection{Campo 10}
 
 \begin{lstlisting}
 saltos.tester.campo10 = ()
@@ -1096,7 +1095,7 @@ saltos.tester.campo10 = ()
 TODO
 
 \hypertarget{toc98}{}
-\subsection{Campo 11}
+\subsubsection{Campo 11}
 
 \begin{lstlisting}
 saltos.tester.campo11 = ()
@@ -1105,7 +1104,7 @@ saltos.tester.campo11 = ()
 TODO
 
 \hypertarget{toc99}{}
-\subsection{Campo 22}
+\subsubsection{Campo 22}
 
 \begin{lstlisting}
 saltos.tester.campo22 = ()
@@ -1114,7 +1113,7 @@ saltos.tester.campo22 = ()
 TODO
 
 \hypertarget{toc100}{}
-\section{Tester application}
+\subsection{Tester application}
 
 \begin{lstlisting}
 apps/tester/js/app.old.js
@@ -1123,7 +1122,7 @@ apps/tester/js/app.old.js
 This application implements the tipical features associated to tester
 
 \hypertarget{toc101}{}
-\subsection{Main code}
+\subsubsection{Main code}
 
 \begin{lstlisting}
 (function() {
@@ -1133,24 +1132,24 @@ This function executes the main code that allow to you to see the tester in acti
 
 
 \hypertarget{toc102}{}
-\chapter{Tester}
+\section{Tester}
 
 \hypertarget{toc103}{}
-\section{TODO}
+\subsection{TODO}
 
 \begin{lstlisting}
 apps/tester/php/indexing.php
 \end{lstlisting}
 
 \hypertarget{toc104}{}
-\section{TODO}
+\subsection{TODO}
 
 \begin{lstlisting}
 apps/tester/php/insert.php
 \end{lstlisting}
 
 \hypertarget{toc105}{}
-\section{TODO}
+\subsection{TODO}
 
 \begin{lstlisting}
 apps/tester/php/pepe.php
@@ -1158,10 +1157,10 @@ apps/tester/php/pepe.php
 
 
 \hypertarget{toc106}{}
-\chapter{Javascript}
+\section{Javascript}
 
 \hypertarget{toc107}{}
-\section{Types application}
+\subsection{Types application}
 
 \begin{lstlisting}
 apps/types/js/app.1.js
@@ -1170,7 +1169,7 @@ apps/types/js/app.1.js
 This application implements the tipical features associated to types
 
 \hypertarget{toc108}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.types = {};
@@ -1179,7 +1178,7 @@ saltos.types = {};
 This object contains all SaltOS code
 
 \hypertarget{toc109}{}
-\subsection{Initialize types}
+\subsubsection{Initialize types}
 
 \begin{lstlisting}
 saltos.types.initialize = ()
@@ -1188,7 +1187,7 @@ saltos.types.initialize = ()
 This function initializes the types screen to improve the user experience.
 
 \hypertarget{toc110}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.search = ()
@@ -1197,7 +1196,7 @@ saltos.types.search = ()
 TODO
 
 \hypertarget{toc111}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.reset = ()
@@ -1206,7 +1205,7 @@ saltos.types.reset = ()
 TODO
 
 \hypertarget{toc112}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.more = ()
@@ -1215,7 +1214,7 @@ saltos.types.more = ()
 TODO
 
 \hypertarget{toc113}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.open = arg
@@ -1224,7 +1223,7 @@ saltos.types.open = arg
 TODO
 
 \hypertarget{toc114}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.__open_helper = arg
@@ -1233,7 +1232,7 @@ saltos.types.__open_helper = arg
 TODO
 
 \hypertarget{toc115}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.close = ()
@@ -1242,7 +1241,7 @@ saltos.types.close = ()
 TODO
 
 \hypertarget{toc116}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.insert = arg
@@ -1251,7 +1250,7 @@ saltos.types.insert = arg
 TODO
 
 \hypertarget{toc117}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.update = arg
@@ -1260,7 +1259,7 @@ saltos.types.update = arg
 TODO
 
 \hypertarget{toc118}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.delete = arg
@@ -1269,7 +1268,7 @@ saltos.types.delete = arg
 TODO
 
 \hypertarget{toc119}{}
-\section{types application}
+\subsection{types application}
 
 \begin{lstlisting}
 apps/types/js/app.2.js
@@ -1278,7 +1277,7 @@ apps/types/js/app.2.js
 This application implements the tipical features associated to types
 
 \hypertarget{toc120}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.types = {};
@@ -1287,7 +1286,7 @@ saltos.types = {};
 This object contains all SaltOS code
 
 \hypertarget{toc121}{}
-\subsection{Initialize types}
+\subsubsection{Initialize types}
 
 \begin{lstlisting}
 saltos.types.initialize_update_list = ()
@@ -1296,7 +1295,7 @@ saltos.types.initialize_update_list = ()
 This function initializes the types screen to improve the user experience.
 
 \hypertarget{toc122}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.initialize_update_view = ()
@@ -1305,7 +1304,7 @@ saltos.types.initialize_update_view = ()
 TODO
 
 \hypertarget{toc123}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.search = ()
@@ -1314,7 +1313,7 @@ saltos.types.search = ()
 TODO
 
 \hypertarget{toc124}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.reset = ()
@@ -1323,7 +1322,7 @@ saltos.types.reset = ()
 TODO
 
 \hypertarget{toc125}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.more = ()
@@ -1332,7 +1331,7 @@ saltos.types.more = ()
 TODO
 
 \hypertarget{toc126}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.insert = ()
@@ -1341,7 +1340,7 @@ saltos.types.insert = ()
 TODO
 
 \hypertarget{toc127}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.update = ()
@@ -1350,7 +1349,7 @@ saltos.types.update = ()
 TODO
 
 \hypertarget{toc128}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.delete1 = arg
@@ -1359,7 +1358,7 @@ saltos.types.delete1 = arg
 TODO
 
 \hypertarget{toc129}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.delete2 = ()
@@ -1368,7 +1367,7 @@ saltos.types.delete2 = ()
 TODO
 
 \hypertarget{toc130}{}
-\section{Types application}
+\subsection{Types application}
 
 \begin{lstlisting}
 apps/types/js/app.3.js
@@ -1377,7 +1376,7 @@ apps/types/js/app.3.js
 This application implements the tipical features associated to types
 
 \hypertarget{toc131}{}
-\subsection{Main object}
+\subsubsection{Main object}
 
 \begin{lstlisting}
 saltos.types = {};
@@ -1386,7 +1385,7 @@ saltos.types = {};
 This object contains all SaltOS code
 
 \hypertarget{toc132}{}
-\subsection{Initialize types}
+\subsubsection{Initialize types}
 
 \begin{lstlisting}
 saltos.types.initialize = ()
@@ -1395,7 +1394,7 @@ saltos.types.initialize = ()
 This function initializes the types screen to improve the user experience.
 
 \hypertarget{toc133}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.search = ()
@@ -1404,7 +1403,7 @@ saltos.types.search = ()
 TODO
 
 \hypertarget{toc134}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.reset = ()
@@ -1413,7 +1412,7 @@ saltos.types.reset = ()
 TODO
 
 \hypertarget{toc135}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.more = ()
@@ -1422,7 +1421,7 @@ saltos.types.more = ()
 TODO
 
 \hypertarget{toc136}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.open = arg
@@ -1431,7 +1430,7 @@ saltos.types.open = arg
 TODO
 
 \hypertarget{toc137}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.__open_helper = arg
@@ -1440,7 +1439,7 @@ saltos.types.__open_helper = arg
 TODO
 
 \hypertarget{toc138}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.close = ()
@@ -1449,7 +1448,7 @@ saltos.types.close = ()
 TODO
 
 \hypertarget{toc139}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.insert = arg
@@ -1458,7 +1457,7 @@ saltos.types.insert = arg
 TODO
 
 \hypertarget{toc140}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.update = arg
@@ -1467,7 +1466,7 @@ saltos.types.update = arg
 TODO
 
 \hypertarget{toc141}{}
-\subsection{TODO}
+\subsubsection{TODO}
 
 \begin{lstlisting}
 saltos.types.delete = arg

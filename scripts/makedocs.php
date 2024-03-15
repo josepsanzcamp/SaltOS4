@@ -189,7 +189,7 @@ exec("txt2tags --toc -t tex -i ${file}.t2t -o ${file}.tex");
 $buffer = file_get_contents("${file}.tex");
 $buffer = explode("\n", $buffer);
 $buffer0 = array_slice($buffer, 0, 5);
-$buffer0 = str_replace("\\documentclass{article}", "\\documentclass[a4paper]{book}", $buffer0);
+$buffer0 = str_replace("\\documentclass{article}", "\\documentclass[a4paper]{article}", $buffer0);
 $buffer0 = str_replace(
     "\\usepackage[urlcolor=blue,colorlinks=true]{hyperref}",
     "\\usepackage[urlcolor=myblue,colorlinks=true,linkcolor=myblue]{hyperref}",
@@ -215,8 +215,7 @@ $buffer1 = [
     "\\usepackage{courier}",
     "\\lstset{basicstyle=\\ttfamily,backgroundcolor=\\color{mygrey},breaklines=true}",
     "\\usepackage{tocloft}",
-    "\\usepackage{calc}",
-    "\\setlength{\\cftsubsecnumwidth}{\\widthof{\\large\\bfseries{}1.11.11}}",
+    "\\setlength{\\cftsubsubsecnumwidth}{13mm}",
     "\\setlength\\cftparskip{3mm}",
     "",
 ];
@@ -225,21 +224,6 @@ $buffer2 = str_replace("\\begin{verbatim}", "\\begin{lstlisting}", $buffer2);
 $buffer2 = str_replace("\\end{verbatim}", "\\end{lstlisting}", $buffer2);
 $buffer2 = str_replace("\t", str_repeat(" ", 4), $buffer2);
 $buffer2 = str_replace("\\item", "\\item[\\color{myblue}\$\\bullet\$]", $buffer2);
-// Fix for the propblem with spaces in the TOC between numbers and titles
-//~ $buffer2 = str_replace(
-    //~ "\\tableofcontents",
-    //~ implode("\n", [
-        //~ "\\begingroup",
-        //~ "\\let\\orignumberline\\numberline",
-        //~ "\\def\\numberline#1{\\orignumberline{#1}\\hspace{1ex}}",
-        //~ "\\tableofcontents",
-        //~ "\\endgroup",
-    //~ ]),
-    //~ $buffer2
-//~ );
-$buffer2 = str_replace("\\section", "\\chapter", $buffer2);
-$buffer2 = str_replace("\\subsection", "\\section", $buffer2);
-$buffer2 = str_replace("\\subsubsection", "\\subsection", $buffer2);
 $buffer = array_merge($buffer0, $buffer1, $buffer2);
 $buffer = implode("\n", $buffer);
 file_put_contents("${file}.tex", $buffer);
