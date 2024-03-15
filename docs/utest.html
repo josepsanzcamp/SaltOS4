@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Unit Test Documentation</title>
+<meta name="generator" content="http://txt2tags.org">
+<style>
+body{background-color:#fff;color:#000;}
+hr{background-color:#000;border:0;color:#000;}
+hr.heavy{height:5px;}
+hr.light{height:1px;}
+img{border:0;display:block;}
+img.right{margin:0 0 0 auto;}
+img.center{border:0;margin:0 auto;}
+table th,table td{padding:4px;}
+.center,header{text-align:center;}
+table.center {margin-left:auto; margin-right:auto;}
+.right{text-align:right;}
+.left{text-align:left;}
+.tableborder,.tableborder td,.tableborder th{border:1px solid #000;}
+.underline{text-decoration:underline;}
+pre{background-color:#e6e6e6;padding:5px 3px}
+</style>
+</head>
+<body>
+<header>
+<hgroup>
+<h1>Unit Test Documentation</h1>
+<h2>SaltOS 4.0 r760</h2>
+<h3>March 2024</h3>
+</hgroup>
+</header>
+<article>
+
+<nav>
+<div class="body" id="body">
+
+  <ul>
+  <li><a href="#toc1">1. Lib</a>
+    <ul>
+    <li><a href="#toc2">1.1. Autoload file for the unit tests</a>
+      <ul>
+      <li><a href="#toc3">1.1.1. Main autoloader code</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc4">1.2. CLI helper function</a>
+      <ul>
+      <li><a href="#toc5">1.2.1. Test CLI helper</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc6">1.3. WEB helper function</a>
+      <ul>
+      <li><a href="#toc7">1.3.1. Test WEB helper</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc8">2. Utest</a>
+    <ul>
+    <li><a href="#toc9">2.1. Test cli customers</a>
+      <ul>
+      <li><a href="#toc10">2.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc11">2.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc12">2.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc13">2.1.4. Create</a>
+      </li>
+      <li><a href="#toc14">2.1.5. Insert</a>
+      </li>
+      <li><a href="#toc15">2.1.6. List</a>
+      </li>
+      <li><a href="#toc16">2.1.7. View</a>
+      </li>
+      <li><a href="#toc17">2.1.8. Edit</a>
+      </li>
+      <li><a href="#toc18">2.1.9. Upgrade</a>
+      </li>
+      <li><a href="#toc19">2.1.10. Delete</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc20">2.2. Test cli invoices</a>
+      <ul>
+      <li><a href="#toc21">2.2.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc22">2.2.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc23">2.2.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc24">2.2.4. Create</a>
+      </li>
+      <li><a href="#toc25">2.2.5. Insert</a>
+      </li>
+      <li><a href="#toc26">2.2.6. List</a>
+      </li>
+      <li><a href="#toc27">2.2.7. View</a>
+      </li>
+      <li><a href="#toc28">2.2.8. Edit</a>
+      </li>
+      <li><a href="#toc29">2.2.9. Upgrade</a>
+      </li>
+      <li><a href="#toc30">2.2.10. Delete</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc31">2.3. Test cli tokens (first part)</a>
+      <ul>
+      <li><a href="#toc32">2.3.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc33">2.3.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc34">2.3.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc35">2.3.4. Authtoken</a>
+      </li>
+      <li><a href="#toc36">2.3.5. Checktoken</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc37">2.4. Test cli tokens (second part)</a>
+      <ul>
+      <li><a href="#toc38">2.4.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc39">2.4.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc40">2.4.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc41">2.4.4. Deauthtoken</a>
+      </li>
+      <li><a href="#toc42">2.4.5. Checktoken ko</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc43">2.5. Test database drivers</a>
+      <ul>
+      <li><a href="#toc44">2.5.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc45">2.5.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc46">2.5.3. Helper</a>
+      </li>
+      <li><a href="#toc47">2.5.4. PDO MySQL driver</a>
+      </li>
+      <li><a href="#toc48">2.5.5. MySQL improved driver</a>
+      </li>
+      <li><a href="#toc49">2.5.6. PDO SQLite driver</a>
+      </li>
+      <li><a href="#toc50">2.5.7. SQLite3 driver</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc51">2.6. Test roundcube library</a>
+      <ul>
+      <li><a href="#toc52">2.6.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc53">2.6.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc54">2.6.3. html2text</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc55">2.7. Test web customers</a>
+      <ul>
+      <li><a href="#toc56">2.7.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc57">2.7.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc58">2.7.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc59">2.7.4. Create</a>
+      </li>
+      <li><a href="#toc60">2.7.5. Insert</a>
+      </li>
+      <li><a href="#toc61">2.7.6. List</a>
+      </li>
+      <li><a href="#toc62">2.7.7. View</a>
+      </li>
+      <li><a href="#toc63">2.7.8. Edit</a>
+      </li>
+      <li><a href="#toc64">2.7.9. Upgrade</a>
+      </li>
+      <li><a href="#toc65">2.7.10. Delete</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc66">2.8. Test web invoices</a>
+      <ul>
+      <li><a href="#toc67">2.8.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc68">2.8.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc69">2.8.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc70">2.8.4. Create</a>
+      </li>
+      <li><a href="#toc71">2.8.5. Insert</a>
+      </li>
+      <li><a href="#toc72">2.8.6. List</a>
+      </li>
+      <li><a href="#toc73">2.8.7. View</a>
+      </li>
+      <li><a href="#toc74">2.8.8. Edit</a>
+      </li>
+      <li><a href="#toc75">2.8.9. Upgrade</a>
+      </li>
+      <li><a href="#toc76">2.8.10. Delete</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc77">2.9. Test web tokens (first part)</a>
+      <ul>
+      <li><a href="#toc78">2.9.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc79">2.9.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc80">2.9.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc81">2.9.4. Authtoken</a>
+      </li>
+      <li><a href="#toc82">2.9.5. Checktoken</a>
+      </li>
+      </ul>
+    </li>
+    <li><a href="#toc83">2.10. Test web tokens (second part)</a>
+      <ul>
+      <li><a href="#toc84">2.10.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc85">2.10.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc86">2.10.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc87">2.10.4. Deauthtoken</a>
+      </li>
+      <li><a href="#toc88">2.10.5. Checktoken ko</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+
+</div>
+</nav>
+<div class="body" id="body">
+
+<section id="toc1">
+<h1>1. Lib</h1>
+
+<section id="toc2">
+<h2>1.1. Autoload file for the unit tests</h2>
+
+<pre>
+lib/autoload.php
+</pre>
+
+<p>
+This file contains the code that initialize the unit tests
+</p>
+
+<section id="toc3">
+<h3>1.1.1. Main autoloader code</h3>
+
+<p>
+This code emmulates the index.php by loading all autoload files excep
+the zindex.php, initialize the timer, the random and executes the
+check_system function.
+</p>
+
+</section>
+</section>
+<section id="toc4">
+<h2>1.2. CLI helper function</h2>
+
+<pre>
+lib/clilib.php
+</pre>
+
+<p>
+This file contains the function used by the web unit tests to communicate with the
+SaltOS app, using the two interfaces that SaltOS provides.
+</p>
+
+<section id="toc5">
+<h3>1.2.1. Test CLI helper</h3>
+
+<pre>
+function test_cli_helper($rest, $data, $token): array
+</pre>
+
+<p>
+This function allow to execute SaltOS using the CLI SAPI, to do it, the function
+detects if data is provided, and executes the command and getting the output of
+the execution. If data exists, then the contents are stored in a file and passed
+the contents of the file to the stdin of the php process to emmulate the input
+channel used by the apache server.
+</p>
+<p>
+As an example, this functions tries to execute the command using the follow formula:
+</p>
+<p>
+1) php index.php $rest
+</p>
+<p>
+2) cat /tmp/input | php index.php $rest
+</p>
+<p>
+In addition, the token field is used to define the TOKEN environment variable that
+is used by SaltOS as variable to emmulate the TOKEN used by the apache for authenticate
+the SaltOS app.
+</p>
+
+<ul>
+<li>@rest  =&gt; The rest request, like update/customers/3
+</li>
+<li>@data  =&gt; The data used as json in the SaltOS app
+</li>
+<li>@token =&gt; The token used if authentication is required
+</li>
+</ul>
+
+</section>
+</section>
+<section id="toc6">
+<h2>1.3. WEB helper function</h2>
+
+<pre>
+lib/weblib.php
+</pre>
+
+<p>
+This file contains the function used by the web unit tests to communicate with the
+SaltOS app, using the two interfaces that SaltOS provides.
+</p>
+
+<section id="toc7">
+<h3>1.3.1. Test WEB helper</h3>
+
+<pre>
+function test_web_helper($rest, $data, $token): array
+</pre>
+
+<p>
+This function performs the action defined by the rest verb sendind the data if it is
+provided and using the token for authentication actions.
+</p>
+<p>
+As you can see in the code, the function detects if data is provided and send the request
+using GET or POST, in addition, an application/json content-type header is send when POST
+is used.
+</p>
+<p>
+The token is sent using the TOKEN header to be used in the authentication process.
+</p>
+
+<ul>
+<li>@rest  =&gt; The rest request, like update/customers/3
+</li>
+<li>@data  =&gt; The data used as json in the SaltOS app
+</li>
+<li>@token =&gt; The token used if authentication is required
+</li>
+</ul>
+
+</section>
+</section>
+</section>
+<section id="toc8">
+<h1>2. Utest</h1>
+
+<section id="toc9">
+<h2>2.1. Test cli customers</h2>
+
+<pre>
+test_cli_customers.php
+</pre>
+
+<p>
+This test performs all actions of the customers app suck as: create, insert,
+list, view, edit, update and delete, using the cli sapi interface
+</p>
+
+<section id="toc10">
+<h3>2.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc11">
+<h3>2.1.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/clilib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc12">
+<h3>2.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_cli_customers extends TestCase
+</pre>
+
+</section>
+<section id="toc13">
+<h3>2.1.4. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc14">
+<h3>2.1.5. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc15">
+<h3>2.1.6. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc16">
+<h3>2.1.7. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc17">
+<h3>2.1.8. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc18">
+<h3>2.1.9. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc19">
+<h3>2.1.10. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+<section id="toc20">
+<h2>2.2. Test cli invoices</h2>
+
+<pre>
+test_cli_invoices.php
+</pre>
+
+<p>
+This test performs all actions of the invoices app suck as: create, insert,
+list, view, edit, update and delete, using the cli sapi interface
+</p>
+
+<section id="toc21">
+<h3>2.2.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc22">
+<h3>2.2.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/clilib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc23">
+<h3>2.2.3. Main class of this unit test</h3>
+
+<pre>
+final class test_cli_invoices extends TestCase
+</pre>
+
+</section>
+<section id="toc24">
+<h3>2.2.4. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc25">
+<h3>2.2.5. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc26">
+<h3>2.2.6. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc27">
+<h3>2.2.7. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc28">
+<h3>2.2.8. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc29">
+<h3>2.2.9. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc30">
+<h3>2.2.10. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+<section id="toc31">
+<h2>2.3. Test cli tokens (first part)</h2>
+
+<pre>
+test_cli_tokens1.php
+</pre>
+
+<p>
+This test performs some part of the actions related with the tokens suck
+as authtoken and checktoken, using the cli sapi interface
+</p>
+
+<section id="toc32">
+<h3>2.3.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc33">
+<h3>2.3.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/clilib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc34">
+<h3>2.3.3. Main class of this unit test</h3>
+
+<pre>
+final class test_cli_tokens1 extends TestCase
+</pre>
+
+</section>
+<section id="toc35">
+<h3>2.3.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc36">
+<h3>2.3.5. Checktoken</h3>
+
+<pre>
+public function test_checktoken(array $json): array
+</pre>
+
+<p>
+This function execute the checktoken rest request, and must to get the
+json with the ok about the valid token that you are trying to check
+</p>
+
+</section>
+</section>
+<section id="toc37">
+<h2>2.4. Test cli tokens (second part)</h2>
+
+<pre>
+test_cli_tokens2.php
+</pre>
+
+<p>
+This test performs some part of the actions related with the tokens suck
+as deauthtoken and checktoken, using the cli sapi interface
+</p>
+
+<section id="toc38">
+<h3>2.4.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc39">
+<h3>2.4.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/clilib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc40">
+<h3>2.4.3. Main class of this unit test</h3>
+
+<pre>
+final class test_cli_tokens2 extends TestCase
+</pre>
+
+</section>
+<section id="toc41">
+<h3>2.4.4. Deauthtoken</h3>
+
+<pre>
+public function test_deauthtoken(array $json): array
+</pre>
+
+<p>
+This function execute the deauthtoken rest request, and must to get the
+json with the ok about the valid token that you are deauthenticate
+</p>
+
+</section>
+<section id="toc42">
+<h3>2.4.5. Checktoken ko</h3>
+
+<pre>
+public function test_checktoken_ko(array $json): void
+</pre>
+
+<p>
+This function execute the checktoken rest request, and must to get the
+json with the ko about the invalid token that you are trying to check
+</p>
+
+</section>
+</section>
+<section id="toc43">
+<h2>2.5. Test database drivers</h2>
+
+<pre>
+test_database.php
+</pre>
+
+<section id="toc44">
+<h3>2.5.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc45">
+<h3>2.5.2. Main class of this unit test</h3>
+
+<pre>
+final class test_database extends TestCase
+</pre>
+
+</section>
+<section id="toc46">
+<h3>2.5.3. Helper</h3>
+
+<pre>
+private function test_helper($obj): void
+</pre>
+
+<p>
+This function executes the follow queries and checks the correctness
+of the driver by comparing the results with the expected results.
+</p>
+<p>
+The tests that performs are the follow:
+</p>
+
+<ul>
+<li>SELECT GROUP_CONCAT(a) test FROM (SELECT 1 a UNION SELECT 2 a UNION SELECT 3 a) a;
+</li>
+<li>SELECT REPLACE('abc', 'b', 'c') test
+</li>
+<li>SELECT LPAD('123', '5', '0') test
+</li>
+<li>SELECT CONCAT('a', 'b', 'c') test
+</li>
+<li>SELECT CONCAT_WS(',','a','b','c',null,true,false) test
+</li>
+<li>SELECT UNIX_TIMESTAMP('2024-02-01 12:34:56') test
+</li>
+<li>SELECT FROM_UNIXTIME(1706787296) test
+</li>
+<li>SELECT YEAR('2024-02-01 12:34:56') test
+</li>
+<li>SELECT MONTH('2024-02-01 12:34:56') test
+</li>
+<li>SELECT WEEK('2024-02-01 12:34:56', 1) test
+</li>
+<li>SELECT TRUNCATE(1.2345, 2) test
+</li>
+<li>SELECT DAY('2024-02-01 12:34:56') test
+</li>
+<li>SELECT DAYOFYEAR('2024-02-01 12:34:56') test
+</li>
+<li>SELECT DAYOFWEEK('2024-02-01 12:34:56') test
+</li>
+<li>SELECT HOUR('2024-02-01 12:34:56') test
+</li>
+<li>SELECT MINUTE('2024-02-01 12:34:56') test
+</li>
+<li>SELECT SECOND('2024-02-01 12:34:56') test
+</li>
+<li>SELECT MD5('fortuna') test
+</li>
+<li>SELECT REPEAT('abc',3) test
+</li>
+<li>SELECT FIND_IN_SET(3,'1,2,3,4,5') test
+</li>
+<li>SELECT FIND_IN_SET(6,'1,2,3,4,5') test
+</li>
+<li>SELECT FIND_IN_SET(3,'12345') test
+</li>
+<li>SELECT IF(true, 'ok', 'ko') test
+</li>
+<li>SELECT IF(false, 'ok', 'ko') test
+</li>
+<li>SELECT IF(null, 'ok', 'ko') test
+</li>
+<li>SELECT POW(2, 8) test
+</li>
+<li>SELECT DATE_FORMAT('2024-02-01 12:34:56', '%Y-%m-%d %H:%i:%s') test
+</li>
+<li>SELECT NOW() test
+</li>
+</ul>
+
+</section>
+<section id="toc47">
+<h3>2.5.4. PDO MySQL driver</h3>
+
+<pre>
+public function test_pdo_mysql(): void
+</pre>
+
+<p>
+This function checks the correctness of the sqlite3 driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+</p>
+
+</section>
+<section id="toc48">
+<h3>2.5.5. MySQL improved driver</h3>
+
+<pre>
+public function test_mysqli(): void
+</pre>
+
+<p>
+This function checks the correctness of the sqlite3 driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+</p>
+
+</section>
+<section id="toc49">
+<h3>2.5.6. PDO SQLite driver</h3>
+
+<pre>
+public function test_pdo_sqlite(): void
+</pre>
+
+<p>
+This function checks the correctness of the sqlite3 driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+</p>
+
+</section>
+<section id="toc50">
+<h3>2.5.7. SQLite3 driver</h3>
+
+<pre>
+public function test_sqlite3(): void
+</pre>
+
+<p>
+This function checks the correctness of the sqlite3 driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+</p>
+
+</section>
+</section>
+<section id="toc51">
+<h2>2.6. Test roundcube library</h2>
+
+<pre>
+test_roundcube.php
+</pre>
+
+<section id="toc52">
+<h3>2.6.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc53">
+<h3>2.6.2. Main class of this unit test</h3>
+
+<pre>
+final class test_roundcube extends TestCase
+</pre>
+
+</section>
+<section id="toc54">
+<h3>2.6.3. html2text</h3>
+
+<pre>
+public function test_html2text(): void
+</pre>
+
+<p>
+This function checks the correctness of the html2text method provided by the
+roundcube library.
+</p>
+
+</section>
+</section>
+<section id="toc55">
+<h2>2.7. Test web customers</h2>
+
+<pre>
+test_web_customers.php
+</pre>
+
+<p>
+This test performs all actions of the customers app suck as: create, insert,
+list, view, edit, update and delete, using the apache sapi interface
+</p>
+
+<section id="toc56">
+<h3>2.7.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc57">
+<h3>2.7.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/weblib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc58">
+<h3>2.7.3. Main class of this unit test</h3>
+
+<pre>
+final class test_web_customers extends TestCase
+</pre>
+
+</section>
+<section id="toc59">
+<h3>2.7.4. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc60">
+<h3>2.7.5. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc61">
+<h3>2.7.6. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc62">
+<h3>2.7.7. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc63">
+<h3>2.7.8. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc64">
+<h3>2.7.9. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc65">
+<h3>2.7.10. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+<section id="toc66">
+<h2>2.8. Test web invoices</h2>
+
+<pre>
+test_web_invoices.php
+</pre>
+
+<p>
+This test performs all actions of the invoices app suck as: create, insert,
+list, view, edit, update and delete, using the apache sapi interface
+</p>
+
+<section id="toc67">
+<h3>2.8.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc68">
+<h3>2.8.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/weblib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc69">
+<h3>2.8.3. Main class of this unit test</h3>
+
+<pre>
+final class test_web_invoices extends TestCase
+</pre>
+
+</section>
+<section id="toc70">
+<h3>2.8.4. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc71">
+<h3>2.8.5. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc72">
+<h3>2.8.6. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc73">
+<h3>2.8.7. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc74">
+<h3>2.8.8. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc75">
+<h3>2.8.9. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc76">
+<h3>2.8.10. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+<section id="toc77">
+<h2>2.9. Test web tokens (first part)</h2>
+
+<pre>
+test_web_tokens1.php
+</pre>
+
+<p>
+This test performs some part of the actions related with the tokens suck
+as authtoken and checktoken, using the apache sapi interface
+</p>
+
+<section id="toc78">
+<h3>2.9.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc79">
+<h3>2.9.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/weblib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc80">
+<h3>2.9.3. Main class of this unit test</h3>
+
+<pre>
+final class test_web_tokens1 extends TestCase
+</pre>
+
+</section>
+<section id="toc81">
+<h3>2.9.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc82">
+<h3>2.9.5. Checktoken</h3>
+
+<pre>
+public function test_checktoken(array $json): array
+</pre>
+
+<p>
+This function execute the checktoken rest request, and must to get the
+json with the ok about the valid token that you are trying to check
+</p>
+
+</section>
+</section>
+<section id="toc83">
+<h2>2.10. Test web tokens (second part)</h2>
+
+<pre>
+test_web_tokens2.php
+</pre>
+
+<p>
+This test performs some part of the actions related with the tokens suck
+as deauthtoken and checktoken, using the apache sapi interface
+</p>
+
+<section id="toc84">
+<h3>2.10.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc85">
+<h3>2.10.2. Loading helper function</h3>
+
+<pre>
+require_once "lib/weblib.php";
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc86">
+<h3>2.10.3. Main class of this unit test</h3>
+
+<pre>
+final class test_web_tokens2 extends TestCase
+</pre>
+
+</section>
+<section id="toc87">
+<h3>2.10.4. Deauthtoken</h3>
+
+<pre>
+public function test_deauthtoken(array $json): array
+</pre>
+
+<p>
+This function execute the deauthtoken rest request, and must to get the
+json with the ok about the valid token that you are deauthenticate
+</p>
+
+</section>
+<section id="toc88">
+<h3>2.10.5. Checktoken ko</h3>
+
+<pre>
+public function test_checktoken_ko(array $json): void
+</pre>
+
+<p>
+This function execute the checktoken rest request, and must to get the
+json with the ko about the invalid token that you are trying to check
+</p>
+</section>
+</section>
+</section>
+</div>
+
+<!-- html code generated by txt2tags 3.4 (http://txt2tags.org) -->
+<!-- cmdline: txt2tags -\-toc -t html -i utest.t2t -o utest.html -->
+</article></body></html>

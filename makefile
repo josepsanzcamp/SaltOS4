@@ -49,7 +49,9 @@ devel:
 	cat code/web/htm/index.htm | php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js > code/web/index.htm
 
 docs: .
-	php scripts/makedocs.php docs/document.t2t code/api/php code/web/js code/apps/*/js code/apps/*/php
+	php scripts/makedocs.php docs/code.t2t code/api/php code/web/js
+	php scripts/makedocs.php docs/apps.t2t code/apps/*/js code/apps/*/php
+	php scripts/makedocs.php docs/utest.t2t utest/ utest/lib
 
 clean:
 	rm -f code/web/index.js

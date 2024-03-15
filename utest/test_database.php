@@ -38,11 +38,11 @@ declare(strict_types=1);
 /**
  * Importing namespaces
  */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Main class of this unit test
@@ -405,6 +405,7 @@ final class test_database extends TestCase
         $this->assertSame($obj->db_query($query), $result);
     }
 
+    #[testdox('pdo_mysql driver')]
     /**
      * PDO MySQL driver
      *
@@ -412,7 +413,6 @@ final class test_database extends TestCase
      * database connection, sendint queries validating the expected results and
      * closing the connection.
      */
-    #[testdox('pdo_mysql driver')]
     public function test_pdo_mysql(): void
     {
         // Connection part
@@ -433,6 +433,7 @@ final class test_database extends TestCase
         $obj->db_disconnect();
     }
 
+    #[testdox('mysqli driver')]
     /**
      * MySQL improved driver
      *
@@ -440,7 +441,6 @@ final class test_database extends TestCase
      * database connection, sendint queries validating the expected results and
      * closing the connection.
      */
-    #[testdox('mysqli driver')]
     public function test_mysqli(): void
     {
         // Connection part
@@ -461,6 +461,7 @@ final class test_database extends TestCase
         $obj->db_disconnect();
     }
 
+    #[testdox('pdo_sqlite driver')]
     /**
      * PDO SQLite driver
      *
@@ -468,7 +469,6 @@ final class test_database extends TestCase
      * database connection, sendint queries validating the expected results and
      * closing the connection.
      */
-    #[testdox('pdo_sqlite driver')]
     public function test_pdo_sqlite(): void
     {
         // Connection part
@@ -485,6 +485,7 @@ final class test_database extends TestCase
         $obj->db_disconnect();
     }
 
+    #[testdox('sqlite3 driver')]
     /**
      * SQLite3 driver
      *
@@ -492,7 +493,6 @@ final class test_database extends TestCase
      * database connection, sendint queries validating the expected results and
      * closing the connection.
      */
-    #[testdox('sqlite3 driver')]
     public function test_sqlite3(): void
     {
         // Connection part

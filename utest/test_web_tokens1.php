@@ -42,11 +42,11 @@ declare(strict_types=1);
 /**
  * Importing namespaces
  */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Loading helper function
@@ -60,13 +60,13 @@ require_once "lib/weblib.php";
  */
 final class test_web_tokens1 extends TestCase
 {
+    #[testdox('authtoken action')]
     /**
      * Authtoken
      *
      * This function execute the authtoken rest request, and must to get the
      * json with the valid token to continue in the nexts unit tests
      */
-    #[testdox('authtoken action')]
     public function test_authtoken(): array
     {
         $json = test_web_helper("authtoken", [
@@ -79,14 +79,14 @@ final class test_web_tokens1 extends TestCase
         return $json;
     }
 
+    #[Depends('test_authtoken')]
+    #[testdox('checktoken action')]
     /**
      * Checktoken
      *
      * This function execute the checktoken rest request, and must to get the
      * json with the ok about the valid token that you are trying to check
      */
-    #[Depends('test_authtoken')]
-    #[testdox('checktoken action')]
     public function test_checktoken(array $json): array
     {
         $json = test_web_helper("checktoken", "", $json["token"]);

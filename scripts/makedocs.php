@@ -100,7 +100,15 @@ foreach ($files as $file => $temp) {
 
 // T2T Section
 ob_start();
-echo "Code documentation\n";
+$title = str_replace(".t2t", "", $outfile);
+if ($title == "apps") {
+    $title = "application";
+}
+if ($title == "utest") {
+    $title = "unit test";
+}
+$title .= " documentation";
+echo ucwords($title) . "\n";
 $rev = intval(ob_passthru("svnversion"));
 echo "SaltOS 4.0 r$rev\n";
 $date = date("F Y");

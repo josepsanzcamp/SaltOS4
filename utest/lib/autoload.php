@@ -40,6 +40,7 @@ declare(strict_types=1);
  * the zindex.php, initialize the timer, the random and executes the
  * check_system function.
  */
+
 set_include_path(get_include_path() . "/" . getcwd() . "/" . "utest");
 chdir("code/api");
 foreach (glob("php/autoload/*.php") as $file) {

@@ -42,11 +42,11 @@ declare(strict_types=1);
 /**
  * Importing namespaces
  */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Loading helper function
@@ -60,16 +60,16 @@ require_once "lib/weblib.php";
  */
 final class test_web_tokens2 extends TestCase
 {
+    #[DependsOnClass('test_web_customers')]
+    #[DependsOnClass('test_web_invoices')]
+    #[DependsExternal('test_web_tokens1', 'test_authtoken')]
+    #[testdox('deauthtoken action')]
     /**
      * Deauthtoken
      *
      * This function execute the deauthtoken rest request, and must to get the
      * json with the ok about the valid token that you are deauthenticate
      */
-    #[DependsOnClass('test_web_customers')]
-    #[DependsOnClass('test_web_invoices')]
-    #[DependsExternal('test_web_tokens1', 'test_authtoken')]
-    #[testdox('deauthtoken action')]
     public function test_deauthtoken(array $json): array
     {
         $json2 = test_web_helper("deauthtoken", "", $json["token"]);
@@ -78,14 +78,14 @@ final class test_web_tokens2 extends TestCase
         return $json;
     }
 
+    #[Depends('test_deauthtoken')]
+    #[testdox('checktoken ko action')]
     /**
      * Checktoken ko
      *
      * This function execute the checktoken rest request, and must to get the
      * json with the ko about the invalid token that you are trying to check
      */
-    #[Depends('test_deauthtoken')]
-    #[testdox('checktoken ko action')]
     public function test_checktoken_ko(array $json): void
     {
         $json2 = test_web_helper("checktoken", "", $json["token"]);

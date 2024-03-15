@@ -1,0 +1,1480 @@
+\documentclass[a4paper]{book}
+\usepackage{graphicx}
+\usepackage{paralist} % needed for compact lists
+\usepackage[normalem]{ulem} % needed by strike
+\usepackage[urlcolor=myblue,colorlinks=true,linkcolor=myblue]{hyperref}
+\usepackage[english]{babel}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{eurosym}
+\usepackage{sans}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\allsectionsfont{\color{myblue}}
+\definecolor{myblue}{RGB}{39,128,227}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{3mm}
+\setlength{\plparsep}{2.5mm}
+\def\htmladdnormallink#1#2{\href{#2}{#1}}
+\definecolor{mygrey}{rgb}{0.9,0.9,0.9}
+\usepackage{courier}
+\lstset{basicstyle=\ttfamily,backgroundcolor=\color{mygrey},breaklines=true}
+\usepackage{tocloft}
+\usepackage{calc}
+\setlength{\cftsubsecnumwidth}{\widthof{\large\bfseries{}1.11.11}}
+\setlength\cftparskip{3mm}
+
+
+\title{Application Documentation}
+\author{SaltOS 4.0 r760}
+\begin{document}
+\date{March 2024}
+\maketitle
+\clearpage
+
+\tableofcontents
+\clearpage
+
+
+\hypertarget{toc1}{}
+\chapter{Javascript}
+
+\hypertarget{toc2}{}
+\section{Customers application}
+
+\begin{lstlisting}
+apps/customers/js/app.js
+\end{lstlisting}
+
+This application implements the tipical features associated to customers
+
+\hypertarget{toc3}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.customers = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc4}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.initialize_update_list = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc5}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.initialize_update_view = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc6}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc7}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc8}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc9}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.insert = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc10}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.update = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc11}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.delete1 = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc12}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.customers.delete2 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc13}{}
+\section{Dashboard application}
+
+\begin{lstlisting}
+apps/dashboard/js/app.js
+\end{lstlisting}
+
+This application implements the tipical features associated to dashboard
+
+\hypertarget{toc14}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.dashboard = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc15}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.dashboard.initialize = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc16}{}
+\section{Email application}
+
+\begin{lstlisting}
+apps/emails/js/app.js
+\end{lstlisting}
+
+This application implements the tipical features associated to emails
+
+\hypertarget{toc17}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.emails = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc18}{}
+\subsection{Initialize emails app}
+
+\begin{lstlisting}
+saltos.emails.initialize = ()
+\end{lstlisting}
+
+This function initializes the emails app screen to improve the user experience.
+
+\hypertarget{toc19}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc20}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc21}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc22}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.getmail = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc23}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.delete1 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc24}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.delete2 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc25}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.send = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc26}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.download = (file)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc27}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.emails.setter = what
+\end{lstlisting}
+
+TODO
+
+
+\hypertarget{toc28}{}
+\chapter{Emails}
+
+\hypertarget{toc29}{}
+\section{Get email library}
+
+\begin{lstlisting}
+apps/emails/php/getmail.php
+\end{lstlisting}
+
+This library provides the necesary functions to download, parse and manage emails.
+
+\hypertarget{toc30}{}
+\subsection{Requires section}
+
+\begin{lstlisting}
+require_once "apps/emails/lib/mimeparser/mime_parser.php";
+\end{lstlisting}
+
+This requires loads the external libraries needed to run this library.
+
+\hypertarget{toc31}{}
+\subsection{Defines section}
+
+\begin{lstlisting}
+define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
+\end{lstlisting}
+
+This defines allow to define some usefull standards to do html pages and more.
+
+\hypertarget{toc32}{}
+\subsection{Remove all body}
+
+\begin{lstlisting}
+function __getmail_removebody($array)
+\end{lstlisting}
+
+This function removes the body entry in the array, it is only for debug purposes
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @aarray =$>$ The array that you want to process
+\end{compactitem}
+
+\hypertarget{toc33}{}
+\subsection{Process message}
+
+\begin{lstlisting}
+function __getmail_processmessage($disp, $type)
+\end{lstlisting}
+
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @disp =$>$ disposition, can be inline or attachment
+\item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
+\end{compactitem}
+
+\hypertarget{toc34}{}
+\subsection{Process plain html}
+
+\begin{lstlisting}
+function __getmail_processplainhtml($disp, $type)
+\end{lstlisting}
+
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @disp =$>$ disposition, can be inline or attachment
+\item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
+\end{compactitem}
+
+\hypertarget{toc35}{}
+\subsection{Process file}
+
+\begin{lstlisting}
+function __getmail_processfile($disp, $type)
+\end{lstlisting}
+
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @disp =$>$ disposition, can be inline or attachment
+\item[\color{myblue}$\bullet$] @type =$>$ type, can be message, html or plain
+\end{compactitem}
+
+\hypertarget{toc36}{}
+\subsection{Check permissions}
+
+\begin{lstlisting}
+function __getmail_checkperm($id)
+\end{lstlisting}
+
+This function allow to check if the current user has permissions to view the
+message identified by the id argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
+
+\hypertarget{toc37}{}
+\subsection{Get source}
+
+\begin{lstlisting}
+function __getmail_getsource($id, $max = 0)
+\end{lstlisting}
+
+This function returns the original RFC822 message as string
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @max =$>$ max size that can be processed
+\end{compactitem}
+
+\hypertarget{toc38}{}
+\subsection{Mime decode protected}
+
+\begin{lstlisting}
+function __getmail_mime_decode_protected($input)
+\end{lstlisting}
+
+This function decodes the input string that contains the RFC822 message
+using the mime\_parser\_class to do it, and returns the decoded array.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @input =$>$ the RFC822 string that contains the message
+\end{compactitem}
+
+\hypertarget{toc39}{}
+\subsection{Get mime}
+
+\begin{lstlisting}
+function __getmail_getmime($id)
+\end{lstlisting}
+
+This function returns the decoded array of the email identified by the id
+argument, to do this more optimal, this function uses an internal cache
+file to improve the performance for repeated executions.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
+
+\hypertarget{toc40}{}
+\subsection{Get Node}
+
+\begin{lstlisting}
+function __getmail_getnode($path, $array)
+\end{lstlisting}
+
+This function returns the node using a xpath notation
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @path  =$>$ xpath that identify the desired path that must to be returned
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
+
+\hypertarget{toc41}{}
+\subsection{Get type}
+
+\begin{lstlisting}
+function __getmail_gettype($array)
+\end{lstlisting}
+
+This function tries to unify the differents content-type to standarize it into
+the follow formats: html, plain, messsage, alternative, multipart or other.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
+
+\hypertarget{toc42}{}
+\subsection{Get disposition}
+
+\begin{lstlisting}
+function __getmail_getdisposition($array)
+\end{lstlisting}
+
+This function tries to unify the differents content-dispoaition to standarize
+it into the follow formats: attachment, inline or other.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
+
+\hypertarget{toc43}{}
+\subsection{Get files}
+
+\begin{lstlisting}
+function __getmail_getfiles($array, $level = 0)
+\end{lstlisting}
+
+This function returns an array with the attachment files of the message
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\item[\color{myblue}$\bullet$] @level =$>$ this parameter is internally used to detect recursion
+\end{compactitem}
+
+\hypertarget{toc44}{}
+\subsection{Get human size}
+
+\begin{lstlisting}
+function __getmail_gethumansize($size)
+\end{lstlisting}
+
+This function returns an string containing the size in human format
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @size =$>$ the number of bytes to convert to human format
+\end{compactitem}
+
+\hypertarget{toc45}{}
+\subsection{Get info}
+
+\begin{lstlisting}
+function __getmail_getinfo($array)
+\end{lstlisting}
+
+Returns all information of the decoded message in a structured format
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
+
+\hypertarget{toc46}{}
+\subsection{Fix string}
+
+\begin{lstlisting}
+function __getmail_fixstring($arg)
+\end{lstlisting}
+
+This function is a helper used by all functions that pcoesses the headers
+of the decoded message.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @arg =$>$ the string that must to be checked and fixed if needed
+\end{compactitem}
+
+\hypertarget{toc47}{}
+\subsection{Get text body}
+
+\begin{lstlisting}
+function __getmail_gettextbody($array, $level = 0)
+\end{lstlisting}
+
+This function returns all text body concatenated as an unique string
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\item[\color{myblue}$\bullet$] @level =$>$ this parameter is internally used to detect recursion
+\end{compactitem}
+
+\hypertarget{toc48}{}
+\subsection{Get full body}
+
+\begin{lstlisting}
+function __getmail_getfullbody($array)
+\end{lstlisting}
+
+This function returns all body and attachments information as an array
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\end{compactitem}
+
+\hypertarget{toc49}{}
+\subsection{Get cid}
+
+\begin{lstlisting}
+function __getmail_getcid($array, $hash)
+\end{lstlisting}
+
+This function returns the requested attachment indentified by the hash argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @array =$>$ the decoded message in an array format
+\item[\color{myblue}$\bullet$] @hash  =$>$ the hash of the content requested
+\end{compactitem}
+
+\hypertarget{toc50}{}
+\subsection{Insert}
+
+\begin{lstlisting}
+function __getmail_insert(
+\end{lstlisting}
+
+This function do the insert in the app\_emails table, and
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @file          =$>$ the gzfile that contains the message in RFC822 format
+\item[\color{myblue}$\bullet$] @messageid     =$>$ the id of the message (account\_id/uidl)
+\item[\color{myblue}$\bullet$] @state\_new     =$>$ the 0/1 that sets the state new flag
+\item[\color{myblue}$\bullet$] @state\_reply   =$>$ the 0/1 that sets the state reply flag
+\item[\color{myblue}$\bullet$] @state\_forward =$>$ the 0/1 that sets the state forward flag
+\item[\color{myblue}$\bullet$] @state\_wait    =$>$ the 0/1 that sets the state wait flag
+\item[\color{myblue}$\bullet$] @id\_correo     =$>$ the id of the related email (used to create relations between emails)
+\item[\color{myblue}$\bullet$] @is\_outbox     =$>$ the 0/1 that sets the is outbox flag
+\item[\color{myblue}$\bullet$] @state\_sent    =$>$ the 0/1 that sets the state sent flag
+\item[\color{myblue}$\bullet$] @state\_error   =$>$ the string that contains the error (if exists an error)
+\end{compactitem}
+
+\hypertarget{toc51}{}
+\subsection{Update}
+
+\begin{lstlisting}
+function __getmail_update($field, $value, $id)
+\end{lstlisting}
+
+This function updates the field with the value of the app\_emails for the
+register identified by the id argument.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @field =$>$ field that you want to update
+\item[\color{myblue}$\bullet$] @value =$>$ value that you want to set
+\item[\color{myblue}$\bullet$] @id    =$>$ id of the register to do the update
+\end{compactitem}
+
+\hypertarget{toc52}{}
+\subsection{Raw url decode}
+
+\begin{lstlisting}
+function __getmail_rawurldecode($temp)
+\end{lstlisting}
+
+This function tries to detect if the argument contains the \%20 string
+to try to detect url encoded strings and fix it if is needed
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @temp =$>$ the string that you want to check and fix
+\end{compactitem}
+
+\hypertarget{toc53}{}
+\subsection{Add bcc}
+
+\begin{lstlisting}
+function __getmail_add_bcc($id, $bcc)
+\end{lstlisting}
+
+This function adds the bbc to the database, this is because the messages
+does not contains the bcc field (is hidden in theory), and only is available
+if the current execution is the sender of the message.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @bcc =$>$ an array with the addresses of the emails
+\end{compactitem}
+
+\hypertarget{toc54}{}
+\subsection{Gzfile size}
+
+\begin{lstlisting}
+function gzfilesize($filename)
+\end{lstlisting}
+
+This function is copied from \htmladdnormallink{http://php.net/manual/es/function.gzread.php\#110078}{http://php.net/manual/es/function.gzread.php\#110078}
+and allow to know the file size of the file after a gzip descompression.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @filename =$>$ the gzip filename that you want to know the size
+\end{compactitem}
+
+\hypertarget{toc55}{}
+\subsection{Get email body}
+
+\begin{lstlisting}
+function getmail_body($id)
+\end{lstlisting}
+
+This function returns the string that contains the body of the email
+intended to be rendered in an iframe, for example
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
+
+\hypertarget{toc56}{}
+\subsection{Get email source}
+
+\begin{lstlisting}
+function getmail_source($id)
+\end{lstlisting}
+
+This function returns the string that contains the source of the email
+intended to be rendered in an iframe, for example
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
+
+\hypertarget{toc57}{}
+\subsection{Get email files}
+
+\begin{lstlisting}
+function getmail_files($id)
+\end{lstlisting}
+
+This function returns an arryy that contains the files of the email
+intended to be rendered in an table, for example
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id =$>$ id of the email
+\end{compactitem}
+
+\hypertarget{toc58}{}
+\subsection{Get cid}
+
+\begin{lstlisting}
+function getmail_cid($id, $cid)
+\end{lstlisting}
+
+This function returns the requested attachment indentified by the cid argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
+\end{compactitem}
+
+\hypertarget{toc59}{}
+\subsection{Is outbox}
+
+\begin{lstlisting}
+function getmail_field($field, $id)
+\end{lstlisting}
+
+Returns the field of the email identified by the id argument
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @field =$>$ field requested
+\item[\color{myblue}$\bullet$] @id    =$>$ id of the email
+\end{compactitem}
+
+\hypertarget{toc60}{}
+\subsection{Receive}
+
+\begin{lstlisting}
+function getmail_receive()
+\end{lstlisting}
+
+This function implements the old getmail action of the old saltos.
+
+\hypertarget{toc61}{}
+\subsection{Delete}
+
+\begin{lstlisting}
+function getmail_delete($ids)
+\end{lstlisting}
+
+This function implements the old delete action of the old saltos.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @ids =$>$ array with the emails id
+\end{compactitem}
+
+\hypertarget{toc62}{}
+\subsection{Get viewpdf}
+
+\begin{lstlisting}
+function getmail_viewpdf($id, $cid)
+\end{lstlisting}
+
+This function returns the requested attachment indentified by the cid argument
+in a pdf format for the viewpdf widget
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
+\end{compactitem}
+
+\hypertarget{toc63}{}
+\subsection{Get download}
+
+\begin{lstlisting}
+function getmail_download($id, $cid)
+\end{lstlisting}
+
+This function returns the requested attachment indentified by the cid argument
+in an array format for the download feature
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @id  =$>$ id of the email
+\item[\color{myblue}$\bullet$] @cid =$>$ the cid of the content requested
+\end{compactitem}
+
+\hypertarget{toc64}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+function getmail_setter($ids, $action2)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc65}{}
+\section{Send email library}
+
+\begin{lstlisting}
+apps/emails/php/sendmail.php
+\end{lstlisting}
+
+This library provides the necesary functions to send emails.
+
+\hypertarget{toc66}{}
+\subsection{Used libraries}
+
+\begin{lstlisting}
+use PHPMailer\PHPMailer\PHPMailer;
+\end{lstlisting}
+
+This use loads the external libraries needed to run this library.
+
+\hypertarget{toc67}{}
+\subsection{Sendmail}
+
+\begin{lstlisting}
+function sendmail($account_id, $to, $subject, $body, $files = "")
+\end{lstlisting}
+
+This function send an email in synchronous and/or asynchronous mode
+
+\$account\_id =$>$ the account id used to detect the source of the email
+\$to         =$>$ can be an string with the destination email or an array with
+               the follow prefixes =$>$ to:, cc:, bcc:, crt:, priority:,
+               sensitivity:, replyto
+\$subject    =$>$ the subject string
+\$body       =$>$ the body string
+\$files      =$>$ an array with files
+
+\hypertarget{toc68}{}
+\subsection{Parser}
+
+\begin{lstlisting}
+function __sendmail_parser($oldaddr)
+\end{lstlisting}
+
+This function gets an address and tries to detect the name part and the addr
+part of the argument. It's returns an array with two elements, the first is
+for the addr and the second is for the name.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @oldaddr =$>$ the string that must to be processed
+\end{compactitem}
+
+\hypertarget{toc69}{}
+\subsection{Message Id}
+
+\begin{lstlisting}
+function __sendmail_messageid($account_id, $from)
+\end{lstlisting}
+
+This function returns the message id for a new email, to do it, tries
+to detect the outbox directory, compute an aproximation to the newest
+value and checks that is unique in the system to prevent concurrence.
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @account\_id =$>$ the account id used to send the new email
+\item[\color{myblue}$\bullet$] @from       =$>$ the from used to compute the crc32
+\end{compactitem}
+
+\hypertarget{toc70}{}
+\subsection{Eml saver}
+
+\begin{lstlisting}
+function __sendmail_emlsaver($message, $messageid)
+\end{lstlisting}
+
+This function is intended to save the RFC822 message into the eml gzfile
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @message   =$>$ the contents in RFC822 format of the message
+\item[\color{myblue}$\bullet$] @messageid =$>$ the message id computed previously
+\end{compactitem}
+
+\hypertarget{toc71}{}
+\subsection{Obj saver}
+
+\begin{lstlisting}
+function __sendmail_objsaver($mail, $messageid)
+\end{lstlisting}
+
+This function is intended to save the PHPMailer object into the obj file
+
+\begin{compactitem}
+\item[\color{myblue}$\bullet$] @mail      =$>$ the PHPMailer object of the asynchronous transaction
+\item[\color{myblue}$\bullet$] @messageid =$>$ the message id computed previously
+\end{compactitem}
+
+
+\hypertarget{toc72}{}
+\chapter{Javascript}
+
+\hypertarget{toc73}{}
+\section{invoices application}
+
+\begin{lstlisting}
+apps/invoices/js/app.js
+\end{lstlisting}
+
+This application implements the tipical features associated to invoices
+
+\hypertarget{toc74}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.invoices = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc75}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_update_list = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc76}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_update_view = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc77}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_buttons = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc78}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.initialize_inputs = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc79}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.compute_total = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc80}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.add_item = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc81}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.remove_item = (obj)
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc82}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc83}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc84}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc85}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.insert = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc86}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.update = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc87}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.delete1 = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc88}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.invoices.delete2 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc89}{}
+\section{Login application}
+
+\begin{lstlisting}
+apps/login/js/app.js
+\end{lstlisting}
+
+This application implements the tipical features associated to login
+
+\hypertarget{toc90}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.login = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc91}{}
+\subsection{Authenticate login function}
+
+\begin{lstlisting}
+saltos.login.authenticate = ()
+\end{lstlisting}
+
+This function tries to authenticate the user using the user and pass fields of the form, to do
+it uses the authenticate function that send data to the authtoken action
+
+\hypertarget{toc92}{}
+\subsection{Access denied}
+
+\begin{lstlisting}
+saltos.login.access_denied = ()
+\end{lstlisting}
+
+This function displays a modal dialog with the tipical access denied message
+
+\hypertarget{toc93}{}
+\section{Tester application}
+
+\begin{lstlisting}
+apps/tester/js/app.new.js
+\end{lstlisting}
+
+This application implements the tipical features associated to tester
+
+\hypertarget{toc94}{}
+\subsection{Tester object}
+
+\begin{lstlisting}
+saltos.tester = {};
+\end{lstlisting}
+
+This object stores all function used by this app
+
+\hypertarget{toc95}{}
+\subsection{Campo 8}
+
+\begin{lstlisting}
+saltos.tester.campo8 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc96}{}
+\subsection{Campo 9}
+
+\begin{lstlisting}
+saltos.tester.campo9 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc97}{}
+\subsection{Campo 10}
+
+\begin{lstlisting}
+saltos.tester.campo10 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc98}{}
+\subsection{Campo 11}
+
+\begin{lstlisting}
+saltos.tester.campo11 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc99}{}
+\subsection{Campo 22}
+
+\begin{lstlisting}
+saltos.tester.campo22 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc100}{}
+\section{Tester application}
+
+\begin{lstlisting}
+apps/tester/js/app.old.js
+\end{lstlisting}
+
+This application implements the tipical features associated to tester
+
+\hypertarget{toc101}{}
+\subsection{Main code}
+
+\begin{lstlisting}
+(function() {
+\end{lstlisting}
+
+This function executes the main code that allow to you to see the tester in action
+
+
+\hypertarget{toc102}{}
+\chapter{Tester}
+
+\hypertarget{toc103}{}
+\section{TODO}
+
+\begin{lstlisting}
+apps/tester/php/indexing.php
+\end{lstlisting}
+
+\hypertarget{toc104}{}
+\section{TODO}
+
+\begin{lstlisting}
+apps/tester/php/insert.php
+\end{lstlisting}
+
+\hypertarget{toc105}{}
+\section{TODO}
+
+\begin{lstlisting}
+apps/tester/php/pepe.php
+\end{lstlisting}
+
+
+\hypertarget{toc106}{}
+\chapter{Javascript}
+
+\hypertarget{toc107}{}
+\section{Types application}
+
+\begin{lstlisting}
+apps/types/js/app.1.js
+\end{lstlisting}
+
+This application implements the tipical features associated to types
+
+\hypertarget{toc108}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.types = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc109}{}
+\subsection{Initialize types}
+
+\begin{lstlisting}
+saltos.types.initialize = ()
+\end{lstlisting}
+
+This function initializes the types screen to improve the user experience.
+
+\hypertarget{toc110}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc111}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc112}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc113}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.open = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc114}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.__open_helper = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc115}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.close = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc116}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.insert = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc117}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.update = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc118}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.delete = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc119}{}
+\section{types application}
+
+\begin{lstlisting}
+apps/types/js/app.2.js
+\end{lstlisting}
+
+This application implements the tipical features associated to types
+
+\hypertarget{toc120}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.types = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc121}{}
+\subsection{Initialize types}
+
+\begin{lstlisting}
+saltos.types.initialize_update_list = ()
+\end{lstlisting}
+
+This function initializes the types screen to improve the user experience.
+
+\hypertarget{toc122}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.initialize_update_view = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc123}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc124}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc125}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc126}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.insert = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc127}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.update = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc128}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.delete1 = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc129}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.delete2 = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc130}{}
+\section{Types application}
+
+\begin{lstlisting}
+apps/types/js/app.3.js
+\end{lstlisting}
+
+This application implements the tipical features associated to types
+
+\hypertarget{toc131}{}
+\subsection{Main object}
+
+\begin{lstlisting}
+saltos.types = {};
+\end{lstlisting}
+
+This object contains all SaltOS code
+
+\hypertarget{toc132}{}
+\subsection{Initialize types}
+
+\begin{lstlisting}
+saltos.types.initialize = ()
+\end{lstlisting}
+
+This function initializes the types screen to improve the user experience.
+
+\hypertarget{toc133}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.search = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc134}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.reset = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc135}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.more = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc136}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.open = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc137}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.__open_helper = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc138}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.close = ()
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc139}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.insert = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc140}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.update = arg
+\end{lstlisting}
+
+TODO
+
+\hypertarget{toc141}{}
+\subsection{TODO}
+
+\begin{lstlisting}
+saltos.types.delete = arg
+\end{lstlisting}
+
+TODO
+
+% LaTeX2e code generated by txt2tags 3.4 (http://txt2tags.org)
+% cmdline: txt2tags --toc -t tex -i apps.t2t -o apps.tex
+\end{document}

@@ -1,0 +1,1364 @@
+Application Documentation
+SaltOS 4.0 r760
+March 2024
+
+
+
++Javascript+
+
+++Customers application++
+
+```
+apps/customers/js/app.js
+```
+
+This application implements the tipical features associated to customers
+
+
++++Main object+++
+
+```
+saltos.customers = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.customers.initialize_update_list = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.initialize_update_view = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.insert = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.update = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.delete1 = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.customers.delete2 = ()
+```
+
+TODO
+
+
+++Dashboard application++
+
+```
+apps/dashboard/js/app.js
+```
+
+This application implements the tipical features associated to dashboard
+
+
++++Main object+++
+
+```
+saltos.dashboard = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.dashboard.initialize = ()
+```
+
+TODO
+
+
+++Email application++
+
+```
+apps/emails/js/app.js
+```
+
+This application implements the tipical features associated to emails
+
+
++++Main object+++
+
+```
+saltos.emails = {};
+```
+
+This object contains all SaltOS code
+
+
++++Initialize emails app+++
+
+```
+saltos.emails.initialize = ()
+```
+
+This function initializes the emails app screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.emails.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.getmail = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.delete1 = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.delete2 = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.send = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.download = (file)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.setter = what
+```
+
+TODO
+
+
++Emails+
+
+++Get email library++
+
+```
+apps/emails/php/getmail.php
+```
+
+This library provides the necesary functions to download, parse and manage emails.
+
+
++++Requires section+++
+
+```
+require_once "apps/emails/lib/mimeparser/mime_parser.php";
+```
+
+This requires loads the external libraries needed to run this library.
+
+
++++Defines section+++
+
+```
+define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
+```
+
+This defines allow to define some usefull standards to do html pages and more.
+
+
++++Remove all body+++
+
+```
+function __getmail_removebody($array)
+```
+
+This function removes the body entry in the array, it is only for debug purposes
+
+- @aarray => The array that you want to process
+
+
++++Process message+++
+
+```
+function __getmail_processmessage($disp, $type)
+```
+
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+- @disp => disposition, can be inline or attachment
+- @type => type, can be message, html or plain
+
+
++++Process plain html+++
+
+```
+function __getmail_processplainhtml($disp, $type)
+```
+
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+- @disp => disposition, can be inline or attachment
+- @type => type, can be message, html or plain
+
+
++++Process file+++
+
+```
+function __getmail_processfile($disp, $type)
+```
+
+This function returns a boolean that identify if the disposition and the type
+allow the node to be processed.
+
+- @disp => disposition, can be inline or attachment
+- @type => type, can be message, html or plain
+
+
++++Check permissions+++
+
+```
+function __getmail_checkperm($id)
+```
+
+This function allow to check if the current user has permissions to view the
+message identified by the id argument
+
+- @id => id of the email
+
+
++++Get source+++
+
+```
+function __getmail_getsource($id, $max = 0)
+```
+
+This function returns the original RFC822 message as string
+
+- @id  => id of the email
+- @max => max size that can be processed
+
+
++++Mime decode protected+++
+
+```
+function __getmail_mime_decode_protected($input)
+```
+
+This function decodes the input string that contains the RFC822 message
+using the mime_parser_class to do it, and returns the decoded array.
+
+- @input => the RFC822 string that contains the message
+
+
++++Get mime+++
+
+```
+function __getmail_getmime($id)
+```
+
+This function returns the decoded array of the email identified by the id
+argument, to do this more optimal, this function uses an internal cache
+file to improve the performance for repeated executions.
+
+- @id => id of the email
+
+
++++Get Node+++
+
+```
+function __getmail_getnode($path, $array)
+```
+
+This function returns the node using a xpath notation
+
+- @path  => xpath that identify the desired path that must to be returned
+- @array => the decoded message in an array format
+
+
++++Get type+++
+
+```
+function __getmail_gettype($array)
+```
+
+This function tries to unify the differents content-type to standarize it into
+the follow formats: html, plain, messsage, alternative, multipart or other.
+
+- @array => the decoded message in an array format
+
+
++++Get disposition+++
+
+```
+function __getmail_getdisposition($array)
+```
+
+This function tries to unify the differents content-dispoaition to standarize
+it into the follow formats: attachment, inline or other.
+
+- @array => the decoded message in an array format
+
+
++++Get files+++
+
+```
+function __getmail_getfiles($array, $level = 0)
+```
+
+This function returns an array with the attachment files of the message
+
+- @array => the decoded message in an array format
+- @level => this parameter is internally used to detect recursion
+
+
++++Get human size+++
+
+```
+function __getmail_gethumansize($size)
+```
+
+This function returns an string containing the size in human format
+
+- @size => the number of bytes to convert to human format
+
+
++++Get info+++
+
+```
+function __getmail_getinfo($array)
+```
+
+Returns all information of the decoded message in a structured format
+
+- @array => the decoded message in an array format
+
+
++++Fix string+++
+
+```
+function __getmail_fixstring($arg)
+```
+
+This function is a helper used by all functions that pcoesses the headers
+of the decoded message.
+
+- @arg => the string that must to be checked and fixed if needed
+
+
++++Get text body+++
+
+```
+function __getmail_gettextbody($array, $level = 0)
+```
+
+This function returns all text body concatenated as an unique string
+
+- @array => the decoded message in an array format
+- @level => this parameter is internally used to detect recursion
+
+
++++Get full body+++
+
+```
+function __getmail_getfullbody($array)
+```
+
+This function returns all body and attachments information as an array
+
+- @array => the decoded message in an array format
+
+
++++Get cid+++
+
+```
+function __getmail_getcid($array, $hash)
+```
+
+This function returns the requested attachment indentified by the hash argument
+
+- @array => the decoded message in an array format
+- @hash  => the hash of the content requested
+
+
++++Insert+++
+
+```
+function __getmail_insert(
+```
+
+This function do the insert in the app_emails table, and
+
+- @file          => the gzfile that contains the message in RFC822 format
+- @messageid     => the id of the message (account_id/uidl)
+- @state_new     => the 0/1 that sets the state new flag
+- @state_reply   => the 0/1 that sets the state reply flag
+- @state_forward => the 0/1 that sets the state forward flag
+- @state_wait    => the 0/1 that sets the state wait flag
+- @id_correo     => the id of the related email (used to create relations between emails)
+- @is_outbox     => the 0/1 that sets the is outbox flag
+- @state_sent    => the 0/1 that sets the state sent flag
+- @state_error   => the string that contains the error (if exists an error)
+
+
++++Update+++
+
+```
+function __getmail_update($field, $value, $id)
+```
+
+This function updates the field with the value of the app_emails for the
+register identified by the id argument.
+
+- @field => field that you want to update
+- @value => value that you want to set
+- @id    => id of the register to do the update
+
+
++++Raw url decode+++
+
+```
+function __getmail_rawurldecode($temp)
+```
+
+This function tries to detect if the argument contains the %20 string
+to try to detect url encoded strings and fix it if is needed
+
+- @temp => the string that you want to check and fix
+
+
++++Add bcc+++
+
+```
+function __getmail_add_bcc($id, $bcc)
+```
+
+This function adds the bbc to the database, this is because the messages
+does not contains the bcc field (is hidden in theory), and only is available
+if the current execution is the sender of the message.
+
+- @id  => id of the email
+- @bcc => an array with the addresses of the emails
+
+
++++Gzfile size+++
+
+```
+function gzfilesize($filename)
+```
+
+This function is copied from http://php.net/manual/es/function.gzread.php#110078
+and allow to know the file size of the file after a gzip descompression.
+
+- @filename => the gzip filename that you want to know the size
+
+
++++Get email body+++
+
+```
+function getmail_body($id)
+```
+
+This function returns the string that contains the body of the email
+intended to be rendered in an iframe, for example
+
+- @id => id of the email
+
+
++++Get email source+++
+
+```
+function getmail_source($id)
+```
+
+This function returns the string that contains the source of the email
+intended to be rendered in an iframe, for example
+
+- @id => id of the email
+
+
++++Get email files+++
+
+```
+function getmail_files($id)
+```
+
+This function returns an arryy that contains the files of the email
+intended to be rendered in an table, for example
+
+- @id => id of the email
+
+
++++Get cid+++
+
+```
+function getmail_cid($id, $cid)
+```
+
+This function returns the requested attachment indentified by the cid argument
+
+- @id  => id of the email
+- @cid => the cid of the content requested
+
+
++++Is outbox+++
+
+```
+function getmail_field($field, $id)
+```
+
+Returns the field of the email identified by the id argument
+
+- @field => field requested
+- @id    => id of the email
+
+
++++Receive+++
+
+```
+function getmail_receive()
+```
+
+This function implements the old getmail action of the old saltos.
+
+
++++Delete+++
+
+```
+function getmail_delete($ids)
+```
+
+This function implements the old delete action of the old saltos.
+
+- @ids => array with the emails id
+
+
++++Get viewpdf+++
+
+```
+function getmail_viewpdf($id, $cid)
+```
+
+This function returns the requested attachment indentified by the cid argument
+in a pdf format for the viewpdf widget
+
+- @id  => id of the email
+- @cid => the cid of the content requested
+
+
++++Get download+++
+
+```
+function getmail_download($id, $cid)
+```
+
+This function returns the requested attachment indentified by the cid argument
+in an array format for the download feature
+
+- @id  => id of the email
+- @cid => the cid of the content requested
+
+
++++TODO+++
+
+```
+function getmail_setter($ids, $action2)
+```
+
+TODO
+
+
+++Send email library++
+
+```
+apps/emails/php/sendmail.php
+```
+
+This library provides the necesary functions to send emails.
+
+
++++Used libraries+++
+
+```
+use PHPMailer\PHPMailer\PHPMailer;
+```
+
+This use loads the external libraries needed to run this library.
+
+
++++Sendmail+++
+
+```
+function sendmail($account_id, $to, $subject, $body, $files = "")
+```
+
+This function send an email in synchronous and/or asynchronous mode
+
+$account_id => the account id used to detect the source of the email
+$to         => can be an string with the destination email or an array with
+               the follow prefixes => to:, cc:, bcc:, crt:, priority:,
+               sensitivity:, replyto
+$subject    => the subject string
+$body       => the body string
+$files      => an array with files
+
+
++++Parser+++
+
+```
+function __sendmail_parser($oldaddr)
+```
+
+This function gets an address and tries to detect the name part and the addr
+part of the argument. It's returns an array with two elements, the first is
+for the addr and the second is for the name.
+
+- @oldaddr => the string that must to be processed
+
+
++++Message Id+++
+
+```
+function __sendmail_messageid($account_id, $from)
+```
+
+This function returns the message id for a new email, to do it, tries
+to detect the outbox directory, compute an aproximation to the newest
+value and checks that is unique in the system to prevent concurrence.
+
+- @account_id => the account id used to send the new email
+- @from       => the from used to compute the crc32
+
+
++++Eml saver+++
+
+```
+function __sendmail_emlsaver($message, $messageid)
+```
+
+This function is intended to save the RFC822 message into the eml gzfile
+
+- @message   => the contents in RFC822 format of the message
+- @messageid => the message id computed previously
+
+
++++Obj saver+++
+
+```
+function __sendmail_objsaver($mail, $messageid)
+```
+
+This function is intended to save the PHPMailer object into the obj file
+
+- @mail      => the PHPMailer object of the asynchronous transaction
+- @messageid => the message id computed previously
+
+
++Javascript+
+
+++invoices application++
+
+```
+apps/invoices/js/app.js
+```
+
+This application implements the tipical features associated to invoices
+
+
++++Main object+++
+
+```
+saltos.invoices = {};
+```
+
+This object contains all SaltOS code
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_update_list = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_update_view = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_buttons = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.initialize_inputs = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.compute_total = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.add_item = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.remove_item = (obj)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.insert = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.update = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.delete1 = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.invoices.delete2 = ()
+```
+
+TODO
+
+
+++Login application++
+
+```
+apps/login/js/app.js
+```
+
+This application implements the tipical features associated to login
+
+
++++Main object+++
+
+```
+saltos.login = {};
+```
+
+This object contains all SaltOS code
+
+
++++Authenticate login function+++
+
+```
+saltos.login.authenticate = ()
+```
+
+This function tries to authenticate the user using the user and pass fields of the form, to do
+it uses the authenticate function that send data to the authtoken action
+
+
++++Access denied+++
+
+```
+saltos.login.access_denied = ()
+```
+
+This function displays a modal dialog with the tipical access denied message
+
+
+++Tester application++
+
+```
+apps/tester/js/app.new.js
+```
+
+This application implements the tipical features associated to tester
+
+
++++Tester object+++
+
+```
+saltos.tester = {};
+```
+
+This object stores all function used by this app
+
+
++++Campo 8+++
+
+```
+saltos.tester.campo8 = ()
+```
+
+TODO
+
+
++++Campo 9+++
+
+```
+saltos.tester.campo9 = ()
+```
+
+TODO
+
+
++++Campo 10+++
+
+```
+saltos.tester.campo10 = ()
+```
+
+TODO
+
+
++++Campo 11+++
+
+```
+saltos.tester.campo11 = ()
+```
+
+TODO
+
+
++++Campo 22+++
+
+```
+saltos.tester.campo22 = ()
+```
+
+TODO
+
+
+++Tester application++
+
+```
+apps/tester/js/app.old.js
+```
+
+This application implements the tipical features associated to tester
+
+
++++Main code+++
+
+```
+(function() {
+```
+
+This function executes the main code that allow to you to see the tester in action
+
+
++Tester+
+
+++TODO++
+
+```
+apps/tester/php/indexing.php
+```
+
+
+++TODO++
+
+```
+apps/tester/php/insert.php
+```
+
+
+++TODO++
+
+```
+apps/tester/php/pepe.php
+```
+
+
++Javascript+
+
+++Types application++
+
+```
+apps/types/js/app.1.js
+```
+
+This application implements the tipical features associated to types
+
+
++++Main object+++
+
+```
+saltos.types = {};
+```
+
+This object contains all SaltOS code
+
+
++++Initialize types+++
+
+```
+saltos.types.initialize = ()
+```
+
+This function initializes the types screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.types.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.open = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.__open_helper = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.close = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.insert = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.update = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete = arg
+```
+
+TODO
+
+
+++types application++
+
+```
+apps/types/js/app.2.js
+```
+
+This application implements the tipical features associated to types
+
+
++++Main object+++
+
+```
+saltos.types = {};
+```
+
+This object contains all SaltOS code
+
+
++++Initialize types+++
+
+```
+saltos.types.initialize_update_list = ()
+```
+
+This function initializes the types screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.types.initialize_update_view = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.insert = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.update = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete1 = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete2 = ()
+```
+
+TODO
+
+
+++Types application++
+
+```
+apps/types/js/app.3.js
+```
+
+This application implements the tipical features associated to types
+
+
++++Main object+++
+
+```
+saltos.types = {};
+```
+
+This object contains all SaltOS code
+
+
++++Initialize types+++
+
+```
+saltos.types.initialize = ()
+```
+
+This function initializes the types screen to improve the user experience.
+
+
++++TODO+++
+
+```
+saltos.types.search = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.reset = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.more = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.open = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.__open_helper = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.close = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.insert = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.update = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.types.delete = arg
+```
+
+TODO
+
+

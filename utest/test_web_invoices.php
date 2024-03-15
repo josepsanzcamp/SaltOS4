@@ -43,11 +43,11 @@ declare(strict_types=1);
 /**
  * Importing namespaces
  */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Loading helper function
@@ -61,14 +61,14 @@ require_once "lib/weblib.php";
  */
 final class test_web_invoices extends TestCase
 {
+    #[DependsExternal('test_web_tokens1', 'test_authtoken')]
+    #[testdox('create action')]
     /**
      * Create
      *
      * This function execute the creates rest request, and must to get the
      * json with the layout without data
      */
-    #[DependsExternal('test_web_tokens1', 'test_authtoken')]
-    #[testdox('create action')]
     public function test_create(array $json): array
     {
         $json2 = test_web_helper("app/invoices/create", "", $json["token"]);
@@ -77,6 +77,8 @@ final class test_web_invoices extends TestCase
         return $json;
     }
 
+    #[Depends('test_create')]
+    #[testdox('insert action')]
     /**
      * Insert
      *
@@ -84,8 +86,6 @@ final class test_web_invoices extends TestCase
      * the data that they want to insert and must to get the json with the status
      * and the create_id.
      */
-    #[Depends('test_create')]
-    #[testdox('insert action')]
     public function test_insert(array $json): array
     {
         $json2 = test_web_helper("insert/invoices", [
@@ -123,6 +123,8 @@ final class test_web_invoices extends TestCase
         ];
     }
 
+    #[Depends('test_insert')]
+    #[testdox('list action')]
     /**
      * List
      *
@@ -130,8 +132,6 @@ final class test_web_invoices extends TestCase
      * the search that they want to use in the list filter and receives the json
      * with the data used to populate the table.
      */
-    #[Depends('test_insert')]
-    #[testdox('list action')]
     public function test_list(array $json): array
     {
         $search = "The SaltOS project 12345678X";
@@ -146,14 +146,14 @@ final class test_web_invoices extends TestCase
         ];
     }
 
+    #[Depends('test_list')]
+    #[testdox('view action')]
     /**
      * View
      *
      * This function execute the view rest request, intended to retrieve the detail
      * of the app with the layout needed to render it.
      */
-    #[Depends('test_list')]
-    #[testdox('view action')]
     public function test_view(array $json): array
     {
         $id = $json["created_id"];
@@ -168,14 +168,14 @@ final class test_web_invoices extends TestCase
         ];
     }
 
+    #[Depends('test_view')]
+    #[testdox('edit action')]
     /**
      * Edit
      *
      * This function execute the view rest request, intended to retrieve the detail
      * of the app with the layout needed to render it.
      */
-    #[Depends('test_view')]
-    #[testdox('edit action')]
     public function test_edit(array $json): array
     {
         $id = $json["created_id"];
@@ -190,6 +190,8 @@ final class test_web_invoices extends TestCase
         ];
     }
 
+    #[Depends('test_edit')]
+    #[testdox('upgrade action')]
     /**
      * Upgrade
      *
@@ -197,8 +199,6 @@ final class test_web_invoices extends TestCase
      * the data that they want to update and must to get the json with the status
      * and the updated_id.
      */
-    #[Depends('test_edit')]
-    #[testdox('upgrade action')]
     public function test_update(array $json): array
     {
         $id = $json["created_id"];
@@ -225,14 +225,14 @@ final class test_web_invoices extends TestCase
         ];
     }
 
+    #[Depends('test_update')]
+    #[testdox('delete action')]
     /**
      * Delete
      *
      * This function execute the delete rest request, they must to get the json
      * with the status and the deleted_id.
      */
-    #[Depends('test_update')]
-    #[testdox('delete action')]
     public function test_delete(array $json): void
     {
         $id = $json["updated_id"];

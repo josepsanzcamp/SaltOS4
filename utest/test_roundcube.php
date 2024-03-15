@@ -38,24 +38,24 @@ declare(strict_types=1);
 /**
  * Importing namespaces
  */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\TestCase;
 
 /**
  * Main class of this unit test
  */
 final class test_roundcube extends TestCase
 {
+    #[testdox('html2text function')]
     /**
      * html2text
      *
      * This function checks the correctness of the html2text method provided by the
      * roundcube library.
      */
-    #[testdox('html2text function')]
     public function test_html2text(): void
     {
         $html = 'The SaltOS project<br/><a href="https://www.saltos.org">www.saltos.org</a>';

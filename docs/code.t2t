@@ -1,5 +1,5 @@
-Code documentation
-SaltOS 4.0 r733
+Code Documentation
+SaltOS 4.0 r760
 March 2024
 
 
@@ -271,20 +271,6 @@ want to convert in qrcode.
 - @m => margin of the qrcode (white area that that surround the qrcode)
 
 
-++Reauthentication token action++
-
-```
-api/php/action/reauthtoken.php
-```
-
-This file implements the renew action, allowing to renew tokens before
-expire, for security reasons, the deauth action only can be performed by
-the same actor that execute the login action
-
-The unique requirement to execute this action is to have a valid token
-and have a token with available renewals
-
-
 ++Score action++
 
 ```
@@ -488,7 +474,7 @@ This file contain useful array functions
 +++Null to array converter+++
 
 ```
-function null2array($arr)
+function array_protected($x)
 ```
 
 This function convert all nulls into an array, is intended to be
@@ -2103,7 +2089,8 @@ function chmod_protected($file, $mode)
 ```
 
 This function tries to change the mode of the file using the chmod function
-only if the fileperms of the file are different that the requested mode
+only if the fileperms of the file are different that the requested mode and
+the fileowner of the file is the same user that is executing the script
 
 - @file => file used by the chmod function
 - @mode => mode used by the chmod function
@@ -4743,9 +4730,7 @@ As a brief resume, you can use the follow keys in get_data or set_data:
 - @rest/2                => to get only the element that contains "view"
 - @rest/3                => to get only the element that contains "2"
 - @json                  => to get an array with all json data, for the above example they
-                          must return some thing like this:
-                          ["action"=>"authtoken", "user"=>"xxx", "pass"=>"xxx"]
-- @json/action           => to get only the element that contains "authtoken"
+                          must return some thing like this: ["user"=>"xxx", "pass"=>"xxx"]
 - @json/user             => to get only the element that contains the user
 - @json/pass             => to get only the element that contains the pass
 - @server                => to get an array with all server data
@@ -5526,18 +5511,18 @@ saltos.app = {};
 This object stores all application functions and data
 
 
-+++Alert function+++
++++Modal function+++
 
 ```
-saltos.app.alert = (title, message, extra)
+saltos.app.modal = (title, message, extra)
 ```
 
-This function tries to implement an alert box, the main difference between the tipical alert
+This function tries to implement a modal box, the main difference between the tipical alert
 is that this alert allow to you to specify the title and a more complex message, but it only
 shows one button to close it.
 
-- @title   => title of the alert modal dialog
-- @message => message of the alert modal dialog
+- @title   => title of the modal dialog
+- @message => message of the modal dialog
 - @extra   => object with array of buttons and color
 
 
@@ -5974,8 +5959,8 @@ web/js/auth.js
 This file contains all code needed to manage the hash feature, includes the code to
 process the onhashchange and too, includes the code to get and set the hash value, too
 includes all code to manage tokens and to do authentications with all features suck as
-the main authentication using a user and password pair, the reauthtoken, the deauthtoken
-and the checktoken to control it.
+the main authentication using a user and password pair, the checktoken and the deauthtoken
+to control it.
 
 
 +++Hash helper object+++
@@ -6077,55 +6062,35 @@ saltos.token.get = ()
 This function returns the token stored in the localStorage
 
 
-+++Get expires function+++
++++Get expires_at function+++
 
 ```
-saltos.token.get_expires = ()
+saltos.token.get_expires_at = ()
 ```
 
-This function returns the expires stored in the localStorage
+This function returns the expires_at stored in the localStorage
 
 
-+++Get autorenew function+++
-
-```
-saltos.token.get_autorenew = ()
-```
-
-This function returns the autorenew stored in the localStorage
-
-
-+++Get autocheck function+++
-
-```
-saltos.token.get_autocheck = ()
-```
-
-This function returns the autocheck stored in the localStorage
-
-
-+++Set token and expires+++
++++Set token and expires_at+++
 
 ```
 saltos.token.set = response
 ```
 
-This function store the token and expires in the localStorage
+This function store the token and expires_at in the localStorage
 
-- @response  => the object that contains the follow parameters:
-- @token     => the token that you want to store in the localStorage
-- @expires   => the expires of the token that you want to store in the localStorage
-- @autorenew => the autorenew of the token that you can use to force an autorenew
-- @autocheck => the autocheck of the token that you can use to poll the autorenew
+- @response   => the object that contains the follow parameters:
+- @token      => the token that you want to store in the localStorage
+- @expires_at => the expires_at of the token that you want to store in the localStorage
 
 
-+++Unset token and expires+++
++++Unset token and expires_at+++
 
 ```
 saltos.token.unset = ()
 ```
 
-This function removes the token and expires in the localStorage
+This function removes the token and expires_at in the localStorage
 
 
 +++Authentication helper object+++
@@ -6134,7 +6099,7 @@ This function removes the token and expires in the localStorage
 saltos.authenticate = {};
 ```
 
-This object stores all authentication functions to get access, renew tokens to maintain
+This object stores all authentication functions to get access, check tokens to maintain
 the access and the deauthtoken to close the access
 
 
@@ -6151,14 +6116,13 @@ credentials passed by argument.
 - @pass => password used to the authentication process
 
 
-+++Re-authenticate token function+++
++++Check token function+++
 
 ```
-saltos.authenticate.reauthtoken = ()
+saltos.authenticate.checktoken = ()
 ```
 
-This function uses the reauthtoken action to try to re-authenticate an user with the token
-credentials.
+This function uses the checktoken action to check the validity of the current token.
 
 
 +++De-authenticate token function+++
@@ -6169,47 +6133,6 @@ saltos.authenticate.deauthtoken = ()
 
 This function uses the deauthtoken action to try to de-authenticate an user with the token
 credentials.
-
-
-+++Check token function+++
-
-```
-saltos.authenticate.checktoken = ()
-```
-
-This function uses the checktoken action to check the validity of the current token.
-
-
-+++Re-authenticate helper function+++
-
-```
-saltos.authenticate.checkrenew = ()
-```
-
-This function checks the reminder of the token's expires and if is needed, execute the renew
-token action.
-
-
-+++Variable used to store the timer+++
-
-```
-saltos.authenticate.__autorenew_timer = null;
-```
-
-This variable must contains the timer of the auto renew token feature
-
-
-+++Auto-renew helper function+++
-
-```
-saltos.authenticate.autorenew = on_off
-```
-
-This function allow to enable or disable the auto renew token feature, can receive
-an argument to specify if it must to enable or disable the feature, it is intended
-to be used when set or unset the token.
-
-- @on_off => the parameter to indicates if you want to enable or disable the feature
 
 
 +++Window communication helper object+++
@@ -7282,7 +7205,7 @@ This function returns a gallery object, you can pass some arguments as:
 - @id     => the id used to set the reference for to the object
 - @class  => allow to add more classes to the default img-fluid
 - @label  => this parameter is used as text for the label
-- @images => the array with images, each image can be an string or object
+- @images => the array with images, each image can be a string or object
 - @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
 
 
@@ -7503,23 +7426,24 @@ saltos.bootstrap.modal = args
 
 This function creates a bootstrap modal and open it, offers two ways of usage:
 
-1) you can pass an string to get a quick action
+1) you can pass a string to get a quick action
 
-- @close  => this string close the current modal
-- @isopen => this string is used to check if some modal is open at the moment
+- @close   => this string close the current modal
+- @isopen  => this string is used to check if some modal is open at the moment
 
 
 2) you can pass an object with the follow items, intended to open a new modal
 
-- @id     => the id used by the object
-- @class  => allow to add more classes to the default dialog
-- @title  => title used by the modal
-- @close  => text used in the close button for aria purposes
-- @body   => the content used in the modal's body
-- @footer => the content used in the modal's footer
-- @static => forces the modal to be static (prevent close by clicking outside the modal or
-           by pressing the escape key)
-- @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @id      => the id used by the object
+- @class   => allow to add more classes to the default dialog
+- @title   => title used by the modal
+- @close   => text used in the close button for aria purposes
+- @body    => the content used in the modal's body
+- @footer  => the content used in the modal's footer
+- @static  => forces the modal to be static (prevent close by clicking outside the modal or
+            by pressing the escape key)
+- @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
+- @replace => boolean that allow to replace the title, body and footer of an active modal
 
 
 Returns a boolean that indicates if the modal can be open or not
@@ -7528,6 +7452,13 @@ Notes:
 
 This modal will be destroyed (instance and element) when it closes, too is important
 to undestand that only one modal is allowed at each moment.
+
+Body and footer allow to use a string containing a html fragment or an object, and
+the footer too detects that the string contains something different to void, and if
+void content is detected, then the footer is removed.
+
+As an extra bonus, this widget has some tricks to improve the style of the footer, as
+you can see in the modal-footer part by removing the border and the top padding.
 
 
 +++Offcanvas constructor helper object+++
@@ -7547,13 +7478,13 @@ saltos.bootstrap.offcanvas = args
 
 This function creates a bootstrap offcanvas and open it, offers two ways of usage:
 
-1) you can pass an string to get a quick action
+1) you can pass a string to get a quick action
 
-- @close  => this string close the current modal
-- @isopen => this string is used to check if some modal is open at the moment
+- @close  => this string close the current offcanvas
+- @isopen => this string is used to check if some offcanvas is open at the moment
 
 
-2) you can pass an object with the follow items, intended to open a new modal
+2) you can pass an object with the follow items, intended to open a new offcanvas
 
 - @id     => the id used by the object
 - @class  => allow to add more classes to the default offcanvas
@@ -7571,6 +7502,8 @@ Notes:
 
 This offcanvas will be destroyed (instance and element) when it closes, too is important
 to undestand that only one offcanvas is allowed at each moment.
+
+Body allow to use a string containing a html fragment or an object, as the modal body.
 
 
 +++Toast constructor helper+++
@@ -7605,6 +7538,9 @@ This widget requires the md5 library and can be loaded automatically using the r
 feature:
 
 - @lib/md5/md5.min.js
+
+
+Body allow to use a string containing a html fragment or an object, as the modal body.
 
 
 +++Accesskey listener+++
@@ -7910,1361 +7846,5 @@ var saltos = {};
 ```
 
 This object contains all SaltOS code
-
-
-++Customers application++
-
-```
-apps/customers/js/app.js
-```
-
-This application implements the tipical features associated to customers
-
-
-+++Main object+++
-
-```
-saltos.customers = {};
-```
-
-This object contains all SaltOS code
-
-
-+++TODO+++
-
-```
-saltos.customers.initialize_update_list = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.initialize_update_view = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.insert = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.update = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.delete1 = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.delete2 = ()
-```
-
-TODO
-
-
-++Dashboard application++
-
-```
-apps/dashboard/js/app.js
-```
-
-This application implements the tipical features associated to dashboard
-
-
-+++Main object+++
-
-```
-saltos.dashboard = {};
-```
-
-This object contains all SaltOS code
-
-
-+++TODO+++
-
-```
-saltos.dashboard.initialize = ()
-```
-
-TODO
-
-
-++Email application++
-
-```
-apps/emails/js/app.js
-```
-
-This application implements the tipical features associated to emails
-
-
-+++Main object+++
-
-```
-saltos.emails = {};
-```
-
-This object contains all SaltOS code
-
-
-+++Initialize emails app+++
-
-```
-saltos.emails.initialize = ()
-```
-
-This function initializes the emails app screen to improve the user experience.
-
-
-+++TODO+++
-
-```
-saltos.emails.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.getmail = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.delete1 = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.delete2 = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.send = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.download = (file)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.setter = what
-```
-
-TODO
-
-
-+Emails+
-
-++Get email library++
-
-```
-apps/emails/php/getmail.php
-```
-
-This library provides the necesary functions to download, parse and manage emails.
-
-
-+++Requires section+++
-
-```
-require_once "apps/emails/lib/mimeparser/mime_parser.php";
-```
-
-This requires loads the external libraries needed to run this library.
-
-
-+++Defines section+++
-
-```
-define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
-```
-
-This defines allow to define some usefull standards to do html pages and more.
-
-
-+++Remove all body+++
-
-```
-function __getmail_removebody($array)
-```
-
-This function removes the body entry in the array, it is only for debug purposes
-
-- @aarray => The array that you want to process
-
-
-+++Process message+++
-
-```
-function __getmail_processmessage($disp, $type)
-```
-
-This function returns a boolean that identify if the disposition and the type
-allow the node to be processed.
-
-- @disp => disposition, can be inline or attachment
-- @type => type, can be message, html or plain
-
-
-+++Process plain html+++
-
-```
-function __getmail_processplainhtml($disp, $type)
-```
-
-This function returns a boolean that identify if the disposition and the type
-allow the node to be processed.
-
-- @disp => disposition, can be inline or attachment
-- @type => type, can be message, html or plain
-
-
-+++Process file+++
-
-```
-function __getmail_processfile($disp, $type)
-```
-
-This function returns a boolean that identify if the disposition and the type
-allow the node to be processed.
-
-- @disp => disposition, can be inline or attachment
-- @type => type, can be message, html or plain
-
-
-+++Check permissions+++
-
-```
-function __getmail_checkperm($id)
-```
-
-This function allow to check if the current user has permissions to view the
-message identified by the id argument
-
-- @id => id of the email
-
-
-+++Get source+++
-
-```
-function __getmail_getsource($id, $max = 0)
-```
-
-This function returns the original RFC822 message as string
-
-- @id  => id of the email
-- @max => max size that can be processed
-
-
-+++Mime decode protected+++
-
-```
-function __getmail_mime_decode_protected($input)
-```
-
-This function decodes the input string that contains the RFC822 message
-using the mime_parser_class to do it, and returns the decoded array.
-
-- @input => the RFC822 string that contains the message
-
-
-+++Get mime+++
-
-```
-function __getmail_getmime($id)
-```
-
-This function returns the decoded array of the email identified by the id
-argument, to do this more optimal, this function uses an internal cache
-file to improve the performance for repeated executions.
-
-- @id => id of the email
-
-
-+++Get Node+++
-
-```
-function __getmail_getnode($path, $array)
-```
-
-This function returns the node using a xpath notation
-
-- @path  => xpath that identify the desired path that must to be returned
-- @array => the decoded message in an array format
-
-
-+++Get type+++
-
-```
-function __getmail_gettype($array)
-```
-
-This function tries to unify the differents content-type to standarize it into
-the follow formats: html, plain, messsage, alternative, multipart or other.
-
-- @array => the decoded message in an array format
-
-
-+++Get disposition+++
-
-```
-function __getmail_getdisposition($array)
-```
-
-This function tries to unify the differents content-dispoaition to standarize
-it into the follow formats: attachment, inline or other.
-
-- @array => the decoded message in an array format
-
-
-+++Get files+++
-
-```
-function __getmail_getfiles($array, $level = 0)
-```
-
-This function returns an array with the attachment files of the message
-
-- @array => the decoded message in an array format
-- @level => this parameter is internally used to detect recursion
-
-
-+++Get human size+++
-
-```
-function __getmail_gethumansize($size)
-```
-
-This function returns an string containing the size in human format
-
-- @size => the number of bytes to convert to human format
-
-
-+++Get info+++
-
-```
-function __getmail_getinfo($array)
-```
-
-Returns all information of the decoded message in a structured format
-
-- @array => the decoded message in an array format
-
-
-+++Fix string+++
-
-```
-function __getmail_fixstring($arg)
-```
-
-This function is a helper used by all functions that pcoesses the headers
-of the decoded message.
-
-- @arg => the string that must to be checked and fixed if needed
-
-
-+++Get text body+++
-
-```
-function __getmail_gettextbody($array, $level = 0)
-```
-
-This function returns all text body concatenated as an unique string
-
-- @array => the decoded message in an array format
-- @level => this parameter is internally used to detect recursion
-
-
-+++Get full body+++
-
-```
-function __getmail_getfullbody($array)
-```
-
-This function returns all body and attachments information as an array
-
-- @array => the decoded message in an array format
-
-
-+++Get cid+++
-
-```
-function __getmail_getcid($array, $hash)
-```
-
-This function returns the requested attachment indentified by the hash argument
-
-- @array => the decoded message in an array format
-- @hash  => the hash of the content requested
-
-
-+++Insert+++
-
-```
-function __getmail_insert(
-```
-
-This function do the insert in the app_emails table, and
-
-- @file          => the gzfile that contains the message in RFC822 format
-- @messageid     => the id of the message (account_id/uidl)
-- @state_new     => the 0/1 that sets the state new flag
-- @state_reply   => the 0/1 that sets the state reply flag
-- @state_forward => the 0/1 that sets the state forward flag
-- @state_wait    => the 0/1 that sets the state wait flag
-- @id_correo     => the id of the related email (used to create relations between emails)
-- @is_outbox     => the 0/1 that sets the is outbox flag
-- @state_sent    => the 0/1 that sets the state sent flag
-- @state_error   => the string that contains the error (if exists an error)
-
-
-+++Update+++
-
-```
-function __getmail_update($field, $value, $id)
-```
-
-This function updates the field with the value of the app_emails for the
-register identified by the id argument.
-
-- @field => field that you want to update
-- @value => value that you want to set
-- @id    => id of the register to do the update
-
-
-+++Raw url decode+++
-
-```
-function __getmail_rawurldecode($temp)
-```
-
-This function tries to detect if the argument contains the %20 string
-to try to detect url encoded strings and fix it if is needed
-
-- @temp => the string that you want to check and fix
-
-
-+++Add bcc+++
-
-```
-function __getmail_add_bcc($id, $bcc)
-```
-
-This function adds the bbc to the database, this is because the messages
-does not contains the bcc field (is hidden in theory), and only is available
-if the current execution is the sender of the message.
-
-- @id  => id of the email
-- @bcc => an array with the addresses of the emails
-
-
-+++Gzfile size+++
-
-```
-function gzfilesize($filename)
-```
-
-This function is copied from http://php.net/manual/es/function.gzread.php#110078
-and allow to know the file size of the file after a gzip descompression.
-
-- @filename => the gzip filename that you want to know the size
-
-
-+++Get email body+++
-
-```
-function getmail_body($id)
-```
-
-This function returns the string that contains the body of the email
-intended to be rendered in an iframe, for example
-
-- @id => id of the email
-
-
-+++Get email source+++
-
-```
-function getmail_source($id)
-```
-
-This function returns the string that contains the source of the email
-intended to be rendered in an iframe, for example
-
-- @id => id of the email
-
-
-+++Get email files+++
-
-```
-function getmail_files($id)
-```
-
-This function returns an arryy that contains the files of the email
-intended to be rendered in an table, for example
-
-- @id => id of the email
-
-
-+++Get cid+++
-
-```
-function getmail_cid($id, $cid)
-```
-
-This function returns the requested attachment indentified by the cid argument
-
-- @id  => id of the email
-- @cid => the cid of the content requested
-
-
-+++Is outbox+++
-
-```
-function getmail_field($field, $id)
-```
-
-Returns the field of the email identified by the id argument
-
-- @field => field requested
-- @id    => id of the email
-
-
-+++Receive+++
-
-```
-function getmail_receive()
-```
-
-This function implements the old getmail action of the old saltos.
-
-
-+++Delete+++
-
-```
-function getmail_delete($ids)
-```
-
-This function implements the old delete action of the old saltos.
-
-- @ids => array with the emails id
-
-
-+++Get viewpdf+++
-
-```
-function getmail_viewpdf($id, $cid)
-```
-
-This function returns the requested attachment indentified by the cid argument
-in a pdf format for the viewpdf widget
-
-- @id  => id of the email
-- @cid => the cid of the content requested
-
-
-+++Get download+++
-
-```
-function getmail_download($id, $cid)
-```
-
-This function returns the requested attachment indentified by the cid argument
-in an array format for the download feature
-
-- @id  => id of the email
-- @cid => the cid of the content requested
-
-
-+++TODO+++
-
-```
-function getmail_setter($ids, $action2)
-```
-
-TODO
-
-
-++Send email library++
-
-```
-apps/emails/php/sendmail.php
-```
-
-This library provides the necesary functions to send emails.
-
-
-+++Used libraries+++
-
-```
-use PHPMailer\PHPMailer\PHPMailer;
-```
-
-This use loads the external libraries needed to run this library.
-
-
-+++Sendmail+++
-
-```
-function sendmail($account_id, $to, $subject, $body, $files = "")
-```
-
-This function send an email in synchronous and/or asynchronous mode
-
-$account_id => the account id used to detect the source of the email
-$to         => can be an string with the destination email or an array with
-               the follow prefixes => to:, cc:, bcc:, crt:, priority:,
-               sensitivity:, replyto
-$subject    => the subject string
-$body       => the body string
-$files      => an array with files
-
-
-+++Parser+++
-
-```
-function __sendmail_parser($oldaddr)
-```
-
-This function gets an address and tries to detect the name part and the addr
-part of the argument. It's returns an array with two elements, the first is
-for the addr and the second is for the name.
-
-- @oldaddr => the string that must to be processed
-
-
-+++Message Id+++
-
-```
-function __sendmail_messageid($account_id, $from)
-```
-
-This function returns the message id for a new email, to do it, tries
-to detect the outbox directory, compute an aproximation to the newest
-value and checks that is unique in the system to prevent concurrence.
-
-- @account_id => the account id used to send the new email
-- @from       => the from used to compute the crc32
-
-
-+++Eml saver+++
-
-```
-function __sendmail_emlsaver($message, $messageid)
-```
-
-This function is intended to save the RFC822 message into the eml gzfile
-
-- @message   => the contents in RFC822 format of the message
-- @messageid => the message id computed previously
-
-
-+++Obj saver+++
-
-```
-function __sendmail_objsaver($mail, $messageid)
-```
-
-This function is intended to save the PHPMailer object into the obj file
-
-- @mail      => the PHPMailer object of the asynchronous transaction
-- @messageid => the message id computed previously
-
-
-+Javascript+
-
-++invoices application++
-
-```
-apps/invoices/js/app.js
-```
-
-This application implements the tipical features associated to invoices
-
-
-+++Main object+++
-
-```
-saltos.invoices = {};
-```
-
-This object contains all SaltOS code
-
-
-+++TODO+++
-
-```
-saltos.invoices.initialize_update_list = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.initialize_update_view = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.initialize_buttons = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.initialize_inputs = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.compute_total = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.add_item = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.remove_item = (obj)
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.insert = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.update = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.delete1 = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.delete2 = ()
-```
-
-TODO
-
-
-++Login application++
-
-```
-apps/login/js/app.js
-```
-
-This application implements the tipical features associated to login
-
-
-+++Main object+++
-
-```
-saltos.login = {};
-```
-
-This object contains all SaltOS code
-
-
-+++Authenticate login function+++
-
-```
-saltos.login.authenticate = ()
-```
-
-This function tries to authenticate the user using the user and pass fields of the form, to do
-it uses the authenticate function that send data to the authtoken action
-
-
-+++Access denied+++
-
-```
-saltos.login.access_denied = ()
-```
-
-This function displays a modal dialog with the tipical access denied message
-
-
-++Tester application++
-
-```
-apps/tester/js/app.new.js
-```
-
-This application implements the tipical features associated to tester
-
-
-+++Tester object+++
-
-```
-saltos.tester = {};
-```
-
-This object stores all function used by this app
-
-
-+++Campo 8+++
-
-```
-saltos.tester.campo8 = ()
-```
-
-TODO
-
-
-+++Campo 9+++
-
-```
-saltos.tester.campo9 = ()
-```
-
-TODO
-
-
-+++Campo 10+++
-
-```
-saltos.tester.campo10 = ()
-```
-
-TODO
-
-
-+++Campo 11+++
-
-```
-saltos.tester.campo11 = ()
-```
-
-TODO
-
-
-+++Campo 22+++
-
-```
-saltos.tester.campo22 = ()
-```
-
-TODO
-
-
-++Tester application++
-
-```
-apps/tester/js/app.old.js
-```
-
-This application implements the tipical features associated to tester
-
-
-+++Main code+++
-
-```
-(function() {
-```
-
-This function executes the main code that allow to you to see the tester in action
-
-
-+Tester+
-
-++TODO++
-
-```
-apps/tester/php/indexing.php
-```
-
-
-++TODO++
-
-```
-apps/tester/php/insert.php
-```
-
-
-++TODO++
-
-```
-apps/tester/php/pepe.php
-```
-
-
-+Javascript+
-
-++Types application++
-
-```
-apps/types/js/app.1.js
-```
-
-This application implements the tipical features associated to types
-
-
-+++Main object+++
-
-```
-saltos.types = {};
-```
-
-This object contains all SaltOS code
-
-
-+++Initialize types+++
-
-```
-saltos.types.initialize = (id)
-```
-
-This function initializes the types screen to improve the user experience.
-
-
-+++TODO+++
-
-```
-saltos.types.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.open = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.__open_helper = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.default = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.insert = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.update = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete = arg
-```
-
-TODO
-
-
-++types application++
-
-```
-apps/types/js/app.2.js
-```
-
-This application implements the tipical features associated to types
-
-
-+++Main object+++
-
-```
-saltos.types = {};
-```
-
-This object contains all SaltOS code
-
-
-+++TODO+++
-
-```
-saltos.types.initialize_update_list = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.initialize_update_view = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.insert = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.update = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete1 = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete2 = ()
-```
-
-TODO
-
-
-++Types application++
-
-```
-apps/types/js/app.js
-```
-
-This application implements the tipical features associated to types
-
-
-+++Main object+++
-
-```
-saltos.types = {};
-```
-
-This object contains all SaltOS code
-
-
-+++Initialize types+++
-
-```
-saltos.types.initialize = (id)
-```
-
-This function initializes the types screen to improve the user experience.
-
-
-+++TODO+++
-
-```
-saltos.types.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.open = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.__open_helper = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.default = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.insert = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.update = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete = arg
-```
-
-TODO
 
 
