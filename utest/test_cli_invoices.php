@@ -30,15 +30,43 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable PSR1.Files.SideEffects
 // phpcs:disable Generic.Files.LineLength
 
+/**
+ * Test cli invoices
+ *
+ * This test performs all actions of the invoices app suck as: create, insert,
+ * list, view, edit, update and delete, using the cli sapi interface
+ */
+
+/**
+ * Importing namespaces
+ */
+use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/clilib.php";
+
+/**
+ * Main class of this unit test
+ */
 final class test_cli_invoices extends TestCase
 {
+    /**
+     * Create
+     *
+     * This function execute the creates rest request, and must to get the
+     * json with the layout without data
+     */
     #[DependsExternal('test_cli_tokens1', 'test_authtoken')]
     #[testdox('create action')]
     public function test_create(array $json): array
@@ -49,6 +77,13 @@ final class test_cli_invoices extends TestCase
         return $json;
     }
 
+    /**
+     * Insert
+     *
+     * This function execute the insert rest request, to do it send the json with
+     * the data that they want to insert and must to get the json with the status
+     * and the create_id.
+     */
     #[Depends('test_create')]
     #[testdox('insert action')]
     public function test_insert(array $json): array
@@ -88,6 +123,13 @@ final class test_cli_invoices extends TestCase
         ];
     }
 
+    /**
+     * List
+     *
+     * This function execute the list rest request, to do it send the json with
+     * the search that they want to use in the list filter and receives the json
+     * with the data used to populate the table.
+     */
     #[Depends('test_insert')]
     #[testdox('list action')]
     public function test_list(array $json): array
@@ -104,6 +146,12 @@ final class test_cli_invoices extends TestCase
         ];
     }
 
+    /**
+     * View
+     *
+     * This function execute the view rest request, intended to retrieve the detail
+     * of the app with the layout needed to render it.
+     */
     #[Depends('test_list')]
     #[testdox('view action')]
     public function test_view(array $json): array
@@ -120,6 +168,12 @@ final class test_cli_invoices extends TestCase
         ];
     }
 
+    /**
+     * Edit
+     *
+     * This function execute the view rest request, intended to retrieve the detail
+     * of the app with the layout needed to render it.
+     */
     #[Depends('test_view')]
     #[testdox('edit action')]
     public function test_edit(array $json): array
@@ -136,6 +190,13 @@ final class test_cli_invoices extends TestCase
         ];
     }
 
+    /**
+     * Upgrade
+     *
+     * This function execute the update rest request, to do it send the json with
+     * the data that they want to update and must to get the json with the status
+     * and the updated_id.
+     */
     #[Depends('test_edit')]
     #[testdox('upgrade action')]
     public function test_update(array $json): array
@@ -164,6 +225,12 @@ final class test_cli_invoices extends TestCase
         ];
     }
 
+    /**
+     * Delete
+     *
+     * This function execute the delete rest request, they must to get the json
+     * with the status and the deleted_id.
+     */
     #[Depends('test_update')]
     #[testdox('delete action')]
     public function test_delete(array $json): void

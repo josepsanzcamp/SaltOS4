@@ -30,21 +30,66 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable PSR1.Files.SideEffects
 
+/**
+ * Test cli tokens (second part)
+ *
+ * This test performs some part of the actions related with the tokens suck
+ * as deauthtoken and checktoken, using the cli sapi interface
+ */
+
+/**
+ * Importing namespaces
+ */
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/clilib.php";
+
+/**
+ * Main class of this unit test
+ */
 final class test_cli_tokens2 extends TestCase
 {
+    /**
+     * Deauthtoken
+     *
+     * This function execute the deauthtoken rest request, and must to get the
+     * json with the ok about the valid token that you are deauthenticate
+     */
     #[DependsOnClass('test_cli_customers')]
+    #[DependsOnClass('test_cli_invoices')]
     #[DependsExternal('test_cli_tokens1', 'test_authtoken')]
     #[testdox('deauthtoken action')]
-    public function test_deauthtoken(array $json): void
+    public function test_deauthtoken(array $json): array
     {
-        $json = test_cli_helper("deauthtoken", "", $json["token"]);
-        $this->assertSame($json["status"], "ok");
-        $this->assertSame(count($json), 1);
+        $json2 = test_cli_helper("deauthtoken", "", $json["token"]);
+        $this->assertSame($json2["status"], "ok");
+        $this->assertSame(count($json2), 1);
+        return $json;
+    }
+
+    /**
+     * Checktoken ko
+     *
+     * This function execute the checktoken rest request, and must to get the
+     * json with the ko about the invalid token that you are trying to check
+     */
+    #[Depends('test_deauthtoken')]
+    #[testdox('checktoken ko action')]
+    public function test_checktoken_ko(array $json): void
+    {
+        $json2 = test_cli_helper("checktoken", "", $json["token"]);
+        $this->assertSame($json2["status"], "ko");
+        $this->assertSame(count($json2), 3);
     }
 }

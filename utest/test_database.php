@@ -31,11 +31,60 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
+/**
+ * Test database drivers
+ */
+
+/**
+ * Importing namespaces
+ */
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Main class of this unit test
+ */
 final class test_database extends TestCase
 {
+    /**
+     * Helper
+     *
+     * This function executes the follow queries and checks the correctness
+     * of the driver by comparing the results with the expected results.
+     *
+     * The tests that performs are the follow:
+     * - SELECT GROUP_CONCAT(a) test FROM (SELECT 1 a UNION SELECT 2 a UNION SELECT 3 a) a;
+     * - SELECT REPLACE('abc', 'b', 'c') test
+     * - SELECT LPAD('123', '5', '0') test
+     * - SELECT CONCAT('a', 'b', 'c') test
+     * - SELECT CONCAT_WS(',','a','b','c',null,true,false) test
+     * - SELECT UNIX_TIMESTAMP('2024-02-01 12:34:56') test
+     * - SELECT FROM_UNIXTIME(1706787296) test
+     * - SELECT YEAR('2024-02-01 12:34:56') test
+     * - SELECT MONTH('2024-02-01 12:34:56') test
+     * - SELECT WEEK('2024-02-01 12:34:56', 1) test
+     * - SELECT TRUNCATE(1.2345, 2) test
+     * - SELECT DAY('2024-02-01 12:34:56') test
+     * - SELECT DAYOFYEAR('2024-02-01 12:34:56') test
+     * - SELECT DAYOFWEEK('2024-02-01 12:34:56') test
+     * - SELECT HOUR('2024-02-01 12:34:56') test
+     * - SELECT MINUTE('2024-02-01 12:34:56') test
+     * - SELECT SECOND('2024-02-01 12:34:56') test
+     * - SELECT MD5('fortuna') test
+     * - SELECT REPEAT('abc',3) test
+     * - SELECT FIND_IN_SET(3,'1,2,3,4,5') test
+     * - SELECT FIND_IN_SET(6,'1,2,3,4,5') test
+     * - SELECT FIND_IN_SET(3,'12345') test
+     * - SELECT IF(true, 'ok', 'ko') test
+     * - SELECT IF(false, 'ok', 'ko') test
+     * - SELECT IF(null, 'ok', 'ko') test
+     * - SELECT POW(2, 8) test
+     * - SELECT DATE_FORMAT('2024-02-01 12:34:56', '%Y-%m-%d %H:%i:%s') test
+     * - SELECT NOW() test
+     */
     private function test_helper($obj): void
     {
         ini_set("date.timezone", "Europe/Madrid");
@@ -356,6 +405,13 @@ final class test_database extends TestCase
         $this->assertSame($obj->db_query($query), $result);
     }
 
+    /**
+     * PDO MySQL driver
+     *
+     * This function checks the correctness of the sqlite3 driver by creating a
+     * database connection, sendint queries validating the expected results and
+     * closing the connection.
+     */
     #[testdox('pdo_mysql driver')]
     public function test_pdo_mysql(): void
     {
@@ -377,6 +433,13 @@ final class test_database extends TestCase
         $obj->db_disconnect();
     }
 
+    /**
+     * MySQL improved driver
+     *
+     * This function checks the correctness of the sqlite3 driver by creating a
+     * database connection, sendint queries validating the expected results and
+     * closing the connection.
+     */
     #[testdox('mysqli driver')]
     public function test_mysqli(): void
     {
@@ -398,6 +461,13 @@ final class test_database extends TestCase
         $obj->db_disconnect();
     }
 
+    /**
+     * PDO SQLite driver
+     *
+     * This function checks the correctness of the sqlite3 driver by creating a
+     * database connection, sendint queries validating the expected results and
+     * closing the connection.
+     */
     #[testdox('pdo_sqlite driver')]
     public function test_pdo_sqlite(): void
     {
@@ -415,6 +485,13 @@ final class test_database extends TestCase
         $obj->db_disconnect();
     }
 
+    /**
+     * SQLite3 driver
+     *
+     * This function checks the correctness of the sqlite3 driver by creating a
+     * database connection, sendint queries validating the expected results and
+     * closing the connection.
+     */
     #[testdox('sqlite3 driver')]
     public function test_sqlite3(): void
     {
@@ -431,25 +508,4 @@ final class test_database extends TestCase
         // Close connection
         $obj->db_disconnect();
     }
-
-    /*#[testdox('pdo_mssql driver')]
-    public function test_pdo_mssql(): void
-    {
-        // Connection part
-        $obj = db_connect([
-            "type" => "pdo_mssql",
-            "host" => "localhost",
-            "port" => "3306",
-            "name" => "saltos",
-            "user" => "saltos",
-            "pass" => "saltos",
-        ]);
-        $this->assertSame($obj instanceof database_pdo_mssql, true);
-
-        // Helper part
-        $this->test_helper($obj);
-
-        // Close connection
-        $obj->db_disconnect();
-    }*/
 }

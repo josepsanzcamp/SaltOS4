@@ -27,19 +27,29 @@
 
 declare(strict_types=1);
 
-function test_cli_helper($rest, $data, $token): array
-{
-    if ($data) {
-        file_put_contents("/tmp/input", json_encode($data));
-        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php $rest");
-        unlink("/tmp/input");
-    } else {
-        $response = ob_passthru("TOKEN=$token php index.php $rest");
-    }
-    $json = json_decode($response, true);
-    return $json;
-}
+/**
+ * WEB helper function
+ *
+ * This file contains the function used by the web unit tests to communicate with the
+ * SaltOS app, using the two interfaces that SaltOS provides.
+ */
 
+/**
+ * Test WEB helper
+ *
+ * This function performs the action defined by the rest verb sendind the data if it is
+ * provided and using the token for authentication actions.
+ *
+ * As you can see in the code, the function detects if data is provided and send the request
+ * using GET or POST, in addition, an application/json content-type header is send when POST
+ * is used.
+ *
+ * The token is sent using the TOKEN header to be used in the authentication process.
+ *
+ * @rest  => The rest request, like update/customers/3
+ * @data  => The data used as json in the SaltOS app
+ * @token => The token used if authentication is required
+ */
 function test_web_helper($rest, $data, $token): array
 {
     if ($data) {

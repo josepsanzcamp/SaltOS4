@@ -30,14 +30,42 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable PSR1.Files.SideEffects
 
+/**
+ * Test cli tokens (first part)
+ *
+ * This test performs some part of the actions related with the tokens suck
+ * as authtoken and checktoken, using the cli sapi interface
+ */
+
+/**
+ * Importing namespaces
+ */
 use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/clilib.php";
+
+/**
+ * Main class of this unit test
+ */
 final class test_cli_tokens1 extends TestCase
 {
+    /**
+     * Authtoken
+     *
+     * This function execute the authtoken rest request, and must to get the
+     * json with the valid token to continue in the nexts unit tests
+     */
     #[DependsOnClass('test_web_tokens2')]
     #[testdox('authtoken action')]
     public function test_authtoken(): array
@@ -52,6 +80,12 @@ final class test_cli_tokens1 extends TestCase
         return $json;
     }
 
+    /**
+     * Checktoken
+     *
+     * This function execute the checktoken rest request, and must to get the
+     * json with the ok about the valid token that you are trying to check
+     */
     #[Depends('test_authtoken')]
     #[testdox('checktoken action')]
     public function test_checktoken(array $json): array

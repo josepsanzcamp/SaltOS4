@@ -31,11 +31,30 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 
+/**
+ * Test roundcube library
+ */
+
+/**
+ * Importing namespaces
+ */
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Main class of this unit test
+ */
 final class test_roundcube extends TestCase
 {
+    /**
+     * html2text
+     *
+     * This function checks the correctness of the html2text method provided by the
+     * roundcube library.
+     */
     #[testdox('html2text function')]
     public function test_html2text(): void
     {

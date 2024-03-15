@@ -27,6 +27,20 @@
 
 declare(strict_types=1);
 
+/**
+ * Autoload file for the unit tests
+ *
+ * This file contains the code that initialize the unit tests
+ */
+
+/**
+ * Main autoloader code
+ *
+ * This code emmulates the index.php by loading all autoload files excep
+ * the zindex.php, initialize the timer, the random and executes the
+ * check_system function.
+ */
+set_include_path(get_include_path() . "/" . getcwd() . "/" . "utest");
 chdir("code/api");
 foreach (glob("php/autoload/*.php") as $file) {
     if (basename($file) == "zindex.php") {
@@ -37,5 +51,3 @@ foreach (glob("php/autoload/*.php") as $file) {
 init_timer();
 init_random();
 check_system();
-
-require "functions.php";
