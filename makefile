@@ -4,12 +4,13 @@ RED=\033[0;31m
 GREEN=\033[0;32m
 YELLOW=\033[0;33m
 BLUE=\033[0;34m
-END=\033[0m
+NONE=\033[0m
 
 .PHONY: utest docs
 
-all:
+all: clean
 	minify code/web/js/{object,core,bootstrap,auth,app}.js > code/web/index.js
+	minify code/web/css/index.css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 test:
@@ -45,8 +46,8 @@ testall:
 libs:
 	php scripts/checklibs.php scripts/checklibs.txt
 
-devel:
-	cat code/web/htm/index.htm | php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js > code/web/index.htm
+devel: clean
+	cat code/web/htm/index.htm | php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js | php scripts/debug.php index.css css/index.css > code/web/index.htm
 
 docs: .
 	php scripts/makedocs.php docs/code.t2t code/api/php code/web/js
@@ -54,32 +55,31 @@ docs: .
 	php scripts/makedocs.php docs/utest.t2t utest/ utest/lib
 
 clean:
-	rm -f code/web/index.js
-	rm -f code/web/index.htm
+	rm -f code/web/index.{js,css,htm}
 
 check:
-	@echo -e "$(YELLOW)Directories:$(END)"
-	@echo -n api/data:" "; test -e code/api/data && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n api/apps:" "; test -e code/api/apps && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n web/api:" "; test -e code/web/api && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n web/apps:" "; test -e code/web/apps && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
+	@echo -e "$(YELLOW)Directories:$(NONE)"
+	@echo -n api/data:" "; test -e code/api/data && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n api/apps:" "; test -e code/api/apps && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n web/api:" "; test -e code/web/api && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n web/apps:" "; test -e code/web/apps && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 
-	@echo -e "$(YELLOW)Commands:$(END)"
-	@echo -n minify:" "; which minify > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n php:" "; which php > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n svn:" "; which svn > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n svnversion:" "; which svnversion > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n phpcs:" "; which phpcs > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n jscs:" "; which jscs > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n node:" "; which node > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n wget:" "; which wget > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n txt2tags:" "; which txt2tags > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n pdflatex:" "; which pdflatex > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n sha384sum:" "; which sha384sum > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n xxd:" "; which xxd > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n base64:" "; which base64 > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n phpunit:" "; which phpunit > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
-	@echo -n cloc:" "; which cloc > /dev/null && echo -e "$(GREEN)OK$(END)" || echo -e "$(RED)KO$(END)"
+	@echo -e "$(YELLOW)Commands:$(NONE)"
+	@echo -n minify:" "; which minify > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n php:" "; which php > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n svn:" "; which svn > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n svnversion:" "; which svnversion > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n phpcs:" "; which phpcs > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n jscs:" "; which jscs > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n node:" "; which node > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n wget:" "; which wget > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n txt2tags:" "; which txt2tags > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n pdflatex:" "; which pdflatex > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n sha384sum:" "; which sha384sum > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n xxd:" "; which xxd > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n base64:" "; which base64 > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n phpunit:" "; which phpunit > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
+	@echo -n cloc:" "; which cloc > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 
 utest:
 	phpunit -c scripts/phpunit.xml
