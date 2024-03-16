@@ -294,7 +294,7 @@ saltos.core.ajax = args => {
         ajax.setRequestHeader('Content-Type', args.content_type);
     }
     if (args.token != '') {
-        ajax.setRequestHeader('token', args.token);
+        ajax.setRequestHeader('Token', args.token);
     }
     for (var i in args.headers) {
         ajax.setRequestHeader(i, args.headers[i]);

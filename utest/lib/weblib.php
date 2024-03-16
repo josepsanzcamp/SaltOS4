@@ -58,13 +58,13 @@ function test_web_helper($rest, $data, $token): array
             "method" => "post",
             "headers" => [
                 "Content-Type" => "application/json",
-                "token" => $token,
+                "Token" => $token,
             ],
         ]);
     } else {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?$rest", [
             "headers" => [
-                "token" => $token,
+                "Token" => $token,
             ],
         ]);
     }
