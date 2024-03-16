@@ -56,6 +56,7 @@ function unoconv2pdf($input)
         if (!file_exists($output)) {
             file_put_contents($output, "");
         }
+        chmod_protected($output, 0666);
     }
     return file_get_contents($output);
 }
@@ -90,6 +91,7 @@ function unoconv2txt($input)
                 __unoconv_all2pdf($input, $pdf);
             }
             if (file_exists($pdf)) {
+                chmod_protected($pdf, 0666);
                 __unoconv_pdf2txt($pdf, $output);
                 if (!file_exists($output) || trim(file_get_contents($output)) == "") {
                     file_put_contents($output, __unoconv_pdf2ocr($pdf));
@@ -103,6 +105,7 @@ function unoconv2txt($input)
         } else {
             file_put_contents($output, getutf8(file_get_contents($output)));
         }
+        chmod_protected($output, 0666);
     }
     return file_get_contents($output);
 }
@@ -135,6 +138,7 @@ function __unoconv_pdf2txt($input, $output)
         "__OUTPUT__" => $output,
     ], get_config("unoconv/__pdftotext__")));
     if (file_exists($output)) {
+        chmod_protected($output, 0666);
         $freq = count_chars(file_get_contents($output));
         $freq = [array_sum(array_slice($freq, 33, 128 - 33)), array_sum(array_slice($freq, 128))];
         $freq = $freq[1] / max(array_sum($freq), 1);
@@ -170,8 +174,7 @@ function __unoconv_convert($input, $output, $format)
     $fix = (dirname($input) != dirname($input2));
     if ($fix) {
         symlink($input, $input2);
-    }
-    if (!$fix) {
+    } else {
         $input2 = $input;
     }
     ob_passthru(__exec_timeout(str_replace_assoc([
@@ -186,6 +189,7 @@ function __unoconv_convert($input, $output, $format)
     if (!file_exists($output2)) {
         return;
     }
+    chmod_protected($output2, 0666);
     if ($output != $output2) {
         rename($output2, $output);
     }
@@ -215,6 +219,7 @@ function __unoconv_img2ocr($file)
             }
         }
         $file = $tiff;
+        chmod_protected($tiff, 0666);
     }
     $hocr = get_cache_file($file, ".hocr");
     $html = str_replace(".hocr", ".html", $hocr);
@@ -238,14 +243,17 @@ function __unoconv_img2ocr($file)
     }
     if (isset($tiff)) {
         file_put_contents($tiff, "");
+        chmod_protected($tiff, 0666);
     }
     if (!file_exists($hocr)) {
         return "";
     }
+    chmod_protected($hocr, 0666);
     //~ if(file_exists($txt)) unlink($txt);
     if (!file_exists($txt)) {
         file_put_contents($txt, __unoconv_hocr2txt($hocr));
     }
+    chmod_protected($txt, 0666);
     return file_get_contents($txt);
 }
 
@@ -275,6 +283,7 @@ function __unoconv_pdf2ocr($pdf)
     foreach ($files as $file) {
         $result[] = __unoconv_img2ocr($file);
         file_put_contents($file, "");
+        chmod_protected($file, 0666);
     }
     $result = implode("\n\n", $result);
     return $result;

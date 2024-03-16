@@ -238,7 +238,7 @@ function __getmail_getmime($id)
         }
         $decoded = __getmail_mime_decode_protected(["File" => "compress.zlib://" . $file]);
         file_put_contents($cache, serialize($decoded));
-        chmod($cache, 0666);
+        chmod_protected($cache, 0666);
     } else {
         $decoded = unserialize(file_get_contents($cache));
     }
@@ -1465,10 +1465,12 @@ function getmail_viewpdf($id, $cid)
     }
     $cache1 = get_cache_file([$id, $cid], $ext);
     file_put_contents($cache1, $file["data"]);
+    chmod_protected($cache1, 0666);
     // CREAR THUMBS SI ES NECESARIO
     $cache2 = get_cache_file([$id, $cid], "pdf");
     if (!file_exists($cache2)) {
         file_put_contents($cache2, unoconv2pdf($cache1));
+        chmod_protected($cache2, 0666);
     }
     if (!file_exists($cache2)) {
         show_php_error(["phperror" => "File not found"]);

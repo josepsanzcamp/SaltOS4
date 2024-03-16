@@ -52,6 +52,10 @@ function saltos_content_type($file)
         "html" => "text/html",
         "png" => "image/png",
         "bmp" => "image/bmp",
+        "tif" => "image/tiff",
+        "tiff" => "image/tiff",
+        "jpg" => "image/jpeg",
+        "jpeg" => "image/jpeg",
         "json" => "application/json",
     ];
     $ext = strtolower(extension($file));
