@@ -338,6 +338,35 @@ function get_unique_token()
 }
 
 /**
+ * Check token format
+ *
+ * This function checks the correctness of the token and returns a valid
+ * string that can be used safely as token in sql queries
+ *
+ * @token => the token that you want to process
+ */
+function check_token_format($token)
+{
+    // First check
+    if (!is_string($token)) {
+        return "";
+    }
+    // Check the number of parts and the length of each parts
+    $parts = explode("-", $token);
+    $lengths = array_map(function ($val) {
+        return strlen($val);
+    }, $parts);
+    if (implode("-", $lengths) != "8-4-4-4-12") {
+        return "";
+    }
+    // Check the type of each part
+    if (!ctype_xdigit(implode("", $parts))) {
+        return "";
+    }
+    return $token;
+}
+
+/**
  * Check IDS
  *
  * This function checks the correctness of the list of ids and returns

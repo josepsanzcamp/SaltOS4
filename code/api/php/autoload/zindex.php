@@ -113,7 +113,7 @@ if (isset($argv) && defined("STDIN")) {
         "server" => [
             "request_method" => "GET",
             "content_type" => "",
-            "token" => getenv("TOKEN"),
+            "token" => check_token_format(getenv("TOKEN")),
             "remote_addr" => getenv("USER"),
             "user_agent" => phpversion(),
         ],
@@ -129,7 +129,7 @@ if (isset($argv) && defined("STDIN")) {
         "server" => [
             "request_method" => strtoupper(get_server("REQUEST_METHOD") ?? ""),
             "content_type" => strtolower(get_server("CONTENT_TYPE") ?? ""),
-            "token" => get_server("HTTP_TOKEN") ?? "",
+            "token" => check_token_format(get_server("HTTP_TOKEN")),
             "remote_addr" => get_server("REMOTE_ADDR") ?? "",
             "user_agent" => get_server("HTTP_USER_AGENT") ?? "",
         ],
