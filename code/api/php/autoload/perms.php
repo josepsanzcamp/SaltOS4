@@ -295,7 +295,8 @@ function check_app_perm_id($app, $perm, $id = null)
  *
  * This function trigger a json error if the app, the perm and the id not
  * accomplishes the expected level of permissions, it is intended to be used
- * before the execution of each action, to guarantee the security
+ * before the execution of each action, to guarantee the security and to
+ * embed it into a xml fragment
  *
  * @app  => the app to check
  * @perm => the perm to check
