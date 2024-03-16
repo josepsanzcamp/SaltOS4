@@ -148,25 +148,25 @@ if (isset($argv) && defined("STDIN")) {
 
 // Check for the main requirement: rest/0
 if (get_data("rest/0") == "") {
-    show_json_error("Unknown request");
+    show_php_error(["phperror" => "Unknown request"]);
 }
 
 // Check for a valid request_method
 if (!in_array(get_data("server/request_method"), ["GET", "POST"])) {
-    show_json_error("Unknown request");
+    show_php_error(["phperror" => "Unknown request"]);
 }
 
 // Check for a bad GET request_method
 if (get_data("server/request_method") == "GET") {
     if (get_data("server/content_type") != "" || count(get_data("json"))) {
-        show_json_error("Unknown request");
+        show_php_error(["phperror" => "Unknown request"]);
     }
 }
 
 // Check for a bad POST request_method
 if (get_data("server/request_method") == "POST") {
     if (get_data("server/content_type") != "application/json" || !count(get_data("json"))) {
-        show_json_error("Unknown request");
+        show_php_error(["phperror" => "Unknown request"]);
     }
 }
 
@@ -178,4 +178,4 @@ if (file_exists($action)) {
 }
 
 // Otherwise, we don't know what to do with this request
-show_json_error("Unknown request");
+show_php_error(["phperror" => "Unknown request"]);

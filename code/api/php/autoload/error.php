@@ -92,9 +92,7 @@ function show_php_error($array)
         $array["backtrace"] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
     if (!isset($array["debug"])) {
-        $array["debug"] = session_backtrace();
-        unset($array["debug"]["pid"]);
-        unset($array["debug"]["time"]);
+        $array["debug"] = array_intersect_key(session_backtrace(), array_flip(["rest", "token"]));
     }
     // Create the message error using html entities and plain text
     $msg = do_message_error($array);
@@ -349,8 +347,7 @@ function __exception_handler($e)
 function __shutdown_handler()
 {
     $error = error_get_last();
-    $types = [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR];
-    if (is_array($error) && isset($error["type"]) && in_array($error["type"], $types)) {
+    if (is_array($error) && isset($error["type"]) && $error["type"] != 0) {
         show_php_error([
             "phperror" => "{$error["message"]}",
             "details" => "Error on file " . basename($error["file"]) . ":" . $error["line"],

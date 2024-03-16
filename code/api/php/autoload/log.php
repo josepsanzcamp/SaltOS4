@@ -160,6 +160,7 @@ function session_backtrace()
     $array = [
         "pid" => getmypid(),
         "time" => current_datetime_decimals(),
+        "rest" => implode("/", array_protected(get_data("rest"))),
         "token" => get_data("server/token"),
     ];
     $array = array_diff($array, [""]);

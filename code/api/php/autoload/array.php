@@ -49,10 +49,10 @@ function array_protected($x)
         return [];
     }
     if (is_string($x)) {
-        if ($x != "") {
-            return [$x];
+        if ($x == "") {
+            return [];
         }
-        return [];
+        return [$x];
     }
     if (!is_array($x)) {
         return [$x];

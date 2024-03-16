@@ -39,7 +39,10 @@ if (version_compare(PHP_VERSION, "7.0", "<")) {
  * This chdir allow to execute this script from a command line and locate
  * all filese needed for the correct execution
  */
-chdir(dirname($_SERVER["SCRIPT_NAME"]));
+$dir = dirname($_SERVER["SCRIPT_NAME"]);
+if (file_exists($dir)) {
+    chdir($dir);
+}
 
 /**
  * We include all core files, note that the last file (zindex.php) launches
