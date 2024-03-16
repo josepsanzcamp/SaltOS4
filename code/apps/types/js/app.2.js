@@ -94,9 +94,7 @@ saltos.types.search = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -148,9 +146,7 @@ saltos.types.more = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -190,9 +186,7 @@ saltos.types.insert = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -237,9 +231,7 @@ saltos.types.update = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -277,9 +269,7 @@ saltos.types.delete1 = arg => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{
@@ -327,9 +317,7 @@ saltos.types.delete2 = () => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{

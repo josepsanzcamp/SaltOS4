@@ -172,9 +172,7 @@ saltos.invoices.search = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -226,9 +224,7 @@ saltos.invoices.more = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -268,9 +264,7 @@ saltos.invoices.insert = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -315,9 +309,7 @@ saltos.invoices.update = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -355,9 +347,7 @@ saltos.invoices.delete1 = arg => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{
@@ -405,9 +395,7 @@ saltos.invoices.delete2 = () => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{

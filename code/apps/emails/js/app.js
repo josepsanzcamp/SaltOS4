@@ -83,9 +83,7 @@ saltos.emails.search = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -137,9 +135,7 @@ saltos.emails.more = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -170,9 +166,7 @@ saltos.emails.getmail = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -220,9 +214,7 @@ saltos.emails.delete1 = () => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{
@@ -268,9 +260,7 @@ saltos.emails.delete2 = () => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{
@@ -318,9 +308,7 @@ saltos.emails.download = (file) => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -354,8 +342,6 @@ saltos.emails.setter = what => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };

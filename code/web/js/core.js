@@ -60,9 +60,7 @@ saltos.core.onerror = (event, source, lineno, colno, error) => {
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -89,9 +87,7 @@ saltos.core.addlog = msg => {
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -245,8 +241,8 @@ saltos.core.html = (...args) => {
  * way as jQuery do but without using jQuery.
  */
 saltos.core.ajax = args => {
-    saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error']);
-    saltos.core.check_params(args, ['progress', 'async', 'content_type', 'headers']);
+    saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
+                                    'progress', 'async', 'content_type', 'token', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
@@ -296,6 +292,9 @@ saltos.core.ajax = args => {
     ajax.open(args.method, args.url, args.async);
     if (args.content_type != '') {
         ajax.setRequestHeader('Content-Type', args.content_type);
+    }
+    if (args.token != '') {
+        ajax.setRequestHeader('token', args.token);
     }
     for (var i in args.headers) {
         ajax.setRequestHeader(i, args.headers[i]);

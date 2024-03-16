@@ -1235,9 +1235,7 @@ saltos.bootstrap.__field.file = field => {
             error: request => {
                 throw new Error(request);
             },
-            headers: {
-                'token': saltos.token.get(),
-            }
+            token: saltos.token.get(),
         });
     };
     // Program the automatic upload
@@ -1319,9 +1317,7 @@ saltos.bootstrap.__field.file = field => {
                                 row.querySelector('.progress').setAttribute('aria-valuenow', percent);
                             }
                         },
-                        headers: {
-                            'token': saltos.token.get(),
-                        }
+                        token: saltos.token.get(),
                     });
                 })(data, row);
             }

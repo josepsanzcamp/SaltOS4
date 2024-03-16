@@ -172,9 +172,7 @@ saltos.app.send_request = hash => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -803,9 +801,7 @@ saltos.app.__source_helper = field => {
                     code: request.status,
                 });
             },
-            headers: {
-                'token': saltos.token.get(),
-            }
+            token: saltos.token.get(),
         });
     }
 };

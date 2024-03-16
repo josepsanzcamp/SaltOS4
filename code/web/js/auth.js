@@ -259,9 +259,7 @@ saltos.authenticate.checktoken = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -295,9 +293,7 @@ saltos.authenticate.deauthtoken = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 

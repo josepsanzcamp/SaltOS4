@@ -94,9 +94,7 @@ saltos.customers.search = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -148,9 +146,7 @@ saltos.customers.more = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -190,9 +186,7 @@ saltos.customers.insert = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -237,9 +231,7 @@ saltos.customers.update = () => {
                 code: request.status,
             });
         },
-        headers: {
-            'token': saltos.token.get(),
-        }
+        token: saltos.token.get(),
     });
 };
 
@@ -277,9 +269,7 @@ saltos.customers.delete1 = arg => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{
@@ -327,9 +317,7 @@ saltos.customers.delete2 = () => {
                             code: request.status,
                         });
                     },
-                    headers: {
-                        'token': saltos.token.get(),
-                    }
+                    token: saltos.token.get(),
                 });
             },
         },{

@@ -61,9 +61,7 @@ saltos.dashboard.initialize = () => {
                     code: request.status,
                 });
             },
-            headers: {
-                'token': saltos.token.get(),
-            }
+            token: saltos.token.get(),
         });
 
     });
