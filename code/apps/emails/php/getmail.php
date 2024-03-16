@@ -1206,7 +1206,7 @@ function getmail_receive()
     // check the semaphore
     $semaphore = [__FUNCTION__, current_user()];
     if (!semaphore_acquire($semaphore)) {
-        return "Could not acquire the semaphore";
+        return ["Could not acquire the semaphore"];
     }
     // FOR DEBUG PURPOSES
     if (get_config("emails/getmailmsgid")) {
@@ -1222,7 +1222,7 @@ function getmail_receive()
     $result = execute_query_array($query);
     if (!count($result)) {
         semaphore_release($semaphore);
-        return "Could not found configuration";
+        return ["Could not found configuration"];
     }
     // begin the loop
     $newemail = 0;
