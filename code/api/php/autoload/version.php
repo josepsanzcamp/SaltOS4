@@ -61,8 +61,11 @@ function get_name_version_revision($copyright = false)
  *
  * @dir => allow to specify where do you want to execute the svnversion command
  */
-function svnversion($dir = ".")
+function svnversion($dir = null)
 {
+    if ($dir === null) {
+        $dir = realpath(dirname(get_server("SCRIPT_FILENAME")));
+    }
     // USING REGULAR FILE
     if (file_exists("{$dir}/svnversion")) {
         return intval(file_get_contents("{$dir}/svnversion"));
@@ -91,8 +94,11 @@ function svnversion($dir = ".")
  *
  * @dir => allow to specify where do you want to execute the gitversion command
  */
-function gitversion($dir = ".")
+function gitversion($dir = null)
 {
+    if ($dir === null) {
+        $dir = realpath(dirname(get_server("SCRIPT_FILENAME")));
+    }
     // USING REGULAR FILE
     if (file_exists("{$dir}/gitversion")) {
         return intval(file_get_contents("{$dir}/gitversion"));

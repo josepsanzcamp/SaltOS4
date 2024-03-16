@@ -39,9 +39,8 @@ if (version_compare(PHP_VERSION, "7.0", "<")) {
  * This chdir allow to execute this script from a command line and locate
  * all filese needed for the correct execution
  */
-$dir = dirname($_SERVER["SCRIPT_NAME"]);
-if (file_exists($dir)) {
-    chdir($dir);
+if (isset($argv) && defined("STDIN")) {
+    chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
 }
 
 /**
