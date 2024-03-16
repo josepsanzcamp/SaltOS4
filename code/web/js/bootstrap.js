@@ -560,6 +560,7 @@ saltos.bootstrap.__field.ckeditor = field => {
         });
     });
     if (field.height) {
+        // The follow code allow to sets the min-height for this widget
         obj.append(saltos.core.html(`
             <style>
                 textarea[id=${field.id}]+div .ck-editor__editable {
@@ -1176,9 +1177,10 @@ saltos.bootstrap.__field.file = field => {
             </div>
         </div>
     `);
+    // The follow code allow to colorize the hover and active rows of the table
     obj.append(saltos.core.html(`
         <style>
-            .table {
+            .table td:not([class*="text-bg-"]) {
                 --bs-table-hover-bg: #fbec88;
                 --bs-table-active-bg: #fbec88;
                 --bs-table-hover-color: #373a3c;
@@ -1565,6 +1567,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             </div>
         </div>
     `);
+    // The follow code allow to define the needed css for with widget
     obj.append(saltos.core.html(`
         <style>
             .viewerContainer {
@@ -1963,10 +1966,10 @@ saltos.bootstrap.__field.table = field => {
     }
     // Convert the previous table in a responsive table
     // We are using the same div to put inside the styles instead of the table
-    var old = obj;
-    obj = saltos.core.html(`<div class="table-responsive"></div>`);
-    obj.append(old);
-    obj.append(saltos.core.html(`
+    var obj2 = saltos.core.html(`<div class="table-responsive"></div>`);
+    obj2.append(obj);
+    // The follow code allow to colorize the hover and active rows of the table
+    obj2.append(saltos.core.html(`
         <style>
             .table td:not([class*="text-bg-"]) {
                 --bs-table-hover-bg: #fbec88;
@@ -1977,8 +1980,8 @@ saltos.bootstrap.__field.table = field => {
         </style>
     `));
     // Continue
-    obj = saltos.bootstrap.__label_combine(field, obj);
-    return obj;
+    obj2 = saltos.bootstrap.__label_combine(field, obj2);
+    return obj2;
 };
 
 /**
@@ -2026,6 +2029,8 @@ saltos.bootstrap.__field.alert = field => {
         obj.append(saltos.core.html(`
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `));
+        // The follow code allow to use the full width of the contents, this is a fix that solves
+        // the problem caused by the close button.
         obj.append(saltos.core.html(`
             <style>
                 .alert-dismissible {
