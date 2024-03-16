@@ -55,16 +55,6 @@
             <file eval="true">file_with_hash("apps/types/js/app.js")</file>
             <inline>saltos.types.initialize()</inline>
         </javascript>
-        <style>
-            <inline>
-                @media (min-width: 1200px) {
-                    #list, #form {
-                        height: calc(100vh - 56px);
-                        overflow: auto;
-                    }
-                }
-            </inline>
-        </style>
     </list>
 
     <table checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
