@@ -368,9 +368,25 @@ function __shutdown_handler()
  *
  * @trace => the array returned by the debug_backtrace function
  * @index => the position of the array used to get the filename and the line
+ *
+ * Notes:
+ *
+ * This function gets the arguments dinamically, this allow to send for example the array with
+ * the trace, the desired index or both datas in your prefered order, the trick to detect each
+ * param is to expect an array for the trace and a number for the index.
  */
-function __get_code_from_trace($trace = null, $index = 0)
+function __get_code_from_trace()
 {
+    $trace = null;
+    $index = 0;
+    foreach (func_get_args() as $arg) {
+        if (is_array($arg)) {
+            $trace = $arg;
+        }
+        if (is_numeric($arg)) {
+            $index = $arg;
+        }
+    }
     if ($trace === null) {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
@@ -399,7 +415,7 @@ function show_json_error($msg)
     output_handler_json([
         "error" => [
             "text" => $msg,
-            "code" => __get_code_from_trace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)),
+            "code" => __get_code_from_trace(1),
         ],
     ]);
 }
