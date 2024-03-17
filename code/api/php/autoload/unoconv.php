@@ -28,15 +28,19 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Unoconv library
  *
- * TODO
+ * This file contains all functions that allow conversions between formats like
+ * docx, xlsx and more to pdf, too includes the ocr code that allow to get text
+ * from images.
  */
 
 /**
- * TODO
+ * Unoconv to PDF
  *
- * TODO
+ * This function allow to convert all input files into their equivalent pdf file
+ *
+ * @input  => the file that you want to process
  */
 function unoconv2pdf($input)
 {
@@ -62,9 +66,11 @@ function unoconv2pdf($input)
 }
 
 /**
- * TODO
+ * Unoconv to TXT
  *
- * TODO
+ * This function allow to convert all input files into their equivalent txt file
+ *
+ * @input  => the file that you want to process
  */
 function unoconv2txt($input)
 {
@@ -111,9 +117,9 @@ function unoconv2txt($input)
 }
 
 /**
- * TODO
+ * Unoconv list
  *
- * TODO
+ * This function returns an array with all suported extensions by libreoffice
  */
 function __unoconv_list()
 {
@@ -124,9 +130,12 @@ function __unoconv_list()
 }
 
 /**
- * TODO
+ * PDF to TXT
  *
- * TODO
+ * This function convert files between pdf to txt using the pdftotext
+ *
+ * @input  => the file that you want to process
+ * @output => the file where you want to store the result
  */
 function __unoconv_pdf2txt($input, $output)
 {
@@ -149,9 +158,12 @@ function __unoconv_pdf2txt($input, $output)
 }
 
 /**
- * TODO
+ * All to PDF
  *
- * TODO
+ * This function convert all formats to pdf using libreoffice
+ *
+ * @input  => the file that you want to process
+ * @output => the file where you want to store the result
  */
 function __unoconv_all2pdf($input, $output)
 {
@@ -159,9 +171,13 @@ function __unoconv_all2pdf($input, $output)
 }
 
 /**
- * TODO
+ * Convert
  *
- * TODO
+ * This function convert between formats using libreoffice
+ *
+ * @input  => the file that you want to process
+ * @output => the file where you want to store the result
+ * @format => the desired destination format
  */
 function __unoconv_convert($input, $output, $format)
 {
@@ -196,9 +212,13 @@ function __unoconv_convert($input, $output, $format)
 }
 
 /**
- * TODO
+ * Image to OCR
  *
- * TODO
+ * This file uses tesseract to extract all text from the file, if the file
+ * is not a tiff image, then is converted to a tiff to be used as input in
+ * the tesseract process.
+ *
+ * @file => the file that you want to process
  */
 function __unoconv_img2ocr($file)
 {
@@ -258,9 +278,12 @@ function __unoconv_img2ocr($file)
 }
 
 /**
- * TODO
+ * PDF to OCR
  *
- * TODO
+ * This function uses the pdftoppm command to generate one image per page,
+ * and then, extract the text of each page to finish the task.
+ *
+ * @pdf => the file that you want to process
  */
 function __unoconv_pdf2ocr($pdf)
 {

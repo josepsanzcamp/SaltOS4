@@ -1665,7 +1665,7 @@ saltos.bootstrap.__field.pdfjs = field => {
  * or not the contraction feature
  *
  * The elements of the data cells can contains an object with the field specification used
- * to the saltos.bootstrap.field constructor, it is usefull to convert some fields to inputs
+ * to the saltos.bootstrap.field constructor, it is useful to convert some fields to inputs
  * instead of simple text, too is able to use the type attribute in the header specification
  * to identify if you want to use a column with some special type as for example, the icons
  */

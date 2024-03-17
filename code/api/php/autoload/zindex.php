@@ -57,7 +57,7 @@ declare(strict_types=1);
  * for the content-type as application/json and a json in the body of the request, with this
  * call, saltos can map all contents of the json to the json/????? variables.
  *
- * As an extra bonus, this module defines some usefull server variables used in a lot of
+ * As an extra bonus, this module defines some useful server variables used in a lot of
  * features of saltos, like the follow vars:
  *
  * @request_method => can be GET or POST

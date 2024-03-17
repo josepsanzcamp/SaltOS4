@@ -949,7 +949,7 @@ saltos.app.parse_data = data => {
 /**
  * Checkbox ids
  *
- * Retrieve the selected checkboxes contained in an obj, usefull for the checkboxes
+ * Retrieve the selected checkboxes contained in an obj, useful for the checkboxes
  * that appear in the bootstrap table widget.
  *
  * @obj => the object that contains the checkboxes, generally the table widget

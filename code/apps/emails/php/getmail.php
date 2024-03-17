@@ -48,7 +48,7 @@ require_once "apps/emails/lib/pop3class/pop3.php";
 /**
  * Defines section
  *
- * This defines allow to define some usefull standards to do html pages and more.
+ * This defines allow to define some useful standards to do html pages and more.
  */
 define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
 define("__HTML_PAGE_CLOSE__", '</body></html>');
