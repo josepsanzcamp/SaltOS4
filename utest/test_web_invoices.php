@@ -138,7 +138,7 @@ final class test_web_invoices extends TestCase
         $json2 = test_web_helper("list/invoices/table", [
             "search" => $search,
         ], $json["token"]);
-        $this->assertTrue(count($json2["data"]) >= 1);
+        $this->assertTrue(count($json2["data"]) == 1);
         $this->assertSame($json2["search"], $search);
         return [
             "token" => $json["token"],
