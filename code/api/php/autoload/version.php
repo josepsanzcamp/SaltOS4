@@ -64,7 +64,7 @@ function get_name_version_revision($copyright = false)
 function svnversion($dir = null)
 {
     if ($dir === null) {
-        $dir = realpath(dirname(get_server("SCRIPT_FILENAME")));
+        $dir = getcwd_protected();
     }
     // USING REGULAR FILE
     if (file_exists("{$dir}/svnversion")) {
@@ -97,7 +97,7 @@ function svnversion($dir = null)
 function gitversion($dir = null)
 {
     if ($dir === null) {
-        $dir = realpath(dirname(get_server("SCRIPT_FILENAME")));
+        $dir = getcwd_protected();
     }
     // USING REGULAR FILE
     if (file_exists("{$dir}/gitversion")) {
