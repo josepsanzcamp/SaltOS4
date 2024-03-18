@@ -381,11 +381,20 @@ saltos.core.require = file => {
     if (saltos.core.__require.includes(file)) {
         return;
     }
+    saltos.core.__require.push(file);
     // The next call serve as prefetch
     var ajax = saltos.core.ajax({
         url: file,
         async: false,
     });
+    // Hash check if exists
+    var pos = file.indexOf("?");
+    if (pos != -1) {
+        var hash = file.substr(pos + 1);
+        if (md5(ajax.response) != hash) {
+            throw new Error(`Hash error loading ${file}`);
+        }
+    }
     // Now, add the tag to load the resource (previously prefetched)
     if (file.substr(-4) == '.css' || file.includes('.css?')) {
         var link = document.createElement('link');
@@ -406,8 +415,6 @@ saltos.core.require = file => {
         script.innerHTML = ajax.response;
         document.body.append(script);
     }
-    // To prevent duplicates
-    saltos.core.__require.push(file);
 };
 
 /**

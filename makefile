@@ -9,7 +9,7 @@ NONE=\033[0m
 .PHONY: utest docs
 
 all: clean
-	minify code/web/js/{object,core,bootstrap,auth,app}.js > code/web/index.js
+	cat code/web/js/{object,core,bootstrap,auth,app}.js | php scripts/md5sum.php | minify --js > code/web/index.js
 	minify code/web/css/index.css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 

@@ -3017,15 +3017,9 @@ saltos.bootstrap.offcanvas = args => {
  *
  * Each toast includes a hash to prevent the creation of repeated toasts.
  *
- * This widget requires the md5 library and can be loaded automatically using the require
- * feature:
- *
- * @lib/md5/md5.min.js
- *
  * Body allow to use a string containing a html fragment or an object, as the modal body.
  */
 saltos.bootstrap.toast = args => {
-    saltos.core.require('lib/md5/md5.min.js');
     saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'color']);
     if (document.querySelectorAll('.toast-container').length == 0) {
         document.body.append(saltos.core.html(`
