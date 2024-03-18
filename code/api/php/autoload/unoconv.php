@@ -40,7 +40,7 @@ declare(strict_types=1);
  *
  * This function allow to convert all input files into their equivalent pdf file
  *
- * @input  => the file that you want to process
+ * @input => the file that you want to process
  */
 function unoconv2pdf($input)
 {
@@ -70,7 +70,7 @@ function unoconv2pdf($input)
  *
  * This function allow to convert all input files into their equivalent txt file
  *
- * @input  => the file that you want to process
+ * @input => the file that you want to process
  */
 function unoconv2txt($input)
 {

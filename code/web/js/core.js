@@ -388,7 +388,7 @@ saltos.core.require = file => {
         async: false,
     });
     // Hash check if exists
-    var pos = file.indexOf("?");
+    var pos = file.indexOf('?');
     if (pos != -1) {
         var hash = file.substr(pos + 1);
         if (md5(ajax.response) != hash) {
