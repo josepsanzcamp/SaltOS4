@@ -47,6 +47,7 @@
             </container>
         </layout>
         <javascript>
+            <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
             <inline>saltos.dashboard.initialize()</inline>
         </javascript>

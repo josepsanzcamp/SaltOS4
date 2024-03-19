@@ -63,6 +63,7 @@ saltos.dashboard.initialize = () => {
             },
             token: saltos.token.get(),
         });
-
     });
+
+    Sortable.create(document.querySelector('.row'));
 };
