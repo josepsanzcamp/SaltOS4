@@ -100,16 +100,10 @@ function show_php_error($array)
     $msg_json = $msg["json"];
     $hash = md5($msg_text);
     $dir = get_directory("dirs/logsdir") ?? getcwd_protected() . "/data/logs/";
-    // Refuse the deprecated warnings
+    // Detect the deprecated warnings
     if (isset($array["phperror"]) && stripos($array["phperror"], "deprecated") !== false) {
-        if (is_writable($dir)) {
-            $file = get_config("debug/deprecatedfile") ?? "deprecated.log";
-            if (!checklog($hash, $file)) {
-                addlog($msg_text, $file);
-            }
-            addlog("***** {$hash} *****", $file);
-        }
-        return;
+        $array["deprecated"] = $array["phperror"];
+        unset($array["phperror"]);
     }
     // Add the msg_text to the error log file
     if (is_writable($dir)) {
@@ -123,6 +117,7 @@ function show_php_error($array)
             ["phpwarning", "debug/phpwarningfile", "phpwarning.log"],
             ["xmlwarning", "debug/xmlwarningfile", "xmlwarning.log"],
             ["jswarning", "debug/jswarningfile", "jswarning.log"],
+            ["deprecated", "debug/deprecatedfile", "deprecated.log"],
         ];
         foreach ($types as $type) {
             if (isset($array[$type[0]])) {
@@ -244,6 +239,7 @@ function do_message_error($array)
         "query" => "Query",
         "backtrace" => "Backtrace",
         "debug" => "Debug",
+        "deprecated" => "Deprecated",
     ];
     $text = [];
     foreach ($array as $type => $data) {
