@@ -630,18 +630,18 @@ saltos.app.form.javascript = data => {
 /**
  * Form title helper
  *
- * This function sets the document title, too it checks the existence of the x-powered-by
+ * This function sets the document title, too it checks the existence of the About
  * header received in the ajax calls and stored in the saltos object to be used in the
  * last part of the title.
  *
  * @title => The title that you want to set in the page
  */
 saltos.app.form.title = title => {
-    if (!saltos.core.hasOwnProperty('x_powered_by')) {
+    if (!saltos.core.hasOwnProperty('about')) {
         document.title = title;
         return;
     }
-    document.title = title + ' - ' + saltos.core.x_powered_by;
+    document.title = title + ' - ' + saltos.core.about;
 };
 
 /**

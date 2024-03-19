@@ -74,7 +74,7 @@ function output_handler($array)
     if ($cache === "") {
         show_php_error(["phperror" => "output_handler requires the cache parameter"]);
     }
-    header("X-Powered-By: " . get_name_version_revision());
+    header("About: " . get_name_version_revision());
     if ($cache) {
         $hash1 = get_server("HTTP_IF_NONE_MATCH");
         if ($file != "" && $data == "") {
