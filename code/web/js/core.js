@@ -387,6 +387,9 @@ saltos.core.require = file => {
         url: file,
         async: false,
     });
+    if (ajax.status != 200) {
+        throw new Error(`${ajax.status} ${ajax.statusText} loading ${file}`);
+    }
     // Hash check if exists
     var pos = file.indexOf('?');
     if (pos != -1) {
