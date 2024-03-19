@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5f46e95ba8c03b6e60f048db54d522aa
+class ComposerStaticInit1ba944b1b2880695113851e981334169
 {
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
@@ -27,7 +27,7 @@ class ComposerStaticInit5f46e95ba8c03b6e60f048db54d522aa
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInit5f46e95ba8c03b6e60f048db54d522aa::$classMap;
+            $loader->classMap = ComposerStaticInit1ba944b1b2880695113851e981334169::$classMap;
 
         }, null, ClassLoader::class);
     }
