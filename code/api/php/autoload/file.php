@@ -80,7 +80,7 @@ function get_temp_file($ext = "")
         $ext = "." . $ext;
     }
     $dir = get_directory("dirs/tempdir") ?? getcwd_protected() . "/data/temp/";
-    while (1) {
+    for (;;) {
         $uniqid = get_unique_id_md5();
         $file = $dir . $uniqid . $ext;
         if (!file_exists($file)) {

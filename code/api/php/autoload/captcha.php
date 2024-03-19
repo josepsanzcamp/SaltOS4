@@ -63,7 +63,7 @@ function __captcha_isprime($num)
     // Primer numbers are distributed in 8 columns
     $div = 7;
     $max = intval(sqrt(floatval($num)));
-    while (1) {
+    for (;;) {
         if ($num % $div == 0 && $num != $div) {
             return false;
         }

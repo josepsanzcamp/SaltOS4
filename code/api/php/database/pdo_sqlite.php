@@ -198,7 +198,7 @@ class database_pdo_sqlite
         $timeout = get_config("db/semaphoretimeout") ?? 10000000;
         if (semaphore_acquire(__FUNCTION__, $timeout)) {
             // DO QUERY
-            while (1) {
+            for (;;) {
                 try {
                     $stmt = $this->link->query($query);
                     break;
