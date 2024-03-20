@@ -1,7 +1,7 @@
 <?php
 //============================================================+
 // File name   : tcpdf.php
-// Version     : 6.7.2
+// Version     : 6.7.3
 // Begin       : 2002-08-03
 // Last Update : 2024-03-18
 // Author      : Nicola Asuni - Tecnick.com LTD - www.tecnick.com - info@tecnick.com
@@ -128,7 +128,7 @@ require_once(dirname(__FILE__).'/include/tcpdf_static.php');
  * TCPDF project (http://www.tcpdf.org) has been originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org), but now is almost entirely rewritten.<br>
  * @package com.tecnick.tcpdf
  * @brief PHP class for generating PDF documents without requiring external extensions.
- * @version 6.7.2
+ * @version 6.7.3
  * @author Nicola Asuni - info@tecnick.com
  * @IgnoreAnnotation("protected")
  * @IgnoreAnnotation("public")
@@ -16389,8 +16389,52 @@ class TCPDF {
 	 * @since 3.2.000 (2008-06-20)
 	 */
 	protected function getHtmlDomArray($html) {
+		// set inheritable properties fot the first void element
+		// possible inheritable properties are: azimuth, border-collapse, border-spacing, caption-side, color, cursor, direction, empty-cells, font, font-family, font-stretch, font-size, font-size-adjust, font-style, font-variant, font-weight, letter-spacing, line-height, list-style, list-style-image, list-style-position, list-style-type, orphans, page, page-break-inside, quotes, speak, speak-header, text-align, text-indent, text-transform, volume, white-space, widows, word-spacing
+		$dom = array(
+			array(
+				'tag' => false,
+				'block' => false,
+				'value' => '',
+				'parent' => 0,
+				'hide' => false,
+				'fontname' => $this->FontFamily,
+				'fontstyle' => $this->FontStyle,
+				'fontsize' => $this->FontSizePt,
+				'font-stretch' => $this->font_stretching,
+				'letter-spacing' => $this->font_spacing,
+				'stroke' => $this->textstrokewidth,
+				'fill' => (($this->textrendermode % 2) == 0),
+				'clip' => ($this->textrendermode > 3),
+				'line-height' => $this->cell_height_ratio,
+				'bgcolor' => false,
+				'fgcolor' => $this->fgcolor, // color
+				'strokecolor' => $this->strokecolor,
+				'align' => '',
+				'listtype' => '',
+				'text-indent' => 0,
+				'text-transform' => '',
+				'border' => array(),
+				'dir' => $this->rtl?'rtl':'ltr',
+				'width' => 0,
+				'height' => 0,
+				'x' => 0,
+				'y' => 0,
+				'w' => 0,
+				'h' => 0,
+				'l' => 0,
+				't' => 0,
+				'r' => 0,
+				'b' => 0,
+				'padding' => array('T' => 0, 'R' => 0, 'B' => 0, 'L' => 0),
+				'margin' => array('T' => 0, 'R' => 0, 'B' => 0, 'L' => 0),
+				'border-spacing' => array('H' => 0, 'V' => 0),
+				'border-collapse' => 'separate',
+			)
+		);
+
 		if(empty($html)) {
-			return array();
+			return $dom;
 		}
 		// array of CSS styles ( selector => properties).
 		$css = array();
@@ -16536,37 +16580,8 @@ class TCPDF {
 		// count elements
 		$maxel = count($a);
 		$elkey = 0;
-		$key = 0;
-		// create an array of elements
-		$dom = array();
-		$dom[$key] = array();
-		// set inheritable properties fot the first void element
-		// possible inheritable properties are: azimuth, border-collapse, border-spacing, caption-side, color, cursor, direction, empty-cells, font, font-family, font-stretch, font-size, font-size-adjust, font-style, font-variant, font-weight, letter-spacing, line-height, list-style, list-style-image, list-style-position, list-style-type, orphans, page, page-break-inside, quotes, speak, speak-header, text-align, text-indent, text-transform, volume, white-space, widows, word-spacing
-		$dom[$key]['tag'] = false;
-		$dom[$key]['block'] = false;
-		$dom[$key]['value'] = '';
-		$dom[$key]['parent'] = 0;
-		$dom[$key]['hide'] = false;
-		$dom[$key]['fontname'] = $this->FontFamily;
-		$dom[$key]['fontstyle'] = $this->FontStyle;
-		$dom[$key]['fontsize'] = $this->FontSizePt;
-		$dom[$key]['font-stretch'] = $this->font_stretching;
-		$dom[$key]['letter-spacing'] = $this->font_spacing;
-		$dom[$key]['stroke'] = $this->textstrokewidth;
-		$dom[$key]['fill'] = (($this->textrendermode % 2) == 0);
-		$dom[$key]['clip'] = ($this->textrendermode > 3);
-		$dom[$key]['line-height'] = $this->cell_height_ratio;
-		$dom[$key]['bgcolor'] = false;
-		$dom[$key]['fgcolor'] = $this->fgcolor; // color
-		$dom[$key]['strokecolor'] = $this->strokecolor;
-		$dom[$key]['align'] = '';
-		$dom[$key]['listtype'] = '';
-		$dom[$key]['text-indent'] = 0;
-		$dom[$key]['text-transform'] = '';
-		$dom[$key]['border'] = array();
-		$dom[$key]['dir'] = $this->rtl?'rtl':'ltr';
 		$thead = false; // true when we are inside the THEAD tag
-		++$key;
+		$key = 1;
 		$level = array();
 		array_push($level, 0); // root
 		while ($elkey < $maxel) {
