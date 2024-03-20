@@ -378,12 +378,14 @@ function check_ids()
 {
     $value = [];
     foreach (func_get_args() as $arg) {
-        $arg = is_array($arg) ? $arg : explode(",", $arg);
+        $arg = is_array($arg) ? $arg : explode(",", strval($arg));
         $value = array_merge($value, $arg);
     }
     foreach ($value as $key => $val) {
         $value[$key] = abs(intval($val));
     }
+    $value = array_flip(array_flip($value)); // Remove repetitions
+    $value = array_diff($value, [0]); // Remove zeroes
     $value = count($value) ? implode(",", $value) : "0";
     return $value;
 }

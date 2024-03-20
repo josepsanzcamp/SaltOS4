@@ -82,7 +82,7 @@ check:
 	@echo -n cloc:" "; which cloc > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 
 utest:
-	phpunit -c scripts/phpunit.xml
+	phpunit -c scripts/phpunit.xml $(file)
 
 cloc:
 	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale}

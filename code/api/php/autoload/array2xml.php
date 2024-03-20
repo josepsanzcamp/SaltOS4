@@ -140,22 +140,11 @@ function __array2xml_write_nodes(&$array, $level = null)
  * language file, to do it, uses some helpers as __array2xml_* functions
  *
  * @array        => the array that contains the tree structure that you want to convert to XML
- * @usecache     => a boolean to enable or disable the cache usage
  * @usexmlminify => a boolean to enable or disable the minify feature
  */
-function array2xml($array, $usecache = true, $usexmlminify = true)
+function array2xml($array, $indent = false)
 {
     $array = ["root" => $array];
-    if ($usecache) {
-        $cache = get_cache_file([$array, $usexmlminify], ".xml");
-        if (file_exists($cache)) {
-            return file_get_contents($cache);
-        }
-    }
-    $buffer = __array2xml_write_nodes($array, $usexmlminify ? null : 0);
-    if ($usecache) {
-        file_put_contents($cache, $buffer);
-        chmod_protected($cache, 0666);
-    }
+    $buffer = __array2xml_write_nodes($array, $indent ? 0 : null);
     return $buffer;
 }

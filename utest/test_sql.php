@@ -1,0 +1,198 @@
+<?php
+
+/**
+ *  ____        _ _    ___  ____    _  _    ___
+ * / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ * \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ *  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ * |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ *
+ * SaltOS: Framework to develop Rich Internet Applications
+ * Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ * More information in https://www.saltos.org or info@saltos.org
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+declare(strict_types=1);
+
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable PSR1.Files.SideEffects
+
+/**
+ * Test sql
+ *
+ * This test performs some tests to validate the correctness
+ * of the sql functions
+ */
+
+/**
+ * Importing namespaces
+ */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
+
+/**
+ * Main class of this unit test
+ */
+final class test_sql extends TestCase
+{
+    #[testdox('sql functions')]
+    /**
+     * SQL test
+     *
+     * This function performs some tests to validate the correctness
+     * of the sql functions
+     */
+    public function test_sql(): void
+    {
+        global $_CONFIG;
+        $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+        db_connect();
+
+        // Default insert
+        $query = make_insert_query("app_customers", [
+            "nombre" => "The SaltOS project",
+            "cif" => "12345678X",
+            "nombre_poblacion" => "Barcelona",
+            "nombre_codpostal" => "08001",
+        ]);
+        $this->assertSame($query, "INSERT INTO app_customers(nombre,cif,nombre_poblacion,nombre_codpostal) " .
+            "VALUES('The SaltOS project','12345678X','Barcelona','08001')");
+
+        // Default update
+        $query = make_update_query("app_customers", [
+            "nombre" => "The SaltOS project",
+            "cif" => "12345678X",
+            "nombre_poblacion" => "Barcelona",
+            "nombre_codpostal" => "08001",
+        ], "id=1");
+        $this->assertSame($query, "UPDATE app_customers SET nombre='The SaltOS project',cif='12345678X'," .
+            "nombre_poblacion='Barcelona',nombre_codpostal='08001' WHERE id=1");
+
+        // Testing normal behavior
+        $query = make_where_query([
+            "nombre" => "The SaltOS project",
+            "cif" => "12345678X",
+            "nombre_poblacion" => "Barcelona",
+            "nombre_codpostal" => "08001",
+        ]);
+        $this->assertSame($query, "(nombre='The SaltOS project' AND cif='12345678X' AND " .
+            "nombre_poblacion='Barcelona' AND nombre_codpostal='08001')");
+
+        // Testing extra behavior using simbols like >=, >, < and <=
+        $query = make_where_query([
+            "nombre>=" => "The SaltOS project",
+            "cif>" => "12345678X",
+            "nombre_poblacion<" => "Barcelona",
+            "nombre_codpostal<=" => "08001",
+        ]);
+        $this->assertSame($query, "(nombre>='The SaltOS project' AND cif>'12345678X' AND " .
+            "nombre_poblacion<'Barcelona' AND nombre_codpostal<='08001')");
+
+        // Testing the parse_query feature
+        $query = parse_query("/*MYSQL mysql *//*SQLITE sqlite *//* other */");
+        $this->assertSame($query, "mysql");
+
+        // Testing the automatic output of execute_query
+        $result = execute_query("SELECT 1 a");
+        $this->assertSame($result, 1);
+
+        $result = execute_query("SELECT 1 a UNION SELECT 2 a");
+        $this->assertSame($result, [1, 2]);
+
+        $result = execute_query("SELECT 1 a,2 b");
+        $this->assertSame($result, ["a" => 1, "b" => 2]);
+
+        $result = execute_query("SELECT 1 a,2 b UNION SELECT 3 a,4 b");
+        $this->assertSame($result, [["a" => 1, "b" => 2], ["a" => 3, "b" => 4]]);
+
+        // Testing the automatic output of execute_query_array
+        $result = execute_query_array("SELECT 1 a");
+        $this->assertSame($result, [1]);
+
+        $result = execute_query_array("SELECT 1 a UNION SELECT 2 a");
+        $this->assertSame($result, [1, 2]);
+
+        $result = execute_query_array("SELECT 1 a,2 b");
+        $this->assertSame($result, [["a" => 1, "b" => 2]]);
+
+        $result = execute_query_array("SELECT 1 a,2 b UNION SELECT 3 a,4 b");
+        $this->assertSame($result, [["a" => 1, "b" => 2], ["a" => 3, "b" => 4]]);
+
+        // Testing helpers for retrieve the fields, tables, types and sizes
+        $fields = get_fields("tbl_config");
+        $this->assertSame(count($fields), 4);
+
+        $tables = get_tables();
+        $this->assertContains("app_customers", $tables);
+
+        $type = get_field_type("TINYTEXT");
+        $this->assertSame($type, "string");
+
+        $size = get_field_size("TINYTEXT");
+        $this->assertSame($size, 255);
+
+        // Test for the sql functions used by dbschema
+        $xml = '<table name="tbl_config">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                <field name="key" type="VARCHAR(255)"/>
+                <field name="val" type="VARCHAR(255)"/>
+            </fields>
+        </table>';
+        $tablespec = xml2array($xml);
+        $query = parse_query(sql_create_table($tablespec["table"]));
+        $this->assertSame($query, "CREATE TABLE tbl_config (" .
+            "id INT(11) PRIMARY KEY AUTO_INCREMENT," .
+            "user_id INT(11) NOT NULL DEFAULT '0'," .
+            "`key` VARCHAR(255) NOT NULL DEFAULT ''," .
+            "val VARCHAR(255) NOT NULL DEFAULT ''," .
+            "FOREIGN KEY (user_id) REFERENCES tbl_users (id)" .
+            ") ENGINE=Aria CHARSET=utf8mb4");
+
+        $query = sql_alter_table("a", "b");
+        $this->assertSame($query, "ALTER TABLE a RENAME TO b");
+
+        $query = sql_insert_from_select("tbl_config", "tbl_config");
+        $this->assertSame($query, "INSERT INTO tbl_config(id,user_id,`key`,val) " .
+            "SELECT id,user_id,`key`,val FROM tbl_config");
+
+        $query = sql_drop_table("a");
+        $this->assertSame($query, "DROP TABLE a");
+
+        $xml = '<indexes name="tbl_config" table="tbl_config" fields="user_id,key"/>';
+        $indexspec = xml2array($xml);
+        $query = sql_create_index($indexspec["indexes"]);
+        $this->assertSame($query, "CREATE  INDEX tbl_config ON tbl_config (user_id,`key`)");
+
+        $query = parse_query(sql_drop_index("tbl_config", "tbl_config"));
+        $this->assertSame($query, "DROP INDEX tbl_config ON tbl_config");
+
+        // Test for searching features
+        $query = make_like_query("key,val", "hola mundo");
+        $this->assertSame($query, "((key LIKE '%hola%' OR val LIKE '%hola%') AND " .
+            "(key LIKE '%mundo%' OR val LIKE '%mundo%'))");
+
+        $query = make_fulltext_query("hola mundo", "customers");
+        $this->assertSame($query, "id IN (SELECT id FROM app_customers_index " .
+            "WHERE MATCH(search) AGAINST('+(+\"hola\" +\"mundo\")' IN BOOLEAN MODE))");
+    }
+}
