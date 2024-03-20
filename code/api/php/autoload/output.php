@@ -141,11 +141,16 @@ function output_handler($array)
  * requires is the data that you want to send
  *
  * @array => content to convert to json and send to the output channel
+ *
+ * Notes:
+ *
+ * The newline added to the data after the json_encode is intended to do more
+ * easy the debug process and the usage with the command line using the cli sapi
  */
 function output_handler_json($array)
 {
     output_handler([
-        "data" => json_encode($array),
+        "data" => json_encode($array) . "\n",
         "type" => "application/json",
         "cache" => false,
     ]);

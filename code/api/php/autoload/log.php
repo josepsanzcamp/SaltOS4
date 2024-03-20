@@ -97,7 +97,7 @@ function addlog($msg, $file = "")
         }
         rename($dir . $file, $dir . $file . "." . $next);
     }
-    $msg = trim($msg);
+    $msg = trim(strval($msg));
     $msg = explode("\n", $msg);
     $pre = current_datetime_decimals();
     foreach ($msg as $key => $val) {
