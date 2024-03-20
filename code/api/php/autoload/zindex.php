@@ -115,7 +115,7 @@ if (isset($argv) && defined("STDIN")) {
             "content_type" => "",
             "token" => check_token_format(getenv("TOKEN")),
             "remote_addr" => getenv("USER"),
-            "user_agent" => phpversion(),
+            "user_agent" => "PHP/" . phpversion(),
         ],
     ];
     if (count(get_data("json"))) {
