@@ -14,29 +14,22 @@ all: clean
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 test:
-	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
-	@for i in ${files}; do \
-		echo $$i; \
-		phpcs --colors --standard=scripts/phpcs.xml $$i; \
-		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
-	done
-
-	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'js$$ | sort))
-	@for i in ${files}; do \
-		echo $$i; \
-		jscs --config=scripts/jscs.json $$i 2>/dev/null; \
-		node -c $$i; \
-	done
-
-testall:
+ifeq ($(all), true)
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
+else
+	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
+endif
 	@for i in ${files}; do \
 		echo $$i; \
 		phpcs --colors --standard=scripts/phpcs.xml $$i; \
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
+ifeq ($(all), true)
 	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
+else
+	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'js$$ | sort))
+endif
 	@for i in ${files}; do \
 		echo $$i; \
 		jscs --config=scripts/jscs.json $$i 2>/dev/null; \
