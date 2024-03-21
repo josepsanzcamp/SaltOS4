@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test IDs
+ * Test XML
  *
  * This test performs some tests to validate the correctness
- * of the check_ids feature
+ * of the xml related functions
  */
 
 /**
@@ -51,39 +51,18 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_ids extends TestCase
+final class test_xml extends TestCase
 {
-    #[testdox('IDs functions')]
+    #[testdox('XML functions')]
     /**
-     * IDs test
+     * XML test
      *
-     * This test performs some tests to validate the correctness
-     * of the check_ids feature
+     * This function performs some tests to validate the correctness
+     * of the xml related functions
      */
-    public function test_ids(): void
+    public function test_xml(): void
     {
-        $ids = check_ids(null);
-        $this->assertSame($ids, "0");
-
-        $ids = check_ids(true);
-        $this->assertSame($ids, "1");
-
-        $ids = check_ids(false);
-        $this->assertSame($ids, "0");
-
-        $ids = check_ids([]);
-        $this->assertSame($ids, "0");
-
-        $ids = check_ids("");
-        $this->assertSame($ids, "0");
-
-        $ids = check_ids();
-        $this->assertSame($ids, "0");
-
-        $ids = check_ids("1,2,3", "2,1");
-        $this->assertSame($ids, "1,2,3");
-
-        $ids = check_ids("a,b,c", "b,a");
-        $this->assertSame($ids, "0");
+        $xml = '<a x="1"><b y="2"/><c z="3">d</c></a>';
+        $this->assertSame(array2xml(xml2array($xml)), $xml);
     }
 }

@@ -54,6 +54,9 @@ function gc_exec()
         get_directory("dirs/tempdir"),
         get_directory("dirs/uploaddir"),
     ];
+    if (implode("", $dirs) == "") {
+        show_php_error(["phperror" => "Internal error"]);
+    }
     $files = [];
     foreach ($dirs as $dir) {
         $files1 = glob_protected($dir . "*"); // Visible files

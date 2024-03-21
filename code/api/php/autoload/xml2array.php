@@ -291,6 +291,11 @@ function xml2struct($xml, $file = "")
         $error = xml_error_string($code);
         $linea = xml_get_current_line_number($parser);
         $fila = xml_get_current_column_number($parser);
+        if ($file == "") {
+            show_php_error([
+                "xmlerror" => "Error $code: $error (at line $linea,$fila)",
+            ]);
+        }
         $file = basename($file);
         show_php_error([
             "xmlerror" => "Error $code: $error (on file $file at line $linea,$fila)",
@@ -359,9 +364,14 @@ function struct2array(&$data, $file = "")
         } elseif ($type == "cdata") {
             // NOTHING TO DO
         } else {
+            if ($file == "") {
+                show_php_error([
+                    "xmlerror" => "Unknown tag type with name '</$name>' (at line $linea)",
+                ]);
+            }
             $file = basename($file);
             show_php_error([
-                "xmlerror" => "Unknown tag type with name '&lt;/$name&gt;' (on file $file at line $linea)",
+                "xmlerror" => "Unknown tag type with name '</$name>' (on file $file at line $linea)",
             ]);
         }
     }

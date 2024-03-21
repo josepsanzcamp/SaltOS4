@@ -139,12 +139,11 @@ function __array2xml_write_nodes(&$array, $level = null)
  * This function returns a string with the contents of array converted into a XML
  * language file, to do it, uses some helpers as __array2xml_* functions
  *
- * @array        => the array that contains the tree structure that you want to convert to XML
- * @usexmlminify => a boolean to enable or disable the minify feature
+ * @array  => the array that contains the tree structure that you want to convert to XML
+ * @indent => a boolean to enable or disable the indent (the old minify) feature
  */
 function array2xml($array, $indent = false)
 {
-    $array = ["root" => $array];
     $buffer = __array2xml_write_nodes($array, $indent ? 0 : null);
     return $buffer;
 }

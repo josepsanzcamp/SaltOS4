@@ -17,7 +17,11 @@ test:
 ifeq ($(all), true)
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
 else
+ifneq ($(file), )
+	$(eval files := $(shell find $(file) -name *.php | sort))
+else
 	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
+endif
 endif
 	@for i in ${files}; do \
 		echo $$i; \
@@ -28,7 +32,11 @@ endif
 ifeq ($(all), true)
 	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
 else
+ifneq ($(file), )
+	$(eval files := $(shell find $(file) -name *.js | sort))
+else
 	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'js$$ | sort))
+endif
 endif
 	@for i in ${files}; do \
 		echo $$i; \
@@ -75,7 +83,11 @@ check:
 	@echo -n cloc:" "; which cloc > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 
 utest:
-	phpunit -c scripts/phpunit.xml $(file)
+ifeq ($(file), )
+	phpunit -c scripts/phpunit.xml
+else
+	phpunit -c scripts/phpunit.xml ../../utest/$(file)
+endif
 
 cloc:
 	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale}
