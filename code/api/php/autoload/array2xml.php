@@ -47,9 +47,9 @@ function __array2xml_check_node_name($name)
 {
     try {
         new DOMElement(":{$name}");
-        return 1;
+        return true;
     } catch (DOMException $e) {
-        return 0;
+        return false;
     }
 }
 
@@ -65,9 +65,9 @@ function __array2xml_check_node_attr($name)
 {
     try {
         new DOMAttr($name);
-        return 1;
+        return true;
     } catch (DOMException $e) {
-        return 0;
+        return false;
     }
 }
 

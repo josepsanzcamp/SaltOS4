@@ -79,7 +79,7 @@ function join4array($array)
                 $array["value"] = ["value" => $array["value"]];
             }
         }
-        $array = array_merge($array["value"], $array["#attr"]);
+        $array = array_merge($array["#attr"], $array["value"]);
     }
     return $array;
 }

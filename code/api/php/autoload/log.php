@@ -56,10 +56,10 @@ function checklog($hash, $file)
     ) {
         $buffer = file_get_contents($dir . $file);
         if (strpos($buffer, $hash) !== false) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 /**

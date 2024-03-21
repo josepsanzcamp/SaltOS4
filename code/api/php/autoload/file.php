@@ -134,7 +134,7 @@ function get_cache_file($data, $ext = "")
 function cache_exists($cache, $files)
 {
     if (!file_exists($cache) || !is_file($cache)) {
-        return 0;
+        return false;
     }
     $mtime1 = filemtime($cache);
     if (!is_array($files)) {
@@ -142,14 +142,14 @@ function cache_exists($cache, $files)
     }
     foreach ($files as $file) {
         if (!file_exists($file) || !is_file($file)) {
-            return 0;
+            return false;
         }
         $mtime2 = filemtime($file);
         if ($mtime2 >= $mtime1) {
-            return 0;
+            return false;
         }
     }
-    return 1;
+    return true;
 }
 
 /**
@@ -357,13 +357,15 @@ function glob_protected($pattern)
  */
 function chmod_protected($file, $mode)
 {
+    clearstatcache(); // needed to see changes
     if ((fileperms($file) & 0777) === $mode) {
-        return;
+        return false;
     }
     if (fileowner($file) !== posix_getuid()) {
-        return;
+        return false;
     }
     chmod($file, $mode);
+    return true;
 }
 
 /**

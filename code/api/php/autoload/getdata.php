@@ -63,6 +63,12 @@ function get_data($key)
  *
  * @key => the key that you want to set
  * @val => the value that you want to set
+ *
+ * Notes:
+ *
+ * If null val is passed as argument, then the entry of the data is removed,
+ * the main idea is to use the same method used by the setcookie that allow
+ * to remove entries by setting the value to null
  */
 function set_data($key, $val)
 {
@@ -70,11 +76,19 @@ function set_data($key, $val)
     $keys = explode("/", $key);
     $count = count($keys);
     if ($count == 1) {
-        $_DATA[$keys[0]] = $val;
+        if ($val !== null) {
+            $_DATA[$keys[0]] = $val;
+        } else {
+            unset($_DATA[$keys[0]]);
+        }
         return;
     }
     if ($count == 2) {
-        $_DATA[$keys[0]][$keys[1]] = $val;
+        if ($val !== null) {
+            $_DATA[$keys[0]][$keys[1]] = $val;
+        } else {
+            unset($_DATA[$keys[0]][$keys[1]]);
+        }
         return;
     }
     show_php_error(["phperror" => "key $key not found"]);
