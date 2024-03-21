@@ -34,7 +34,7 @@ declare(strict_types=1);
  */
 
 /**
- * BarCode function
+ * BarCode image function
  *
  * This function allow to generate a barcode, you can pass the desired
  * message that you want to convert in barcode and it returns an image
@@ -52,7 +52,7 @@ declare(strict_types=1);
  * The normal behavior is returns a png image, but if something was wrong,
  * the function can returns an empty string
  */
-function __barcode($msg, $w, $h, $m, $s, $t)
+function __barcode_image($msg, $w, $h, $m, $s, $t)
 {
     require_once "lib/tcpdf/vendor/autoload.php";
     $barcode = new TCPDFBarcode($msg, $t);

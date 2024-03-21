@@ -34,7 +34,7 @@ declare(strict_types=1);
  */
 
 /**
- * QRCode function
+ * QRCode image function
  *
  * This function allow to generate a qrcode with the SaltOS logo embedded
  * in the center of the image, you can pass the desired message that you
@@ -49,7 +49,7 @@ declare(strict_types=1);
  * The normal behavior is returns a png image, but if something was wrong,
  * the function can returns an empty string
  */
-function __qrcode($msg, $s, $m)
+function __qrcode_image($msg, $s, $m)
 {
     require_once "lib/tcpdf/vendor/autoload.php";
     $levels = ["L", "M", "Q", "H"];

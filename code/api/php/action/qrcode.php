@@ -61,7 +61,7 @@ if (!in_array($format, ["png", "json"])) {
 $s = get_data("json/s") ? get_data("json/s") : 6;
 $m = get_data("json/m") ? get_data("json/m") : 10;
 
-$image = __qrcode($msg, $s, $m);
+$image = __qrcode_image($msg, $s, $m);
 if ($image == "") {
     show_json_error("Internal error");
 }
