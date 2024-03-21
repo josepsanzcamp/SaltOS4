@@ -132,6 +132,7 @@ function import_file($args)
         case "excel":
         case "xlsx":
         case "xls":
+        case "ods":
             $array = __import_xls2array($args["file"], $args["sheet"]);
             break;
         case "bytes":
@@ -208,16 +209,16 @@ function __import_xml2array($file)
 {
     $xml = file_get_contents($file);
     $xml = __import_utf8bom($xml);
-    capture_next_error();
+    //~ capture_next_error();
     $data = xml2struct($xml);
-    $error = get_clear_error();
-    if ($error != "") {
-        $temp = parse_error2array($error);
-        if (isset($temp[1])) {
-            return $temp[1];
-        }
-        return $error;
-    }
+    //~ $error = get_clear_error();
+    //~ if ($error != "") {
+        //~ $temp = parse_error2array($error);
+        //~ if (isset($temp[1])) {
+            //~ return $temp[1];
+        //~ }
+        //~ return $error;
+    //~ }
     $data = array_reverse($data);
     $array = __import_struct2array($data);
     return $array;
@@ -651,9 +652,9 @@ function __import_bytes2array($file, $map, $offset, $nomb)
 }
 
 /**
- * Edit to Array helper
+ * Edi to Array helper
  *
- * This fuction can convert an excel file into a tree structure
+ * This fuction can convert an edi file into a tree structure
  *
  * @file => local filename used to load the data
  */
@@ -1122,12 +1123,12 @@ function __import_filter_rec($node, $filter, $eval, $parent = [])
                 $keys[$key] = __import_col2name($val);
             }
             $vars = array_combine($keys, $vars);
-            capture_next_error();
+            //~ capture_next_error();
             $result = eval_protected($filter, $vars);
-            $error = get_clear_error();
-            if ($result && !$error) {
-                return true;
-            }
+            //~ $error = get_clear_error();
+            //~ if ($result && !$error) {
+                //~ return true;
+            //~ }
         }
         // Recursive call
         foreach ($node["rows"] as $node2) {
@@ -1155,12 +1156,12 @@ function __import_filter_rec($node, $filter, $eval, $parent = [])
                 $keys[$key] = __import_col2name($val);
             }
             $vars = array_combine($keys, $vars);
-            capture_next_error();
+            //~ capture_next_error();
             $result = eval_protected($filter, $vars);
-            $error = get_clear_error();
-            if ($result && !$error) {
-                return true;
-            }
+            //~ $error = get_clear_error();
+            //~ if ($result && !$error) {
+                //~ return true;
+            //~ }
         }
     }
 }
