@@ -14,7 +14,7 @@ all: clean
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 test:
-ifeq ($(all), true)
+ifeq ($(file), all)
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
 else
 ifneq ($(file), )
@@ -29,7 +29,7 @@ endif
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
-ifeq ($(all), true)
+ifeq ($(file), all)
 	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
 else
 ifneq ($(file), )
