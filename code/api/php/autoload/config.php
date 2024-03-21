@@ -89,6 +89,12 @@ function get_config($key, $user_id = -1)
  * @key     => the key that you want to set
  * @val     => the value that you want to set
  * @user_id => the user_id used as filter
+ *
+ * Notes:
+ *
+ * If null val is passed as argument, then the entry of the config or database
+ * is removed, the main idea is to use the same method used by the setcookie that
+ * allow to remove entries by setting the value to null
  */
 function set_config($key, $val, $user_id = -1)
 {
@@ -99,11 +105,19 @@ function set_config($key, $val, $user_id = -1)
         $keys = explode("/", $key);
         $count = count($keys);
         if ($count == 1) {
-            $_CONFIG[$keys[0]] = $val;
+            if ($val !== null) {
+                $_CONFIG[$keys[0]] = $val;
+            } else {
+                unset($_CONFIG[$keys[0]]);
+            }
             return;
         }
         if ($count == 2) {
-            $_CONFIG[$keys[0]][$keys[1]] = $val;
+            if ($val !== null) {
+                $_CONFIG[$keys[0]][$keys[1]] = $val;
+            } else {
+                unset($_CONFIG[$keys[0]][$keys[1]]);
+            }
             return;
         }
         show_php_error(["phperror" => "key $key not found"]);
@@ -116,19 +130,28 @@ function set_config($key, $val, $user_id = -1)
     ]);
     $id = execute_query($query);
     if ($id === null) {
-        $query = make_insert_query("tbl_config", [
-            "user_id" => $user_id,
-            "key" => $key,
-            "val" => $val,
-        ]);
-        db_query($query);
+        if ($val !== null) {
+            $query = make_insert_query("tbl_config", [
+                "user_id" => $user_id,
+                "key" => $key,
+                "val" => $val,
+            ]);
+            db_query($query);
+        }
     } else {
-        $query = make_update_query("tbl_config", [
-            "val" => $val,
-        ], make_where_query([
-            "id" => $id,
-        ]));
-        db_query($query);
+        if ($val !== null) {
+            $query = make_update_query("tbl_config", [
+                "val" => $val,
+            ], make_where_query([
+                "id" => $id,
+            ]));
+            db_query($query);
+        } else {
+            $query = "DELETE FROM tbl_config WHERE " . make_where_query([
+                "id" => $id,
+            ]);
+            db_query($query);
+        }
     }
 }
 

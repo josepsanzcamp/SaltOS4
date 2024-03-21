@@ -72,7 +72,8 @@ final class test_config extends TestCase
         $uniqid = get_unique_id_md5();
         set_config("test", $uniqid, 1);
         $this->assertSame(get_config("test", 1), $uniqid);
-        $this->assertSame(get_config("test", 2), null);
+        set_config("test", null, 1);
+        $this->assertSame(get_config("test", 1), null);
         $this->assertSame(count(detect_config_files("xml/config.xml")) > 1, true);
     }
 }
