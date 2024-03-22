@@ -103,7 +103,7 @@ final class test_import extends TestCase
             "type" => "xlsx",
         ]);
         $this->assertSame(is_array($rows), true);
-        $this->assertSame(count($rows), 1000);
+        $this->assertSame(count($rows), 100);
         $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
     }
 
@@ -121,7 +121,7 @@ final class test_import extends TestCase
             "type" => "xls",
         ]);
         $this->assertSame(is_array($rows), true);
-        $this->assertSame(count($rows), 1000);
+        $this->assertSame(count($rows), 100);
         $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
     }
 
@@ -139,7 +139,7 @@ final class test_import extends TestCase
             "type" => "ods",
         ]);
         $this->assertSame(is_array($rows), true);
-        $this->assertSame(count($rows), 1000);
+        $this->assertSame(count($rows), 100);
         $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
     }
 

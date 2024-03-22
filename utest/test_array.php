@@ -84,5 +84,67 @@ final class test_array extends TestCase
         $array = xml2array($xml);
         $array["a"] = join4array($array["a"]);
         $this->assertSame($array, ["a" => ["b" => "c", "d" => "e", "f" => "g", "h" => "i"]]);
+
+        $xml = '<a b="c" d="e"><f>g</f><h>i</h></a>';
+        $array = xml2array($xml);
+        $this->assertSame(__array_getnode("a/f", $array), "g");
+        $this->assertSame(__array_getattr("b", __array_getnode("a", $array)), "c");
+        $this->assertSame(__array_getattr("d", __array_getnode("a", $array)), "e");
+        $this->assertSame(__array_getvalue(__array_getnode("a", $array)), ["f" => "g", "h" => "i"]);
+        __array_addnode("a/z", $array, "xyz");
+        $this->assertSame(__array_getnode("a/z", $array), "xyz");
+        __array_setnode("a/z", $array, "zyx");
+        $this->assertSame(__array_getnode("a/z", $array), "zyx");
+        __array_delnode("a/z", $array);
+        $this->assertSame(__array_getnode("a/z", $array), null);
+
+        $array = [
+            ["a", "b", "c"],
+            ["d", "e", "f"],
+            ["f", "e", "d"],
+        ];
+        $this->assertSame(__array_filter($array, "c"), [["a", "b", "c"]]);
+        $this->assertSame(__array_filter($array, "z"), []);
+        $this->assertSame(__array_filter($array, "a d"), []);
+        $this->assertSame(__array_filter($array, "d"), [["d", "e", "f"], ["f", "e", "d"]]);
+
+        $array = [
+            [
+                "row" => [
+                    "name" => "a1",
+                    "surname" => "b1",
+                ],
+                "rows" => [
+                    ["name" => "c1", "surname" => "d1"],
+                    ["name" => "e1", "surname" => "f1"],
+                ],
+            ],
+            [
+                "row" => [
+                    "name" => "a2",
+                    "surname" => "b2",
+                ],
+                "rows" => [
+                    ["name" => "c2", "surname" => "d2"],
+                    ["name" => "e2", "surname" => "f2"],
+                ],
+            ],
+            [
+                "row" => [
+                    "name" => "a3",
+                    "surname" => "b3",
+                ],
+                "rows" => [
+                    ["name" => "c3", "surname" => "d3"],
+                    ["name" => "e3", "surname" => "f3"],
+                ],
+            ],
+        ];
+        __array_apply_patch($array, "/row/0/col/0", "x");
+        $this->assertSame(__array_getnode("0/row/name", $array), "x");
+        __array_apply_patch($array, "/row/1/row/1/col/1", "y");
+        $this->assertSame(__array_getnode("1/rows/1/surname", $array), "y");
+        __array_apply_patch($array, "/row/2/row/0/col/0", "z");
+        $this->assertSame(__array_getnode("2/rows/0/name", $array), "z");
     }
 }

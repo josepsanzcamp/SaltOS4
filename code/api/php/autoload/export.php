@@ -52,6 +52,10 @@ declare(strict_types=1);
  * @ext      => extension used for the filename if provided
  * @wrap     => boolean argument used only for edi indentation
  * @indent   => boolean argument used only for json indentation
+ * @prefn    => function executed between the load and the tree construction
+ * @notree   => boolean to enable or disable the tree2array feature
+ * @postfn   => function executed after the tree construction
+ * @novoid   => boolean to enable or disable the removevoid feature
  *
  * If file argument is specified, void string is returned
  * If file argument is not specified, then they will returns all data
@@ -96,6 +100,47 @@ function export_file($args)
     if (!isset($args["indent"])) {
         $args["indent"] = false;
     }
+    if (!isset($args["prefn"])) {
+        $args["prefn"] = "";
+    }
+    if (!isset($args["notree"])) {
+        if ($args["type"] != "xml") {
+            $args["notree"] = 0;
+        } else {
+            $args["notree"] = 1;
+        }
+    }
+    if (!isset($args["postfn"])) {
+        $args["postfn"] = "";
+    }
+    if (!isset($args["novoid"])) {
+        $args["novoid"] = 0;
+    }
+    // New part that apply the same concept used in the import_file
+    if ($args["prefn"]) {
+        $args["data"] = $args["prefn"]($args["data"],$args);
+        if (!is_array($args["data"])) {
+            return $args["data"];
+        }
+    }
+    if (!$args["notree"]) {
+        $args["data"] = __export_tree2array($args["data"]);
+        if (!is_array($args["data"])) {
+            return $args["data"];
+        }
+    }
+    if ($args["postfn"]) {
+        $args["data"] = $args["postfn"]($args["data"],$args);
+        if (!is_array($args["data"])) {
+            return $args["data"];
+        }
+    }
+    if (!$args["novoid"]) {
+        $args["data"] = __import_removevoid($args["data"]);
+        if (!is_array($args["data"])) {
+            return $args["data"];
+        }
+    }
     // Continue
     switch ($args["type"]) {
         case "xml":
@@ -112,6 +157,9 @@ function export_file($args)
             break;
         case "xlsx":
             $buffer = __export_file_excel($args["data"], $args["title"], "Xlsx");
+            break;
+        case "ods":
+            $buffer = __export_file_excel($args["data"], $args["title"], "Ods");
             break;
         case "edi":
             $buffer = __export_file_edi($args["data"], $args["wrap"]);
@@ -148,7 +196,7 @@ function export_file($args)
  */
 function __export_file_xml($matrix, $eol = "\n", $encoding = "UTF-8")
 {
-    $buffer = str_replace("UTF-8", $encoding, __XML_HEADER__);
+    $buffer = str_replace("UTF-8", $encoding, "<?xml version='1.0' encoding='UTF-8' ?>\n");
     $buffer .= __array2xml_write_nodes($matrix, 0);
     $buffer = str_replace("\n", $eol, $buffer);
     $buffer = mb_convert_encoding($buffer, $encoding, "UTF-8");
@@ -319,4 +367,55 @@ function __export_file_json($matrix, $indent = false)
     }
     $buffer = json_encode($matrix, $flags);
     return $buffer;
+}
+
+/**
+ * Tree to Array
+ *
+ * This function convert a tree into a 2D matrix, it's intended to convert
+ * a tree structure into a csv, for example
+ *
+ * @array => the tree that you want to convert into a 2D matrix
+ */
+function __export_tree2array($array)
+{
+    $result = [];
+    foreach ($array as $node) {
+        if (isset($node["row"]) && isset($node["rows"])) {
+            foreach (__export_tree2array($node["rows"]) as $row) {
+                // Fix for duplicates
+                $temp = $node["row"];
+                foreach ($row as $key => $val) {
+                    set_array($temp, $key, $val);
+                }
+                // Continue
+                $result[] = $temp;
+            }
+        } else {
+            $result[] = $node;
+        }
+    }
+    return $result;
+}
+
+/**
+ * Get Keys
+ *
+ * This function tries to return an array with all the keys used internally
+ * in the tree
+ *
+ * @array => the tree array that you want to process
+ */
+function __import_getkeys($array)
+{
+    $result = [];
+    if (isset($array[0])) {
+        $node = $array[0];
+        if (isset($node["row"]) && isset($node["rows"])) {
+            $result = array_merge(array_keys($node["row"]), __import_getkeys($node["rows"]));
+        } else {
+            $result = array_keys($node);
+        }
+    }
+    return $result;
 }
