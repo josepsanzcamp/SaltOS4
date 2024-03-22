@@ -27,45 +27,23 @@
 
 declare(strict_types=1);
 
-// phpcs:disable PSR1.Classes.ClassDeclaration
-// phpcs:disable Squiz.Classes.ValidClassName
-// phpcs:disable PSR1.Methods.CamelCapsMethodName
-// phpcs:disable PSR1.Files.SideEffects
-
 /**
- * Test score
+ * MIME helper function
  *
- * This test performs some tests to validate the correctness
- * of the score feature
+ * This file contains the function used by the web unit tests to communicate with the
+ * SaltOS app, using the two interfaces that SaltOS provides.
  */
 
 /**
- * Importing namespaces
+ * TODO
+ *
+ * TODO
  */
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\TestDox;
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\DependsOnClass;
-use PHPUnit\Framework\Attributes\DependsExternal;
-
-/**
- * Main class of this unit test
- */
-final class test_score extends TestCase
+function get_mime($buffer): string
 {
-    #[testdox('score functions')]
-    /**
-     * score test
-     *
-     * This test performs some tests to validate the correctness
-     * of the score feature
-     */
-    public function test_score(): void
-    {
-        $img = __score_image(50, 60, 16, 8);
-        $this->assertStringContainsString("PNG image data", get_mime($img));
-        $gd = @imagecreatefromstring($img);
-        $this->assertInstanceOf(GdImage::class, $gd);
-        imagedestroy($gd);
-    }
+    $file = get_temp_file();
+    file_put_contents($file, $buffer);
+    $mime = trim(ob_passthru("file -b $file"));
+    unlink($file);
+    return $mime;
 }

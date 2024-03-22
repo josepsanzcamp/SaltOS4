@@ -40,13 +40,20 @@ declare(strict_types=1);
  */
 
 /**
- * exporting namespaces
+ * Importing namespaces
  */
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
+
+/**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/mimelib.php";
 
 /**
  * Main class of this unit test
@@ -70,20 +77,6 @@ final class test_export extends TestCase
         return $rows;
     }
 
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    private function get_mime($buffer): string
-    {
-        $file = get_temp_file();
-        file_put_contents($file, $buffer);
-        $mime = trim(ob_passthru("file -b $file"));
-        unlink($file);
-        return $mime;
-    }
-
     #[testdox('export xml functions')]
     /**
      * export xml test
@@ -104,7 +97,7 @@ final class test_export extends TestCase
             "data" => $data,
         ]);
         $this->assertSame(is_string($buffer), true);
-        $this->assertStringContainsString("XML 1.0 document", $this->get_mime($buffer));
+        $this->assertStringContainsString("XML 1.0 document", get_mime($buffer));
         $buffer = explode("\n", $buffer);
         // Notes: *11 => 9 columns + <row> + </row>
         // Notes: +4 => xml_header + <rows> + </rows> + eof
@@ -126,7 +119,7 @@ final class test_export extends TestCase
             "data" => $data,
         ]);
         $this->assertSame(is_string($buffer), true);
-        $this->assertStringContainsString("ASCII text", $this->get_mime($buffer));
+        $this->assertStringContainsString("ASCII text", get_mime($buffer));
         $buffer = explode("\n", $buffer);
         $this->assertSame(count($buffer), 1001);
         $buffer[0] = explode(";", $buffer[0]);
@@ -148,7 +141,7 @@ final class test_export extends TestCase
             "data" => $data,
         ]);
         $this->assertSame(is_string($buffer), true);
-        $this->assertStringContainsString("Microsoft Excel 2007+", $this->get_mime($buffer));
+        $this->assertStringContainsString("Microsoft Excel 2007+", get_mime($buffer));
     }
 
     #[testdox('export xls functions')]
@@ -166,7 +159,7 @@ final class test_export extends TestCase
             "data" => $data,
         ]);
         $this->assertSame(is_string($buffer), true);
-        $this->assertStringContainsString("Composite Document File V2 Document", $this->get_mime($buffer));
+        $this->assertStringContainsString("Composite Document File V2 Document", get_mime($buffer));
     }
 
     #[testdox('export ods functions')]
@@ -184,20 +177,20 @@ final class test_export extends TestCase
             "data" => $data,
         ]);
         $this->assertSame(is_string($buffer), true);
-        $this->assertStringContainsString("Zip archive data", $this->get_mime($buffer));
+        $this->assertStringContainsString("Zip archive data", get_mime($buffer));
     }
 
-    #[testdox('export bytes functions')]
-    /**
-     * export bytes test
-     *
-     * This test performs some tests to validate the correctness
-     * of the export functions
-     */
-    public function test_export_bytes(): void
-    {
-        $this->markTestSkipped('NOT IMPLEMENTED');
-    }
+    //~ #[testdox('export bytes functions')]
+    //~ /**
+     //~ * export bytes test
+     //~ *
+     //~ * This test performs some tests to validate the correctness
+     //~ * of the export functions
+     //~ */
+    //~ public function test_export_bytes(): void
+    //~ {
+        //~ $this->markTestSkipped("NOT IMPLEMENTED");
+    //~ }
 
     #[testdox('export edi functions')]
     /**
@@ -214,7 +207,7 @@ final class test_export extends TestCase
             "data" => $data,
         ]);
         $this->assertSame(is_string($buffer), true);
-        $this->assertStringContainsString("ASCII text", $this->get_mime($buffer));
+        $this->assertStringContainsString("ASCII text", get_mime($buffer));
         $buffer = explode("\n", $buffer);
         $this->assertSame(count($buffer), 1001);
         $buffer[0] = explode("+", str_replace("'", "", $buffer[0]));
@@ -236,6 +229,85 @@ final class test_export extends TestCase
             "data" => $data,
         ]);
         $this->assertSame(is_string($buffer), true);
-        $this->assertStringContainsString("JSON text data", $this->get_mime($buffer));
+        $this->assertStringContainsString("JSON text data", get_mime($buffer));
+    }
+
+    #[testdox('tree2array functions')]
+    /**
+     * tree2array test
+     *
+     * This test performs some tests to validate the correctness
+     * of the tree2array function
+     */
+    public function test_export_tree2array(): void
+    {
+        $array = [
+            [
+                "row" => [
+                    "a" => "1",
+                    "b" => "2",
+                    "c" => "3",
+                ],
+                "rows" => [
+                    ["d" => "4", "e" => "5", "f" => "6"],
+                    ["d" => "7", "e" => "8", "f" => "9"],
+                ],
+            ],
+            [
+                "row" => [
+                    "a" => "4",
+                    "b" => "5",
+                    "c" => "6",
+                ],
+                "rows" => [
+                    ["d" => "6", "e" => "5", "f" => "4"],
+                    ["d" => "9", "e" => "8", "f" => "7"],
+                ],
+            ],
+        ];
+        $array = __export_tree2array($array);
+        $this->assertSame(count($array), 4);
+        foreach ($array as $key => $val) {
+            $this->assertSame(count($val), 6);
+            $this->assertSame(array_keys($val), ["a", "b", "c", "d", "e", "f"]);
+        }
+    }
+
+    #[testdox('getkeys functions')]
+    /**
+     * getkeys test
+     *
+     * This test performs some tests to validate the correctness
+     * of the getkeys function
+     */
+    public function test_export_getkeys(): void
+    {
+        $array = [
+            [
+                "row" => [
+                    "a" => "1",
+                    "b" => "2",
+                    "c" => "3",
+                ],
+                "rows" => [
+                    ["d" => "4", "e" => "5", "f" => "6"],
+                    ["d" => "7", "e" => "8", "f" => "9"],
+                ],
+            ],
+            [
+                "row" => [
+                    "a" => "4",
+                    "b" => "5",
+                    "c" => "6",
+                ],
+                "rows" => [
+                    ["d" => "6", "e" => "5", "f" => "4"],
+                    ["d" => "9", "e" => "8", "f" => "7"],
+                ],
+            ],
+        ];
+        $array = __export_getkeys($array);
+        $this->assertSame(count($array), 6);
+        $this->assertSame($array, ["a", "b", "c", "d", "e", "f"]);
     }
 }

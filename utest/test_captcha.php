@@ -77,8 +77,10 @@ final class test_captcha extends TestCase
         $this->assertSame(__captcha_isprime(13), true);
 
         $img = __captcha_image("12345");
+        $this->assertStringContainsString("PNG image data", get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
+        imagedestroy($gd);
 
         $text = __captcha_make_number(5);
         $this->assertSame(is_numeric($text), true);

@@ -63,7 +63,9 @@ final class test_qrcode extends TestCase
     public function test_qrcode(): void
     {
         $img = __qrcode_image("12345", 6, 10);
+        $this->assertStringContainsString("PNG image data", get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
+        imagedestroy($gd);
     }
 }

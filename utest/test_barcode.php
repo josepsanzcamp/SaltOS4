@@ -63,7 +63,9 @@ final class test_barcode extends TestCase
     public function test_barcode(): void
     {
         $img = __barcode_image("12345", 1, 30, 10, 8, "C39");
+        $this->assertStringContainsString("PNG image data", get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
+        imagedestroy($gd);
     }
 }
