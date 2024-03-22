@@ -403,6 +403,26 @@ final class test_database extends TestCase
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
+
+        // Check part
+        $query = "SELECT 1";
+        $this->assertEquals($obj->db_check($query), true);
+
+        $query = "SELECT a";
+        $this->assertEquals($obj->db_check($query), false);
+
+        // More tests
+        $query = "SELECT id FROM tbl_users_tokens";
+        $result = $obj->db_query($query, "auto");
+
+        $query = "SELECT id,token FROM tbl_users_tokens";
+        $result = $obj->db_query($query, "auto");
+
+        $query = "SELECT id FROM tbl_users_tokens";
+        $result = $obj->db_query($query, "concat");
+
+        $query = "SELECT '\'\%' id FROM tbl_users_tokens";
+        $result = $obj->db_query($query);
     }
 
     #[testdox('pdo_mysql driver')]
@@ -507,5 +527,47 @@ final class test_database extends TestCase
 
         // Close connection
         $obj->db_disconnect();
+    }
+
+    #[testdox('database driver')]
+    /**
+     * Database driver
+     *
+     * This function checks the correctness of the database driver by creating a
+     * database connection, sendint queries validating the expected results and
+     * closing the connection.
+     */
+    public function test_database(): void
+    {
+        // Connection part
+        global $_CONFIG;
+        $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+        db_connect();
+        set_config("debug/slowquerydebug", true);
+        $this->assertSame(get_config("db/obj") instanceof database_pdo_mysql, true);
+        $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), true);
+        $this->assertSame(is_array(db_query("")), true);
+
+        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $this->assertSame(is_array($result), true);
+
+        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $this->assertSame(count(db_fetch_row($result)) > 0, true);
+
+        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $this->assertSame(count(db_fetch_all($result)) > 0, true);
+
+        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $this->assertSame(db_num_rows($result) > 0, true);
+
+        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $this->assertSame(db_num_fields($result) > 0, true);
+
+        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $this->assertSame(db_field_name($result, 0), "id");
+
+        $result = db_query("SELECT * FROM tbl_users_tokens");
+        db_free($result);
+        db_disconnect();
     }
 }

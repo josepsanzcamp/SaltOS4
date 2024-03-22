@@ -493,17 +493,17 @@ function eval_attr($array)
 function eval_bool($arg)
 {
     $bools = [
-        "1" => 1,
-        "0" => 0,
-        "" => 0,
-        "true" => 1,
-        "false" => 0,
-        "on" => 1,
-        "off" => 0,
-        "yes" => 1,
-        "no" => 0,
+        "1" => true,
+        "0" => false,
+        "" => false,
+        "true" => true,
+        "false" => false,
+        "on" => true,
+        "off" => false,
+        "yes" => true,
+        "no" => false,
     ];
-    $bool = strtolower($arg);
+    $bool = strtolower(strval($arg));
     if (isset($bools[$bool])) {
         return $bools[$bool];
     }

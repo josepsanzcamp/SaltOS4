@@ -146,19 +146,6 @@ function db_query($query, $fetch = "query")
 }
 
 /**
- * DB Disconnect
- *
- * This function close the database connection and sets the link to null
- */
-function db_disconnect()
-{
-    if (!method_exists(get_config("db/obj"), "db_disconnect")) {
-        show_php_error(["phperror" => "Unknown database connector"]);
-    }
-    get_config("db/obj")->db_disconnect();
-}
-
-/**
  * DB Fetch Row
  *
  * This function returns the next row of the resultset queue
@@ -202,19 +189,6 @@ function db_num_rows($result)
 }
 
 /**
- * DB Free
- *
- * This function releases all memory used by the resultset queue
- *
- * @result => this argument is passed by reference and contains the resultset queue
- *            obtained by the db_query
- */
-function db_free(&$result)
-{
-    $result = ["total" => 0, "header" => [], "rows" => []];
-}
-
-/**
  * DB Num Fields
  *
  * This function returns the number of fields of the resultset queue
@@ -241,4 +215,30 @@ function db_field_name($result, $index)
         show_php_error(["phperror" => "Unknown field name at position {$index}"]);
     }
     return $result["header"][$index];
+}
+
+/**
+ * DB Free
+ *
+ * This function releases all memory used by the resultset queue
+ *
+ * @result => this argument is passed by reference and contains the resultset queue
+ *            obtained by the db_query
+ */
+function db_free(&$result)
+{
+    $result = ["total" => 0, "header" => [], "rows" => []];
+}
+
+/**
+ * DB Disconnect
+ *
+ * This function close the database connection and sets the link to null
+ */
+function db_disconnect()
+{
+    if (!method_exists(get_config("db/obj"), "db_disconnect")) {
+        show_php_error(["phperror" => "Unknown database connector"]);
+    }
+    get_config("db/obj")->db_disconnect();
 }

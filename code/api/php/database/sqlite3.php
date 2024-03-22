@@ -72,6 +72,7 @@ class database_sqlite3
     public function __construct($args)
     {
         require_once "php/database/libsqlite.php";
+        // @codeCoverageIgnoreStart
         if (!class_exists("SQLite3")) {
             show_php_error([
                 "phperror" => "Class SQLite3 not found",
@@ -84,16 +85,20 @@ class database_sqlite3
         if (!is_writable($args["file"])) {
             show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
         }
+        // @codeCoverageIgnoreEnd
         try {
             $this->link = new SQLite3($args["file"]);
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage()]);
         }
+        // @codeCoverageIgnoreEnd
         $this->link->enableExceptions(true);
         $this->link->busyTimeout(0);
         $this->db_query("PRAGMA cache_size=2000");
         $this->db_query("PRAGMA synchronous=OFF");
         $this->db_query("PRAGMA foreign_keys=OFF");
+        // @codeCoverageIgnoreStart
         if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
             $this->link->createAggregate(
                 "GROUP_CONCAT",
@@ -104,6 +109,7 @@ class database_sqlite3
         if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
             $this->link->createFunction("REPLACE", "__libsqlite_replace");
         }
+        // @codeCoverageIgnoreEnd
         $this->link->createFunction("LPAD", "__libsqlite_lpad");
         $this->link->createFunction("CONCAT", "__libsqlite_concat");
         $this->link->createFunction("CONCAT_WS", "__libsqlite_concat_ws");
@@ -195,71 +201,80 @@ class database_sqlite3
         }
         // CONTINUE THE NORMAL OPERATION
         $timeout = get_config("db/semaphoretimeout") ?? 10000000;
-        if (semaphore_acquire(__FUNCTION__, $timeout)) {
-            // DO QUERY
-            for (;;) {
-                try {
-                    $stmt = $this->link->query($query);
-                    break;
-                } catch (Exception $e) {
-                    if ($timeout <= 0) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    } elseif (stripos($e->getMessage(), "database is locked") !== false) {
-                        $timeout -= __semaphore_usleep(rand(0, 1000));
-                    } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
-                        $timeout -= __semaphore_usleep(rand(0, 1000));
-                    } else {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                }
-            }
-            semaphore_release(__FUNCTION__);
-            // DUMP RESULT TO MATRIX
-            if (!is_bool($stmt) && $stmt->numColumns() > 0) {
-                if ($fetch == "auto") {
-                    $fetch = $stmt->numColumns() > 1 ? "query" : "column";
-                }
-                if ($fetch == "query") {
-                    try {
-                        while ($row = $stmt->fetchArray(SQLITE3_ASSOC)) {
-                            $result["rows"][] = $row;
-                        }
-                    } catch (Exception $e) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                    $result["total"] = count($result["rows"]);
-                    if ($result["total"] > 0) {
-                        $result["header"] = array_keys($result["rows"][0]);
-                    }
-                }
-                if ($fetch == "column") {
-                    try {
-                        while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                            $result["rows"][] = $row[0];
-                        }
-                    } catch (Exception $e) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                    $result["total"] = count($result["rows"]);
-                    $result["header"] = ["column"];
-                }
-                if ($fetch == "concat") {
-                    try {
-                        if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                            $result["rows"][] = $row[0];
-                        }
-                        while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
-                            $result["rows"][0] .= "," . $row[0];
-                        }
-                    } catch (Exception $e) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                    $result["total"] = count($result["rows"]);
-                    $result["header"] = ["concat"];
-                }
-            }
-        } else {
+        // @codeCoverageIgnoreStart
+        if (!semaphore_acquire(__FUNCTION__, $timeout)) {
             show_php_error(["phperror" => "Could not acquire the semaphore", "query" => $query]);
+        }
+        // @codeCoverageIgnoreEnd
+        // DO QUERY
+        for (;;) {
+            try {
+                $stmt = $this->link->query($query);
+                break;
+            // @codeCoverageIgnoreStart
+            } catch (Exception $e) {
+                if ($timeout <= 0) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                } elseif (stripos($e->getMessage(), "database is locked") !== false) {
+                    $timeout -= __semaphore_usleep(rand(0, 1000));
+                } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
+                    $timeout -= __semaphore_usleep(rand(0, 1000));
+                } else {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+            }
+            // @codeCoverageIgnoreEnd
+        }
+        semaphore_release(__FUNCTION__);
+        // DUMP RESULT TO MATRIX
+        if (!is_bool($stmt) && $stmt->numColumns() > 0) {
+            if ($fetch == "auto") {
+                $fetch = $stmt->numColumns() > 1 ? "query" : "column";
+            }
+            if ($fetch == "query") {
+                try {
+                    while ($row = $stmt->fetchArray(SQLITE3_ASSOC)) {
+                        $result["rows"][] = $row;
+                    }
+                // @codeCoverageIgnoreStart
+                } catch (Exception $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+                // @codeCoverageIgnoreEnd
+                $result["total"] = count($result["rows"]);
+                if ($result["total"] > 0) {
+                    $result["header"] = array_keys($result["rows"][0]);
+                }
+            }
+            if ($fetch == "column") {
+                try {
+                    while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
+                        $result["rows"][] = $row[0];
+                    }
+                // @codeCoverageIgnoreStart
+                } catch (Exception $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+                // @codeCoverageIgnoreEnd
+                $result["total"] = count($result["rows"]);
+                $result["header"] = ["column"];
+            }
+            if ($fetch == "concat") {
+                try {
+                    if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
+                        $result["rows"][] = $row[0];
+                    }
+                    while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
+                        $result["rows"][0] .= "," . $row[0];
+                    }
+                // @codeCoverageIgnoreStart
+                } catch (Exception $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+                // @codeCoverageIgnoreEnd
+                $result["total"] = count($result["rows"]);
+                $result["header"] = ["concat"];
+            }
         }
         return $result;
     }

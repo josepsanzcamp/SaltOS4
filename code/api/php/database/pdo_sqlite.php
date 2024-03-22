@@ -73,6 +73,7 @@ class database_pdo_sqlite
     public function __construct($args)
     {
         require_once "php/database/libsqlite.php";
+        // @codeCoverageIgnoreStart
         if (!class_exists("PDO")) {
             show_php_error([
                 "phperror" => "Class PDO not found",
@@ -85,16 +86,20 @@ class database_pdo_sqlite
         if (!is_writable($args["file"])) {
             show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
         }
+        // @codeCoverageIgnoreEnd
         try {
             $this->link = new PDO("sqlite:" . $args["file"]);
+        // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage()]);
         }
+        // @codeCoverageIgnoreEnd
         $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->link->setAttribute(PDO::ATTR_TIMEOUT, 0);
         $this->db_query("PRAGMA cache_size=2000");
         $this->db_query("PRAGMA synchronous=OFF");
         $this->db_query("PRAGMA foreign_keys=OFF");
+        // @codeCoverageIgnoreStart
         if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
             $this->link->sqliteCreateAggregate(
                 "GROUP_CONCAT",
@@ -105,6 +110,7 @@ class database_pdo_sqlite
         if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
             $this->link->sqliteCreateFunction("REPLACE", "__libsqlite_replace");
         }
+        // @codeCoverageIgnoreEnd
         $this->link->sqliteCreateFunction("LPAD", "__libsqlite_lpad");
         $this->link->sqliteCreateFunction("CONCAT", "__libsqlite_concat");
         $this->link->sqliteCreateFunction("CONCAT_WS", "__libsqlite_concat_ws");
@@ -196,67 +202,76 @@ class database_pdo_sqlite
         }
         // CONTINUE THE NORMAL OPERATION
         $timeout = get_config("db/semaphoretimeout") ?? 10000000;
-        if (semaphore_acquire(__FUNCTION__, $timeout)) {
-            // DO QUERY
-            for (;;) {
-                try {
-                    $stmt = $this->link->query($query);
-                    break;
-                } catch (PDOException $e) {
-                    if ($timeout <= 0) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    } elseif (stripos($e->getMessage(), "database is locked") !== false) {
-                        $timeout -= __semaphore_usleep(rand(0, 1000));
-                    } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
-                        $timeout -= __semaphore_usleep(rand(0, 1000));
-                    } else {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                }
-            }
-            semaphore_release(__FUNCTION__);
-            // DUMP RESULT TO MATRIX
-            if (!is_bool($stmt) && $stmt->columnCount() > 0) {
-                if ($fetch == "auto") {
-                    $fetch = $stmt->columnCount() > 1 ? "query" : "column";
-                }
-                if ($fetch == "query") {
-                    try {
-                        $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    } catch (PDOException $e) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                    $result["total"] = count($result["rows"]);
-                    if ($result["total"] > 0) {
-                        $result["header"] = array_keys($result["rows"][0]);
-                    }
-                }
-                if ($fetch == "column") {
-                    try {
-                        $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                    } catch (PDOException $e) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                    $result["total"] = count($result["rows"]);
-                    $result["header"] = ["column"];
-                }
-                if ($fetch == "concat") {
-                    try {
-                        if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                            $result["rows"][] = $row;
-                        }
-                        while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                            $result["rows"][0] .= "," . $row;
-                        }
-                    } catch (PDOException $e) {
-                        show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    }
-                    $result["total"] = count($result["rows"]);
-                    $result["header"] = ["concat"];
-                }
-            }
-        } else {
+        // @codeCoverageIgnoreStart
+        if (!semaphore_acquire(__FUNCTION__, $timeout)) {
             show_php_error(["phperror" => "Could not acquire the semaphore", "query" => $query]);
+        }
+        // @codeCoverageIgnoreEnd
+        // DO QUERY
+        for (;;) {
+            try {
+                $stmt = $this->link->query($query);
+                break;
+            // @codeCoverageIgnoreStart
+            } catch (PDOException $e) {
+                if ($timeout <= 0) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                } elseif (stripos($e->getMessage(), "database is locked") !== false) {
+                    $timeout -= __semaphore_usleep(rand(0, 1000));
+                } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
+                    $timeout -= __semaphore_usleep(rand(0, 1000));
+                } else {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+            }
+            // @codeCoverageIgnoreEnd
+        }
+        semaphore_release(__FUNCTION__);
+        // DUMP RESULT TO MATRIX
+        if (!is_bool($stmt) && $stmt->columnCount() > 0) {
+            if ($fetch == "auto") {
+                $fetch = $stmt->columnCount() > 1 ? "query" : "column";
+            }
+            if ($fetch == "query") {
+                try {
+                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                // @codeCoverageIgnoreStart
+                } catch (PDOException $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+                // @codeCoverageIgnoreEnd
+                $result["total"] = count($result["rows"]);
+                if ($result["total"] > 0) {
+                    $result["header"] = array_keys($result["rows"][0]);
+                }
+            }
+            if ($fetch == "column") {
+                try {
+                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                // @codeCoverageIgnoreStart
+                } catch (PDOException $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+                // @codeCoverageIgnoreEnd
+                $result["total"] = count($result["rows"]);
+                $result["header"] = ["column"];
+            }
+            if ($fetch == "concat") {
+                try {
+                    if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                        $result["rows"][] = $row;
+                    }
+                    while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                        $result["rows"][0] .= "," . $row;
+                    }
+                // @codeCoverageIgnoreStart
+                } catch (PDOException $e) {
+                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                }
+                // @codeCoverageIgnoreEnd
+                $result["total"] = count($result["rows"]);
+                $result["header"] = ["concat"];
+            }
         }
         return $result;
     }

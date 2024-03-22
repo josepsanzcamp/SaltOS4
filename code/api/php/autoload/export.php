@@ -406,13 +406,13 @@ function __export_tree2array($array)
  *
  * @array => the tree array that you want to process
  */
-function __import_getkeys($array)
+function __export_getkeys($array)
 {
     $result = [];
     if (isset($array[0])) {
         $node = $array[0];
         if (isset($node["row"]) && isset($node["rows"])) {
-            $result = array_merge(array_keys($node["row"]), __import_getkeys($node["rows"]));
+            $result = array_merge(array_keys($node["row"]), __export_getkeys($node["rows"]));
         } else {
             $result = array_keys($node);
         }
