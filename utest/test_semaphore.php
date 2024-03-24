@@ -68,6 +68,5 @@ final class test_semaphore extends TestCase
         $this->assertSame(semaphore_acquire(), true);
         $this->assertStringContainsString(".sem", semaphore_file());
         $this->assertSame(semaphore_shutdown(), true);
-
     }
 }

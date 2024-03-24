@@ -69,7 +69,5 @@ final class test_mime extends TestCase
 
         $this->assertSame(saltos_content_type0("image/png"), "image");
         $this->assertSame(saltos_content_type1("image/png"), "png");
-
-
     }
 }

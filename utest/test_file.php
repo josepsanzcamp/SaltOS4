@@ -143,12 +143,12 @@ final class test_file extends TestCase
         $this->assertSame($buffer, ["", [], []]);
 
         $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
-            "method" => ""
+            "method" => "",
         ]);
         $this->assertSame($buffer, ["", [], []]);
 
         $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
-            "method" => "head"
+            "method" => "head",
         ]);
         $this->assertSame($buffer, ["", [], []]);
 
