@@ -49,6 +49,13 @@ use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/mimelib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_score extends TestCase

@@ -411,7 +411,7 @@ final class test_database extends TestCase
         $query = "SELECT a";
         $this->assertEquals($obj->db_check($query), false);
 
-        // More tests
+        // This is for improve the coverage of all tests
         $query = "SELECT id FROM tbl_users_tokens";
         $result = $obj->db_query($query, "auto");
 
@@ -421,8 +421,23 @@ final class test_database extends TestCase
         $query = "SELECT id FROM tbl_users_tokens";
         $result = $obj->db_query($query, "concat");
 
+        $this->assertSame(is_array($obj->db_query("")), true);
+
+        // This is for improve the coverage of sqlite tests
         $query = "SELECT '\'\%' id FROM tbl_users_tokens";
         $result = $obj->db_query($query);
+
+        if (function_exists("__libsqlite_group_concat_step")) {
+            $this->assertEquals(__libsqlite_group_concat_step("a", null, "b", ","), "a,b");
+        }
+
+        if (function_exists("__libsqlite_group_concat_finalize")) {
+            $this->assertEquals(__libsqlite_group_concat_finalize("a,b", null), "a,b");
+        }
+
+        if (function_exists("__libsqlite_replace")) {
+            $this->assertEquals(__libsqlite_replace("asd", "s", "x"), "axd");
+        }
     }
 
     #[testdox('pdo_mysql driver')]
@@ -539,14 +554,9 @@ final class test_database extends TestCase
      */
     public function test_database(): void
     {
-        // Connection part
-        global $_CONFIG;
-        $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
-        db_connect();
-        set_config("debug/slowquerydebug", true);
         $this->assertSame(get_config("db/obj") instanceof database_pdo_mysql, true);
+
         $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), true);
-        $this->assertSame(is_array(db_query("")), true);
 
         $result = db_query("SELECT * FROM tbl_users_tokens");
         $this->assertSame(is_array($result), true);
@@ -566,8 +576,21 @@ final class test_database extends TestCase
         $result = db_query("SELECT * FROM tbl_users_tokens");
         $this->assertSame(db_field_name($result, 0), "id");
 
+        if (file_exists("data/logs/dbwarning.log")) {
+            unlink("data/logs/dbwarning.log");
+        }
+        $this->assertFileDoesNotExist("data/logs/dbwarning.log");
+        set_config("debug/slowquerytime", 0);
         $result = db_query("SELECT * FROM tbl_users_tokens");
+        set_config("debug/slowquerytime", 5);
         db_free($result);
+        $this->assertFileExists("data/logs/dbwarning.log");
+        if (file_exists("data/logs/dbwarning.log")) {
+            unlink("data/logs/dbwarning.log");
+        }
+
         db_disconnect();
+        $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), false);
+        db_connect();
     }
 }

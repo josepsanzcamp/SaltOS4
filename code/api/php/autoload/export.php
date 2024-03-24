@@ -65,10 +65,14 @@ function export_file($args)
     //~ echo "<pre>".sprintr($args)."</pre>";die();
     // Check parameters
     if (!isset($args["type"])) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown type"]);
+        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["data"])) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown data"]);
+        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["sep"])) {
         $args["sep"] = ";";
@@ -168,7 +172,9 @@ function export_file($args)
             $buffer = __export_file_json($args["data"], $args["indent"]);
             break;
         default:
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
+            // @codeCoverageIgnoreEnd
     }
     if ($args["file"] != "") {
         if ($args["ext"] == "") {
@@ -289,20 +295,24 @@ function __export_file_excel($matrix, $title = "", $type = "Xlsx")
         $objPHPExcel->getActiveSheet()->setTitle(substr($title, 0, 31));
     }
     // Convert all long numbers to string
+    $row = 0;
     foreach ($matrix as $key => $val) {
+        $col = 0;
         foreach ($val as $key2 => $val2) {
             if (is_numeric($val2)) {
                 if (strlen($val2) > 15) {
                     if (substr($val2, 0, 1) != "0") {
                         $objPHPExcel->getActiveSheet()->setCellValueExplicit(
-                            __import_col2name($key2) . strval($key + 1),
+                            __import_col2name($col) . strval($row + 1),
                             $val2,
                             \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
                         );
                     }
                 }
             }
+            $col++;
         }
+        $row++;
     }
     // Continue
     $objWriter = PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, $type);
@@ -331,7 +341,9 @@ function __export_file_edi($matrix, $wrap = false)
             if (is_array($field)) {
                 foreach ($field as $key3 => $subfield) {
                     if (is_array($subfield)) {
+                        // @codeCoverageIgnoreStart
                         show_php_error(["phperror" => "Arrays in subfields not allowed"]);
+                        // @codeCoverageIgnoreEnd
                     } else {
                         $matrix[$key][$key2][$key3] = strval($subfield);
                     }

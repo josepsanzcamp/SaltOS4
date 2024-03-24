@@ -49,6 +49,13 @@ use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/mimelib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_barcode extends TestCase
@@ -67,5 +74,8 @@ final class test_barcode extends TestCase
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
+
+        // This case is for the special case when tcpdf doesn't returns valid data
+        $this->assertSame(__barcode_image(chr(0), 1, 30, 10, 8, "C39"), "");
     }
 }

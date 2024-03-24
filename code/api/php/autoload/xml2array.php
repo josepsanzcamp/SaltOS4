@@ -47,8 +47,13 @@ declare(strict_types=1);
  */
 function eval_protected($input, $global = "")
 {
-    if ($global != "") {
+    if (is_string($global) && $global != "") {
         foreach (explode(",", $global) as $var) {
+            global $$var;
+        }
+    }
+    if (is_array($global) && count($global)) {
+        foreach ($global as $var) {
             global $$var;
         }
     }
@@ -187,10 +192,14 @@ function xmlfiles2array($files, $usecache = true)
 function xmlfile2array($file, $usecache = true)
 {
     if (!file_exists($file)) {
+        // @codeCoverageIgnoreStart
         show_php_error(["xmlerror" => "File not found: $file"]);
+        // @codeCoverageIgnoreEnd
     }
     if (!semaphore_acquire($file)) {
+        // @codeCoverageIgnoreStart
         show_php_error(["xmlerror" => "Could not acquire the semaphore"]);
+        // @codeCoverageIgnoreEnd
     }
     if ($usecache) {
         $cache = get_cache_file($file, ".arr");
@@ -292,14 +301,18 @@ function xml2struct($xml, $file = "")
         $linea = xml_get_current_line_number($parser);
         $fila = xml_get_current_column_number($parser);
         if ($file == "") {
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "xmlerror" => "Error $code: $error (at line $linea,$fila)",
             ]);
+            // @codeCoverageIgnoreEnd
         }
         $file = basename($file);
+        // @codeCoverageIgnoreStart
         show_php_error([
             "xmlerror" => "Error $code: $error (on file $file at line $linea,$fila)",
         ]);
+        // @codeCoverageIgnoreEnd
     }
     xml_parser_free($parser);
     return $array;
@@ -365,14 +378,18 @@ function struct2array(&$data, $file = "")
             // NOTHING TO DO
         } else {
             if ($file == "") {
+                // @codeCoverageIgnoreStart
                 show_php_error([
                     "xmlerror" => "Unknown tag type with name '</$name>' (at line $linea)",
                 ]);
+                // @codeCoverageIgnoreEnd
             }
             $file = basename($file);
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "xmlerror" => "Unknown tag type with name '</$name>' (on file $file at line $linea)",
             ]);
+            // @codeCoverageIgnoreEnd
         }
     }
     return $array;
@@ -436,7 +453,9 @@ function eval_attr($array)
                         case "eval":
                             if (eval_bool($val2)) {
                                 if (!$value) {
+                                    // @codeCoverageIgnoreStart
                                     show_php_error(["xmlerror" => "Evaluation error: void expression"]);
+                                    // @codeCoverageIgnoreEnd
                                 }
                                 $value = eval_protected($value, $global);
                             }
@@ -453,7 +472,9 @@ function eval_attr($array)
                             $val2 = explode(",", $val2);
                             foreach ($val2 as $file) {
                                 if (!file_exists($file)) {
+                                    // @codeCoverageIgnoreStart
                                     show_php_error(["xmlerror" => "Require '$file' not found"]);
+                                    // @codeCoverageIgnoreEnd
                                 }
                                 require_once $file;
                             }
@@ -507,5 +528,7 @@ function eval_bool($arg)
     if (isset($bools[$bool])) {
         return $bools[$bool];
     }
+    // @codeCoverageIgnoreStart
     show_php_error(["xmlerror" => "Unknown boolean value '$arg'"]);
+    // @codeCoverageIgnoreEnd
 }

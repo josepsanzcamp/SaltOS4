@@ -72,14 +72,14 @@ class database_mysqli
      */
     public function __construct($args)
     {
-        // @codeCoverageIgnoreStart
         if (!class_exists("mysqli")) {
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "Class mysqli not found",
                 "details" => "Try to install php-mysql package",
             ]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
             $this->link = new mysqli(
@@ -90,8 +90,8 @@ class database_mysqli
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage()]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         $this->db_query("SET NAMES 'utf8mb4'");
         $this->db_query("SET FOREIGN_KEY_CHECKS=0");
         $this->db_query("SET GROUP_CONCAT_MAX_LEN:=@@MAX_ALLOWED_PACKET");
@@ -155,8 +155,8 @@ class database_mysqli
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->field_count > 0) {
             if ($fetch == "auto") {
@@ -170,8 +170,8 @@ class database_mysqli
                 // @codeCoverageIgnoreStart
                 } catch (Exception $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
                     $result["header"] = array_keys($result["rows"][0]);
@@ -186,8 +186,8 @@ class database_mysqli
                 // @codeCoverageIgnoreStart
                 } catch (Exception $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
                 $stmt->free_result();
@@ -203,8 +203,8 @@ class database_mysqli
                 // @codeCoverageIgnoreStart
                 } catch (Exception $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];
                 $stmt->free_result();

@@ -70,10 +70,14 @@ function import_file($args)
         }
     }
     if (!isset($args["file"])) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown file"]);
+        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["type"])) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown type"]);
+        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["sep"])) {
         $args["sep"] = ";";
@@ -155,7 +159,9 @@ function import_file($args)
     if (!$args["novoid"]) {
         $array = __import_removevoid($array);
         if (!is_array($array)) {
+            // @codeCoverageIgnoreStart
             return $array;
+            // @codeCoverageIgnoreEnd
         }
     }
     if ($args["prefn"]) {
@@ -167,7 +173,9 @@ function import_file($args)
     if (!$args["notree"]) {
         $array = __import_array2tree($array, $args["nodes"], $args["nohead"], $args["noletter"]);
         if (!is_array($array)) {
+            // @codeCoverageIgnoreStart
             return $array;
+            // @codeCoverageIgnoreEnd
         }
     }
     if ($args["postfn"]) {
@@ -300,21 +308,21 @@ function __import_xls2array($file, $sheet)
         }
     }
     // Trick for a big files
-    if (filesize($file) > 1048576 && check_commands(get_default("commands/xlsx2csv"), 60)) { // filesize > 1Mb
+    if (filesize($file) > 1048576 && check_commands(get_config("commands/xlsx2csv"), 60)) { // filesize > 1Mb
         $csv = get_cache_file($file, "csv");
         if (!file_exists($csv)) {
             $xlsx = get_cache_file($file, "xlsx");
             $fix = (dirname(realpath($file)) != dirname($xlsx));
             if ($fix) {
-                symlink($file, $xlsx);
+                symlink(realpath($file), $xlsx);
             }
             if (!$fix) {
-                $xlsx = $file;
+                $xlsx = realpath($file);
             }
             ob_passthru(str_replace(
                 ["__DIR__", "__INPUT__"],
                 [dirname($xlsx), basename($xlsx)],
-                get_default("commands/__xlsx2csv__")
+                get_config("commands/__xlsx2csv__")
             ));
             if ($fix) {
                 unlink($xlsx);
@@ -410,6 +418,13 @@ function __import_bytes2array($file, $map, $offset, $nomb)
         foreach ($map as $key => $val) {
             $val = trim($val);
             $val = explode(";", $val);
+            foreach ($val as $key2 => $val2) {
+                if (is_numeric($val2)) {
+                    $val[$key2] = intval($val2);
+                } else {
+                    $val[$key2] = strval($val2);
+                }
+            }
             $map[$key] = $val;
         }
     }

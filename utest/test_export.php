@@ -102,6 +102,52 @@ final class test_export extends TestCase
         // Notes: *11 => 9 columns + <row> + </row>
         // Notes: +4 => xml_header + <rows> + </rows> + eof
         $this->assertSame(count($buffer), 1000 * 11 + 4);
+
+        if (file_exists("/tmp/example.xml")) {
+            unlink("/tmp/example.xml");
+        }
+        $this->assertFileDoesNotExist("/tmp/example.xml");
+        export_file([
+            "type" => "xml",
+            "data" => $data,
+            "file" => "/tmp/example",
+        ]);
+        $this->assertFileExists("/tmp/example.xml");
+        unlink("/tmp/example.xml");
+
+        $prefn = function ($args) {
+            return "nada";
+        };
+        $postfn = function ($args) {
+            return $args;
+        };
+        $buffer = export_file([
+            "type" => "xml",
+            "data" => $data,
+            "prefn" => $prefn,
+            "postfn" => $postfn,
+        ]);
+        $this->assertSame($buffer, "nada");
+
+        $prefn = function ($args) {
+            return $args;
+        };
+        $postfn = function ($args) {
+            return "nada";
+        };
+        $buffer = export_file([
+            "type" => "xml",
+            "data" => $data,
+            "prefn" => $prefn,
+            "postfn" => $postfn,
+        ]);
+        $this->assertSame($buffer, "nada");
+
+        $buffer = export_file([
+            "type" => "xml",
+            "data" => "nada",
+        ]);
+        $this->assertSame($buffer, "nada");
     }
 
     #[testdox('export csv functions')]
@@ -114,6 +160,7 @@ final class test_export extends TestCase
     public function test_export_csv(): void
     {
         $data = $this->get_data(true, 1001);
+        $data[1]["A"] = ";";
         $buffer = export_file([
             "type" => "csv",
             "data" => $data,
@@ -124,6 +171,18 @@ final class test_export extends TestCase
         $this->assertSame(count($buffer), 1001);
         $buffer[0] = explode(";", $buffer[0]);
         $this->assertSame($buffer[0], ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+
+        $buffer = export_file([
+            "type" => "csv",
+            "data" => $data,
+            "escape" => ["char" => "+", "mode" => "true"],
+        ]);
+        $this->assertSame(is_string($buffer), true);
+        $this->assertStringContainsString("ASCII text", get_mime($buffer));
+        $buffer = explode("\n", $buffer);
+        $this->assertSame(count($buffer), 1001);
+        $buffer[0] = explode(";", $buffer[0]);
+        $this->assertSame($buffer[0], ["+A+", "+B+", "+C+", "+D+", "+E+", "+F+", "+G+", "+H+", "+I+"]);
     }
 
     #[testdox('export xlsx functions')]
@@ -136,9 +195,11 @@ final class test_export extends TestCase
     public function test_export_xlsx(): void
     {
         $data = $this->get_data(true, 100);
+        $data[1]["A"] = "12345678901234567890";
         $buffer = export_file([
             "type" => "xlsx",
             "data" => $data,
+            "title" => "test",
         ]);
         $this->assertSame(is_string($buffer), true);
         $this->assertStringContainsString("Microsoft Excel 2007+", get_mime($buffer));
@@ -154,9 +215,11 @@ final class test_export extends TestCase
     public function test_export_xls(): void
     {
         $data = $this->get_data(true, 100);
+        $data[1]["A"] = "12345678901234567890";
         $buffer = export_file([
             "type" => "xls",
             "data" => $data,
+            "title" => "test",
         ]);
         $this->assertSame(is_string($buffer), true);
         $this->assertStringContainsString("Composite Document File V2 Document", get_mime($buffer));
@@ -172,9 +235,11 @@ final class test_export extends TestCase
     public function test_export_ods(): void
     {
         $data = $this->get_data(true, 100);
+        $data[1]["A"] = "12345678901234567890";
         $buffer = export_file([
             "type" => "ods",
             "data" => $data,
+            "title" => "test",
         ]);
         $this->assertSame(is_string($buffer), true);
         $this->assertStringContainsString("Zip archive data", get_mime($buffer));
@@ -202,6 +267,7 @@ final class test_export extends TestCase
     public function test_export_edi(): void
     {
         $data = $this->get_data(true, 1001);
+        $data[1][0] = ["1", 2];
         $buffer = export_file([
             "type" => "edi",
             "data" => $data,
@@ -227,6 +293,7 @@ final class test_export extends TestCase
         $buffer = export_file([
             "type" => "json",
             "data" => $data,
+            "indent" => "true",
         ]);
         $this->assertSame(is_string($buffer), true);
         $this->assertStringContainsString("JSON text data", get_mime($buffer));

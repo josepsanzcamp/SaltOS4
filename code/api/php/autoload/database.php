@@ -66,7 +66,9 @@ function db_connect($args = null)
     }
     $php = "php/database/" . $config["type"] . ".php";
     if (!file_exists($php)) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Database type '" . $config["type"] . "' not found"]);
+        // @codeCoverageIgnoreEnd
     }
     require_once $php;
     $driver = "database_" . $config["type"];
@@ -88,8 +90,13 @@ function db_connect($args = null)
  */
 function db_check($query)
 {
+    if (!get_config("db/obj")) {
+        return false;
+    }
     if (!method_exists(get_config("db/obj"), "db_check")) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown database connector"]);
+        // @codeCoverageIgnoreEnd
     }
     return get_config("db/obj")->db_check($query);
 }
@@ -124,8 +131,10 @@ function db_check($query)
  */
 function db_query($query, $fetch = "query")
 {
-    if (!method_exists(get_config("db/obj"), "db_query")) {
+    if (!get_config("db/obj") || !method_exists(get_config("db/obj"), "db_query")) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown database connector"]);
+        // @codeCoverageIgnoreEnd
     }
     $debug = eval_bool(get_config("debug/slowquerydebug"));
     if ($debug) {
@@ -212,7 +221,9 @@ function db_num_fields($result)
 function db_field_name($result, $index)
 {
     if (!isset($result["header"][$index])) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown field name at position {$index}"]);
+        // @codeCoverageIgnoreEnd
     }
     return $result["header"][$index];
 }
@@ -237,8 +248,11 @@ function db_free(&$result)
  */
 function db_disconnect()
 {
-    if (!method_exists(get_config("db/obj"), "db_disconnect")) {
+    if (!get_config("db/obj") || !method_exists(get_config("db/obj"), "db_disconnect")) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown database connector"]);
+        // @codeCoverageIgnoreEnd
     }
     get_config("db/obj")->db_disconnect();
+    set_config("db/obj", null);
 }

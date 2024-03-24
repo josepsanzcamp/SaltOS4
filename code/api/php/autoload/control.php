@@ -269,16 +269,22 @@ function get_version($app, $reg_id, $ver_id)
         ];
         if ($row["hash"] != md5(serialize($array))) {
             $ver_id = $row["ver_id"];
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
+            // @codeCoverageIgnoreEnd
         }
         // Check other vars that must accomplish that new values are greather or equal that old values
         if ($row["datetime"] < $datetime_old) {
             $ver_id = $row["ver_id"];
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
+            // @codeCoverageIgnoreEnd
         }
         if ($row["ver_id"] < $version_old) {
             $ver_id = $row["ver_id"];
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
+            // @codeCoverageIgnoreEnd
         }
         // Merge the new data with the data of the previous versions
         $data_new = unserialize(base64_decode($row["data"]));

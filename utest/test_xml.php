@@ -64,5 +64,14 @@ final class test_xml extends TestCase
     {
         $xml = '<a x="1"><b y="2"/><c z="3">d</c></a>';
         $this->assertSame(array2xml(xml2array($xml)), $xml);
+
+        $this->assertSame(__array2xml_check_node_name("asd"), true);
+        $this->assertSame(__array2xml_check_node_name("\asd"), false);
+
+        $this->assertSame(__array2xml_check_node_attr("asd"), true);
+        $this->assertSame(__array2xml_check_node_attr("\asd"), false);
+
+        $array = ["a" => "&"];
+        $this->assertStringContainsString("CDATA", array2xml($array));
     }
 }

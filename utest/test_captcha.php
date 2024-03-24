@@ -49,6 +49,13 @@ use PHPUnit\Framework\Attributes\DependsOnClass;
 use PHPUnit\Framework\Attributes\DependsExternal;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/mimelib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_captcha extends TestCase
@@ -63,18 +70,25 @@ final class test_captcha extends TestCase
     public function test_captcha(): void
     {
         $this->assertSame(__captcha_isprime(1), false);
-        $this->assertSame(__captcha_isprime(2), true);
-        $this->assertSame(__captcha_isprime(3), true);
         $this->assertSame(__captcha_isprime(4), false);
-        $this->assertSame(__captcha_isprime(5), true);
-        $this->assertSame(__captcha_isprime(6), false);
-        $this->assertSame(__captcha_isprime(7), true);
-        $this->assertSame(__captcha_isprime(8), false);
         $this->assertSame(__captcha_isprime(9), false);
-        $this->assertSame(__captcha_isprime(10), false);
-        $this->assertSame(__captcha_isprime(11), true);
-        $this->assertSame(__captcha_isprime(12), false);
-        $this->assertSame(__captcha_isprime(13), true);
+        $this->assertSame(__captcha_isprime(25), false);
+        $this->assertSame(__captcha_isprime(49), false);
+        $this->assertSame(__captcha_isprime(2), true);
+        $this->assertSame(__captcha_isprime(121), false);
+        $this->assertSame(__captcha_isprime(67), true);
+        $this->assertSame(__captcha_isprime(169), false);
+        $this->assertSame(__captcha_isprime(149), true);
+        $this->assertSame(__captcha_isprime(289), false);
+        $this->assertSame(__captcha_isprime(197), true);
+        $this->assertSame(__captcha_isprime(361), false);
+        $this->assertSame(__captcha_isprime(331), true);
+        $this->assertSame(__captcha_isprime(529), false);
+        $this->assertSame(__captcha_isprime(401), true);
+        $this->assertSame(__captcha_isprime(841), false);
+        $this->assertSame(__captcha_isprime(577), true);
+        $this->assertSame(__captcha_isprime(961), false);
+        $this->assertSame(__captcha_isprime(907), true);
 
         $img = __captcha_image("12345");
         $this->assertStringContainsString("PNG image data", get_mime($img));

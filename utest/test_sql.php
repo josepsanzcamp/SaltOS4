@@ -62,10 +62,6 @@ final class test_sql extends TestCase
      */
     public function test_sql(): void
     {
-        global $_CONFIG;
-        $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
-        db_connect();
-
         // Default insert
         $query = make_insert_query("app_customers", [
             "nombre" => "The SaltOS project",

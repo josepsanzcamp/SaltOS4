@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test color
+ * Test version
  *
  * This test performs some tests to validate the correctness
- * of the color feature
+ * of the version related functions
  */
 
 /**
@@ -51,33 +51,36 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_color extends TestCase
+final class test_version extends TestCase
 {
-    #[testdox('color functions')]
+    #[testdox('version functions')]
     /**
-     * color test
+     * version test
      *
-     * This test performs some tests to validate the correctness
-     * of the color feature
+     * This function performs some tests to validate the correctness
+     * of the version related functions
      */
-    public function test_color(): void
+    public function test_version(): void
     {
-        $r = color2dec("#336699", "R");
-        $this->assertSame($r, 51);
+        $this->assertStringContainsString("SaltOS", get_name_version_revision(false));
+        $this->assertStringContainsString("Copyright", get_name_version_revision(true));
 
-        $g = color2dec("#336699", "G");
-        $this->assertSame($g, 102);
+        $this->assertSame(svnversion() > 0, true);
+        file_put_contents("/tmp/svnversion", "123");
+        $this->assertSame(svnversion("/tmp/"), 123);
+        unlink("/tmp/svnversion");
+        set_config("commands/svnversion", "nada");
+        $this->assertSame(svnversion("/tmp/"), 0);
 
-        $b = color2dec("#336699", "B");
-        $this->assertSame($b, 153);
+        set_config("commands/__gitversion__", "ls");
+        $this->assertSame(gitversion(), 0);
+        file_put_contents("/tmp/gitversion", "123");
+        $this->assertSame(gitversion("/tmp/"), 123);
+        unlink("/tmp/gitversion");
+        set_config("commands/gitversion", "nada");
+        $this->assertSame(gitversion("/tmp/"), 0);
 
-        $r = color2dec("#369", "R");
-        $this->assertSame($r, 51);
-
-        $g = color2dec("#369", "G");
-        $this->assertSame($g, 102);
-
-        $b = color2dec("#369", "B");
-        $this->assertSame($b, 153);
+        $this->assertSame(isphp(0), true);
+        $this->assertSame(isphp(99), false);
     }
 }

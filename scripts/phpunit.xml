@@ -21,10 +21,16 @@
         <include>
             <directory suffix=".php">../code/api/php</directory>
         </include>
+        <exclude>
+            <file>../code/api/php/database/pdo_mssql.php</file>
+            <directory>../code/api/php/action</directory>
+            <file>../code/api/php/autoload/zindex.php</file>
+        </exclude>
     </source>
-    <coverage>
+    <coverage includeUncoveredFiles="true">
         <report>
-            <text outputFile="php://stdout" showOnlySummary="true"/>
+            <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
+            <html outputDirectory="/tmp/phpunit.report"/>
         </report>
     </coverage>
 </phpunit>

@@ -66,14 +66,14 @@ class database_pdo_mssql
      */
     public function __construct($args)
     {
-        // @codeCoverageIgnoreStart
         if (!class_exists("PDO")) {
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package",
             ]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         try {
             $this->link = new PDO(
                 "dblib:host=" . $args["host"] . ":" . $args["port"] . ";" .
@@ -84,8 +84,8 @@ class database_pdo_mssql
         // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage()]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -147,8 +147,8 @@ class database_pdo_mssql
         // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
             if ($fetch == "auto") {
@@ -160,8 +160,8 @@ class database_pdo_mssql
                 // @codeCoverageIgnoreStart
                 } catch (PDOException $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
                     $result["header"] = array_keys($result["rows"][0]);
@@ -173,8 +173,8 @@ class database_pdo_mssql
                 // @codeCoverageIgnoreStart
                 } catch (PDOException $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
             }
@@ -189,8 +189,8 @@ class database_pdo_mssql
                 // @codeCoverageIgnoreStart
                 } catch (PDOException $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];
             }

@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test color
+ * Test exec
  *
  * This test performs some tests to validate the correctness
- * of the color feature
+ * of the exec functions
  */
 
 /**
@@ -51,33 +51,46 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_color extends TestCase
+final class test_exec extends TestCase
 {
-    #[testdox('color functions')]
+    #[testdox('exec functions')]
     /**
-     * color test
+     * exec test
      *
      * This test performs some tests to validate the correctness
-     * of the color feature
+     * of the exec functions
      */
-    public function test_color(): void
+    public function test_exec(): void
     {
-        $r = color2dec("#336699", "R");
-        $this->assertSame($r, 51);
+        $this->assertSame(__exec_timeout("ls"), "timeout 60 ls");
 
-        $g = color2dec("#336699", "G");
-        $this->assertSame($g, 102);
+        $cache = get_cache_file("ls", ".out");
+        if (file_exists($cache)) {
+            unlink($cache);
+        }
+        $this->assertFileDoesNotExist($cache);
+        $buffer = ob_passthru("ls", 60);
+        $this->assertSame(strlen($buffer) > 0, true);
 
-        $b = color2dec("#336699", "B");
-        $this->assertSame($b, 153);
+        is_disabled_function("add", "passthru");
+        $buffer = ob_passthru("ls");
+        $this->assertSame(strlen($buffer) > 0, true);
 
-        $r = color2dec("#369", "R");
-        $this->assertSame($r, 51);
+        is_disabled_function("add", "system");
+        $buffer = ob_passthru("ls");
+        $this->assertSame(strlen($buffer) > 0, true);
 
-        $g = color2dec("#369", "G");
-        $this->assertSame($g, 102);
+        is_disabled_function("add", "exec");
+        $buffer = ob_passthru("ls");
+        $this->assertSame(strlen($buffer) > 0, true);
 
-        $b = color2dec("#369", "B");
-        $this->assertSame($b, 153);
+        is_disabled_function("add", "shell_exec");
+        $buffer = ob_passthru("ls");
+        $this->assertSame(strlen($buffer) > 0, false);
+
+        is_disabled_function("del", "shell_exec");
+        is_disabled_function("del", "exec");
+        is_disabled_function("del", "system");
+        is_disabled_function("del", "passthru");
     }
 }

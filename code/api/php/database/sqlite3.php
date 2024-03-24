@@ -72,44 +72,50 @@ class database_sqlite3
     public function __construct($args)
     {
         require_once "php/database/libsqlite.php";
-        // @codeCoverageIgnoreStart
         if (!class_exists("SQLite3")) {
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "Class SQLite3 not found",
                 "details" => "Try to install php-sqlite package",
             ]);
+            // @codeCoverageIgnoreEnd
         }
         if (!file_exists($args["file"])) {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "File '" . $args["file"] . "' not found"]);
+            // @codeCoverageIgnoreEnd
         }
         if (!is_writable($args["file"])) {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         try {
             $this->link = new SQLite3($args["file"]);
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             show_php_error(["dberror" => $e->getMessage()]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         $this->link->enableExceptions(true);
         $this->link->busyTimeout(0);
         $this->db_query("PRAGMA cache_size=2000");
         $this->db_query("PRAGMA synchronous=OFF");
         $this->db_query("PRAGMA foreign_keys=OFF");
-        // @codeCoverageIgnoreStart
         if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
+            // @codeCoverageIgnoreStart
             $this->link->createAggregate(
                 "GROUP_CONCAT",
                 "__libsqlite_group_concat_step",
                 "__libsqlite_group_concat_finalize"
             );
+            // @codeCoverageIgnoreEnd
         }
         if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
+            // @codeCoverageIgnoreStart
             $this->link->createFunction("REPLACE", "__libsqlite_replace");
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         $this->link->createFunction("LPAD", "__libsqlite_lpad");
         $this->link->createFunction("CONCAT", "__libsqlite_concat");
         $this->link->createFunction("CONCAT_WS", "__libsqlite_concat_ws");
@@ -201,11 +207,11 @@ class database_sqlite3
         }
         // CONTINUE THE NORMAL OPERATION
         $timeout = get_config("db/semaphoretimeout") ?? 10000000;
-        // @codeCoverageIgnoreStart
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Could not acquire the semaphore", "query" => $query]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         // DO QUERY
         for (;;) {
             try {
@@ -222,8 +228,8 @@ class database_sqlite3
                 } else {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
+                // @codeCoverageIgnoreEnd
             }
-            // @codeCoverageIgnoreEnd
         }
         semaphore_release(__FUNCTION__);
         // DUMP RESULT TO MATRIX
@@ -239,8 +245,8 @@ class database_sqlite3
                 // @codeCoverageIgnoreStart
                 } catch (Exception $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
                     $result["header"] = array_keys($result["rows"][0]);
@@ -254,8 +260,8 @@ class database_sqlite3
                 // @codeCoverageIgnoreStart
                 } catch (Exception $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
             }
@@ -270,8 +276,8 @@ class database_sqlite3
                 // @codeCoverageIgnoreStart
                 } catch (Exception $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];
             }

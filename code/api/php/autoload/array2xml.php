@@ -94,7 +94,9 @@ function __array2xml_write_nodes(&$array, $level = null)
     foreach ($array as $key => $val) {
         $key = fix_key($key);
         if (!__array2xml_check_node_name($key)) {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Invalid XML tag name '{$key}'"]);
+            // @codeCoverageIgnoreEnd
         }
         $attr = "";
         if (is_array($val) && isset($val["value"]) && isset($val["#attr"])) {
@@ -102,7 +104,9 @@ function __array2xml_write_nodes(&$array, $level = null)
             foreach ($val["#attr"] as $key2 => $val2) {
                 $key2 = fix_key($key2);
                 if (!__array2xml_check_node_attr($key2)) {
+                    // @codeCoverageIgnoreStart
                     show_php_error(["phperror" => "Invalid XML attr name '{$key2}'"]);
+                    // @codeCoverageIgnoreEnd
                 }
                 $val2 = str_replace("&", "&amp;", strval($val2));
                 $attr[] = "{$key2}=\"{$val2}\"";

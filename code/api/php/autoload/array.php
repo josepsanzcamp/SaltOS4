@@ -284,17 +284,14 @@ function __array_filter_rec($node, $filter, $eval, $parent = [])
         // Eval filter
         if ($eval) {
             $vars = array_merge($parent, array_values($node["row"]));
-            $keys = array_keys($vars);
-            foreach ($keys as $key => $val) {
-                $keys[$key] = __import_col2name($val);
+            $keys = [];
+            foreach ($vars as $key => $val) {
+                $key = __import_col2name($key);
+                global $$key;
+                $$key = $val;
+                $keys[] = $key;
             }
-            $vars = array_combine($keys, $vars);
-            //~ capture_next_error();
-            $result = eval_protected($filter, $vars);
-            //~ $error = get_clear_error();
-            //~ if ($result && !$error) {
-                //~ return true;
-            //~ }
+            $result = eval_protected($filter, $keys);
         }
         // Recursive call
         foreach ($node["rows"] as $node2) {
@@ -317,17 +314,14 @@ function __array_filter_rec($node, $filter, $eval, $parent = [])
         // Eval filter
         if ($eval) {
             $vars = array_merge($parent, array_values($node));
-            $keys = array_keys($vars);
-            foreach ($keys as $key => $val) {
-                $keys[$key] = __import_col2name($val);
+            $keys = [];
+            foreach ($vars as $key => $val) {
+                $key = __import_col2name($key);
+                global $$key;
+                $$key = $val;
+                $keys[] = $key;
             }
-            $vars = array_combine($keys, $vars);
-            //~ capture_next_error();
-            $result = eval_protected($filter, $vars);
-            //~ $error = get_clear_error();
-            //~ if ($result && !$error) {
-                //~ return true;
-            //~ }
+            $result = eval_protected($filter, $keys);
         }
     }
 }
@@ -370,7 +364,9 @@ function __array_apply_patch_rec(&$array, $key, $val)
         } elseif (isset($array[$key1])) {
             __array_apply_patch_rec($array[$key1], $key, $val);
         } else {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Path '{$key0}' for '{$key1}' not found"]);
+            // @codeCoverageIgnoreEnd
         }
     } elseif ($key0 == "col") {
         if (isset($array["row"]) && isset($array["rows"])) {
@@ -391,6 +387,8 @@ function __array_apply_patch_rec(&$array, $key, $val)
             }
         }
     } else {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown '{$key0}' for '{$key1}'"]);
+        // @codeCoverageIgnoreEnd
     }
 }

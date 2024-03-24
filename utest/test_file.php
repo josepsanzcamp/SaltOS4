@@ -62,17 +62,18 @@ final class test_file extends TestCase
      */
     public function test_file(): void
     {
-        global $_CONFIG;
-        $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
-        db_connect();
-
         $this->assertSame(get_directory("dirs/tempdir"), getcwd() . "/data/temp/");
 
+        $this->assertSame(get_directory("dirs/tempdir2"), null);
+
+        set_config("dirs/tempdir2", ["#attr" => ["eval" => "true"], "value" => "getcwd().'/data/temp/'"]);
+        $this->assertSame(get_directory("dirs/tempdir2"), getcwd() . "/data/temp/");
+
         $this->assertStringContainsString(getcwd() . "/data/temp/", get_temp_file());
-        $this->assertSame(strlen(getcwd() . "/data/temp/") + 32 + 4, strlen(get_temp_file()));
+        $this->assertSame(strlen(getcwd() . "/data/temp/") + 32 + 4, strlen(get_temp_file("tmp")));
 
         $this->assertStringContainsString(getcwd() . "/data/cache/", get_cache_file(""));
-        $this->assertSame(strlen(getcwd() . "/data/cache/") + 32 + 4, strlen(get_cache_file("")));
+        $this->assertSame(strlen(getcwd() . "/data/cache/") + 32 + 4, strlen(get_cache_file([], "tmp")));
 
         $file1 = get_temp_file();
         file_put_contents($file1, "");
@@ -80,14 +81,19 @@ final class test_file extends TestCase
         file_put_contents($file2, "");
         sleep(1); // the filemtime used in the cache_exists have one second of resolution
         $file3 = get_temp_file();
+        $this->assertSame(cache_exists($file3, [$file1, $file2]), false);
         file_put_contents($file3, "");
+        $this->assertSame(cache_exists($file3, $file1), true);
+        $this->assertSame(cache_exists($file1, ["nada"]), false);
         $this->assertSame(cache_exists($file3, [$file1, $file2]), true);
         $this->assertSame(cache_exists($file1, [$file3, $file2]), false);
         unlink($file1);
         unlink($file2);
         unlink($file3);
 
+        $json0 = url_get_contents("127.0.0.1/saltos/code4/api/index.php?checktoken");
         $json = url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken");
+        $this->assertSame($json0, $json);
         $json = json_decode($json, true);
         $this->assertSame($json["status"], "ko");
         $this->assertSame(count($json), 3);
@@ -100,6 +106,10 @@ final class test_file extends TestCase
         $this->assertSame(realpath_protected(getcwd() . "/pepe.txt"), getcwd() . "/pepe.txt");
 
         $this->assertSame(getcwd_protected(), getcwd());
+        $oldcwd = getcwd();
+        chdir("/");
+        $this->assertSame(getcwd_protected(), dirname(get_server("SCRIPT_FILENAME")));
+        chdir($oldcwd);
 
         $this->assertSame(is_array(glob_protected("*")), true);
         $this->assertSame(count(glob_protected("*")) > 0, true);
@@ -112,9 +122,45 @@ final class test_file extends TestCase
         $this->assertSame(chmod_protected($file, 0666), false);
         unlink($file);
 
+        $file = get_directory("dirs/cachedir") .
+            ob_passthru("ls -l data/cache | grep www-data | tr ' ' '\n' | tail -1");
+        $this->assertSame(chmod_protected($file, 0664), false);
+
         $file = get_temp_file();
         file_put_contents($file, "");
         $this->assertSame(strlen($file) + 1 + 32, strlen(file_with_hash($file)));
         unlink($file);
+
+        $errno = 0;
+        $errstr = "";
+        $fd = fsockopen_protected("127.0.0.1", 80, $errno, $errstr, null);
+        $this->assertSame(is_resource($fd), true);
+
+        $buffer = __url_get_contents("https://127.0.0.1nada/saltos/code4/api/index.php?checktoken");
+        $this->assertSame($buffer, ["", [], []]);
+
+        $buffer = __url_get_contents("nada://127.0.0.1/saltos/code4/api/index.php?checktoken");
+        $this->assertSame($buffer, ["", [], []]);
+
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+            "method" => ""
+        ]);
+        $this->assertSame($buffer, ["", [], []]);
+
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+            "method" => "head"
+        ]);
+        $this->assertSame($buffer, ["", [], []]);
+
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+            "cookies" => ["nada" => "nada"],
+            "method" => "get",
+            "values" => ["nada" => "nada"],
+            "referer" => "https://127.0.0.1/saltos/code4/api/index.php",
+            "headers" => ["nada" => "nada"],
+            "body" => "nada",
+        ]);
+        $this->assertSame(is_array($buffer), true);
+        $this->assertSame(strlen($buffer["body"]) > 0, true);
     }
 }

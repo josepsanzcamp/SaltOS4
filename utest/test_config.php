@@ -62,18 +62,28 @@ final class test_config extends TestCase
      */
     public function test_config(): void
     {
-        global $_CONFIG;
-        $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+        db_disconnect();
+        $this->assertSame(get_config("db", 0), null);
         db_connect();
 
         $this->assertSame(is_array(get_config("db")), true);
         $this->assertSame(get_config("db/user"), "saltos");
         $this->assertSame(strlen(get_config("xml/dbschema.xml", 0)), 32);
+
         $uniqid = get_unique_id_md5();
         set_config("test", $uniqid, 1);
         $this->assertSame(get_config("test", 1), $uniqid);
+        set_config("test", $uniqid . $uniqid, 1);
+        $this->assertSame(get_config("test", 1), $uniqid . $uniqid);
         set_config("test", null, 1);
         $this->assertSame(get_config("test", 1), null);
+
+        $uniqid = get_unique_id_md5();
+        set_config("test", $uniqid, -1);
+        $this->assertSame(get_config("test", -1), $uniqid);
+        set_config("test", null, -1);
+        $this->assertSame(get_config("test", -1), null);
+
         $this->assertSame(count(detect_config_files("xml/config.xml")) > 1, true);
     }
 }

@@ -90,6 +90,7 @@ final class test_array extends TestCase
         $this->assertSame(__array_getnode("a/f", $array), "g");
         $this->assertSame(__array_getattr("b", __array_getnode("a", $array)), "c");
         $this->assertSame(__array_getattr("d", __array_getnode("a", $array)), "e");
+        $this->assertSame(__array_getattr("b", __array_getnode("a", null)), null);
         $this->assertSame(__array_getvalue(__array_getnode("a", $array)), ["f" => "g", "h" => "i"]);
         __array_addnode("a/z", $array, "xyz");
         $this->assertSame(__array_getnode("a/z", $array), "xyz");
@@ -97,6 +98,20 @@ final class test_array extends TestCase
         $this->assertSame(__array_getnode("a/z", $array), "zyx");
         __array_delnode("a/z", $array);
         $this->assertSame(__array_getnode("a/z", $array), null);
+
+        $null = null;
+        __array_addnode("a/z", $null, "xyz");
+        __array_setnode("a/z", $null, "xyz");
+        __array_delnode("a/z", $null);
+
+        $xml = '<a><b><c></c><d></d></b></a>';
+        $array = xml2array($xml);
+        __array_addnode("a/b/z", $array, "xyz");
+        $this->assertSame(__array_getnode("a/b/z", $array), "xyz");
+        __array_setnode("a/b/z", $array, "zyx");
+        $this->assertSame(__array_getnode("a/b/z", $array), "zyx");
+        __array_delnode("a/b/z", $array);
+        $this->assertSame(__array_getnode("a/b/z", $array), null);
 
         $array = [
             ["a", "b", "c"],
@@ -140,6 +155,9 @@ final class test_array extends TestCase
                 ],
             ],
         ];
+        $this->assertSame(__array_filter($array, "a"), $array);
+        $this->assertSame(__array_filter($array, "c"), $array);
+        $this->assertSame(__array_filter($array, '$A=="a2"', true), []);
         __array_apply_patch($array, "/row/0/col/0", "x");
         $this->assertSame(__array_getnode("0/row/name", $array), "x");
         __array_apply_patch($array, "/row/1/row/1/col/1", "y");

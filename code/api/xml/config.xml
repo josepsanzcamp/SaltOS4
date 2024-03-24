@@ -61,6 +61,8 @@
         <__which__>which __INPUT__</__which__>
         <timeout>timeout</timeout><!-- for ocr module -->
         <__timeout__>timeout __TIMEOUT__ __COMMAND__</__timeout__>
+        <xlsx2csv>xlsxio_xlsx2csv</xlsx2csv><!-- for import optimization -->
+        <__xlsx2csv__>cd __DIR__; xlsxio_xlsx2csv __INPUT__</__xlsx2csv__>
         <svnversion>svnversion</svnversion>
         <__svnversion__>cd __DIR__; svnversion</__svnversion__>
         <gitversion>git</gitversion>

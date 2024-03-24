@@ -73,44 +73,50 @@ class database_pdo_sqlite
     public function __construct($args)
     {
         require_once "php/database/libsqlite.php";
-        // @codeCoverageIgnoreStart
         if (!class_exists("PDO")) {
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package",
             ]);
+            // @codeCoverageIgnoreEnd
         }
         if (!file_exists($args["file"])) {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "File '" . $args["file"] . "' not found"]);
+            // @codeCoverageIgnoreEnd
         }
         if (!is_writable($args["file"])) {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         try {
             $this->link = new PDO("sqlite:" . $args["file"]);
         // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage()]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->link->setAttribute(PDO::ATTR_TIMEOUT, 0);
         $this->db_query("PRAGMA cache_size=2000");
         $this->db_query("PRAGMA synchronous=OFF");
         $this->db_query("PRAGMA foreign_keys=OFF");
-        // @codeCoverageIgnoreStart
         if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
+            // @codeCoverageIgnoreStart
             $this->link->sqliteCreateAggregate(
                 "GROUP_CONCAT",
                 "__libsqlite_group_concat_step",
                 "__libsqlite_group_concat_finalize"
             );
+            // @codeCoverageIgnoreEnd
         }
         if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
+            // @codeCoverageIgnoreStart
             $this->link->sqliteCreateFunction("REPLACE", "__libsqlite_replace");
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         $this->link->sqliteCreateFunction("LPAD", "__libsqlite_lpad");
         $this->link->sqliteCreateFunction("CONCAT", "__libsqlite_concat");
         $this->link->sqliteCreateFunction("CONCAT_WS", "__libsqlite_concat_ws");
@@ -202,11 +208,11 @@ class database_pdo_sqlite
         }
         // CONTINUE THE NORMAL OPERATION
         $timeout = get_config("db/semaphoretimeout") ?? 10000000;
-        // @codeCoverageIgnoreStart
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Could not acquire the semaphore", "query" => $query]);
+            // @codeCoverageIgnoreEnd
         }
-        // @codeCoverageIgnoreEnd
         // DO QUERY
         for (;;) {
             try {
@@ -223,8 +229,8 @@ class database_pdo_sqlite
                 } else {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
+                // @codeCoverageIgnoreEnd
             }
-            // @codeCoverageIgnoreEnd
         }
         semaphore_release(__FUNCTION__);
         // DUMP RESULT TO MATRIX
@@ -238,8 +244,8 @@ class database_pdo_sqlite
                 // @codeCoverageIgnoreStart
                 } catch (PDOException $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
                     $result["header"] = array_keys($result["rows"][0]);
@@ -251,8 +257,8 @@ class database_pdo_sqlite
                 // @codeCoverageIgnoreStart
                 } catch (PDOException $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
             }
@@ -267,8 +273,8 @@ class database_pdo_sqlite
                 // @codeCoverageIgnoreStart
                 } catch (PDOException $e) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    // @codeCoverageIgnoreEnd
                 }
-                // @codeCoverageIgnoreEnd
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];
             }

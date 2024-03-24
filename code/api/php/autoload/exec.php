@@ -100,13 +100,13 @@ function check_commands($commands, $expires = 0)
     if (!is_array($commands)) {
         $commands = explode(",", $commands);
     }
-    $result = 1;
+    $result = true;
     foreach ($commands as $command) {
         $result &= ob_passthru(str_replace(
             ["__INPUT__"],
             [$command],
             get_config("commands/__which__") ?? "which __INPUT__"
-        ), $expires) ? 1 : 0;
+        ), $expires) ? true : false;
     }
     return $result;
 }
@@ -121,24 +121,26 @@ function check_commands($commands, $expires = 0)
  *
  * @fn => the function that you want to check if is it disabled
  */
-function is_disabled_function($fn = "")
+function is_disabled_function($fn)
 {
-    static $disableds_string = null;
-    static $disableds_array = [];
-    if ($disableds_string === null) {
-        $disableds_string = ini_get("disable_functions") . "," . ini_get("suhosin.executor.func.blacklist");
-        $disableds_array = $disableds_string ? explode(",", $disableds_string) : [];
-        foreach ($disableds_array as $key => $val) {
-            $val = strtolower(trim($val));
-            if ($val == "") {
-                unset($disableds_array[$key]);
-            }
-            if ($val != "") {
-                $disableds_array[$key] = $val;
-            }
-        }
+    static $array = null;
+    if ($array === null) {
+        $array = array_diff(explode(",", implode(",", [
+            ini_get("disable_functions"),
+            ini_get("suhosin.executor.func.blacklist"),
+        ])), [""]);
     }
-    return in_array($fn, $disableds_array);
+    if (count(func_get_args()) == 2) {
+        $fn = func_get_args();
+        if ($fn[0] == "add") {
+            $array[] = $fn[1];
+        }
+        if ($fn[0] == "del") {
+            $array = array_diff($array, [$fn[1]]);
+        }
+        return;
+    }
+    return in_array($fn, $array);
 }
 
 /**

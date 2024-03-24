@@ -76,5 +76,10 @@ final class test_getdata extends TestCase
         set_data("server", null);
         $this->assertSame(get_data("server"), null);
         $this->assertSame(get_data("server/token"), null);
+
+        set_data("token", get_unique_token());
+        $this->assertSame(strlen(get_data("token")), 36);
+        set_data("token", null);
+        $this->assertSame(get_data("token"), null);
     }
 }

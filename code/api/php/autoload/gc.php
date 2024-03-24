@@ -47,7 +47,9 @@ declare(strict_types=1);
 function gc_exec()
 {
     if (!semaphore_acquire(__FUNCTION__)) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
+        // @codeCoverageIgnoreEnd
     }
     $dirs = [
         get_directory("dirs/cachedir"),
@@ -55,7 +57,9 @@ function gc_exec()
         get_directory("dirs/uploaddir"),
     ];
     if (implode("", $dirs) == "") {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Internal error"]);
+        // @codeCoverageIgnoreEnd
     }
     $files = [];
     foreach ($dirs as $dir) {

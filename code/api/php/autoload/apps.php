@@ -76,7 +76,9 @@ function __apps($fn, $arg)
         return isset($dict["app2id"][$arg]);
     }
     if (!isset($dict[$fn][$arg])) {
+        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "$fn($arg) not found"]);
+        // @codeCoverageIgnoreEnd
     }
     return $dict[$fn][$arg];
 }

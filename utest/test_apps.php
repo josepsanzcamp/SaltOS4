@@ -62,10 +62,6 @@ final class test_apps extends TestCase
      */
     public function test_apps(): void
     {
-        global $_CONFIG;
-        $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
-        db_connect();
-
         $this->assertSame(app2id("invoices"), 12);
         $this->assertSame(id2app(12), "invoices");
         $this->assertSame(id2app(12), "invoices");

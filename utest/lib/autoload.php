@@ -42,6 +42,7 @@ declare(strict_types=1);
  */
 
 set_include_path(get_include_path() . "/" . getcwd() . "/" . "utest");
+
 chdir("code/api");
 foreach (glob("php/autoload/*.php") as $file) {
     if (basename($file) == "zindex.php") {
@@ -49,6 +50,11 @@ foreach (glob("php/autoload/*.php") as $file) {
     }
     require $file;
 }
+
 init_timer();
 init_random();
 check_system();
+
+global $_CONFIG;
+$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+db_connect();

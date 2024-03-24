@@ -358,6 +358,9 @@ function glob_protected($pattern)
 function chmod_protected($file, $mode)
 {
     clearstatcache(); // needed to see changes
+    if (!is_readable($file)) {
+        return false;
+    }
     if ((fileperms($file) & 0777) === $mode) {
         return false;
     }
