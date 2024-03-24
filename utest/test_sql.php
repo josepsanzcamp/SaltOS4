@@ -106,6 +106,24 @@ final class test_sql extends TestCase
         $query = parse_query("/*MYSQL mysql *//*SQLITE sqlite *//* other */");
         $this->assertSame($query, "mysql");
 
+        $query = parse_query("/*/*MYSQL mysql *//*SQLITE sqlite *//* other *//*");
+        $this->assertSame($query, "/*mysql/*");
+
+        set_config("db/type", "pdo_sqlite");
+        $this->assertSame(__parse_query_type(), "SQLITE");
+
+        set_config("db/type", "sqlite3");
+        $this->assertSame(__parse_query_type(), "SQLITE");
+
+        set_config("db/type", "mysqli");
+        $this->assertSame(__parse_query_type(), "MYSQL");
+
+        set_config("db/type", "pdo_mysql");
+        $this->assertSame(__parse_query_type(), "MYSQL");
+
+        $this->assertSame(__parse_query_strpos("c'babcbabc", "a"), false);
+        $this->assertSame(__parse_query_strpos("c'babc'babc", "a"), 8);
+
         // Testing the automatic output of execute_query
         $result = execute_query("SELECT 1 a");
         $this->assertSame($result, 1);
@@ -136,6 +154,23 @@ final class test_sql extends TestCase
         $fields = get_fields("tbl_config");
         $this->assertSame(count($fields), 4);
 
+        $fields = get_indexes("tbl_config");
+        $this->assertSame(count($fields), 2);
+
+        db_disconnect();
+        set_config("db/type", "pdo_sqlite");
+        db_connect();
+
+        $fields = get_fields("tbl_config");
+        $this->assertSame(count($fields), 4);
+
+        $fields = get_indexes("tbl_config");
+        $this->assertSame(count($fields), 2);
+
+        db_disconnect();
+        set_config("db/type", "pdo_mysql");
+        db_connect();
+
         $tables = get_tables();
         $this->assertContains("app_customers", $tables);
 
@@ -152,6 +187,10 @@ final class test_sql extends TestCase
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="key" type="VARCHAR(255)"/>
                 <field name="val" type="VARCHAR(255)"/>
+                <field name="val2" type="DECIMAL(9,2)"/>
+                <field name="val3" type="DATE"/>
+                <field name="val4" type="TIME"/>
+                <field name="val5" type="DATETIME"/>
             </fields>
         </table>';
         $tablespec = xml2array($xml);
@@ -161,6 +200,10 @@ final class test_sql extends TestCase
             "user_id INT(11) NOT NULL DEFAULT '0'," .
             "`key` VARCHAR(255) NOT NULL DEFAULT ''," .
             "val VARCHAR(255) NOT NULL DEFAULT ''," .
+            "val2 DECIMAL(9,2) NOT NULL DEFAULT '0'," .
+            "val3 DATE NOT NULL DEFAULT '0000-00-00'," .
+            "val4 TIME NOT NULL DEFAULT '00:00:00'," .
+            "val5 DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'," .
             "FOREIGN KEY (user_id) REFERENCES tbl_users (id)" .
             ") ENGINE=Aria CHARSET=utf8mb4");
 
@@ -183,12 +226,24 @@ final class test_sql extends TestCase
         $this->assertSame($query, "DROP INDEX tbl_config ON tbl_config");
 
         // Test for searching features
-        $query = make_like_query("key,val", "hola mundo");
-        $this->assertSame($query, "((key LIKE '%hola%' OR val LIKE '%hola%') AND " .
-            "(key LIKE '%mundo%' OR val LIKE '%mundo%'))");
+        $query = make_like_query("", "hola mundo");
+        $this->assertSame($query, "1=0");
 
-        $query = make_fulltext_query("hola mundo", "customers");
+        $query = make_like_query("key,val", "");
+        $this->assertSame($query, "1=0");
+
+        $query = make_like_query("key,,val", "+hola -mundo");
+        $this->assertSame($query, "((key LIKE '%hola%' OR val LIKE '%hola%') AND " .
+            "(key NOT LIKE '%mundo%' AND val NOT LIKE '%mundo%'))");
+
+        $query = make_fulltext_query("", "customers");
+        $this->assertSame($query, "1=0");
+
+        $query = make_fulltext_query("", "dashboard");
+        $this->assertSame($query, "1=0");
+
+        $query = make_fulltext_query("+hola -mundo", "customers");
         $this->assertSame($query, "id IN (SELECT id FROM app_customers_index " .
-            "WHERE MATCH(search) AGAINST('+(+\"hola\" +\"mundo\")' IN BOOLEAN MODE))");
+            "WHERE MATCH(search) AGAINST('+(+\"hola\" -\"mundo\")' IN BOOLEAN MODE))");
     }
 }

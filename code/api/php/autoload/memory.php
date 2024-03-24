@@ -45,10 +45,16 @@ declare(strict_types=1);
 function memory_get_free($bytes = false)
 {
     $memory_limit = normalize_value(ini_get("memory_limit"));
+    if ($memory_limit == -1) {
+        $memory_limit = INF;
+    }
     $memory_usage = memory_get_usage();
     $diff = $memory_limit - $memory_usage;
     if (!$bytes) {
         $diff = ($diff * 100) / $memory_limit;
+        if ($memory_limit == INF) {
+            $diff = 0;
+        }
     }
     return $diff;
 }
@@ -96,10 +102,8 @@ function init_timer()
 function __time_get_helper($fn, $secs)
 {
     static $ini = null;
-    if ($ini === null) {
-        $ini = microtime(true);
-    }
     if (stripos($fn, "init") !== false) {
+        $ini = microtime(true);
         return;
     }
     $cur = microtime(true);

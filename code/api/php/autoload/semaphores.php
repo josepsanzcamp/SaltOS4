@@ -167,7 +167,9 @@ function __semaphore_helper($fn, $name, $timeout)
         $file = get_cache_file($name, ".sem");
         return $file;
     }
-    return false;
+    // @codeCoverageIgnoreStart
+    show_php_error(["phperror" => "Internal error"]);
+    // @codeCoverageIgnoreEnd
 }
 
 /**

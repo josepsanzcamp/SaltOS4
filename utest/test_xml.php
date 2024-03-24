@@ -73,5 +73,39 @@ final class test_xml extends TestCase
 
         $array = ["a" => "&"];
         $this->assertStringContainsString("CDATA", array2xml($array));
+
+        $this->assertSame(eval_protected("phpversion()", "_SERVER"), phpversion());
+        $this->assertSame(eval_protected("phpversion()", ["_SERVER"]), phpversion());
+
+        $this->assertSame(xml2array('<?xml version="1.0" encoding="asd" ?><a></a>'), ["a" => ""]);
+        $this->assertSame(xml2array("<?xml version='1.0' encoding='asd' ?><a></a>"), ["a" => ""]);
+
+        $array = [];
+        set_array($array, "a", "a");
+        $this->assertSame(count($array), 1);
+        set_array($array, "a", "a");
+        $this->assertSame(count($array), 2);
+        set_array($array, "a", "a");
+        $this->assertSame(count($array), 3);
+        $array["a#0"] = "a";
+        $this->assertSame(count($array), 4);
+        set_array($array, "a", "a");
+        $this->assertSame(count($array), 5);
+        unset_array($array, "a");
+        $this->assertSame(count($array), 0);
+
+        $this->assertSame(fix_key("a#1"), "a");
+
+        $cache = get_cache_file("xml/config.xml", ".arr");
+        if (file_exists($cache)) {
+            unlink($cache);
+        }
+        $this->assertFileDoesNotExist($cache);
+        $this->assertSame(is_array(xmlfile2array("xml/config.xml", false)), true);
+        $this->assertFileDoesNotExist($cache);
+        $this->assertSame(is_array(xmlfile2array("xml/config.xml", true)), true);
+        $this->assertFileExists($cache);
+        $this->assertSame(is_array(xmlfile2array("xml/config.xml", true)), true);
+        $this->assertFileExists($cache);
     }
 }

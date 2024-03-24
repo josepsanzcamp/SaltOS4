@@ -278,10 +278,9 @@ function xml2struct($xml, $file = "")
                     $pos4++;
                     $pos5 = strpos($tag, "'", $pos4);
                 } else {
-                    $pos5 = strpos($tag, " ", $pos4);
-                    if ($pos5 > $pos2) {
-                        $pos5 = $pos2;
-                    }
+                    // @codeCoverageIgnoreStart
+                    show_php_error(["xmlerror" => "Encoding tag error"]);
+                    // @codeCoverageIgnoreEnd
                 }
                 $xml = substr_replace($xml, "UTF-8", $pos1 + $pos4, $pos5 - $pos4);
             }

@@ -262,7 +262,9 @@ function do_message_error($array)
                 break;
         }
         if (!isset($types[$type])) {
-            die("Unknown type $type");
+            // @codeCoverageIgnoreStart
+            show_php_error(["phperror" => "Unknown type $type"]);
+            // @codeCoverageIgnoreEnd
         }
         $text[] = [$types[$type], $data];
     }
