@@ -1052,12 +1052,12 @@ function getmail_body($id)
                     ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>\n"],
                     $temp
                 );
-                $temp = href_replace($temp);
+                //~ $temp = href_replace($temp);
             }
             if ($type == "html") {
                 $temp = remove_script_tag($temp);
                 $temp = remove_style_tag($temp);
-                $temp = href_replace($temp);
+                //~ $temp = href_replace($temp);
             }
             foreach ($result as $index2 => $node2) {
                 $disp2 = $node2["disp"];

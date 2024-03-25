@@ -181,7 +181,10 @@ final class test_sql extends TestCase
         $this->assertSame($size, 255);
 
         // Test for the sql functions used by dbschema
-        $xml = '<table name="tbl_config">
+        $query = "DROP TABLE tbl_utest";
+        db_query($query);
+
+        $xml = '<table name="tbl_utest">
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
@@ -195,7 +198,7 @@ final class test_sql extends TestCase
         </table>';
         $tablespec = xml2array($xml);
         $query = parse_query(sql_create_table($tablespec["table"]));
-        $this->assertSame($query, "CREATE TABLE tbl_config (" .
+        $this->assertSame($query, "CREATE TABLE tbl_utest (" .
             "id INT(11) PRIMARY KEY AUTO_INCREMENT," .
             "user_id INT(11) NOT NULL DEFAULT '0'," .
             "`key` VARCHAR(255) NOT NULL DEFAULT ''," .
@@ -206,6 +209,39 @@ final class test_sql extends TestCase
             "val5 DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'," .
             "FOREIGN KEY (user_id) REFERENCES tbl_users (id)" .
             ") ENGINE=Aria CHARSET=utf8mb4");
+        db_query($query);
+
+        $query = make_insert_query("tbl_utest", [
+            "id" => 1,
+            "val" => "nada",
+            "val2" => "3.141592",
+            "val3" => "0000-00-00",
+            "val4" => "00:00:00",
+            "val5" => "0000-00-00 00:00:00",
+        ]);
+        $this->assertSame($query, "INSERT INTO tbl_utest(id,val,val2,val3,val4,val5) " .
+            "VALUES('1','nada','3.141592','0000-00-00','00:00:00','0000-00-00 00:00:00')");
+        db_query($query);
+
+        $query = make_update_query("tbl_utest", [
+            "val" => "nada",
+            "val2" => "3.141592",
+            "val3" => "9999-99-99",
+            "val4" => "99:99:99",
+            "val5" => "9999-99-99 99:99:99",
+        ], make_where_query([
+            "id" => 1,
+        ]));
+        $this->assertSame($query, "UPDATE tbl_utest SET val='nada',val2='3.141592'," .
+            "val3='9999-12-31',val4='24:00:00',val5='9999-12-31 23:59:59' WHERE (id='1')");
+        db_query($query);
+
+        $query = sql_insert_from_select("tbl_utest", "tbl_utest");
+        $this->assertSame($query, "INSERT INTO tbl_utest(id,user_id,`key`,val,val2,val3,val4,val5) " .
+            "SELECT id,user_id,`key`,val,val2,val3,val4,val5 FROM tbl_utest");
+
+        $query = "DROP TABLE tbl_utest";
+        db_query($query);
 
         $query = sql_alter_table("a", "b");
         $this->assertSame($query, "ALTER TABLE a RENAME TO b");

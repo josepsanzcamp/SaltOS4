@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test mime
+ * Test dbschema
  *
  * This test performs some tests to validate the correctness
- * of the mime functions
+ * of the dbschema functions
  */
 
 /**
@@ -51,23 +51,46 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_mime extends TestCase
+final class test_dbschema extends TestCase
 {
-    #[testdox('mime functions')]
+    #[testdox('dbschema functions')]
     /**
-     * mime test
+     * dbschema test
      *
      * This test performs some tests to validate the correctness
-     * of the mime functions
+     * of the dbschema functions
      */
-    public function test_mime(): void
+    public function test_dbschema(): void
     {
-        $this->assertSame(saltos_content_type("pepe.png"), "image/png");
+        set_config("xml/dbschema.xml", "nada", 0);
+        set_config("xml/dbstatic.xml", "nada", 0);
+        db_schema();
+        db_schema();
+        db_static();
+        db_static();
 
-        $files = glob("xml/config.xml");
-        $this->assertSame(saltos_content_type($files[0]), "text/xml");
+        $tables = get_tables_from_dbschema();
+        $this->assertIsArray($tables);
+        $this->assertTrue(count($tables) > 0);
 
-        $this->assertSame(saltos_content_type0("image/png"), "image");
-        $this->assertSame(saltos_content_type1("image/png"), "png");
+        $fields = get_fields_from_dbschema("tbl_users");
+        $this->assertIsArray($fields);
+        $this->assertTrue(count($fields) > 0);
+
+        $indexes = get_indexes_from_dbschema("tbl_users");
+        $this->assertIsArray($indexes);
+        $this->assertTrue(count($indexes) > 0);
+
+        $ignores = get_ignores_from_dbschema();
+        $this->assertIsArray($ignores);
+        $this->assertTrue(count($ignores) > 0);
+
+        $fulltext = get_fulltext_from_dbschema();
+        $this->assertIsArray($fulltext);
+        $this->assertTrue(count($fulltext) > 0);
+
+        $fkeys = get_fkeys_from_dbschema("tbl_users");
+        $this->assertIsArray($fkeys);
+        $this->assertTrue(count($fkeys) > 0);
     }
 }

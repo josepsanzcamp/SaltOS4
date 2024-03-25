@@ -365,7 +365,7 @@ function __unoconv_histogram($values, $usage1, $usage2)
  */
 function __unoconv_rotate($posx, $posy, $angle)
 {
-    $ang = rad2deg(atan2($posy, $posx));
+    $ang = rad2deg(atan2(floatval($posy), floatval($posx)));
     $mod = sqrt($posx * $posx + $posy * $posy);
     $ang = deg2rad($ang + $angle);
     $posx = $mod * cos($ang);

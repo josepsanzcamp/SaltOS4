@@ -79,7 +79,7 @@ final class test_file extends TestCase
         file_put_contents($file1, "");
         $file2 = get_temp_file();
         file_put_contents($file2, "");
-        sleep(1); // the filemtime used in the cache_exists have one second of resolution
+        sleep(1); // the internally filemtime used have one second of resolution
         $file3 = get_temp_file();
         $this->assertSame(cache_exists($file3, [$file1, $file2]), false);
         file_put_contents($file3, "");

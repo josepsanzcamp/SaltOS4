@@ -68,7 +68,7 @@ final class test_export extends TestCase
     private function get_data($nohead, $length): array
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.csv",
+            "file" => "../../utest/files/numbers.csv",
             "type" => "csv",
             "nohead" => $nohead,
         ]);
@@ -103,17 +103,17 @@ final class test_export extends TestCase
         // Notes: +4 => xml_header + <rows> + </rows> + eof
         $this->assertSame(count($buffer), 1000 * 11 + 4);
 
-        if (file_exists("/tmp/example.xml")) {
-            unlink("/tmp/example.xml");
+        if (file_exists("/tmp/numbers.xml")) {
+            unlink("/tmp/numbers.xml");
         }
-        $this->assertFileDoesNotExist("/tmp/example.xml");
+        $this->assertFileDoesNotExist("/tmp/numbers.xml");
         export_file([
             "type" => "xml",
             "data" => $data,
-            "file" => "/tmp/example",
+            "file" => "/tmp/numbers",
         ]);
-        $this->assertFileExists("/tmp/example.xml");
-        unlink("/tmp/example.xml");
+        $this->assertFileExists("/tmp/numbers.xml");
+        unlink("/tmp/numbers.xml");
 
         $prefn = function ($args) {
             return "nada";

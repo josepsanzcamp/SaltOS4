@@ -27,34 +27,42 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Classes.ClassDeclaration
+// phpcs:disable Squiz.Classes.ValidClassName
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable PSR1.Files.SideEffects
+
 /**
- * Html helper module
+ * Test html
  *
- * This file contain useful html helper functions
+ * This test performs some tests to validate the correctness
+ * of the html functions
  */
 
 /**
- * Remove Script Tag
- *
- * This function tries to remove all <script> tags of the string
- *
- * @temp => the string that you want to process
+ * Importing namespaces
  */
-function remove_script_tag($temp)
-{
-    $temp = preg_replace("@<script[^>]*?.*?</script>@siu", "", $temp);
-    return $temp;
-}
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\TestDox;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\DependsOnClass;
+use PHPUnit\Framework\Attributes\DependsExternal;
 
 /**
- * Remove Style Tag
- *
- * This function tries to remove all <style> tags of the string
- *
- * @temp => the string that you want to process
+ * Main class of this unit test
  */
-function remove_style_tag($temp)
+final class test_html extends TestCase
 {
-    $temp = preg_replace("@<style[^>]*?.*?</style>@siu", "", $temp);
-    return $temp;
+    #[testdox('html functions')]
+    /**
+     * html test
+     *
+     * This test performs some tests to validate the correctness
+     * of the html functions
+     */
+    public function test_html(): void
+    {
+        $this->assertSame(remove_script_tag("<script></script>"), "");
+        $this->assertSame(remove_style_tag("<style></style>"), "");
+    }
 }

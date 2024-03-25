@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test datetime
+ * Test unoconv
  *
  * This test performs some tests to validate the correctness
- * of the datetime functions
+ * of the unoconv functions
  */
 
 /**
@@ -51,34 +51,67 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_datetime extends TestCase
+final class test_unoconv extends TestCase
 {
-    #[testdox('datetime functions')]
     /**
-     * datetime test
+     * TODO
+     *
+     * TODO
+     */
+    private function test_pdf($input): void
+    {
+        $output = get_cache_file($input, ".pdf");
+        if (file_exists($output)) {
+            unlink($output);
+        }
+        $this->assertFileDoesNotExist($output);
+
+        $buffer = unoconv2pdf($input);
+        $this->assertFileExists($output);
+        unlink($output);
+    }
+
+    private function test_txt($input): void
+    {
+        $output = get_cache_file($input, ".txt");
+        if (file_exists($output)) {
+            unlink($output);
+        }
+        $this->assertFileDoesNotExist($output);
+
+        $buffer = unoconv2txt($input);
+        $this->assertFileExists($output);
+        unlink($output);
+    }
+
+    #[testdox('unoconv functions')]
+    /**
+     * unoconv test
      *
      * This test performs some tests to validate the correctness
-     * of the datetime functions
+     * of the unoconv functions
      */
-    public function test_datetime(): void
+    public function test_unoconv(): void
     {
-        $this->assertSame(strlen(current_date()), 10);
-        $this->assertSame(strlen(current_time()), 8);
-        $this->assertSame(strlen(current_datetime()), 19);
-        $this->assertSame(strlen(current_decimals()), 4);
-        $this->assertSame(strlen(current_datetime_decimals()), 24);
-        $this->assertSame(dateval(0), "0000-00-00");
-        $this->assertSame(timeval(0), "00:00:00");
-        $this->assertSame(datetimeval(0), "0000-00-00 00:00:00");
-        $this->assertSame(dateval("9999-99-99"), "9999-12-31");
-        $this->assertSame(dateval("99-99-9999"), "9999-12-31");
-        $this->assertSame(timeval("99:99:99"), "24:00:00");
-        $this->assertSame(datetimeval("9999-99-99 99:99:99"), "9999-12-31 23:59:59");
-        $this->assertSame(datetimeval("99-99-9999 99:99:99"), "9999-12-31 23:59:59");
-        $this->assertSame(__time2secs("23:59:59"), 86400 - 1);
-        $this->assertSame(__time2secs("24:00:00"), 86400);
-        $this->assertSame(__secs2time(86400 - 1), "23:59:59");
-        $this->assertSame(__secs2time(86400), "24:00:00");
-        $this->assertSame(strlen(current_dow()), 1);
+        $files = [
+            //~ "../../utest/files/bigsize.xlsx",
+            "../../utest/files/image.pdf",
+            "../../utest/files/lorem.html",
+            "../../utest/files/lorem.odt",
+            "../../utest/files/lorem.pdf",
+            "../../utest/files/lorem.png",
+            //~ "../../utest/files/numbers.bytes",
+            "../../utest/files/numbers.csv",
+            //~ "../../utest/files/numbers.edi",
+            "../../utest/files/numbers.json",
+            //~ "../../utest/files/numbers.ods",
+            //~ "../../utest/files/numbers.xls",
+            //~ "../../utest/files/numbers.xlsx",
+            //~ "../../utest/files/numbers.xml",
+        ];
+        foreach ($files as $file) {
+            $this->test_pdf($file);
+            $this->test_txt($file);
+        }
     }
 }

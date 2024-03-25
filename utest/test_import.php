@@ -63,18 +63,18 @@ final class test_import extends TestCase
     public function test_import_xml(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.nada",
+            "file" => "../../utest/files/numbers.nada",
             "type" => "xml",
         ]);
         $this->assertStringContainsString("not found", $rows);
 
         $rows = import_file([
-            "file" => "../../utest/files/example.xml",
+            "file" => "../../utest/files/numbers.xml",
             "type" => "xmlxml",
         ]);
         $this->assertStringContainsString("Unknown type", $rows);
 
-        $data = "\xef\xbb\xbf" . file_get_contents("../../utest/files/example.xml");
+        $data = "\xef\xbb\xbf" . file_get_contents("../../utest/files/numbers.xml");
         $file = get_cache_file($data, "tmp");
         if (file_exists($file)) {
             unlink($file);
@@ -94,7 +94,7 @@ final class test_import extends TestCase
             return $args;
         };
         $rows = import_file([
-            "file" => "../../utest/files/example.xml",
+            "file" => "../../utest/files/numbers.xml",
             "type" => "xml",
             "prefn" => $prefn,
             "postfn" => $postfn,
@@ -108,7 +108,7 @@ final class test_import extends TestCase
             return "nada";
         };
         $rows = import_file([
-            "file" => "../../utest/files/example.xml",
+            "file" => "../../utest/files/numbers.xml",
             "type" => "xml",
             "prefn" => $prefn,
             "postfn" => $postfn,
@@ -126,7 +126,7 @@ final class test_import extends TestCase
     public function test_import_csv(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.csv",
+            "file" => "../../utest/files/numbers.csv",
             "type" => "csv",
         ]);
         $this->assertSame(is_array($rows), true);
@@ -144,7 +144,7 @@ final class test_import extends TestCase
     public function test_import_xlsx(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.xlsx",
+            "file" => "../../utest/files/numbers.xlsx",
             "type" => "xlsx",
             "sheet" => "example",
         ]);
@@ -155,25 +155,25 @@ final class test_import extends TestCase
         $this->assertSame($rows[99]["I"], "2024-02-01");
 
         $rows = import_file([
-            "file" => "../../utest/files/example.xlsx",
+            "file" => "../../utest/files/numbers.xlsx",
             "type" => "xlsx",
             "sheet" => "a",
         ]);
         $this->assertStringContainsString("not found", $rows);
 
         $rows = import_file([
-            "file" => "../../utest/files/example.xlsx",
+            "file" => "../../utest/files/numbers.xlsx",
             "type" => "xlsx",
             "sheet" => "1",
         ]);
         $this->assertStringContainsString("not found", $rows);
 
-        $file = get_cache_file("../../utest/files/example2.xlsx", "csv");
+        $file = get_cache_file("../../utest/files/bigsize.xlsx", "csv");
         if (file_exists($file)) {
             unlink($file);
         }
         $rows = import_file([
-            "file" => "../../utest/files/example2.xlsx",
+            "file" => "../../utest/files/bigsize.xlsx",
             "type" => "xlsx",
             "sheet" => "example",
         ]);
@@ -192,7 +192,7 @@ final class test_import extends TestCase
     public function test_import_xls(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.xls",
+            "file" => "../../utest/files/numbers.xls",
             "type" => "xls",
         ]);
         $this->assertSame(is_array($rows), true);
@@ -210,7 +210,7 @@ final class test_import extends TestCase
     public function test_import_ods(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.ods",
+            "file" => "../../utest/files/numbers.ods",
             "type" => "ods",
         ]);
         $this->assertSame(is_array($rows), true);
@@ -244,7 +244,7 @@ final class test_import extends TestCase
         $map = implode("\n", $map);
 
         $rows = import_file([
-            "file" => "../../utest/files/example.bytes",
+            "file" => "../../utest/files/numbers.bytes",
             "type" => "bytes",
             "map" => $map,
         ]);
@@ -253,7 +253,7 @@ final class test_import extends TestCase
         $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
 
         $rows = import_file([
-            "file" => "../../utest/files/example.bytes",
+            "file" => "../../utest/files/numbers.bytes",
             "type" => "bytes",
             "map" => $map,
             "nomb" => true,
@@ -273,7 +273,7 @@ final class test_import extends TestCase
     public function test_import_edi(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.edi",
+            "file" => "../../utest/files/numbers.edi",
             "type" => "edi",
         ]);
         $this->assertSame(is_array($rows), true);
@@ -291,7 +291,7 @@ final class test_import extends TestCase
     public function test_import_json(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/example.json",
+            "file" => "../../utest/files/numbers.json",
             "type" => "json",
         ]);
         $this->assertSame(is_array($rows), true);

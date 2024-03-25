@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test mime
+ * Test gc
  *
  * This test performs some tests to validate the correctness
- * of the mime functions
+ * of the gc functions
  */
 
 /**
@@ -51,23 +51,31 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_mime extends TestCase
+final class test_gc extends TestCase
 {
-    #[testdox('mime functions')]
+    #[testdox('gc functions')]
     /**
-     * mime test
+     * gc test
      *
      * This test performs some tests to validate the correctness
-     * of the mime functions
+     * of the gc functions
      */
-    public function test_mime(): void
+    public function test_gc(): void
     {
-        $this->assertSame(saltos_content_type("pepe.png"), "image/png");
+        $file = get_temp_file();
+        $this->assertFileDoesNotExist($file);
+        file_put_contents($file, "");
+        $this->assertFileExists($file);
 
-        $files = glob("xml/config.xml");
-        $this->assertSame(saltos_content_type($files[0]), "text/xml");
+        $old = get_config("server/cachetimeout");
+        set_config("server/cachetimeout", 0);
+        $this->assertSame(get_config("server/cachetimeout"), 0);
 
-        $this->assertSame(saltos_content_type0("image/png"), "image");
-        $this->assertSame(saltos_content_type1("image/png"), "png");
+        sleep(1); // the internally filemtime used have one second of resolution
+        gc_exec();
+        $this->assertFileDoesNotExist($file);
+
+        set_config("server/cachetimeout", $old);
+        $this->assertSame(get_config("server/cachetimeout"), $old);
     }
 }

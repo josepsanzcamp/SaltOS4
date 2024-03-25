@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test mime
+ * Test perms
  *
  * This test performs some tests to validate the correctness
- * of the mime functions
+ * of the perms functions
  */
 
 /**
@@ -51,23 +51,22 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_mime extends TestCase
+final class test_perms extends TestCase
 {
-    #[testdox('mime functions')]
+    #[testdox('perms functions')]
     /**
-     * mime test
+     * perms test
      *
      * This test performs some tests to validate the correctness
-     * of the mime functions
+     * of the perms functions
      */
-    public function test_mime(): void
+    public function test_perms(): void
     {
-        $this->assertSame(saltos_content_type("pepe.png"), "image/png");
-
-        $files = glob("xml/config.xml");
-        $this->assertSame(saltos_content_type($files[0]), "text/xml");
-
-        $this->assertSame(saltos_content_type0("image/png"), "image");
-        $this->assertSame(saltos_content_type1("image/png"), "png");
+        $this->assertSame(check_user("dashboard", "menu"), true);
+        $this->assertSame(check_user("customers", "view"), false);
+        $this->assertSame(check_sql("customers", "view"), "1=0");
+        $this->assertSame(check_app_perm_id("dashboard", "menu"), true);
+        $this->assertSame(check_app_perm_id("customers", "view"), false);
+        $this->assertSame(check_app_perm_id_json("dashboard", "menu"), null);
     }
 }

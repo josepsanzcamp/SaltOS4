@@ -251,15 +251,9 @@ function datetimeval($value)
         $temp[2] = min(9999, max(0, $temp[2]));
         $temp[1] = min(12, max(0, $temp[1]));
         $temp[0] = min(__days_of_a_month($temp[2], $temp[1]), max(0, $temp[0]));
-        $temp[3] = min(24, max(0, $temp[3]));
+        $temp[3] = min(23, max(0, $temp[3]));
         $temp[4] = min(59, max(0, $temp[4]));
         $temp[5] = min(59, max(0, $temp[5]));
-        // This case checks the case 99:99:99 that must result 24:00:00
-        if ($temp[3] == 24) {
-            $temp[4] = 0;
-            $temp[5] = 0;
-        }
-        // Continue
         $value = sprintf(
             "%04d-%02d-%02d %02d:%02d:%02d",
             $temp[2], $temp[1], $temp[0], $temp[3], $temp[4], $temp[5]
@@ -268,15 +262,9 @@ function datetimeval($value)
         $temp[0] = min(9999, max(0, $temp[0]));
         $temp[1] = min(12, max(0, $temp[1]));
         $temp[2] = min(__days_of_a_month($temp[0], $temp[1]), max(0, $temp[2]));
-        $temp[3] = min(24, max(0, $temp[3]));
+        $temp[3] = min(23, max(0, $temp[3]));
         $temp[4] = min(59, max(0, $temp[4]));
         $temp[5] = min(59, max(0, $temp[5]));
-        // This case checks the case 99:99:99 that must result 24:00:00
-        if ($temp[3] == 24) {
-            $temp[4] = 0;
-            $temp[5] = 0;
-        }
-        // Continue
         $value = sprintf(
             "%04d-%02d-%02d %02d:%02d:%02d",
             $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]

@@ -625,6 +625,9 @@ function make_insert_query($table, $array)
 {
     $fields = get_fields_from_dbschema($table);
     if (!count($fields)) {
+        $fields = get_fields($table);
+    }
+    if (!count($fields)) {
         // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Fields not found"]);
         // @codeCoverageIgnoreEnd
@@ -701,6 +704,9 @@ function make_insert_query($table, $array)
 function make_update_query($table, $array, $where)
 {
     $fields = get_fields_from_dbschema($table);
+    if (!count($fields)) {
+        $fields = get_fields($table);
+    }
     if (!count($fields)) {
         // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Fields not found"]);

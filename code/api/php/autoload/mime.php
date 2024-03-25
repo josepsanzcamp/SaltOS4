@@ -57,6 +57,7 @@ function saltos_content_type($file)
         "jpg" => "image/jpeg",
         "jpeg" => "image/jpeg",
         "json" => "application/json",
+        "pdf" => "application/pdf",
     ];
     $ext = strtolower(extension($file));
     if (isset($mimes[$ext])) {

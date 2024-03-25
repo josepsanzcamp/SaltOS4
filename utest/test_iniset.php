@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test mime
+ * Test iniset
  *
  * This test performs some tests to validate the correctness
- * of the mime functions
+ * of the iniset functions
  */
 
 /**
@@ -51,23 +51,31 @@ use PHPUnit\Framework\Attributes\DependsExternal;
 /**
  * Main class of this unit test
  */
-final class test_mime extends TestCase
+final class test_iniset extends TestCase
 {
-    #[testdox('mime functions')]
+    #[testdox('iniset functions')]
     /**
-     * mime test
+     * iniset test
      *
      * This test performs some tests to validate the correctness
-     * of the mime functions
+     * of the iniset functions
      */
-    public function test_mime(): void
+    public function test_iniset(): void
     {
-        $this->assertSame(saltos_content_type("pepe.png"), "image/png");
+        $this->assertSame(ini_get("memory_limit"), "-1");
+        eval_iniset(get_config("iniset"));
+        $this->assertSame(ini_get("memory_limit"), "128M");
 
-        $files = glob("xml/config.xml");
-        $this->assertSame(saltos_content_type($files[0]), "text/xml");
+        ini_set("memory_limit", -1);
+        $this->assertSame(ini_get("memory_limit"), "-1");
 
-        $this->assertSame(saltos_content_type0("image/png"), "image");
-        $this->assertSame(saltos_content_type1("image/png"), "png");
+        $this->assertSame(getenv("LANG"), "en_US.UTF-8");
+        eval_putenv(get_config("putenv"));
+        $this->assertSame(getenv("LANG"), "es_ES.UTF-8");
+
+        $this->assertSame(mb_internal_encoding("ISO-8859-1"), true);
+        $this->assertSame(mb_internal_encoding(), "ISO-8859-1");
+        eval_extras(get_config("extras"));
+        $this->assertSame(mb_internal_encoding(), "UTF-8");
     }
 }
