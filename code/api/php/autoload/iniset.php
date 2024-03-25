@@ -125,15 +125,15 @@ function eval_extras($array)
             if (is_array($val)) {
                 if (count($val) == 2) {
                     if ($key($val[0], $val[1]) === false) {
-                        $val = implode(",", $val);
                         // @codeCoverageIgnoreStart
+                        $val = implode(",", $val);
                         show_php_error(["phperror" => "$key fails to set '$val'"]);
                         // @codeCoverageIgnoreEnd
                     }
                     continue;
                 }
-                $val = implode(",", $val);
                 // @codeCoverageIgnoreStart
+                $val = implode(",", $val);
                 show_php_error(["phperror" => "$key fails to set '$val'"]);
                 // @codeCoverageIgnoreEnd
             }

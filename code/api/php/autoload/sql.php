@@ -662,8 +662,8 @@ function make_insert_query($table, $array)
         unset($array[$name]);
     }
     if (count($array)) {
-        $temp = implode(", ", array_keys($array));
         // @codeCoverageIgnoreStart
+        $temp = implode(", ", array_keys($array));
         show_php_error(["phperror" => "Unused data '$temp'"]);
         // @codeCoverageIgnoreEnd
     }
@@ -737,8 +737,8 @@ function make_update_query($table, $array, $where)
         unset($array[$name]);
     }
     if (count($array)) {
-        $temp = implode(", ", array_keys($array));
         // @codeCoverageIgnoreStart
+        $temp = implode(", ", array_keys($array));
         show_php_error(["phperror" => "Unused data '$temp'"]);
         // @codeCoverageIgnoreEnd
     }

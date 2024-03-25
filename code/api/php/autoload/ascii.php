@@ -70,7 +70,7 @@ function __ascii_make_table_ascii($array)
                 $aligns[$key]["R"]++;
             } elseif (substr($val, -1, 1) == "%") {
                 $aligns[$key]["R"]++;
-            } elseif (substr($val, -1, 1) == "€") {
+            } elseif (mb_substr($val, -1, 1) == "€") {
                 $aligns[$key]["R"]++;
             } else {
                 $aligns[$key]["L"]++;
@@ -82,15 +82,12 @@ function __ascii_make_table_ascii($array)
     }
     // Calcular medidas
     $widths = [];
-    if ($head) {
-        array_unshift($rows, array_combine(array_keys($rows[0]), array_keys($rows[0])));
-    }
     foreach ($rows as $row) {
         foreach ($row as $key => $val) {
             if (!isset($widths[$key])) {
                 $widths[$key] = 0;
             }
-            $widths[$key] = max(mb_strlen($val), $widths[$key]);
+            $widths[$key] = max(mb_strlen(strval($val)), $widths[$key]);
         }
     }
     // Pintar tabla
@@ -109,11 +106,11 @@ function __ascii_make_table_ascii($array)
         foreach ($row as $key => $val) {
             echo "|";
             if ($aligns[$key] == "R") {
-                echo str_repeat(" ", $widths[$key] - mb_strlen($val));
+                echo str_repeat(" ", $widths[$key] - mb_strlen(strval($val)));
             }
             echo ($compact ? "" : " ") . $val . ($compact ? "" : " ");
             if ($aligns[$key] == "L") {
-                echo str_repeat(" ", $widths[$key] - mb_strlen($val));
+                echo str_repeat(" ", $widths[$key] - mb_strlen(strval($val)));
             }
         }
         echo "|\n";

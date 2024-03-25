@@ -322,5 +322,52 @@ final class test_import extends TestCase
 
         $array = [[["a"]]];
         $this->assertSame(__import_check_real_matrix($array), false);
+
+        $array = "";
+        $this->assertSame(__import_removevoid($array), "");
+
+        $array = [];
+        $this->assertSame(__import_removevoid($array), []);
+
+        $array = [
+            ["", "1", "5", ""],
+            ["", "2", "6", ""],
+            ["", "3", "7", ""],
+            ["", "4", "8", ""],
+        ];
+        $this->assertSame(__import_removevoid($array), [
+            ["1", "5"],
+            ["2", "6"],
+            ["3", "7"],
+            ["4", "8"],
+        ]);
+
+        $array = [
+            ["", "", "", ""],
+            ["1", "2", "3", "4"],
+            ["5", "6", "7", "8"],
+            ["", "", "", ""],
+        ];
+        $this->assertSame(__import_removevoid($array), [
+            ["1", "2", "3", "4"],
+            ["5", "6", "7", "8"],
+        ]);
+
+        $array = "";
+        $this->assertSame(__import_array2tree($array, "", false, false), "");
+
+        $array = [];
+        $this->assertSame(__import_array2tree($array, "", false, false), []);
+
+        $array = [
+            ["1", "2", "3", "4"],
+            ["5", "6", "7", "8"],
+            ["9", "a", "b", "c"],
+            ["d", "e", "f", "g"],
+        ];
+        $this->assertIsArray(__import_array2tree($array, "", true, false));
+        $this->assertIsArray(__import_array2tree($array, ["0,B,Field", "C,D", ""], true, true));
+
+        $this->assertFalse(__import_isname("0"));
     }
 }

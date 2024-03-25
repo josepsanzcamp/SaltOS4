@@ -63,7 +63,7 @@ declare(strict_types=1);
  */
 function make_control($app, $reg_id, $user_id = null, $datetime = null)
 {
-   // Check the passed parameters
+    // Check the passed parameters
     $table = app2table($app);
     if ($table == "") {
         return -1;
@@ -143,7 +143,7 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
  */
 function add_version($app, $reg_id, $user_id = null, $datetime = null)
 {
-   // Check the passed parameters
+    // Check the passed parameters
     $table = app2table($app);
     if ($table == "") {
         return -1;
@@ -268,21 +268,21 @@ function get_version($app, $reg_id, $ver_id)
             "hash" => $hash_old,
         ];
         if ($row["hash"] != md5(serialize($array))) {
-            $ver_id = $row["ver_id"];
             // @codeCoverageIgnoreStart
+            $ver_id = $row["ver_id"];
             show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
             // @codeCoverageIgnoreEnd
         }
         // Check other vars that must accomplish that new values are greather or equal that old values
         if ($row["datetime"] < $datetime_old) {
-            $ver_id = $row["ver_id"];
             // @codeCoverageIgnoreStart
+            $ver_id = $row["ver_id"];
             show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
             // @codeCoverageIgnoreEnd
         }
         if ($row["ver_id"] < $version_old) {
-            $ver_id = $row["ver_id"];
             // @codeCoverageIgnoreStart
+            $ver_id = $row["ver_id"];
             show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
             // @codeCoverageIgnoreEnd
         }

@@ -603,7 +603,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
             $num = max($num, count($temp));
         }
         for ($i = 0; $i < $num; $i++) {
-            $head[] = $noletter ? $i : __import_col2name($i);
+            $head[] = $noletter ? strval($i) : __import_col2name($i);
         }
     } else {
         $head = array_shift($array);
