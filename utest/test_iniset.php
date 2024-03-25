@@ -62,6 +62,9 @@ final class test_iniset extends TestCase
      */
     public function test_iniset(): void
     {
+        set_config("iniset/display_errors", "On");
+        set_config("extras/ini_set", ["display_errors", "Off"]);
+
         $this->assertSame(ini_get("memory_limit"), "-1");
         eval_iniset(get_config("iniset"));
         $this->assertSame(ini_get("memory_limit"), "128M");

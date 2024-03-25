@@ -106,15 +106,15 @@
     </extras>
     <unoconv>
         <soffice>soffice</soffice><!-- for unoconv module -->
-        <__soffice__>soffice --headless --convert-to __FORMAT__ --outdir __OUTDIR__ __INPUT__</__soffice__>
+        <__soffice__>soffice --headless --convert-to __FORMAT__ --outdir __OUTDIR__ __INPUT__ 2>&amp;1</__soffice__>
         <__soffice_formats__>bib,doc,xml,docx,fodt,html,ltx,txt,odt,ott,pdb,pdf,psw,rtf,sdw,stw,sxw,uot,vor,wps,bmp,emf,eps,fodg,gif,jpg,met,odd,otg,pbm,pct,pgm,png,ppm,ras,std,svg,svm,swf,sxd,tiff,wmf,xhtml,xpm,fodp,odg,odp,otp,potm,pot,pptx,pps,ppt,pwp,sda,sdd,sti,sxi,uop,csv,dbf,dif,fods,ods,xlsx,ots,pxl,sdc,slk,stc,sxc,uos,xls,xlt</__soffice_formats__>
         <pdftotext>pdftotext</pdftotext><!-- for unoconv module -->
-        <__pdftotext__>pdftotext -nopgbrk -layout __INPUT__ __OUTPUT__</__pdftotext__>
+        <__pdftotext__>pdftotext -nopgbrk -layout __INPUT__ __OUTPUT__ 2>&amp;1</__pdftotext__>
         <pdftoppm>pdftoppm</pdftoppm><!-- for ocr module included in unoconv -->
-        <__pdftoppm__>pdftoppm -r 300 -l 1000 __INPUT__ __OUTPUT__</__pdftoppm__>
+        <__pdftoppm__>pdftoppm -r 300 -l 1000 __INPUT__ __OUTPUT__ 2>&amp;1</__pdftoppm__>
         <convert>convert</convert><!-- for ocr module included in unoconv -->
-        <__convert__>convert __INPUT__ -quality 100 __OUTPUT__</__convert__>
+        <__convert__>convert __INPUT__ -quality 100 __OUTPUT__ 2>&amp;1</__convert__>
         <tesseract>tesseract</tesseract><!-- for ocr module included in unoconv -->
-        <__tesseract__>tesseract __INPUT__ __OUTPUT__ --psm 1 hocr</__tesseract__>
+        <__tesseract__>tesseract __INPUT__ __OUTPUT__ --psm 1 hocr 2>&amp;1</__tesseract__>
     </unoconv>
 </root>
