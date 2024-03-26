@@ -42,7 +42,7 @@ declare(strict_types=1);
  */
 function pcov_start()
 {
-    if (file_exists("coverage.cov")) {
+    if (extension_loaded("pcov") && file_exists("coverage.cov")) {
         pcov\start();
     }
 }
@@ -56,7 +56,7 @@ function pcov_start()
  */
 function pcov_stop()
 {
-    if (file_exists("coverage.cov")) {
+    if (extension_loaded("pcov") && file_exists("coverage.cov")) {
         pcov\stop();
         file_put_contents("coverage.cov", serialize(pcov\collect()));
     }
