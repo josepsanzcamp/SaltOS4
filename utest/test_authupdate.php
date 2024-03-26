@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test apps
+ * Test authupdate
  *
  * This test performs some tests to validate the correctness
- * of the apps functions
+ * of the authupdate functions
  */
 
 /**
@@ -56,50 +56,18 @@ require_once "lib/utestlib.php";
 /**
  * Main class of this unit test
  */
-final class test_apps extends TestCase
+final class test_authupdate extends TestCase
 {
-    #[testdox('apps functions')]
+    #[testdox('authupdate functions')]
     /**
-     * apps test
+     * authupdate test
      *
      * This test performs some tests to validate the correctness
-     * of the apps functions
+     * of the authupdate functions
      */
-    public function test_apps(): void
+    public function test_authupdate(): void
     {
-        $this->assertSame(app2id("invoices"), 12);
-        $this->assertSame(id2app(12), "invoices");
-        $this->assertSame(id2app(12), "invoices");
-        $this->assertSame(id2table(12), "app_invoices");
-        $this->assertSame(app2table("invoices"), "app_invoices");
-        $this->assertSame(table2id("app_invoices"), 12);
-        $this->assertSame(table2app("app_invoices"), "invoices");
-        $this->assertSame(count(id2subtables(12)), 2);
-        $this->assertSame(count(app2subtables("invoices")), 2);
-        $this->assertSame(count(table2subtables("app_invoices")), 2);
-        $this->assertSame(app_exists("invoices"), true);
-        $this->assertSame(count(detect_apps_files("xml/dbschema.xml")) > 1, true);
-    }
-
-    #[testdox('app functions')]
-    /**
-     * app test
-     *
-     * This test performs some tests to validate the correctness
-     * of the app functions
-     */
-    public function test_app(): void
-    {
-        $json = test_web_helper("app", null, "");
-        $this->assertArrayHasKey("error", $json);
-
-        $json = test_web_helper("app/nada", "", "");
-        $this->assertArrayHasKey("error", $json);
-
-        $json = test_web_helper("app/customers/nada", "", "");
-        $this->assertArrayHasKey("error", $json);
-
-        $json = test_web_helper("app/customers", "", "");
+        $json = test_web_helper("authupdate", "", "");
         $this->assertArrayHasKey("error", $json);
 
         $json2 = test_web_helper("authtoken", [
@@ -110,10 +78,57 @@ final class test_apps extends TestCase
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);
 
-        $json = test_web_helper("app/customers", "", $json2["token"]);
-        $this->assertArrayHasKey("layout", $json);
-
-        $json = test_web_helper("app/customers/widget/table1", "", $json2["token"]);
+        $json = test_web_helper("authupdate", [], $json2["token"]);
         $this->assertArrayHasKey("error", $json);
+
+        $json = test_web_helper("authupdate", [
+            "oldpass" => "nada",
+            "newpass" => "admin",
+            "renewpass" => "admin",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        $json = test_web_helper("authupdate", [
+            "oldpass" => "admin",
+            "newpass" => "admin",
+            "renewpass" => "nada",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        $json = test_web_helper("authupdate", [
+            "oldpass" => "admin",
+            "newpass" => "admin",
+            "renewpass" => "admin",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        $json = test_web_helper("authupdate", [
+            "oldpass" => "admin",
+            "newpass" => "asd123ASD",
+            "renewpass" => "asd123ASD",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("status", $json);
+        $this->assertSame($json["status"], "ok");
+        $this->assertSame(count($json), 3);
+
+        $json = test_web_helper("authupdate", [
+            "oldpass" => "asd123ASD",
+            "newpass" => "asd123ASD",
+            "renewpass" => "asd123ASD",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
+
+        $query = "UPDATE tbl_users_passwords SET password=MD5('admin') WHERE user_id=$user_id";
+        db_query($query);
+
+        $json2 = test_web_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "admin",
+        ], "");
+        $this->assertSame($json2["status"], "ok");
+        $this->assertSame(count($json2), 4);
+        $this->assertArrayHasKey("token", $json2);
     }
 }
