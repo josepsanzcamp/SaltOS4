@@ -42,20 +42,25 @@ use PHPUnit\Runner\CodeCoverage;
 use PHPUnit\SebastianBergmann\CodeCoverage\Test\TestStatus\TestStatus;
 
 /**
- * TODO
+ * Test PCOV start helper
  *
- * TODO
+ * This function puts the flag needed to enable the pcov feature, to do it,
+ * the function creates a void file and puts permissions to allow that other
+ * procs can write inside of it
+ *
  */
 function test_pcov_start(): void
 {
-    file_put_contents("coverage.cov", "");
+    touch("coverage.cov");
     chmod("coverage.cov", 0666);
 }
 
 /**
- * TODO
+ * Test PCOV stop helper
  *
- * TODO
+ * This function gets the contents of the coverage file and removes it, too,
+ * it does all needed things to append the collected coverage to the current
+ * unit test coverage instance
  */
 function test_pcov_stop(): void
 {
