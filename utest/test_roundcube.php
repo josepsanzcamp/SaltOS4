@@ -41,8 +41,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\DependsOnClass;
-use PHPUnit\Framework\Attributes\DependsExternal;
 
 /**
  * Main class of this unit test

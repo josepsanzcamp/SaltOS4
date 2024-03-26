@@ -46,8 +46,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\DependsOnClass;
-use PHPUnit\Framework\Attributes\DependsExternal;
 
 /**
  * Loading helper function
@@ -61,7 +59,26 @@ require_once "lib/clilib.php";
  */
 final class test_cli_customers extends TestCase
 {
-    #[DependsExternal('test_cli_tokens1', 'test_authtoken')]
+    #[testdox('authtoken action')]
+    /**
+     * Authtoken
+     *
+     * This function execute the authtoken rest request, and must to get the
+     * json with the valid token to continue in the nexts unit tests
+     */
+    public function test_authtoken(): array
+    {
+        $json = test_cli_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "admin",
+        ], "");
+        $this->assertSame($json["status"], "ok");
+        $this->assertSame(count($json), 4);
+        $this->assertArrayHasKey("token", $json);
+        return $json;
+    }
+
+    #[Depends('test_authtoken')]
     #[testdox('create action')]
     /**
      * Create

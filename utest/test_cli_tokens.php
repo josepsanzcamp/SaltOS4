@@ -45,8 +45,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\Attributes\DependsOnClass;
-use PHPUnit\Framework\Attributes\DependsExternal;
 
 /**
  * Loading helper function
@@ -58,9 +56,8 @@ require_once "lib/clilib.php";
 /**
  * Main class of this unit test
  */
-final class test_cli_tokens1 extends TestCase
+final class test_cli_tokens extends TestCase
 {
-    #[DependsOnClass('test_web_tokens2')]
     #[testdox('authtoken action')]
     /**
      * Authtoken
@@ -70,6 +67,46 @@ final class test_cli_tokens1 extends TestCase
      */
     public function test_authtoken(): array
     {
+        $json = test_cli_helper("authtoken", [
+            "user" => "admin",
+        ], "");
+        $this->assertArrayHasKey("error", $json);
+
+        $json = test_cli_helper("authtoken", [
+            "user" => "nada",
+            "pass" => "admin",
+        ], "");
+        $this->assertSame($json["status"], "ko");
+
+        $json = test_cli_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "nada",
+        ], "");
+        $this->assertSame($json["status"], "ko");
+
+        $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
+
+        $query = "UPDATE tbl_users_passwords SET user_id=-user_id WHERE user_id=$user_id";
+        db_query($query);
+
+        $json = test_cli_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "admin",
+        ], "");
+        $this->assertSame($json["status"], "ko");
+
+        $query = "UPDATE tbl_users_passwords SET user_id=-user_id WHERE user_id=-$user_id";
+        db_query($query);
+
+        $query = "UPDATE tbl_users_passwords SET password=MD5('admin') WHERE user_id=$user_id";
+        db_query($query);
+
+        $json = test_cli_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "admin",
+        ], "");
+        $this->assertSame($json["status"], "ok");
+
         $json = test_cli_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
@@ -95,5 +132,40 @@ final class test_cli_tokens1 extends TestCase
         $this->assertSame(count($json), 5);
         $this->assertArrayHasKey("token", $json);
         return $json;
+    }
+
+    #[Depends('test_authtoken')]
+    #[testdox('deauthtoken action')]
+    /**
+     * Deauthtoken
+     *
+     * This function execute the deauthtoken rest request, and must to get the
+     * json with the ok about the valid token that you are deauthenticate
+     */
+    public function test_deauthtoken(array $json): array
+    {
+        $json2 = test_cli_helper("deauthtoken", "", $json["token"]);
+        $this->assertSame($json2["status"], "ok");
+        $this->assertSame(count($json2), 1);
+
+        $json2 = test_cli_helper("deauthtoken", "", $json["token"]);
+        $this->assertSame($json2["status"], "ko");
+        $this->assertSame(count($json2), 3);
+        return $json;
+    }
+
+    #[Depends('test_deauthtoken')]
+    #[testdox('checktoken ko action')]
+    /**
+     * Checktoken ko
+     *
+     * This function execute the checktoken rest request, and must to get the
+     * json with the ko about the invalid token that you are trying to check
+     */
+    public function test_checktoken_ko(array $json): void
+    {
+        $json2 = test_cli_helper("checktoken", "", $json["token"]);
+        $this->assertSame($json2["status"], "ko");
+        $this->assertSame(count($json2), 3);
     }
 }
