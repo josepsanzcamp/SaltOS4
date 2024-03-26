@@ -33,7 +33,8 @@
     <rule ref="Generic.PHP.RequireStrictTypes" />
     <rule ref="Generic.Commenting.DocComment.TagValueIndent" />
     <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
-    <rule ref="WordPress.Arrays.CommaAfterArrayItem"/>
+    <rule ref="NormalizedArrays.Arrays.CommaAfterLast" />
+    <rule ref="Universal.WhiteSpace.CommaSpacing" />
     <rule ref="Generic.Files.LineLength">
         <properties>
             <property name="lineLimit" value="110"/>

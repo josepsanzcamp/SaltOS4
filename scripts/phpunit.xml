@@ -23,8 +23,6 @@
         </include>
         <exclude>
             <file>../code/api/php/database/pdo_mssql.php</file>
-            <directory>../code/api/php/action</directory>
-            <file>../code/api/php/autoload/zindex.php</file>
         </exclude>
     </source>
     <coverage includeUncoveredFiles="true">

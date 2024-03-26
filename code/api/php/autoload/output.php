@@ -90,6 +90,7 @@ function output_handler($array)
         }
         if ($hash1 == $hash2) {
             header("HTTP/1.1 304 Not Modified");
+            pcov_stop();
             die();
         }
     }
@@ -137,6 +138,7 @@ function output_handler($array)
     } else {
         echo $data;
     }
+    pcov_stop();
     die();
 }
 

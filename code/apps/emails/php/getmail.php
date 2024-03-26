@@ -847,7 +847,7 @@ function __getmail_insert(
     $state_sent,
     $state_error
 ) {
-    list($account_id,$uidl) = explode("/", $messageid);
+    list($account_id, $uidl) = explode("/", $messageid);
     $size = gzfilesize($file);
     $id_usuario = current_user();
     $datetime = current_datetime();
@@ -974,7 +974,7 @@ function __getmail_rawurldecode($temp)
 function __getmail_add_bcc($id, $bcc)
 {
     foreach ($bcc as $addr) {
-        list($valor,$nombre) = __sendmail_parser($addr);
+        list($valor, $nombre) = __sendmail_parser($addr);
         $query = make_insert_query("app_emails_a", [
             "id_correo" => $id,
             "id_tipo" => 4, // defined in __getmail_getinfo function

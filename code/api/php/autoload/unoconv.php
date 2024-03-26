@@ -536,10 +536,10 @@ function __unoconv_hocr2txt($hocr)
     // APPLY ANGLE CORRECTION
     foreach ($lines as $index => $line) {
         if ($line[1] != 0 && $line[2] != 0) {
-            list($line[1],$line[2]) = __unoconv_rotate($line[1], $line[2], -$angle);
+            list($line[1], $line[2]) = __unoconv_rotate($line[1], $line[2], -$angle);
         }
         if ($line[3] != 0 && $line[4] != 0) {
-            list($line[3],$line[4]) = __unoconv_rotate($line[3], $line[4], -$angle);
+            list($line[3], $line[4]) = __unoconv_rotate($line[3], $line[4], -$angle);
         }
         if ($index == 0) {
             $incrx = $line[3] - $line[1];

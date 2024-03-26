@@ -122,7 +122,7 @@ function export_file($args)
     }
     // New part that apply the same concept used in the import_file
     if ($args["prefn"]) {
-        $args["data"] = $args["prefn"]($args["data"],$args);
+        $args["data"] = $args["prefn"]($args["data"], $args);
         if (!is_array($args["data"])) {
             return $args["data"];
         }
@@ -134,7 +134,7 @@ function export_file($args)
         }
     }
     if ($args["postfn"]) {
-        $args["data"] = $args["postfn"]($args["data"],$args);
+        $args["data"] = $args["postfn"]($args["data"], $args);
         if (!is_array($args["data"])) {
             return $args["data"];
         }

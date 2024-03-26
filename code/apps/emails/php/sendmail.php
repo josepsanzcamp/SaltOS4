@@ -63,9 +63,9 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
         if (count($account_id) != 2) {
             return "account_id error1";
         }
-        list($account_id0,$account_id1) = array_values($account_id);
+        list($account_id0, $account_id1) = array_values($account_id);
         if (is_numeric($account_id1) && is_string($account_id0)) {
-            list($account_id0,$account_id1) = [$account_id1, $account_id0];
+            list($account_id0, $account_id1) = [$account_id1, $account_id0];
         }
         if (!is_numeric($account_id0) || !is_string($account_id1)) {
             return "account_id error2";
@@ -222,7 +222,7 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
                 $bcc[] = $addr;
             }
             // CONTINUE
-            list($addr,$addrname) = __sendmail_parser($addr);
+            list($addr, $addrname) = __sendmail_parser($addr);
             if ($type == $valids[0]) {
                 if (!$mail->AddAddress($addr, $addrname)) {
                     if ($mail->ErrorInfo) {
@@ -274,7 +274,7 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
             }
         }
     } else {
-        list($to,$toname) = __sendmail_parser($to);
+        list($to, $toname) = __sendmail_parser($to);
         if (!$mail->AddAddress($to, $toname)) {
             return $mail->ErrorInfo;
         }

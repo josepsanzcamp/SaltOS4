@@ -27,12 +27,21 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Files.SideEffects
+
 /**
  * WEB helper function
  *
  * This file contains the function used by the web unit tests to communicate with the
  * SaltOS app, using the two interfaces that SaltOS provides.
  */
+
+/**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "pcovlib.php";
 
 /**
  * Test WEB helper
@@ -52,6 +61,7 @@ declare(strict_types=1);
  */
 function test_web_helper($rest, $data, $token): array
 {
+    test_pcov_start();
     if ($data) {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?$rest", [
             "body" => json_encode($data),
@@ -69,5 +79,6 @@ function test_web_helper($rest, $data, $token): array
         ]);
     }
     $json = json_decode($response["body"], true);
+    test_pcov_stop();
     return $json;
 }

@@ -165,7 +165,7 @@ function import_file($args)
         }
     }
     if ($args["prefn"]) {
-        $array = $args["prefn"]($array,$args);
+        $array = $args["prefn"]($array, $args);
         if (!is_array($array)) {
             return $array;
         }
@@ -179,7 +179,7 @@ function import_file($args)
         }
     }
     if ($args["postfn"]) {
-        $array = $args["postfn"]($array,$args);
+        $array = $args["postfn"]($array, $args);
         if (!is_array($array)) {
             return $array;
         }
@@ -352,7 +352,7 @@ function __import_xls2array($file, $sheet)
     $cols = [];
     $rows = [];
     foreach ($cells as $cell) {
-        list($col,$row) = __import_cell2colrow($cell);
+        list($col, $row) = __import_cell2colrow($cell);
         $cols[$col] = __import_name2col($col);
         $rows[$row] = $row;
     }
