@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/mimelib.php";
+require_once "lib/utestlib.php";
 
 /**
  * Main class of this unit test
@@ -72,5 +72,40 @@ final class test_qrcode extends TestCase
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
+
+        $json = test_web_helper("qrcode", [], "");
+        $this->assertArrayHasKey("error", $json);
+
+        $json2 = test_web_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "admin",
+        ], "");
+        $this->assertSame($json2["status"], "ok");
+        $this->assertSame(count($json2), 4);
+        $this->assertArrayHasKey("token", $json2);
+
+        $json = test_web_helper("qrcode", [], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        $json = test_web_helper("qrcode", [
+            "msg" => "nada",
+            "format" => "nada",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        $json = test_web_helper("qrcode", [
+            "msg" => "nada",
+            "format" => "png",
+        ], $json2["token"]);
+        $this->assertStringContainsString("PNG image data", get_mime($json));
+
+        $json = test_web_helper("qrcode", [
+            "msg" => "nada",
+            "format" => "json",
+        ], $json2["token"]);
+        $this->assertIsArray($json);
+        $this->assertSame(count($json), 2);
+        $this->assertArrayHasKey("msg", $json);
+        $this->assertArrayHasKey("image", $json);
     }
 }

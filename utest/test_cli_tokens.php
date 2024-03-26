@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/clilib.php";
+require_once "lib/utestlib.php";
 
 /**
  * Main class of this unit test

@@ -200,6 +200,7 @@ function do_message_error($array)
                     }
                 }
                 if (is_string($data)) {
+                    $json["code"] = __get_code_from_trace(2);
                     $data = trim($data);
                 }
                 break;

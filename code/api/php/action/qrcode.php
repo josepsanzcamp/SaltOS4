@@ -73,8 +73,7 @@ if ($format == "png") {
     ]);
 }
 $data = "data:image/png;base64," . base64_encode($image);
-$result = [
+output_handler_json([
     "msg" => $msg,
     "image" => $data,
-];
-output_handler_json($result);
+]);

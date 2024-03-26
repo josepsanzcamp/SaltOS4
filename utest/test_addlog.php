@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test score
+ * Test addlog
  *
  * This test performs some tests to validate the correctness
- * of the score feature
+ * of the addlog functions
  */
 
 /**
@@ -56,57 +56,34 @@ require_once "lib/utestlib.php";
 /**
  * Main class of this unit test
  */
-final class test_score extends TestCase
+final class test_addlog extends TestCase
 {
-    #[testdox('score functions')]
+    #[testdox('addlog functions')]
     /**
-     * score test
+     * addlog test
      *
      * This test performs some tests to validate the correctness
-     * of the score feature
+     * of the addlog functions
      */
-    public function test_score(): void
+    public function test_addlog(): void
     {
-        $img = __score_image(50, 60, 16, 8);
-        $this->assertStringContainsString("PNG image data", get_mime($img));
-        $gd = @imagecreatefromstring($img);
-        $this->assertInstanceOf(GdImage::class, $gd);
-        imagedestroy($gd);
+        $file = "data/logs/saltos.log";
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $this->assertFileDoesNotExist($file);
 
-        $json = test_web_helper("score", [], "");
+        $json = test_web_helper("addlog", [], "");
         $this->assertArrayHasKey("error", $json);
+        $this->assertFileDoesNotExist($file);
 
-        $json2 = test_web_helper("authtoken", [
-            "user" => "admin",
-            "pass" => "admin",
+        $json = test_web_helper("addlog", [
+            "msg" => "hola mundo",
         ], "");
-        $this->assertSame($json2["status"], "ok");
-        $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey("token", $json2);
-
-        $json = test_web_helper("score", [], $json2["token"]);
-        $this->assertArrayHasKey("error", $json);
-
-        $json = test_web_helper("score", [
-            "pass" => "nada",
-            "format" => "nada",
-        ], $json2["token"]);
-        $this->assertArrayHasKey("error", $json);
-
-        $json = test_web_helper("score", [
-            "pass" => "nada",
-            "format" => "png",
-        ], $json2["token"]);
-        $this->assertStringContainsString("PNG image data", get_mime($json));
-
-        $json = test_web_helper("score", [
-            "pass" => "nada",
-            "format" => "json",
-        ], $json2["token"]);
-        $this->assertIsArray($json);
-        $this->assertSame(count($json), 3);
-        $this->assertArrayHasKey("score", $json);
-        $this->assertArrayHasKey("image", $json);
-        $this->assertArrayHasKey("valid", $json);
+        $this->assertArrayHasKey("status", $json);
+        $this->assertSame($json["status"], "ok");
+        $this->assertSame(count($json), 1);
+        $this->assertFileExists($file);
+        unlink($file);
     }
 }
