@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test index
+ * Test indexing
  *
  * This test performs some tests to validate the correctness
- * of the index functions
+ * of the indexing functions
  */
 
 /**
@@ -49,16 +49,16 @@ use PHPUnit\Framework\Attributes\Depends;
 /**
  * Main class of this unit test
  */
-final class test_index extends TestCase
+final class test_indexing extends TestCase
 {
-    #[testdox('index functions')]
+    #[testdox('indexing functions')]
     /**
-     * index test
+     * indexing test
      *
      * This test performs some tests to validate the correctness
-     * of the index functions
+     * of the indexing functions
      */
-    public function test_index(): void
+    public function test_indexing(): void
     {
         $this->assertSame(make_index("customers", -1), -3);
 

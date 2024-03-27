@@ -111,5 +111,30 @@ final class test_unoconv extends TestCase
             $this->test_pdf($file);
             $this->test_txt($file);
         }
+
+        $file = "../../utest/files/multipages.pdf";
+        $ocr = __unoconv_pdf2ocr($file);
+
+        $ocr = explode("\n\n", $ocr);
+        $this->assertSame(count($ocr), 4);
+
+        foreach ($ocr as $key => $val) {
+            // REMOVE MARGINS
+            $val = __unoconv_remove_margins($val);
+            // REMOVE VOID LINES
+            $val = explode("\n", $val);
+            foreach ($val as $key2 => $val2) {
+                if (!trim($val2)) {
+                    unset($val[$key2]);
+                }
+            }
+            $val = __unoconv_substr2d($val, 10, 20, 30, 10, 90, 100);
+            $val = implode("\n", $val);
+            // CONTINUE
+            $ocr[$key] = $val;
+        }
+
+        //~ $ocr = implode("\n\n", $ocr);
+        //~ print_r($ocr);
     }
 }

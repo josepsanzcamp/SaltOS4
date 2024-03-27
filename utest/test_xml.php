@@ -105,5 +105,13 @@ final class test_xml extends TestCase
         $this->assertFileExists($cache);
         $this->assertSame(is_array(xmlfile2array("xml/config.xml", true)), true);
         $this->assertFileExists($cache);
+
+        $xml = '<a global="id" require="apps/emails/php/getmail.php" ifeval="false" eval="true">"b"</a>';
+        $array = eval_attr(xml2array($xml));
+        $this->assertCount(0, $array);
+
+        $xml = '<a global="id" require="apps/emails/php/getmail.php" ifeval="true" eval="true">"b"</a>';
+        $array = eval_attr(xml2array($xml));
+        $this->assertSame($array, ["a" => "b"]);
     }
 }
