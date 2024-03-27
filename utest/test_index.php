@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test control
+ * Test index
  *
  * This test performs some tests to validate the correctness
- * of the control functions
+ * of the index functions
  */
 
 /**
@@ -49,32 +49,26 @@ use PHPUnit\Framework\Attributes\Depends;
 /**
  * Main class of this unit test
  */
-final class test_control extends TestCase
+final class test_index extends TestCase
 {
-    #[testdox('control functions')]
+    #[testdox('index functions')]
     /**
-     * control test
+     * index test
      *
      * This test performs some tests to validate the correctness
-     * of the control functions
+     * of the index functions
      */
-    public function test_control(): void
+    public function test_index(): void
     {
-        $this->assertSame(make_control("dashboard", -1), -1);
-        $this->assertSame(make_index("dashboard", -1), -1);
-        $this->assertSame(add_version("dashboard", -1), -1);
-        $this->assertSame(add_version("emails", -1), -2);
+        $this->assertSame(make_index("customers", -1), -3);
 
-        $this->assertSame(make_control("customers", -1), -3);
-
-        $query = "ALTER TABLE app_customers_control RENAME TO app_customers_control_old";
+        $query = "ALTER TABLE app_customers_index RENAME TO app_customers_index_old";
         db_query($query);
+        $this->assertSame(make_index("customers", -1), -2);
+        $this->assertCount(2, __make_index_helper("app_customers_index_old"));
 
-        $this->assertSame(make_control("customers", -1), -2);
-
-        $query = "ALTER TABLE app_customers_control_old RENAME TO app_customers_control";
+        $query = "ALTER TABLE app_customers_index_old RENAME TO app_customers_index";
         db_query($query);
-
-        $this->assertSame(make_control("customers", -1), -3);
+        $this->assertSame(make_index("customers", -1), -3);
     }
 }

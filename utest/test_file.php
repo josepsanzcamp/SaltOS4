@@ -227,6 +227,8 @@ final class test_file extends TestCase
         ], $json["token"]);
         //~ print_r($json2);
 
+        $count1 = count(glob("data/upload/*"));
+
         $id = get_unique_id_md5();
         $file = "../../utest/files/lorem.html";
         $name = basename($file);
@@ -252,6 +254,9 @@ final class test_file extends TestCase
         $files[0]["file"] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
         $files[0]["hash"] = md5_file($file);
         $this->assertSame($json2, $files);
+
+        $count2 = count(glob("data/upload/*"));
+        $this->assertSame($count1, $count2 - 1);
 
         return [
             "token" => $json["token"],
@@ -298,12 +303,17 @@ final class test_file extends TestCase
         ], $json["token"]);
         //~ print_r($json2);
 
+        $count1 = count(glob("data/upload/*"));
+
         $json2 = test_web_helper("delfiles", [
             "files" => $json["files"],
         ], $json["token"]);
         $json["files"][0]["file"] = "";
         $json["files"][0]["hash"] = "";
         $this->assertSame($json2, $json["files"]);
+
+        $count2 = count(glob("data/upload/*"));
+        $this->assertSame($count1, $count2 + 1);
 
         $this->assertTrue(true);
     }
