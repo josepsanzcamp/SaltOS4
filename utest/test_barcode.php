@@ -97,6 +97,12 @@ final class test_barcode extends TestCase
         $this->assertArrayHasKey("error", $json);
 
         $json = test_web_helper("barcode", [
+            "msg" => "\0",
+            "format" => "png",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        $json = test_web_helper("barcode", [
             "msg" => "nada",
             "format" => "png",
         ], $json2["token"]);

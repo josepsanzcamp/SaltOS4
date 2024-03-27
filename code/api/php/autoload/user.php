@@ -42,10 +42,10 @@ declare(strict_types=1);
  * using the token of the request, for security reasons, this validation only
  * can be performed by the same origin that execute the login action
  */
-function current_token()
+function current_token($reset = false)
 {
     static $token_id = null;
-    if ($token_id !== null) {
+    if ($token_id !== null && !$reset) {
         return $token_id;
     }
     // Continue
@@ -66,10 +66,10 @@ function current_token()
  * This function returns the id of the current user, this info is retrieved
  * using the token of the request
  */
-function current_user()
+function current_user($reset = false)
 {
     static $user_id = null;
-    if ($user_id !== null) {
+    if ($user_id !== null && !$reset) {
         return $user_id;
     }
     // Continue
@@ -87,10 +87,10 @@ function current_user()
  * This function returns the id of the current group, this info is retrieved
  * using the token of the request
  */
-function current_group()
+function current_group($reset = false)
 {
     static $group_id = null;
-    if ($group_id !== null) {
+    if ($group_id !== null && !$reset) {
         return $group_id;
     }
     // Continue
@@ -110,10 +110,10 @@ function current_group()
  * returns the list of all groups associated to the current user to facily the
  * permissions checks
  */
-function current_groups()
+function current_groups($reset = false)
 {
     static $groups_id = null;
-    if ($groups_id !== null) {
+    if ($groups_id !== null && !$reset) {
         return $groups_id;
     }
     // Continue
@@ -147,10 +147,10 @@ function current_groups()
  * to other actions and functions that requires the integrity of the passwords
  * and tokens
  */
-function crontab_users()
+function crontab_users($reset = false)
 {
     static $i_am_executed = false;
-    if ($i_am_executed) {
+    if ($i_am_executed && !$reset) {
         return;
     }
     $i_am_executed = true;

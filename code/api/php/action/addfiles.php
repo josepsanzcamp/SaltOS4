@@ -61,6 +61,15 @@ if ($files == "") {
 }
 
 foreach ($files as $key => $val) {
+    $array = ["id", "name", "size", "type", "data", "error", "file", "hash"];
+    foreach ($array as $key2 => $val2) {
+        if (isset($val[$val2])) {
+            unset($array[$key2]);
+        }
+    }
+    if (count($array)) {
+        continue;
+    }
     if ($val["error"] != "") {
         continue;
     }

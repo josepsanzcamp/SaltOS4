@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_file extends TestCase
@@ -160,5 +167,144 @@ final class test_file extends TestCase
         ]);
         $this->assertSame(is_array($buffer), true);
         $this->assertSame(strlen($buffer["body"]) > 0, true);
+    }
+
+    #[testdox('authtoken action')]
+    /**
+     * Authtoken
+     *
+     * This function execute the authtoken rest request, and must to get the
+     * json with the valid token to continue in the nexts unit tests
+     */
+    public function test_authtoken(): array
+    {
+        $json = test_web_helper("authtoken", [
+            "user" => "admin",
+            "pass" => "admin",
+        ], "");
+        $this->assertSame($json["status"], "ok");
+        $this->assertSame(count($json), 4);
+        $this->assertArrayHasKey("token", $json);
+        return $json;
+    }
+
+    #[Depends('test_authtoken')]
+    #[testdox('addfiles action')]
+    /**
+     * Create
+     *
+     * This function execute the creates rest request, and must to get the
+     * json with the layout without data
+     */
+    public function test_addfiles(array $json): array
+    {
+        $json2 = test_web_helper("addfiles", [], "");
+        $this->assertArrayHasKey("error", $json2);
+
+        $json2 = test_web_helper("addfiles", [], $json["token"]);
+        $this->assertArrayHasKey("error", $json2);
+
+        $json2 = test_web_helper("addfiles", [
+            "files" => [
+                ["error" => "nada"],
+            ],
+        ], $json["token"]);
+        //~ print_r($json2);
+
+        $json2 = test_web_helper("addfiles", [
+            "files" => [
+                [
+                    "id" => "",
+                    "name" => "",
+                    "size" => "",
+                    "type" => "",
+                    "data" => "",
+                    "error" => "nada",
+                    "file" => "",
+                    "hash" => "",
+                ],
+            ],
+        ], $json["token"]);
+        //~ print_r($json2);
+
+        $id = get_unique_id_md5();
+        $file = "../../utest/files/lorem.html";
+        $name = basename($file);
+        $size = filesize($file);
+        $type = saltos_content_type($file);
+        $data = "data:$type;base64," . base64_encode(file_get_contents($file));
+        $files = [
+            [
+                "id" => $id,
+                "name" => $name,
+                "size" => $size,
+                "type" => $type,
+                "data" => $data,
+                "error" => "",
+                "file" => "",
+                "hash" => "",
+            ],
+        ];
+        $json2 = test_web_helper("addfiles", [
+            "files" => $files,
+        ], $json["token"]);
+        $files[0]["data"] = "";
+        $files[0]["file"] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
+        $files[0]["hash"] = md5_file($file);
+        $this->assertSame($json2, $files);
+
+        return [
+            "token" => $json["token"],
+            "files" => $files,
+        ];
+    }
+
+    #[Depends('test_addfiles')]
+    #[testdox('delfiles action')]
+    /**
+     * Create
+     *
+     * This function execute the creates rest request, and must to get the
+     * json with the layout without data
+     */
+    public function test_delfiles(array $json): void
+    {
+        $json2 = test_web_helper("delfiles", [], "");
+        $this->assertArrayHasKey("error", $json2);
+
+        $json2 = test_web_helper("delfiles", [], $json["token"]);
+        $this->assertArrayHasKey("error", $json2);
+
+        $json2 = test_web_helper("delfiles", [
+            "files" => [
+                ["error" => "nada"],
+            ],
+        ], $json["token"]);
+        //~ print_r($json2);
+
+        $json2 = test_web_helper("delfiles", [
+            "files" => [
+                [
+                    "id" => "",
+                    "name" => "",
+                    "size" => "",
+                    "type" => "",
+                    "data" => "",
+                    "error" => "nada",
+                    "file" => "",
+                    "hash" => "",
+                ],
+            ],
+        ], $json["token"]);
+        //~ print_r($json2);
+
+        $json2 = test_web_helper("delfiles", [
+            "files" => $json["files"],
+        ], $json["token"]);
+        $json["files"][0]["file"] = "";
+        $json["files"][0]["hash"] = "";
+        $this->assertSame($json2, $json["files"]);
+
+        $this->assertTrue(true);
     }
 }
