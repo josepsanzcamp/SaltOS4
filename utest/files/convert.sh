@@ -1,10 +1,15 @@
 #!/bin/bash
 
+soffice --convert-to pdf lorem.odt
+soffice --convert-to html lorem.odt
+
 pdftoppm -r 300 -png lorem.pdf lorem
 mv lorem-1.png lorem.png
 convert lorem.png image.pdf
 
-pdftoppm -r 300 -png multipages.ori.pdf multipages
+soffice --convert-to pdf multipages.odt
+
+pdftoppm -r 300 -png multipages.pdf multipages
 
 convert multipages-2.png -rotate 90 multipages-2-rot.png
 convert multipages-3.png -rotate 180 multipages-3-rot.png

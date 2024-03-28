@@ -113,7 +113,7 @@ final class test_apps extends TestCase
         $json = test_web_helper("app/customers", "", $json2["token"]);
         $this->assertArrayHasKey("layout", $json);
 
-        $json = test_web_helper("app/customers/widget/table1", "", $json2["token"]);
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper("app/customers/widget/plot1", "", $json2["token"]);
+        $this->assertArrayHasKey("data", $json);
     }
 }

@@ -68,9 +68,9 @@ final class test_adderror extends TestCase
     public function test_adderror(): void
     {
         $file = "data/logs/jserror.log";
-        if (file_exists($file)) {
-            unlink($file);
-        }
+        //~ if (file_exists($file)) {
+            //~ unlink($file);
+        //~ }
         $this->assertFileDoesNotExist($file);
 
         $json = test_web_helper("adderror", [], "");

@@ -67,6 +67,10 @@ final class test_dbschema extends TestCase
         db_static();
         db_static();
 
+        $apps = get_apps_from_dbstatic();
+        $this->assertIsArray($apps);
+        $this->assertTrue(count($apps) > 0);
+
         $tables = get_tables_from_dbschema();
         $this->assertIsArray($tables);
         $this->assertTrue(count($tables) > 0);

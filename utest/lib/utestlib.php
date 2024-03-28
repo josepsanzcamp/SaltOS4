@@ -51,6 +51,9 @@ use PHPUnit\SebastianBergmann\CodeCoverage\Test\TestStatus\TestStatus;
  */
 function test_pcov_start(): void
 {
+    if (file_exists("coverage.cov")) {
+        throw new Error("Coverage pipe found");
+    }
     touch("coverage.cov");
     chmod("coverage.cov", 0666);
 }
@@ -64,14 +67,17 @@ function test_pcov_start(): void
  */
 function test_pcov_stop(): void
 {
-    for (;;) {
+    for ($i = 0; $i < 1000; $i++) {
         $buffer = file_get_contents("coverage.cov");
         if (substr($buffer, -1, 1) == "}") {
             break;
         }
-        usleep(1);
+        usleep(1000);
     }
     unlink("coverage.cov");
+    if ($buffer == "") {
+        throw new Error("Coverage pipe is void");
+    }
     $collected = unserialize($buffer);
 
     $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage($collected);

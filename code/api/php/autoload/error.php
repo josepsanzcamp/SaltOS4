@@ -306,12 +306,14 @@ function program_handlers()
  */
 function __error_handler($type, $message, $file, $line)
 {
+    // @codeCoverageIgnoreStart
     show_php_error([
         "phperror" => "{$message} (code {$type})",
         "details" => "Error on file " . basename($file) . ":" . $line,
         "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
         "code" => __get_code_from_file_and_line($file, $line),
     ]);
+    // @codeCoverageIgnoreEnd
 }
 
 /**
@@ -326,12 +328,14 @@ function __error_handler($type, $message, $file, $line)
  */
 function __exception_handler($e)
 {
+    // @codeCoverageIgnoreStart
     show_php_error([
         "exception" => $e->getMessage() . " (code " . $e->getCode() . ")",
         "details" => "Error on file " . basename($e->getFile()) . ":" . $e->getLine(),
         "backtrace" => $e->getTrace(),
         "code" => __get_code_from_file_and_line($e->getFile(), $e->getLine()),
     ]);
+    // @codeCoverageIgnoreEnd
 }
 
 /**
@@ -345,6 +349,7 @@ function __exception_handler($e)
  */
 function __shutdown_handler()
 {
+    // @codeCoverageIgnoreStart
     $error = error_get_last();
     if (is_array($error) && isset($error["type"]) && $error["type"] != 0) {
         show_php_error([
@@ -355,6 +360,7 @@ function __shutdown_handler()
         ]);
     }
     semaphore_shutdown();
+    // @codeCoverageIgnoreEnd
 }
 
 /**

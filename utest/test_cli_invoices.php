@@ -325,6 +325,12 @@ final class test_cli_invoices extends TestCase
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("updated_id", $json2);
 
+        $file = "data/logs/phperror.log";
+        //~ if (file_exists($file)) {
+            //~ unlink($file);
+        //~ }
+        $this->assertFileDoesNotExist($file);
+
         $json3 = test_cli_helper("update/invoices/$id", [
             "data" => [
                 "detail" => [
@@ -335,6 +341,8 @@ final class test_cli_invoices extends TestCase
             ],
         ], $json["token"]);
         $this->assertArrayHasKey("error", $json3);
+        $this->assertFileExists($file);
+        unlink($file);
 
         $json3 = test_cli_helper("update/invoices/$id", [
             "data" => [

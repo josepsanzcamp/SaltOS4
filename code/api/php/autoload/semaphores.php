@@ -115,7 +115,7 @@ function __semaphore_helper($fn, $name, $timeout)
             return false;
         }
         //~ capture_next_error();
-        $fds[$file] = fopen($file, "a");
+        $fds[$file] = @fopen($file, "a");
         //~ get_clear_error();
         if (!$fds[$file]) {
             return false;

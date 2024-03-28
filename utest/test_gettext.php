@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test semaphore
+ * Test gettext
  *
  * This test performs some tests to validate the correctness
- * of the semaphore functions
+ * of the gettext functions
  */
 
 /**
@@ -49,41 +49,24 @@ use PHPUnit\Framework\Attributes\Depends;
 /**
  * Main class of this unit test
  */
-final class test_semaphore extends TestCase
+final class test_gettext extends TestCase
 {
-    #[testdox('semaphore functions')]
+    #[testdox('gettext functions')]
     /**
-     * semaphore test
+     * gettext test
      *
      * This test performs some tests to validate the correctness
-     * of the semaphore functions
+     * of the gettext functions
      */
-    public function test_semaphore(): void
+    public function test_gettext(): void
     {
-        $this->assertSame(__semaphore_usleep(1) < 100, true);
-        $this->assertSame(semaphore_acquire(), true);
-        $this->assertSame(semaphore_acquire(), false);
-        $this->assertSame(semaphore_release(), true);
-        $this->assertSame(semaphore_release(), false);
-        $this->assertSame(semaphore_acquire(), true);
-        $this->assertStringContainsString(".sem", semaphore_file());
-        $this->assertSame(semaphore_shutdown(), true);
-
-        $dir = "data/cache";
-        chmod($dir, 0555);
-        $this->assertSame(semaphore_acquire(), false);
-        chmod($dir, 0777);
-
-        $file = semaphore_file();
-        chmod($file, 0444);
-        $this->assertSame(semaphore_acquire(), false);
-        chmod($file, 0666);
-
-        $fd = @fopen($file, "a");
-        $result = flock($fd, LOCK_EX | LOCK_NB);
-        $this->assertSame(semaphore_acquire(null, 1), false);
-        flock($fd, LOCK_UN);
-        fclose($fd);
-        $fd = null;
+        set_data("rest/0", "app");
+        set_data("rest/1", "dashboard");
+        $lang = getenv("LANG");
+        putenv("LANG=en_US.UTF-8");
+        $this->assertSame(T("Customers"), "Customers");
+        putenv("LANG=es_ES.UTF-8");
+        $this->assertSame(T("Customers"), "Clientes");
+        putenv("LANG=$lang");
     }
 }

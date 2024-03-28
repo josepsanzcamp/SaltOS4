@@ -128,7 +128,9 @@ final class test_unoconv extends TestCase
                     unset($val[$key2]);
                 }
             }
-            $val = __unoconv_substr2d($val, 10, 20, 30, 10, 90, 100);
+            $val = array_values($val);
+            // CUT THE PAGES
+            $val = __unoconv_substr2d($val, 30, 70, 100, 30, 70, 100);
             $val = implode("\n", $val);
             // CONTINUE
             $ocr[$key] = $val;

@@ -51,8 +51,10 @@ if (!function_exists("array_key_last")) {
      */
     function array_key_last(array $array)
     {
+        // @codeCoverageIgnoreStart
         if (!empty($array)) {
             return key(array_slice($array, -1, 1, true));
+            // @codeCoverageIgnoreEnd
         }
     }
 }
@@ -73,8 +75,10 @@ if (!function_exists("array_key_first")) {
      */
     function array_key_first(array $arr)
     {
+        // @codeCoverageIgnoreStart
         foreach ($arr as $key => $unused) {
             return $key;
+            // @codeCoverageIgnoreEnd
         }
     }
 }
