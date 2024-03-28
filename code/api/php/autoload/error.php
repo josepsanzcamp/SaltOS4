@@ -286,10 +286,12 @@ function do_message_error($array)
  */
 function program_handlers()
 {
+    // @codeCoverageIgnoreStart
     error_reporting(E_ALL);
     set_error_handler("__error_handler");
     set_exception_handler("__exception_handler");
     register_shutdown_function("__shutdown_handler");
+    // @codeCoverageIgnoreEnd
 }
 
 /**

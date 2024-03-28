@@ -111,7 +111,17 @@ final class test_unoconv extends TestCase
             $this->test_pdf($file);
             $this->test_txt($file);
         }
+    }
 
+    #[testdox('ocr functions')]
+    /**
+     * ocr test
+     *
+     * This test performs some tests to validate the correctness
+     * of the ocr functions
+     */
+    public function test_ocr(): void
+    {
         $file = "../../utest/files/multipages.pdf";
         $ocr = __unoconv_pdf2ocr($file);
 
@@ -138,5 +148,44 @@ final class test_unoconv extends TestCase
 
         //~ $ocr = implode("\n\n", $ocr);
         //~ print_r($ocr);
+    }
+
+    #[testdox('commands functions')]
+    /**
+     * commands test
+     *
+     * This test performs some tests to validate the correctness
+     * of the commands functions
+     */
+    public function test_commands(): void
+    {
+        $old = get_config("unoconv/soffice");
+        set_config("unoconv/soffice", "nada");
+        $this->assertSame(get_config("unoconv/soffice"), "nada");
+        $this->assertSame(__unoconv_list(), []);
+        $this->assertSame(__unoconv_convert("", "", ""), null);
+        set_config("unoconv/soffice", $old);
+        $this->assertSame(get_config("unoconv/soffice"), $old);
+
+        $old = get_config("unoconv/pdftotext");
+        set_config("unoconv/pdftotext", "nada");
+        $this->assertSame(get_config("unoconv/pdftotext"), "nada");
+        $this->assertSame(__unoconv_pdf2txt("", ""), null);
+        set_config("unoconv/pdftotext", $old);
+        $this->assertSame(get_config("unoconv/pdftotext"), $old);
+
+        $old = get_config("unoconv/convert");
+        set_config("unoconv/convert", "nada");
+        $this->assertSame(get_config("unoconv/convert"), "nada");
+        $this->assertSame(__unoconv_img2ocr(""), "");
+        set_config("unoconv/convert", $old);
+        $this->assertSame(get_config("unoconv/convert"), $old);
+
+        $old = get_config("unoconv/pdftoppm");
+        set_config("unoconv/pdftoppm", "nada");
+        $this->assertSame(get_config("unoconv/pdftoppm"), "nada");
+        $this->assertSame(__unoconv_pdf2ocr(""), "");
+        set_config("unoconv/pdftoppm", $old);
+        $this->assertSame(get_config("unoconv/pdftoppm"), $old);
     }
 }
