@@ -41,7 +41,7 @@ declare(strict_types=1);
  * check_system function.
  */
 
-set_include_path(get_include_path() . "/" . getcwd() . "/" . "utest");
+set_include_path(get_include_path() . ":" . getcwd() . "/" . "utest");
 
 chdir("code/api");
 foreach (glob("php/autoload/*.php") as $file) {
