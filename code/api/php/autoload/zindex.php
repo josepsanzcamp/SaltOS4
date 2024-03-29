@@ -87,8 +87,8 @@ declare(strict_types=1);
  */
 
 // Some important items
-program_handlers();
 pcov_start();
+program_handlers();
 init_timer();
 init_random();
 check_system();

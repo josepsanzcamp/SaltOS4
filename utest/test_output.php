@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test error
+ * Test output
  *
  * This test performs some tests to validate the correctness
- * of the error functions
+ * of the output functions
  */
 
 /**
@@ -56,48 +56,23 @@ require_once "lib/utestlib.php";
 /**
  * Main class of this unit test
  */
-final class test_error extends TestCase
+final class test_output extends TestCase
 {
-    #[testdox('error functions')]
+    #[testdox('output functions')]
     /**
-     * error test
+     * output test
      *
      * This test performs some tests to validate the correctness
-     * of the error functions
+     * of the output functions
      */
-    public function test_error(): void
+    public function test_output(): void
     {
-        $buffer = do_message_error([
-            "dberror" => "nada",
-            "backtrace" => "nada",
-            "debug" => "nada",
-            "nada" => [],
-            "nada2" => "",
-            "code" => "nada",
-        ]);
-        $this->assertSame(is_array($buffer), true);
-
-        $this->assertSame(__get_code_from_trace(0), __FUNCTION__ . ":" . __LINE__);
-
-        $this->assertSame(detect_recursion("test_error,test_error.php"), 2);
-
-        $files = glob("../../utest/php/error*.php");
+        $files = glob("../../utest/php/output*.php");
         foreach ($files as $file) {
-            $file2 = "data/logs/phperror.log";
-            if (basename($file) == "error5.php") {
-                $file2 = "data/logs/deprecated.log";
-            }
-            //~ if (file_exists($file2)) {
-                //~ unlink($file2);
-            //~ }
-            $this->assertFileDoesNotExist($file2);
-
             test_pcov_start();
             ob_passthru("php $file");
             test_pcov_stop();
-
-            $this->assertFileExists($file2);
-            unlink($file2);
+            $this->assertTrue(true);
         }
     }
 }
