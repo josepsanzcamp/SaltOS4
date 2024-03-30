@@ -92,7 +92,9 @@ function eval_putenv($array)
             }
             if ($diff) {
                 if (putenv($key . "=" . $val) === false) {
+                    // @codeCoverageIgnoreStart
                     show_php_error(["phperror" => "putenv fails to set '$key' from '$current' to '$val'"]);
+                    // @codeCoverageIgnoreEnd
                 }
             }
         }

@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_xml extends TestCase
@@ -113,5 +120,9 @@ final class test_xml extends TestCase
         $xml = '<a global="id" require="apps/emails/php/getmail.php" ifeval="true" eval="true">"b"</a>';
         $array = eval_attr(xml2array($xml));
         $this->assertSame($array, ["a" => "b"]);
+
+        test_external_exec("xml0*.php", "xmlerror.log");
+        test_external_exec("xml10.php", "xmlerror.log");
+        test_external_exec("xml11.php", "");
     }
 }

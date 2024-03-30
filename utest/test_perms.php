@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_perms extends TestCase
@@ -66,5 +73,8 @@ final class test_perms extends TestCase
         $this->assertSame(check_app_perm_id("dashboard", "menu"), true);
         $this->assertSame(check_app_perm_id("customers", "view"), false);
         $this->assertSame(check_app_perm_id_json("dashboard", "menu"), null);
+
+        test_external_exec("perms[1-3].php", "phperror.log");
+        test_external_exec("perms4.php", "");
     }
 }

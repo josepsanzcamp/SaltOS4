@@ -147,7 +147,7 @@ function import_file($args)
             $array = __import_json2array($args["file"]);
             break;
         default:
-            return "Error: Unknown type '{$args["type"]}' for file '{$args["file"]}'";
+            show_php_error(["phperror" => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
     }
     if (!is_array($array)) {
         return $array;

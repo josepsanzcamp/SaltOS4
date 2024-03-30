@@ -81,7 +81,7 @@ final class test_error extends TestCase
 
         $this->assertSame(detect_recursion("test_error,test_error.php"), 2);
 
-        test_external_exec("error*.php", "phperror.log");
-        test_external_exec("deprecated*.php", "deprecated.log");
+        test_external_exec("error[1-5].php", "phperror.log");
+        test_external_exec("error6.php", "deprecated.log");
     }
 }

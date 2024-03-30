@@ -67,6 +67,7 @@ final class test_output extends TestCase
      */
     public function test_output(): void
     {
-        test_external_exec("output*.php", "");
+        test_external_exec("output[1-6].php", "");
+        test_external_exec("output[7-9].php", "phperror.log");
     }
 }

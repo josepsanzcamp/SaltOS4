@@ -44,6 +44,18 @@ global $_CONFIG;
 $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
 db_connect();
 
-// THIS FAILS!!!
+/**
+ * Important notice about this part of the unit test:
+ *
+ * This execution tries to trigger the show_php_error placed after the putenv,
+ * according to the documentation, putenv must return false in error cases, but
+ * unfortunately php does not return false and catch a fatal error like this:
+ *
+ * PHP Fatal error:  Uncaught ValueError: putenv(): Argument #1 ($assignment)
+ * must have a valid syntax in file.php:3
+ *
+ * For this reason, the show_php_error placed after the putenv that must to
+ * be executed when putenv returns false never can be executed.
+ */
 set_config("putenv/", "nada");
 eval_putenv(get_config("putenv"));

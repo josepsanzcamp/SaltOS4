@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_sql extends TestCase
@@ -279,5 +286,7 @@ final class test_sql extends TestCase
         $query = make_fulltext_query("+hola -mundo", "customers");
         $this->assertSame($query, "id IN (SELECT id FROM app_customers_index " .
             "WHERE MATCH(search) AGAINST('+(+\"hola\" -\"mundo\")' IN BOOLEAN MODE))");
+
+        test_external_exec("sql*.php", "phperror.log");
     }
 }

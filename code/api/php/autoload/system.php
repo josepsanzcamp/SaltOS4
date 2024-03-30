@@ -53,10 +53,12 @@ function check_system()
     ];
     foreach ($array as $a) {
         if (!$a[0]($a[1])) {
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "$a[2] $a[1] not found",
                 "details" => "Try to install $a[3] package",
             ]);
+            // @codeCoverageIgnoreEnd
         }
     }
     // DIRECTORIES CKECKS

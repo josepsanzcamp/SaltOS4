@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_getdata extends TestCase
@@ -79,5 +86,7 @@ final class test_getdata extends TestCase
         $this->assertSame(strlen(get_data("token")), 36);
         set_data("token", null);
         $this->assertSame(get_data("token"), null);
+
+        test_external_exec("getdata*.php", "phperror.log");
     }
 }

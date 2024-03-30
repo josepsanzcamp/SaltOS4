@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_import extends TestCase
@@ -66,11 +73,11 @@ final class test_import extends TestCase
         ]);
         $this->assertStringContainsString("not found", $rows);
 
-        $rows = import_file([
-            "file" => "../../utest/files/numbers.xml",
-            "type" => "xmlxml",
-        ]);
-        $this->assertStringContainsString("Unknown type", $rows);
+        //~ $rows = import_file([
+            //~ "file" => "../../utest/files/numbers.xml",
+            //~ "type" => "xmlxml",
+        //~ ]);
+        //~ $this->assertStringContainsString("Unknown type", $rows);
 
         $data = "\xef\xbb\xbf" . file_get_contents("../../utest/files/numbers.xml");
         $file = get_cache_file($data, "tmp");
@@ -367,5 +374,17 @@ final class test_import extends TestCase
         $this->assertIsArray(__import_array2tree($array, ["0,B,Field", "C,D", ""], true, true));
 
         $this->assertFalse(__import_isname("0"));
+    }
+
+    #[testdox('external exec')]
+    /**
+     * external exec
+     *
+     * This test performs some tests to validate the correctness
+     * of the external exec
+     */
+    public function test_export_external(): void
+    {
+        test_external_exec("import*.php", "phperror.log");
     }
 }

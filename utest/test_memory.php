@@ -73,5 +73,10 @@ final class test_memory extends TestCase
 
         $this->assertSame(set_max_memory_limit(), null);
         $this->assertSame(set_max_execution_time(), null);
+
+        $old = get_config("iniset/max_execution_time");
+        set_config("iniset/max_execution_time", 0);
+        time_get_usage();
+        set_config("iniset/max_execution_time", $old);
     }
 }

@@ -27,28 +27,6 @@
 
 declare(strict_types=1);
 
-/**
- * Autoload file for the unit tests
- *
- * This file contains the code that initialize the unit tests
- */
-
-/**
- * Importing namespaces
- */
-use PHPUnit\Framework\Assert;
-
-/**
- * Main autoloader code
- *
- * This code emmulates the index.php by loading all autoload files excep
- * the zindex.php, initialize the timer, the random and executes the
- * check_system function.
- */
-
-set_include_path(get_include_path() . ":" . getcwd() . "/" . "utest");
-
-chdir("code/api");
 foreach (glob("php/autoload/*.php") as $file) {
     if (basename($file) == "zindex.php") {
         continue;
@@ -56,19 +34,10 @@ foreach (glob("php/autoload/*.php") as $file) {
     require $file;
 }
 
+pcov_start();
+program_handlers();
 init_timer();
 init_random();
 check_system();
 
-global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
-db_connect();
-
-$files = glob("data/logs/*");
-if (count($files)) {
-    echo "\033[0;31mLog files found: " . implode(",", $files) . "\033[0m\n";
-    echo "\033[0;33mRemoving all files in data/logs/\033[0m\n";
-    foreach ($files as $file) {
-        unlink($file);
-    }
-}
+export_file([]);

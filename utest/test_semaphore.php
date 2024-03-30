@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_semaphore extends TestCase
@@ -85,5 +92,7 @@ final class test_semaphore extends TestCase
         flock($fd, LOCK_UN);
         fclose($fd);
         $fd = null;
+
+        test_external_exec("semaphore*.php", "phperror.log");
     }
 }

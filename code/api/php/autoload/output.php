@@ -85,7 +85,9 @@ function output_handler($array)
         if ($hash1 == $hash2) {
             header("HTTP/1.1 304 Not Modified");
             pcov_stop();
+            // @codeCoverageIgnoreStart
             die();
+            // @codeCoverageIgnoreEnd
         }
     }
     if ($file != "" && $data == "") {
@@ -133,7 +135,9 @@ function output_handler($array)
         echo $data;
     }
     pcov_stop();
+    // @codeCoverageIgnoreStart
     die();
+    // @codeCoverageIgnoreEnd
 }
 
 /**

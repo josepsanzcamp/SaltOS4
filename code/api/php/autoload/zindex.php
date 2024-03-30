@@ -87,7 +87,9 @@ declare(strict_types=1);
  */
 
 // Some important items
+// @codeCoverageIgnoreStart
 pcov_start();
+// @codeCoverageIgnoreEnd
 program_handlers();
 init_timer();
 init_random();

@@ -368,12 +368,12 @@ function struct2array(&$data, $file = "")
         } else {
             if ($file == "") {
                 show_php_error([
-                    "xmlerror" => "Unknown tag type with name '</$name>' (at line $linea)",
+                    "xmlerror" => "Unknown tag type with name '</$name>'",
                 ]);
             }
             $file = basename($file);
             show_php_error([
-                "xmlerror" => "Unknown tag type with name '</$name>' (on file $file at line $linea)",
+                "xmlerror" => "Unknown tag type with name '</$name>' (on file $file)",
             ]);
         }
     }

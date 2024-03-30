@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_system extends TestCase
@@ -62,5 +69,11 @@ final class test_system extends TestCase
     {
         check_system();
         $this->assertTrue(true);
+
+        test_external_exec("system*.php", "phperror.log");
+
+        $this->assertFileExists("data/nada");
+        unlink("data/nada");
+        $this->assertFileDoesNotExist("data/nada");
     }
 }

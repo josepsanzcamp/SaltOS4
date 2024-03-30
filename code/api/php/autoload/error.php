@@ -342,6 +342,7 @@ function __exception_handler($e)
  */
 function __shutdown_handler()
 {
+    semaphore_shutdown();
     $error = error_get_last();
     if (is_array($error) && isset($error["type"]) && $error["type"] != 0) {
         show_php_error([
@@ -351,7 +352,6 @@ function __shutdown_handler()
             "code" => __get_code_from_file_and_line($error["file"], $error["line"]),
         ]);
     }
-    semaphore_shutdown();
 }
 
 /**

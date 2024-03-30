@@ -375,4 +375,16 @@ final class test_export extends TestCase
         $this->assertSame(count($array), 6);
         $this->assertSame($array, ["a", "b", "c", "d", "e", "f"]);
     }
+
+    #[testdox('external exec')]
+    /**
+     * external exec
+     *
+     * This test performs some tests to validate the correctness
+     * of the external exec
+     */
+    public function test_export_external(): void
+    {
+        test_external_exec("export*.php", "phperror.log");
+    }
 }
