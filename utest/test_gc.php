@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_gc extends TestCase
@@ -75,5 +82,7 @@ final class test_gc extends TestCase
 
         set_config("server/cachetimeout", $old);
         $this->assertSame(get_config("server/cachetimeout"), $old);
+
+        test_external_exec("gc*.php", "phperror.log");
     }
 }

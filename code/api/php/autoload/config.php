@@ -65,9 +65,7 @@ function get_config($key, $user_id = -1)
         if ($count == 2) {
             return $_CONFIG[$keys[0]][$keys[1]] ?? null;
         }
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "key $key not found"]);
-        // @codeCoverageIgnoreEnd
     }
     // Search the key for the specified user in the database
     $query = "SELECT val FROM tbl_config WHERE " . make_where_query([
@@ -122,9 +120,7 @@ function set_config($key, $val, $user_id = -1)
             }
             return;
         }
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "key $key not found"]);
-        // @codeCoverageIgnoreEnd
     }
     // Try to insert or update the key for the specified user
     // In this case, zero user is allowed and used as global user

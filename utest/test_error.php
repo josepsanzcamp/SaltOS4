@@ -60,7 +60,7 @@ final class test_error extends TestCase
 {
     #[testdox('error functions')]
     /**
-     * error test
+     * error function test
      *
      * This test performs some tests to validate the correctness
      * of the error functions
@@ -81,23 +81,7 @@ final class test_error extends TestCase
 
         $this->assertSame(detect_recursion("test_error,test_error.php"), 2);
 
-        $files = glob("../../utest/php/error*.php");
-        foreach ($files as $file) {
-            $file2 = "data/logs/phperror.log";
-            if (basename($file) == "error5.php") {
-                $file2 = "data/logs/deprecated.log";
-            }
-            //~ if (file_exists($file2)) {
-                //~ unlink($file2);
-            //~ }
-            $this->assertFileDoesNotExist($file2);
-
-            test_pcov_start();
-            ob_passthru("php $file");
-            test_pcov_stop();
-
-            $this->assertFileExists($file2);
-            unlink($file2);
-        }
+        test_external_exec("error*.php", "phperror.log");
+        test_external_exec("deprecated*.php", "deprecated.log");
     }
 }

@@ -52,9 +52,7 @@ function db_schema()
         return;
     }
     if (!semaphore_acquire(["db_schema", "db_static"])) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
-        // @codeCoverageIgnoreEnd
     }
     $dbschema = eval_attr(xmlfiles2array(detect_apps_files("xml/dbschema.xml")));
     $dbschema = __dbschema_auto_apps($dbschema);
@@ -167,9 +165,7 @@ function db_static()
         return;
     }
     if (!semaphore_acquire(["db_schema", "db_static"])) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
-        // @codeCoverageIgnoreEnd
     }
     $dbstatic = eval_attr(xmlfiles2array(detect_apps_files("xml/dbstatic.xml")));
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
@@ -380,9 +376,7 @@ function __dbschema_helper($fn, $table)
         }
         return [];
     }
-    // @codeCoverageIgnoreStart
     show_php_error(["phperror" => "Unknown fn '$fn'"]);
-    // @codeCoverageIgnoreEnd
 }
 
 /**
@@ -679,7 +673,5 @@ function __dbstatic_helper($fn, $table, $field)
         }
         return "";
     }
-    // @codeCoverageIgnoreStart
     show_php_error(["phperror" => "Unknown fn '$fn'"]);
-    // @codeCoverageIgnoreEnd
 }

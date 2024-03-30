@@ -70,14 +70,10 @@ function import_file($args)
         }
     }
     if (!isset($args["file"])) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown file"]);
-        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["type"])) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown type"]);
-        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["sep"])) {
         $args["sep"] = ";";
@@ -159,9 +155,7 @@ function import_file($args)
     if (!$args["novoid"]) {
         $array = __import_removevoid($array);
         if (!is_array($array)) {
-            // @codeCoverageIgnoreStart
             return $array;
-            // @codeCoverageIgnoreEnd
         }
     }
     if ($args["prefn"]) {
@@ -173,9 +167,7 @@ function import_file($args)
     if (!$args["notree"]) {
         $array = __import_array2tree($array, $args["nodes"], $args["nohead"], $args["noletter"]);
         if (!is_array($array)) {
-            // @codeCoverageIgnoreStart
             return $array;
-            // @codeCoverageIgnoreEnd
         }
     }
     if ($args["postfn"]) {

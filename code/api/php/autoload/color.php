@@ -57,15 +57,11 @@ function color2dec($color, $component)
         $color = $R . $R . $G . $G . $B . $B;
     }
     if (strlen($color) != 6) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown color length"]);
-        // @codeCoverageIgnoreEnd
     }
     $offset = ["R" => 0, "G" => 2, "B" => 4];
     if (!isset($offset[$component])) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown color component"]);
-        // @codeCoverageIgnoreEnd
     }
     return hexdec(substr($color, $offset[$component], 2));
 }

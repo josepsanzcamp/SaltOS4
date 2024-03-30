@@ -59,9 +59,7 @@ function output_handler($array)
     $extra = isset($array["extra"]) ? $array["extra"] : [];
     if ($file != "") {
         if (!file_exists($file) || !is_file($file)) {
-            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "file {$file} not found"]);
-            // @codeCoverageIgnoreEnd
         }
         if ($data == "" && filesize($file) < memory_get_free(true) / 3) {
             $data = file_get_contents($file);
@@ -71,14 +69,10 @@ function output_handler($array)
         }
     }
     if ($type === "") {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "output_handler requires the type parameter"]);
-        // @codeCoverageIgnoreEnd
     }
     if ($cache === "") {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "output_handler requires the cache parameter"]);
-        // @codeCoverageIgnoreEnd
     }
     header("About: " . get_name_version_revision());
     if ($cache) {

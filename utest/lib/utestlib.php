@@ -40,6 +40,7 @@ declare(strict_types=1);
 use PHPUnit\SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
 use PHPUnit\Runner\CodeCoverage;
 use PHPUnit\SebastianBergmann\CodeCoverage\Test\TestStatus\TestStatus;
+use PHPUnit\Framework\Assert;
 
 /**
  * Test PCOV start helper
@@ -192,4 +193,34 @@ function get_mime($buffer): string
     $mime = trim(ob_passthru("file -b $file"));
     unlink($file);
     return $mime;
+}
+
+/**
+ * External tests
+ *
+ * This function tries to execute external php that triggers special conditions
+ * suck as errors, that are not allowed from the phpunit tests
+ *
+ * @buffer => the contents that you want to check
+ */
+function test_external_exec($glob_pattern, $error_file): void
+{
+    $files = glob("../../utest/php/$glob_pattern");
+    foreach ($files as $file) {
+        if ($error_file != "") {
+            $file2 = "data/logs/$error_file";
+            Assert::assertFileDoesNotExist($file2);
+        }
+
+        test_pcov_start();
+        ob_passthru("php $file");
+        test_pcov_stop();
+
+        if ($error_file != "") {
+            Assert::assertFileExists($file2);
+            unlink($file2);
+        } else {
+            Assert::assertTrue(true);
+        }
+    }
 }

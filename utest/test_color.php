@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_color extends TestCase
@@ -77,5 +84,7 @@ final class test_color extends TestCase
 
         $b = color2dec("#369", "B");
         $this->assertSame($b, 153);
+
+        test_external_exec("color*.php", "phperror.log");
     }
 }

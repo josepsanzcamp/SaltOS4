@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_dbschema extends TestCase
@@ -66,10 +73,6 @@ final class test_dbschema extends TestCase
         db_schema();
         db_static();
         db_static();
-
-        $apps = get_apps_from_dbstatic();
-        $this->assertIsArray($apps);
-        $this->assertTrue(count($apps) > 0);
 
         $tables = get_tables_from_dbschema();
         $this->assertIsArray($tables);
@@ -94,5 +97,14 @@ final class test_dbschema extends TestCase
         $fkeys = get_fkeys_from_dbschema("tbl_users");
         $this->assertIsArray($fkeys);
         $this->assertTrue(count($fkeys) > 0);
+
+        $apps = get_apps_from_dbstatic();
+        $this->assertIsArray($apps);
+        $this->assertTrue(count($apps) > 0);
+
+        $field = get_field_from_dbstatic("customers");
+        $this->assertSame($field, "nombre");
+
+        test_external_exec("dbschema*.php", "phperror.log");
     }
 }

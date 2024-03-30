@@ -67,12 +67,10 @@ class database_pdo_mssql
     public function __construct($args)
     {
         if (!class_exists("PDO")) {
-            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package",
             ]);
-            // @codeCoverageIgnoreEnd
         }
         try {
             $this->link = new PDO(
@@ -81,10 +79,8 @@ class database_pdo_mssql
                 "charset=UTF-8",
                 $args["user"], $args["pass"]
             );
-        // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage()]);
-            // @codeCoverageIgnoreEnd
         }
         $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -144,10 +140,8 @@ class database_pdo_mssql
         // DO QUERY
         try {
             $stmt = $this->link->query($query);
-        // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
             show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-            // @codeCoverageIgnoreEnd
         }
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
@@ -155,41 +149,23 @@ class database_pdo_mssql
                 $fetch = $stmt->columnCount() > 1 ? "query" : "column";
             }
             if ($fetch == "query") {
-                try {
-                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                // @codeCoverageIgnoreStart
-                } catch (PDOException $e) {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    // @codeCoverageIgnoreEnd
-                }
+                $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
                     $result["header"] = array_keys($result["rows"][0]);
                 }
             }
             if ($fetch == "column") {
-                try {
-                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                // @codeCoverageIgnoreStart
-                } catch (PDOException $e) {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    // @codeCoverageIgnoreEnd
-                }
+                $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
             }
             if ($fetch == "concat") {
-                try {
-                    if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                        $result["rows"][] = $row;
-                    }
-                    while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                        $result["rows"][0] .= "," . $row;
-                    }
-                // @codeCoverageIgnoreStart
-                } catch (PDOException $e) {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    // @codeCoverageIgnoreEnd
+                if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                    $result["rows"][] = $row;
+                }
+                while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                    $result["rows"][0] .= "," . $row;
                 }
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];

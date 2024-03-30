@@ -115,5 +115,7 @@ final class test_apps extends TestCase
 
         $json = test_web_helper("app/customers/widget/plot1", "", $json2["token"]);
         $this->assertArrayHasKey("data", $json);
+
+        test_external_exec("apps*.php", "phperror.log");
     }
 }

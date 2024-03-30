@@ -67,12 +67,6 @@ final class test_output extends TestCase
      */
     public function test_output(): void
     {
-        $files = glob("../../utest/php/output*.php");
-        foreach ($files as $file) {
-            test_pcov_start();
-            ob_passthru("php $file");
-            test_pcov_stop();
-            $this->assertTrue(true);
-        }
+        test_external_exec("output*.php", "");
     }
 }

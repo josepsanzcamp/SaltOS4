@@ -64,9 +64,7 @@ function eval_iniset($array)
             }
             if ($diff) {
                 if (ini_set($key, $val) === false) {
-                    // @codeCoverageIgnoreStart
                     show_php_error(["phperror" => "ini_set fails to set '$key' from '$current' to '$val'"]);
-                    // @codeCoverageIgnoreEnd
                 }
             }
         }
@@ -94,9 +92,7 @@ function eval_putenv($array)
             }
             if ($diff) {
                 if (putenv($key . "=" . $val) === false) {
-                    // @codeCoverageIgnoreStart
                     show_php_error(["phperror" => "putenv fails to set '$key' from '$current' to '$val'"]);
-                    // @codeCoverageIgnoreEnd
                 }
             }
         }
@@ -125,17 +121,13 @@ function eval_extras($array)
             if (is_array($val)) {
                 if (count($val) == 2) {
                     if ($key($val[0], $val[1]) === false) {
-                        // @codeCoverageIgnoreStart
                         $val = implode(",", $val);
                         show_php_error(["phperror" => "$key fails to set '$val'"]);
-                        // @codeCoverageIgnoreEnd
                     }
                     continue;
                 }
-                // @codeCoverageIgnoreStart
                 $val = implode(",", $val);
                 show_php_error(["phperror" => "$key fails to set '$val'"]);
-                // @codeCoverageIgnoreEnd
             }
             // Special case only for the mb_detect_order that only accepts encodings
             // that appear in the mb_list_encondings, otherwise an error is launched
@@ -143,9 +135,7 @@ function eval_extras($array)
                 $val = implode(",", array_intersect(explode(",", $val), mb_list_encodings()));
             }
             if ($key($val) === false) {
-                // @codeCoverageIgnoreStart
                 show_php_error(["phperror" => "$key fails to set '$val'"]);
-                // @codeCoverageIgnoreEnd
             }
         }
     }

@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_customers extends TestCase
@@ -103,7 +110,80 @@ final class test_customers extends TestCase
         $this->assertSame(add_version("customers", $id), 1);
 
         $this->assertCount(1, get_version("customers", $id, 3));
+        $this->assertCount(1, get_version("customers", $id, 2));
 
+        // Check for hash blockchain integrity
+        $oldhash = execute_query("SELECT hash
+                                  FROM app_customers_version
+                                  WHERE reg_id=$id AND ver_id=1");
+        $hash = execute_query("SELECT hash
+                               FROM app_customers_version
+                               WHERE reg_id=$id AND ver_id=2");
+        $query = "UPDATE app_customers_version
+                  SET hash='nada'
+                  WHERE reg_id=$id AND ver_id=2";
+        db_query($query);
+
+        file_put_contents("/tmp/phpunit.regid", $id);
+        test_external_exec("customers1.php", "phperror.log");
+
+        $query = "UPDATE app_customers_version
+                  SET hash='$hash'
+                  WHERE reg_id=$id AND ver_id=2";
+        db_query($query);
+        $this->assertCount(1, get_version("customers", $id, 3));
+
+        // Check for datetime blockchain integrity
+        $datetime = execute_query("SELECT datetime
+                                   FROM app_customers_version
+                                   WHERE reg_id=$id AND ver_id=2");
+        $query = "UPDATE app_customers_version
+                  SET hash='$oldhash', datetime=0
+                  WHERE reg_id=$id AND ver_id=2";
+        db_query($query);
+
+        $array = execute_query("SELECT user_id, datetime, reg_id, ver_id, data, hash
+                                FROM app_customers_version
+                                WHERE reg_id=$id AND ver_id=2");
+        $newhash = md5(serialize($array));
+        $query = "UPDATE app_customers_version
+                  SET hash='$newhash'
+                  WHERE reg_id=$id AND ver_id=2";
+        db_query($query);
+
+        test_external_exec("customers1.php", "phperror.log");
+
+        $query = "UPDATE app_customers_version
+                  SET hash='$hash', datetime='$datetime'
+                  WHERE reg_id=$id AND ver_id=2";
+        db_query($query);
+        $this->assertCount(1, get_version("customers", $id, 3));
+
+        // Check for ver_id blockchain integrity
+        $query = "UPDATE app_customers_version
+                  SET hash='$oldhash', ver_id=-2
+                  WHERE reg_id=$id AND ver_id=2";
+        db_query($query);
+
+        $array = execute_query("SELECT user_id, datetime, reg_id, ver_id, data, hash
+                                FROM app_customers_version
+                                WHERE reg_id=$id AND ver_id=-2");
+        $newhash = md5(serialize($array));
+        $query = "UPDATE app_customers_version
+                  SET hash='$newhash'
+                  WHERE reg_id=$id AND ver_id=-2";
+        db_query($query);
+
+        test_external_exec("customers1.php", "phperror.log");
+        unlink("/tmp/phpunit.regid");
+
+        $query = "UPDATE app_customers_version
+                  SET hash='$hash', ver_id=2
+                  WHERE reg_id=$id AND ver_id=-2";
+        db_query($query);
+        $this->assertCount(1, get_version("customers", $id, 3));
+
+        // Continue
         $query = "DELETE FROM app_customers WHERE id=$id";
         db_query($query);
 

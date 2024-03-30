@@ -24,6 +24,7 @@
         <exclude>
             <file>../code/api/php/database/pdo_mssql.php</file>
             <file>../code/api/php/autoload/compat.php</file>
+            <file>../code/api/php/autoload/pcov.php</file>
         </exclude>
     </source>
     <coverage includeUncoveredFiles="true">

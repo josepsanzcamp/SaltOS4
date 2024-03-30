@@ -76,20 +76,16 @@ class database_pdo_sqlite
         if (!class_exists("PDO")) {
             // @codeCoverageIgnoreStart
             show_php_error([
-                "phperror" => "Class PDO not found",
+                "dberror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package",
             ]);
             // @codeCoverageIgnoreEnd
         }
         if (!file_exists($args["file"])) {
-            // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "File '" . $args["file"] . "' not found"]);
-            // @codeCoverageIgnoreEnd
+            show_php_error(["dberror" => "File '" . $args["file"] . "' not found"]);
         }
         if (!is_writable($args["file"])) {
-            // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "File '" . $args["file"] . "' not writable"]);
-            // @codeCoverageIgnoreEnd
+            show_php_error(["dberror" => "File '" . $args["file"] . "' not writable"]);
         }
         try {
             $this->link = new PDO("sqlite:" . $args["file"]);
@@ -209,27 +205,27 @@ class database_pdo_sqlite
         // CONTINUE THE NORMAL OPERATION
         $timeout = get_config("db/semaphoretimeout") ?? 10000000;
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
-            // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "Could not acquire the semaphore", "query" => $query]);
-            // @codeCoverageIgnoreEnd
+            show_php_error(["dberror" => "Could not acquire the semaphore", "query" => $query]);
         }
         // DO QUERY
         for (;;) {
             try {
                 $stmt = $this->link->query($query);
                 break;
-            // @codeCoverageIgnoreStart
             } catch (PDOException $e) {
                 if ($timeout <= 0) {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 } elseif (stripos($e->getMessage(), "database is locked") !== false) {
+                    // @codeCoverageIgnoreStart
                     $timeout -= __semaphore_usleep(rand(0, 1000));
+                    // @codeCoverageIgnoreEnd
                 } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
+                    // @codeCoverageIgnoreStart
                     $timeout -= __semaphore_usleep(rand(0, 1000));
+                    // @codeCoverageIgnoreEnd
                 } else {
                     show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
                 }
-                // @codeCoverageIgnoreEnd
             }
         }
         semaphore_release(__FUNCTION__);
@@ -239,41 +235,23 @@ class database_pdo_sqlite
                 $fetch = $stmt->columnCount() > 1 ? "query" : "column";
             }
             if ($fetch == "query") {
-                try {
-                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                // @codeCoverageIgnoreStart
-                } catch (PDOException $e) {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    // @codeCoverageIgnoreEnd
-                }
+                $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $result["total"] = count($result["rows"]);
                 if ($result["total"] > 0) {
                     $result["header"] = array_keys($result["rows"][0]);
                 }
             }
             if ($fetch == "column") {
-                try {
-                    $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                // @codeCoverageIgnoreStart
-                } catch (PDOException $e) {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    // @codeCoverageIgnoreEnd
-                }
+                $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["column"];
             }
             if ($fetch == "concat") {
-                try {
-                    if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                        $result["rows"][] = $row;
-                    }
-                    while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                        $result["rows"][0] .= "," . $row;
-                    }
-                // @codeCoverageIgnoreStart
-                } catch (PDOException $e) {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                    // @codeCoverageIgnoreEnd
+                if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                    $result["rows"][] = $row;
+                }
+                while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
+                    $result["rows"][0] .= "," . $row;
                 }
                 $result["total"] = count($result["rows"]);
                 $result["header"] = ["concat"];

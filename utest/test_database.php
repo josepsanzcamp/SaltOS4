@@ -30,6 +30,7 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Classes.ClassDeclaration
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
+// phpcs:disable PSR1.Files.SideEffects
 
 /**
  * Test database drivers
@@ -41,6 +42,13 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
+
+/**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
 
 /**
  * Main class of this unit test
@@ -590,5 +598,7 @@ final class test_database extends TestCase
         db_disconnect();
         $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), false);
         db_connect();
+
+        test_external_exec("database*.php", "dberror.log");
     }
 }

@@ -364,9 +364,7 @@ function __array_apply_patch_rec(&$array, $key, $val)
         } elseif (isset($array[$key1])) {
             __array_apply_patch_rec($array[$key1], $key, $val);
         } else {
-            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Path '{$key0}' for '{$key1}' not found"]);
-            // @codeCoverageIgnoreEnd
         }
     } elseif ($key0 == "col") {
         if (isset($array["row"]) && isset($array["rows"])) {
@@ -387,8 +385,6 @@ function __array_apply_patch_rec(&$array, $key, $val)
             }
         }
     } else {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown '{$key0}' for '{$key1}'"]);
-        // @codeCoverageIgnoreEnd
     }
 }

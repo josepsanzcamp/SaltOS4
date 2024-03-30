@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_config extends TestCase
@@ -83,5 +90,7 @@ final class test_config extends TestCase
         $this->assertSame(get_config("test", -1), null);
 
         $this->assertSame(count(detect_config_files("xml/config.xml")) > 1, true);
+
+        test_external_exec("config*.php", "phperror.log");
     }
 }

@@ -65,14 +65,10 @@ function export_file($args)
     //~ echo "<pre>".sprintr($args)."</pre>";die();
     // Check parameters
     if (!isset($args["type"])) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown type"]);
-        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["data"])) {
-        // @codeCoverageIgnoreStart
         show_php_error(["phperror" => "Unknown data"]);
-        // @codeCoverageIgnoreEnd
     }
     if (!isset($args["sep"])) {
         $args["sep"] = ";";
@@ -172,9 +168,7 @@ function export_file($args)
             $buffer = __export_file_json($args["data"], $args["indent"]);
             break;
         default:
-            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
-            // @codeCoverageIgnoreEnd
     }
     if ($args["file"] != "") {
         if ($args["ext"] == "") {
@@ -341,9 +335,7 @@ function __export_file_edi($matrix, $wrap = false)
             if (is_array($field)) {
                 foreach ($field as $key3 => $subfield) {
                     if (is_array($subfield)) {
-                        // @codeCoverageIgnoreStart
                         show_php_error(["phperror" => "Arrays in subfields not allowed"]);
-                        // @codeCoverageIgnoreEnd
                     } else {
                         $matrix[$key][$key2][$key3] = strval($subfield);
                     }

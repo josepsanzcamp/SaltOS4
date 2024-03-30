@@ -66,9 +66,7 @@ function db_connect($args = null)
     }
     $php = "php/database/" . $config["type"] . ".php";
     if (!file_exists($php)) {
-        // @codeCoverageIgnoreStart
-        show_php_error(["phperror" => "Database type '" . $config["type"] . "' not found"]);
-        // @codeCoverageIgnoreEnd
+        show_php_error(["dberror" => "Database type '" . $config["type"] . "' not found"]);
     }
     require_once $php;
     $driver = "database_" . $config["type"];
@@ -94,9 +92,7 @@ function db_check($query)
         return false;
     }
     if (!method_exists(get_config("db/obj"), "db_check")) {
-        // @codeCoverageIgnoreStart
-        show_php_error(["phperror" => "Unknown database connector"]);
-        // @codeCoverageIgnoreEnd
+        show_php_error(["dberror" => "Unknown database connector"]);
     }
     return get_config("db/obj")->db_check($query);
 }
@@ -132,9 +128,7 @@ function db_check($query)
 function db_query($query, $fetch = "query")
 {
     if (!get_config("db/obj") || !method_exists(get_config("db/obj"), "db_query")) {
-        // @codeCoverageIgnoreStart
-        show_php_error(["phperror" => "Unknown database connector"]);
-        // @codeCoverageIgnoreEnd
+        show_php_error(["dberror" => "Unknown database connector"]);
     }
     $debug = eval_bool(get_config("debug/slowquerydebug"));
     if ($debug) {
@@ -221,9 +215,7 @@ function db_num_fields($result)
 function db_field_name($result, $index)
 {
     if (!isset($result["header"][$index])) {
-        // @codeCoverageIgnoreStart
-        show_php_error(["phperror" => "Unknown field name at position {$index}"]);
-        // @codeCoverageIgnoreEnd
+        show_php_error(["dberror" => "Unknown field name at position {$index}"]);
     }
     return $result["header"][$index];
 }
@@ -249,9 +241,7 @@ function db_free(&$result)
 function db_disconnect()
 {
     if (!get_config("db/obj") || !method_exists(get_config("db/obj"), "db_disconnect")) {
-        // @codeCoverageIgnoreStart
-        show_php_error(["phperror" => "Unknown database connector"]);
-        // @codeCoverageIgnoreEnd
+        show_php_error(["dberror" => "Unknown database connector"]);
     }
     get_config("db/obj")->db_disconnect();
     set_config("db/obj", null);

@@ -42,10 +42,8 @@ declare(strict_types=1);
  */
 function pcov_start()
 {
-    // @codeCoverageIgnoreStart
     if (extension_loaded("pcov") && file_exists("coverage.cov")) {
         pcov\start();
-        // @codeCoverageIgnoreEnd
     }
 }
 
@@ -60,8 +58,6 @@ function pcov_stop()
 {
     if (extension_loaded("pcov") && file_exists("coverage.cov")) {
         pcov\stop();
-        // @codeCoverageIgnoreStart
         file_put_contents("coverage.cov", serialize(pcov\collect()));
-        // @codeCoverageIgnoreEnd
     }
 }

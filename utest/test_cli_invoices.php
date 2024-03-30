@@ -326,9 +326,6 @@ final class test_cli_invoices extends TestCase
         $this->assertArrayHasKey("updated_id", $json2);
 
         $file = "data/logs/phperror.log";
-        //~ if (file_exists($file)) {
-            //~ unlink($file);
-        //~ }
         $this->assertFileDoesNotExist($file);
 
         $json3 = test_cli_helper("update/invoices/$id", [

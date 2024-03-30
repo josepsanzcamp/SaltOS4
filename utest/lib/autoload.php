@@ -34,6 +34,11 @@ declare(strict_types=1);
  */
 
 /**
+ * Importing namespaces
+ */
+use PHPUnit\Framework\Assert;
+
+/**
  * Main autoloader code
  *
  * This code emmulates the index.php by loading all autoload files excep
@@ -58,3 +63,5 @@ check_system();
 global $_CONFIG;
 $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
 db_connect();
+
+Assert::assertCount(0, glob("data/logs/*"));

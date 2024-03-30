@@ -44,9 +44,7 @@ declare(strict_types=1);
  */
 
 if (!semaphore_acquire("token")) {
-    // @codeCoverageIgnoreStart
     show_php_error(["phperror" => "Could not acquire the semaphore"]);
-    // @codeCoverageIgnoreEnd
 }
 
 crontab_users();

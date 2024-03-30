@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_array extends TestCase
@@ -162,5 +169,7 @@ final class test_array extends TestCase
         $this->assertSame(__array_getnode("1/rows/1/surname", $array), "y");
         __array_apply_patch($array, "/row/2/row/0/col/0", "z");
         $this->assertSame(__array_getnode("2/rows/0/name", $array), "z");
+
+        test_external_exec("array*.php", "phperror.log");
     }
 }

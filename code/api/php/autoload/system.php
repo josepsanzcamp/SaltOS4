@@ -53,24 +53,20 @@ function check_system()
     ];
     foreach ($array as $a) {
         if (!$a[0]($a[1])) {
-            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "$a[2] $a[1] not found",
                 "details" => "Try to install $a[3] package",
             ]);
-            // @codeCoverageIgnoreEnd
         }
     }
     // DIRECTORIES CKECKS
     $dirs = glob("data/*");
     foreach ($dirs as $dir) {
         if (!file_exists($dir) || !is_dir($dir) || !is_writable($dir)) {
-            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "$dir not writable",
                 "details" => "Try to set permissions to do writable the $dir directory",
             ]);
-            // @codeCoverageIgnoreEnd
         }
     }
 }

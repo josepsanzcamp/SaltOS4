@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once "lib/utestlib.php";
+
+/**
  * Main class of this unit test
  */
 final class test_iniset extends TestCase
@@ -78,5 +85,7 @@ final class test_iniset extends TestCase
         $this->assertSame(mb_internal_encoding(), "ISO-8859-1");
         eval_extras(get_config("extras"));
         $this->assertSame(mb_internal_encoding(), "UTF-8");
+
+        test_external_exec("iniset*.php", "phperror.log");
     }
 }

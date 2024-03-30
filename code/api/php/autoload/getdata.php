@@ -53,9 +53,7 @@ function get_data($key)
     if ($count == 2) {
         return $_DATA[$keys[0]][$keys[1]] ?? null;
     }
-    // @codeCoverageIgnoreStart
     show_php_error(["phperror" => "key $key not found"]);
-    // @codeCoverageIgnoreEnd
 }
 
 /**
@@ -93,7 +91,5 @@ function set_data($key, $val)
         }
         return;
     }
-    // @codeCoverageIgnoreStart
     show_php_error(["phperror" => "key $key not found"]);
-    // @codeCoverageIgnoreEnd
 }

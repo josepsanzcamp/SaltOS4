@@ -40,6 +40,7 @@ init_timer();
 init_random();
 check_system();
 
+ob_start();
 show_php_error([
-    "phperror" => "deprecated",
+    "phperror" => "allowed memory size bytes exhausted tried allocate",
 ]);
