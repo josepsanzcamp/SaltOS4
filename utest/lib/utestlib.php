@@ -65,8 +65,12 @@ function test_pcov_start(): void
  * This function gets the contents of the coverage file and removes it, too,
  * it does all needed things to append the collected coverage to the current
  * unit test coverage instance
+ *
+ * @index => index used to get the backtrace, it depends from where you are
+ *           calling this function, generally is 2 but in some cases you need
+ *           to use another value like 1.
  */
-function test_pcov_stop(): void
+function test_pcov_stop($index): void
 {
     for ($i = 0; $i < 1000; $i++) {
         $buffer = file_get_contents("coverage.cov");
@@ -84,9 +88,12 @@ function test_pcov_stop(): void
     $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage($collected);
     $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     $method = "unknown::unknown";
-    if (isset($backtrace[2]) && isset($backtrace[2]["function"]) && isset($backtrace[2]["class"])) {
-        $method = $backtrace[2]["class"] . "::" . $backtrace[2]["function"];
+    if (isset($backtrace[$index])) {
+        if (isset($backtrace[$index]["class"]) && isset($backtrace[$index]["function"])) {
+            $method = $backtrace[$index]["class"] . "::" . $backtrace[$index]["function"];
+        }
     }
+    //~ file_put_contents("debug.log", sprintr([$method, $backtrace]), FILE_APPEND);
     CodeCoverage::instance()->codeCoverage()->append(
         $coverage,
         $method,
@@ -130,7 +137,7 @@ function test_web_helper($rest, $data, $token)
             ],
         ]);
     }
-    test_pcov_stop();
+    test_pcov_stop(2);
     $json = $response["body"];
     if (in_array(substr($json, 0, 1), ["{", "["])) {
         $json = json_decode($json, true);
@@ -171,7 +178,7 @@ function test_cli_helper($rest, $data, $token)
     } else {
         $response = ob_passthru("TOKEN=$token php index.php $rest");
     }
-    test_pcov_stop();
+    test_pcov_stop(2);
     $json = $response;
     if (in_array(substr($json, 0, 1), ["{", "["])) {
         $json = json_decode($json, true);
@@ -214,7 +221,7 @@ function test_external_exec($glob_pattern, $error_file): void
 
         test_pcov_start();
         ob_passthru("php $file");
-        test_pcov_stop();
+        test_pcov_stop(2);
 
         if ($error_file != "") {
             Assert::assertFileExists($file2);

@@ -133,6 +133,13 @@ final class test_file extends TestCase
 
         $file = get_temp_file();
         file_put_contents($file, "");
+        ob_passthru("sudo chown root:root $file");
+        ob_passthru("sudo chmod 0777 $file");
+        $this->assertSame(chmod_protected($file, 0664), false);
+        unlink($file);
+
+        $file = get_temp_file();
+        file_put_contents($file, "");
         $this->assertSame(strlen($file) + 1 + 32, strlen(file_with_hash($file)));
         unlink($file);
 

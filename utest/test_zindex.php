@@ -74,7 +74,7 @@ final class test_zindex extends TestCase
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?nada", [
             "method" => "put",
         ]);
-        test_pcov_stop();
+        test_pcov_stop(1);
         $json = json_decode($response["body"], true);
         $this->assertArrayHasKey("error", $json);
 
@@ -85,7 +85,7 @@ final class test_zindex extends TestCase
                 "Content-Type" => "application/json",
             ],
         ]);
-        test_pcov_stop();
+        test_pcov_stop(1);
         $json = json_decode($response["body"], true);
         $this->assertArrayHasKey("error", $json);
 
@@ -93,13 +93,13 @@ final class test_zindex extends TestCase
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?nada", [
             "method" => "post",
         ]);
-        test_pcov_stop();
+        test_pcov_stop(1);
         $json = json_decode($response["body"], true);
         $this->assertArrayHasKey("error", $json);
 
         test_pcov_start();
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?nada");
-        test_pcov_stop();
+        test_pcov_stop(1);
         $json = json_decode($response["body"], true);
         $this->assertArrayHasKey("error", $json);
     }
