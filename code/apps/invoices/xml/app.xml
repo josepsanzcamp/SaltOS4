@@ -58,44 +58,6 @@
         </javascript>
     </list>
 
-    <table checkbox="true" type="table" limit="25" order="id DESC">
-        <header>
-            <nombre label="Nombre"/>
-            <cif label="CIF"/>
-            <nombre_poblacion label="Población"/>
-            <nombre_codpostal label="C.P."/>
-            <num label="Núm.Fact."/>
-            <fecha label="Fecha"/>
-            <total label="Total"/>
-            <cerrado label="Cerrado" type="icon" align="center"/>
-            <cobrado label="Cobrado" type="icon" align="center"/>
-        </header>
-        <data eval="true">execute_query_array("
-            SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal, num, fecha,
-                ROUND((SELECT sum(unidades * precio * (1 - (descuento / 100))) FROM app_invoices_concepts b WHERE a.id = b.id_factura),2) total,
-                IF(cerrado, 'check-lg text-success', 'x-lg text-danger') cerrado,
-                IF(cobrado, 'check-lg text-success', 'x-lg text-danger') cobrado
-            FROM app_invoices a
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("invoices", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</data>
-        <actions>
-            <action app="invoices" action="view" value="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.window.open"/>
-            <action app="invoices" action="edit" value="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.window.open"/>
-            <action app="invoices" action="delete" value="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.invoices.delete1"/>
-        </actions>
-        <footer eval="true">"Total: " . execute_query("
-            SELECT COUNT(*) total
-            FROM app_invoices
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("invoices", "list")."
-        ")</footer>
-    </table>
-
     <!-- Form part -->
     <form_header>
         <text id="nombre" label="nombre" required="true"/>
@@ -211,5 +173,4 @@
             <inline>saltos.invoices.initialize_inputs()</inline>
         </javascript>
     </edit>
-
 </root>

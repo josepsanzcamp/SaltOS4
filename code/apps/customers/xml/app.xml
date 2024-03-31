@@ -58,36 +58,6 @@
         </javascript>
     </list>
 
-    <table checkbox="true" type="table" limit="25" order="id DESC">
-        <header>
-            <nombre label="Nombre"/>
-            <cif label="CIF"/>
-            <nombre_poblacion label="Población"/>
-            <nombre_codpostal label="C.P."/>
-        </header>
-        <data eval="true">execute_query_array("
-            SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("customers", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</data>
-        <actions>
-            <action app="customers" action="view" value="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.window.open"/>
-            <action app="customers" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.window.open"/>
-            <action app="customers" action="delete" value="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.customers.delete1"/>
-        </actions>
-        <footer eval="true">"Total: " . execute_query("
-            SELECT COUNT(*) total
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("customers", "list")."
-        ")</footer>
-    </table>
-
     <!-- Form part -->
     <form>
         <text id="codigo" label="Codigo"/>
@@ -181,51 +151,6 @@
     </edit>
 
     <!-- Widget part -->
-    <widget id="table1" type="table" order="id DESC" limit="5">
-        <header>
-            <nombre label="Nombre"/>
-            <cif label="CIF"/>
-            <nombre_poblacion label="Población"/>
-            <nombre_codpostal label="C.P."/>
-        </header>
-        <data eval="true">execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".check_sql("customers", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
-        <actions>
-            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.window.open"/>
-        </actions>
-        <footer eval="true">"Total: " . execute_query("
-            SELECT COUNT(*) total
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".check_sql("customers", "list")."
-        ")</footer>
-    </widget>
-
-    <widget id="table2" order="id ASC" limit="5">
-        <header>
-            <nombre label="Nombre"/>
-            <cif label="CIF"/>
-            <nombre_poblacion label="Población"/>
-            <nombre_codpostal label="C.P."/>
-        </header>
-        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".check_sql("customers", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
-        <footer>
-            <nombre value="A"/>
-            <cif value="B"/>
-            <nombre_poblacion value="C"/>
-            <nombre_codpostal value="D"/>
-        </footer>
-    </widget>
-
     <widget id="plot1">
         <data eval="true">[
             "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -251,5 +176,4 @@
                 ]]
         ]</data>
     </widget>
-
 </root>

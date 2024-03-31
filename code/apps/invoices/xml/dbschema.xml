@@ -88,6 +88,5 @@ This file allow to define the database needed by this application
                 <field name="fecha2" type="DATE"/>
             </fields>
         </table>
-
     </tables>
 </root>

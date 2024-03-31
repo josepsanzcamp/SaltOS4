@@ -60,57 +60,6 @@
         </javascript>
     </list>
 
-    <table checkbox="true" type="table" limit="50" order="datetime DESC">
-        <header>
-            <from_to label="From/To"/>
-            <subject label="Subject"/>
-            <date_time label="Date" align="center"/>
-            <state label="State" class="state2" align="center"/>
-            <files label="" type="icon" class="files2" align="center"/>
-        </header>
-        <data eval="true">execute_query_array("
-            SELECT id, IF(is_outbox, `to`, `from`) from_to, subject,
-                IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time,
-                TRIM(CONCAT_WS(' ',
-                    CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
-                    CASE state_error WHEN '' THEN '' ELSE 'Error' END,
-                    CASE WHEN is_outbox=1 AND state_sent=0 AND state_error='' THEN 'Unsent' ELSE '' END,
-                    CASE state_new WHEN 1 THEN 'New' ELSE '' END,
-                    CASE state_reply WHEN 1 THEN 'Reply' ELSE '' END,
-                    CASE state_forward WHEN 1 THEN 'Forward' ELSE '' END,
-                    CASE state_wait WHEN 1 THEN 'Wait' ELSE '' END,
-                    CASE state_spam WHEN 1 THEN 'Spam' ELSE '' END,
-                    CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
-                    CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
-                    CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
-                )) state,
-                CASE WHEN state_error!='' THEN 'danger'
-                    WHEN state_spam=1 THEN 'danger'
-                    WHEN state_new=1 THEN 'success'
-                    WHEN state_wait=1 THEN 'primary'
-                    ELSE ''
-                END state2,
-                CASE WHEN files THEN 'paperclip' ELSE '' END files,
-                CASE WHEN files THEN 'dark' ELSE '' END files2
-            FROM app_emails
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("emails", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</data>
-        <actions>
-            <action app="emails" action="view" icon="search" tooltip="View email" onclick="saltos.window.open"/>
-        </actions>
-        <footer eval="true">"Total: " . execute_query("
-            SELECT COUNT(*) total
-            FROM app_emails
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("emails", "list")."
-        ")</footer>
-    </table>
-
     <!-- Form part -->
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
@@ -249,19 +198,6 @@
         <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")))</srcdoc>
     </view>
 
-    <view id="files" checkbox="true" dropdown="false" type="table">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <header>
-            <name>Filename</name>
-            <size>Size</size>
-        </header>
-        <data require="apps/emails/php/getmail.php" eval="true">getmail_files(intval(get_data("rest/4")))</data>
-        <actions>
-            <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.window.open"/>
-            <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.emails.download"/>
-        </actions>
-    </view>
-
     <view id="source">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <screen>clear</screen>
@@ -338,5 +274,4 @@
             </container>
         </layout>
     </config>
-
 </root>
