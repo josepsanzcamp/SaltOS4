@@ -96,12 +96,12 @@ final class test_database extends TestCase
         ini_set("date.timezone", "Europe/Madrid");
 
         // First test part
-        $query = "SELECT 1";
+        $query = "SELECT '1' test";
         $result = [
             "total" => 1,
-            "header" => [1],
+            "header" => ["test"],
             "rows" => [
-                [1 => 1],
+                ["test" => 1],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -545,6 +545,116 @@ final class test_database extends TestCase
 
         // Helper part
         $this->test_helper($obj);
+
+        // Close connection
+        $obj->db_disconnect();
+    }
+
+    #[testdox('pdo_mssql driver')]
+    /**
+     * PDO mssql driver
+     *
+     * This function checks the correctness of the sqlserver driver by creating a
+     * database connection, sendint queries validating the expected results and
+     * closing the connection.
+     */
+    public function test_pdo_mssql(): void
+    {
+        // Connection part
+        $obj = db_connect([
+            "type" => "pdo_mssql",
+            "host" => "localhost",
+            "port" => "1433",
+            "name" => "master",
+            "user" => "sa",
+            "pass" => "asd123ASD",
+        ]);
+        $this->assertSame($obj instanceof database_pdo_mssql, true);
+
+        // First test part
+        $query = "SELECT '1' test";
+        $result = [
+            "total" => 1,
+            "header" => ["test"],
+            "rows" => [
+                ["test" => 1],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // REPLACE test part
+        $query = "SELECT REPLACE('abc', 'b', 'c') test";
+        $result = [
+            "total" => 1,
+            "header" => ["test"],
+            "rows" => [
+                ["test" => "acc"],
+            ],
+        ];
+        $this->assertSame($obj->db_query($query), $result);
+
+        // CONCAT test part
+        $query = "SELECT CONCAT('a', 'b', 'c') test";
+        $result = [
+            "total" => 1,
+            "header" => ["test"],
+            "rows" => [
+                ["test" => "abc"],
+            ],
+        ];
+        $this->assertSame($obj->db_query($query), $result);
+
+        // YEAR test part
+        $query = "SELECT YEAR('2024-02-01 12:34:56') test";
+        $result = [
+            "total" => 1,
+            "header" => ["test"],
+            "rows" => [
+                ["test" => 2024],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // MONTH test part
+        $query = "SELECT MONTH('2024-02-01 12:34:56') test";
+        $result = [
+            "total" => 1,
+            "header" => ["test"],
+            "rows" => [
+                ["test" => 2],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // DAY test part
+        $query = "SELECT DAY('2024-02-01 12:34:56') test";
+        $result = [
+            "total" => 1,
+            "header" => ["test"],
+            "rows" => [
+                ["test" => 1],
+            ],
+        ];
+        $this->assertEquals($obj->db_query($query), $result);
+
+        // Check part
+        $query = "SELECT 1";
+        $this->assertEquals($obj->db_check($query), true);
+
+        $query = "SELECT a";
+        $this->assertEquals($obj->db_check($query), false);
+
+        // This is for improve the coverage of all tests
+        $query = "SELECT name FROM spt_values";
+        $result = $obj->db_query($query, "auto");
+
+        $query = "SELECT name,number FROM spt_values";
+        $result = $obj->db_query($query, "auto");
+
+        $query = "SELECT name FROM spt_values";
+        $result = $obj->db_query($query, "concat");
+
+        $this->assertSame(is_array($obj->db_query("")), true);
 
         // Close connection
         $obj->db_disconnect();

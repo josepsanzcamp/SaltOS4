@@ -67,10 +67,12 @@ class database_pdo_mssql
     public function __construct($args)
     {
         if (!class_exists("PDO")) {
+            // @codeCoverageIgnoreStart
             show_php_error([
                 "phperror" => "Class PDO not found",
                 "details" => "Try to install php-pdo package",
             ]);
+            // @codeCoverageIgnoreEnd
         }
         try {
             $this->link = new PDO(
