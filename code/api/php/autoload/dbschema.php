@@ -643,9 +643,6 @@ function __dbstatic_helper($fn, $table, $field)
         $dbstatic = eval_attr(xmlfiles2array(detect_apps_files("xml/dbstatic.xml")));
         if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
             foreach ($dbstatic["tables"] as $data) {
-                if (!isset($data["#attr"]["name"])) {
-                    continue;
-                }
                 $table = $data["#attr"]["name"];
                 if ($table != "tbl_apps") {
                     continue;

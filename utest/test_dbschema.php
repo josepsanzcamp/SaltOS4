@@ -67,12 +67,56 @@ final class test_dbschema extends TestCase
      */
     public function test_dbschema(): void
     {
+        $query = "CREATE TABLE tbl_one (" .
+            "id INT(11) PRIMARY KEY AUTO_INCREMENT" .
+            ") ENGINE=Aria CHARSET=utf8mb4";
+        db_query($query);
+
+        $query = "CREATE TABLE tbl_utest (" .
+            "id INT(11) PRIMARY KEY AUTO_INCREMENT" .
+            ") ENGINE=Aria CHARSET=utf8mb4";
+        db_query($query);
+
+        $query = "ALTER TABLE tbl_config
+            ADD nada INT(11)";
+        db_query($query);
+
+        $query = "DROP INDEX token ON tbl_users_tokens";
+        db_query($query);
+
+        $query = "CREATE INDEX token ON tbl_users_tokens(expires_at)";
+        db_query($query);
+
+        $query = "ALTER TABLE tbl_users
+            RENAME TO __tbl_users__";
+        db_query($query);
+
+        $query = "ALTER TABLE tbl_perms
+            ADD nada INT(11)";
+        db_query($query);
+
+        $query = "ALTER TABLE tbl_perms
+            RENAME TO __tbl_perms__";
+        db_query($query);
+
+        $query = "DROP TABLE tbl_apps";
+        db_query($query);
+
+        $query = "CREATE INDEX nada ON tbl_groups(active)";
+        db_query($query);
+
         set_config("xml/dbschema.xml", "nada", 0);
         set_config("xml/dbstatic.xml", "nada", 0);
         db_schema();
         db_schema();
         db_static();
         db_static();
+
+        $query = "DROP TABLE tbl_one";
+        db_query($query);
+
+        $query = "DROP TABLE __tbl_utest__";
+        db_query($query);
 
         $tables = get_tables_from_dbschema();
         $this->assertIsArray($tables);
@@ -81,6 +125,10 @@ final class test_dbschema extends TestCase
         $fields = get_fields_from_dbschema("tbl_users");
         $this->assertIsArray($fields);
         $this->assertTrue(count($fields) > 0);
+
+        $fields = get_fields_from_dbschema("nada");
+        $this->assertIsArray($fields);
+        $this->assertTrue(count($fields) == 0);
 
         $indexes = get_indexes_from_dbschema("tbl_users");
         $this->assertIsArray($indexes);
@@ -97,6 +145,10 @@ final class test_dbschema extends TestCase
         $fkeys = get_fkeys_from_dbschema("tbl_users");
         $this->assertIsArray($fkeys);
         $this->assertTrue(count($fkeys) > 0);
+
+        $fkeys = get_fkeys_from_dbschema("nada");
+        $this->assertIsArray($fkeys);
+        $this->assertTrue(count($fkeys) == 0);
 
         $apps = get_apps_from_dbstatic();
         $this->assertIsArray($apps);
