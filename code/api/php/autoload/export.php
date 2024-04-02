@@ -104,17 +104,16 @@ function export_file($args)
         $args["prefn"] = "";
     }
     if (!isset($args["notree"])) {
+        $args["notree"] = true;
         if ($args["type"] != "xml") {
-            $args["notree"] = 0;
-        } else {
-            $args["notree"] = 1;
+            $args["notree"] = false;
         }
     }
     if (!isset($args["postfn"])) {
         $args["postfn"] = "";
     }
     if (!isset($args["novoid"])) {
-        $args["novoid"] = 0;
+        $args["novoid"] = false;
     }
     // New part that apply the same concept used in the import_file
     if ($args["prefn"]) {
@@ -125,9 +124,9 @@ function export_file($args)
     }
     if (!$args["notree"]) {
         $args["data"] = __export_tree2array($args["data"]);
-        if (!is_array($args["data"])) {
-            return $args["data"];
-        }
+        //~ if (!is_array($args["data"])) {
+            //~ return $args["data"];
+        //~ }
     }
     if ($args["postfn"]) {
         $args["data"] = $args["postfn"]($args["data"], $args);

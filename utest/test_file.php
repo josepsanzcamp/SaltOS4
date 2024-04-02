@@ -174,6 +174,19 @@ final class test_file extends TestCase
         ]);
         $this->assertSame(is_array($buffer), true);
         $this->assertSame(strlen($buffer["body"]) > 0, true);
+
+        $buffer = __url_get_contents("http://127.0.0.1:631/admin/");
+        $temp = $buffer["cookies"][0]["127.0.0.1:631"]["/"]["org.cups.sid"];
+        $cookies = $buffer["cookies"];
+        $buffer = __url_get_contents("http://127.0.0.1:631/admin/", [
+            "cookies" => $cookies,
+            "method" => "post",
+            "values" => [
+                $temp["name"] => $temp["value"],
+                "OP" => "add-printer",
+            ],
+        ]);
+        $this->assertSame($buffer, ["", [], []]);
     }
 
     #[testdox('authtoken action')]
