@@ -107,5 +107,11 @@ final class test_qrcode extends TestCase
         $this->assertSame(count($json), 2);
         $this->assertArrayHasKey("msg", $json);
         $this->assertArrayHasKey("image", $json);
+
+        $json = test_web_helper("qrcode", [
+            "msg" => str_repeat("nada", 1000),
+            "format" => "png",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
     }
 }

@@ -71,11 +71,15 @@ final class test_iniset extends TestCase
         set_config("extras/ini_set", ["display_errors", "Off"]);
 
         $this->assertSame(ini_get("memory_limit"), "-1");
+        $this->assertSame(ini_get("max_execution_time"), "0");
         eval_iniset(get_config("iniset"));
         $this->assertSame(ini_get("memory_limit"), "128M");
+        $this->assertSame(ini_get("max_execution_time"), "600");
 
         ini_set("memory_limit", -1);
         $this->assertSame(ini_get("memory_limit"), "-1");
+        ini_set("max_execution_time", 0);
+        $this->assertSame(ini_get("max_execution_time"), "0");
 
         $this->assertSame(getenv("LANG"), "en_US.UTF-8");
         eval_putenv(get_config("putenv"));
