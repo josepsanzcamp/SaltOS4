@@ -136,9 +136,9 @@ function export_file($args)
     }
     if (!$args["novoid"]) {
         $args["data"] = __import_removevoid($args["data"]);
-        if (!is_array($args["data"])) {
-            return $args["data"];
-        }
+        //~ if (!is_array($args["data"])) {
+            //~ return $args["data"];
+        //~ }
     }
     // Continue
     switch ($args["type"]) {

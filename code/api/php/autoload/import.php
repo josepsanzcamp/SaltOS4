@@ -154,9 +154,9 @@ function import_file($args)
     }
     if (!$args["novoid"]) {
         $array = __import_removevoid($array);
-        if (!is_array($array)) {
-            return $array;
-        }
+        //~ if (!is_array($array)) {
+            //~ return $array;
+        //~ }
     }
     if ($args["prefn"]) {
         $array = $args["prefn"]($array, $args);
@@ -166,9 +166,9 @@ function import_file($args)
     }
     if (!$args["notree"]) {
         $array = __import_array2tree($array, $args["nodes"], $args["nohead"], $args["noletter"]);
-        if (!is_array($array)) {
-            return $array;
-        }
+        //~ if (!is_array($array)) {
+            //~ return $array;
+        //~ }
     }
     if ($args["postfn"]) {
         $array = $args["postfn"]($array, $args);
@@ -304,11 +304,10 @@ function __import_xls2array($file, $sheet)
         $csv = get_cache_file($file, "csv");
         if (!file_exists($csv)) {
             $xlsx = get_cache_file($file, "xlsx");
-            $fix = (dirname(realpath($file)) != dirname($xlsx));
+            $fix = (dirname(realpath($file)) != dirname(realpath_protected($xlsx)));
             if ($fix) {
                 symlink(realpath($file), $xlsx);
-            }
-            if (!$fix) {
+            } else {
                 $xlsx = realpath($file);
             }
             ob_passthru(str_replace(
@@ -520,9 +519,9 @@ function __import_check_real_matrix($array)
 function __import_removevoid($array)
 {
     // Initial checks
-    if (!is_array($array)) {
-        return $array;
-    }
+    //~ if (!is_array($array)) {
+        //~ return $array;
+    //~ }
     if (!count($array)) {
         return $array;
     }
@@ -578,9 +577,9 @@ function __import_removevoid($array)
 function __import_array2tree($array, $nodes, $nohead, $noletter)
 {
     // Initial checks
-    if (!is_array($array)) {
-        return $array;
-    }
+    //~ if (!is_array($array)) {
+        //~ return $array;
+    //~ }
     if (!count($array)) {
         return $array;
     }

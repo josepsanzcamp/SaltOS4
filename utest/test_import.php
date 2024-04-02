@@ -159,6 +159,16 @@ final class test_import extends TestCase
         $this->assertSame($rows[1]["A"], "2");
         $this->assertSame($rows[99]["I"], "2024-02-01");
 
+        $file = get_directory("dirs/cachedir") . get_unique_id_md5() . ".xlsx";
+        copy("../../utest/files/bigsize.xlsx", $file);
+        $rows = import_file([
+            "file" => $file,
+            "type" => "xlsx",
+            "sheet" => "example",
+        ]);
+        $this->assertSame(is_array($rows), true);
+        $this->assertSame(count($rows), 100);
+
         $rows = import_file([
             "file" => "../../utest/files/numbers.xlsx",
             "type" => "xlsx",
@@ -328,8 +338,8 @@ final class test_import extends TestCase
         $array = [[["a"]]];
         $this->assertSame(__import_check_real_matrix($array), false);
 
-        $array = "";
-        $this->assertSame(__import_removevoid($array), "");
+        //~ $array = "";
+        //~ $this->assertSame(__import_removevoid($array), "");
 
         $array = [];
         $this->assertSame(__import_removevoid($array), []);
@@ -358,8 +368,8 @@ final class test_import extends TestCase
             ["5", "6", "7", "8"],
         ]);
 
-        $array = "";
-        $this->assertSame(__import_array2tree($array, "", false, false), "");
+        //~ $array = "";
+        //~ $this->assertSame(__import_array2tree($array, "", false, false), "");
 
         $array = [];
         $this->assertSame(__import_array2tree($array, "", false, false), []);

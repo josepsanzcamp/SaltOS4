@@ -141,11 +141,11 @@ final class test_export extends TestCase
         ]);
         $this->assertSame($buffer, "nada");
 
-        $buffer = export_file([
-            "type" => "xml",
-            "data" => "nada",
-        ]);
-        $this->assertSame($buffer, "nada");
+        //~ $buffer = export_file([
+            //~ "type" => "xml",
+            //~ "data" => "nada",
+        //~ ]);
+        //~ $this->assertSame($buffer, "nada");
     }
 
     #[testdox('export csv functions')]
