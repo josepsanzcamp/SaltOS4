@@ -59,21 +59,9 @@ function db_schema()
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-        $tables1 = get_tables();
-        $tables2 = get_tables_from_dbschema();
         $ignores = get_ignores_from_dbschema();
-        foreach ($ignores as $ignore) {
-            foreach ($tables1 as $key => $val) {
-                if ($ignore == $val) {
-                    unset($tables1[$key]);
-                }
-            }
-            foreach ($tables2 as $key => $val) {
-                if ($ignore == $val) {
-                    unset($tables2[$key]);
-                }
-            }
-        }
+        $tables1 = array_diff(get_tables(), $ignores);
+        $tables2 = array_diff(get_tables_from_dbschema(), $ignores);
         foreach ($tables1 as $table) {
             $isbackup = (substr($table, 0, 2) == "__" && substr($table, -2, 2) == "__");
             if (!$isbackup && !in_array($table, $tables2)) {
