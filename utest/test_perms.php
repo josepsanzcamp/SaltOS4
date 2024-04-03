@@ -109,7 +109,7 @@ final class test_perms extends TestCase
 
         test_external_exec("perms5.php", "phperror.log");
 
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             db_query(make_insert_query("tbl_apps_perms", $row));
         }
 
@@ -124,11 +124,11 @@ final class test_perms extends TestCase
 
         test_external_exec("perms[6,7].php", "");
 
-        foreach($rows1 as $row) {
+        foreach ($rows1 as $row) {
             db_query(make_insert_query("tbl_users_apps_perms", $row));
         }
 
-        foreach($rows2 as $row) {
+        foreach ($rows2 as $row) {
             db_query(make_insert_query("tbl_groups_apps_perms", $row));
         }
     }
