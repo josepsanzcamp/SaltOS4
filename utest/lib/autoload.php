@@ -73,7 +73,7 @@ if (count($files)) {
     }
 }
 
-$files = glob("coverage.cov");
+$files = glob("pcov.out");
 if (count($files)) {
     echo "\033[0;31mCoverage pipe found: " . implode(",", $files) . "\033[0m\n";
     echo "\033[0;33mRemoving files ...\033[0m\n";

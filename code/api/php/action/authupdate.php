@@ -74,7 +74,7 @@ $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
 $row = execute_query($query);
 if (!is_array($row) || !isset($row["password"])) {
     semaphore_release("token");
-    show_json_error("Authentication update error");
+    show_php_error(["phperror" => "Internal error"]);
 }
 if (!password_verify($oldpass, $row["password"])) {
     semaphore_release("token");

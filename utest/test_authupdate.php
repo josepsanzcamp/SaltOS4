@@ -88,6 +88,28 @@ final class test_authupdate extends TestCase
         ], $json2["token"]);
         $this->assertArrayHasKey("error", $json);
 
+        // Check for internal error
+        $file = "data/logs/phperror.log";
+        $this->assertFileDoesNotExist($file);
+
+        $row = execute_query("SELECT * FROM tbl_users_passwords WHERE active=1 AND user_id=1");
+        unset($row["id"]);
+        db_query(make_insert_query("tbl_users_passwords", $row));
+        $id = execute_query("SELECT MAX(id) FROM tbl_users_passwords");
+
+        $json = test_web_helper("authupdate", [
+            "oldpass" => "nada",
+            "newpass" => "admin",
+            "renewpass" => "admin",
+        ], $json2["token"]);
+        $this->assertArrayHasKey("error", $json);
+
+        db_query("DELETE FROM tbl_users_passwords WHERE id='$id'");
+
+        $this->assertFileExists($file);
+        unlink($file);
+
+        // Continue with the other checks
         $json = test_web_helper("authupdate", [
             "oldpass" => "admin",
             "newpass" => "admin",

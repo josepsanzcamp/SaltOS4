@@ -77,7 +77,7 @@ function check_user($app, $perm)
         foreach (array_merge($from_users_apps_perms, $from_groups_apps_perms) as $row) {
             $key = $row["app_id"] . "|" . $row["perm_id"];
             if (!isset($array[$key])) {
-                show_php_error(["phperror" => "Integrity error for $key"]);
+                show_php_error(["phperror" => "Internal error for $key"]);
             }
             $array[$key]["allow"] += $row["allow"];
             $array[$key]["deny"] += $row["deny"];
