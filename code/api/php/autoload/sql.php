@@ -406,7 +406,9 @@ function sql_create_table($tablespec)
         } elseif ($type2 == "string") {
             $def = "";
         } else {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Unknown type '$type'"]);
+            // @codeCoverageIgnoreEnd
         }
         $extra = "NOT NULL DEFAULT '$def'";
         if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
@@ -514,7 +516,9 @@ function sql_insert_from_select($dest, $orig)
         } elseif ($type2 == "string") {
             $defs[] = "";
         } else {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Unknown type '$type'"]);
+            // @codeCoverageIgnoreEnd
         }
     }
     $keys = [];
@@ -643,7 +647,9 @@ function make_insert_query($table, $array)
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Unknown type '$type'"]);
+            // @codeCoverageIgnoreEnd
         }
         $name2 = escape_reserved_word($name);
         $list1[] = $name2;
@@ -716,7 +722,9 @@ function make_update_query($table, $array, $where)
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
+            // @codeCoverageIgnoreStart
             show_php_error(["phperror" => "Unknown type '$type'"]);
+            // @codeCoverageIgnoreEnd
         }
         $name2 = escape_reserved_word($name);
         $list[] = "$name2='$temp'";

@@ -277,9 +277,9 @@ function __import_xls2array($file, $sheet)
     require_once "lib/phpspreadsheet/vendor/autoload.php";
     $objReader = PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
     // Check the sheet param
-    if (!method_exists($objReader, "listWorksheetNames")) {
-        return "Error: Sheets not found in the file";
-    }
+    //~ if (!method_exists($objReader, "listWorksheetNames")) {
+        //~ return "Error: Sheets not found in the file";
+    //~ }
     // libxml_use_internal_errors is a trick to prevent the simplexml_load_string error when gets binary data
     libxml_use_internal_errors(true); // Trick
     $sheets = $objReader->listWorksheetNames($file);
@@ -646,9 +646,9 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
                     }
                     $line2 = $temp;
                 }
-                if (count($head2) != count($line2)) {
-                    return "Error: Internal error (" . __FUNCTION__ . ")";
-                }
+                //~ if (count($head2) != count($line2)) {
+                    //~ return "Error: Internal error (" . __FUNCTION__ . ")";
+                //~ }
                 $line3 = array_combine($head2, $line2);
                 $hash = md5(serialize($line3));
                 $parts[$hash] = $line3;

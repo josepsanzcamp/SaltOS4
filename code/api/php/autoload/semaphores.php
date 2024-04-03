@@ -118,9 +118,9 @@ function __semaphore_helper($fn, $name, $timeout)
             return false;
         }
         $fds[$file] = fopen($file, "a");
-        if (!$fds[$file]) {
-            return false;
-        }
+        //~ if (!$fds[$file]) {
+            //~ return false;
+        //~ }
         chmod_protected($file, 0666);
         for (;;) {
             $result = flock($fds[$file], LOCK_EX | LOCK_NB);
