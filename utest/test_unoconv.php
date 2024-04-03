@@ -93,11 +93,14 @@ final class test_unoconv extends TestCase
     {
         $files = [
             //~ "../../utest/files/bigsize.xlsx",
+            "../../utest/files/blank.odt",
             "../../utest/files/image.pdf",
             "../../utest/files/lorem.html",
             "../../utest/files/lorem.odt",
             "../../utest/files/lorem.pdf",
             "../../utest/files/lorem.png",
+            //~ "../../utest/files/multipages.odt",
+            //~ "../../utest/files/multipages.pdf",
             //~ "../../utest/files/numbers.bytes",
             "../../utest/files/numbers.csv",
             //~ "../../utest/files/numbers.edi",
@@ -106,6 +109,8 @@ final class test_unoconv extends TestCase
             //~ "../../utest/files/numbers.xls",
             //~ "../../utest/files/numbers.xlsx",
             //~ "../../utest/files/numbers.xml",
+            "../../utest/files/repeat.pdf",
+            "../../utest/files/saltos.sqlite",
         ];
         foreach ($files as $file) {
             $this->test_pdf($file);
