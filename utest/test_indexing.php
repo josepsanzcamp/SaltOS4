@@ -70,5 +70,11 @@ final class test_indexing extends TestCase
         $query = "ALTER TABLE app_customers_index_old RENAME TO app_customers_index";
         db_query($query);
         $this->assertSame(make_index("customers", -1), -3);
+
+        __make_index_helper("app_invoices");
+        __make_index_helper("app_invoices");
+        __make_index_helper("app_invoices_concepts");
+        __make_index_helper("app_invoices_concepts", 1);
+        __make_index_helper("app_invoices_concepts", -1);
     }
 }

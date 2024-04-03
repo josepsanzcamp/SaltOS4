@@ -70,7 +70,7 @@ This file allow to define the database needed by this application
             <fields>
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="id_factura" type="INT(11)" fkey="app_invoices"/>
-                <field name="id_producto" type="INT(11)"/>
+                <field name="id_producto" type="VARCHAR(255)" fkey="app_products"/>
                 <field name="concepto" type="TEXT"/>
                 <field name="unidades" type="DECIMAL(9,2)"/>
                 <field name="descuento" type="DECIMAL(9,2)"/>
@@ -86,6 +86,14 @@ This file allow to define the database needed by this application
                 <field name="importe" type="DECIMAL(9,2)"/>
                 <field name="cobrado" type="INT(11)"/>
                 <field name="fecha2" type="DATE"/>
+            </fields>
+        </table>
+
+        <table name="app_products">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="name" type="VARCHAR(255)"/>
+                <field name="description" type="TEXT"/>
             </fields>
         </table>
     </tables>

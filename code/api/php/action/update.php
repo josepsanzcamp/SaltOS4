@@ -54,7 +54,7 @@ if (!is_array($data) || !count($data)) {
 }
 
 $table = app2table($app);
-$fields = array_flip(array_column(get_fields_from_dbschema($table), "name"));
+$fields = array_flip(array_column(get_fields($table), "name"));
 $subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
 $error = array_diff_key($data, $fields, $subtables);
 if (count($error)) {
@@ -77,7 +77,7 @@ foreach ($subtables as $temp) {
     $alias = $temp["alias"];
     $subtable = $temp["subtable"];
     $field = $temp["field"];
-    $fields = array_flip(array_column(get_fields_from_dbschema($subtable), "name"));
+    $fields = array_flip(array_column(get_fields($subtable), "name"));
     if (isset($subdata[$alias])) {
         foreach ($subdata[$alias] as $temp2) {
             $error = array_diff_key($temp2, $fields);

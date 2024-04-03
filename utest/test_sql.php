@@ -185,6 +185,27 @@ final class test_sql extends TestCase
         $size = get_field_size("TINYTEXT");
         $this->assertSame($size, 255);
 
+        $xml = '<table name="app_customers_index">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="search" type="MEDIUMTEXT"/>
+            </fields>
+            <indexes>
+                <index fulltext="true" fields="search"/>
+            </indexes>
+        </table>';
+        $tablespec = xml2array($xml);
+        $query = parse_query(sql_create_table($tablespec["table"]));
+        $this->assertSame($query, "CREATE TABLE app_customers_index (" .
+            "id INT(11) PRIMARY KEY AUTO_INCREMENT," .
+            "search MEDIUMTEXT NOT NULL DEFAULT ''" .
+            ") ENGINE=Mroonga CHARSET=utf8mb4");
+
+        $xml = '<index name="tbl_utest_search" table="tbl_utest" fulltext="true" fields="search"/>';
+        $indexspec = xml2array($xml);
+        $query = parse_query(sql_create_index($indexspec["index"]));
+        $this->assertSame($query, "CREATE FULLTEXT INDEX tbl_utest_search ON tbl_utest (search)");
+
         // Test for the sql functions used by dbschema
         $query = "DROP TABLE tbl_utest";
         db_query($query);
@@ -195,6 +216,7 @@ final class test_sql extends TestCase
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="key" type="VARCHAR(255)"/>
                 <field name="val" type="VARCHAR(255)"/>
+                <field name="val1" type="INT(11)"/>
                 <field name="val2" type="DECIMAL(9,2)"/>
                 <field name="val3" type="DATE"/>
                 <field name="val4" type="TIME"/>
@@ -208,6 +230,7 @@ final class test_sql extends TestCase
             "user_id INT(11) NOT NULL DEFAULT '0'," .
             "`key` VARCHAR(255) NOT NULL DEFAULT ''," .
             "val VARCHAR(255) NOT NULL DEFAULT ''," .
+            "val1 INT(11) NOT NULL DEFAULT '0'," .
             "val2 DECIMAL(9,2) NOT NULL DEFAULT '0'," .
             "val3 DATE NOT NULL DEFAULT '0000-00-00'," .
             "val4 TIME NOT NULL DEFAULT '00:00:00'," .
@@ -219,17 +242,19 @@ final class test_sql extends TestCase
         $query = make_insert_query("tbl_utest", [
             "id" => 1,
             "val" => "nada",
+            "val1" => "1",
             "val2" => "3.141592",
             "val3" => "0000-00-00",
             "val4" => "00:00:00",
             "val5" => "0000-00-00 00:00:00",
         ]);
-        $this->assertSame($query, "INSERT INTO tbl_utest(id,val,val2,val3,val4,val5) " .
-            "VALUES('1','nada','3.141592','0000-00-00','00:00:00','0000-00-00 00:00:00')");
+        $this->assertSame($query, "INSERT INTO tbl_utest(id,val,val1,val2,val3,val4,val5) " .
+            "VALUES('1','nada','1','3.141592','0000-00-00','00:00:00','0000-00-00 00:00:00')");
         db_query($query);
 
         $query = make_update_query("tbl_utest", [
             "val" => "nada",
+            "val1" => "1",
             "val2" => "3.141592",
             "val3" => "9999-99-99",
             "val4" => "99:99:99",
@@ -237,13 +262,13 @@ final class test_sql extends TestCase
         ], make_where_query([
             "id" => 1,
         ]));
-        $this->assertSame($query, "UPDATE tbl_utest SET val='nada',val2='3.141592'," .
+        $this->assertSame($query, "UPDATE tbl_utest SET val='nada',val1='1',val2='3.141592'," .
             "val3='9999-12-31',val4='24:00:00',val5='9999-12-31 23:59:59' WHERE (id='1')");
         db_query($query);
 
         $query = sql_insert_from_select("tbl_utest", "tbl_utest");
-        $this->assertSame($query, "INSERT INTO tbl_utest(id,user_id,`key`,val,val2,val3,val4,val5) " .
-            "SELECT id,user_id,`key`,val,val2,val3,val4,val5 FROM tbl_utest");
+        $this->assertSame($query, "INSERT INTO tbl_utest(id,user_id,`key`,val,val1,val2,val3,val4,val5) " .
+            "SELECT id,user_id,`key`,val,val1,val2,val3,val4,val5 FROM tbl_utest");
 
         $query = "DROP TABLE tbl_utest";
         db_query($query);

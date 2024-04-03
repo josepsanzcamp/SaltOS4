@@ -427,12 +427,11 @@ function sql_create_table($tablespec)
         }
     }
     $fields = implode(",", $fields);
+    $post = "/*MYSQL ENGINE=MyISAM CHARSET=utf8mb4 */";
     if (in_array($table, get_fulltext_from_dbschema()) && __has_engine("mroonga")) {
         $post = "/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 */";
     } elseif (__has_engine("aria")) {
         $post = "/*MYSQL ENGINE=Aria CHARSET=utf8mb4 */";
-    } else {
-        $post = "/*MYSQL ENGINE=MyISAM CHARSET=utf8mb4 */";
     }
     $query = "CREATE TABLE $table ($fields) $post";
     return $query;
@@ -569,10 +568,9 @@ function sql_create_index($indexspec)
         $fields[$key] = escape_reserved_word($val);
     }
     $fields = implode(",", $fields);
+    $pre = "";
     if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
         $pre = "/*MYSQL FULLTEXT */";
-    } else {
-        $pre = "";
     }
     $query = "CREATE $pre INDEX $name ON $table ($fields)";
     return $query;
@@ -617,13 +615,7 @@ function sql_drop_index($index, $table)
  */
 function make_insert_query($table, $array)
 {
-    $fields = get_fields_from_dbschema($table);
-    if (!count($fields)) {
-        $fields = get_fields($table);
-    }
-    if (!count($fields)) {
-        show_php_error(["phperror" => "Fields not found"]);
-    }
+    $fields = get_fields($table);
     $list1 = [];
     $list2 = [];
     foreach ($fields as $field) {
@@ -693,13 +685,7 @@ function make_insert_query($table, $array)
  */
 function make_update_query($table, $array, $where)
 {
-    $fields = get_fields_from_dbschema($table);
-    if (!count($fields)) {
-        $fields = get_fields($table);
-    }
-    if (!count($fields)) {
-        show_php_error(["phperror" => "Fields not found"]);
-    }
+    $fields = get_fields($table);
     $list = [];
     foreach ($fields as $field) {
         $name = $field["name"];
