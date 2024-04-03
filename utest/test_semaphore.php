@@ -94,5 +94,41 @@ final class test_semaphore extends TestCase
         $fd = null;
 
         test_external_exec("semaphore*.php", "phperror.log");
+
+        // This part of the test is to cover the errors of the actions
+        // when tries to acquire the semaphore
+
+        $file1 = semaphore_file("token");
+        if (file_exists($file1)) {
+            unlink($file1);
+        }
+        touch($file1);
+        chmod($file1, 0444);
+        $this->assertFileExists($file1);
+
+        $file2 = "data/logs/phperror.log";
+        $this->assertFileDoesNotExist($file2);
+
+        $json = test_web_helper("authtoken", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file2);
+        unlink($file2);
+
+        $json = test_web_helper("checktoken", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file2);
+        unlink($file2);
+
+        $json = test_web_helper("deauthtoken", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file2);
+        unlink($file2);
+
+        $json = test_web_helper("authupdate", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file2);
+        unlink($file2);
+
+        unlink($file1);
     }
 }

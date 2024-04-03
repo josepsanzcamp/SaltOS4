@@ -114,9 +114,10 @@ function __semaphore_helper($fn, $name, $timeout)
         if ($fds[$file]) {
             return false;
         }
-        //~ capture_next_error();
-        $fds[$file] = @fopen($file, "a");
-        //~ get_clear_error();
+        if (file_exists($file) && !is_writable($file)) {
+            return false;
+        }
+        $fds[$file] = fopen($file, "a");
         if (!$fds[$file]) {
             return false;
         }

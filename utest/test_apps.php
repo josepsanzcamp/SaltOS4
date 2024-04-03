@@ -102,6 +102,9 @@ final class test_apps extends TestCase
         $json = test_web_helper("app/customers", "", "");
         $this->assertArrayHasKey("error", $json);
 
+        $json = test_web_helper("app/login", "", "");
+        $this->assertArrayHasKey("layout", $json);
+
         $json2 = test_web_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
@@ -117,5 +120,77 @@ final class test_apps extends TestCase
         $this->assertArrayHasKey("data", $json);
 
         test_external_exec("apps*.php", "phperror.log");
+
+        if (file_exists("apps/nada2/xml/app.xml")) {
+            unlink("apps/nada2/xml/app.xml");
+        }
+        if (file_exists("apps/nada2/xml")) {
+            rmdir("apps/nada2/xml");
+        }
+        if (file_exists("apps/nada2")) {
+            rmdir("apps/nada2");
+        }
+
+        mkdir("apps/nada2/xml", 0777, true);
+        file_put_contents("apps/nada2/xml/app.xml", "<root></root>");
+
+        $json = test_web_helper("app/nada2", "", "");
+        $this->assertArrayHasKey("error", $json);
+
+        file_put_contents("apps/nada2/xml/app.xml", "<root><nada3></nada3><nada4></nada4></root>");
+
+        $json = test_web_helper("app/nada2", "", "");
+        $this->assertArrayHasKey("error", $json);
+
+        if (file_exists("apps/nada2/xml/app.xml")) {
+            unlink("apps/nada2/xml/app.xml");
+        }
+        if (file_exists("apps/nada2/xml")) {
+            rmdir("apps/nada2/xml");
+        }
+        if (file_exists("apps/nada2")) {
+            rmdir("apps/nada2");
+        }
+    }
+
+    #[testdox('list functions')]
+    /**
+     * list test
+     *
+     * This test performs some tests to validate the correctness
+     * of the list functions
+     */
+    public function test_list(): void
+    {
+        if (file_exists("apps/nada2/xml/list.xml")) {
+            unlink("apps/nada2/xml/list.xml");
+        }
+        if (file_exists("apps/nada2/xml")) {
+            rmdir("apps/nada2/xml");
+        }
+        if (file_exists("apps/nada2")) {
+            rmdir("apps/nada2");
+        }
+
+        mkdir("apps/nada2/xml", 0777, true);
+        file_put_contents("apps/nada2/xml/list.xml", "<root></root>");
+
+        $json = test_web_helper("list/nada2", "", "");
+        $this->assertArrayHasKey("error", $json);
+
+        file_put_contents("apps/nada2/xml/list.xml", "<root><nada3></nada3><nada4></nada4></root>");
+
+        $json = test_web_helper("list/nada2", "", "");
+        $this->assertArrayHasKey("error", $json);
+
+        if (file_exists("apps/nada2/xml/list.xml")) {
+            unlink("apps/nada2/xml/list.xml");
+        }
+        if (file_exists("apps/nada2/xml")) {
+            rmdir("apps/nada2/xml");
+        }
+        if (file_exists("apps/nada2")) {
+            rmdir("apps/nada2");
+        }
     }
 }
