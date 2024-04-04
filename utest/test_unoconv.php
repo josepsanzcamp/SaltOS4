@@ -116,6 +116,18 @@ final class test_unoconv extends TestCase
             $this->test_pdf($file);
             $this->test_txt($file);
         }
+
+        $array = ["value" => ["value" => ["a"]]];
+        $this->assertSame(__unoconv_node2value($array), "a");
+
+        $this->assertSame(__unoconv_lines2matrix([
+            ["line", -2244, 592, -556, 638],
+            ["word", -617, 594, -556, 628, "_"],
+            ["word", -617, 594, -556, 628, "x"],
+            ["word", -617, 594, -556, 628, ""],
+        ], 1, 1), 3);
+
+        $this->assertSame(__unoconv_lines2matrix([], 1, 1), []);
     }
 
     #[testdox('ocr functions')]

@@ -475,9 +475,6 @@ function __unoconv_hocr2txt($hocr)
 {
     // LOAD XML
     $array = __import_xml2array($hocr);
-    if (!is_array($array)) {
-        return "";
-    }
     $array = __array_getnode("html/body", $array);
     // PARTE XML
     $lines = [];

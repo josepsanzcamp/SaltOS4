@@ -41,8 +41,8 @@ init_random();
 check_system();
 
 xmlfiles2array([
-    "../../utest/files/xml11.xml",
-    "../../utest/files/xml11.xml",
+    "../../utest/files/nada.xml",
+    "../../utest/files/nada.xml",
 ], false);
 
 pcov_stop();
