@@ -9,7 +9,8 @@ NONE=\033[0m
 .PHONY: utest docs
 
 all: clean
-	cat code/web/js/{object,core,bootstrap,auth,app}.js | php scripts/md5sum.php | minify --js > code/web/index.js
+	cat code/web/lib/md5/md5.min.js > code/web/index.js
+	cat code/web/js/{object,core,bootstrap,auth,app}.js | php scripts/md5sum.php | minify --js >> code/web/index.js
 	minify code/web/css/index.css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
@@ -48,7 +49,7 @@ libs:
 	php scripts/checklibs.php scripts/checklibs.txt
 
 devel: clean
-	cat code/web/htm/index.htm | php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js | php scripts/debug.php index.css css/index.css > code/web/index.htm
+	cat code/web/htm/index.htm | php scripts/debug.php index.js lib/md5/md5.min.js js/{object,core,bootstrap,auth,app}.js | php scripts/debug.php index.css css/index.css > code/web/index.htm
 
 docs: .
 	php scripts/makedocs.php docs/code.t2t code/api/php code/web/js
