@@ -37,9 +37,9 @@ declare(strict_types=1);
 /**
  * Importing namespaces
  */
-use PHPUnit\SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
+use PHPUnitPHAR\SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
 use PHPUnit\Runner\CodeCoverage;
-use PHPUnit\SebastianBergmann\CodeCoverage\Test\TestStatus\TestStatus;
+use PHPUnitPHAR\SebastianBergmann\CodeCoverage\Test\TestStatus\TestStatus;
 use PHPUnit\Framework\Assert;
 
 /**
