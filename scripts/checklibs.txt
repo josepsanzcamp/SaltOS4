@@ -8,6 +8,9 @@ roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNlQwMDowMjo1N1o8L3VwZGF0ZWQ+
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMS0yNVQyMjoyMzo1OFo8L3VwZGF0ZWQ+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0wNlQwNjoyMDoyNVo8L3VwZGF0ZWQ+
+phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQyMTowOTo1Nlo8L3VwZGF0ZWQ+
+wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNVQxNjozOTowMFo8L3VwZGF0ZWQ+
+node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0wM1QxMzozMzoyM1o8L3VwZGF0ZWQ+
 
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4zIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMyJ9
