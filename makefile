@@ -11,7 +11,7 @@ NONE=\033[0m
 all: clean
 	cat code/web/lib/md5/md5.min.js > code/web/index.js
 	cat code/web/js/{object,core,bootstrap,auth,app}.js | php scripts/md5sum.php | minify --js >> code/web/index.js
-	minify code/web/css/index.css > code/web/index.css
+	cat code/web/css/index.css | minify --css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 test:
