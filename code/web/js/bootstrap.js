@@ -2954,6 +2954,9 @@ saltos.bootstrap.offcanvas = args => {
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
+    if (args.class == '') {
+        args.class = 'offcanvas-start';
+    }
     if (!args.color) {
         args.color = 'primary';
     }
