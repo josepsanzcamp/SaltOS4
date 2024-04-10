@@ -148,6 +148,16 @@ saltos.bootstrap.__field.container = field => {
         field.class = 'container-fluid';
     }
     var obj = saltos.bootstrap.__field.div(field);
+    // Checks to guarantee that some container class is found
+    var found = false;
+    obj.classList.forEach(_this => {
+        if (_this == 'container' || _this.substr(0, 10) == "container-") {
+            found = true;
+        }
+    });
+    if (!found) {
+        throw new Error("container class not found in a container node");
+    }
     return obj;
 };
 
@@ -167,6 +177,16 @@ saltos.bootstrap.__field.row = field => {
         field.class = 'row';
     }
     var obj = saltos.bootstrap.__field.div(field);
+    // Checks to guarantee that some row class is found
+    var found = false;
+    obj.classList.forEach(_this => {
+        if (_this == 'row' || _this.substr(0, 4) == "row-") {
+            found = true;
+        }
+    });
+    if (!found) {
+        throw new Error("row class not found in a row node");
+    }
     return obj;
 };
 
@@ -186,6 +206,16 @@ saltos.bootstrap.__field.col = field => {
         field.class = 'col';
     }
     var obj = saltos.bootstrap.__field.div(field);
+    // Checks to guarantee that some col class is found
+    var found = false;
+    obj.classList.forEach(_this => {
+        if (_this == 'col' || _this.substr(0, 4) == "col-") {
+            found = true;
+        }
+    });
+    if (!found) {
+        throw new Error("col class not found in a col node");
+    }
     return obj;
 };
 

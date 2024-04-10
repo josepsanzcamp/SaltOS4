@@ -559,7 +559,7 @@ saltos.app.form.__layout_auto_helper.col = layout => {
         }
         // This trick allow to hide the hidden fields
         if (saltos.core.fix_key(item[0]) == 'hidden') {
-            col_class = 'd-none';
+            col_class = 'col d-none';
             col_style = '';
         }
         layout['col#' + numcol] = {
