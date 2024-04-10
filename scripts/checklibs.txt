@@ -10,7 +10,7 @@ phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<updated>|base64:PHVw
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4zIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMyJ9
 chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|base64:eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC40LjEifQ==
-ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjQxLjIuMSJ9
+ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjQxLjMuMCJ9
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|base64:eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwLWljb25zIiwidmVyc2lvbiI6IjEuMTEuMyJ9
 imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5LmltYWdlc2xvYWRlZCIsInZlcnNpb24iOiI1LjAuMCJ9
@@ -33,6 +33,6 @@ minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0Z
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
 node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0wM1QxMzozMzoyM1o8L3VwZGF0ZWQ+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQyMTowOTo1Nlo8L3VwZGF0ZWQ+
-php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNlQxNjowNToyNlo8L3VwZGF0ZWQ+
+php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xMFQwNTo0NDoxMlo8L3VwZGF0ZWQ+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0wNlQwNjoyMDoyNVo8L3VwZGF0ZWQ+
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNVQxNjozOTowMFo8L3VwZGF0ZWQ+
