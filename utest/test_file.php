@@ -96,8 +96,8 @@ final class test_file extends TestCase
         unlink($file2);
         unlink($file3);
 
-        $json0 = url_get_contents("127.0.0.1/saltos/code4/api/index.php?checktoken");
-        $json = url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken");
+        $json0 = url_get_contents("127.0.0.1/saltos/code4/api/?checktoken");
+        $json = url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken");
         $this->assertSame($json0, $json);
         $json = json_decode($json, true);
         $this->assertSame($json["status"], "ko");
@@ -148,27 +148,27 @@ final class test_file extends TestCase
         $fd = fsockopen_protected("127.0.0.1", 80, $errno, $errstr, null);
         $this->assertSame(is_resource($fd), true);
 
-        $buffer = __url_get_contents("https://127.0.0.1nada/saltos/code4/api/index.php?checktoken");
+        $buffer = __url_get_contents("https://127.0.0.1nada/saltos/code4/api/?checktoken");
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("nada://127.0.0.1/saltos/code4/api/index.php?checktoken");
+        $buffer = __url_get_contents("nada://127.0.0.1/saltos/code4/api/?checktoken");
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken", [
             "method" => "",
         ]);
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken", [
             "method" => "head",
         ]);
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?checktoken", [
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken", [
             "cookies" => ["nada" => "nada"],
             "method" => "get",
             "values" => ["nada" => "nada"],
-            "referer" => "https://127.0.0.1/saltos/code4/api/index.php",
+            "referer" => "https://127.0.0.1/saltos/code4/api/",
             "headers" => ["nada" => "nada"],
             "body" => "nada",
         ]);

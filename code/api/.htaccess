@@ -1,6 +1,6 @@
 Deny from all
 Options -Indexes
 
-<Files index.php>
+<FilesMatch ^(index\.php)?$>
 Allow from all
-</Files>
+</FilesMatch>

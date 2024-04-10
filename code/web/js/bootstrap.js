@@ -151,12 +151,12 @@ saltos.bootstrap.__field.container = field => {
     // Checks to guarantee that some container class is found
     var found = false;
     obj.classList.forEach(_this => {
-        if (_this == 'container' || _this.substr(0, 10) == "container-") {
+        if (_this == 'container' || _this.substr(0, 10) == 'container-') {
             found = true;
         }
     });
     if (!found) {
-        throw new Error("container class not found in a container node");
+        throw new Error('container class not found in a container node');
     }
     return obj;
 };
@@ -180,12 +180,12 @@ saltos.bootstrap.__field.row = field => {
     // Checks to guarantee that some row class is found
     var found = false;
     obj.classList.forEach(_this => {
-        if (_this == 'row' || _this.substr(0, 4) == "row-") {
+        if (_this == 'row' || _this.substr(0, 4) == 'row-') {
             found = true;
         }
     });
     if (!found) {
-        throw new Error("row class not found in a row node");
+        throw new Error('row class not found in a row node');
     }
     return obj;
 };
@@ -209,12 +209,12 @@ saltos.bootstrap.__field.col = field => {
     // Checks to guarantee that some col class is found
     var found = false;
     obj.classList.forEach(_this => {
-        if (_this == 'col' || _this.substr(0, 4) == "col-") {
+        if (_this == 'col' || _this.substr(0, 4) == 'col-') {
             found = true;
         }
     });
     if (!found) {
-        throw new Error("col class not found in a col node");
+        throw new Error('col class not found in a col node');
     }
     return obj;
 };
@@ -1242,7 +1242,7 @@ saltos.bootstrap.__field.file = field => {
         };
         data.files[0] = row.saltos_data;
         saltos.core.ajax({
-            url: 'api/index.php?delfiles',
+            url: 'api/?delfiles',
             data: JSON.stringify(data),
             method: 'post',
             content_type: 'application/json',
@@ -1325,7 +1325,7 @@ saltos.bootstrap.__field.file = field => {
                 // This allow multiple uploads in parallel
                 ((data, row) => {
                     saltos.core.ajax({
-                        url: 'api/index.php?addfiles',
+                        url: 'api/?addfiles',
                         data: JSON.stringify(data),
                         method: 'post',
                         content_type: 'application/json',

@@ -56,7 +56,7 @@ saltos.core.onerror = (event, source, lineno, colno, error) => {
         data.backtrace = error.stack;
     }
     saltos.core.ajax({
-        url: 'api/index.php?adderror',
+        url: 'api/?adderror',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -83,7 +83,7 @@ saltos.core.addlog = msg => {
         'msg': msg,
     };
     saltos.core.ajax({
-        url: 'api/index.php?addlog',
+        url: 'api/?addlog',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
