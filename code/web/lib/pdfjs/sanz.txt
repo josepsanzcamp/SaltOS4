@@ -1,15 +1,15 @@
 
 # https://cdnjs.com/libraries/pdf.js
 
-wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs
-wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs
-wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf_viewer.min.css
-wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf_viewer.mjs
+wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.1.392/pdf.min.mjs
+wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.1.392/pdf.worker.min.mjs
+wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.1.392/pdf_viewer.min.css
+wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.1.392/pdf_viewer.mjs
 
-#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.min.mjs
-#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs
-#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/web/pdf_viewer.min.css
-#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/web/pdf_viewer.mjs
+#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.1.392/build/pdf.min.mjs
+#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.1.392/build/pdf.worker.min.mjs
+#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.1.392/web/pdf_viewer.min.css
+#wget https://cdn.jsdelivr.net/npm/pdfjs-dist@4.1.392/web/pdf_viewer.mjs
 
 cat pdf_viewer.mjs | minify --js > pdf_viewer.min.mjs
 rm -f pdf_viewer.mjs
