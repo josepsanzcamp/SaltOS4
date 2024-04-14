@@ -80,6 +80,11 @@ final class test_tokens extends TestCase
         $token2 = check_token_format(substr($token, 0, -1) . "x");
         $this->assertSame($token2, "");
 
+        // Check lowercase patterns tokens
+        $token = "gggggggg-gggg-gggg-gggg-gggggggggggg";
+        $token2 = check_token_format($token);
+        $this->assertSame($token2, "");
+
         // Check generic patterns tokens
         $token = "00000000-0000-0000-0000-000000000000";
         $token2 = check_token_format($token);
@@ -111,5 +116,13 @@ final class test_tokens extends TestCase
         // Check when token is not an string
         $token2 = check_token_format([]);
         $this->assertSame($token2, "");
+
+        // Check for token concurrence
+        $tokens1 = [];
+        for ($i = 0; $i < 1000000; $i++) {
+            $tokens1[] = get_unique_token();
+        }
+        $tokens2 = array_flip($tokens1);
+        $this->assertSame(count($tokens1), count($tokens2));
     }
 }

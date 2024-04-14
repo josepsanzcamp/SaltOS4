@@ -328,13 +328,8 @@ function get_part_from_string($input, $delim, $index)
  */
 function get_unique_token()
 {
-    return implode("-", [
-        bin2hex(random_bytes(4)),
-        bin2hex(random_bytes(2)),
-        bin2hex(random_bytes(2)),
-        bin2hex(random_bytes(2)),
-        bin2hex(random_bytes(6)),
-    ]);
+    $x = str_split(bin2hex(random_bytes(16)), 4);
+    return $x[0] . $x[1] . "-" . $x[2] . "-" . $x[3] . "-" . $x[4] . "-" . $x[5] . $x[6] . $x[7];
 }
 
 /**
