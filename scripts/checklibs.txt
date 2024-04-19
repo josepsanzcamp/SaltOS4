@@ -34,5 +34,5 @@ mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZW
 node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xMFQxNjowNjo1Nlo8L3VwZGF0ZWQ+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQyMTowOTo1Nlo8L3VwZGF0ZWQ+
 php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xMFQxNDoyMDoxMlo8L3VwZGF0ZWQ+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xNFQwNzoxNDowMFo8L3VwZGF0ZWQ+
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xN1QxNDowNjoyNFo8L3VwZGF0ZWQ+
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNVQxNjozOTowMFo8L3VwZGF0ZWQ+

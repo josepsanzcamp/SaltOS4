@@ -8,11 +8,22 @@ NONE=\033[0m
 
 .PHONY: utest docs
 
-all: clean
+all:
+	@echo Nothing to do by default
+
+web: clean
 	cat code/web/lib/md5/md5.min.js > code/web/index.js
 	cat code/web/js/{object,core,bootstrap,auth,app}.js | php scripts/md5sum.php | minify --js >> code/web/index.js
 	cat code/web/css/index.css | minify --css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
+
+devel: clean
+	cat code/web/htm/index.htm | \
+	php scripts/debug.php index.js lib/md5/md5.min.js js/{object,core,bootstrap,auth,app}.js | \
+	php scripts/debug.php index.css css/index.css > code/web/index.htm
+
+clean:
+	rm -f code/web/index.{js,css,htm}
 
 test:
 ifeq ($(file), all)
@@ -48,16 +59,10 @@ endif
 libs:
 	php scripts/checklibs.php scripts/checklibs.txt
 
-devel: clean
-	cat code/web/htm/index.htm | php scripts/debug.php index.js lib/md5/md5.min.js js/{object,core,bootstrap,auth,app}.js | php scripts/debug.php index.css css/index.css > code/web/index.htm
-
-docs: .
+docs:
 	php scripts/makedocs.php docs/code.t2t code/api/php code/web/js
 	php scripts/makedocs.php docs/apps.t2t code/apps/*/js code/apps/*/php
 	php scripts/makedocs.php docs/utest.t2t utest/ utest/lib
-
-clean:
-	rm -f code/web/index.{js,css,htm}
 
 check:
 	@echo -e "$(YELLOW)Directories:$(NONE)"
