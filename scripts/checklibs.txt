@@ -18,7 +18,7 @@ imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64
 masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base64:eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
 pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuMS4zOTIifQ==
-venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuNyJ9
+venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|base64:eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS4yIn0=
 
 httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPjMgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
@@ -31,8 +31,8 @@ jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<updated>|base64:PHVwZGF0ZW
 mariadb|https://github.com/MariaDB/server/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMi0xNlQxNDoxODozM1o8L3VwZGF0ZWQ+
 minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0wNFQxMToxMDoyNVo8L3VwZGF0ZWQ+
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
-node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xMFQxNjowNjo1Nlo8L3VwZGF0ZWQ+
-phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQyMTowOTo1Nlo8L3VwZGF0ZWQ+
-php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xMFQxNDoyMDoxMlo8L3VwZGF0ZWQ+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0xN1QxNDowNjoyNFo8L3VwZGF0ZWQ+
+node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yNFQxODoxNDo1MFo8L3VwZGF0ZWQ+
+phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yM1QyMDozMzowMlo8L3VwZGF0ZWQ+
+php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yM1QxODoyNDoyMlo8L3VwZGF0ZWQ+
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yNFQwNjozNDo0OFo8L3VwZGF0ZWQ+
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNVQxNjozOTowMFo8L3VwZGF0ZWQ+
