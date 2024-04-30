@@ -96,7 +96,7 @@ $array = $array[get_data("rest/2")];
 set_data("rest/2", fix_key(get_data("rest/2")));
 
 // This line is a trick to allow attr in the subapp
-$array = join4array($array);
+$array = join_attr_value($array);
 
 // Check json arguments
 if (!get_data("json/search")) {
@@ -141,7 +141,7 @@ if (!isset($array["actions"])) {
 foreach ($array["data"] as $key => $row) {
     $actions = [];
     foreach ($array["actions"] as $action) {
-        $action = join4array($action);
+        $action = join_attr_value($action);
         if (
             check_app_perm_id(
                 $action["app"],
@@ -164,12 +164,12 @@ unset($array["actions"]);
 // If contains header and footer, unify to allow attr in the spec
 if (isset($array["header"]) && is_array($array["header"])) {
     foreach ($array["header"] as $key => $val) {
-        $array["header"][$key] = join4array($val);
+        $array["header"][$key] = join_attr_value($val);
     }
 }
 if (isset($array["footer"]) && is_array($array["footer"])) {
     foreach ($array["footer"] as $key => $val) {
-        $array["footer"][$key] = join4array($val);
+        $array["footer"][$key] = join_attr_value($val);
     }
 }
 

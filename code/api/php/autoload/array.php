@@ -64,7 +64,7 @@ function array_protected($x)
 }
 
 /**
- * Join for array
+ * Join attr value
  *
  * This function allow to join the #attr and value to get only an associative
  * array, it is intended to be used to simplify the specification of some elements
@@ -72,9 +72,9 @@ function array_protected($x)
  *
  * @array => the input that can contains an array with #attr and value
  */
-function join4array($array)
+function join_attr_value($array)
 {
-    if (is_array($array) && isset($array["value"]) && isset($array["#attr"])) {
+    if (is_attr_value($array)) {
         if (is_string($array["value"])) {
             if (trim($array["value"]) == "") {
                 $array["value"] = [];
@@ -123,7 +123,7 @@ function __array_getnode($path, $array)
  */
 function __array_getvalue($array)
 {
-    return (is_array($array) && isset($array["value"]) && isset($array["#attr"])) ? $array["value"] : $array;
+    return is_attr_value($array) ? $array["value"] : $array;
 }
 
 /**
@@ -138,13 +138,7 @@ function __array_getvalue($array)
  */
 function __array_getattr($elem, $array)
 {
-    if (
-        !is_array($array) || !isset($array["#attr"]) ||
-        !is_array($array["#attr"]) || !isset($array["#attr"][$elem])
-    ) {
-        return null;
-    }
-    return $array["#attr"][$elem];
+    return is_attr_value($array) && isset($array["#attr"][$elem]) ? $array["#attr"][$elem] : null;
 }
 
 /**
@@ -171,7 +165,7 @@ function __array_addnode($path, &$array, $value)
     if (!is_array($array) || !isset($array[$elem])) {
         return false;
     }
-    if (is_array($array[$elem]) && isset($array[$elem]["value"]) && isset($array[$elem]["#attr"])) {
+    if (is_attr_value($array[$elem])) {
         return __array_addnode($path, $array[$elem]["value"], $value);
     } else {
         return __array_addnode($path, $array[$elem], $value);
@@ -202,7 +196,7 @@ function __array_setnode($path, &$array, $value)
         $array[$elem] = $value;
         return true;
     }
-    if (is_array($array[$elem]) && isset($array[$elem]["value"]) && isset($array[$elem]["#attr"])) {
+    if (is_attr_value($array[$elem])) {
         return __array_setnode($path, $array[$elem]["value"], $value);
     } else {
         return __array_setnode($path, $array[$elem], $value);
@@ -232,7 +226,7 @@ function __array_delnode($path, &$array)
         unset($array[$elem]);
         return true;
     }
-    if (is_array($array[$elem]) && isset($array[$elem]["value"]) && isset($array[$elem]["#attr"])) {
+    if (is_attr_value($array[$elem])) {
         return __array_delnode($path, $array[$elem]["value"]);
     } else {
         return __array_delnode($path, $array[$elem]);
@@ -387,4 +381,40 @@ function __array_apply_patch_rec(&$array, $key, $val)
     } else {
         show_php_error(["phperror" => "Unknown '{$key0}' for '{$key1}'"]);
     }
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function is_attr_value($array)
+{
+    return is_array($array) && isset($array["value"]) && isset($array["#attr"]);
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function arrays2array()
+{
+    $result = [];
+    foreach (func_get_args() as $array) {
+        foreach ($array as $key => $val) {
+            $key = fix_key($key);
+            if (is_array($val)) {
+                if (!isset($result[$key])) {
+                    $result[$key] = [];
+                }
+                foreach ($val as $key2 => $val2) {
+                    set_array($result[$key], $key2, $val2);
+                }
+            } else {
+                set_array($result, $key, $val);
+            }
+        }
+    }
+    return $result;
 }

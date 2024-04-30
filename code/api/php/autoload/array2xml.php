@@ -97,7 +97,7 @@ function __array2xml_write_nodes(&$array, $level = null)
             show_php_error(["phperror" => "Invalid XML tag name '{$key}'"]);
         }
         $attr = "";
-        if (is_array($val) && isset($val["value"]) && isset($val["#attr"])) {
+        if (is_attr_value($val)) {
             $attr = [];
             foreach ($val["#attr"] as $key2 => $val2) {
                 $key2 = fix_key($key2);

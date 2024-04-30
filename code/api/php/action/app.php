@@ -99,7 +99,7 @@ $array = $array[get_data("rest/2")];
 set_data("rest/2", fix_key(get_data("rest/2")));
 
 // This line is a trick to allow attr in the subapp
-$array = join4array($array);
+$array = join_attr_value($array);
 
 // Eval the app and returns the result
 $array = eval_attr($array);

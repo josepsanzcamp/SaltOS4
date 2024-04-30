@@ -25,23 +25,38 @@
  - along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
-<!--
-This file allow to define the static information that you want to put
-in some tables, for example, the main user and group, the apps registered
-in the system, the permissions, the combination of permissions with apps
-and the main permissions for the user
--->
-
 <root>
-    <tables>
-        <!-- Apps specs -->
-        <table name="tbl_apps">
-            <row id="3" active="1" code="tester" name="Tester" description="App para test"/>
-        </table>
-
-        <!-- This part is for all purposes -->
-        <table name="tbl_apps_perms">
-            <row app_id="3" perm_id="1,4" allow="1" deny="0"/>
-        </table>
-    </tables>
+    <app>
+        <id>11</id>
+        <active>1</active>
+        <code>customers</code>
+        <name>Customers</name>
+        <description>Customer's application</description>
+        <table>app_customers</table>
+        <field>nombre</field>
+        <has_index>1</has_index>
+        <has_control>1</has_control>
+        <has_version>1</has_version>
+        <has_files>1</has_files>
+        <has_notes>1</has_notes>
+    </app>
+    <perms>
+        <perm>menu</perm>
+        <perm>create</perm>
+        <perm>widget</perm>
+        <perm>action</perm>
+        <perm>config</perm>
+        <perm>list,user</perm>
+        <perm>list,group</perm>
+        <perm>list,all</perm>
+        <perm>view,user</perm>
+        <perm>view,group</perm>
+        <perm>view,all</perm>
+        <perm>edit,user</perm>
+        <perm>edit,group</perm>
+        <perm>edit,all</perm>
+        <perm>delete,user</perm>
+        <perm>delete,group</perm>
+        <perm>delete,all</perm>
+    </perms>
 </root>

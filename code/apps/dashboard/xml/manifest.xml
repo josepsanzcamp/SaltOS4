@@ -25,23 +25,17 @@
  - along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -->
 
-<!--
-This file allow to define the static information that you want to put
-in some tables, for example, the main user and group, the apps registered
-in the system, the permissions, the combination of permissions with apps
-and the main permissions for the user
--->
-
 <root>
-    <tables>
-        <!-- Apps specs -->
-        <table name="tbl_apps">
-            <row id="1" active="1" code="login" name="Login" description="Pantalla login"/>
-        </table>
-
-        <!-- This part is for all purposes -->
-        <table name="tbl_apps_perms">
-            <row app_id="1" perm_id="1,4" allow="1" deny="0"/>
-        </table>
-    </tables>
+    <app>
+        <id>2</id>
+        <active>1</active>
+        <code>dashboard</code>
+        <name>Dashboard</name>
+        <description>Dashboard app</description>
+    </app>
+    <perms allow="1">
+        <perm>menu</perm>
+        <perm>action</perm>
+        <perm>config</perm>
+    </perms>
 </root>

@@ -47,6 +47,7 @@ function db_schema()
     $hash2 = md5(serialize([
         xmlfiles2array(detect_apps_files("xml/dbschema.xml")),
         xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
+        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
     ]));
     if ($hash1 == $hash2) {
         return;
@@ -148,14 +149,20 @@ function db_static()
 {
     //~ set_config("xml/dbstatic.xml", "nada", 0);
     $hash1 = get_config("xml/dbstatic.xml", 0);
-    $hash2 = md5(serialize(xmlfiles2array(detect_apps_files("xml/dbstatic.xml"))));
+    $hash2 = md5(serialize([
+        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
+        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
+    ]));
     if ($hash1 == $hash2) {
         return;
     }
     if (!semaphore_acquire(["db_schema", "db_static"])) {
         show_php_error(["phperror" => "Could not acquire the semaphore"]);
     }
-    $dbstatic = eval_attr(xmlfiles2array(detect_apps_files("xml/dbstatic.xml")));
+    $dbstatic = eval_attr(arrays2array(
+        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
+        __manifest2dbstatic(detect_apps_files("xml/manifest.xml")),
+    ));
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
@@ -628,7 +635,10 @@ function __dbstatic_helper($fn, $table, $field)
     if ($apps === null) {
         $apps = [];
         $tables = [];
-        $dbstatic = eval_attr(xmlfiles2array(detect_apps_files("xml/dbstatic.xml")));
+        $dbstatic = eval_attr(arrays2array(
+            xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
+            __manifest2dbstatic(detect_apps_files("xml/manifest.xml")),
+        ));
         if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
             foreach ($dbstatic["tables"] as $data) {
                 if ($data["#attr"]["name"] != "tbl_apps") {
@@ -658,4 +668,56 @@ function __dbstatic_helper($fn, $table, $field)
         return "";
     }
     show_php_error(["phperror" => "Unknown fn '$fn'"]);
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __manifest2dbstatic($files)
+{
+    $dbstatic = ["tables" => []];
+    foreach ($files as $file) {
+        $data = xmlfile2array($file);
+        // Add the apps data package
+        $xml = '<table name="tbl_apps">
+                    <row id=""/>
+                </table>';
+        $array = xml2array($xml);
+        $array["table"]["value"]["row"]["#attr"] = $data["app"];
+        set_array($dbstatic["tables"], "table", $array["table"]);
+        // Add the perms data package
+        if (isset($data["perms"])) {
+            if (is_attr_value($data["perms"])) {
+                $attr = $data["perms"]["#attr"];
+                $value = $data["perms"]["value"];
+            } else {
+                $value = $data["perms"];
+            }
+            $perm_id = [];
+            foreach ($value as $perm) {
+                $perm = explode(",", $perm . ",");
+                $perm_id[] = execute_query("SELECT id FROM tbl_perms WHERE " . make_where_query([
+                    "code" => $perm[0],
+                    "owner" => $perm[1],
+                ]));
+            }
+            $perm_id = implode(",", $perm_id);
+            $xml = '<table name="tbl_apps_perms">
+                        <row app_id="" perm_id="" allow="0" deny="0"/>
+                    </table>';
+            $array = xml2array($xml);
+            $array["table"]["value"]["row"]["#attr"]["app_id"] = $data["app"]["id"];
+            $array["table"]["value"]["row"]["#attr"]["perm_id"] = $perm_id;
+            if (isset($attr["allow"])) {
+                $array["table"]["value"]["row"]["#attr"]["allow"] = $attr["allow"];
+            }
+            if (isset($attr["deny"])) {
+                $array["table"]["value"]["row"]["#attr"]["deny"] = $attr["deny"];
+            }
+            set_array($dbstatic["tables"], "table", $array["table"]);
+        }
+    }
+    return $dbstatic;
 }
