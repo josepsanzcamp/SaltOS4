@@ -690,10 +690,11 @@ function __manifest2dbstatic($files)
         // Add the perms data package
         if (isset($data["perms"])) {
             if (is_attr_value($data["perms"])) {
-                $attr = $data["perms"]["#attr"];
                 $value = $data["perms"]["value"];
+                $attr = $data["perms"]["#attr"];
             } else {
                 $value = $data["perms"];
+                $attr = [];
             }
             $perm_id = [];
             foreach ($value as $perm) {
