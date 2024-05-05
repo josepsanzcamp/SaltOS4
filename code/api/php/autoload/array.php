@@ -384,9 +384,11 @@ function __array_apply_patch_rec(&$array, $key, $val)
 }
 
 /**
- * TODO
+ * Is attr value
  *
- * TODO
+ * This function return true if the data argument is an array with #attr and value
+ *
+ * @array => the array that wants to check
  */
 function is_attr_value($array)
 {
@@ -394,9 +396,13 @@ function is_attr_value($array)
 }
 
 /**
- * TODO
+ * Arrays to array
  *
- * TODO
+ * This function internally implements the old xml_join feature that allow to merge
+ * multiple files into one using the fix_key of the keys in the first level as key
+ * to join.
+ *
+ * $args => This function process dynamically all arguments
  */
 function arrays2array()
 {

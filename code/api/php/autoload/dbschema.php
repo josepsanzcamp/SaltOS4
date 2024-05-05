@@ -671,9 +671,12 @@ function __dbstatic_helper($fn, $table, $field)
 }
 
 /**
- * TODO
+ * Manifest to dbstatic
  *
- * TODO
+ * This function returns the equivalent dbstatic data using as input the contents
+ * of the manifests files.
+ *
+ * @files => An array with all the manifests files
  */
 function __manifest2dbstatic($files)
 {
@@ -698,11 +701,15 @@ function __manifest2dbstatic($files)
             }
             $perm_id = [];
             foreach ($value as $perm) {
-                $perm = explode(",", $perm . ",");
-                $perm_id[] = execute_query("SELECT id FROM tbl_perms WHERE " . make_where_query([
-                    "code" => $perm[0],
-                    "owner" => $perm[1],
+                $perm2 = explode(",", $perm . ",");
+                $perm3 = execute_query("SELECT id FROM tbl_perms WHERE " . make_where_query([
+                    "code" => $perm2[0],
+                    "owner" => $perm2[1],
                 ]));
+                if (!$perm3) {
+                    show_php_error(["phperror" => "Unknown perm '$perm'"]);
+                }
+                $perm_id[] = $perm3;
             }
             $perm_id = implode(",", $perm_id);
             $xml = '<table name="tbl_apps_perms">
