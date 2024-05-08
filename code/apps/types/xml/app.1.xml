@@ -34,7 +34,7 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container-fluid">
-                <row class="row">
+                <row>
                     <col id="list" class="col-xl py-3 overflow-auto-xl">
                         <row auto="true" row_class="row g-1" col_class="col-auto">
                             <button ifeval="check_user('types', 'create')" onclick="saltos.types.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>

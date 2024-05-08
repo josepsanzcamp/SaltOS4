@@ -470,7 +470,7 @@
             onclick = () => {
                 saltos.bootstrap.offcanvas({
                     static: false,
-                    class: 'offcanvas-start',
+                    //class: 'offcanvas-start',
                     title: 'Titulo',
                     close: 'Cerrar',
                     body: `

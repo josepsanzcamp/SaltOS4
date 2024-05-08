@@ -89,7 +89,7 @@
             </items>
         </navbar>
         <layout>
-            <container auto="true" container_class="container-fluid mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
+            <container auto="true" row_class="row mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
                 <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)">
                     <datalist eval="true">["Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez"]</datalist>
                 </text>
@@ -107,15 +107,9 @@
                 <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test" onclick="saltos.tester.campo9()"/>
                 <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test" onclick="saltos.tester.campo10()"/>
                 <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test" onclick="saltos.tester.campo11()"/>
-                <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba
-
-    Adios</textarea>
-                <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/>
-    <br/>
-    Adios]]></ckeditor>
-                <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>
-        <tag>valor</tag>
-    </xml>]]></codemirror>
+                <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba&#13;&#13;Adios&#13;&#13;</textarea>
+                <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
+                <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>&#13;&#9;<tag>valor</tag>&#13;</xml>&#13;]]></codemirror>
                 <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2,3,5" size="5">
                     <rows eval="true">[
                         ["label"=>"Uno","value"=>1],
