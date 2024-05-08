@@ -39,6 +39,7 @@ declare(strict_types=1);
  *
  * @s => size of each pixel used in the qrcode
  * @m => margin of the qrcode (white area that that surround the qrcode)
+ * @l => error correction: L (low), M (medium), Q (better), H (best)
  */
 
 $user_id = current_user();
@@ -60,8 +61,9 @@ if (!in_array($format, ["png", "json"])) {
 
 $s = get_data("json/s") ? get_data("json/s") : 6;
 $m = get_data("json/m") ? get_data("json/m") : 10;
+$l = get_data("json/l") ? get_data("json/l") : "L";
 
-$image = __qrcode_image($msg, $s, $m);
+$image = __qrcode_image($msg, $s, $m, $l);
 if ($image == "") {
     show_json_error("Internal error");
 }

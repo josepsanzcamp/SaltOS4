@@ -724,16 +724,18 @@ final class test_database extends TestCase
         $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), false);
         db_connect();
 
-        test_external_exec("database*_pdo_mysql.php", "dberror.log");
-        test_external_exec("database*_mysqli.php", "dberror.log");
-        test_external_exec("database*_pdo_sqlite.php", "dberror.log");
-        test_external_exec("database*_sqlite3.php", "dberror.log");
+        test_external_exec("database??_pdo_mysql.php", "dberror.log");
+        test_external_exec("database??_mysqli.php", "dberror.log");
+        test_external_exec("database??_pdo_sqlite.php", "dberror.log");
+        test_external_exec("database??_sqlite3.php", "dberror.log");
+
+        test_external_exec("database??.php", "dberror.log");
 
         if (!$this->detect_mssql()) {
             $this->markTestSkipped("Sql server not found");
             return;
         }
 
-        test_external_exec("database*_pdo_mssql.php", "dberror.log");
+        test_external_exec("database??_pdo_mssql.php", "dberror.log");
     }
 }

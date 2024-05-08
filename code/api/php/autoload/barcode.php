@@ -90,12 +90,11 @@ function __barcode_image($msg, $w, $h, $m, $s, $t)
         $x += $bw;
     }
     if ($s) {
-        // ADD MSG TO THE IMAGE FOOTER
+        // add msg to the image footer
         $px = ($width + 2 * $m) / 2 - ($bbox[4] - $bbox[0]) / 2;
         $py = $m + $h + 1 + $m + $s;
         imagettftext($im, $s, 0, (int)$px, (int)$py, $fgcol, $font, $msg);
     }
-    // CONTINUE
     ob_start();
     imagepng($im);
     $buffer = ob_get_clean();

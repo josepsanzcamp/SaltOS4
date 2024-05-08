@@ -43,27 +43,20 @@ declare(strict_types=1);
  * @msg => Contents of the qrcode
  * @s   => size of each pixel used in the qrcode
  * @m   => margin of the qrcode (white area that that surround the qrcode)
+ * @l   => error correction: L (low), M (medium), Q (better), H (best)
  *
  * Notes:
  *
  * The normal behavior is returns a png image, but if something was wrong,
  * the function can returns an empty string
  */
-function __qrcode_image($msg, $s, $m)
+function __qrcode_image($msg, $s, $m, $l)
 {
     require_once "lib/tcpdf/vendor/autoload.php";
-    $levels = ["L", "M", "Q", "H"];
-    $factors = [0.07, 0.15, 0.25, 0.30];
-    for ($i = 0; $i < 4; $i++) {
-        $barcode = new TCPDF2DBarcode($msg, "QRCODE," . $levels[$i]);
-        $array = $barcode->getBarcodeArray();
-        if (!isset($array["num_cols"]) || !isset($array["num_rows"])) {
-            return "";
-        }
-        $total = $array["num_cols"] * $array["num_rows"];
-        if ($total * $factors[$i] > 100 + $factors[$i] * 100) {
-            break;
-        }
+    $barcode = new TCPDF2DBarcode($msg, "QRCODE,$l");
+    $array = $barcode->getBarcodeArray();
+    if (!isset($array["num_cols"]) || !isset($array["num_rows"])) {
+        return "";
     }
     $width = ($array["num_cols"] * $s);
     $height = ($array["num_rows"] * $s);
@@ -85,39 +78,6 @@ function __qrcode_image($msg, $s, $m)
             }
         }
     }
-    // ADD SALTOS LOGO
-    $matrix = [
-        [0, 0, 0, 0, 2, 2, 2, 0, 0, 0],
-        [0, 0, 0, 0, 2, 1, 2, 2, 2, 2],
-        [0, 2, 2, 2, 2, 2, 2, 2, 1, 2],
-        [0, 2, 1, 1, 1, 1, 1, 1, 2, 2],
-        [0, 2, 2, 1, 1, 1, 1, 2, 2, 0],
-        [0, 0, 2, 2, 1, 1, 1, 1, 2, 2],
-        [0, 0, 2, 2, 1, 2, 2, 2, 1, 2],
-        [0, 2, 2, 1, 2, 2, 0, 2, 2, 2],
-        [0, 2, 1, 2, 2, 0, 0, 0, 0, 0],
-        [0, 2, 2, 2, 0, 0, 0, 0, 0, 0],
-    ];
-    $ww = intval(count($matrix[0]) / 2) * 2;
-    $hh = intval(count($matrix) / 2) * 2;
-    $xx = imagesx($im) / 2 - $ww * $s / 2 + $s / 2;
-    $yy = imagesy($im) / 2 - $hh * $s / 2 - $s / 2;
-    $cc = [0, imagecolorallocate($im, 0xb8, 0x14, 0x15), imagecolorallocate($im, 0x00, 0x00, 0x00)];
-    foreach ($matrix as $y => $xz) {
-        foreach ($xz as $x => $z) {
-            if ($z) {
-                imagefilledrectangle(
-                    $im,
-                    $xx + $x * $s,
-                    $yy + $y * $s,
-                    $xx + ($x + 1) * $s - 1,
-                    $yy + ($y + 1) * $s - 1,
-                    $cc[$z]
-                );
-            }
-        }
-    }
-    // CONTINUE
     ob_start();
     imagepng($im);
     $buffer = ob_get_clean();
