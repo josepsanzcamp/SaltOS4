@@ -26,13 +26,13 @@ clean:
 	rm -f code/web/index.{js,css,htm}
 
 test:
-ifeq ($(file), all)
-	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
-else
-ifneq ($(file), )
-	$(eval files := $(shell find $(file) -name *.php | sort))
-else
+ifeq ($(file), ) # default behaviour
 	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
+else
+ifeq ($(file), all) # file=all
+	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
+else # file=path
+	$(eval files := $(shell find $(file) -name *.php | sort))
 endif
 endif
 	@for i in ${files}; do \
@@ -41,13 +41,13 @@ endif
 		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
-ifeq ($(file), all)
-	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
-else
-ifneq ($(file), )
-	$(eval files := $(shell find $(file) -name *.js | sort))
-else
+ifeq ($(file), ) # default behaviour
 	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'js$$ | sort))
+else
+ifeq ($(file), all) # file=all
+	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
+else # file=path
+	$(eval files := $(shell find $(file) -name *.js | sort))
 endif
 endif
 	@for i in ${files}; do \
@@ -89,10 +89,14 @@ check:
 	@echo -n cloc:" "; which cloc > /dev/null && echo -e "$(GREEN)OK$(NONE)" || echo -e "$(RED)KO$(NONE)"
 
 utest:
-ifeq ($(file), )
-	phpunit -c scripts/phpunit.xml
+ifeq ($(file), ) # default behaviour
+	phpunit -c scripts/phpunit.xml ../../{$(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort | paste -s -d,)}
 else
-	phpunit -c scripts/phpunit.xml ../../utest/$(file)
+ifeq ($(file), all) # file=all
+	phpunit -c scripts/phpunit.xml
+else # file=xxx,yyy,zzz
+	phpunit -c scripts/phpunit.xml ../../utest/test_{$(file)}.php
+endif
 endif
 
 cloc:
