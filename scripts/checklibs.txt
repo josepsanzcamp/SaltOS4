@@ -2,7 +2,7 @@
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
 edifact|https://github.com/php-edifact/edifact/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMC0yNVQxMjo0MjozMFo8L3VwZGF0ZWQ+
 locutus|https://github.com/kvz/locutus/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0wNlQwNTo0NzowOVo8L3VwZGF0ZWQ+
-phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMS0yNFQxMDo0MTo1NVo8L3VwZGF0ZWQ+
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0xMVQwNDoxODoxNVo8L3VwZGF0ZWQ+
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQxNzoyMjo1Nlo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yMFQxNzozMTo1OVo8L3VwZGF0ZWQ+
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMS0yNVQyMjoyMzo1OFo8L3VwZGF0ZWQ+
@@ -31,7 +31,7 @@ jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<updated>|base64:PHVwZGF0ZW
 mariadb|https://github.com/MariaDB/server/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMi0xNlQxNDoxODozM1o8L3VwZGF0ZWQ+
 minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0wNFQxMToxMDoyNVo8L3VwZGF0ZWQ+
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
-node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0wN1QxNTowNjoyMFo8L3VwZGF0ZWQ+
+node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0wOVQxMDoyNToxMlo8L3VwZGF0ZWQ+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yM1QyMDozMzowMlo8L3VwZGF0ZWQ+
 php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0wN1QxNjozNTo0OVo8L3VwZGF0ZWQ+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yNFQwNjozNDo0OFo8L3VwZGF0ZWQ+
