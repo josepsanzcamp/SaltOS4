@@ -177,6 +177,7 @@ function db_static()
             }
         }
     }
+    __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
     set_config("xml/dbstatic.xml", $hash2, 0);
     semaphore_release(["db_schema", "db_static"]);
 }
@@ -724,4 +725,38 @@ function __manifest2dbstatic($files)
         }
     }
     return $dbstatic;
+}
+
+/**
+ * Manifest perms check
+ *
+ * This function checks the integrity of the perms nodes in all manifest files.
+ *
+ * @files => An array with all the manifests files
+ */
+function __manifest_perms_check($files)
+{
+    foreach ($files as $file) {
+        $data = xmlfile2array($file);
+        if (isset($data["perms"])) {
+            if (is_attr_value($data["perms"])) {
+                $value = $data["perms"]["value"];
+                $attr = $data["perms"]["#attr"];
+            } else {
+                $value = $data["perms"];
+                $attr = [];
+            }
+            foreach ($value as $perm) {
+                $perm_array = explode(",", $perm . ",,");
+                $exists = execute_query("SELECT id FROM tbl_perms WHERE " . make_where_query([
+                    "id" => $perm_array[0],
+                    "code" => $perm_array[1],
+                    "owner" => $perm_array[2],
+                ]));
+                if (!$exists) {
+                    show_php_error(["phperror" => "Perm '$perm' not found"]);
+                }
+            }
+        }
+    }
 }
