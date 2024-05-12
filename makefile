@@ -27,7 +27,7 @@ clean:
 
 test:
 ifeq ($(file), ) # default behaviour
-	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | sort))
+	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print $$2}' | sort))
 else
 ifeq ($(file), all) # file=all
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
@@ -42,7 +42,7 @@ endif
 	done
 
 ifeq ($(file), ) # default behaviour
-	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'js$$ | sort))
+	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print $$2}' | sort))
 else
 ifeq ($(file), all) # file=all
 	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
@@ -90,12 +90,12 @@ check:
 
 utest:
 ifeq ($(file), ) # default behaviour
-	phpunit -c scripts/phpunit.xml $(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? | tr ' ' '\n' | grep '\.'php$$ | gawk '{print "../../"$$0}' | sort | paste -s -d' ')
+	phpunit -c scripts/phpunit.xml $(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? grep '\.'php$$ | gawk '{print "../../"$$2}' | sort | paste -s -d' ')
 else
 ifeq ($(file), all) # file=all
 	phpunit -c scripts/phpunit.xml
 else # file=xxx,yyy,zzz
-	phpunit -c scripts/phpunit.xml ../../utest/test_{$(file)}.php
+	phpunit -c scripts/phpunit.xml $(shell echo ${file} | tr ',' '\n' | gawk '{print "../../utest/test_"$$0".php"}' | paste -s -d' ')
 endif
 endif
 
