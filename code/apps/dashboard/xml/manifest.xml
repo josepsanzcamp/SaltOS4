@@ -34,8 +34,8 @@
         <description>Dashboard app</description>
     </app>
     <perms allow="1">
-        <perm>menu</perm>
-        <perm>action</perm>
-        <perm>config</perm>
+        <perm>1,menu</perm>
+        <perm>4,action</perm>
+        <perm>5,config</perm>
     </perms>
 </root>

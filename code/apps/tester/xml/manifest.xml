@@ -34,7 +34,7 @@
         <description>App para test</description>
     </app>
     <perms allow="1">
-        <perm>menu</perm>
-        <perm>action</perm>
+        <perm>1,menu</perm>
+        <perm>4,action</perm>
     </perms>
 </root>

@@ -701,15 +701,11 @@ function __manifest2dbstatic($files)
             }
             $perm_id = [];
             foreach ($value as $perm) {
-                $perm2 = explode(",", $perm . ",");
-                $perm3 = execute_query("SELECT id FROM tbl_perms WHERE " . make_where_query([
-                    "code" => $perm2[0],
-                    "owner" => $perm2[1],
-                ]));
-                if (!$perm3) {
+                $perm0 = strtok($perm, ",");
+                if (!is_numeric($perm0)) {
                     show_php_error(["phperror" => "Unknown perm '$perm'"]);
                 }
-                $perm_id[] = $perm3;
+                $perm_id[] = $perm0;
             }
             $perm_id = implode(",", $perm_id);
             $xml = '<table name="tbl_apps_perms">

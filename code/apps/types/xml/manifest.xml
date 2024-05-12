@@ -41,22 +41,22 @@
         <has_notes>1</has_notes>
     </app>
     <perms>
-        <perm>menu</perm>
-        <perm>create</perm>
-        <perm>widget</perm>
-        <perm>action</perm>
-        <perm>config</perm>
-        <perm>list,user</perm>
-        <perm>list,group</perm>
-        <perm>list,all</perm>
-        <perm>view,user</perm>
-        <perm>view,group</perm>
-        <perm>view,all</perm>
-        <perm>edit,user</perm>
-        <perm>edit,group</perm>
-        <perm>edit,all</perm>
-        <perm>delete,user</perm>
-        <perm>delete,group</perm>
-        <perm>delete,all</perm>
+        <perm>1,menu</perm>
+        <perm>2,create</perm>
+        <perm>3,widget</perm>
+        <perm>4,action</perm>
+        <perm>5,config</perm>
+        <perm>11,list,user</perm>
+        <perm>12,list,group</perm>
+        <perm>13,list,all</perm>
+        <perm>21,view,user</perm>
+        <perm>22,view,group</perm>
+        <perm>23,view,all</perm>
+        <perm>31,edit,user</perm>
+        <perm>32,edit,group</perm>
+        <perm>33,edit,all</perm>
+        <perm>41,delete,user</perm>
+        <perm>42,delete,group</perm>
+        <perm>43,delete,all</perm>
     </perms>
 </root>
