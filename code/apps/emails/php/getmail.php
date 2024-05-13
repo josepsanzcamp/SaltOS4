@@ -1055,6 +1055,7 @@ function getmail_body($id)
                 //~ $temp = href_replace($temp);
             }
             if ($type == "html") {
+                require_once "php/lib/html.php";
                 $temp = remove_script_tag($temp);
                 $temp = remove_style_tag($temp);
                 //~ $temp = href_replace($temp);
@@ -1469,6 +1470,7 @@ function getmail_viewpdf($id, $cid)
     // CREAR THUMBS SI ES NECESARIO
     $cache2 = get_cache_file([$id, $cid], "pdf");
     if (!file_exists($cache2)) {
+        require_once "php/lib/unoconv.php";
         file_put_contents($cache2, unoconv2pdf($cache1));
         chmod_protected($cache2, 0666);
     }
