@@ -63,6 +63,7 @@ $s = get_data("json/s") ? get_data("json/s") : 6;
 $m = get_data("json/m") ? get_data("json/m") : 10;
 $l = get_data("json/l") ? get_data("json/l") : "L";
 
+require_once "php/lib/qrcode.php";
 $image = __qrcode_image($msg, $s, $m, $l);
 if ($image == "") {
     show_json_error("Internal error");

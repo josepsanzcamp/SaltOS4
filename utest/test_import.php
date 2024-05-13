@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "lib/utestlib.php";
+require_once "php/lib/import.php";
 
 /**
  * Main class of this unit test
@@ -399,7 +400,7 @@ final class test_import extends TestCase
      * This test performs some tests to validate the correctness
      * of the external exec
      */
-    public function test_export_external(): void
+    public function test_import_external(): void
     {
         test_external_exec("import*.php", "phperror.log");
     }

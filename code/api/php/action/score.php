@@ -64,6 +64,8 @@ $width = get_data("json/width") ? get_data("json/width") : 60;
 $height = get_data("json/height") ? get_data("json/height") : 16;
 $size = get_data("json/size") ? get_data("json/size") : 8;
 
+require_once "php/lib/password.php";
+require_once "php/lib/score.php";
 $score = password_strength($pass);
 $image = __score_image($score, $width, $height, $size);
 if ($format == "png") {

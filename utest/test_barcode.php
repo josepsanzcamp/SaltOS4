@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "lib/utestlib.php";
+require_once "php/lib/barcode.php";
 
 /**
  * Main class of this unit test

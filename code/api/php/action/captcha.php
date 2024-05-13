@@ -85,6 +85,7 @@ $args["period"] = get_data("json/period") ? get_data("json/period") : 2;
 $args["amplitude"] = get_data("json/amplitude") ? get_data("json/amplitude") : 8;
 $args["blur"] = get_data("json/blur") ? get_data("json/blur") : "true";
 
+require_once "php/lib/captcha.php";
 if ($type == "number") {
     $code = __captcha_make_number($length);
 }

@@ -153,6 +153,7 @@ function __captcha_isprime($num)
  */
 function __captcha_image($code, $args = [])
 {
+    require_once "php/lib/color.php";
     $code = strval($code);
     $width = isset($args["width"]) ? $args["width"] : 90;
     $height = isset($args["height"]) ? $args["height"] : 45;

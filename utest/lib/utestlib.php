@@ -217,6 +217,8 @@ function test_external_exec($glob_pattern, $error_file): void
         if ($error_file != "") {
             $file2 = "data/logs/$error_file";
             Assert::assertFileDoesNotExist($file2);
+        } else {
+            Assert::assertTrue(true);
         }
 
         test_pcov_start();

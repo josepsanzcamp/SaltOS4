@@ -40,4 +40,5 @@ init_timer();
 init_random();
 check_system();
 
+require_once "php/lib/color.php";
 color2dec("369", "nada");

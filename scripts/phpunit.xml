@@ -11,7 +11,8 @@
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
-         stopOnFailure="false">
+         stopOnFailure="true"
+         stopOnError="true">
     <testsuites>
         <testsuite name="utest">
             <directory prefix="test_" suffix=".php">../utest</directory>

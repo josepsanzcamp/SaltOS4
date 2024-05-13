@@ -66,6 +66,7 @@ $m = get_data("json/m") ? get_data("json/m") : 10;
 $s = get_data("json/s") ? get_data("json/s") : 8;
 $t = get_data("json/t") ? get_data("json/t") : "C39";
 
+require_once "php/lib/barcode.php";
 $image = __barcode_image($msg, $w, $h, $m, $s, $t);
 if ($image == "") {
     show_json_error("Internal error");
