@@ -47,13 +47,6 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
- * Loading helper function
- *
- * This file contains the needed function used by the unit tests
- */
-require_once "php/lib/math.php";
-
-/**
  * Main class of this unit test
  */
 final class test_math extends TestCase

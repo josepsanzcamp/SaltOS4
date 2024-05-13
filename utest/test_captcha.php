@@ -150,4 +150,34 @@ final class test_captcha extends TestCase
         $this->assertArrayHasKey("code", $json);
         $this->assertArrayHasKey("image", $json);
     }
+
+    #[testdox('color functions')]
+    /**
+     * color test
+     *
+     * This test performs some tests to validate the correctness
+     * of the color feature
+     */
+    public function test_color(): void
+    {
+        $r = __captcha_color2dec("#336699", "R");
+        $this->assertSame($r, 51);
+
+        $g = __captcha_color2dec("#336699", "G");
+        $this->assertSame($g, 102);
+
+        $b = __captcha_color2dec("#336699", "B");
+        $this->assertSame($b, 153);
+
+        $r = __captcha_color2dec("#369", "R");
+        $this->assertSame($r, 51);
+
+        $g = __captcha_color2dec("#369", "G");
+        $this->assertSame($g, 102);
+
+        $b = __captcha_color2dec("#369", "B");
+        $this->assertSame($b, 153);
+
+        test_external_exec("color*.php", "phperror.log");
+    }
 }

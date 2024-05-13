@@ -153,7 +153,6 @@ function __captcha_isprime($num)
  */
 function __captcha_image($code, $args = [])
 {
-    require_once "php/lib/color.php";
     $code = strval($code);
     $width = isset($args["width"]) ? $args["width"] : 90;
     $height = isset($args["height"]) ? $args["height"] : 45;
@@ -170,21 +169,21 @@ function __captcha_image($code, $args = [])
     $im = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im,
-        color2dec($color, "R"),
-        color2dec($color, "G"),
-        color2dec($color, "B")
+        __captcha_color2dec($color, "R"),
+        __captcha_color2dec($color, "G"),
+        __captcha_color2dec($color, "B")
     );
     $bgcolor2 = imagecolorallocate(
         $im,
-        color2dec($bgcolor, "R"),
-        color2dec($bgcolor, "G"),
-        color2dec($bgcolor, "B")
+        __captcha_color2dec($bgcolor, "R"),
+        __captcha_color2dec($bgcolor, "G"),
+        __captcha_color2dec($bgcolor, "B")
     );
     $fgcolor2 = imagecolorallocate(
         $im,
-        color2dec($fgcolor, "R"),
-        color2dec($fgcolor, "G"),
-        color2dec($fgcolor, "B")
+        __captcha_color2dec($fgcolor, "R"),
+        __captcha_color2dec($fgcolor, "G"),
+        __captcha_color2dec($fgcolor, "B")
     );
     imagefill($im, 0, 0, $bgcolor2);
     $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -212,21 +211,21 @@ function __captcha_image($code, $args = [])
     $im2 = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im2,
-        color2dec($color, "R"),
-        color2dec($color, "G"),
-        color2dec($color, "B")
+        __captcha_color2dec($color, "R"),
+        __captcha_color2dec($color, "G"),
+        __captcha_color2dec($color, "B")
     );
     $bgcolor2 = imagecolorallocate(
         $im2,
-        color2dec($bgcolor, "R"),
-        color2dec($bgcolor, "G"),
-        color2dec($bgcolor, "B")
+        __captcha_color2dec($bgcolor, "R"),
+        __captcha_color2dec($bgcolor, "G"),
+        __captcha_color2dec($bgcolor, "B")
     );
     $fgcolor2 = imagecolorallocate(
         $im2,
-        color2dec($fgcolor, "R"),
-        color2dec($fgcolor, "G"),
-        color2dec($fgcolor, "B")
+        __captcha_color2dec($fgcolor, "R"),
+        __captcha_color2dec($fgcolor, "G"),
+        __captcha_color2dec($fgcolor, "B")
     );
     imagefill($im2, 0, 0, $bgcolor2);
     imagecolortransparent($im2, $bgcolor2);
@@ -316,4 +315,37 @@ function __captcha_make_math($length)
     } while ($oper == "-" && $num1 < $num2);
     //~ $real = eval("return $code;");
     return $code;
+}
+
+/**
+ * Color To Dec function
+ *
+ * This function is a helper that allow to get from a RGB hex color the value
+ * in decimal of the specified component, useful to get the amount of color
+ * red, green or blue in decimal base from an string
+ *
+ * Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
+ *
+ * @color     => The color that you want to parse
+ * @component => The component that you want to retrieve their value
+ */
+function __captcha_color2dec($color, $component)
+{
+    if (substr($color, 0, 1) == "#") {
+        $color = substr($color, 1);
+    }
+    if (strlen($color) == 3) {
+        $R = substr($color, 0, 1);
+        $G = substr($color, 1, 1);
+        $B = substr($color, 2, 1);
+        $color = $R . $R . $G . $G . $B . $B;
+    }
+    if (strlen($color) != 6) {
+        show_php_error(["phperror" => "Unknown color length"]);
+    }
+    $offset = ["R" => 0, "G" => 2, "B" => 4];
+    if (!isset($offset[$component])) {
+        show_php_error(["phperror" => "Unknown color component"]);
+    }
+    return hexdec(substr($color, $offset[$component], 2));
 }
