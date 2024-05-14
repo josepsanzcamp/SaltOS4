@@ -31,6 +31,7 @@ declare(strict_types=1);
 // phpcs:disable Squiz.Classes.ValidClassName
 // phpcs:disable PSR1.Methods.CamelCapsMethodName
 // phpcs:disable PSR1.Files.SideEffects
+// phpcs:disable Generic.Files.LineLength
 
 /**
  * Test XML
