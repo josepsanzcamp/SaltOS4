@@ -153,6 +153,10 @@ function fix_key($arg)
  *
  * @files    => the files that you want to convert from xml to array
  * @usecache => if do you want to enable the cache feature
+ *
+ * Notes:
+ * - The arrays2array function is derived from this function that get all arguments and
+ *   process the contents to join with a certain logics
  */
 function xmlfiles2array($files, $usecache = true)
 {

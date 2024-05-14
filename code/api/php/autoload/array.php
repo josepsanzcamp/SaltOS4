@@ -404,6 +404,10 @@ function is_attr_value($array)
  * to join.
  *
  * $args => This function process dynamically all arguments
+ *
+ * Notes:
+ * - This function is derived from the xmlfiles2array that get all files and process
+ *   the contents to join with a certain logics
  */
 function arrays2array()
 {
