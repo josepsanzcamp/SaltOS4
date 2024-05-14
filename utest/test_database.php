@@ -550,16 +550,6 @@ final class test_database extends TestCase
         $obj->db_disconnect();
     }
 
-    /**
-     * Detect mssql
-     *
-     * This function returns the number of sqlservr processes found in the system
-     */
-    private function detect_mssql(): int
-    {
-        return intval(ob_passthru("ps uaxw | grep sqlservr | grep -v grep | wc -l"));
-    }
-
     #[testdox('pdo_mssql driver')]
     /**
      * PDO mssql driver
@@ -570,11 +560,6 @@ final class test_database extends TestCase
      */
     public function test_pdo_mssql(): void
     {
-        if (!$this->detect_mssql()) {
-            $this->markTestSkipped("Sql server not found");
-            return;
-        }
-
         // Connection part
         $obj = db_connect([
             "type" => "pdo_mssql",
@@ -728,14 +713,7 @@ final class test_database extends TestCase
         test_external_exec("database??_mysqli.php", "dberror.log");
         test_external_exec("database??_pdo_sqlite.php", "dberror.log");
         test_external_exec("database??_sqlite3.php", "dberror.log");
-
-        test_external_exec("database??.php", "dberror.log");
-
-        if (!$this->detect_mssql()) {
-            $this->markTestSkipped("Sql server not found");
-            return;
-        }
-
         test_external_exec("database??_pdo_mssql.php", "dberror.log");
+        test_external_exec("database??.php", "dberror.log");
     }
 }
