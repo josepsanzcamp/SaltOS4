@@ -27,21 +27,21 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
-        continue;
-    }
-    require $file;
+/**
+ * TODO
+ *
+ * TODO
+ */
+
+if (get_data("server/request_method") != "CLI") {
+    show_php_error(["phperror" => "Permission denied"]);
 }
 
-pcov_start();
-program_handlers();
-init_timer();
-init_random();
-check_system();
+if (!semaphore_acquire("gc")) {
+    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+}
 
-global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
-db_connect();
-
-__dbschema_helper("nada", "nada");
+require_once "php/lib/gc.php";
+output_handler_json([
+    "gc_exec" => gc_exec() ? "true" : "false",
+]);

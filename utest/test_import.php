@@ -402,6 +402,8 @@ final class test_import extends TestCase
      */
     public function test_import_external(): void
     {
-        test_external_exec("import*.php", "phperror.log");
+        test_external_exec("php/import1.php", "phperror.log", "unknown file");
+        test_external_exec("php/import2.php", "phperror.log", "unknown type");
+        test_external_exec("php/import3.php", "phperror.log", "unknown type nada for file");
     }
 }

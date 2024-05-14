@@ -42,6 +42,7 @@ declare(strict_types=1);
  * @l => error correction: L (low), M (medium), Q (better), H (best)
  */
 
+db_connect();
 $user_id = current_user();
 if (!$user_id) {
     show_json_error("Permission denied");

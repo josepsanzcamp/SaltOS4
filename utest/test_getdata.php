@@ -87,6 +87,7 @@ final class test_getdata extends TestCase
         set_data("token", null);
         $this->assertSame(get_data("token"), null);
 
-        test_external_exec("getdata*.php", "phperror.log");
+        test_external_exec("php/getdata1.php", "phperror.log", "key nada/nada/nada not found");
+        test_external_exec("php/getdata2.php", "phperror.log", "key nada/nada/nada not found");
     }
 }

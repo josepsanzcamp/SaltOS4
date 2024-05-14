@@ -91,6 +91,7 @@ final class test_config extends TestCase
 
         $this->assertSame(count(detect_config_files("xml/config.xml")) > 1, true);
 
-        test_external_exec("config*.php", "phperror.log");
+        test_external_exec("php/config1.php", "phperror.log", "key nada/nada/nada not found");
+        test_external_exec("php/config2.php", "phperror.log", "key nada/nada/nada not found");
     }
 }

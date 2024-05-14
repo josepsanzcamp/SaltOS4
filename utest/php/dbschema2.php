@@ -44,6 +44,5 @@ global $_CONFIG;
 $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
 db_connect();
 
-semaphore_acquire(["db_schema", "db_static"]);
-set_config("xml/dbstatic.xml", "nada", 0);
-db_static();
+require_once "php/lib/dbschema.php";
+__dbstatic_helper("nada", "nada", "nada");

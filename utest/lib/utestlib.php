@@ -208,28 +208,29 @@ function get_mime($buffer): string
  * This function tries to execute external php that triggers special conditions
  * suck as errors, that are not allowed from the phpunit tests
  *
- * @buffer => the contents that you want to check
+ * @test_file   => the file that must be executed
+ * @error_file  => the file that must contains the error_words
+ * @error_words => the words that must exists in the error_file
  */
-function test_external_exec($glob_pattern, $error_file): void
+function test_external_exec($test_file, $error_file, $error_words): void
 {
-    $files = glob("../../utest/php/$glob_pattern");
-    foreach ($files as $file) {
-        if ($error_file != "") {
-            $file2 = "data/logs/$error_file";
-            Assert::assertFileDoesNotExist($file2);
-        } else {
-            Assert::assertTrue(true);
-        }
+    $file = "../../utest/$test_file";
+    if ($error_file != "") {
+        $file2 = "data/logs/$error_file";
+        Assert::assertFileDoesNotExist($file2);
+    } else {
+        Assert::assertTrue(true);
+    }
 
-        test_pcov_start();
-        ob_passthru("php $file");
-        test_pcov_stop(2);
+    test_pcov_start();
+    ob_passthru("php $file");
+    test_pcov_stop(2);
 
-        if ($error_file != "") {
-            Assert::assertFileExists($file2);
-            unlink($file2);
-        } else {
-            Assert::assertTrue(true);
-        }
+    if ($error_file != "") {
+        Assert::assertFileExists($file2);
+        Assert::assertTrue(words_exists($error_words, file_get_contents($file2)));
+        unlink($file2);
+    } else {
+        Assert::assertTrue(true);
     }
 }

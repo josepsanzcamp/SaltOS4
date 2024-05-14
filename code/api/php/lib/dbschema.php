@@ -50,10 +50,7 @@ function db_schema()
         xmlfiles2array(detect_apps_files("xml/manifest.xml")),
     ]));
     if ($hash1 == $hash2) {
-        return;
-    }
-    if (!semaphore_acquire(["db_schema", "db_static"])) {
-        show_php_error(["phperror" => "Could not acquire the semaphore"]);
+        return false;
     }
     $dbschema = eval_attr(xmlfiles2array(detect_apps_files("xml/dbschema.xml")));
     $dbschema = __dbschema_auto_apps($dbschema);
@@ -132,7 +129,7 @@ function db_schema()
         }
     }
     set_config("xml/dbschema.xml", $hash2, 0);
-    semaphore_release(["db_schema", "db_static"]);
+    return true;
 }
 
 /**
@@ -154,10 +151,7 @@ function db_static()
         xmlfiles2array(detect_apps_files("xml/manifest.xml")),
     ]));
     if ($hash1 == $hash2) {
-        return;
-    }
-    if (!semaphore_acquire(["db_schema", "db_static"])) {
-        show_php_error(["phperror" => "Could not acquire the semaphore"]);
+        return false;
     }
     $dbstatic = eval_attr(arrays2array(
         xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
@@ -179,7 +173,7 @@ function db_static()
     }
     __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
     set_config("xml/dbstatic.xml", $hash2, 0);
-    semaphore_release(["db_schema", "db_static"]);
+    return true;
 }
 
 /**

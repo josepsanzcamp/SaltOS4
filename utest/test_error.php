@@ -81,7 +81,11 @@ final class test_error extends TestCase
 
         $this->assertSame(detect_recursion("test_error,test_error.php"), 2);
 
-        test_external_exec("error[1-5].php", "phperror.log");
-        test_external_exec("error6.php", "deprecated.log");
+        test_external_exec("php/error1.php", "phperror.log", "test error");
+        test_external_exec("php/error2.php", "phperror.log", "test error");
+        test_external_exec("php/error3.php", "phperror.log", "test error");
+        test_external_exec("php/error4.php", "phperror.log", "unknown type nada");
+        test_external_exec("php/error5.php", "phperror.log", "failed to set memory limit to 0 bytes");
+        test_external_exec("php/error6.php", "deprecated.log", "deprecated");
     }
 }

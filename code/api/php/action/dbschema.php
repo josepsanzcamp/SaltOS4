@@ -27,17 +27,23 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
-        continue;
-    }
-    require $file;
+/**
+ * TODO
+ *
+ * TODO
+ */
+
+if (get_data("server/request_method") != "CLI") {
+    show_php_error(["phperror" => "Permission denied"]);
 }
 
-pcov_start();
-program_handlers();
-init_timer();
-init_random();
-check_system();
+if (!semaphore_acquire("dbschema")) {
+    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+}
 
-gc_exec();
+db_connect();
+require_once "php/lib/dbschema.php";
+output_handler_json([
+    "db_schema" => db_schema() ? "true" : "false",
+    "db_static" => db_static() ? "true" : "false",
+]);

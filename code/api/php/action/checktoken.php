@@ -43,6 +43,7 @@ if (!semaphore_acquire("token")) {
     show_php_error(["phperror" => "Could not acquire the semaphore"]);
 }
 
+db_connect();
 crontab_users();
 
 $token_id = current_token();

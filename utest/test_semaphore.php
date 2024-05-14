@@ -93,7 +93,7 @@ final class test_semaphore extends TestCase
         fclose($fd);
         $fd = null;
 
-        test_external_exec("semaphore*.php", "phperror.log");
+        test_external_exec("php/semaphore1.php", "phperror.log", "internal error");
 
         // This part of the test is to cover the errors of the actions
         // when tries to acquire the semaphore
@@ -125,6 +125,36 @@ final class test_semaphore extends TestCase
         unlink($file2);
 
         $json = test_web_helper("authupdate", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file2);
+        unlink($file2);
+
+        unlink($file1);
+
+        $file1 = semaphore_file("dbschema");
+        if (file_exists($file1)) {
+            unlink($file1);
+        }
+        touch($file1);
+        chmod($file1, 0444);
+        $this->assertFileExists($file1);
+
+        $json = test_cli_helper("dbschema", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file2);
+        unlink($file2);
+
+        unlink($file1);
+
+        $file1 = semaphore_file("gc");
+        if (file_exists($file1)) {
+            unlink($file1);
+        }
+        touch($file1);
+        chmod($file1, 0444);
+        $this->assertFileExists($file1);
+
+        $json = test_cli_helper("gc", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file2);
         unlink($file2);

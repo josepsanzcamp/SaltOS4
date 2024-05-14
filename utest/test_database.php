@@ -709,11 +709,28 @@ final class test_database extends TestCase
         $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), false);
         db_connect();
 
-        test_external_exec("database??_pdo_mysql.php", "dberror.log");
-        test_external_exec("database??_mysqli.php", "dberror.log");
-        test_external_exec("database??_pdo_sqlite.php", "dberror.log");
-        test_external_exec("database??_sqlite3.php", "dberror.log");
-        test_external_exec("database??_pdo_mssql.php", "dberror.log");
-        test_external_exec("database??.php", "dberror.log");
+        test_external_exec("php/database01_pdo_mysql.php", "dberror.log", "connection refused");
+        test_external_exec("php/database02_pdo_mysql.php", "dberror.log", "base table or view not found table saltos.nada doesn't exist");
+        test_external_exec("php/database01_mysqli.php", "dberror.log", "connection refused");
+        test_external_exec("php/database02_mysqli.php", "dberror.log", "table saltos.nada doesn't exist");
+        test_external_exec("php/database01_pdo_sqlite.php", "dberror.log", "file data/files/nada not found");
+        test_external_exec("php/database02_pdo_sqlite.php", "dberror.log", "general error: 1 no such table: nada");
+        test_external_exec("php/database03_pdo_sqlite.php", "dberror.log", "file /root not writable");
+        test_external_exec("php/database04_pdo_sqlite.php", "dberror.log", "general error: 26 file is not a database");
+        test_external_exec("php/database05_pdo_sqlite.php", "dberror.log", "could not acquire the semaphore");
+        test_external_exec("php/database06_pdo_sqlite.php", "dberror.log", "general error: 1 no such table: nada");
+        test_external_exec("php/database01_sqlite3.php", "dberror.log", "file data/files/nada not found");
+        test_external_exec("php/database02_sqlite3.php", "dberror.log", "unable to prepare statement: no such table: nada");
+        test_external_exec("php/database03_sqlite3.php", "dberror.log", "file /root not writable");
+        test_external_exec("php/database04_sqlite3.php", "dberror.log", "unable to prepare statement: file is not a database");
+        test_external_exec("php/database05_sqlite3.php", "dberror.log", "could not acquire the semaphore");
+        test_external_exec("php/database06_sqlite3.php", "dberror.log", "unable to prepare statement: no such table: nada");
+        test_external_exec("php/database01_pdo_mssql.php", "dberror.log", "unable to connect: Adaptive Server is unavailable or does not exist");
+        test_external_exec("php/database02_pdo_mssql.php", "dberror.log", "general error: 20018 invalid object name nada");
+        test_external_exec("php/database07.php", "dberror.log", "database type nada not found");
+        test_external_exec("php/database08.php", "dberror.log", "unknown database connector");
+        test_external_exec("php/database09.php", "dberror.log", "unknown database connector");
+        test_external_exec("php/database10.php", "dberror.log", "unknown field name at position nada");
+        test_external_exec("php/database11.php", "dberror.log", "unknown database connector");
     }
 }

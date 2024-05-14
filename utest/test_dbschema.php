@@ -157,6 +157,19 @@ final class test_dbschema extends TestCase
         $field = get_field_from_dbstatic("customers");
         $this->assertSame($field, "nombre");
 
-        test_external_exec("dbschema*.php", "phperror.log");
+        test_external_exec("php/dbschema1.php", "phperror.log", "Unknown fn nada");
+        test_external_exec("php/dbschema2.php", "phperror.log", "Unknown fn nada");
+
+        $file = "data/logs/phperror.log";
+        $this->assertFileDoesNotExist($file);
+
+        $json = test_web_helper("dbschema", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file);
+        unlink($file);
+
+        $json = test_cli_helper("dbschema", [], "");
+        $this->assertArrayHasKey("db_schema", $json);
+        $this->assertArrayHasKey("db_static", $json);
     }
 }

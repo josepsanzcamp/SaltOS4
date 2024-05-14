@@ -178,6 +178,7 @@ final class test_captcha extends TestCase
         $b = __captcha_color2dec("#369", "B");
         $this->assertSame($b, 153);
 
-        test_external_exec("color*.php", "phperror.log");
+        test_external_exec("php/color1.php", "phperror.log", "unknown color length");
+        test_external_exec("php/color2.php", "phperror.log", "unknown color component");
     }
 }

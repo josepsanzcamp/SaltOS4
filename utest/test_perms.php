@@ -94,8 +94,10 @@ final class test_perms extends TestCase
         $this->assertSame(check_app_perm_id("customers", "view"), false);
         $this->assertSame(check_app_perm_id_json("dashboard", "menu"), null);
 
-        test_external_exec("perms[1-3].php", "phperror.log");
-        test_external_exec("perms4.php", "");
+        test_external_exec("php/perms1.php", "phperror.log", "app nada not found");
+        test_external_exec("php/perms2.php", "phperror.log", "perm nada not found");
+        test_external_exec("php/perms3.php", "phperror.log", "nada(nada) not found");
+        test_external_exec("php/perms4.php", "", "");
 
         $token = $json["token"];
         $row = execute_query("SELECT * FROM tbl_users_tokens WHERE token='$token'");
@@ -107,7 +109,7 @@ final class test_perms extends TestCase
         $rows = execute_query_array("SELECT * FROM tbl_apps_perms");
         db_query("TRUNCATE TABLE tbl_apps_perms");
 
-        test_external_exec("perms5.php", "phperror.log");
+        test_external_exec("php/perms5.php", "phperror.log", "internal error for 11|1");
 
         foreach ($rows as $row) {
             db_query(make_insert_query("tbl_apps_perms", $row));
@@ -122,7 +124,8 @@ final class test_perms extends TestCase
         $rows2 = execute_query_array("SELECT * FROM tbl_groups_apps_perms WHERE perm_id IN ($perms_ids)");
         db_query("DELETE FROM tbl_groups_apps_perms WHERE perm_id IN ($perms_ids)");
 
-        test_external_exec("perms[6,7].php", "");
+        test_external_exec("php/perms6.php", "", "");
+        test_external_exec("php/perms7.php", "", "");
 
         foreach ($rows1 as $row) {
             db_query(make_insert_query("tbl_users_apps_perms", $row));

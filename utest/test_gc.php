@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "lib/utestlib.php";
+require_once "php/lib/gc.php";
 
 /**
  * Main class of this unit test
@@ -83,6 +84,17 @@ final class test_gc extends TestCase
         set_config("server/cachetimeout", $old);
         $this->assertSame(get_config("server/cachetimeout"), $old);
 
-        test_external_exec("gc*.php", "phperror.log");
+        test_external_exec("php/gc1.php", "phperror.log", "internal error");
+
+        $file = "data/logs/phperror.log";
+        $this->assertFileDoesNotExist($file);
+
+        $json = test_web_helper("gc", [], "");
+        $this->assertArrayHasKey("error", $json);
+        $this->assertFileExists($file);
+        unlink($file);
+
+        $json = test_cli_helper("gc", [], "");
+        $this->assertArrayHasKey("gc_exec", $json);
     }
 }

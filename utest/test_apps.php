@@ -119,7 +119,7 @@ final class test_apps extends TestCase
         $json = test_web_helper("app/customers/widget/plot1", "", $json2["token"]);
         $this->assertArrayHasKey("data", $json);
 
-        test_external_exec("apps*.php", "phperror.log");
+        test_external_exec("php/apps1.php", "phperror.log", "nada(nada) not found");
 
         if (file_exists("apps/nada2/xml/app.xml")) {
             unlink("apps/nada2/xml/app.xml");

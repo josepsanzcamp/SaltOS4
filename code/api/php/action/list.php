@@ -77,6 +77,9 @@ if (!isset($array[get_data("rest/2")])) {
     show_json_error("subapp " . get_data("rest/2") . " not found");
 }
 
+// Connect to the database
+db_connect();
+
 // Check permissions
 if (!check_app_perm_id(get_data("rest/1"), "list")) {
     show_json_error("Permission denied");

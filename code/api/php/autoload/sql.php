@@ -387,6 +387,7 @@ function get_field_size($type)
  */
 function sql_create_table($tablespec)
 {
+    require_once "php/lib/dbschema.php";
     $table = $tablespec["#attr"]["name"];
     $fields = [];
     foreach ($tablespec["value"]["fields"] as $field) {

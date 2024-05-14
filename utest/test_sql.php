@@ -160,7 +160,7 @@ final class test_sql extends TestCase
         $this->assertSame(count($fields), 4);
 
         $fields = get_indexes("tbl_config");
-        $this->assertSame(count($fields), 2);
+        $this->assertSame(count($fields), 1);
 
         db_disconnect();
         set_config("db/type", "pdo_sqlite");
@@ -312,6 +312,10 @@ final class test_sql extends TestCase
         $this->assertSame($query, "id IN (SELECT id FROM app_customers_index " .
             "WHERE MATCH(search) AGAINST('+(+\"hola\" -\"mundo\")' IN BOOLEAN MODE))");
 
-        test_external_exec("sql*.php", "phperror.log");
+        test_external_exec("php/sql1.php", "phperror.log", "unknown type nada");
+        test_external_exec("php/sql2.php", "phperror.log", "unknown type nada");
+        test_external_exec("php/sql3.php", "phperror.log", "unknown type nada");
+        test_external_exec("php/sql4.php", "phperror.log", "unused data nada");
+        test_external_exec("php/sql5.php", "phperror.log", "unused data nada");
     }
 }

@@ -121,8 +121,16 @@ final class test_xml extends TestCase
         $array = eval_attr(xml2array($xml));
         $this->assertSame($array, ["a" => "b"]);
 
-        test_external_exec("xml0*.php", "xmlerror.log");
-        test_external_exec("xml10.php", "xmlerror.log");
-        test_external_exec("xml11.php", "");
+        test_external_exec("php/xml01.php", "xmlerror.log", "file not found: nada");
+        test_external_exec("php/xml02.php", "xmlerror.log", "could not acquire the semaphore");
+        test_external_exec("php/xml03.php", "xmlerror.log", "encoding tag error");
+        test_external_exec("php/xml04.php", "xmlerror.log", "error 42: attribute redefined at line");
+        test_external_exec("php/xml05.php", "xmlerror.log", "error 42: attribute redefined on file nada at line");
+        test_external_exec("php/xml06.php", "xmlerror.log", "unknown tag type with name nada");
+        test_external_exec("php/xml07.php", "xmlerror.log", "unknown tag type with name nada on file nada");
+        test_external_exec("php/xml08.php", "xmlerror.log", "evaluation error: void expression");
+        test_external_exec("php/xml09.php", "xmlerror.log", "require nada not found");
+        test_external_exec("php/xml10.php", "xmlerror.log", "unknown boolean value nada");
+        test_external_exec("php/xml11.php", "", "");
     }
 }

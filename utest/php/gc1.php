@@ -40,5 +40,5 @@ init_timer();
 init_random();
 check_system();
 
-semaphore_acquire("gc_exec");
+require_once "php/lib/gc.php";
 gc_exec();

@@ -51,6 +51,7 @@ declare(strict_types=1);
  * @blur      => true or false to enable or disable the blur effect
  */
 
+db_connect();
 $user_id = current_user();
 if (!$user_id) {
     show_json_error("Permission denied");

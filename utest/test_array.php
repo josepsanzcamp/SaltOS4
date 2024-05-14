@@ -170,6 +170,9 @@ final class test_array extends TestCase
         __array_apply_patch($array, "/row/2/row/0/col/0", "z");
         $this->assertSame(__array_getnode("2/rows/0/name", $array), "z");
 
-        test_external_exec("array*.php", "phperror.log");
+        test_external_exec("php/array1.php", "phperror.log", "path row for nada not found");
+        test_external_exec("php/array2.php", "phperror.log", "unknown nada for nada");
+        test_external_exec("php/array3.php", "phperror.log", "invalid xml tag name");
+        test_external_exec("php/array4.php", "phperror.log", "invalid xml attr name");
     }
 }

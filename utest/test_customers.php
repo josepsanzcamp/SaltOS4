@@ -125,7 +125,7 @@ final class test_customers extends TestCase
         db_query($query);
 
         file_put_contents("/tmp/phpunit.regid", $id);
-        test_external_exec("customers1.php", "phperror.log");
+        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity breaked for customers");
 
         $query = "UPDATE app_customers_version
                   SET hash='$hash'
@@ -151,7 +151,7 @@ final class test_customers extends TestCase
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
 
-        test_external_exec("customers1.php", "phperror.log");
+        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity breaked for customers");
 
         $query = "UPDATE app_customers_version
                   SET hash='$hash', datetime='$datetime'
@@ -174,7 +174,7 @@ final class test_customers extends TestCase
                   WHERE reg_id=$id AND ver_id=-2";
         db_query($query);
 
-        test_external_exec("customers1.php", "phperror.log");
+        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity breaked for customers");
         unlink("/tmp/phpunit.regid");
 
         $query = "UPDATE app_customers_version

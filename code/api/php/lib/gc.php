@@ -46,9 +46,6 @@ declare(strict_types=1);
  */
 function gc_exec()
 {
-    if (!semaphore_acquire(__FUNCTION__)) {
-        show_php_error(["phperror" => "Could not acquire the semaphore"]);
-    }
     $dirs = [
         get_directory("dirs/cachedir"),
         get_directory("dirs/tempdir"),
@@ -70,5 +67,5 @@ function gc_exec()
             unlink($file);
         }
     }
-    semaphore_release(__FUNCTION__);
+    return true;
 }

@@ -101,11 +101,6 @@ eval_iniset(get_config("iniset"));
 eval_putenv(get_config("putenv"));
 eval_extras(get_config("extras"));
 
-gc_exec(); // TODO: This is necessary or can be delegate to crontab
-db_connect(); // TODO: This is necessary or can be called when needed
-db_schema(); // TODO: This is necessary or can be called when needed
-db_static(); // TODO: This is necessary or can be called when needed
-
 // Collect all input data
 if (isset($argv) && defined("STDIN")) {
     // This allow to use SaltOS from the command line using the CLI SAPI
@@ -114,17 +109,13 @@ if (isset($argv) && defined("STDIN")) {
         "rest" => array_diff(explode("/", implode("/", array_slice($argv, 1))), [""]),
         "json" => array_protected(json_decode(file_get_contents("php://stdin"), true)),
         "server" => [
-            "request_method" => "GET",
+            "request_method" => "CLI",
             "content_type" => "",
             "token" => check_token_format(getenv("TOKEN")),
             "remote_addr" => getenv("USER"),
             "user_agent" => "PHP/" . phpversion(),
         ],
     ];
-    if (count(get_data("json"))) {
-        set_data("server/request_method", "POST");
-        set_data("server/content_type", "application/json");
-    }
 } else {
     $_DATA = [
         "rest" => array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""]),
@@ -155,7 +146,7 @@ if (get_data("rest/0") == "") {
 }
 
 // Check for a valid request_method
-if (!in_array(get_data("server/request_method"), ["GET", "POST"])) {
+if (!in_array(get_data("server/request_method"), ["GET", "POST", "CLI"])) {
     show_json_error("Unknown request");
 }
 

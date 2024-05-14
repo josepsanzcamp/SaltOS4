@@ -70,7 +70,7 @@ final class test_system extends TestCase
         check_system();
         $this->assertTrue(true);
 
-        test_external_exec("system*.php", "phperror.log");
+        test_external_exec("php/system1.php", "phperror.log", "data/nada not writable");
 
         $this->assertFileExists("data/nada");
         unlink("data/nada");

@@ -153,6 +153,7 @@ function make_index($app, $reg_id)
  */
 function __make_index_helper($table, $id = "")
 {
+    require_once "php/lib/dbschema.php";
     static $cache = [];
     $hash = $table . "|" . $id;
     if (isset($cache[$hash])) {

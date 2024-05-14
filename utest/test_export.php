@@ -387,6 +387,9 @@ final class test_export extends TestCase
      */
     public function test_export_external(): void
     {
-        test_external_exec("export*.php", "phperror.log");
+        test_external_exec("php/export1.php", "phperror.log", "unknown type");
+        test_external_exec("php/export2.php", "phperror.log", "unknown data");
+        test_external_exec("php/export3.php", "phperror.log", "unknown type nada for file");
+        test_external_exec("php/export4.php", "phperror.log", "arrays in subfields not allowed");
     }
 }
