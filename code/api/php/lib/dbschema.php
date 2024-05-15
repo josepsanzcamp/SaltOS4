@@ -64,7 +64,7 @@ function db_schema()
             $isbackup = (substr($table, 0, 2) == "__" && substr($table, -2, 2) == "__");
             if (!$isbackup && !in_array($table, $tables2)) {
                 $backup = "__{$table}__";
-                db_query(sql_alter_table($table, $backup));
+                db_query(__dbschema_alter_table($table, $backup));
             }
         }
         foreach ($dbschema["tables"] as $tablespec) {
@@ -79,10 +79,10 @@ function db_schema()
                 $hash3 = md5(serialize($fields1));
                 $hash4 = md5(serialize($fields2));
                 if ($hash3 != $hash4) {
-                    db_query(sql_alter_table($table, $backup));
-                    db_query(sql_create_table($tablespec));
-                    db_query(sql_insert_from_select($table, $backup));
-                    db_query(sql_drop_table($backup));
+                    db_query(__dbschema_alter_table($table, $backup));
+                    db_query(__dbschema_create_table($tablespec));
+                    db_query(__dbschema_insert_from_select($table, $backup));
+                    db_query(__dbschema_drop_table($backup));
                 }
             } elseif (in_array($backup, $tables1)) {
                 $fields1 = get_fields($backup);
@@ -90,20 +90,20 @@ function db_schema()
                 $hash3 = md5(serialize($fields1));
                 $hash4 = md5(serialize($fields2));
                 if ($hash3 != $hash4) {
-                    db_query(sql_create_table($tablespec));
-                    db_query(sql_insert_from_select($table, $backup));
-                    db_query(sql_drop_table($backup));
+                    db_query(__dbschema_create_table($tablespec));
+                    db_query(__dbschema_insert_from_select($table, $backup));
+                    db_query(__dbschema_drop_table($backup));
                 } else {
-                    db_query(sql_alter_table($backup, $table));
+                    db_query(__dbschema_alter_table($backup, $table));
                 }
             } else {
-                db_query(sql_create_table($tablespec));
+                db_query(__dbschema_create_table($tablespec));
             }
             $indexes1 = get_indexes($table);
             $indexes2 = get_indexes_from_dbschema($table);
             foreach ($indexes1 as $index => $fields) {
                 if (!array_key_exists($index, $indexes2)) {
-                    db_query(sql_drop_index($index, $table));
+                    db_query(__dbschema_drop_index($index, $table));
                 }
             }
             if (isset($tablespec["value"]["indexes"]) && is_array($tablespec["value"]["indexes"])) {
@@ -118,11 +118,11 @@ function db_schema()
                         $hash3 = md5(serialize($fields1));
                         $hash4 = md5(serialize($fields2));
                         if ($hash3 != $hash4) {
-                            db_query(sql_drop_index($index, $table));
-                            db_query(sql_create_index($indexspec));
+                            db_query(__dbschema_drop_index($index, $table));
+                            db_query(__dbschema_create_index($indexspec));
                         }
                     } else {
-                        db_query(sql_create_index($indexspec));
+                        db_query(__dbschema_create_index($indexspec));
                     }
                 }
             }
@@ -753,4 +753,194 @@ function __manifest_perms_check($files)
             }
         }
     }
+}
+
+/**
+ * DB Schema Create Table
+ *
+ * This function returns the SQL needed to create the table defined in the
+ * tablespec argument
+ *
+ * @tablespec => the specification for the create table, see the dbschema
+ *               file to understand the tablespec structure
+ *
+ * This function creates the table, supports the primary key, supports the
+ * foreign key, and detect fulltext indexes with mroonga engines
+ */
+function __dbschema_create_table($tablespec)
+{
+    $table = $tablespec["#attr"]["name"];
+    $fields = [];
+    foreach ($tablespec["value"]["fields"] as $field) {
+        $name = $field["#attr"]["name"];
+        $type = $field["#attr"]["type"];
+        $type2 = get_field_type($type);
+        if ($type2 == "int") {
+            $def = intval(0);
+        } elseif ($type2 == "float") {
+            $def = floatval(0);
+        } elseif ($type2 == "date") {
+            $def = dateval(0);
+        } elseif ($type2 == "time") {
+            $def = timeval(0);
+        } elseif ($type2 == "datetime") {
+            $def = datetimeval(0);
+        } elseif ($type2 == "string") {
+            $def = "";
+        } else {
+            // @codeCoverageIgnoreStart
+            show_php_error(["phperror" => "Unknown type '$type'"]);
+            // @codeCoverageIgnoreEnd
+        }
+        $extra = "NOT NULL DEFAULT '$def'";
+        if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
+            $extra = "PRIMARY KEY /*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */";
+        }
+        $name2 = escape_reserved_word($name);
+        $fields[] = "$name2 $type $extra";
+    }
+    foreach ($tablespec["value"]["fields"] as $field) {
+        if (isset($field["#attr"]["fkey"])) {
+            $fkey = $field["#attr"]["fkey"];
+            if ($fkey != "") {
+                $name = $field["#attr"]["name"];
+                $fields[] = "FOREIGN KEY ($name) REFERENCES $fkey (id)";
+            }
+        }
+    }
+    $fields = implode(",", $fields);
+    $post = "/*MYSQL ENGINE=MyISAM CHARSET=utf8mb4 */";
+    if (in_array($table, get_fulltext_from_dbschema()) && __has_engine("mroonga")) {
+        $post = "/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 */";
+    } elseif (__has_engine("aria")) {
+        $post = "/*MYSQL ENGINE=Aria CHARSET=utf8mb4 */";
+    }
+    $query = "CREATE TABLE $table ($fields) $post";
+    return $query;
+}
+
+/**
+ * DB Schema Alter Table
+ *
+ * This function returns the alter table command
+ *
+ * @orig => source table
+ * @dest => destination table
+ */
+function __dbschema_alter_table($orig, $dest)
+{
+    $query = "ALTER TABLE $orig RENAME TO $dest";
+    return $query;
+}
+
+/**
+ * DB Schema Insert From Select
+ *
+ * This function returns the insert from select command
+ *
+ * @orig => source table
+ * @dest => destination table
+ */
+function __dbschema_insert_from_select($dest, $orig)
+{
+    $fdest = get_fields($dest);
+    $ldest = [];
+    foreach ($fdest as $f) {
+        $ldest[] = $f["name"];
+    }
+    $forig = get_fields($orig);
+    $lorig = [];
+    foreach ($forig as $f) {
+        $lorig[] = $f["name"];
+    }
+    $defs = [];
+    foreach ($fdest as $f) {
+        $type = $f["type"];
+        $type2 = get_field_type($type);
+        if ($type2 == "int") {
+            $defs[] = intval(0);
+        } elseif ($type2 == "float") {
+            $defs[] = floatval(0);
+        } elseif ($type2 == "date") {
+            $defs[] = dateval(0);
+        } elseif ($type2 == "time") {
+            $defs[] = timeval(0);
+        } elseif ($type2 == "datetime") {
+            $defs[] = datetimeval(0);
+        } elseif ($type2 == "string") {
+            $defs[] = "";
+        } else {
+            // @codeCoverageIgnoreStart
+            show_php_error(["phperror" => "Unknown type '$type'"]);
+            // @codeCoverageIgnoreEnd
+        }
+    }
+    $keys = [];
+    $vals = [];
+    foreach ($ldest as $key => $l) {
+        $def = $defs[$key];
+        $l2 = escape_reserved_word($l);
+        $keys[] = $l2;
+        $vals[] = in_array($l, $lorig) ? $l2 : "'$def'";
+    }
+    $keys = implode(",", $keys);
+    $vals = implode(",", $vals);
+    $query = "INSERT INTO $dest($keys) SELECT $vals FROM $orig";
+    return $query;
+}
+
+/**
+ * DB Schema Drop Table
+ *
+ * This function returns the drop table command
+ *
+ * @table => table that you want to drop
+ */
+function __dbschema_drop_table($table)
+{
+    $query = "DROP TABLE $table";
+    return $query;
+}
+
+/**
+ * DB Schema Create Index
+ *
+ * This function returns the SQL needed to create the index defined in the
+ * indexspec argument
+ *
+ * @indexspec => the specification for the create index, see the dbschema
+ *               file to understand the indexspec structure
+ *
+ * This function creates the index, supports fulltext indexes
+ */
+function __dbschema_create_index($indexspec)
+{
+    $name = $indexspec["#attr"]["name"];
+    $table = $indexspec["#attr"]["table"];
+    $fields = $indexspec["#attr"]["fields"];
+    $fields = explode(",", $fields);
+    foreach ($fields as $key => $val) {
+        $fields[$key] = escape_reserved_word($val);
+    }
+    $fields = implode(",", $fields);
+    $pre = "";
+    if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
+        $pre = "/*MYSQL FULLTEXT */";
+    }
+    $query = "CREATE $pre INDEX $name ON $table ($fields)";
+    return $query;
+}
+
+/**
+ * DB Schema Drop Index
+ *
+ * This function returns the drop index command
+ *
+ * @index => index that you want to drop
+ * @table => table where the indes is part of
+ */
+function __dbschema_drop_index($index, $table)
+{
+    $query = "/*MYSQL DROP INDEX $index ON $table *//*SQLITE DROP INDEX $index */";
+    return $query;
 }
