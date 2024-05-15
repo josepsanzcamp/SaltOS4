@@ -90,7 +90,7 @@ check:
 
 utest:
 ifeq ($(file), ) # default behaviour
-	phpunit -c scripts/phpunit.xml $(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? grep '\.'php$$ | gawk '{print "../../"$$2}' | sort | paste -s -d' ')
+	phpunit -c scripts/phpunit.xml $(shell svn st utest/test_*.php | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print "../../"$$2}' | sort | paste -s -d' ')
 else
 ifeq ($(file), all) # file=all
 	phpunit -c scripts/phpunit.xml
