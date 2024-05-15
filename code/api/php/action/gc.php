@@ -28,9 +28,10 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Garbage Collector action
  *
- * TODO
+ * This action executes the gc_exec function in the gc.php library, the execution
+ * of this accion only is allowed from the command line
  */
 
 if (get_data("server/request_method") != "CLI") {
@@ -42,6 +43,9 @@ if (!semaphore_acquire("gc")) {
 }
 
 require_once "php/lib/gc.php";
+$time1 = microtime(true);
+gc_exec();
+$time2 = microtime(true);
 output_handler_json([
-    "gc_exec" => gc_exec() ? "true" : "false",
+    "gc_exec" => $time2 - $time1,
 ]);

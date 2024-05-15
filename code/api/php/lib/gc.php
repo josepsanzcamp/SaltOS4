@@ -67,5 +67,4 @@ function gc_exec()
             unlink($file);
         }
     }
-    return true;
 }

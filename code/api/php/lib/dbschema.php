@@ -42,16 +42,6 @@ declare(strict_types=1);
  */
 function db_schema()
 {
-    //~ set_config("xml/dbschema.xml", "nada", 0);
-    $hash1 = get_config("xml/dbschema.xml", 0);
-    $hash2 = md5(serialize([
-        xmlfiles2array(detect_apps_files("xml/dbschema.xml")),
-        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
-        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
-    ]));
-    if ($hash1 == $hash2) {
-        return false;
-    }
     $dbschema = eval_attr(xmlfiles2array(detect_apps_files("xml/dbschema.xml")));
     $dbschema = __dbschema_auto_apps($dbschema);
     $dbschema = __dbschema_auto_fkey($dbschema);
@@ -128,8 +118,6 @@ function db_schema()
             }
         }
     }
-    set_config("xml/dbschema.xml", $hash2, 0);
-    return true;
 }
 
 /**
@@ -144,15 +132,6 @@ function db_schema()
  */
 function db_static()
 {
-    //~ set_config("xml/dbstatic.xml", "nada", 0);
-    $hash1 = get_config("xml/dbstatic.xml", 0);
-    $hash2 = md5(serialize([
-        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
-        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
-    ]));
-    if ($hash1 == $hash2) {
-        return false;
-    }
     $dbstatic = eval_attr(arrays2array(
         xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
         __manifest2dbstatic(detect_apps_files("xml/manifest.xml")),
@@ -172,8 +151,6 @@ function db_static()
         }
     }
     __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
-    set_config("xml/dbstatic.xml", $hash2, 0);
-    return true;
 }
 
 /**

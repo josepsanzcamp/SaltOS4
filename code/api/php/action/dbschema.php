@@ -28,9 +28,10 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * DB Schema action
  *
- * TODO
+ * This action executes the db_schema and db_static functions in the dbschema.php
+ * library, the execution of this accion only is allowed from the command line
  */
 
 if (get_data("server/request_method") != "CLI") {
@@ -43,7 +44,12 @@ if (!semaphore_acquire("dbschema")) {
 
 db_connect();
 require_once "php/lib/dbschema.php";
+$time1 = microtime(true);
+db_schema();
+$time2 = microtime(true);
+db_static();
+$time3 = microtime(true);
 output_handler_json([
-    "db_schema" => db_schema() ? "true" : "false",
-    "db_static" => db_static() ? "true" : "false",
+    "db_schema" =>  $time2 - $time1,
+    "db_static" =>  $time3 - $time2,
 ]);

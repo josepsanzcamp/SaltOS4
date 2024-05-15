@@ -160,7 +160,7 @@ final class test_sql extends TestCase
         $this->assertSame(count($fields), 4);
 
         $fields = get_indexes("tbl_config");
-        $this->assertSame(count($fields), 1);
+        $this->assertSame(count($fields), 2);
 
         db_disconnect();
         set_config("db/type", "pdo_sqlite");

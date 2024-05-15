@@ -106,8 +106,6 @@ final class test_dbschema extends TestCase
         $query = "CREATE INDEX nada ON tbl_groups(active)";
         db_query($query);
 
-        set_config("xml/dbschema.xml", "nada", 0);
-        set_config("xml/dbstatic.xml", "nada", 0);
         db_schema();
         db_schema();
         db_static();

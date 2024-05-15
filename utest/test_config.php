@@ -73,7 +73,6 @@ final class test_config extends TestCase
 
         $this->assertSame(is_array(get_config("db")), true);
         $this->assertSame(get_config("db/user"), "saltos");
-        $this->assertSame(strlen(get_config("xml/dbschema.xml", 0)), 32);
 
         $uniqid = get_unique_id_md5();
         set_config("test", $uniqid, 1);
