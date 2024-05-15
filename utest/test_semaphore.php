@@ -112,21 +112,25 @@ final class test_semaphore extends TestCase
         $json = test_web_helper("authtoken", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file2);
+        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
         unlink($file2);
 
         $json = test_web_helper("checktoken", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file2);
+        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
         unlink($file2);
 
         $json = test_web_helper("deauthtoken", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file2);
+        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
         unlink($file2);
 
         $json = test_web_helper("authupdate", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file2);
+        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
         unlink($file2);
 
         unlink($file1);
@@ -142,6 +146,7 @@ final class test_semaphore extends TestCase
         $json = test_cli_helper("dbschema", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file2);
+        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
         unlink($file2);
 
         unlink($file1);
@@ -157,6 +162,7 @@ final class test_semaphore extends TestCase
         $json = test_cli_helper("gc", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file2);
+        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
         unlink($file2);
 
         unlink($file1);

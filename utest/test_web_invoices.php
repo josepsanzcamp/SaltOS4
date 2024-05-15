@@ -339,6 +339,7 @@ final class test_web_invoices extends TestCase
         ], $json["token"]);
         $this->assertArrayHasKey("error", $json3);
         $this->assertFileExists($file);
+        $this->assertTrue(words_exists("subdata found with id=0", file_get_contents($file)));
         unlink($file);
 
         $json3 = test_web_helper("update/invoices/$id", [

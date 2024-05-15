@@ -61,21 +61,12 @@ final class test_log extends TestCase
     public function test_log(): void
     {
         $file0 = "data/logs/saltos.log";
-        if (file_exists($file0)) {
-            unlink($file0);
-        }
         $this->assertFileDoesNotExist($file0);
 
         $file1 = "data/logs/saltos.log.1";
-        if (file_exists($file1)) {
-            unlink($file1);
-        }
         $this->assertFileDoesNotExist($file1);
 
         $file2 = "data/logs/saltos.log.2";
-        if (file_exists($file2)) {
-            unlink($file2);
-        }
         $this->assertFileDoesNotExist($file2);
 
         addlog("hola");

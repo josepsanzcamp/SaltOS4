@@ -68,9 +68,6 @@ final class test_addlog extends TestCase
     public function test_addlog(): void
     {
         $file = "data/logs/saltos.log";
-        if (file_exists($file)) {
-            unlink($file);
-        }
         $this->assertFileDoesNotExist($file);
 
         $json = test_web_helper("addlog", [], "");
@@ -84,6 +81,7 @@ final class test_addlog extends TestCase
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 1);
         $this->assertFileExists($file);
+        $this->assertTrue(words_exists("hola mundo", file_get_contents($file)));
         unlink($file);
     }
 }

@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "lib/utestlib.php";
+require_once "php/lib/dbschema.php";
 
 /**
  * Main class of this unit test
@@ -166,6 +167,7 @@ final class test_dbschema extends TestCase
         $json = test_web_helper("dbschema", [], "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file);
+        $this->assertTrue(words_exists("permission denied", file_get_contents($file)));
         unlink($file);
 
         $json = test_cli_helper("dbschema", [], "");

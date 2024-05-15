@@ -87,6 +87,7 @@ final class test_adderror extends TestCase
         $this->assertSame(count($json), 1);
         $this->assertSame(count($json["error"]), 2);
         $this->assertFileExists($file);
+        $this->assertTrue(words_exists("hi jserror hi details hi backtrace", file_get_contents($file)));
         unlink($file);
     }
 }

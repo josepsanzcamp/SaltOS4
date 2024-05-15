@@ -107,6 +107,7 @@ final class test_authupdate extends TestCase
         db_query("DELETE FROM tbl_users_passwords WHERE id='$id'");
 
         $this->assertFileExists($file);
+        $this->assertTrue(words_exists("internal error", file_get_contents($file)));
         unlink($file);
 
         // Continue with the other checks
