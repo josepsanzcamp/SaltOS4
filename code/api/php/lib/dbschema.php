@@ -310,34 +310,29 @@ function __dbschema_helper($fn, $table)
             foreach ($dbschema["tables"] as $tablespec) {
                 if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
                     $ignores[$tablespec["#attr"]["name"]] = 1;
-                } else {
-                    $tables[$tablespec["#attr"]["name"]] = [];
-                    foreach ($tablespec["value"]["fields"] as $fieldspec) {
-                        $tables[$tablespec["#attr"]["name"]][] = [
-                            "name" => $fieldspec["#attr"]["name"],
-                            "type" => strtoupper(parse_query($fieldspec["#attr"]["type"])),
-                        ];
-                        if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
-                            if (
-                                !isset($fieldspec["#attr"]["fckeck"]) ||
-                                eval_bool($fieldspec["#attr"]["fckeck"])
-                            ) {
-                                $fkeys[$tablespec["#attr"]["name"]][$fieldspec["#attr"]["name"]]
-                                    = $fieldspec["#attr"]["fkey"];
-                            }
-                        }
+                    continue;
+                }
+                $tables[$tablespec["#attr"]["name"]] = [];
+                foreach ($tablespec["value"]["fields"] as $fieldspec) {
+                    $tables[$tablespec["#attr"]["name"]][] = [
+                        "name" => $fieldspec["#attr"]["name"],
+                        "type" => strtoupper(parse_query($fieldspec["#attr"]["type"])),
+                    ];
+                    if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
+                        $fkeys[$tablespec["#attr"]["name"]][$fieldspec["#attr"]["name"]]
+                            = $fieldspec["#attr"]["fkey"];
                     }
-                    if (isset($tablespec["value"]["indexes"])) {
-                        $indexes[$tablespec["#attr"]["name"]] = [];
-                        foreach ($tablespec["value"]["indexes"] as $indexspec) {
-                            $indexes[$tablespec["#attr"]["name"]][parse_query($indexspec["#attr"]["name"])]
-                                = explode(",", $indexspec["#attr"]["fields"]);
-                            if (
-                                isset($indexspec["#attr"]["fulltext"]) &&
-                                eval_bool($indexspec["#attr"]["fulltext"])
-                            ) {
-                                $fulltext[$tablespec["#attr"]["name"]] = 1;
-                            }
+                }
+                if (isset($tablespec["value"]["indexes"])) {
+                    $indexes[$tablespec["#attr"]["name"]] = [];
+                    foreach ($tablespec["value"]["indexes"] as $indexspec) {
+                        $indexes[$tablespec["#attr"]["name"]][parse_query($indexspec["#attr"]["name"])]
+                            = explode(",", $indexspec["#attr"]["fields"]);
+                        if (
+                            isset($indexspec["#attr"]["fulltext"]) &&
+                            eval_bool($indexspec["#attr"]["fulltext"])
+                        ) {
+                            $fulltext[$tablespec["#attr"]["name"]] = 1;
                         }
                     }
                 }
@@ -598,6 +593,7 @@ function get_tables_from_dbstatic()
  * file and associated to the apps table
  *
  * @table => the table of the dbstatic that want to convert to field
+ * @field => the field name, field by default
  *
  * Notes:
  *
@@ -622,6 +618,7 @@ function get_field_from_dbstatic($table, $field = "field")
  *
  * @fn    => the caller function name
  * @table => the table used by some features
+ * @field => the field used by some features
  */
 function __dbstatic_helper($fn, $table, $field)
 {

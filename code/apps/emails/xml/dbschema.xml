@@ -82,7 +82,7 @@ This file allow to define the database needed by this application
 		<table name="app_emails_accounts">
 			<fields>
 				<field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
-				<field name="user_id" type="INT(11)" fkey="tbl_users" fcheck="false"/>
+				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
 				<field name="email_name" type="VARCHAR(255)"/>
 				<field name="email_from" type="VARCHAR(255)"/>
 				<field name="email_signature" type="VARCHAR(255)"/>

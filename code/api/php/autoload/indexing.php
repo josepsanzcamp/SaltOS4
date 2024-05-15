@@ -153,7 +153,6 @@ function make_index($app, $reg_id)
  */
 function __make_index_helper($table, $id = "")
 {
-    require_once "php/lib/dbschema.php";
     static $cache = [];
     $hash = $table . "|" . $id;
     if (isset($cache[$hash])) {
@@ -161,13 +160,13 @@ function __make_index_helper($table, $id = "")
     }
     $fieldnames = array_column(get_fields($table), "name");
     $result = $fieldnames;
-    $tablefield = get_field_from_dbstatic($table);
+    $tablefield = __get_field_helper($table);
     if ($tablefield != "") {
         $result[] = $tablefield;
     }
-    $fieldfkeys = get_fkeys_from_dbschema($table);
+    $fieldfkeys = __get_fkeys_helper($table);
     foreach ($fieldfkeys as $key => $val) {
-        $temp = get_field_from_dbstatic($val);
+        $temp = __get_field_helper($val);
         if ($temp == "") {
             $temp = implode(",' ',", array_column(get_fields($val), "name"));
             if ($temp != "") {
@@ -200,4 +199,39 @@ function __make_index_helper($table, $id = "")
     }
     $cache[$hash] = $result;
     return $result;
+}
+
+/**
+ * Get Field helper
+ *
+ * This function return the field associated to the table in the dbstatic
+ * file and associated to the apps table
+ *
+ * @table => the table of the dbstatic that want to convert to field
+ *
+ * Notes:
+ *
+ * This function uses the dbschema.php library
+ */
+function __get_field_helper($table)
+{
+    require_once "php/lib/dbschema.php";
+    return get_field_from_dbstatic($table);
+}
+
+/**
+ * Get Fkeys helper
+ *
+ * This function returns the fkeys from the DB Schema file
+ *
+ * @table => the table that you want to request the fkeys
+ *
+ * Notes:
+ *
+ * This function uses the dbschema.php library
+ */
+function __get_fkeys_helper($table)
+{
+    require_once "php/lib/dbschema.php";
+    return get_fkeys_from_dbschema($table);
 }
