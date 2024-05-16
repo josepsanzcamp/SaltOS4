@@ -10,7 +10,7 @@ phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<updated>|base64:PHVw
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4zIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMyJ9
 chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|base64:eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC40LjEifQ==
-ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjQxLjQuMCJ9
+ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjQxLjQuMSJ9
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|base64:eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwLWljb25zIiwidmVyc2lvbiI6IjEuMTEuMyJ9
 imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5LmltYWdlc2xvYWRlZCIsInZlcnNpb24iOiI1LjAuMCJ9
@@ -28,10 +28,10 @@ rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex--
 
 browserify|https://github.com/browserify/browserify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMC0xMC0xMFQwOTozMjoyNVo8L3VwZGF0ZWQ+
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wNy0xNFQwMDozMzo1NVo8L3VwZGF0ZWQ+
-mariadb|https://github.com/MariaDB/server/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMi0xNlQxNDoxODozM1o8L3VwZGF0ZWQ+
+mariadb|https://github.com/MariaDB/server/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0xNVQxNDo1MTowMlo8L3VwZGF0ZWQ+
 minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0wNFQxMToxMDoyNVo8L3VwZGF0ZWQ+
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
-node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0wOVQxMDoyNToxMlo8L3VwZGF0ZWQ+
+node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0xNVQxODo1Nzo0Mlo8L3VwZGF0ZWQ+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yM1QyMDozMzowMlo8L3VwZGF0ZWQ+
 php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0wN1QxNjozNTo0OVo8L3VwZGF0ZWQ+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yNFQwNjozNDo0OFo8L3VwZGF0ZWQ+
