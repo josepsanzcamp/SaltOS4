@@ -127,6 +127,33 @@ function db_schema()
             }
         }
     }
+    set_config("xml/dbschema.xml", __dbschema_hash(), 0);
+}
+
+/**
+ * DB Schema hash
+ *
+ * This function returns the hash used by db_schema
+ */
+function __dbschema_hash()
+{
+    return md5(serialize([
+        xmlfiles2array(detect_apps_files("xml/dbschema.xml")),
+        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
+        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
+    ]));
+}
+
+/**
+ * DB Schema check
+ *
+ * This function returns the comparison between the old hash and the new hash
+ */
+function __dbschema_check()
+{
+    $hash1 = get_config("xml/dbschema.xml", 0);
+    $hash2 = __dbschema_hash();
+    return $hash1 == $hash2;
 }
 
 /**
@@ -160,6 +187,32 @@ function db_static()
         }
     }
     __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
+    set_config("xml/dbstatic.xml", __dbstatic_hash(), 0);
+}
+
+/**
+ * DB Static hash
+ *
+ * This function returns the hash used by db_static
+ */
+function __dbstatic_hash()
+{
+    return md5(serialize([
+        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
+        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
+    ]));
+}
+
+/**
+ * DB Static check
+ *
+ * This function returns the comparison between the old hash and the new hash
+ */
+function __dbstatic_check()
+{
+    $hash1 = get_config("xml/dbstatic.xml", 0);
+    $hash2 = __dbstatic_hash();
+    return $hash1 == $hash2;
 }
 
 /**

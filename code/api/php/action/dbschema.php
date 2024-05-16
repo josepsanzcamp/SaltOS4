@@ -44,12 +44,24 @@ if (!semaphore_acquire("dbschema")) {
 
 db_connect();
 require_once "php/lib/dbschema.php";
+$dbschema_check = __dbschema_check();
+$dbschema_hash = __dbschema_hash();
+$dbstatic_check = __dbstatic_check();
+$dbstatic_hash = __dbstatic_hash();
 $time1 = microtime(true);
 db_schema();
 $time2 = microtime(true);
 db_static();
 $time3 = microtime(true);
 output_handler_json([
-    "db_schema" =>  $time2 - $time1,
-    "db_static" =>  $time3 - $time2,
+    "db_schema" => [
+        "time" => $time2 - $time1,
+        "check" => $dbschema_check,
+        "hash" => $dbschema_hash,
+    ],
+    "db_static" => [
+        "time" => $time3 - $time2,
+        "check" => $dbstatic_check,
+        "hash" => $dbstatic_hash,
+    ],
 ]);

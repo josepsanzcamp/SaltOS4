@@ -106,10 +106,18 @@ final class test_dbschema extends TestCase
         $query = "CREATE INDEX nada ON tbl_groups(active)";
         db_query($query);
 
+        set_config("xml/dbschema.xml", "nada", 0);
+        set_config("xml/dbstatic.xml", "nada", 0);
+        $this->assertFalse(__dbschema_check());
+        $this->assertFalse(__dbstatic_check());
         db_schema();
         db_schema();
         db_static();
         db_static();
+        $this->assertTrue(__dbschema_check());
+        $this->assertTrue(__dbstatic_check());
+        $this->assertSame(strlen(__dbschema_hash()), 32);
+        $this->assertSame(strlen(__dbstatic_hash()), 32);
 
         $query = "DROP TABLE tbl_one";
         db_query($query);
