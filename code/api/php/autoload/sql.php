@@ -273,17 +273,14 @@ function get_indexes($table)
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
         $index = $row["Key_name"];
-        $column = $row["Column_name"];
-        $where = 1;
         if ($index == "PRIMARY") {
-            $where = 0;
+            continue;
         }
-        if ($where) {
-            if (!isset($indexes[$index])) {
-                $indexes[$index] = [];
-            }
-            $indexes[$index][] = $column;
+        if (!isset($indexes[$index])) {
+            $indexes[$index] = [];
         }
+        $column = $row["Column_name"];
+        $indexes[$index][] = $column;
     }
     return $indexes;
 }

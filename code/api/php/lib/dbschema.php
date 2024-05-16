@@ -71,6 +71,9 @@ function db_schema()
                 if ($hash3 != $hash4) {
                     db_query(__dbschema_alter_table($table, $backup));
                     db_query(__dbschema_create_table($tablespec));
+                    foreach (get_indexes($table) as $index => $fields) {
+                        db_query(__dbschema_drop_index($index, $table));
+                    }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
                 }
@@ -81,6 +84,9 @@ function db_schema()
                 $hash4 = md5(serialize($fields2));
                 if ($hash3 != $hash4) {
                     db_query(__dbschema_create_table($tablespec));
+                    foreach (get_indexes($table) as $index => $fields) {
+                        db_query(__dbschema_drop_index($index, $table));
+                    }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
                 } else {
@@ -88,6 +94,9 @@ function db_schema()
                 }
             } else {
                 db_query(__dbschema_create_table($tablespec));
+                foreach (get_indexes($table) as $index => $fields) {
+                    db_query(__dbschema_drop_index($index, $table));
+                }
             }
             $indexes1 = get_indexes($table);
             $indexes2 = get_indexes_from_dbschema($table);
