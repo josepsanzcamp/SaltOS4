@@ -64,4 +64,4 @@ output_handler_json([
         "check" => $dbstatic_check,
         "hash" => $dbstatic_hash,
     ],
-]);
+], JSON_PRETTY_PRINT);

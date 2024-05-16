@@ -153,10 +153,10 @@ function output_handler($array)
  * The newline added to the data after the json_encode is intended to do more
  * easy the debug process and the usage with the command line using the cli sapi
  */
-function output_handler_json($array)
+function output_handler_json($array, $flags = 0)
 {
     output_handler([
-        "data" => json_encode($array) . "\n",
+        "data" => json_encode($array, $flags) . "\n",
         "type" => "application/json",
         "cache" => false,
     ]);

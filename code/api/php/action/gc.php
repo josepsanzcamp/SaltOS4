@@ -47,5 +47,7 @@ $time1 = microtime(true);
 gc_exec();
 $time2 = microtime(true);
 output_handler_json([
-    "gc_exec" => $time2 - $time1,
-]);
+    "gc_exec" => [
+        "time" => $time2 - $time1,
+    ],
+], JSON_PRETTY_PRINT);
