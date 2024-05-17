@@ -76,11 +76,10 @@ if ($format == "png") {
         "cache" => false,
     ]);
 }
-$data = "data:image/png;base64," . base64_encode($image);
 $minscore = intval(get_config("auth/passwordminscore"));
 $valid = ($score >= $minscore) ? "ok" : "ko";
 output_handler_json([
     "score" => $score . "%",
-    "image" => $data,
+    "image" => mime_inline("image/png", $image),
     "valid" => $valid,
 ]);

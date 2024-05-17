@@ -1071,8 +1071,7 @@ function getmail_body($id)
                     if ($cid2 != "") {
                         $chash2 = $node2["chash"];
                         $ctype2 = $node2["ctype"];
-                        $data = base64_encode($node2["body"]);
-                        $data = "data:{$ctype2};base64,{$data}";
+                        $data = mime_inline($ctype2, $node2["body"]);
                         $temp = str_replace("cid:{$cid2}", $data, $temp);
                     }
                 }

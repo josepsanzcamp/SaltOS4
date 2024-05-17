@@ -99,3 +99,17 @@ function saltos_content_type1($mime)
     $mime = explode("/", $mime);
     return array_pop($mime);
 }
+
+/**
+ * Mime inline
+ *
+ * This function returns the inline mime fragment of string that contains the mime
+ * and the encoded in base64 data, intended to embed it in img tags, for example.
+ *
+ * @type => the mime type (image/png for example)
+ * @data => the contents of the data that must to be encoded in base64
+ */
+function mime_inline($type, $data)
+{
+    return "data:$type;base64," . base64_encode($data);
+}

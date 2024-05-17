@@ -79,8 +79,7 @@ if ($format == "png") {
         "cache" => false,
     ]);
 }
-$data = "data:image/png;base64," . base64_encode($image);
 output_handler_json([
     "msg" => $msg,
-    "image" => $data,
+    "image" => mime_inline("image/png", $image),
 ]);
