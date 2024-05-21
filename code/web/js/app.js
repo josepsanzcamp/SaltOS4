@@ -653,42 +653,42 @@ saltos.app.form.title = title => {
  * @action => use loading, unloading or clear to execute the desired action
  */
 saltos.app.form.screen = action => {
-    if (action == 'loading') {
-        var obj = document.getElementById('loading');
-        if (obj) {
-            return false;
-        }
-        obj = saltos.core.html(`
-            <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 opacity-75">
-                <div class="spinner-border position-fixed top-50 start-50" role="status">
-                    <span class="visually-hidden">Loading...</span>
+    switch (action) {
+        case 'loading':
+            var obj = document.getElementById('loading');
+            if (obj) {
+                return false;
+            }
+            obj = saltos.core.html(`
+                <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 opacity-75">
+                    <div class="spinner-border position-fixed top-50 start-50" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-            </div>
-        `);
-        var dark = document.querySelector('html').getAttribute('data-bs-theme');
-        if (!dark) {
-            obj.classList.add('bg-light');
-            obj.classList.add('text-dark');
-        } else {
-            obj.classList.add('bg-dark');
-            obj.classList.add('text-light');
-        }
-        document.body.append(obj);
-        return true;
+            `);
+            var dark = document.querySelector('html').getAttribute('data-bs-theme');
+            if (!dark) {
+                obj.classList.add('bg-light');
+                obj.classList.add('text-dark');
+            } else {
+                obj.classList.add('bg-dark');
+                obj.classList.add('text-light');
+            }
+            document.body.append(obj);
+            return true;
+        case 'unloading':
+            var obj = document.getElementById('loading');
+            if (!obj) {
+                return false;
+            }
+            obj.remove();
+            return true;
+        case 'clear':
+            document.body.innerHTML = '';
+            return true;
+        default:
+            throw new Error(`action ${action} not found`);
     }
-    if (action == 'unloading') {
-        var obj = document.getElementById('loading');
-        if (!obj) {
-            return false;
-        }
-        obj.remove();
-        return true;
-    }
-    if (action == 'clear') {
-        document.body.innerHTML = '';
-        return true;
-    }
-    return false;
 };
 
 /**
@@ -831,27 +831,31 @@ saltos.app.get_data = full => {
             if (types.includes(obj.type)) {
                 var val = obj.value;
                 var old = field.value.toString();
-                if (obj.type == 'textarea') {
-                    val = val.replace(/\r\n|\r/g, '\n');
-                    old = old.replace(/\r\n|\r/g, '\n');
-                } else if (field.type == 'integer') {
-                    val = parseInt(val);
-                    old = parseInt(old);
-                    if (isNaN(val)) {
-                        val = 0;
-                    }
-                    if (isNaN(old)) {
-                        old = 0;
-                    }
-                } else if (field.type == 'float') {
-                    val = parseFloat(val);
-                    old = parseFloat(old);
-                    if (isNaN(val)) {
-                        val = 0;
-                    }
-                    if (isNaN(old)) {
-                        old = 0;
-                    }
+                switch (obj.type) {
+                    case 'textarea':
+                        val = val.replace(/\r\n|\r/g, '\n');
+                        old = old.replace(/\r\n|\r/g, '\n');
+                        break;
+                    case 'integer':
+                        val = parseInt(val);
+                        old = parseInt(old);
+                        if (isNaN(val)) {
+                            val = 0;
+                        }
+                        if (isNaN(old)) {
+                            old = 0;
+                        }
+                        break;
+                    case 'float':
+                        val = parseFloat(val);
+                        old = parseFloat(old);
+                        if (isNaN(val)) {
+                            val = 0;
+                        }
+                        if (isNaN(old)) {
+                            old = 0;
+                        }
+                        break;
                 }
                 if (val != old || full) {
                     saltos.app.__form.data[field.id] = val;

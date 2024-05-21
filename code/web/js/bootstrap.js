@@ -1127,14 +1127,17 @@ saltos.bootstrap.__field.password = field => {
     }
     obj.querySelector('button').addEventListener('click', event => {
         var input = event.target.parentElement.querySelector('input[type=password], input[type=text]');
-        if (input.type == 'password') {
-            input.type = 'text';
-            event.target.classList.remove('bi-eye-slash');
-            event.target.classList.add('bi-eye');
-        } else if (input.type == 'text') {
-            input.type = 'password';
-            event.target.classList.remove('bi-eye');
-            event.target.classList.add('bi-eye-slash');
+        switch (input.type) {
+            case 'password':
+                input.type = 'text';
+                event.target.classList.remove('bi-eye-slash');
+                event.target.classList.add('bi-eye');
+                break;
+            case 'text':
+                input.type = 'password';
+                event.target.classList.remove('bi-eye');
+                event.target.classList.add('bi-eye-slash');
+                break;
         }
     });
     obj.prepend(saltos.bootstrap.__label_helper(field));
@@ -1857,23 +1860,28 @@ saltos.bootstrap.__field.table = field => {
                     if (iterator[key2].hasOwnProperty('type')) {
                         type = iterator[key2].type;
                     }
-                    if (type == 'icon') {
-                        if (val2) {
-                            var temp = saltos.core.html(`<i class="bi bi-${val2}"></i>`);
+                    switch (type) {
+                        case 'icon':
+                            if (val2) {
+                                var temp = saltos.core.html(`<i class="bi bi-${val2}"></i>`);
+                                td.append(temp);
+                            }
+                            break;
+                        case 'html':
+                            if (val2) {
+                                var temp = saltos.core.html(val2);
+                                td.append(temp);
+                            }
+                            break;
+                        case 'text':
+                            if (val2) {
+                                td.append(val2);
+                            }
+                            break;
+                        default:
+                            var temp = `unknown type ${type}`;
                             td.append(temp);
-                        }
-                    } else if (type == 'html') {
-                        if (val2) {
-                            var temp = saltos.core.html(val2);
-                            td.append(temp);
-                        }
-                    } else if (type == 'text') {
-                        if (val2) {
-                            td.append(val2);
-                        }
-                    } else {
-                        var temp = `unknown type ${type}`;
-                        td.append(temp);
+                            break;
                     }
                 }
                 if (iterator[key2].hasOwnProperty('align')) {
@@ -3210,14 +3218,19 @@ saltos.bootstrap.__accesskey_listener = event => {
         var useShift = false;
         var key = null;
         for (var i = 0,len = temp.length; i < len; i++) {
-            if (temp[i] == 'alt') {
-                useAlt = true;
-            } else if (temp[i] == 'ctrl') {
-                useCtrl = true;
-            } else if (temp[i] == 'shift') {
-                useShift = true;
-            } else {
-                key = keycodes[temp[i]];
+            switch (temp[i]) {
+                case 'alt':
+                    useAlt = true;
+                    break;
+                case 'ctrl':
+                    useCtrl = true;
+                    break;
+                case 'shift':
+                    useShift = true;
+                    break;
+                default:
+                    key = keycodes[temp[i]];
+                    break;
             }
         }
         var count = 0;
