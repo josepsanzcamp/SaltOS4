@@ -12,18 +12,17 @@ all:
 	@echo Nothing to do by default
 
 web: clean
-	cat code/web/lib/md5/md5.min.js > code/web/index.js
-	cat code/web/js/{object,core,bootstrap,auth,app}.js | php scripts/md5sum.php | minify --js >> code/web/index.js
+	uglifyjs code/web/js/{object,core,bootstrap,auth,app}.js -c -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	cat code/web/css/index.css | minify --css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 devel: clean
 	cat code/web/htm/index.htm | \
-	php scripts/debug.php index.js lib/md5/md5.min.js js/{object,core,bootstrap,auth,app}.js | \
+	php scripts/debug.php index.js js/{object,core,bootstrap,auth,app}.js | \
 	php scripts/debug.php index.css css/index.css > code/web/index.htm
 
 clean:
-	rm -f code/web/index.{js,css,htm}
+	rm -f code/web/index.{js,css,htm,js.map}
 
 test:
 ifeq ($(file), ) # default behaviour
