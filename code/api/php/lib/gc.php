@@ -63,12 +63,12 @@ function gc_exec()
     }
     $delta = time() - intval(get_config("server/cachetimeout"));
     $output = [
-        "deleted" => 0,
+        "deleted" => [],
     ];
     foreach ($files as $file) {
         if (file_exists($file) && is_file($file) && filemtime($file) < $delta) {
             unlink($file);
-            $output["deleted"]++;
+            $output["deleted"][] = $file;
         }
     }
     return $output;

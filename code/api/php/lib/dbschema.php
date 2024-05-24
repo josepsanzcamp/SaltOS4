@@ -47,12 +47,7 @@ function db_schema()
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
     $output = [
-        "to_backup" => 0,
-        "schema_changed" => 0,
-        "from_backup" => 0,
-        "created_index" => 0,
-        "changed_index" => 0,
-        "droped_index" => 0,
+        "history" => [],
     ];
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
         $ignores = get_ignores_from_dbschema();
@@ -63,7 +58,7 @@ function db_schema()
             if (!$isbackup && !in_array($table, $tables2)) {
                 $backup = "__{$table}__";
                 db_query(__dbschema_alter_table($table, $backup));
-                $output["to_backup"]++;
+                $output["history"][] = "Rename $table to $backup";
             }
         }
         foreach ($dbschema["tables"] as $tablespec) {
@@ -85,7 +80,7 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
-                    $output["schema_changed"]++;
+                    $output["history"][] = "Alter $table";
                 }
             } elseif (in_array($backup, $tables1)) {
                 $fields1 = get_fields($backup);
@@ -99,24 +94,24 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
-                    $output["schema_changed"]++;
+                    $output["history"][] = "Alter $table from $backup";
                 } else {
                     db_query(__dbschema_alter_table($backup, $table));
-                    $output["from_backup"]++;
+                    $output["history"][] = "Rename $backup to $table";
                 }
             } else {
                 db_query(__dbschema_create_table($tablespec));
                 foreach (get_indexes($table) as $index => $fields) {
                     db_query(__dbschema_drop_index($index, $table));
                 }
-                $output["schema_changed"]++;
+                $output["history"][] = "Create $table";
             }
             $indexes1 = get_indexes($table);
             $indexes2 = get_indexes_from_dbschema($table);
             foreach ($indexes1 as $index => $fields) {
                 if (!array_key_exists($index, $indexes2)) {
                     db_query(__dbschema_drop_index($index, $table));
-                    $output["droped_index"]++;
+                    $output["history"][] = "Drop $index";
                 }
             }
             if (isset($tablespec["value"]["indexes"]) && is_array($tablespec["value"]["indexes"])) {
@@ -133,11 +128,11 @@ function db_schema()
                         if ($hash3 != $hash4) {
                             db_query(__dbschema_drop_index($index, $table));
                             db_query(__dbschema_create_index($indexspec));
-                            $output["changed_index"]++;
+                            $output["history"][] = "Alter $index";
                         }
                     } else {
                         db_query(__dbschema_create_index($indexspec));
-                        $output["created_index"]++;
+                        $output["history"][] = "Create $index";
                     }
                 }
             }
@@ -190,20 +185,27 @@ function db_static()
         __manifest2dbstatic(detect_apps_files("xml/manifest.xml")),
     ));
     $output = [
-        "inserted_rows" => [],
+        "history" => [],
     ];
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
+            if (isset($output["history"][$table])) {
+                continue;
+            }
+            $count = execute_query("SELECT COUNT(*) FROM $table");
             $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
             db_query($query);
-            $output["inserted_rows"][$table] = 0;
+            $output["history"][$table] = [
+                "from" => $count,
+                "to" => 0,
+            ];
         }
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
             $rows = $data["value"];
             foreach ($rows as $row) {
-                $output["inserted_rows"][$table] += __dbstatic_insert($table, $row["#attr"]);
+                $output["history"][$table]["to"] += __dbstatic_insert($table, $row["#attr"]);
             }
         }
     }
