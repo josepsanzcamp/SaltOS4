@@ -49,19 +49,19 @@ $dbschema_hash = __dbschema_hash();
 $dbstatic_check = __dbstatic_check();
 $dbstatic_hash = __dbstatic_hash();
 $time1 = microtime(true);
-db_schema();
+$output1 = db_schema();
 $time2 = microtime(true);
-db_static();
+$output2 = db_static();
 $time3 = microtime(true);
 output_handler_json([
-    "db_schema" => [
+    "db_schema" => array_merge([
         "time" => $time2 - $time1,
         "check" => $dbschema_check,
         "hash" => $dbschema_hash,
-    ],
-    "db_static" => [
+    ], $output1),
+    "db_static" => array_merge([
         "time" => $time3 - $time2,
         "check" => $dbstatic_check,
         "hash" => $dbstatic_hash,
-    ],
+    ], $output2),
 ], JSON_PRETTY_PRINT);

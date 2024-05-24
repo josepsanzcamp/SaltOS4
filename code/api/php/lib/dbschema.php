@@ -46,6 +46,14 @@ function db_schema()
     $dbschema = __dbschema_auto_apps($dbschema);
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
+    $output = [
+        "to_backup" => 0,
+        "schema_changed" => 0,
+        "from_backup" => 0,
+        "created_index" => 0,
+        "changed_index" => 0,
+        "droped_index" => 0,
+    ];
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
         $ignores = get_ignores_from_dbschema();
         $tables1 = array_diff(get_tables(), $ignores);
@@ -55,6 +63,7 @@ function db_schema()
             if (!$isbackup && !in_array($table, $tables2)) {
                 $backup = "__{$table}__";
                 db_query(__dbschema_alter_table($table, $backup));
+                $output["to_backup"]++;
             }
         }
         foreach ($dbschema["tables"] as $tablespec) {
@@ -76,6 +85,7 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
+                    $output["schema_changed"]++;
                 }
             } elseif (in_array($backup, $tables1)) {
                 $fields1 = get_fields($backup);
@@ -89,20 +99,24 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
+                    $output["schema_changed"]++;
                 } else {
                     db_query(__dbschema_alter_table($backup, $table));
+                    $output["from_backup"]++;
                 }
             } else {
                 db_query(__dbschema_create_table($tablespec));
                 foreach (get_indexes($table) as $index => $fields) {
                     db_query(__dbschema_drop_index($index, $table));
                 }
+                $output["schema_changed"]++;
             }
             $indexes1 = get_indexes($table);
             $indexes2 = get_indexes_from_dbschema($table);
             foreach ($indexes1 as $index => $fields) {
                 if (!array_key_exists($index, $indexes2)) {
                     db_query(__dbschema_drop_index($index, $table));
+                    $output["droped_index"]++;
                 }
             }
             if (isset($tablespec["value"]["indexes"]) && is_array($tablespec["value"]["indexes"])) {
@@ -119,15 +133,18 @@ function db_schema()
                         if ($hash3 != $hash4) {
                             db_query(__dbschema_drop_index($index, $table));
                             db_query(__dbschema_create_index($indexspec));
+                            $output["changed_index"]++;
                         }
                     } else {
                         db_query(__dbschema_create_index($indexspec));
+                        $output["created_index"]++;
                     }
                 }
             }
         }
     }
     set_config("xml/dbschema.xml", __dbschema_hash(), 0);
+    return $output;
 }
 
 /**
@@ -172,22 +189,27 @@ function db_static()
         xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
         __manifest2dbstatic(detect_apps_files("xml/manifest.xml")),
     ));
+    $output = [
+        "inserted_rows" => [],
+    ];
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
             $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
             db_query($query);
+            $output["inserted_rows"][$table] = 0;
         }
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
             $rows = $data["value"];
             foreach ($rows as $row) {
-                __dbstatic_insert($table, $row["#attr"]);
+                $output["inserted_rows"][$table] += __dbstatic_insert($table, $row["#attr"]);
             }
         }
     }
     __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
     set_config("xml/dbstatic.xml", __dbstatic_hash(), 0);
+    return $output;
 }
 
 /**
@@ -231,26 +253,23 @@ function __dbstatic_check()
  */
 function __dbstatic_insert($table, $row)
 {
-    $found = "";
     foreach ($row as $field => $value) {
         if ($field == "id" || substr($field, 0, 3) == "id_" || substr($field, -3, 3) == "_id") {
             if (strpos($value, ",") !== false) {
-                $found = $field;
-                break;
+                $a = explode(",", $row[$field]);
+                $total = 0;
+                foreach ($a as $b) {
+                    $row[$field] = $b;
+                    $total += __dbstatic_insert($table, $row);
+                }
+                return $total;
             }
         }
     }
-    if ($found != "") {
-        $a = explode(",", $row[$found]);
-        foreach ($a as $b) {
-            $row[$found] = $b;
-            __dbstatic_insert($table, $row);
-        }
-    } else {
-        // Original insert query
-        $query = make_insert_query($table, $row);
-        db_query($query);
-    }
+    // Original insert query
+    $query = make_insert_query($table, $row);
+    db_query($query);
+    return 1;
 }
 
 /**

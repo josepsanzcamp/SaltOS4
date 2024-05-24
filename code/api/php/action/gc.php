@@ -44,10 +44,10 @@ if (!semaphore_acquire("gc")) {
 
 require_once "php/lib/gc.php";
 $time1 = microtime(true);
-gc_exec();
+$output = gc_exec();
 $time2 = microtime(true);
 output_handler_json([
-    "gc_exec" => [
+    "gc_exec" => array_merge([
         "time" => $time2 - $time1,
-    ],
+    ], $output),
 ], JSON_PRETTY_PRINT);
