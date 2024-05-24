@@ -29,10 +29,10 @@ rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex--
 browserify|https://github.com/browserify/browserify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMC0xMC0xMFQwOTozMjoyNVo8L3VwZGF0ZWQ+
 jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wNy0xNFQwMDozMzo1NVo8L3VwZGF0ZWQ+
 mariadb|https://github.com/MariaDB/server/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0xNVQxNDo1MTowMlo8L3VwZGF0ZWQ+
-minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0wNFQxMToxMDoyNVo8L3VwZGF0ZWQ+
+minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxNjoyOTo0M1o8L3VwZGF0ZWQ+
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
 node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxMTo1MToxOVo8L3VwZGF0ZWQ+
-phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMFQwODoxNjowNFo8L3VwZGF0ZWQ+
-php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0wN1QxNjozNTo0OVo8L3VwZGF0ZWQ+
+phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMlQyMTozMTozOFo8L3VwZGF0ZWQ+
+php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxNDo0Njo1OFo8L3VwZGF0ZWQ+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yNFQwNjozNDo0OFo8L3VwZGF0ZWQ+
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNVQxNjozOTowMFo8L3VwZGF0ZWQ+

@@ -13,13 +13,13 @@ all:
 
 web: clean
 	mkdir -p code/web/js/.js
-	for i in code/web/js/{object,core,bootstrap,auth,app}.js; do \
+	@for i in code/web/js/*.js; do \
 		cat $$i | php scripts/md5sum.php > code/web/js/.js/$${i##*/}; \
 	done
 	uglifyjs code/web/js/.js/{object,core,bootstrap,auth,app}.js -c -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
 	rmdir code/web/js/.js
-	cat code/web/css/index.css | minify --css > code/web/index.css
+	minify code/web/css/index.css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 devel: clean
