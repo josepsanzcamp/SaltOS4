@@ -211,6 +211,11 @@ function db_static()
     }
     __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
     set_config("xml/dbstatic.xml", __dbstatic_hash(), 0);
+    foreach ($output["history"] as $key => $val) {
+        $from = $val["from"];
+        $to = $val["to"];
+        $output["history"][$key] = "from $from to $to";
+    }
     return $output;
 }
 
