@@ -686,6 +686,17 @@ saltos.app.form.screen = action => {
         case 'clear':
             document.body.innerHTML = '';
             return true;
+        case 'type1':
+            document.body.innerHTML = '';
+            document.body.append(saltos.core.html(`
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="list" class="col-xl py-3 overflow-auto-xl"></div>
+                    <div id="form" class="col-xl py-3 overflow-auto-xl"></div>
+                </div>
+            </div>
+            `));
+            return true;
         default:
             throw new Error(`action ${action} not found`);
     }

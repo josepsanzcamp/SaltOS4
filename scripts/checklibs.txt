@@ -17,7 +17,7 @@ imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,ver
 imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64:eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNy42LjEifQ==
 masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base64:eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
-pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuMi42NyJ9
+pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuMy4xMzYifQ==
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|base64:eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS4yIn0=
 
@@ -31,7 +31,7 @@ jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<updated>|base64:PHVwZGF0ZW
 mariadb|https://github.com/MariaDB/server/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0xNVQxNDo1MTowMlo8L3VwZGF0ZWQ+
 minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxNjoyOTo0M1o8L3VwZGF0ZWQ+
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
-node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxMTo1MToxOVo8L3VwZGF0ZWQ+
+node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yOFQxNjoyODoyNFo8L3VwZGF0ZWQ+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMlQyMTozMTozOFo8L3VwZGF0ZWQ+
 php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxNDo0Njo1OFo8L3VwZGF0ZWQ+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yNFQwNjozNDo0OFo8L3VwZGF0ZWQ+
