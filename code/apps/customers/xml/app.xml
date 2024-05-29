@@ -83,10 +83,10 @@
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>clear</screen>
+        <screen>type2</screen>
         <title>New customer</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
+        <layout append="two">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -101,10 +101,10 @@
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>clear</screen>
+        <screen>type2</screen>
         <title>Detail of the customer</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
+        <layout append="two">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -125,10 +125,10 @@
 
     <edit>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>clear</screen>
+        <screen>type2</screen>
         <title>Modify this customer</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
+        <layout append="two">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

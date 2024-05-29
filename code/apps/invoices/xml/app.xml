@@ -94,20 +94,18 @@
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>clear</screen>
+        <screen>type0</screen>
         <title>New invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container my-3">
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.invoices.insert()" value="Crear" tooltip="Para crear la nueva factura" icon="check-lg"/>
-                    <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.invoices.insert()" value="Crear" tooltip="Para crear la nueva factura" icon="check-lg"/>
+                <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
+            </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
@@ -117,23 +115,21 @@
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>clear</screen>
+        <screen>type0</screen>
         <title>Detail of the invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container my-3">
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button value="Editar" tooltip="Para editar la factura" icon="pencil">
-                        <onclick eval="true">"saltos.window.open('#app/invoices/edit/".intval(get_data("rest/3"))."')"</onclick>
-                    </button>
-                    <button onclick="saltos.invoices.delete2()" color="danger" value="Borrar" tooltip="Para borrar la factura" icon="trash"/>
-                    <button onclick="saltos.window.close()" value="Cerrar" tooltip="Para cerrar el detalle de la factura" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button value="Editar" tooltip="Para editar la factura" icon="pencil">
+                    <onclick eval="true">"saltos.window.open('#app/invoices/edit/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button onclick="saltos.invoices.delete2()" color="danger" value="Borrar" tooltip="Para borrar la factura" icon="trash"/>
+                <button onclick="saltos.window.close()" value="Cerrar" tooltip="Para cerrar el detalle de la factura" icon="x-lg"/>
+            </row>
         </layout>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>
@@ -148,20 +144,18 @@
 
     <edit>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>clear</screen>
+        <screen>type0</screen>
         <title>Modify this invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container my-3">
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
-                <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.invoices.update()" value="Guardar" tooltip="Para guardar los cambios de la factura" icon="check-lg"/>
-                    <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la edición de la factura" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.invoices.update()" value="Guardar" tooltip="Para guardar los cambios de la factura" icon="check-lg"/>
+                <button onclick="saltos.window.close()" value="Cancelar" tooltip="Para cancelar la edición de la factura" icon="x-lg"/>
+            </row>
         </layout>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>

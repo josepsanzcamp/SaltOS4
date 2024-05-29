@@ -64,44 +64,42 @@
         <screen>clear</screen>
         <title>New email</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container my-3">
-                <row auto="true" col_class="col-md-12 mb-3">
-                    <select id="from" label="From" required="true" autofocus="true">
-                        <rows eval="true">[
-                            ["label"=>"address1@gmail.com","value"=>"address1@gmail.com"],
-                            ["label"=>"address2@gmail.com","value"=>"address2@gmail.com"],
-                            ["label"=>"address3@gmail.com","value"=>"address3@gmail.com"],
-                        ]</rows>
-                    </select>
-                    <text id="to" label="To"/>
-                    <text id="cc" label="CC"/>
-                    <text id="bcc" label="BCC"/>
-                    <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
-                    <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
-                        <rows eval="true">[
-                            ["label"=>"Low","value"=>-1],
-                            ["label"=>"Normal","value"=>0],
-                            ["label"=>"High","value"=>1],
-                        ]</rows>
-                    </select>
-                    <select id="sensitivity" label="Sensitivity" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
-                        <rows eval="true">[
-                            ["label"=>"Normal","value"=>0],
-                            ["label"=>"Personal","value"=>1],
-                            ["label"=>"Private","value"=>2],
-                            ["label"=>"Confidential","value"=>3],
-                        ]</rows>
-                    </select>
-                    <text id="subject" label="Subject"/>
-                    <ckeditor id="body" label="Body" height="10em"/>
-                </row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.emails.send()" value="Send" tooltip="To send the email" icon="check-lg"/>
-                    <button onclick="saltos.window.close()" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <select id="from" label="From" required="true" autofocus="true">
+                    <rows eval="true">[
+                        ["label"=>"address1@gmail.com","value"=>"address1@gmail.com"],
+                        ["label"=>"address2@gmail.com","value"=>"address2@gmail.com"],
+                        ["label"=>"address3@gmail.com","value"=>"address3@gmail.com"],
+                    ]</rows>
+                </select>
+                <text id="to" label="To"/>
+                <text id="cc" label="CC"/>
+                <text id="bcc" label="BCC"/>
+                <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
+                <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <rows eval="true">[
+                        ["label"=>"Low","value"=>-1],
+                        ["label"=>"Normal","value"=>0],
+                        ["label"=>"High","value"=>1],
+                    ]</rows>
+                </select>
+                <select id="sensitivity" label="Sensitivity" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                    <rows eval="true">[
+                        ["label"=>"Normal","value"=>0],
+                        ["label"=>"Personal","value"=>1],
+                        ["label"=>"Private","value"=>2],
+                        ["label"=>"Confidential","value"=>3],
+                    ]</rows>
+                </select>
+                <text id="subject" label="Subject"/>
+                <ckeditor id="body" label="Body" height="10em"/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.emails.send()" value="Send" tooltip="To send the email" icon="check-lg"/>
+                <button onclick="saltos.window.close()" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
+            </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
@@ -110,78 +108,76 @@
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>clear</screen>
+        <screen>type1</screen>
         <title>Detail of the email</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container my-3">
-                <row auto="true" col_class="col-md-12 mb-3">
-                    <text id="from" label="From"/>
-                    <text id="to" label="To"/>
-                    <text id="cc" label="CC" require="apps/emails/php/getmail.php" ifeval="getmail_field('cc',intval(get_data('rest/3')))"/>
-                    <text id="bcc" label="BCC" ifeval="getmail_field('bcc',intval(get_data('rest/3')))"/>
-                    <datetime id="datetime" label="Datetime" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
-                    <text id="uidl" label="UIDL" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
-                    <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
-                        <rows eval="true">[
-                            ["label"=>"Low","value"=>-1],
-                            ["label"=>"Normal","value"=>0],
-                            ["label"=>"High","value"=>1],
-                        ]</rows>
-                    </select>
-                    <select id="sensitivity" label="Sensitivity" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
-                        <rows eval="true">[
-                            ["label"=>"Normal","value"=>0],
-                            ["label"=>"Personal","value"=>1],
-                            ["label"=>"Private","value"=>2],
-                            ["label"=>"Confidential","value"=>3],
-                        ]</rows>
-                    </select>
-                    <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                    <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                    <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                    <checkbox id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-                    <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-                    <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                    <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
-                    <text id="subject" label="Subject"/>
-                    <iframe id="body" label="Body" height="10em" srcdoc="Loading...">
-                        <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
-                    </iframe>
-                    <table id="files" label="Files" col_class="col-md-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
-                        <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
-                    </table>
-                </row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <button value="Source" tooltip="To see the source of this email" icon="file-text">
-                        <onclick eval="true">"saltos.window.open('#app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
-                    </button>
-                    <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
-                        onclick="saltos.emails.setter('new=1')" color="success" value="New" tooltip="To mark this email as new" icon="patch-check"/>
-                    <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_new',intval(get_data('rest/3')))"
-                        onclick="saltos.emails.setter('new=0')" color="success" value="No new" tooltip="To unmark this email as new" icon="patch-check"/>
-                    <button ifeval="!getmail_field('state_wait',intval(get_data('rest/3')))"
-                        onclick="saltos.emails.setter('wait=1')" value="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
-                    <button ifeval="getmail_field('state_wait',intval(get_data('rest/3')))"
-                        onclick="saltos.emails.setter('wait=0')" value="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
-                    <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_spam',intval(get_data('rest/3')))"
-                        onclick="saltos.emails.setter('spam=1')" color="danger" value="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
-                    <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_spam',intval(get_data('rest/3')))"
-                        onclick="saltos.emails.setter('spam=0')" color="danger" value="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
-                    <div col_class="col"/>
-                    <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" value="Reply" tooltip="To reply this email" icon="reply">
-                        <onclick eval="true">"saltos.window.open('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
-                    </button>
-                    <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" value="Reply all" tooltip="To reply all this email" icon="reply-all">
-                        <onclick eval="true">"saltos.window.open('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
-                    </button>
-                    <button value="Forward" tooltip="To forward this email" icon="forward">
-                        <onclick eval="true">"saltos.window.open('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
-                    </button>
-                    <button onclick="saltos.emails.delete2()" color="danger" value="Delete" tooltip="To delete this email" icon="trash"/>
-                    <button onclick="saltos.window.close();" value="Close" tooltip="To close this email" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <text id="from" label="From"/>
+                <text id="to" label="To"/>
+                <text id="cc" label="CC" require="apps/emails/php/getmail.php" ifeval="getmail_field('cc',intval(get_data('rest/3')))"/>
+                <text id="bcc" label="BCC" ifeval="getmail_field('bcc',intval(get_data('rest/3')))"/>
+                <datetime id="datetime" label="Datetime" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
+                <text id="uidl" label="UIDL" col_class="col-sm-6 col-md-4 col-lg-3 mb-3"/>
+                <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
+                    <rows eval="true">[
+                        ["label"=>"Low","value"=>-1],
+                        ["label"=>"Normal","value"=>0],
+                        ["label"=>"High","value"=>1],
+                    ]</rows>
+                </select>
+                <select id="sensitivity" label="Sensitivity" col_class="col-sm-6 col-md-2 col-lg-3 mb-3">
+                    <rows eval="true">[
+                        ["label"=>"Normal","value"=>0],
+                        ["label"=>"Personal","value"=>1],
+                        ["label"=>"Private","value"=>2],
+                        ["label"=>"Confidential","value"=>3],
+                    ]</rows>
+                </select>
+                <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <checkbox id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+                <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+                <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
+                <text id="subject" label="Subject"/>
+                <iframe id="body" label="Body" height="10em" srcdoc="Loading...">
+                    <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
+                </iframe>
+                <table id="files" label="Files" col_class="col-md-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
+                    <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
+                </table>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <button value="Source" tooltip="To see the source of this email" icon="file-text">
+                    <onclick eval="true">"saltos.window.open('#app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
+                    onclick="saltos.emails.setter('new=1')" color="success" value="New" tooltip="To mark this email as new" icon="patch-check"/>
+                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_new',intval(get_data('rest/3')))"
+                    onclick="saltos.emails.setter('new=0')" color="success" value="No new" tooltip="To unmark this email as new" icon="patch-check"/>
+                <button ifeval="!getmail_field('state_wait',intval(get_data('rest/3')))"
+                    onclick="saltos.emails.setter('wait=1')" value="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
+                <button ifeval="getmail_field('state_wait',intval(get_data('rest/3')))"
+                    onclick="saltos.emails.setter('wait=0')" value="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
+                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_spam',intval(get_data('rest/3')))"
+                    onclick="saltos.emails.setter('spam=1')" color="danger" value="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
+                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_spam',intval(get_data('rest/3')))"
+                    onclick="saltos.emails.setter('spam=0')" color="danger" value="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
+                <div col_class="col"/>
+                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" value="Reply" tooltip="To reply this email" icon="reply">
+                    <onclick eval="true">"saltos.window.open('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" value="Reply all" tooltip="To reply all this email" icon="reply-all">
+                    <onclick eval="true">"saltos.window.open('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button value="Forward" tooltip="To forward this email" icon="forward">
+                    <onclick eval="true">"saltos.window.open('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button onclick="saltos.emails.delete2()" color="danger" value="Delete" tooltip="To delete this email" icon="trash"/>
+                <button onclick="saltos.window.close();" value="Close" tooltip="To close this email" icon="x-lg"/>
+            </row>
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
@@ -198,41 +194,37 @@
 
     <view id="source">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <screen>clear</screen>
+        <screen>type1</screen>
         <title>Source of the email</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container-fluid my-3">
-                <row auto="true" col_class="col-md-12 mb-3">
-                    <iframe>
-                        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
-                    </iframe>
-                </row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <iframe>
+                    <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
+                </iframe>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+            </row>
         </layout>
     </view>
 
     <view id="viewpdf">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <screen>clear</screen>
+        <screen>type1</screen>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container-fluid my-3">
-                <row auto="true" col_class="col-md-12 mb-3">
-                    <pdfjs>
-                        <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
-                    </pdfjs>
-                </row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <pdfjs>
+                    <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
+                </pdfjs>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+            </row>
         </layout>
     </view>
 
@@ -259,17 +251,15 @@
         <screen>clear</screen>
         <title>Config of the email</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container-fluid my-3">
-                <row auto="true" col_class="col-md-12 mb-3">
-                    <textarea height="10em" value="TODO..." />
-                </row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.dashboard.update()" value="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
-                    <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" col_class="col-md-12 mb-3">
+                <textarea height="10em" value="TODO..." />
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.dashboard.update()" value="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
+                <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+            </row>
         </layout>
     </config>
 </root>
