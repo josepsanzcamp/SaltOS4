@@ -41,7 +41,7 @@
 
     document.body.append(saltos.bootstrap.navbar({
         id: saltos.core.uniqid(),
-        space: true,
+        pos: 'sticky-top',
         brand: {
             name: 'SaltOS',
             logo: 'img/logo_white.svg',
@@ -301,13 +301,13 @@
             ];
         }
         if (tipo == 'textarea') {
-            valor = 'Texto de prueba\n\nAdios';
+            valor = 'Texto de prueba\n\nAdios\n\n';
         }
         if (tipo == 'ckeditor') {
-            valor = 'Texto de prueba<br/><br/>Adios';
+            valor = 'Texto de prueba<br/><br/>Adios<br/>';
         }
         if (tipo == 'codemirror') {
-            valor = '<xml>\n\t<tag>valor</tag>\n</xml>';
+            valor = '<xml>\n\t<tag>valor</tag>\n</xml>\n';
             mode = 'xml';
         }
         if (tipo == 'iframe') {
@@ -517,6 +517,13 @@
                 'apps/tester/files/mo-nm8b-BUnzuk.jpg',
             ];
             clase = 'col-4';
+        }
+        if (tipo == 'hidden') {
+            col.append(saltos.bootstrap.field({
+                type: 'label',
+                value: 'Campo ' + i + ' (' + tipo + ')',
+                tooltip: 'Tooltip ' + i + ' (' + tipo + ')',
+            }));
         }
         var campo = saltos.bootstrap.field({
             type: tipo,

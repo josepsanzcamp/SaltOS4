@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <navbar id="navbar" space="true" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25">
+    <navbar id="navbar" append="top" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25">
 <!--
         <items>
             <menu class="navbar-nav me-auto mb-2 mb-lg-0">

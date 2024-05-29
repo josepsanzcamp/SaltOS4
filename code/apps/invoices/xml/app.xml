@@ -29,28 +29,26 @@
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>clear</screen>
+        <screen>type0</screen>
         <title>Invoice's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container class="container my-3">
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <button ifeval="check_user('invoices', 'create')" onclick="saltos.window.open('#app/invoices/create')" value="Nueva factura" tooltip="Para crear una nueva factura" icon="plus-lg"/>
-                    <div col_class="col"/>
-                    <hidden id="page" value="0"/>
-                    <text placeholder="Buscar" tooltip="Para buscar en todos los invoices" id="search" accesskey="ctrl+f" onenter="saltos.invoices.search()"/>
-                    <button onclick="saltos.invoices.search()" value="Buscar" tooltip="Para buscar en todos los invoices" icon="search"/>
-                    <button onclick="saltos.invoices.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
-                </row>
-                <row auto="true" col_class="col-md-12 my-3">
-                    <table id="table" source="list/invoices/table"/>
-                </row>
-                <row auto="true" row_class="row g-1" col_class="col-auto">
-                    <div col_class="col"/>
-                    <button onclick="saltos.invoices.more()" value="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="plus-lg"/>
-                    <button onclick="saltos.window.close()" value="Close" tooltip="To close this list" icon="x-lg"/>
-                </row>
-            </container>
+        <layout append="one">
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <button ifeval="check_user('invoices', 'create')" onclick="saltos.window.open('#app/invoices/create')" value="Nueva factura" tooltip="Para crear una nueva factura" icon="plus-lg"/>
+                <div col_class="col"/>
+                <hidden id="page" value="0"/>
+                <text placeholder="Buscar" tooltip="Para buscar en todos los invoices" id="search" accesskey="ctrl+f" onenter="saltos.invoices.search()"/>
+                <button onclick="saltos.invoices.search()" value="Buscar" tooltip="Para buscar en todos los invoices" icon="search"/>
+                <button onclick="saltos.invoices.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+            </row>
+            <row auto="true" col_class="col-md-12 my-3">
+                <table id="table" source="list/invoices/table"/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.invoices.more()" value="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="plus-lg"/>
+                <button onclick="saltos.window.close()" value="Close" tooltip="To close this list" icon="x-lg"/>
+            </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>

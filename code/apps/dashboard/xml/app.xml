@@ -28,11 +28,11 @@
 <root>
     <menu default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>clear</screen>
+        <screen>type0</screen>
         <title>Dashboard</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <container auto="true" container_class="container mt-3" col_class="col-md-4 mb-3">
+        <layout append="one">
+            <row auto="true" col_class="col-md-4 mb-3">
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" value="Customers"/>
                 <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" value="Invoices"/>
                 <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" value="Email"/>
@@ -44,7 +44,7 @@
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"/>
-            </container>
+            </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>

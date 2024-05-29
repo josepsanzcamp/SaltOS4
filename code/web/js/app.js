@@ -344,6 +344,12 @@ saltos.app.form.__layout_template_helper = (template_id, index) => {
  * can retrieve the desired information of the fields.
  */
 saltos.app.form.layout = (layout, extra) => {
+    // This code fix a problem when layout contains the append element id
+    var append = '';
+    if (saltos.core.is_attr_value(layout) && layout['#attr'].hasOwnProperty('append')) {
+        append = layout['#attr'].append;
+        layout = layout.value;
+    }
     // This code fix a problem when layout contains the content of a template
     if (saltos.core.is_attr_value(layout)) {
         layout = {[layout['#attr'].type]: layout};
@@ -430,8 +436,15 @@ saltos.app.form.layout = (layout, extra) => {
         return div;
     }
     // Defaut feature that all the div to the body's document
-    document.body.append(div);
-    document.querySelectorAll('[autofocus]').forEach(_this => {
+    var obj = document.body;
+    if (append) {
+        obj = document.getElementById(append);
+        if (!obj) {
+            throw new Error(`append ${append} not found`);
+        }
+    }
+    obj.append(div);
+    obj.querySelectorAll('[autofocus]').forEach(_this => {
         _this.focus();
     });
 };
@@ -686,16 +699,67 @@ saltos.app.form.screen = action => {
         case 'clear':
             document.body.innerHTML = '';
             return true;
+        case 'type0':
+            document.body.innerHTML = '';
+            var obj = saltos.core.html(`
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="top" class="p-0"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                        <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                        <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="bottom" class="p-0"></div>
+                    </div>
+                </div>
+            `);
+            document.body.append(obj);
+            return true;
         case 'type1':
             document.body.innerHTML = '';
-            document.body.append(saltos.core.html(`
-            <div class="container-fluid">
-                <div class="row">
-                    <div id="list" class="col-xl py-3 overflow-auto-xl"></div>
-                    <div id="form" class="col-xl py-3 overflow-auto-xl"></div>
+            var obj = saltos.core.html(`
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="top" class="p-0"></div>
+                    </div>
+                    <div class="row">
+                        <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                        <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                        <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                    </div>
+                    <div class="row">
+                        <div id="bottom" class="p-0"></div>
+                    </div>
                 </div>
-            </div>
-            `));
+            `);
+            document.body.append(obj);
+            return true;
+        case 'type2':
+            document.body.innerHTML = '';
+            var obj = saltos.core.html(`
+                <div class="container-fluid">
+                    <div class="row">
+                        <div id="top" class="p-0"></div>
+                    </div>
+                    <div class="row">
+                        <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                        <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                        <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
+                        <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                    </div>
+                    <div class="row">
+                        <div id="bottom" class="p-0"></div>
+                    </div>
+                </div>
+            `);
+            document.body.append(obj);
             return true;
         default:
             throw new Error(`action ${action} not found`);
@@ -765,7 +829,14 @@ saltos.app.form.navbar = navbar => {
         }
     }
     var obj = saltos.bootstrap.navbar(navbar);
-    document.body.append(obj);
+    var obj2 = document.body;
+    if (navbar.append) {
+        obj2 = document.getElementById(navbar.append);
+        if (!obj2) {
+            throw new Error(`append ${navbar.append} not found`);
+        }
+    }
+    obj2.append(obj);
 };
 
 /**

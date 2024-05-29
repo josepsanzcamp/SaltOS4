@@ -2732,9 +2732,9 @@ saltos.bootstrap.menu = args => {
  * This component creates a navbar intended to be used as header
  *
  * @id    => the id used by the object
- * @space => boolean to indicate if you want to add the space div
  * @brand => contains an object with the name, logo, width and height to be used
  * @color => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @pos   => position of the navbar, can be fixed-top, fixed-bottom, sticky-top, sticky-bottom
  *
  * @name   => text used in the brand
  * @logo   => filename of the brand image
@@ -2744,7 +2744,7 @@ saltos.bootstrap.menu = args => {
  * @items => contains an array with the objects that will be added to the collapse
  */
 saltos.bootstrap.navbar = args => {
-    saltos.core.check_params(args, ['id', 'space', 'color']);
+    saltos.core.check_params(args, ['id', 'color', 'pos']);
     saltos.core.check_params(args, ['brand'], {});
     saltos.core.check_params(args.brand, ['name', 'logo', 'width', 'height']);
     saltos.core.check_params(args, ['items'], []);
@@ -2752,7 +2752,7 @@ saltos.bootstrap.navbar = args => {
         args.color = 'primary';
     }
     var obj = saltos.core.html(`
-        <nav class="navbar navbar-expand-md navbar-dark bg-${args.color} fixed-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-${args.color} ${args.pos}">
             <div class="container-fluid">
                 <div class="navbar-brand">
                     <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}"
@@ -2772,12 +2772,6 @@ saltos.bootstrap.navbar = args => {
     for (var key in args.items) {
         var val = args.items[key];
         obj.querySelector('.collapse').append(val);
-    }
-    if (saltos.core.eval_bool(args.space)) {
-        var obj2 = saltos.core.html(`<div></div>`);
-        obj2.append(obj);
-        obj2.append(saltos.core.html(`<div class="pt-5 pb-2"></div>`));
-        return obj2;
     }
     return obj;
 };
