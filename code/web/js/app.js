@@ -76,7 +76,7 @@ saltos.app.modal = (title, message, extra) => {
             for (var key in extra.buttons) {
                 (button => {
                     saltos.core.check_params(button, ['label', 'class', 'color',
-                                                    'icon', 'autofocus', 'onclick']);
+                        'icon', 'autofocus', 'onclick']);
                     obj.append(saltos.bootstrap.field({
                         type: 'button',
                         value: button.label,
@@ -473,7 +473,7 @@ saltos.app.form.__layout_auto_helper = {};
 saltos.app.form.__layout_auto_helper.container = layout => {
     var attr = layout['#attr'];
     saltos.core.check_params(attr, ['id', 'container_class', 'container_style',
-                                    'row_class', 'row_style', 'col_class', 'col_style']);
+        'row_class', 'row_style', 'col_class', 'col_style']);
     // Store and delete to prevent the id propagation to the next childrens
     var id = layout['#attr'].id;
     delete layout['#attr'].id;
@@ -901,7 +901,7 @@ saltos.app.__source_helper = field => {
 saltos.app.get_data = full => {
     saltos.app.__form.data = {};
     var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
-                 'textarea', 'checkbox', 'password', 'file', 'select-one'];
+        'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.app.__form.fields) {
         var field = saltos.app.__form.fields[i];
         // This trick allow to ignore fields used only for presentation purposes
@@ -1110,7 +1110,7 @@ saltos.app.form_readonly = bool => {
  */
 saltos.app.__form_helper = (attr, bool) => {
     var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
-                 'textarea', 'checkbox', 'password', 'file', 'select-one'];
+        'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.app.__form.fields) {
         var field = saltos.app.__form.fields[i];
         var obj = document.getElementById(field.id);

@@ -63,6 +63,7 @@ foreach ($libs as $key => $lib) {
         $temp = str_replace("</TH>\n<TD>", "</TH><TD>", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace("</th>\n<td>", "</th><td>", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace("><svg", ">\n<svg", $temp); // FIX FOR SOURCEFORGE.NET
+        $temp = str_replace("<title>Tags from", "", $temp); // FIX FOR GITHUB.COM
         $temp = grep($lib[2], $temp);
         $temp = head(1, $temp);
         if (substr($lib[3], 0, 7) != "base64:") {

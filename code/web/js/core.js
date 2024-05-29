@@ -241,8 +241,8 @@ saltos.core.html = (...args) => {
  * way as jQuery do but without using jQuery.
  */
 saltos.core.ajax = args => {
-    saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
-                                    'progress', 'async', 'content_type', 'token', 'headers']);
+    saltos.core.check_params(args, ['url', 'data', 'method', 'success',
+        'error', 'progress', 'async', 'content_type', 'token', 'headers']);
     if (args.data == '') {
         args.data = null;
     }

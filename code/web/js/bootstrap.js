@@ -731,8 +731,8 @@ saltos.bootstrap.__field.iframe = field => {
  * @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.select = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'autofocus',
-                                    'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required',
+        'autofocus', 'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
     saltos.core.check_params(field, ['rows'], []);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -920,8 +920,8 @@ saltos.bootstrap.__field.multiselect = field => {
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
 saltos.bootstrap.__field.checkbox = field => {
-    saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly',
-                                    'label', 'tooltip', 'class', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['value', 'id', 'disabled',
+        'readonly', 'label', 'tooltip', 'class', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1013,8 +1013,8 @@ saltos.bootstrap.__field.switch = field => {
  * hidden focus when you try to focus a button inside a modal, for example.
  */
 saltos.bootstrap.__field.button = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'value', 'onclick',
-                                    'tooltip', 'icon', 'label', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus',
+        'value', 'onclick', 'tooltip', 'icon', 'label', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
@@ -1081,8 +1081,8 @@ saltos.bootstrap.__field.button = field => {
  *
  */
 saltos.bootstrap.__field.password = field => {
-    saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled', 'onenter',
-                                    'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value',
+        'disabled', 'onenter', 'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1174,8 +1174,8 @@ saltos.bootstrap.__field.password = field => {
  * the real upload action.
  */
 saltos.bootstrap.__field.file = field => {
-    saltos.core.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
-                                    'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'value', 'disabled',
+        'required', 'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1434,8 +1434,7 @@ saltos.bootstrap.__field.label = field => {
  * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.image = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'alt',
-                                    'tooltip', 'width', 'height', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height', 'color']);
     if (field.class == '') {
         field.class = 'img-fluid';
     }
@@ -1494,9 +1493,8 @@ saltos.bootstrap.__field.image = field => {
 saltos.bootstrap.__field.excel = field => {
     saltos.core.require('lib/handsontable/handsontable.full.min.css');
     saltos.core.require('lib/handsontable/handsontable.full.min.js');
-    saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders',
-                                    'minSpareRows', 'contextMenu', 'rowHeaderWidth',
-                                    'colWidths', 'numcols', 'numrows', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
+        'contextMenu', 'rowHeaderWidth', 'colWidths', 'numcols', 'numrows', 'color']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -2099,8 +2097,8 @@ saltos.bootstrap.__field.alert = field => {
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.card = field => {
-    saltos.core.check_params(field, ['id', 'image', 'alt', 'header',
-                                    'footer', 'title', 'text', 'body', 'color']);
+    saltos.core.check_params(field, ['id', 'image', 'alt',
+        'header', 'footer', 'title', 'text', 'body', 'color']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -2409,8 +2407,8 @@ saltos.bootstrap.__field.placeholder = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.bootstrap.__text_helper = field => {
-    saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value', 'disabled', 'onenter',
-                                    'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value',
+        'disabled', 'onenter', 'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -2466,8 +2464,8 @@ saltos.bootstrap.__text_helper = field => {
  * This function is intended to be used by other helpers of the form_field constructor
  */
 saltos.bootstrap.__textarea_helper = field => {
-    saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'disabled', 'readonly',
-                                    'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value',
+        'disabled', 'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }

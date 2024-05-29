@@ -1,11 +1,11 @@
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
-edifact|https://github.com/php-edifact/edifact/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxMjo1MTozNVo8L3VwZGF0ZWQ+
-locutus|https://github.com/kvz/locutus/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0wNlQwNTo0NzowOVo8L3VwZGF0ZWQ+
-phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0xMVQwNDoxODoxNVo8L3VwZGF0ZWQ+
+edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|base64:PHRpdGxlPjEuMS4wPC90aXRsZT4=
+locutus|https://github.com/kvz/locutus/tags.atom|<title>|base64:PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|base64:PHRpdGxlPjIuMS4wPC90aXRsZT4=
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQxNzoyMjo1Nlo8L3VwZGF0ZWQ+
-tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yMFQxNzozMTo1OVo8L3VwZGF0ZWQ+
-phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0xMS0yNVQyMjoyMzo1OFo8L3VwZGF0ZWQ+
+tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|base64:PHRpdGxlPjYuNy41PC90aXRsZT4=
+phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|base64:PHRpdGxlPlBIUE1haWxlciA2LjkuMTwvdGl0bGU+
 
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4zIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMyJ9
@@ -26,13 +26,13 @@ mimeparser|http://www.phpclasses.org/browse/file/14670.html|Date<!--/htdig_noind
 pop3|http://www.phpclasses.org/browse/file/3.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPjEgeWVhciBhZ288L3NwYW4+PC9URD4=
 rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPjcgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
 
-browserify|https://github.com/browserify/browserify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMC0xMC0xMFQwOTozMjoyNVo8L3VwZGF0ZWQ+
-jscs|https://github.com/jscs-dev/node-jscs/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wNy0xNFQwMDozMzo1NVo8L3VwZGF0ZWQ+
-mariadb|https://github.com/MariaDB/server/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0xNVQxNDo1MTowMlo8L3VwZGF0ZWQ+
-minify|https://github.com/coderaiser/minify/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxNjoyOTo0M1o8L3VwZGF0ZWQ+
-mroonga|https://github.com/mroonga/mroonga/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wOC0wM1QwNzozMjo0Mlo8L3VwZGF0ZWQ+
-node|https://github.com/nodejs/node/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yOFQxNjoyODoyNFo8L3VwZGF0ZWQ+
-phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMlQyMTozMTozOFo8L3VwZGF0ZWQ+
-php|https://github.com/php/php-src/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNS0yMVQxNDo0Njo1OFo8L3VwZGF0ZWQ+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wNC0yNFQwNjozNDo0OFo8L3VwZGF0ZWQ+
-wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0yNVQxNjozOTowMFo8L3VwZGF0ZWQ+
+browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHRpdGxlPnYxNy4wLjA8L3RpdGxlPg==
+eslint|https://github.com/eslint/eslint/tags.atom|<title>|base64:PHRpdGxlPnY5LjMuMDwvdGl0bGU+
+mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNC4yPC90aXRsZT4=
+minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuMi4wPC90aXRsZT4=
+mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPnYxMy4wNTwvdGl0bGU+
+node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDUtMjgsIFZlcnNpb24gMjAuMTQuMCAmIzM5O0lyb24mIzM5OyAoTFRTKSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=
+phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMSAtIDIwMjQtMDUtMjI8L3RpdGxlPg==
+php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjMuOFJDMTwvdGl0bGU+
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMS4zPC90aXRsZT4=
+wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|base64:PHRpdGxlPjMuMS4wPC90aXRsZT4=
