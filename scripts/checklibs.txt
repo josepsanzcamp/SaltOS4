@@ -28,7 +28,7 @@ rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex--
 
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHRpdGxlPnYxNy4wLjA8L3RpdGxlPg==
 eslint|https://github.com/eslint/eslint/tags.atom|<title>|base64:PHRpdGxlPnY5LjMuMDwvdGl0bGU+
-mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNC4yPC90aXRsZT4=
+mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNS4xPC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuMi4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPnYxMy4wNTwvdGl0bGU+
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDUtMjgsIFZlcnNpb24gMjAuMTQuMCAmIzM5O0lyb24mIzM5OyAoTFRTKSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=

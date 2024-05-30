@@ -720,6 +720,7 @@ saltos.app.form.screen = action => {
                     </div>
                 </div>
             `);
+            obj.setAttribute('id', action);
             document.body.append(obj);
             return true;
         case 'type1':
@@ -739,6 +740,7 @@ saltos.app.form.screen = action => {
                     </div>
                 </div>
             `);
+            obj.setAttribute('id', action);
             document.body.append(obj);
             return true;
         case 'type2':
@@ -759,6 +761,7 @@ saltos.app.form.screen = action => {
                     </div>
                 </div>
             `);
+            obj.setAttribute('id', action);
             document.body.append(obj);
             return true;
         default:
