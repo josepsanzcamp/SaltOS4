@@ -211,6 +211,7 @@ function db_static()
                 $output["history"][$table]["to"] += count($temp);
             }
         }
+        $queries = __dbstatic_optimize_queries($queries);
         foreach ($queries as $query) {
             db_query($query);
         }
@@ -223,6 +224,39 @@ function db_static()
         $output["history"][$key] = "from $from to $to";
     }
     return $output;
+}
+
+/**
+ * DB Static optimize queries
+ *
+ * This function tries to join in the same insert multiple values packages
+ * to improve the insert performance.
+ *
+ * @queries => The array of queries to be optimised if it is possible
+ */
+function __dbstatic_optimize_queries($queries)
+{
+    $array = [];
+    foreach($queries as $index => $query) {
+        if (substr($query, 0, 11) != "INSERT INTO") {
+            continue;
+        }
+        $pos = strpos($query, "VALUES");
+        if (!$pos) {
+            continue;
+        }
+        $key = substr($query, 0, $pos + 6);
+        $val = substr($query, $pos + 6);
+        if (!isset($array[$key])) {
+            $array[$key] = [];
+        }
+        $array[$key][] = $val;
+        unset($queries[$index]);
+    }
+    foreach ($array as $key => $val) {
+        $queries[] = $key . implode(",", $val);
+    }
+    return $queries;
 }
 
 /**
