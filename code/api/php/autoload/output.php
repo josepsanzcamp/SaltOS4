@@ -27,6 +27,8 @@
 
 declare(strict_types=1);
 
+// phpcs:disable Generic.Files.LineLength
+
 /**
  * Output helper module
  *
@@ -74,7 +76,7 @@ function output_handler($array)
     if ($cache === "") {
         show_php_error(["phperror" => "output_handler requires the cache parameter"]);
     }
-    header("About: " . get_name_version_revision());
+    __output_header("About: " . get_name_version_revision());
     if ($cache) {
         $hash1 = get_server("HTTP_IF_NONE_MATCH");
         if ($file != "" && $data == "") {
@@ -83,7 +85,7 @@ function output_handler($array)
             $hash2 = md5($data);
         }
         if ($hash1 == $hash2) {
-            header("HTTP/1.1 304 Not Modified");
+            __output_header("HTTP/1.1 304 Not Modified");
             pcov_stop();
             // @codeCoverageIgnoreStart
             die();
@@ -91,19 +93,19 @@ function output_handler($array)
         }
     }
     if ($file != "" && $data == "") {
-        header("Content-Encoding: none");
+        __output_header("Content-Encoding: none");
     } else {
         $encoding = strval(get_server("HTTP_ACCEPT_ENCODING"));
         if (stripos($encoding, "gzip") !== false && function_exists("gzencode")) {
-            header("Content-Encoding: gzip");
+            __output_header("Content-Encoding: gzip");
             $data = gzencode($data);
         } elseif (stripos($encoding, "deflate") !== false && function_exists("gzdeflate")) {
-            header("Content-Encoding: deflate");
+            __output_header("Content-Encoding: deflate");
             $data = gzdeflate($data);
         } else {
-            header("Content-Encoding: none");
+            __output_header("Content-Encoding: none");
         }
-        header("Vary: Accept-Encoding");
+        __output_header("Vary: Accept-Encoding");
     }
     if ($file != "" && $data == "") {
         $size = filesize($file);
@@ -111,24 +113,24 @@ function output_handler($array)
         $size = strlen($data);
     }
     if ($cache) {
-        header("Expires: " . gmdate("D, d M Y H:i:s", time() + get_config("server/cachetimeout")) . " GMT");
-        header("Cache-Control: max-age=" . get_config("server/cachetimeout") . ", no-transform");
-        header("Pragma: public");
-        header("ETag: {$hash2}");
+        __output_header("Expires: " . gmdate("D, d M Y H:i:s", time() + get_config("server/cachetimeout")) . " GMT");
+        __output_header("Cache-Control: max-age=" . get_config("server/cachetimeout") . ", no-transform");
+        __output_header("Pragma: public");
+        __output_header("ETag: {$hash2}");
     } else {
-        header("Expires: -1");
-        header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0, no-transform");
-        header("Pragma: no-cache");
+        __output_header("Expires: -1");
+        __output_header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0, no-transform");
+        __output_header("Pragma: no-cache");
     }
-    header("Content-Type: {$type}");
-    header("Content-Length: {$size}");
+    __output_header("Content-Type: {$type}");
+    __output_header("Content-Length: {$size}");
     if ($name != "") {
-        header("Content-disposition: attachment; filename=\"{$name}\"");
+        __output_header("Content-disposition: attachment; filename=\"{$name}\"");
     }
     foreach ($extra as $temp) {
-        header($temp, false);
+        __output_header($temp, false);
     }
-    header("Connection: keep-alive, close");
+    __output_header("Connection: keep-alive, close");
     if ($file != "" && $data == "") {
         readfile($file);
     } else {
@@ -138,6 +140,22 @@ function output_handler($array)
     // @codeCoverageIgnoreStart
     die();
     // @codeCoverageIgnoreEnd
+}
+
+/**
+ * Output header helper
+ *
+ * This function is a filter to ignore the headers when CLI SAPI is detected
+ *
+ * @header  => The header that do you want to send to the client
+ * @replace => The boolean used as replace in the original function, true by default
+ */
+function __output_header($header, $replace = true)
+{
+    if (get_data("server/request_method") == "CLI") {
+        return;
+    }
+    header($header, $replace);
 }
 
 /**
