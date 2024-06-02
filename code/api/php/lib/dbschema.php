@@ -188,6 +188,7 @@ function db_static()
         "history" => [],
     ];
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
+        $queries = [];
         foreach ($dbstatic["tables"] as $data) {
             $table = $data["#attr"]["name"];
             if (isset($output["history"][$table])) {
@@ -195,7 +196,7 @@ function db_static()
             }
             $count = execute_query("SELECT COUNT(*) FROM $table");
             $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
-            db_query($query);
+            $queries[] = $query;
             $output["history"][$table] = [
                 "from" => $count,
                 "to" => 0,
@@ -205,8 +206,13 @@ function db_static()
             $table = $data["#attr"]["name"];
             $rows = $data["value"];
             foreach ($rows as $row) {
-                $output["history"][$table]["to"] += __dbstatic_insert($table, $row["#attr"]);
+                $temp = __dbstatic_insert($table, $row["#attr"]);
+                $queries = array_merge($queries, $temp);
+                $output["history"][$table]["to"] += count($temp);
             }
+        }
+        foreach ($queries as $query) {
+            db_query($query);
         }
     }
     __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
@@ -264,19 +270,18 @@ function __dbstatic_insert($table, $row)
         if ($field == "id" || substr($field, 0, 3) == "id_" || substr($field, -3, 3) == "_id") {
             if (strpos($value, ",") !== false) {
                 $a = explode(",", $row[$field]);
-                $total = 0;
+                $queries = [];
                 foreach ($a as $b) {
                     $row[$field] = $b;
-                    $total += __dbstatic_insert($table, $row);
+                    $queries = array_merge($queries, __dbstatic_insert($table, $row));
                 }
-                return $total;
+                return $queries;
             }
         }
     }
     // Original insert query
     $query = make_insert_query($table, $row);
-    db_query($query);
-    return 1;
+    return [$query];
 }
 
 /**

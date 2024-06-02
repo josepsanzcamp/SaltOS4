@@ -27,7 +27,7 @@ pop3|http://www.phpclasses.org/browse/file/3.html|Date<!--/htdig_noindex-->:|bas
 rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPjcgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
 
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHRpdGxlPnYxNy4wLjA8L3RpdGxlPg==
-eslint|https://github.com/eslint/eslint/tags.atom|<title>|base64:PHRpdGxlPnY5LjMuMDwvdGl0bGU+
+eslint|https://github.com/eslint/eslint/tags.atom|<title>|base64:PHRpdGxlPnY5LjQuMDwvdGl0bGU+
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNS4xPC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuMi4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPnYxMy4wNTwvdGl0bGU+
