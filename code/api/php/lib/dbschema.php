@@ -237,7 +237,7 @@ function db_static()
 function __dbstatic_optimize_queries($queries)
 {
     $array = [];
-    foreach($queries as $index => $query) {
+    foreach ($queries as $index => $query) {
         if (substr($query, 0, 11) != "INSERT INTO") {
             continue;
         }
@@ -781,10 +781,13 @@ function __manifest2dbstatic($files)
         $data = xmlfile2array($file);
         // Add the apps data package
         $xml = '<table name="tbl_apps">
-                    <row id=""/>
+                    <row id="" active="" code="" name="" description="" table="" subtables="" field=""
+                        has_index="0" has_control="0" has_version="0" has_files="0" has_notes="0"/>
                 </table>';
         $array = xml2array($xml);
-        $array["table"]["value"]["row"]["#attr"] = $data["app"];
+        foreach ($data["app"] as $key => $val) {
+            $array["table"]["value"]["row"]["#attr"][$key] = $val;
+        }
         set_array($dbstatic["tables"], "table", $array["table"]);
         // Add the perms data package
         if (isset($data["perms"])) {
