@@ -33,6 +33,6 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPnYxMy4wNTwvdGl0bGU+
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDUtMjgsIFZlcnNpb24gMjAuMTQuMCAmIzM5O0lyb24mIzM5OyAoTFRTKSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMSAtIDIwMjQtMDUtMjI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjMuOFJDMTwvdGl0bGU+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMS4zPC90aXRsZT4=
+php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjEuMjk8L3RpdGxlPg==
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMi4wPC90aXRsZT4=
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|base64:PHRpdGxlPjMuMS4wPC90aXRsZT4=
