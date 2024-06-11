@@ -68,8 +68,13 @@ saltos.hash.get = () => {
  *
  * The # char is added by default if it is not found in the hash, additionally the dot is
  * added to force to remove all chars before the # char in the document.location
+ *
+ * The operation is cancelled if the current hash is the same that the new hash
  */
 saltos.hash.set = hash => {
+    if (saltos.hash.get() == hash) {
+        return;
+    }
     if (hash.length && hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
@@ -88,8 +93,13 @@ saltos.hash.set = hash => {
  *
  * The # char is added by default if it is not found in the hash, additionally the dot is
  * added to force to remove all chars before the # char in the document.location
+ *
+ * The operation is cancelled if the current hash is the same that the new hash
  */
 saltos.hash.add = hash => {
+    if (saltos.hash.get() == hash) {
+        return;
+    }
     if (hash.length && hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
@@ -115,6 +125,10 @@ saltos.hash.onhashchange = event => {
     if (!saltos.token.get()) {
         saltos.app.send_request('app/login');
         return;
+    }
+    // Hash part
+    if (['', 'app/login'].includes(saltos.hash.get())) {
+        saltos.hash.set('app/dashboard');
     }
     // Reset the body interface
     saltos.bootstrap.modal('close');
