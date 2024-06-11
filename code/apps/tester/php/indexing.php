@@ -31,6 +31,12 @@ declare(strict_types=1);
  * TODO
  */
 
+$ids = execute_query_array("SELECT id FROM app_customers");
+foreach ($ids as $id) {
+    make_index("customers", $id);
+}
+die();
+
 for ($i = 1; $i <= 53; $i++) {
     make_index("types", $i);
     make_control("types", $i);
