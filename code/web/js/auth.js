@@ -73,12 +73,13 @@ saltos.hash.get = () => {
  */
 saltos.hash.set = hash => {
     if (saltos.hash.get() == hash) {
-        return;
+        return false;
     }
     if (hash.length && hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
     history.replaceState(null, null, '.' + hash);
+    return true;
 };
 
 /**
@@ -98,12 +99,13 @@ saltos.hash.set = hash => {
  */
 saltos.hash.add = hash => {
     if (saltos.hash.get() == hash) {
-        return;
+        return false;
     }
     if (hash.length && hash.substr(0, 1) != '#') {
         hash = '#' + hash;
     }
     history.pushState(null, null, '.' + hash);
+    return true;
 };
 
 /**
