@@ -31,7 +31,7 @@ eslint|https://github.com/eslint/eslint/tags.atom|<title>|base64:PHRpdGxlPnY5LjQ
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNS4xPC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuMi4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPnYxMy4wNTwvdGl0bGU+
-node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDUtMjgsIFZlcnNpb24gMjAuMTQuMCAmIzM5O0lyb24mIzM5OyAoTFRTKSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=
+node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDYtMTEsIFZlcnNpb24gMjIuMy4wIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMSAtIDIwMjQtMDUtMjI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjEuMjk8L3RpdGxlPg==
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMi4xPC90aXRsZT4=

@@ -148,7 +148,7 @@
 <!--
             <file eval="true">file_with_hash("apps/customers/js/app.js")</file>
 -->
-            <inline>saltos.app.driver.init("update")</inline>
+            <inline>saltos.app.driver.init("edit")</inline>
         </javascript>
     </edit>
 
