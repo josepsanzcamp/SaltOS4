@@ -178,7 +178,6 @@ saltos.app.__driver.type2.search = arg => {
             response.id = 'table';
             var temp = saltos.bootstrap.field(response);
             document.getElementById('table').parentNode.replaceWith(temp);
-            //~ saltos.app.driver.close();
         },
         error: request => {
             saltos.app.form.screen('unloading');

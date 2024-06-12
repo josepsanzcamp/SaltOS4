@@ -70,7 +70,18 @@ saltos.app.__driver.type0.template = `
  * TODO
  */
 saltos.app.__driver.type0.init = arg => {
-
+    if (arg == 'list') {
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.app.driver.search();
+        });
+    }
+    if (arg == 'view') {
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.hash.trigger();
+        });
+    }
 };
 
 /**
@@ -79,7 +90,7 @@ saltos.app.__driver.type0.init = arg => {
  * TODO
  */
 saltos.app.__driver.type0.open = arg => {
-
+    saltos.window.open(arg);
 };
 
 /**
@@ -88,7 +99,7 @@ saltos.app.__driver.type0.open = arg => {
  * TODO
  */
 saltos.app.__driver.type0.close = arg => {
-
+    saltos.window.close(arg);
 };
 
 /**
@@ -97,7 +108,35 @@ saltos.app.__driver.type0.close = arg => {
  * TODO
  */
 saltos.app.__driver.type0.search = arg => {
-
+    document.getElementById('page').value = '0';
+    saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
+    saltos.core.ajax({
+        url: `api/?list/${app}/table`,
+        data: JSON.stringify({
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            response.id = 'table';
+            var temp = saltos.bootstrap.field(response);
+            document.getElementById('table').parentNode.replaceWith(temp);
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
 };
 
 /**
@@ -106,7 +145,9 @@ saltos.app.__driver.type0.search = arg => {
  * TODO
  */
 saltos.app.__driver.type0.reset = arg => {
-
+    document.getElementById('search').value = '';
+    document.getElementById('page').value = '0';
+    saltos.app.driver.search();
 };
 
 /**
@@ -115,7 +156,39 @@ saltos.app.__driver.type0.reset = arg => {
  * TODO
  */
 saltos.app.__driver.type0.more = arg => {
-
+    document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
+    saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
+    saltos.core.ajax({
+        url: `api/?list/${app}/table`,
+        data: JSON.stringify({
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (!response.data.length) {
+                saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
+                return;
+            }
+            var obj = document.getElementById('table').querySelector('tbody');
+            var temp = saltos.bootstrap.field(response);
+            temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
 };
 
 /**
