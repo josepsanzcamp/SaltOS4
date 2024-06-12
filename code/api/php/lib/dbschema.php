@@ -48,6 +48,7 @@ function db_schema()
     $dbschema = __dbschema_auto_name($dbschema);
     $output = [
         "history" => [],
+        "count" => 0,
     ];
     if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
         $ignores = get_ignores_from_dbschema();
@@ -59,6 +60,7 @@ function db_schema()
                 $backup = "__{$table}__";
                 db_query(__dbschema_alter_table($table, $backup));
                 $output["history"][] = "Rename $table to $backup";
+                $output["count"]++;
             }
         }
         foreach ($dbschema["tables"] as $tablespec) {
@@ -81,6 +83,8 @@ function db_schema()
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
                     $output["history"][] = "Alter $table";
+                    $output["count"]++;
+
                 }
             } elseif (in_array($backup, $tables1)) {
                 $fields1 = get_fields($backup);
@@ -95,9 +99,11 @@ function db_schema()
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
                     $output["history"][] = "Alter $table from $backup";
+                    $output["count"]++;
                 } else {
                     db_query(__dbschema_alter_table($backup, $table));
                     $output["history"][] = "Rename $backup to $table";
+                    $output["count"]++;
                 }
             } else {
                 db_query(__dbschema_create_table($tablespec));
@@ -105,6 +111,7 @@ function db_schema()
                     db_query(__dbschema_drop_index($index, $table));
                 }
                 $output["history"][] = "Create $table";
+                $output["count"]++;
             }
             $indexes1 = get_indexes($table);
             $indexes2 = get_indexes_from_dbschema($table);
@@ -112,6 +119,7 @@ function db_schema()
                 if (!array_key_exists($index, $indexes2)) {
                     db_query(__dbschema_drop_index($index, $table));
                     $output["history"][] = "Drop $index";
+                    $output["count"]++;
                 }
             }
             if (isset($tablespec["value"]["indexes"]) && is_array($tablespec["value"]["indexes"])) {
@@ -129,10 +137,12 @@ function db_schema()
                             db_query(__dbschema_drop_index($index, $table));
                             db_query(__dbschema_create_index($indexspec));
                             $output["history"][] = "Alter $index";
+                            $output["count"]++;
                         }
                     } else {
                         db_query(__dbschema_create_index($indexspec));
                         $output["history"][] = "Create $index";
+                        $output["count"]++;
                     }
                 }
             }
@@ -186,6 +196,7 @@ function db_static()
     ));
     $output = [
         "history" => [],
+        "count" => 0,
     ];
     if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
         $queries = [];
@@ -222,6 +233,7 @@ function db_static()
         $from = $val["from"];
         $to = $val["to"];
         $output["history"][$key] = "from $from to $to";
+        $output["count"] += abs($to - $from);
     }
     return $output;
 }
