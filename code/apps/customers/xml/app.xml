@@ -26,10 +26,12 @@
 -->
 
 <root>
+    <screen>type2</screen>
+
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>type2</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>Customer's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
@@ -47,13 +49,9 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.app.driver.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
-                <!--<button onclick="saltos.app.driver.close()" value="Close" tooltip="To close this list" icon="x-lg"/>-->
             </row>
         </layout>
         <javascript>
-<!--
-            <file eval="true">file_with_hash("apps/customers/js/app.js")</file>
--->
             <inline>saltos.app.driver.init("list")</inline>
         </javascript>
     </list>
@@ -85,10 +83,10 @@
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>type2</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>New customer</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="two">
+        <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -97,19 +95,16 @@
             </row>
         </layout>
         <javascript>
-<!--
-            <file eval="true">file_with_hash("apps/customers/js/app.js")</file>
--->
             <inline>saltos.app.driver.init("create")</inline>
         </javascript>
     </create>
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>type2</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>Detail of the customer</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="two">
+        <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -122,20 +117,16 @@
         </layout>
         <data eval="true">xmlfile2array("apps/customers/xml/app.xml")["data"]</data>
         <javascript>
-<!--
-            <inline>saltos.app.form_disabled(true)</inline>
-            <file eval="true">file_with_hash("apps/customers/js/app.js")</file>
--->
             <inline>saltos.app.driver.init("view")</inline>
         </javascript>
     </view>
 
     <edit>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>type2</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>Modify this customer</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="two">
+        <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -145,9 +136,6 @@
         </layout>
         <data eval="true">xmlfile2array("apps/customers/xml/app.xml")["data"]</data>
         <javascript>
-<!--
-            <file eval="true">file_with_hash("apps/customers/js/app.js")</file>
--->
             <inline>saltos.app.driver.init("edit")</inline>
         </javascript>
     </edit>

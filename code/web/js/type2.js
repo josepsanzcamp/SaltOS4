@@ -45,20 +45,16 @@ saltos.app.__driver.type2 = {};
  * TODO
  */
 saltos.app.__driver.type2.template = `
+    <div id="top"></div>
     <div class="container-fluid">
-        <div class="row">
-            <div id="top" class="p-0"></div>
-        </div>
         <div class="row">
             <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
             <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
             <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
             <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
         </div>
-        <div class="row">
-            <div id="bottom" class="p-0"></div>
-        </div>
     </div>
+    <div id="bottom"></div>
 `;
 
 /**
@@ -333,15 +329,6 @@ saltos.app.__driver.type2.update = arg => {
  * TODO
  */
 saltos.app.__driver.type2.delete = arg => {
-    if (typeof arg == 'string') {
-        arg = arg.split('/');
-        if (arg.length != 4 || arg[2] != 'delete') {
-            return;
-        }
-        arg[2] = 'view';
-        arg = arg.join('/');
-        saltos.app.driver.open(arg);
-    }
     saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
@@ -352,6 +339,10 @@ saltos.app.__driver.type2.delete = arg => {
                 saltos.app.form.screen('loading');
                 var app = saltos.hash.get().split('/').at(1);
                 var id = saltos.hash.get().split('/').at(-1);
+                if (typeof arg == 'string') {
+                    app = arg.split('/').at(1);
+                    id = arg.split('/').at(-1);
+                }
                 saltos.core.ajax({
                     url: `api/index.php?delete/${app}/${id}`,
                     success: response => {
@@ -360,7 +351,9 @@ saltos.app.__driver.type2.delete = arg => {
                         }
                         if (response.status == 'ok') {
                             saltos.app.driver.search();
-                            saltos.app.driver.close();
+                            if (typeof arg == 'undefined') {
+                                saltos.app.driver.close();
+                            }
                             return;
                         }
                         saltos.app.show_error(response);

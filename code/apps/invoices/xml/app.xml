@@ -26,10 +26,12 @@
 -->
 
 <root>
+    <screen>type2</screen>
+
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>type0</screen>
+        <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <title>Invoice's list</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
@@ -53,10 +55,6 @@
             </row>
         </layout>
         <javascript>
-<!--
-            <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.app.driver.initialize_update_list()</inline>
--->
             <inline>saltos.app.driver.init("list")</inline>
         </javascript>
     </list>
@@ -86,12 +84,12 @@
         <float id="precio" label="precio" col_class="col-md-1 mb-3" required="true"/>
         <float id="descuento" label="descuento" col_class="col-md-1 mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.app.driver.remove_item(this)" label="-" icon="trash" col_class="col-auto mb-3" tooltip="Quitar este concepto"/>
+        <button onclick="saltos.invoices.remove_item(this)" label="-" icon="trash" col_class="col-auto mb-3" tooltip="Quitar este concepto"/>
     </form_detail>
     <form_footer>
         <div col_class="col mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.app.driver.add_item()" label="-" icon="plus-lg" col_class="col-auto mb-3" tooltip="Añadir mas conceptos"/>
+        <button onclick="saltos.invoices.add_item()" label="-" icon="plus-lg" col_class="col-auto mb-3" tooltip="Añadir mas conceptos"/>
     </form_footer>
     <data_header eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_header>
     <data_detail eval="true">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</data_detail>
@@ -99,10 +97,10 @@
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>type0</screen>
+        <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <title>New invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="one">
+        <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
@@ -113,20 +111,18 @@
             </row>
         </layout>
         <javascript>
-<!--
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.app.driver.initialize_inputs()</inline>
--->
+            <inline>saltos.invoices.initialize_inputs()</inline>
             <inline>saltos.app.driver.init("create")</inline>
         </javascript>
     </create>
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>type0</screen>
+        <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <title>Detail of the invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="one">
+        <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
@@ -143,22 +139,18 @@
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
         <javascript>
-<!--
-            <inline>saltos.app.form_disabled(true)</inline>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.app.driver.initialize_buttons()</inline>
-            <inline>saltos.app.driver.initialize_update_view()</inline>
--->
+            <inline>saltos.invoices.initialize_buttons()</inline>
             <inline>saltos.app.driver.init("view")</inline>
         </javascript>
     </view>
 
     <edit>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen>type0</screen>
+        <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <title>Modify this invoice</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="one">
+        <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_detail"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["form_footer"]</row>
@@ -172,10 +164,8 @@
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
         <javascript>
-<!--
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.app.driver.initialize_inputs()</inline>
--->
+            <inline>saltos.invoices.initialize_inputs()</inline>
             <inline>saltos.app.driver.init("edit")</inline>
         </javascript>
     </edit>

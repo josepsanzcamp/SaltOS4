@@ -438,7 +438,13 @@ saltos.app.form.layout = (layout, extra) => {
     // Defaut feature that all the div to the body's document
     var obj = document.body;
     if (append) {
-        obj = document.getElementById(append);
+        var temp = append.split(',');
+        for (var i in temp) {
+            obj = document.getElementById(temp[i]);
+            if (obj) {
+                break;
+            }
+        }
         if (!obj) {
             throw new Error(`append ${append} not found`);
         }
@@ -700,16 +706,16 @@ saltos.app.form.screen = action => {
         case 'clear':
             document.body.innerHTML = '';
             return true;
-        case 'type0':
-        case 'type1':
-        case 'type2':
+    }
+    if (saltos.app.hasOwnProperty('__driver')) {
+        if (saltos.app.__driver.hasOwnProperty(action)) {
             document.body.innerHTML = '';
             document.body.append(saltos.core.html(saltos.app.__driver[action].template));
             document.body.setAttribute('screen', action);
             return true;
-        default:
-            throw new Error(`action ${action} not found`);
+        }
     }
+    throw new Error(`action ${action} not found`);
 };
 
 /**

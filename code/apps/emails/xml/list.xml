@@ -66,7 +66,7 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="emails" action="view" icon="search" tooltip="View email" onclick="saltos.window.open"/>
+            <action app="emails" action="view" icon="search" tooltip="View email" onclick="saltos.app.driver.open"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -85,7 +85,7 @@
         </header>
         <data require="apps/emails/php/getmail.php" eval="true">getmail_files(intval(get_data("rest/4")))</data>
         <actions>
-            <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.window.open"/>
+            <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.app.driver.open"/>
             <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.emails.download"/>
         </actions>
     </view>
