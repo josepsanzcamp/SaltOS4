@@ -84,7 +84,6 @@ function db_schema()
                     db_query(__dbschema_drop_table($backup));
                     $output["history"][] = "Alter $table";
                     $output["count"]++;
-
                 }
             } elseif (in_array($backup, $tables1)) {
                 $fields1 = get_fields($backup);
