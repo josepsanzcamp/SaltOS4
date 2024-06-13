@@ -317,74 +317,6 @@ saltos.driver.delete = arg => {
 saltos.driver.__types = {};
 
 /**
- * Driver type0 object
- *
- * This object stores the functions used by the type0 driver
- */
-saltos.driver.__types.type0 = {};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type0.template = arg => {
-    return saltos.core.html(`
-        <div id="top"></div>
-        <div class="container">
-            <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            </div>
-        </div>
-        <div id="bottom"></div>
-    `);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type0.init = arg => {
-    if (arg == 'list') {
-        var app = saltos.hash.get().split('/').at(1);
-        saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search();
-        });
-    }
-    if (arg == 'view') {
-        var app = saltos.hash.get().split('/').at(1);
-        saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.hash.trigger();
-        });
-    }
-    if (arg == 'view') {
-        // This disable the fields to use as readonly
-        saltos.app.form_disabled(true);
-    }
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type0.open = arg => {
-    saltos.window.open(arg);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type0.close = arg => {
-    saltos.window.close(arg);
-};
-
-/**
  * Driver type1 object
  *
  * This object stores the functions used by the type1 driver
@@ -415,9 +347,77 @@ saltos.driver.__types.type1.template = arg => {
  *
  * TODO
  */
-saltos.driver.__types.type1.init = saltos.driver.__types.type0.init;
-saltos.driver.__types.type1.open = saltos.driver.__types.type0.open;
-saltos.driver.__types.type1.close = saltos.driver.__types.type0.close;
+saltos.driver.__types.type1.init = arg => {
+    if (arg == 'list') {
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.driver.search();
+        });
+    }
+    if (arg == 'view') {
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.hash.trigger();
+        });
+    }
+    if (arg == 'view') {
+        // This disable the fields to use as readonly
+        saltos.app.form_disabled(true);
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1.open = arg => {
+    saltos.window.open(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1.close = arg => {
+    saltos.window.close(arg);
+};
+
+/**
+ * Driver type1x object
+ *
+ * This object stores the functions used by the type1x driver
+ */
+saltos.driver.__types.type1x = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1x.template = arg => {
+    return saltos.core.html(`
+        <div id="top"></div>
+        <div class="container">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
+        </div>
+        <div id="bottom"></div>
+    `);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1x.init = saltos.driver.__types.type1.init;
+saltos.driver.__types.type1x.open = saltos.driver.__types.type1.open;
+saltos.driver.__types.type1x.close = saltos.driver.__types.type1.close;
 
 /**
  * Driver type2 object

@@ -28,7 +28,7 @@
 <root>
     <menu default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>type0</screen>
+        <screen>type1x</screen>
         <title>Dashboard</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
