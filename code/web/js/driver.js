@@ -454,10 +454,10 @@ saltos.driver.__types.type2.template = arg => {
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
         if (!document.getElementById('two').innerHTML.length) {
-            saltos.driver.close();
-            // This reset the form fields to allow the form_disabled
-            saltos.app.__form.fields = [];
+            saltos.driver.__types.type2.__close_helper('two');
         }
+        // This reset the form fields to allow the form_disabled
+        saltos.app.__form.fields = [];
     }
     if (['create','view','edit'].includes(arg)) {
         if (!document.getElementById('one').innerHTML.length) {
@@ -528,11 +528,100 @@ saltos.driver.__types.type2.__open_helper = arg => {
  * TODO
  */
 saltos.driver.__types.type2.close = arg => {
-    document.getElementById('two').innerHTML = '';
-    document.getElementById('two').append(saltos.bootstrap.field({
+    saltos.driver.__types.type2.__close_helper('two');
+    // HASH PART
+    var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+    saltos.hash.add(temp);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type2.__close_helper = arg => {
+    document.getElementById(arg).innerHTML = '';
+    document.getElementById(arg).append(saltos.bootstrap.field({
         'type': 'div',
         'class': 'bg-primary-subtle h-100',
     }));
+};
+/**
+ * Driver type3 object
+ *
+ * This object stores the functions used by the type3 driver
+ */
+saltos.driver.__types.type3 = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type3.template = arg => {
+    return saltos.core.html(`
+        <div id="top"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="three" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
+        </div>
+        <div id="bottom"></div>
+    `);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type3.init = arg => {
+    if (arg == 'list') {
+        if (!document.getElementById('two').innerHTML.length) {
+            saltos.driver.__types.type2.__close_helper('two');
+        }
+        if (!document.getElementById('three').innerHTML.length) {
+            saltos.driver.__types.type2.__close_helper('three');
+        }
+        //~ // This reset the form fields to allow the form_disabled
+        saltos.app.__form.fields = [];
+    }
+    if (['create','view','edit'].includes(arg)) {
+        if (!document.getElementById('one').innerHTML.length) {
+            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            saltos.driver.__types.type2.__open_helper('#' + temp);
+        }
+        if (!document.getElementById('two').innerHTML.length) {
+            var temp = saltos.hash.get().split('/');
+            var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+            saltos.driver.__types.type2.__open_helper('#' + temp);
+        }
+    }
+    if (arg == 'view') {
+        // This disable the fields to use as readonly
+        saltos.app.form_disabled(true);
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type3.open = saltos.driver.__types.type2.open;
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type3.close = arg => {
+    saltos.driver.__types.type2.__close_helper('two');
+    saltos.driver.__types.type2.__close_helper('three');
     // HASH PART
     var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);

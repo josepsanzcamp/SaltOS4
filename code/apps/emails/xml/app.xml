@@ -199,7 +199,7 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <title>Source of the email</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="two,one">
+        <layout append="three,two,one">
             <row auto="true" col_class="col-md-12 mb-3">
                 <iframe>
                     <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
@@ -216,7 +216,7 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="two,one">
+        <layout append="three,two,one">
             <row auto="true" col_class="col-md-12 mb-3">
                 <pdfjs>
                     <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
