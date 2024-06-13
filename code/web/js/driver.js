@@ -312,3 +312,219 @@ saltos.app.driver.delete = arg => {
         color: 'danger',
     });
 };
+
+/**
+ * Driver type0 object
+ *
+ * This object stores the functions used by the type0 driver
+ */
+saltos.app.__driver.type0 = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type0.template = `
+    <div id="top"></div>
+    <div class="container">
+        <div class="row">
+            <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+            <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+        </div>
+    </div>
+    <div id="bottom"></div>
+`;
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type0.init = arg => {
+    if (arg == 'list') {
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.app.driver.search();
+        });
+    }
+    if (arg == 'view') {
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.hash.trigger();
+        });
+    }
+    if (arg == 'view') {
+        // This disable the fields to use as readonly
+        saltos.app.form_disabled(true);
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type0.open = arg => {
+    saltos.window.open(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type0.close = arg => {
+    saltos.window.close(arg);
+};
+
+/**
+ * Driver type1 object
+ *
+ * This object stores the functions used by the type1 driver
+ */
+saltos.app.__driver.type1 = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type1.template = `
+    <div id="top"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+            <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+        </div>
+    </div>
+    <div id="bottom"></div>
+`;
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type1.init = saltos.app.__driver.type0.init;
+saltos.app.__driver.type1.open = saltos.app.__driver.type0.open;
+saltos.app.__driver.type1.close = saltos.app.__driver.type0.close;
+
+/**
+ * Driver type2 object
+ *
+ * This object stores the functions used by the type2 driver
+ */
+saltos.app.__driver.type2 = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type2.template = `
+    <div id="top"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+            <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
+            <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+        </div>
+    </div>
+    <div id="bottom"></div>
+`;
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type2.init = arg => {
+    if (arg == 'list') {
+        if (!document.getElementById('two').innerHTML.length) {
+            saltos.app.driver.close();
+            // This reset the form fields to allow the form_disabled
+            saltos.app.__form.fields = [];
+        }
+    }
+    if (['create','view','edit'].includes(arg)) {
+        if (!document.getElementById('one').innerHTML.length) {
+            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            saltos.app.__driver.type2.__open_helper('#' + temp);
+        }
+    }
+    if (arg == 'view') {
+        // This disable the fields to use as readonly
+        saltos.app.form_disabled(true);
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type2.open = arg => {
+    saltos.hash.add(arg);
+    saltos.app.__driver.type2.__open_helper(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type2.__open_helper = arg => {
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: 'api/?' + arg.substr(1),
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            for (var key in response) {
+                var val = response[key];
+                key = saltos.core.fix_key(key);
+                // This is to prevent some attr that causes problems here
+                if (['id', 'default', 'check'].includes(key)) {
+                    continue;
+                }
+                // Continue
+                if (typeof saltos.app.form[key] != 'function') {
+                    throw new Error(`type ${key} not found`);
+                }
+                if (['title', 'layout', 'data', 'javascript'].includes(key)) {
+                    saltos.app.form[key](val);
+                }
+            }
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__driver.type2.close = arg => {
+    document.getElementById('two').innerHTML = '';
+    document.getElementById('two').append(saltos.bootstrap.field({
+        'type': 'div',
+        'class': 'bg-primary-subtle h-100',
+    }));
+    // HASH PART
+    var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+    saltos.hash.add(temp);
+};
