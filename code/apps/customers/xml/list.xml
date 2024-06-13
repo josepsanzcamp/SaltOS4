@@ -43,9 +43,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="customers" action="view" value="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.app.driver.open"/>
-            <action app="customers" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.app.driver.open"/>
-            <action app="customers" action="delete" value="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.app.driver.delete"/>
+            <action app="customers" action="view" value="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
+            <action app="customers" action="edit" value="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.driver.open"/>
+            <action app="customers" action="delete" value="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.driver.delete"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -71,7 +71,7 @@
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <actions>
-            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.app.driver.open"/>
+            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -112,7 +112,7 @@
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <actions>
-            <action app="dashboard" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.app.driver.open"/>
+            <action app="dashboard" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
         </actions>
     </widget>
 </root>

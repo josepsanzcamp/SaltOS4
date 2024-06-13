@@ -36,13 +36,13 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button ifeval="check_user('emails', 'create')" onclick="saltos.app.driver.open('#app/emails/create')" value="New email" tooltip="To send a new email" icon="plus-lg"/>
+                <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('#app/emails/create')" value="New email" tooltip="To send a new email" icon="plus-lg"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="ctrl+f" onenter="saltos.emails.search()" autofocus="true"/>
-                <button onclick="saltos.app.driver.search()" value="Search" tooltip="To search in all emails contents" icon="search"/>
-                <button onclick="saltos.app.driver.reset()" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-                <button onclick="saltos.app.driver.delete()" color="danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
+                <button onclick="saltos.driver.search()" value="Search" tooltip="To search in all emails contents" icon="search"/>
+                <button onclick="saltos.driver.reset()" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+                <button onclick="saltos.driver.delete()" color="danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
                 <button onclick="saltos.emails.getmail()" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
@@ -50,13 +50,13 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.app.driver.more()" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
+                <button onclick="saltos.driver.more()" value="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
             </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.emails.initialize()</inline>
-            <inline>saltos.app.driver.init("list")</inline>
+            <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
 
@@ -100,12 +100,12 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.emails.send()" value="Send" tooltip="To send the email" icon="check-lg"/>
-                <button onclick="saltos.app.driver.close()" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" value="Cancel" tooltip="To cancel the email" icon="x-lg"/>
             </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
-            <inline>saltos.app.driver.init("create")</inline>
+            <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
 
@@ -154,7 +154,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button value="Source" tooltip="To see the source of this email" icon="file-text">
-                    <onclick eval="true">"saltos.app.driver.open('#app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('#app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
                     onclick="saltos.emails.setter('new=1')" color="success" value="New" tooltip="To mark this email as new" icon="patch-check"/>
@@ -170,23 +170,23 @@
                     onclick="saltos.emails.setter('spam=0')" color="danger" value="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
                 <div col_class="col"/>
                 <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" value="Reply" tooltip="To reply this email" icon="reply">
-                    <onclick eval="true">"saltos.app.driver.open('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('#app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" value="Reply all" tooltip="To reply all this email" icon="reply-all">
-                    <onclick eval="true">"saltos.app.driver.open('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('#app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button value="Forward" tooltip="To forward this email" icon="forward">
-                    <onclick eval="true">"saltos.app.driver.open('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.app.driver.delete()" color="danger" value="Delete" tooltip="To delete this email" icon="trash"/>
-                <button onclick="saltos.app.driver.close();" value="Close" tooltip="To close this email" icon="x-lg"/>
+                <button onclick="saltos.driver.delete()" color="danger" value="Delete" tooltip="To delete this email" icon="trash"/>
+                <button onclick="saltos.driver.close();" value="Close" tooltip="To close this email" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
-            <inline>saltos.app.driver.init("view")</inline>
+            <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
 
@@ -208,7 +208,7 @@
             </row>
         </layout>
         <javascript>
-            <inline>saltos.app.driver.init("view")</inline>
+            <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
 
@@ -225,7 +225,7 @@
             </row>
         </layout>
         <javascript>
-            <inline>saltos.app.driver.init("view")</inline>
+            <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
 

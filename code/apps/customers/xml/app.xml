@@ -36,23 +36,23 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button ifeval="check_user('customers', 'create')" onclick="saltos.app.driver.open('#app/customers/create')" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
+                <button ifeval="check_user('customers', 'create')" onclick="saltos.driver.open('#app/customers/create')" value="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
-                <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="ctrl+f" onenter="saltos.app.driver.search()"/>
-                <button onclick="saltos.app.driver.search()" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
-                <button onclick="saltos.app.driver.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+                <text placeholder="Buscar" tooltip="Para buscar en todos los customers" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()"/>
+                <button onclick="saltos.driver.search()" value="Buscar" tooltip="Para buscar en todos los customers" icon="search"/>
+                <button onclick="saltos.driver.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="table" source="list/customers/table"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.app.driver.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
+                <button onclick="saltos.driver.more()" value="Ver más clientes" tooltip="Para cargar mas clientes en el listado" icon="plus-lg"/>
             </row>
         </layout>
         <javascript>
-            <inline>saltos.app.driver.init("list")</inline>
+            <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
 
@@ -90,12 +90,12 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.app.driver.insert()" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
-                <button onclick="saltos.app.driver.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.insert()" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
             </row>
         </layout>
         <javascript>
-            <inline>saltos.app.driver.init("create")</inline>
+            <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
 
@@ -109,15 +109,15 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button value="Editar" tooltip="Para editar el cliente" icon="pencil">
-                    <onclick eval="true">"saltos.app.driver.open('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('#app/customers/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.app.driver.delete()" color="danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
-                <button onclick="saltos.app.driver.close()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.delete()" color="danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
+                <button onclick="saltos.driver.close()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/customers/xml/app.xml")["data"]</data>
         <javascript>
-            <inline>saltos.app.driver.init("view")</inline>
+            <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
 
@@ -130,13 +130,13 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.app.driver.update()" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
-                <button onclick="saltos.app.driver.close()" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.update()" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/customers/xml/app.xml")["data"]</data>
         <javascript>
-            <inline>saltos.app.driver.init("edit")</inline>
+            <inline>saltos.driver.init("edit")</inline>
         </javascript>
     </edit>
 

@@ -27,9 +27,10 @@
 'use strict';
 
 /**
- * TODO
+ * Window helper module
  *
- * TODO
+ * This function provides all needed code to manage the windows (open and close) and too
+ * to provide a tool to send messages between tabs inside the same browser.
  */
 
 /**

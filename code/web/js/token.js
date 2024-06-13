@@ -27,9 +27,9 @@
 'use strict';
 
 /**
- * TODO
+ * Token helper module
  *
- * TODO
+ * This module provides the needed tools to manage the tokens
  */
 
 /**

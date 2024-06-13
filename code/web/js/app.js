@@ -707,10 +707,10 @@ saltos.app.form.screen = action => {
             document.body.innerHTML = '';
             return true;
     }
-    if (saltos.app.hasOwnProperty('__driver')) {
-        if (saltos.app.__driver.hasOwnProperty(action)) {
+    if (saltos.driver.hasOwnProperty('__types')) {
+        if (saltos.driver.__types.hasOwnProperty(action)) {
             document.body.innerHTML = '';
-            document.body.append(saltos.core.html(saltos.app.__driver[action].template));
+            document.body.append(saltos.driver.__types[action].template());
             document.body.setAttribute('screen', action);
             return true;
         }

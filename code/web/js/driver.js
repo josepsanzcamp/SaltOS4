@@ -27,9 +27,9 @@
 'use strict';
 
 /**
- * TODO
+ * Driver module
  *
- * TODO
+ * Intended to be used as an abstraction layer to allow multiple screens configurations
  */
 
 /**
@@ -37,48 +37,44 @@
  *
  * This object stores the functions used by the layouts widgets and must work with all screens
  */
-saltos.app.driver = {};
-
-/**
- * Driver code
- *
- * This is the code that defines all methods of the driver object, the main idea of this object
- * is that only contains a forwarder functions to the driver used at each moment, to do it, it
- * is using the screen attribute placed in the document.body element.
- */
-(() => {
-    var fns = ['init', 'open', 'close'];
-    for (var key in fns) {
-        let val = fns[key];
-        saltos.app.driver[val] = arg => {
-            var screen = document.body.getAttribute('screen');
-            if (!screen) {
-                throw new Error(`screen not found`);
-            }
-            if (!saltos.app.__driver.hasOwnProperty(screen)) {
-                throw new Error(`driver ${screen} not found`);
-            }
-            if (!saltos.app.__driver[screen].hasOwnProperty(val)) {
-                throw new Error(`function ${val} for driver ${screen} not found`);
-            }
-            saltos.app.__driver[screen][val](arg);
-        };
-    }
-})();
-
-/**
- * Driver internal object
- *
- * This object stores the functions used by the main driver
- */
-saltos.app.__driver = {};
+saltos.driver = {};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.app.driver.search = arg => {
+saltos.driver.init = arg => {
+    var screen = document.body.getAttribute('screen');
+    saltos.driver.__types[screen].init(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.open = arg => {
+    var screen = document.body.getAttribute('screen');
+    saltos.driver.__types[screen].open(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.close = arg => {
+    var screen = document.body.getAttribute('screen');
+    saltos.driver.__types[screen].close(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
@@ -115,10 +111,10 @@ saltos.app.driver.search = arg => {
  *
  * TODO
  */
-saltos.app.driver.reset = arg => {
+saltos.driver.reset = arg => {
     document.getElementById('search').value = '';
     document.getElementById('page').value = '0';
-    saltos.app.driver.search();
+    saltos.driver.search();
 };
 
 /**
@@ -126,7 +122,7 @@ saltos.app.driver.reset = arg => {
  *
  * TODO
  */
-saltos.app.driver.more = arg => {
+saltos.driver.more = arg => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
@@ -167,7 +163,7 @@ saltos.app.driver.more = arg => {
  *
  * TODO
  */
-saltos.app.driver.insert = arg => {
+saltos.driver.insert = arg => {
     if (!saltos.app.check_required()) {
         saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -187,11 +183,11 @@ saltos.app.driver.insert = arg => {
             }
             if (response.status == 'ok') {
                 if (document.getElementById('two')) {
-                    saltos.app.driver.search();
+                    saltos.driver.search();
                 } else {
                     saltos.window.send(`saltos.${app}.update`);
                 }
-                saltos.app.driver.close();
+                saltos.driver.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -211,7 +207,7 @@ saltos.app.driver.insert = arg => {
  *
  * TODO
  */
-saltos.app.driver.update = arg => {
+saltos.driver.update = arg => {
     if (!saltos.app.check_required()) {
         saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -236,11 +232,11 @@ saltos.app.driver.update = arg => {
             }
             if (response.status == 'ok') {
                 if (document.getElementById('two')) {
-                    saltos.app.driver.search();
+                    saltos.driver.search();
                 } else {
                     saltos.window.send(`saltos.${app}.update`);
                 }
-                saltos.app.driver.close();
+                saltos.driver.close();
                 return;
             }
             saltos.app.show_error(response);
@@ -260,7 +256,7 @@ saltos.app.driver.update = arg => {
  *
  * TODO
  */
-saltos.app.driver.delete = arg => {
+saltos.driver.delete = arg => {
     saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
@@ -283,12 +279,12 @@ saltos.app.driver.delete = arg => {
                         }
                         if (response.status == 'ok') {
                             if (document.getElementById('two')) {
-                                saltos.app.driver.search();
+                                saltos.driver.search();
                             } else {
                                 saltos.window.send(`saltos.${app}.update`);
                             }
                             if (typeof arg == 'undefined') {
-                                saltos.app.driver.close();
+                                saltos.driver.close();
                             }
                             return;
                         }
@@ -314,39 +310,48 @@ saltos.app.driver.delete = arg => {
 };
 
 /**
+ * Driver internal object
+ *
+ * This object stores the functions used by the main driver
+ */
+saltos.driver.__types = {};
+
+/**
  * Driver type0 object
  *
  * This object stores the functions used by the type0 driver
  */
-saltos.app.__driver.type0 = {};
+saltos.driver.__types.type0 = {};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.app.__driver.type0.template = `
-    <div id="top"></div>
-    <div class="container">
-        <div class="row">
-            <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-            <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+saltos.driver.__types.type0.template = arg => {
+    return saltos.core.html(`
+        <div id="top"></div>
+        <div class="container">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
         </div>
-    </div>
-    <div id="bottom"></div>
-`;
+        <div id="bottom"></div>
+    `);
+};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.app.__driver.type0.init = arg => {
+saltos.driver.__types.type0.init = arg => {
     if (arg == 'list') {
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.app.driver.search();
+            saltos.driver.search();
         });
     }
     if (arg == 'view') {
@@ -366,7 +371,7 @@ saltos.app.__driver.type0.init = arg => {
  *
  * TODO
  */
-saltos.app.__driver.type0.open = arg => {
+saltos.driver.__types.type0.open = arg => {
     saltos.window.open(arg);
 };
 
@@ -375,7 +380,7 @@ saltos.app.__driver.type0.open = arg => {
  *
  * TODO
  */
-saltos.app.__driver.type0.close = arg => {
+saltos.driver.__types.type0.close = arg => {
     saltos.window.close(arg);
 };
 
@@ -384,68 +389,72 @@ saltos.app.__driver.type0.close = arg => {
  *
  * This object stores the functions used by the type1 driver
  */
-saltos.app.__driver.type1 = {};
+saltos.driver.__types.type1 = {};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.app.__driver.type1.template = `
-    <div id="top"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-            <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+saltos.driver.__types.type1.template = arg => {
+    return saltos.core.html(`
+        <div id="top"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
         </div>
-    </div>
-    <div id="bottom"></div>
-`;
+        <div id="bottom"></div>
+    `);
+};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.app.__driver.type1.init = saltos.app.__driver.type0.init;
-saltos.app.__driver.type1.open = saltos.app.__driver.type0.open;
-saltos.app.__driver.type1.close = saltos.app.__driver.type0.close;
+saltos.driver.__types.type1.init = saltos.driver.__types.type0.init;
+saltos.driver.__types.type1.open = saltos.driver.__types.type0.open;
+saltos.driver.__types.type1.close = saltos.driver.__types.type0.close;
 
 /**
  * Driver type2 object
  *
  * This object stores the functions used by the type2 driver
  */
-saltos.app.__driver.type2 = {};
+saltos.driver.__types.type2 = {};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.app.__driver.type2.template = `
-    <div id="top"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-            <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
-            <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+saltos.driver.__types.type2.template = arg => {
+    return saltos.core.html(`
+        <div id="top"></div>
+        <div class="container-fluid">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
         </div>
-    </div>
-    <div id="bottom"></div>
-`;
+        <div id="bottom"></div>
+    `);
+};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.app.__driver.type2.init = arg => {
+saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
         if (!document.getElementById('two').innerHTML.length) {
-            saltos.app.driver.close();
+            saltos.driver.close();
             // This reset the form fields to allow the form_disabled
             saltos.app.__form.fields = [];
         }
@@ -453,7 +462,7 @@ saltos.app.__driver.type2.init = arg => {
     if (['create','view','edit'].includes(arg)) {
         if (!document.getElementById('one').innerHTML.length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
-            saltos.app.__driver.type2.__open_helper('#' + temp);
+            saltos.driver.__types.type2.__open_helper('#' + temp);
         }
     }
     if (arg == 'view') {
@@ -467,9 +476,9 @@ saltos.app.__driver.type2.init = arg => {
  *
  * TODO
  */
-saltos.app.__driver.type2.open = arg => {
+saltos.driver.__types.type2.open = arg => {
     saltos.hash.add(arg);
-    saltos.app.__driver.type2.__open_helper(arg);
+    saltos.driver.__types.type2.__open_helper(arg);
 };
 
 /**
@@ -477,7 +486,7 @@ saltos.app.__driver.type2.open = arg => {
  *
  * TODO
  */
-saltos.app.__driver.type2.__open_helper = arg => {
+saltos.driver.__types.type2.__open_helper = arg => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/?' + arg.substr(1),
@@ -518,7 +527,7 @@ saltos.app.__driver.type2.__open_helper = arg => {
  *
  * TODO
  */
-saltos.app.__driver.type2.close = arg => {
+saltos.driver.__types.type2.close = arg => {
     document.getElementById('two').innerHTML = '';
     document.getElementById('two').append(saltos.bootstrap.field({
         'type': 'div',

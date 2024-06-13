@@ -27,9 +27,10 @@
 'use strict';
 
 /**
- * TODO
+ * Hash helper module
  *
- * TODO
+ * This module includes the code used to manage the hash feature in the browser
+ * and to provide an onhashchange function
  */
 
 /**

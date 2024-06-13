@@ -29,10 +29,8 @@
 /**
  * Authentication helper module
  *
- * This file contains all code needed to manage the hash feature, includes the code to
- * process the onhashchange and too, includes the code to get and set the hash value, too
- * includes all code to manage tokens and to do authentications with all features suck as
- * the main authentication using a user and password pair, the checktoken and the deauthtoken
+ * This file contains all needed code to do authentications with all features suck as the
+ * main authentication using a user and password pair, the checktoken and the deauthtoken
  * to control it.
  */
 

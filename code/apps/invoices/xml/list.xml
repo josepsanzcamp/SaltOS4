@@ -51,9 +51,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="invoices" action="view" value="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.app.driver.open"/>
-            <action app="invoices" action="edit" value="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.app.driver.open"/>
-            <action app="invoices" action="delete" value="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.app.driver.delete"/>
+            <action app="invoices" action="view" value="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
+            <action app="invoices" action="edit" value="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.driver.open"/>
+            <action app="invoices" action="delete" value="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.driver.delete"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
