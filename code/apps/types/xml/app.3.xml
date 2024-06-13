@@ -31,7 +31,7 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
         <title>Types app</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar id="navbar" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25"></navbar>
         <layout>
             <container class="container my-3">
                 <row auto="true" row_class="row g-1" col_class="col-auto">

@@ -31,7 +31,7 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
         <title>Types list</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar id="navbar" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25"></navbar>
         <layout>
             <container class="container my-3">
                 <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -69,7 +69,7 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <screen>clear</screen>
         <title>New type</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar id="navbar" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25"></navbar>
         <layout>
             <container class="container my-3">
                 <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
@@ -89,7 +89,7 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <screen>clear</screen>
         <title>Detail of the type</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar id="navbar" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25"></navbar>
         <layout>
             <container class="container my-3">
                 <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
@@ -115,7 +115,7 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <screen>clear</screen>
         <title>Modify this type</title>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar id="navbar" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25"></navbar>
         <layout>
             <container class="container my-3">
                 <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
