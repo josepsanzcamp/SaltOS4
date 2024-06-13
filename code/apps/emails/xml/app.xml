@@ -39,10 +39,10 @@
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('#app/emails/create')" value="New email" tooltip="To send a new email" icon="plus-lg"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
-                <text placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="ctrl+f" onenter="saltos.emails.search()" autofocus="true"/>
+                <text placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
                 <button onclick="saltos.driver.search()" value="Search" tooltip="To search in all emails contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" value="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-                <button onclick="saltos.driver.delete()" color="danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
+                <button onclick="saltos.emails.delete1()" color="danger" value="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
                 <button onclick="saltos.emails.getmail()" value="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
@@ -55,7 +55,6 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
-            <inline>saltos.emails.initialize()</inline>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
@@ -178,7 +177,7 @@
                 <button value="Forward" tooltip="To forward this email" icon="forward">
                     <onclick eval="true">"saltos.driver.open('#app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.delete()" color="danger" value="Delete" tooltip="To delete this email" icon="trash"/>
+                <button onclick="saltos.emails.delete2()" color="danger" value="Delete" tooltip="To delete this email" icon="trash"/>
                 <button onclick="saltos.driver.close();" value="Close" tooltip="To close this email" icon="x-lg"/>
             </row>
         </layout>
