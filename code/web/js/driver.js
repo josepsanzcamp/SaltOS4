@@ -47,7 +47,7 @@ saltos.app.driver = {};
  * is using the screen attribute placed in the document.body element.
  */
 (() => {
-    var fns = ['init', 'open', 'close', 'search', 'reset', 'more', 'insert', 'update', 'delete'];
+    var fns = ['init', 'open', 'close'];
     for (var key in fns) {
         let val = fns[key];
         saltos.app.driver[val] = arg => {
@@ -72,3 +72,243 @@ saltos.app.driver = {};
  * This object stores the functions used by the main driver
  */
 saltos.app.__driver = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.driver.search = arg => {
+    document.getElementById('page').value = '0';
+    saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
+    saltos.core.ajax({
+        url: `api/?list/${app}/table`,
+        data: JSON.stringify({
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            response.id = 'table';
+            var temp = saltos.bootstrap.field(response);
+            document.getElementById('table').parentNode.replaceWith(temp);
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.driver.reset = arg => {
+    document.getElementById('search').value = '';
+    document.getElementById('page').value = '0';
+    saltos.app.driver.search();
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.driver.more = arg => {
+    document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
+    saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
+    saltos.core.ajax({
+        url: `api/?list/${app}/table`,
+        data: JSON.stringify({
+            'search': document.getElementById('search').value,
+            'page': document.getElementById('page').value,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (!response.data.length) {
+                saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
+                return;
+            }
+            var obj = document.getElementById('table').querySelector('tbody');
+            var temp = saltos.bootstrap.field(response);
+            temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.driver.insert = arg => {
+    if (!saltos.app.check_required()) {
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
+        return;
+    }
+    var data = saltos.app.get_data();
+    var app = saltos.hash.get().split('/').at(1);
+    saltos.core.ajax({
+        url: `api/index.php?insert/${app}`,
+        data: JSON.stringify({
+            'data': data,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                if (document.getElementById('two')) {
+                    saltos.app.driver.search();
+                } else {
+                    saltos.window.send(`saltos.${app}.update`);
+                }
+                saltos.app.driver.close();
+                return;
+            }
+            saltos.app.show_error(response);
+        },
+        error: request => {
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.driver.update = arg => {
+    if (!saltos.app.check_required()) {
+        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
+        return;
+    }
+    var data = saltos.app.get_data();
+    if (!Object.keys(data).length) {
+        saltos.app.modal('Warning', 'No changes detected', {color: 'danger'});
+        return;
+    }
+    var app = saltos.hash.get().split('/').at(1);
+    var id = saltos.hash.get().split('/').at(-1);
+    saltos.core.ajax({
+        url: `api/index.php?update/${app}/${id}`,
+        data: JSON.stringify({
+            'data': data,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                if (document.getElementById('two')) {
+                    saltos.app.driver.search();
+                } else {
+                    saltos.window.send(`saltos.${app}.update`);
+                }
+                saltos.app.driver.close();
+                return;
+            }
+            saltos.app.show_error(response);
+        },
+        error: request => {
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.driver.delete = arg => {
+    saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
+        buttons: [{
+            label: 'Yes',
+            color: 'success',
+            icon: 'check-lg',
+            autofocus: true,
+            onclick: () => {
+                saltos.app.form.screen('loading');
+                var app = saltos.hash.get().split('/').at(1);
+                var id = saltos.hash.get().split('/').at(-1);
+                if (typeof arg == 'string') {
+                    app = arg.split('/').at(1);
+                    id = arg.split('/').at(-1);
+                }
+                saltos.core.ajax({
+                    url: `api/index.php?delete/${app}/${id}`,
+                    success: response => {
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        if (response.status == 'ok') {
+                            if (document.getElementById('two')) {
+                                saltos.app.driver.search();
+                            } else {
+                                saltos.window.send(`saltos.${app}.update`);
+                            }
+                            if (typeof arg == 'undefined') {
+                                saltos.app.driver.close();
+                            }
+                            return;
+                        }
+                        saltos.app.show_error(response);
+                    },
+                    error: request => {
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    token: saltos.token.get(),
+                });
+            },
+        },{
+            label: 'No',
+            color: 'danger',
+            icon: 'x-lg',
+            onclick: () => {},
+        }],
+        color: 'danger',
+    });
+};
