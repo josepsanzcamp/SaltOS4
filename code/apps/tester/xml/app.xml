@@ -161,6 +161,29 @@
                 <gallery id="campo35" label="Campo 35 (gallery)" tooltip="Tooltip 35 (gallery)" class="col-4">
                     <images eval="true">[["image"=>"apps/tester/files/anunay-rai-WSW1txL1V84.jpg","title"=>"Foto 1"],["image"=>"apps/tester/files/beasty-0BcxmQx9xas-unsplash.jpg","title"=>"Foto 2"],["image"=>"apps/tester/files/krystal-ng-PrQqQVPzmlw.jpg","title"=>"Foto 3"],"apps/tester/files/luke-jones-vCxjJmdj03k.jpg","apps/tester/files/maryna-yazbeck-rnwDiYrHtM0.jpg","apps/tester/files/mo-nm8b-BUnzuk.jpg"]</images>
                 </gallery>
+                <list id="campo36" label="Campo 36 (list)" tooltip="Tooltip 36 (list)" onclick="true">
+                    <data eval="true"><![CDATA[[[
+                        "header" => "Josep Sanz",
+                        "extra" => "1 day",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                        "onclick" => "alert('app/customers/view/1')",
+                        "active" => true,
+                    ],[
+                        "header" => "Jordi Company",
+                        "extra" => "2 days",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                        "onclick" => "alert('app/customers/view/2')",
+                    ],[
+                        "header" => "Andres Diaz",
+                        "extra" => "3 days",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                        "onclick" => "alert('app/customers/view/3')",
+                        "disabled" => true,
+                    ]]]]></data>
+                </list>
             </container>
         </layout>
         <javascript>

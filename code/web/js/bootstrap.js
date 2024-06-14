@@ -82,6 +82,7 @@ saltos.bootstrap = {};
  * @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color
  * @gallery     => id, class, label, images, color
  * @placeholder => id, color
+ * @list        => id, class, header, extra, data, footer, onclick, active, disabled
  *
  * Notes:
  *
@@ -2386,6 +2387,76 @@ saltos.bootstrap.__field.placeholder = field => {
 };
 
 /**
+ * List widget constructor helper
+ *
+ * Returns a list widget using the follow params:
+ *
+ * @id      => the id used to set the reference for to the object
+ * @class   => allow to add more classes to the default list-group
+ * @onclick => this parameter allow to enable or disable the buttons in the list
+ * @data    => 2D array with the data used to mount the list
+ *
+ * Each item in the data can contain:
+ *
+ * @header   => string with the header to use
+ * @extra    => string with the extra header to use
+ * @body     => string with the data to use
+ * @footer   => string with the footer to use
+ * @onclick  => the onclick function that receives as argument the url to access the action
+ * @active   => this parameter raise the active flag
+ * @disabled => this parameter raise the disabled flag
+ *
+ * Notes:
+ *
+ * The first onclick parameter is used to raise the construction of the widget and items,
+ * depending of this parameter, the function uses a dir or an ul element to do the list
+ */
+saltos.bootstrap.__field.list = field => {
+    saltos.core.check_params(field, ['class', 'id', 'onclick']);
+    saltos.core.check_params(field, ['data'], []);
+    if (saltos.core.eval_bool(field.onclick)) {
+        var obj = saltos.core.html(`<div id="${field.id}" class="list-group ${field.class}"></div>`);
+    } else {
+        var obj = saltos.core.html(`<ul id="${field.id}" class="list-group ${field.class}"></ul>`);
+    }
+    for (var key in field.data) {
+        var val = field.data[key];
+        saltos.core.check_params(val, ['header', 'extra', 'body', 'footer', 'onclick', 'active', 'disabled']);
+        if (saltos.core.eval_bool(field.onclick)) {
+            var item = saltos.core.html(`<button class="list-group-item list-group-item-action"></button>`);
+            saltos.bootstrap.__onclick_helper(item, val.onclick);
+        } else {
+            var item = saltos.core.html(`<li class="list-group-item"></li>`);
+        }
+        if (val.header + val.extra != '') {
+            item.append(saltos.core.html(`
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${val.header}</h5>
+                    <small>${val.extra}</small>
+                </div>
+            `));
+        }
+        if (val.body != '') {
+            item.append(saltos.core.html(`<p class="mb-1">${val.body}</p>`));
+        }
+        if (val.footer != '') {
+            item.append(saltos.core.html(`<small>${val.footer}</small>`));
+        }
+        if (saltos.core.eval_bool(val.active)) {
+            item.classList.add('active');
+            item.setAttribute('aria-current', 'true');
+        }
+        if (saltos.core.eval_bool(val.disabled)) {
+            item.classList.add('disabled');
+            item.setAttribute('aria-disabled', 'true');
+        }
+        obj.append(item);
+    }
+    obj = saltos.bootstrap.__label_combine(field, obj);
+    return obj;
+};
+
+/**
  * Private text constructor helper
  *
  * This function returns an input object of type text, you can pass some arguments as:
@@ -3106,102 +3177,22 @@ saltos.bootstrap.toast = args => {
  */
 saltos.bootstrap.__accesskey_listener = event => {
     var keycodes = {
-        'backspace': 8,
-        'tab': 9,
-        'enter': 13,
-        'pauseBreak': 19,
-        'capsLock': 20,
-        'escape': 27,
-        'space': 32,
-        'pageUp': 33,
-        'pageDown': 34,
-        'end': 35,
-        'home': 36,
-        'leftArrow': 37,
-        'upArrow': 38,
-        'rightArrow': 39,
-        'downArrow': 40,
-        'insert': 45,
-        'delete': 46,
-        '0': 48,
-        '1': 49,
-        '2': 50,
-        '3': 51,
-        '4': 52,
-        '5': 53,
-        '6': 54,
-        '7': 55,
-        '8': 56,
-        '9': 57,
-        'a': 65,
-        'b': 66,
-        'c': 67,
-        'd': 68,
-        'e': 69,
-        'f': 70,
-        'g': 71,
-        'h': 72,
-        'i': 73,
-        'j': 74,
-        'k': 75,
-        'l': 76,
-        'm': 77,
-        'n': 78,
-        'o': 79,
-        'p': 80,
-        'q': 81,
-        'r': 82,
-        's': 83,
-        't': 84,
-        'u': 85,
-        'v': 86,
-        'w': 87,
-        'x': 88,
-        'y': 89,
-        'z': 90,
-        'leftWindowKey': 91,
-        'rightWindowKey': 92,
-        'selectKey': 93,
-        'numpad0': 96,
-        'numpad1': 97,
-        'numpad2': 98,
-        'numpad3': 99,
-        'numpad4': 100,
-        'numpad5': 101,
-        'numpad6': 102,
-        'numpad7': 103,
-        'numpad8': 104,
-        'numpad9': 105,
-        'multiply': 106,
-        'add': 107,
-        'subtract': 109,
-        'decimalPoint': 110,
-        'divide': 111,
-        'f1': 112,
-        'f2': 113,
-        'f3': 114,
-        'f4': 115,
-        'f5': 116,
-        'f6': 117,
-        'f7': 118,
-        'f8': 119,
-        'f9': 120,
-        'f10': 121,
-        'f11': 122,
-        'f12': 123,
-        'numLock': 144,
-        'scrollLock': 145,
-        'semiColon': 186,
-        'equalSign': 187,
-        'comma': 188,
-        'dash': 189,
-        'period': 190,
-        'forwardSlash': 191,
-        'graveAccent': 192,
-        'openBracket': 219,
-        'backSlash': 220,
-        'closeBraket': 221,
-        'singleQuote': 222
+        'backspace': 8, 'tab': 9, 'enter': 13, 'pauseBreak': 19, 'capsLock': 20, 'escape': 27,
+        'space': 32, 'pageUp': 33, 'pageDown': 34, 'end': 35, 'home': 36, 'leftArrow': 37,
+        'upArrow': 38, 'rightArrow': 39, 'downArrow': 40, 'insert': 45, 'delete': 46,
+        '0': 48, '1': 49, '2': 50, '3': 51, '4': 52, '5': 53, '6': 54, '7': 55, '8': 56,
+        '9': 57, 'a': 65, 'b': 66, 'c': 67, 'd': 68, 'e': 69, 'f': 70, 'g': 71, 'h': 72,
+        'i': 73, 'j': 74, 'k': 75, 'l': 76, 'm': 77, 'n': 78, 'o': 79, 'p': 80, 'q': 81,
+        'r': 82, 's': 83, 't': 84, 'u': 85, 'v': 86, 'w': 87, 'x': 88, 'y': 89, 'z': 90,
+        'leftWindowKey': 91, 'rightWindowKey': 92, 'selectKey': 93,
+        'numpad0': 96, 'numpad1': 97, 'numpad2': 98, 'numpad3': 99, 'numpad4': 100,
+        'numpad5': 101, 'numpad6': 102, 'numpad7': 103, 'numpad8': 104, 'numpad9': 105,
+        'multiply': 106, 'add': 107, 'subtract': 109, 'decimalPoint': 110, 'divide': 111,
+        'f1': 112, 'f2': 113, 'f3': 114, 'f4': 115, 'f5': 116, 'f6': 117,
+        'f7': 118, 'f8': 119, 'f9': 120, 'f10': 121, 'f11': 122, 'f12': 123,
+        'numLock': 144, 'scrollLock': 145, 'semiColon': 186, 'equalSign': 187, 'comma': 188,
+        'dash': 189, 'period': 190, 'forwardSlash': 191, 'graveAccent': 192, 'openBracket': 219,
+        'backSlash': 220, 'closeBraket': 221, 'singleQuote': 222
     };
     document.querySelectorAll('[data-bs-accesskey]:not([data-bs-accesskey=""])').forEach(obj => {
         var temp = obj.getAttribute('data-bs-accesskey').split('+');

@@ -385,41 +385,6 @@ saltos.driver.__types.type1.close = arg => {
 };
 
 /**
- * Driver type1x object
- *
- * This object stores the functions used by the type1x driver
- */
-saltos.driver.__types.type1x = {};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type1x.template = arg => {
-    return saltos.core.html(`
-        <div id="top"></div>
-        <div class="container">
-            <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            </div>
-        </div>
-        <div id="bottom"></div>
-    `);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type1x.init = saltos.driver.__types.type1.init;
-saltos.driver.__types.type1x.open = saltos.driver.__types.type1.open;
-saltos.driver.__types.type1x.close = saltos.driver.__types.type1.close;
-
-/**
  * Driver type2 object
  *
  * This object stores the functions used by the type2 driver
@@ -546,6 +511,7 @@ saltos.driver.__types.type2.__close_helper = arg => {
         'class': 'bg-primary-subtle h-100',
     }));
 };
+
 /**
  * Driver type3 object
  *
@@ -626,3 +592,73 @@ saltos.driver.__types.type3.close = arg => {
     var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
 };
+
+/**
+ * Driver type1x object
+ *
+ * This object stores the functions used by the type1x driver
+ */
+saltos.driver.__types.type1x = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1x.template = arg => {
+    return saltos.core.html(`
+        <div id="top"></div>
+        <div class="container">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
+        </div>
+        <div id="bottom"></div>
+    `);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1x.init = saltos.driver.__types.type1.init;
+saltos.driver.__types.type1x.open = saltos.driver.__types.type1.open;
+saltos.driver.__types.type1x.close = saltos.driver.__types.type1.close;
+
+/**
+ * Driver type1y object
+ *
+ * This object stores the functions used by the type1y driver
+ */
+saltos.driver.__types.type1y = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1y.template = arg => {
+    return saltos.core.html(`
+        <div id="top"></div>
+        <div class="container">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
+        </div>
+        <div id="bottom"></div>
+    `);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1y.init = saltos.driver.__types.type1.init;
+saltos.driver.__types.type1y.open = saltos.driver.__types.type1.open;
+saltos.driver.__types.type1y.close = saltos.driver.__types.type1.close;

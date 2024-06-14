@@ -184,7 +184,12 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
         <div id="${e.id}" class="w-100 h-100 placeholder-glow text-${e.color}" aria-hidden="true">
             <span class="w-100 h-100 placeholder"></span>
         </div>
-    `)},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","readonly","required","autofocus","tooltip","accesskey","color"]),saltos.core.eval_bool(e.disabled)&&(e.disabled="disabled"),saltos.core.eval_bool(e.readonly)&&(e.readonly="readonly"),saltos.core.eval_bool(e.required)&&(e.required="required"),saltos.core.eval_bool(e.autofocus)&&(e.autofocus="autofocus"),e.color||(e.color="primary");var t="border border-"+e.color,t=("none"==e.color&&(t="border-0"),saltos.core.html(`
+    `)},saltos.bootstrap.__field.list=e=>{var t,o;for(o in saltos.core.check_params(e,["class","id","onclick"]),saltos.core.check_params(e,["data"],[]),t=saltos.core.eval_bool(e.onclick)?saltos.core.html(`<div id="${e.id}" class="list-group ${e.class}"></div>`):saltos.core.html(`<ul id="${e.id}" class="list-group ${e.class}"></ul>`),e.data){var a,s=e.data[o];saltos.core.check_params(s,["header","extra","body","footer","onclick","active","disabled"]),saltos.core.eval_bool(e.onclick)?(a=saltos.core.html('<button class="list-group-item list-group-item-action"></button>'),saltos.bootstrap.__onclick_helper(a,s.onclick)):a=saltos.core.html('<li class="list-group-item"></li>'),s.header+s.extra!=""&&a.append(saltos.core.html(`
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${s.header}</h5>
+                    <small>${s.extra}</small>
+                </div>
+            `)),""!=s.body&&a.append(saltos.core.html(`<p class="mb-1">${s.body}</p>`)),""!=s.footer&&a.append(saltos.core.html(`<small>${s.footer}</small>`)),saltos.core.eval_bool(s.active)&&(a.classList.add("active"),a.setAttribute("aria-current","true")),saltos.core.eval_bool(s.disabled)&&(a.classList.add("disabled"),a.setAttribute("aria-disabled","true")),t.append(a)}return t=saltos.bootstrap.__label_combine(e,t)},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","readonly","required","autofocus","tooltip","accesskey","color"]),saltos.core.eval_bool(e.disabled)&&(e.disabled="disabled"),saltos.core.eval_bool(e.readonly)&&(e.readonly="readonly"),saltos.core.eval_bool(e.required)&&(e.required="required"),saltos.core.eval_bool(e.autofocus)&&(e.autofocus="autofocus"),e.color||(e.color="primary");var t="border border-"+e.color,t=("none"==e.color&&(t="border-0"),saltos.core.html(`
         <input type="${e.type}" class="form-control ${t} ${e.class}"
             placeholder="${e.placeholder}" data-bs-accesskey="${e.accesskey}"
             ${e.disabled} ${e.readonly} ${e.required} ${e.autofocus}
@@ -287,17 +292,7 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
             </div>
         </div>
         <div id="bottom"></div>
-    `),saltos.driver.__types.type1.init=e=>{var t;"list"==e&&(t=saltos.hash.get().split("/").at(1),saltos.window.set_listener(`saltos.${t}.update`,e=>{saltos.driver.search()})),"view"==e&&(t=saltos.hash.get().split("/").at(1),saltos.window.set_listener(`saltos.${t}.update`,e=>{saltos.hash.trigger()})),"view"==e&&saltos.app.form_disabled(!0)},saltos.driver.__types.type1.open=e=>{saltos.window.open(e)},saltos.driver.__types.type1.close=e=>{saltos.window.close(e)},saltos.driver.__types.type1x={},saltos.driver.__types.type1x.template=e=>saltos.core.html(`
-        <div id="top"></div>
-        <div class="container">
-            <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            </div>
-        </div>
-        <div id="bottom"></div>
-    `),saltos.driver.__types.type1x.init=saltos.driver.__types.type1.init,saltos.driver.__types.type1x.open=saltos.driver.__types.type1.open,saltos.driver.__types.type1x.close=saltos.driver.__types.type1.close,saltos.driver.__types.type2={},saltos.driver.__types.type2.template=e=>saltos.core.html(`
+    `),saltos.driver.__types.type1.init=e=>{var t;"list"==e&&(t=saltos.hash.get().split("/").at(1),saltos.window.set_listener(`saltos.${t}.update`,e=>{saltos.driver.search()})),"view"==e&&(t=saltos.hash.get().split("/").at(1),saltos.window.set_listener(`saltos.${t}.update`,e=>{saltos.hash.trigger()})),"view"==e&&saltos.app.form_disabled(!0)},saltos.driver.__types.type1.open=e=>{saltos.window.open(e)},saltos.driver.__types.type1.close=e=>{saltos.window.close(e)},saltos.driver.__types.type2={},saltos.driver.__types.type2.template=e=>saltos.core.html(`
         <div id="top"></div>
         <div class="container-fluid">
             <div class="row">
@@ -320,5 +315,25 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
             </div>
         </div>
         <div id="bottom"></div>
-    `),saltos.driver.__types.type3.init=e=>{var t;"list"==e&&(document.getElementById("two").innerHTML.length||saltos.driver.__types.type2.__close_helper("two"),document.getElementById("three").innerHTML.length||saltos.driver.__types.type2.__close_helper("three"),saltos.app.__form.fields=[]),["create","view","edit"].includes(e)&&(document.getElementById("one").innerHTML.length||(t=saltos.hash.get().split("/").slice(0,2).join("/"),saltos.driver.__types.type2.__open_helper("#"+t)),document.getElementById("two").innerHTML.length||(t=[...(t=saltos.hash.get().split("/")).slice(0,3),...t.slice(4,5)].join("/"),saltos.driver.__types.type2.__open_helper("#"+t))),"view"==e&&saltos.app.form_disabled(!0)},saltos.driver.__types.type3.open=saltos.driver.__types.type2.open,saltos.driver.__types.type3.close=e=>{saltos.driver.__types.type2.__close_helper("two"),saltos.driver.__types.type2.__close_helper("three");var t=saltos.hash.get().split("/").slice(0,2).join("/");saltos.hash.add(t)};
+    `),saltos.driver.__types.type3.init=e=>{var t;"list"==e&&(document.getElementById("two").innerHTML.length||saltos.driver.__types.type2.__close_helper("two"),document.getElementById("three").innerHTML.length||saltos.driver.__types.type2.__close_helper("three"),saltos.app.__form.fields=[]),["create","view","edit"].includes(e)&&(document.getElementById("one").innerHTML.length||(t=saltos.hash.get().split("/").slice(0,2).join("/"),saltos.driver.__types.type2.__open_helper("#"+t)),document.getElementById("two").innerHTML.length||(t=[...(t=saltos.hash.get().split("/")).slice(0,3),...t.slice(4,5)].join("/"),saltos.driver.__types.type2.__open_helper("#"+t))),"view"==e&&saltos.app.form_disabled(!0)},saltos.driver.__types.type3.open=saltos.driver.__types.type2.open,saltos.driver.__types.type3.close=e=>{saltos.driver.__types.type2.__close_helper("two"),saltos.driver.__types.type2.__close_helper("three");var t=saltos.hash.get().split("/").slice(0,2).join("/");saltos.hash.add(t)},saltos.driver.__types.type1x={},saltos.driver.__types.type1x.template=e=>saltos.core.html(`
+        <div id="top"></div>
+        <div class="container">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
+        </div>
+        <div id="bottom"></div>
+    `),saltos.driver.__types.type1x.init=saltos.driver.__types.type1.init,saltos.driver.__types.type1x.open=saltos.driver.__types.type1.open,saltos.driver.__types.type1x.close=saltos.driver.__types.type1.close,saltos.driver.__types.type1y={},saltos.driver.__types.type1y.template=e=>saltos.core.html(`
+        <div id="top"></div>
+        <div class="container">
+            <div class="row">
+                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
+                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+            </div>
+        </div>
+        <div id="bottom"></div>
+    `),saltos.driver.__types.type1y.init=saltos.driver.__types.type1.init,saltos.driver.__types.type1y.open=saltos.driver.__types.type1.open,saltos.driver.__types.type1y.close=saltos.driver.__types.type1.close;
 //# sourceMappingURL=index.js.map
