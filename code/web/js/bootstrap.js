@@ -2457,6 +2457,150 @@ saltos.bootstrap.__field.list = field => {
 };
 
 /**
+ * Tabs widget constructor helper
+ *
+ * Returns a tabs widget using the follow params:
+ *
+ * @id    => the id used to set the reference for to the object
+ * @tabs  => 2D array with the data used to mount the tab and content
+ *
+ * Each item in the tabs can contain:
+ *
+ * @name     => string with the text name to use in the tab button
+ * @content  => string with the content to be used in the content area
+ * @active   => this parameter raise the active flag
+ * @disabled => this parameter raise the disabled flag
+ */
+saltos.bootstrap.__field.tabs = field => {
+    saltos.core.check_params(field, ['id', 'type']);
+    saltos.core.check_params(field, ['tabs'], []);
+    var obj = saltos.core.html(`
+        <ul class="nav nav-${field.type} mb-3" id="${field.id}-tab" role="tablist"></ul>
+        <div class="tab-content" id="${field.id}-content"></div>
+    `);
+    for (var key in field) {
+        if (saltos.core.fix_key(key) != 'tab') {
+            continue;
+        }
+        var val = field[key];
+        val = saltos.core.join_attr_value(val);
+        saltos.core.check_params(val, ['name', 'content', 'active', 'disabled']);
+        var active = '';
+        var selected = 'false';
+        var show = '';
+        if (saltos.core.eval_bool(val.active)) {
+            active = 'active';
+            selected = 'true';
+            show = 'show';
+        }
+        var disabled = '';
+        if (saltos.core.eval_bool(val.disabled)) {
+            disabled = 'disabled';
+        }
+        var id = saltos.core.uniqid();
+        obj.querySelector('ul.nav').append(saltos.core.html(`
+            <div class="nav-item" role="presentation">
+                <button class="nav-link ${active}" id="${field.id}-${id}-tab"
+                    data-bs-toggle="pill" data-bs-target="#${field.id}-${id}"
+                    type="button" role="tab" aria-controls="${field.id}-${id}"
+                    aria-selected="${selected}" ${disabled}>
+                        ${val.name}
+                </button>
+            </div>
+        `));
+        obj.querySelector('div.tab-content').append(saltos.core.html(`
+            <div class="tab-pane fade ${show} ${active}" id="${field.id}-${id}"
+                role="tabpanel" aria-labelledby="${field.id}-${id}-tab" tabindex="0">
+                    ${val.content}
+            </div>
+        `));
+    }
+    obj = saltos.bootstrap.__label_combine(field, obj);
+    return obj;
+};
+
+/**
+ * Pills widget constructor helper
+ *
+ * Returns a tabs widget using the follow params:
+ *
+ * @id    => the id used to set the reference for to the object
+ * @tabs  => 2D array with the data used to mount the tab and content
+ *
+ * Each item in the tabs can contain:
+ *
+ * @name     => string with the text name to use in the tab button
+ * @content  => string with the content to be used in the content area
+ * @active   => this parameter raise the active flag
+ * @disabled => this parameter raise the disabled flag
+ */
+saltos.bootstrap.__field.pills = field => {
+    return saltos.bootstrap.__field.tabs(field);
+};
+
+/**
+ * V-Pills widget constructor helper
+ *
+ * Returns a tabs widget using the follow params:
+ *
+ * @id    => the id used to set the reference for to the object
+ * @tabs  => 2D array with the data used to mount the tab and content
+ *
+ * Each item in the tabs can contain:
+ *
+ * @name     => string with the text name to use in the tab button
+ * @content  => string with the content to be used in the content area
+ * @active   => this parameter raise the active flag
+ * @disabled => this parameter raise the disabled flag
+ */
+saltos.bootstrap.__field['v-pills'] = field => {
+    saltos.core.check_params(field, ['id']);
+    saltos.core.check_params(field, ['tabs'], []);
+    var obj = saltos.core.html(`
+        <div class="d-flex align-items-start">
+            <div class="nav flex-column nav-pills me-3" id="${field.id}-tab"
+                role="tablist" aria-orientation="vertical"></div>
+            <div class="tab-content" id="${field.id}-content"></div>
+        </div>
+    `);
+    for (var key in field) {
+        if (saltos.core.fix_key(key) != 'tab') {
+            continue;
+        }
+        var val = field[key];
+        val = saltos.core.join_attr_value(val);
+        saltos.core.check_params(val, ['name', 'content', 'active', 'disabled']);
+        var active = '';
+        var selected = 'false';
+        var show = '';
+        if (saltos.core.eval_bool(val.active)) {
+            active = 'active';
+            selected = 'true';
+            show = 'show';
+        }
+        var disabled = '';
+        if (saltos.core.eval_bool(val.disabled)) {
+            disabled = 'disabled';
+        }
+        var id = saltos.core.uniqid();
+        obj.querySelector('div.nav').append(saltos.core.html(`
+            <button class="nav-link ${active} text-nowrap" id="${field.id}-${id}-tab"
+                data-bs-toggle="pill" data-bs-target="#${field.id}-${id}"
+                type="button" role="tab" aria-controls="${field.id}-${id}"
+                aria-selected="${selected}" ${disabled}>${val.name}</button>
+        `));
+        obj.querySelector('div.tab-content').append(saltos.core.html(`
+            <div class="tab-pane fade ${show} ${active}" id="${field.id}-${id}"
+                role="tabpanel" aria-labelledby="${field.id}-${id}-tab" tabindex="0">
+                ${val.content}
+            </div>
+        `));
+    }
+    obj = saltos.bootstrap.__label_combine(field, obj);
+    return obj;
+};
+
+/**
  * Private text constructor helper
  *
  * This function returns an input object of type text, you can pass some arguments as:

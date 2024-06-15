@@ -513,9 +513,20 @@ saltos.core.is_attr_value = data => {
  * This function return an object that contains all elements of the #attr and value
  *
  * @data => the data that wants to join
+ *
+ * Notes:
+ *
+ * If the content of value is only a string, then the result will be an array with the
+ * elements of the #attr joined with a new element with the name value and with the contents
+ * of the original value.
  */
 saltos.core.join_attr_value = data => {
     if (saltos.core.is_attr_value(data)) {
+        if (typeof data.value == 'string') {
+            data.value = {
+                value: data.value,
+            };
+        }
         data = {
             ...data['#attr'],
             ...data.value,
