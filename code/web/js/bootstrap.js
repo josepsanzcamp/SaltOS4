@@ -83,6 +83,9 @@ saltos.bootstrap = {};
  * @gallery     => id, class, label, images, color
  * @placeholder => id, color
  * @list        => id, class, header, extra, data, footer, onclick, active, disabled
+ * @tabs        => id, tabs, name, content, active, disabled
+ * @pills       => id, tabs, name, content, active, disabled
+ * @v-pills     => id, tabs, name, content, active, disabled
  *
  * Notes:
  *
@@ -2499,21 +2502,20 @@ saltos.bootstrap.__field.tabs = field => {
         }
         var id = saltos.core.uniqid();
         obj.querySelector('ul.nav').append(saltos.core.html(`
-            <div class="nav-item" role="presentation">
-                <button class="nav-link ${active}" id="${field.id}-${id}-tab"
+            <li class="nav-item" role="presentation">
+                <button class="nav-link ${active} text-nowrap" id="${field.id}-${id}-tab"
                     data-bs-toggle="pill" data-bs-target="#${field.id}-${id}"
                     type="button" role="tab" aria-controls="${field.id}-${id}"
-                    aria-selected="${selected}" ${disabled}>
-                        ${val.name}
-                </button>
-            </div>
+                    aria-selected="${selected}" ${disabled}>${val.name}</button>
+            </li>
         `));
-        obj.querySelector('div.tab-content').append(saltos.core.html(`
+        var div = saltos.core.html(`
             <div class="tab-pane fade ${show} ${active}" id="${field.id}-${id}"
                 role="tabpanel" aria-labelledby="${field.id}-${id}-tab" tabindex="0">
-                    ${val.content}
             </div>
-        `));
+        `);
+        div.append(val.content);
+        obj.querySelector('div.tab-content').append(div);
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -2589,12 +2591,13 @@ saltos.bootstrap.__field['v-pills'] = field => {
                 type="button" role="tab" aria-controls="${field.id}-${id}"
                 aria-selected="${selected}" ${disabled}>${val.name}</button>
         `));
-        obj.querySelector('div.tab-content').append(saltos.core.html(`
+        var div = saltos.core.html(`
             <div class="tab-pane fade ${show} ${active}" id="${field.id}-${id}"
                 role="tabpanel" aria-labelledby="${field.id}-${id}-tab" tabindex="0">
-                ${val.content}
             </div>
-        `));
+        `);
+        div.append(val.content);
+        obj.querySelector('div.tab-content').append(div);
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;

@@ -192,37 +192,33 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
             `)),""!=s.body&&a.append(saltos.core.html(`<p class="mb-1">${s.body}</p>`)),""!=s.footer&&a.append(saltos.core.html(`<small>${s.footer}</small>`)),saltos.core.eval_bool(s.active)&&(a.classList.add("active"),a.setAttribute("aria-current","true")),saltos.core.eval_bool(s.disabled)&&(a.classList.add("disabled"),a.setAttribute("aria-disabled","true")),t.append(a)}return t=saltos.bootstrap.__label_combine(e,t)},saltos.bootstrap.__field.tabs=e=>{saltos.core.check_params(e,["id","type"]),saltos.core.check_params(e,["tabs"],[]);var t,o,a,s,r,l,i,c=saltos.core.html(`
         <ul class="nav nav-${e.type} mb-3" id="${e.id}-tab" role="tablist"></ul>
         <div class="tab-content" id="${e.id}-content"></div>
-    `);for(t in e)"tab"==saltos.core.fix_key(t)&&(o=e[t],o=saltos.core.join_attr_value(o),saltos.core.check_params(o,["name","content","active","disabled"]),s="false",r=a="",saltos.core.eval_bool(o.active)&&(a="active",s="true",r="show"),l="",saltos.core.eval_bool(o.disabled)&&(l="disabled"),i=saltos.core.uniqid(),c.querySelector("ul.nav").append(saltos.core.html(`
-            <div class="nav-item" role="presentation">
-                <button class="nav-link ${a}" id="${e.id}-${i}-tab"
-                    data-bs-toggle="pill" data-bs-target="#${e.id}-${i}"
-                    type="button" role="tab" aria-controls="${e.id}-${i}"
-                    aria-selected="${s}" ${l}>
-                        ${o.name}
-                </button>
+    `);for(t in e)"tab"==saltos.core.fix_key(t)&&(o=e[t],o=saltos.core.join_attr_value(o),saltos.core.check_params(o,["name","content","active","disabled"]),i="false",s=a="",saltos.core.eval_bool(o.active)&&(a="active",i="true",s="show"),r="",saltos.core.eval_bool(o.disabled)&&(r="disabled"),l=saltos.core.uniqid(),c.querySelector("ul.nav").append(saltos.core.html(`
+            <li class="nav-item" role="presentation">
+                <button class="nav-link ${a} text-nowrap" id="${e.id}-${l}-tab"
+                    data-bs-toggle="pill" data-bs-target="#${e.id}-${l}"
+                    type="button" role="tab" aria-controls="${e.id}-${l}"
+                    aria-selected="${i}" ${r}>${o.name}</button>
+            </li>
+        `)),(i=saltos.core.html(`
+            <div class="tab-pane fade ${s} ${a}" id="${e.id}-${l}"
+                role="tabpanel" aria-labelledby="${e.id}-${l}-tab" tabindex="0">
             </div>
-        `)),c.querySelector("div.tab-content").append(saltos.core.html(`
-            <div class="tab-pane fade ${r} ${a}" id="${e.id}-${i}"
-                role="tabpanel" aria-labelledby="${e.id}-${i}-tab" tabindex="0">
-                    ${o.content}
-            </div>
-        `)));return c=saltos.bootstrap.__label_combine(e,c)},saltos.bootstrap.__field.pills=e=>saltos.bootstrap.__field.tabs(e),saltos.bootstrap.__field["v-pills"]=e=>{saltos.core.check_params(e,["id"]),saltos.core.check_params(e,["tabs"],[]);var t,o,a,s,r,l,i,c=saltos.core.html(`
+        `)).append(o.content),c.querySelector("div.tab-content").append(i));return c=saltos.bootstrap.__label_combine(e,c)},saltos.bootstrap.__field.pills=e=>saltos.bootstrap.__field.tabs(e),saltos.bootstrap.__field["v-pills"]=e=>{saltos.core.check_params(e,["id"]),saltos.core.check_params(e,["tabs"],[]);var t,o,a,s,r,l,i,c=saltos.core.html(`
         <div class="d-flex align-items-start">
             <div class="nav flex-column nav-pills me-3" id="${e.id}-tab"
                 role="tablist" aria-orientation="vertical"></div>
             <div class="tab-content" id="${e.id}-content"></div>
         </div>
-    `);for(t in e)"tab"==saltos.core.fix_key(t)&&(o=e[t],o=saltos.core.join_attr_value(o),saltos.core.check_params(o,["name","content","active","disabled"]),s="false",r=a="",saltos.core.eval_bool(o.active)&&(a="active",s="true",r="show"),l="",saltos.core.eval_bool(o.disabled)&&(l="disabled"),i=saltos.core.uniqid(),c.querySelector("div.nav").append(saltos.core.html(`
-            <button class="nav-link ${a} text-nowrap" id="${e.id}-${i}-tab"
-                data-bs-toggle="pill" data-bs-target="#${e.id}-${i}"
-                type="button" role="tab" aria-controls="${e.id}-${i}"
-                aria-selected="${s}" ${l}>${o.name}</button>
-        `)),c.querySelector("div.tab-content").append(saltos.core.html(`
-            <div class="tab-pane fade ${r} ${a}" id="${e.id}-${i}"
-                role="tabpanel" aria-labelledby="${e.id}-${i}-tab" tabindex="0">
-                ${o.content}
+    `);for(t in e)"tab"==saltos.core.fix_key(t)&&(o=e[t],o=saltos.core.join_attr_value(o),saltos.core.check_params(o,["name","content","active","disabled"]),i="false",s=a="",saltos.core.eval_bool(o.active)&&(a="active",i="true",s="show"),r="",saltos.core.eval_bool(o.disabled)&&(r="disabled"),l=saltos.core.uniqid(),c.querySelector("div.nav").append(saltos.core.html(`
+            <button class="nav-link ${a} text-nowrap" id="${e.id}-${l}-tab"
+                data-bs-toggle="pill" data-bs-target="#${e.id}-${l}"
+                type="button" role="tab" aria-controls="${e.id}-${l}"
+                aria-selected="${i}" ${r}>${o.name}</button>
+        `)),(i=saltos.core.html(`
+            <div class="tab-pane fade ${s} ${a}" id="${e.id}-${l}"
+                role="tabpanel" aria-labelledby="${e.id}-${l}-tab" tabindex="0">
             </div>
-        `)));return c=saltos.bootstrap.__label_combine(e,c)},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","readonly","required","autofocus","tooltip","accesskey","color"]),saltos.core.eval_bool(e.disabled)&&(e.disabled="disabled"),saltos.core.eval_bool(e.readonly)&&(e.readonly="readonly"),saltos.core.eval_bool(e.required)&&(e.required="required"),saltos.core.eval_bool(e.autofocus)&&(e.autofocus="autofocus"),e.color||(e.color="primary");var t="border border-"+e.color,t=("none"==e.color&&(t="border-0"),saltos.core.html(`
+        `)).append(o.content),c.querySelector("div.tab-content").append(i));return c=saltos.bootstrap.__label_combine(e,c)},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","readonly","required","autofocus","tooltip","accesskey","color"]),saltos.core.eval_bool(e.disabled)&&(e.disabled="disabled"),saltos.core.eval_bool(e.readonly)&&(e.readonly="readonly"),saltos.core.eval_bool(e.required)&&(e.required="required"),saltos.core.eval_bool(e.autofocus)&&(e.autofocus="autofocus"),e.color||(e.color="primary");var t="border border-"+e.color,t=("none"==e.color&&(t="border-0"),saltos.core.html(`
         <input type="${e.type}" class="form-control ${t} ${e.class}"
             placeholder="${e.placeholder}" data-bs-accesskey="${e.accesskey}"
             ${e.disabled} ${e.readonly} ${e.required} ${e.autofocus}
