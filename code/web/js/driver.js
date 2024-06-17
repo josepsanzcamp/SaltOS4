@@ -274,6 +274,7 @@ saltos.driver.delete = arg => {
                 saltos.core.ajax({
                     url: `api/?delete/${app}/${id}`,
                     success: response => {
+                        saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
                             return;
                         }
@@ -291,6 +292,7 @@ saltos.driver.delete = arg => {
                         saltos.app.show_error(response);
                     },
                     error: request => {
+                        saltos.app.form.screen('unloading');
                         saltos.app.show_error({
                             text: request.statusText,
                             code: request.status,
@@ -418,16 +420,18 @@ saltos.driver.__types.type2.template = arg => {
  */
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
-        if (!document.getElementById('two').innerHTML.length) {
+        var arr1 = saltos.hash.get().split('/');
+        var arr2 = ['create','view','edit'];
+        if (!arr1.filter(x => arr2.includes(x)).length) {
             saltos.driver.__types.type2.__close_helper('two');
         }
         // This reset the form fields to allow the form_disabled
         saltos.app.__form.fields = [];
     }
     if (['create','view','edit'].includes(arg)) {
-        if (!document.getElementById('one').innerHTML.length) {
+        if (!document.getElementById('one').textContent.length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
-            saltos.driver.__types.type2.__open_helper('#' + temp);
+            saltos.app.send_request(temp);
         }
     }
     if (arg == 'view') {
@@ -443,48 +447,7 @@ saltos.driver.__types.type2.init = arg => {
  */
 saltos.driver.__types.type2.open = arg => {
     saltos.hash.add(arg);
-    saltos.driver.__types.type2.__open_helper(arg);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type2.__open_helper = arg => {
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: 'api/?' + arg.substr(1),
-        success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-            for (var key in response) {
-                var val = response[key];
-                key = saltos.core.fix_key(key);
-                // This is to prevent some attr that causes problems here
-                if (['id', 'default', 'check'].includes(key)) {
-                    continue;
-                }
-                // Continue
-                if (typeof saltos.app.form[key] != 'function') {
-                    throw new Error(`type ${key} not found`);
-                }
-                if (['title', 'layout', 'data', 'javascript'].includes(key)) {
-                    saltos.app.form[key](val);
-                }
-            }
-        },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        token: saltos.token.get(),
-    });
+    saltos.app.send_request(arg.substr(1));
 };
 
 /**
@@ -547,24 +510,28 @@ saltos.driver.__types.type3.template = arg => {
  */
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
-        if (!document.getElementById('two').innerHTML.length) {
+        var arr1 = saltos.hash.get().split('/');
+        var arr2 = ['create','view','edit'];
+        if (!arr1.filter(x => arr2.includes(x)).length) {
             saltos.driver.__types.type2.__close_helper('two');
-        }
-        if (!document.getElementById('three').innerHTML.length) {
             saltos.driver.__types.type2.__close_helper('three');
         }
         // This reset the form fields to allow the form_disabled
         saltos.app.__form.fields = [];
     }
     if (['create','view','edit'].includes(arg)) {
-        if (!document.getElementById('one').innerHTML.length) {
+        if (!document.getElementById('one').textContent.length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
-            saltos.driver.__types.type2.__open_helper('#' + temp);
+            saltos.app.send_request(temp);
         }
-        if (!document.getElementById('two').innerHTML.length) {
+        if (!document.getElementById('two').textContent.length) {
             var temp = saltos.hash.get().split('/');
             var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
-            saltos.driver.__types.type2.__open_helper('#' + temp);
+            saltos.app.send_request(temp);
+        }
+        var arr1 = saltos.hash.get().split('/');
+        if (arr1.length < 5) {
+            saltos.driver.__types.type2.__close_helper('three');
         }
     }
     if (arg == 'view') {
@@ -660,10 +627,8 @@ saltos.driver.__types.type1y.template = arg => {
  * TODO
  */
 saltos.driver.__types.type1y.init = arg => {
-    console.log(arg);
     if (arg == 'list') {
         if (saltos.bootstrap.modal('isopen')) {
-            saltos.app.form.screen('unloading');
             saltos.bootstrap.modal('close');
         }
         // This reset the form fields to allow the form_disabled
@@ -680,10 +645,8 @@ saltos.driver.__types.type1y.init = arg => {
                 class: 'modal-lg',
             });
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
-            saltos.driver.__types.type2.__open_helper('#' + temp);
+            saltos.app.send_request(temp);
             document.querySelector('.modal-body').setAttribute('id', 'two');
-        } else {
-            saltos.app.form.screen('unloading');
         }
     }
     if (arg == 'view') {
@@ -697,67 +660,7 @@ saltos.driver.__types.type1y.init = arg => {
  *
  * TODO
  */
-saltos.driver.__types.type1y.open = arg => {
-    saltos.hash.add(arg);
-    saltos.driver.__types.type1y.__open_helper(arg);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type1y.__open_helper = arg => {
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: 'api/?' + arg.substr(1),
-        success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-            for (var key in response) {
-                var val = response[key];
-                key = saltos.core.fix_key(key);
-                // This is to prevent some attr that causes problems here
-                if (['id', 'default', 'check'].includes(key)) {
-                    continue;
-                }
-                // Continue
-                if (typeof saltos.app.form[key] != 'function') {
-                    throw new Error(`type ${key} not found`);
-                }
-                if (key == 'title') {
-                    var title = val;
-                } else if (key == 'layout') {
-                    var obj = saltos.app.form.layout(val, 'div');
-                    if (!saltos.bootstrap.modal({
-                        title: title,
-                        close: 'Close',
-                        body: obj,
-                        class: 'modal-lg',
-                    })) {
-                        saltos.bootstrap.modal({
-                            replace: true,
-                            title: title,
-                            body: obj,
-                        });
-                    }
-                } else if (['data', 'javascript'].includes(key)) {
-                    saltos.app.form[key](val);
-                }
-            }
-        },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        token: saltos.token.get(),
-    });
-};
+saltos.driver.__types.type1y.open = saltos.driver.__types.type2.open;
 
 /**
  * TODO

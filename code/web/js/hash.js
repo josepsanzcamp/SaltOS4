@@ -129,10 +129,6 @@ saltos.hash.onhashchange = event => {
     if (['', 'app/login'].includes(saltos.hash.get())) {
         saltos.hash.set('app/dashboard');
     }
-    // Reset the body interface
-    //~ saltos.bootstrap.modal('close');
-    //~ saltos.bootstrap.offcanvas('close');
-    saltos.app.form.screen('loading');
     // Do the request
     saltos.app.send_request(saltos.hash.get());
 };

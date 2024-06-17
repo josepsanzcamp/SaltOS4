@@ -128,7 +128,6 @@ saltos.app.toast = (title, message, extra) => {
 saltos.app.show_error = error => {
     if (typeof error != 'object') {
         document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
-        saltos.app.form.screen('unloading');
         return;
     }
     saltos.app.modal('Error ' + error.code, error.text, {color: 'danger'});
@@ -158,15 +157,18 @@ saltos.app.check_response = response => {
  * This function allow to send requests to the server and process the response
  */
 saltos.app.send_request = hash => {
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/?' + hash,
         success: response => {
+            saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
                 return;
             }
             saltos.app.process_response(response);
         },
         error: request => {
+            saltos.app.form.screen('unloading');
             saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
@@ -821,9 +823,11 @@ saltos.app.__source_helper = field => {
     saltos.core.check_params(field, ['id', 'source']);
     // Check for asynchronous load using the source param
     if (field.source != '') {
+        saltos.app.form.screen('loading');
         saltos.core.ajax({
             url: 'api/?' + field.source,
             success: response => {
+                saltos.app.form.screen('unloading');
                 if (!saltos.app.check_response(response)) {
                     return;
                 }
@@ -836,6 +840,7 @@ saltos.app.__source_helper = field => {
                 obj.replaceWith(saltos.bootstrap.field(field));
             },
             error: request => {
+                saltos.app.form.screen('unloading');
                 saltos.app.show_error({
                     text: request.statusText,
                     code: request.status,
