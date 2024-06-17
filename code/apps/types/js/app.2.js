@@ -71,7 +71,7 @@ saltos.types.search = () => {
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?list/${app}/table`,
+        url: `api/?list/${app}/table`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -119,7 +119,7 @@ saltos.types.more = () => {
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?list/${app}/table`,
+        url: `api/?list/${app}/table`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -163,7 +163,7 @@ saltos.types.insert = () => {
     var data = saltos.app.get_data();
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?insert/${app}`,
+        url: `api/?insert/${app}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -208,7 +208,7 @@ saltos.types.update = () => {
     var app = saltos.hash.get().split('/').at(1);
     var id = saltos.hash.get().split('/').at(3);
     saltos.core.ajax({
-        url: `api/index.php?update/${app}/${id}`,
+        url: `api/?update/${app}/${id}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -252,7 +252,7 @@ saltos.types.delete1 = arg => {
                 var app = arg.split('/').at(1);
                 var id = arg.split('/').at(3);
                 saltos.core.ajax({
-                    url: `api/index.php?delete/${app}/${id}`,
+                    url: `api/?delete/${app}/${id}`,
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;
@@ -299,7 +299,7 @@ saltos.types.delete2 = () => {
                 var app = saltos.hash.get().split('/').at(1);
                 var id = saltos.hash.get().split('/').at(3);
                 saltos.core.ajax({
-                    url: `api/index.php?delete/${app}/${id}`,
+                    url: `api/?delete/${app}/${id}`,
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;

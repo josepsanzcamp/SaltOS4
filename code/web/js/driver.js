@@ -171,7 +171,7 @@ saltos.driver.insert = arg => {
     var data = saltos.app.get_data();
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?insert/${app}`,
+        url: `api/?insert/${app}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -220,7 +220,7 @@ saltos.driver.update = arg => {
     var app = saltos.hash.get().split('/').at(1);
     var id = saltos.hash.get().split('/').at(-1);
     saltos.core.ajax({
-        url: `api/index.php?update/${app}/${id}`,
+        url: `api/?update/${app}/${id}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -272,7 +272,7 @@ saltos.driver.delete = arg => {
                     id = arg.split('/').at(-1);
                 }
                 saltos.core.ajax({
-                    url: `api/index.php?delete/${app}/${id}`,
+                    url: `api/?delete/${app}/${id}`,
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;
@@ -553,7 +553,7 @@ saltos.driver.__types.type3.init = arg => {
         if (!document.getElementById('three').innerHTML.length) {
             saltos.driver.__types.type2.__close_helper('three');
         }
-        //~ // This reset the form fields to allow the form_disabled
+        // This reset the form fields to allow the form_disabled
         saltos.app.__form.fields = [];
     }
     if (['create','view','edit'].includes(arg)) {
@@ -659,6 +659,114 @@ saltos.driver.__types.type1y.template = arg => {
  *
  * TODO
  */
-saltos.driver.__types.type1y.init = saltos.driver.__types.type1.init;
-saltos.driver.__types.type1y.open = saltos.driver.__types.type1.open;
-saltos.driver.__types.type1y.close = saltos.driver.__types.type1.close;
+saltos.driver.__types.type1y.init = arg => {
+    console.log(arg);
+    if (arg == 'list') {
+        if (saltos.bootstrap.modal('isopen')) {
+            saltos.app.form.screen('unloading');
+            saltos.bootstrap.modal('close');
+        }
+        // This reset the form fields to allow the form_disabled
+        saltos.app.__form.fields = [];
+    }
+    if (['create','view','edit'].includes(arg)) {
+        if (!saltos.bootstrap.modal('isopen')) {
+            var title = document.title;
+            var obj = document.getElementById('one').firstElementChild;
+            saltos.bootstrap.modal({
+                title: title,
+                close: 'Close',
+                body: obj,
+                class: 'modal-lg',
+            });
+            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            saltos.driver.__types.type2.__open_helper('#' + temp);
+            document.querySelector('.modal-body').setAttribute('id', 'two');
+        } else {
+            saltos.app.form.screen('unloading');
+        }
+    }
+    if (arg == 'view') {
+        // This disable the fields to use as readonly
+        saltos.app.form_disabled(true);
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1y.open = arg => {
+    saltos.hash.add(arg);
+    saltos.driver.__types.type1y.__open_helper(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1y.__open_helper = arg => {
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: 'api/?' + arg.substr(1),
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            for (var key in response) {
+                var val = response[key];
+                key = saltos.core.fix_key(key);
+                // This is to prevent some attr that causes problems here
+                if (['id', 'default', 'check'].includes(key)) {
+                    continue;
+                }
+                // Continue
+                if (typeof saltos.app.form[key] != 'function') {
+                    throw new Error(`type ${key} not found`);
+                }
+                if (key == 'title') {
+                    var title = val;
+                } else if (key == 'layout') {
+                    var obj = saltos.app.form.layout(val, 'div');
+                    if (!saltos.bootstrap.modal({
+                        title: title,
+                        close: 'Close',
+                        body: obj,
+                        class: 'modal-lg',
+                    })) {
+                        saltos.bootstrap.modal({
+                            replace: true,
+                            title: title,
+                            body: obj,
+                        });
+                    }
+                } else if (['data', 'javascript'].includes(key)) {
+                    saltos.app.form[key](val);
+                }
+            }
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type1y.close = arg => {
+    saltos.bootstrap.modal('close');
+    // HASH PART
+    var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+    saltos.hash.add(temp);
+};

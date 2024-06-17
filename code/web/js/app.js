@@ -709,6 +709,9 @@ saltos.app.form.screen = action => {
     }
     if (saltos.driver.hasOwnProperty('__types')) {
         if (saltos.driver.__types.hasOwnProperty(action)) {
+            if (document.body.getAttribute('screen') == action) {
+                return false;
+            }
             document.body.innerHTML = '';
             document.body.append(saltos.driver.__types[action].template());
             document.body.setAttribute('screen', action);
@@ -729,6 +732,9 @@ saltos.app.form.screen = action => {
 saltos.app.form.navbar = navbar => {
     navbar['#attr'] = saltos.app.parse_data(navbar['#attr']);
     navbar = saltos.core.join_attr_value(navbar);
+    if (document.getElementById(navbar.id)) {
+        return;
+    }
     if (navbar.hasOwnProperty('items')) {
         var items = [];
         for (var key in navbar.items) {

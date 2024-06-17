@@ -48,7 +48,7 @@ saltos.emails.getmail = () => {
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?app/${app}/action/getmail`,
+        url: `api/?app/${app}/action/getmail`,
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
@@ -98,7 +98,7 @@ saltos.emails.delete1 = () => {
                 var app = saltos.hash.get().split('/').at(1);
                 ids = ids.join(',');
                 saltos.core.ajax({
-                    url: `api/index.php?app/${app}/action/delete/${ids}`,
+                    url: `api/?app/${app}/action/delete/${ids}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
@@ -144,7 +144,7 @@ saltos.emails.delete2 = () => {
                 var app = saltos.hash.get().split('/').at(1);
                 var id = saltos.hash.get().split('/').at(3);
                 saltos.core.ajax({
-                    url: `api/index.php?app/${app}/action/delete/${id}`,
+                    url: `api/?app/${app}/action/delete/${id}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
@@ -189,7 +189,7 @@ saltos.emails.send = () => {
  */
 saltos.emails.download = (file) => {
     saltos.core.ajax({
-        url: 'api/index.php?' + file.substr(1),
+        url: 'api/?' + file.substr(1),
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
@@ -221,7 +221,7 @@ saltos.emails.setter = what => {
     var app = saltos.hash.get().split('/').at(1);
     var id = saltos.hash.get().split('/').at(3);
     saltos.core.ajax({
-        url: `api/index.php?app/${app}/action/setter/${id}`,
+        url: `api/?app/${app}/action/setter/${id}`,
         data: JSON.stringify({
             'what': what,
         }),

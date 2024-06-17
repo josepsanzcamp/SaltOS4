@@ -65,7 +65,7 @@ saltos.types.search = () => {
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?list/${app}/table`,
+        url: `api/?list/${app}/table`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -114,7 +114,7 @@ saltos.types.more = () => {
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?list/${app}/table`,
+        url: `api/?list/${app}/table`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -165,7 +165,7 @@ saltos.types.open = arg => {
 saltos.types.__open_helper = arg => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/index.php?' + arg.substr(1),
+        url: 'api/?' + arg.substr(1),
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
@@ -235,7 +235,7 @@ saltos.types.insert = arg => {
     var data = saltos.app.get_data();
     var app = arg.split('/').at(1);
     saltos.core.ajax({
-        url: `api/index.php?insert/${app}`,
+        url: `api/?insert/${app}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -279,7 +279,7 @@ saltos.types.update = arg => {
     var app = arg.split('/').at(1);
     var id = arg.split('/').at(3);
     saltos.core.ajax({
-        url: `api/index.php?update/${app}/${id}`,
+        url: `api/?update/${app}/${id}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -322,7 +322,7 @@ saltos.types.delete = arg => {
                 var app = arg.split('/').at(1);
                 var id = arg.split('/').at(3);
                 saltos.core.ajax({
-                    url: `api/index.php?delete/${app}/${id}`,
+                    url: `api/?delete/${app}/${id}`,
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;
