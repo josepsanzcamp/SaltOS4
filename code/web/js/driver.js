@@ -420,9 +420,8 @@ saltos.driver.__types.type2.template = arg => {
  */
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
-        var arr1 = saltos.hash.get().split('/');
-        var arr2 = ['create','view','edit'];
-        if (!arr1.filter(x => arr2.includes(x)).length) {
+        var action = saltos.hash.get().split('/').at(2);
+        if (!['create','view','edit'].includes(action)) {
             saltos.driver.__types.type2.__close_helper('two');
         }
         // Program the update event
@@ -513,9 +512,8 @@ saltos.driver.__types.type3.template = arg => {
  */
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
-        var arr1 = saltos.hash.get().split('/');
-        var arr2 = ['create','view','edit'];
-        if (!arr1.filter(x => arr2.includes(x)).length) {
+        var action = saltos.hash.get().split('/').at(2);
+        if (!['create','view','edit'].includes(action)) {
             saltos.driver.__types.type2.__close_helper('two');
             saltos.driver.__types.type2.__close_helper('three');
         }
