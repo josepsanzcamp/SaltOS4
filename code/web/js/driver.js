@@ -186,11 +186,7 @@ saltos.driver.insert = arg => {
                 return;
             }
             if (response.status == 'ok') {
-                if (['type2', 'type3', 'type2x'].includes(document.body.getAttribute('screen'))) {
-                    saltos.driver.search();
-                } else {
-                    saltos.window.send(`saltos.${app}.update`);
-                }
+                saltos.window.send(`saltos.${app}.update`);
                 saltos.driver.close();
                 return;
             }
@@ -242,11 +238,7 @@ saltos.driver.update = arg => {
                 return;
             }
             if (response.status == 'ok') {
-                if (['type2', 'type3', 'type2x'].includes(document.body.getAttribute('screen'))) {
-                    saltos.driver.search();
-                } else {
-                    saltos.window.send(`saltos.${app}.update`);
-                }
+                saltos.window.send(`saltos.${app}.update`);
                 saltos.driver.close();
                 return;
             }
@@ -297,11 +289,7 @@ saltos.driver.delete = async arg => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            if (['type2', 'type3', 'type2x'].includes(document.body.getAttribute('screen'))) {
-                                saltos.driver.search();
-                            } else {
-                                saltos.window.send(`saltos.${app}.update`);
-                            }
+                            saltos.window.send(`saltos.${app}.update`);
                             if (typeof arg == 'undefined') {
                                 saltos.driver.close();
                             }
@@ -369,18 +357,18 @@ saltos.driver.__types.type1.template = arg => {
  */
 saltos.driver.__types.type1.init = arg => {
     if (arg == 'list') {
+        // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search();
         });
     }
     if (arg == 'view') {
+        // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.hash.trigger();
         });
-    }
-    if (arg == 'view') {
         // This disable the fields to use as readonly
         saltos.app.form_disabled(true);
     }
@@ -443,6 +431,11 @@ saltos.driver.__types.type2.init = arg => {
         if (!arr1.filter(x => arr2.includes(x)).length) {
             saltos.driver.__types.type2.__close_helper('two');
         }
+        // Program the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.driver.search();
+        });
         // This reset the form fields to allow the form_disabled
         saltos.app.__form.fields = [];
     }
@@ -534,6 +527,11 @@ saltos.driver.__types.type3.init = arg => {
             saltos.driver.__types.type2.__close_helper('two');
             saltos.driver.__types.type2.__close_helper('three');
         }
+        // Program the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.driver.search();
+        });
         // This reset the form fields to allow the form_disabled
         saltos.app.__form.fields = [];
     }
@@ -637,6 +635,11 @@ saltos.driver.__types.type2x.init = arg => {
         if (saltos.bootstrap.modal('isopen')) {
             saltos.bootstrap.modal('close');
         }
+        // Program the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.driver.search();
+        });
         // This reset the form fields to allow the form_disabled
         saltos.app.__form.fields = [];
     }
