@@ -52,6 +52,7 @@ saltos.authenticate = {};
  * @pass => password used to the authentication process
  */
 saltos.authenticate.authtoken = (user, pass) => {
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/?authtoken',
         data: JSON.stringify({
@@ -62,6 +63,7 @@ saltos.authenticate.authtoken = (user, pass) => {
         content_type: 'application/json',
         async: false,
         success: response => {
+            saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
                 return;
             }
@@ -76,6 +78,7 @@ saltos.authenticate.authtoken = (user, pass) => {
             saltos.app.show_error(response);
         },
         error: request => {
+            saltos.app.form.screen('unloading');
             saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
@@ -90,10 +93,12 @@ saltos.authenticate.authtoken = (user, pass) => {
  * This function uses the checktoken action to check the validity of the current token.
  */
 saltos.authenticate.checktoken = () => {
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/?checktoken',
         async: false,
         success: response => {
+            saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
                 return;
             }
@@ -108,6 +113,7 @@ saltos.authenticate.checktoken = () => {
             saltos.app.show_error(response);
         },
         error: request => {
+            saltos.app.form.screen('unloading');
             saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
@@ -124,10 +130,12 @@ saltos.authenticate.checktoken = () => {
  * credentials.
  */
 saltos.authenticate.deauthtoken = () => {
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: 'api/?deauthtoken',
         async: false,
         success: response => {
+            saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
                 return;
             }
@@ -142,6 +150,7 @@ saltos.authenticate.deauthtoken = () => {
             saltos.app.show_error(response);
         },
         error: request => {
+            saltos.app.form.screen('unloading');
             saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,

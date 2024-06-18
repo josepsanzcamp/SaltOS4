@@ -76,8 +76,8 @@ saltos.driver.close = arg => {
  */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
-    saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?list/${app}/table`,
         data: JSON.stringify({
@@ -123,9 +123,9 @@ saltos.driver.reset = arg => {
  * TODO
  */
 saltos.driver.more = arg => {
-    document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1,
-    saltos.app.form.screen('loading');
+    document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1;
     var app = saltos.hash.get().split('/').at(1);
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?list/${app}/table`,
         data: JSON.stringify({
@@ -165,11 +165,14 @@ saltos.driver.more = arg => {
  */
 saltos.driver.insert = arg => {
     if (!saltos.app.check_required()) {
-        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
+        if (!saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'})) {
+            saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
+        }
         return;
     }
     var data = saltos.app.get_data();
     var app = saltos.hash.get().split('/').at(1);
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?insert/${app}`,
         data: JSON.stringify({
@@ -178,11 +181,12 @@ saltos.driver.insert = arg => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
+            saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
-                if (document.getElementById('two')) {
+                if (['type2', 'type3', 'type2x'].includes(document.body.getAttribute('screen'))) {
                     saltos.driver.search();
                 } else {
                     saltos.window.send(`saltos.${app}.update`);
@@ -193,6 +197,7 @@ saltos.driver.insert = arg => {
             saltos.app.show_error(response);
         },
         error: request => {
+            saltos.app.form.screen('unloading');
             saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
@@ -209,16 +214,21 @@ saltos.driver.insert = arg => {
  */
 saltos.driver.update = arg => {
     if (!saltos.app.check_required()) {
-        saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'});
+        if (!saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'})) {
+            saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
+        }
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        saltos.app.modal('Warning', 'No changes detected', {color: 'danger'});
+        if (!saltos.app.modal('Warning', 'No changes detected', {color: 'danger'})) {
+            saltos.app.toast('Warning', 'No changes detected', {color: 'danger'});
+        }
         return;
     }
     var app = saltos.hash.get().split('/').at(1);
     var id = saltos.hash.get().split('/').at(-1);
+    saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?update/${app}/${id}`,
         data: JSON.stringify({
@@ -227,11 +237,12 @@ saltos.driver.update = arg => {
         method: 'post',
         content_type: 'application/json',
         success: response => {
+            saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
                 return;
             }
             if (response.status == 'ok') {
-                if (document.getElementById('two')) {
+                if (['type2', 'type3', 'type2x'].includes(document.body.getAttribute('screen'))) {
                     saltos.driver.search();
                 } else {
                     saltos.window.send(`saltos.${app}.update`);
@@ -242,6 +253,7 @@ saltos.driver.update = arg => {
             saltos.app.show_error(response);
         },
         error: request => {
+            saltos.app.form.screen('unloading');
             saltos.app.show_error({
                 text: request.statusText,
                 code: request.status,
@@ -256,7 +268,13 @@ saltos.driver.update = arg => {
  *
  * TODO
  */
-saltos.driver.delete = arg => {
+saltos.driver.delete = async arg => {
+    if (saltos.bootstrap.modal('isopen')) {
+        saltos.bootstrap.modal('close');
+        while (saltos.bootstrap.modal('isopen')) {
+            await new Promise(resolve => setTimeout(resolve, 1));
+        }
+    }
     saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
@@ -264,13 +282,13 @@ saltos.driver.delete = arg => {
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
-                saltos.app.form.screen('loading');
                 var app = saltos.hash.get().split('/').at(1);
                 var id = saltos.hash.get().split('/').at(-1);
                 if (typeof arg == 'string') {
                     app = arg.split('/').at(1);
                     id = arg.split('/').at(-1);
                 }
+                saltos.app.form.screen('loading');
                 saltos.core.ajax({
                     url: `api/?delete/${app}/${id}`,
                     success: response => {
@@ -279,7 +297,7 @@ saltos.driver.delete = arg => {
                             return;
                         }
                         if (response.status == 'ok') {
-                            if (document.getElementById('two')) {
+                            if (['type2', 'type3', 'type2x'].includes(document.body.getAttribute('screen'))) {
                                 saltos.driver.search();
                             } else {
                                 saltos.window.send(`saltos.${app}.update`);
@@ -596,37 +614,25 @@ saltos.driver.__types.type1x.open = saltos.driver.__types.type1.open;
 saltos.driver.__types.type1x.close = saltos.driver.__types.type1.close;
 
 /**
- * Driver type1y object
+ * Driver type2x object
  *
- * This object stores the functions used by the type1y driver
+ * This object stores the functions used by the type2x driver
  */
-saltos.driver.__types.type1y = {};
+saltos.driver.__types.type2x = {};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.driver.__types.type1y.template = arg => {
-    return saltos.core.html(`
-        <div id="top"></div>
-        <div class="container">
-            <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            </div>
-        </div>
-        <div id="bottom"></div>
-    `);
-};
+saltos.driver.__types.type2x.template = saltos.driver.__types.type1x.template;
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.driver.__types.type1y.init = arg => {
+saltos.driver.__types.type2x.init = arg => {
     if (arg == 'list') {
         if (saltos.bootstrap.modal('isopen')) {
             saltos.bootstrap.modal('close');
@@ -644,9 +650,9 @@ saltos.driver.__types.type1y.init = arg => {
                 body: obj,
                 class: 'modal-lg',
             });
+            document.querySelector('.modal-body').setAttribute('id', 'two');
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
-            document.querySelector('.modal-body').setAttribute('id', 'two');
         }
     }
     if (arg == 'view') {
@@ -660,14 +666,22 @@ saltos.driver.__types.type1y.init = arg => {
  *
  * TODO
  */
-saltos.driver.__types.type1y.open = saltos.driver.__types.type2.open;
+saltos.driver.__types.type2x.open = arg => {
+    saltos.bootstrap.modal({
+        close: 'Close',
+        class: 'modal-lg',
+    });
+    document.querySelector('.modal-body').setAttribute('id', 'two');
+    saltos.hash.add(arg);
+    saltos.app.send_request(arg.substr(1));
+};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.driver.__types.type1y.close = arg => {
+saltos.driver.__types.type2x.close = arg => {
     saltos.bootstrap.modal('close');
     // HASH PART
     var temp = saltos.hash.get().split('/').slice(0, 2).join('/');

@@ -67,7 +67,7 @@ saltos.app.modal = (title, message, extra) => {
     if (!extra.hasOwnProperty('color')) {
         extra.color = 'primary';
     }
-    saltos.bootstrap.modal({
+    return saltos.bootstrap.modal({
         title: title,
         close: 'Close',
         body: message,
@@ -75,8 +75,8 @@ saltos.app.modal = (title, message, extra) => {
             var obj = saltos.core.html('<div></div>');
             for (var key in extra.buttons) {
                 (button => {
-                    saltos.core.check_params(button, ['label', 'class', 'color',
-                        'icon', 'autofocus', 'onclick']);
+                    saltos.core.check_params(button, ['label', 'class',
+                        'color', 'icon', 'autofocus', 'onclick']);
                     obj.append(saltos.bootstrap.field({
                         type: 'button',
                         value: button.label,
@@ -113,7 +113,7 @@ saltos.app.toast = (title, message, extra) => {
     if (!extra.hasOwnProperty('color')) {
         extra.color = 'primary';
     }
-    saltos.bootstrap.toast({
+    return saltos.bootstrap.toast({
         title: title,
         body: message,
         color: extra.color,
@@ -130,7 +130,9 @@ saltos.app.show_error = error => {
         document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
         return;
     }
-    saltos.app.modal('Error ' + error.code, error.text, {color: 'danger'});
+    if (!saltos.app.modal('Error ' + error.code, error.text, {color: 'danger'})) {
+        saltos.app.toast('Error ' + error.code, error.text, {color: 'danger'});
+    }
 };
 
 /**

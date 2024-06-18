@@ -3051,8 +3051,15 @@ saltos.bootstrap.modal = args => {
     if (args.hasOwnProperty('replace') && saltos.core.eval_bool(args.replace)) {
         var bool = typeof saltos.bootstrap.__modal.instance == 'object';
         if (bool) {
+            saltos.core.check_params(args, ['class', 'title', 'close', 'body', 'footer', 'static', 'color']);
             var obj = saltos.bootstrap.__modal.obj;
+            if (args.class != '') {
+                obj.querySelector('.modal-dialog').classList.add(args.class);
+            }
             obj.querySelector('.modal-title').innerHTML = args.title;
+            if (args.close != '') {
+                obj.querySelector('.btn-close').setAttribute('aria-label', args.close);
+            }
             obj.querySelector('.modal-body').innerHTML = '';
             if (typeof args.body == 'string') {
                 obj.querySelector('.modal-body').append(saltos.core.html(args.body));
@@ -3069,6 +3076,18 @@ saltos.bootstrap.modal = args => {
                 } else {
                     obj.querySelector('.modal-footer').append(args.footer);
                 }
+            }
+            if (args.static != '') {
+                if (saltos.core.eval_bool(args.static)) {
+                    obj.setAttribute('data-bs-backdrop', 'static');
+                    obj.setAttribute('data-bs-keyboard', 'false');
+                } else {
+                    obj.removeAttribute('data-bs-backdrop', 'static');
+                    obj.removeAttribute('data-bs-keyboard', 'false');
+                }
+            }
+            if (args.color != '') {
+                obj.querySelector('.modal-header').classList.add(`text-bg-${args.color}`);
             }
             obj.querySelectorAll('[autofocus]').forEach(_this => {
                 _this.focus();
