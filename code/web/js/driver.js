@@ -667,7 +667,9 @@ saltos.driver.__types.type2x.init = arg => {
  * TODO
  */
 saltos.driver.__types.type2x.open = arg => {
+    var title = document.title;
     saltos.bootstrap.modal({
+        title: title,
         close: 'Close',
         class: 'modal-lg',
     });
