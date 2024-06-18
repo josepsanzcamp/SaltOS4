@@ -165,9 +165,7 @@ saltos.driver.more = arg => {
  */
 saltos.driver.insert = arg => {
     if (!saltos.app.check_required()) {
-        if (!saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'})) {
-            saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
-        }
+        saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
@@ -210,16 +208,12 @@ saltos.driver.insert = arg => {
  */
 saltos.driver.update = arg => {
     if (!saltos.app.check_required()) {
-        if (!saltos.app.modal('Warning', 'Required fields not found', {color: 'danger'})) {
-            saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
-        }
+        saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
     var data = saltos.app.get_data();
     if (!Object.keys(data).length) {
-        if (!saltos.app.modal('Warning', 'No changes detected', {color: 'danger'})) {
-            saltos.app.toast('Warning', 'No changes detected', {color: 'danger'});
-        }
+        saltos.app.toast('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
     var app = saltos.hash.get().split('/').at(1);
@@ -436,8 +430,6 @@ saltos.driver.__types.type2.init = arg => {
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search();
         });
-        // This reset the form fields to allow the form_disabled
-        saltos.app.__form.fields = [];
     }
     if (['create','view','edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.length) {
@@ -532,8 +524,6 @@ saltos.driver.__types.type3.init = arg => {
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search();
         });
-        // This reset the form fields to allow the form_disabled
-        saltos.app.__form.fields = [];
     }
     if (['create','view','edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.length) {
@@ -640,8 +630,6 @@ saltos.driver.__types.type2x.init = arg => {
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search();
         });
-        // This reset the form fields to allow the form_disabled
-        saltos.app.__form.fields = [];
     }
     if (['create','view','edit'].includes(arg)) {
         if (!saltos.bootstrap.modal('isopen')) {

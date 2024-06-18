@@ -348,6 +348,10 @@ saltos.app.form.__layout_template_helper = (template_id, index) => {
  * can retrieve the desired information of the fields.
  */
 saltos.app.form.layout = (layout, extra) => {
+    if (typeof extra == 'undefined') {
+        saltos.app.__form.fields = [];
+        saltos.app.__form.templates = {};
+    }
     // This code fix a problem when layout contains the append element id
     var append = '';
     if (saltos.core.is_attr_value(layout) && layout['#attr'].hasOwnProperty('append')) {
