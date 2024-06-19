@@ -2460,7 +2460,9 @@ saltos.bootstrap.__field.list = field => {
         <style>
             .list-group {
                 --bs-list-group-action-hover-bg: #fbec88;
+                --bs-list-group-action-active-bg: #fbec88;
                 --bs-list-group-action-hover-color: #373a3c;
+                --bs-list-group-action-active-color: #373a3c;
             }
         </style>
     `));

@@ -193,7 +193,9 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
         <style>
             .list-group {
                 --bs-list-group-action-hover-bg: #fbec88;
+                --bs-list-group-action-active-bg: #fbec88;
                 --bs-list-group-action-hover-color: #373a3c;
+                --bs-list-group-action-active-color: #373a3c;
             }
         </style>
     `)),t=saltos.bootstrap.__label_combine(e,t)},saltos.bootstrap.__field.tabs=e=>{saltos.core.check_params(e,["id","type"]),saltos.core.check_params(e,["tabs"],[]);var t,o,a,s,r,l,i,c=saltos.core.html(`
