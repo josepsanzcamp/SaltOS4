@@ -220,6 +220,24 @@ saltos.app.__form = {
 };
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__form_backup = {
+    fields: [],
+    templates: {},
+    do: () => {
+        saltos.app.__form_backup.fields = saltos.app.__form.fields;
+        saltos.app.__form_backup.templates = saltos.app.__form.templates;
+    },
+    restore: () => {
+        saltos.app.__form.fields = saltos.app.__form_backup.fields;
+        saltos.app.__form.templates = saltos.app.__form_backup.templates;
+    },
+};
+
+/**
  * Form data helper
  *
  * This function sets the values of the request to the objects placed in the document, too as bonus

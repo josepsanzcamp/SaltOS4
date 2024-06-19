@@ -363,6 +363,8 @@ saltos.driver.__types.type1.init = arg => {
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.hash.trigger();
         });
+    }
+    if (arg == 'view') {
         // This disable the fields to use as readonly
         saltos.app.form_disabled(true);
     }
@@ -420,6 +422,8 @@ saltos.driver.__types.type2.template = arg => {
  */
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
+        saltos.app.__form_backup.restore();
+        // Continue after the backup
         var action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.__types.type2.__close_helper('two');
@@ -431,6 +435,8 @@ saltos.driver.__types.type2.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
+        saltos.app.__form_backup.do();
+        // Continue after the backup
         if (!document.getElementById('one').textContent.length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -512,6 +518,8 @@ saltos.driver.__types.type3.template = arg => {
  */
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
+        saltos.app.__form_backup.restore();
+        // Continue after the backup
         var action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.__types.type2.__close_helper('two');
@@ -524,6 +532,8 @@ saltos.driver.__types.type3.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
+        saltos.app.__form_backup.do();
+        // Continue after the backup
         if (!document.getElementById('one').textContent.length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -585,7 +595,10 @@ saltos.driver.__types.type4.template = saltos.driver.__types.type1.template;
  */
 saltos.driver.__types.type4.init = arg => {
     if (arg == 'list') {
-        if (saltos.bootstrap.modal('isopen')) {
+        saltos.app.__form_backup.restore();
+        // Continue after the backup
+        var action = saltos.hash.get().split('/').at(2);
+        if (!['create', 'view', 'edit'].includes(action)) {
             saltos.bootstrap.modal('close');
         }
         // Program the update event
@@ -595,6 +608,8 @@ saltos.driver.__types.type4.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
+        saltos.app.__form_backup.do();
+        // Continue after the backup
         if (!saltos.bootstrap.modal('isopen')) {
             var title = document.title;
             var obj = document.getElementById('one').firstElementChild;
@@ -602,7 +617,7 @@ saltos.driver.__types.type4.init = arg => {
                 title: title,
                 close: 'Close',
                 body: obj,
-                class: 'modal-lg',
+                class: 'modal-xl',
             });
             document.querySelector('.modal-body').setAttribute('id', 'two');
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
@@ -625,7 +640,7 @@ saltos.driver.__types.type4.open = arg => {
     saltos.bootstrap.modal({
         title: title,
         close: 'Close',
-        class: 'modal-lg',
+        class: 'modal-xl',
     });
     document.querySelector('.modal-body').setAttribute('id', 'two');
     saltos.hash.add(arg);
