@@ -31,8 +31,8 @@
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>Customer's list</title>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -83,8 +83,8 @@
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>New customer</title>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
@@ -101,8 +101,8 @@
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>Detail of the customer</title>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
@@ -123,8 +123,8 @@
 
     <edit>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <title>Modify this customer</title>
+        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>

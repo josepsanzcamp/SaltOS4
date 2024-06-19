@@ -26,13 +26,13 @@
 -->
 
 <root>
-    <screen>type3</screen>
+    <screen>type2</screen>
 
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <title>Email's list</title>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -62,8 +62,8 @@
     <!-- Form part -->
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <title>New email</title>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -110,8 +110,8 @@
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <title>Detail of the email</title>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -196,8 +196,8 @@
 
     <view id="source">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <title>Source of the email</title>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -213,8 +213,8 @@
 
     <view id="viewpdf">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -248,8 +248,9 @@
 
     <!-- Config part -->
     <config>
-        <screen>clear</screen>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <title>Config of the email</title>
+        <screen>clear</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <row auto="true" col_class="col-md-12 mb-3">

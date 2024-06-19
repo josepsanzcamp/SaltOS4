@@ -28,9 +28,10 @@
 <root>
     <menu default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>type1x</screen>
         <title>Dashboard</title>
+        <screen>type1</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <screen>nofluid</screen>
         <layout append="one">
             <row auto="true" col_class="col-md-4 mb-3">
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" value="Customers"/>
@@ -55,8 +56,8 @@
 
     <config>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <screen>clear</screen>
         <title>Profile</title>
+        <screen>clear</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout>
             <container class="container my-3">

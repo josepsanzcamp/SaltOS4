@@ -421,7 +421,7 @@ saltos.driver.__types.type2.template = arg => {
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
         var action = saltos.hash.get().split('/').at(2);
-        if (!['create','view','edit'].includes(action)) {
+        if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.__types.type2.__close_helper('two');
         }
         // Program the update event
@@ -430,7 +430,7 @@ saltos.driver.__types.type2.init = arg => {
             saltos.driver.search();
         });
     }
-    if (['create','view','edit'].includes(arg)) {
+    if (['create', 'view', 'edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -513,7 +513,7 @@ saltos.driver.__types.type3.template = arg => {
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
         var action = saltos.hash.get().split('/').at(2);
-        if (!['create','view','edit'].includes(action)) {
+        if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.__types.type2.__close_helper('two');
             saltos.driver.__types.type2.__close_helper('three');
         }
@@ -523,7 +523,7 @@ saltos.driver.__types.type3.init = arg => {
             saltos.driver.search();
         });
     }
-    if (['create','view','edit'].includes(arg)) {
+    if (['create', 'view', 'edit'].includes(arg)) {
         if (!document.getElementById('one').textContent.length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -565,60 +565,25 @@ saltos.driver.__types.type3.close = arg => {
 };
 
 /**
- * Driver type1x object
+ * Driver type4 object
  *
- * This object stores the functions used by the type1x driver
+ * This object stores the functions used by the type4 driver
  */
-saltos.driver.__types.type1x = {};
+saltos.driver.__types.type4 = {};
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.driver.__types.type1x.template = arg => {
-    return saltos.core.html(`
-        <div id="top"></div>
-        <div class="container">
-            <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-            </div>
-        </div>
-        <div id="bottom"></div>
-    `);
-};
+saltos.driver.__types.type4.template = saltos.driver.__types.type1.template;
 
 /**
  * TODO
  *
  * TODO
  */
-saltos.driver.__types.type1x.init = saltos.driver.__types.type1.init;
-saltos.driver.__types.type1x.open = saltos.driver.__types.type1.open;
-saltos.driver.__types.type1x.close = saltos.driver.__types.type1.close;
-
-/**
- * Driver type2x object
- *
- * This object stores the functions used by the type2x driver
- */
-saltos.driver.__types.type2x = {};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type2x.template = saltos.driver.__types.type1x.template;
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.driver.__types.type2x.init = arg => {
+saltos.driver.__types.type4.init = arg => {
     if (arg == 'list') {
         if (saltos.bootstrap.modal('isopen')) {
             saltos.bootstrap.modal('close');
@@ -629,7 +594,7 @@ saltos.driver.__types.type2x.init = arg => {
             saltos.driver.search();
         });
     }
-    if (['create','view','edit'].includes(arg)) {
+    if (['create', 'view', 'edit'].includes(arg)) {
         if (!saltos.bootstrap.modal('isopen')) {
             var title = document.title;
             var obj = document.getElementById('one').firstElementChild;
@@ -655,7 +620,7 @@ saltos.driver.__types.type2x.init = arg => {
  *
  * TODO
  */
-saltos.driver.__types.type2x.open = arg => {
+saltos.driver.__types.type4.open = arg => {
     var title = document.title;
     saltos.bootstrap.modal({
         title: title,
@@ -672,7 +637,7 @@ saltos.driver.__types.type2x.open = arg => {
  *
  * TODO
  */
-saltos.driver.__types.type2x.close = arg => {
+saltos.driver.__types.type4.close = arg => {
     saltos.bootstrap.modal('close');
     // HASH PART
     var temp = saltos.hash.get().split('/').slice(0, 2).join('/');

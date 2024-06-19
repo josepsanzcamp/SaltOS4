@@ -713,11 +713,20 @@ saltos.app.form.screen = action => {
             return true;
         case 'clear':
             document.body.innerHTML = '';
+            document.body.removeAttribute('screen');
             return true;
+        case 'nofluid':
+            var bool = false;
+            document.querySelectorAll('.container-fluid').forEach(_this => {
+                _this.classList.remove('container-fluid');
+                _this.classList.add('container');
+                bool = true;
+            });
+            return bool;
     }
     if (saltos.driver.hasOwnProperty('__types')) {
         if (saltos.driver.__types.hasOwnProperty(action)) {
-            if (document.body.getAttribute('screen') == action) {
+            if (document.body.hasAttribute('screen')) {
                 return false;
             }
             document.body.innerHTML = '';
