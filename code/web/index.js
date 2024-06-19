@@ -189,7 +189,14 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
                     <h5 class="mb-1">${s.header}</h5>
                     <small>${s.extra}</small>
                 </div>
-            `)),""!=s.body&&a.append(saltos.core.html(`<p class="mb-1">${s.body}</p>`)),""!=s.footer&&a.append(saltos.core.html(`<small>${s.footer}</small>`)),saltos.core.eval_bool(s.active)&&(a.classList.add("active"),a.setAttribute("aria-current","true")),saltos.core.eval_bool(s.disabled)&&(a.classList.add("disabled"),a.setAttribute("aria-disabled","true")),t.append(a)}return t=saltos.bootstrap.__label_combine(e,t)},saltos.bootstrap.__field.tabs=e=>{saltos.core.check_params(e,["id","type"]),saltos.core.check_params(e,["tabs"],[]);var t,o,a,s,r,l,i,c=saltos.core.html(`
+            `)),""!=s.body&&a.append(saltos.core.html(`<p class="mb-1">${s.body}</p>`)),""!=s.footer&&a.append(saltos.core.html(`<small>${s.footer}</small>`)),saltos.core.eval_bool(s.active)&&(a.classList.add("active"),a.setAttribute("aria-current","true")),saltos.core.eval_bool(s.disabled)&&(a.classList.add("disabled"),a.setAttribute("aria-disabled","true")),t.append(a)}return t.append(saltos.core.html(`
+        <style>
+            .list-group {
+                --bs-list-group-action-hover-bg: #fbec88;
+                --bs-list-group-action-hover-color: #373a3c;
+            }
+        </style>
+    `)),t=saltos.bootstrap.__label_combine(e,t)},saltos.bootstrap.__field.tabs=e=>{saltos.core.check_params(e,["id","type"]),saltos.core.check_params(e,["tabs"],[]);var t,o,a,s,r,l,i,c=saltos.core.html(`
         <ul class="nav nav-${e.type} mb-3" id="${e.id}-tab" role="tablist"></ul>
         <div class="tab-content" id="${e.id}-content"></div>
     `);for(t in e)"tab"==saltos.core.fix_key(t)&&(o=e[t],o=saltos.core.join_attr_value(o),saltos.core.check_params(o,["name","content","active","disabled"]),i="false",s=a="",saltos.core.eval_bool(o.active)&&(a="active",i="true",s="show"),r="",saltos.core.eval_bool(o.disabled)&&(r="disabled"),l=saltos.core.uniqid(),c.querySelector("ul.nav").append(saltos.core.html(`

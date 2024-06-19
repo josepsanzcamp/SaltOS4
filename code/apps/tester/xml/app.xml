@@ -107,7 +107,7 @@
                 <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test" onclick="saltos.tester.campo9()"/>
                 <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test" onclick="saltos.tester.campo10()"/>
                 <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test" onclick="saltos.tester.campo11()"/>
-                <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba&#13;&#13;Adios&#13;&#13;</textarea>
+                <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba&#13;&#13;Adios&#13;</textarea>
                 <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
                 <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>&#13;&#9;<tag>valor</tag>&#13;</xml>&#13;]]></codemirror>
                 <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2,3,5" size="5">
@@ -181,6 +181,12 @@
                         "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                         "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
                         "onclick" => "alert('app/customers/view/3')",
+                    ],[
+                        "header" => "Asd Qwerty",
+                        "extra" => "4 days",
+                        "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "footer" => "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium",
+                        "onclick" => "alert('app/customers/view/4')",
                         "disabled" => true,
                     ]]]]></data>
                 </list>

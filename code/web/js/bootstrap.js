@@ -2455,6 +2455,16 @@ saltos.bootstrap.__field.list = field => {
         }
         obj.append(item);
     }
+    // The follow code allow to colorize the hover and active rows of the list
+    obj.append(saltos.core.html(`
+        <style>
+            .list-group {
+                --bs-list-group-action-hover-bg: #fbec88;
+                --bs-list-group-action-hover-color: #373a3c;
+            }
+        </style>
+    `));
+    // Continue
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
