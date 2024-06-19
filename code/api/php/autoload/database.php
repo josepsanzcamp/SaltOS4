@@ -64,12 +64,19 @@ function db_connect($args = null)
     if ($args !== null) {
         $config = $args;
     }
-    $php = "php/database/" . $config["type"] . ".php";
+    $type = $config["type"];
+    $php = "php/database/$type.php";
     if (!file_exists($php)) {
-        show_php_error(["dberror" => "Database type '" . $config["type"] . "' not found"]);
+        show_php_error(["dberror" => "Database type '$type' not found"]);
     }
     require_once $php;
-    $driver = "database_" . $config["type"];
+    $driver = "database_$type";
+    if (isset($config[$type])) {
+        $config = array_merge($config, join_attr_value($config[$type]));
+        if ($args === null) {
+            set_config("db", $config);
+        }
+    }
     $obj = new $driver($config);
     if ($args === null) {
         set_config("db/obj", $obj);

@@ -28,10 +28,6 @@
 <root>
     <db>
         <type>pdo_mysql</type>
-        <host>localhost</host><!-- for MySQL -->
-        <port>3306</port><!-- for MySQL -->
-        <name>saltos</name><!-- for MySQL -->
-        <user>saltos</user><!-- for MySQL -->
-        <pass>saltos</pass><!-- for MySQL -->
+        <pdo_mysql host="localhost" port="3306" name="saltos" user="saltos" pass="saltos"/><!-- for MySQL -->
     </db>
 </root>

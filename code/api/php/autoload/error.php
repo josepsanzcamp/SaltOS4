@@ -182,6 +182,7 @@ function do_message_error($array)
                     get_config("db/user"),
                     get_config("db/pass"),
                     get_config("db/name"),
+                    get_config("db/file"),
                 ];
                 $data = str_replace($privated, "...", $data);
                 break;
