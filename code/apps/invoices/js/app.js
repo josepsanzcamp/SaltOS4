@@ -44,25 +44,22 @@ saltos.invoices = {};
  *
  * TODO
  */
-saltos.invoices.initialize_buttons = () => {
-    document.querySelectorAll('.detail button, .footer button').forEach(_this => {
-        saltos.app.parentNode_search(_this, 'col-auto').remove();
-    });
-};
+saltos.invoices.init = arg => {
+    if (arg == 'view') {
+        document.querySelectorAll('.detail button, .footer button').forEach(_this => {
+            saltos.app.parentNode_search(_this, 'col-auto').remove();
+        });
+    }
 
-/**
- * TODO
- *
- * TODO
- */
-saltos.invoices.initialize_inputs = () => {
-    document.querySelectorAll('[id*=unidades], [id*=precio], [id*=descuento]').forEach(_this => {
-        _this.removeEventListener('change', saltos.invoices.compute_total);
-        _this.addEventListener('change', saltos.invoices.compute_total);
-    });
-    document.querySelectorAll('[id*=total], #total').forEach(_this => {
-        _this.setAttribute('disabled', '');
-    });
+    if (['create', 'edit'].includes(arg)) {
+        document.querySelectorAll('[id*=unidades], [id*=precio], [id*=descuento]').forEach(_this => {
+            _this.removeEventListener('change', saltos.invoices.compute_total);
+            _this.addEventListener('change', saltos.invoices.compute_total);
+        });
+        document.querySelectorAll('[id*=total], #total').forEach(_this => {
+            _this.setAttribute('disabled', '');
+        });
+    }
 };
 
 /**
@@ -96,7 +93,7 @@ saltos.invoices.add_item = () => {
     var layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
     var obj = saltos.app.form.layout(layout, 'div');
     document.querySelector('.footer').before(obj);
-    saltos.invoices.initialize_inputs();
+    saltos.invoices.init('edit');
 };
 
 /**

@@ -49,9 +49,6 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.more()" value="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="plus-lg"/>
-<!--
-                <button onclick="saltos.driver.close()" value="Close" tooltip="To close this list" icon="x-lg"/>
--->
             </row>
         </layout>
         <javascript>
@@ -112,7 +109,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.invoices.initialize_inputs()</inline>
+            <inline>saltos.invoices.init('create')</inline>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
@@ -140,7 +137,7 @@
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.invoices.initialize_buttons()</inline>
+            <inline>saltos.invoices.init('view')</inline>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
@@ -165,7 +162,7 @@
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
-            <inline>saltos.invoices.initialize_inputs()</inline>
+            <inline>saltos.invoices.init('edit')</inline>
             <inline>saltos.driver.init("edit")</inline>
         </javascript>
     </edit>
