@@ -914,6 +914,8 @@ saltos.app.get_data = full => {
                         val = val.replace(/\r\n|\r/g, '\n');
                         old = old.replace(/\r\n|\r/g, '\n');
                         break;
+                }
+                switch (field.type) {
                     case 'integer':
                         val = parseInt(val);
                         old = parseInt(old);
