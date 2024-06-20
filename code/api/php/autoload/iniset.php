@@ -50,21 +50,21 @@ function eval_iniset($array)
     if (is_array($array)) {
         foreach ($array as $key => $val) {
             $key = fix_key($key);
-            $current = ini_get($key);
-            $diff = 0;
+            $cur = ini_get($key);
+            $diff = false;
             if (strtolower($val) == "on" || strtolower($val) == "off") {
-                $current = $current ? "On" : "Off";
-                if (strtolower($val) != strtolower($current)) {
-                    $diff = 1;
+                $cur = $cur ? "On" : "Off";
+                if (strtolower($val) != strtolower($cur)) {
+                    $diff = true;
                 }
             } else {
-                if ($val != $current) {
-                    $diff = 1;
+                if ($val != $cur) {
+                    $diff = true;
                 }
             }
             if ($diff) {
                 if (ini_set($key, $val) === false) {
-                    show_php_error(["phperror" => "ini_set fails to set '$key' from '$current' to '$val'"]);
+                    show_php_error(["phperror" => "ini_set fails to set '$key' from '$cur' to '$val'"]);
                 }
             }
         }
@@ -85,15 +85,15 @@ function eval_putenv($array)
     if (is_array($array)) {
         foreach ($array as $key => $val) {
             $key = fix_key($key);
-            $current = getenv($key);
+            $cur = getenv($key);
             $diff = 0;
-            if ($val != $current) {
+            if ($val != $cur) {
                 $diff = 1;
             }
             if ($diff) {
-                if (putenv($key . "=" . $val) === false) {
+                if (putenv("$key=$val") === false) {
                     // @codeCoverageIgnoreStart
-                    show_php_error(["phperror" => "putenv fails to set '$key' from '$current' to '$val'"]);
+                    show_php_error(["phperror" => "putenv fails to set '$key' from '$cur' to '$val'"]);
                     // @codeCoverageIgnoreEnd
                 }
             }
