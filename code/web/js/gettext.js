@@ -27,46 +27,43 @@
 'use strict';
 
 /**
- * Dashboard application
+ * Gettext helper module
  *
- * This application implements the tipical features associated to dashboard
+ * This module provides the needed tools to manage the gettexts
  */
 
 /**
- * Main object
+ * Gettext helper object
  *
- * This object contains all SaltOS code
+ * This object stores all gettext functions to get and set data using the localStorage
  */
-saltos.dashboard = {};
+saltos.gettext = {};
 
 /**
- * TODO
+ * Get gettext function
  *
- * TODO
+ * This function returns the gettext stored in the localStorage
  */
-saltos.dashboard.init = () => {
-    saltos.window.set_listener('saltos.customers.update', event => {
-        saltos.core.ajax({
-            url: 'api/?list/customers/widget/table1',
-            success: response => {
-                if (!saltos.app.check_response(response)) {
-                    return;
-                }
-                var temp = saltos.bootstrap.field(response);
-                document.getElementById('table1').parentNode.replaceWith(temp);
-            },
-            error: request => {
-                saltos.app.show_error({
-                    text: request.statusText,
-                    code: request.status,
-                });
-            },
-            token: saltos.token.get(),
-            lang: saltos.gettext.get(),
-        });
-    });
+saltos.gettext.get = () => {
+    return localStorage.getItem('saltos.gettext.lang');
+};
 
-    Sortable.create(document.querySelector('.row'), {
-        animation: 150,
-    });
+/**
+ * Set gettext function
+ *
+ * This function sets the gettext stored in the localStorage
+ *
+ * @gettext      => the gettext that you want to store in the localStorage
+ */
+saltos.gettext.set = lang => {
+    localStorage.setItem('saltos.gettext.lang', lang);
+};
+
+/**
+ * Unset gettext and expires_at
+ *
+ * This function removes the gettext and expires_at in the localStorage
+ */
+saltos.gettext.unset = () => {
+    localStorage.removeItem('saltos.gettext.lang');
 };

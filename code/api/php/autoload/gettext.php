@@ -51,9 +51,7 @@ function T($text)
         $path = "apps/$app/locale";
     }
     $file = "messages.xml";
-    $lang = getenv("LANG");
-    $temp = explode(".", $lang);
-    $lang = $temp[0];
+    $lang = get_data("server/lang");
     if (!isset($cache[$lang])) {
         if (file_exists("$path/$lang/$file")) {
             $cache[$lang] = xmlfile2array("$path/$lang/$file");
@@ -61,4 +59,31 @@ function T($text)
     }
     $hash = encode_bad_chars($text);
     return $cache[$lang][$hash] ?? $text;
+}
+
+/**
+ * Check lang format
+ *
+ * This function checks the correctness of the lang and returns a valid
+ * string that can be used safely as lang in other sites
+ *
+ * @lang => the lang that you want to process
+ */
+function check_lang_format($lang)
+{
+    $temp = str_replace(["_", "-", "."], " ", $lang);
+    $temp = explode(" ", $temp);
+    if ($temp < 2) {
+        return "";
+    }
+    if (strlen($temp[0]) != 2) {
+        return "";
+    }
+    if (strlen($temp[1]) != 2) {
+        return "";
+    }
+    $temp[0] = strtolower($temp[0]);
+    $temp[1] = strtoupper($temp[1]);
+    $lang = "{$temp[0]}_{$temp[1]}";
+    return $lang;
 }

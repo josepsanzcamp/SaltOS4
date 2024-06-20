@@ -1275,6 +1275,7 @@ saltos.bootstrap.__field.file = field => {
                 throw new Error(request);
             },
             token: saltos.token.get(),
+            lang: saltos.gettext.get(),
         });
     };
     // Program the automatic upload
@@ -1357,6 +1358,7 @@ saltos.bootstrap.__field.file = field => {
                             }
                         },
                         token: saltos.token.get(),
+                        lang: saltos.gettext.get(),
                     });
                 })(data, row);
             }

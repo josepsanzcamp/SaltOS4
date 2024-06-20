@@ -61,6 +61,7 @@ saltos.core.onerror = (event, source, lineno, colno, error) => {
         method: 'post',
         content_type: 'application/json',
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -88,6 +89,7 @@ saltos.core.addlog = msg => {
         method: 'post',
         content_type: 'application/json',
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -241,8 +243,8 @@ saltos.core.html = (...args) => {
  * way as jQuery do but without using jQuery.
  */
 saltos.core.ajax = args => {
-    saltos.core.check_params(args, ['url', 'data', 'method', 'success',
-        'error', 'progress', 'async', 'content_type', 'token', 'headers']);
+    saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
+        'progress', 'async', 'content_type', 'token', 'lang', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
@@ -295,6 +297,9 @@ saltos.core.ajax = args => {
     }
     if (args.token != '') {
         ajax.setRequestHeader('Token', args.token);
+    }
+    if (args.lang != '') {
+        ajax.setRequestHeader('Lang', args.lang);
     }
     for (var i in args.headers) {
         ajax.setRequestHeader(i, args.headers[i]);

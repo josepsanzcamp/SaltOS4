@@ -103,6 +103,7 @@ saltos.driver.search = arg => {
             });
         },
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -155,6 +156,7 @@ saltos.driver.more = arg => {
             });
         },
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -198,6 +200,7 @@ saltos.driver.insert = arg => {
             });
         },
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -246,6 +249,7 @@ saltos.driver.update = arg => {
             });
         },
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -299,6 +303,7 @@ saltos.driver.delete = async arg => {
                         });
                     },
                     token: saltos.token.get(),
+                    lang: saltos.gettext.get(),
                 });
             },
         },{

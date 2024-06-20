@@ -83,7 +83,8 @@ saltos.authenticate.authtoken = (user, pass) => {
                 text: request.statusText,
                 code: request.status,
             });
-        }
+        },
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -120,6 +121,7 @@ saltos.authenticate.checktoken = () => {
             });
         },
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -157,5 +159,6 @@ saltos.authenticate.deauthtoken = () => {
             });
         },
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };

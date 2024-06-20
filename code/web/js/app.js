@@ -177,6 +177,7 @@ saltos.app.send_request = hash => {
             });
         },
         token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };
 
@@ -880,6 +881,7 @@ saltos.app.__source_helper = field => {
                 });
             },
             token: saltos.token.get(),
+            lang: saltos.gettext.get(),
         });
     }
 };
@@ -1170,6 +1172,10 @@ saltos.app.parentNode_search = (obj, search) => {
     // Token part
     if (saltos.token.get()) {
         saltos.authenticate.checktoken();
+    }
+    // Lang part
+    if (!saltos.gettext.get()) {
+        saltos.gettext.set(navigator.language || navigator.systemLanguage);
     }
     // Hash part
     saltos.hash.trigger();
