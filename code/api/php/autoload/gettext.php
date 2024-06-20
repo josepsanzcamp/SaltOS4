@@ -71,9 +71,13 @@ function T($text)
  */
 function check_lang_format($lang)
 {
-    $temp = str_replace(["_", "-", "."], " ", $lang);
-    $temp = explode(" ", $temp);
-    if ($temp < 2) {
+    // First check
+    if (!is_string($lang)) {
+        return "";
+    }
+    // Check the number of parts and the length of each parts
+    $temp = explode(" ", str_replace(["-", "_", "."], " ", $lang));
+    if (count($temp) < 2) {
         return "";
     }
     if (strlen($temp[0]) != 2) {
@@ -82,6 +86,7 @@ function check_lang_format($lang)
     if (strlen($temp[1]) != 2) {
         return "";
     }
+    // Build the output
     $temp[0] = strtolower($temp[0]);
     $temp[1] = strtoupper($temp[1]);
     $lang = "{$temp[0]}_{$temp[1]}";
