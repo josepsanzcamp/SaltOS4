@@ -218,6 +218,7 @@ saltos.app.__form = {
     fields: [],
     data: {},
     templates: {},
+    loading: 0,
 };
 
 /**
@@ -702,6 +703,7 @@ saltos.app.form.title = title => {
 saltos.app.form.screen = action => {
     switch (action) {
         case 'loading':
+            saltos.app.__form.loading++;
             var obj = document.getElementById('loading');
             if (obj) {
                 return false;
@@ -724,6 +726,13 @@ saltos.app.form.screen = action => {
             document.body.append(obj);
             return true;
         case 'unloading':
+            saltos.app.__form.loading--;
+            if (saltos.app.__form.loading < 0) {
+                saltos.app.__form.loading = 0;
+            }
+            if (saltos.app.__form.loading > 0) {
+                return false;
+            }
             var obj = document.getElementById('loading');
             if (!obj) {
                 return false;
