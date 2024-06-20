@@ -16,7 +16,7 @@ web: clean
 	@for i in code/web/js/*.js; do \
 		cat $$i | php scripts/md5sum.php > code/web/js/.js/$${i##*/}; \
 	done
-	uglifyjs code/web/js/.js/{object,core,bootstrap,hash,token,auth,window,app,driver}.js -c -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
+	uglifyjs code/web/js/.js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,app}.js -c -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
 	rmdir code/web/js/.js
 	minify code/web/css/index.css > code/web/index.css
@@ -24,7 +24,7 @@ web: clean
 
 devel: clean
 	cat code/web/htm/index.htm | \
-	php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,app,driver}.js | \
+	php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,app}.js | \
 	php scripts/debug.php index.css css/index.css > code/web/index.htm
 
 clean:
