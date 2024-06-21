@@ -71,3 +71,14 @@ saltos.login.authenticate = () => {
 saltos.login.access_denied = () => {
     saltos.app.modal('Access denied', 'Incorrect user or password, try again');
 };
+
+/**
+ * Language
+ *
+ * This function replaces the lang used by the client using the gettext module
+ */
+saltos.login.language = () => {
+    var data = saltos.app.get_data(true);
+    saltos.gettext.set(data.lang);
+    saltos.hash.trigger();
+};

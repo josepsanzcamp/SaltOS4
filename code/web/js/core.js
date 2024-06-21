@@ -527,7 +527,7 @@ saltos.core.is_attr_value = data => {
  */
 saltos.core.join_attr_value = data => {
     if (saltos.core.is_attr_value(data)) {
-        if (typeof data.value == 'string') {
+        if (typeof data.value == 'string' && data.value != '') {
             data.value = {
                 value: data.value,
             };

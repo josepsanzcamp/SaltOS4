@@ -735,7 +735,7 @@ saltos.bootstrap.__field.iframe = field => {
  * @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.select = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required',
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange',
         'autofocus', 'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
     saltos.core.check_params(field, ['rows'], []);
     if (saltos.core.eval_bool(field.disabled)) {
@@ -766,11 +766,14 @@ saltos.bootstrap.__field.select = field => {
             data-bs-accesskey="${field.accesskey}" ${field.size}
             data-bs-title="${field.tooltip}"></select>
     `);
+    if (field.onchange != '') {
+        saltos.bootstrap.__onchange_helper(obj, field.onchange);
+    }
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }
     for (var key in field.rows) {
-        var val = field.rows[key];
+        var val = saltos.core.join_attr_value(field.rows[key]);
         var selected = '';
         if (field.value.toString() == val.value.toString()) {
             selected = 'selected';
@@ -830,7 +833,7 @@ saltos.bootstrap.__field.multiselect = field => {
     var rows_xyz = [];
     var values = field.value.split(',');
     for (var key in field.rows) {
-        var val = field.rows[key];
+        var val = saltos.core.join_attr_value(field.rows[key]);
         if (values.includes(val.value.toString())) {
             rows_xyz.push(val);
         } else {
@@ -2812,6 +2815,27 @@ saltos.bootstrap.__onclick_helper = (obj, fn) => {
     }
     if (typeof fn == 'function') {
         obj.addEventListener('click', fn);
+        return;
+    }
+    throw new Error(`Unknown typeof ${fn}`);
+};
+
+/**
+ * Onchange helper
+ *
+ * This function is a helper function that adds the onchange event listener to the obj
+ * using the correct way to do it, to do it, checks the type of fn.
+ *
+ * @obj   => the object where you want to add the onchange event
+ * @fn    => the function that must be executed when onchange
+ */
+saltos.bootstrap.__onchange_helper = (obj, fn) => {
+    if (typeof fn == 'string') {
+        obj.addEventListener('change', new Function(fn));
+        return;
+    }
+    if (typeof fn == 'function') {
+        obj.addEventListener('change', fn);
         return;
     }
     throw new Error(`Unknown typeof ${fn}`);

@@ -110,6 +110,9 @@ saltos.window.unset_listener = (name) => {
  * executes the listeners if needed
  */
 saltos.window.send = (name, data, scope) => {
+    if (typeof data == 'undefined') {
+        var data = '';
+    }
     if (typeof scope == 'undefined') {
         var scope = 'all';
     }

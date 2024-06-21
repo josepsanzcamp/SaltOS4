@@ -37,6 +37,14 @@
                     <label class="fs-2 w-100 text-center" value="Please login"/>
                     <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
+                    <select id="lang" label="Language" required="true" onchange="saltos.login.language()">
+                        <rows>
+                            <row label="Spanish" value="es_ES"/>
+                            <row label="Català" value="ca_ES"/>
+                            <row label="English" value="en_US"/>
+                        </rows>
+                        <value eval="true">get_data("server/lang")</value>
+                    </select>
                     <button class="w-100" onclick="saltos.login.authenticate();" value="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
                     <label class="w-100 text-center" value="(C) 2024 The SaltOS Project" col_class="col-12 mt-3"/>
                 </container>
