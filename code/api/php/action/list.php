@@ -68,6 +68,11 @@ if (!isset($array[get_data("rest/2")])) {
 // Connect to the database
 db_connect();
 
+//~ set_data("server/token", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/remote_addr", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/user_agent", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/lang", "ca_ES");
+
 // Check permissions
 if (!check_app_perm_id(get_data("rest/1"), "list")) {
     show_json_error("Permission denied");
@@ -88,6 +93,7 @@ set_data("rest/2", fix_key(get_data("rest/2")));
 
 // This line is a trick to allow attr in the subapp
 $array = join_attr_value($array);
+$array = __apply_locale($array);
 
 // Check json arguments
 if (!get_data("json/search")) {

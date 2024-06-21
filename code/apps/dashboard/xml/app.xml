@@ -34,12 +34,12 @@
         <screen>nofluid</screen>
         <layout append="one">
             <row auto="true" col_class="col-md-4 mb-3">
-                <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" value="Customers"/>
-                <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" value="Invoices"/>
-                <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" value="Email"/>
-                <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" value="New tester"/>
-                <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" value="Old tester"/>
-                <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('#app/types')" class="fs-1 w-100 h-100" value="Types"/>
+                <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
+                <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
+                <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" label="Email"/>
+                <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" label="New tester"/>
+                <button ifeval="current_user()" onclick="saltos.window.open('#app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" label="Old tester"/>
+                <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('#app/types')" class="fs-1 w-100 h-100" label="Types"/>
                 <table id="table1" ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"/>
                 <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table2" col_class="col-md-6 mb-3"></table>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"/>
@@ -66,8 +66,8 @@
                 </row>
                 <row auto="true" row_class="row g-1" col_class="col-auto">
                     <div col_class="col"/>
-                    <button onclick="saltos.dashboard.update()" value="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
-                    <button onclick="saltos.window.close();" value="Close" tooltip="To close this list" icon="x-lg"/>
+                    <button onclick="saltos.dashboard.update()" label="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
+                    <button onclick="saltos.window.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
                 </row>
             </container>
         </layout>

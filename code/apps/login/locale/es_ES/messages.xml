@@ -26,10 +26,8 @@
 -->
 
 <root>
-    <email>Correu</email>
-    <customers>Clients</customers>
-    <invoices>Factures</invoices>
-    <types>Tipus</types>
-    <old_tester>Antic Tester</old_tester>
-    <new_tester>Nou tester</new_tester>
+    <please_login>Iniciar sesión</please_login>
+    <username>Usuario</username>
+    <password>Clave</password>
+    <language>Idioma</language>
 </root>

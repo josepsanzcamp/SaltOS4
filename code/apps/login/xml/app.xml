@@ -34,7 +34,7 @@
             <div class="vh-100 d-flex bg-body-secondary">
                 <container auto="true" container_class="container m-auto bg-body rounded p-5" col_class="col-12 mb-3" container_style="max-width:400px">
                     <image width="100px" height="100px" value="img/logo_red.svg"  col_class="col-12 mb-3 text-center" color="none"/>
-                    <label class="fs-2 w-100 text-center" value="Please login"/>
+                    <label class="fs-2 w-100 text-center" label="Please login"/>
                     <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
                     <select id="lang" label="Language" required="true" onchange="saltos.login.language()">
@@ -45,8 +45,8 @@
                         </rows>
                         <value eval="true">get_data("server/lang")</value>
                     </select>
-                    <button class="w-100" onclick="saltos.login.authenticate();" value="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
-                    <label class="w-100 text-center" value="(C) 2024 The SaltOS Project" col_class="col-12 mt-3"/>
+                    <button class="w-100" onclick="saltos.login.authenticate();" label="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
+                    <label class="w-100 text-center" label="(C) 2024 The SaltOS Project" col_class="col-12 mt-3"/>
                 </container>
             </div>
         </layout>

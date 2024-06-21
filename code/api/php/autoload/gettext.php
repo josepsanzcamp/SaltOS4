@@ -46,7 +46,7 @@ function T($text)
 {
     static $cache = [];
     $path = "locale";
-    if (get_data("rest/0") == "app" && get_data("rest/1") != "") {
+    if (get_data("rest/1") != "") {
         $app = get_data("rest/1");
         $path = "apps/$app/locale";
     }
@@ -91,4 +91,35 @@ function check_lang_format($lang)
     $temp[1] = strtoupper($temp[1]);
     $lang = "{$temp[0]}_{$temp[1]}";
     return $lang;
+}
+
+/**
+ * Apply locate
+ *
+ * This function is intended to apply all locales to the array argument
+ *
+ * @array => The xml array that you want to process
+ *
+ * Notes:
+ *
+ * The main idea of this function is to detect the structures that contains
+ * a label or a tooltip to replace it to the gettext result.
+ */
+function __apply_locale($array)
+{
+    if (is_array($array)) {
+        foreach($array as $key => $val) {
+            foreach(["label", "tooltip", "placeholder"] as $attr) {
+                if (isset($val["#attr"][$attr])) {
+                    $val["#attr"][$attr] = T($val["#attr"][$attr]);
+                }
+            }
+            $array[$key] = __apply_locale($val);
+        }
+    }
+    //~ if (detect_recursion(__FUNCTION__) == 1) {
+        //~ print_r($array);
+        //~ die();
+    //~ }
+    return $array;
 }

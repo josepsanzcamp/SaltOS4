@@ -37,19 +37,19 @@
         <screen>nofluid</screen>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button ifeval="check_user('types', 'create')" onclick="saltos.driver.open('#app/types/create')" value="New type" tooltip="To create a new type" icon="plus-lg"/>
+                <button ifeval="check_user('types', 'create')" onclick="saltos.driver.open('#app/types/create')" label="New type" tooltip="To create a new type" icon="plus-lg"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Buscar" tooltip="Para buscar en todos los types" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()"/>
-                <button onclick="saltos.driver.search()" value="Buscar" tooltip="Para buscar en todos los types" icon="search"/>
-                <button onclick="saltos.driver.reset()" value="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
+                <button onclick="saltos.driver.search()" label="Buscar" tooltip="Para buscar en todos los types" icon="search"/>
+                <button onclick="saltos.driver.reset()" label="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="table" source="list/types/table"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.more()" value="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
+                <button onclick="saltos.driver.more()" label="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
             </row>
         </layout>
         <javascript>
@@ -75,8 +75,8 @@
             <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.insert()" value="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" value="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
             </row>
         </layout>
         <javascript>
@@ -94,11 +94,11 @@
             <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button value="Editar" tooltip="Para editar el tipo" icon="pencil">
+                <button label="Editar" tooltip="Para editar el tipo" icon="pencil">
                     <onclick eval="true">"saltos.driver.open('#app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.delete()" color="danger" value="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
-                <button onclick="saltos.driver.close()" value="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.delete()" color="danger" label="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
+                <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
@@ -117,8 +117,8 @@
             <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/app.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.update()" value="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" value="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>

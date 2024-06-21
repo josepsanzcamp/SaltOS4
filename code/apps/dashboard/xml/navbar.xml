@@ -44,7 +44,7 @@
             </menu>
             <form class="d-flex">
                 <text placeholder="Search" color="light" id="oldsearch"/>
-                <button onclick="alert(7)" color="light" class="mx-1 text-nowrap" value="Search"/>
+                <button onclick="alert(7)" color="light" class="mx-1 text-nowrap" label="Search"/>
             </form>
             <menu class="navbar-nav mb-2 mb-lg-0">
                 <item name="Themes" dropdown_menu_end="true">

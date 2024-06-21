@@ -46,7 +46,7 @@
                 </menu>
                 <form class="d-flex">
                     <text placeholder="Search" color="light" id="search"/>
-                    <button onclick="alert(7)" color="light" class=" mx-1 text-nowrap" value="Search"/>
+                    <button onclick="alert(7)" color="light" class=" mx-1 text-nowrap" label="Search"/>
                 </form>
                 <menu class="navbar-nav mb-2 mb-lg-0">
                     <item name="Themes" dropdown_menu_end="true">
@@ -103,10 +103,10 @@
                     <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
                     <value>SaltOS, PHP, JavaScript</value>
                 </tags>
-                <button id="campo8" label="Campo 8 (button)" tooltip="Tooltip 8 (button)" value="Button text here" onclick="saltos.tester.campo8()"/>
-                <button id="campo9" label="Campo 9 (button)" tooltip="Tooltip 9 (button)" value="Modal test" onclick="saltos.tester.campo9()"/>
-                <button id="campo10" label="Campo 10 (button)" tooltip="Tooltip 10 (button)" value="Offcanvas test" onclick="saltos.tester.campo10()"/>
-                <button id="campo11" label="Campo 11 (button)" tooltip="Tooltip 11 (button)" value="Toast test" onclick="saltos.tester.campo11()"/>
+                <button id="campo8" tooltip="Tooltip 8 (button)" label="Button text here" onclick="saltos.tester.campo8()"/>
+                <button id="campo9" tooltip="Tooltip 9 (button)" label="Modal test" onclick="saltos.tester.campo9()"/>
+                <button id="campo10" tooltip="Tooltip 10 (button)" label="Offcanvas test" onclick="saltos.tester.campo10()"/>
+                <button id="campo11" tooltip="Tooltip 11 (button)" label="Toast test" onclick="saltos.tester.campo11()"/>
                 <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba&#13;&#13;Adios&#13;</textarea>
                 <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
                 <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>&#13;&#9;<tag>valor</tag>&#13;</xml>&#13;]]></codemirror>
@@ -123,7 +123,7 @@
                 <label id="campo16" label="Campo 16 (label)" tooltip="Tooltip 16 (label)"/>
                 <checkbox id="campo17" label="Campo 17 (checkbox)" tooltip="Tooltip 17 (checkbox)" value="0"/>
                 <switch id="campo18" label="Campo 18 (switch)" tooltip="Tooltip 18 (switch)" value="0"/>
-                <label value="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
+                <label label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
                 <hidden id="campo19" label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
                 <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)"/>
                 <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true"/>

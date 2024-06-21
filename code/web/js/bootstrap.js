@@ -66,11 +66,11 @@ saltos.bootstrap = {};
  * @multiselect => id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label, color
  * @checkbox    => id, class, DS, RO, AK, label, value, tooltip, color
  * @switch      => id, class, DS, RO, AK, label, value, tooltip, color
- * @button      => id, class, DS, AK, value, onclick, tooltip, color
+ * @button      => id, class, DS, AK, label, onclick, tooltip, color
  * @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, onenter
  * @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label, color
  * @link        => id, DS, AK, value, onclick, tooltip, label, color
- * @label       => id, class, label, tooltip, value
+ * @label       => id, class, label, tooltip
  * @image       => id, class, value, alt, tooltip, width, height, label, color
  * @excel       => id, class, data, rowHeaders, colHeaders, minSpareRows, contextMenu, rowHeaderWidth,
  *                 colWidths, label, color
@@ -82,10 +82,10 @@ saltos.bootstrap = {};
  * @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color
  * @gallery     => id, class, label, images, color
  * @placeholder => id, color
- * @list        => id, class, header, extra, data, footer, onclick, active, disabled
- * @tabs        => id, tabs, name, content, active, disabled
- * @pills       => id, tabs, name, content, active, disabled
- * @v-pills     => id, tabs, name, content, active, disabled
+ * @list        => id, class, header, extra, data, footer, onclick, active, disabled, label
+ * @tabs        => id, tabs, name, content, active, disabled, label
+ * @pills       => id, tabs, name, content, active, disabled, label
+ * @v-pills     => id, tabs, name, content, active, disabled, label
  *
  * Notes:
  *
@@ -1008,7 +1008,7 @@ saltos.bootstrap.__field.switch = field => {
  * @class     => allow to add more classes to the default form-select
  * @disabled  => this parameter raise the disabled flag
  * @autofocus => this parameter raise the autofocus flag
- * @value     => value to be used as text in the contents of the buttons
+ * @label     => label to be used as text in the contents of the buttons
  * @onclick   => callback function that is executed when the button is pressed
  * @tooltip   => this parameter raise the title flag
  * @accesskey => the key used as accesskey parameter
@@ -1021,7 +1021,7 @@ saltos.bootstrap.__field.switch = field => {
  */
 saltos.bootstrap.__field.button = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus',
-        'value', 'onclick', 'tooltip', 'icon', 'label', 'accesskey', 'color']);
+        'onclick', 'tooltip', 'icon', 'label', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
@@ -1036,26 +1036,18 @@ saltos.bootstrap.__field.button = field => {
         <button type="button" id="${field.id}" ${field.disabled} ${field.autofocus}
             class="btn btn-${field.color} focus-ring focus-ring-${field.color} ${field.class}"
             data-bs-accesskey="${field.accesskey}"
-            data-bs-title="${field.tooltip}">${field.value}</button>
+            data-bs-title="${field.tooltip}">${field.label}</button>
     `);
     if (field.icon) {
         obj.prepend(saltos.core.html(`<i class="bi bi-${field.icon}"></i>`));
     }
-    if (field.value && field.icon) {
+    if (field.label && field.icon) {
         obj.querySelector('i').classList.add('me-1');
     }
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }
     saltos.bootstrap.__onclick_helper(obj, field.onclick);
-    if (field.label != '') {
-        // Special case, that adds the label to the button forcing a new line
-        var obj2 = saltos.core.html(`<div></div>`);
-        obj2.append(saltos.bootstrap.__label_helper(field));
-        obj2.append(saltos.core.html('<br />'));
-        obj2.append(obj);
-        return obj2;
-    }
     return obj;
 };
 
@@ -1410,13 +1402,9 @@ saltos.bootstrap.__field.link = field => {
  * @class   => allow to add more classes to the default form-label
  * @label   => this parameter is used as text for the label
  * @tooltip => this parameter raise the title flag
- * @value   => this parameter is used as label when label is void
  */
 saltos.bootstrap.__field.label = field => {
-    saltos.core.check_params(field, ['id', 'class', 'label', 'tooltip', 'value']);
-    if (field.label == '') {
-        field.label = field.value;
-    }
+    saltos.core.check_params(field, ['id', 'class', 'label', 'tooltip']);
     var obj = saltos.core.html(`
         <label for="${field.id}" class="form-label ${field.class}"
             data-bs-title="${field.tooltip}">${field.label}</label>
@@ -2413,6 +2401,7 @@ saltos.bootstrap.__field.placeholder = field => {
  * @onclick  => the onclick function that receives as argument the url to access the action
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
+ * @label    => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -2490,6 +2479,7 @@ saltos.bootstrap.__field.list = field => {
  * @content  => string with the content to be used in the content area
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
+ * @label    => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.tabs = field => {
     saltos.core.check_params(field, ['id', 'type']);
@@ -2552,6 +2542,8 @@ saltos.bootstrap.__field.tabs = field => {
  * @content  => string with the content to be used in the content area
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
+ * @label    => this parameter is used as text for the label
+
  */
 saltos.bootstrap.__field.pills = field => {
     return saltos.bootstrap.__field.tabs(field);
@@ -2571,6 +2563,8 @@ saltos.bootstrap.__field.pills = field => {
  * @content  => string with the content to be used in the content area
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
+ * @label    => this parameter is used as text for the label
+
  */
 saltos.bootstrap.__field['v-pills'] = field => {
     saltos.core.check_params(field, ['id']);

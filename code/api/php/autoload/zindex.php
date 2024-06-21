@@ -135,10 +135,6 @@ if (isset($argv) && defined("STDIN")) {
 //~ echo sprintr($_DATA); die();
 //~ echo sprintr($_SERVER); die();
 
-//~ set_data("server/token", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/remote_addr", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/user_agent", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
-
 //~ addlog(sprintr($_DATA));
 //~ addlog(sprintr($_SERVER));
 

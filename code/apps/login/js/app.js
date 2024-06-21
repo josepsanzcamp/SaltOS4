@@ -69,7 +69,7 @@ saltos.login.authenticate = () => {
  * This function displays a modal dialog with the tipical access denied message
  */
 saltos.login.access_denied = () => {
-    saltos.app.modal('Access denied', 'Incorrect user or password, try again');
+    saltos.app.modal('Access denied', 'Incorrect user or password, try again', {color: 'danger'});
 };
 
 /**
