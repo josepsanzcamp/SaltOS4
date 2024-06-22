@@ -26,17 +26,11 @@
 -->
 
 <root>
-    <table checkbox="true" type="table" limit="50" order="datetime DESC">
-        <header>
-            <from_to label="From/To"/>
-            <subject label="Subject"/>
-            <date_time label="Date" align="center"/>
-            <state label="State" class="state2" align="center"/>
-            <files label="" type="icon" class="files2" align="center"/>
-        </header>
+    <list type="list" limit="50" order="datetime DESC" onclick="true">
         <data eval="true">execute_query_array("
-            SELECT id, IF(is_outbox, `to`, `from`) from_to, subject,
-                IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) date_time,
+            SELECT id, IF(is_outbox, `to`, `from`) header,
+                IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
+                subject body,
                 TRIM(CONCAT_WS(' ',
                     CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
                     CASE state_error WHEN '' THEN '' ELSE 'Error' END,
@@ -49,15 +43,17 @@
                     CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
                     CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
                     CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
-                )) state,
+                )) body_text,
                 CASE WHEN state_error!='' THEN 'danger'
                     WHEN state_spam=1 THEN 'danger'
                     WHEN state_new=1 THEN 'success'
                     WHEN state_wait=1 THEN 'primary'
                     ELSE ''
-                END state2,
-                CASE WHEN files THEN 'paperclip' ELSE '' END files,
-                CASE WHEN files THEN 'dark' ELSE '' END files2
+                END body_class,
+                CONCAT(SUBSTR(body,1,100),'...') footer,
+                CASE WHEN files THEN files ELSE '' END footer_text,
+                CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon,
+                CASE WHEN files THEN 'dark' ELSE '' END footer_class
             FROM app_emails
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
@@ -66,16 +62,9 @@
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>
         <actions>
-            <action app="emails" action="view" icon="search" tooltip="View email" onclick="saltos.driver.open"/>
+            <action app="emails" action="view" onclick="saltos.driver.open"/>
         </actions>
-        <footer eval="true">"Total: " . execute_query("
-            SELECT COUNT(*) total
-            FROM app_emails
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("emails", "list")."
-        ")</footer>
-    </table>
+    </list>
 
     <view id="files" checkbox="true" dropdown="false" type="table">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>

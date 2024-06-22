@@ -88,7 +88,7 @@ saltos.gettext.request = (app) => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            saltos.gettext.locale = {...saltos.gettext.locale, ...response.locale};
+            saltos.gettext.locale = response.locale;
         },
         error: request => {
             saltos.app.form.screen('unloading');

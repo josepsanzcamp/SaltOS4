@@ -77,9 +77,19 @@ saltos.driver.close = arg => {
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     var app = saltos.hash.get().split('/').at(1);
+    var type = '';
+    if (document.getElementById('table')) {
+        type = 'table';
+    }
+    if (document.getElementById('list')) {
+        type = 'list';
+    }
+    if (!type) {
+        throw new Error(`unknown type in saltos.driver.search`);
+    }
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?list/${app}/table`,
+        url: `api/?list/${app}/${type}`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -91,9 +101,14 @@ saltos.driver.search = arg => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            response.id = 'table';
+            response.id = type;
             var temp = saltos.bootstrap.field(response);
-            document.getElementById('table').parentNode.replaceWith(temp);
+            if (type == 'table') {
+                document.getElementById('table').parentNode.replaceWith(temp);
+            }
+            if (type == 'list') {
+                document.getElementById('list').replaceWith(temp);
+            }
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -126,9 +141,19 @@ saltos.driver.reset = arg => {
 saltos.driver.more = arg => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1;
     var app = saltos.hash.get().split('/').at(1);
+    var type = '';
+    if (document.getElementById('table')) {
+        type = 'table';
+    }
+    if (document.getElementById('list')) {
+        type = 'list';
+    }
+    if (!type) {
+        throw new Error(`unknown type in saltos.driver.more`);
+    }
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?list/${app}/table`,
+        url: `api/?list/${app}/${type}`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -144,9 +169,16 @@ saltos.driver.more = arg => {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 return;
             }
-            var obj = document.getElementById('table').querySelector('tbody');
+            response.id = type;
             var temp = saltos.bootstrap.field(response);
-            temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+            if (type == 'table') {
+                var obj = document.getElementById('table').querySelector('tbody');
+                temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+            }
+            if (type == 'list') {
+                var obj = document.getElementById('list');
+                temp.childNodes.forEach(_this => obj.append(_this));
+            }
         },
         error: request => {
             saltos.app.form.screen('unloading');

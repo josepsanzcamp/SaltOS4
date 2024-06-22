@@ -2418,26 +2418,99 @@ saltos.bootstrap.__field.list = field => {
     }
     for (var key in field.data) {
         var val = field.data[key];
-        saltos.core.check_params(val, ['header', 'extra', 'body', 'footer', 'onclick', 'active', 'disabled']);
+        saltos.core.check_params(val, ['header', 'body', 'footer',
+            'header_text', 'header_icon', 'header_class',
+            'body_text', 'body_icon', 'body_class',
+            'footer_text', 'footer_icon', 'footer_class',
+            'onclick', 'active', 'disabled', 'actions']);
         if (saltos.core.eval_bool(field.onclick)) {
             var item = saltos.core.html(`<button class="list-group-item list-group-item-action"></button>`);
+            if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
+                val.actions[0].hasOwnProperty('onclick') && val.actions[0].hasOwnProperty('url')) {
+                val.onclick = val.actions[0].onclick;
+                val.url = val.actions[0].url;
+            }
+            val.onclick = `${val.onclick}("${val.url}")`;
             saltos.bootstrap.__onclick_helper(item, val.onclick);
+            // To prevent that the button remain focused
+            saltos.bootstrap.__onclick_helper(item, 'this.blur()');
         } else {
             var item = saltos.core.html(`<li class="list-group-item"></li>`);
         }
-        if (val.header + val.extra != '') {
-            item.append(saltos.core.html(`
+        if (val.header != '') {
+            var temp = saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">${val.header}</h5>
-                    <small>${val.extra}</small>
+                    <h5 class="mb-1"></h5>
                 </div>
-            `));
+            `);
+            temp.querySelector('h5').append(val.header);
+            if (val.header_text != '' && val.header_icon != '') {
+                temp.append(saltos.core.html(`
+                    <div class="text-nowrap">
+                        <small class="text-${val.header_class}">${val.header_text}</small>
+                        <i class="bi bi-${val.header_icon} text-${val.header_class}"></i>
+                    </div>
+                `));
+            } else if (val.header_text != '') {
+                temp.append(saltos.core.html(`
+                    <small class="text-${val.header_class}">${val.header_text}</small>
+                `));
+            } else if (val.header_icon != '') {
+                temp.append(saltos.core.html(`
+                    <i class="bi bi-${val.header_icon} text-${val.header_class}"></i>
+                `));
+            }
+            item.append(temp);
         }
         if (val.body != '') {
-            item.append(saltos.core.html(`<p class="mb-1">${val.body}</p>`));
+            var temp = saltos.core.html(`
+                <div class="d-flex w-100 justify-content-between">
+                    <p class="mb-1"></p>
+                </div>
+            `);
+            temp.querySelector('p').append(val.body);
+            if (val.body_text != '' && val.body_icon != '') {
+                temp.append(saltos.core.html(`
+                    <div class="text-nowrap">
+                        <small class="text-${val.body_class}">${val.body_text}</small>
+                        <i class="bi bi-${val.body_icon} text-${val.body_class}"></i>
+                    </div>
+                `));
+            } else if (val.body_text != '') {
+                temp.append(saltos.core.html(`
+                    <small class="text-${val.body_class}">${val.body_text}</small>
+                `));
+            } else if (val.body_icon != '') {
+                temp.append(saltos.core.html(`
+                    <i class="bi bi-${val.body_icon} text-${val.body_class}"></i>
+                `));
+            }
+            item.append(temp);
         }
         if (val.footer != '') {
-            item.append(saltos.core.html(`<small>${val.footer}</small>`));
+            var temp = saltos.core.html(`
+                <div class="d-flex w-100 justify-content-between">
+                    <small></small>
+                </div>
+            `);
+            temp.querySelector('small').append(val.footer);
+            if (val.footer_text != '' && val.footer_icon != '') {
+                temp.append(saltos.core.html(`
+                    <div class="text-nowrap">
+                        <small class="text-${val.footer_class}">${val.footer_text}</small>
+                        <i class="bi bi-${val.footer_icon} text-${val.footer_class}"></i>
+                    </div>
+                `));
+            } else if (val.footer_icon != '') {
+                temp.append(saltos.core.html(`
+                    <i class="bi bi-${val.footer_icon} text-${val.footer_class}"></i>
+                `));
+            } else if (val.footer_text != '') {
+                temp.append(saltos.core.html(`
+                    <small class="text-${val.footer_class}">${val.footer_text}</small>
+                `));
+            }
+            item.append(temp);
         }
         if (saltos.core.eval_bool(val.active)) {
             item.classList.add('active');
