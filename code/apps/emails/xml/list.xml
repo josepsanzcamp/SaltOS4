@@ -52,8 +52,7 @@
                 END body_class,
                 CONCAT(SUBSTR(body,1,100),'...') footer,
                 CASE WHEN files THEN files ELSE '' END footer_text,
-                CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon,
-                CASE WHEN files THEN 'dark' ELSE '' END footer_class
+                CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon
             FROM app_emails
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."

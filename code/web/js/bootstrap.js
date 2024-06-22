@@ -2531,6 +2531,9 @@ saltos.bootstrap.__field.list = field => {
                 --bs-list-group-action-hover-color: #373a3c;
                 --bs-list-group-action-active-color: #373a3c;
             }
+            .list-group-item:nth-child(odd) {
+                --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
+            }
         </style>
     `));
     // Continue

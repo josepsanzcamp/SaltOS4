@@ -231,6 +231,9 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
                 --bs-list-group-action-hover-color: #373a3c;
                 --bs-list-group-action-active-color: #373a3c;
             }
+            .list-group-item:nth-child(odd) {
+                --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
+            }
         </style>
     `)),t=saltos.bootstrap.__label_combine(e,t)},saltos.bootstrap.__field.tabs=e=>{saltos.core.check_params(e,["id","type"]),saltos.core.check_params(e,["tabs"],[]);var t,o,a,s,l,r,i,c=saltos.core.html(`
         <ul class="nav nav-${e.type} mb-3" id="${e.id}-tab" role="tablist"></ul>
