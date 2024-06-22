@@ -114,8 +114,8 @@ saltos.app.toast = (title, message, extra) => {
         extra.color = 'primary';
     }
     return saltos.bootstrap.toast({
-        title: title,
-        body: message,
+        title: T(title),
+        body: T(message),
         color: extra.color,
     });
 };
