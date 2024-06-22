@@ -411,7 +411,7 @@ function show_json_error($msg)
 {
     output_handler_json([
         "error" => [
-            "text" => $msg,
+            "text" => T($msg),
             "code" => __get_code_from_trace(1),
         ],
     ]);

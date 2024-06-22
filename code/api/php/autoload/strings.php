@@ -95,15 +95,15 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
     $len = strlen($cad);
     for ($i = 0; $i < $len; $i++) {
         $letter = $cad[$i];
-        $replace = 1;
+        $replace = true;
         if ($letter >= "a" && $letter <= "z") {
-            $replace = 0;
+            $replace = false;
         }
         if ($letter >= "0" && $letter <= "9") {
-            $replace = 0;
+            $replace = false;
         }
         if (strpos($extra, $letter) !== false) {
-            $replace = 0;
+            $replace = false;
         }
         if ($replace) {
             $cad[$i] = $pad;
@@ -128,10 +128,11 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
  */
 function prepare_words($cad, $pad = " ")
 {
-    $count = 1;
-    while ($count) {
-        $cad = str_replace($pad . $pad, $pad, $cad, $count);
-    }
+    do {
+        $len1 = strlen($cad);
+        $cad = str_replace($pad . $pad, $pad, $cad);
+        $len2 = strlen($cad);
+    } while ($len1 - $len2 > 0);
     $len = strlen($pad);
     if (substr($cad, 0, $len) == $pad) {
         $cad = substr($cad, $len);

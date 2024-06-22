@@ -28,40 +28,10 @@
 declare(strict_types=1);
 
 /**
- * Deauthentication token action
+ * Gettexxt action
  *
- * This file implements the logout action, allowing to deauthenticate users
- * using a valid token, for security reasons, the deauth action only can
- * be performed by the same actor that execute the login action
- *
- * The unique requirement to execute this action is to have a valid token
+ * This action returns the array with all labels for the app's locale
  */
-
-if (!semaphore_acquire("token")) {
-    show_php_error(["phperror" => "Could not acquire the semaphore"]);
-}
-
-db_connect();
-crontab_users();
-
-$token_id = current_token();
-if (!$token_id) {
-    semaphore_release("token");
-    output_handler_json([
-        "status" => "ko",
-        "reason" => T("Permission denied"),
-        "code" => __get_code_from_trace(),
-    ]);
-}
-
-$query = make_update_query("tbl_users_tokens", [
-    "active" => 0,
-], make_where_query([
-    "id" => $token_id,
-]));
-db_query($query);
-
-semaphore_release("token");
 output_handler_json([
-    "status" => "ok",
+    "locale" => T([]),
 ]);

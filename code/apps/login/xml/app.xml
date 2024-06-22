@@ -38,11 +38,7 @@
                     <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
                     <select id="lang" label="Language" required="true" onchange="saltos.login.language()">
-                        <rows>
-                            <row label="Spanish" value="es_ES"/>
-                            <row label="Català" value="ca_ES"/>
-                            <row label="English" value="en_US"/>
-                        </rows>
+                        <rows eval="true">xmlfile2array("xml/locale.xml")["rows"]</rows>
                         <value eval="true">get_data("server/lang")</value>
                     </select>
                     <button class="w-100" onclick="saltos.login.authenticate();" label="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
@@ -52,6 +48,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/login/js/app.js")</file>
+            <inline>saltos.gettext.request("login")</inline>
         </javascript>
     </menu>
 </root>

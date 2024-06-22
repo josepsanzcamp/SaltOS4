@@ -539,3 +539,82 @@ saltos.core.join_attr_value = data => {
     }
     return data;
 };
+
+/**
+ * Encode Bar Chars
+ *
+ * This function tries to replace accender chars and other extended chars into
+ * an ascii chars, to do it, they define an array with the pairs of chars to
+ * do a quick replace, too is converted all to lower and are removed all chars
+ * that are out of range (valid range are from 0-9 and from a-z), the function
+ * allow to specify an extra parameter to add extra chars that must to be
+ * allowed in the output, all other chars will be converted to the padding
+ * argument, as a bonus extra, all padding repetitions will be removed to
+ * only allow one pading char at time
+ *
+ * @cad   => the input string to encode
+ * @pad   => the padding char using to replace the bar chars
+ * @extra => the list of chars allowed to appear in the output
+ */
+saltos.core.encode_bad_chars = (cad, pad = '_', extra = '') => {
+    var orig = [
+        'á', 'à', 'ä', 'â', 'é', 'è', 'ë', 'ê', 'í', 'ì', 'ï', 'î',
+        'ó', 'ò', 'ö', 'ô', 'ú', 'ù', 'ü', 'û', 'ñ', 'ç',
+        'Á', 'À', 'Ä', 'Â', 'É', 'È', 'Ë', 'Ê', 'Í', 'Ì', 'Ï', 'Î',
+        'Ó', 'Ò', 'Ö', 'Ô', 'Ú', 'Ù', 'Ü', 'Û', 'Ñ', 'Ç',
+    ];
+    var dest = [
+        'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i',
+        'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'n', 'c',
+        'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i',
+        'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'n', 'c',
+    ];
+    cad = cad.replace(new RegExp(orig.join('|'), 'g'), (match) => dest[orig.indexOf(match)]);
+    cad = cad.toLowerCase();
+    for (var i = 0; i < cad.length; i++) {
+        var letter = cad[i];
+        var replace = true;
+        if (letter >= 'a' && letter <= 'z') {
+            replace = false;
+        }
+        if (letter >= '0' && letter <= '9') {
+            replace = false;
+        }
+        if (extra.includes(letter)) {
+            replace = false;
+        }
+        if (replace) {
+            cad = cad.substring(0, i) + pad + cad.substring(i + 1);
+        }
+    }
+    cad = saltos.core.prepare_words(cad, pad);
+    return cad;
+};
+
+/**
+ * Prepare Words
+ *
+ * This function allow to prepare words removing repetitions in the padding char
+ *
+ * @cad => the input string to prepare
+ * @pad => the padding char using to replace the repetitions
+ *
+ * Notes:
+ *
+ * Apart of remove repetitions of the padding char, the function will try to
+ * remove padding chars in the start and in the end of the string
+ */
+saltos.core.prepare_words = (cad, pad = ' ') => {
+    do {
+        var len1 = cad.length;
+        cad = cad.replace(new RegExp(pad + pad, 'g'), (match) => pad);
+        var len2 = cad.length;
+    } while (len1 - len2 > 0);
+    if (cad.startsWith(pad)) {
+        cad = cad.substring(pad.length);
+    }
+    if (cad.endsWith(pad)) {
+        cad = cad.substring(0, cad.length - pad.length);
+    }
+    return cad;
+};

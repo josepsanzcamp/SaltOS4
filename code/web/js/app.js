@@ -57,7 +57,7 @@ saltos.app.modal = (title, message, extra) => {
     }
     if (!extra.hasOwnProperty('buttons')) {
         extra.buttons = [{
-            label: 'Close',
+            label: T('Close'),
             color: 'primary',
             icon: 'x-lg',
             autofocus: true,
@@ -68,9 +68,9 @@ saltos.app.modal = (title, message, extra) => {
         extra.color = 'primary';
     }
     return saltos.bootstrap.modal({
-        title: title,
-        close: 'Close',
-        body: message,
+        title: T(title),
+        close: T('Close'),
+        body: T(message),
         footer: (() => {
             var obj = saltos.core.html('<div></div>');
             for (var key in extra.buttons) {
@@ -79,7 +79,7 @@ saltos.app.modal = (title, message, extra) => {
                         'color', 'icon', 'autofocus', 'onclick']);
                     obj.append(saltos.bootstrap.field({
                         type: 'button',
-                        value: button.label,
+                        label: button.label,
                         class: `${button.class} ms-1`,
                         color: button.color,
                         icon: button.icon,

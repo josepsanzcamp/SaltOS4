@@ -26,12 +26,9 @@
 -->
 
 <root>
-    <please_login>Iniciar sessió</please_login>
-    <username>Usuari</username>
-    <password>Clau</password>
-    <language>Idioma</language>
-    <login>Accès</login>
-    <access_denied>Accès denegat</access_denied>
-    <incorrect_user_or_password_try_again>Usuari o clau incorrecte, torni-ho a probar</incorrect_user_or_password_try_again>
-    <close>Tancar</close>
+    <rows>
+        <row label="Spanish" value="es_ES"/>
+        <row label="Català" value="ca_ES"/>
+        <row label="English" value="en_US"/>
+    </rows>
 </root>

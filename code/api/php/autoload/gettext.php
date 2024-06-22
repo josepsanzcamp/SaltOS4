@@ -45,20 +45,29 @@ declare(strict_types=1);
 function T($text)
 {
     static $cache = [];
-    $path = "locale";
-    if (get_data("rest/1") != "") {
-        $app = get_data("rest/1");
-        $path = "apps/$app/locale";
+    $app = get_data("rest/1");
+    if (!$app) {
+        return $text;
     }
-    $file = "messages.xml";
+    $app = encode_bad_chars($app);
+    if (!$app) {
+        return $text;
+    }
     $lang = get_data("server/lang");
-    if (!isset($cache[$lang])) {
-        if (file_exists("$path/$lang/$file")) {
-            $cache[$lang] = xmlfile2array("$path/$lang/$file");
+    if (!isset($cache[$app])) {
+        $cache[$app] = [];
+    }
+    if (!isset($cache[$app][$lang])) {
+        $file = "apps/$app/locale/$lang/messages.xml";
+        if (file_exists($file)) {
+            $cache[$app][$lang] = xmlfile2array($file);
         }
     }
+    if (is_array($text)) {
+        return $cache[$app][$lang] ?? [];
+    }
     $hash = encode_bad_chars($text);
-    return $cache[$lang][$hash] ?? $text;
+    return $cache[$app][$lang][$hash] ?? $text;
 }
 
 /**
@@ -89,8 +98,7 @@ function check_lang_format($lang)
     // Build the output
     $temp[0] = strtolower($temp[0]);
     $temp[1] = strtoupper($temp[1]);
-    $lang = "{$temp[0]}_{$temp[1]}";
-    return $lang;
+    return "{$temp[0]}_{$temp[1]}";
 }
 
 /**
@@ -108,8 +116,8 @@ function check_lang_format($lang)
 function __apply_locale($array)
 {
     if (is_array($array)) {
-        foreach($array as $key => $val) {
-            foreach(["label", "tooltip", "placeholder"] as $attr) {
+        foreach ($array as $key => $val) {
+            foreach (["label", "tooltip", "placeholder"] as $attr) {
                 if (isset($val["#attr"][$attr])) {
                     $val["#attr"][$attr] = T($val["#attr"][$attr]);
                 }

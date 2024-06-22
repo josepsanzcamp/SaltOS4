@@ -37,7 +37,9 @@
  *
  * This object stores all gettext functions to get and set data using the localStorage
  */
-saltos.gettext = {};
+saltos.gettext = {
+    locale: {},
+};
 
 /**
  * Get gettext function
@@ -66,4 +68,49 @@ saltos.gettext.set = lang => {
  */
 saltos.gettext.unset = () => {
     localStorage.removeItem('saltos.gettext.lang');
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.gettext.request = (app) => {
+    if (typeof app == 'undefined') {
+        var app = saltos.hash.get().split('/').at(1);
+    }
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: `api/?gettext/${app}`,
+        method: 'get',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            saltos.gettext.locale = {...saltos.gettext.locale, ...response.locale};
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+        lang: saltos.gettext.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+window.T = text => {
+    var hash = saltos.core.encode_bad_chars(text);
+    if (!saltos.gettext.locale.hasOwnProperty(hash)) {
+        return text;
+    }
+    return saltos.gettext.locale[hash];
 };
