@@ -89,13 +89,13 @@ final class test_gc extends TestCase
         $file = "data/logs/phperror.log";
         $this->assertFileDoesNotExist($file);
 
-        $json = test_web_helper("gc", [], "");
+        $json = test_web_helper("gc", [], "", "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists("permission denied", file_get_contents($file)));
         unlink($file);
 
-        $json = test_cli_helper("gc", [], "");
+        $json = test_cli_helper("gc", [], "", "");
         $this->assertArrayHasKey("gc_exec", $json);
     }
 }

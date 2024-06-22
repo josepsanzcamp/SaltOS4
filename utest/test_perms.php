@@ -70,7 +70,7 @@ final class test_perms extends TestCase
         $json = test_web_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);

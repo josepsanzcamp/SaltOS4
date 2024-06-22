@@ -71,7 +71,7 @@ final class test_web_invoices extends TestCase
         $json = test_web_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);
@@ -88,7 +88,7 @@ final class test_web_invoices extends TestCase
      */
     public function test_create(array $json): array
     {
-        $json2 = test_web_helper("app/invoices/create", "", $json["token"]);
+        $json2 = test_web_helper("app/invoices/create", "", $json["token"], "");
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayNotHasKey("data", $json2);
         return $json;
@@ -105,20 +105,20 @@ final class test_web_invoices extends TestCase
      */
     public function test_insert(array $json): array
     {
-        $json2 = test_web_helper("insert/invoices", [], "");
+        $json2 = test_web_helper("insert/invoices", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("insert/dashboard", [], $json["token"]);
+        $json2 = test_web_helper("insert/dashboard", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("insert/invoices", [], $json["token"]);
+        $json2 = test_web_helper("insert/invoices", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
         $json2 = test_web_helper("insert/invoices", [
             "data" => [
                 "nada" => "nada",
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
         $json2 = test_web_helper("insert/invoices", [
@@ -146,7 +146,7 @@ final class test_web_invoices extends TestCase
                     ],
                 ],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("created_id", $json2);
@@ -160,7 +160,7 @@ final class test_web_invoices extends TestCase
                     ],
                 ],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertArrayHasKey("error", $json3);
 
         $id = execute_query("SELECT MAX(id) FROM app_invoices");
@@ -184,34 +184,34 @@ final class test_web_invoices extends TestCase
      */
     public function test_list(array $json): array
     {
-        $json2 = test_web_helper("list", [], "");
+        $json2 = test_web_helper("list", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("list/nada", [], "");
+        $json2 = test_web_helper("list/nada", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("list/invoices/nada", [], "");
+        $json2 = test_web_helper("list/invoices/nada", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("list/invoices", [], "");
+        $json2 = test_web_helper("list/invoices", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
         $json2 = test_web_helper("list/invoices/table", [
             "page" => 1,
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertArrayHasKey("data", $json2);
 
         $search = "The SaltOS project 12345678X";
         $json2 = test_web_helper("list/invoices/table", [
             "search" => $search,
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertTrue(count($json2["data"]) == 1);
         $this->assertSame($json2["search"], $search);
 
-        $json2 = test_web_helper("list/customers/widget/table1", "", $json["token"]);
+        $json2 = test_web_helper("list/customers/widget/table1", "", $json["token"], "");
         $this->assertArrayHasKey("data", $json2);
 
-        $json2 = test_web_helper("list/customers/widget/table2", "", $json["token"]);
+        $json2 = test_web_helper("list/customers/widget/table2", "", $json["token"], "");
         $this->assertArrayHasKey("data", $json2);
 
         return [
@@ -232,7 +232,7 @@ final class test_web_invoices extends TestCase
     {
         $id = $json["created_id"];
 
-        $json2 = test_web_helper("app/invoices/view/$id", "", $json["token"]);
+        $json2 = test_web_helper("app/invoices/view/$id", "", $json["token"], "");
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         $this->assertArrayHasKey("data#1", $json2);
@@ -256,7 +256,7 @@ final class test_web_invoices extends TestCase
     {
         $id = $json["created_id"];
 
-        $json2 = test_web_helper("app/invoices/edit/$id", "", $json["token"]);
+        $json2 = test_web_helper("app/invoices/edit/$id", "", $json["token"], "");
         $this->assertArrayHasKey("layout", $json2);
         $this->assertArrayHasKey("data", $json2);
         $this->assertArrayHasKey("data#1", $json2);
@@ -281,20 +281,20 @@ final class test_web_invoices extends TestCase
     {
         $id = $json["created_id"];
 
-        $json2 = test_web_helper("update/invoices", [], "");
+        $json2 = test_web_helper("update/invoices", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("update/dashboard", [], $json["token"]);
+        $json2 = test_web_helper("update/dashboard", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("update/invoices/$id", [], $json["token"]);
+        $json2 = test_web_helper("update/invoices/$id", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
         $json2 = test_web_helper("update/invoices/$id", [
             "data" => [
                 "nada" => "nada",
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
         $details_ids = execute_query("SELECT id FROM app_invoices_concepts WHERE id_factura=$id");
@@ -320,7 +320,7 @@ final class test_web_invoices extends TestCase
                     ],
                 ],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("updated_id", $json2);
@@ -336,7 +336,7 @@ final class test_web_invoices extends TestCase
                     ],
                 ],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertArrayHasKey("error", $json3);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists("subdata found with id=0", file_get_contents($file)));
@@ -350,7 +350,7 @@ final class test_web_invoices extends TestCase
                     ],
                 ],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         $this->assertArrayHasKey("error", $json3);
 
         return [
@@ -371,13 +371,13 @@ final class test_web_invoices extends TestCase
     {
         $id = $json["updated_id"];
 
-        $json2 = test_web_helper("delete/invoices", [], "");
+        $json2 = test_web_helper("delete/invoices", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("delete/dashboard", [], $json["token"]);
+        $json2 = test_web_helper("delete/dashboard", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("delete/invoices/$id", "", $json["token"]);
+        $json2 = test_web_helper("delete/invoices/$id", "", $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("deleted_id", $json2);

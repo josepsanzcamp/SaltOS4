@@ -69,19 +69,19 @@ final class test_cli_tokens extends TestCase
     {
         $json = test_cli_helper("authtoken", [
             "user" => "admin",
-        ], "");
+        ], "", "");
         $this->assertArrayHasKey("error", $json);
 
         $json = test_cli_helper("authtoken", [
             "user" => "nada",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ko");
 
         $json = test_cli_helper("authtoken", [
             "user" => "admin",
             "pass" => "nada",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ko");
 
         $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
@@ -92,7 +92,7 @@ final class test_cli_tokens extends TestCase
         $json = test_cli_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ko");
 
         $query = "UPDATE tbl_users_passwords SET user_id=-user_id WHERE user_id=-$user_id";
@@ -104,13 +104,13 @@ final class test_cli_tokens extends TestCase
         $json = test_cli_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ok");
 
         $json = test_cli_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);
@@ -127,7 +127,7 @@ final class test_cli_tokens extends TestCase
      */
     public function test_checktoken(array $json): array
     {
-        $json = test_cli_helper("checktoken", "", $json["token"]);
+        $json = test_cli_helper("checktoken", "", $json["token"], "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 5);
         $this->assertArrayHasKey("token", $json);
@@ -144,11 +144,11 @@ final class test_cli_tokens extends TestCase
      */
     public function test_deauthtoken(array $json): array
     {
-        $json2 = test_cli_helper("deauthtoken", "", $json["token"]);
+        $json2 = test_cli_helper("deauthtoken", "", $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 1);
 
-        $json2 = test_cli_helper("deauthtoken", "", $json["token"]);
+        $json2 = test_cli_helper("deauthtoken", "", $json["token"], "");
         $this->assertSame($json2["status"], "ko");
         $this->assertSame(count($json2), 3);
         return $json;
@@ -164,7 +164,7 @@ final class test_cli_tokens extends TestCase
      */
     public function test_checktoken_ko(array $json): void
     {
-        $json2 = test_cli_helper("checktoken", "", $json["token"]);
+        $json2 = test_cli_helper("checktoken", "", $json["token"], "");
         $this->assertSame($json2["status"], "ko");
         $this->assertSame(count($json2), 3);
     }

@@ -90,33 +90,33 @@ final class test_apps extends TestCase
      */
     public function test_app(): void
     {
-        $json = test_web_helper("app", null, "");
+        $json = test_web_helper("app", null, "", "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("app/nada", "", "");
+        $json = test_web_helper("app/nada", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("app/customers/nada", "", "");
+        $json = test_web_helper("app/customers/nada", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("app/customers", "", "");
+        $json = test_web_helper("app/customers", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("app/login", "", "");
+        $json = test_web_helper("app/login", "", "", "");
         $this->assertArrayHasKey("layout", $json);
 
         $json2 = test_web_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);
 
-        $json = test_web_helper("app/customers", "", $json2["token"]);
+        $json = test_web_helper("app/customers", "", $json2["token"], "");
         $this->assertArrayHasKey("layout", $json);
 
-        $json = test_web_helper("app/customers/widget/plot1", "", $json2["token"]);
+        $json = test_web_helper("app/customers/widget/plot1", "", $json2["token"], "");
         $this->assertArrayHasKey("data", $json);
 
         test_external_exec("php/apps1.php", "phperror.log", "nada(nada) not found");
@@ -134,12 +134,12 @@ final class test_apps extends TestCase
         mkdir("apps/nada2/xml", 0777, true);
         file_put_contents("apps/nada2/xml/app.xml", "<root></root>");
 
-        $json = test_web_helper("app/nada2", "", "");
+        $json = test_web_helper("app/nada2", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
         file_put_contents("apps/nada2/xml/app.xml", "<root><nada3></nada3><nada4></nada4></root>");
 
-        $json = test_web_helper("app/nada2", "", "");
+        $json = test_web_helper("app/nada2", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
         if (file_exists("apps/nada2/xml/app.xml")) {
@@ -175,12 +175,12 @@ final class test_apps extends TestCase
         mkdir("apps/nada2/xml", 0777, true);
         file_put_contents("apps/nada2/xml/list.xml", "<root></root>");
 
-        $json = test_web_helper("list/nada2", "", "");
+        $json = test_web_helper("list/nada2", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
         file_put_contents("apps/nada2/xml/list.xml", "<root><nada3></nada3><nada4></nada4></root>");
 
-        $json = test_web_helper("list/nada2", "", "");
+        $json = test_web_helper("list/nada2", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
         if (file_exists("apps/nada2/xml/list.xml")) {

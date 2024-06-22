@@ -67,25 +67,25 @@ final class test_authupdate extends TestCase
      */
     public function test_authupdate(): void
     {
-        $json = test_web_helper("authupdate", "", "");
+        $json = test_web_helper("authupdate", "", "", "");
         $this->assertArrayHasKey("error", $json);
 
         $json2 = test_web_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);
 
-        $json = test_web_helper("authupdate", [], $json2["token"]);
+        $json = test_web_helper("authupdate", [], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
         $json = test_web_helper("authupdate", [
             "oldpass" => "nada",
             "newpass" => "admin",
             "renewpass" => "admin",
-        ], $json2["token"]);
+        ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
         // Check for internal error
@@ -101,7 +101,7 @@ final class test_authupdate extends TestCase
             "oldpass" => "nada",
             "newpass" => "admin",
             "renewpass" => "admin",
-        ], $json2["token"]);
+        ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
         db_query("DELETE FROM tbl_users_passwords WHERE id='$id'");
@@ -115,21 +115,21 @@ final class test_authupdate extends TestCase
             "oldpass" => "admin",
             "newpass" => "admin",
             "renewpass" => "nada",
-        ], $json2["token"]);
+        ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
         $json = test_web_helper("authupdate", [
             "oldpass" => "admin",
             "newpass" => "admin",
             "renewpass" => "admin",
-        ], $json2["token"]);
+        ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
         $json = test_web_helper("authupdate", [
             "oldpass" => "admin",
             "newpass" => "asd123ASD",
             "renewpass" => "asd123ASD",
-        ], $json2["token"]);
+        ], $json2["token"], "");
         $this->assertArrayHasKey("status", $json);
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 3);
@@ -138,7 +138,7 @@ final class test_authupdate extends TestCase
             "oldpass" => "asd123ASD",
             "newpass" => "asd123ASD",
             "renewpass" => "asd123ASD",
-        ], $json2["token"]);
+        ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
         $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
@@ -149,7 +149,7 @@ final class test_authupdate extends TestCase
         $json2 = test_web_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);

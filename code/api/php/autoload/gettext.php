@@ -45,15 +45,14 @@ declare(strict_types=1);
 function T($text)
 {
     static $cache = [];
-    $app = get_data("rest/1");
-    if (!$app) {
-        return $text;
-    }
-    $app = encode_bad_chars($app);
-    if (!$app) {
-        return $text;
-    }
     $lang = get_data("server/lang");
+    if (!isset($cache[$lang])) {
+        $file = "locale/$lang/messages.xml";
+        if (file_exists($file)) {
+            $cache[$lang] = xmlfile2array($file);
+        }
+    }
+    $app = encode_bad_chars(strval(get_data("rest/1")));
     if (!isset($cache[$app])) {
         $cache[$app] = [];
     }
@@ -64,10 +63,23 @@ function T($text)
         }
     }
     if (is_array($text)) {
-        return $cache[$app][$lang] ?? [];
+        $result = [];
+        if (isset($cache[$lang])) {
+            $result = array_merge($result, $cache[$lang]);
+        }
+        if (isset($cache[$app][$lang])) {
+            $result = array_merge($result, $cache[$app][$lang]);
+        }
+        return $result;
     }
     $hash = encode_bad_chars($text);
-    return $cache[$app][$lang][$hash] ?? $text;
+    if (isset($cache[$app][$lang][$hash])) {
+        return $cache[$app][$lang][$hash];
+    }
+    if (isset($cache[$lang][$hash])) {
+        return $cache[$lang][$hash];
+    }
+    return $text;
 }
 
 /**

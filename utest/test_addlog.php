@@ -70,13 +70,13 @@ final class test_addlog extends TestCase
         $file = "data/logs/saltos.log";
         $this->assertFileDoesNotExist($file);
 
-        $json = test_web_helper("addlog", [], "");
+        $json = test_web_helper("addlog", [], "", "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileDoesNotExist($file);
 
         $json = test_web_helper("addlog", [
             "msg" => "hola mundo",
-        ], "");
+        ], "", "");
         $this->assertArrayHasKey("status", $json);
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 1);

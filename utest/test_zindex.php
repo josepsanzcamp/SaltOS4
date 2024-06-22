@@ -67,7 +67,7 @@ final class test_zindex extends TestCase
      */
     public function test_zindex(): void
     {
-        $json = test_web_helper("", [], "");
+        $json = test_web_helper("", [], "", "");
         $this->assertArrayHasKey("error", $json);
 
         test_pcov_start();

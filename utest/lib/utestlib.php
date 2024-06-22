@@ -118,7 +118,7 @@ function test_pcov_stop($index): void
  * @data  => The data used as json in the SaltOS app
  * @token => The token used if authentication is required
  */
-function test_web_helper($rest, $data, $token)
+function test_web_helper($rest, $data, $token, $lang)
 {
     test_pcov_start();
     if ($data) {
@@ -128,12 +128,14 @@ function test_web_helper($rest, $data, $token)
             "headers" => [
                 "Content-Type" => "application/json",
                 "Token" => $token,
+                "Lang" => $lang,
             ],
         ]);
     } else {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/?$rest", [
             "headers" => [
                 "Token" => $token,
+                "Lang" => $lang,
             ],
         ]);
     }
@@ -168,15 +170,15 @@ function test_web_helper($rest, $data, $token)
  * @data  => The data used as json in the SaltOS app
  * @token => The token used if authentication is required
  */
-function test_cli_helper($rest, $data, $token)
+function test_cli_helper($rest, $data, $token, $lang)
 {
     test_pcov_start();
     if ($data) {
         file_put_contents("/tmp/input", json_encode($data));
-        $response = ob_passthru("cat /tmp/input | TOKEN=$token php index.php $rest");
+        $response = ob_passthru("cat /tmp/input | TOKEN=$token LANG=$lang php index.php $rest");
         unlink("/tmp/input");
     } else {
-        $response = ob_passthru("TOKEN=$token php index.php $rest");
+        $response = ob_passthru("TOKEN=$token LANG=$lang php index.php $rest");
     }
     test_pcov_stop(2);
     $json = $response;

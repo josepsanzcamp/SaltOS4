@@ -201,7 +201,7 @@ final class test_file extends TestCase
         $json = test_web_helper("authtoken", [
             "user" => "admin",
             "pass" => "admin",
-        ], "");
+        ], "", "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 4);
         $this->assertArrayHasKey("token", $json);
@@ -218,17 +218,17 @@ final class test_file extends TestCase
      */
     public function test_addfiles(array $json): array
     {
-        $json2 = test_web_helper("addfiles", [], "");
+        $json2 = test_web_helper("addfiles", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("addfiles", [], $json["token"]);
+        $json2 = test_web_helper("addfiles", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
         $json2 = test_web_helper("addfiles", [
             "files" => [
                 ["error" => "nada"],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         //~ print_r($json2);
 
         $json2 = test_web_helper("addfiles", [
@@ -244,7 +244,7 @@ final class test_file extends TestCase
                     "hash" => "",
                 ],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         //~ print_r($json2);
 
         $count1 = count(glob("data/upload/*"));
@@ -269,7 +269,7 @@ final class test_file extends TestCase
         ];
         $json2 = test_web_helper("addfiles", [
             "files" => $files,
-        ], $json["token"]);
+        ], $json["token"], "");
         $files[0]["data"] = "";
         $files[0]["file"] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
         $files[0]["hash"] = md5_file($file);
@@ -294,17 +294,17 @@ final class test_file extends TestCase
      */
     public function test_delfiles(array $json): void
     {
-        $json2 = test_web_helper("delfiles", [], "");
+        $json2 = test_web_helper("delfiles", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("delfiles", [], $json["token"]);
+        $json2 = test_web_helper("delfiles", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
         $json2 = test_web_helper("delfiles", [
             "files" => [
                 ["error" => "nada"],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         //~ print_r($json2);
 
         $json2 = test_web_helper("delfiles", [
@@ -320,14 +320,14 @@ final class test_file extends TestCase
                     "hash" => "",
                 ],
             ],
-        ], $json["token"]);
+        ], $json["token"], "");
         //~ print_r($json2);
 
         $count1 = count(glob("data/upload/*"));
 
         $json2 = test_web_helper("delfiles", [
             "files" => $json["files"],
-        ], $json["token"]);
+        ], $json["token"], "");
         $json["files"][0]["file"] = "";
         $json["files"][0]["hash"] = "";
         $this->assertSame($json2, $json["files"]);

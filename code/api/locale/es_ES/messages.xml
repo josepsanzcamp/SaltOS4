@@ -26,11 +26,6 @@
 -->
 
 <root>
-    <please_login>Iniciar sessió</please_login>
-    <username>Usuari</username>
-    <password>Clau</password>
-    <language>Idioma</language>
-    <login>Accès</login>
-    <access_denied>Accès denegat</access_denied>
-    <incorrect_user_or_password_try_again>Usuari o clau incorrecte, torni-ho a probar</incorrect_user_or_password_try_again>
+    <close>Cerrar</close>
+    <cancel>Cancelar</cancel>
 </root>
