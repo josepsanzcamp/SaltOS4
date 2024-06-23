@@ -47,6 +47,7 @@
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
@@ -71,6 +72,7 @@
                 </row>
             </container>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
         </javascript>

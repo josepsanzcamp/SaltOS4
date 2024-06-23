@@ -30,4 +30,6 @@
     <cancel>Cancel·lar</cancel>
     <response>Resposta</response>
     <there_is_no_more_data>No hi han mes dades</there_is_no_more_data>
+    <permission_denied>permís denegat</permission_denied>
+    <unknown_request>Petició desconeguda</unknown_request>
 </root>

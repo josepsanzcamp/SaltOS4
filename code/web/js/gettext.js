@@ -77,38 +77,6 @@ saltos.gettext.unset = () => {
 };
 
 /**
- * Load gettext function
- *
- * This function tries to load data from api by doing a get request to gettext
- */
-saltos.gettext.load = (app) => {
-    if (typeof app == 'undefined') {
-        var app = saltos.hash.get().split('/').at(1);
-    }
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?gettext/${app}`,
-        method: 'get',
-        success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-            saltos.gettext.cache = response;
-        },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
-    });
-};
-
-/**
  * Get Text function
  *
  * This function replaces the gettext abreviation _() using the SaltOS gettext

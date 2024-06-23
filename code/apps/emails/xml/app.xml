@@ -53,6 +53,7 @@
                 <button onclick="saltos.driver.more()" label="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("list")</inline>
@@ -102,6 +103,7 @@
                 <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email" icon="x-lg"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("create")</inline>
@@ -183,6 +185,7 @@
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("view")</inline>
@@ -206,6 +209,7 @@
                 </iframe>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -223,6 +227,7 @@
                 </pdfjs>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -262,5 +267,6 @@
                 <button onclick="saltos.window.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
     </config>
 </root>

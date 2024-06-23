@@ -51,6 +51,7 @@
                 <button onclick="saltos.driver.more()" label="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="plus-lg"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
@@ -107,6 +108,7 @@
                 <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
             <inline>saltos.invoices.init('create')</inline>
@@ -135,6 +137,7 @@
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
             <inline>saltos.invoices.init('view')</inline>
@@ -160,6 +163,7 @@
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
             <inline>saltos.invoices.init('edit')</inline>

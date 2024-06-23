@@ -52,6 +52,7 @@
                 <button onclick="saltos.driver.more()" label="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
@@ -79,6 +80,7 @@
                 <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
             </row>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
@@ -102,6 +104,7 @@
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -122,6 +125,7 @@
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/types/xml/app.xml")["data"]</data>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("edit")</inline>
         </javascript>

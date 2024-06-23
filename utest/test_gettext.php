@@ -47,13 +47,6 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
- * Loading helper function
- *
- * This file contains the needed function used by the unit tests
- */
-require_once "lib/utestlib.php";
-
-/**
  * Main class of this unit test
  */
 final class test_gettext extends TestCase
@@ -88,7 +81,5 @@ final class test_gettext extends TestCase
         $this->assertSame(check_lang_format("AA-BB"), "aa_BB");
         $this->assertSame(check_lang_format("AA_BB"), "aa_BB");
         $this->assertSame(check_lang_format("AA_BB.asd"), "aa_BB");
-
-        $json = test_web_helper("gettext/customers", [], "", "ca_ES");
     }
 }

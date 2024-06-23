@@ -168,8 +168,6 @@ saltos.app.send_request = hash => {
                 return;
             }
             saltos.app.process_response(response);
-            var app = hash.split('/').at(1);
-            saltos.gettext.load(app);
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -842,6 +840,15 @@ saltos.app.form.navbar = navbar => {
         }
     }
     obj2.append(obj);
+};
+
+/**
+ * Load gettext helper
+ *
+ * This function load the gettext data from the api to the cli sapi
+ */
+saltos.app.form.gettext = array => {
+    saltos.gettext.cache = array;
 };
 
 /**

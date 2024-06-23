@@ -234,6 +234,7 @@
                 </v-pills>
             </container>
         </layout>
+        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/tester/js/app.new.js")</file>
         </javascript>
