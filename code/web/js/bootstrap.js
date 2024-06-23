@@ -1048,6 +1048,7 @@ saltos.bootstrap.__field.button = field => {
         saltos.bootstrap.__tooltip_helper(obj);
     }
     saltos.bootstrap.__onclick_helper(obj, field.onclick);
+    saltos.bootstrap.__onclick_helper(obj, 'this.blur()');
     return obj;
 };
 
