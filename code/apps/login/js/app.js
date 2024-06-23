@@ -52,8 +52,7 @@ saltos.login.authenticate = () => {
     var data = saltos.app.get_data(true);
     saltos.authenticate.authtoken(data.user, data.pass);
     if (!saltos.token.get()) {
-        saltos.login.access_denied();
-        saltos.app.send_request('app/login');
+        saltos.app.toast('Access denied', 'Incorrect user or password, try again', {color: 'danger'});
         return;
     }
     // Hash part
@@ -61,15 +60,6 @@ saltos.login.authenticate = () => {
         saltos.hash.set('app/dashboard');
     }
     saltos.hash.trigger();
-};
-
-/**
- * Access denied
- *
- * This function displays a modal dialog with the tipical access denied message
- */
-saltos.login.access_denied = () => {
-    saltos.app.modal('Access denied', 'Incorrect user or password, try again', {color: 'danger'});
 };
 
 /**

@@ -165,16 +165,11 @@ function __output_header($header, $replace = true)
  * requires is the data that you want to send
  *
  * @array => content to convert to json and send to the output channel
- *
- * Notes:
- *
- * The newline added to the data after the json_encode is intended to do more
- * easy the debug process and the usage with the command line using the cli sapi
  */
-function output_handler_json($array, $flags = 0)
+function output_handler_json($array)
 {
     output_handler([
-        "data" => json_encode($array, $flags) . "\n",
+        "data" => json_encode($array),
         "type" => "application/json",
         "cache" => false,
     ]);

@@ -114,7 +114,7 @@ if (isset($argv) && defined("STDIN")) {
             "token" => check_token_format(getenv("TOKEN")),
             "remote_addr" => getenv("USER"),
             "user_agent" => "PHP/" . phpversion(),
-            "lang" => check_lang_format(getenv("LANG")),
+            "lang" => check_lang_format(getenv("OLD_LANG")),
         ],
     ];
 } else {

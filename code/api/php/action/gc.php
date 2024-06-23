@@ -46,8 +46,12 @@ require_once "php/lib/gc.php";
 $time1 = microtime(true);
 $output = gc_exec();
 $time2 = microtime(true);
-output_handler_json([
-    "gc_exec" => array_merge([
-        "time" => $time2 - $time1,
-    ], $output),
-], JSON_PRETTY_PRINT);
+output_handler([
+    "data" => json_encode([
+        "gc_exec" => array_merge([
+            "time" => $time2 - $time1,
+        ], $output),
+    ], JSON_PRETTY_PRINT) . "\n",
+    "type" => "application/json",
+    "cache" => false,
+]);

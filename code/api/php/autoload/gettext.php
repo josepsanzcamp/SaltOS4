@@ -39,8 +39,16 @@ declare(strict_types=1);
  * Get Text function
  *
  * This function replaces the gettext abreviation _() using the SaltOS gettext
- * feature, is based in the original system of the SaltOS 3 with improvements
+ * feature, is based in the original system of the old SaltOS with improvements
  * to do more open as the GNU gettext
+ *
+ * @text => The text that you want to translate
+ *
+ * Notes:
+ *
+ * This function uses multiples locales at same time, SaltOS provides a basic set of
+ * usefull strings and each application can add and overwrite more strings, this is
+ * the same feature that old SaltOS provides
  */
 function T($text)
 {
@@ -53,9 +61,6 @@ function T($text)
         }
     }
     $app = encode_bad_chars(strval(get_data("rest/1")));
-    if (!isset($cache[$app])) {
-        $cache[$app] = [];
-    }
     if (!isset($cache[$app][$lang])) {
         $file = "apps/$app/locale/$lang/messages.xml";
         if (file_exists($file)) {
@@ -63,14 +68,11 @@ function T($text)
         }
     }
     if (is_array($text)) {
-        $result = [];
-        if (isset($cache[$lang])) {
-            $result = array_merge($result, $cache[$lang]);
-        }
-        if (isset($cache[$app][$lang])) {
-            $result = array_merge($result, $cache[$app][$lang]);
-        }
-        return $result;
+        return [
+            "app" => $app,
+            "lang" => $lang,
+            "locale" => $cache,
+        ];
     }
     $hash = encode_bad_chars($text);
     if (isset($cache[$app][$lang][$hash])) {

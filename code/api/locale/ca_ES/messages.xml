@@ -28,4 +28,6 @@
 <root>
     <close>Tancar</close>
     <cancel>Cancel·lar</cancel>
+    <response>Resposta</response>
+    <there_is_no_more_data>No hi han mes dades</there_is_no_more_data>
 </root>

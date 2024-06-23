@@ -32,6 +32,8 @@ declare(strict_types=1);
  *
  * This action returns the array with all labels for the app's locale
  */
-output_handler_json([
-    "locale" => T([]),
+output_handler([
+    "data" => json_encode(T([])),
+    "type" => "application/json",
+    "cache" => true,
 ]);

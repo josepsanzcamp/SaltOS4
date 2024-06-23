@@ -53,15 +53,19 @@ $output1 = db_schema();
 $time2 = microtime(true);
 $output2 = db_static();
 $time3 = microtime(true);
-output_handler_json([
-    "db_schema" => array_merge([
-        "time" => $time2 - $time1,
-        "check" => $dbschema_check,
-        "hash" => $dbschema_hash,
-    ], $output1),
-    "db_static" => array_merge([
-        "time" => $time3 - $time2,
-        "check" => $dbstatic_check,
-        "hash" => $dbstatic_hash,
-    ], $output2),
-], JSON_PRETTY_PRINT);
+output_handler([
+    "data" => json_encode([
+        "db_schema" => array_merge([
+            "time" => $time2 - $time1,
+            "check" => $dbschema_check,
+            "hash" => $dbschema_hash,
+        ], $output1),
+        "db_static" => array_merge([
+            "time" => $time3 - $time2,
+            "check" => $dbstatic_check,
+            "hash" => $dbstatic_hash,
+        ], $output2),
+    ], JSON_PRETTY_PRINT) . "\n",
+    "type" => "application/json",
+    "cache" => false,
+]);

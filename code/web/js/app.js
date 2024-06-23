@@ -168,6 +168,8 @@ saltos.app.send_request = hash => {
                 return;
             }
             saltos.app.process_response(response);
+            var app = hash.split('/').at(1);
+            saltos.gettext.load(app);
         },
         error: request => {
             saltos.app.form.screen('unloading');

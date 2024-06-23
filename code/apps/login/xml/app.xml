@@ -48,7 +48,6 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/login/js/app.js")</file>
-            <inline>saltos.gettext.request("login")</inline>
         </javascript>
     </menu>
 </root>

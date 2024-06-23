@@ -29,7 +29,9 @@
 /**
  * Gettext helper module
  *
- * This module provides the needed tools to manage the gettexts
+ * This fie contains useful functions related to gettext funcionality, allow to manage the
+ * SaltOS translations using a merged system of the unix locales and the old SaltOS translations
+ * system.
  */
 
 /**
@@ -38,7 +40,11 @@
  * This object stores all gettext functions to get and set data using the localStorage
  */
 saltos.gettext = {
-    locale: {},
+    cache: {
+        app: '',
+        lang: '',
+        locale: {},
+    },
 };
 
 /**
@@ -71,11 +77,11 @@ saltos.gettext.unset = () => {
 };
 
 /**
- * TODO
+ * Load gettext function
  *
- * TODO
+ * This function tries to load data from api by doing a get request to gettext
  */
-saltos.gettext.request = (app) => {
+saltos.gettext.load = (app) => {
     if (typeof app == 'undefined') {
         var app = saltos.hash.get().split('/').at(1);
     }
@@ -88,7 +94,7 @@ saltos.gettext.request = (app) => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            saltos.gettext.locale = response.locale;
+            saltos.gettext.cache = response;
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -103,14 +109,36 @@ saltos.gettext.request = (app) => {
 };
 
 /**
- * TODO
+ * Get Text function
  *
- * TODO
+ * This function replaces the gettext abreviation _() using the SaltOS gettext
+ * feature, is based in the original system of the old SaltOS with improvements
+ * to do more open as the GNU gettext
+ *
+ * @text => The text that you want to translate
+ *
+ * Notes:
+ *
+ * This function uses multiples locales at same time, SaltOS provides a basic set of
+ * usefull strings and each application can add and overwrite more strings, this is
+ * the same feature that old SaltOS provides
  */
 window.T = text => {
+    var app = saltos.gettext.cache.app;
+    var lang = saltos.gettext.cache.lang;
+    var locale = saltos.gettext.cache.locale;
     var hash = saltos.core.encode_bad_chars(text);
-    if (!saltos.gettext.locale.hasOwnProperty(hash)) {
-        return text;
+    if (locale.hasOwnProperty(app)) {
+        if (locale[app].hasOwnProperty(lang)) {
+            if (locale[app][lang].hasOwnProperty(hash)) {
+                return locale[app][lang][hash];
+            }
+        }
     }
-    return saltos.gettext.locale[hash];
+    if (locale.hasOwnProperty(lang)) {
+        if (locale[lang].hasOwnProperty(hash)) {
+            return locale[lang][hash];
+        }
+    }
+    return text;
 };
