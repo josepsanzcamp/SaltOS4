@@ -1130,13 +1130,11 @@ saltos.bootstrap.__field.password = field => {
         switch (input.type) {
             case 'password':
                 input.type = 'text';
-                event.target.classList.remove('bi-eye-slash');
-                event.target.classList.add('bi-eye');
+                event.target.classList.replace('bi-eye-slash','bi-eye');
                 break;
             case 'text':
                 input.type = 'password';
-                event.target.classList.remove('bi-eye');
-                event.target.classList.add('bi-eye-slash');
+                event.target.classList.replace('bi-eye','bi-eye-slash');
                 break;
         }
     });
@@ -1939,8 +1937,7 @@ saltos.bootstrap.__field.table = field => {
                     val2.color = 'none';
                     var button = saltos.bootstrap.__field.button(val2);
                     if (dropdown) {
-                        button.classList.remove('btn');
-                        button.classList.add('dropdown-item');
+                        button.classList.replace('btn','dropdown-item');
                         // This close all dropdowns when click an option inside a dropdown
                         button.addEventListener('click', dropdown_close);
                         var li = saltos.core.html(`<li></li>`);

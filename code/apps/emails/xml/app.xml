@@ -31,17 +31,17 @@
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Email's list</title>
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
+        <javascript>
+            <inline>document.getElementById("one").classList.replace("col-xl","col-xl-4")</inline>
+        </javascript>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('#app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
                 <div col_class="col"/>
-                <hidden id="page" value="0"/>
-                <text placeholder="Search" tooltip="To search in all emails contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
-                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all emails contents" icon="search"/>
-                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
                 <button onclick="saltos.emails.getmail()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
             </row>
@@ -53,7 +53,6 @@
                 <button onclick="saltos.driver.more()" label="See more emails" tooltip="To load more emails in the list" icon="plus-lg"/>
             </row>
         </layout>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("list")</inline>
@@ -63,6 +62,7 @@
     <!-- Form part -->
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>New email</title>
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -103,7 +103,6 @@
                 <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email" icon="x-lg"/>
             </row>
         </layout>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("create")</inline>
@@ -112,6 +111,7 @@
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Detail of the email</title>
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -185,7 +185,6 @@
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("view")</inline>
@@ -199,6 +198,7 @@
 
     <view id="source">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Source of the email</title>
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -209,7 +209,6 @@
                 </iframe>
             </row>
         </layout>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -217,6 +216,7 @@
 
     <view id="viewpdf">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <gettext eval="true">T([])</gettext>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -227,7 +227,6 @@
                 </pdfjs>
             </row>
         </layout>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -254,6 +253,7 @@
     <!-- Config part -->
     <config>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Config of the email</title>
         <screen>clear</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -267,6 +267,5 @@
                 <button onclick="saltos.window.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
             </row>
         </layout>
-        <gettext eval="true">T([])</gettext>
     </config>
 </root>

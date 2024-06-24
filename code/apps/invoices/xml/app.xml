@@ -31,6 +31,7 @@
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Invoice's list</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -51,7 +52,6 @@
                 <button onclick="saltos.driver.more()" label="Ver más facturas" tooltip="Para cargar mas facturas en el listado" icon="plus-lg"/>
             </row>
         </layout>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
@@ -95,6 +95,7 @@
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>New invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -108,7 +109,6 @@
                 <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
             </row>
         </layout>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
             <inline>saltos.invoices.init('create')</inline>
@@ -118,6 +118,7 @@
 
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Detail of the invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -137,7 +138,6 @@
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
             <inline>saltos.invoices.init('view')</inline>
@@ -147,6 +147,7 @@
 
     <edit>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Modify this invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -163,7 +164,6 @@
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/app.xml")["data_footer"]</data>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/invoices/js/app.js")</file>
             <inline>saltos.invoices.init('edit')</inline>

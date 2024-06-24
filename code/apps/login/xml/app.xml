@@ -28,6 +28,7 @@
 <root>
     <menu>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
         <title>Login form</title>
         <screen>clear</screen>
         <layout>
@@ -46,7 +47,6 @@
                 </container>
             </div>
         </layout>
-        <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/login/js/app.js")</file>
         </javascript>

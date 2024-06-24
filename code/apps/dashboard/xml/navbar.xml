@@ -27,7 +27,6 @@
 
 <root>
     <navbar id="navbar" append="top" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25">
-<!--
         <items>
             <menu class="navbar-nav me-auto mb-2 mb-lg-0">
                 <item name="Home" disabled="false" onclick="alert(1)"/>
@@ -43,8 +42,10 @@
                 <item name="Disabled" disabled="true" onclick="alert(6)"/>
             </menu>
             <form class="d-flex">
-                <text placeholder="Search" color="light" id="oldsearch"/>
-                <button onclick="alert(7)" color="light" class="mx-1 text-nowrap" label="Search"/>
+                <hidden id="page" value="0"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true" color="light"/>
+                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search" color="light" class="text-nowrap ms-1"/>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg" color="light" class="text-nowrap ms-1"/>
             </form>
             <menu class="navbar-nav mb-2 mb-lg-0">
                 <item name="Themes" dropdown_menu_end="true">
@@ -61,6 +62,5 @@
                 </item>
             </menu>
         </items>
--->
     </navbar>
 </root>

@@ -32,4 +32,14 @@
     <there_is_no_more_data>No hi han mes dades</there_is_no_more_data>
     <permission_denied>permís denegat</permission_denied>
     <unknown_request>Petició desconeguda</unknown_request>
+    <warning>Atenció</warning>
+    <required_fields_not_found>No s'han trobat camps obligatoris</required_fields_not_found>
+    <search>Cercar</search>
+    <to_search_in_all_contents>Per cercar a tots els continguts</to_search_in_all_contents>
+    <reset>Netejar</reset>
+    <to_reset_the_search_filter>Per netejar el filtre</to_reset_the_search_filter>
+    <delete_this_register>Esborra aquest registre???</delete_this_register>
+    <do_you_want_to_delete_this_register>Vols esborrar aquest registre???</do_you_want_to_delete_this_register>
+    <yes>Si</yes>
+    <no>No</no>
 </root>

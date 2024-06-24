@@ -57,7 +57,7 @@ saltos.app.modal = (title, message, extra) => {
     }
     if (!extra.hasOwnProperty('buttons')) {
         extra.buttons = [{
-            label: T('Close'),
+            label: 'Close',
             color: 'primary',
             icon: 'x-lg',
             autofocus: true,
@@ -67,17 +67,17 @@ saltos.app.modal = (title, message, extra) => {
     if (!extra.hasOwnProperty('color')) {
         extra.color = 'primary';
     }
-    return saltos.bootstrap.modal({
-        title: T(title),
-        close: T('Close'),
-        body: T(message),
+    return saltos.gettext.bootstrap.modal({
+        title: title,
+        close: 'Close',
+        body: message,
         footer: (() => {
             var obj = saltos.core.html('<div></div>');
             for (var key in extra.buttons) {
                 (button => {
                     saltos.core.check_params(button, ['label', 'class',
                         'color', 'icon', 'autofocus', 'onclick']);
-                    obj.append(saltos.bootstrap.field({
+                    obj.append(saltos.gettext.bootstrap.field({
                         type: 'button',
                         label: button.label,
                         class: `${button.class} ms-1`,
@@ -113,9 +113,9 @@ saltos.app.toast = (title, message, extra) => {
     if (!extra.hasOwnProperty('color')) {
         extra.color = 'primary';
     }
-    return saltos.bootstrap.toast({
-        title: T(title),
-        body: T(message),
+    return saltos.gettext.bootstrap.toast({
+        title: title,
+        body: message,
         color: extra.color,
     });
 };
@@ -417,7 +417,7 @@ saltos.app.form.layout = (layout, extra) => {
                 arr.push(temp[i]);
             }
         } else if (['container', 'col', 'row', 'div'].includes(key)) {
-            var obj = saltos.bootstrap.field(attr);
+            var obj = saltos.gettext.bootstrap.field(attr);
             var temp = saltos.app.form.layout(value, 'arr');
             for (var i in temp) {
                 obj.append(temp[i]);
@@ -439,13 +439,13 @@ saltos.app.form.layout = (layout, extra) => {
             }
             saltos.app.__form.fields.push(attr);
             if (attr.source != '') {
-                var obj = saltos.bootstrap.field({
+                var obj = saltos.gettext.bootstrap.field({
                     type: 'placeholder',
                     id: attr.id,
                 });
                 saltos.app.__source_helper(attr);
             } else {
-                var obj = saltos.bootstrap.field(attr);
+                var obj = saltos.gettext.bootstrap.field(attr);
             }
             arr.push(obj);
         }
@@ -743,14 +743,6 @@ saltos.app.form.screen = action => {
             document.body.innerHTML = '';
             document.body.removeAttribute('screen');
             return true;
-        case 'nofluid':
-            var bool = false;
-            document.querySelectorAll('.container-fluid').forEach(_this => {
-                _this.classList.remove('container-fluid');
-                _this.classList.add('container');
-                bool = true;
-            });
-            return bool;
     }
     if (saltos.driver.hasOwnProperty('__types')) {
         if (saltos.driver.__types.hasOwnProperty(action)) {
@@ -825,7 +817,7 @@ saltos.app.form.navbar = navbar => {
                 for (var key2 in val) {
                     var val2 = val[key2];
                     val2['#attr'].type = saltos.core.fix_key(key2);
-                    obj.append(saltos.bootstrap.field(val2['#attr']));
+                    obj.append(saltos.gettext.bootstrap.field(val2['#attr']));
                 }
                 navbar.items[key] = obj;
             }
@@ -889,7 +881,7 @@ saltos.app.__source_helper = field => {
                     field[key] = response[key];
                 }
                 var obj = document.getElementById(field.id);
-                obj.replaceWith(saltos.bootstrap.field(field));
+                obj.replaceWith(saltos.gettext.bootstrap.field(field));
             },
             error: request => {
                 saltos.app.form.screen('unloading');

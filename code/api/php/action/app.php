@@ -106,5 +106,4 @@ $array = join_attr_value($array);
 
 // Eval the app and returns the result
 $array = eval_attr($array);
-$array = __apply_locale($array);
 output_handler_json($array);

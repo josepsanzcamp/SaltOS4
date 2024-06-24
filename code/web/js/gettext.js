@@ -92,6 +92,9 @@ saltos.gettext.unset = () => {
  * the same feature that old SaltOS provides
  */
 window.T = text => {
+    if (typeof text != "string") {
+        return text;
+    }
     var app = saltos.gettext.cache.app;
     var lang = saltos.gettext.cache.lang;
     var locale = saltos.gettext.cache.locale;
@@ -110,3 +113,55 @@ window.T = text => {
     }
     return text;
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+ saltos.gettext.bootstrap = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.gettext.bootstrap.field = field => {
+    var props = ['label', 'tooltip', 'placeholder'];
+    for (var i in props) {
+        if (field.hasOwnProperty(props[i])) {
+            field[props[i]] = T(field[props[i]]);
+        }
+    }
+    return saltos.bootstrap.field(field);
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.gettext.bootstrap.modal = args => {
+    var props = ['title', 'close', 'body', 'footer'];
+    for (var i in props) {
+        if (args.hasOwnProperty(props[i])) {
+            args[props[i]] = T(args[props[i]]);
+        }
+    }
+    return saltos.bootstrap.modal(args);
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.gettext.bootstrap.toast = args => {
+    var props = ['title', 'subtitle', 'close', 'body'];
+    for (var i in props) {
+        if (args.hasOwnProperty(props[i])) {
+            args[props[i]] = T(args[props[i]]);
+        }
+    }
+    return saltos.bootstrap.toast(args);
+}

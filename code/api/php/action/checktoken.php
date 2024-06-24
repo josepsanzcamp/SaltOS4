@@ -51,7 +51,7 @@ if (!$token_id) {
     semaphore_release("token");
     output_handler_json([
         "status" => "ko",
-        "reason" => T("Permission denied"),
+        "reason" => "Permission denied",
         "code" => __get_code_from_trace(),
     ]);
 }

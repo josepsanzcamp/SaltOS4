@@ -105,7 +105,6 @@ set_data("rest/2", fix_key(get_data("rest/2")));
 
 // This line is a trick to allow attr in the subapp
 $array = join_attr_value($array);
-$array = __apply_locale($array);
 
 // Check json arguments
 if (!get_data("json/search")) {

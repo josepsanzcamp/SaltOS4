@@ -69,7 +69,7 @@ if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
     semaphore_release("token");
     output_handler_json([
         "status" => "ko",
-        "reason" => T("Permission denied"),
+        "reason" => "Permission denied",
         "code" => __get_code_from_trace(),
     ]);
 }
@@ -84,7 +84,7 @@ if (!is_array($row2) || !isset($row2["password"])) {
     semaphore_release("token");
     output_handler_json([
         "status" => "ko",
-        "reason" => T("Permission denied"),
+        "reason" => "Permission denied",
         "code" => __get_code_from_trace(),
     ]);
 } elseif (password_verify($pass, $row2["password"])) {
@@ -102,7 +102,7 @@ if (!is_array($row2) || !isset($row2["password"])) {
     semaphore_release("token");
     output_handler_json([
         "status" => "ko",
-        "reason" => T("Permission denied"),
+        "reason" => "Permission denied",
         "code" => __get_code_from_trace(),
     ]);
 }

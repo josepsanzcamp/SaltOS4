@@ -370,7 +370,7 @@ saltos.driver.__types.type1 = {};
 saltos.driver.__types.type1.template = arg => {
     return saltos.core.html(`
         <div id="top"></div>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
                 <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
                 <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
@@ -650,7 +650,7 @@ saltos.driver.__types.type4.init = arg => {
         if (!saltos.bootstrap.modal('isopen')) {
             var title = document.title;
             var obj = document.getElementById('one').firstElementChild;
-            saltos.bootstrap.modal({
+            saltos.gettext.bootstrap.modal({
                 title: title,
                 close: 'Close',
                 body: obj,
@@ -674,7 +674,7 @@ saltos.driver.__types.type4.init = arg => {
  */
 saltos.driver.__types.type4.open = arg => {
     var title = document.title;
-    saltos.bootstrap.modal({
+    saltos.gettext.bootstrap.modal({
         title: title,
         close: 'Close',
         class: 'modal-xl',
