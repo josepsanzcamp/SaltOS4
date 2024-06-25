@@ -1050,7 +1050,9 @@ saltos.bootstrap.__field.button = field => {
         saltos.bootstrap.__tooltip_helper(obj);
     }
     saltos.bootstrap.__onclick_helper(obj, field.onclick);
-    saltos.bootstrap.__onclick_helper(obj, 'this.blur()');
+    saltos.bootstrap.__onclick_helper(obj, function() {
+        this.blur();
+    });
     return obj;
 };
 
@@ -2464,7 +2466,15 @@ saltos.bootstrap.__field.list = field => {
             val.onclick = `${val.onclick}("${val.url}")`;
             saltos.bootstrap.__onclick_helper(item, val.onclick);
             // To prevent that the button remain focused
-            saltos.bootstrap.__onclick_helper(item, 'this.blur()');
+            saltos.bootstrap.__onclick_helper(item, function() {
+                this.parentNode.querySelectorAll('button').forEach(_this => {
+                    _this.classList.remove('active');
+                    _this.removeAttribute('aria-current');
+                });
+                this.classList.add('active');
+                this.setAttribute('aria-current', 'true');
+                this.blur();
+            });
         } else {
             var item = saltos.core.html(`<li class="list-group-item"></li>`);
         }
