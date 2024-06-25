@@ -69,13 +69,13 @@ saltos.hash.get = () => {
  * The operation is cancelled if the current hash is the same that the new hash
  */
 saltos.hash.set = hash => {
+    if (hash.length && hash.substr(0, 1) == '#') {
+        hash = hash.substr(1);
+    }
     if (saltos.hash.get() == hash) {
         return false;
     }
-    if (hash.length && hash.substr(0, 1) != '#') {
-        hash = '#' + hash;
-    }
-    history.replaceState(null, null, '.' + hash);
+    history.replaceState(null, null, '.#' + hash);
     return true;
 };
 
@@ -95,13 +95,13 @@ saltos.hash.set = hash => {
  * The operation is cancelled if the current hash is the same that the new hash
  */
 saltos.hash.add = hash => {
+    if (hash.length && hash.substr(0, 1) == '#') {
+        hash = hash.substr(1);
+    }
     if (saltos.hash.get() == hash) {
         return false;
     }
-    if (hash.length && hash.substr(0, 1) != '#') {
-        hash = '#' + hash;
-    }
-    history.pushState(null, null, '.' + hash);
+    history.pushState(null, null, '.#' + hash);
     return true;
 };
 
