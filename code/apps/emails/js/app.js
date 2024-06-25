@@ -77,7 +77,7 @@ saltos.emails.getmail = () => {
  * TODO
  */
 saltos.emails.delete1 = () => {
-    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    var ids = saltos.app.checkbox_ids(document.getElementById('list'));
     if (!ids.length) {
         saltos.app.modal(
             'Select emails',

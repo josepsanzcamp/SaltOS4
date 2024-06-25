@@ -2641,7 +2641,6 @@ saltos.bootstrap.__field.tabs = field => {
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
  * @label    => this parameter is used as text for the label
-
  */
 saltos.bootstrap.__field.pills = field => {
     return saltos.bootstrap.__field.tabs(field);
@@ -2662,7 +2661,6 @@ saltos.bootstrap.__field.pills = field => {
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
  * @label    => this parameter is used as text for the label
-
  */
 saltos.bootstrap.__field['v-pills'] = field => {
     saltos.core.check_params(field, ['id']);

@@ -36,7 +36,6 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <javascript>
             <inline>document.getElementById("one").classList.replace("col-xl","col-xl-4")</inline>
-            <inline>document.getElementById("two").classList.replace("col-xl","col-xl-8")</inline>
         </javascript>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
@@ -68,7 +67,6 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <javascript>
             <inline>document.getElementById("one").classList.replace("col-xl","col-xl-4")</inline>
-            <inline>document.getElementById("two").classList.replace("col-xl","col-xl-8")</inline>
         </javascript>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
@@ -121,7 +119,6 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <javascript>
             <inline>document.getElementById("one").classList.replace("col-xl","col-xl-4")</inline>
-            <inline>document.getElementById("two").classList.replace("col-xl","col-xl-8")</inline>
         </javascript>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
