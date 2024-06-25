@@ -92,7 +92,7 @@ saltos.gettext.unset = () => {
  * the same feature that old SaltOS provides
  */
 window.T = text => {
-    if (typeof text != "string") {
+    if (typeof text != 'string') {
         return text;
     }
     var app = saltos.gettext.cache.app;
@@ -119,7 +119,7 @@ window.T = text => {
  *
  * TODO
  */
- saltos.gettext.bootstrap = {};
+saltos.gettext.bootstrap = {};
 
 /**
  * TODO
@@ -155,7 +155,8 @@ saltos.gettext.bootstrap.field = field => {
                         var props = ['label', 'tooltip'];
                         for (var i in props) {
                             if (val2.hasOwnProperty(props[i])) {
-                                field.data[key].actions[key2][props[i]] = T(field.data[key].actions[key2][props[i]]);
+                                field.data[key].actions[key2][props[i]] =
+                                    T(field.data[key].actions[key2][props[i]]);
                             }
                         }
                     }
@@ -179,7 +180,7 @@ saltos.gettext.bootstrap.field = field => {
         }
     }
     return saltos.bootstrap.field(field);
-}
+};
 
 /**
  * TODO
@@ -194,7 +195,7 @@ saltos.gettext.bootstrap.modal = args => {
         }
     }
     return saltos.bootstrap.modal(args);
-}
+};
 
 /**
  * TODO
@@ -209,4 +210,4 @@ saltos.gettext.bootstrap.toast = args => {
         }
     }
     return saltos.bootstrap.toast(args);
-}
+};
