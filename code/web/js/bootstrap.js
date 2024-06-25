@@ -1577,6 +1577,10 @@ saltos.bootstrap.__field.excel = field => {
  *
  * The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
  * that this file not appear in the next requires
+ *
+ * Change scale causes issues in scrollTop when pdfjs is used inside a modal, to prevent this,
+ * the two updates to the pdfViewer.currentScaleValue = 'update' will add a control to fix
+ * that modal scrollTop is the same.
  */
 saltos.bootstrap.__field.pdfjs = field => {
     saltos.core.require('lib/pdfjs/pdf_viewer.min.css');
@@ -1626,7 +1630,14 @@ saltos.bootstrap.__field.pdfjs = field => {
                 eventBus: eventBus,
             });
             eventBus.on('pagesinit', () => {
+                var modal = document.querySelector('.modal');
+                if (modal) {
+                    var scrollTop = modal.scrollTop;
+                }
                 pdfViewer.currentScaleValue = 'auto';
+                if (modal) {
+                    modal.scrollTop = scrollTop;
+                }
             });
             eventBus.on('annotationlayerrendered', () => {
                 container.querySelectorAll('a').forEach(_this => {
@@ -1643,7 +1654,14 @@ saltos.bootstrap.__field.pdfjs = field => {
             pdfViewer.setDocument(pdfDocument);
             container.style.position = 'relative';
             window.addEventListener('resize', event => {
+                var modal = document.querySelector('.modal');
+                if (modal) {
+                    var scrollTop = modal.scrollTop;
+                }
                 pdfViewer.currentScaleValue = 'auto';
+                if (modal) {
+                    modal.scrollTop = scrollTop;
+                }
             });
         },
         (message, exception) => {
