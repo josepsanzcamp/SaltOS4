@@ -580,8 +580,8 @@ saltos.driver.__types.type3.init = arg => {
             var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
             saltos.app.send_request(temp);
         }
-        var arr1 = saltos.hash.get().split('/');
-        if (arr1.length < 5) {
+        var arr = saltos.hash.get().split('/');
+        if (arr.length < 5) {
             saltos.driver.__types.type2.__close_helper('three');
         }
     }
@@ -648,10 +648,8 @@ saltos.driver.__types.type4.init = arg => {
         saltos.app.__form_backup.do();
         // Continue after the backup
         if (!saltos.bootstrap.modal('isopen')) {
-            var title = document.title;
             var obj = document.getElementById('one').firstElementChild;
             saltos.gettext.bootstrap.modal({
-                title: title,
                 close: 'Close',
                 body: obj,
                 class: 'modal-xl',
@@ -673,9 +671,7 @@ saltos.driver.__types.type4.init = arg => {
  * TODO
  */
 saltos.driver.__types.type4.open = arg => {
-    var title = document.title;
     saltos.gettext.bootstrap.modal({
-        title: title,
         close: 'Close',
         class: 'modal-xl',
     });
@@ -694,4 +690,110 @@ saltos.driver.__types.type4.close = arg => {
     // HASH PART
     var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
+};
+
+/**
+ * Driver type5 object
+ *
+ * This object stores the functions used by the type5 driver
+ */
+saltos.driver.__types.type5 = {};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type5.template = saltos.driver.__types.type2.template;
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type5.init = arg => {
+    if (arg == 'list') {
+        saltos.app.__form_backup.restore();
+        // Continue after the backup
+        var action = saltos.hash.get().split('/').at(2);
+        if (!['create', 'view', 'edit'].includes(action)) {
+            saltos.driver.__types.type2.__close_helper('two');
+            saltos.bootstrap.modal('close');
+        }
+        // Program the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.set_listener(`saltos.${app}.update`, event => {
+            saltos.driver.search();
+        });
+    }
+    if (['create', 'view', 'edit'].includes(arg)) {
+        saltos.app.__form_backup.do();
+        // Continue after the backup
+        if (!document.getElementById('one').textContent.length) {
+            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            saltos.app.send_request(temp);
+        }
+        var arr = saltos.hash.get().split('/');
+        if (arr.length >= 5) {
+            if (!saltos.bootstrap.modal('isopen')) {
+                var obj = document.getElementById('two').firstElementChild;
+                saltos.gettext.bootstrap.modal({
+                    close: 'Close',
+                    body: obj,
+                    class: 'modal-xl',
+                });
+                document.querySelector('.modal-body').setAttribute('id', 'three');
+                var temp = saltos.hash.get().split('/');
+                var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+                saltos.app.send_request(temp);
+            }
+        }
+        if (arr.length < 5) {
+            saltos.bootstrap.modal('close');
+        }
+    }
+    if (arg == 'view') {
+        // This disable the fields to use as readonly
+        saltos.app.form_disabled(true);
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type5.open = arg => {
+    var temp = arg.split('/');
+    if (temp.length >= 5) {
+        saltos.gettext.bootstrap.modal({
+            close: 'Close',
+            class: 'modal-xl',
+        });
+        document.querySelector('.modal-body').setAttribute('id', 'three');
+    }
+    saltos.hash.add(arg);
+    saltos.app.send_request(arg.substr(1));
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__types.type5.close = arg => {
+    var arr = saltos.hash.get().split('/');
+    if (arr.length >= 5) {
+        saltos.bootstrap.modal('close');
+        // HASH PART
+        var temp = saltos.hash.get().split('/');
+        var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+        saltos.hash.add(temp);
+    }
+    if (arr.length < 5) {
+        saltos.driver.__types.type2.__close_helper('two');
+        // HASH PART
+        var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+        saltos.hash.add(temp);
+    }
 };
