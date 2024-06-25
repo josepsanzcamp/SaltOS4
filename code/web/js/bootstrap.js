@@ -708,7 +708,9 @@ saltos.bootstrap.__field.iframe = field => {
                 _this.style.height = size + 'px';
             }
         });
-        window.dispatchEvent(new Event('resize'));
+        saltos.core.when_visible(obj, () => {
+            window.dispatchEvent(new Event('resize'));
+        });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
