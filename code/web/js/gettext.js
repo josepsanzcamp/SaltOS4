@@ -127,10 +127,55 @@ window.T = text => {
  * TODO
  */
 saltos.gettext.bootstrap.field = field => {
+    // For all general bootstrap widgers
     var props = ['label', 'tooltip', 'placeholder'];
     for (var i in props) {
         if (field.hasOwnProperty(props[i])) {
             field[props[i]] = T(field[props[i]]);
+        }
+    }
+    // Only for table widgets
+    if (field.hasOwnProperty('type') && field.type == 'table') {
+        if (field.hasOwnProperty('header')) {
+            for (var key in field.header) {
+                var val = field.header[key];
+                if (typeof val == 'object' && val !== null) {
+                    field.header[key].label = T(val.label);
+                } else {
+                    field.header[key] = T(val);
+                }
+            }
+        }
+        if (field.hasOwnProperty('data')) {
+            for (var key in field.data) {
+                var val = field.data[key];
+                if (val.hasOwnProperty('actions')) {
+                    for (var key2 in val.actions) {
+                        var val2 = val.actions[key2];
+                        var props = ['label', 'tooltip'];
+                        for (var i in props) {
+                            if (val2.hasOwnProperty(props[i])) {
+                                field.data[key].actions[key2][props[i]] = T(field.data[key].actions[key2][props[i]]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (field.hasOwnProperty('footer')) {
+            if (typeof field.footer == 'object') {
+                for (var key in field.footer) {
+                    var val = field.footer[key];
+                    if (typeof val == 'object' && val !== null) {
+                        field.footer[key].value = T(val.value);
+                    } else {
+                        field.footer[key] = T(val);
+                    }
+                }
+            }
+            if (typeof field.footer == 'string') {
+                field.footer = T(field.footer);
+            }
         }
     }
     return saltos.bootstrap.field(field);

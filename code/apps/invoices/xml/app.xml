@@ -39,10 +39,6 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button ifeval="check_user('invoices', 'create')" onclick="saltos.driver.open('#app/invoices/create')" label="Nueva factura" tooltip="Para crear una nueva factura" icon="plus-lg"/>
                 <div col_class="col"/>
-                <hidden id="page" value="0"/>
-                <text placeholder="Buscar" tooltip="Para buscar en todos los invoices" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()"/>
-                <button onclick="saltos.driver.search()" label="Buscar" tooltip="Para buscar en todos los invoices" icon="search"/>
-                <button onclick="saltos.driver.reset()" label="Limpiar" tooltip="Para limpiar el filtro" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="table" source="list/invoices/table"/>
