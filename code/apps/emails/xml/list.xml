@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <list type="list" limit="50" order="datetime DESC" onclick="true">
+    <list type="list" limit="50" order="datetime DESC" onclick="true" truncate="true">
         <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) header,
                 IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
@@ -49,8 +49,8 @@
                     WHEN state_new=1 THEN 'success'
                     WHEN state_wait=1 THEN 'primary'
                     ELSE ''
-                END body_class,
-                CONCAT(SUBSTR(body,1,100),'...') footer,
+                END body_color,
+                SUBSTR(body,1,250) footer,
                 CASE WHEN files THEN files ELSE '' END footer_text,
                 CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon
             FROM app_emails

@@ -153,7 +153,7 @@ saltos.emails.delete2 = () => {
                             return;
                         }
                         saltos.window.send('saltos.emails.update');
-                        saltos.window.close();
+                        saltos.driver.close();
                     },
                     error: request => {
                         saltos.app.form.screen('unloading');

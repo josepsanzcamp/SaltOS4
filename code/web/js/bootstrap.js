@@ -2393,13 +2393,26 @@ saltos.bootstrap.__field.placeholder = field => {
  * Each item in the data can contain:
  *
  * @header   => string with the header to use
- * @extra    => string with the extra header to use
  * @body     => string with the data to use
  * @footer   => string with the footer to use
  * @onclick  => the onclick function that receives as argument the url to access the action
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
+ * @actions  => this parameter allow to recicle the actions feature of the list action
+ * @truncate => this parameter add the text-truncate to all texts of the items
  * @label    => this parameter is used as text for the label
+ *
+ * As an extra fields, the widget allow to provide multiple texts and icons
+ *
+ * @header_text  => an small text added at the end of the same line of the header
+ * @header_icon  => an small icon added at the end of the same line of the header
+ * @header_color => the color used in the previous small text and icon
+ * @body_text    => an small text added at the end of the same line of the body
+ * @body_icon    => an small icon added at the end of the same line of the body
+ * @body_color   => the color used in the previous small text and icon
+ * @footer_text  => an small text added at the end of the same line of the footer
+ * @footer_icon  => an small icon added at the end of the same line of the footer
+ * @footer_color => the color used in the previous small text and icon
  *
  * Notes:
  *
@@ -2417,10 +2430,10 @@ saltos.bootstrap.__field.list = field => {
     for (var key in field.data) {
         var val = field.data[key];
         saltos.core.check_params(val, ['header', 'body', 'footer',
-            'header_text', 'header_icon', 'header_class',
-            'body_text', 'body_icon', 'body_class',
-            'footer_text', 'footer_icon', 'footer_class',
-            'onclick', 'active', 'disabled', 'actions']);
+            'header_text', 'header_icon', 'header_color',
+            'body_text', 'body_icon', 'body_color',
+            'footer_text', 'footer_icon', 'footer_color',
+            'onclick', 'active', 'disabled', 'actions', 'truncate']);
         if (saltos.core.eval_bool(field.onclick)) {
             var item = saltos.core.html(`<button class="list-group-item list-group-item-action"></button>`);
             if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
@@ -2442,20 +2455,23 @@ saltos.bootstrap.__field.list = field => {
                 </div>
             `);
             temp.querySelector('h5').append(val.header);
+            if (saltos.core.eval_bool(field.truncate)) {
+                temp.querySelector('h5').classList.add('text-truncate');
+            }
             if (val.header_text != '' && val.header_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap">
-                        <small class="text-${val.header_class}">${val.header_text}</small>
-                        <i class="bi bi-${val.header_icon} text-${val.header_class}"></i>
+                        <small class="text-${val.header_color}">${val.header_text}</small>
+                        <i class="bi bi-${val.header_icon} text-${val.header_color}"></i>
                     </div>
                 `));
             } else if (val.header_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-${val.header_class}">${val.header_text}</small>
+                    <small class="text-${val.header_color}">${val.header_text}</small>
                 `));
             } else if (val.header_icon != '') {
                 temp.append(saltos.core.html(`
-                    <i class="bi bi-${val.header_icon} text-${val.header_class}"></i>
+                    <i class="bi bi-${val.header_icon} text-${val.header_color}"></i>
                 `));
             }
             item.append(temp);
@@ -2467,20 +2483,23 @@ saltos.bootstrap.__field.list = field => {
                 </div>
             `);
             temp.querySelector('p').append(val.body);
+            if (saltos.core.eval_bool(field.truncate)) {
+                temp.querySelector('p').classList.add('text-truncate');
+            }
             if (val.body_text != '' && val.body_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap">
-                        <small class="text-${val.body_class}">${val.body_text}</small>
-                        <i class="bi bi-${val.body_icon} text-${val.body_class}"></i>
+                        <small class="text-${val.body_color}">${val.body_text}</small>
+                        <i class="bi bi-${val.body_icon} text-${val.body_color}"></i>
                     </div>
                 `));
             } else if (val.body_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-${val.body_class}">${val.body_text}</small>
+                    <small class="text-${val.body_color}">${val.body_text}</small>
                 `));
             } else if (val.body_icon != '') {
                 temp.append(saltos.core.html(`
-                    <i class="bi bi-${val.body_icon} text-${val.body_class}"></i>
+                    <i class="bi bi-${val.body_icon} text-${val.body_color}"></i>
                 `));
             }
             item.append(temp);
@@ -2492,20 +2511,23 @@ saltos.bootstrap.__field.list = field => {
                 </div>
             `);
             temp.querySelector('small').append(val.footer);
+            if (saltos.core.eval_bool(field.truncate)) {
+                temp.querySelector('small').classList.add('text-truncate');
+            }
             if (val.footer_text != '' && val.footer_icon != '') {
                 temp.append(saltos.core.html(`
                     <div class="text-nowrap">
-                        <small class="text-${val.footer_class}">${val.footer_text}</small>
-                        <i class="bi bi-${val.footer_icon} text-${val.footer_class}"></i>
+                        <small class="text-${val.footer_color}">${val.footer_text}</small>
+                        <i class="bi bi-${val.footer_icon} text-${val.footer_color}"></i>
                     </div>
                 `));
             } else if (val.footer_icon != '') {
                 temp.append(saltos.core.html(`
-                    <i class="bi bi-${val.footer_icon} text-${val.footer_class}"></i>
+                    <i class="bi bi-${val.footer_icon} text-${val.footer_color}"></i>
                 `));
             } else if (val.footer_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-${val.footer_class}">${val.footer_text}</small>
+                    <small class="text-${val.footer_color}">${val.footer_text}</small>
                 `));
             }
             item.append(temp);

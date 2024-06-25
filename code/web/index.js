@@ -184,45 +184,45 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
         <div id="${e.id}" class="w-100 h-100 placeholder-glow text-${e.color}" aria-hidden="true">
             <span class="w-100 h-100 placeholder"></span>
         </div>
-    `)},saltos.bootstrap.__field.list=e=>{var t,o;for(o in saltos.core.check_params(e,["class","id","onclick"]),saltos.core.check_params(e,["data"],[]),t=saltos.core.eval_bool(e.onclick)?saltos.core.html(`<div id="${e.id}" class="list-group ${e.class}"></div>`):saltos.core.html(`<ul id="${e.id}" class="list-group ${e.class}"></ul>`),e.data){var a,s,l=e.data[o];saltos.core.check_params(l,["header","body","footer","header_text","header_icon","header_class","body_text","body_icon","body_class","footer_text","footer_icon","footer_class","onclick","active","disabled","actions"]),saltos.core.eval_bool(e.onclick)?(a=saltos.core.html('<button class="list-group-item list-group-item-action"></button>'),l.hasOwnProperty("actions")&&l.actions.hasOwnProperty("0")&&l.actions[0].hasOwnProperty("onclick")&&l.actions[0].hasOwnProperty("url")&&(l.onclick=l.actions[0].onclick,l.url=l.actions[0].url),l.onclick=`${l.onclick}("${l.url}")`,saltos.bootstrap.__onclick_helper(a,l.onclick),saltos.bootstrap.__onclick_helper(a,"this.blur()")):a=saltos.core.html('<li class="list-group-item"></li>'),""!=l.header&&((s=saltos.core.html(`
+    `)},saltos.bootstrap.__field.list=e=>{var t,o;for(o in saltos.core.check_params(e,["class","id","onclick"]),saltos.core.check_params(e,["data"],[]),t=saltos.core.eval_bool(e.onclick)?saltos.core.html(`<div id="${e.id}" class="list-group ${e.class}"></div>`):saltos.core.html(`<ul id="${e.id}" class="list-group ${e.class}"></ul>`),e.data){var a,s,l=e.data[o];saltos.core.check_params(l,["header","body","footer","header_text","header_icon","header_color","body_text","body_icon","body_color","footer_text","footer_icon","footer_color","onclick","active","disabled","actions","truncate"]),saltos.core.eval_bool(e.onclick)?(a=saltos.core.html('<button class="list-group-item list-group-item-action"></button>'),l.hasOwnProperty("actions")&&l.actions.hasOwnProperty("0")&&l.actions[0].hasOwnProperty("onclick")&&l.actions[0].hasOwnProperty("url")&&(l.onclick=l.actions[0].onclick,l.url=l.actions[0].url),l.onclick=`${l.onclick}("${l.url}")`,saltos.bootstrap.__onclick_helper(a,l.onclick),saltos.bootstrap.__onclick_helper(a,"this.blur()")):a=saltos.core.html('<li class="list-group-item"></li>'),""!=l.header&&((s=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1"></h5>
                 </div>
-            `)).querySelector("h5").append(l.header),""!=l.header_text&&""!=l.header_icon?s.append(saltos.core.html(`
+            `)).querySelector("h5").append(l.header),saltos.core.eval_bool(e.truncate)&&s.querySelector("h5").classList.add("text-truncate"),""!=l.header_text&&""!=l.header_icon?s.append(saltos.core.html(`
                     <div class="text-nowrap">
-                        <small class="text-${l.header_class}">${l.header_text}</small>
-                        <i class="bi bi-${l.header_icon} text-${l.header_class}"></i>
+                        <small class="text-${l.header_color}">${l.header_text}</small>
+                        <i class="bi bi-${l.header_icon} text-${l.header_color}"></i>
                     </div>
                 `)):""!=l.header_text?s.append(saltos.core.html(`
-                    <small class="text-${l.header_class}">${l.header_text}</small>
+                    <small class="text-${l.header_color}">${l.header_text}</small>
                 `)):""!=l.header_icon&&s.append(saltos.core.html(`
-                    <i class="bi bi-${l.header_icon} text-${l.header_class}"></i>
+                    <i class="bi bi-${l.header_icon} text-${l.header_color}"></i>
                 `)),a.append(s)),""!=l.body&&((s=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1"></p>
                 </div>
-            `)).querySelector("p").append(l.body),""!=l.body_text&&""!=l.body_icon?s.append(saltos.core.html(`
+            `)).querySelector("p").append(l.body),saltos.core.eval_bool(e.truncate)&&s.querySelector("p").classList.add("text-truncate"),""!=l.body_text&&""!=l.body_icon?s.append(saltos.core.html(`
                     <div class="text-nowrap">
-                        <small class="text-${l.body_class}">${l.body_text}</small>
-                        <i class="bi bi-${l.body_icon} text-${l.body_class}"></i>
+                        <small class="text-${l.body_color}">${l.body_text}</small>
+                        <i class="bi bi-${l.body_icon} text-${l.body_color}"></i>
                     </div>
                 `)):""!=l.body_text?s.append(saltos.core.html(`
-                    <small class="text-${l.body_class}">${l.body_text}</small>
+                    <small class="text-${l.body_color}">${l.body_text}</small>
                 `)):""!=l.body_icon&&s.append(saltos.core.html(`
-                    <i class="bi bi-${l.body_icon} text-${l.body_class}"></i>
+                    <i class="bi bi-${l.body_icon} text-${l.body_color}"></i>
                 `)),a.append(s)),""!=l.footer&&((s=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <small></small>
                 </div>
-            `)).querySelector("small").append(l.footer),""!=l.footer_text&&""!=l.footer_icon?s.append(saltos.core.html(`
+            `)).querySelector("small").append(l.footer),saltos.core.eval_bool(e.truncate)&&s.querySelector("small").classList.add("text-truncate"),""!=l.footer_text&&""!=l.footer_icon?s.append(saltos.core.html(`
                     <div class="text-nowrap">
-                        <small class="text-${l.footer_class}">${l.footer_text}</small>
-                        <i class="bi bi-${l.footer_icon} text-${l.footer_class}"></i>
+                        <small class="text-${l.footer_color}">${l.footer_text}</small>
+                        <i class="bi bi-${l.footer_icon} text-${l.footer_color}"></i>
                     </div>
                 `)):""!=l.footer_icon?s.append(saltos.core.html(`
-                    <i class="bi bi-${l.footer_icon} text-${l.footer_class}"></i>
+                    <i class="bi bi-${l.footer_icon} text-${l.footer_color}"></i>
                 `)):""!=l.footer_text&&s.append(saltos.core.html(`
-                    <small class="text-${l.footer_class}">${l.footer_text}</small>
+                    <small class="text-${l.footer_color}">${l.footer_text}</small>
                 `)),a.append(s)),saltos.core.eval_bool(l.active)&&(a.classList.add("active"),a.setAttribute("aria-current","true")),saltos.core.eval_bool(l.disabled)&&(a.classList.add("disabled"),a.setAttribute("aria-disabled","true")),t.append(a)}return t.append(saltos.core.html(`
         <style>
             .list-group {
