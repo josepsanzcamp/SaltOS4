@@ -29,17 +29,19 @@
     <navbar id="navbar" append="top" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25">
         <items>
             <menu class="navbar-nav me-auto mb-2 mb-lg-0">
-                <item name="Home" disabled="false" onclick="alert(1)"/>
-                <item name="Link" disabled="false" onclick="alert(2)"/>
-                <item name="Dropdown" disabled="false">
+                <item name="Dashboard" onclick="saltos.window.open('#app/dashboard')"/>
+                <item name="Applications">
                     <menu>
-                        <item name="Action" disabled="false" onclick="alert(3)"/>
-                        <item name="Another action" disabled="false" onclick="alert(4)"/>
+                        <item name="Emails" onclick="saltos.window.open('#app/emails')"/>
                         <item divider="true"/>
-                        <item name="Something else here" disabled="false" onclick="alert(5)"/>
+                        <item name="Customers" onclick="saltos.window.open('#app/customers')"/>
+                        <item name="Invoices" onclick="saltos.window.open('#app/invoices')"/>
+                        <item divider="true"/>
+                        <item name="Types" onclick="saltos.window.open('#app/types')"/>
+                        <item name="New tester" onclick="saltos.window.open('#app/tester/menu/new')"/>
+                        <item name="Old tester" onclick="saltos.window.open('#app/tester/menu/old')"/>
                     </menu>
                 </item>
-                <item name="Disabled" disabled="true" onclick="alert(6)"/>
             </menu>
             <form class="d-flex">
                 <hidden id="page" value="0"/>
@@ -56,8 +58,9 @@
                 </item>
                 <item icon="sun-fill" dropdown_menu_end="true">
                     <menu>
-                        <item name="Light" icon="sun-fill" disabled="false" onclick="alert('light')"/>
-                        <item name="Dark" icon="moon-stars-fill" disabled="false" onclick="alert('dark')"/>
+                        <item name="Light" icon="sun-fill" onclick="alert('light')"/>
+                        <item name="Dark" icon="moon-stars-fill" onclick="alert('dark')"/>
+                        <item name="Auto" icon="circle-half" onclick="alert('auto')"/>
                     </menu>
                 </item>
             </menu>

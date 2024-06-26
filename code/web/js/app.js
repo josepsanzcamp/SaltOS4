@@ -801,7 +801,7 @@ saltos.app.form.navbar = navbar => {
                         });
                     }
                 }
-                navbar.items[key] = saltos.bootstrap.menu({
+                navbar.items[key] = saltos.gettext.bootstrap.menu({
                     class: _class,
                     menu: menu,
                 });

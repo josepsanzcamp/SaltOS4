@@ -211,3 +211,25 @@ saltos.gettext.bootstrap.toast = args => {
     }
     return saltos.bootstrap.toast(args);
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.gettext.bootstrap.menu = args => {
+    if (args.hasOwnProperty('menu')) {
+        for (var key in args.menu) {
+            var val = args.menu[key];
+            args.menu[key].name = T(val.name);
+            if (val.hasOwnProperty('menu')) {
+                for (var key2 in val.menu) {
+                    var val2 = val.menu[key2];
+                    args.menu[key].menu[key2].name = T(val2.name);
+                }
+            }
+        }
+    }
+    console.log(args);
+    return saltos.bootstrap.menu(args);
+};
