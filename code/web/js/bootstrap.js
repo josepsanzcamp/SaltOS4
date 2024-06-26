@@ -2407,10 +2407,13 @@ saltos.bootstrap.__field.placeholder = field => {
  *
  * Returns a list widget using the follow params:
  *
- * @id      => the id used to set the reference for to the object
- * @class   => allow to add more classes to the default list-group
- * @onclick => this parameter allow to enable or disable the buttons in the list
- * @data    => 2D array with the data used to mount the list
+ * @id       => the id used to set the reference for to the object
+ * @class    => allow to add more classes to the default list-group
+ * @onclick  => this parameter allow to enable or disable the buttons in the list
+ * @data     => 2D array with the data used to mount the list
+ * @truncate => this parameter add the text-truncate to all texts of the items
+ * @checkbox => add a checkbox in the first cell of each row, for mono or multi selection
+ * @label    => this parameter is used as text for the label
  *
  * Each item in the data can contain:
  *
@@ -2418,11 +2421,11 @@ saltos.bootstrap.__field.placeholder = field => {
  * @body     => string with the data to use
  * @footer   => string with the footer to use
  * @onclick  => the onclick function that receives as argument the url to access the action
+ * @url      => this parameter is used as argument for the onclick function
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
  * @actions  => this parameter allow to recicle the actions feature of the list action
- * @truncate => this parameter add the text-truncate to all texts of the items
- * @label    => this parameter is used as text for the label
+ * @id       => the id used to set the reference for each checkbox
  *
  * As an extra fields, the widget allow to provide multiple texts and icons
  *
@@ -2442,7 +2445,7 @@ saltos.bootstrap.__field.placeholder = field => {
  * depending of this parameter, the function uses a dir or an ul element to do the list
  */
 saltos.bootstrap.__field.list = field => {
-    saltos.core.check_params(field, ['class', 'id', 'onclick']);
+    saltos.core.check_params(field, ['class', 'id', 'onclick', 'truncate', 'checkbox']);
     saltos.core.check_params(field, ['data'], []);
     if (saltos.core.eval_bool(field.onclick)) {
         var obj = saltos.core.html(`<div id="${field.id}" class="list-group ${field.class}"></div>`);
@@ -2455,7 +2458,7 @@ saltos.bootstrap.__field.list = field => {
             'header_text', 'header_icon', 'header_color',
             'body_text', 'body_icon', 'body_color',
             'footer_text', 'footer_icon', 'footer_color',
-            'onclick', 'active', 'disabled', 'actions', 'truncate']);
+            'onclick', 'url', 'active', 'disabled', 'actions', 'id']);
         if (saltos.core.eval_bool(field.onclick)) {
             var item = saltos.core.html(`<button class="list-group-item list-group-item-action"></button>`);
             if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
@@ -2463,7 +2466,9 @@ saltos.bootstrap.__field.list = field => {
                 val.onclick = val.actions[0].onclick;
                 val.url = val.actions[0].url;
             }
-            val.onclick = `${val.onclick}("${val.url}")`;
+            if (val.url != '') {
+                val.onclick = `${val.onclick}("${val.url}")`;
+            }
             saltos.bootstrap.__onclick_helper(item, val.onclick);
             // To prevent that the button remain focused
             saltos.bootstrap.__onclick_helper(item, function() {
@@ -2475,6 +2480,12 @@ saltos.bootstrap.__field.list = field => {
                 this.setAttribute('aria-current', 'true');
                 this.blur();
             });
+            if (saltos.core.eval_bool(field.checkbox)) {
+                if (val.id == '') {
+                    val.id = saltos.core.uniqid();
+                }
+                item.setAttribute('id', `button_${val.id}`);
+            }
         } else {
             var item = saltos.core.html(`<li class="list-group-item"></li>`);
         }
@@ -2586,6 +2597,35 @@ saltos.bootstrap.__field.list = field => {
             }
         </style>
     `));
+    if (saltos.core.eval_bool(field.checkbox)) {
+        saltos.core.when_visible(obj, () => {
+            obj.classList.add('position-relative');
+            for (var key in field.data) {
+                var val = field.data[key];
+                obj.append(saltos.core.html(`
+                    <label class="bg-primary border position-absolute p-2">
+                        <input class="form-check-input" type="checkbox"
+                            value="${val.id}" id="checkbox_${val.id}">
+                    </label>
+                `));
+                var button = obj.querySelector(`#button_${val.id}`);
+                var checkbox = obj.querySelector(`#checkbox_${val.id}`);
+                checkbox.parentNode.style.height = button.offsetHeight + 'px';
+                checkbox.parentNode.style.top = button.offsetTop + 'px';
+                var width = checkbox.parentNode.offsetWidth;
+                button.style.left = width + 'px';
+                button.style.width = `calc(100% - ${width}px)`;
+                checkbox.addEventListener('change', event => {
+                    if (event.target.checked) {
+                        event.target.parentNode.classList.replace('bg-primary', 'bg-primary-subtle');
+                    } else {
+                        event.target.parentNode.classList.replace('bg-primary-subtle', 'bg-primary');
+                    }
+                    event.target.blur();
+                });
+            }
+        });
+    }
     // Continue
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
