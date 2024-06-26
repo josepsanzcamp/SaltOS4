@@ -2993,6 +2993,7 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
  * @menu  => an array with the follow elements:
  *
  * @name              => name of the menu
+ * @id                => id used in the button element
  * @icon              => icon of the menu
  * @disabled          => this boolean allow to disable this menu entry
  * @active            => this boolean marks the option as active
@@ -3001,6 +3002,7 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
  * @menu              => with this option, you can specify an array with the contents of the dropdown menu
  *
  * @name     => name of the menu
+ * @id       => id used in the button element
  * @icon     => icon of the menu
  * @disabled => this boolean allow to disable this menu entry
  * @active   => this boolean marks the option as active
@@ -3013,7 +3015,8 @@ saltos.bootstrap.menu = args => {
     var obj = saltos.core.html(`<ul class="${args.class}"></ul>`);
     for (var key in args.menu) {
         var val = args.menu[key];
-        saltos.core.check_params(val, ['name', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end']);
+        saltos.core.check_params(val, ['name', 'icon',
+            'disabled', 'active', 'onclick', 'dropdown_menu_end', 'id']);
         saltos.core.check_params(val, ['menu'], []);
         var disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
@@ -3030,7 +3033,7 @@ saltos.bootstrap.menu = args => {
             }
             var temp = saltos.core.html(`
                 <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle ${disabled} ${active}"
+                    <button id="${val.id}" class="nav-link dropdown-toggle ${disabled} ${active}"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         ${val.name}
                     </button>
@@ -3046,7 +3049,8 @@ saltos.bootstrap.menu = args => {
             }
             for (var key2 in val.menu) {
                 var val2 = val.menu[key2];
-                saltos.core.check_params(val2, ['name', 'icon', 'disabled', 'active', 'onclick', 'divider']);
+                saltos.core.check_params(val2, ['name', 'icon',
+                    'disabled', 'active', 'onclick', 'divider', 'id']);
                 var disabled2 = '';
                 if (saltos.core.eval_bool(val2.disabled)) {
                     disabled2 = 'disabled';
@@ -3060,7 +3064,7 @@ saltos.bootstrap.menu = args => {
                 } else {
                     var temp2 = saltos.core.html(`
                         <li>
-                            <button class="dropdown-item ${disabled2} ${active2}">
+                            <button id="${val2.id}" class="dropdown-item ${disabled2} ${active2}">
                                 ${val2.name}
                             </button>
                         </li>`);
@@ -3080,7 +3084,7 @@ saltos.bootstrap.menu = args => {
         } else {
             var temp = saltos.core.html(`
                 <li class="nav-item">
-                    <button class="nav-link ${disabled} ${active}">${val.name}</button>
+                    <button id="${val.id}" class="nav-link ${disabled} ${active}">${val.name}</button>
                 </li>
             `);
             if (val.icon) {

@@ -137,13 +137,24 @@ saltos.core.uniqid = () => {
  * @obj  => the object that do you want to monitorize the visibility
  * @fn   => the callback that you want to execute
  * @args => the arguments passed to the callback when execute it
+ *
+ * Notes:
+ *
+ * As an extra feature, the object can be an string containing the id of the object, intended
+ * to be used when the object not exists at the moment to call this function
  */
 saltos.core.when_visible = (obj, fn, args) => {
-    // Check for the id existence
-    if (!obj.getAttribute('id')) {
-        obj.setAttribute('id', saltos.core.uniqid());
+    if (typeof obj == 'object') {
+        // Check for the id existence
+        if (!obj.getAttribute('id')) {
+            obj.setAttribute('id', saltos.core.uniqid());
+        }
+        var id = obj.getAttribute('id');
+    } else if (typeof obj == 'string') {
+        var id = obj;
+    } else {
+        throw new Error(`unknown typeof obj`);
     }
-    var id = obj.getAttribute('id');
     // Launch the interval each millisecond, the idea is wait until found
     // the object and then, validate that not dissapear and wait until the
     // object is visible to execute the fn(args)

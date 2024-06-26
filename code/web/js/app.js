@@ -1167,6 +1167,56 @@ saltos.app.parentNode_search = (obj, search) => {
 };
 
 /**
+ * Set bs theme
+ *
+ * This function sets the bs theme
+ *
+ * @theme => Can be auto, light or dark
+ *
+ * Notes:
+ *
+ * This function is an immersion to the same bootstrap function, and it's intended
+ * to be used and update the navbar menu buttons
+ */
+saltos.app.set_bs_theme = theme => {
+    saltos.core.when_visible('bs_theme', () => {
+        var button = document.getElementById('bs_theme');
+        button.parentNode.querySelectorAll('.active').forEach(_this => {
+            _this.classList.remove('active');
+        });
+        var active = document.getElementById(`bs_theme_${theme}`);
+        active.classList.add('active');
+        button.innerHTML = active.querySelector('i').outerHTML;
+    });
+    return saltos.bootstrap.set_bs_theme(theme);
+};
+
+/**
+ * Set css theme
+ *
+ * This function sets the css theme
+ *
+ * @theme => Can be default or one of the bootswatch themes
+ *
+ * Notes:
+ *
+ * This function is an immersion to the same bootstrap function, and it's intended
+ * to be used and update the navbar menu buttons
+ */
+saltos.app.set_css_theme = theme => {
+    saltos.core.when_visible('css_theme', () => {
+        var button = document.getElementById('css_theme');
+        button.parentNode.querySelectorAll('.active').forEach(_this => {
+            _this.classList.remove('active');
+        });
+        var active = document.getElementById(`css_theme_${theme}`);
+        active.classList.add('active');
+        button.innerHTML = active.innerHTML;
+    });
+    return saltos.bootstrap.set_css_theme(theme);
+};
+
+/**
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
@@ -1174,14 +1224,14 @@ saltos.app.parentNode_search = (obj, search) => {
 (() => {
     // Theme part
     if (!saltos.bootstrap.get_bs_theme()) {
-        saltos.bootstrap.set_bs_theme('auto');
+        saltos.app.set_bs_theme('auto');
     } else {
-        saltos.bootstrap.set_bs_theme(saltos.bootstrap.get_bs_theme());
+        saltos.app.set_bs_theme(saltos.bootstrap.get_bs_theme());
     }
     if (!saltos.bootstrap.get_css_theme()) {
-        saltos.bootstrap.set_css_theme('default');
+        saltos.app.set_css_theme('default');
     } else {
-        saltos.bootstrap.set_css_theme(saltos.bootstrap.get_css_theme());
+        saltos.app.set_css_theme(saltos.bootstrap.get_css_theme());
     }
     // Token part
     if (saltos.token.get()) {
