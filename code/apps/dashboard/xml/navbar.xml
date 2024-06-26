@@ -43,24 +43,48 @@
                     </menu>
                 </item>
             </menu>
-            <form class="d-flex">
+            <form class="d-flex" ifeval="has_index()">
                 <hidden id="page" value="0"/>
-                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true" color="light"/>
-                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search" color="light" class="text-nowrap ms-1"/>
-                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg" color="light" class="text-nowrap ms-1"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true" color="light" class="me-1"/>
+                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search" color="light" class="text-nowrap me-1"/>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg" color="light" class="text-nowrap me-1"/>
             </form>
             <menu class="navbar-nav mb-2 mb-lg-0">
-                <item name="Themes" dropdown_menu_end="true">
+                <item name="Default" dropdown_menu_end="true">
                     <menu>
-                        <item name="bootstrap" disabled="false" onclick="alert('bootstrap')"/>
-                        <item name="cerulean" disabled="false" onclick="alert('cerulean')"/>
+                        <item name="Default" onclick="saltos.bootstrap.set_css_theme('default')"/>
+                        <item name="Cerulean" onclick="saltos.bootstrap.set_css_theme('cerulean')"/>
+                        <item name="Cosmo" onclick="saltos.bootstrap.set_css_theme('cosmo')"/>
+                        <item name="Cyborg" onclick="saltos.bootstrap.set_css_theme('cyborg')"/>
+                        <item name="Darkly" onclick="saltos.bootstrap.set_css_theme('darkly')"/>
+                        <item name="Flatly" onclick="saltos.bootstrap.set_css_theme('flatly')"/>
+                        <item name="Journal" onclick="saltos.bootstrap.set_css_theme('journal')"/>
+                        <item name="Litera" onclick="saltos.bootstrap.set_css_theme('litera')"/>
+                        <item name="Lumen" onclick="saltos.bootstrap.set_css_theme('lumen')"/>
+                        <item name="Lux" onclick="saltos.bootstrap.set_css_theme('lux')"/>
+                        <item name="Materia" onclick="saltos.bootstrap.set_css_theme('materia')"/>
+                        <item name="Minty" onclick="saltos.bootstrap.set_css_theme('minty')"/>
+                        <item name="Morph" onclick="saltos.bootstrap.set_css_theme('morph')"/>
+                        <item name="Pulse" onclick="saltos.bootstrap.set_css_theme('pulse')"/>
+                        <item name="Quartz" onclick="saltos.bootstrap.set_css_theme('quartz')"/>
+                        <item name="Sandstone" onclick="saltos.bootstrap.set_css_theme('sandstone')"/>
+                        <item name="Simplex" onclick="saltos.bootstrap.set_css_theme('simplex')"/>
+                        <item name="Sketchy" onclick="saltos.bootstrap.set_css_theme('sketchy')"/>
+                        <item name="Slate" onclick="saltos.bootstrap.set_css_theme('slate')"/>
+                        <item name="Solar" onclick="saltos.bootstrap.set_css_theme('solar')"/>
+                        <item name="Spacelab" onclick="saltos.bootstrap.set_css_theme('spacelab')"/>
+                        <item name="Superhero" onclick="saltos.bootstrap.set_css_theme('superhero')"/>
+                        <item name="United" onclick="saltos.bootstrap.set_css_theme('united')"/>
+                        <item name="Vapor" onclick="saltos.bootstrap.set_css_theme('vapor')"/>
+                        <item name="Yeti" onclick="saltos.bootstrap.set_css_theme('yeti')"/>
+                        <item name="Zephyr" onclick="saltos.bootstrap.set_css_theme('zephyr')"/>
                     </menu>
                 </item>
-                <item icon="sun-fill" dropdown_menu_end="true">
+                <item icon="circle-half" dropdown_menu_end="true">
                     <menu>
-                        <item name="Light" icon="sun-fill" onclick="alert('light')"/>
-                        <item name="Dark" icon="moon-stars-fill" onclick="alert('dark')"/>
-                        <item name="Auto" icon="circle-half" onclick="alert('auto')"/>
+                        <item name="Auto" icon="circle-half" onclick="saltos.bootstrap.set_bs_theme('auto')"/>
+                        <item name="Light" icon="sun-fill" onclick="saltos.bootstrap.set_bs_theme('light')"/>
+                        <item name="Dark" icon="moon-stars-fill" onclick="saltos.bootstrap.set_bs_theme('dark')"/>
                     </menu>
                 </item>
             </menu>

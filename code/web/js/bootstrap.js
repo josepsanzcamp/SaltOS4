@@ -3579,3 +3579,89 @@ saltos.bootstrap.__accesskey_listener = event => {
  * Attach the accesskey listener function to the keydown event of the document
  */
 document.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
+
+/**
+ * Window match media
+ *
+ * This function returns an object intended to monitorize the bs_theme
+ */
+saltos.bootstrap.window_match_media = window.matchMedia('(prefers-color-scheme: dark)');
+
+/**
+ * Set data_bs_theme
+ *
+ * This function sets the data_bs_theme attribute to enable or disable the dark bs theme
+ */
+saltos.bootstrap.set_data_bs_theme = e => {
+    document.querySelector('html').setAttribute('data-bs-theme', e.matches ? 'dark' : '');
+};
+
+/**
+ * Set bs theme
+ *
+ * This function sets the bs theme
+ *
+ * @theme => Can be auto, light or dark
+ */
+saltos.bootstrap.set_bs_theme = theme => {
+    switch (theme) {
+        case 'auto':
+            saltos.bootstrap.set_data_bs_theme(saltos.bootstrap.window_match_media);
+            saltos.bootstrap.window_match_media.addEventListener(
+                'change', saltos.bootstrap.set_data_bs_theme);
+            break;
+        case 'light':
+            saltos.bootstrap.set_data_bs_theme({matches: false});
+            saltos.bootstrap.window_match_media.removeEventListener(
+                'change', saltos.bootstrap.set_data_bs_theme);
+            break;
+        case 'dark':
+            saltos.bootstrap.set_data_bs_theme({matches: true});
+            saltos.bootstrap.window_match_media.removeEventListener(
+                'change', saltos.bootstrap.set_data_bs_theme);
+            break;
+    }
+    localStorage.setItem('saltos.bootstrap.bs_theme', theme);
+};
+
+/**
+ * Set css theme
+ *
+ * This function sets the css theme
+ *
+ * @theme => Can be default or one of the bootswatch themes
+ */
+saltos.bootstrap.set_css_theme = theme => {
+    if (theme == 'default') {
+        var file = 'lib/bootstrap/bootstrap.min.css';
+    } else {
+        var file = `lib/bootswatch/${theme}.min.css`;
+    }
+    document.querySelectorAll('link[rel=stylesheet]').forEach(_this => {
+        var found1 = _this.href.includes('bootstrap/bootstrap.min.css');
+        var found2 = _this.href.includes('bootswatch/') && _this.href.includes('.min.css');
+        if (found1 || found2) {
+            _this.removeAttribute('integrity');
+            _this.href = _this.href.replace(_this.href, file);
+        }
+    });
+    localStorage.setItem('saltos.bootstrap.css_theme', theme);
+};
+
+/**
+ * Get bs theme
+ *
+ * Retrieve the bs_theme stored in the localStorage
+ */
+saltos.bootstrap.get_bs_theme = () => {
+    return localStorage.getItem('saltos.bootstrap.bs_theme');
+};
+
+/**
+ * Get css theme
+ *
+ * Retrieve the css_theme stored in the localStorage
+ */
+saltos.bootstrap.get_css_theme = () => {
+    return localStorage.getItem('saltos.bootstrap.css_theme');
+};

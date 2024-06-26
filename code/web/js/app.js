@@ -1172,13 +1172,17 @@ saltos.app.parentNode_search = (obj, search) => {
  * This is the code that must to be executed to initialize all requirements of this module
  */
 (() => {
-    // Dark theme part
-    var window_match_media = window.matchMedia('(prefers-color-scheme: dark)');
-    var set_data_bs_theme = e => {
-        document.querySelector('html').setAttribute('data-bs-theme', e.matches ? 'dark' : '');
-    };
-    set_data_bs_theme(window_match_media);
-    window_match_media.addEventListener('change', set_data_bs_theme);
+    // Theme part
+    if (!saltos.bootstrap.get_bs_theme()) {
+        saltos.bootstrap.set_bs_theme('auto');
+    } else {
+        saltos.bootstrap.set_bs_theme(saltos.bootstrap.get_bs_theme());
+    }
+    if (!saltos.bootstrap.get_css_theme()) {
+        saltos.bootstrap.set_css_theme('default');
+    } else {
+        saltos.bootstrap.set_css_theme(saltos.bootstrap.get_css_theme());
+    }
     // Token part
     if (saltos.token.get()) {
         saltos.authenticate.checktoken();

@@ -235,3 +235,16 @@ function __get_fkeys_helper($table)
     require_once "php/lib/dbschema.php";
     return get_fkeys_from_dbschema($table);
 }
+
+/**
+ * Has index helper
+ *
+ * This function is intended to be used inside an ifeval to enable or disable
+ * the search form fields in the navbar
+ */
+function has_index()
+{
+    $app = encode_bad_chars(strval(get_data("rest/1")));
+    $bool = execute_query("SELECT has_index FROM tbl_apps WHERE code='$app'");
+    return $bool;
+}
