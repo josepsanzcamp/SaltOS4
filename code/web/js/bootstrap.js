@@ -1239,9 +1239,9 @@ saltos.bootstrap.__field.file = field => {
     };
     // This helper programs the delete file button
     var __button_remove_file = event => {
-        var row = event.target.parentNode.parentNode;
-        var table = row.parentNode.parentNode;
-        var input = table.parentNode.previousElementSibling;
+        var row = event.target.parentElement.parentElement;
+        var table = row.parentElement.parentElement;
+        var input = table.parentElement.previousElementSibling;
         var data = {
             files: [],
         };
@@ -1755,7 +1755,7 @@ saltos.bootstrap.__field.table = field => {
             obj.querySelector('thead input[type=checkbox]').addEventListener('click', event => {
                 event.stopPropagation();
             });
-            obj.querySelector('thead input[type=checkbox]').parentNode.addEventListener('click', event => {
+            obj.querySelector('thead input[type=checkbox]').parentElement.addEventListener('click', event => {
                 event.target.querySelector('input[type=checkbox]').click();
                 event.stopPropagation();
             });
@@ -1794,7 +1794,7 @@ saltos.bootstrap.__field.table = field => {
             if (field.checkbox) {
                 row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}" /></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
-                    event.target.parentNode.parentNode.querySelectorAll('td').forEach(_this => {
+                    event.target.parentElement.parentElement.querySelectorAll('td').forEach(_this => {
                         if (event.target.checked) {
                             _this.classList.add('table-active');
                         } else {
@@ -1814,7 +1814,7 @@ saltos.bootstrap.__field.table = field => {
                         saltos.bootstrap.__checkbox_id2 = event.target.value;
                     }
                     if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
-                        var obj = event.target.parentNode.parentNode.parentNode;
+                        var obj = event.target.parentElement.parentElement.parentElement;
                         var nodes = obj.querySelectorAll('input[type=checkbox][value]');
                         var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
                         // Check that the two ids are presents
@@ -1845,7 +1845,7 @@ saltos.bootstrap.__field.table = field => {
                     event.stopPropagation();
                 });
                 row.addEventListener('click', event => {
-                    var obj = event.target.parentNode.querySelector('input[type=checkbox]');
+                    var obj = event.target.parentElement.querySelector('input[type=checkbox]');
                     if (obj) {
                         //~ obj.click();
                         // ctrlKey propagation is important to allow the multiple selection feature
@@ -2249,7 +2249,7 @@ saltos.bootstrap.__field.tags = field => {
         `);
         obj.append(span);
         span.querySelector('i').addEventListener('click', event => {
-            var a = event.target.parentNode;
+            var a = event.target.parentElement;
             var b = a.getAttribute('saltos-data');
             var input = obj.querySelector('input.first');
             var val_old = input.value.split(',');
@@ -2472,7 +2472,7 @@ saltos.bootstrap.__field.list = field => {
             saltos.bootstrap.__onclick_helper(item, val.onclick);
             // To prevent that the button remain focused
             saltos.bootstrap.__onclick_helper(item, function() {
-                this.parentNode.querySelectorAll('button').forEach(_this => {
+                this.parentElement.parentElement.querySelectorAll('button').forEach(_this => {
                     _this.classList.remove('active');
                     _this.removeAttribute('aria-current');
                 });
@@ -2610,16 +2610,16 @@ saltos.bootstrap.__field.list = field => {
                 `));
                 var button = obj.querySelector(`#button_${val.id}`);
                 var checkbox = obj.querySelector(`#checkbox_${val.id}`);
-                checkbox.parentNode.style.height = button.offsetHeight + 'px';
-                checkbox.parentNode.style.top = button.offsetTop + 'px';
-                var width = checkbox.parentNode.offsetWidth;
+                checkbox.parentElement.style.height = button.offsetHeight + 'px';
+                checkbox.parentElement.style.top = button.offsetTop + 'px';
+                var width = checkbox.parentElement.offsetWidth;
                 button.style.left = width + 'px';
                 button.style.width = `calc(100% - ${width}px)`;
                 checkbox.addEventListener('change', event => {
                     if (event.target.checked) {
-                        event.target.parentNode.classList.replace('bg-primary', 'bg-primary-subtle');
+                        event.target.parentElement.classList.replace('bg-primary', 'bg-primary-subtle');
                     } else {
-                        event.target.parentNode.classList.replace('bg-primary-subtle', 'bg-primary');
+                        event.target.parentElement.classList.replace('bg-primary-subtle', 'bg-primary');
                     }
                     event.target.blur();
                 });

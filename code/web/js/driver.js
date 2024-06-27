@@ -104,9 +104,10 @@ saltos.driver.search = arg => {
             response.id = type;
             var temp = saltos.bootstrap.field(response);
             if (type == 'table') {
-                document.getElementById('table').parentNode.replaceWith(temp);
+                document.getElementById('table').parentElement.replaceWith(temp);
             }
             if (type == 'list') {
+                document.querySelectorAll('.list-group:not([id=list])').forEach(_this => _this.remove());
                 document.getElementById('list').replaceWith(temp);
             }
         },
@@ -169,15 +170,14 @@ saltos.driver.more = arg => {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 return;
             }
-            response.id = type;
             var temp = saltos.bootstrap.field(response);
             if (type == 'table') {
                 var obj = document.getElementById('table').querySelector('tbody');
                 temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
             }
             if (type == 'list') {
-                var obj = document.getElementById('list');
-                temp.childNodes.forEach(_this => obj.append(_this));
+                var obj = document.getElementById('list').parentElement;
+                obj.append(temp);
             }
         },
         error: request => {

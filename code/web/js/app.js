@@ -1137,36 +1137,6 @@ saltos.app.__form_helper = (attr, bool) => {
 };
 
 /**
- * ParentNode Search helper
- *
- * This function helps the user interface to search for parentNodes that can be identified
- * by some class in the classList, it is intended to prevent the call of the parentNode in
- * locations where sometimes can contains a different structure, for example, when you want
- * to get the col div that contains a button with and without labels, depending on the
- * usage of the label, the component can contains a different structure and you may need
- * more or less parentNode calls, thanks to this function, the calls can be automated
- * returning the correct object of the structure with independence of the source of the
- * search.
- *
- * @obj    => the initial obj where do you want to do the search
- * @search => the class name that the parentNode destination must contains
- *
- * Notes:
- *
- * As you can see, this search can be performed only by 100 times to prevent infinites loop
- * in case of not found the search pattern.
- */
-saltos.app.parentNode_search = (obj, search) => {
-    for (var i = 0; i < 100; i++) {
-        obj = obj.parentNode;
-        if (obj.classList.contains(search)) {
-            break;
-        }
-    }
-    return obj;
-};
-
-/**
  * Set bs theme
  *
  * This function sets the bs theme
@@ -1181,7 +1151,7 @@ saltos.app.parentNode_search = (obj, search) => {
 saltos.app.set_bs_theme = theme => {
     saltos.core.when_visible('bs_theme', () => {
         var button = document.getElementById('bs_theme');
-        button.parentNode.querySelectorAll('.active').forEach(_this => {
+        button.parentElement.querySelectorAll('.active').forEach(_this => {
             _this.classList.remove('active');
         });
         var active = document.getElementById(`bs_theme_${theme}`);
@@ -1206,7 +1176,7 @@ saltos.app.set_bs_theme = theme => {
 saltos.app.set_css_theme = theme => {
     saltos.core.when_visible('css_theme', () => {
         var button = document.getElementById('css_theme');
-        button.parentNode.querySelectorAll('.active').forEach(_this => {
+        button.parentElement.querySelectorAll('.active').forEach(_this => {
             _this.classList.remove('active');
         });
         var active = document.getElementById(`css_theme_${theme}`);

@@ -47,7 +47,7 @@ saltos.invoices = {};
 saltos.invoices.init = arg => {
     if (arg == 'view') {
         document.querySelectorAll('.detail button, .footer button').forEach(_this => {
-            saltos.app.parentNode_search(_this, 'col-auto').remove();
+            _this.closest('.col-auto').remove();
         });
     }
 
@@ -103,7 +103,7 @@ saltos.invoices.add_item = () => {
  */
 saltos.invoices.remove_item = (obj) => {
     // This long line is to do a copy of the array to iterate and remove at the same time
-    var items = Array.prototype.slice.call(saltos.app.parentNode_search(obj, 'row').childNodes);
+    var items = Array.prototype.slice.call(obj.closest('.row').childNodes);
     items.forEach(_this => {
         if (_this.classList.contains('d-none') && _this.querySelector('input').value != '') {
             _this.querySelector('input').value *= -1;

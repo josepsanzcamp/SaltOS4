@@ -162,7 +162,8 @@
                                     } else {
                                         obj.setAttribute('href', 'lib/bootswatch/' + theme + '.min.css');
                                     }
-                                    this.parentNode.querySelector('button.active').classList.remove('active');
+                                    this.parentElement
+                                        .querySelector('button.active').classList.remove('active');
                                     this.querySelector('button').classList.add('active');
                                 },
                             };
@@ -183,11 +184,11 @@
                             active: (theme == ''),
                             onclick: function() {
                                 document.querySelector('html').setAttribute('data-bs-theme', '');
-                                this.parentNode.querySelector('button.active').classList.remove('active');
+                                this.parentElement.querySelector('button.active').classList.remove('active');
                                 this.querySelector('button').classList.add('active');
-                                this.parentNode.parentNode.querySelector('i')
+                                this.parentElement.parentElement.querySelector('i')
                                     .classList.remove('bi-moon-stars-fill');
-                                this.parentNode.parentNode.querySelector('i')
+                                this.parentElement.parentElement.querySelector('i')
                                     .classList.add('bi-sun-fill');
                             },
                         }, {
@@ -195,11 +196,11 @@
                             active: (theme == 'dark'),
                             onclick: function() {
                                 document.querySelector('html').setAttribute('data-bs-theme', 'dark');
-                                this.parentNode.querySelector('button.active').classList.remove('active');
+                                this.parentElement.querySelector('button.active').classList.remove('active');
                                 this.querySelector('button').classList.add('active');
-                                this.parentNode.parentNode.querySelector('i')
+                                this.parentElement.parentElement.querySelector('i')
                                     .classList.remove('bi-sun-fill');
-                                this.parentNode.parentNode.querySelector('i')
+                                this.parentElement.parentElement.querySelector('i')
                                     .classList.add('bi-moon-stars-fill');
                             },
                         }]
