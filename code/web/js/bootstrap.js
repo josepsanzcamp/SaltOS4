@@ -1847,7 +1847,6 @@ saltos.bootstrap.__field.table = field => {
                 row.addEventListener('click', event => {
                     var obj = event.target.parentElement.querySelector('input[type=checkbox]');
                     if (obj) {
-                        //~ obj.click();
                         // ctrlKey propagation is important to allow the multiple selection feature
                         obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
                     }
@@ -2603,10 +2602,10 @@ saltos.bootstrap.__field.list = field => {
             for (var key in field.data) {
                 var val = field.data[key];
                 obj.append(saltos.core.html(`
-                    <label class="bg-primary border position-absolute p-2">
+                    <div class="bg-primary border position-absolute p-2">
                         <input class="form-check-input" type="checkbox"
                             value="${val.id}" id="checkbox_${val.id}">
-                    </label>
+                    </div>
                 `));
                 var button = obj.querySelector(`#button_${val.id}`);
                 var checkbox = obj.querySelector(`#checkbox_${val.id}`);
@@ -2622,6 +2621,55 @@ saltos.bootstrap.__field.list = field => {
                         event.target.parentElement.classList.replace('bg-primary-subtle', 'bg-primary');
                     }
                     event.target.blur();
+                });
+                checkbox.addEventListener('click', event => {
+                    // Here program the multiple selection feature using the ctrlKey
+                    if (!event.ctrlKey) {
+                        // First state, sets the id1
+                        saltos.bootstrap.__checkbox_id1 = event.target.value;
+                        saltos.bootstrap.__checkbox_id2 = null;
+                    } else {
+                        // Second state, sets the id2
+                        saltos.bootstrap.__checkbox_id2 = event.target.value;
+                    }
+                    if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
+                        var obj = event.target.parentElement.parentElement.parentElement;
+                        var nodes = obj.querySelectorAll('input[type=checkbox][value]');
+                        var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
+                        // Check that the two ids are presents
+                        var count = 0;
+                        nodes.forEach(_this => {
+                            if (ids.includes(_this.value)) {
+                                count++;
+                            }
+                        });
+                        // If the two ids are present, then apply
+                        if (count == 2) {
+                            var found = false;
+                            nodes.forEach(_this => {
+                                if (ids.includes(_this.value)) {
+                                    found = !found;
+                                }
+                                if (found) {
+                                    if (!_this.checked) {
+                                        _this.click();
+                                    }
+                                }
+                            });
+                        }
+                        // Reset the ids to restart the state machine
+                        saltos.bootstrap.__checkbox_id1 = null;
+                        saltos.bootstrap.__checkbox_id2 = null;
+                    }
+                    event.stopPropagation();
+                });
+                checkbox.parentElement.addEventListener('click', event => {
+                    var obj = event.target.querySelector('input[type=checkbox]');
+                    if (obj) {
+                        // ctrlKey propagation is important to allow the multiple selection feature
+                        obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
+                    }
+                    event.stopPropagation();
                 });
             }
         });
