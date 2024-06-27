@@ -71,16 +71,26 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
-                <select id="from" label="From" required="true" autofocus="true">
-                    <rows eval="true">[
-                        ["label"=>"address1@gmail.com","value"=>"address1@gmail.com"],
-                        ["label"=>"address2@gmail.com","value"=>"address2@gmail.com"],
-                        ["label"=>"address3@gmail.com","value"=>"address3@gmail.com"],
-                    ]</rows>
+                <select id="from" label="From" required="true" autofocus="true" col_class="col-md-6 mb-3">
+                    <rows eval="true">execute_query_array("
+                        SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
+                            SELECT COUNT(*)
+                            FROM app_emails_address
+                            WHERE email_id IN (
+                                SELECT id
+                                FROM app_emails
+                                WHERE account_id=a.id AND is_outbox=1
+                            )
+                            AND type_id IN (1,2,3,4)
+                        ) contador
+                        FROM app_emails_accounts a
+                        WHERE user_id='".current_user()."' AND email_disabled='0' AND smtp_host!=''
+                        ORDER BY email_default DESC, contador DESC
+                    ")</rows>
                 </select>
-                <text id="to" label="To"/>
-                <text id="cc" label="CC"/>
-                <text id="bcc" label="BCC"/>
+                <text id="to" label="To" col_class="col-md-6 mb-3"/>
+                <text id="cc" label="CC" col_class="col-md-6 mb-3"/>
+                <text id="bcc" label="BCC" col_class="col-md-6 mb-3"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
                 <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[

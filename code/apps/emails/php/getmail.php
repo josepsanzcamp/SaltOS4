@@ -1500,7 +1500,7 @@ function getmail_download($id, $cid)
  *
  * TODO
  */
-function getmail_setter($ids, $action2)
+function getmail_setter($ids, $what)
 {
     $ids = check_ids($ids);
     $numids = count(explode(",", $ids));
@@ -1518,47 +1518,47 @@ function getmail_setter($ids, $action2)
         return "Permission denied";
     }
     // process the real action
-    $action2 = explode("=", $action2);
-    if ($action2[0] == "new") {
+    $what = explode("=", $what);
+    if ($what[0] == "new") {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
         $query = "SELECT COUNT(*)
             FROM app_emails
             WHERE id IN ($ids)
-                AND state_new!='{$action2[1]}'
+                AND state_new!='{$what[1]}'
                 AND is_outbox='0'";
         $numids = execute_query($query);
         // PONER STATE_NEW=0 EN LOS CORREOS SELECCIONADOS
         $query = make_update_query("app_emails", [
-            "state_new" => $action2[1],
-        ], "id IN ({$ids}) AND state_new!='{$action2[1]}' AND is_outbox='0'");
+            "state_new" => $what[1],
+        ], "id IN ({$ids}) AND state_new!='{$what[1]}' AND is_outbox='0'");
         db_query($query);
-    } elseif ($action2[0] == "wait") {
+    } elseif ($what[0] == "wait") {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
         $query = "SELECT COUNT(*)
             FROM app_emails
             WHERE id IN ($ids)
-                AND state_wait!='{$action2[1]}'";
+                AND state_wait!='{$what[1]}'";
         $numids = execute_query($query);
         // PONER STATE_WAIT=1 EN LOS CORREOS SELECCIONADOS
         $query = make_update_query("app_emails", [
             "state_new" => "0",
-            "state_wait" => $action2[1],
-        ], "id IN ({$ids}) AND state_wait!='{$action2[1]}'");
+            "state_wait" => $what[1],
+        ], "id IN ({$ids}) AND state_wait!='{$what[1]}'");
         db_query($query);
-    } elseif ($action2[0] == "spam") {
+    } elseif ($what[0] == "spam") {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
         $query = "SELECT COUNT(*)
             FROM app_emails
             WHERE id IN ($ids)
-                AND state_spam!='{$action2[1]}'
+                AND state_spam!='{$what[1]}'
                 AND is_outbox='0'";
         $numids = execute_query($query);
         // PONER STATE_SPAM=1 EN LOS CORREOS SELECCIONADOS
         $query = make_update_query("app_emails", [
             "state_new" => "0",
-            "state_spam" => $action2[1],
+            "state_spam" => $what[1],
         ], "id IN ({$ids})
-            AND state_spam!='{$action2[1]}'
+            AND state_spam!='{$what[1]}'
             AND is_outbox='0'");
         db_query($query);
     }

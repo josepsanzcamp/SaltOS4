@@ -58,6 +58,11 @@ function __apps($fn, $arg)
         $dict["id2subtables"] = [];
         $dict["app2subtables"] = [];
         $dict["table2subtables"] = [];
+        $dict["app2index"] = [];
+        $dict["app2control"] = [];
+        $dict["app2version"] = [];
+        $dict["app2files"] = [];
+        $dict["app2notes"] = [];
         while ($row = db_fetch_row($result)) {
             $row["subtables"] = __apps_subtables_helper($row["subtables"]);
             $dict["id2app"][$row["id"]] = $row["code"];
@@ -69,6 +74,11 @@ function __apps($fn, $arg)
             $dict["id2subtables"][$row["id"]] = $row["subtables"];
             $dict["app2subtables"][$row["code"]] = $row["subtables"];
             $dict["table2subtables"][$row["table"]] = $row["subtables"];
+            $dict["app2index"][$row["code"]] = $row["has_index"];
+            $dict["app2control"][$row["code"]] = $row["has_control"];
+            $dict["app2version"][$row["code"]] = $row["has_version"];
+            $dict["app2files"][$row["code"]] = $row["has_files"];
+            $dict["app2notes"][$row["code"]] = $row["has_notes"];
         }
         db_free($result);
     }
@@ -242,4 +252,64 @@ function detect_apps_files($file)
 {
     $files = array_merge(glob($file), glob("apps/*/{$file}"));
     return $files;
+}
+
+/**
+ * App to Index
+ *
+ * This function returns the has_index of the app
+ *
+ * @app => the app code used to resolve the index
+ */
+function app2index($app)
+{
+    return __apps(__FUNCTION__, $app);
+}
+
+/**
+ * App to Control
+ *
+ * This function returns the has_control of the app
+ *
+ * @app => the app code used to resolve the control
+ */
+function app2control($app)
+{
+    return __apps(__FUNCTION__, $app);
+}
+
+/**
+ * App to Version
+ *
+ * This function returns the has_version of the app
+ *
+ * @app => the app code used to resolve the version
+ */
+function app2version($app)
+{
+    return __apps(__FUNCTION__, $app);
+}
+
+/**
+ * App to Files
+ *
+ * This function returns the has_files of the app
+ *
+ * @app => the app code used to resolve the files
+ */
+function app2files($app)
+{
+    return __apps(__FUNCTION__, $app);
+}
+
+/**
+ * App to Notes
+ *
+ * This function returns the has_notes of the app
+ *
+ * @app => the app code used to resolve the notes
+ */
+function app2notes($app)
+{
+    return __apps(__FUNCTION__, $app);
 }

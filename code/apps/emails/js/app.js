@@ -190,7 +190,7 @@ saltos.emails.send = () => {
  *
  * TODO
  */
-saltos.emails.download = (file) => {
+saltos.emails.download = file => {
     saltos.core.ajax({
         url: 'api/?' + file.substr(1),
         success: response => {

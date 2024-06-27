@@ -776,6 +776,7 @@ saltos.bootstrap.__field.select = field => {
     }
     for (var key in field.rows) {
         var val = saltos.core.join_attr_value(field.rows[key]);
+        saltos.core.check_params(val, ['label', 'value']);
         var selected = '';
         if (field.value.toString() == val.value.toString()) {
             selected = 'selected';
@@ -836,6 +837,7 @@ saltos.bootstrap.__field.multiselect = field => {
     var values = field.value.split(',');
     for (var key in field.rows) {
         var val = saltos.core.join_attr_value(field.rows[key]);
+        saltos.core.check_params(val, ['label', 'value']);
         if (values.includes(val.value.toString())) {
             rows_xyz.push(val);
         } else {

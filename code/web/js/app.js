@@ -686,10 +686,10 @@ saltos.app.form.javascript = data => {
  */
 saltos.app.form.title = title => {
     if (!saltos.core.hasOwnProperty('about')) {
-        document.title = title;
+        document.title = T(title);
         return;
     }
-    document.title = title + ' - ' + saltos.core.about;
+    document.title = T(title) + ' - ' + saltos.core.about;
 };
 
 /**
