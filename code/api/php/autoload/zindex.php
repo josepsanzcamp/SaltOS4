@@ -139,6 +139,7 @@ if (isset($argv) && defined("STDIN")) {
 //~ addlog(sprintr($_SERVER));
 
 // Check for the main requirement: rest/0
+set_data("rest/0", encode_bad_chars(get_data("rest/0")));
 if (get_data("rest/0") == "") {
     show_json_error("Unknown request");
 }
@@ -163,7 +164,6 @@ if (get_data("server/request_method") == "POST") {
 }
 
 // Try to execute the rest/0 if exists
-set_data("rest/0", encode_bad_chars(get_data("rest/0")));
 $action = "php/action/" . get_data("rest/0") . ".php";
 if (file_exists($action)) {
     require $action;

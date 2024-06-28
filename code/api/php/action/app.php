@@ -53,7 +53,6 @@ if (!file_exists($file)) {
 
 // Load the app xml file
 $array = xmlfile2array($file);
-
 if (!is_array($array) || !count($array)) {
     show_json_error("internal error");
 }
