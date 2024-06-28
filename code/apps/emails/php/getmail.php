@@ -1034,6 +1034,19 @@ function getmail_body($id)
     if (!$decoded) {
         show_php_error(["phperror" => "Could not decode de message"]);
     }
+    // MARCAR CORREO COMO LEIDO SI ES EL PROPIETARIO
+    $id2 = execute_query("SELECT id
+        FROM app_emails_control
+        WHERE id = {$id} AND user_id= " . current_user());
+    if ($id == $id2) {
+        $query = make_update_query("app_emails", [
+            "state_new" => 0,
+        ], make_where_query([
+            "id" => $id,
+            "state_new" => 1,
+        ]));
+        db_query($query);
+    }
     // CONTINUE
     $result = __getmail_getfullbody(__getmail_getnode("0", $decoded));
     $buffer = "";
