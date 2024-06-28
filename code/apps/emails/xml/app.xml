@@ -71,7 +71,7 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
-                <select id="from" label="From" required="true" autofocus="true" col_class="col-md-6 mb-3">
+                <select id="from" label="From" required="true" autofocus="true">
                     <rows eval="true">execute_query_array("
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
                             SELECT COUNT(*)
@@ -88,9 +88,9 @@
                         ORDER BY email_default DESC, contador DESC
                     ")</rows>
                 </select>
-                <text id="to" label="To" col_class="col-md-6 mb-3"/>
-                <text id="cc" label="CC" col_class="col-md-6 mb-3"/>
-                <text id="bcc" label="BCC" col_class="col-md-6 mb-3"/>
+                <text id="to" label="To"/>
+                <text id="cc" label="CC"/>
+                <text id="bcc" label="BCC"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
                 <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[

@@ -38,11 +38,11 @@ declare(strict_types=1);
  */
 
 // Check for rest/1, that is the name of the app to load
+set_data("rest/1", encode_bad_chars(strval(get_data("rest/1"))));
 if (get_data("rest/1") == "") {
     show_json_error("app not found");
 }
 
-set_data("rest/1", encode_bad_chars(get_data("rest/1")));
 $file = "apps/" . get_data("rest/1") . "/xml/list.xml";
 if (!file_exists($file)) {
     show_json_error("app " . get_data("rest/1") . " not found");
@@ -56,6 +56,7 @@ if (!is_array($array) || !count($array)) {
 }
 
 // Check for rest/2, that is the name of the subapp to load
+set_data("rest/2", encode_bad_chars(strval(get_data("rest/2"))));
 if (get_data("rest/2") == "" && count($array) == 1) {
     set_data("rest/2", key($array));
 }
@@ -72,7 +73,6 @@ if (get_data("rest/2") == "") {
     show_json_error("subapp not found");
 }
 
-set_data("rest/2", encode_bad_chars(get_data("rest/2")));
 if (!isset($array[get_data("rest/2")])) {
     show_json_error("subapp " . get_data("rest/2") . " not found");
 }

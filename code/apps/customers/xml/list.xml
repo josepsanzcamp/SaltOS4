@@ -104,7 +104,7 @@
 
     <!-- for debug purposes only -->
     <widget id="utest1"></widget>
-    <widget id="utest2">
+    <widget id="utest2" default="true">
         <data eval="true">execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
             FROM app_customers
             WHERE 1 = 1
