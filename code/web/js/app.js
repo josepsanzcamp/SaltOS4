@@ -787,12 +787,32 @@ saltos.app.form.navbar = navbar => {
                 }
                 for (var key2 in val) {
                     var val2 = val[key2];
+                    // Trick to allow to put attr in the value node intended to use the eval=true
+                    var temp = ['name', 'id', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end'];
+                    for (var i in temp) {
+                        var j = temp[i];
+                        if (val2.value.hasOwnProperty(j) && !val2['#attr'].hasOwnProperty(j)) {
+                            val2['#attr'][j] = val2.value[j];
+                            delete val2.value[j];
+                        }
+                    }
+                    // Continue
                     if (typeof val2.value == 'string') {
                         menu.push(val2['#attr']);
                     } else if (val2.value.hasOwnProperty('menu')) {
                         var menu2 = [];
                         for (var key3 in val2.value.menu) {
                             var val3 = val2.value.menu[key3];
+                            // Trick to allow to put attr in the value node intended to use the eval=true
+                            var temp = ['name', 'id', 'icon', 'disabled', 'active', 'onclick', 'divider'];
+                            for (var i in temp) {
+                                var j = temp[i];
+                                if (val3.value.hasOwnProperty(j) && !val3['#attr'].hasOwnProperty(j)) {
+                                    val3['#attr'][j] = val3.value[j];
+                                    delete val3.value[j];
+                                }
+                            }
+                            // Continue
                             menu2.push(val3['#attr']);
                         }
                         menu.push({

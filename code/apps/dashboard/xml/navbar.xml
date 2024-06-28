@@ -50,6 +50,13 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg" color="light" class="text-nowrap me-1"/>
             </form>
             <menu class="navbar-nav mb-2 mb-lg-0">
+                <item id="username" dropdown_menu_end="true">
+                    <name eval="true">execute_query("SELECT name FROM tbl_users WHERE id=".current_user())</name>
+                    <menu>
+                        <item name="Profile" onclick="saltos.window.open('#app/dashboard/config')"/>
+                        <item name="Logout" onclick="saltos.authenticate.deauthtoken();saltos.hash.trigger();"/>
+                    </menu>
+                </item>
                 <item name="Default" id="css_theme" dropdown_menu_end="true">
                     <menu eval="true">xmlfile2array("xml/css_theme.xml")["menu"]</menu>
                 </item>
