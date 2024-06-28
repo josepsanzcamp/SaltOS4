@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <menu>
+        <item name="Default" id="css_theme_default" onclick="saltos.app.set_css_theme('default')"/>
+        <item name="Cerulean" id="css_theme_cerulean" onclick="saltos.app.set_css_theme('cerulean')"/>
+        <item name="Cosmo" id="css_theme_cosmo" onclick="saltos.app.set_css_theme('cosmo')"/>
+        <item name="Cyborg" id="css_theme_cyborg" onclick="saltos.app.set_css_theme('cyborg')"/>
+        <item name="Darkly" id="css_theme_darkly" onclick="saltos.app.set_css_theme('darkly')"/>
+        <item name="Flatly" id="css_theme_flatly" onclick="saltos.app.set_css_theme('flatly')"/>
+        <item name="Journal" id="css_theme_journal" onclick="saltos.app.set_css_theme('journal')"/>
+        <item name="Litera" id="css_theme_litera" onclick="saltos.app.set_css_theme('litera')"/>
+        <item name="Lumen" id="css_theme_lumen" onclick="saltos.app.set_css_theme('lumen')"/>
+        <item name="Lux" id="css_theme_lux" onclick="saltos.app.set_css_theme('lux')"/>
+        <item name="Materia" id="css_theme_materia" onclick="saltos.app.set_css_theme('materia')"/>
+        <item name="Minty" id="css_theme_minty" onclick="saltos.app.set_css_theme('minty')"/>
+        <item name="Morph" id="css_theme_morph" onclick="saltos.app.set_css_theme('morph')"/>
+        <item name="Pulse" id="css_theme_pulse" onclick="saltos.app.set_css_theme('pulse')"/>
+        <item name="Quartz" id="css_theme_quartz" onclick="saltos.app.set_css_theme('quartz')"/>
+        <item name="Sandstone" id="css_theme_sandstone" onclick="saltos.app.set_css_theme('sandstone')"/>
+        <item name="Simplex" id="css_theme_simplex" onclick="saltos.app.set_css_theme('simplex')"/>
+        <item name="Sketchy" id="css_theme_sketchy" onclick="saltos.app.set_css_theme('sketchy')"/>
+        <item name="Slate" id="css_theme_slate" onclick="saltos.app.set_css_theme('slate')"/>
+        <item name="Solar" id="css_theme_solar" onclick="saltos.app.set_css_theme('solar')"/>
+        <item name="Spacelab" id="css_theme_spacelab" onclick="saltos.app.set_css_theme('spacelab')"/>
+        <item name="Superhero" id="css_theme_superhero" onclick="saltos.app.set_css_theme('superhero')"/>
+        <item name="United" id="css_theme_united" onclick="saltos.app.set_css_theme('united')"/>
+        <item name="Vapor" id="css_theme_vapor" onclick="saltos.app.set_css_theme('vapor')"/>
+        <item name="Yeti" id="css_theme_yeti" onclick="saltos.app.set_css_theme('yeti')"/>
+        <item name="Zephyr" id="css_theme_zephyr" onclick="saltos.app.set_css_theme('zephyr')"/>
+    </menu>
+</root>
