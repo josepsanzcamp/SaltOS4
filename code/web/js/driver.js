@@ -577,7 +577,7 @@ saltos.driver.__types.type3.init = arg => {
         }
         if (!document.getElementById('two').textContent.length) {
             var temp = saltos.hash.get().split('/');
-            var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+            temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
             saltos.app.send_request(temp);
         }
         var arr = saltos.hash.get().split('/');
@@ -604,11 +604,19 @@ saltos.driver.__types.type3.open = saltos.driver.__types.type2.open;
  * TODO
  */
 saltos.driver.__types.type3.close = arg => {
-    saltos.driver.__types.type2.__close_helper('two');
-    saltos.driver.__types.type2.__close_helper('three');
-    // HASH PART
-    var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
-    saltos.hash.add(temp);
+    var arr = saltos.hash.get().split('/');
+    var action = saltos.hash.get().split('/').at(2);
+    if (arr.length >= 5 && action == 'view') {
+        saltos.driver.__types.type2.__close_helper('three');
+        var temp = saltos.hash.get().split('/');
+        temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+        saltos.hash.add(temp);
+    } else {
+        saltos.driver.__types.type2.__close_helper('two');
+        // HASH PART
+        var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+        saltos.hash.add(temp);
+    }
 };
 
 /**
@@ -734,7 +742,8 @@ saltos.driver.__types.type5.init = arg => {
             saltos.app.send_request(temp);
         }
         var arr = saltos.hash.get().split('/');
-        if (arr.length >= 5) {
+        var action = saltos.hash.get().split('/').at(2);
+        if (arr.length >= 5 && action == 'view') {
             if (!saltos.bootstrap.modal('isopen')) {
                 var obj = document.getElementById('two').firstElementChild;
                 saltos.gettext.bootstrap.modal({
@@ -744,11 +753,10 @@ saltos.driver.__types.type5.init = arg => {
                 });
                 document.querySelector('.modal-body').setAttribute('id', 'three');
                 var temp = saltos.hash.get().split('/');
-                var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+                temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
                 saltos.app.send_request(temp);
             }
-        }
-        if (arr.length < 5) {
+        } else {
             saltos.bootstrap.modal('close');
         }
     }
@@ -764,8 +772,9 @@ saltos.driver.__types.type5.init = arg => {
  * TODO
  */
 saltos.driver.__types.type5.open = arg => {
-    var temp = arg.split('/');
-    if (temp.length >= 5) {
+    var arr = arg.split('/');
+    var action = arg.split('/').at(2);
+    if (arr.length >= 5 && action == 'view') {
         saltos.gettext.bootstrap.modal({
             close: 'Close',
             class: 'modal-xl',
@@ -783,14 +792,14 @@ saltos.driver.__types.type5.open = arg => {
  */
 saltos.driver.__types.type5.close = arg => {
     var arr = saltos.hash.get().split('/');
-    if (arr.length >= 5) {
+    var action = saltos.hash.get().split('/').at(2);
+    if (arr.length >= 5 && action == 'view') {
         saltos.bootstrap.modal('close');
         // HASH PART
         var temp = saltos.hash.get().split('/');
-        var temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
+        temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
-    }
-    if (arr.length < 5) {
+    } else {
         saltos.driver.__types.type2.__close_helper('two');
         // HASH PART
         var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
