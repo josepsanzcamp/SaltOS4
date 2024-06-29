@@ -42,8 +42,14 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('#app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
                 <div col_class="col"/>
+                <button collapse="true" target="filter" label="Filter" tooltip="Filter options" icon="funnel"/>
                 <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
                 <button onclick="saltos.emails.getmail()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
+            </row>
+            <row auto="true" row_class="row g-1 collapse" col_class="col-md-6 mt-3" id="filter">
+                <text label="Field 1"/>
+                <text label="Field 2"/>
+                <text label="Field 3"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
                 <list id="list" source="list/emails/list"/>

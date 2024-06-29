@@ -1017,6 +1017,8 @@ saltos.bootstrap.__field.switch = field => {
  * @tooltip   => this parameter raise the title flag
  * @accesskey => the key used as accesskey parameter
  * @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @collapse  => a boolean to enable or disable the collapse feature in the button
+ * @target    => the id of the element controlled by the collapse feature
  *
  * Notes:
  *
@@ -1025,7 +1027,7 @@ saltos.bootstrap.__field.switch = field => {
  */
 saltos.bootstrap.__field.button = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus',
-        'onclick', 'tooltip', 'icon', 'label', 'accesskey', 'color']);
+        'onclick', 'tooltip', 'icon', 'label', 'accesskey', 'color', 'collapse', 'target']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
@@ -1036,10 +1038,15 @@ saltos.bootstrap.__field.button = field => {
     if (!field.color) {
         field.color = 'primary';
     }
+    var collapse = '';
+    if (saltos.core.eval_bool(field.collapse)) {
+        collapse = `data-bs-toggle="collapse" data-bs-target="#${field.target}"
+            aria-controls="${field.target}" aria-expanded="false"`;
+    }
     var obj = saltos.core.html(`
         <button type="button" id="${field.id}" ${field.disabled} ${field.autofocus}
             class="btn btn-${field.color} focus-ring focus-ring-${field.color} ${field.class}"
-            data-bs-accesskey="${field.accesskey}"
+            data-bs-accesskey="${field.accesskey}" ${collapse}
             data-bs-title="${field.tooltip}">${field.label}</button>
     `);
     if (field.icon) {
