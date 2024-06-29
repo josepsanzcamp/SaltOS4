@@ -52,7 +52,8 @@
                 END body_color,
                 SUBSTR(body,1,250) footer,
                 CASE WHEN files THEN files ELSE '' END footer_text,
-                CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon
+                CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon,
+                CASE WHEN state_new=1 THEN 'fw-bold' ELSE '' END class
             FROM app_emails
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."

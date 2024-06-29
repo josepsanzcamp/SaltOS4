@@ -2462,13 +2462,13 @@ saltos.bootstrap.__field.list = field => {
     }
     for (var key in field.data) {
         var val = field.data[key];
-        saltos.core.check_params(val, ['header', 'body', 'footer',
+        saltos.core.check_params(val, ['header', 'body', 'footer', 'class',
             'header_text', 'header_icon', 'header_color',
             'body_text', 'body_icon', 'body_color',
             'footer_text', 'footer_icon', 'footer_color',
             'onclick', 'url', 'active', 'disabled', 'actions', 'id']);
         if (saltos.core.eval_bool(field.onclick)) {
-            var item = saltos.core.html(`<button class="list-group-item list-group-item-action"></button>`);
+            var item = saltos.core.html(`<button class="list-group-item list-group-item-action ${val.class}"></button>`);
             if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
                 val.actions[0].hasOwnProperty('onclick') && val.actions[0].hasOwnProperty('url')) {
                 val.onclick = val.actions[0].onclick;
@@ -2495,12 +2495,12 @@ saltos.bootstrap.__field.list = field => {
                 item.setAttribute('id', `button_${val.id}`);
             }
         } else {
-            var item = saltos.core.html(`<li class="list-group-item"></li>`);
+            var item = saltos.core.html(`<li class="list-group-item ${val.class}"></li>`);
         }
         if (val.header != '') {
             var temp = saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"></h5>
+                    <h5 class="mb-1 ${val.class}"></h5>
                 </div>
             `);
             temp.querySelector('h5').append(val.header);
