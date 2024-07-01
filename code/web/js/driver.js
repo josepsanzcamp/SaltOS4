@@ -365,9 +365,15 @@ saltos.driver.delete = async arg => {
  */
 saltos.driver.placeholder = arg => {
     var obj = saltos.core.html(`
-        <div class="bg-primary-subtle h-100 position-relative overflow-hidden">
-            <img src="img/logo_white.svg"
-                class="img-fluid position-absolute top-50 start-50 translate-middle"/>
+        <div class="bg-primary-subtle h-100 driver-placeholder">
+            <style>
+                .driver-placeholder {
+                    background-image: url("img/logo_white.svg");
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 75% 75%;
+                }
+            </style>
         </div>
     `);
     document.getElementById(arg).innerHTML = '';
