@@ -1736,13 +1736,17 @@ saltos.bootstrap.__field.table = field => {
     if (!field.color) {
         field.color = 'primary';
     }
+    // This creates a responsive table (a table inside a div with table-responsive class)
+    // We are using the same div to put inside the overlodaded styles of the table
     var obj = saltos.core.html(`
-        <table class="table table-striped table-hover border-${field.color} ${field.class}"
-            id="${field.id}" style="margin-bottom: 0">
-        </table>
+        <div id="${field.id}" class="table-responsive">
+            <table class="table table-striped table-hover border-${field.color} ${field.class}"
+                style="margin-bottom: 0">
+            </table>
+        </div>
     `);
     if (Object.keys(field.header).length) {
-        obj.append(saltos.core.html('table', `
+        obj.querySelector('table').append(saltos.core.html('table', `
             <thead>
                 <tr>
                 </tr>
@@ -1787,7 +1791,7 @@ saltos.bootstrap.__field.table = field => {
         }
     }
     if (field.data.length) {
-        obj.append(saltos.core.html('table', `
+        obj.querySelector('table').append(saltos.core.html('table', `
             <tbody>
             </tbody>
         `));
@@ -1984,7 +1988,7 @@ saltos.bootstrap.__field.table = field => {
         }
     }
     if (Object.keys(field.footer).length) {
-        obj.append(saltos.core.html('table', `
+        obj.querySelector('table').append(saltos.core.html('table', `
             <tfoot>
                 <tr>
                 </tr>
@@ -2025,12 +2029,8 @@ saltos.bootstrap.__field.table = field => {
             ));
         }
     }
-    // Convert the previous table in a responsive table
-    // We are using the same div to put inside the styles instead of the table
-    var obj2 = saltos.core.html(`<div class="table-responsive"></div>`);
-    obj2.append(obj);
     // The follow code allow to colorize the hover and active rows of the table
-    obj2.append(saltos.core.html(`
+    obj.append(saltos.core.html(`
         <style>
             .table td:not([class*="text-bg-"]) {
                 --bs-table-hover-bg: #fbec88;
@@ -2041,8 +2041,8 @@ saltos.bootstrap.__field.table = field => {
         </style>
     `));
     // Continue
-    obj2 = saltos.bootstrap.__label_combine(field, obj2);
-    return obj2;
+    obj = saltos.bootstrap.__label_combine(field, obj);
+    return obj;
 };
 
 /**

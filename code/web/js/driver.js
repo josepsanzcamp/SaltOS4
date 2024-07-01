@@ -70,7 +70,6 @@ saltos.driver.close = arg => {
     setTimeout(() => {
         var url2 = document.location.href.toString();
         if (url1 == url2) {
-            console.log("apply old feature");
             // Old feature
             var screen = document.body.getAttribute('screen');
             saltos.driver.__types[screen].close(arg);
@@ -113,7 +112,7 @@ saltos.driver.search = arg => {
             response.id = type;
             var temp = saltos.bootstrap.field(response);
             if (type == 'table') {
-                document.getElementById('table').parentElement.replaceWith(temp);
+                document.getElementById('table').replaceWith(temp);
             }
             if (type == 'list') {
                 document.querySelectorAll('.list-group:not([id=list])').forEach(_this => _this.remove());
@@ -329,6 +328,8 @@ saltos.driver.delete = async arg => {
                         }
                         if (response.status == 'ok') {
                             saltos.window.send(`saltos.${app}.update`);
+                            // arg has valid data when is called from the list, and in
+                            // this case, it is improtant to don't close the current view
                             if (typeof arg == 'undefined') {
                                 saltos.driver.close();
                             }
@@ -487,6 +488,9 @@ saltos.driver.__types.type2.init = arg => {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
+        // Uninstall the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
@@ -593,6 +597,9 @@ saltos.driver.__types.type3.init = arg => {
         if (arr.length < 5) {
             saltos.driver.__types.type2.__close_helper('three');
         }
+        // Uninstall the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
@@ -675,6 +682,9 @@ saltos.driver.__types.type4.init = arg => {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
+        // Uninstall the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
@@ -768,6 +778,9 @@ saltos.driver.__types.type5.init = arg => {
         } else {
             saltos.bootstrap.modal('close');
         }
+        // Uninstall the update event
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
