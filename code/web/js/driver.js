@@ -65,8 +65,17 @@ saltos.driver.open = arg => {
  * TODO
  */
 saltos.driver.close = arg => {
-    var screen = document.body.getAttribute('screen');
-    saltos.driver.__types[screen].close(arg);
+    var url1 = document.location.href.toString();
+    history.back();
+    setTimeout(() => {
+        var url2 = document.location.href.toString();
+        if (url1 == url2) {
+            console.log("apply old feature");
+            // Old feature
+            var screen = document.body.getAttribute('screen');
+            saltos.driver.__types[screen].close(arg);
+        }
+    }, 100);
 };
 
 /**
@@ -502,7 +511,7 @@ saltos.driver.__types.type2.open = arg => {
  */
 saltos.driver.__types.type2.close = arg => {
     saltos.driver.__types.type2.__close_helper('two');
-    // HASH PART
+    // Hash part
     var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
 };
@@ -613,7 +622,7 @@ saltos.driver.__types.type3.close = arg => {
         saltos.hash.add(temp);
     } else {
         saltos.driver.__types.type2.__close_helper('two');
-        // HASH PART
+        // Hash part
         var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
         saltos.hash.add(temp);
     }
@@ -695,7 +704,7 @@ saltos.driver.__types.type4.open = arg => {
  */
 saltos.driver.__types.type4.close = arg => {
     saltos.bootstrap.modal('close');
-    // HASH PART
+    // Hash part
     var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
 };
@@ -795,13 +804,13 @@ saltos.driver.__types.type5.close = arg => {
     var action = saltos.hash.get().split('/').at(2);
     if (arr.length >= 5 && action == 'view') {
         saltos.bootstrap.modal('close');
-        // HASH PART
+        // Hash part
         var temp = saltos.hash.get().split('/');
         temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
     } else {
         saltos.driver.__types.type2.__close_helper('two');
-        // HASH PART
+        // Hash part
         var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
         saltos.hash.add(temp);
     }
