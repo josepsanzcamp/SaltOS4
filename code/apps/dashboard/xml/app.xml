@@ -33,7 +33,7 @@
         <screen>type1</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
-            <row auto="true" col_class="col-md-4 mb-3">
+            <row auto="true" row_class="row items" col_class="col-md-4 mb-3">
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
                 <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
                 <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" label="Email"/>

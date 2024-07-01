@@ -66,7 +66,7 @@ saltos.dashboard.init = () => {
         });
     });
 
-    Sortable.create(document.querySelector('.row'), {
+    Sortable.create(document.querySelector('.items'), {
         animation: 150,
     });
 };
