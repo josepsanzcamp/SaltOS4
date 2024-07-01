@@ -99,9 +99,9 @@
                 <date id="campo4" label="Campo 4 (date)" placeholder="Escriba aqui" tooltip="Tooltip 4 (date)"/>
                 <time id="campo5" label="Campo 5 (time)" placeholder="Escriba aqui" tooltip="Tooltip 5 (time)"/>
                 <datetime id="campo6" label="Campo 6 (datetime)" placeholder="Escriba aqui" tooltip="Tooltip 6 (datetime)"/>
-                <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)">
+                <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)" separator=";">
                     <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
-                    <value>SaltOS, PHP, JavaScript</value>
+                    <value>SaltOS; PHP; JavaScript</value>
                 </tags>
                 <button id="campo8" tooltip="Tooltip 8 (button)" label="Button text here" onclick="saltos.tester.campo8()"/>
                 <button id="campo9" tooltip="Tooltip 9 (button)" label="Modal test" onclick="saltos.tester.campo9()"/>
@@ -110,7 +110,7 @@
                 <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba&#13;&#13;Adios&#13;</textarea>
                 <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
                 <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>&#13;&#9;<tag>valor</tag>&#13;</xml>&#13;]]></codemirror>
-                <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2,3,5" size="5">
+                <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2; 3; 5" size="5" separator=";">
                     <rows eval="true">[
                         ["label"=>"Uno","value"=>1],
                         ["label"=>"Dos","value"=>2],

@@ -737,8 +737,8 @@ saltos.bootstrap.__field.iframe = field => {
  * @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.select = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange',
-        'autofocus', 'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange', 'autofocus',
+                                     'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
     saltos.core.check_params(field, ['rows'], []);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -803,6 +803,7 @@ saltos.bootstrap.__field.select = field => {
  *               with label and value entries
  * @label     => this parameter is used as text for the label
  * @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @separator => the separator string used to split and join the values
  *
  * Notes:
  *
@@ -812,13 +813,17 @@ saltos.bootstrap.__field.select = field => {
  * TODO: detected a bug with this widget in chrome in mobile browsers
  */
 saltos.bootstrap.__field.multiselect = field => {
-    saltos.core.check_params(field, ['value', 'class', 'id', 'disabled', 'size', 'tooltip', 'color']);
+    saltos.core.check_params(field, ['value', 'class', 'id', 'disabled',
+                                     'size', 'tooltip', 'color', 'separator']);
     saltos.core.check_params(field, ['rows'], []);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
     if (!field.color) {
         field.color = 'primary';
+    }
+    if (!field.separator) {
+        field.separator = ',';
     }
     var obj = saltos.core.html(`
         <div class="container-fluid">
@@ -834,7 +839,10 @@ saltos.bootstrap.__field.multiselect = field => {
     `);
     var rows_abc = [];
     var rows_xyz = [];
-    var values = field.value.split(',');
+    var values = field.value.split(field.separator);
+    for (var key in values) {
+        values[key] = values[key].trim();
+    }
     for (var key in field.rows) {
         var val = saltos.core.join_attr_value(field.rows[key]);
         saltos.core.check_params(val, ['label', 'value']);
@@ -870,7 +878,7 @@ saltos.bootstrap.__field.multiselect = field => {
             document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
                 val.push(option.value);
             });
-            document.getElementById(field.id).value = val.join(',');
+            document.getElementById(field.id).value = val.join(field.separator);
         },
     }));
     obj.querySelector('.two').append(saltos.core.html('<br />'));
@@ -889,7 +897,7 @@ saltos.bootstrap.__field.multiselect = field => {
             document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
                 val.push(option.value);
             });
-            document.getElementById(field.id).value = val.join(',');
+            document.getElementById(field.id).value = val.join(field.separator);
         },
     }));
     obj.querySelector('.three').append(saltos.bootstrap.__field.select({
@@ -931,8 +939,8 @@ saltos.bootstrap.__field.multiselect = field => {
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
 saltos.bootstrap.__field.checkbox = field => {
-    saltos.core.check_params(field, ['value', 'id', 'disabled',
-        'readonly', 'label', 'tooltip', 'class', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly',
+                                     'label', 'tooltip', 'class', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1026,8 +1034,8 @@ saltos.bootstrap.__field.switch = field => {
  * hidden focus when you try to focus a button inside a modal, for example.
  */
 saltos.bootstrap.__field.button = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus',
-        'onclick', 'tooltip', 'icon', 'label', 'accesskey', 'color', 'collapse', 'target']);
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'onclick', 'tooltip',
+                                     'icon', 'label', 'accesskey', 'color', 'collapse', 'target']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
@@ -1094,8 +1102,8 @@ saltos.bootstrap.__field.button = field => {
  *
  */
 saltos.bootstrap.__field.password = field => {
-    saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value',
-        'disabled', 'onenter', 'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled', 'onenter',
+                                     'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1185,8 +1193,8 @@ saltos.bootstrap.__field.password = field => {
  * the real upload action.
  */
 saltos.bootstrap.__field.file = field => {
-    saltos.core.check_params(field, ['class', 'id', 'value', 'disabled',
-        'required', 'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
+                                     'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -1443,7 +1451,8 @@ saltos.bootstrap.__field.label = field => {
  * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.image = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'alt', 'tooltip', 'width', 'height', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'value', 'alt',
+                                     'tooltip', 'width', 'height', 'color']);
     if (field.class == '') {
         field.class = 'img-fluid';
     }
@@ -1502,8 +1511,10 @@ saltos.bootstrap.__field.image = field => {
 saltos.bootstrap.__field.excel = field => {
     saltos.core.require('lib/handsontable/handsontable.full.min.css');
     saltos.core.require('lib/handsontable/handsontable.full.min.js');
-    saltos.core.check_params(field, ['id', 'class', 'data', 'rowHeaders', 'colHeaders', 'minSpareRows',
-        'contextMenu', 'rowHeaderWidth', 'colWidths', 'numcols', 'numrows', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'data',
+                                     'rowHeaders', 'colHeaders', 'minSpareRows',
+                                     'contextMenu', 'rowHeaderWidth', 'colWidths',
+                                     'numcols', 'numrows', 'color']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -2122,8 +2133,8 @@ saltos.bootstrap.__field.alert = field => {
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
  */
 saltos.bootstrap.__field.card = field => {
-    saltos.core.check_params(field, ['id', 'image', 'alt',
-        'header', 'footer', 'title', 'text', 'body', 'color']);
+    saltos.core.check_params(field, ['id', 'image', 'alt', 'header',
+                                     'footer', 'title', 'text', 'body', 'color']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -2217,6 +2228,7 @@ saltos.bootstrap.__field.chartjs = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @separator   => the separator string used to split and join the tags
  *
  * Notes:
  *
@@ -2224,9 +2236,12 @@ saltos.bootstrap.__field.chartjs = field => {
  * each value, and requires the arguments of the specific widgets used in this widget
  */
 saltos.bootstrap.__field.tags = field => {
-    saltos.core.check_params(field, ['id', 'value', 'color']);
+    saltos.core.check_params(field, ['id', 'value', 'color', 'separator']);
     if (!field.color) {
         field.color = 'primary';
+    }
+    if (!field.separator) {
+        field.separator = ',';
     }
     // This container must have the hidden input and the text input used by the
     // user to write the tags
@@ -2239,7 +2254,7 @@ saltos.bootstrap.__field.tags = field => {
     field.id_new = field.id + '_tags';
     field.id = field.id_new;
     field.value_old = field.value;
-    field.value_array = field.value.split(',');
+    field.value_array = field.value.split(field.separator);
     if (field.value == '') {
         field.value_array = [];
     }
@@ -2260,7 +2275,7 @@ saltos.bootstrap.__field.tags = field => {
             var a = event.target.parentElement;
             var b = a.getAttribute('saltos-data');
             var input = obj.querySelector('input.first');
-            var val_old = input.value.split(',');
+            var val_old = input.value.split(field.separator);
             var val_new = [];
             for (var key in val_old) {
                 val_old[key] = val_old[key].trim();
@@ -2268,7 +2283,7 @@ saltos.bootstrap.__field.tags = field => {
                     val_new.push(val_old[key]);
                 }
             }
-            input.value = val_new.join(',');
+            input.value = val_new.join(field.separator);
             a.remove();
         });
     };
@@ -2280,7 +2295,7 @@ saltos.bootstrap.__field.tags = field => {
         }
         var input_old = obj.querySelector('input.first');
         var input_new = obj.querySelector('input.last');
-        var val_old = input_old.value.split(',');
+        var val_old = input_old.value.split(field.separator);
         var val = input_new.value;
         var val_new = [];
         for (var key in val_old) {
@@ -2294,7 +2309,7 @@ saltos.bootstrap.__field.tags = field => {
         }
         fn(val);
         val_new.push(val);
-        input_old.value = val_new.join(',');
+        input_old.value = val_new.join(field.separator);
         input_new.value = '';
     });
     // This part of the code adds the initials tags using the fn function
@@ -2859,7 +2874,8 @@ saltos.bootstrap.__field['v-pills'] = field => {
  */
 saltos.bootstrap.__text_helper = field => {
     saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value',
-        'disabled', 'onenter', 'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
+                                     'disabled', 'onenter', 'readonly', 'required',
+                                     'autofocus', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
@@ -2916,7 +2932,8 @@ saltos.bootstrap.__text_helper = field => {
  */
 saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value',
-        'disabled', 'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
+                                     'disabled', 'readonly', 'required', 'autofocus',
+                                     'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
