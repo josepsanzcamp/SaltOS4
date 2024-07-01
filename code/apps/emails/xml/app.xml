@@ -78,7 +78,7 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
-                <select id="from" label="From" required="true" autofocus="true">
+                <select id="from" label="From" required="true">
                     <rows eval="true">execute_query_array("
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
                             SELECT COUNT(*)
@@ -95,9 +95,9 @@
                         ORDER BY email_default DESC, contador DESC
                     ")</rows>
                 </select>
-                <tags id="to" label="To" separator=";"/>
-                <tags id="cc" label="CC" separator=";"/>
-                <tags id="bcc" label="BCC" separator=";"/>
+                <tags id="to" label="To" separator=";" datalist="app/emails/create/emails/" autofocus="true"/>
+                <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails/"/>
+                <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails/"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
                 <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
@@ -127,6 +127,41 @@
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
+    </create>
+
+    <create id="accounts">
+        <data eval="true">execute_query_array("SELECT id,CONCAT(email_name,' &amp;lt;',email_from,'&amp;gt;') name
+        FROM app_emails_accounts
+        WHERE user_id=".intval(get_data("rest/4"))."
+            AND (
+                email_privated='0' OR
+                (TRIM(IFNULL(email_privated,0))='1' AND user_id=".current_user().")
+            )
+        ORDER BY name")</data>
+    </create>
+
+    <create id="emails">
+        <data eval="true">execute_query_array("SELECT
+                CASE name
+                    WHEN '' THEN value
+                    ELSE CONCAT(name,' &lt;',value,'&gt;')
+                END label,
+                SUM(CASE
+                    WHEN DATE(datetime)>=DATE('".current_date()."') THEN '20'
+                    WHEN DATE(datetime)>=DATE('".current_date(-86400*7)."') THEN '10'
+                    WHEN DATE(datetime)>=DATE('".current_date(-86400*30)."') THEN '5'
+                    ELSE '1'
+                END) score
+            FROM app_emails_address a
+            LEFT JOIN app_emails b
+                ON a.email_id=b.id
+                AND account_id IN (SELECT id FROM app_emails_accounts WHERE user_id=".current_user().")
+                AND state_spam='0'
+            WHERE b.id IS NOT NULL
+                AND type_id IN (1,2,3,4)
+                AND (".make_like_query("name,value",base64_decode(strval(get_data("rest/4")))).")
+            GROUP BY label
+            ORDER BY score DESC LIMIT 25")</data>
     </create>
 
     <view>

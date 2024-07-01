@@ -251,6 +251,47 @@ saltos.bootstrap.__field.text = field => {
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__text_helper(field));
     if (field.datalist.length) {
+        if (typeof field.datalist == 'string') {
+            field.datalist_old = field.datalist;
+            field.datalist = [];
+            obj.querySelector('input.last').addEventListener('keyup', saltos.core.delay(event => {
+                var value = event.target.value;
+                var old_value = event.target.getAttribute('old_value');
+                event.target.setAttribute('old_value', value);
+                if (value == old_value || value == '') {
+                    return;
+                }
+                obj.querySelectorAll('datalist option').forEach(option => {
+                    option.remove();
+                });
+                saltos.core.ajax({
+                    url: 'api/?' + field.datalist_old + btoa(value),
+                    success: response => {
+                        if (!saltos.app.check_response(response)) {
+                            return;
+                        }
+                        for (var key in response.data) {
+                            var val = response.data[key];
+                            if (typeof val == 'object') {
+                                obj.querySelector('datalist')
+                                    .append(saltos.core.html(`<option value="${val.label}" />`));
+                            } else {
+                                obj.querySelector('datalist')
+                                    .append(saltos.core.html(`<option value="${val}" />`));
+                            }
+                        }
+                    },
+                    error: request => {
+                        saltos.app.show_error({
+                            text: request.statusText,
+                            code: request.status,
+                        });
+                    },
+                    token: saltos.token.get(),
+                    lang: saltos.gettext.get(),
+                });
+            }, 500));
+        }
         obj.querySelector('input').setAttribute('list', field.id + '_datalist');
         obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
         for (var key in field.datalist) {
@@ -2247,29 +2288,23 @@ saltos.bootstrap.__field.tags = field => {
     // user to write the tags
     var obj = saltos.core.html(`<div></div>`);
     // The first field is the hidden input
-    field.class = 'first';
-    obj.append(saltos.bootstrap.__field.hidden(field));
+    var field_first = saltos.core.copy_object(field);
+    field_first.class = 'first';
+    obj.append(saltos.bootstrap.__field.hidden(field_first));
     // The last field is the text input used to write the tags
-    field.id_old = field.id;
-    field.id_new = field.id + '_tags';
-    field.id = field.id_new;
-    field.value_old = field.value;
-    field.value_array = field.value.split(field.separator);
-    if (field.value == '') {
-        field.value_array = [];
-    }
-    field.value = '';
-    field.class = 'last';
-    obj.append(saltos.bootstrap.__field.text(field));
-    field.id = field.id_old;
-    field.value = field.value_old;
+    var field_last = saltos.core.copy_object(field);
+    field_last.id = field.id + '_tags';
+    field_last.value = '';
+    field_last.class = 'last';
+    obj.append(saltos.bootstrap.__field.text(field_last));
     // This function draws a tag and programs the delete of the same tag
     var fn = val => {
         var span = saltos.core.html(`
             <span class="badge text-bg-${field.color} mt-1 me-1 fs-6 fw-normal pe-2" saltos-data="${val}">
-                ${val} <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
+                <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
             </span>
         `);
+        span.prepend(val);
         obj.append(span);
         span.querySelector('i').addEventListener('click', event => {
             var a = event.target.parentElement;
@@ -2313,11 +2348,13 @@ saltos.bootstrap.__field.tags = field => {
         input_new.value = '';
     });
     // This part of the code adds the initials tags using the fn function
-    {
-        for (var key in field.value_array) {
-            var val = field.value_array[key].trim();
-            fn(val);
-        }
+    var value_array = field.value.split(field.separator);
+    if (field.value == '') {
+        value_array = [];
+    }
+    for (var key in value_array) {
+        var val = value_array[key].trim();
+        fn(val);
     }
     // This part of the code is a trick to allow that labels previously created
     // will be linked to the input type text instead of the input type hidden,
