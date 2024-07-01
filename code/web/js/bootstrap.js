@@ -2468,7 +2468,8 @@ saltos.bootstrap.__field.list = field => {
             'footer_text', 'footer_icon', 'footer_color',
             'onclick', 'url', 'active', 'disabled', 'actions', 'id']);
         if (saltos.core.eval_bool(field.onclick)) {
-            var item = saltos.core.html(`<button class="list-group-item list-group-item-action ${val.class}"></button>`);
+            var item = saltos.core.html(`<button
+                class="list-group-item list-group-item-action ${val.class}"></button>`);
             if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
                 val.actions[0].hasOwnProperty('onclick') && val.actions[0].hasOwnProperty('url')) {
                 val.onclick = val.actions[0].onclick;
