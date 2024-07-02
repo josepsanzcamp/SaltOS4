@@ -182,7 +182,12 @@ saltos.emails.delete2 = () => {
  * TODO
  */
 saltos.emails.send = () => {
-    // TODO
+    if (!saltos.app.check_required()) {
+        saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
+        return;
+    }
+    console.log(saltos.app.get_data(true));
+
 };
 
 /**

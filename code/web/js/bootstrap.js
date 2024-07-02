@@ -254,7 +254,7 @@ saltos.bootstrap.__field.text = field => {
         if (typeof field.datalist == 'string') {
             field.datalist_old = field.datalist;
             field.datalist = [];
-            obj.querySelector('input.last').addEventListener('keyup', saltos.core.delay(event => {
+            obj.querySelector('input.last').addEventListener('keypress', saltos.core.delay(event => {
                 var value = event.target.value;
                 var old_value = event.target.getAttribute('old_value');
                 event.target.setAttribute('old_value', value);
@@ -623,13 +623,15 @@ saltos.bootstrap.__field.ckeditor = field => {
     obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
-        ClassicEditor.create(element, {
-            // Nothing to do
-        }).then(editor => {
+        ClassicEditor.create(element, {}).then(editor => {
+            element.ckeditor = editor;
             if (field.color != 'none') {
                 element.nextElementSibling.classList.add('border');
                 element.nextElementSibling.classList.add('border-' + field.color);
             }
+            editor.model.document.on('change:data', () => {
+                element.value = editor.getData();
+            });
         }).catch(error => {
             throw new Error(error);
         });
@@ -693,6 +695,7 @@ saltos.bootstrap.__field.codemirror = field => {
             lineNumbers: true,
             lineWrapping: true,
         });
+        element.codemirror = cm;
         if (field.color != 'none') {
             element.nextElementSibling.classList.add('border');
             element.nextElementSibling.classList.add('border-' + field.color);
@@ -2290,6 +2293,7 @@ saltos.bootstrap.__field.tags = field => {
     // The first field is the hidden input
     var field_first = saltos.core.copy_object(field);
     field_first.class = 'first';
+    field_first.required = false;
     obj.append(saltos.bootstrap.__field.hidden(field_first));
     // The last field is the text input used to write the tags
     var field_last = saltos.core.copy_object(field);

@@ -95,7 +95,7 @@
                         ORDER BY email_default DESC, contador DESC
                     ")</rows>
                 </select>
-                <tags id="to" label="To" separator=";" datalist="app/emails/create/emails/" autofocus="true"/>
+                <tags id="to" label="To" separator=";" datalist="app/emails/create/emails/" autofocus="true" required="true"/>
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails/"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails/"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
@@ -114,8 +114,8 @@
                         ["label"=>"Confidential","value"=>3],
                     ]</rows>
                 </select>
-                <text id="subject" label="Subject"/>
-                <ckeditor id="body" label="Body" height="10em"/>
+                <text id="subject" label="Subject" required="true"/>
+                <ckeditor id="body" label="Body" height="10em" required="true"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

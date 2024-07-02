@@ -1089,21 +1089,53 @@ saltos.app.checkbox_ids = obj => {
 saltos.app.check_required = () => {
     var obj = null;
     document.querySelectorAll('[required]').forEach(_this => {
-        _this.classList.remove('is-valid');
-        _this.classList.remove('is-invalid');
-        _this.classList.remove('border');
-        _this.classList.forEach(_this2 => {
+        var value = _this.value;
+        var obj_color = _this;
+        var obj_focus = _this;
+        // to detect the value of the tags fields
+        if (_this.type == 'text' && _this.id.substr(-5) == '_tags' && _this.classList.contains('last')) {
+            var id2 = _this.id.substr(0, _this.id.length - 5);
+            var obj2 = document.getElementById(id2);
+            if (obj2 && obj2.type == 'hidden' && obj2.classList.contains('first')) {
+                value = obj2.value;
+            }
+        }
+        // to detect the color and focus of the ckeditor fields
+        if (_this.type == 'textarea' && _this.hasOwnProperty('ckeditor')) {
+            obj_color = _this.nextElementSibling;
+            obj_focus = _this.ckeditor;
+        }
+        // to detect the color and focus of the codemirror fields
+        if (_this.type == 'textarea' && _this.hasOwnProperty('codemirror')) {
+            obj_color = _this.nextElementSibling;
+            obj_focus = _this.codemirror;
+        }
+        // continue;
+        obj_color.classList.remove('is-valid');
+        obj_color.classList.remove('is-invalid');
+        obj_color.classList.remove('border');
+        obj_color.classList.forEach(_this2 => {
             if (_this2.substr(0, 7) == 'border-') {
-                _this.classList.remove(_this2);
+                obj_color.classList.remove(_this2);
             }
         });
-        if (_this.value == '') {
-            _this.classList.add('is-invalid');
+        if (value == '') {
+            if (obj_color === obj_focus) {
+                obj_color.classList.add('is-invalid');
+            } else {
+                obj_color.classList.add('border');
+                obj_color.classList.add('border-danger');
+            }
             if (!obj) {
-                obj = _this;
+                obj = obj_focus;
             }
         } else {
-            _this.classList.add('is-valid');
+            if (obj_color === obj_focus) {
+                obj_color.classList.add('is-valid');
+            } else {
+                obj_color.classList.add('border');
+                obj_color.classList.add('border-success');
+            }
         }
     });
     if (obj) {
