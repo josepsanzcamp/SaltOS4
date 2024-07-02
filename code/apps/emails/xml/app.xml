@@ -99,14 +99,14 @@
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails/"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails/"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
-                <select id="priority" label="Prioriry" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                <select id="priority" label="Prioriry" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
                         ["label"=>"Low","value"=>-1],
                         ["label"=>"Normal","value"=>0],
                         ["label"=>"High","value"=>1],
                     ]</rows>
                 </select>
-                <select id="sensitivity" label="Sensitivity" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                <select id="sensitivity" label="Sensitivity" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
                         ["label"=>"Normal","value"=>0],
                         ["label"=>"Personal","value"=>1],

@@ -946,6 +946,10 @@ saltos.app.get_data = full => {
                         val = val.replace(/\r\n|\r/g, '\n');
                         old = old.replace(/\r\n|\r/g, '\n');
                         break;
+                    case 'file':
+                        val = obj.saltos_data;
+                        old = [];
+                        break;
                 }
                 switch (field.type) {
                     case 'integer':
@@ -969,8 +973,14 @@ saltos.app.get_data = full => {
                         }
                         break;
                 }
-                if (val != old || full) {
-                    saltos.app.__form.data[field.id] = val;
+                if (typeof val == 'object' && typeof old == 'object') {
+                    if (JSON.stringify(val) != JSON.stringify(old) || full) {
+                        saltos.app.__form.data[field.id] = val;
+                    }
+                } else {
+                    if (val != old || full) {
+                        saltos.app.__form.data[field.id] = val;
+                    }
                 }
             }
         }
@@ -1109,6 +1119,10 @@ saltos.app.check_required = () => {
         if (_this.type == 'textarea' && _this.hasOwnProperty('codemirror')) {
             obj_color = _this.nextElementSibling;
             obj_focus = _this.codemirror;
+        }
+        // to detect the value of the file fields
+        if (_this.type == 'file') {
+            value = _this.saltos_data.length;
         }
         // continue;
         obj_color.classList.remove('is-valid');

@@ -1296,8 +1296,9 @@ saltos.bootstrap.__field.file = field => {
         tabla.querySelectorAll('tr').forEach(_this => {
             data.push(_this.saltos_data);
         });
-        input.saltos_data = data;;
+        input.saltos_data = data;
     };
+    __update_data_input_file(obj.querySelector('input'));
     // This helper programs the delete file button
     var __button_remove_file = event => {
         var row = event.target.parentElement.parentElement;
@@ -1427,6 +1428,7 @@ saltos.bootstrap.__field.file = field => {
                 throw new Error(reader.error);
             }
         }
+        input.value = '';
     });
     obj.prepend(saltos.bootstrap.__label_helper(field));
     return obj;
