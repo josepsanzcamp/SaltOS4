@@ -254,13 +254,13 @@ saltos.bootstrap.__field.text = field => {
         if (typeof field.datalist == 'string') {
             field.datalist_old = field.datalist;
             field.datalist = [];
-            obj.querySelector('input.last').addEventListener('keypress', saltos.core.delay(event => {
+            obj.querySelector('input').addEventListener('keypress', saltos.core.delay(event => {
                 var value = event.target.value;
                 var old_value = event.target.getAttribute('old_value');
-                event.target.setAttribute('old_value', value);
                 if (value == old_value || value == '') {
                     return;
                 }
+                event.target.setAttribute('old_value', value);
                 obj.querySelectorAll('datalist option').forEach(option => {
                     option.remove();
                 });
@@ -2311,44 +2311,47 @@ saltos.bootstrap.__field.tags = field => {
         span.prepend(val);
         obj.append(span);
         span.querySelector('i').addEventListener('click', event => {
-            var a = event.target.parentElement;
-            var b = a.getAttribute('saltos-data');
+            var tag = event.target.parentElement;
+            var val = tag.getAttribute('saltos-data').trim();
             var input = obj.querySelector('input.first');
             var val_old = input.value.split(field.separator);
             var val_new = [];
             for (var key in val_old) {
                 val_old[key] = val_old[key].trim();
-                if (val_old[key] != b) {
+                if (![val, ''].includes(val_old[key])) {
                     val_new.push(val_old[key]);
                 }
             }
             input.value = val_new.join(field.separator);
-            a.remove();
+            tag.remove();
         });
     };
     // This function program the enter event that adds tags to the hidden and
     // draw the new tag using the previous function
     obj.querySelector('input.last').addEventListener('keydown', event => {
-        if (saltos.core.get_keycode(event) != 13) {
+        if (![13, 9].includes(saltos.core.get_keycode(event))) {
             return;
         }
-        var input_old = obj.querySelector('input.first');
         var input_new = obj.querySelector('input.last');
-        var val_old = input_old.value.split(field.separator);
-        var val = input_new.value;
+        var val = input_new.value.trim();
+        if (val == '') {
+            return;
+        }
+        var input = obj.querySelector('input.first');
+        var val_old = input.value.split(field.separator);
         var val_new = [];
         for (var key in val_old) {
             val_old[key] = val_old[key].trim();
+            if (![val, ''].includes(val_old[key])) {
+                val_new.push(val_old[key]);
+            }
             if (val_old[key] == val) {
                 return;
-            }
-            if (val_old[key] != '') {
-                val_new.push(val_old[key]);
             }
         }
         fn(val);
         val_new.push(val);
-        input_old.value = val_new.join(field.separator);
+        input.value = val_new.join(field.separator);
         input_new.value = '';
     });
     // This part of the code adds the initials tags using the fn function
