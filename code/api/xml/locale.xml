@@ -31,4 +31,9 @@
         <row label="Català" value="ca_ES"/>
         <row label="English" value="en_US"/>
     </rows>
+    <menu>
+        <item name="Spanish" id="locale_es_es" onclick="saltos.app.set_locale('es_ES')"/>
+        <item name="Català" id="locale_ca_es" onclick="saltos.app.set_locale('ca_ES')"/>
+        <item name="English" id="locale_en_us" onclick="saltos.app.set_locale('en_US')"/>
+    </menu>
 </root>

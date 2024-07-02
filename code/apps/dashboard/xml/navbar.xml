@@ -57,6 +57,10 @@
                         <item name="Logout" onclick="saltos.authenticate.deauthtoken();saltos.hash.trigger();"/>
                     </menu>
                 </item>
+                <item id="locale" dropdown_menu_end="true">
+                    <name eval="true">get_data("server/lang")</name>
+                    <menu eval="true">xmlfile2array("xml/locale.xml")["menu"]</menu>
+                </item>
                 <item name="Default" id="css_theme" dropdown_menu_end="true">
                     <menu eval="true">xmlfile2array("xml/css_theme.xml")["menu"]</menu>
                 </item>

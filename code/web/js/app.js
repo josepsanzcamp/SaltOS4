@@ -1224,7 +1224,7 @@ saltos.app.set_bs_theme = theme => {
         active.classList.add('active');
         button.innerHTML = active.querySelector('i').outerHTML;
     });
-    return saltos.bootstrap.set_bs_theme(theme);
+    saltos.bootstrap.set_bs_theme(theme);
 };
 
 /**
@@ -1249,7 +1249,29 @@ saltos.app.set_css_theme = theme => {
         active.classList.add('active');
         button.innerHTML = active.innerHTML;
     });
-    return saltos.bootstrap.set_css_theme(theme);
+    saltos.bootstrap.set_css_theme(theme);
+};
+
+/**
+ * Set locale
+ *
+ * This function sets the locale
+ *
+ * @lang => Can be one of the valid locales
+ */
+saltos.app.set_locale = lang => {
+    saltos.core.when_visible('locale', () => {
+        var button = document.getElementById('locale');
+        button.parentElement.querySelectorAll('.active').forEach(_this => {
+            _this.classList.remove('active');
+        });
+        var temp = saltos.core.encode_bad_chars(lang);
+        var active = document.getElementById(`locale_${temp}`);
+        active.classList.add('active');
+        button.innerHTML = active.innerHTML;
+    });
+    saltos.gettext.set(lang);
+    saltos.hash.trigger();
 };
 
 /**
@@ -1269,13 +1291,15 @@ saltos.app.set_css_theme = theme => {
     } else {
         saltos.app.set_css_theme(saltos.bootstrap.get_css_theme());
     }
+    // Lang part
+    if (!saltos.gettext.get()) {
+        saltos.app.set_locale(navigator.language || navigator.systemLanguage);
+    } else {
+        saltos.app.set_locale(saltos.gettext.get());
+    }
     // Token part
     if (saltos.token.get()) {
         saltos.authenticate.checktoken();
-    }
-    // Lang part
-    if (!saltos.gettext.get()) {
-        saltos.gettext.set(navigator.language || navigator.systemLanguage);
     }
     // Hash part
     saltos.hash.trigger();
