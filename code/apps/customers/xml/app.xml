@@ -39,6 +39,10 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button ifeval="check_user('customers', 'create')" onclick="saltos.driver.open('#app/customers/create')" label="Nuevo cliente" tooltip="Para crear un nuevo cliente" icon="plus-lg"/>
                 <div col_class="col"/>
+                <hidden id="page" value="0"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
+                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="table" source="list/customers/table"/>

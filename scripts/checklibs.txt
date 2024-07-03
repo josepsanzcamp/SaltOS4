@@ -33,6 +33,6 @@ mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1y
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDctMDIsIFZlcnNpb24gMjIuNC4wIChDdXJyZW50KSwgQHRhcmdvczwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMSAtIDIwMjQtMDUtMjI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMGFscGhhMTwvdGl0bGU+
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMi41PC90aXRsZT4=
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMi42PC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|base64:PHRpdGxlPnYzLjE4LjA8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|base64:PHRpdGxlPjMuMS4wPC90aXRsZT4=

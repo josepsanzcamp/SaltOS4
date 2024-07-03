@@ -19,16 +19,14 @@ web: clean
 	uglifyjs code/web/js/.js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,app}.js -c -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
 	rmdir code/web/js/.js
-	minify code/web/css/index.css > code/web/index.css
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 devel: clean
 	cat code/web/htm/index.htm | \
-	php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,app}.js | \
-	php scripts/debug.php index.css css/index.css > code/web/index.htm
+	php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,app}.js > code/web/index.htm
 
 clean:
-	rm -f code/web/index.{js,css,htm,js.map}
+	rm -f code/web/index.{js,htm,js.map}
 
 test:
 ifeq ($(file), ) # default behaviour

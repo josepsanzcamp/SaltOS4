@@ -59,5 +59,8 @@ saltos.login.authenticate = () => {
     if (['', 'app/login'].includes(saltos.hash.get())) {
         saltos.hash.set('app/dashboard');
     }
+    saltos.app.set_bs_theme(saltos.bootstrap.get_bs_theme());
+    saltos.app.set_css_theme(saltos.bootstrap.get_css_theme());
+    saltos.app.set_locale(navigator.language || navigator.systemLanguage);
     saltos.hash.trigger();
 };

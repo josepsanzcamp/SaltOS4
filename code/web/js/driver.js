@@ -45,6 +45,32 @@ saltos.driver = {};
  * TODO
  */
 saltos.driver.init = arg => {
+    if (document.getElementById('saltos-driver-styles')) {
+        document.getElementById('saltos-driver-styles').remove();
+    }
+    var obj = saltos.driver.styles();
+    obj.setAttribute('id', 'saltos-driver-styles');
+    document.body.append(obj);
+    // Detect needed padding
+    var has_top = document.getElementById('top').innerHTML.length;
+    var has_bottom = document.getElementById('bottom').innerHTML.length;
+    if (!has_top && !has_bottom) {
+        var new_class = 'py-3';
+    } else if (!has_top) {
+        var new_class = 'pt-3';
+    } else if (!has_bottom) {
+        var new_class = 'pb-3';
+    } else {
+        var new_class = '';
+    }
+    // Remove and apply the old and new paddings
+    document.querySelectorAll('#one, #two, #three').forEach(_this => {
+        ['py-3', 'pt-3', 'pb-3'].forEach(_this2 => _this.classList.remove(_this2));
+        if (new_class != '') {
+            _this.classList.add(new_class);
+        }
+    });
+    // Old feature
     var screen = document.body.getAttribute('screen');
     saltos.driver.__types[screen].init(arg);
 };
@@ -365,19 +391,72 @@ saltos.driver.delete = async arg => {
  */
 saltos.driver.placeholder = arg => {
     var obj = saltos.core.html(`
-        <div class="bg-primary-subtle h-100 driver-placeholder">
-            <style>
-                .driver-placeholder {
-                    background-image: url("img/logo_white.svg");
-                    background-repeat: no-repeat;
-                    background-position: center;
-                    background-size: 75% 75%;
-                }
-            </style>
-        </div>
+        <div class="bg-primary-subtle h-100 driver-placeholder"></div>
     `);
+    obj.append(saltos.core.html(`
+        <style>
+            .driver-placeholder {
+                background-image: url("img/logo_white.svg");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 75% 75%;
+            }
+        </style>
+    `));
     document.getElementById(arg).innerHTML = '';
     document.getElementById(arg).append(obj);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.styles = arg => {
+    var height = document.getElementById('header').offsetHeight +
+        document.getElementById('top').offsetHeight +
+        document.getElementById('bottom').offsetHeight +
+        document.getElementById('footer').offsetHeight;
+    return saltos.core.html(`
+        <style>
+            @media (min-width: 0px) {
+                .overflow-auto-xs {
+                    height: calc(100vh - ${height}px);
+                    overflow: auto;
+                }
+            }
+            @media (min-width: 576px) {
+                .overflow-auto-sm {
+                    height: calc(100vh - ${height}px);
+                    overflow: auto;
+                }
+            }
+            @media (min-width: 768px) {
+                .overflow-auto-md {
+                    height: calc(100vh - ${height}px);
+                    overflow: auto;
+                }
+            }
+            @media (min-width: 992px) {
+                .overflow-auto-lg {
+                    height: calc(100vh - ${height}px);
+                    overflow: auto;
+                }
+            }
+            @media (min-width: 1200px) {
+                .overflow-auto-xl {
+                    height: calc(100vh - ${height}px);
+                    overflow: auto;
+                }
+            }
+            @media (min-width: 1400px) {
+                .overflow-auto-xxl {
+                    height: calc(100vh - ${height}px);
+                    overflow: auto;
+                }
+            }
+        </style>
+    `);
 };
 
 /**
@@ -401,15 +480,21 @@ saltos.driver.__types.type1 = {};
  */
 saltos.driver.__types.type1.template = arg => {
     return saltos.core.html(`
-        <div id="top"></div>
+        <div id="header"></div>
         <div class="container">
             <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="top" class="col-12"></div>
+            </div>
+            <div class="row">
+                <div id="left" class="col-auto overflow-auto-xl p-0"></div>
+                <div id="one" class="col-xl overflow-auto-xl"></div>
+                <div id="right" class="col-auto overflow-auto-xl p-0"></div>
+            </div>
+            <div class="row">
+                <div id="bottom" class="col-12"></div>
             </div>
         </div>
-        <div id="bottom"></div>
+        <div id="footer"></div>
     `);
 };
 
@@ -471,16 +556,22 @@ saltos.driver.__types.type2 = {};
  */
 saltos.driver.__types.type2.template = arg => {
     return saltos.core.html(`
-        <div id="top"></div>
+        <div id="header"></div>
         <div class="container-fluid">
             <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="top" class="col-12"></div>
+            </div>
+            <div class="row">
+                <div id="left" class="col-auto overflow-auto-xl p-0"></div>
+                <div id="one" class="col-xl overflow-auto-xl"></div>
+                <div id="two" class="col-xl overflow-auto-xl"></div>
+                <div id="right" class="col-auto overflow-auto-xl p-0"></div>
+            </div>
+            <div class="row">
+                <div id="bottom" class="col-12"></div>
             </div>
         </div>
-        <div id="bottom"></div>
+        <div id="footer"></div>
     `);
 };
 
@@ -556,17 +647,23 @@ saltos.driver.__types.type3 = {};
  */
 saltos.driver.__types.type3.template = arg => {
     return saltos.core.html(`
-        <div id="top"></div>
+        <div id="header"></div>
         <div class="container-fluid">
             <div class="row">
-                <div id="left" class="col-auto p-0 overflow-auto-xl d-flex"></div>
-                <div id="one" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="two" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="three" class="col-xl py-3 overflow-auto-xl"></div>
-                <div id="right" class="col-auto p-0 overflow-auto-xl d-flex"></div>
+                <div id="top" class="col-12"></div>
+            </div>
+            <div class="row">
+                <div id="left" class="col-auto overflow-auto-xl p-0"></div>
+                <div id="one" class="col-xl overflow-auto-xl"></div>
+                <div id="two" class="col-xl overflow-auto-xl"></div>
+                <div id="three" class="col-xl overflow-auto-xl"></div>
+                <div id="right" class="col-auto overflow-auto-xl p-0"></div>
+            </div>
+            <div class="row">
+                <div id="bottom" class="col-12"></div>
             </div>
         </div>
-        <div id="bottom"></div>
+        <div id="footer"></div>
     `);
 };
 
