@@ -238,6 +238,9 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
             .list-group-item:nth-child(odd) {
                 --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
             }
+            .list-group-item.active h5 {
+                color: inherit;
+            }
         </style>
     `)),saltos.core.eval_bool(a.checkbox)&&saltos.core.when_visible(s,()=>{for(var e in s.classList.add("position-relative"),a.data){var e=a.data[e],t=(s.append(saltos.core.html(`
                     <div class="bg-primary border position-absolute p-2">

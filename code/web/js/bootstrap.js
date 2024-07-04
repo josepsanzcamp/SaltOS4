@@ -2665,6 +2665,9 @@ saltos.bootstrap.__field.list = field => {
             .list-group-item:nth-child(odd) {
                 --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
             }
+            .list-group-item.active h5 {
+                color: inherit;
+            }
         </style>
     `));
     if (saltos.core.eval_bool(field.checkbox)) {
