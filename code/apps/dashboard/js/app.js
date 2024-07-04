@@ -44,29 +44,80 @@ saltos.dashboard = {};
  *
  * TODO
  */
-saltos.dashboard.init = () => {
-    saltos.window.set_listener('saltos.customers.update', event => {
-        saltos.core.ajax({
-            url: 'api/?list/customers/widget/table1',
-            success: response => {
-                if (!saltos.app.check_response(response)) {
-                    return;
-                }
-                var temp = saltos.bootstrap.field(response);
-                document.getElementById('table1').parentElement.replaceWith(temp);
-            },
-            error: request => {
-                saltos.app.show_error({
-                    text: request.statusText,
-                    code: request.status,
-                });
-            },
-            token: saltos.token.get(),
-            lang: saltos.gettext.get(),
+saltos.dashboard.init = arg => {
+    if (arg == 'menu') {
+        saltos.window.set_listener('saltos.customers.update', event => {
+            saltos.core.ajax({
+                url: 'api/?list/customers/widget/table1',
+                success: response => {
+                    if (!saltos.app.check_response(response)) {
+                        return;
+                    }
+                    var temp = saltos.bootstrap.field(response);
+                    document.getElementById('table1').replaceWith(temp);
+                },
+                error: request => {
+                    saltos.app.show_error({
+                        text: request.statusText,
+                        code: request.status,
+                    });
+                },
+                token: saltos.token.get(),
+                lang: saltos.gettext.get(),
+            });
         });
-    });
+        Sortable.create(document.querySelector('.items'), {
+            animation: 150,
+        });
+    }
+    if (arg == 'config') {
+        document.getElementById('bs_theme').value = saltos.bootstrap.get_bs_theme();
+        document.getElementById('css_theme').value = saltos.bootstrap.get_css_theme();
+        document.getElementById('lang').value = saltos.gettext.get();
+    }
+};
 
-    Sortable.create(document.querySelector('.items'), {
-        animation: 150,
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.dashboard.authupdate = () => {
+    if (!saltos.app.check_required()) {
+        return;
+    }
+    var data = saltos.app.get_data(true);
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: 'api/?authupdate',
+        data: JSON.stringify({
+            'oldpass': data.oldpass,
+            'newpass': data.newpass,
+            'renewpass': data.renewpass,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        async: false,
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                saltos.app.modal('Response', 'Password updated successfully');
+                saltos.hash.trigger();
+                return;
+            }
+            saltos.app.show_error(response);
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+        lang: saltos.gettext.get(),
     });
 };

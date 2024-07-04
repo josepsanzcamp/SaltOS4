@@ -33,7 +33,7 @@
         <screen>type1</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
-            <row auto="true" row_class="row items mt-3" col_class="col-md-4 mb-3">
+            <row auto="true" row_class="row items" col_class="col-md-4 mb-3">
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('#app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
                 <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('#app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
                 <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('#app/emails')" color="success" class="fs-1 w-100 h-100" label="Email"/>
@@ -50,7 +50,8 @@
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
-            <inline>saltos.dashboard.init()</inline>
+            <inline>saltos.driver.init("menu")</inline>
+            <inline>saltos.dashboard.init("menu")</inline>
         </javascript>
     </menu>
 
@@ -61,17 +62,30 @@
         <screen>type1</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
-            <row auto="true" col_class="col-md-12 mb-3">
-                <textarea height="10em" value="TODO..." />
+            <row auto="true" col_class="col-md-4 mb-3">
+                <select id="bs_theme" label="Color mode" onchange="saltos.bootstrap.set_bs_theme(this.value)">
+                    <rows eval="true">xmlfile2array("xml/bs_theme.xml")["rows"]</rows>
+                </select>
+                <select id="css_theme" label="Theme style" onchange="saltos.bootstrap.set_css_theme(this.value)">
+                    <rows eval="true">xmlfile2array("xml/css_theme.xml")["rows"]</rows>
+                </select>
+                <select id="lang" label="Language" onchange="saltos.gettext.set(this.value);saltos.hash.trigger()">
+                    <rows eval="true">xmlfile2array("xml/locale.xml")["rows"]</rows>
+                </select>
+                <password id="oldpass" label="Old password" required="true" onenter="document.getElementById('newpass').focus()"/>
+                <password id="newpass" label="New password" required="true" onenter="document.getElementById('renewpass').focus()"/>
+                <password id="renewpass" label="Retype password" required="true" onenter="saltos.dashboard.authupdate()"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.dashboard.update()" label="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
-                <button onclick="saltos.window.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
+                <button onclick="saltos.dashboard.authupdate()" label="Update" tooltip="Update the password" icon="check-lg"/>
+                <button onclick="saltos.window.close();" label="Close" tooltip="Close this screen" icon="x-lg"/>
             </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
+            <inline>saltos.driver.init("config")</inline>
+            <inline>saltos.dashboard.init("config")</inline>
         </javascript>
     </config>
 

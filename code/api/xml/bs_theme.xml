@@ -26,9 +26,9 @@
 -->
 
 <root>
-    <menu>
-        <item name="Auto" id="bs_theme_auto" icon="circle-half" onclick="saltos.app.set_bs_theme('auto')"/>
-        <item name="Light" id="bs_theme_light" icon="sun-fill" onclick="saltos.app.set_bs_theme('light')"/>
-        <item name="Dark" id="bs_theme_dark" icon="moon-stars-fill" onclick="saltos.app.set_bs_theme('dark')"/>
-    </menu>
+    <rows>
+        <row label="Auto" value="auto"/>
+        <row label="Light" value="light"/>
+        <row label="Dark" value="dark"/>
+    </rows>
 </root>
