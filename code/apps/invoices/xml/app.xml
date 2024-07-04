@@ -82,12 +82,12 @@
         <float id="precio" label="precio" col_class="col-md-1 mb-3" required="true"/>
         <float id="descuento" label="descuento" col_class="col-md-1 mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.invoices.remove_item(this)" label="-" icon="trash" col_class="col-auto mb-3" tooltip="Quitar este concepto"/>
+        <button onclick="saltos.invoices.remove_item(this)" icon="trash" col_class="col-auto mb-3 mt-auto" tooltip="Quitar este concepto"/>
     </form_detail>
     <form_footer>
         <div col_class="col mb-3"/>
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
-        <button onclick="saltos.invoices.add_item()" label="-" icon="plus-lg" col_class="col-auto mb-3" tooltip="Añadir mas conceptos"/>
+        <button onclick="saltos.invoices.add_item()" icon="plus-lg" col_class="col-auto mb-3 mt-auto" tooltip="Añadir mas conceptos"/>
     </form_footer>
     <data_header eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_header>
     <data_detail eval="true">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</data_detail>
