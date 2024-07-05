@@ -2681,6 +2681,7 @@ saltos.bootstrap.__field.list = field => {
         </style>
     `));
     if (saltos.core.eval_bool(field.checkbox)) {
+        obj.classList.add('rounded-0');
         saltos.core.when_visible(obj, () => {
             obj.classList.add('position-relative');
             for (var key in field.data) {

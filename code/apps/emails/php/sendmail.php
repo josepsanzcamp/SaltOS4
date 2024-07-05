@@ -430,7 +430,7 @@ function __sendmail_objsaver($mail, $messageid)
  *
  * TODO
  */
-function sendmail_prepare($action, $action_id, $account_id = 0)
+function sendmail_prepare($action, $email_id, $account_id = 0)
 {
     if (!$account_id) {
         $query = "SELECT id
@@ -471,7 +471,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
     $subject_extra = "";
     $body_extra = "";
     if (in_array($action, ["reply", "replyall", "forward"])) {
-        $query = "SELECT account_id FROM app_emails WHERE id='{$action_id}'";
+        $query = "SELECT account_id FROM app_emails WHERE id='{$email_id}'";
         $result2 = execute_query($query);
         if ($result2 && $account_id != $result2) {
             $account_id = $result2;
@@ -499,7 +499,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
         $body_extra = "<br/><br/><signature>" . ($file ? $file["auto"] : "") . "</signature>";
     }
     if (in_array($action, ["reply", "replyall"])) {
-        $query = "SELECT * FROM app_emails_address WHERE email_id='{$action_id}'";
+        $query = "SELECT * FROM app_emails_address WHERE email_id='{$email_id}'";
         $result2 = execute_query_array($query);
         foreach ($result2 as $addr) {
             if ($addr["type_id"] == 6) {
@@ -563,7 +563,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
         }
     }
     if ($action == "forward") {
-        $query = "SELECT * FROM app_emails_address WHERE email_id='{$action_id}'";
+        $query = "SELECT * FROM app_emails_address WHERE email_id='{$email_id}'";
         $result2 = execute_query_array($query);
         foreach ($result2 as $addr) {
             if ($addr["type_id"] == 1) {
@@ -573,7 +573,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
     }
     if (in_array($action, ["reply", "replyall", "forward"])) {
         require_once "php/getmail.php";
-        $query = "SELECT * FROM app_emails WHERE id='{$action_id}'";
+        $query = "SELECT * FROM app_emails WHERE id='{$email_id}'";
         $row2 = execute_query($query);
         if ($row2 && isset($row2["subject"])) {
             $subject_extra = $row2["subject"];
@@ -594,7 +594,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
                 $oldhead
             );
             $oldbody = "";
-            $decoded = __getmail_getmime($action_id);
+            $decoded = __getmail_getmime($email_id);
             if ($action == "forward") {
                 $result2 = __getmail_getinfo(__getmail_getnode("0", $decoded));
                 $lista = ["from", "to", "cc", "bcc"];
@@ -620,7 +620,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
                         WHERE id=(
                             SELECT account_id
                             FROM app_emails
-                            WHERE id='{$action_id}')";
+                            WHERE id='{$email_id}')";
                     $result2["to"] = str_replace("<>", "<" . execute_query($query) . ">", $result2["to"]);
                 }
                 if (!isset($result2["to"])) {
@@ -631,7 +631,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
                             WHERE id=(
                                 SELECT account_id
                                 FROM app_emails
-                                WHERE id='{$action_id}'
+                                WHERE id='{$email_id}'
                             )
                         )=''
                         THEN (
@@ -640,7 +640,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
                             WHERE id=(
                                 SELECT account_id
                                 FROM app_emails
-                                WHERE id='{$action_id}'
+                                WHERE id='{$email_id}'
                             )
                         )
                         ELSE (
@@ -649,7 +649,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
                             WHERE id=(
                                 SELECT account_id
                                 FROM app_emails
-                                WHERE id='{$action_id}'
+                                WHERE id='{$email_id}'
                             )
                         ) END";
                     $result2["to"] = execute_query($query);
@@ -746,7 +746,7 @@ function sendmail_prepare($action, $action_id, $account_id = 0)
                                     $data = "data:image/png;base64,{$data}";
                                     $temp = str_replace("cid:{$cid2}", $data, $temp);
                                 } else {
-                                    $url = "?action=getmail&id={$action_id}&cid={$chash2}";
+                                    $url = "?action=getmail&id={$email_id}&cid={$chash2}";
                                     $temp = str_replace("cid:{$cid2}", $url, $temp);
                                 }
                             }
@@ -851,7 +851,7 @@ function sendmail_action()
     // PREPARE THE INLINES IMAGES AND EMBEDDED ATTACHMENTS
     $attachs = [];
     if (in_array($action, ["reply", "replyall", "forward"])) {
-        $decoded = __getmail_getmime($action_id);
+        $decoded = __getmail_getmime($email_id);
         $result2 = __getmail_getfullbody(__getmail_getnode("0", $decoded));
         $useimginline = eval_bool(getDefault("cache/useimginline"));
         foreach ($result2 as $index2 => $node2) {
@@ -867,7 +867,7 @@ function sendmail_action()
                         $data = "data:image/png;base64,{$data}";
                         $body = str_replace($data, "cid:{$cid2}", $body);
                     } else {
-                        $url = "?action=getmail&id={$action_id}&cid={$chash2}";
+                        $url = "?action=getmail&id={$email_id}&cid={$chash2}";
                         $url = str_replace("&", "&amp;", $url); // CKEDITOR CORRECTION
                         $body = str_replace($url, "cid:{$cid2}", $body);
                     }
@@ -974,7 +974,7 @@ function sendmail_action()
         $last_id = execute_query($query);
         // SOME UPDATES
         if (in_array($action, ["reply", "replyall", "forward"])) {
-            __getmail_update("email_id", $action_id, $last_id);
+            __getmail_update("email_id", $email_id, $last_id);
             if ($action == "reply") {
                 $campo = "state_reply";
             }
@@ -984,7 +984,7 @@ function sendmail_action()
             if ($action == "forward") {
                 $campo = "state_forward";
             }
-            __getmail_update($campo, 1, $action_id);
+            __getmail_update($campo, 1, $email_id);
         }
         // FINISH THE ACTION
         session_alert(LANG("msgsendoksendmail", "correo"));
@@ -1176,7 +1176,7 @@ function sendmail_files()
     $email_id = abs(intval(getParam("id")));
     $id_extra = explode("_", getParam("id"), 3);
     if ($action == "forward") {
-        $email_id = $action_id;
+        $email_id = $email_id;
     }
     if ($email_id) {
         // BUSCAR USUARIO DEL CORREO

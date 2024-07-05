@@ -30,13 +30,13 @@
         <row label="Default" value="default"/>
         <row label="Cerulean" value="cerulean"/>
         <row label="Cosmo" value="cosmo"/>
-        <!--<row label="Cyborg" value="cyborg"/>-->
-        <!--<row label="Darkly" value="darkly"/>-->
+        <row label="Cyborg" value="cyborg"/>
+        <row label="Darkly" value="darkly"/>
         <row label="Flatly" value="flatly"/>
         <row label="Journal" value="journal"/>
         <row label="Litera" value="litera"/>
         <row label="Lumen" value="lumen"/>
-        <!--<row label="Lux" value="lux"/>-->
+        <row label="Lux" value="lux"/>
         <!--<row label="Materia" value="materia"/>-->
         <row label="Minty" value="minty"/>
         <!--<row label="Morph" value="morph"/>-->
@@ -45,12 +45,12 @@
         <row label="Sandstone" value="sandstone"/>
         <row label="Simplex" value="simplex"/>
         <!--<row label="Sketchy" value="sketchy"/>-->
-        <!--<row label="Slate" value="slate"/>-->
+        <row label="Slate" value="slate"/>
         <row label="Solar" value="solar"/>
         <row label="Spacelab" value="spacelab"/>
         <row label="Superhero" value="superhero"/>
         <row label="United" value="united"/>
-        <!--<row label="Vapor" value="vapor"/>-->
+        <row label="Vapor" value="vapor"/>
         <row label="Yeti" value="yeti"/>
         <row label="Zephyr" value="zephyr"/>
     </rows>
