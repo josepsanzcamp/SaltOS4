@@ -261,9 +261,7 @@ saltos.bootstrap.__field.text = field => {
                     return;
                 }
                 event.target.setAttribute('old_value', value);
-                obj.querySelectorAll('datalist option').forEach(option => {
-                    option.remove();
-                });
+                obj.querySelectorAll('datalist option').forEach(option => option.remove());
                 saltos.core.ajax({
                     url: 'api/?' + field.datalist_old + btoa(value),
                     success: response => {
@@ -625,6 +623,9 @@ saltos.bootstrap.__field.ckeditor = field => {
     saltos.core.when_visible(element, () => {
         ClassicEditor.create(element, {}).then(editor => {
             element.ckeditor = editor;
+            element.set = value => {
+                editor.setData(value);
+            };
             if (field.color != 'none') {
                 element.nextElementSibling.classList.add('border');
                 element.nextElementSibling.classList.add('border-' + field.color);
@@ -696,6 +697,9 @@ saltos.bootstrap.__field.codemirror = field => {
             lineWrapping: true,
         });
         element.codemirror = cm;
+        element.set = value => {
+            cm.setValue(value);
+        };
         if (field.color != 'none') {
             element.nextElementSibling.classList.add('border');
             element.nextElementSibling.classList.add('border-' + field.color);
@@ -2356,15 +2360,21 @@ saltos.bootstrap.__field.tags = field => {
         input.value = val_new.join(field.separator);
         input_new.value = '';
     });
+    // Program the set in the input first
+    obj.querySelector('input.first').set = value => {
+        obj.querySelector('input.first').value = value;
+        obj.querySelectorAll('span.badge').forEach(_this => _this.remove());
+        var value_array = value.split(field.separator);
+        if (value == '') {
+            value_array = [];
+        }
+        for (var key in value_array) {
+            var val = value_array[key].trim();
+            fn(val);
+        }
+    };
     // This part of the code adds the initials tags using the fn function
-    var value_array = field.value.split(field.separator);
-    if (field.value == '') {
-        value_array = [];
-    }
-    for (var key in value_array) {
-        var val = value_array[key].trim();
-        fn(val);
-    }
+    obj.querySelector('input.first').set(field.value);
     // This part of the code is a trick to allow that labels previously created
     // will be linked to the input type text instead of the input type hidden,
     // remember that the hidden contains the original id and the visible textbox

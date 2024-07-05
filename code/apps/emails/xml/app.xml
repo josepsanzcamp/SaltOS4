@@ -88,10 +88,10 @@
                                 WHERE account_id=a.id AND is_outbox=1
                             )
                             AND type_id IN (1,2,3,4)
-                        ) contador
+                        ) counter
                         FROM app_emails_accounts a
                         WHERE user_id='".current_user()."' AND email_disabled='0' AND smtp_host!=''
-                        ORDER BY email_default DESC, contador DESC
+                        ORDER BY email_default DESC, counter DESC
                     ")</rows>
                 </select>
                 <tags id="to" label="To" separator=";" datalist="app/emails/create/emails/" autofocus="true" required="true"/>

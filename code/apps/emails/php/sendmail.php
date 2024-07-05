@@ -75,7 +75,7 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
     if (isset($account_id0)) {
         $account_id = $account_id0;
     }
-    $query = "SELECT * FROM tbl_usuarios_c WHERE id='$account_id'";
+    $query = "SELECT * FROM app_emails_accounts WHERE id='$account_id'";
     $result = execute_query($query);
     if (!isset($result["id"])) {
         return "id not found";
@@ -371,7 +371,7 @@ function __sendmail_messageid($account_id, $from)
         mkdir($prefix);
         chmod($prefix, 0777);
     }
-    $query = "SELECT MAX(id) FROM tbl_correo";
+    $query = "SELECT MAX(id) FROM app_emails";
     $count = execute_query($query);
     if (!$count) {
         $count = 1;
@@ -430,64 +430,64 @@ function __sendmail_objsaver($mail, $messageid)
  *
  * TODO
  */
-function sendmail_prepare()
+function sendmail_prepare($action, $action_id, $account_id = 0)
 {
-    $id_cuenta = intval(getParam("id_cuenta"));
-    if (!$id_cuenta) {
+    if (!$account_id) {
         $query = "SELECT id
-            FROM tbl_usuarios_c
-            WHERE id_usuario='" . current_user() . "'
+            FROM app_emails_accounts
+            WHERE user_id='" . current_user() . "'
                 AND email_disabled='0'
                 AND smtp_host!=''
                 AND email_default='1'
             LIMIT 1";
-        $id_cuenta = execute_query($query);
+        $account_id = execute_query($query);
     }
-    if (!$id_cuenta) {
+    if (!$account_id) {
         $query = "SELECT id FROM (
             SELECT id,(
                 SELECT COUNT(*)
-                FROM tbl_correo_a
-                WHERE id_correo IN (
+                FROM app_emails_address
+                WHERE email_id IN (
                     SELECT id
-                    FROM tbl_correo
-                    WHERE id_cuenta=a.id
+                    FROM app_emails
+                    WHERE account_id=a.id
                         AND is_outbox=1
                 )
-                AND id_tipo IN (1,2,3,4)
-            ) contador,
+                AND type_id IN (1,2,3,4)
+            ) counter,
             email_default
-            FROM tbl_usuarios_c a
-            WHERE id_usuario='" . current_user() . "'
+            FROM app_emails_accounts a
+            WHERE user_id='" . current_user() . "'
                 AND email_disabled='0'
                 AND smtp_host!=''
-            ORDER BY email_default DESC,contador DESC
+            ORDER BY email_default DESC,counter DESC
             LIMIT 1) z";
-        $id_cuenta = execute_query($query);
+        $account_id = execute_query($query);
     }
-    $id_extra = explode("_", getParam("id"), 3);
     $to_extra = "";
     $cc_extra = "";
     $bcc_extra = "";
     $state_crt = "";
     $subject_extra = "";
     $body_extra = "";
-    if (isset($id_extra[1]) && in_array($id_extra[1], array("reply","replyall","forward"))) {
-        $query = "SELECT id_cuenta FROM tbl_correo WHERE id='{$id_extra[2]}'";
+    if (in_array($action, ["reply", "replyall", "forward"])) {
+        $query = "SELECT account_id FROM app_emails WHERE id='{$action_id}'";
         $result2 = execute_query($query);
-        if ($result2 && $id_cuenta != $result2) {
-            $id_cuenta = $result2;
+        if ($result2 && $account_id != $result2) {
+            $account_id = $result2;
         }
     }
     if (1) { // GET THE DEFAULT ADDMETOCC
-        $query = "SELECT * FROM tbl_usuarios_c WHERE id_usuario='" . current_user() . "' AND id='$id_cuenta'";
+        $query = "SELECT * FROM app_emails_accounts
+            WHERE user_id='" . current_user() . "' AND id='$account_id'";
         $result2 = execute_query($query);
         if ($result2 && $result2["email_addmetocc"]) {
             $cc_extra = $result2["email_name"] . " <" . $result2["email_from"] . ">; ";
         }
     }
     if (1) { // GET THE DEFAULT CRT
-        $query = "SELECT * FROM tbl_usuarios_c WHERE id_usuario='" . current_user() . "' AND id='$id_cuenta'";
+        $query = "SELECT * FROM app_emails_accounts
+            WHERE user_id='" . current_user() . "' AND id='$account_id'";
         $result2 = execute_query($query);
         if ($result2) {
             $state_crt = $result2["email_crt"];
@@ -495,17 +495,17 @@ function sendmail_prepare()
     }
     if (1) { // GET THE DEFAULT SIGNATURE
         require_once "php/libaction.php";
-        $file = __signature_getauto(__signature_getfile($id_cuenta));
+        $file = __signature_getauto(__signature_getfile($account_id));
         $body_extra = "<br/><br/><signature>" . ($file ? $file["auto"] : "") . "</signature>";
     }
-    if (isset($id_extra[1]) && in_array($id_extra[1], array("reply","replyall"))) {
-        $query = "SELECT * FROM tbl_correo_a WHERE id_correo='{$id_extra[2]}'";
+    if (in_array($action, ["reply", "replyall"])) {
+        $query = "SELECT * FROM app_emails_address WHERE email_id='{$action_id}'";
         $result2 = execute_query_array($query);
         foreach ($result2 as $addr) {
-            if ($addr["id_tipo"] == 6) {
+            if ($addr["type_id"] == 6) {
                 $finded_replyto = $addr;
             }
-            if ($addr["id_tipo"] == 1) {
+            if ($addr["type_id"] == 1) {
                 $finded_from = $addr;
             }
         }
@@ -522,15 +522,15 @@ function sendmail_prepare()
             }
         }
     }
-    if (isset($id_extra[1]) && $id_extra[1] == "replyall") {
+    if ($action == "replyall") {
         if (isset($finded_replyto) && isset($finded_from)) {
-            $finded_tocc = array();
+            $finded_tocc = [];
             $finded_tocc[] = $finded_from;
         }
         foreach ($result2 as $addr) {
-            if ($addr["id_tipo"] == 2 || $addr["id_tipo"] == 3) {
+            if ($addr["type_id"] == 2 || $addr["type_id"] == 3) {
                 if (!isset($finded_tocc)) {
-                    $finded_tocc = array();
+                    $finded_tocc = [];
                 }
                 $finded_tocc[] = $addr;
             }
@@ -543,7 +543,8 @@ function sendmail_prepare()
                     }
                 }
             }
-            $query = "SELECT * FROM tbl_usuarios_c WHERE id_usuario='" . current_user() . "' AND id='$id_cuenta'";
+            $query = "SELECT * FROM app_emails_accounts
+                WHERE user_id='" . current_user() . "' AND id='$account_id'";
             $result2 = execute_query_array($query);
             foreach ($result2 as $addr) {
                 foreach ($finded_tocc as $key2 => $addr2) {
@@ -561,22 +562,22 @@ function sendmail_prepare()
             }
         }
     }
-    if (isset($id_extra[1]) && $id_extra[1] == "forward") {
-        $query = "SELECT * FROM tbl_correo_a WHERE id_correo='{$id_extra[2]}'";
+    if ($action == "forward") {
+        $query = "SELECT * FROM app_emails_address WHERE email_id='{$action_id}'";
         $result2 = execute_query_array($query);
         foreach ($result2 as $addr) {
-            if ($addr["id_tipo"] == 1) {
+            if ($addr["type_id"] == 1) {
                 $finded_from = $addr;
             }
         }
     }
-    if (isset($id_extra[1]) && in_array($id_extra[1], array("reply","replyall","forward"))) {
+    if (in_array($action, ["reply", "replyall", "forward"])) {
         require_once "php/getmail.php";
-        $query = "SELECT * FROM tbl_correo WHERE id='{$id_extra[2]}'";
+        $query = "SELECT * FROM app_emails WHERE id='{$action_id}'";
         $row2 = execute_query($query);
         if ($row2 && isset($row2["subject"])) {
             $subject_extra = $row2["subject"];
-            $prefix = LANG($id_extra[1] . "subject");
+            $prefix = LANG($action . "subject");
             if (strncasecmp($subject_extra, $prefix, strlen($prefix)) != 0) {
                 $subject_extra = $prefix . $subject_extra;
             }
@@ -593,10 +594,10 @@ function sendmail_prepare()
                 $oldhead
             );
             $oldbody = "";
-            $decoded = __getmail_getmime($id_extra[2]);
-            if ($id_extra[1] == "forward") {
+            $decoded = __getmail_getmime($action_id);
+            if ($action == "forward") {
                 $result2 = __getmail_getinfo(__getmail_getnode("0", $decoded));
-                $lista = array("from","to","cc","bcc");
+                $lista = ["from", "to", "cc", "bcc"];
                 foreach ($lista as $temp) {
                     unset($result2[$temp]);
                 }
@@ -605,7 +606,7 @@ function sendmail_prepare()
                         $email["valor"] = "{$email["nombre"]} <{$email["valor"]}>";
                     }
                     if (!isset($result2[$email["tipo"]])) {
-                        $result2[$email["tipo"]] = array();
+                        $result2[$email["tipo"]] = [];
                     }
                     $result2[$email["tipo"]][] = $email["valor"];
                 }
@@ -615,40 +616,40 @@ function sendmail_prepare()
                 if (isset($result2["to"])) {
                     $result2["to"] = implode("; ", $result2["to"]);
                     $query = "SELECT email_from
-                        FROM tbl_usuarios_c
+                        FROM app_emails_accounts
                         WHERE id=(
-                            SELECT id_cuenta
-                            FROM tbl_correo
-                            WHERE id='{$id_extra[2]}')";
+                            SELECT account_id
+                            FROM app_emails
+                            WHERE id='{$action_id}')";
                     $result2["to"] = str_replace("<>", "<" . execute_query($query) . ">", $result2["to"]);
                 }
                 if (!isset($result2["to"])) {
                     $query = "SELECT CASE
                         WHEN (
                             SELECT email_name
-                            FROM tbl_usuarios_c
+                            FROM app_emails_accounts
                             WHERE id=(
-                                SELECT id_cuenta
-                                FROM tbl_correo
-                                WHERE id='{$id_extra[2]}'
+                                SELECT account_id
+                                FROM app_emails
+                                WHERE id='{$action_id}'
                             )
                         )=''
                         THEN (
                             SELECT email_from
-                            FROM tbl_usuarios_c
+                            FROM app_emails_accounts
                             WHERE id=(
-                                SELECT id_cuenta
-                                FROM tbl_correo
-                                WHERE id='{$id_extra[2]}'
+                                SELECT account_id
+                                FROM app_emails
+                                WHERE id='{$action_id}'
                             )
                         )
                         ELSE (
                             SELECT CONCAT(email_name,' <',email_from,'>')
-                            FROM tbl_usuarios_c
+                            FROM app_emails_accounts
                             WHERE id=(
-                                SELECT id_cuenta
-                                FROM tbl_correo
-                                WHERE id='{$id_extra[2]}'
+                                SELECT account_id
+                                FROM app_emails
+                                WHERE id='{$action_id}'
                             )
                         ) END";
                     $result2["to"] = execute_query($query);
@@ -659,14 +660,14 @@ function sendmail_prepare()
                 if (isset($result2["bcc"])) {
                     $result2["bcc"] = implode("; ", $result2["bcc"]);
                 }
-                $lista = array(
+                $lista = [
                     "from" => LANG("from", "correo"),
                     "to" => LANG("to", "correo"),
                     "cc" => LANG("cc", "correo"),
                     "bcc" => LANG("bcc", "correo"),
                     "datetime" => LANG("datetime", "correo"),
-                    "subject" => LANG("subject", "correo")
-                );
+                    "subject" => LANG("subject", "correo"),
+                ];
                 if (!isset($result2["from"])) {
                     unset($lista["from"]);
                 }
@@ -684,7 +685,7 @@ function sendmail_prepare()
                 }
                 $oldbody .= __HTML_BOX_OPEN__;
                 foreach ($lista as $key2 => $val2) {
-                    $result2[$key2] = str_replace(array("<",">"), array("&lt;","&gt;"), $result2[$key2]);
+                    $result2[$key2] = str_replace(["<", ">"], ["&lt;", "&gt;"], $result2[$key2]);
                     $oldbody .= __HTML_TEXT_OPEN__;
                     $oldbody .= $lista[$key2] . ": ";
                     $oldbody .= "<b>" . $result2[$key2] . "</b>";
@@ -721,8 +722,8 @@ function sendmail_prepare()
                         $temp = wordwrap($temp, 120);
                         $temp = htmlentities($temp, ENT_COMPAT, "UTF-8");
                         $temp = str_replace(
-                            array(" ","\t","\n"),
-                            array("&nbsp;",str_repeat("&nbsp;", 8),"<br/>"),
+                            [" ", "\t", "\n"],
+                            ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>"],
                             $temp
                         );
                     }
@@ -745,7 +746,7 @@ function sendmail_prepare()
                                     $data = "data:image/png;base64,{$data}";
                                     $temp = str_replace("cid:{$cid2}", $data, $temp);
                                 } else {
-                                    $url = "?action=getmail&id={$id_extra[2]}&cid={$chash2}";
+                                    $url = "?action=getmail&id={$action_id}&cid={$chash2}";
                                     $temp = str_replace("cid:{$cid2}", $url, $temp);
                                 }
                             }
@@ -763,79 +764,11 @@ function sendmail_prepare()
                     $first = 0;
                 }
             }
-            $body_extra = $body_extra . __HTML_NEWLINE__ . __HTML_NEWLINE__ . $oldhead . __HTML_NEWLINE__ . __HTML_NEWLINE__ . __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__;
+            $body_extra = $body_extra . __HTML_NEWLINE__ . __HTML_NEWLINE__ . $oldhead .
+                __HTML_NEWLINE__ . __HTML_NEWLINE__ . __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__;
             unset($oldhead); // TRICK TO RELEASE MEMORY
             unset($oldbody); // TRICK TO RELEASE MEMORY
             unset($decoded); // TRICK TO RELEASE MEMORY
-        }
-    }
-    if (isset($id_extra[1]) && $id_extra[1] == "session") {
-        sess_init();
-        $session = $_SESSION["correo"];
-        sess_close();
-        $subject_extra = isset($session["subject"]) ? $session["subject"] : "";
-        $body_extra = (isset($session["body"]) ? $session["body"] : "") . $body_extra;
-    }
-    if (isset($id_extra[1]) && $id_extra[1] == "mailto") {
-        require_once "php/getmail.php";
-        $to_extra = __getmail_rawurldecode($id_extra[2]) . "; ";
-        foreach ($_GET as $key2 => $val2) {
-            $key2 = strtolower($key2);
-            if ($key2 == "to") {
-                $to_extra = __getmail_rawurldecode($val2) . "; ";
-            }
-            if ($key2 == "subject") {
-                $subject_extra = __getmail_rawurldecode($val2);
-            }
-            if ($key2 == "body") {
-                $body_extra = __getmail_rawurldecode($val2) . $body_extra;
-            }
-        }
-    }
-    if (isset($id_extra[1]) && $id_extra[1] == "feed") {
-        require_once "php/getmail.php";
-        $query = "SELECT *,
-            (SELECT title FROM tbl_usuarios_f WHERE id=id_feed) feed,
-            (SELECT link FROM tbl_usuarios_f WHERE id=id_feed) link2
-            FROM tbl_feeds
-            WHERE id='{$id_extra[2]}'";
-        $row2 = execute_query($query);
-        if ($row2) {
-            $subject_extra = LANG("forwardsubject") . $row2["title"];
-            $oldhead = "";
-            $oldhead .= __HTML_TEXT_OPEN__;
-            $oldhead .= LANG("embeddedmessage");
-            $oldhead .= __HTML_TEXT_CLOSE__;
-            $oldhead = str_replace("#datetime#", $row2["pubdate"], $oldhead);
-            $oldhead = str_replace("#fromname#", $row2["feed"], $oldhead);
-            $oldbody = "";
-            $lista = array(
-                "title" => array("lang" => LANG("title", "feeds"),"link" => ""),
-                "pubdate" => array("lang" => LANG("pubdate", "feeds"),"link" => ""),
-                "feed" => array("lang" => LANG("feed", "feeds"),"link" => "link2"),
-                "link" => array("lang" => LANG("link", "feeds"),"link" => "link"),
-            );
-            $oldbody .= __HTML_BOX_OPEN__;
-            foreach ($lista as $key2 => $val2) {
-                $oldbody .= __HTML_TEXT_OPEN__;
-                $oldbody .= $val2["lang"] . ": ";
-                if ($val2["link"] != "") {
-                    $oldbody .= "<a href='" . $row2[$val2["link"]] . "'>";
-                }
-                $oldbody .= "<b>" . $row2[$key2] . "</b>";
-                if ($val2["link"] != "") {
-                    $oldbody .= "</a>";
-                }
-                $oldbody .= __HTML_TEXT_CLOSE__;
-            }
-            $oldbody .= __HTML_BOX_CLOSE__;
-            $oldbody .= __HTML_SEPARATOR__;
-            $oldbody .= __HTML_TEXT_OPEN__;
-            $oldbody .= $row2["description"];
-            $oldbody .= __HTML_TEXT_CLOSE__;
-            $body_extra = $body_extra . __HTML_NEWLINE__ . __HTML_NEWLINE__ . $oldhead . __HTML_NEWLINE__ . __HTML_NEWLINE__ . __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__;
-            unset($oldhead); // TRICK TO RELEASE MEMORY
-            unset($oldbody); // TRICK TO RELEASE MEMORY
         }
     }
     // CHECK FOR MOBILE DEVICES
@@ -844,10 +777,11 @@ function sendmail_prepare()
         $body_extra = "\n\n\n" . html2text($body_extra);
     }
     // CONTINUE
-    set_array($rows[$key], "row", array("id" => 0,"id_extra" => implode("_", $id_extra),
-        "id_cuenta" => $id_cuenta,"para" => $to_extra,"cc" => $cc_extra,"bcc" => $bcc_extra,
-        "subject" => $subject_extra,"body" => $body_extra,
-        "state_crt" => $state_crt,"priority" => 0,"sensitivity" => 0));
+    set_array($rows[$key], "row", ["account_id" => $account_id,
+        "to" => $to_extra, "cc" => $cc_extra, "bcc" => $bcc_extra,
+        "subject" => $subject_extra, "body" => $body_extra,
+        "state_crt" => $state_crt, "priority" => 0, "sensitivity" => 0,
+    ]);
 }
 
 /**
@@ -862,7 +796,7 @@ function sendmail_action()
     // GET ALL DATA
     $prefix = "default_0_";
     $id_extra = explode("_", getParam($prefix . "id_extra"), 3);
-    $id_cuenta = intval(getParam($prefix . "id_cuenta"));
+    $account_id = intval(getParam($prefix . "account_id"));
     $para = getParam($prefix . "para");
     $cc = getParam($prefix . "cc");
     $bcc = getParam($prefix . "bcc");
@@ -873,9 +807,9 @@ function sendmail_action()
     $sensitivity = intval(getParam($prefix . "sensitivity"));
     // SEARCH FROM
     $query = "SELECT CONCAT(email_name,' <',email_from,'>') email
-        FROM tbl_usuarios_c
-        WHERE id_usuario='" . current_user() . "'
-            AND id='{$id_cuenta}'";
+        FROM app_emails_accounts
+        WHERE user_id='" . current_user() . "'
+            AND id='{$account_id}'";
     $de = execute_query($query);
     if (!$de) {
         javascript_error(LANG("msgfromkosendmail", "correo"));
@@ -883,12 +817,12 @@ function sendmail_action()
         die();
     }
     // REMOVE THE SIGNATURE TAG IF EXISTS
-    $body = str_replace(array("<signature>","</signature>"), "", $body);
+    $body = str_replace(["<signature>", "</signature>"], "", $body);
     // CHECK FOR MOBILE DEVICES
     if (ismobile()) {
         $source = $body;
         $source = htmlentities($source, ENT_COMPAT, "UTF-8");
-        $source = str_replace(array(" ","\t","\n"), array("&nbsp;",str_repeat("&nbsp;", 8),"<br/>"), $source);
+        $source = str_replace([" ", "\t", "\n"], ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>"], $source);
         $body = __HTML_PAGE_OPEN__;
         $body .= __PLAIN_TEXT_OPEN__;
         $body .= $source;
@@ -896,9 +830,9 @@ function sendmail_action()
         $body .= __HTML_PAGE_CLOSE__;
     }
     // REPLACE SIGNATURE IF NEEDED AND ADD THE INLINE IMAGE
-    $inlines = array();
+    $inlines = [];
     require_once "php/libaction.php";
-    $file = __signature_getauto(__signature_getfile($id_cuenta));
+    $file = __signature_getauto(__signature_getfile($account_id));
     if ($file && isset($file["src"])) {
         $cid = md5($file["data"]);
         $prehash = md5($body);
@@ -906,18 +840,18 @@ function sendmail_action()
         $body = str_replace($file["src"], "cid:{$cid}", $body);
         $posthash = md5($body);
         if ($prehash != $posthash) {
-            $inlines[] = array(
+            $inlines[] = [
                 "body" => $file["data"],
                 "cid" => $cid,
                 "cname" => $file["name"],
-                "ctype" => $file["type"]
-            );
+                "ctype" => $file["type"],
+            ];
         }
     }
     // PREPARE THE INLINES IMAGES AND EMBEDDED ATTACHMENTS
-    $attachs = array();
-    if (isset($id_extra[1]) && in_array($id_extra[1], array("reply","replyall","forward"))) {
-        $decoded = __getmail_getmime($id_extra[2]);
+    $attachs = [];
+    if (in_array($action, ["reply", "replyall", "forward"])) {
+        $decoded = __getmail_getmime($action_id);
         $result2 = __getmail_getfullbody(__getmail_getnode("0", $decoded));
         $useimginline = eval_bool(getDefault("cache/useimginline"));
         foreach ($result2 as $index2 => $node2) {
@@ -933,7 +867,7 @@ function sendmail_action()
                         $data = "data:image/png;base64,{$data}";
                         $body = str_replace($data, "cid:{$cid2}", $body);
                     } else {
-                        $url = "?action=getmail&id={$id_extra[2]}&cid={$chash2}";
+                        $url = "?action=getmail&id={$action_id}&cid={$chash2}";
                         $url = str_replace("&", "&amp;", $url); // CKEDITOR CORRECTION
                         $body = str_replace($url, "cid:{$cid2}", $body);
                     }
@@ -943,7 +877,7 @@ function sendmail_action()
                     }
                 }
             }
-            if ($id_extra[1] == "forward" && __getmail_processfile($disp2, $type2)) {
+            if ($action == "forward" && __getmail_processfile($disp2, $type2)) {
                 $cname2 = $node2["cname"];
                 if ($cname2 != "") {
                     $chash2 = $node2["chash"];
@@ -955,27 +889,8 @@ function sendmail_action()
             }
         }
     }
-    // PREPARE THE SESSION ATTACHMENT (IF EXISTS)
-    if (isset($id_extra[1]) && $id_extra[1] == "session") {
-        sess_init();
-        $session = $_SESSION["correo"];
-        sess_close();
-        if (!isset($session["files"])) {
-            $session["files"] = array();
-        }
-        foreach ($session["files"] as $key => $file) {
-            $delete = "files_old_{$key}_fichero_del";
-            if (!getParam($delete)) {
-                $attachs[] = array(
-                    "body" => file_get_contents($file["file"]),
-                    "cname" => $file["name"],
-                    "ctype" => $file["mime"]
-                );
-            }
-        }
-    }
     // PREPARE THE RECIPIENTS
-    $recipients = array();
+    $recipients = [];
     $para = explode(";", $para);
     foreach ($para as $addr) {
         $addr = trim($addr);
@@ -1001,16 +916,16 @@ function sendmail_action()
     if ($state_crt) {
         $recipients[] = "crt:" . $de;
     }
-    $priorities = array(-1 => "5 (Low)",1 => "1 (High)");
+    $priorities = [-1 => "5 (Low)", 1 => "1 (High)"];
     if (isset($priorities[$priority])) {
         $recipients[] = "priority:" . $priorities[$priority];
     }
-    $sensitivities = array(1 => "Personal",2 => "Private",3 => "Company-Confidential");
+    $sensitivities = [1 => "Personal", 2 => "Private", 3 => "Company-Confidential"];
     if (isset($sensitivities[$sensitivity])) {
         $recipients[] = "sensitivity:" . $sensitivities[$sensitivity];
     }
     // ADD UPLOADED ATTACHMENTS
-    $files = array();
+    $files = [];
     foreach ($_FILES as $file) {
         if (isset($file["tmp_name"]) && $file["tmp_name"] != "" && file_exists($file["tmp_name"])) {
             if (!isset($file["name"])) {
@@ -1019,14 +934,16 @@ function sendmail_action()
             if (!isset($file["type"])) {
                 $file["type"] = saltos_content_type($file["tmp_name"]);
             }
-            $files[] = array("file" => $file["tmp_name"],"name" => $file["name"],"mime" => $file["type"]);
+            $files[] = ["file" => $file["tmp_name"], "name" => $file["name"], "mime" => $file["type"]];
         } else {
             if (isset($file["name"]) && $file["name"] != "") {
                 javascript_error(LANG("fileuploaderror") . $file["name"]);
             }
             if (isset($file["error"]) && $file["error"] != "") {
                 javascript_error(
-                    LANG("fileuploaderror") . upload_error2string($file["error"]) . " (code " . $file["error"] . ")"
+                    LANG("fileuploaderror") .
+                        upload_error2string($file["error"]) .
+                            " (code " . $file["error"] . ")"
                 );
             }
             javascript_unloading();
@@ -1035,39 +952,39 @@ function sendmail_action()
     }
     // ADD INLINES IMAGES
     foreach ($inlines as $inline) {
-        $files[] = array(
+        $files[] = [
             "data" => $inline["body"],
             "cid" => $inline["cid"],
             "name" => $inline["cname"],
-            "mime" => $inline["ctype"]
-        );
+            "mime" => $inline["ctype"],
+        ];
     }
     // ADD EMBEDDED ATTACHMENTS
     foreach ($attachs as $attach) {
-        $files[] = array(
+        $files[] = [
             "data" => $attach["body"],
             "name" => $attach["cname"],
-            "mime" => $attach["ctype"]
-        );
+            "mime" => $attach["ctype"],
+        ];
     }
     // DO THE SEND ACTION
-    $send = sendmail($id_cuenta, $recipients, $subject, $body, $files);
+    $send = sendmail($account_id, $recipients, $subject, $body, $files);
     if ($send == "") {
-        $query = "SELECT MAX(id) FROM tbl_correo WHERE id_cuenta='{$id_cuenta}' AND is_outbox='1'";
+        $query = "SELECT MAX(id) FROM app_emails WHERE account_id='{$account_id}' AND is_outbox='1'";
         $last_id = execute_query($query);
         // SOME UPDATES
-        if (isset($id_extra[1]) && in_array($id_extra[1], array("reply","replyall","forward"))) {
-            __getmail_update("id_correo", $id_extra[2], $last_id);
-            if ($id_extra[1] == "reply") {
+        if (in_array($action, ["reply", "replyall", "forward"])) {
+            __getmail_update("email_id", $action_id, $last_id);
+            if ($action == "reply") {
                 $campo = "state_reply";
             }
-            if ($id_extra[1] == "replyall") {
+            if ($action == "replyall") {
                 $campo = "state_reply";
             }
-            if ($id_extra[1] == "forward") {
+            if ($action == "forward") {
                 $campo = "state_forward";
             }
-            __getmail_update($campo, 1, $id_extra[2]);
+            __getmail_update($campo, 1, $action_id);
         }
         // FINISH THE ACTION
         session_alert(LANG("msgsendoksendmail", "correo"));
@@ -1089,7 +1006,7 @@ function sendmail_action()
 function sendmail_server()
 {
     // CHECK THE SEMAPHORE
-    $semaphore = array(getParam("action"),current_user());
+    $semaphore = [getParam("action"), current_user()];
     if (!semaphore_acquire($semaphore, getDefault("semaphoretimeout", 100000))) {
         if (!getParam("ajax")) {
             session_error(LANG("msgerrorsemaphore") . getParam("action"));
@@ -1100,10 +1017,10 @@ function sendmail_server()
         die();
     }
     // BEGIN THE SPOOL OPERATION
-    $query = "SELECT a.id,a.id_cuenta,a.uidl
-        FROM tbl_correo a
-        LEFT JOIN tbl_usuarios_c c ON c.id=a.id_cuenta
-        WHERE c.id_usuario='" . current_user() . "'
+    $query = "SELECT a.id,a.account_id,a.uidl
+        FROM app_emails a
+        LEFT JOIN app_emails_accounts c ON c.id=a.account_id
+        WHERE c.user_id='" . current_user() . "'
             AND a.is_outbox='1'
             AND a.state_sent='0'";
     $result = execute_query_array($query);
@@ -1125,7 +1042,7 @@ function sendmail_server()
             break;
         }
         $last_id = $row["id"];
-        $messageid = $row["id_cuenta"] . "/" . $row["uidl"];
+        $messageid = $row["account_id"] . "/" . $row["uidl"];
         $file = get_directory("dirs/outboxdir") . $messageid . ".obj";
         if (file_exists($file)) {
             $mail = unserialize(file_get_contents($file));
@@ -1145,7 +1062,7 @@ function sendmail_server()
                     $user = $mail->Username;
                     $pass = $mail->Password;
                     // FIND ACCOUNT DATA
-                    $query = "SELECT * FROM tbl_usuarios_c WHERE id='" . $row["id_cuenta"] . "'";
+                    $query = "SELECT * FROM app_emails_accounts WHERE id='" . $row["account_id"] . "'";
                     $result2 = execute_query($query);
                     $current_host = $result2["smtp_host"];
                     $current_port = $result2["smtp_port"] ? $result2["smtp_port"] : 25;
@@ -1170,7 +1087,7 @@ function sendmail_server()
                         $idem = 0;
                     }
                     if (!$idem) {
-                        if (!in_array($current_host, array("mail","sendmail","qmail",""))) {
+                        if (!in_array($current_host, ["mail", "sendmail", "qmail", ""])) {
                             $mail->IsSMTP();
                             $mail->set("Host", $current_host);
                             $mail->set("Port", $current_port);
@@ -1199,8 +1116,8 @@ function sendmail_server()
                     } elseif (words_exists("unable to connect", $error)) {
                         $error = LANG("msgconnerrorpop3email", "correo");
                     } else {
-                        $orig = array("\n","\r","'","\"");
-                        $dest = array(" ","","","");
+                        $orig = ["\n", "\r", "'", "\""];
+                        $dest = [" ", "", "", ""];
                         $error = str_replace($orig, $dest, $mail->ErrorInfo);
                     }
                     __getmail_update("state_sent", 0, $last_id);
@@ -1233,7 +1150,9 @@ function sendmail_server()
         if ($sended > 0) {
             javascript_alert($sended . LANG("msgtotalsendmail" . min($sended, 2), "correo"));
             if (!$haserror) {
-                javascript_settimeout("$('#enviar').addClass('ui-state-disabled');", 1000, "is_correo_list()");
+                javascript_settimeout(
+                    "$('#enviar').addClass('ui-state-disabled');", 1000, "is_correo_list()"
+                );
             }
         }
         if ($sended > 0 || $haserror) {
@@ -1254,19 +1173,19 @@ function sendmail_server()
  */
 function sendmail_files()
 {
-    $id_correo = abs(intval(getParam("id")));
+    $email_id = abs(intval(getParam("id")));
     $id_extra = explode("_", getParam("id"), 3);
-    if (isset($id_extra[1]) && isset($id_extra[2]) && $id_extra[1] == "forward") {
-        $id_correo = $id_extra[2];
+    if ($action == "forward") {
+        $email_id = $action_id;
     }
-    if ($id_correo) {
+    if ($email_id) {
         // BUSCAR USUARIO DEL CORREO
         $query = "SELECT " . make_extra_query_with_login() . "
             FROM tbl_usuarios
             WHERE id=(
-                SELECT id_usuario
+                SELECT user_id
                 FROM tbl_registros
-                WHERE id_registro='{$id_correo}'
+                WHERE id_registro='{$email_id}'
                     AND id_aplicacion='" . page2id("correo") . "'
                     AND first=1)";
         $usuario = execute_query($query);
@@ -1277,21 +1196,21 @@ function sendmail_files()
                 SELECT id_grupo
                 FROM tbl_usuarios
                 WHERE id=(
-                    SELECT id_usuario
+                    SELECT user_id
                     FROM tbl_registros
-                    WHERE id_registro='{$id_correo}'
+                    WHERE id_registro='{$email_id}'
                         AND id_aplicacion='" . page2id("correo") . "'
                         AND first=1))";
         $grupo = execute_query($query);
         // BUSCAR DATETIME DEL CORREO
-        $query = "SELECT datetime FROM tbl_correo WHERE id='{$id_correo}'";
+        $query = "SELECT datetime FROM app_emails WHERE id='{$email_id}'";
         $datetime = execute_query($query);
         // PROCESAR CORREO
         require_once "php/getmail.php";
-        if (!__getmail_checkperm($id_correo)) {
+        if (!__getmail_checkperm($email_id)) {
             action_denied();
         }
-        $decoded = __getmail_getmime($id_correo);
+        $decoded = __getmail_getmime($email_id);
         if (!$decoded) {
             session_error(LANG("msgopenerrorpop3email", "correo"));
             javascript_history(-1);
@@ -1302,9 +1221,9 @@ function sendmail_files()
             $fichero = $file["cname"];
             $size = $file["hsize"];
             $chash = $file["chash"];
-            $download = "download2('correo','{$id_correo}','{$chash}')";
-            $viewpdf = "viewpdf2('correo','{$id_correo}','{$chash}')";
-            set_array($rows[$key], "row", array(
+            $download = "download2('correo','{$email_id}','{$chash}')";
+            $viewpdf = "viewpdf2('correo','{$email_id}','{$chash}')";
+            set_array($rows[$key], "row", [
                 "id" => $chash,
                 "usuario" => $usuario,
                 "grupo" => $grupo,
@@ -1312,8 +1231,8 @@ function sendmail_files()
                 "fichero" => $fichero,
                 "fichero_size" => $size,
                 "download" => $download,
-                "viewpdf" => $viewpdf
-            ));
+                "viewpdf" => $viewpdf,
+            ]);
         }
     }
 }
