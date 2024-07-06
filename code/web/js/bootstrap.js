@@ -609,6 +609,10 @@ saltos.bootstrap.__field.textarea = field => {
  * feature:
  *
  * @lib/ckeditor/ckeditor.min.js
+ *
+ * The returned object contains a textarea with two new properties like ckeditor and set,
+ * the first contains the ckeditor object and the second is a function used to update the
+ * value of the ckeditor, intended to load new data.
  */
 saltos.bootstrap.__field.ckeditor = field => {
     saltos.core.require('lib/ckeditor/ckeditor.min.js');
@@ -677,6 +681,10 @@ saltos.bootstrap.__field.ckeditor = field => {
  *
  * @lib/codemirror/codemirror.min.css
  * @lib/codemirror/codemirror.min.js
+ *
+ * The returned object contains a textarea with two new properties like codemirror and set,
+ * the first contains the codemirror object and the second is a function used to update the
+ * value of the codemirror, intended to load new data.
  */
 saltos.bootstrap.__field.codemirror = field => {
     saltos.core.require('lib/codemirror/codemirror.min.css');
@@ -2284,6 +2292,9 @@ saltos.bootstrap.__field.chartjs = field => {
  *
  * This object creates a hidden input, a text input with/without a datalist, and a badge for
  * each value, and requires the arguments of the specific widgets used in this widget
+ *
+ * The returned object contains a hiden input with one new properties like set, this is a
+ * function used to update the value of the tags widget, intended to load new data.
  */
 saltos.bootstrap.__field.tags = field => {
     saltos.core.check_params(field, ['id', 'value', 'color', 'separator']);

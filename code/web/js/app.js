@@ -294,6 +294,9 @@ saltos.app.form.data = data => {
             if (obj.hasAttribute('srcdoc')) {
                 obj.srcdoc = val;
             }
+            if (obj.hasOwnProperty('set')) {
+                obj.set(val);
+            }
         }
         // This updates the field spec
         var obj2 = saltos.app.__form.fields.find(elem => elem.id == key);
