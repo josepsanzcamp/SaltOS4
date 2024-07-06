@@ -77,7 +77,7 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
-                <select id="from" label="From" required="true">
+                <select id="account_id" label="From" required="true">
                     <rows eval="true">execute_query_array("
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
                             SELECT COUNT(*)
@@ -123,6 +123,7 @@
                 <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email" icon="x-lg"/>
             </row>
         </layout>
+        <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
             <inline>saltos.driver.init("create")</inline>

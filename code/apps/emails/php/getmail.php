@@ -59,7 +59,7 @@ define("__HTML_TEXT_CLOSE__", '</div>');
 define("__PLAIN_TEXT_OPEN__", '<div style="font-family:monospace;font-size:11px;line-height:16px;color:#333">');
 define("__PLAIN_TEXT_CLOSE__", '</div>');
 define("__HTML_SEPARATOR__", '<hr style="border:0px;height:1px;background:#ccc"/>');
-define("__HTML_NEWLINE__", '<br/>');
+define("__HTML_NEWLINE__", '<p>&nbsp;</p>');
 define("__BLOCKQUOTE_OPEN__", '<blockquote style="border-left:#ccc 1px solid;margin:0px 0px 0px 0.8ex;padding-left:1ex">');
 define("__BLOCKQUOTE_CLOSE__", '</blockquote>');
 define("__SIGNATURE_OPEN__", '<div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;color:#ccc">');
@@ -482,7 +482,7 @@ function __getmail_getinfo($array)
             foreach ($addresses as $a) {
                 $name = getutf8(__getmail_fixstring(__getmail_getnode("name", $a)));
                 $addr = getutf8(__getmail_fixstring(__getmail_getnode("address", $a)));
-                $result["emails"][] = ["id_tipo" => $key, "tipo" => $val, "nombre" => $name, "valor" => $addr];
+                $result["emails"][] = ["type_id" => $key, "type" => $val, "name" => $name, "value" => $addr];
                 $temp[] = ($name != "") ? $name . " <" . $addr . ">" : $addr;
             }
             $temp = implode("; ", $temp);
@@ -518,7 +518,7 @@ function __getmail_getinfo($array)
     $result["files"] = __getmail_getfiles($array);
     // Get the crt if exists
     foreach ($result["emails"] as $email) {
-        if ($email["id_tipo"] == 7) {
+        if ($email["type_id"] == 7) {
             $result["crt"] = 1;
         }
     }
@@ -900,9 +900,9 @@ function __getmail_insert(
     foreach ($info["emails"] as $email) {
         $query = make_insert_query("app_emails_address", [
             "email_id" => $last_id,
-            "type_id" => $email["id_tipo"],
-            "name" => $email["nombre"],
-            "value" => $email["valor"],
+            "type_id" => $email["type_id"],
+            "name" => $email["name"],
+            "value" => $email["value"],
         ]);
         db_query($query);
     }
@@ -974,12 +974,12 @@ function __getmail_rawurldecode($temp)
 function __getmail_add_bcc($id, $bcc)
 {
     foreach ($bcc as $addr) {
-        list($valor, $nombre) = __sendmail_parser($addr);
-        $query = make_insert_query("app_emails_a", [
-            "id_correo" => $id,
-            "id_tipo" => 4, // defined in __getmail_getinfo function
-            "nombre" => $nombre,
-            "valor" => $valor,
+        list($value, $name) = __sendmail_parser($addr);
+        $query = make_insert_query("app_emails_address", [
+            "email_id" => $id,
+            "type_id" => 4, // defined in __getmail_getinfo function
+            "name" => $name,
+            "value" => $value,
         ]);
         db_query($query);
     }

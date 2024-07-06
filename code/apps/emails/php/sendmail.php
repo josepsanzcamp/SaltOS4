@@ -306,15 +306,15 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
     $error = get_clear_error();
     if (words_exists("PostSend non-object", $error)) {
         __getmail_update("state_sent", 1, $last_id);
-        __getmail_update("state_error", LANG("interrorsendmail", "correo"), $last_id);
+        __getmail_update("state_error", T("This email was not sent by an internal error"), $last_id);
         unlink($file2);
-        return LANG("interrorsendmail", "correo");
+        return T("This email was not sent by an internal error");
     }
     if (!$current) {
         if (words_exists("connection refused", $error)) {
-            $error = LANG("msgconnrefusedpop3email", "correo");
+            $error = T("Connection refused by server");
         } elseif (words_exists("unable to connect", $error)) {
-            $error = LANG("msgconnerrorpop3email", "correo");
+            $error = T("Can not connect to server");
         } else {
             $orig = ["\n", "\r", "'", "\""];
             $dest = [" ", "", "", ""];
@@ -430,6 +430,76 @@ function __sendmail_objsaver($mail, $messageid)
  *
  * TODO
  */
+function __signature_getfile($id)
+{
+    if (!$id) {
+        return null;
+    }
+    $query = "SELECT * FROM app_emails_accounts WHERE id='$id'";
+    $row = execute_query($query);
+    if (!$row) {
+        return null;
+    }
+    if (!$row["email_signature_file"]) {
+        return null;
+    }
+    $id = $row["id"];
+    $name = $row["email_signature"];
+    $file = $row["email_signature_file"];
+    $type = $row["email_signature_type"];
+    $size = $row["email_signature_size"];
+    $data = file_get_contents(get_directory("dirs/filesdir") . $file);
+    $alt = $row["email_name"] . " (" . $row["email_from"] . ")";
+    return [
+        "id" => $id,
+        "name" => $name,
+        "file" => $file,
+        "type" => $type,
+        "size" => $size,
+        "data" => $data,
+        "alt" => $alt,
+    ];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __signature_getauto($file)
+{
+    if (!$file) {
+        return null;
+    }
+    if (!$file["file"]) {
+        return null;
+    }
+    if ($file["type"] == "text/plain") {
+        $file["auto"] = trim($file["data"]);
+        $file["auto"] = htmlentities($file["auto"], ENT_COMPAT, "UTF-8");
+        $file["auto"] = str_replace(
+            [" ", "\t", "\n"],
+            ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>"],
+            $file["auto"]
+        );
+    } elseif ($file["type"] == "text/html") {
+        $file["auto"] = trim($file["data"]);
+    } elseif (substr($file["type"], 0, 6) == "image/") {
+        $file["src"] = mime_inline($file["type"], $file["data"]);
+        $file["auto"] = "<img alt=\"{$file["alt"]}\" border=\"0\" src=\"{$file["src"]}\" />";
+    } else {
+        $file["auto"] = "Name: {$file["name"]}<br/>Type: {$file["type"]}<br/>Size: {$file["size"]}";
+    }
+    require_once "apps/emails/php/getmail.php";
+    $file["auto"] = __SIGNATURE_OPEN__ . "<p>--</p>" . $file["auto"] . __SIGNATURE_CLOSE__;
+    return $file;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 function sendmail_prepare($action, $email_id, $account_id = 0)
 {
     if (!$account_id) {
@@ -464,9 +534,9 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
             LIMIT 1) z";
         $account_id = execute_query($query);
     }
-    $to_extra = "";
-    $cc_extra = "";
-    $bcc_extra = "";
+    $to_extra = [];
+    $cc_extra = [];
+    $bcc_extra = [];
     $state_crt = "";
     $subject_extra = "";
     $body_extra = "";
@@ -482,7 +552,7 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
             WHERE user_id='" . current_user() . "' AND id='$account_id'";
         $result2 = execute_query($query);
         if ($result2 && $result2["email_addmetocc"]) {
-            $cc_extra = $result2["email_name"] . " <" . $result2["email_from"] . ">; ";
+            $cc_extra[] = $result2["email_name"] . " <" . $result2["email_from"] . ">";
         }
     }
     if (1) { // GET THE DEFAULT CRT
@@ -494,9 +564,8 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
         }
     }
     if (1) { // GET THE DEFAULT SIGNATURE
-        require_once "php/libaction.php";
         $file = __signature_getauto(__signature_getfile($account_id));
-        $body_extra = "<br/><br/><signature>" . ($file ? $file["auto"] : "") . "</signature>";
+        $body_extra = __HTML_NEWLINE__ . "<signature>" . ($file ? $file["auto"] : "") . "</signature>";
     }
     if (in_array($action, ["reply", "replyall"])) {
         $query = "SELECT * FROM app_emails_address WHERE email_id='{$email_id}'";
@@ -515,10 +584,10 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
             } elseif (isset($finded_from)) {
                 $finded = $finded_from;
             }
-            if ($finded["nombre"] != "") {
-                $to_extra = $finded["nombre"] . " <" . $finded["valor"] . ">; ";
+            if ($finded["name"] != "") {
+                $to_extra[] = $finded["name"] . " <" . $finded["value"] . ">";
             } else {
-                $to_extra = $finded["valor"] . "; ";
+                $to_extra[] = $finded["value"];
             }
         }
     }
@@ -538,7 +607,7 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
         if (isset($finded_tocc)) {
             if (isset($finded)) {
                 foreach ($finded_tocc as $key2 => $addr) {
-                    if ($addr["valor"] == $finded["valor"]) {
+                    if ($addr["value"] == $finded["value"]) {
                         unset($finded_tocc[$key2]);
                     }
                 }
@@ -548,16 +617,16 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
             $result2 = execute_query_array($query);
             foreach ($result2 as $addr) {
                 foreach ($finded_tocc as $key2 => $addr2) {
-                    if ($addr2["valor"] == $addr["email_from"]) {
+                    if ($addr2["value"] == $addr["email_from"]) {
                         unset($finded_tocc[$key2]);
                     }
                 }
             }
             foreach ($finded_tocc as $addr) {
-                if ($addr["nombre"] != "") {
-                    $cc_extra .= $addr["nombre"] . " <" . $addr["valor"] . ">; ";
+                if ($addr["name"] != "") {
+                    $cc_extra[] = $addr["name"] . " <" . $addr["value"] . ">";
                 } else {
-                    $cc_extra .= $addr["valor"] . "; ";
+                    $cc_extra[] = $addr["value"];
                 }
             }
         }
@@ -572,12 +641,13 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
         }
     }
     if (in_array($action, ["reply", "replyall", "forward"])) {
-        require_once "php/getmail.php";
+        require_once "apps/emails/php/getmail.php";
         $query = "SELECT * FROM app_emails WHERE id='{$email_id}'";
         $row2 = execute_query($query);
         if ($row2 && isset($row2["subject"])) {
             $subject_extra = $row2["subject"];
-            $prefix = LANG($action . "subject");
+            $prefixes = ["reply" => "Re: ", "replyall" => "Re: ", "forward" => "Fwd: "];
+            $prefix = $prefixes[$action];
             if (strncasecmp($subject_extra, $prefix, strlen($prefix)) != 0) {
                 $subject_extra = $prefix . $subject_extra;
             }
@@ -585,12 +655,12 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
         if (isset($row2["datetime"]) && isset($finded_from)) {
             $oldhead = "";
             $oldhead .= __HTML_TEXT_OPEN__;
-            $oldhead .= LANG("embeddedmessage");
+            $oldhead .= T("The #datetime#, #fromname# wrote:");
             $oldhead .= __HTML_TEXT_CLOSE__;
             $oldhead = str_replace("#datetime#", $row2["datetime"], $oldhead);
             $oldhead = str_replace(
                 "#fromname#",
-                $finded_from["nombre"] ? $finded_from["nombre"] : $finded_from["valor"],
+                $finded_from["name"] ? $finded_from["name"] : $finded_from["value"],
                 $oldhead
             );
             $oldbody = "";
@@ -602,13 +672,13 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
                     unset($result2[$temp]);
                 }
                 foreach ($result2["emails"] as $email) {
-                    if ($email["nombre"] != "") {
-                        $email["valor"] = "{$email["nombre"]} <{$email["valor"]}>";
+                    if ($email["name"] != "") {
+                        $email["value"] = "{$email["name"]} <{$email["value"]}>";
                     }
-                    if (!isset($result2[$email["tipo"]])) {
-                        $result2[$email["tipo"]] = [];
+                    if (!isset($result2[$email["type"]])) {
+                        $result2[$email["type"]] = [];
                     }
-                    $result2[$email["tipo"]][] = $email["valor"];
+                    $result2[$email["type"]][] = $email["value"];
                 }
                 if (isset($result2["from"])) {
                     $result2["from"] = implode("; ", $result2["from"]);
@@ -661,12 +731,12 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
                     $result2["bcc"] = implode("; ", $result2["bcc"]);
                 }
                 $lista = [
-                    "from" => LANG("from", "correo"),
-                    "to" => LANG("to", "correo"),
-                    "cc" => LANG("cc", "correo"),
-                    "bcc" => LANG("bcc", "correo"),
-                    "datetime" => LANG("datetime", "correo"),
-                    "subject" => LANG("subject", "correo"),
+                    "from" => T("from"),
+                    "to" => T("to"),
+                    "cc" => T("cc"),
+                    "bcc" => T("bcc"),
+                    "datetime" => T("datetime"),
+                    "subject" => T("subject"),
                 ];
                 if (!isset($result2["from"])) {
                     unset($lista["from"]);
@@ -681,7 +751,7 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
                     unset($lista["bcc"]);
                 }
                 if (!$result2["subject"]) {
-                    $result2["subject"] = LANG("sinsubject", "correo");
+                    $result2["subject"] = T("(no subject)");
                 }
                 $oldbody .= __HTML_BOX_OPEN__;
                 foreach ($lista as $key2 => $val2) {
@@ -697,7 +767,7 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
                     $hsize = $file["hsize"];
                     if ($first) {
                         $oldbody .= __HTML_TEXT_OPEN__;
-                        $oldbody .= LANG("attachments", "correo") . ": ";
+                        $oldbody .= T("Attachments") . ": ";
                     } else {
                         $oldbody .= " | ";
                     }
@@ -712,7 +782,6 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
             }
             $result2 = __getmail_getfullbody(__getmail_getnode("0", $decoded));
             $first = 1;
-            $useimginline = eval_bool(getDefault("cache/useimginline"));
             foreach ($result2 as $index => $node) {
                 $disp = $node["disp"];
                 $type = $node["type"];
@@ -728,6 +797,7 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
                         );
                     }
                     if ($type == "html") {
+                        require_once "php/lib/html.php";
                         $temp = remove_script_tag($temp);
                         $temp = remove_style_tag($temp);
                     }
@@ -741,14 +811,9 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
                             $cid2 = $node2["cid"];
                             if ($cid2 != "") {
                                 $chash2 = $node2["chash"];
-                                if ($useimginline) {
-                                    $data = base64_encode($node2["body"]);
-                                    $data = "data:image/png;base64,{$data}";
-                                    $temp = str_replace("cid:{$cid2}", $data, $temp);
-                                } else {
-                                    $url = "?action=getmail&id={$email_id}&cid={$chash2}";
-                                    $temp = str_replace("cid:{$cid2}", $url, $temp);
-                                }
+                                $ctype2 = $node2["ctype"];
+                                $data = mime_inline($ctype2, $node2["body"]);
+                                $temp = str_replace("cid:{$cid2}", $data, $temp);
                             }
                         }
                     }
@@ -764,24 +829,22 @@ function sendmail_prepare($action, $email_id, $account_id = 0)
                     $first = 0;
                 }
             }
-            $body_extra = $body_extra . __HTML_NEWLINE__ . __HTML_NEWLINE__ . $oldhead .
-                __HTML_NEWLINE__ . __HTML_NEWLINE__ . __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__;
+            $body_extra .= __HTML_NEWLINE__ .
+                $oldhead . __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__;
             unset($oldhead); // TRICK TO RELEASE MEMORY
             unset($oldbody); // TRICK TO RELEASE MEMORY
             unset($decoded); // TRICK TO RELEASE MEMORY
         }
     }
-    // CHECK FOR MOBILE DEVICES
-    if (ismobile() && $body_extra != "") {
-        require_once "php/getmail.php";
-        $body_extra = "\n\n\n" . html2text($body_extra);
-    }
     // CONTINUE
-    set_array($rows[$key], "row", ["account_id" => $account_id,
+    $to_extra = implode("; ", $to_extra);
+    $cc_extra = implode("; ", $cc_extra);
+    $bcc_extra = implode("; ", $bcc_extra);
+    return ["account_id" => $account_id,
         "to" => $to_extra, "cc" => $cc_extra, "bcc" => $bcc_extra,
         "subject" => $subject_extra, "body" => $body_extra,
         "state_crt" => $state_crt, "priority" => 0, "sensitivity" => 0,
-    ]);
+    ];
 }
 
 /**
