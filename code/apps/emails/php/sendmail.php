@@ -500,18 +500,16 @@ function __signature_getauto($file)
  *
  * TODO
  */
-function sendmail_prepare($action, $email_id, $account_id = 0)
+function sendmail_prepare($action, $email_id)
 {
-    if (!$account_id) {
-        $query = "SELECT id
-            FROM app_emails_accounts
-            WHERE user_id='" . current_user() . "'
-                AND email_disabled='0'
-                AND smtp_host!=''
-                AND email_default='1'
-            LIMIT 1";
-        $account_id = execute_query($query);
-    }
+    $query = "SELECT id
+        FROM app_emails_accounts
+        WHERE user_id='" . current_user() . "'
+            AND email_disabled='0'
+            AND smtp_host!=''
+            AND email_default='1'
+        LIMIT 1";
+    $account_id = execute_query($query);
     if (!$account_id) {
         $query = "SELECT id FROM (
             SELECT id,(
@@ -1234,68 +1232,11 @@ function sendmail_server()
  *
  * TODO
  */
-function sendmail_files()
+function sendmail_files($action, $email_id)
 {
-    $email_id = abs(intval(getParam("id")));
-    $id_extra = explode("_", getParam("id"), 3);
-    if ($action == "forward") {
-        $email_id = $email_id;
+    if ($action == "forward" && $email_id) {
+        require_once "apps/emails/php/getmail.php";
+        return getmail_files($email_id);
     }
-    if ($email_id) {
-        // BUSCAR USUARIO DEL CORREO
-        $query = "SELECT " . make_extra_query_with_login() . "
-            FROM tbl_usuarios
-            WHERE id=(
-                SELECT user_id
-                FROM tbl_registros
-                WHERE id_registro='{$email_id}'
-                    AND id_aplicacion='" . page2id("correo") . "'
-                    AND first=1)";
-        $usuario = execute_query($query);
-        // BUSCAR GRUPO DEL CORREO
-        $query = "SELECT nombre
-            FROM tbl_grupos
-            WHERE id=(
-                SELECT id_grupo
-                FROM tbl_usuarios
-                WHERE id=(
-                    SELECT user_id
-                    FROM tbl_registros
-                    WHERE id_registro='{$email_id}'
-                        AND id_aplicacion='" . page2id("correo") . "'
-                        AND first=1))";
-        $grupo = execute_query($query);
-        // BUSCAR DATETIME DEL CORREO
-        $query = "SELECT datetime FROM app_emails WHERE id='{$email_id}'";
-        $datetime = execute_query($query);
-        // PROCESAR CORREO
-        require_once "php/getmail.php";
-        if (!__getmail_checkperm($email_id)) {
-            action_denied();
-        }
-        $decoded = __getmail_getmime($email_id);
-        if (!$decoded) {
-            session_error(LANG("msgopenerrorpop3email", "correo"));
-            javascript_history(-1);
-            die();
-        }
-        $result2 = __getmail_getfiles(__getmail_getnode("0", $decoded));
-        foreach ($result2 as $file) {
-            $fichero = $file["cname"];
-            $size = $file["hsize"];
-            $chash = $file["chash"];
-            $download = "download2('correo','{$email_id}','{$chash}')";
-            $viewpdf = "viewpdf2('correo','{$email_id}','{$chash}')";
-            set_array($rows[$key], "row", [
-                "id" => $chash,
-                "usuario" => $usuario,
-                "grupo" => $grupo,
-                "datetime" => $datetime,
-                "fichero" => $fichero,
-                "fichero_size" => $size,
-                "download" => $download,
-                "viewpdf" => $viewpdf,
-            ]);
-        }
-    }
+    return [];
 }

@@ -115,6 +115,11 @@
                 </select>
                 <text id="subject" label="Subject" required="true"/>
                 <ckeditor id="body" label="Body" height="10em" required="true"/>
+                <table id="files" label="Files" col_class="col-md-12 mb-3"
+                    require="apps/emails/php/sendmail.php"
+                    ifeval="count(sendmail_files(get_data('rest/3'),intval(get_data('rest/4'))))">
+                    <source eval="true">"list/emails/view/files/".intval(get_data("rest/4"))</source>
+                </table>
                 <file id="files" label="Files"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
