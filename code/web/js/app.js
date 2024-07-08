@@ -216,7 +216,6 @@ saltos.app.form = {};
  */
 saltos.app.__form = {
     fields: [],
-    data: {},
     templates: {},
     loading: 0,
 };
@@ -930,7 +929,7 @@ saltos.app.__source_helper = field => {
  * @full => boolean to indicate if you want the entire form or only the differences
  */
 saltos.app.get_data = full => {
-    saltos.app.__form.data = {};
+    var data = {};
     var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
         'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.app.__form.fields) {
@@ -950,7 +949,7 @@ saltos.app.get_data = full => {
                         old = old.replace(/\r\n|\r/g, '\n');
                         break;
                     case 'file':
-                        val = obj.saltos_data;
+                        val = obj.data;
                         old = [];
                         break;
                 }
@@ -978,21 +977,21 @@ saltos.app.get_data = full => {
                 }
                 if (typeof val == 'object' && typeof old == 'object') {
                     if (JSON.stringify(val) != JSON.stringify(old) || full) {
-                        saltos.app.__form.data[field.id] = val;
+                        data[field.id] = val;
                     }
                 } else {
                     if (val != old || full) {
-                        saltos.app.__form.data[field.id] = val;
+                        data[field.id] = val;
                     }
                 }
             }
         }
     }
     // This thick allow to add the id field of the template used
-    saltos.app.__form.data = saltos.app.__get_data_ids_helper(saltos.app.__form.data);
+    data = saltos.app.__get_data_ids_helper(data);
     // This trick allow to do more pretty the structure of some composed fields
-    saltos.app.__form.data = saltos.app.parse_data(saltos.app.__form.data);
-    return saltos.app.__form.data;
+    data = saltos.app.parse_data(data);
+    return data;
 };
 
 /**
@@ -1125,7 +1124,7 @@ saltos.app.check_required = () => {
         }
         // to detect the value of the file fields
         if (_this.type == 'file') {
-            value = _this.saltos_data.length;
+            value = _this.data.length;
         }
         // continue;
         obj_color.classList.remove('is-valid');

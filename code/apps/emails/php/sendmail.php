@@ -512,11 +512,11 @@ function sendmail_prepare($action, $email_id)
             LIMIT 1) z";
         $account_id = execute_query($query);
     }
-    $to_extra = [];
+    $to_extra = ["josep.sanz@saltos.org"];
     $cc_extra = [];
     $bcc_extra = [];
     $state_crt = "";
-    $subject_extra = "";
+    $subject_extra = "test";
     $body_extra = "";
     if (in_array($action, ["reply", "replyall", "forward"])) {
         $query = "SELECT account_id FROM app_emails WHERE id='{$email_id}'";
@@ -1155,7 +1155,40 @@ function sendmail_files($action, $email_id)
 {
     if ($action == "forward" && $email_id) {
         require_once "apps/emails/php/getmail.php";
-        return getmail_files($email_id);
+        if (!__getmail_checkperm($email_id)) {
+            show_php_error(["phperror" => "Permission denied"]);
+        }
+        $decoded = __getmail_getmime($email_id);
+        if (!$decoded) {
+            show_php_error(["phperror" => "Could not decode de message"]);
+        }
+        // CONTINUE
+        $result = __getmail_getfiles(__getmail_getnode("0", $decoded));
+        foreach ($result as $val) {
+            // Check that attachment is not found in the upload table
+            $id = check_file([
+                "user_id" => current_user(),
+                "uniqid" => $val["chash"],
+                "name" => $val["cname"],
+                "size" => $val["csize"],
+                "type" => $val["ctype"],
+                "hash" => md5($val["body"]),
+            ]);
+            if ($id) {
+                continue;
+            }
+            // Store it in a local file and do the insert
+            add_file([
+                "id" => $val["chash"],
+                "name" => $val["cname"],
+                "size" => $val["csize"],
+                "type" => $val["ctype"],
+                "data" => mime_inline($val["ctype"], $val["body"]),
+            ]);
+        }
     }
-    return [];
+    $query = "SELECT uniqid id,name,size,type,'' data,'' error,file,hash
+        FROM tbl_uploads WHERE user_id = " . current_user() . " ORDER BY id DESC";
+    $files = execute_query_array($query);
+    return $files;
 }

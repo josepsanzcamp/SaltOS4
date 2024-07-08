@@ -28,11 +28,16 @@
 declare(strict_types=1);
 
 /**
- * Delete files action
+ * Add files action
  *
  * This file implements the delete files action, requires a POST JSON request
  * with an array of files, and each array must contain the follow entries:
  * id, name, size, type, data, error, file, hash
+ *
+ * This action checks that not error is found, get the data and clear the
+ * data element of the array, check the prefix of the data using the type,
+ * check the size of the data, and then, set the file and hash to the
+ * array and store the file in the upload directory
  *
  * This action checks that not error is found, checks the file element, the
  * size of the file, the hash of the file, and then, remove the file and
@@ -55,6 +60,7 @@ if (!$user_id) {
     show_json_error("Permission denied");
 }
 
+$action = get_data("rest/1");
 $files = get_data("json/files");
 if ($files == "") {
     show_json_error("files not found");
@@ -73,42 +79,17 @@ foreach ($files as $key => $val) {
     if ($val["error"] != "") {
         continue;
     }
-    // Check integrity with the database entry
-    $query = "SELECT id FROM tbl_uploads WHERE " . make_where_query([
-        "user_id" => $user_id,
-        "uniqid" => $val["id"],
-        "name" => $val["name"],
-        "size" => $val["size"],
-        "type" => $val["type"],
-        "file" => $val["file"],
-        "hash" => $val["hash"],
-    ]);
-    $id = execute_query($query);
-    if (!$id) {
-        continue;
+    // Do the action
+    switch ($action) {
+        case "addfiles":
+            $val = add_file($val);
+            break;
+        case "delfiles":
+            $val = del_file($val);
+            break;
+        default:
+            show_php_error(["phperror" => "Unknown action $action"]);
     }
-    // Check for file name integrity
-    if (encode_bad_chars_file($val["file"]) != $val["file"]) {
-        continue;
-    }
-    // Check for file size integrity
-    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
-    if (filesize($dir . $val["file"]) != $val["size"]) {
-        continue;
-    }
-    // Check for file hash integrity
-    if (md5_file($dir . $val["file"]) != $val["hash"]) {
-        continue;
-    }
-    // Remove the local file
-    unlink($dir . $val["file"]);
-    // Remove the database entry
-    $query = "DELETE FROM tbl_uploads WHERE id = $id";
-    db_query($query);
-    // Reset vars
-    $val["file"] = "";
-    $val["hash"] = "";
-    // Update files[key]
     $files[$key] = $val;
 }
 output_handler_json($files);

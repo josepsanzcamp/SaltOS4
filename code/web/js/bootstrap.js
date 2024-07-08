@@ -1251,7 +1251,7 @@ saltos.bootstrap.__field.password = field => {
  * the real upload action.
  */
 saltos.bootstrap.__field.file = field => {
-    saltos.core.check_params(field, ['class', 'id', 'value', 'disabled', 'required',
+    saltos.core.check_params(field, ['class', 'id', 'data', 'disabled', 'required',
                                      'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
@@ -1279,7 +1279,7 @@ saltos.bootstrap.__field.file = field => {
             <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
                 ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
-            <div class="overflow-auto">
+            <div class="table-responsive">
                 <table class="table table-striped table-hover ${border2} d-none">
                     <tbody>
                     </tbody>
@@ -1308,9 +1308,9 @@ saltos.bootstrap.__field.file = field => {
         var data = [];
         var tabla = input.nextElementSibling.querySelector('table');
         tabla.querySelectorAll('tr').forEach(_this => {
-            data.push(_this.saltos_data);
+            data.push(_this.data);
         });
-        input.saltos_data = data;
+        input.data = data;
     };
     __update_data_input_file(obj.querySelector('input'));
     // This helper programs the delete file button
@@ -1321,9 +1321,9 @@ saltos.bootstrap.__field.file = field => {
         var data = {
             files: [],
         };
-        data.files[0] = row.saltos_data;
+        data.files[0] = row.data;
         saltos.core.ajax({
-            url: 'api/?delfiles',
+            url: 'api/?upload/delfiles',
             data: JSON.stringify(data),
             method: 'post',
             content_type: 'application/json',
@@ -1334,7 +1334,7 @@ saltos.bootstrap.__field.file = field => {
                 if (typeof response.error == 'object') {
                     throw new Error(response.error);
                 }
-                row.saltos_data = response[0];
+                row.data = response[0];
                 // If server removes the file, i remove the row
                 if (response[0].file == '') {
                     row.remove();
@@ -1351,6 +1351,33 @@ saltos.bootstrap.__field.file = field => {
             token: saltos.token.get(),
             lang: saltos.gettext.get(),
         });
+    };
+    // This helper paints each row of the table
+    var __add_row_file = (input, table, file) => {
+        // Show the table
+        table.classList.remove('d-none');
+        // Add the row for the new file
+        var row = saltos.core.html('tbody', `
+            <tr id="${file.id}">
+                <td class="text-break">${file.name}</td>
+                <td class="w-25 align-middle">
+                    <div class="progress" role="progressbar" aria-label="Upload percent"
+                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 0%"></div>
+                    </div>
+                </td>
+                <td class="p-0 align-middle" style="width: 1%"><button
+                    class="btn bi-trash border-0" type="button"></button></td>
+            </tr>
+        `);
+        // Store the data in the row
+        row.data = file;
+        // Program de remove button
+        row.querySelector('button').addEventListener('click', __button_remove_file);
+        // Add the row
+        table.querySelector('tbody').append(row);
+        __update_data_input_file(input);
+        return row;
     };
     // Program the automatic upload
     obj.querySelector('input').addEventListener('change', async event => {
@@ -1372,29 +1399,8 @@ saltos.bootstrap.__field.file = field => {
                 file: '',
                 hash: '',
             };
-            // Show the table
-            table.classList.remove('d-none');
-            // Add the row for the new file
-            var row = saltos.core.html('tbody', `
-                <tr id="${data.files[0].id}">
-                    <td class="text-break">${data.files[0].name}</td>
-                    <td class="w-25 align-middle">
-                        <div class="progress" role="progressbar" aria-label="Upload percent"
-                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar" style="width: 0%"></div>
-                        </div>
-                    </td>
-                    <td class="p-0 align-middle" style="width: 1%"><button
-                        class="btn bi-trash border-0" type="button"></button></td>
-                </tr>
-            `);
-            // Store the data in the row
-            row.saltos_data = data.files[0];
-            // Program de remove button
-            row.querySelector('button').addEventListener('click', __button_remove_file);
-            // Add the row
-            table.querySelector('tbody').append(row);
-            __update_data_input_file(input);
+            // Add the row to the table
+            var row = __add_row_file(input, table, data.files[0]);
             // Get the local file using syncronous techniques
             var reader = new FileReader();
             reader.readAsDataURL(files[i]);
@@ -1407,7 +1413,7 @@ saltos.bootstrap.__field.file = field => {
                 // This allow multiple uploads in parallel
                 ((data, row) => {
                     saltos.core.ajax({
-                        url: 'api/?addfiles',
+                        url: 'api/?upload/addfiles',
                         data: JSON.stringify(data),
                         method: 'post',
                         content_type: 'application/json',
@@ -1418,7 +1424,7 @@ saltos.bootstrap.__field.file = field => {
                             if (typeof response.error == 'object') {
                                 throw new Error(response.error);
                             }
-                            row.saltos_data = response[0];
+                            row.data = response[0];
                             __update_data_input_file(input);
                         },
                         error: request => {
@@ -1444,6 +1450,20 @@ saltos.bootstrap.__field.file = field => {
         }
         input.value = '';
     });
+    // Program the set function
+    obj.querySelector('input').set = data => {
+        for (var i in data) {
+            var input = obj.querySelector('input');
+            var table = input.nextElementSibling.querySelector('table');
+            var row = __add_row_file(input, table, data[i]);
+            var percent = 100;
+            row.querySelector('.progress-bar').style.width = percent + '%';
+            row.querySelector('.progress').setAttribute('aria-valuenow', percent);
+        }
+    };
+    // Initialize the input with the previous function
+    obj.querySelector('input').set(field.data);
+    // Continue
     obj.prepend(saltos.bootstrap.__label_helper(field));
     return obj;
 };
@@ -1627,7 +1647,7 @@ saltos.bootstrap.__field.excel = field => {
             rowHeaderWidth: field.rowHeaderWidth,
             colWidths: field.colWidths,
             afterChange: (changes, source) => {
-                element.saltos_data = field.data;
+                element.data = field.data;
             }
         });
     });
