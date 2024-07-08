@@ -46,7 +46,7 @@
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-                <button onclick="saltos.emails.getmail()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
+                <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
                 <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
             </row>
         </layout>
@@ -310,8 +310,9 @@
     </view>
 
     <!-- Actions part -->
-    <action id="getmail">
-        <array require="apps/emails/php/getmail.php" eval="true">getmail_receive()</array>
+    <action id="server">
+        <array require="apps/emails/php/getmail.php" eval="true">getmail_server()</array>
+        <array require="apps/emails/php/sendmail.php" eval="true">sendmail_server()</array>
     </action>
 
     <action id="delete">
@@ -320,6 +321,10 @@
 
     <action id="setter">
         <text require="apps/emails/php/getmail.php" eval="true">getmail_setter(get_data("rest/4"), get_data("json/what"))</text>
+    </action>
+
+    <action id="sendmail">
+        <array require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("rest/4"), get_data("rest/5"))</array>
     </action>
 
     <!-- Config part -->

@@ -44,18 +44,22 @@ saltos.emails = {};
  *
  * TODO
  */
-saltos.emails.getmail = () => {
+saltos.emails.server = () => {
     saltos.app.form.screen('loading');
     var app = saltos.hash.get().split('/').at(1);
     saltos.core.ajax({
-        url: `api/?app/${app}/action/getmail`,
+        url: `api/?app/${app}/action/server`,
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            for (var key in response.array) {
-                saltos.app.toast('Response', response.array[key]);
+            for (var key in response) {
+                if (saltos.core.fix_key(key) == 'array') {
+                    for (var key2 in response[key]) {
+                        saltos.app.toast('Response', response[key][key2]);
+                    }
+                }
             }
             saltos.window.send('saltos.emails.update');
         },
@@ -186,8 +190,48 @@ saltos.emails.send = () => {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
-    console.log(saltos.app.get_data(true));
-
+    saltos.app.form.screen('loading');
+    var app = saltos.hash.get().split('/').at(1);
+    var action = saltos.hash.get().split('/').at(3);
+    if (typeof action == 'undefined') {
+        action = '';
+    }
+    var email_id = saltos.hash.get().split('/').at(4);
+    if (typeof email_id == 'undefined') {
+        email_id = '';
+    }
+    var data = saltos.app.get_data(true);
+    saltos.core.ajax({
+        url: `api/?app/${app}/action/sendmail/${action}/${email_id}`,
+        data: JSON.stringify(data),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (response.array.status == 'ok') {
+                saltos.app.toast('Response', response.array.text);
+                saltos.driver.close();
+                return;
+            }
+            if (response.array.status == 'ko') {
+                saltos.app.toast('Response', response.array.text, {color: 'danger'});
+                return;
+            }
+            saltos.app.show_error(response);
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+        lang: saltos.gettext.get(),
+    });
 };
 
 /**

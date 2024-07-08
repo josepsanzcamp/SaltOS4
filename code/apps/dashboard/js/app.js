@@ -97,7 +97,6 @@ saltos.dashboard.authupdate = () => {
         }),
         method: 'post',
         content_type: 'application/json',
-        async: false,
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {

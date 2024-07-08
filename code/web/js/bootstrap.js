@@ -837,7 +837,9 @@ saltos.bootstrap.__field.select = field => {
         if (field.value.toString() == val.value.toString()) {
             selected = 'selected';
         }
-        obj.append(saltos.core.html(`<option value="${val.value}" ${selected}>${val.label}</option>`));
+        var option = saltos.core.html(`<option value="${val.value}" ${selected}></option>`);
+        option.append(val.label);
+        obj.append(option);
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;

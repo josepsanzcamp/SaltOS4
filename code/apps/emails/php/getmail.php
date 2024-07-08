@@ -842,7 +842,7 @@ function __getmail_insert(
     $state_reply,
     $state_forward,
     $state_wait,
-    $id_correo,
+    $email_id,
     $is_outbox,
     $state_sent,
     $state_error
@@ -872,7 +872,7 @@ function __getmail_insert(
         "state_forward" => $state_forward,
         "state_wait" => $state_wait,
         "state_spam" => $info["spam"],
-        "id_correo" => $id_correo,
+        "email_id" => $email_id,
         "is_outbox" => $is_outbox,
         "state_sent" => $state_sent,
         "state_error" => $state_error,
@@ -1210,18 +1210,18 @@ function getmail_field($field, $id)
 }
 
 /**
- * Receive
+ * Server
  *
  * This function implements the old getmail action of the old saltos.
  */
-function getmail_receive()
+function getmail_server()
 {
     // check the semaphore
     $semaphore = [__FUNCTION__, current_user()];
-    if (!semaphore_acquire($semaphore)) {
+    if (!semaphore_acquire($semaphore, 100000)) {
         return ["Could not acquire the semaphore"];
     }
-    // FOR DEBUG PURPOSES
+    // for debug purposes
     if (get_config("emails/getmailmsgid")) {
         $file = get_directory("dirs/inboxdir") . get_config("emails/getmailmsgid") . ".eml.gz";
         if (!file_exists($file)) {

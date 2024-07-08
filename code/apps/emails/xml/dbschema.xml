@@ -48,7 +48,7 @@ This file allow to define the database needed by this application
                 <field name="state_forward" type="INT(11)"/>
                 <field name="state_wait" type="INT(11)"/>
                 <field name="state_spam" type="INT(11)"/>
-                <field name="id_correo" type="INT(11)"/>
+                <field name="email_id" type="INT(11)"/>
                 <field name="is_outbox" type="INT(11)"/>
                 <field name="state_sent" type="INT(11)"/>
                 <field name="state_error" type="TEXT"/>

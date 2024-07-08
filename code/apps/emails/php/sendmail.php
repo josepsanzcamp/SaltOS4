@@ -54,27 +54,11 @@ use PHPMailer\PHPMailer\SMTP;
  * $body       => the body string
  * $files      => an array with files
  */
-function sendmail($account_id, $to, $subject, $body, $files = "")
+function sendmail($account_id, $to, $subject, $body, $files = "", $async = true)
 {
-    require_once "lib/phpmailer/vendor/autoload.php";
-    require_once "php/getmail.php";
-    // Check for special account_id case
-    if (is_array($account_id)) {
-        if (count($account_id) != 2) {
-            return "account_id error1";
-        }
-        list($account_id0, $account_id1) = array_values($account_id);
-        if (is_numeric($account_id1) && is_string($account_id0)) {
-            list($account_id0, $account_id1) = [$account_id1, $account_id0];
-        }
-        if (!is_numeric($account_id0) || !is_string($account_id1)) {
-            return "account_id error2";
-        }
-    }
+    require_once "apps/emails/lib/phpmailer/vendor/autoload.php";
+    require_once "apps/emails/php/getmail.php";
     // FIND ACCOUNT DATA
-    if (isset($account_id0)) {
-        $account_id = $account_id0;
-    }
     $query = "SELECT * FROM app_emails_accounts WHERE id='$account_id'";
     $result = execute_query($query);
     if (!isset($result["id"])) {
@@ -95,7 +79,7 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
     if (!$mail->set("XMailer", get_name_version_revision())) {
         return $mail->ErrorInfo;
     }
-    if (!$mail->AddCustomHeader("X-Originating-IP", getServer("REMOTE_ADDR"))) {
+    if (!$mail->AddCustomHeader("X-Originating-IP", get_server("REMOTE_ADDR"))) {
         if ($mail->ErrorInfo) {
             return $mail->ErrorInfo;
         }
@@ -105,9 +89,6 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
     }
     if (!$mail->set("CharSet", "UTF-8")) {
         return $mail->ErrorInfo;
-    }
-    if (isset($account_id1)) {
-        $fromname = $account_id1;
     }
     if (!$mail->SetFrom($from, $fromname)) {
         return $mail->ErrorInfo;
@@ -279,9 +260,9 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
             return $mail->ErrorInfo;
         }
     }
-    capture_next_error();
+    ob_start();
     $current = $mail->PreSend();
-    get_clear_error();
+    ob_get_clean();
     if (!$current) {
         return $mail->ErrorInfo;
     }
@@ -296,19 +277,20 @@ function sendmail($account_id, $to, $subject, $body, $files = "")
     if (count($bcc)) {
         __getmail_add_bcc($last_id, $bcc); // BCC DOESN'T APPEAR IN THE RFC822 SOMETIMES
     }
-    if (CONFIG("email_async")) {
+    if ($async) {
         __getmail_update("state_sent", 0, $last_id);
         __getmail_update("state_error", "", $last_id);
         return "";
     }
-    capture_next_error();
+    ob_start();
     $current = $mail->PostSend();
-    $error = get_clear_error();
+    $error = ob_get_clean();
     if (words_exists("PostSend non-object", $error)) {
+        $error = T("This email was not sent by an internal error");
         __getmail_update("state_sent", 1, $last_id);
-        __getmail_update("state_error", T("This email was not sent by an internal error"), $last_id);
+        __getmail_update("state_error", $error, $last_id);
         unlink($file2);
-        return T("This email was not sent by an internal error");
+        return $error;
     }
     if (!$current) {
         if (words_exists("connection refused", $error)) {
@@ -365,7 +347,6 @@ function __sendmail_parser($oldaddr)
  */
 function __sendmail_messageid($account_id, $from)
 {
-    require_once "php/getmail.php";
     $prefix = get_directory("dirs/outboxdir") . $account_id;
     if (!file_exists($prefix)) {
         mkdir($prefix);
@@ -398,7 +379,6 @@ function __sendmail_messageid($account_id, $from)
  */
 function __sendmail_emlsaver($message, $messageid)
 {
-    require_once "php/getmail.php";
     $prefix = get_directory("dirs/outboxdir") . $messageid;
     $file = $prefix . ".eml.gz";
     $fp = gzopen($file, "w");
@@ -490,7 +470,6 @@ function __signature_getauto($file)
     } else {
         $file["auto"] = "Name: {$file["name"]}<br/>Type: {$file["type"]}<br/>Size: {$file["size"]}";
     }
-    require_once "apps/emails/php/getmail.php";
     $file["auto"] = __SIGNATURE_OPEN__ . "<p>--</p>" . $file["auto"] . __SIGNATURE_CLOSE__;
     return $file;
 }
@@ -502,6 +481,7 @@ function __signature_getauto($file)
  */
 function sendmail_prepare($action, $email_id)
 {
+    require_once "apps/emails/php/getmail.php";
     $query = "SELECT id
         FROM app_emails_accounts
         WHERE user_id='" . current_user() . "'
@@ -639,7 +619,6 @@ function sendmail_prepare($action, $email_id)
         }
     }
     if (in_array($action, ["reply", "replyall", "forward"])) {
-        require_once "apps/emails/php/getmail.php";
         $query = "SELECT * FROM app_emails WHERE id='{$email_id}'";
         $row2 = execute_query($query);
         if ($row2 && isset($row2["subject"])) {
@@ -850,49 +829,32 @@ function sendmail_prepare($action, $email_id)
  *
  * TODO
  */
-function sendmail_action()
+function sendmail_action($action, $email_id)
 {
-    require_once "php/getmail.php";
-    require_once "php/sendmail.php";
+    require_once "apps/emails/php/getmail.php";
     // GET ALL DATA
-    $prefix = "default_0_";
-    $id_extra = explode("_", getParam($prefix . "id_extra"), 3);
-    $account_id = intval(getParam($prefix . "account_id"));
-    $para = getParam($prefix . "para");
-    $cc = getParam($prefix . "cc");
-    $bcc = getParam($prefix . "bcc");
-    $subject = getParam($prefix . "subject");
-    $body = getParam($prefix . "body");
-    $state_crt = intval(getParam($prefix . "state_crt"));
-    $priority = intval(getParam($prefix . "priority"));
-    $sensitivity = intval(getParam($prefix . "sensitivity"));
+    $account_id = intval(get_data("json/account_id"));
+    $to = get_data("json/to");
+    $cc = get_data("json/cc");
+    $bcc = get_data("json/bcc");
+    $subject = get_data("json/subject");
+    $body = get_data("json/body");
+    $state_crt = intval(get_data("json/state_crt"));
+    $priority = intval(get_data("json/priority"));
+    $sensitivity = intval(get_data("json/sensitivity"));
     // SEARCH FROM
     $query = "SELECT CONCAT(email_name,' <',email_from,'>') email
         FROM app_emails_accounts
         WHERE user_id='" . current_user() . "'
             AND id='{$account_id}'";
-    $de = execute_query($query);
-    if (!$de) {
-        javascript_error(LANG("msgfromkosendmail", "correo"));
-        javascript_unloading();
-        die();
+    $from = execute_query($query);
+    if (!$from) {
+        show_php_error(["phperror" => "From not found"]);
     }
     // REMOVE THE SIGNATURE TAG IF EXISTS
     $body = str_replace(["<signature>", "</signature>"], "", $body);
-    // CHECK FOR MOBILE DEVICES
-    if (ismobile()) {
-        $source = $body;
-        $source = htmlentities($source, ENT_COMPAT, "UTF-8");
-        $source = str_replace([" ", "\t", "\n"], ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>"], $source);
-        $body = __HTML_PAGE_OPEN__;
-        $body .= __PLAIN_TEXT_OPEN__;
-        $body .= $source;
-        $body .= __PLAIN_TEXT_CLOSE__;
-        $body .= __HTML_PAGE_CLOSE__;
-    }
     // REPLACE SIGNATURE IF NEEDED AND ADD THE INLINE IMAGE
     $inlines = [];
-    require_once "php/libaction.php";
     $file = __signature_getauto(__signature_getfile($account_id));
     if ($file && isset($file["src"])) {
         $cid = md5($file["data"]);
@@ -914,7 +876,6 @@ function sendmail_action()
     if (in_array($action, ["reply", "replyall", "forward"])) {
         $decoded = __getmail_getmime($email_id);
         $result2 = __getmail_getfullbody(__getmail_getnode("0", $decoded));
-        $useimginline = eval_bool(getDefault("cache/useimginline"));
         foreach ($result2 as $index2 => $node2) {
             $disp2 = $node2["disp"];
             $type2 = $node2["type"];
@@ -922,16 +883,10 @@ function sendmail_action()
                 $cid2 = $node2["cid"];
                 if ($cid2 != "") {
                     $chash2 = $node2["chash"];
+                    $ctype2 = $node2["ctype"];
                     $prehash = md5($body);
-                    if ($useimginline) {
-                        $data = base64_encode($node2["body"]);
-                        $data = "data:image/png;base64,{$data}";
-                        $body = str_replace($data, "cid:{$cid2}", $body);
-                    } else {
-                        $url = "?action=getmail&id={$email_id}&cid={$chash2}";
-                        $url = str_replace("&", "&amp;", $url); // CKEDITOR CORRECTION
-                        $body = str_replace($url, "cid:{$cid2}", $body);
-                    }
+                    $data = mime_inline($ctype2, $node2["body"]);
+                    $body = str_replace($data, "cid:{$cid2}", $body);
                     $posthash = md5($body);
                     if ($prehash != $posthash) {
                         $inlines[] = __getmail_getcid(__getmail_getnode("0", $decoded), $chash2);
@@ -942,18 +897,18 @@ function sendmail_action()
                 $cname2 = $node2["cname"];
                 if ($cname2 != "") {
                     $chash2 = $node2["chash"];
-                    $delete = "files_old_{$chash2}_fichero_del";
-                    if (!getParam($delete)) {
-                        $attachs[] = __getmail_getcid(__getmail_getnode("0", $decoded), $chash2);
-                    }
+                    //~ $delete = "files_old_{$chash2}_fichero_del";
+                    //~ if (!getParam($delete)) {
+                        //~ $attachs[] = __getmail_getcid(__getmail_getnode("0", $decoded), $chash2);
+                    //~ }
                 }
             }
         }
     }
     // PREPARE THE RECIPIENTS
     $recipients = [];
-    $para = explode(";", $para);
-    foreach ($para as $addr) {
+    $to = explode(";", $to);
+    foreach ($to as $addr) {
         $addr = trim($addr);
         if ($addr != "") {
             $recipients[] = "to:" . $addr;
@@ -975,7 +930,7 @@ function sendmail_action()
     }
     // ADD EXTRAS IN THE RECIPIENTS
     if ($state_crt) {
-        $recipients[] = "crt:" . $de;
+        $recipients[] = "crt:" . $from;
     }
     $priorities = [-1 => "5 (Low)", 1 => "1 (High)"];
     if (isset($priorities[$priority])) {
@@ -987,30 +942,30 @@ function sendmail_action()
     }
     // ADD UPLOADED ATTACHMENTS
     $files = [];
-    foreach ($_FILES as $file) {
-        if (isset($file["tmp_name"]) && $file["tmp_name"] != "" && file_exists($file["tmp_name"])) {
-            if (!isset($file["name"])) {
-                $file["name"] = basename($file["tmp_name"]);
-            }
-            if (!isset($file["type"])) {
-                $file["type"] = saltos_content_type($file["tmp_name"]);
-            }
-            $files[] = ["file" => $file["tmp_name"], "name" => $file["name"], "mime" => $file["type"]];
-        } else {
-            if (isset($file["name"]) && $file["name"] != "") {
-                javascript_error(LANG("fileuploaderror") . $file["name"]);
-            }
-            if (isset($file["error"]) && $file["error"] != "") {
-                javascript_error(
-                    LANG("fileuploaderror") .
-                        upload_error2string($file["error"]) .
-                            " (code " . $file["error"] . ")"
-                );
-            }
-            javascript_unloading();
-            die();
-        }
-    }
+    //~ foreach ($_FILES as $file) {
+        //~ if (isset($file["tmp_name"]) && $file["tmp_name"] != "" && file_exists($file["tmp_name"])) {
+            //~ if (!isset($file["name"])) {
+                //~ $file["name"] = basename($file["tmp_name"]);
+            //~ }
+            //~ if (!isset($file["type"])) {
+                //~ $file["type"] = saltos_content_type($file["tmp_name"]);
+            //~ }
+            //~ $files[] = ["file" => $file["tmp_name"], "name" => $file["name"], "mime" => $file["type"]];
+        //~ } else {
+            //~ if (isset($file["name"]) && $file["name"] != "") {
+                //~ javascript_error(LANG("fileuploaderror") . $file["name"]);
+            //~ }
+            //~ if (isset($file["error"]) && $file["error"] != "") {
+                //~ javascript_error(
+                    //~ LANG("fileuploaderror") .
+                        //~ upload_error2string($file["error"]) .
+                            //~ " (code " . $file["error"] . ")"
+                //~ );
+            //~ }
+            //~ javascript_unloading();
+            //~ die();
+        //~ }
+    //~ }
     // ADD INLINES IMAGES
     foreach ($inlines as $inline) {
         $files[] = [
@@ -1030,33 +985,34 @@ function sendmail_action()
     }
     // DO THE SEND ACTION
     $send = sendmail($account_id, $recipients, $subject, $body, $files);
-    if ($send == "") {
-        $query = "SELECT MAX(id) FROM app_emails WHERE account_id='{$account_id}' AND is_outbox='1'";
-        $last_id = execute_query($query);
-        // SOME UPDATES
-        if (in_array($action, ["reply", "replyall", "forward"])) {
-            __getmail_update("email_id", $email_id, $last_id);
-            if ($action == "reply") {
-                $campo = "state_reply";
-            }
-            if ($action == "replyall") {
-                $campo = "state_reply";
-            }
-            if ($action == "forward") {
-                $campo = "state_forward";
-            }
-            __getmail_update($campo, 1, $email_id);
-        }
-        // FINISH THE ACTION
-        session_alert(LANG("msgsendoksendmail", "correo"));
-        $go = eval_bool(intval(getParam("returnhere")) ? "true" : "false") ? 0 : -1;
-        javascript_history($go);
-    } else {
+    if ($send != "") {
         // CANCEL THE ACTION
-        javascript_error($send);
-        javascript_unloading();
+        return [
+            "status" => "ko",
+            "text" => $send,
+        ];
     }
-    die();
+    $query = "SELECT MAX(id) FROM app_emails WHERE account_id='{$account_id}' AND is_outbox='1'";
+    $last_id = execute_query($query);
+    // SOME UPDATES
+    if (in_array($action, ["reply", "replyall", "forward"])) {
+        __getmail_update("email_id", $email_id, $last_id);
+        if ($action == "reply") {
+            $campo = "state_reply";
+        }
+        if ($action == "replyall") {
+            $campo = "state_reply";
+        }
+        if ($action == "forward") {
+            $campo = "state_forward";
+        }
+        __getmail_update($campo, 1, $email_id);
+    }
+    // FINISH THE ACTION
+    return [
+        "status" => "ok",
+        "text" => "Email sent successfully",
+    ];
 }
 
 /**
@@ -1066,18 +1022,12 @@ function sendmail_action()
  */
 function sendmail_server()
 {
-    // CHECK THE SEMAPHORE
-    $semaphore = [getParam("action"), current_user()];
-    if (!semaphore_acquire($semaphore, getDefault("semaphoretimeout", 100000))) {
-        if (!getParam("ajax")) {
-            session_error(LANG("msgerrorsemaphore") . getParam("action"));
-            javascript_history(-1);
-        } else {
-            javascript_error(LANG("msgerrorsemaphore") . getParam("action"));
-        }
-        die();
+    // check the semaphore
+    $semaphore = [__FUNCTION__, current_user()];
+    if (!semaphore_acquire($semaphore, 100000)) {
+        return ["Could not acquire the semaphore"];
     }
-    // BEGIN THE SPOOL OPERATION
+    // begin the spool operation
     $query = "SELECT a.id,a.account_id,a.uidl
         FROM app_emails a
         LEFT JOIN app_emails_accounts c ON c.id=a.account_id
@@ -1085,21 +1035,12 @@ function sendmail_server()
             AND a.is_outbox='1'
             AND a.state_sent='0'";
     $result = execute_query_array($query);
-    if (!count($result)) {
-        if (!getParam("ajax")) {
-            session_alert(LANG("msgnotsendfound", "correo"));
-            javascript_history(-1);
-        }
-        semaphore_release($semaphore);
-        javascript_headers();
-        die();
-    }
-    require_once "lib/phpmailer/vendor/autoload.php";
-    require_once "php/getmail.php";
+    require_once "apps/emails/lib/phpmailer/vendor/autoload.php";
+    require_once "apps/emails/php/getmail.php";
     $sended = 0;
-    $haserror = 0;
+    $haserror = [];
     foreach ($result as $row) {
-        if (time_get_usage() > getDefault("server/percentstop")) {
+        if (time_get_usage() > get_config("emails/percentstop")) {
             break;
         }
         $last_id = $row["id"];
@@ -1107,14 +1048,15 @@ function sendmail_server()
         $file = get_directory("dirs/outboxdir") . $messageid . ".obj";
         if (file_exists($file)) {
             $mail = unserialize(file_get_contents($file));
-            capture_next_error();
+            ob_start();
             $current = $mail->PostSend();
-            $error = get_clear_error();
+            $error = ob_get_clean();
             if (words_exists("PostSend non-object", $error)) {
+                $error = T("This email was not sent by an internal error");
                 __getmail_update("state_sent", 1, $last_id);
-                __getmail_update("state_error", LANG("interrorsendmail", "correo"), $last_id);
+                __getmail_update("state_error", $error, $last_id);
                 unlink($file);
-                $haserror = 1;
+                $haserror[] = $error;
             } else {
                 if ($current !== true) {
                     $host = $mail->Host;
@@ -1166,16 +1108,16 @@ function sendmail_server()
                                 $mail->IsQmail();
                             }
                         }
-                        capture_next_error();
+                        ob_start();
                         $current = $mail->PostSend();
-                        $error = get_clear_error();
+                        $error = ob_get_clean();
                     }
                 }
                 if ($current !== true) {
                     if (words_exists("connection refused", $error)) {
-                        $error = LANG("msgconnrefusedpop3email", "correo");
+                        $error = T("Connection refused by server");
                     } elseif (words_exists("unable to connect", $error)) {
-                        $error = LANG("msgconnerrorpop3email", "correo");
+                        $error = T("Can not connect to server");
                     } else {
                         $orig = ["\n", "\r", "'", "\""];
                         $dest = [" ", "", "", ""];
@@ -1183,12 +1125,7 @@ function sendmail_server()
                     }
                     __getmail_update("state_sent", 0, $last_id);
                     __getmail_update("state_error", $error, $last_id);
-                    if (!getParam("ajax")) {
-                        session_error(LANG("msgerrorsendmail", "correo") . $error);
-                    } else {
-                        javascript_error(LANG("msgerrorsendmail", "correo") . $error);
-                    }
-                    $haserror = 1;
+                    $haserror[] = $error;
                 } else {
                     __getmail_update("state_sent", 1, $last_id);
                     __getmail_update("state_error", "", $last_id);
@@ -1197,34 +1134,16 @@ function sendmail_server()
                 }
             }
         } else {
+            $error = T("This email was not sent by an internal error");
             __getmail_update("state_sent", 1, $last_id);
-            __getmail_update("state_error", LANG("interrorsendmail", "correo"), $last_id);
-            $haserror = 1;
-        }
-    }
-    if (!getParam("ajax")) {
-        if ($sended > 0) {
-            session_alert($sended . LANG("msgtotalsendmail" . min($sended, 2), "correo"));
-        }
-        javascript_history(-1);
-    } else {
-        if ($sended > 0) {
-            javascript_alert($sended . LANG("msgtotalsendmail" . min($sended, 2), "correo"));
-            if (!$haserror) {
-                javascript_settimeout(
-                    "$('#enviar').addClass('ui-state-disabled');", 1000, "is_correo_list()"
-                );
-            }
-        }
-        if ($sended > 0 || $haserror) {
-            $condition = "update_correo_list()";
-            javascript_history(0, $condition);
+            __getmail_update("state_error", $error, $last_id);
+            $haserror[] = $error;
         }
     }
     // RELEASE THE SEMAPHORE
     semaphore_release($semaphore);
-    javascript_headers();
-    die();
+    $haserror[] = "$sended email(s) sended";
+    return $haserror;
 }
 
 /**
