@@ -155,32 +155,28 @@ function sendmail($account_id, $to, $subject, $body, $files = "", $async = true)
     if (is_array($files)) {
         foreach ($files as $file) {
             if (isset($file["data"]) && !isset($file["cid"])) {
-                $mail->AddStringAttachment($file["data"], $file["name"], "base64", $file["mime"]);
+                $mail->AddStringAttachment(
+                    $file["data"], $file["name"], "base64", $file["mime"]
+                );
             }
             if (isset($file["file"]) && !isset($file["cid"])) {
-                if (!$mail->AddAttachment($file["file"], $file["name"], "base64", $file["mime"])) {
+                $bool = $mail->AddAttachment(
+                    $file["file"], $file["name"], "base64", $file["mime"]
+                );
+                if (!$bool) {
                     return $mail->ErrorInfo;
                 }
             }
             if (isset($file["data"]) && isset($file["cid"])) {
                 $mail->AddStringEmbeddedImage(
-                    $file["data"],
-                    $file["cid"],
-                    $file["name"],
-                    "base64",
-                    $file["mime"]
+                    $file["data"], $file["cid"], $file["name"], "base64", $file["mime"]
                 );
             }
             if (isset($file["file"]) && isset($file["cid"])) {
-                if (
-                    !$mail->AddEmbeddedImage(
-                        $file["file"],
-                        $file["cid"],
-                        $file["name"],
-                        "base64",
-                        $file["mime"]
-                    )
-                ) {
+                $bool = $mail->AddEmbeddedImage(
+                    $file["file"], $file["cid"], $file["name"], "base64", $file["mime"]
+                );
+                if (!$bool) {
                     return $mail->ErrorInfo;
                 }
             }
@@ -512,11 +508,11 @@ function sendmail_prepare($action, $email_id)
             LIMIT 1) z";
         $account_id = execute_query($query);
     }
-    $to_extra = ["josep.sanz@saltos.org"];
+    $to_extra = [];
     $cc_extra = [];
     $bcc_extra = [];
     $state_crt = "";
-    $subject_extra = "test";
+    $subject_extra = "";
     $body_extra = "";
     if (in_array($action, ["reply", "replyall", "forward"])) {
         $query = "SELECT account_id FROM app_emails WHERE id='{$email_id}'";
@@ -893,16 +889,16 @@ function sendmail_action($action, $email_id)
                     }
                 }
             }
-            if ($action == "forward" && __getmail_processfile($disp2, $type2)) {
-                $cname2 = $node2["cname"];
-                if ($cname2 != "") {
-                    $chash2 = $node2["chash"];
+            //~ if ($action == "forward" && __getmail_processfile($disp2, $type2)) {
+                //~ $cname2 = $node2["cname"];
+                //~ if ($cname2 != "") {
+                    //~ $chash2 = $node2["chash"];
                     //~ $delete = "files_old_{$chash2}_fichero_del";
                     //~ if (!getParam($delete)) {
                         //~ $attachs[] = __getmail_getcid(__getmail_getnode("0", $decoded), $chash2);
                     //~ }
-                }
-            }
+                //~ }
+            //~ }
         }
     }
     // PREPARE THE RECIPIENTS
@@ -942,30 +938,15 @@ function sendmail_action($action, $email_id)
     }
     // ADD UPLOADED ATTACHMENTS
     $files = [];
-    //~ foreach ($_FILES as $file) {
-        //~ if (isset($file["tmp_name"]) && $file["tmp_name"] != "" && file_exists($file["tmp_name"])) {
-            //~ if (!isset($file["name"])) {
-                //~ $file["name"] = basename($file["tmp_name"]);
-            //~ }
-            //~ if (!isset($file["type"])) {
-                //~ $file["type"] = saltos_content_type($file["tmp_name"]);
-            //~ }
-            //~ $files[] = ["file" => $file["tmp_name"], "name" => $file["name"], "mime" => $file["type"]];
-        //~ } else {
-            //~ if (isset($file["name"]) && $file["name"] != "") {
-                //~ javascript_error(LANG("fileuploaderror") . $file["name"]);
-            //~ }
-            //~ if (isset($file["error"]) && $file["error"] != "") {
-                //~ javascript_error(
-                    //~ LANG("fileuploaderror") .
-                        //~ upload_error2string($file["error"]) .
-                            //~ " (code " . $file["error"] . ")"
-                //~ );
-            //~ }
-            //~ javascript_unloading();
-            //~ die();
-        //~ }
-    //~ }
+    $uploads = get_data("json/files");
+    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
+    foreach ($uploads as $file) {
+        $files[] = [
+            "file" => $dir . $file["file"],
+            "name" => $file["name"],
+            "mime" => $file["type"],
+        ];
+    }
     // ADD INLINES IMAGES
     foreach ($inlines as $inline) {
         $files[] = [
@@ -1007,6 +988,10 @@ function sendmail_action($action, $email_id)
             $campo = "state_forward";
         }
         __getmail_update($campo, 1, $email_id);
+    }
+    // REMOVE THE UPLOADED FILES
+    foreach ($uploads as $file) {
+        del_file($file);
     }
     // FINISH THE ACTION
     return [

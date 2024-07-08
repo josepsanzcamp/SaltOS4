@@ -1251,7 +1251,7 @@ saltos.bootstrap.__field.password = field => {
  * the real upload action.
  */
 saltos.bootstrap.__field.file = field => {
-    saltos.core.check_params(field, ['class', 'id', 'data', 'disabled', 'required',
+    saltos.core.check_params(field, ['class', 'id', 'value', 'data', 'disabled', 'required',
                                      'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';

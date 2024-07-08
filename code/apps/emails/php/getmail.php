@@ -224,7 +224,7 @@ function __getmail_mime_decode_protected($input)
  */
 function __getmail_getmime($id)
 {
-    $query = "SELECT account_id,uidl,is_outbox FROM app_emails WHERE id='$id'";
+    $query = "SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id='$id'";
     $row = execute_query($query);
     if (!$row) {
         return "";
