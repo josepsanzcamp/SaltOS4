@@ -624,7 +624,7 @@ saltos.driver.__types.type2.init = arg => {
  */
 saltos.driver.__types.type2.open = arg => {
     saltos.hash.add(arg);
-    saltos.app.send_request(arg.substr(1));
+    saltos.app.send_request(arg);
 };
 
 /**
@@ -816,7 +816,7 @@ saltos.driver.__types.type4.open = arg => {
     });
     document.querySelector('.modal-body').setAttribute('id', 'two');
     saltos.hash.add(arg);
-    saltos.app.send_request(arg.substr(1));
+    saltos.app.send_request(arg);
 };
 
 /**
@@ -916,7 +916,7 @@ saltos.driver.__types.type5.open = arg => {
         document.querySelector('.modal-body').setAttribute('id', 'three');
     }
     saltos.hash.add(arg);
-    saltos.app.send_request(arg.substr(1));
+    saltos.app.send_request(arg);
 };
 
 /**

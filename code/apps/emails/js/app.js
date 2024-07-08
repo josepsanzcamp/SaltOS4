@@ -241,7 +241,7 @@ saltos.emails.send = () => {
  */
 saltos.emails.download = file => {
     saltos.core.ajax({
-        url: 'api/?' + file.substr(1),
+        url: 'api/?' + file,
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {

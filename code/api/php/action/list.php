@@ -156,7 +156,7 @@ foreach ($array["data"] as $key => $row) {
                 strtok(strval($row["id"]), "/")
             )
         ) {
-            $action["url"] = "#app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
         } else {
             $action["url"] = "";
         }
