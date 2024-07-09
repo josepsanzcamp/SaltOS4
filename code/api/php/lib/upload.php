@@ -153,3 +153,33 @@ function check_file($val)
     $id = execute_query($query);
     return $id;
 }
+
+/**
+ * Garbage Collector Upload
+ *
+ * This function tries to clean the upload directory of old files, the parameters
+ * that this function uses are defined in the config file, uses one directory
+ * (uploaddir) and the timeout is getted from the server/cachetimeout
+ */
+function gc_upload()
+{
+    $datetime = current_datetime(-intval(get_config("server/cachetimeout")));
+    $query = "SELECT id,file FROM tbl_uploads WHERE datetime < '$datetime'";
+    $files = execute_query_array($query);
+    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
+    $output = [
+        "deleted" => [],
+        "count" => 0,
+    ];
+    foreach ($files as $val) {
+        // Remove the local file
+        unlink($dir . $val["file"]);
+        // Remove the database entry
+        $query = "DELETE FROM tbl_uploads WHERE id = " . $val["id"];
+        db_query($query);
+        // Continue
+        $output["deleted"][] = $dir . $val["file"];
+        $output["count"]++;
+    }
+    return $output;
+}

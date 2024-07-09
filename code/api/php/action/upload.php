@@ -66,6 +66,7 @@ if ($files == "") {
     show_json_error("files not found");
 }
 
+require_once "php/lib/upload.php";
 foreach ($files as $key => $val) {
     $array = ["id", "app", "name", "size", "type", "data", "error", "file", "hash"];
     foreach ($array as $key2 => $val2) {

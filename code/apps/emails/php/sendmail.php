@@ -1141,6 +1141,7 @@ function sendmail_files($action, $email_id)
 {
     if ($action == "forward" && $email_id) {
         require_once "apps/emails/php/getmail.php";
+        require_once "php/lib/upload.php";
         if (!__getmail_checkperm($email_id)) {
             show_php_error(["phperror" => "Permission denied"]);
         }

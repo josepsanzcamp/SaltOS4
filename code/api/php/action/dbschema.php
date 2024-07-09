@@ -53,15 +53,16 @@ $output1 = db_schema();
 $time2 = microtime(true);
 $output2 = db_static();
 $time3 = microtime(true);
+semaphore_release("dbschema");
 output_handler([
     "data" => json_encode([
         "db_schema" => array_merge([
-            "time" => $time2 - $time1,
+            "time" => sprintf("%f", $time2 - $time1),
             "check" => $dbschema_check,
             "hash" => $dbschema_hash,
         ], $output1),
         "db_static" => array_merge([
-            "time" => $time3 - $time2,
+            "time" => sprintf("%f", $time3 - $time2),
             "check" => $dbstatic_check,
             "hash" => $dbstatic_hash,
         ], $output2),
