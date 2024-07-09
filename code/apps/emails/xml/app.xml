@@ -94,9 +94,9 @@
                         ORDER BY email_default DESC, counter DESC
                     ")</rows>
                 </select>
-                <tags id="to" label="To" separator=";" datalist="app/emails/create/emails/" autofocus="true" required="true"/>
-                <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails/"/>
-                <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails/"/>
+                <tags id="to" label="To" separator=";" datalist="app/emails/create/emails" autofocus="true" required="true"/>
+                <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails"/>
+                <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
                 <select id="priority" label="Prioriry" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
@@ -139,7 +139,7 @@
     <create id="accounts">
         <data eval="true">execute_query_array("SELECT id,CONCAT(email_name,' &amp;lt;',email_from,'&amp;gt;') name
         FROM app_emails_accounts
-        WHERE user_id=".intval(get_data("rest/4"))."
+        WHERE user_id=".intval(get_data("json/term"))."
             AND (
                 email_privated='0' OR
                 (TRIM(IFNULL(email_privated,0))='1' AND user_id=".current_user().")
@@ -166,7 +166,7 @@
                 AND state_spam='0'
             WHERE b.id IS NOT NULL
                 AND type_id IN (1,2,3,4)
-                AND (".make_like_query("name,value",base64_decode(strval(get_data("rest/4")))).")
+                AND (".make_like_query("name,value",strval(get_data("json/term"))).")
             GROUP BY label
             ORDER BY score DESC LIMIT 25")</data>
     </create>

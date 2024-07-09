@@ -243,6 +243,12 @@ saltos.bootstrap.__field.col = field => {
  * @datalist    => array with options for the datalist, used as autocomplete for the text input
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @onenter     => the function executed when enter key is pressed
+ *
+ * Notes:
+ *
+ * This widget contains a datalist with ajax autoload, this allow to send requests
+ * to the desired path to retrieve the contents of the datalist for the autocomplete,
+ * this request uses an historical keyword that can be retrieved in the json/term
  */
 saltos.bootstrap.__field.text = field => {
     saltos.core.check_params(field, ['datalist'], []);
@@ -263,7 +269,10 @@ saltos.bootstrap.__field.text = field => {
                 event.target.setAttribute('old_value', value);
                 obj.querySelectorAll('datalist option').forEach(option => option.remove());
                 saltos.core.ajax({
-                    url: 'api/?' + field.datalist_old + btoa(value),
+                    url: 'api/?' + field.datalist_old,
+                    data: JSON.stringify({term: value}),
+                    method: 'post',
+                    content_type: 'application/json',
                     success: response => {
                         if (!saltos.app.check_response(response)) {
                             return;
