@@ -829,6 +829,7 @@ function sendmail_prepare($action, $email_id)
 function sendmail_action($action, $email_id)
 {
     require_once "apps/emails/php/getmail.php";
+    require_once "php/lib/upload.php";
     // GET ALL DATA
     $account_id = intval(get_data("json/account_id"));
     $to = get_data("json/to");
