@@ -634,7 +634,7 @@ saltos.bootstrap.__field.ckeditor = field => {
     obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
-        ClassicEditor.create(element, {}).then(editor => {
+        ClassicEditor.create(element).then(editor => {
             element.ckeditor = editor;
             element.set = value => {
                 editor.setData(value);

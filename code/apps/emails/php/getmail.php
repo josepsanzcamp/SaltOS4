@@ -54,15 +54,15 @@ define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">
 define("__HTML_PAGE_CLOSE__", '</body></html>');
 define("__HTML_BOX_OPEN__", '<div style="background:#ffffff">');
 define("__HTML_BOX_CLOSE__", '</div>');
-define("__HTML_TEXT_OPEN__", '<div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;color:#333">');
+define("__HTML_TEXT_OPEN__", '<div style="color:#333;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;">');
 define("__HTML_TEXT_CLOSE__", '</div>');
-define("__PLAIN_TEXT_OPEN__", '<div style="font-family:monospace;font-size:11px;line-height:16px;color:#333">');
+define("__PLAIN_TEXT_OPEN__", '<div style="color:#333;font-family:monospace;font-size:11px;line-height:16px;">');
 define("__PLAIN_TEXT_CLOSE__", '</div>');
-define("__HTML_SEPARATOR__", '<hr style="border:0px;height:1px;background:#ccc"/>');
+define("__HTML_SEPARATOR__", '<hr style="background:#ccc;border:0px;height:1px;"/>');
 define("__HTML_NEWLINE__", '<p>&nbsp;</p>');
 define("__BLOCKQUOTE_OPEN__", '<blockquote style="border-left:#ccc 1px solid;margin:0px 0px 0px 0.8ex;padding-left:1ex">');
 define("__BLOCKQUOTE_CLOSE__", '</blockquote>');
-define("__SIGNATURE_OPEN__", '<div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;color:#ccc">');
+define("__SIGNATURE_OPEN__", '<div style="color:#ccc;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:16px;">');
 define("__SIGNATURE_CLOSE__", '</div>');
 
 /**

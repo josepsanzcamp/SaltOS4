@@ -13,6 +13,7 @@ import { Bold, Italic, Strikethrough, Code, Subscript, Superscript, Underline } 
 import { CodeBlock } from '@ckeditor/ckeditor5-code-block';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
 import { FontBackgroundColor, FontColor } from '@ckeditor/ckeditor5-font';
+import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
 import { Heading } from '@ckeditor/ckeditor5-heading';
 import { HorizontalLine } from '@ckeditor/ckeditor5-horizontal-line';
 import { Image, ImageCaption, ImageStyle, ImageToolbar, ImageUpload, PictureEditing } from '@ckeditor/ckeditor5-image';
@@ -38,6 +39,7 @@ export default class ClassicEditor extends ClassicEditorBase {
 		Essentials,
 		FontBackgroundColor,
 		FontColor,
+		GeneralHtmlSupport,
 		Heading,
 		HorizontalLine,
 		Image,
@@ -109,8 +111,17 @@ export default class ClassicEditor extends ClassicEditorBase {
 			contentToolbar: [
 				'tableColumn',
 				'tableRow',
-				'mergeTableCells'
+				'mergeTableCells',
+				'tableProperties'
 			]
+		},
+		htmlSupport: {
+			allow: [{
+				name: /.*/,
+				attributes: true,
+				classes: true,
+				styles: true
+			}]
 		}
 	};
 }

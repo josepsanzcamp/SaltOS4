@@ -77,7 +77,7 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
-                <select id="account_id" label="From" required="true">
+                <select id="account_id" label="From" required="true" onchange="saltos.emails.signature('update')">
                     <rows eval="true">execute_query_array("
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
                             SELECT COUNT(*)
@@ -163,6 +163,10 @@
                 AND (".make_like_query("name,value",strval(get_data("json/term"))).")
             GROUP BY label
             ORDER BY score DESC LIMIT 25")</data>
+    </create>
+
+    <create id="signature">
+        <data require="apps/emails/php/sendmail.php" eval="true">sendmail_signature(get_data("json"))</data>
     </create>
 
     <view>

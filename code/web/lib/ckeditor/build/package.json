@@ -4,7 +4,7 @@
     "@ckeditor/ckeditor5-basic-styles": "^42.0.0",
     "@ckeditor/ckeditor5-block-quote": "^42.0.0",
     "@ckeditor/ckeditor5-code-block": "^42.0.0",
-    "@ckeditor/ckeditor5-dev-utils": "^40.2.2",
+    "@ckeditor/ckeditor5-dev-utils": "^40.3.0",
     "@ckeditor/ckeditor5-editor-classic": "^42.0.0",
     "@ckeditor/ckeditor5-essentials": "^42.0.0",
     "@ckeditor/ckeditor5-font": "^42.0.0",

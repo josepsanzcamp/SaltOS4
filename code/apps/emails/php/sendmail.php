@@ -466,7 +466,7 @@ function __signature_getauto($file)
     } else {
         $file["auto"] = "Name: {$file["name"]}<br/>Type: {$file["type"]}<br/>Size: {$file["size"]}";
     }
-    $file["auto"] = __SIGNATURE_OPEN__ . "<p>--</p>" . $file["auto"] . __SIGNATURE_CLOSE__;
+    $file["auto"] = __SIGNATURE_OPEN__ . "--<br/>" . $file["auto"] . __SIGNATURE_CLOSE__;
     return $file;
 }
 
@@ -539,7 +539,7 @@ function sendmail_prepare($action, $email_id)
     }
     if (1) { // GET THE DEFAULT SIGNATURE
         $file = __signature_getauto(__signature_getfile($account_id));
-        $body_extra = __HTML_NEWLINE__ . "<signature>" . ($file ? $file["auto"] : "") . "</signature>";
+        $body_extra = __HTML_NEWLINE__ . "<section>" . ($file ? $file["auto"] : "") . "</section>";
     }
     if (in_array($action, ["reply", "replyall"])) {
         $query = "SELECT * FROM app_emails_address WHERE email_id='{$email_id}'";
@@ -802,8 +802,8 @@ function sendmail_prepare($action, $email_id)
                     $first = 0;
                 }
             }
-            $body_extra .= __HTML_NEWLINE__ .
-                $oldhead . __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__;
+            $body_extra .= __HTML_NEWLINE__ . $oldhead . __HTML_NEWLINE__ .
+                __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__ . __HTML_NEWLINE__;
             unset($oldhead); // TRICK TO RELEASE MEMORY
             unset($oldbody); // TRICK TO RELEASE MEMORY
             unset($decoded); // TRICK TO RELEASE MEMORY
@@ -850,7 +850,7 @@ function sendmail_action($action, $email_id)
         show_php_error(["phperror" => "From not found"]);
     }
     // REMOVE THE SIGNATURE TAG IF EXISTS
-    $body = str_replace(["<signature>", "</signature>"], "", $body);
+    $body = str_replace(["<section>", "</section>"], "", $body);
     // REPLACE SIGNATURE IF NEEDED AND ADD THE INLINE IMAGE
     $inlines = [];
     $file = __signature_getauto(__signature_getfile($account_id));
@@ -1184,4 +1184,73 @@ function sendmail_files($action, $email_id)
     ]) . " ORDER BY id DESC";
     $files = execute_query_array($query);
     return $files;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function sendmail_signature($json)
+{
+    require_once "apps/emails/php/getmail.php";
+    $old = $json["old"];
+    $new = $json["new"];
+    $body = $json["body"];
+    $cc = $json["cc"];
+    $state_crt = intval($json["state_crt"]);
+    // REPLACE THE SIGNATURE BODY
+    $file = __signature_getauto(__signature_getfile($new));
+    $pos1 = strpos($body, "<section>");
+    if ($pos1 !== false) {
+        $pos1 = strpos($body, ">", $pos1);
+    }
+    $pos2 = strpos($body, "</section>");
+    if ($pos1 !== false && $pos2 !== false) {
+        $auto = $file ? $file["auto"] : "";
+        $body = substr_replace($body, $auto, $pos1 + 1, $pos2 - $pos1 - 1);
+    }
+    // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
+    $query = "SELECT * FROM app_emails_accounts WHERE id='" . $old . "'";
+    $result_old = execute_query($query);
+    $query = "SELECT * FROM app_emails_accounts WHERE id='" . $new . "'";
+    $result_new = execute_query($query);
+    // REPLACE THE CC
+    if ($result_old && $result_new) {
+        $cc = explode(";", $cc);
+        foreach ($cc as $key => $val) {
+            $val = trim($val);
+            if ($val) {
+                $cc[$key] = $val;
+            } else {
+                unset($cc[$key]);
+            }
+        }
+        if ($result_old["email_addmetocc"]) {
+            foreach ($cc as $key => $val) {
+                list($email_from,$email_name) = __sendmail_parser($val);
+                if ($result_old["email_from"] == $email_from && $result_old["email_name"] == $email_name) {
+                    unset($cc[$key]);
+                }
+            }
+        }
+        if ($result_new["email_addmetocc"]) {
+            foreach ($cc as $key => $val) {
+                list($email_from,$email_name) = __sendmail_parser($val);
+                if ($result_new["email_from"] == $email_from && $result_new["email_name"] == $email_name) {
+                    unset($cc[$key]);
+                }
+            }
+            array_unshift($cc, $result_new["email_name"] . " <" . $result_new["email_from"] . ">");
+        }
+        $cc = implode("; ", $cc);
+    }
+    // REPLACE THE STATE_CRT
+    if ($result_old && $result_new) {
+        if ($result_old["email_crt"] == $state_crt) {
+            $state_crt = $result_new["email_crt"];
+        }
+    }
+    // PREPARE THE OUTPUT
+    return ["body" => $body,"cc" => $cc,"state_crt" => $state_crt];
 }
