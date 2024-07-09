@@ -218,6 +218,7 @@ that maintain the database using as reference this file
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="datetime" type="DATETIME"/>
                 <field name="uniqid" type="VARCHAR(255)"/>
+                <field name="app" type="VARCHAR(255)"/>
                 <field name="name" type="VARCHAR(255)"/>
                 <field name="size" type="INT(11)"/>
                 <field name="type" type="VARCHAR(255)"/>

@@ -281,7 +281,10 @@ saltos.app.form.data = data => {
         // This updates the object
         var obj = document.getElementById(key);
         if (obj) {
-            obj.value = val;
+            // Check to prevent objects in value
+            if (typeof val != 'object') {
+                obj.value = val;
+            }
             // Special case for checkboxes
             if (obj.type == 'checkbox') {
                 obj.checked = val ? true : false;
@@ -293,6 +296,7 @@ saltos.app.form.data = data => {
             if (obj.hasAttribute('srcdoc')) {
                 obj.srcdoc = val;
             }
+            // Special case for widgets with set
             if (obj.hasOwnProperty('set')) {
                 obj.set(val);
             }

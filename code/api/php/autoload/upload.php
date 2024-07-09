@@ -68,6 +68,7 @@ function add_file($val)
         "user_id" => $user_id,
         "datetime" => $datetime,
         "uniqid" => $val["id"],
+        "app" => $val["app"],
         "name" => $val["name"],
         "size" => $val["size"],
         "type" => $val["type"],
@@ -98,6 +99,7 @@ function del_file($val)
     $id = check_file([
         "user_id" => $user_id,
         "uniqid" => $val["id"],
+        "app" => $val["app"],
         "name" => $val["name"],
         "size" => $val["size"],
         "type" => $val["type"],

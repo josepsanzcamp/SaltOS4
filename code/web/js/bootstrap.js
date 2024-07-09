@@ -1289,7 +1289,7 @@ saltos.bootstrap.__field.file = field => {
                 ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <div class="table-responsive">
-                <table class="table table-striped table-hover ${border2} d-none">
+                <table class="table table-striped table-hover ${border2} d-none mb-0">
                     <tbody>
                     </tbody>
                 </table>
@@ -1400,6 +1400,7 @@ saltos.bootstrap.__field.file = field => {
             };
             data.files[0] = {
                 id: saltos.core.uniqid(),
+                app: saltos.hash.get(),
                 name: files[i].name,
                 size: files[i].size,
                 type: files[i].type,
@@ -1840,8 +1841,7 @@ saltos.bootstrap.__field.table = field => {
     // We are using the same div to put inside the overlodaded styles of the table
     var obj = saltos.core.html(`
         <div id="${field.id}" class="table-responsive">
-            <table class="table table-striped table-hover border-${field.color} ${field.class}"
-                style="margin-bottom: 0">
+            <table class="table table-striped table-hover border-${field.color} ${field.class} mb-0">
             </table>
         </div>
     `);

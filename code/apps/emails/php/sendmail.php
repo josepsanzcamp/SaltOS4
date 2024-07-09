@@ -817,6 +817,7 @@ function sendmail_prepare($action, $email_id)
         "to" => $to_extra, "cc" => $cc_extra, "bcc" => $bcc_extra,
         "subject" => $subject_extra, "body" => $body_extra,
         "state_crt" => $state_crt, "priority" => 0, "sensitivity" => 0,
+        "files" => sendmail_files($action, $email_id),
     ];
 }
 
@@ -1154,6 +1155,7 @@ function sendmail_files($action, $email_id)
             $id = check_file([
                 "user_id" => current_user(),
                 "uniqid" => $val["chash"],
+                "app" => get_server("QUERY_STRING"),
                 "name" => $val["cname"],
                 "size" => $val["csize"],
                 "type" => $val["ctype"],
@@ -1165,6 +1167,7 @@ function sendmail_files($action, $email_id)
             // Store it in a local file and do the insert
             add_file([
                 "id" => $val["chash"],
+                "app" => get_server("QUERY_STRING"),
                 "name" => $val["cname"],
                 "size" => $val["csize"],
                 "type" => $val["ctype"],
@@ -1172,8 +1175,11 @@ function sendmail_files($action, $email_id)
             ]);
         }
     }
-    $query = "SELECT uniqid id,name,size,type,'' data,'' error,file,hash
-        FROM tbl_uploads WHERE user_id = " . current_user() . " ORDER BY id DESC";
+    $query = "SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
+        FROM tbl_uploads WHERE " . make_where_query([
+        "user_id" => current_user(),
+        "app" => get_server("QUERY_STRING"),
+    ]) . " ORDER BY id DESC";
     $files = execute_query_array($query);
     return $files;
 }
