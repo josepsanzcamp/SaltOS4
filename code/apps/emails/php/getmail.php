@@ -677,7 +677,7 @@ function __getmail_getfullbody($array)
             if ($cid != "" || $cname != "") {
                 $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
                 $hsize = __getmail_gethumansize($csize);
-                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // MD5 INSIDE AS MEMORY TRICK
+                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
                 $result[] = [
                     "disp" => $disp,
                     "type" => $type,
