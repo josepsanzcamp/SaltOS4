@@ -49,15 +49,15 @@ saltos.window = {};
  * @url => the url of the page to load
  */
 saltos.window.open = url => {
-    if (url.substr(0,4) == 'app/') {
+    if (url.substr(0, 4) == 'app/') {
         window.open('#' + url);
         return;
     }
-    if (url.substr(0,7) == 'http://') {
+    if (url.substr(0, 7) == 'http://') {
         window.open(url);
         return;
     }
-    if (url.substr(0,8) == 'https://') {
+    if (url.substr(0, 8) == 'https://') {
         window.open(url);
         return;
     }
