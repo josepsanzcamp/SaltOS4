@@ -46,11 +46,14 @@ declare(strict_types=1);
 function get_directory($key)
 {
     $dir = get_config($key);
+    if (is_attr_value($dir)) {
+        $dir = eval_attr($dir);
+    }
     if ($dir === null) {
         return $dir;
     }
-    if (is_array($dir)) {
-        $dir = eval_attr($dir);
+    if ($dir == "") {
+        return $dir;
     }
     if (substr($dir, -1, 1) != "/") {
         $dir .= "/";

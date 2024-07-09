@@ -37,9 +37,8 @@ declare(strict_types=1);
 /**
  * Garbage Collector Executor
  *
- * This function tries to clean the cache and temporary directories of old
- * files, the parameters that this function uses are defined in the config
- * file, uses two directories (cachedir and tempdir) and the timeout is
+ * This function tries to clean the directories of old files, the parameters
+ * that this function uses are defined in the config file, the timeout is
  * getted from the server/cachetimeout config file key, too is able to detect
  * hidden files and remove except the special files as current directory,
  * parent directory and htaccess file
@@ -47,14 +46,15 @@ declare(strict_types=1);
 function gc_exec()
 {
     $dirs = [
-        get_directory("dirs/cachedir"),
-        get_directory("dirs/tempdir"),
+        get_directory("dirs/cachedir") ?? getcwd_protected() . "/data/cache/",
+        get_directory("dirs/tempdir") ?? getcwd_protected() . "/data/temp/",
+        get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/",
     ];
-    if (implode("", $dirs) == "") {
-        show_php_error(["phperror" => "Internal error"]);
-    }
     $files = [];
     foreach ($dirs as $dir) {
+        if ($dir == "") {
+            show_php_error(["phperror" => "Internal error"]);
+        }
         $files1 = glob_protected($dir . "*"); // Visible files
         $files2 = glob_protected($dir . ".*"); // Hidden files
         $files2 = array_diff($files2, [$dir . ".", $dir . "..", $dir . ".htaccess"]); // Exceptions

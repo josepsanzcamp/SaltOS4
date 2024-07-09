@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "lib/utestlib.php";
+require_once "php/lib/upload.php";
 
 /**
  * Main class of this unit test
@@ -211,30 +212,31 @@ final class test_file extends TestCase
     #[Depends('test_authtoken')]
     #[testdox('addfiles action')]
     /**
-     * Create
+     * Addfiles
      *
-     * This function execute the creates rest request, and must to get the
-     * json with the layout without data
+     * This function execute the addfiles rest request, and must to get the
+     * json with the correct data
      */
     public function test_addfiles(array $json): array
     {
-        $json2 = test_web_helper("addfiles", [], "", "");
+        $json2 = test_web_helper("upload/addfiles", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("addfiles", [], $json["token"], "");
+        $json2 = test_web_helper("upload/addfiles", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("addfiles", [
+        $json2 = test_web_helper("upload/addfiles", [
             "files" => [
                 ["error" => "nada"],
             ],
         ], $json["token"], "");
         //~ print_r($json2);
 
-        $json2 = test_web_helper("addfiles", [
+        $json2 = test_web_helper("upload/addfiles", [
             "files" => [
                 [
                     "id" => "",
+                    "app" => "",
                     "name" => "",
                     "size" => "",
                     "type" => "",
@@ -251,6 +253,7 @@ final class test_file extends TestCase
 
         $id = get_unique_id_md5();
         $file = "../../utest/files/lorem.html";
+        $app = "app/test/file";
         $name = basename($file);
         $size = filesize($file);
         $type = saltos_content_type($file);
@@ -258,6 +261,7 @@ final class test_file extends TestCase
         $files = [
             [
                 "id" => $id,
+                "app" => $app,
                 "name" => $name,
                 "size" => $size,
                 "type" => $type,
@@ -267,7 +271,7 @@ final class test_file extends TestCase
                 "hash" => "",
             ],
         ];
-        $json2 = test_web_helper("addfiles", [
+        $json2 = test_web_helper("upload/addfiles", [
             "files" => $files,
         ], $json["token"], "");
         $files[0]["data"] = "";
@@ -278,6 +282,36 @@ final class test_file extends TestCase
         $count2 = count(glob("data/upload/*"));
         $this->assertSame($count1, $count2 - 1);
 
+        // To cover the first return of the function
+        $type = "text/plain";
+        $data = "Hello world";
+        $file1 = [
+            "id" => "idtest",
+            "app" => "apptest",
+            "name" => "file.txt",
+            "type" => "nada",
+            "size" => strlen($data),
+            "data" => mime_inline($type, $data),
+        ];
+        $file2 = add_file($file1);
+        $file1["data"] = "";
+        $this->assertSame($file2, $file1);
+
+        // To cover the second return of the function
+        $type = "text/plain";
+        $data = "Hello world";
+        $file1 = [
+            "id" => "idtest",
+            "app" => "apptest",
+            "name" => "file.txt",
+            "type" => $type,
+            "size" => 0,
+            "data" => mime_inline($type, $data),
+        ];
+        $file2 = add_file($file1);
+        $file1["data"] = "";
+        $this->assertSame($file2, $file1);
+
         return [
             "token" => $json["token"],
             "files" => $files,
@@ -287,30 +321,31 @@ final class test_file extends TestCase
     #[Depends('test_addfiles')]
     #[testdox('delfiles action')]
     /**
-     * Create
+     * Delfiles
      *
-     * This function execute the creates rest request, and must to get the
-     * json with the layout without data
+     * This function execute the delfiles rest request, and must to get the
+     * json with the correct data
      */
     public function test_delfiles(array $json): void
     {
-        $json2 = test_web_helper("delfiles", [], "", "");
+        $json2 = test_web_helper("upload/delfiles", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("delfiles", [], $json["token"], "");
+        $json2 = test_web_helper("upload/delfiles", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("delfiles", [
+        $json2 = test_web_helper("upload/delfiles", [
             "files" => [
                 ["error" => "nada"],
             ],
         ], $json["token"], "");
         //~ print_r($json2);
 
-        $json2 = test_web_helper("delfiles", [
+        $json2 = test_web_helper("upload/delfiles", [
             "files" => [
                 [
                     "id" => "",
+                    "app" => "",
                     "name" => "",
                     "size" => "",
                     "type" => "",
@@ -323,9 +358,112 @@ final class test_file extends TestCase
         ], $json["token"], "");
         //~ print_r($json2);
 
+        // To cover the first return of the function
+        $file1 = [
+            "id" => "",
+            "app" => "",
+            "name" => "",
+            "type" => "",
+            "size" => "",
+            "file" => "",
+            "hash" => "",
+        ];
+        $file2 = del_file($file1);
+        $this->assertSame($file2, $file1);
+
+        // Search the good data to be used in the next steps of this utest
+        $query = "SELECT * FROM tbl_uploads WHERE " . make_where_query([
+            "app" => "app/test/file",
+        ]);
+        $file0 = execute_query($query);
+
+        // Change the filename to break the filename integrity
+        // Note that the user_id is set to zero
+        $query = make_update_query("tbl_uploads", [
+           "file" => "pepe/pepe.txt",
+           "user_id" => 0,
+        ], "id = " . $file0["id"]);
+        db_query($query);
+
+        $file1 = [
+            "id" => $file0["uniqid"],
+            "app" => $file0["app"],
+            "name" => $file0["name"],
+            "type" => $file0["type"],
+            "size" => $file0["size"],
+            "file" => "pepe/pepe.txt",
+            "hash" => $file0["hash"],
+        ];
+        $file2 = del_file($file1);
+        $this->assertSame($file2, $file1);
+
+        // Change the filename to break the file_exists integrity
+        $query = make_update_query("tbl_uploads", [
+           "file" => "pepe_pepe.txt",
+        ], "id = " . $file0["id"]);
+        db_query($query);
+
+        $file1 = [
+            "id" => $file0["uniqid"],
+            "app" => $file0["app"],
+            "name" => $file0["name"],
+            "type" => $file0["type"],
+            "size" => $file0["size"],
+            "file" => "pepe_pepe.txt",
+            "hash" => $file0["hash"],
+        ];
+        $file2 = del_file($file1);
+        $this->assertSame($file2, $file1);
+
+        // Change to break the filesize integrity
+        $query = make_update_query("tbl_uploads", [
+           "file" => $file0["file"],
+           "size" => -1,
+        ], "id = " . $file0["id"]);
+        db_query($query);
+
+        $file1 = [
+            "id" => $file0["uniqid"],
+            "app" => $file0["app"],
+            "name" => $file0["name"],
+            "type" => $file0["type"],
+            "size" => -1,
+            "file" => $file0["file"],
+            "hash" => $file0["hash"],
+        ];
+        $file2 = del_file($file1);
+        $this->assertSame($file2, $file1);
+
+        // Change to break the hash integrity
+        $query = make_update_query("tbl_uploads", [
+           "size" => $file0["size"],
+           "hash" => "nada",
+        ], "id = " . $file0["id"]);
+        db_query($query);
+
+        $file1 = [
+            "id" => $file0["uniqid"],
+            "app" => $file0["app"],
+            "name" => $file0["name"],
+            "type" => $file0["type"],
+            "size" => $file0["size"],
+            "file" => $file0["file"],
+            "hash" => "nada",
+        ];
+        $file2 = del_file($file1);
+        $this->assertSame($file2, $file1);
+
+        // Restore all previous changed data
+        $query = make_update_query("tbl_uploads", [
+           "hash" => $file0["hash"],
+           "user_id" => $file0["user_id"],
+        ], "id = " . $file0["id"]);
+        db_query($query);
+
+        // Continue
         $count1 = count(glob("data/upload/*"));
 
-        $json2 = test_web_helper("delfiles", [
+        $json2 = test_web_helper("upload/delfiles", [
             "files" => $json["files"],
         ], $json["token"], "");
         $json["files"][0]["file"] = "";
@@ -335,6 +473,16 @@ final class test_file extends TestCase
         $count2 = count(glob("data/upload/*"));
         $this->assertSame($count1, $count2 + 1);
 
-        $this->assertTrue(true);
+        // Check for the unknown action
+        $file = "data/logs/phperror.log";
+        $this->assertFileDoesNotExist($file);
+
+        $json2 = test_web_helper("upload/nada", [
+            "files" => $json["files"],
+        ], $json["token"], "");
+        $this->assertArrayHasKey("error", $json2);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists("unknown action nada", file_get_contents($file)));
+        unlink($file);
     }
 }

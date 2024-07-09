@@ -79,6 +79,11 @@ final class test_apps extends TestCase
         $this->assertSame(count(table2subtables("app_invoices")), 2);
         $this->assertSame(app_exists("invoices"), true);
         $this->assertSame(count(detect_apps_files("xml/dbschema.xml")) > 1, true);
+        $this->assertSame(app2index("invoices"), 1);
+        $this->assertSame(app2control("invoices"), 1);
+        $this->assertSame(app2version("invoices"), 1);
+        $this->assertSame(app2files("invoices"), 1);
+        $this->assertSame(app2notes("invoices"), 1);
     }
 
     #[testdox('app functions')]

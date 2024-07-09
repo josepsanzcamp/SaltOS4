@@ -139,7 +139,7 @@ if (isset($argv) && defined("STDIN")) {
 //~ addlog(sprintr($_SERVER));
 
 // Check for the main requirement: rest/0
-set_data("rest/0", encode_bad_chars(get_data("rest/0")));
+set_data("rest/0", encode_bad_chars(strval(get_data("rest/0"))));
 if (get_data("rest/0") == "") {
     show_json_error("Unknown request");
 }

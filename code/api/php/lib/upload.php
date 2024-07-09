@@ -113,8 +113,12 @@ function del_file($val)
     if (encode_bad_chars_file($val["file"]) != $val["file"]) {
         return $val;
     }
-    // Check for file size integrity
+    // Check for the file exists and is a file
     $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
+    if (!file_exists($dir . $val["file"]) || !is_file($dir . $val["file"])) {
+        return $val;
+    }
+    // Check for file size integrity
     if (filesize($dir . $val["file"]) != $val["size"]) {
         return $val;
     }
@@ -157,28 +161,27 @@ function check_file($val)
 /**
  * Garbage Collector Upload
  *
- * This function tries to clean the upload directory of old files, the parameters
- * that this function uses are defined in the config file, uses one directory
- * (uploaddir) and the timeout is getted from the server/cachetimeout
+ * This function tries to clean the upload database of old files, the parameters
+ * that this function uses is defined in the config file, only uses the timeout
+ * that is getted from the server/cachetimeout
  */
 function gc_upload()
 {
-    $datetime = current_datetime(-intval(get_config("server/cachetimeout")));
-    $query = "SELECT id,file FROM tbl_uploads WHERE datetime < '$datetime'";
+    $delta = current_datetime(-intval(get_config("server/cachetimeout")));
+    $query = "SELECT id, file FROM tbl_uploads WHERE datetime < '$delta'";
     $files = execute_query_array($query);
     $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
     $output = [
         "deleted" => [],
         "count" => 0,
     ];
-    foreach ($files as $val) {
-        // Remove the local file
-        unlink($dir . $val["file"]);
-        // Remove the database entry
-        $query = "DELETE FROM tbl_uploads WHERE id = " . $val["id"];
+    foreach ($files as $file) {
+        if (file_exists($dir . $file["file"]) && is_file($dir . $file["file"])) {
+            unlink($dir . $file["file"]);
+        }
+        $query = "DELETE FROM tbl_uploads WHERE id = " . $file["id"];
         db_query($query);
-        // Continue
-        $output["deleted"][] = $dir . $val["file"];
+        $output["deleted"][] = $dir . $file["file"];
         $output["count"]++;
     }
     return $output;

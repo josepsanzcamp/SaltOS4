@@ -53,20 +53,21 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once "lib/utestlib.php";
 require_once "php/lib/gc.php";
+require_once "php/lib/upload.php";
 
 /**
  * Main class of this unit test
  */
 final class test_gc extends TestCase
 {
-    #[testdox('gc functions')]
+    #[testdox('gc_exec function')]
     /**
-     * gc test
+     * gc exec
      *
      * This test performs some tests to validate the correctness
      * of the gc functions
      */
-    public function test_gc(): void
+    public function test_gc_exec(): void
     {
         $file = get_temp_file();
         $this->assertFileDoesNotExist($file);
@@ -80,6 +81,9 @@ final class test_gc extends TestCase
         sleep(1); // the internally filemtime used have one second of resolution
         gc_exec();
         $this->assertFileDoesNotExist($file);
+        $this->assertSame(count(glob("data/cache/*")), 0);
+        $this->assertSame(count(glob("data/temp/*")), 0);
+        $this->assertSame(count(glob("data/upload/*")), 0);
 
         set_config("server/cachetimeout", $old);
         $this->assertSame(get_config("server/cachetimeout"), $old);
@@ -97,5 +101,53 @@ final class test_gc extends TestCase
 
         $json = test_cli_helper("gc", [], "", "");
         $this->assertArrayHasKey("gc_exec", $json);
+        $this->assertArrayHasKey("gc_upload", $json);
+    }
+
+    #[testdox('gc_upload function')]
+    /**
+     * gc upload
+     *
+     * This test performs some tests to validate the correctness
+     * of the gc functions
+     */
+    public function test_gc_upload(): void
+    {
+        $this->assertSame(count(glob("data/upload/*")), 0);
+
+        $type = "text/plain";
+        $data = "Hello world";
+        $file1 = [
+            "id" => "idtest",
+            "app" => "apptest",
+            "name" => "file.txt",
+            "type" => $type,
+            "size" => strlen($data),
+            "data" => mime_inline($type, $data),
+        ];
+        $file2 = add_file($file1);
+        $this->assertSame(count(glob("data/upload/*")), 1);
+
+        $id = check_file([
+            "uniqid" => "idtest",
+            "app" => "apptest",
+            "name" => "file.txt",
+            "type" => $type,
+            "size" => strlen($data),
+        ]);
+        $this->assertTrue($id > 0);
+
+        $file1["data"] = "";
+        $file1["file"] = execute_query("SELECT file FROM tbl_uploads WHERE id='$id'");
+        $file1["hash"] = execute_query("SELECT hash FROM tbl_uploads WHERE id='$id'");
+        $this->assertSame($file2, $file1);
+
+        $query = make_update_query("tbl_uploads", [
+            "datetime" => "0000-00-00 00:00:00",
+        ], "id=$id");
+        db_query($query);
+
+        gc_upload();
+        $this->assertSame(count(glob("data/upload/*")), 0);
     }
 }

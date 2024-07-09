@@ -41,4 +41,5 @@ init_random();
 check_system();
 
 require_once "php/lib/gc.php";
+set_config("dirs/tempdir", "");
 gc_exec();
