@@ -297,7 +297,7 @@ saltos.app.form.data = data => {
                 obj.srcdoc = val;
             }
             // Special case for widgets with set
-            if (obj.hasOwnProperty('set')) {
+            if (obj.hasOwnProperty('set') && typeof obj.set == 'function') {
                 obj.set(val);
             }
         }

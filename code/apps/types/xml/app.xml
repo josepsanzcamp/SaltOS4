@@ -49,7 +49,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.more()" label="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
+                <button id="more" onclick="saltos.driver.more()" label="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
             </row>
         </layout>
         <javascript>

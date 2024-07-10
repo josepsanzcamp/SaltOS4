@@ -1137,6 +1137,15 @@ saltos.bootstrap.__field.button = field => {
     saltos.bootstrap.__onclick_helper(obj, function() {
         this.blur();
     });
+    obj.set_disabled = bool => {
+        if (bool) {
+            obj.setAttribute('disabled', '');
+            obj.classList.add('opacity-25');
+        } else {
+            obj.removeAttribute('disabled');
+            obj.classList.remove('opacity-25');
+        }
+    };
     return obj;
 };
 

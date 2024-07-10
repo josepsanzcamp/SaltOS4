@@ -202,6 +202,10 @@ saltos.driver.more = arg => {
             }
             if (!response.data.length) {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
+                var obj = document.getElementById('more');
+                if (obj && obj.hasOwnProperty('set_disabled') && typeof obj.set_disabled == 'function') {
+                    obj.set_disabled(true);
+                }
                 return;
             }
             var temp = saltos.bootstrap.field(response);
