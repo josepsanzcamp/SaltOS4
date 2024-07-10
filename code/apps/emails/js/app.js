@@ -153,6 +153,7 @@ saltos.emails.delete2 = () => {
                         if (!saltos.app.check_response(response)) {
                             return;
                         }
+                        saltos.app.toast('Response', response.text);
                         saltos.window.send('saltos.emails.update');
                         saltos.driver.close();
                     },
@@ -209,6 +210,7 @@ saltos.emails.send = () => {
             }
             if (response.array.status == 'ok') {
                 saltos.app.toast('Response', response.array.text);
+                saltos.window.send('saltos.emails.update');
                 saltos.driver.close();
                 return;
             }

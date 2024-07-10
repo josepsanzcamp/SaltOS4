@@ -611,9 +611,6 @@ saltos.driver.__types.type2.init = arg => {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
-        // Uninstall the update event
-        var app = saltos.hash.get().split('/').at(1);
-        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
@@ -713,9 +710,6 @@ saltos.driver.__types.type3.init = arg => {
         if (arr.length < 5) {
             saltos.driver.placeholder('three');
         }
-        // Uninstall the update event
-        var app = saltos.hash.get().split('/').at(1);
-        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
@@ -798,9 +792,6 @@ saltos.driver.__types.type4.init = arg => {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
-        // Uninstall the update event
-        var app = saltos.hash.get().split('/').at(1);
-        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
@@ -894,9 +885,6 @@ saltos.driver.__types.type5.init = arg => {
         } else {
             saltos.bootstrap.modal('close');
         }
-        // Uninstall the update event
-        var app = saltos.hash.get().split('/').at(1);
-        saltos.window.unset_listener(`saltos.${app}.update`);
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
