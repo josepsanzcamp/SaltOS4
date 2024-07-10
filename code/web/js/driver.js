@@ -470,6 +470,26 @@ saltos.driver.styles = arg => {
 };
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.search_if_needed = arg => {
+    var action1 = saltos.hash.get().split('/').at(2);
+    setTimeout(() => {
+        var action2 = saltos.hash.get().split('/').at(2);
+        //~ console.log(action1 + ' => ' + action2);
+        if (action1 == action2) {
+            // Old feature
+            saltos.driver.search();
+        } else if (action1 == 'edit' && action2 == 'view') {
+            // Old feature
+            saltos.driver.search();
+        }
+    }, 100);
+};
+
+/**
  * Driver internal object
  *
  * This object stores the functions used by the main driver
@@ -601,7 +621,7 @@ saltos.driver.__types.type2.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search();
+            saltos.driver.search_if_needed();
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
@@ -691,7 +711,7 @@ saltos.driver.__types.type3.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search();
+            saltos.driver.search_if_needed();
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
@@ -775,7 +795,7 @@ saltos.driver.__types.type4.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search();
+            saltos.driver.search_if_needed();
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
@@ -857,7 +877,7 @@ saltos.driver.__types.type5.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search();
+            saltos.driver.search_if_needed();
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
