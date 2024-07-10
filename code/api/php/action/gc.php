@@ -46,17 +46,17 @@ db_connect();
 require_once "php/lib/gc.php";
 require_once "php/lib/upload.php";
 $time1 = microtime(true);
-$output1 = gc_exec();
+$output1 = gc_upload();
 $time2 = microtime(true);
-$output2 = gc_upload();
+$output2 = gc_exec();
 $time3 = microtime(true);
 semaphore_release("gc");
 output_handler([
     "data" => json_encode([
-        "gc_exec" => array_merge([
+        "gc_upload" => array_merge([
             "time" => sprintf("%f", $time2 - $time1),
         ], $output1),
-        "gc_upload" => array_merge([
+        "gc_exec" => array_merge([
             "time" => sprintf("%f", $time3 - $time2),
         ], $output2),
     ], JSON_PRETTY_PRINT) . "\n",
