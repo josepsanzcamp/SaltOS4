@@ -237,6 +237,9 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,a,s)=>{e={jserror:e,details:"Err
             .list-group-item:nth-child(odd) {
                 --bs-list-group-bg: rgba(var(--bs-emphasis-color-rgb), 0.05);
             }
+            .list-group-item.active {
+                z-index: inherit;
+            }
             .list-group-item.active h5 {
                 color: inherit;
             }
