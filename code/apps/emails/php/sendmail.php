@@ -1228,7 +1228,7 @@ function sendmail_signature($json)
         }
         if ($result_old["email_addmetocc"]) {
             foreach ($cc as $key => $val) {
-                list($email_from,$email_name) = __sendmail_parser($val);
+                list($email_from, $email_name) = __sendmail_parser($val);
                 if ($result_old["email_from"] == $email_from && $result_old["email_name"] == $email_name) {
                     unset($cc[$key]);
                 }
@@ -1236,7 +1236,7 @@ function sendmail_signature($json)
         }
         if ($result_new["email_addmetocc"]) {
             foreach ($cc as $key => $val) {
-                list($email_from,$email_name) = __sendmail_parser($val);
+                list($email_from, $email_name) = __sendmail_parser($val);
                 if ($result_new["email_from"] == $email_from && $result_new["email_name"] == $email_name) {
                     unset($cc[$key]);
                 }
@@ -1252,5 +1252,5 @@ function sendmail_signature($json)
         }
     }
     // PREPARE THE OUTPUT
-    return ["body" => $body,"cc" => $cc,"state_crt" => $state_crt];
+    return ["body" => $body, "cc" => $cc, "state_crt" => $state_crt];
 }
