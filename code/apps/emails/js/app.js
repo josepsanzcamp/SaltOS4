@@ -191,15 +191,19 @@ saltos.emails.send = () => {
     var action = saltos.hash.get().split('/').at(3);
     if (typeof action == 'undefined') {
         action = '';
+    } else {
+        action = '/' + action;
     }
     var email_id = saltos.hash.get().split('/').at(4);
     if (typeof email_id == 'undefined') {
         email_id = '';
+    } else {
+        email_id = '/' + email_id;
     }
     var data = saltos.app.get_data(true);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/emails/action/sendmail/${action}/${email_id}`,
+        url: `api/?app/emails/action/sendmail${action}${email_id}`,
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',

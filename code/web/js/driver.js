@@ -482,9 +482,15 @@ saltos.driver.search_if_needed = arg => {
         if (action1 == action2) {
             // Old feature
             saltos.driver.search();
-        } else if (action1 == 'edit' && action2 == 'view') {
-            // Old feature
-            saltos.driver.search();
+            return;
+        }
+        for (var key in arg) {
+            var val = arg[key];
+            if (action1 == val[0] && action2 == val[1]) {
+                // Old feature
+                saltos.driver.search();
+                return;
+            }
         }
     }, 100);
 };
@@ -621,7 +627,10 @@ saltos.driver.__types.type2.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search_if_needed();
+            saltos.driver.search_if_needed([
+                ['create', 'view'],
+                ['edit', 'view'],
+            ]);
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
@@ -711,7 +720,10 @@ saltos.driver.__types.type3.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search_if_needed();
+            saltos.driver.search_if_needed([
+                ['create', 'view'],
+                ['edit', 'view'],
+            ]);
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
@@ -795,7 +807,9 @@ saltos.driver.__types.type4.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search_if_needed();
+            saltos.driver.search_if_needed([
+                ['edit', 'view'],
+            ]);
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
@@ -877,7 +891,10 @@ saltos.driver.__types.type5.init = arg => {
         // Program the update event
         var app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
-            saltos.driver.search_if_needed();
+            saltos.driver.search_if_needed([
+                ['create', 'view'],
+                ['edit', 'view'],
+            ]);
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
