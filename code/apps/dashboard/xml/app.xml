@@ -59,10 +59,8 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Profile</title>
-        <screen>type1</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="one">
-            <row auto="true" col_class="col-md-4 mb-3">
+        <layout append="right">
+            <row auto="true" col_class="col-md-12 mb-3">
                 <select id="bs_theme" label="Color mode" onchange="saltos.bootstrap.set_bs_theme(this.value)">
                     <rows eval="true">xmlfile2array("xml/bs_theme.xml")["rows"]</rows>
                 </select>
@@ -72,6 +70,7 @@
                 <select id="lang" label="Language" onchange="saltos.gettext.set(this.value);saltos.hash.trigger()">
                     <rows eval="true">xmlfile2array("xml/locale.xml")["rows"]</rows>
                 </select>
+                <hr col_class="col-md-12 mb-1"/>
                 <password id="oldpass" label="Old password" required="true" onenter="document.getElementById('newpass').focus()"/>
                 <password id="newpass" label="New password" required="true" onenter="document.getElementById('renewpass').focus()"/>
                 <password id="renewpass" label="Retype password" required="true" onenter="saltos.dashboard.authupdate()"/>
@@ -79,14 +78,12 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.dashboard.authupdate()" label="Update" tooltip="Update the password" icon="check-lg"/>
-                <button onclick="saltos.window.close();" label="Close" tooltip="Close this screen" icon="x-lg"/>
+                <button onclick="saltos.bootstrap.offcanvas('close');" label="Close" tooltip="Close this screen" icon="x-lg"/>
             </row>
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
-            <inline>saltos.driver.init("config")</inline>
             <inline>saltos.dashboard.init("config")</inline>
         </javascript>
     </config>
-
 </root>

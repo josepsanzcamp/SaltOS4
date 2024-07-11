@@ -47,7 +47,7 @@
                 <item id="username" dropdown_menu_end="true">
                     <name eval="true">execute_query("SELECT name FROM tbl_users WHERE id=".current_user())</name>
                     <menu>
-                        <item name="Profile" onclick="saltos.window.open('app/dashboard/config')"/>
+                        <item name="Profile" onclick="saltos.app.profile()"/>
                         <item name="Logout" onclick="saltos.authenticate.deauthtoken();saltos.hash.trigger();"/>
                     </menu>
                 </item>

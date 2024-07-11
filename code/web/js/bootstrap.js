@@ -224,6 +224,22 @@ saltos.bootstrap.__field.col = field => {
 };
 
 /**
+ * HR constructor helper
+ *
+ * This function returns an object of the type class by default, you can pass the class
+ * argument in the field object to specify what kind of class do you want to use.
+ *
+ * @id    => the id used by the object
+ * @class => the class used in the div object
+ * @style => the style used in the div object
+ */
+saltos.bootstrap.__field.hr = field => {
+    saltos.core.check_params(field, ['class', 'id', 'style']);
+    var obj = saltos.core.html(`<hr class="${field.class}" id="${field.id}" style="${field.style}"/>`);
+    return obj;
+};
+
+/**
  * Text constructor helper
  *
  * This function returns an input object of type text, you can pass the same arguments
@@ -2647,7 +2663,7 @@ saltos.bootstrap.__field.list = field => {
                 `));
             } else if (val.header_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-${val.header_color}">${val.header_text}</small>
+                    <small class="text-nowrap text-${val.header_color}">${val.header_text}</small>
                 `));
             } else if (val.header_icon != '') {
                 temp.append(saltos.core.html(`
@@ -2675,7 +2691,7 @@ saltos.bootstrap.__field.list = field => {
                 `));
             } else if (val.body_text != '') {
                 temp.append(saltos.core.html(`
-                    <small class="text-${val.body_color}">${val.body_text}</small>
+                    <small class="text-nowrap text-${val.body_color}">${val.body_text}</small>
                 `));
             } else if (val.body_icon != '') {
                 temp.append(saltos.core.html(`
@@ -2701,13 +2717,13 @@ saltos.bootstrap.__field.list = field => {
                         <i class="bi bi-${val.footer_icon} text-${val.footer_color}"></i>
                     </div>
                 `));
+            } else if (val.footer_text != '') {
+                temp.append(saltos.core.html(`
+                    <small class="text-nowrap text-${val.footer_color}">${val.footer_text}</small>
+                `));
             } else if (val.footer_icon != '') {
                 temp.append(saltos.core.html(`
                     <i class="bi bi-${val.footer_icon} text-${val.footer_color}"></i>
-                `));
-            } else if (val.footer_text != '') {
-                temp.append(saltos.core.html(`
-                    <small class="text-${val.footer_color}">${val.footer_text}</small>
                 `));
             }
             item.append(temp);
@@ -3578,14 +3594,18 @@ saltos.bootstrap.__offcanvas = {};
  *
  * 2) you can pass an object with the follow items, intended to open a new offcanvas
  *
- * @id     => the id used by the object
- * @class  => allow to add more classes to the default offcanvas
- * @title  => title used by the offcanvas
- * @close  => text used in the close button for aria purposes
- * @body   => the content used in the offcanvas's body
- * @static => forces the offcanvas to be static (prevent close by clicking outside the
+ * @id       => the id used by the object
+ * @pos      => allow to specify the position of the offcanvac (start, end, top or bottom)
+ * @title    => title used by the offcanvas
+ * @close    => text used in the close button for aria purposes
+ * @body     => the content used in the offcanvas's body
+ * @static   => forces the offcanvas to be static (prevent close by clicking outside the
  *            offcanvas or by pressing the escape key)
- * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @scroll   => to configure the body scrolling feature (true of false)
+ * @backdrop => to configure the backdrop feature (true of false)
+ * @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @resize   => the resize allow to the offcanvas to resize the contents of the screen to prevent
+ *              offcanvas from hiding things
  *
  * Returns a boolean that indicates if the offcanvas can be open or not
  *
@@ -3595,6 +3615,10 @@ saltos.bootstrap.__offcanvas = {};
  * to undestand that only one offcanvas is allowed at each moment.
  *
  * Body allow to use a string containing a html fragment or an object, as the modal body.
+ *
+ * The resize option only works with start and end positions, too you can use left or right
+ * as replacements for start and end positions, the resize will be disabled in top or bottom
+ * positions.
  */
 saltos.bootstrap.offcanvas = args => {
     // Helper actions
@@ -3613,27 +3637,44 @@ saltos.bootstrap.offcanvas = args => {
         return false;
     }
     // Normal operation
-    saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'static', 'color']);
-    var temp = '';
+    saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body', 'resize',
+                                    'static', 'scroll', 'backdrop', 'color']);
+    var temp = [];
     if (saltos.core.eval_bool(args.static)) {
-        temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
+        temp.push(`data-bs-backdrop="static" data-bs-keyboard="false"`);
     }
-    if (args.class == '') {
-        args.class = 'offcanvas-start';
+    if (saltos.core.eval_bool(args.scroll)) {
+        temp.push(`data-bs-scroll="true"`);
+    }
+    if (saltos.core.eval_bool(args.backdrop)) {
+        temp.push(`data-bs-backdrop="false"`);
+    }
+    temp = temp.join(' ');
+    var valid_positions = ['start', 'end', 'top', 'bottom', 'left', 'right'];
+    if (!valid_positions.includes(args.pos)) {
+        args.pos = valid_positions[0];
+    }
+    if (args.pos == 'left') {
+        args.pos = 'start';
+    }
+    if (args.pos == 'right') {
+        args.pos = 'end';
+    }
+    if (saltos.core.eval_bool(args.resize) && !['start', 'end'].includes(args.pos)) {
+        args.resize = false;
     }
     if (!args.color) {
         args.color = 'primary';
     }
     var obj = saltos.core.html(`
-        <div class="offcanvas ${args.class}" tabindex="-1" id="${args.id}"
+        <div class="offcanvas offcanvas-${args.pos}" tabindex="-1" id="${args.id}"
             aria-labelledby="${args.id}_label" ${temp}>
             <div class="offcanvas-header text-bg-${args.color}">
                 <h5 class="offcanvas-title" id="${args.id}_label">${args.title}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="${args.close}"></button>
             </div>
-            <div class="offcanvas-body">
-            </div>
+            <div class="offcanvas-body"></div>
         </div>
     `);
     document.body.append(obj);
@@ -3646,16 +3687,43 @@ saltos.bootstrap.offcanvas = args => {
     saltos.bootstrap.__offcanvas.obj = obj;
     saltos.bootstrap.__offcanvas.instance = instance;
     obj.addEventListener('shown.bs.offcanvas', event => {
+        if (saltos.core.eval_bool(args.resize)) {
+            var width = obj.offsetWidth;
+            var item = document.body.firstChild;
+            item.classList.add('position-absolute');
+            if (args.pos == 'start') {
+                item.style.left = `${width}px`;
+            }
+            if (args.pos == 'end') {
+                item.style.left = '0px';
+            }
+            item.style.width = `calc(100% - ${width}px)`;
+        }
         obj.querySelectorAll('[autofocus]').forEach(_this => {
             _this.focus();
         });
     });
     obj.addEventListener('hidden.bs.offcanvas', event => {
+        if (saltos.core.eval_bool(args.resize)) {
+            var item = document.body.firstChild;
+            item.classList.remove('position-absolute');
+            item.style.left = '';
+            item.style.width = '';
+        }
         saltos.bootstrap.__offcanvas.instance.dispose();
         saltos.bootstrap.__offcanvas.obj.remove();
         delete saltos.bootstrap.__offcanvas.instance;
         delete saltos.bootstrap.__offcanvas.obj;
     });
+    if (saltos.core.eval_bool(args.resize)) {
+        obj.append(saltos.core.html(`
+            <style>
+                .offcanvas {
+                    transition: none;
+                }
+            </style>
+        `));
+    }
     instance.show();
     return true;
 };

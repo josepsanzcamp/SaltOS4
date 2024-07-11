@@ -1223,6 +1223,24 @@ saltos.app.__form_helper = (attr, bool) => {
 };
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.profile = () => {
+    saltos.bootstrap.offcanvas({
+        pos: 'right',
+        title: T('Profile'),
+        close: T('Close'),
+        body: `<div id="right"></div>`,
+        backdrop: true,
+        scroll: true,
+        resize: true,
+    });
+    saltos.app.send_request('app/dashboard/config');
+};
+
+/**
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module

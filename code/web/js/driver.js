@@ -522,9 +522,7 @@ saltos.driver.__types.type1.template = arg => {
                 <div id="top" class="col-12"></div>
             </div>
             <div class="row">
-                <div id="left" class="col-auto overflow-auto-xl p-0"></div>
                 <div id="one" class="col-xl overflow-auto-xl"></div>
-                <div id="right" class="col-auto overflow-auto-xl p-0"></div>
             </div>
             <div class="row">
                 <div id="bottom" class="col-12"></div>
@@ -598,10 +596,8 @@ saltos.driver.__types.type2.template = arg => {
                 <div id="top" class="col-12"></div>
             </div>
             <div class="row">
-                <div id="left" class="col-auto overflow-auto-xl p-0"></div>
                 <div id="one" class="col-xl overflow-auto-xl"></div>
                 <div id="two" class="col-xl overflow-auto-xl"></div>
-                <div id="right" class="col-auto overflow-auto-xl p-0"></div>
             </div>
             <div class="row">
                 <div id="bottom" class="col-12"></div>
@@ -689,11 +685,9 @@ saltos.driver.__types.type3.template = arg => {
                 <div id="top" class="col-12"></div>
             </div>
             <div class="row">
-                <div id="left" class="col-auto overflow-auto-xl p-0"></div>
                 <div id="one" class="col-xl overflow-auto-xl"></div>
                 <div id="two" class="col-xl overflow-auto-xl"></div>
                 <div id="three" class="col-xl overflow-auto-xl"></div>
-                <div id="right" class="col-auto overflow-auto-xl p-0"></div>
             </div>
             <div class="row">
                 <div id="bottom" class="col-12"></div>

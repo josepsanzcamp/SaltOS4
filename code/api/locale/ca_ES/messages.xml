@@ -42,4 +42,6 @@
     <do_you_want_to_delete_this_register>Vols esborrar aquest registre???</do_you_want_to_delete_this_register>
     <yes>Si</yes>
     <no>No</no>
+    <profile>Perfil</profile>
+    <logout>Sortir</logout>
 </root>
