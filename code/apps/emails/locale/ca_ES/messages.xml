@@ -28,4 +28,11 @@
 <root>
     <new_email>Nou correu electrònic</new_email>
     <email_s_list>Llistat de correus</email_s_list>
+    <the_s_s_wrote>El %s, %s va escriure:</the_s_s_wrote>
+    <email_sent_successfully>Correu electrònic enviat correctament</email_sent_successfully>
+    <d_email_s_sended>%d correu/s electrònic/s enviat/s</d_email_s_sended>
+    <d_email_s_modified_successfully>%d correu/s electrònic/s modificat/s correctament</d_email_s_modified_successfully>
+    <d_email_s_deleted>%d correu/s electrònic/s esborrat/s</d_email_s_deleted>
+    <d_email_s_received>%d correu/s electrònic/s rebut/s</d_email_s_received>
+    <there_has_been_the_following_error_s_s>S'ha produït l'error següent: %s (%s)</there_has_been_the_following_error_s_s>
 </root>

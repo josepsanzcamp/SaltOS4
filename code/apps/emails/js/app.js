@@ -288,6 +288,7 @@ saltos.emails.setter = what => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
+            saltos.app.toast('Response', response.text);
             saltos.window.send('saltos.emails.update');
             saltos.hash.trigger();
         },

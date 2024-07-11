@@ -1219,7 +1219,7 @@ function getmail_server()
     // check the semaphore
     $semaphore = [__FUNCTION__, current_user()];
     if (!semaphore_acquire($semaphore, 100000)) {
-        return ["Could not acquire the semaphore"];
+        return [T("Could not acquire the semaphore")];
     }
     // for debug purposes
     if (get_config("emails/getmailmsgid")) {
@@ -1235,7 +1235,7 @@ function getmail_server()
     $result = execute_query_array($query);
     if (!count($result)) {
         semaphore_release($semaphore);
-        return ["Could not found configuration"];
+        return [T("Could not found configuration")];
     }
     // begin the loop
     $newemail = 0;
@@ -1253,7 +1253,7 @@ function getmail_server()
             if ($temp) {
                 $temp = " ($temp)";
             }
-            $error = "Not configured the POP3 server" . $temp;
+            $error = sprintf(T("POP3 server %s not configured"), $temp);
         }
         if ($error == "") {
             $id_cuenta = $row["id"];
@@ -1368,12 +1368,12 @@ function getmail_server()
             db_query($query);
         }
         if ($error != "") {
-            $haserror[] = "There has been the following error: " . $error . " (" . $row["pop3_host"] . ")";
+            $haserror[] = sprintf(T("There has been the following error: %s (%s)"), $error, $row["pop3_host"]);
         }
     }
     // release semaphore
     semaphore_release($semaphore);
-    $haserror[] = "$newemail email(s) received";
+    $haserror[] = sprintf(T("%d email(s) received"), $newemail);
     return $haserror;
 }
 
@@ -1399,7 +1399,7 @@ function getmail_delete($ids)
     $result = execute_query_array($query);
     $numresult = count($result);
     if ($numresult != $numids) {
-        return "Permission denied";
+        return T("Permission denied");
     }
     // CREAR DATOS EN TABLA DE CORREOS BORRADOS (SOLO LOS DEL INBOX)
     $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
@@ -1457,7 +1457,7 @@ function getmail_delete($ids)
         make_index("emails", $id);
     }
     // MOSTRAR RESULTADO
-    return "$numids email(s) deleted";
+    return sprintf(T("%d email(s) deleted"), $numids);
 }
 
 /**
@@ -1528,7 +1528,7 @@ function getmail_setter($ids, $what)
     $result = execute_query_array($query);
     $numresult = count($result);
     if ($numresult != $numids) {
-        return "Permission denied";
+        return T("Permission denied");
     }
     // process the real action
     $what = explode("=", $what);
@@ -1576,5 +1576,5 @@ function getmail_setter($ids, $what)
         db_query($query);
     }
     // return the response
-    return "$numids email(s) modified successfully";
+    return sprintf(T("%d email(s) modified successfully"), $numids);
 }

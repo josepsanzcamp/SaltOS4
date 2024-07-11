@@ -62,10 +62,10 @@ function sendmail($account_id, $to, $subject, $body, $files = "", $async = true)
     $query = "SELECT * FROM app_emails_accounts WHERE id='$account_id'";
     $result = execute_query($query);
     if (!isset($result["id"])) {
-        return "id not found";
+        return T("Id not found");
     }
     if ($result["email_disabled"]) {
-        return "email disabled";
+        return T("Email disabled");
     }
     $host = $result["smtp_host"];
     $port = $result["smtp_port"];
@@ -84,7 +84,10 @@ function sendmail($account_id, $to, $subject, $body, $files = "", $async = true)
             return $mail->ErrorInfo;
         }
     }
-    if (!$mail->SetLanguage("es")) {
+    if (!$mail->SetLanguage(get_data("server/lang"))) {
+        if (!$mail->ErrorInfo) {
+            return sprintf(T("Lang %s not found"), get_data("server/lang"));
+        }
         return $mail->ErrorInfo;
     }
     if (!$mail->set("CharSet", "UTF-8")) {
@@ -628,14 +631,11 @@ function sendmail_prepare($action, $email_id)
         if (isset($row2["datetime"]) && isset($finded_from)) {
             $oldhead = "";
             $oldhead .= __HTML_TEXT_OPEN__;
-            $oldhead .= T("The #datetime#, #fromname# wrote:");
-            $oldhead .= __HTML_TEXT_CLOSE__;
-            $oldhead = str_replace("#datetime#", $row2["datetime"], $oldhead);
-            $oldhead = str_replace(
-                "#fromname#",
-                $finded_from["name"] ? $finded_from["name"] : $finded_from["value"],
-                $oldhead
+            $oldhead .= sprintf(
+                T("The %s, %s wrote:"), $row2["datetime"],
+                $finded_from["name"] ? $finded_from["name"] : $finded_from["value"]
             );
+            $oldhead .= __HTML_TEXT_CLOSE__;
             $oldbody = "";
             $decoded = __getmail_getmime($email_id);
             if ($action == "forward") {
@@ -891,16 +891,6 @@ function sendmail_action($action, $email_id)
                     }
                 }
             }
-            //~ if ($action == "forward" && __getmail_processfile($disp2, $type2)) {
-                //~ $cname2 = $node2["cname"];
-                //~ if ($cname2 != "") {
-                    //~ $chash2 = $node2["chash"];
-                    //~ $delete = "files_old_{$chash2}_fichero_del";
-                    //~ if (!getParam($delete)) {
-                        //~ $attachs[] = __getmail_getcid(__getmail_getnode("0", $decoded), $chash2);
-                    //~ }
-                //~ }
-            //~ }
         }
     }
     // PREPARE THE RECIPIENTS
@@ -998,7 +988,7 @@ function sendmail_action($action, $email_id)
     // FINISH THE ACTION
     return [
         "status" => "ok",
-        "text" => "Email sent successfully",
+        "text" => T("Email sent successfully"),
     ];
 }
 
@@ -1012,7 +1002,7 @@ function sendmail_server()
     // check the semaphore
     $semaphore = [__FUNCTION__, current_user()];
     if (!semaphore_acquire($semaphore, 100000)) {
-        return ["Could not acquire the semaphore"];
+        return [T("Could not acquire the semaphore")];
     }
     // begin the spool operation
     $query = "SELECT a.id,a.account_id,a.uidl
@@ -1129,7 +1119,7 @@ function sendmail_server()
     }
     // RELEASE THE SEMAPHORE
     semaphore_release($semaphore);
-    $haserror[] = "$sended email(s) sended";
+    $haserror[] = sprintf(T("%d email(s) sended"), $sended);
     return $haserror;
 }
 
