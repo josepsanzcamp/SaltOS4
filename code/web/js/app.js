@@ -1242,6 +1242,8 @@ saltos.app.__form_helper = (attr, bool) => {
     // Lang part
     if (!saltos.gettext.get()) {
         saltos.gettext.set(navigator.language || navigator.systemLanguage);
+    } else {
+        saltos.gettext.set(saltos.gettext.get());
     }
     // Token part
     if (saltos.token.get()) {

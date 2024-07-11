@@ -625,6 +625,12 @@ saltos.bootstrap.__field.textarea = field => {
  */
 saltos.bootstrap.__field.ckeditor = field => {
     saltos.core.require('lib/ckeditor/ckeditor.min.js');
+    // Language prefetch
+    var lang = saltos.gettext.get_short();
+    if (lang != 'en') {
+        saltos.core.require(`lib/ckeditor/translations/${lang}.js`);
+    }
+    // Continue
     saltos.core.check_params(field, ['height', 'color']);
     if (!field.color) {
         field.color = 'primary';
@@ -634,7 +640,9 @@ saltos.bootstrap.__field.ckeditor = field => {
     obj.append(saltos.bootstrap.__textarea_helper(field));
     var element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
-        ClassicEditor.create(element).then(editor => {
+        ClassicEditor.create(element, {
+            language: lang,
+        }).then(editor => {
             element.ckeditor = editor;
             element.set = value => {
                 editor.setData(value);

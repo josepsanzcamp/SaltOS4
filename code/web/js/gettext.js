@@ -57,6 +57,15 @@ saltos.gettext.get = () => {
 };
 
 /**
+ * Get Short gettext function
+ *
+ * This function returns the short version of gettext stored in the localStorage
+ */
+saltos.gettext.get_short = () => {
+    return localStorage.getItem('saltos.gettext.short');
+};
+
+/**
  * Set gettext function
  *
  * This function sets the gettext stored in the localStorage
@@ -64,7 +73,10 @@ saltos.gettext.get = () => {
  * @gettext      => the gettext that you want to store in the localStorage
  */
 saltos.gettext.set = lang => {
+    var short = lang.split('_').at(0);
+    document.querySelector('html').setAttribute('lang', short);
     localStorage.setItem('saltos.gettext.lang', lang);
+    localStorage.setItem('saltos.gettext.short', short);
 };
 
 /**
@@ -74,6 +86,7 @@ saltos.gettext.set = lang => {
  */
 saltos.gettext.unset = () => {
     localStorage.removeItem('saltos.gettext.lang');
+    localStorage.removeItem('saltos.gettext.short');
 };
 
 /**
