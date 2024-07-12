@@ -469,7 +469,7 @@ saltos.app.form.layout = (layout, extra) => {
     if (extra == 'div') {
         return div;
     }
-    // Defaut feature that all the div to the body's document
+    // Defaut feature that add the div to the body's document
     var obj = document.body;
     if (append) {
         var temp = append.split(',');
@@ -1228,6 +1228,9 @@ saltos.app.__form_helper = (attr, bool) => {
  * TODO
  */
 saltos.app.profile = () => {
+    if (saltos.bootstrap.offcanvas('isopen')) {
+        return;
+    }
     saltos.bootstrap.offcanvas({
         pos: 'right',
         title: T('Profile'),

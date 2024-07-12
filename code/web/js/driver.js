@@ -144,6 +144,7 @@ saltos.driver.search = arg => {
                 document.querySelectorAll('.list-group:not([id=list])').forEach(_this => _this.remove());
                 document.getElementById('list').replaceWith(temp);
             }
+            document.getElementById('one').scrollTop = 0;
         },
         error: request => {
             saltos.app.form.screen('unloading');
