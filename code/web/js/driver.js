@@ -516,7 +516,7 @@ saltos.driver.__types.type1 = {};
  * TODO
  */
 saltos.driver.__types.type1.template = arg => {
-    return saltos.core.html(`
+    var obj = saltos.core.html(`
         <div id="header"></div>
         <div class="container">
             <div class="row">
@@ -531,6 +531,7 @@ saltos.driver.__types.type1.template = arg => {
         </div>
         <div id="footer"></div>
     `);
+    return obj;
 };
 
 /**
@@ -590,7 +591,7 @@ saltos.driver.__types.type2 = {};
  * TODO
  */
 saltos.driver.__types.type2.template = arg => {
-    return saltos.core.html(`
+    var obj = saltos.core.html(`
         <div id="header"></div>
         <div class="container-fluid">
             <div class="row">
@@ -606,6 +607,7 @@ saltos.driver.__types.type2.template = arg => {
         </div>
         <div id="footer"></div>
     `);
+    return obj;
 };
 
 /**
@@ -679,7 +681,7 @@ saltos.driver.__types.type3 = {};
  * TODO
  */
 saltos.driver.__types.type3.template = arg => {
-    return saltos.core.html(`
+    var obj = saltos.core.html(`
         <div id="header"></div>
         <div class="container-fluid">
             <div class="row">
@@ -696,6 +698,7 @@ saltos.driver.__types.type3.template = arg => {
         </div>
         <div id="footer"></div>
     `);
+    return obj;
 };
 
 /**

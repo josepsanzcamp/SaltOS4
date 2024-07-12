@@ -26,17 +26,17 @@
 -->
 
 <root>
-    <screen>type5</screen>
+    <screen>emails</screen>
 
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Email's list</title>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <javascript>
-            <inline>document.getElementById("one").classList.replace("col-xl","col-xl-4")</inline>
+            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="top">
             <row auto="true" row_class="row g-1 my-3" col_class="col-auto">
@@ -70,14 +70,14 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>New email</title>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <javascript>
-            <inline>document.getElementById("one").classList.replace("col-xl","col-xl-4")</inline>
+            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
-                <select id="account_id" label="From" required="true" onchange="saltos.emails.signature('update')">
+                <select id="account_id" label="From" required="true" onchange="saltos.emails.signature('update')" autofocus="true">
                     <rows eval="true">execute_query_array("
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
                             SELECT COUNT(*)
@@ -94,7 +94,7 @@
                         ORDER BY email_default DESC, counter DESC
                     ")</rows>
                 </select>
-                <tags id="to" label="To" separator=";" datalist="app/emails/create/emails" autofocus="true" required="true"/>
+                <tags id="to" label="To" separator=";" datalist="app/emails/create/emails" required="true"/>
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
@@ -173,10 +173,10 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Detail of the email</title>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <javascript>
-            <inline>document.getElementById("one").classList.replace("col-xl","col-xl-4")</inline>
+            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
+        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -263,6 +263,9 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Source of the email</title>
+        <javascript>
+            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+        </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
@@ -285,6 +288,9 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T([])</gettext>
         <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
+        <javascript>
+            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+        </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">

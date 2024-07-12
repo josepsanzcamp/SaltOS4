@@ -1229,6 +1229,7 @@ saltos.app.__form_helper = (attr, bool) => {
  */
 saltos.app.profile = () => {
     if (saltos.bootstrap.offcanvas('isopen')) {
+        saltos.bootstrap.offcanvas('close');
         return;
     }
     saltos.bootstrap.offcanvas({
@@ -1237,7 +1238,6 @@ saltos.app.profile = () => {
         close: T('Close'),
         body: `<div id="right"></div>`,
         backdrop: true,
-        scroll: true,
         resize: true,
     });
     saltos.app.send_request('app/dashboard/config');

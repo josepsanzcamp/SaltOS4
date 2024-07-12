@@ -3601,7 +3601,6 @@ saltos.bootstrap.__offcanvas = {};
  * @body     => the content used in the offcanvas's body
  * @static   => forces the offcanvas to be static (prevent close by clicking outside the
  *            offcanvas or by pressing the escape key)
- * @scroll   => to configure the body scrolling feature (true of false)
  * @backdrop => to configure the backdrop feature (true of false)
  * @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @resize   => the resize allow to the offcanvas to resize the contents of the screen to prevent
@@ -3637,14 +3636,11 @@ saltos.bootstrap.offcanvas = args => {
         return false;
     }
     // Normal operation
-    saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body', 'resize',
-                                    'static', 'scroll', 'backdrop', 'color']);
+    saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body',
+                                    'resize', 'static', 'backdrop', 'color']);
     var temp = [];
     if (saltos.core.eval_bool(args.static)) {
         temp.push(`data-bs-backdrop="static" data-bs-keyboard="false"`);
-    }
-    if (saltos.core.eval_bool(args.scroll)) {
-        temp.push(`data-bs-scroll="true"`);
     }
     if (saltos.core.eval_bool(args.backdrop)) {
         temp.push(`data-bs-backdrop="false"`);
