@@ -4,7 +4,7 @@
 
 # More info at:
 # https://www.cdnfonts.com/atkinson-hyperlegible.font
-# https://github.com/googlefonts/atkinson-hyperlegible?tab=OFL-1.1-1-ov-file
+# https://github.com/googlefonts/atkinson-hyperlegible
 
 # Main CSS created from:
 # https://fonts.cdnfonts.com/css/atkinson-hyperlegible
