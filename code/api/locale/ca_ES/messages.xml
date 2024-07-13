@@ -44,4 +44,6 @@
     <no>No</no>
     <profile>Perfil</profile>
     <logout>Sortir</logout>
+    <filename>Nom fitxer</filename>
+    <size>Mida</size>
 </root>

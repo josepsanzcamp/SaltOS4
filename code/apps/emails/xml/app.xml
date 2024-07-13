@@ -100,22 +100,22 @@
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
                 <select id="priority" label="Prioriry" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
-                        ["label"=>"Low","value"=>-1],
-                        ["label"=>"Normal","value"=>0],
-                        ["label"=>"High","value"=>1],
+                        ["label"=>T("Low"),"value"=>-1],
+                        ["label"=>T("Normal"),"value"=>0],
+                        ["label"=>T("High"),"value"=>1],
                     ]</rows>
                 </select>
                 <select id="sensitivity" label="Sensitivity" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
-                        ["label"=>"Normal","value"=>0],
-                        ["label"=>"Personal","value"=>1],
-                        ["label"=>"Private","value"=>2],
-                        ["label"=>"Confidential","value"=>3],
+                        ["label"=>T("Normal"),"value"=>0],
+                        ["label"=>T("Personal"),"value"=>1],
+                        ["label"=>T("Private"),"value"=>2],
+                        ["label"=>T("Confidential"),"value"=>3],
                     ]</rows>
                 </select>
                 <text id="subject" label="Subject" required="true"/>
                 <ckeditor id="body" label="Body" height="10em" required="true"/>
-                <file id="files" label="Files" multiple="true"/>
+                <file id="files" label="Attachments" multiple="true"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -212,7 +212,7 @@
                 <iframe id="body" label="Body" height="10em" srcdoc="Loading...">
                     <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
                 </iframe>
-                <table id="files" label="Files" col_class="col-md-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
+                <table id="files" label="Adjunts" col_class="col-md-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
                     <source eval="true">"list/emails/view/files/".intval(get_data("rest/3"))</source>
                 </table>
             </row>

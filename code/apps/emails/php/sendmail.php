@@ -704,12 +704,12 @@ function sendmail_prepare($action, $email_id)
                     $result2["bcc"] = implode("; ", $result2["bcc"]);
                 }
                 $lista = [
-                    "from" => T("from"),
-                    "to" => T("to"),
-                    "cc" => T("cc"),
-                    "bcc" => T("bcc"),
-                    "datetime" => T("datetime"),
-                    "subject" => T("subject"),
+                    "from" => T("From"),
+                    "to" => T("To"),
+                    "cc" => T("CC"),
+                    "bcc" => T("BCC"),
+                    "datetime" => T("Datetime"),
+                    "subject" => T("Subject"),
                 ];
                 if (!isset($result2["from"])) {
                     unset($lista["from"]);

@@ -27,6 +27,7 @@
 
 <root>
     <new_email>Nou correu electrònic</new_email>
+    <to_send_a_new_email>Per enviar un nou correu electrònic</to_send_a_new_email>
     <email_s_list>Llistat de correus</email_s_list>
     <the_s_s_wrote>El %s, %s va escriure:</the_s_s_wrote>
     <email_sent_successfully>Correu electrònic enviat correctament</email_sent_successfully>
@@ -36,4 +37,52 @@
     <d_email_s_received>%d correu/s electrònic/s rebut/s</d_email_s_received>
     <there_has_been_the_following_error_s_s>S'ha produït l'error següent: %s (%s)</there_has_been_the_following_error_s_s>
     <source_of_the_email>Font del correu electrònic</source_of_the_email>
+    <from>De</from>
+    <to>Per</to>
+    <cc>CC</cc>
+    <bcc>BCC</bcc>
+    <datetime>Data i hora</datetime>
+    <subject>Assumpte</subject>
+    <body>Missatge</body>
+    <request_confirmation_of_receipt>Sol·licitar confirmació de recepció</request_confirmation_of_receipt>
+    <prioriry>Prioritat</prioriry>
+    <sensitivity>Sensibilitat</sensitivity>
+    <send_receive>Enviar/Rebre</send_receive>
+    <to_send_and_receive_emails>Per rebre i enviar correu electrònic</to_send_and_receive_emails>
+    <delete>Esborrar</delete>
+    <to_delete_the_selected_emails>Per esborrar els emails seleccionats</to_delete_the_selected_emails>
+    <send>Enviar</send>
+    <normal>Normal</normal>
+    <low>Baja</low>
+    <high>Alta</high>
+    <personal>Personal</personal>
+    <private>Privat</private>
+    <confidential>Confidencial</confidential>
+    <no_subject>(Sense assumpte)</no_subject>
+    <attachments>Adjunts</attachments>
+    <view_attachment>Veure adjunt</view_attachment>
+    <download_attachment>Descarregar adjunt</download_attachment>
+    <reply>Respondre</reply>
+    <to_reply_this_email>Per respondre a aquest correu electrònic</to_reply_this_email>
+    <reply_all>Respondre a tots</reply_all>
+    <to_reply_all_this_email>Per respondre a tots a aquest correu electrònic</to_reply_all_this_email>
+    <forward>Reenviar</forward>
+    <to_forward_this_email>Per reenviar aquest correu electrònic</to_forward_this_email>
+    <to_delete_this_email>Per esborrar aquest correu electrònic</to_delete_this_email>
+    <to_close_this_email>Per tancar aquest correu electrònic</to_close_this_email>
+    <source>Font</source>
+    <to_see_the_source_of_this_email>Per veure la font d'aquest correu electrònic</to_see_the_source_of_this_email>
+    <new>Nou</new>
+    <to_mark_this_email_as_new>Per marcar aquest correu electrònic com a nou</to_mark_this_email_as_new>
+    <wait>Pendent</wait>
+    <to_mark_this_email_as_wait>Per marcar aquest correu electrònic com a pendent</to_mark_this_email_as_wait>
+    <spam>SPAM</spam>
+    <to_mark_this_email_as_spam>Per marcar aquest correu electrònic com a SPAM</to_mark_this_email_as_spam>
+    <no_new>No nou</no_new>
+    <to_unmark_this_email_as_new>Per desmarcar aquest correu electrònic com a nou</to_unmark_this_email_as_new>
+    <no_wait>No pendent</no_wait>
+    <to_unmark_this_email_as_wait>Per desmarcar aquest correu electrònic com a pendent</to_unmark_this_email_as_wait>
+    <no_spam>No SPAM</no_spam>
+    <to_unmark_this_email_as_spam>Per desmarcar aquest correu electrònic com a SPAM</to_unmark_this_email_as_spam>
+
 </root>
