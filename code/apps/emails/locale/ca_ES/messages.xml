@@ -35,4 +35,5 @@
     <d_email_s_deleted>%d correu/s electrònic/s esborrat/s</d_email_s_deleted>
     <d_email_s_received>%d correu/s electrònic/s rebut/s</d_email_s_received>
     <there_has_been_the_following_error_s_s>S'ha produït l'error següent: %s (%s)</there_has_been_the_following_error_s_s>
+    <source_of_the_email>Font del correu electrònic</source_of_the_email>
 </root>

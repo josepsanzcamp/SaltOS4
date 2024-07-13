@@ -262,7 +262,6 @@
     <view id="source">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T([])</gettext>
-        <title>Source of the email</title>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
@@ -282,12 +281,12 @@
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
+        <title append="modal">Source of the email</title>
     </view>
 
     <view id="viewpdf">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T([])</gettext>
-        <title require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
@@ -296,7 +295,7 @@
         <layout append="three,two,one">
             <row auto="true" col_class="col-md-12 mb-3">
                 <pdfjs>
-                    <srcdoc eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
+                    <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -307,6 +306,7 @@
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
+        <title append="modal" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
     </view>
 
     <view id="download">

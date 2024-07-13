@@ -3433,7 +3433,6 @@ saltos.bootstrap.__modal = {};
  * @static  => forces the modal to be static (prevent close by clicking outside the modal or
  *             by pressing the escape key)
  * @color   => the color of the widget (primary, secondary, success, danger, warning, info, none)
- * @replace => boolean that allow to replace the title, body and footer of an active modal
  *
  * Returns a boolean that indicates if the modal can be open or not
  *
@@ -3461,53 +3460,6 @@ saltos.bootstrap.modal = args => {
     if (args == 'isopen') {
         return typeof saltos.bootstrap.__modal.instance == 'object';
     }
-    if (args.hasOwnProperty('replace') && saltos.core.eval_bool(args.replace)) {
-        var bool = typeof saltos.bootstrap.__modal.instance == 'object';
-        if (bool) {
-            saltos.core.check_params(args, ['class', 'title', 'close', 'body', 'footer', 'static', 'color']);
-            var obj = saltos.bootstrap.__modal.obj;
-            if (args.class != '') {
-                obj.querySelector('.modal-dialog').classList.add(args.class);
-            }
-            obj.querySelector('.modal-title').innerHTML = args.title;
-            if (args.close != '') {
-                obj.querySelector('.btn-close').setAttribute('aria-label', args.close);
-            }
-            obj.querySelector('.modal-body').innerHTML = '';
-            if (typeof args.body == 'string') {
-                obj.querySelector('.modal-body').append(saltos.core.html(args.body));
-            } else {
-                obj.querySelector('.modal-body').append(args.body);
-            }
-            if (obj.querySelector('.modal-footer')) {
-                if (typeof args.footer == 'string') {
-                    if (args.footer != '') {
-                        obj.querySelector('.modal-footer').append(saltos.core.html(args.footer));
-                    } else {
-                        obj.querySelector('.modal-footer').remove();
-                    }
-                } else {
-                    obj.querySelector('.modal-footer').append(args.footer);
-                }
-            }
-            if (args.static != '') {
-                if (saltos.core.eval_bool(args.static)) {
-                    obj.setAttribute('data-bs-backdrop', 'static');
-                    obj.setAttribute('data-bs-keyboard', 'false');
-                } else {
-                    obj.removeAttribute('data-bs-backdrop', 'static');
-                    obj.removeAttribute('data-bs-keyboard', 'false');
-                }
-            }
-            if (args.color != '') {
-                obj.querySelector('.modal-header').classList.add(`text-bg-${args.color}`);
-            }
-            obj.querySelectorAll('[autofocus]').forEach(_this => {
-                _this.focus();
-            });
-        }
-        return bool;
-    }
     // Additional check
     if (typeof saltos.bootstrap.__modal.instance == 'object') {
         return false;
@@ -3524,8 +3476,9 @@ saltos.bootstrap.modal = args => {
     if (!args.color) {
         args.color = 'primary';
     }
+    // Note: removed the fade class in the first div, the old class was "modal fade"
     var obj = saltos.core.html(`
-        <div class="modal fade" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
+        <div class="modal" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
             aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
                 <div class="modal-content">
