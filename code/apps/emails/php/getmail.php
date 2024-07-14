@@ -51,9 +51,9 @@ require_once "apps/emails/lib/pop3class/pop3.php";
  * This defines allow to define some useful standards to do html pages and more.
  */
 define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head>
-    <style>body { margin: 0px; padding: 6px 12px; }</style>
+    <style>body { margin: 0px; padding: 9px 12px; }</style>
     <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
-    <style>:root { font-family: \'Atkinson Hyperlegible\', sans-serif; }</style></head><body>');
+    <style>:root { font-family: var(--bs-font-sans-serif); }</style></head><body>');
 define("__HTML_PAGE_CLOSE__", '</body></html>');
 define("__HTML_BOX_OPEN__", '<div style="background:#ffffff;">');
 define("__HTML_BOX_CLOSE__", '</div>');
