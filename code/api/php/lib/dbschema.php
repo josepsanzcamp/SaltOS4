@@ -790,23 +790,31 @@ function __manifest2dbstatic($files)
     $dbstatic = ["tables" => []];
     foreach ($files as $file) {
         $data = xmlfile2array($file);
-        // Add the apps data package
-        $xml = '<table name="tbl_apps">
-                    <row id="" active="" code="" name="" description="" table="" subtables="" field=""
-                        has_index="0" has_control="0" has_version="0" has_files="0" has_notes="0"/>
-                </table>';
-        $array = xml2array($xml);
-        foreach ($data["app"] as $key => $val) {
-            $array["table"]["value"]["row"]["#attr"][$key] = $val;
+        if (!is_array($data) || !isset($data["apps"]) || !is_array($data["apps"])) {
+            show_php_error(["phperror" => "File $file must contains a valid apps node"]);
         }
-        set_array($dbstatic["tables"], "table", $array["table"]);
-        // Add the perms data package
-        if (isset($data["perms"])) {
-            if (is_attr_value($data["perms"])) {
-                $value = $data["perms"]["value"];
-                $attr = $data["perms"]["#attr"];
+        foreach ($data["apps"] as $app) {
+            if (!isset($app["perms"]) || !is_array($app["perms"])) {
+                show_php_error(["phperror" => "File $file must contains a valid perms node"]);
+            }
+            $perms = $app["perms"];
+            unset($app["perms"]);
+            // Add the apps data package
+            $xml = '<table name="tbl_apps">
+                        <row id="" active="" code="" name="" description="" table="" subtables="" field=""
+                            has_index="0" has_control="0" has_version="0" has_files="0" has_notes="0"/>
+                    </table>';
+            $array = xml2array($xml);
+            foreach ($app as $key => $val) {
+                $array["table"]["value"]["row"]["#attr"][$key] = $val;
+            }
+            set_array($dbstatic["tables"], "table", $array["table"]);
+            // Add the perms data package
+            if (is_attr_value($perms)) {
+                $value = $perms["value"];
+                $attr = $perms["#attr"];
             } else {
-                $value = $data["perms"];
+                $value = $perms;
                 $attr = [];
             }
             $perm_id = [];
@@ -822,7 +830,7 @@ function __manifest2dbstatic($files)
                         <row app_id="" perm_id="" allow="0" deny="0"/>
                     </table>';
             $array = xml2array($xml);
-            $array["table"]["value"]["row"]["#attr"]["app_id"] = $data["app"]["id"];
+            $array["table"]["value"]["row"]["#attr"]["app_id"] = $app["id"];
             $array["table"]["value"]["row"]["#attr"]["perm_id"] = $perm_id;
             if (isset($attr["allow"])) {
                 $array["table"]["value"]["row"]["#attr"]["allow"] = $attr["allow"];
@@ -847,12 +855,14 @@ function __manifest_perms_check($files)
 {
     foreach ($files as $file) {
         $data = xmlfile2array($file);
-        if (isset($data["perms"])) {
-            if (is_attr_value($data["perms"])) {
-                $value = $data["perms"]["value"];
-                $attr = $data["perms"]["#attr"];
+        foreach ($data["apps"] as $app) {
+            $perms = $app["perms"];
+            unset($app["perms"]);
+            if (is_attr_value($perms)) {
+                $value = $perms["value"];
+                $attr = $perms["#attr"];
             } else {
-                $value = $data["perms"];
+                $value = $perms;
                 $attr = [];
             }
             foreach ($value as $perm) {

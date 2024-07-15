@@ -26,15 +26,17 @@
 -->
 
 <root>
-    <app>
-        <id>3</id>
-        <active>1</active>
-        <code>tester</code>
-        <name>Tester</name>
-        <description>App para test</description>
-    </app>
-    <perms allow="1">
-        <perm>1,menu</perm>
-        <perm>4,action</perm>
-    </perms>
+    <apps>
+        <app>
+            <id>3</id>
+            <active>1</active>
+            <code>tester</code>
+            <name>Tester</name>
+            <description>App para test</description>
+            <perms allow="1">
+                <perm>1,menu</perm>
+                <perm>4,action</perm>
+            </perms>
+        </app>
+    </apps>
 </root>
