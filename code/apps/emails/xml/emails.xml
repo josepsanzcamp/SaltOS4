@@ -36,7 +36,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="top">
             <row auto="true" row_class="row g-1 my-3" col_class="col-auto">
@@ -60,7 +60,7 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
+            <file eval="true">file_with_hash("apps/emails/js/emails.js")</file>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
@@ -113,7 +113,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -165,7 +165,7 @@
         </layout>
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
+            <file eval="true">file_with_hash("apps/emails/js/emails.js")</file>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
@@ -216,7 +216,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -289,7 +289,7 @@
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/app.js")</file>
+            <file eval="true">file_with_hash("apps/emails/js/emails.js")</file>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
@@ -318,7 +318,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-md-12 mb-3">
@@ -343,7 +343,7 @@
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
         </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-md-12 mb-3">

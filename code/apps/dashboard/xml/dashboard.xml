@@ -37,8 +37,7 @@
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
                 <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
                 <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('app/emails')" color="success" class="fs-1 w-100 h-100" label="Email"/>
-                <button ifeval="current_user()" onclick="saltos.window.open('app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" label="New tester"/>
-                <button ifeval="current_user()" onclick="saltos.window.open('app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" label="Old tester"/>
+                <button ifeval="current_user()" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
                 <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" class="fs-1 w-100 h-100" label="Types"/>
                 <table id="table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-md-6 mb-3"/>
                 <table ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-md-6 mb-3"></table>
@@ -49,7 +48,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>
-            <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
+            <file eval="true">file_with_hash("apps/dashboard/js/dashboard.js")</file>
             <inline>saltos.driver.init("menu")</inline>
             <inline>saltos.dashboard.init("menu")</inline>
         </javascript>
@@ -82,7 +81,7 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/dashboard/js/app.js")</file>
+            <file eval="true">file_with_hash("apps/dashboard/js/dashboard.js")</file>
             <inline>saltos.dashboard.init("config")</inline>
         </javascript>
     </config>

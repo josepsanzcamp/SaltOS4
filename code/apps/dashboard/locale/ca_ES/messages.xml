@@ -30,6 +30,5 @@
     <customers>Clients</customers>
     <invoices>Factures</invoices>
     <types>Tipus</types>
-    <old_tester>Antic Tester</old_tester>
-    <new_tester>Nou tester</new_tester>
+    <tester>Tester</tester>
 </root>

@@ -63,6 +63,14 @@ function T($text)
     $app = encode_bad_chars(strval(get_data("rest/1")));
     if (!isset($cache[$app][$lang])) {
         $file = "apps/$app/locale/$lang/messages.xml";
+        if (!file_exists($file)) {
+            $files = glob("apps/*/xml/" . get_data("rest/1") . ".xml");
+            if (count($files) == 1) {
+                $temp = explode("/", $files[0])[1];
+                $file = "apps/$temp/locale/$lang/messages.xml";
+            }
+
+        }
         if (file_exists($file)) {
             $cache[$app][$lang] = xmlfile2array($file);
         }

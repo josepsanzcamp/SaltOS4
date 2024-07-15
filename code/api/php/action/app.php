@@ -54,7 +54,13 @@ if (get_data("rest/1") == "") {
     show_json_error("app not found");
 }
 
-$file = "apps/" . get_data("rest/1") . "/xml/app.xml";
+$file = "apps/" . get_data("rest/1") . "/xml/" . get_data("rest/1") . ".xml";
+if (!file_exists($file)) {
+    $files = glob("apps/*/xml/" . get_data("rest/1") . ".xml");
+    if (count($files) == 1) {
+        $file = $files[0];
+    }
+}
 if (!file_exists($file)) {
     show_json_error("app " . get_data("rest/1") . " not found");
 }

@@ -33,7 +33,7 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Customer's list</title>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -116,10 +116,10 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>New customer</title>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
@@ -135,10 +135,10 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Detail of the customer</title>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Editar" tooltip="Para editar el cliente" icon="pencil">
@@ -148,7 +148,7 @@
                 <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
             </row>
         </layout>
-        <data eval="true">xmlfile2array("apps/customers/xml/app.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["data"]</data>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -158,17 +158,17 @@
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Modify this customer</title>
-        <screen eval="true">xmlfile2array("apps/customers/xml/app.xml")["screen"]</screen>
+        <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/app.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
                 <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
             </row>
         </layout>
-        <data eval="true">xmlfile2array("apps/customers/xml/app.xml")["data"]</data>
+        <data eval="true">xmlfile2array("apps/customers/xml/customers.xml")["data"]</data>
         <javascript>
             <inline>saltos.driver.init("edit")</inline>
         </javascript>

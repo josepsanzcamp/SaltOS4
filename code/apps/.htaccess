@@ -1,6 +1,6 @@
 Deny from all
 Options -Indexes
 
-<Files app.js>
+<Files *.js>
 Allow from all
 </Files>

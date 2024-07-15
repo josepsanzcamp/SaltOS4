@@ -26,10 +26,10 @@
 -->
 
 <root>
-    <menu id="new">
+    <menu>
         <title>New Tester Demo App</title>
         <screen>clear</screen>
-        <navbar id="navbar" space="true" pos="sticky-top" brand.name="SaltOS" brand.logo="img/logo_white.svg" brand.width="25" brand.height="25">
+        <navbar id="navbar" pos="sticky-top" brand.logo="img/logo_saltos.svg" brand.alt="SaltOS" brand.width="155" brand.height="29">
             <items>
                 <menu class="navbar-nav me-auto mb-2 mb-lg-0">
                     <item name="Home" disabled="false" onclick="alert(1)"/>
@@ -264,23 +264,7 @@
             </container>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/tester/js/app.new.js")</file>
+            <file eval="true">file_with_hash("apps/tester/js/tester.js")</file>
         </javascript>
     </menu>
-
-    <menu id="old">
-        <title>Old Tester Demo App</title>
-        <screen>clear</screen>
-        <javascript>
-            <file eval="true">file_with_hash("apps/tester/js/app.old.js")</file>
-        </javascript>
-    </menu>
-
-    <action id="indexing">
-        <temp eval="true">include_once("apps/tester/php/indexing.php")</temp>
-    </action>
-
-    <action id="pepe">
-        <temp eval="true">include_once("apps/tester/php/pepe.php")</temp>
-    </action>
 </root>
