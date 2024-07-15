@@ -123,7 +123,7 @@ saltos.driver.search = arg => {
     }
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?list/${app}/${type}`,
+        url: `api/?app/${app}/list/${type}`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,
@@ -189,7 +189,7 @@ saltos.driver.more = arg => {
     }
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?list/${app}/${type}`,
+        url: `api/?app/${app}/list/${type}`,
         data: JSON.stringify({
             'search': document.getElementById('search').value,
             'page': document.getElementById('page').value,

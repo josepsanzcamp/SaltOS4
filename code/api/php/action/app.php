@@ -38,6 +38,14 @@ declare(strict_types=1);
  *       one subapp, this parameter is not necesary
  * @3 => the id used in some subapps, for example, to get the data
  *       of specific customer using the id
+ *
+ * List action (triggered when type attr is table or list)
+ *
+ * This action tries to facility the creation of lists with the tipicals
+ * features suck as rows, actions for each row, and other improvements as
+ * the list with count and without count.
+ *
+ * TODO: pending to add the order by from the list header
  */
 
 // Check for rest/1, that is the name of the app to load
@@ -67,6 +75,7 @@ if (get_data("rest/2") == "") {
     foreach ($array as $key => $val) {
         if (isset($val["#attr"]["default"]) && eval_bool($val["#attr"]["default"])) {
             set_data("rest/2", $key);
+            break;
         }
     }
 }
@@ -87,8 +96,8 @@ db_connect();
 //~ set_data("server/user_agent", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
 //~ set_data("server/lang", "ca_ES");
 
-// Check permissions
-if (!check_app_perm_id(get_data("rest/1"), get_data("rest/2"))) {
+//~ // Check permissions
+if (!check_app_perm_id(get_data("rest/1"), fix_key(get_data("rest/2")))) {
     show_json_error("Permission denied");
 }
 
@@ -108,6 +117,92 @@ set_data("rest/2", fix_key(get_data("rest/2")));
 // This line is a trick to allow attr in the subapp
 $array = join_attr_value($array);
 
-// Eval the app and returns the result
+if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
+    // Check json arguments
+    if (!get_data("json/search")) {
+        set_data("json/search", "");
+    }
+    if (!get_data("json/page")) {
+        set_data("json/page", 0);
+    }
+
+    // Check xml arguments
+    if (!isset($array["order"])) {
+        $array["order"] = "id DESC";
+    }
+    set_data("json/order", $array["order"]);
+    unset($array["order"]);
+    if (!isset($array["limit"])) {
+        $array["limit"] = 15;
+    }
+    set_data("json/limit", $array["limit"]);
+    unset($array["limit"]);
+
+    // Compute offset using page and limit
+    set_data("json/offset", intval(get_data("json/page") * get_data("json/limit")));
+
+    // Check to remove header and footer to improve the performance
+    if (get_data("json/page")) {
+        unset($array["footer"]);
+    }
+}
+
+// Eval the app/queries
 $array = eval_attr($array);
+
+if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
+    // Prepare data and actions
+    if (!isset($array["data"])) {
+        $array["data"] = [];
+    }
+    if (!isset($array["actions"])) {
+        $array["actions"] = [];
+    }
+
+    // Add the actions to each row checking each permissions's row
+    foreach ($array["data"] as $key => $row) {
+        $actions = [];
+        foreach ($array["actions"] as $action) {
+            $action = join_attr_value($action);
+            if (
+                check_app_perm_id(
+                    $action["app"],
+                    strtok($action["action"], "/"),
+                    strtok(strval($row["id"]), "/")
+                )
+            ) {
+                $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            } else {
+                $action["url"] = "";
+            }
+            $actions[] = $action;
+        }
+        if (count($actions)) {
+            $array["data"][$key]["actions"] = $actions;
+        }
+    }
+    unset($array["actions"]);
+
+    // If contains header and footer, unify to allow attr in the spec
+    if (isset($array["header"]) && is_array($array["header"])) {
+        foreach ($array["header"] as $key => $val) {
+            $array["header"][$key] = join_attr_value($val);
+        }
+    }
+    if (isset($array["footer"]) && is_array($array["footer"])) {
+        foreach ($array["footer"] as $key => $val) {
+            $array["footer"][$key] = join_attr_value($val);
+        }
+    }
+
+    // Add json arguments if they are found
+    if (!isset($array["search"]) && get_data("json/search")) {
+        $array["search"] = get_data("json/search");
+    }
+    if (!isset($array["page"]) && get_data("json/page")) {
+        $array["page"] = get_data("json/page");
+    }
+}
+
+// The end
 output_handler_json($array);

@@ -46,4 +46,6 @@
     <logout>Sortir</logout>
     <filename>Nom fitxer</filename>
     <size>Mida</size>
+    <dashboard>Panell</dashboard>
+    <applications>Aplicacions</applications>
 </root>

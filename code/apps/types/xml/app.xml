@@ -45,7 +45,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="table" source="list/types/table"/>
+                <table id="table" source="app/types/list/table"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -55,6 +55,36 @@
         <javascript>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
+    </list>
+
+    <list id="table" checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
+        <header>
+            <name label="Name"/>
+            <description label="Description"/>
+            <active label="Active" type="icon"/>
+        </header>
+        <data eval="true">execute_query_array("
+            SELECT id, name, description,
+            CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
+            FROM app_types
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "types", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("types", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
+        ")</data>
+        <actions>
+            <action app="types" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
+            <action app="types" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+            <action app="types" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
+        </actions>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM app_types
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "types", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("types", "list")."
+        ")</footer>
     </list>
 
     <!-- Form part -->

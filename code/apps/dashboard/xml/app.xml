@@ -40,8 +40,8 @@
                 <button ifeval="current_user()" onclick="saltos.window.open('app/tester/menu/new')" color="danger" class="fs-1 w-100 h-100" label="New tester"/>
                 <button ifeval="current_user()" onclick="saltos.window.open('app/tester/menu/old')" color="danger" class="fs-1 w-100 h-100" label="Old tester"/>
                 <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" class="fs-1 w-100 h-100" label="Types"/>
-                <table id="table1" ifeval="check_user('customers', 'widget')" source="list/customers/widget/table1" col_class="col-md-6 mb-3"/>
-                <table ifeval="check_user('customers', 'widget')" source="list/customers/widget/table2" col_class="col-md-6 mb-3"></table>
+                <table id="table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-md-6 mb-3"/>
+                <table ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-md-6 mb-3"></table>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"/>

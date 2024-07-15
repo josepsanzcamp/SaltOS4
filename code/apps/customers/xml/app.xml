@@ -45,7 +45,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="table" source="list/customers/table"/>
+                <table id="table" source="app/customers/list/table"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -55,6 +55,36 @@
         <javascript>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
+    </list>
+
+    <list id="table" checkbox="true" type="table" limit="25" order="id DESC">
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
+        <data eval="true">execute_query_array("
+            SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("customers", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
+        ")</data>
+        <actions>
+            <action app="customers" action="view" label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
+            <action app="customers" action="edit" label="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.driver.open"/>
+            <action app="customers" action="delete" label="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.driver.delete"/>
+        </actions>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("customers", "list")."
+        ")</footer>
     </list>
 
     <!-- Form part -->
@@ -145,6 +175,51 @@
     </edit>
 
     <!-- Widget part -->
+    <widget id="table1" type="table" order="id DESC" limit="5">
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
+        <data eval="true">execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".check_sql("customers", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
+        <actions>
+            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
+        </actions>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".check_sql("customers", "list")."
+        ")</footer>
+    </widget>
+
+    <widget id="table2" type="table" order="id ASC" limit="5">
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+        </header>
+        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".check_sql("customers", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
+        <footer>
+            <nombre value="A"/>
+            <cif value="B"/>
+            <nombre_poblacion value="C"/>
+            <nombre_codpostal value="D"/>
+        </footer>
+    </widget>
+
     <widget id="plot1">
         <data eval="true">[
             "labels" => ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -169,5 +244,19 @@
                     "data" => [8, 5, 3, 5],
                 ]]
         ]</data>
+    </widget>
+
+    <!-- for debug purposes only -->
+    <widget id="utest1"></widget>
+    <widget id="utest2" default="true">
+        <data eval="true">execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+            FROM app_customers
+            WHERE 1 = 1
+            AND ".check_sql("customers", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
+        <actions>
+            <action app="dashboard" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
+        </actions>
     </widget>
 </root>

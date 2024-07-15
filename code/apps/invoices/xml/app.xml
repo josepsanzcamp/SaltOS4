@@ -45,7 +45,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="table" source="list/invoices/table"/>
+                <table id="table" source="app/invoices/list/table"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -55,6 +55,44 @@
         <javascript>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
+    </list>
+
+    <list id="table" checkbox="true" type="table" limit="25" order="id DESC">
+        <header>
+            <nombre label="Nombre"/>
+            <cif label="CIF"/>
+            <nombre_poblacion label="Población"/>
+            <nombre_codpostal label="C.P."/>
+            <num label="Núm.Fact."/>
+            <fecha label="Fecha"/>
+            <total label="Total"/>
+            <cerrado label="Cerrado" type="icon" align="center"/>
+            <cobrado label="Cobrado" type="icon" align="center"/>
+        </header>
+        <data eval="true">execute_query_array("
+            SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal, num, fecha,
+                ROUND((SELECT sum(unidades * precio * (1 - (descuento / 100))) FROM app_invoices_concepts b WHERE a.id = b.id_factura),2) total,
+                IF(cerrado, 'check-lg text-success', 'x-lg text-danger') cerrado,
+                IF(cobrado, 'check-lg text-success', 'x-lg text-danger') cobrado
+            FROM app_invoices a
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("invoices", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
+        ")</data>
+        <actions>
+            <action app="invoices" action="view" label="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
+            <action app="invoices" action="edit" label="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.driver.open"/>
+            <action app="invoices" action="delete" label="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.driver.delete"/>
+        </actions>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM app_invoices
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("invoices", "list")."
+        ")</footer>
     </list>
 
     <!-- Form part -->
