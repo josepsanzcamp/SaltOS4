@@ -306,12 +306,12 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,s,a)=>{e={jserror:e,details:"Err
                 <li class="nav-item">
                     <button id="${s.id}" class="nav-link ${a} ${r}">${s.name}</button>
                 </li>
-            `);s.icon&&c.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${s.icon}"></i>`)),s.name&&s.icon&&c.querySelector("i").classList.add("me-1"),saltos.core.eval_bool(s.disabled)||saltos.bootstrap.__onclick_helper(c,s.onclick)}o.append(c)}return o},saltos.bootstrap.navbar=e=>{saltos.core.check_params(e,["id","color","pos"]),saltos.core.check_params(e,["brand"],{}),saltos.core.check_params(e.brand,["name","logo","width","height"]),saltos.core.check_params(e,["items"],[]),e.color||(e.color="primary");var t,o=saltos.core.html(`
-        <nav class="navbar navbar-expand-md navbar-dark bg-${e.color} ${e.pos}">
+            `);s.icon&&c.querySelector("button").prepend(saltos.core.html(`<i class="bi bi-${s.icon}"></i>`)),s.name&&s.icon&&c.querySelector("i").classList.add("me-1"),saltos.core.eval_bool(s.disabled)||saltos.bootstrap.__onclick_helper(c,s.onclick)}o.append(c)}return o},saltos.bootstrap.navbar=e=>{saltos.core.check_params(e,["id","color","pos","class"]),saltos.core.check_params(e,["brand"],{}),saltos.core.check_params(e.brand,["name","logo","alt","width","height","class"]),saltos.core.check_params(e,["items"],[]),e.color||(e.color="primary");var t,o=saltos.core.html(`
+        <nav class="navbar navbar-expand-md navbar-dark bg-${e.color} ${e.pos} ${e.class}">
             <div class="container-fluid">
-                <div class="navbar-brand">
-                    <img src="${e.brand.logo}" alt="${e.brand.name}" width="${e.brand.width}"
-                        height="${e.brand.height}" class="d-inline-block align-text-top" />
+                <div class="navbar-brand ${e.brand.class}">
+                    <img src="${e.brand.logo}" alt="${e.brand.alt}"
+                        width="${e.brand.width}" height="${e.brand.height}" />
                     ${e.brand.name}
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

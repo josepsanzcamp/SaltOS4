@@ -3364,28 +3364,37 @@ saltos.bootstrap.menu = args => {
  * @brand => contains an object with the name, logo, width and height to be used
  * @color => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @pos   => position of the navbar, can be fixed-top, fixed-bottom, sticky-top, sticky-bottom
+ * @class => class added to the navbar item
  *
  * @name   => text used in the brand
  * @logo   => filename of the brand image
+ * @alt    => alt text used in the brand image
  * @width  => width of the brand image
  * @height => height of the brand image
+ * @class  => class added to the navbar-brand item
  *
  * @items => contains an array with the objects that will be added to the collapse
+ *
+ * Notes:
+ *
+ * If you want to use a logo that uses all height of the navbar, you can set the class and
+ * brand.class to py-0, the main idea is to use a combination of paddings with a brand to
+ * gets a navbar of 56px of height
  */
 saltos.bootstrap.navbar = args => {
-    saltos.core.check_params(args, ['id', 'color', 'pos']);
+    saltos.core.check_params(args, ['id', 'color', 'pos', 'class']);
     saltos.core.check_params(args, ['brand'], {});
-    saltos.core.check_params(args.brand, ['name', 'logo', 'width', 'height']);
+    saltos.core.check_params(args.brand, ['name', 'logo', 'alt', 'width', 'height', 'class']);
     saltos.core.check_params(args, ['items'], []);
     if (!args.color) {
         args.color = 'primary';
     }
     var obj = saltos.core.html(`
-        <nav class="navbar navbar-expand-md navbar-dark bg-${args.color} ${args.pos}">
+        <nav class="navbar navbar-expand-md navbar-dark bg-${args.color} ${args.pos} ${args.class}">
             <div class="container-fluid">
-                <div class="navbar-brand">
-                    <img src="${args.brand.logo}" alt="${args.brand.name}" width="${args.brand.width}"
-                        height="${args.brand.height}" class="d-inline-block align-text-top" />
+                <div class="navbar-brand ${args.brand.class}">
+                    <img src="${args.brand.logo}" alt="${args.brand.alt}"
+                        width="${args.brand.width}" height="${args.brand.height}" />
                     ${args.brand.name}
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
