@@ -481,8 +481,9 @@ saltos.app.form.layout = (layout, extra) => {
         if (!obj) {
             throw new Error(`append ${append} not found`);
         }
+        // It is important to place this innerHTML here because in the body removes all contents
+        obj.innerHTML = '';
     }
-    obj.innerHTML = '';
     obj.append(div);
     obj.querySelectorAll('[autofocus]').forEach(_this => {
         _this.focus();
