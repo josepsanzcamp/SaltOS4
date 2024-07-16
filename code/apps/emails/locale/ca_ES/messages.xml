@@ -105,4 +105,8 @@
     <to_delete_this_email_account>Per esborrar aquest compte de correu electrònic</to_delete_this_email_account>
     <to_save_the_email_account_changes>Per desar els canvis d'aquest compte de correu electrònic</to_save_the_email_account_changes>
     <to_cancel_the_email_account_modification>Per cancel·lar la modificació d'aquest compte de correu electrònic</to_cancel_the_email_account_modification>
+    <to_send_the_email>Per enviar el correu electrònic</to_send_the_email>
+    <to_cancel_the_email>Per cancel·lar el correu electrònic</to_cancel_the_email>
+    <see_more_emails>Veure mes correus electrònics</see_more_emails>
+    <to_load_more_emails_in_the_list>Per carregar mes correus electrònics al llistat</to_load_more_emails_in_the_list>
 </root>
