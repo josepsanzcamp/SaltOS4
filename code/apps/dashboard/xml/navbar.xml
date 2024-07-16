@@ -38,8 +38,7 @@
                         <item name="Invoices" onclick="saltos.window.open('app/invoices')"/>
                         <item divider="true"/>
                         <item name="Types" onclick="saltos.window.open('app/types')"/>
-                        <item name="New tester" onclick="saltos.window.open('app/tester/menu/new')"/>
-                        <item name="Old tester" onclick="saltos.window.open('app/tester/menu/old')"/>
+                        <item name="Tester" onclick="saltos.window.open('app/tester')"/>
                     </menu>
                 </item>
             </menu>

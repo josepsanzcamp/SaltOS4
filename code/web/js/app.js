@@ -735,20 +735,12 @@ saltos.app.form.screen = action => {
                 return false;
             }
             obj = saltos.core.html(`
-                <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 opacity-75">
+                <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 bg-dark text-light opacity-50">
                     <div class="spinner-border position-fixed top-50 start-50" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
             `);
-            var dark = document.querySelector('html').getAttribute('data-bs-theme');
-            if (!dark) {
-                obj.classList.add('bg-light');
-                obj.classList.add('text-dark');
-            } else {
-                obj.classList.add('bg-dark');
-                obj.classList.add('text-light');
-            }
             document.body.append(obj);
             return true;
         case 'unloading':
