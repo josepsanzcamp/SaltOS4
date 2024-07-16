@@ -84,5 +84,25 @@
     <to_unmark_this_email_as_wait>Per desmarcar aquest correu electrònic com a pendent</to_unmark_this_email_as_wait>
     <no_spam>No SPAM</no_spam>
     <to_unmark_this_email_as_spam>Per desmarcar aquest correu electrònic com a SPAM</to_unmark_this_email_as_spam>
-
+    <to_manage_emails_accounts>Per gestionar els comptes de correu electrònic</to_manage_emails_accounts>
+    <emails_accounts_list>Llistat de comptes de correu electrònic</emails_accounts_list>
+    <new_email_account>Nou correu electrònic</new_email_account>
+    <to_create_a_new_email_account>Per crear un nou compte de correu electrònic</to_create_a_new_email_account>
+    <signature>Signatura</signature>
+    <host>Servidor</host>
+    <port>Port</port>
+    <extra>Extra</extra>
+    <disabled>Desactivat</disabled>
+    <privated>Privat</privated>
+    <default>Per defecte</default>
+    <add_me_to_cc>Afegeix-me a CC</add_me_to_cc>
+    <confirm_reading_to>Confirmació de lectura</confirm_reading_to>
+    <more_emails_accounts>Veure mes correus electrònics</more_emails_accounts>
+    <to_see_more_emails_accounts_in_the_list>Per veure mes comptes de correu electrònic al llistat</to_see_more_emails_accounts_in_the_list>
+    <to_create_the_new_email_account>Per crear el nou compte de correu electrònic</to_create_the_new_email_account>
+    <to_cancel_the_new_email_account>Per cancel·lar el nou compte de correu electrònic</to_cancel_the_new_email_account>
+    <to_modify_this_email_account>Per modificar aquest compte de correu electrònic</to_modify_this_email_account>
+    <to_delete_this_email_account>Per esborrar aquest compte de correu electrònic</to_delete_this_email_account>
+    <to_save_the_email_account_changes>Per desar els canvis d'aquest compte de correu electrònic</to_save_the_email_account_changes>
+    <to_cancel_the_email_account_modification>Per cancel·lar la modificació d'aquest compte de correu electrònic</to_cancel_the_email_account_modification>
 </root>

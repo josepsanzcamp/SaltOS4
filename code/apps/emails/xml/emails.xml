@@ -48,6 +48,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
                 <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
+                <button onclick="saltos.window.open('app/emails_accounts')" tooltip="To manage emails accounts" icon="gear"/>
             </row>
         </layout>
         <layout append="one">

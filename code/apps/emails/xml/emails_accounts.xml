@@ -49,7 +49,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button id="more" onclick="saltos.driver.more()" label="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
+                <button id="more" onclick="saltos.driver.more()" label="More emails accounts" tooltip="To see more emails accounts in the list" icon="plus-lg"/>
             </row>
         </layout>
         <javascript>
@@ -141,15 +141,15 @@
         <div col_class="col-md-12"/>
 
         <text id="smtp_user" label="User"/>
-        <password id="smtp_pass" label="Pass"/>
+        <password id="smtp_pass" label="Password"/>
 
         <label label="Extra" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-md-12"/>
 
-        <switch id="email_disabled" label="email_disabled"/>
-        <switch id="email_privated" label="email_privated"/>
-        <switch id="email_default" label="email_default"/>
-        <switch id="email_addmetocc" label="email_addmetocc"/>
-        <switch id="email_crt" label="email_crt"/>
+        <switch id="email_disabled" label="Disabled"/>
+        <switch id="email_privated" label="Privated"/>
+        <switch id="email_default" label="Default"/>
+        <switch id="email_addmetocc" label="Add me to CC"/>
+        <switch id="email_crt" label="Confirm reading to"/>
 
         <!--<text id="name" label="Name" required="true" autofocus="true"/>
         <textarea id="description" label="Description" required="true" height="10em"/>-->
@@ -166,8 +166,8 @@
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new email account" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the new email account" icon="x-lg"/>
             </row>
         </layout>
         <javascript>
@@ -185,11 +185,11 @@
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button label="Editar" tooltip="Para editar el tipo" icon="pencil">
+                <button label="Edit" tooltip="To modify this email account" icon="pencil">
                     <onclick eval="true">"saltos.driver.open('app/emails_accounts/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.delete()" color="danger" label="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
-                <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this email account" icon="trash"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this window" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>
@@ -208,8 +208,8 @@
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg"/>
+                <button onclick="saltos.driver.update()" label="Save" tooltip="To save the email account changes" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email account modification" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>

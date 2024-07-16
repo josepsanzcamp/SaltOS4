@@ -27,6 +27,7 @@
 
 <root>
     <close>Tancar</close>
+    <to_close_this_window>Per tancar aquesta finestra</to_close_this_window>
     <cancel>Cancel·lar</cancel>
     <response>Resposta</response>
     <there_is_no_more_data>No hi han mes dades</there_is_no_more_data>
@@ -48,4 +49,13 @@
     <size>Mida</size>
     <dashboard>Panell</dashboard>
     <applications>Aplicacions</applications>
+    <user>Usuari</user>
+    <name>Nom</name>
+    <email>Correu electrònic</email>
+    <enabled>Activat</enabled>
+    <password>Contrasenya</password>
+    <days>Dies</days>
+    <create>Crear</create>
+    <edit>Modificar</edit>
+    <save>Desar</save>
 </root>
