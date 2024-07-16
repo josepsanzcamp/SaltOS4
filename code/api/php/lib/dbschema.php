@@ -117,7 +117,7 @@ function db_schema()
             foreach ($indexes1 as $index => $fields) {
                 if (!array_key_exists($index, $indexes2)) {
                     db_query(__dbschema_drop_index($index, $table));
-                    $output["history"][] = "Drop $index";
+                    $output["history"][] = "Drop $index on $table";
                     $output["count"]++;
                 }
             }
@@ -135,12 +135,12 @@ function db_schema()
                         if ($hash3 != $hash4) {
                             db_query(__dbschema_drop_index($index, $table));
                             db_query(__dbschema_create_index($indexspec));
-                            $output["history"][] = "Alter $index";
+                            $output["history"][] = "Alter $index on $table";
                             $output["count"]++;
                         }
                     } else {
                         db_query(__dbschema_create_index($indexspec));
-                        $output["history"][] = "Create $index";
+                        $output["history"][] = "Create $index on $table";
                         $output["count"]++;
                     }
                 }
