@@ -1196,10 +1196,6 @@ saltos.bootstrap.__field.button = field => {
  * This widget add an icon to the end of the widget with an slashed eye, this allow to
  * see the entered password to verify it, in reality, this button swaps the input between
  * password and text type, allowing to do visible or not the contents of the input
- *
- * I'm using previousElementSibling instead of previousSibling because between the input and the
- * button, exists a new line that is identified as another previousSibling, but not as an element
- *
  */
 saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled', 'onenter',
@@ -1236,6 +1232,15 @@ saltos.bootstrap.__field.password = field => {
             </div>
         </div>
     `);
+    // Trick to prevent the browser password manager
+    for (var i = 0; i < 10; i++) {
+        var name = saltos.core.uniqid();
+        var value = saltos.core.uniqid();
+        obj.append(saltos.core.html(`
+            <input type="password" name="${name}" value="${value}" class="d-none"/>
+        `));
+    }
+    // Continue
     if (field.tooltip != '') {
         obj.querySelectorAll('input[type=password]').forEach(_this => {
             saltos.bootstrap.__tooltip_helper(_this);

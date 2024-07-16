@@ -44,7 +44,7 @@
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
-            <row auto="true" col_class="col-md-12 my-3">
+            <row auto="true" col_class="col-12 my-3">
                 <table id="table" source="app/emails_accounts/list/table"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -91,16 +91,16 @@
 
     <!-- Form part -->
     <form>
-        <label label="Main" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-md-12"/>
+        <label label="Main" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
         <select id="user_id" label="User" required="true" autofocus="true">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value FROM tbl_users ORDER BY login ASC")</rows>
         </select>
-        <div col_class="col-md-12"/>
+        <div col_class="col-12"/><!-- this act as break line -->
 
         <text id="email_name" label="Name" required="true"/>
         <text id="email_from" label="Email" required="true"/>
-        <div col_class="col-md-12"/>
+        <div col_class="col-12"/><!-- this act as break line -->
 
         <text id="email_signature" label="Signature"/>
 
@@ -108,7 +108,7 @@
         <text id="email_signature_type" label="email_signature_type"/>
         <text id="email_signature_size" label="email_signature_size"/>-->
 
-        <label label="POP3" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-md-12"/>
+        <label label="POP3" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
         <text id="pop3_host" label="Host"/>
         <integer id="pop3_port" label="Port" col_class="col-md-2 mb-3"/>
@@ -118,16 +118,16 @@
                 <row label="TLS" value="tls"/>
             </rows>
         </select>
-        <div col_class="col-md-12"/>
+        <div col_class="col-12"/><!-- this act as break line -->
 
         <text id="pop3_user" label="User"/>
         <password id="pop3_pass" label="Password"/>
-        <div col_class="col-md-12"/>
+        <div col_class="col-12"/><!-- this act as break line -->
 
         <switch id="pop3_delete" label="Delete" col_class="col-md-2 mb-3"/>
         <integer id="pop3_days" label="Days" col_class="col-md-2 mb-3"/>
 
-        <label label="SMTP" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-md-12"/>
+        <label label="SMTP" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
         <text id="smtp_host" label="Host"/>
         <integer id="smtp_port" label="Port" col_class="col-md-2 mb-3"/>
@@ -138,12 +138,12 @@
                 <row label="TLS" value="tls"/>
             </rows>
         </select>
-        <div col_class="col-md-12"/>
+        <div col_class="col-12"/><!-- this act as break line -->
 
         <text id="smtp_user" label="User"/>
         <password id="smtp_pass" label="Password"/>
 
-        <label label="Extra" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-md-12"/>
+        <label label="Extra" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
         <switch id="email_disabled" label="Disabled"/>
         <switch id="email_privated" label="Privated"/>

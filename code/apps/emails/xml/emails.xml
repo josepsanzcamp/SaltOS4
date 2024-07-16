@@ -52,7 +52,7 @@
             </row>
         </layout>
         <layout append="one">
-            <row auto="true" col_class="col-md-12 mb-3">
+            <row auto="true" col_class="col-12 mb-3">
                 <list id="list" source="app/emails/list/list"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -117,7 +117,7 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3">
+            <row auto="true" col_class="col-12 mb-3">
                 <select id="account_id" label="From" required="true" onchange="saltos.emails.signature('update')" autofocus="true">
                     <rows eval="true">execute_query_array("
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
@@ -220,7 +220,7 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3">
+            <row auto="true" col_class="col-12 mb-3">
                 <text id="from" label="From"/>
                 <text id="to" label="To" require="apps/emails/php/getmail.php"/>
                 <text id="cc" label="CC" ifeval="getmail_field('cc',intval(get_data('rest/3')))"/>
@@ -253,7 +253,7 @@
                 <iframe id="body" label="Body" height="10em" srcdoc="Loading...">
                     <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
                 </iframe>
-                <table id="files" label="Adjunts" col_class="col-md-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
+                <table id="files" label="Adjunts" col_class="col-12 mb-3" ifeval="count(getmail_files(intval(get_data('rest/3'))))">
                     <source eval="true">"app/emails/view/files/".intval(get_data("rest/3"))</source>
                 </table>
             </row>
@@ -322,7 +322,7 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
-            <row auto="true" col_class="col-md-12 mb-3">
+            <row auto="true" col_class="col-12 mb-3">
                 <iframe>
                     <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_source(intval(get_data("rest/4")))</srcdoc>
                 </iframe>
@@ -347,7 +347,7 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
-            <row auto="true" col_class="col-md-12 mb-3">
+            <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
                     <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
                 </pdfjs>
@@ -386,22 +386,4 @@
         <array require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("rest/4"), get_data("rest/5"))</array>
     </action>
 
-    <!-- Config part -->
-    <config>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
-        <title>Config of the email</title>
-        <screen>clear</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout>
-            <row auto="true" col_class="col-md-12 mb-3">
-                <textarea height="10em" value="TODO..." />
-            </row>
-            <row auto="true" row_class="row g-1" col_class="col-auto">
-                <div col_class="col"/>
-                <button onclick="saltos.dashboard.update()" label="Guardar" tooltip="Para guardar los cambios" icon="check-lg"/>
-                <button onclick="saltos.window.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
-            </row>
-        </layout>
-    </config>
 </root>

@@ -32,7 +32,7 @@ minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMDQgLSAyMDI0LTA2LTEyPC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDctMDgsIFZlcnNpb24gMjIuNC4xIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMSAtIDIwMjQtMDUtMjI8L3RpdGxlPg==
-php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMGFscGhhMTwvdGl0bGU+
+php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMGFscGhhMjwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMi43PC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|base64:PHRpdGxlPnYzLjE4LjA8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|base64:PHRpdGxlPjMuMS4wPC90aXRsZT4=
