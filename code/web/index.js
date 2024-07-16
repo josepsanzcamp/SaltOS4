@@ -249,36 +249,51 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,s,a)=>{e={jserror:e,details:"Err
                         <input class="form-check-input" type="checkbox"
                             value="${e.id}" id="checkbox_${e.id}">
                     </div>
-                `)),a.querySelector("#button_"+e.id)),e=a.querySelector("#checkbox_"+e.id),o=(e.parentElement.style.height=t.offsetHeight+"px",e.parentElement.style.top=t.offsetTop+"px",e.parentElement.offsetWidth);t.style.left=o+"px",t.style.width=`calc(100% - ${o}px)`,e.addEventListener("change",e=>{e.target.checked?e.target.parentElement.classList.replace("bg-primary","bg-primary-subtle"):e.target.parentElement.classList.replace("bg-primary-subtle","bg-primary"),e.target.blur()}),e.addEventListener("click",e=>{var t,o,s,a;e.ctrlKey?saltos.bootstrap.__checkbox_id2=e.target.value:(saltos.bootstrap.__checkbox_id1=e.target.value,saltos.bootstrap.__checkbox_id2=null),saltos.bootstrap.__checkbox_id1&&saltos.bootstrap.__checkbox_id2&&(t=e.target.parentElement.parentElement.parentElement.querySelectorAll("input[type=checkbox][value]"),o=[saltos.bootstrap.__checkbox_id1,saltos.bootstrap.__checkbox_id2],s=0,t.forEach(e=>{o.includes(e.value)&&s++}),2==s&&(a=!1,t.forEach(e=>{(a=o.includes(e.value)?!a:a)&&!e.checked&&e.click()})),saltos.bootstrap.__checkbox_id1=null,saltos.bootstrap.__checkbox_id2=null),e.stopPropagation()}),e.parentElement.addEventListener("click",e=>{var t=e.target.querySelector("input[type=checkbox]");t&&t.dispatchEvent(new MouseEvent("click",{ctrlKey:e.ctrlKey})),e.stopPropagation()})}})),a=saltos.bootstrap.__label_combine(s,a)},saltos.bootstrap.__field.tabs=e=>{saltos.core.check_params(e,["id","type"]),saltos.core.check_params(e,["tabs"],[]);var t,o,s,a,r,l,i,c=saltos.core.html(`
+                `)),a.querySelector("#button_"+e.id)),e=a.querySelector("#checkbox_"+e.id),o=(e.parentElement.style.height=t.offsetHeight+"px",e.parentElement.style.top=t.offsetTop+"px",e.parentElement.offsetWidth);t.style.left=o+"px",t.style.width=`calc(100% - ${o}px)`,e.addEventListener("change",e=>{e.target.checked?e.target.parentElement.classList.replace("bg-primary","bg-primary-subtle"):e.target.parentElement.classList.replace("bg-primary-subtle","bg-primary"),e.target.blur()}),e.addEventListener("click",e=>{var t,o,s,a;e.ctrlKey?saltos.bootstrap.__checkbox_id2=e.target.value:(saltos.bootstrap.__checkbox_id1=e.target.value,saltos.bootstrap.__checkbox_id2=null),saltos.bootstrap.__checkbox_id1&&saltos.bootstrap.__checkbox_id2&&(t=e.target.parentElement.parentElement.parentElement.querySelectorAll("input[type=checkbox][value]"),o=[saltos.bootstrap.__checkbox_id1,saltos.bootstrap.__checkbox_id2],s=0,t.forEach(e=>{o.includes(e.value)&&s++}),2==s&&(a=!1,t.forEach(e=>{(a=o.includes(e.value)?!a:a)&&!e.checked&&e.click()})),saltos.bootstrap.__checkbox_id1=null,saltos.bootstrap.__checkbox_id2=null),e.stopPropagation()}),e.parentElement.addEventListener("click",e=>{var t=e.target.querySelector("input[type=checkbox]");t&&t.dispatchEvent(new MouseEvent("click",{ctrlKey:e.ctrlKey})),e.stopPropagation()})}})),a=saltos.bootstrap.__label_combine(s,a)},saltos.bootstrap.__field.tabs=e=>{saltos.core.check_params(e,["id","type"]),saltos.core.check_params(e,["items"],[]);var t,o=saltos.core.html(`
         <ul class="nav nav-${e.type} mb-3" id="${e.id}-tab" role="tablist"></ul>
         <div class="tab-content" id="${e.id}-content"></div>
-    `);for(t in e)"tab"==saltos.core.fix_key(t)&&(o=e[t],o=saltos.core.join_attr_value(o),saltos.core.check_params(o,["name","content","active","disabled"]),i="false",a=s="",saltos.core.eval_bool(o.active)&&(s="active",i="true",a="show"),r="",saltos.core.eval_bool(o.disabled)&&(r="disabled"),l=saltos.core.uniqid(),c.querySelector("ul.nav").append(saltos.core.html(`
+    `);for(t in e.items){var s=e.items[t],s=saltos.core.join_attr_value(s),a=(saltos.core.check_params(s,["name","content","active","disabled"]),""),r="false",l="",i=(saltos.core.eval_bool(s.active)&&(a="active",r="true",l="show"),""),c=(saltos.core.eval_bool(s.disabled)&&(i="disabled"),saltos.core.uniqid()),r=(o.querySelector("ul.nav").append(saltos.core.html(`
             <li class="nav-item" role="presentation">
-                <button class="nav-link ${s} text-nowrap" id="${e.id}-${l}-tab"
-                    data-bs-toggle="pill" data-bs-target="#${e.id}-${l}"
-                    type="button" role="tab" aria-controls="${e.id}-${l}"
-                    aria-selected="${i}" ${r}>${o.name}</button>
+                <button class="nav-link ${a} text-nowrap" id="${e.id}-${c}-tab"
+                    data-bs-toggle="pill" data-bs-target="#${e.id}-${c}"
+                    type="button" role="tab" aria-controls="${e.id}-${c}"
+                    aria-selected="${r}" ${i}>${s.name}</button>
             </li>
-        `)),(i=saltos.core.html(`
-            <div class="tab-pane fade ${a} ${s}" id="${e.id}-${l}"
-                role="tabpanel" aria-labelledby="${e.id}-${l}-tab" tabindex="0">
+        `)),saltos.core.html(`
+            <div class="tab-pane fade ${l} ${a}" id="${e.id}-${c}"
+                role="tabpanel" aria-labelledby="${e.id}-${c}-tab" tabindex="0">
             </div>
-        `)).append(o.content),c.querySelector("div.tab-content").append(i));return c=saltos.bootstrap.__label_combine(e,c)},saltos.bootstrap.__field.pills=e=>saltos.bootstrap.__field.tabs(e),saltos.bootstrap.__field["v-pills"]=e=>{saltos.core.check_params(e,["id"]),saltos.core.check_params(e,["tabs"],[]);var t,o,s,a,r,l,i,c=saltos.core.html(`
+        `));r.append(s.content),o.querySelector("div.tab-content").append(r)}return o=saltos.bootstrap.__label_combine(e,o)},saltos.bootstrap.__field.pills=e=>saltos.bootstrap.__field.tabs(e),saltos.bootstrap.__field["v-pills"]=e=>{saltos.core.check_params(e,["id"]),saltos.core.check_params(e,["items"],[]);var t,o=saltos.core.html(`
         <div class="d-flex align-items-start">
             <div class="nav flex-column nav-pills me-3" id="${e.id}-tab"
                 role="tablist" aria-orientation="vertical"></div>
             <div class="tab-content" id="${e.id}-content"></div>
         </div>
-    `);for(t in e)"tab"==saltos.core.fix_key(t)&&(o=e[t],o=saltos.core.join_attr_value(o),saltos.core.check_params(o,["name","content","active","disabled"]),i="false",a=s="",saltos.core.eval_bool(o.active)&&(s="active",i="true",a="show"),r="",saltos.core.eval_bool(o.disabled)&&(r="disabled"),l=saltos.core.uniqid(),c.querySelector("div.nav").append(saltos.core.html(`
-            <button class="nav-link ${s} text-nowrap" id="${e.id}-${l}-tab"
-                data-bs-toggle="pill" data-bs-target="#${e.id}-${l}"
-                type="button" role="tab" aria-controls="${e.id}-${l}"
-                aria-selected="${i}" ${r}>${o.name}</button>
-        `)),(i=saltos.core.html(`
-            <div class="tab-pane fade ${a} ${s}" id="${e.id}-${l}"
-                role="tabpanel" aria-labelledby="${e.id}-${l}-tab" tabindex="0">
+    `);for(t in e.items){var s=e.items[t],s=saltos.core.join_attr_value(s),a=(saltos.core.check_params(s,["name","content","active","disabled"]),""),r="false",l="",i=(saltos.core.eval_bool(s.active)&&(a="active",r="true",l="show"),""),c=(saltos.core.eval_bool(s.disabled)&&(i="disabled"),saltos.core.uniqid()),r=(o.querySelector("div.nav").append(saltos.core.html(`
+            <button class="nav-link ${a} text-nowrap" id="${e.id}-${c}-tab"
+                data-bs-toggle="pill" data-bs-target="#${e.id}-${c}"
+                type="button" role="tab" aria-controls="${e.id}-${c}"
+                aria-selected="${r}" ${i}>${s.name}</button>
+        `)),saltos.core.html(`
+            <div class="tab-pane fade ${l} ${a}" id="${e.id}-${c}"
+                role="tabpanel" aria-labelledby="${e.id}-${c}-tab" tabindex="0">
             </div>
-        `)).append(o.content),c.querySelector("div.tab-content").append(i));return c=saltos.bootstrap.__label_combine(e,c)},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","readonly","required","autofocus","tooltip","accesskey","color"]),saltos.core.eval_bool(e.disabled)&&(e.disabled="disabled"),saltos.core.eval_bool(e.readonly)&&(e.readonly="readonly"),saltos.core.eval_bool(e.required)&&(e.required="required"),saltos.core.eval_bool(e.autofocus)&&(e.autofocus="autofocus"),e.color||(e.color="primary");var t="border border-"+e.color,t=("none"==e.color&&(t="border-0"),saltos.core.html(`
+        `));r.append(s.content),o.querySelector("div.tab-content").append(r)}return o=saltos.bootstrap.__label_combine(e,o)},saltos.bootstrap.__field.accordion=e=>{saltos.core.check_params(e,["id","flush","multiple"]),saltos.core.check_params(e,["items"],[]),saltos.core.eval_bool(e.flush)&&(e.flush="accordion-flush");var t,o=saltos.core.html(`
+        <div class="accordion ${e.flush}" id="${e.id}"></div>
+    `);for(t in e.items){var s=e.items[t],s=saltos.core.join_attr_value(s),a=(saltos.core.check_params(s,["name","content","active"]),"collapsed"),r="false",l="",i=(saltos.core.eval_bool(s.active)&&(a="",r="true",l="show"),`data-bs-parent="#${e.id}"`),c=(saltos.core.eval_bool(e.multiple)&&(i=""),saltos.core.uniqid()),a=saltos.core.html(`
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button ${a}" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#${e.id}-${c}"
+                        aria-expanded="${r}" aria-controls="${e.id}-${c}">
+                    </button>
+                </h2>
+                <div id="${e.id}-${c}" class="accordion-collapse collapse ${l}" ${i}>
+                    <div class="accordion-body">
+                    </div>
+                </div>
+            </div>
+        `);a.querySelector(".accordion-button").append(s.name),a.querySelector(".accordion-body").append(s.content),o.append(a)}return o=saltos.bootstrap.__label_combine(e,o)},saltos.bootstrap.__text_helper=e=>{saltos.core.check_params(e,["type","class","id","placeholder","value","disabled","onenter","readonly","required","autofocus","tooltip","accesskey","color"]),saltos.core.eval_bool(e.disabled)&&(e.disabled="disabled"),saltos.core.eval_bool(e.readonly)&&(e.readonly="readonly"),saltos.core.eval_bool(e.required)&&(e.required="required"),saltos.core.eval_bool(e.autofocus)&&(e.autofocus="autofocus"),e.color||(e.color="primary");var t="border border-"+e.color,t=("none"==e.color&&(t="border-0"),saltos.core.html(`
         <input type="${e.type}" class="form-control ${t} ${e.class}"
             placeholder="${e.placeholder}" data-bs-accesskey="${e.accesskey}"
             ${e.disabled} ${e.readonly} ${e.required} ${e.autofocus}

@@ -2848,7 +2848,8 @@ saltos.bootstrap.__field.list = field => {
  * Returns a tabs widget using the follow params:
  *
  * @id    => the id used to set the reference for to the object
- * @tabs  => 2D array with the data used to mount the tab and content
+ * @items => 2D array with the data used to mount the tab and content
+ * @label    => this parameter is used as text for the label
  *
  * Each item in the tabs can contain:
  *
@@ -2856,20 +2857,16 @@ saltos.bootstrap.__field.list = field => {
  * @content  => string with the content to be used in the content area
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
- * @label    => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.tabs = field => {
     saltos.core.check_params(field, ['id', 'type']);
-    saltos.core.check_params(field, ['tabs'], []);
+    saltos.core.check_params(field, ['items'], []);
     var obj = saltos.core.html(`
         <ul class="nav nav-${field.type} mb-3" id="${field.id}-tab" role="tablist"></ul>
         <div class="tab-content" id="${field.id}-content"></div>
     `);
-    for (var key in field) {
-        if (saltos.core.fix_key(key) != 'tab') {
-            continue;
-        }
-        var val = field[key];
+    for (var key in field.items) {
+        var val = field.items[key];
         val = saltos.core.join_attr_value(val);
         saltos.core.check_params(val, ['name', 'content', 'active', 'disabled']);
         var active = '';
@@ -2911,7 +2908,8 @@ saltos.bootstrap.__field.tabs = field => {
  * Returns a tabs widget using the follow params:
  *
  * @id    => the id used to set the reference for to the object
- * @tabs  => 2D array with the data used to mount the tab and content
+ * @items => 2D array with the data used to mount the tab and content
+ * @label    => this parameter is used as text for the label
  *
  * Each item in the tabs can contain:
  *
@@ -2919,7 +2917,6 @@ saltos.bootstrap.__field.tabs = field => {
  * @content  => string with the content to be used in the content area
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
- * @label    => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.pills = field => {
     return saltos.bootstrap.__field.tabs(field);
@@ -2931,7 +2928,8 @@ saltos.bootstrap.__field.pills = field => {
  * Returns a tabs widget using the follow params:
  *
  * @id    => the id used to set the reference for to the object
- * @tabs  => 2D array with the data used to mount the tab and content
+ * @items => 2D array with the data used to mount the tab and content
+ * @label    => this parameter is used as text for the label
  *
  * Each item in the tabs can contain:
  *
@@ -2939,11 +2937,10 @@ saltos.bootstrap.__field.pills = field => {
  * @content  => string with the content to be used in the content area
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
- * @label    => this parameter is used as text for the label
  */
 saltos.bootstrap.__field['v-pills'] = field => {
     saltos.core.check_params(field, ['id']);
-    saltos.core.check_params(field, ['tabs'], []);
+    saltos.core.check_params(field, ['items'], []);
     var obj = saltos.core.html(`
         <div class="d-flex align-items-start">
             <div class="nav flex-column nav-pills me-3" id="${field.id}-tab"
@@ -2951,11 +2948,8 @@ saltos.bootstrap.__field['v-pills'] = field => {
             <div class="tab-content" id="${field.id}-content"></div>
         </div>
     `);
-    for (var key in field) {
-        if (saltos.core.fix_key(key) != 'tab') {
-            continue;
-        }
-        var val = field[key];
+    for (var key in field.items) {
+        var val = field.items[key];
         val = saltos.core.join_attr_value(val);
         saltos.core.check_params(val, ['name', 'content', 'active', 'disabled']);
         var active = '';
@@ -2984,6 +2978,71 @@ saltos.bootstrap.__field['v-pills'] = field => {
         `);
         div.append(val.content);
         obj.querySelector('div.tab-content').append(div);
+    }
+    obj = saltos.bootstrap.__label_combine(field, obj);
+    return obj;
+};
+
+/**
+ * Accordion widget constructor helper
+ *
+ * Returns an accordion widget using the follow params:
+ *
+ * @id       => the id used to set the reference for to the object
+ * @flush    => if true, add the accordion-flush to the widget
+ * @multiple => if true, allow to have open multiple items at same time
+ * @items    => 2D array with the data used to mount the accordion and content
+ * @label    => this parameter is used as text for the label
+ *
+ * Each item in the tabs can contain:
+ *
+ * @name     => string with the text name to use in the tab button
+ * @content  => string with the content to be used in the content area
+ * @active   => this parameter raise the active flag
+ */
+saltos.bootstrap.__field.accordion = field => {
+    saltos.core.check_params(field, ['id', 'flush', 'multiple']);
+    saltos.core.check_params(field, ['items'], []);
+    if (saltos.core.eval_bool(field.flush)) {
+        field.flush = 'accordion-flush';
+    }
+    var obj = saltos.core.html(`
+        <div class="accordion ${field.flush}" id="${field.id}"></div>
+    `);
+    for (var key in field.items) {
+        var val = field.items[key];
+        val = saltos.core.join_attr_value(val);
+        saltos.core.check_params(val, ['name', 'content', 'active']);
+        var collapsed = 'collapsed';
+        var expanded = 'false';
+        var show = '';
+        if (saltos.core.eval_bool(val.active)) {
+            collapsed = '';
+            expanded = 'true';
+            show = 'show';
+        }
+        var parent = `data-bs-parent="#${field.id}"`;
+        if (saltos.core.eval_bool(field.multiple)) {
+            parent = '';
+        }
+        var id = saltos.core.uniqid();
+        var item = saltos.core.html(`
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button ${collapsed}" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#${field.id}-${id}"
+                        aria-expanded="${expanded}" aria-controls="${field.id}-${id}">
+                    </button>
+                </h2>
+                <div id="${field.id}-${id}" class="accordion-collapse collapse ${show}" ${parent}>
+                    <div class="accordion-body">
+                    </div>
+                </div>
+            </div>
+        `);
+        item.querySelector('.accordion-button').append(val.name);
+        item.querySelector('.accordion-body').append(val.content);
+        obj.append(item);
     }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
