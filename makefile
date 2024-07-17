@@ -42,6 +42,7 @@ devel: clean
 
 clean:
 	rm -f code/web/index.{htm,js,js.map}
+	rm -f code/web/lib/index.{js,css}
 	rm -f code/apps/*/js/*.min.{js,js.map}
 
 test:
