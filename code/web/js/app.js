@@ -734,10 +734,14 @@ saltos.app.form.screen = action => {
             if (obj) {
                 return false;
             }
+            var loading = T('Loading...');
             obj = saltos.core.html(`
-                <div id="loading" class="modal-backdrop show">
-                    <div class="spinner-border position-fixed top-50 start-50" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                <div id="loading">
+                    <div class="z-0 modal-backdrop show"></div>
+                    <div class="z-1 position-fixed top-50 start-50 translate-middle">
+                        <div class="spinner-border text-light" role="status" style="width:3rem;height:3rem;">
+                            <span class="visually-hidden">${loading}</span>
+                        </div>
                     </div>
                 </div>
             `);
@@ -757,6 +761,12 @@ saltos.app.form.screen = action => {
             }
             obj.remove();
             return true;
+        case 'isloading':
+            var obj = document.getElementById('loading');
+            if (obj) {
+                return true;
+            }
+            return false;
         case 'clear':
             document.body.innerHTML = '';
             document.body.removeAttribute('screen');
