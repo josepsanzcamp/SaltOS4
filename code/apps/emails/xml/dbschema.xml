@@ -61,6 +61,9 @@ This file allow to define the database needed by this application
                 <field name="bcc" type="TEXT"/>
                 <field name="files" type="INT(11)"/>
             </fields>
+            <indexes>
+                <index fields="datetime"/>
+            </indexes>
         </table>
         <table name="app_emails_address">
             <fields>

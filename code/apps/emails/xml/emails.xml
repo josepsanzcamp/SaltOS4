@@ -69,7 +69,7 @@
     <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true">
         <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) header,
-                IF(DATE(datetime)=DATE(NOW()), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
+                IF(DATE(datetime)=DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
                 subject body,
                 TRIM(CONCAT_WS(' ',
                     CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
