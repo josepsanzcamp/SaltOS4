@@ -184,34 +184,34 @@ final class test_cli_invoices extends TestCase
      */
     public function test_list(array $json): array
     {
-        $json2 = test_cli_helper("list", [], "", "");
+        $json2 = test_cli_helper("app", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_cli_helper("list/nada", [], "", "");
+        $json2 = test_cli_helper("app/nada", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_cli_helper("list/invoices/nada", [], "", "");
+        $json2 = test_cli_helper("app/invoices/nada", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_cli_helper("list/invoices", [], "", "");
+        $json2 = test_cli_helper("app/invoices", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_cli_helper("list/invoices/table", [
+        $json2 = test_cli_helper("app/invoices/list/table", [
             "page" => 1,
         ], $json["token"], "");
         $this->assertArrayHasKey("data", $json2);
 
         $search = "The SaltOS project 12345678X";
-        $json2 = test_cli_helper("list/invoices/table", [
+        $json2 = test_cli_helper("app/invoices/list/table", [
             "search" => $search,
         ], $json["token"], "");
         $this->assertTrue(count($json2["data"]) == 1);
         $this->assertSame($json2["search"], $search);
 
-        $json2 = test_cli_helper("list/customers/widget/table1", "", $json["token"], "");
+        $json2 = test_cli_helper("app/customers/widget/table1", "", $json["token"], "");
         $this->assertArrayHasKey("data", $json2);
 
-        $json2 = test_cli_helper("list/customers/widget/table2", "", $json["token"], "");
+        $json2 = test_cli_helper("app/customers/widget/table2", "", $json["token"], "");
         $this->assertArrayHasKey("data", $json2);
 
         return [

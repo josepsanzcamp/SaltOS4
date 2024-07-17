@@ -29,6 +29,7 @@
     <menu>
         <title>New Tester Demo App</title>
         <screen>clear</screen>
+
         <navbar id="navbar" pos="sticky-top" brand.logo="img/logo_saltos.svg" brand.alt="SaltOS" brand.width="155" brand.height="29">
             <items>
                 <menu class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -88,6 +89,7 @@
                 </menu>
             </items>
         </navbar>
+
         <layout>
             <container auto="true" row_class="row mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
                 <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)">
@@ -303,6 +305,7 @@
                 </pills>
             </container>
         </layout>
+
         <javascript>
             <file eval="true">file_with_hash("apps/tester/js/tester.js")</file>
         </javascript>

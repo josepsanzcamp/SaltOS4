@@ -385,5 +385,4 @@
     <action id="sendmail">
         <array require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("rest/4"), get_data("rest/5"))</array>
     </action>
-
 </root>

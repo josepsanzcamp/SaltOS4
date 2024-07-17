@@ -69,7 +69,6 @@ function T($text)
                 $temp = explode("/", $files[0])[1];
                 $file = "apps/$temp/locale/$lang/messages.xml";
             }
-
         }
         if (file_exists($file)) {
             $cache[$app][$lang] = xmlfile2array($file);
