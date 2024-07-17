@@ -88,10 +88,7 @@ This file allow to define the database needed by this application
 				<field name="user_id" type="INT(11)" fkey="tbl_users"/>
 				<field name="email_name" type="VARCHAR(255)"/>
 				<field name="email_from" type="VARCHAR(255)"/>
-				<field name="email_signature" type="VARCHAR(255)"/>
-				<field name="email_signature_file" type="VARCHAR(255)"/>
-				<field name="email_signature_type" type="VARCHAR(255)"/>
-				<field name="email_signature_size" type="INT(11)"/>
+				<field name="email_signature" type="MEDIUMTEXT"/>
 				<field name="pop3_host" type="VARCHAR(255)"/>
 				<field name="pop3_port" type="VARCHAR(255)"/>
 				<field name="pop3_extra" type="VARCHAR(255)"/>

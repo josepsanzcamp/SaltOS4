@@ -409,75 +409,6 @@ function __sendmail_objsaver($mail, $messageid)
  *
  * TODO
  */
-function __signature_getfile($id)
-{
-    if (!$id) {
-        return null;
-    }
-    $query = "SELECT * FROM app_emails_accounts WHERE id='$id'";
-    $row = execute_query($query);
-    if (!$row) {
-        return null;
-    }
-    if (!$row["email_signature_file"]) {
-        return null;
-    }
-    $id = $row["id"];
-    $name = $row["email_signature"];
-    $file = $row["email_signature_file"];
-    $type = $row["email_signature_type"];
-    $size = $row["email_signature_size"];
-    $data = file_get_contents(get_directory("dirs/filesdir") . $file);
-    $alt = $row["email_name"] . " (" . $row["email_from"] . ")";
-    return [
-        "id" => $id,
-        "name" => $name,
-        "file" => $file,
-        "type" => $type,
-        "size" => $size,
-        "data" => $data,
-        "alt" => $alt,
-    ];
-}
-
-/**
- * TODO
- *
- * TODO
- */
-function __signature_getauto($file)
-{
-    if (!$file) {
-        return null;
-    }
-    if (!$file["file"]) {
-        return null;
-    }
-    if ($file["type"] == "text/plain") {
-        $file["auto"] = trim($file["data"]);
-        $file["auto"] = htmlentities($file["auto"], ENT_COMPAT, "UTF-8");
-        $file["auto"] = str_replace(
-            [" ", "\t", "\n"],
-            ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>"],
-            $file["auto"]
-        );
-    } elseif ($file["type"] == "text/html") {
-        $file["auto"] = trim($file["data"]);
-    } elseif (substr($file["type"], 0, 6) == "image/") {
-        $file["src"] = mime_inline($file["type"], $file["data"]);
-        $file["auto"] = "<img alt=\"{$file["alt"]}\" border=\"0\" src=\"{$file["src"]}\" />";
-    } else {
-        $file["auto"] = "Name: {$file["name"]}<br/>Type: {$file["type"]}<br/>Size: {$file["size"]}";
-    }
-    $file["auto"] = __SIGNATURE_OPEN__ . "--<br/>" . $file["auto"] . __SIGNATURE_CLOSE__;
-    return $file;
-}
-
-/**
- * TODO
- *
- * TODO
- */
 function sendmail_prepare($action, $email_id)
 {
     require_once "apps/emails/php/getmail.php";
@@ -541,8 +472,15 @@ function sendmail_prepare($action, $email_id)
         }
     }
     if (1) { // GET THE DEFAULT SIGNATURE
-        $file = __signature_getauto(__signature_getfile($account_id));
-        $body_extra = __HTML_NEWLINE__ . "<section>" . ($file ? $file["auto"] : "") . "</section>";
+        $query = "SELECT * FROM app_emails_accounts
+            WHERE user_id='" . current_user() . "' AND id='$account_id'";
+        $result2 = execute_query($query);
+        if ($result2) {
+            $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SIGNATURE_OPEN__ .
+                __SIGNATURE_BREAK__ . $result2["email_signature"] . __SIGNATURE_CLOSE__ . __SECTION_CLOSE__;
+        } else {
+            $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SECTION_CLOSE__;
+        }
     }
     if (in_array($action, ["reply", "replyall"])) {
         $query = "SELECT * FROM app_emails_address WHERE email_id='{$email_id}'";
@@ -850,49 +788,7 @@ function sendmail_action($action, $email_id)
         show_php_error(["phperror" => "From not found"]);
     }
     // REMOVE THE SIGNATURE TAG IF EXISTS
-    $body = str_replace(["<section>", "</section>"], "", $body);
-    // REPLACE SIGNATURE IF NEEDED AND ADD THE INLINE IMAGE
-    $inlines = [];
-    $file = __signature_getauto(__signature_getfile($account_id));
-    if ($file && isset($file["src"])) {
-        $cid = md5($file["data"]);
-        $prehash = md5($body);
-        $file["src"] = str_replace("&", "&amp;", $file["src"]); // CKEDITOR CORRECTION
-        $body = str_replace($file["src"], "cid:{$cid}", $body);
-        $posthash = md5($body);
-        if ($prehash != $posthash) {
-            $inlines[] = [
-                "body" => $file["data"],
-                "cid" => $cid,
-                "cname" => $file["name"],
-                "ctype" => $file["type"],
-            ];
-        }
-    }
-    // PREPARE THE INLINES IMAGES AND EMBEDDED ATTACHMENTS
-    $attachs = [];
-    if (in_array($action, ["reply", "replyall", "forward"])) {
-        $decoded = __getmail_getmime($email_id);
-        $result2 = __getmail_getfullbody(__getmail_getnode("0", $decoded));
-        foreach ($result2 as $index2 => $node2) {
-            $disp2 = $node2["disp"];
-            $type2 = $node2["type"];
-            if (!__getmail_processplainhtml($disp2, $type2) && !__getmail_processmessage($disp2, $type2)) {
-                $cid2 = $node2["cid"];
-                if ($cid2 != "") {
-                    $chash2 = $node2["chash"];
-                    $ctype2 = $node2["ctype"];
-                    $prehash = md5($body);
-                    $data = mime_inline($ctype2, $node2["body"]);
-                    $body = str_replace($data, "cid:{$cid2}", $body);
-                    $posthash = md5($body);
-                    if ($prehash != $posthash) {
-                        $inlines[] = __getmail_getcid(__getmail_getnode("0", $decoded), $chash2);
-                    }
-                }
-            }
-        }
-    }
+    $body = str_replace([__SECTION_OPEN__, __SECTION_CLOSE__], "", $body);
     // PREPARE THE RECIPIENTS
     $recipients = [];
     $to = explode(";", $to);
@@ -937,23 +833,6 @@ function sendmail_action($action, $email_id)
             "file" => $dir . $file["file"],
             "name" => $file["name"],
             "mime" => $file["type"],
-        ];
-    }
-    // ADD INLINES IMAGES
-    foreach ($inlines as $inline) {
-        $files[] = [
-            "data" => $inline["body"],
-            "cid" => $inline["cid"],
-            "name" => $inline["cname"],
-            "mime" => $inline["ctype"],
-        ];
-    }
-    // ADD EMBEDDED ATTACHMENTS
-    foreach ($attachs as $attach) {
-        $files[] = [
-            "data" => $attach["body"],
-            "name" => $attach["cname"],
-            "mime" => $attach["ctype"],
         ];
     }
     // DO THE SEND ACTION
@@ -1190,20 +1069,28 @@ function sendmail_signature($json)
     $cc = $json["cc"];
     $state_crt = intval($json["state_crt"]);
     // REPLACE THE SIGNATURE BODY
-    $file = __signature_getauto(__signature_getfile($new));
-    $pos1 = strpos($body, "<section>");
-    if ($pos1 !== false) {
-        $pos1 = strpos($body, ">", $pos1);
+    $query = "SELECT * FROM app_emails_accounts
+        WHERE user_id='" . current_user() . "' AND id='$new'";
+    $result2 = execute_query($query);
+    if ($result2) {
+        $auto = __SIGNATURE_OPEN__ . __SIGNATURE_BREAK__ . $result2["email_signature"] . __SIGNATURE_CLOSE__;
+    } else {
+        $auto = "";
     }
-    $pos2 = strpos($body, "</section>");
+    $pos1 = strpos($body, __SECTION_OPEN__);
+    if ($pos1 !== false) {
+        $pos1 += strlen(__SECTION_OPEN__);
+    }
+    $pos2 = strpos($body, __SECTION_CLOSE__);
     if ($pos1 !== false && $pos2 !== false) {
-        $auto = $file ? $file["auto"] : "";
-        $body = substr_replace($body, $auto, $pos1 + 1, $pos2 - $pos1 - 1);
+        $body = substr_replace($body, $auto, $pos1, $pos2 - $pos1);
     }
     // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
-    $query = "SELECT * FROM app_emails_accounts WHERE id='" . $old . "'";
+    $query = "SELECT * FROM app_emails_accounts
+        WHERE user_id='" . current_user() . "' AND id='$old'";
     $result_old = execute_query($query);
-    $query = "SELECT * FROM app_emails_accounts WHERE id='" . $new . "'";
+    $query = "SELECT * FROM app_emails_accounts
+        WHERE user_id='" . current_user() . "' AND id='$new'";
     $result_new = execute_query($query);
     // REPLACE THE CC
     if ($result_old && $result_new) {

@@ -1208,25 +1208,6 @@ saltos.app.check_required = () => {
  * to do screen for view mode.
  */
 saltos.app.form_disabled = bool => {
-    saltos.app.__form_helper('disabled', bool);
-};
-
-/**
- * Form readonly
- *
- * This function set all elements of the form as readonly, it is intended to be used when you need
- * to do screen for view mode.
- */
-saltos.app.form_readonly = bool => {
-    saltos.app.__form_helper('readonly', bool);
-};
-
-/**
- * Form helper
- *
- * This function is a helper used by the form_disabled and form_readonly functions
- */
-saltos.app.__form_helper = (attr, bool) => {
     var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
         'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.app.__form.fields) {
@@ -1235,9 +1216,15 @@ saltos.app.__form_helper = (attr, bool) => {
         if (obj) {
             if (types.includes(obj.type)) {
                 if (bool) {
-                    obj.setAttribute(attr, '');
+                    obj.setAttribute('disabled', '');
+                    //~ obj.setAttribute('readonly', '');
                 } else {
-                    obj.removeAttribute(attr);
+                    obj.removeAttribute('disabled');
+                    //~ obj.removeAttribute('readonly');
+                }
+                if (field.type == 'ckeditor') {
+                    var element = obj;
+                    setTimeout(() => element.set_disabled(bool), 1);
                 }
             }
         }

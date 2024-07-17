@@ -663,12 +663,27 @@ saltos.bootstrap.__field.ckeditor = field => {
             element.set = value => {
                 editor.setData(value);
             };
+            element.set_disabled = bool => {
+                if (bool) {
+                    editor.enableReadOnlyMode('docs-snippet');
+                } else {
+                    editor.disableReadOnlyMode('docs-snippet');
+                }
+            };
             if (field.color != 'none') {
                 element.nextElementSibling.classList.add('border');
                 element.nextElementSibling.classList.add('border-' + field.color);
             }
             editor.model.document.on('change:data', () => {
                 element.value = editor.getData();
+            });
+            editor.on('change:isReadOnly', (evt, propertyName, isReadOnly) => {
+                var toolbar = editor.ui.view.toolbar.element;
+                if (isReadOnly) {
+                    toolbar.style.background = 'var(--bs-secondary-bg)';
+                } else {
+                    toolbar.style.background = '';
+                }
             });
         }).catch(error => {
             throw new Error(error);

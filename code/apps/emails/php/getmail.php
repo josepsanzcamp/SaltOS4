@@ -67,6 +67,9 @@ define("__BLOCKQUOTE_OPEN__", '<blockquote style="border-left:#ccc 1px solid;mar
 define("__BLOCKQUOTE_CLOSE__", '</blockquote>');
 define("__SIGNATURE_OPEN__", '<div style="color:#ccc;font-size:0.8rem;line-height:1rem;">');
 define("__SIGNATURE_CLOSE__", '</div>');
+define("__SIGNATURE_BREAK__", '<p>--</p>');
+define("__SECTION_OPEN__", '<section>');
+define("__SECTION_CLOSE__", '</section>');
 
 /**
  * Remove all body

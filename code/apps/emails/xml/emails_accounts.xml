@@ -100,13 +100,8 @@
 
         <text id="email_name" label="Name" required="true"/>
         <text id="email_from" label="Email" required="true"/>
-        <div col_class="col-12"/><!-- this act as break line -->
 
-        <text id="email_signature" label="Signature"/>
-
-        <!--<text id="email_signature_file" label="email_signature_file"/>
-        <text id="email_signature_type" label="email_signature_type"/>
-        <text id="email_signature_size" label="email_signature_size"/>-->
+        <ckeditor id="email_signature" label="Signature" height="10em" col_class="col-12 mb-3"/>
 
         <label label="POP3" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
@@ -124,7 +119,13 @@
         <password id="pop3_pass" label="Password"/>
         <div col_class="col-12"/><!-- this act as break line -->
 
-        <switch id="pop3_delete" label="Delete" col_class="col-md-2 mb-3"/>
+        <div col_class="col-4"/><!-- this act as a spacer -->
+        <select id="pop3_delete" label="Delete" col_class="col-md-2 mb-3">
+            <rows>
+                <row label="No" value="0"/>
+                <row label="Yes" value="1"/>
+            </rows>
+        </select>
         <integer id="pop3_days" label="Days" col_class="col-md-2 mb-3"/>
 
         <label label="SMTP" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
