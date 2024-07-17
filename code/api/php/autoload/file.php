@@ -414,8 +414,20 @@ function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $time
  * to know when the file has changed
  *
  * @file => the file that you want to add the hash querystring argument
+ *
+ * Notes:
+ *
+ * The file can be a .js file, in this case, if exist the .min.js file then
+ * is replaced to serve the minified version of the original file with their
+ * md5 hash
  */
 function file_with_hash($file)
 {
+    if (extension($file) == "js") {
+        $minfile = str_replace(".js", ".min.js", $file);
+        if (file_exists($minfile)) {
+            return $minfile . "?" . md5_file($minfile);
+        }
+    }
     return $file . "?" . md5_file($file);
 }

@@ -21,12 +21,20 @@ web: clean
 	rmdir code/web/js/.js
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
+	@for i in code/apps/*/js/*.js; do \
+		j=$${i%.*};  # file with path without extension    \
+		k=$${i##*/}; # file without path with extension    \
+		m=$${k%.*};  # file without path without extension \
+		uglifyjs $$i -c -m -o $$j.min.js --source-map url=$$m.min.js.map; \
+	done
+
 devel: clean
 	cat code/web/htm/index.htm | \
 	php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,app}.js > code/web/index.htm
 
 clean:
-	rm -f code/web/index.{js,htm,js.map}
+	rm -f code/web/index.{htm,js,js.map}
+	rm -f code/apps/*/js/*.min.{js,js.map}
 
 test:
 ifeq ($(file), ) # default behaviour
@@ -45,7 +53,7 @@ endif
 	done
 
 ifeq ($(file), ) # default behaviour
-	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | gawk '{print $$2}' | sort))
+	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep -v '\.'min'\.'js$$ | grep '\.'js$$ | gawk '{print $$2}' | sort))
 else
 ifeq ($(file), all) # file=all
 	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
