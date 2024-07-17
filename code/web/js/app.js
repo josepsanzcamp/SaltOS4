@@ -735,7 +735,7 @@ saltos.app.form.screen = action => {
                 return false;
             }
             obj = saltos.core.html(`
-                <div id="loading" class="w-100 h-100 position-fixed top-0 start-0 bg-dark text-light opacity-50">
+                <div id="loading" class="modal-backdrop show">
                     <div class="spinner-border position-fixed top-50 start-50" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
