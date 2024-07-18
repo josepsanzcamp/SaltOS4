@@ -1302,10 +1302,10 @@ saltos.app.profile = () => {
         pos: 'right',
         title: '',
         close: T('Close'),
-        body: `<div id="right"></div>`,
         backdrop: true,
         resize: true,
     });
+    document.querySelector('.offcanvas-body').setAttribute('id', 'right');
     saltos.app.send_request('app/dashboard/config');
 };
 

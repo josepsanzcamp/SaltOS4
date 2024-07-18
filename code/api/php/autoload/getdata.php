@@ -41,6 +41,13 @@ declare(strict_types=1);
  * data system
  *
  * @key => the key that you want to retrieve the value
+ *
+ * Notes:
+ *
+ * If you request the key rest/-1, then the function returns the last
+ * value of the rest, intended to get the last value of the rest array,
+ * too you can get the rest array using negative indexes beginning
+ * from the last position
  */
 function get_data($key)
 {
@@ -51,6 +58,9 @@ function get_data($key)
         return $_DATA[$keys[0]] ?? null;
     }
     if ($count == 2) {
+        if ($keys[0] == "rest" && intval($keys[1]) < 0) {
+            $keys[1] = count($_DATA[$keys[0]]) + intval($keys[1]);
+        }
         return $_DATA[$keys[0]][$keys[1]] ?? null;
     }
     show_php_error(["phperror" => "key $key not found"]);

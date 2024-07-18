@@ -53,6 +53,7 @@
             </row>
         </layout>
         <javascript>
+            <file eval="true">file_with_hash("apps/users/js/users.js")</file>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
@@ -77,7 +78,7 @@
         <actions>
             <action app="users" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
             <action app="users" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-            <action app="users" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
+            <action app="users" action="delete" icon="trash" tooltip="Delete" onclick="saltos.users.delete"/>
         </actions>
         <footer eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -120,7 +121,6 @@
         <multiselect id="groups_id" label="Groups" size="7" col_class="col-md-6 mb-3">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value FROM tbl_groups ORDER BY code ASC")</rows>
         </multiselect>
-
     </form>
     <data eval="true">execute_query("SELECT *,'' days FROM tbl_users WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
 
@@ -134,11 +134,12 @@
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new user" icon="check-lg"/>
+                <button onclick="saltos.users.insert()" label="Create" tooltip="To create the new user" icon="check-lg"/>
                 <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the new user" icon="x-lg"/>
             </row>
         </layout>
         <javascript>
+            <file eval="true">file_with_hash("apps/users/js/users.js")</file>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
@@ -156,12 +157,13 @@
                 <button label="Edit" tooltip="To modify this user" icon="pencil">
                     <onclick eval="true">"saltos.driver.open('app/users/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this user" icon="trash"/>
+                <button onclick="saltos.users.delete()" color="danger" label="Delete" tooltip="To delete this user" icon="trash"/>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this window" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/users/xml/users.xml")["data"]</data>
         <javascript>
+            <file eval="true">file_with_hash("apps/users/js/users.js")</file>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
@@ -176,12 +178,13 @@
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.update()" label="Save" tooltip="To save the user changes" icon="check-lg"/>
+                <button onclick="saltos.users.update()" label="Save" tooltip="To save the user changes" icon="check-lg"/>
                 <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the user modification" icon="x-lg"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/users/xml/users.xml")["data"]</data>
         <javascript>
+            <file eval="true">file_with_hash("apps/users/js/users.js")</file>
             <inline>saltos.driver.init("edit")</inline>
         </javascript>
     </edit>

@@ -36,9 +36,9 @@
             <row auto="true" row_class="row items" col_class="col-xl-4 col-md-6 mb-3">
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('app/customers')" class="fs-1 w-100 h-100" label="Customers"/>
                 <button ifeval="check_user('invoices', 'menu')" onclick="saltos.window.open('app/invoices')" class="fs-1 w-100 h-100" label="Invoices"/>
+                <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('app/emails')" color="success" class="fs-1 w-100 h-100" label="Email"/>
                 <button ifeval="check_user('users', 'menu')" onclick="saltos.window.open('app/users')" color="warning" class="fs-1 w-100 h-100" label="Users"/>
                 <button ifeval="check_user('groups', 'menu')" onclick="saltos.window.open('app/groups')" color="warning" class="fs-1 w-100 h-100" label="Groups"/>
-                <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('app/emails')" color="success" class="fs-1 w-100 h-100" label="Email"/>
                 <button ifeval="current_user()" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
                 <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" class="fs-1 w-100 h-100" label="Types"/>
                 <div col_class="col-12"/><!-- this act as break line -->

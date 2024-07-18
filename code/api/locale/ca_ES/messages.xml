@@ -59,4 +59,5 @@
     <edit>Modificar</edit>
     <save>Desar</save>
     <loading>Carregant...</loading>
+    <no_changes_detected>No s'han detectat canvis</no_changes_detected>
 </root>
