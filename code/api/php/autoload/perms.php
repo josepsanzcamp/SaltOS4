@@ -308,3 +308,27 @@ function check_app_perm_id_json($app, $perm, $id = null)
         show_json_error("Permission denied");
     }
 }
+
+/**
+ * User is admin
+ *
+ * This function returns true if the current user has all perms for the app
+ */
+function __user_is_admin($app)
+{
+    $app_id = app2id($app);
+    $query = "SELECT * FROM tbl_perms
+        WHERE active = 1 AND id IN (SELECT perm_id FROM tbl_apps_perms WHERE app_id=$app_id)";
+    $rows = execute_query_array($query);
+    foreach ($rows as $row) {
+        if ($row["owner"] != "") {
+            $perm = $row["code"] . "|" . $row["owner"];
+        } else {
+            $perm = $row["code"];
+        }
+        if (!check_user($app, $perm)) {
+            return false;
+        }
+    }
+    return true;
+}

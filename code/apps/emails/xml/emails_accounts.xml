@@ -59,7 +59,7 @@
 
     <list id="table" checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
         <header>
-            <user label="User" require="apps/emails/php/accounts.php" ifeval="__user_is_admin('emails_accounts')"/>
+            <user label="User"/>
             <email_name label="Name"/>
             <email_from label="Email"/>
             <email_disabled label="Enabled" type="icon"/>
@@ -93,7 +93,7 @@
     <form>
         <label label="Main" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
-        <select id="user_id" label="User" required="true" autofocus="true" require="apps/emails/php/accounts.php" ifeval="__user_is_admin('emails_accounts')">
+        <select id="user_id" label="User" required="true" autofocus="true">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value FROM tbl_users ORDER BY login ASC")</rows>
         </select>
         <div col_class="col-12"/><!-- this act as break line -->

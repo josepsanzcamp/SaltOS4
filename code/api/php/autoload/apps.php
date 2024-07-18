@@ -313,3 +313,13 @@ function app2notes($app)
 {
     return __apps(__FUNCTION__, $app);
 }
+
+/**
+ * Current app
+ *
+ * This function returns the id of the current app
+ */
+function current_app()
+{
+    return app2id(get_data("rest/1"));
+}

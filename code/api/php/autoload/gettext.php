@@ -60,7 +60,7 @@ function T($text)
             $cache[$lang] = xmlfile2array($file);
         }
     }
-    $app = encode_bad_chars(strval(get_data("rest/1")));
+    $app = id2app(current_app());
     if (!isset($cache[$app][$lang])) {
         $file = "apps/$app/locale/$lang/messages.xml";
         if (!file_exists($file)) {
