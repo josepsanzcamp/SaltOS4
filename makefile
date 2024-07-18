@@ -62,12 +62,12 @@ endif
 	done
 
 ifeq ($(file), ) # default behaviour
-	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep -v '\.'min'\.'js$$ | grep '\.'js$$ | gawk '{print $$2}' | sort))
+	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))
 else
 ifeq ($(file), all) # file=all
-	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | sort))
+	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
 else # file=path
-	$(eval files := $(shell find $(file) -name *.js | sort))
+	$(eval files := $(shell find $(file) -name *.js | grep -v '\.'min'\.'js$$ | sort))
 endif
 endif
 	@for i in ${files}; do \
