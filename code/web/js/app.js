@@ -737,8 +737,8 @@ saltos.app.form.screen = action => {
             var loading = T('Loading...');
             obj = saltos.core.html(`
                 <div id="loading">
-                    <div class="z-0 modal-backdrop show"></div>
-                    <div class="z-1 position-fixed top-50 start-50 translate-middle">
+                    <div class="z-2 modal-backdrop show"></div>
+                    <div class="z-3 position-fixed top-50 start-50 translate-middle">
                         <div class="spinner-border text-light" role="status" style="width:3rem;height:3rem;">
                             <span class="visually-hidden">${loading}</span>
                         </div>
