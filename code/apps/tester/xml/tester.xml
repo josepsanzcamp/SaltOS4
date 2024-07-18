@@ -92,27 +92,27 @@
 
         <layout>
             <container auto="true" row_class="row mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
-                <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)">
+                <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)" required="true">
                     <datalist eval="true">["Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez"]</datalist>
                 </text>
-                <integer id="campo1" label="Campo 1 (integer)" placeholder="Escriba aqui" tooltip="Tooltip 1 (integer)"/>
-                <float id="campo2" label="Campo 2 (float)" placeholder="Escriba aqui" tooltip="Tooltip 2 (float)"/>
-                <color id="campo3" label="Campo 3 (color)" placeholder="Escriba aqui" tooltip="Tooltip 3 (color)"/>
-                <date id="campo4" label="Campo 4 (date)" placeholder="Escriba aqui" tooltip="Tooltip 4 (date)"/>
-                <time id="campo5" label="Campo 5 (time)" placeholder="Escriba aqui" tooltip="Tooltip 5 (time)"/>
-                <datetime id="campo6" label="Campo 6 (datetime)" placeholder="Escriba aqui" tooltip="Tooltip 6 (datetime)"/>
-                <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)" separator=";">
+                <integer id="campo1" label="Campo 1 (integer)" placeholder="Escriba aqui" tooltip="Tooltip 1 (integer)" required="true"/>
+                <float id="campo2" label="Campo 2 (float)" placeholder="Escriba aqui" tooltip="Tooltip 2 (float)" required="true"/>
+                <color id="campo3" label="Campo 3 (color)" placeholder="Escriba aqui" tooltip="Tooltip 3 (color)" required="true"/>
+                <date id="campo4" label="Campo 4 (date)" placeholder="Escriba aqui" tooltip="Tooltip 4 (date)" required="true"/>
+                <time id="campo5" label="Campo 5 (time)" placeholder="Escriba aqui" tooltip="Tooltip 5 (time)" required="true"/>
+                <datetime id="campo6" label="Campo 6 (datetime)" placeholder="Escriba aqui" tooltip="Tooltip 6 (datetime)" required="true"/>
+                <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)" separator=";" required="true">
                     <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
                     <value>SaltOS; PHP; JavaScript</value>
                 </tags>
-                <button id="campo8" tooltip="Tooltip 8 (button)" label="Button text here" onclick="saltos.tester.campo8()"/>
-                <button id="campo9" tooltip="Tooltip 9 (button)" label="Modal test" onclick="saltos.tester.campo9()"/>
-                <button id="campo10" tooltip="Tooltip 10 (button)" label="Offcanvas test" onclick="saltos.tester.campo10()"/>
-                <button id="campo11" tooltip="Tooltip 11 (button)" label="Toast test" onclick="saltos.tester.campo11()"/>
-                <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)">Texto de prueba&#13;&#13;Adios&#13;</textarea>
-                <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
-                <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml"><![CDATA[<xml>&#13;&#9;<tag>valor</tag>&#13;</xml>&#13;]]></codemirror>
-                <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2; 3; 5" size="5" separator=";">
+                <button id="campo8" tooltip="Tooltip 8 (button)" label="Button text here" onclick="saltos.tester.campo8()" required="true"/>
+                <button id="campo9" tooltip="Tooltip 9 (button)" label="Modal test" onclick="saltos.tester.campo9()" required="true"/>
+                <button id="campo10" tooltip="Tooltip 10 (button)" label="Offcanvas test" onclick="saltos.tester.campo10()" required="true"/>
+                <button id="campo11" tooltip="Tooltip 11 (button)" label="Toast test" onclick="saltos.tester.campo11()" required="true"/>
+                <textarea id="campo12" label="Campo 12 (textarea)" placeholder="Escriba aqui" tooltip="Tooltip 12 (textarea)" required="true">Texto de prueba&#13;&#13;Adios&#13;</textarea>
+                <ckeditor id="campo13" label="Campo 13 (ckeditor)" placeholder="Escriba aqui" tooltip="Tooltip 13 (ckeditor)" required="true"><![CDATA[Texto de prueba<br/><br/>Adios<br/>]]></ckeditor>
+                <codemirror id="campo14" label="Campo 14 (codemirror)" placeholder="Escriba aqui" tooltip="Tooltip 14 (codemirror)" mode="xml" required="true"><![CDATA[<xml>&#13;&#9;<tag>valor</tag>&#13;</xml>&#13;]]></codemirror>
+                <multiselect id="campo15" label="Campo 15 (multiselect)" tooltip="Tooltip 15 (multiselect)" value="2; 3; 5" size="5" separator=";" required="true">
                     <rows eval="true">[
                         ["label"=>"Uno","value"=>1],
                         ["label"=>"Dos","value"=>2],
@@ -122,19 +122,19 @@
                         ["label"=>"Seis","value"=>6]
                     ]</rows>
                 </multiselect>
-                <label id="campo16" label="Campo 16 (label)" tooltip="Tooltip 16 (label)"/>
-                <checkbox id="campo17" label="Campo 17 (checkbox)" tooltip="Tooltip 17 (checkbox)" value="0"/>
-                <switch id="campo18" label="Campo 18 (switch)" tooltip="Tooltip 18 (switch)" value="0"/>
+                <label id="campo16" label="Campo 16 (label)" tooltip="Tooltip 16 (label)" required="true"/>
+                <checkbox id="campo17" label="Campo 17 (checkbox)" tooltip="Tooltip 17 (checkbox)" value="0" required="true"/>
+                <switch id="campo18" label="Campo 18 (switch)" tooltip="Tooltip 18 (switch)" value="0" required="true"/>
                 <label label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
                 <hidden id="campo19" label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
-                <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)"/>
-                <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true"/>
+                <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)" required="true"/>
+                <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true" required="true"/>
                 <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas" onclick="saltos.tester.campo22()"/>
-                <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2">
+                <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2" required="true">
                     <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>
                 </select>
                 <image id="campo24" label="Campo 24 (image)" tooltip="Tooltip 24 (image)" value="apps/tester/files/philips-pm5544.svg"/>
-                <excel id="campo25" label="Campo 25 (excel)" tooltip="Tooltip 25 (excel)" numcols="26" numrows="20"/>
+                <excel id="campo25" label="Campo 25 (excel)" tooltip="Tooltip 25 (excel)" numcols="26" numrows="20" required="true"/>
                 <pdfjs id="campo26" label="Campo 26 (pdfjs)" tooltip="Tooltip 26 (pdfjs)" src="apps/tester/files/test-josep-1.pdf"/>
                 <iframe id="campo27" label="Campo 27 (iframe)" tooltip="Tooltip 27 (iframe)" src="apps/tester/files/philips-pm5544.svg" height="500px"/>
                 <table id="campo28" label="Campo 28 (table)" tooltip="Tooltip 28 (table)">

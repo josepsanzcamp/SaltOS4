@@ -1160,6 +1160,15 @@ saltos.app.check_required = () => {
                 obj_focus = abc;
             }
         }
+        // to detect the value of the checkbox fields
+        if (_this.type == 'checkbox') {
+            value = parseInt(_this.value);
+        }
+        // to detect the color, focus and value of the excel fields
+        if (_this.hasOwnProperty('excel')) {
+            value = _this.data.join().replaceAll(',', '');
+            obj_color = _this.parentElement;
+        }
         // continue;
         obj_color.classList.remove('is-valid');
         obj_color.classList.remove('is-invalid');
@@ -1263,11 +1272,15 @@ saltos.app.form_disabled = bool => {
                     obj.removeAttribute('disabled');
                     //~ obj.removeAttribute('readonly');
                 }
-                if (field.type == 'ckeditor') {
-                    var element = obj;
-                    setTimeout(() => element.set_disabled(bool), 1);
+                if (['ckeditor','codemirror'].includes(field.type)) {
+                    if (obj.hasOwnProperty('set_disabled')) {
+                        obj.set_disabled(bool);
+                    } else {
+                        let element = obj;
+                        setTimeout(() => element.set_disabled(bool), 1);
+                    }
                 }
-                if (field.type == 'multiselect') {
+                if (['multiselect','tags'].includes(field.type)) {
                     obj.set_disabled(bool);
                 }
             }

@@ -663,6 +663,7 @@ saltos.bootstrap.__field.ckeditor = field => {
             element.set = value => {
                 editor.setData(value);
             };
+            // Program the disabled feature
             element.set_disabled = bool => {
                 if (bool) {
                     editor.enableReadOnlyMode('docs-snippet');
@@ -755,6 +756,15 @@ saltos.bootstrap.__field.codemirror = field => {
         element.codemirror = cm;
         element.set = value => {
             cm.setValue(value);
+        };
+        element.set_disabled = bool => {
+            if (bool) {
+                cm.setOption('readOnly', 'nocursor');
+                cm.display.lineDiv.style.background = 'var(--bs-secondary-bg)';
+            } else {
+                cm.setOption('readOnly', '');
+                cm.display.lineDiv.style.background = '';
+            }
         };
         if (field.color != 'none') {
             element.nextElementSibling.classList.add('border');
@@ -889,6 +899,7 @@ saltos.bootstrap.__field.select = field => {
         option.append(val.label);
         obj.append(option);
     }
+    // Program the disabled feature
     obj.set_disabled = bool => {
         if (bool) {
             obj.setAttribute('disabled', '');
@@ -908,6 +919,7 @@ saltos.bootstrap.__field.select = field => {
  * @id        => the id used by the object
  * @class     => allow to add more classes to the default form-select
  * @disabled  => this parameter raise the disabled flag
+ * @required  => this parameter raise the required flag
  * @size      => this parameter allow to see the options list opened with n (size) entries
  * @value     => the value used as src parameter
  * @tooltip   => this parameter raise the title flag
@@ -926,7 +938,7 @@ saltos.bootstrap.__field.select = field => {
  * TODO: detected a bug with this widget in chrome in mobile browsers
  */
 saltos.bootstrap.__field.multiselect = field => {
-    saltos.core.check_params(field, ['value', 'class', 'id', 'disabled',
+    saltos.core.check_params(field, ['value', 'class', 'id', 'disabled', 'required',
                                      'size', 'tooltip', 'color', 'separator']);
     saltos.core.check_params(field, ['rows'], []);
     if (!field.separator) {
@@ -1020,6 +1032,7 @@ saltos.bootstrap.__field.multiselect = field => {
             _this.setAttribute('for', field.id + '_abc');
         });
     });
+    // Program the disabled feature
     obj.querySelector('input[type=hidden]').set_disabled = bool => {
         var temp = document.getElementById(field.id).parentElement.parentElement;
         temp.querySelectorAll('select,button').forEach(_this => {
@@ -1039,6 +1052,7 @@ saltos.bootstrap.__field.multiselect = field => {
  * @class     => allow to add more classes to the default form-check
  * @disabled  => this parameter raise the disabled flag
  * @readonly  => this parameter raise the readonly flag
+ * @required  => this parameter raise the required flag
  * @label     => this parameter is used as label for the checkbox
  * @value     => this parameter is used to check or unckeck the checkbox, the value
  *               must contain a number that raise as true or false in the if condition
@@ -1051,13 +1065,16 @@ saltos.bootstrap.__field.multiselect = field => {
  * This widget returns their value by setting a zero or one (0/1) value on the value of the input.
  */
 saltos.bootstrap.__field.checkbox = field => {
-    saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly',
+    saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly', 'required',
                                      'label', 'tooltip', 'class', 'accesskey', 'color']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
     }
     if (saltos.core.eval_bool(field.readonly)) {
         field.readonly = 'readonly';
+    }
+    if (saltos.core.eval_bool(field.required)) {
+        field.required = 'required';
     }
     if (saltos.core.eval_bool(field.value)) {
         field.value = 1;
@@ -1077,8 +1094,8 @@ saltos.bootstrap.__field.checkbox = field => {
     }
     var obj = saltos.core.html(`
         <div class="form-check ${field.class}">
-            <input class="form-check-input ${border}" type="checkbox" id="${field.id}"
-                value="${field.value}" ${field.disabled} ${field.readonly} ${checked}
+            <input class="form-check-input ${border}" type="checkbox" id="${field.id}" ${checked}
+                value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <label class="form-check-label" for="${field.id}"
                 data-bs-title="${field.tooltip}">${field.label}</label>
@@ -1182,6 +1199,7 @@ saltos.bootstrap.__field.button = field => {
     saltos.bootstrap.__onclick_helper(obj, function() {
         this.blur();
     });
+    // Program the disabled feature
     obj.set_disabled = bool => {
         if (bool) {
             obj.setAttribute('disabled', '');
@@ -1660,12 +1678,15 @@ saltos.bootstrap.__field.image = field => {
 saltos.bootstrap.__field.excel = field => {
     saltos.core.require('lib/handsontable/handsontable.full.min.css');
     saltos.core.require('lib/handsontable/handsontable.full.min.js');
-    saltos.core.check_params(field, ['id', 'class', 'data',
+    saltos.core.check_params(field, ['id', 'class', 'data', 'required',
                                      'rowHeaders', 'colHeaders', 'minSpareRows',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths',
                                      'numcols', 'numrows', 'color']);
     if (!field.color) {
         field.color = 'primary';
+    }
+    if (saltos.core.eval_bool(field.required)) {
+        field.required = 'required';
     }
     var border = `border border-${field.color}`;
     if (field.color == 'none') {
@@ -1673,7 +1694,7 @@ saltos.bootstrap.__field.excel = field => {
     }
     var obj = saltos.core.html(`
         <div style="width: 100%; height: 100%; overflow: auto" class="${border}">
-            <div id="${field.id}" class="${field.class}"></div>
+            <div id="${field.id}" class="${field.class}" ${field.required}></div>
         </div>
     `);
     field.numcols = parseInt(field.numcols);
@@ -1707,7 +1728,7 @@ saltos.bootstrap.__field.excel = field => {
     }
     var element = obj.querySelector('div');
     saltos.core.when_visible(element, () => {
-        new Handsontable(element, {
+        var excel = new Handsontable(element, {
             data: field.data,
             rowHeaders: field.rowHeaders,
             colHeaders: field.colHeaders,
@@ -1719,6 +1740,7 @@ saltos.bootstrap.__field.excel = field => {
                 element.data = field.data;
             }
         });
+        element.excel = excel;
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -2411,7 +2433,7 @@ saltos.bootstrap.__field.tags = field => {
     // This function draws a tag and programs the delete of the same tag
     var fn = val => {
         var span = saltos.core.html(`
-            <span class="badge text-bg-${field.color} mt-1 me-1 fs-6 fw-normal pe-2" saltos-data="${val}">
+            <span class="badge text-bg-${field.color} mt-1 me-1 fs-6 fw-normal pe-2" data="${val}">
                 <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
             </span>
         `);
@@ -2419,7 +2441,7 @@ saltos.bootstrap.__field.tags = field => {
         obj.append(span);
         span.querySelector('i').addEventListener('click', event => {
             var tag = event.target.parentElement;
-            var val = tag.getAttribute('saltos-data').trim();
+            var val = tag.getAttribute('data').trim();
             var input = obj.querySelector('input.first');
             var val_old = input.value.split(field.separator);
             var val_new = [];
@@ -2476,6 +2498,14 @@ saltos.bootstrap.__field.tags = field => {
     };
     // This part of the code adds the initials tags using the fn function
     obj.querySelector('input.first').set(field.value);
+    // Program the disabled feature
+    obj.querySelector('input.first').set_disabled = bool => {
+        if (bool) {
+            obj.querySelector('input.last').setAttribute('disabled', '');
+        } else {
+            obj.querySelector('input.last').removeAttribute('disabled');
+        }
+    };
     // This part of the code is a trick to allow that labels previously created
     // will be linked to the input type text instead of the input type hidden,
     // remember that the hidden contains the original id and the visible textbox
