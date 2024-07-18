@@ -1077,7 +1077,8 @@ function sendmail_signature($json)
     $result_new = execute_query($query);
     // REPLACE THE SIGNATURE BODY
     if ($result_new) {
-        $auto = __SIGNATURE_OPEN__ . __SIGNATURE_BREAK__ . $result_new["email_signature"] . __SIGNATURE_CLOSE__;
+        $auto = __SIGNATURE_OPEN__ . __SIGNATURE_BREAK__ .
+            $result_new["email_signature"] . __SIGNATURE_CLOSE__;
     } else {
         $auto = "";
     }
