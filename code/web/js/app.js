@@ -1152,6 +1152,14 @@ saltos.app.check_required = () => {
         if (_this.type == 'file') {
             value = _this.data.length;
         }
+        // to detect the color and focus of the multiselects fields
+        if (_this.type == 'hidden') {
+            var abc = document.getElementById(_this.id + '_abc');
+            if (abc && abc.type == 'select-multiple') {
+                obj_color = abc;
+                obj_focus = abc;
+            }
+        }
         // continue;
         obj_color.classList.remove('is-valid');
         obj_color.classList.remove('is-invalid');
@@ -1193,6 +1201,39 @@ saltos.app.check_required = () => {
                 button.classList.add('btn-success');
             }
         }
+        // to detect the color of the multiselects fields (the other select + buttons)
+        if (_this.type == 'hidden') {
+            var xyz = document.getElementById(_this.id + '_xyz');
+            if (xyz && xyz.type == 'select-multiple') {
+                obj_color = xyz;
+                obj_color.classList.remove('is-valid');
+                obj_color.classList.remove('is-invalid');
+                obj_color.classList.remove('border');
+                obj_color.classList.forEach(_this2 => {
+                    if (_this2.substr(0, 7) == 'border-') {
+                        obj_color.classList.remove(_this2);
+                    }
+                });
+                if (value == '') {
+                    obj_color.classList.add('is-invalid');
+                } else {
+                    obj_color.classList.add('is-valid');
+                }
+                var temp = document.getElementById(_this.id).parentElement.parentElement;
+                temp.querySelectorAll('button').forEach(_this => {
+                    _this.classList.forEach(_this2 => {
+                        if (_this2.substr(0, 4) == 'btn-') {
+                            _this.classList.remove(_this2);
+                        }
+                    });
+                    if (value == '') {
+                        _this.classList.add('btn-danger');
+                    } else {
+                        _this.classList.add('btn-success');
+                    }
+                });
+            }
+        }
     });
     if (obj) {
         obj.focus();
@@ -1225,6 +1266,9 @@ saltos.app.form_disabled = bool => {
                 if (field.type == 'ckeditor') {
                     var element = obj;
                     setTimeout(() => element.set_disabled(bool), 1);
+                }
+                if (field.type == 'multiselect') {
+                    obj.set_disabled(bool);
                 }
             }
         }

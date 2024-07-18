@@ -889,6 +889,13 @@ saltos.bootstrap.__field.select = field => {
         option.append(val.label);
         obj.append(option);
     }
+    obj.set_disabled = bool => {
+        if (bool) {
+            obj.setAttribute('disabled', '');
+        } else {
+            obj.removeAttribute('disabled');
+        }
+    };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -922,23 +929,17 @@ saltos.bootstrap.__field.multiselect = field => {
     saltos.core.check_params(field, ['value', 'class', 'id', 'disabled',
                                      'size', 'tooltip', 'color', 'separator']);
     saltos.core.check_params(field, ['rows'], []);
-    if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
-    }
-    if (!field.color) {
-        field.color = 'primary';
-    }
     if (!field.separator) {
         field.separator = ',';
     }
     var obj = saltos.core.html(`
         <div class="container-fluid">
             <div class="row">
-                <div class="col px-0 one">
+                <div class="col px-0 one d-flex">
                 </div>
                 <div class="col col-auto my-auto two">
                 </div>
-                <div class="col px-0 three">
+                <div class="col px-0 three d-flex">
                 </div>
             </div>
         </div>
@@ -958,8 +959,7 @@ saltos.bootstrap.__field.multiselect = field => {
             rows_abc.push(val);
         }
     }
-    obj.querySelector('.one').append(saltos.bootstrap.__field.hidden(field));
-    field.type = 'multiselect';
+    obj.querySelector('.one').append(saltos.bootstrap.__field.hidden(saltos.core.copy_object(field)));
     obj.querySelector('.one').append(saltos.bootstrap.__field.select({
         color: field.color,
         id: field.id + '_abc',
@@ -1020,6 +1020,12 @@ saltos.bootstrap.__field.multiselect = field => {
             _this.setAttribute('for', field.id + '_abc');
         });
     });
+    obj.querySelector('input[type=hidden]').set_disabled = bool => {
+        var temp = document.getElementById(field.id).parentElement.parentElement;
+        temp.querySelectorAll('select,button').forEach(_this => {
+            _this.set_disabled(bool);
+        });
+    };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };

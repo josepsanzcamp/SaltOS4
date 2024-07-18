@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <screen>type2</screen>
+
+    <!-- List part -->
+    <list default="true">
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
+        <title>Groups list</title>
+        <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="one">
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <button ifeval="check_user('groups', 'create')" onclick="saltos.driver.open('app/groups/create')" label="New group" tooltip="To create a new group" icon="plus-lg"/>
+                <div col_class="col"/>
+                <hidden id="page" value="0"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
+                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+            </row>
+            <row auto="true" col_class="col-12 my-3">
+                <table id="table" source="app/groups/list/table"/>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button id="more" onclick="saltos.driver.more()" label="More groups" tooltip="To see more groups in the list" icon="plus-lg"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init("list")</inline>
+        </javascript>
+    </list>
+
+    <list id="table" checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
+        <header>
+            <code label="Code"/>
+            <name label="Name"/>
+            <description label="Description"/>
+            <active label="Active" type="icon"/>
+        </header>
+        <data eval="true">execute_query_array("
+            SELECT id, code, name, description,
+            CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
+            FROM tbl_groups
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "groups", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("groups", "list")."
+            ORDER BY ".get_data("json/order")."
+            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
+        ")</data>
+        <actions>
+            <action app="groups" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
+            <action app="groups" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+            <action app="groups" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
+        </actions>
+        <footer eval="true">"Total: " . execute_query("
+            SELECT COUNT(*) total
+            FROM tbl_groups
+            WHERE 1 = 1
+            AND ".make_fulltext_query(get_data("json/search"), "groups", ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql("groups", "list")."
+        ")</footer>
+    </list>
+
+    <!-- Form part -->
+    <form>
+        <text id="code" label="Code" required="true" autofocus="true"/>
+        <text id="name" label="Name" required="true"/>
+        <switch id="active" label="Active"/>
+        <textarea id="description" label="Description" required="true" height="10em" col_class="col-12 mb-3"/>
+        <multiselect id="users_id" label="Users" size="7" col_class="col-md-8 mb-3">
+            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value FROM tbl_users ORDER BY login ASC")</rows>
+        </multiselect>
+    </form>
+    <data eval="true">execute_query("SELECT * FROM tbl_groups WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+
+    <create>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <gettext eval="true">T([])</gettext>
+        <title>New group</title>
+        <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/groups.xml")["form"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new group" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the new group" icon="x-lg"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init("create")</inline>
+        </javascript>
+    </create>
+
+    <view>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <gettext eval="true">T([])</gettext>
+        <title>Detail of the group</title>
+        <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/groups.xml")["form"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button label="Edit" tooltip="To modify this group" icon="pencil">
+                    <onclick eval="true">"saltos.driver.open('app/groups/edit/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
+                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this group" icon="trash"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this window" icon="x-lg"/>
+            </row>
+        </layout>
+        <data eval="true">xmlfile2array("apps/users/xml/groups.xml")["data"]</data>
+        <javascript>
+            <inline>saltos.driver.init("view")</inline>
+        </javascript>
+    </view>
+
+    <edit>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <gettext eval="true">T([])</gettext>
+        <title>Modify this group</title>
+        <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="two,one">
+            <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/groups.xml")["form"]</row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.update()" label="Save" tooltip="To save the group changes" icon="check-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the group modification" icon="x-lg"/>
+            </row>
+        </layout>
+        <data eval="true">xmlfile2array("apps/users/xml/groups.xml")["data"]</data>
+        <javascript>
+            <inline>saltos.driver.init("edit")</inline>
+        </javascript>
+    </edit>
+
+</root>

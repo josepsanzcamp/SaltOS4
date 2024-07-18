@@ -44,7 +44,7 @@
             </div>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/login/js/login.js")</file>
+            <file eval="true">file_with_hash("apps/users/js/login.js")</file>
         </javascript>
     </menu>
 </root>

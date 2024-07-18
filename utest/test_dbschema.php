@@ -267,7 +267,7 @@ final class test_dbschema extends TestCase
             "id" => 1,
         ]));
         $this->assertSame($query, "UPDATE tbl_utest SET val='nada',val1='1',val2='3.141592'," .
-            "val3='9999-12-31',val4='24:00:00',val5='9999-12-31 23:59:59' WHERE (id='1')");
+            "val3='9999-12-31',val4='23:59:59',val5='9999-12-31 23:59:59' WHERE (id='1')");
         db_query($query);
 
         $query = __dbschema_insert_from_select("tbl_utest", "tbl_utest");

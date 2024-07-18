@@ -70,7 +70,7 @@ final class test_datetime extends TestCase
         $this->assertSame(datetimeval(0), "0000-00-00 00:00:00");
         $this->assertSame(dateval("9999-99-99"), "9999-12-31");
         $this->assertSame(dateval("99-99-9999"), "9999-12-31");
-        $this->assertSame(timeval("99:99:99"), "24:00:00");
+        $this->assertSame(timeval("99:99:99"), "23:59:59");
         $this->assertSame(datetimeval("9999-99-99 99:99:99"), "9999-12-31 23:59:59");
         $this->assertSame(datetimeval("99-99-9999 99:99:99"), "9999-12-31 23:59:59");
         $this->assertSame(datetimeval("9999-99-99T99:99:99"), "9999-12-31 23:59:59");

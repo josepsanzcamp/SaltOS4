@@ -151,16 +151,13 @@
         <switch id="email_default" label="Default"/>
         <switch id="email_addmetocc" label="Add me to CC"/>
         <switch id="email_crt" label="Confirm reading to"/>
-
-        <!--<text id="name" label="Name" required="true" autofocus="true"/>
-        <textarea id="description" label="Description" required="true" height="10em"/>-->
     </form>
     <data eval="true">execute_query("SELECT * FROM app_emails_accounts WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
-        <title>New emails account</title>
+        <title>New email account</title>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <apps>
+        <app>
+            <id>1</id>
+            <active>1</active>
+            <code>login</code>
+            <name>Login</name>
+            <description>Pantalla login</description>
+            <perms allow="1">
+                <perm>1,menu</perm>
+                <perm>4,action</perm>
+            </perms>
+        </app>
+        <app>
+            <id>4</id>
+            <active>1</active>
+            <code>users</code>
+            <name>Users</name>
+            <description>Users management</description>
+            <table>tbl_users</table>
+            <field>CONCAT(name,' (',login,')')</field>
+            <has_index>1</has_index>
+            <has_control>1</has_control>
+            <has_version>1</has_version>
+            <has_files>1</has_files>
+            <has_notes>1</has_notes>
+            <perms>
+                <perm>1,menu</perm>
+                <perm>2,create</perm>
+                <perm>3,widget</perm>
+                <perm>4,action</perm>
+                <perm>5,config</perm>
+                <perm>11,list,user</perm>
+                <perm>12,list,group</perm>
+                <perm>13,list,all</perm>
+                <perm>21,view,user</perm>
+                <perm>22,view,group</perm>
+                <perm>23,view,all</perm>
+                <perm>31,edit,user</perm>
+                <perm>32,edit,group</perm>
+                <perm>33,edit,all</perm>
+                <perm>41,delete,user</perm>
+                <perm>42,delete,group</perm>
+                <perm>43,delete,all</perm>
+            </perms>
+        </app>
+        <app>
+            <id>5</id>
+            <active>1</active>
+            <code>groups</code>
+            <name>Groups</name>
+            <description>Groups management</description>
+            <table>tbl_groups</table>
+            <field>CONCAT(name,' (',code,')')</field>
+            <has_index>1</has_index>
+            <has_control>1</has_control>
+            <has_version>1</has_version>
+            <has_files>1</has_files>
+            <has_notes>1</has_notes>
+            <perms>
+                <perm>1,menu</perm>
+                <perm>2,create</perm>
+                <perm>3,widget</perm>
+                <perm>4,action</perm>
+                <perm>5,config</perm>
+                <perm>11,list,user</perm>
+                <perm>12,list,group</perm>
+                <perm>13,list,all</perm>
+                <perm>21,view,user</perm>
+                <perm>22,view,group</perm>
+                <perm>23,view,all</perm>
+                <perm>31,edit,user</perm>
+                <perm>32,edit,group</perm>
+                <perm>33,edit,all</perm>
+                <perm>41,delete,user</perm>
+                <perm>42,delete,group</perm>
+                <perm>43,delete,all</perm>
+            </perms>
+        </app>
+    </apps>
+</root>

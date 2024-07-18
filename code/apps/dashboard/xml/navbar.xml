@@ -37,6 +37,9 @@
                         <item name="Customers" onclick="saltos.window.open('app/customers')"/>
                         <item name="Invoices" onclick="saltos.window.open('app/invoices')"/>
                         <item divider="true"/>
+                        <item name="Users" onclick="saltos.window.open('app/users')"/>
+                        <item name="Groups" onclick="saltos.window.open('app/groups')"/>
+                        <item divider="true"/>
                         <item name="Types" onclick="saltos.window.open('app/types')"/>
                         <item name="Tester" onclick="saltos.window.open('app/tester')"/>
                     </menu>

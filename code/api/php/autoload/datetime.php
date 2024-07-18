@@ -201,14 +201,9 @@ function timeval($value)
             $temp[$i] = 0;
         }
     }
-    $temp[0] = min(24, max(0, $temp[0]));
+    $temp[0] = min(23, max(0, $temp[0]));
     $temp[1] = min(59, max(0, $temp[1]));
     $temp[2] = min(59, max(0, $temp[2]));
-    // This case checks the case 99:99:99 that must result 24:00:00
-    if ($temp[0] == 24) {
-        $temp[1] = 0;
-        $temp[2] = 0;
-    }
     // Continue
     $value = sprintf("%02d:%02d:%02d", $temp[0], $temp[1], $temp[2]);
     return $value;
