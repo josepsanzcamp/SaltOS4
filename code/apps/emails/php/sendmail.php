@@ -1063,17 +1063,21 @@ function sendmail_files($action, $email_id)
 function sendmail_signature($json)
 {
     require_once "apps/emails/php/getmail.php";
-    $old = $json["old"];
-    $new = $json["new"];
+    $old = intval($json["old"]);
+    $new = intval($json["new"]);
     $body = $json["body"];
     $cc = $json["cc"];
     $state_crt = intval($json["state_crt"]);
-    // REPLACE THE SIGNATURE BODY
+    // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
+    $query = "SELECT * FROM app_emails_accounts
+        WHERE user_id='" . current_user() . "' AND id='$old'";
+    $result_old = execute_query($query);
     $query = "SELECT * FROM app_emails_accounts
         WHERE user_id='" . current_user() . "' AND id='$new'";
-    $result2 = execute_query($query);
-    if ($result2) {
-        $auto = __SIGNATURE_OPEN__ . __SIGNATURE_BREAK__ . $result2["email_signature"] . __SIGNATURE_CLOSE__;
+    $result_new = execute_query($query);
+    // REPLACE THE SIGNATURE BODY
+    if ($result_new) {
+        $auto = __SIGNATURE_OPEN__ . __SIGNATURE_BREAK__ . $result_new["email_signature"] . __SIGNATURE_CLOSE__;
     } else {
         $auto = "";
     }
@@ -1085,13 +1089,6 @@ function sendmail_signature($json)
     if ($pos1 !== false && $pos2 !== false) {
         $body = substr_replace($body, $auto, $pos1, $pos2 - $pos1);
     }
-    // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
-    $query = "SELECT * FROM app_emails_accounts
-        WHERE user_id='" . current_user() . "' AND id='$old'";
-    $result_old = execute_query($query);
-    $query = "SELECT * FROM app_emails_accounts
-        WHERE user_id='" . current_user() . "' AND id='$new'";
-    $result_new = execute_query($query);
     // REPLACE THE CC
     if ($result_old && $result_new) {
         $cc = explode(";", $cc);
