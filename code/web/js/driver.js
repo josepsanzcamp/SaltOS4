@@ -121,6 +121,12 @@ saltos.driver.search = arg => {
     if (!type) {
         throw new Error(`unknown type in saltos.driver.search`);
     }
+    // Restore the more button
+    var obj = document.getElementById('more');
+    if (obj && obj.hasOwnProperty('set_disabled') && typeof obj.set_disabled == 'function') {
+        obj.set_disabled(false);
+    }
+    // Continue
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?app/${app}/list/${type}`,
@@ -203,10 +209,12 @@ saltos.driver.more = arg => {
             }
             if (!response.data.length) {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
+                // Disable the more button
                 var obj = document.getElementById('more');
                 if (obj && obj.hasOwnProperty('set_disabled') && typeof obj.set_disabled == 'function') {
                     obj.set_disabled(true);
                 }
+                // Continue
                 return;
             }
             var temp = saltos.bootstrap.field(response);

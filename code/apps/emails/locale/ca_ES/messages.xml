@@ -110,4 +110,8 @@
     <see_more_emails>Veure mes correus electrònics</see_more_emails>
     <to_load_more_emails_in_the_list>Per carregar mes correus electrònics al llistat</to_load_more_emails_in_the_list>
     <main>Principal</main>
+    <delete_emails>Esborrar correus electrònics???</delete_emails>
+    <do_you_want_to_delete_the_selected_emails>Voleu esborrar els correus electrònics seleccionats???</do_you_want_to_delete_the_selected_emails>
+    <select_emails>Seleccioneu correus electrònics</select_emails>
+    <you_must_select_the_desired_emails_to_be_deleted>Heu de seleccionar els correus electrònics que voleu suprimir???</you_must_select_the_desired_emails_to_be_deleted>
 </root>

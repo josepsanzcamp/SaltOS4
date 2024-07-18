@@ -43,7 +43,7 @@
                 </item>
             </menu>
             <menu class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <item id="username" dropdown_menu_end="true">
+                <item id="username" dropdown_menu_end="true" icon="person">
                     <name eval="true">execute_query("SELECT name FROM tbl_users WHERE id=".current_user())</name>
                     <menu>
                         <item name="Profile" onclick="saltos.app.profile()"/>
