@@ -2818,7 +2818,7 @@ saltos.bootstrap.__field.list = field => {
             for (var key in field.data) {
                 var val = field.data[key];
                 obj.append(saltos.core.html(`
-                    <div class="bg-primary border position-absolute p-2">
+                    <div class="position-absolute p-2">
                         <input class="form-check-input" type="checkbox"
                             value="${val.id}" id="checkbox_${val.id}">
                     </div>
@@ -2828,13 +2828,19 @@ saltos.bootstrap.__field.list = field => {
                 checkbox.parentElement.style.height = button.offsetHeight + 'px';
                 checkbox.parentElement.style.top = button.offsetTop + 'px';
                 var width = checkbox.parentElement.offsetWidth;
-                button.style.left = width + 'px';
-                button.style.width = `calc(100% - ${width}px)`;
+                button.style.paddingLeft = width + 'px';
+                checkbox.parentElement.classList.add('z-1');
+                button.classList.add('z-0');
                 checkbox.addEventListener('change', event => {
+                    var button = event.target.id.replace('checkbox', 'button');
                     if (event.target.checked) {
-                        event.target.parentElement.classList.replace('bg-primary', 'bg-primary-subtle');
+                        document.getElementById(button).style.background =
+                            'var(--bs-list-group-action-active-bg)';
+                        document.getElementById(button).style.color =
+                            'var(--bs-list-group-action-active-color)';
                     } else {
-                        event.target.parentElement.classList.replace('bg-primary-subtle', 'bg-primary');
+                        document.getElementById(button).style.background = '';
+                        document.getElementById(button).style.color = '';
                     }
                     event.target.blur();
                 });
