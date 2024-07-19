@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <screen eval="true">get_data("rest/-1")=="only"?"type1":"emails"</screen>
+    <screen eval="true">"emails"</screen>
 
     <!-- List part -->
     <list default="true">
@@ -262,7 +262,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button label="Source" tooltip="To see the source of this email" icon="file-text">
-                    <onclick eval="true">"saltos.driver.open('app/emails/view/source/".intval(get_data("rest/3")).(get_data('rest/-1')=='only'?"/only":"")."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
                     onclick="saltos.emails.setter('new=1')" color="success" label="New" tooltip="To mark this email as new" icon="patch-check"/>
@@ -278,13 +278,13 @@
                     onclick="saltos.emails.setter('spam=0')" color="danger" label="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
                 <div col_class="col"/>
                 <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" label="Reply" tooltip="To reply this email" icon="reply">
-                    <onclick eval="true">"saltos.driver.open('app/emails/create/reply/".intval(get_data("rest/3")).(get_data('rest/-1')=='only'?"/only":"")."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" label="Reply all" tooltip="To reply all this email" icon="reply-all">
-                    <onclick eval="true">"saltos.driver.open('app/emails/create/replyall/".intval(get_data("rest/3")).(get_data('rest/-1')=='only'?"/only":"")."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button label="Forward" tooltip="To forward this email" icon="forward">
-                    <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3")).(get_data('rest/-1')=='only'?"/only":"")."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button onclick="saltos.emails.delete2()" color="danger" label="Delete" tooltip="To delete this email" icon="trash"/>
                 <button onclick="saltos.driver.close();" label="Close" tooltip="To close this email" icon="x-lg"/>

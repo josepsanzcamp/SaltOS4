@@ -773,6 +773,10 @@ saltos.app.form.screen = action => {
             return true;
     }
     if (saltos.driver.hasOwnProperty('__types')) {
+        var only = saltos.hash.get().split('/').at(-1);
+        if (only == 'only') {
+            action = 'type1';
+        }
         if (saltos.driver.__types.hasOwnProperty(action)) {
             if (document.body.hasAttribute('screen')) {
                 return false;

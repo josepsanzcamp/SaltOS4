@@ -574,6 +574,11 @@ saltos.driver.__types.type1.init = arg => {
  * TODO
  */
 saltos.driver.__types.type1.open = arg => {
+    var only1 = saltos.hash.get().split('/').at(-1);
+    var only2 = arg.split('/').at(-1);
+    if (only1 == 'only' && only2 != 'only') {
+        arg += '/only';
+    }
     saltos.window.open(arg);
 };
 
