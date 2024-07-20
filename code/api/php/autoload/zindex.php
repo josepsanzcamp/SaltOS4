@@ -167,6 +167,7 @@ if (get_data("server/request_method") == "POST") {
 $action = "php/action/" . get_data("rest/0") . ".php";
 if (file_exists($action)) {
     require $action;
+    show_php_error(["phperror" => "Internal error"]);
 }
 
 // Otherwise, we don't know what to do with this request

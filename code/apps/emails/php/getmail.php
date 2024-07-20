@@ -1077,7 +1077,9 @@ function getmail_body($id)
                 require_once "php/lib/html.php";
                 $temp = remove_script_tag($temp);
                 $temp = remove_style_tag($temp);
-                //~ $temp = href_replace($temp);
+                $temp = remove_comment_tag($temp);
+                $temp = remove_meta_tag($temp);
+                $temp = inline_img_tag($temp);
             }
             foreach ($result as $index2 => $node2) {
                 $disp2 = $node2["disp"];
@@ -1266,7 +1268,7 @@ function getmail_server()
             $prefix = get_directory("dirs/inboxdir") . $id_cuenta;
             if (!file_exists($prefix)) {
                 mkdir($prefix);
-                chmod($prefix, 0777);
+                chmod_protected($prefix, 0777);
             }
             // db code
             $query = "SELECT uidl FROM app_emails WHERE account_id='{$id_cuenta}'";
@@ -1324,7 +1326,7 @@ function getmail_server()
                             $fp = gzopen($file, "w");
                             gzwrite($fp, $message);
                             gzclose($fp);
-                            chmod($file, 0666);
+                            chmod_protected($file, 0666);
                             $message = ""; // trick to release memory
                         }
                     }
