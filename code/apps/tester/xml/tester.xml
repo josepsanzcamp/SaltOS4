@@ -43,7 +43,8 @@
                             <item name="Something else here" disabled="false" onclick="alert(5)"/>
                         </menu>
                     </item>
-                    <item name="Disabled" disabled="false" onclick="alert(6)"/>
+                    <item name="Disable" disabled="false" onclick="saltos.app.form_disabled(true)"/>
+                    <item name="Enable" disabled="false" onclick="saltos.app.form_disabled(false)"/>
                 </menu>
                 <form class="d-flex">
                     <text placeholder="Search" color="light" id="search"/>

@@ -647,13 +647,13 @@ saltos.bootstrap.__field.ckeditor = field => {
         saltos.core.require(`lib/ckeditor/translations/${lang}.js`);
     }
     // Continue
-    saltos.core.check_params(field, ['height', 'color']);
+    saltos.core.check_params(field, ['height', 'color', 'disabled']);
     if (!field.color) {
         field.color = 'primary';
     }
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__textarea_helper(field));
+    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     var element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
         ClassicEditor.create(element, {
@@ -666,9 +666,9 @@ saltos.bootstrap.__field.ckeditor = field => {
             // Program the disabled feature
             element.set_disabled = bool => {
                 if (bool) {
-                    editor.enableReadOnlyMode('docs-snippet');
+                    editor.enableReadOnlyMode('editor');
                 } else {
-                    editor.disableReadOnlyMode('docs-snippet');
+                    editor.disableReadOnlyMode('editor');
                 }
             };
             if (field.color != 'none') {
@@ -680,12 +680,18 @@ saltos.bootstrap.__field.ckeditor = field => {
             });
             editor.on('change:isReadOnly', (evt, propertyName, isReadOnly) => {
                 var toolbar = editor.ui.view.toolbar.element;
+                var editable = editor.ui.view.editable.element;
                 if (isReadOnly) {
                     toolbar.style.background = 'var(--bs-secondary-bg)';
+                    editable.style.background = 'var(--bs-secondary-bg)';
                 } else {
                     toolbar.style.background = '';
+                    editable.style.background = '';
                 }
             });
+            if (saltos.core.eval_bool(field.disabled)) {
+                element.set_disabled(true);
+            }
         }).catch(error => {
             throw new Error(error);
         });
@@ -738,13 +744,13 @@ saltos.bootstrap.__field.ckeditor = field => {
 saltos.bootstrap.__field.codemirror = field => {
     saltos.core.require('lib/codemirror/codemirror.min.css');
     saltos.core.require('lib/codemirror/codemirror.min.js');
-    saltos.core.check_params(field, ['mode', 'height', 'color']);
+    saltos.core.check_params(field, ['mode', 'height', 'color', 'disabled']);
     if (!field.color) {
         field.color = 'primary';
     }
     var obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__textarea_helper(field));
+    obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     var element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
         var cm = CodeMirror.fromTextArea(element, {
@@ -766,6 +772,9 @@ saltos.bootstrap.__field.codemirror = field => {
                 cm.display.lineDiv.style.background = '';
             }
         };
+        if (saltos.core.eval_bool(field.disabled)) {
+            element.set_disabled(true);
+        }
         if (field.color != 'none') {
             element.nextElementSibling.classList.add('border');
             element.nextElementSibling.classList.add('border-' + field.color);
