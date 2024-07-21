@@ -1071,7 +1071,6 @@ function getmail_body($id)
                     ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>\n"],
                     $temp
                 );
-                //~ $temp = href_replace($temp);
             }
             if ($type == "html") {
                 require_once "php/lib/html.php";

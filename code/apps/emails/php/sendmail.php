@@ -711,6 +711,9 @@ function sendmail_prepare($action, $email_id)
                         require_once "php/lib/html.php";
                         $temp = remove_script_tag($temp);
                         $temp = remove_style_tag($temp);
+                        $temp = remove_comment_tag($temp);
+                        $temp = remove_meta_tag($temp);
+                        $temp = inline_img_tag($temp);
                     }
                     foreach ($result2 as $index2 => $node2) {
                         $disp2 = $node2["disp"];

@@ -94,54 +94,36 @@ function remove_meta_tag($temp)
  */
 function inline_img_tag($temp)
 {
-    $last = 0;
-    for(;;) {
-        $pos1 = stripos($temp, "<img", $last);
-        if ($pos1 === false) {
-            break;
+    $pattern = "@< *img[^>]*src *= *[\"']?([^\"' >]*)@i";
+    preg_match_all($pattern, $temp, $matches);
+    foreach ($matches[1] as $src) {
+        $data = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+        $scheme = parse_url($src, PHP_URL_SCHEME);
+        if (in_array($scheme, ["data", "cid"])) {
+            continue;
         }
-        $pos2 = strpos($temp, ">", $pos1);
-        if ($pos2 === false) {
-            break;
-        }
-        $img1 = substr($temp, $pos1, $pos2 - $pos1 + 1);
-        // This code load the img tag and replaces the src by the inline data
-        $doc = new DOMDocument();
-        $doc->loadHTML($img1, LIBXML_COMPACT | LIBXML_NOERROR);
-        $tags = $doc->getElementsByTagName('img');
-        foreach ($tags as $tag) {
-            $src = $tag->getAttribute("src");
-            $scheme = parse_url($src, PHP_URL_SCHEME);
-            if (in_array($scheme, ["https", "http"])) {
-                $cache = get_cache_file($src);
-                if (!file_exists($cache)) {
-                    $data = __url_get_contents($src);
-                    file_put_contents($cache, serialize($data));
-                    chmod_protected($cache, 0666);
-                } else {
-                    $data = unserialize(file_get_contents($cache));
-                }
-                $valid = false;
-                foreach ($data["headers"] as $key => $val) {
-                    $valid = in_array(strtolower($key), ["http/1.1 200 ok", "http/2.0 200"]);
-                    if ($valid) {
-                        break;
-                    }
-                }
+        if (in_array($scheme, ["https", "http"])) {
+            $cache = get_cache_file($src);
+            if (!file_exists($cache)) {
+                $data = __url_get_contents($src);
+                file_put_contents($cache, serialize($data));
+                chmod_protected($cache, 0666);
+            } else {
+                $data = unserialize(file_get_contents($cache));
+            }
+            $valid = false;
+            foreach ($data["headers"] as $key => $val) {
+                $valid = in_array(strtolower($key), ["http/1.1 200 ok", "http/2.0 200"]);
                 if ($valid) {
-                    $type = $data["headers"]["content-type"];
-                    $data = mime_inline($type, $data["body"]);
-                } else {
-                    // defeult image of 1x1 pixel transparent gif
-                    $data = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+                    break;
                 }
-                $tag->setAttribute("src", $data);
+            }
+            if ($valid) {
+                $type = $data["headers"]["content-type"];
+                $data = mime_inline($type, $data["body"]);
             }
         }
-        $img2 = $doc->saveHTML($tag);
-        // The new img tag is ready to be replaced
-        $temp = str_replace($img1, $img2, $temp);
-        $last = $pos2;
+        $temp = str_replace($src, $data, $temp);
     }
     return $temp;
 }
