@@ -40,4 +40,7 @@
     <friday>Divendres</friday>
     <saturday>Dissabte</saturday>
     <sunday>Diumenge</sunday>
+    <created_at>Creat al</created_at>
+    <expires_at>Expira al</expires_at>
+    <passwords_history>Historic de contrasenyes</passwords_history>
 </root>

@@ -151,6 +151,7 @@ saltos.gettext.bootstrap.field = field => {
     if (field.hasOwnProperty('type') && field.type == 'table') {
         if (field.hasOwnProperty('header')) {
             for (var key in field.header) {
+                field.header[key] = saltos.core.join_attr_value(field.header[key]);
                 var val = field.header[key];
                 if (typeof val == 'object' && val !== null) {
                     field.header[key].label = T(val.label);
@@ -196,12 +197,9 @@ saltos.gettext.bootstrap.field = field => {
     if (field.hasOwnProperty('type') && ['select', 'multiselect'].includes(field.type)) {
         if (field.hasOwnProperty('rows')) {
             for (var key in field.rows) {
+                field.rows[key] = saltos.core.join_attr_value(field.rows[key]);
                 var val = field.rows[key];
-                if (val.hasOwnProperty('#attr')) {
-                    if (val['#attr'].hasOwnProperty('label')) {
-                        field.rows[key]['#attr'].label = T(val['#attr'].label);
-                    }
-                } else if (val.hasOwnProperty('label')) {
+                if (val.hasOwnProperty('label')) {
                     field.rows[key].label = T(val.label);
                 }
             }

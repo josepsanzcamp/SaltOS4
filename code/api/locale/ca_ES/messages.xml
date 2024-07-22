@@ -60,4 +60,6 @@
     <save>Desar</save>
     <loading>Carregant...</loading>
     <no_changes_detected>No s'han detectat canvis</no_changes_detected>
+    <description>Descripció</description>
+    <active>Actiu</active>
 </root>
