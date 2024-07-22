@@ -101,7 +101,7 @@ saltos.emails.delete1 = () => {
             onclick: () => {
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
-                    url: `api/?app/emails/action/delete/${ids}`,
+                    url: `api/?app/emails/delete/${ids}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
@@ -147,7 +147,7 @@ saltos.emails.delete2 = () => {
                 var id = saltos.hash.get().split('/').at(3);
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
-                    url: `api/?app/emails/action/delete/${id}`,
+                    url: `api/?app/emails/delete/${id}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
@@ -203,7 +203,7 @@ saltos.emails.send = () => {
     var data = saltos.app.get_data(true);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/emails/action/sendmail${action}${email_id}`,
+        url: `api/?app/emails/create/sendmail${action}${email_id}`,
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -277,7 +277,7 @@ saltos.emails.setter = what => {
     var id = saltos.hash.get().split('/').at(3);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/emails/action/setter/${id}`,
+        url: `api/?app/emails/view/setter/${id}`,
         data: JSON.stringify({
             'what': what,
         }),

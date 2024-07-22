@@ -114,6 +114,11 @@
         </javascript>
     </create>
 
+    <create id="insert">
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <array require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json/data"))</array>
+    </create>
+
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
@@ -156,4 +161,14 @@
             <inline>saltos.driver.init("edit")</inline>
         </javascript>
     </edit>
+
+    <edit id="update">
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <array require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json/data"))</array>
+    </edit>
+
+    <delete>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <array require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</array>
+    </delete>
 </root>

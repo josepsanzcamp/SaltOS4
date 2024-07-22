@@ -253,7 +253,7 @@ saltos.driver.insert = arg => {
     var app = saltos.hash.get().split('/').at(1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?insert/${app}`,
+        url: `api/?app/${app}/create/insert`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -264,9 +264,18 @@ saltos.driver.insert = arg => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            if (response.status == 'ok') {
+            if (response.array.status == 'ok') {
+                if (response.array.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.array.text);
+                }
                 saltos.window.send(`saltos.${app}.update`);
                 saltos.driver.close();
+                return;
+            }
+            if (response.array.status == 'ko') {
+                if (response.array.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.array.text, {color: 'danger'});
+                }
                 return;
             }
             saltos.app.show_error(response);
@@ -302,7 +311,7 @@ saltos.driver.update = arg => {
     var id = saltos.hash.get().split('/').at(-1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?update/${app}/${id}`,
+        url: `api/?app/${app}/edit/update/${id}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -313,9 +322,18 @@ saltos.driver.update = arg => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            if (response.status == 'ok') {
+            if (response.array.status == 'ok') {
+                if (response.array.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.array.text);
+                }
                 saltos.window.send(`saltos.${app}.update`);
                 saltos.driver.close();
+                return;
+            }
+            if (response.array.status == 'ko') {
+                if (response.array.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.array.text, {color: 'danger'});
+                }
                 return;
             }
             saltos.app.show_error(response);
@@ -359,18 +377,27 @@ saltos.driver.delete = async arg => {
                 }
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
-                    url: `api/?delete/${app}/${id}`,
+                    url: `api/?app/${app}/delete/${id}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {
                             return;
                         }
-                        if (response.status == 'ok') {
+                        if (response.array.status == 'ok') {
+                            if (response.array.hasOwnProperty('text')) {
+                                saltos.app.toast('Response', response.array.text);
+                            }
                             saltos.window.send(`saltos.${app}.update`);
                             // arg has valid data when is called from the list, and in
                             // this case, it is improtant to don't close the current view
                             if (typeof arg == 'undefined') {
                                 saltos.driver.close();
+                            }
+                            return;
+                        }
+                        if (response.array.status == 'ko') {
+                            if (response.array.hasOwnProperty('text')) {
+                                saltos.app.toast('Response', response.array.text, {color: 'danger'});
                             }
                             return;
                         }
