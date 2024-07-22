@@ -57,7 +57,7 @@
         </javascript>
     </list>
 
-    <list id="table" checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
+    <list id="table" dropdown="false" type="table" limit="25" order="id DESC">
         <header>
             <login label="Username"/>
             <name label="Name"/>
@@ -108,20 +108,34 @@
 
         <multiselect id="days" label="Days" size="7" required="true" col_class="col-md-6 mb-3">
             <rows>
-                <row label="Monday" value="1"></row>
-                <row label="Tuesday" value="2"></row>
-                <row label="Wednesday" value="4"></row>
+                <row label="Monday" value="64"></row>
+                <row label="Tuesday" value="32"></row>
+                <row label="Wednesday" value="16"></row>
                 <row label="Thursday" value="8"></row>
-                <row label="Friday" value="16"></row>
-                <row label="Saturday" value="32"></row>
-                <row label="Sunday" value="64"></row>
+                <row label="Friday" value="4"></row>
+                <row label="Saturday" value="2"></row>
+                <row label="Sunday" value="1"></row>
             </rows>
         </multiselect>
         <multiselect id="groups_id" label="Groups" size="7" col_class="col-md-6 mb-3">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value FROM tbl_groups ORDER BY code ASC")</rows>
         </multiselect>
+        <table id="passwords" label="Passwords history" col_class="col-12 mb-3" ifeval="get_data('rest/2')=='view'">
+            <header>
+                <created_at label="Created at"/>
+                <expires_at label="Expires at"/>
+                <active label="Active" type="icon"/>
+            </header>
+            <data eval="true">execute_query_array("
+                SELECT created_at, expires_at,
+                CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
+                FROM tbl_users_passwords
+                WHERE user_id = ".intval(get_data("rest/3"))."
+                ORDER BY id DESC
+            ")</data>
+        </table>
     </form>
-    <data eval="true">execute_query("SELECT *,'' days FROM tbl_users WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+    <data require="apps/users/php/users.php" eval="true">fix4days(execute_query("SELECT * FROM tbl_users WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))))</data>
 
     <create>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
@@ -144,7 +158,7 @@
 
     <create id="insert">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <array require="apps/users/php/actions.php" eval="true">insert_user(get_data("json/data"))</array>
+        <array require="apps/users/php/users.php" eval="true">insert_user(get_data("json/data"))</array>
     </create>
 
     <view>
@@ -192,11 +206,11 @@
 
     <edit id="update">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <array require="apps/users/php/actions.php" eval="true">update_user(intval(get_data("rest/4")), get_data("json/data"))</array>
+        <array require="apps/users/php/users.php" eval="true">update_user(intval(get_data("rest/4")), get_data("json/data"))</array>
     </edit>
 
     <delete>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <array require="apps/users/php/actions.php" eval="true">delete_user(intval(get_data("rest/3")))</array>
+        <array require="apps/users/php/users.php" eval="true">delete_user(intval(get_data("rest/3")))</array>
     </delete>
 </root>

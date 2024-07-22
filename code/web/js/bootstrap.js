@@ -660,6 +660,7 @@ saltos.bootstrap.__field.ckeditor = field => {
             language: lang,
         }).then(editor => {
             element.ckeditor = editor;
+            // Program the set feature
             element.set = value => {
                 editor.setData(value);
             };
@@ -760,9 +761,11 @@ saltos.bootstrap.__field.codemirror = field => {
             lineWrapping: true,
         });
         element.codemirror = cm;
+        // Program the set feature
         element.set = value => {
             cm.setValue(value);
         };
+        // Program the disabled feature
         element.set_disabled = bool => {
             if (bool) {
                 cm.setOption('readOnly', 'nocursor');
@@ -1041,6 +1044,23 @@ saltos.bootstrap.__field.multiselect = field => {
             _this.setAttribute('for', field.id + '_abc');
         });
     });
+    // Program the set feature
+    obj.querySelector('input[type=hidden]').set = value => {
+        var values = value.split(field.separator);
+        for (var key in values) {
+            values[key] = values[key].trim();
+        }
+        document.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
+            if (values.includes(option.value)) {
+                document.getElementById(field.id + '_xyz').append(option);
+            }
+        });
+        document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+            if (!values.includes(option.value)) {
+                document.getElementById(field.id + '_abc').append(option);
+            }
+        });
+    };
     // Program the disabled feature
     obj.querySelector('input[type=hidden]').set_disabled = bool => {
         var temp = document.getElementById(field.id).parentElement.parentElement;
@@ -1964,6 +1984,7 @@ saltos.bootstrap.__field.table = field => {
             });
         }
         for (var key in field.header) {
+            field.header[key] = saltos.core.join_attr_value(field.header[key]);
             var val = field.header[key];
             if (typeof val == 'object' && val !== null) {
                 var th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val.label}</th>`);
@@ -2197,6 +2218,7 @@ saltos.bootstrap.__field.table = field => {
                 iterator = field.footer;
             }
             for (var key in iterator) {
+                field.footer[key] = saltos.core.join_attr_value(field.footer[key]);
                 var val = field.footer[key];
                 if (typeof val == 'object' && val !== null) {
                     var td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val.value}</td>`);

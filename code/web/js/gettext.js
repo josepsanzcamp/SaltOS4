@@ -192,6 +192,22 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
     }
+    // Only for table widgets
+    if (field.hasOwnProperty('type') && ['select', 'multiselect'].includes(field.type)) {
+        if (field.hasOwnProperty('rows')) {
+            for (var key in field.rows) {
+                var val = field.rows[key];
+                if (val.hasOwnProperty('#attr')) {
+                    if (val['#attr'].hasOwnProperty('label')) {
+                        field.rows[key]['#attr'].label = T(val['#attr'].label);
+                    }
+                } else if (val.hasOwnProperty('label')) {
+                    field.rows[key].label = T(val.label);
+                }
+            }
+        }
+        //~ console.log(field);
+    }
     return saltos.bootstrap.field(field);
 };
 
@@ -248,4 +264,19 @@ saltos.gettext.bootstrap.menu = args => {
         }
     }
     return saltos.bootstrap.menu(args);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.gettext.bootstrap.offcanvas = args => {
+    var props = ['title', 'close', 'body'];
+    for (var i in props) {
+        if (args.hasOwnProperty(props[i])) {
+            args[props[i]] = T(args[props[i]]);
+        }
+    }
+    return saltos.bootstrap.offcanvas(args);
 };

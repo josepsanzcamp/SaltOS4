@@ -28,16 +28,16 @@
 declare(strict_types=1);
 
 /**
- * TODO
+ * Users functions
  *
- * TODO
+ * This file contain all functions needed by the users app
  */
 
 /**
- * Insert action
+ * Insert user action
  *
  * This action allow to insert registers in the database associated to
- * each app
+ * the users app and only requires the data.
  *
  * TODO
  */
@@ -84,11 +84,8 @@ function insert_user($data)
         ];
     }
 
-    $days = $data["days"] ?? "";
-    $days = array_diff(explode(",", $days), [""]);
-    $days = decbin(array_sum($days));
-    $days = str_pad($days, 7, "0", STR_PAD_LEFT);
-    $data["days"] = $days;
+    // Fix for days
+    $data["days"] = days2bin($data["days"] ?? "");
 
     // Real insert using general insert action
     unset($data["newpass"]);
@@ -116,14 +113,17 @@ function insert_user($data)
     ]);
     db_query($query);
 
-    return $array;
+    return [
+        "status" => "ok",
+        "created_id" => $user_id,
+    ];
 }
 
 /**
- * Update action
+ * Update user action
  *
  * This action allow to update registers in the database associated to
- * each app and requires the app, id, data and a valid token.
+ * the users app and requires the user_id and data.
  *
  * TODO
  */
@@ -177,19 +177,20 @@ function update_user($user_id, $data)
         }
     }
 
-    $days = $data["days"] ?? "";
-    $days = array_diff(explode(",", $days), [""]);
-    $days = decbin(array_sum($days));
-    $days = str_pad($days, 7, "0", STR_PAD_LEFT);
-    $data["days"] = $days;
+    if (isset($data["days"])) {
+        // Fix for days
+        $data["days"] = days2bin($data["days"]);
+    }
 
     // Real update using general update action
     unset($data["newpass"]);
     unset($data["renewpass"]);
-    require_once "php/lib/actions.php";
-    $array = update("users", $user_id, $data);
-    if ($array["status"] == "ko") {
-        return $array;
+    if (count($data)) {
+        require_once "php/lib/actions.php";
+        $array = update("users", $user_id, $data);
+        if ($array["status"] == "ko") {
+            return $array;
+        }
     }
 
     if ($newpass || $renewpass) {
@@ -218,14 +219,17 @@ function update_user($user_id, $data)
         db_query($query);
     }
 
-    return $array;
+    return [
+        "status" => "ok",
+        "updated_id" => $user_id,
+    ];
 }
 
 /**
- * Delete action
+ * Delete user action
  *
  * This action allow to delete registers in the database associated to
- * each app
+ * the users app and only requires the user_id.
  *
  * TODO
  */
@@ -242,5 +246,64 @@ function delete_user($user_id)
     $query = "DELETE FROM tbl_users_passwords WHERE user_id = $user_id";
     db_query($query);
 
-    return $array;
+    return [
+        "status" => "ok",
+        "deleted_id" => $user_id,
+    ];
+}
+
+/**
+ * Days to bin
+ *
+ * This function tries to convert the days format used by the multiselect
+ * to the string expected by the database formed by ones and zeroes to
+ * represent if a day is operative for the user or not, for example, the
+ * selection 64,32,16,8,4 is returned like from monday to friday (1111100)
+ *
+ * @days => the string containing the days in power of two separated by comma
+ */
+function days2bin($days)
+{
+    $days = array_diff(explode(",", $days), [""]);
+    $days = decbin(array_sum($days));
+    $days = str_pad($days, 7, "0", STR_PAD_LEFT);
+    return $days;
+}
+
+/**
+ * Bin to days
+ *
+ * This function tries to do the reverse action that the previous function,
+ * is able to get an string like 1111100 and returns the list of all bits in
+ * decimal like 64,32,16,8,4.
+ *
+ * @days => the string containing the days in binary format
+ */
+function bin2days($days)
+{
+    $days = str_split($days);
+    $days = array_reverse($days);
+    foreach ($days as $key => $val) {
+        $days[$key] = 2 ** $key * $val;
+    }
+    $days = array_diff($days, [0]);
+    $days = implode(",", $days);
+    return $days;
+}
+
+/**
+ * Fix for days
+ *
+ * This function is intended to be used as wrapper in the result of the query
+ * that contains an element called days, in the database the days is stored
+ * using the binary notation like 1111100, and for the user interface, is needed
+ * to translate this string into a decimal string like 64,32,16,8,4.
+ *
+ * @data => the data obtained from an execute_query, for example, they must contain
+ *          an entry called days.
+ */
+function fix4days($data)
+{
+    $data["days"] = bin2days($data["days"]);
+    return $data;
 }

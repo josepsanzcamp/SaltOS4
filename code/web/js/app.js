@@ -1302,10 +1302,10 @@ saltos.app.profile = () => {
         saltos.bootstrap.offcanvas('close');
         return;
     }
-    saltos.bootstrap.offcanvas({
+    saltos.gettext.bootstrap.offcanvas({
         pos: 'right',
         title: '',
-        close: T('Close'),
+        close: 'Close',
         backdrop: true,
         resize: true,
     });

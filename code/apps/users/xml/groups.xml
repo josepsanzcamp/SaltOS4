@@ -57,7 +57,7 @@
         </javascript>
     </list>
 
-    <list id="table" checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
+    <list id="table" dropdown="false" type="table" limit="25" order="id DESC">
         <header>
             <code label="Code"/>
             <name label="Name"/>
