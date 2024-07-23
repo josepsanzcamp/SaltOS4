@@ -72,8 +72,7 @@
             AND ".make_fulltext_query(get_data("json/search"), "users", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("users", "list")."
             ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</data>
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <actions>
             <action app="users" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
             <action app="users" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
@@ -84,8 +83,7 @@
             FROM tbl_users
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "users", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("users", "list")."
-        ")</footer>
+            AND ".check_sql("users", "list"))</footer>
     </list>
 
     <!-- Form part -->
@@ -131,9 +129,24 @@
                 CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
                 FROM tbl_users_passwords
                 WHERE user_id = ".intval(get_data("rest/3"))."
-                ORDER BY id DESC
-            ")</data>
+                ORDER BY id DESC")</data>
         </table>
+        <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" ifeval="get_data('rest/2')!='view'" rowHeaderWidth="200" colWidths="100">
+            <numcols eval="true">execute_query("SELECT COUNT(*) FROM tbl_perms WHERE active=1 ORDER BY id ASC")</numcols>
+            <numrows eval="true">execute_query("SELECT COUNT(*) FROM tbl_apps WHERE active=1 ORDER BY id ASC")</numrows>
+            <colHeaders eval="true">execute_query("SELECT CONCAT_WS('/',code,NULLIF(owner,'')) FROM tbl_perms WHERE active=1 ORDER BY id ASC")</colHeaders>
+            <rowHeaders eval="true">execute_query("SELECT code FROM tbl_apps WHERE active=1 ORDER BY id ASC")</rowHeaders>
+            <data require="apps/users/php/users.php" eval="true">make_matrix_data(
+                execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
+                execute_query("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
+                execute_query("SELECT * FROM tbl_apps_perms"),
+                execute_query("SELECT * FROM tbl_users_apps_perms WHERE user_id = ".intval(get_data("rest/3"))))</data>
+            <cell require="apps/users/php/users.php" eval="true">make_matrix_cell(
+                execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
+                execute_query("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
+                execute_query("SELECT * FROM tbl_apps_perms"),
+                execute_query("SELECT * FROM tbl_users_apps_perms WHERE user_id = ".intval(get_data("rest/3"))))</cell>
+        </excel>
     </form>
     <data require="apps/users/php/users.php" eval="true">fix4days(execute_query("SELECT * FROM tbl_users WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))))</data>
 

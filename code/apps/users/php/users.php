@@ -266,3 +266,127 @@ function fix4days($data)
     $data["days"] = bin2days($data["days"]);
     return $data;
 }
+
+/**
+ * Make matrix
+ *
+ * TODO
+ */
+function make_matrix_data($perms, $apps, $main, $user)
+{
+    $perms = array_flip($perms);
+    $apps = array_flip($apps);
+
+    $matrix = [];
+    foreach ($apps as $app_id => $app_pos) {
+        foreach ($perms as $perm_id => $perm_pos) {
+            $matrix[$app_pos][$perm_pos] = "";
+        }
+    }
+    //~ print_r($matrix);
+    //~ die();
+
+    $main = array_protected($main);
+    foreach ($main as $cell) {
+        if ($cell["deny"]) {
+            $value = "Deny";
+        } elseif ($cell["allow"]) {
+            $value = "Allow";
+        } else {
+            $value = "";
+        }
+        $app_pos = $apps[$cell["app_id"]];
+        $perm_pos = $perms[$cell["perm_id"]];
+        $matrix[$app_pos][$perm_pos] = $value;
+        //~ print_r($cell);
+        //~ die();
+    }
+
+    $user = array_protected($user);
+    foreach ($user as $cell) {
+        if ($cell["deny"]) {
+            $value = "Deny";
+        } elseif ($cell["allow"]) {
+            $value = "Allow";
+        } else {
+            $value = "";
+        }
+        $app_pos = $apps[$cell["app_id"]];
+        $perm_pos = $perms[$cell["perm_id"]];
+        $matrix[$app_pos][$perm_pos] = $value;
+        //~ print_r($cell);
+        //~ die();
+    }
+
+    //~ print_r($matrix);
+    //~ die();
+    return $matrix;
+}
+
+/**
+ * Make matrix
+ *
+ * TODO
+ */
+function make_matrix_cell($perms, $apps, $main, $user)
+{
+    $perms = array_flip($perms);
+    $apps = array_flip($apps);
+
+    $matrix = [];
+    foreach ($apps as $app_id => $app_pos) {
+        foreach ($perms as $perm_id => $perm_pos) {
+            $matrix[] = [
+                "col" => $perm_pos,
+                "row" => $app_pos,
+                "readOnly" => true,
+            ];
+        }
+    }
+    //~ print_r($matrix);
+    //~ die();
+
+    $main = array_protected($main);
+    foreach ($main as $cell) {
+        $perm_pos = $perms[$cell["perm_id"]];
+        $app_pos = $apps[$cell["app_id"]];
+        if ($cell["deny"]) {
+            $matrix[] = [
+                "col" => $perm_pos,
+                "row" => $app_pos,
+                "type" => "dropdown",
+                "source" => ["Allow", "Deny"],
+                "readOnly" => true,
+            ];
+        } else {
+            $matrix[] = [
+                "col" => $perm_pos,
+                "row" => $app_pos,
+                "type" => "dropdown",
+                "source" => ["Allow", "Deny"],
+                "readOnly" => false,
+            ];
+        }
+        //~ print_r($cell);
+        //~ die();
+    }
+
+    $user = array_protected($user);
+    foreach ($user as $cell) {
+        $perm_pos = $perms[$cell["perm_id"]];
+        $app_pos = $apps[$cell["app_id"]];
+        $matrix[] = [
+            "col" => $perm_pos,
+            "row" => $app_pos,
+            "type" => "dropdown",
+            "source" => ["Allow", "Deny"],
+            "readOnly" => false,
+        ];
+        //~ print_r($cell);
+        //~ die();
+    }
+
+    //~ print_r($matrix);
+    //~ die();
+    return $matrix;
+}

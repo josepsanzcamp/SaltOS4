@@ -1700,7 +1700,7 @@ saltos.bootstrap.__field.excel = field => {
     saltos.core.check_params(field, ['id', 'class', 'data', 'required',
                                      'rowHeaders', 'colHeaders', 'minSpareRows',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths',
-                                     'numcols', 'numrows', 'color']);
+                                     'numcols', 'numrows', 'color', 'cell', 'cells']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -1737,13 +1737,17 @@ saltos.bootstrap.__field.excel = field => {
         field.minSpareRows = 0;
     }
     if (field.contextMenu == '') {
-        field.contextMenu = true;
+        field.contextMenu = false;
     }
     if (field.rowHeaderWidth == '') {
         field.rowHeaderWidth = undefined;
+    } else {
+        field.rowHeaderWidth = parseInt(field.rowHeaderWidth);
     }
     if (field.colWidths == '') {
         field.colWidths = undefined;
+    } else {
+        field.colWidths = parseInt(field.colWidths);
     }
     var element = obj.querySelector('div');
     saltos.core.when_visible(element, () => {
@@ -1755,11 +1759,34 @@ saltos.bootstrap.__field.excel = field => {
             contextMenu: field.contextMenu,
             rowHeaderWidth: field.rowHeaderWidth,
             colWidths: field.colWidths,
-            afterChange: (changes, source) => {
-                element.data = field.data;
-            }
+            autoWrapCol: false,
+            autoWrapRow: false,
+            cell: field.cell,
+            cells: field.cells,
+            // I maintain the follow commented lines as an example of usage
+            /*enterMoves: {row: 0, col: 1},*/
+            /*cell: [{
+                col: 1,
+                row: 0,
+                type: 'dropdown',
+                source: ['Allow', 'Deny'],
+                readOnly: true,
+            }],*/
+            /*cells: (row, col, prop) => {
+                if (row === 0 && col === 0) {
+                    console.log([row,col,prop]);
+                    return {
+                        readOnly: true,
+                        editor: 'select',
+                        selectOptions: ['Allow', 'Deny'],
+                        type: 'dropdown',
+                        source: ['Allow', 'Deny'],
+                    };
+                }
+            },*/
         });
         element.excel = excel;
+        element.data = field.data; // This links the data
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -2850,8 +2877,8 @@ saltos.bootstrap.__field.list = field => {
                 checkbox.parentElement.style.top = button.offsetTop + 'px';
                 var width = checkbox.parentElement.offsetWidth;
                 button.style.paddingLeft = width + 'px';
-                checkbox.parentElement.classList.add('z-1');
-                button.classList.add('z-0');
+                checkbox.parentElement.style.zIndex = 201;
+                button.style.zIndex = 200;
                 checkbox.addEventListener('change', event => {
                     var button = event.target.id.replace('checkbox', 'button');
                     if (event.target.checked) {
