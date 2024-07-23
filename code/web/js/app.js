@@ -980,7 +980,7 @@ saltos.app.get_data = full => {
                         break;
                     case 'file':
                         val = obj.data;
-                        old = [];
+                        old = field.data;
                         break;
                 }
                 switch (field.type) {
@@ -1009,6 +1009,10 @@ saltos.app.get_data = full => {
                             val = val.split(field.separator).sort().join(field.separator);
                             old = old.split(field.separator).sort().join(field.separator);
                         }
+                        break;
+                    case 'excel':
+                        val = obj.data;
+                        old = field.data;
                         break;
                 }
                 if (typeof val == 'object' && typeof old == 'object') {

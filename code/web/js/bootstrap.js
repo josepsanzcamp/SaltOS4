@@ -1697,7 +1697,7 @@ saltos.bootstrap.__field.image = field => {
 saltos.bootstrap.__field.excel = field => {
     saltos.core.require('lib/handsontable/handsontable.full.min.css');
     saltos.core.require('lib/handsontable/handsontable.full.min.js');
-    saltos.core.check_params(field, ['id', 'class', 'data', 'required',
+    saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required',
                                      'rowHeaders', 'colHeaders', 'minSpareRows',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths',
                                      'numcols', 'numrows', 'color', 'cell', 'cells']);
@@ -1713,9 +1713,12 @@ saltos.bootstrap.__field.excel = field => {
     }
     var obj = saltos.core.html(`
         <div style="width: 100%; height: 100%; overflow: auto" class="${border}">
-            <div id="${field.id}" class="${field.class}" ${field.required}></div>
+            <div></div>
         </div>
     `);
+    var input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
+    input.data = saltos.core.copy_object(field.data);
+    obj.prepend(input);
     field.numcols = parseInt(field.numcols);
     field.numrows = parseInt(field.numrows);
     if (!field.numcols) {
@@ -1752,7 +1755,7 @@ saltos.bootstrap.__field.excel = field => {
     var element = obj.querySelector('div');
     saltos.core.when_visible(element, () => {
         var excel = new Handsontable(element, {
-            data: field.data,
+            data: input.data, // This links the data
             rowHeaders: field.rowHeaders,
             colHeaders: field.colHeaders,
             minSpareRows: field.minSpareRows,
@@ -1785,8 +1788,7 @@ saltos.bootstrap.__field.excel = field => {
                 }
             },*/
         });
-        element.excel = excel;
-        element.data = field.data; // This links the data
+        input.excel = excel;
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
