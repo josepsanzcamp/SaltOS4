@@ -433,7 +433,7 @@ saltos.driver.placeholder = arg => {
     var obj = saltos.core.html(`
         <div class="bg-primary-subtle h-100 driver-placeholder"></div>
     `);
-    var dark = document.querySelector('html').getAttribute('data-bs-theme');
+    var dark = document.documentElement.getAttribute('data-bs-theme');
     if (!dark) {
         var img = 'img/logo_white.svg';
     } else {

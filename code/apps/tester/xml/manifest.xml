@@ -36,6 +36,7 @@
             <perms allow="1">
                 <perm>1,menu</perm>
                 <perm>4,action</perm>
+                <perm>6,help</perm>
             </perms>
         </app>
     </apps>

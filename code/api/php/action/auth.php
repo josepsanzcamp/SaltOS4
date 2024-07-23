@@ -28,13 +28,11 @@
 declare(strict_types=1);
 
 /**
- * Deauthentication token action
+ * Authentication helper module
  *
- * This file implements the logout action, allowing to deauthenticate users
- * using a valid token, for security reasons, the deauth action only can
- * be performed by the same actor that execute the login action
- *
- * The unique requirement to execute this action is to have a valid token
+ * This file contains all needed code to do authentications with all features suck as the
+ * main authentication using a user and password pair, the checktoken and the deauthtoken
+ * to control it.
  */
 
 if (!semaphore_acquire("token")) {
@@ -44,24 +42,36 @@ if (!semaphore_acquire("token")) {
 db_connect();
 crontab_users();
 
-$token_id = current_token();
-if (!$token_id) {
-    semaphore_release("token");
-    output_handler_json([
-        "status" => "ko",
-        "text" => "Permission denied",
-        "code" => __get_code_from_trace(),
-    ]);
+require_once "php/lib/auth.php";
+$action = get_data("rest/1");
+switch ($action) {
+    case "login":
+        // Check parameters
+        foreach (["user", "pass"] as $key) {
+            if (get_data("json/$key") == "") {
+                semaphore_release("token");
+                show_json_error("$key not found or void");
+            }
+        }
+        $array = authtoken(get_data("json/user"), get_data("json/pass"));
+        break;
+    case "logout":
+        $array = deauthtoken();
+        break;
+    case "check":
+        $array = checktoken();
+        break;
+    case "update":
+        // Check parameters
+        foreach (["oldpass", "newpass", "renewpass"] as $key) {
+            if (get_data("json/$key") == "") {
+                semaphore_release("token");
+                show_json_error("$key not found or void");
+            }
+        }
+        $array = authupdate(get_data("json/oldpass"), get_data("json/newpass"), get_data("json/renewpass"));
+        break;
 }
 
-$query = make_update_query("tbl_users_tokens", [
-    "active" => 0,
-], make_where_query([
-    "id" => $token_id,
-]));
-db_query($query);
-
 semaphore_release("token");
-output_handler_json([
-    "status" => "ok",
-]);
+output_handler_json($array);

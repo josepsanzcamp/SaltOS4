@@ -45,6 +45,7 @@
     <no>No</no>
     <profile>Perfil</profile>
     <logout>Sortir</logout>
+    <help>Ajut</help>
     <filename>Nom fitxer</filename>
     <size>Mida</size>
     <dashboard>Panell</dashboard>
@@ -62,4 +63,6 @@
     <no_changes_detected>No s'han detectat canvis</no_changes_detected>
     <description>Descripció</description>
     <active>Actiu</active>
+    <delete>Esborrar</delete>
+    <code>Codi</code>
 </root>

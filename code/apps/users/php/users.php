@@ -43,6 +43,9 @@ declare(strict_types=1);
  */
 function insert_user($data)
 {
+    require_once "php/lib/actions.php";
+    require_once "php/lib/auth.php";
+
     if (!is_array($data) || !count($data)) {
         return [
             "status" => "ko",
@@ -73,10 +76,7 @@ function insert_user($data)
         ];
     }
 
-    // Score check
-    $minscore = intval(get_config("auth/passwordminscore"));
-    require_once "php/lib/password.php";
-    if (password_strength($newpass) < $minscore) {
+    if (!score_check($newpass)) {
         return [
             "status" => "ko",
             "text" => "New password strength error",
@@ -90,28 +90,14 @@ function insert_user($data)
     // Real insert using general insert action
     unset($data["newpass"]);
     unset($data["renewpass"]);
-    require_once "php/lib/actions.php";
     $array = insert("users", $data);
     if ($array["status"] == "ko") {
         return $array;
     }
+    $user_id = $array["created_id"];
 
     // Continue creating the password entry
-    $user_id = $array["created_id"];
-    $newpass = password_hash($newpass, PASSWORD_DEFAULT);
-    $created_at = current_datetime();
-    $expires_at = current_datetime(get_config("auth/passwordexpires"));
-
-    $query = make_insert_query("tbl_users_passwords", [
-        "active" => 1,
-        "user_id" => $user_id,
-        "created_at" => $created_at,
-        "remote_addr" => get_data("server/remote_addr"),
-        "user_agent" => get_data("server/user_agent"),
-        "password" => $newpass,
-        "expires_at" => $expires_at,
-    ]);
-    db_query($query);
+    newpass_insert($user_id, $newpass);
 
     return [
         "status" => "ok",
@@ -129,6 +115,9 @@ function insert_user($data)
  */
 function update_user($user_id, $data)
 {
+    require_once "php/lib/actions.php";
+    require_once "php/lib/auth.php";
+
     if (!is_array($data) || !count($data)) {
         return [
             "status" => "ko",
@@ -150,10 +139,7 @@ function update_user($user_id, $data)
             ];
         }
 
-        // Score check
-        $minscore = intval(get_config("auth/passwordminscore"));
-        require_once "php/lib/password.php";
-        if (password_strength($newpass) < $minscore) {
+        if (!score_check($newpass)) {
             return [
                 "status" => "ko",
                 "text" => "New password strength error",
@@ -161,19 +147,12 @@ function update_user($user_id, $data)
             ];
         }
 
-        // Old passwords check
-        $query = "SELECT password FROM tbl_users_passwords WHERE " . make_where_query([
-            "user_id" => $user_id,
-        ]);
-        $oldspass = execute_query_array($query);
-        foreach ($oldspass as $oldpass) {
-            if (password_verify($newpass, $oldpass)) {
-                return [
-                    "status" => "ko",
-                    "text" => "New password used previously",
-                    "code" => __get_code_from_trace(),
-                ];
-            }
+        if (!newpass_check($user_id, $newpass)) {
+            return [
+                "status" => "ko",
+                "text" => "New password used previously",
+                "code" => __get_code_from_trace(),
+            ];
         }
     }
 
@@ -186,37 +165,16 @@ function update_user($user_id, $data)
     unset($data["newpass"]);
     unset($data["renewpass"]);
     if (count($data)) {
-        require_once "php/lib/actions.php";
         $array = update("users", $user_id, $data);
         if ($array["status"] == "ko") {
             return $array;
         }
     }
 
+    // Continue creating the password entry
     if ($newpass || $renewpass) {
-        // Continue
-        $query = make_update_query("tbl_users_passwords", [
-            "active" => 0,
-        ], make_where_query([
-            "user_id" => $user_id,
-        ]));
-        db_query($query);
-
-        // Continue creating the password entry
-        $newpass = password_hash($newpass, PASSWORD_DEFAULT);
-        $created_at = current_datetime();
-        $expires_at = current_datetime(get_config("auth/passwordexpires"));
-
-        $query = make_insert_query("tbl_users_passwords", [
-            "active" => 1,
-            "user_id" => $user_id,
-            "created_at" => $created_at,
-            "remote_addr" => get_data("server/remote_addr"),
-            "user_agent" => get_data("server/user_agent"),
-            "password" => $newpass,
-            "expires_at" => $expires_at,
-        ]);
-        db_query($query);
+        oldpass_disable($user_id);
+        newpass_insert($user_id, $newpass);
     }
 
     return [
@@ -235,8 +193,9 @@ function update_user($user_id, $data)
  */
 function delete_user($user_id)
 {
-    // Real delete using general delete action
     require_once "php/lib/actions.php";
+
+    // Real delete using general delete action
     $array = delete("users", $user_id);
     if ($array["status"] == "ko") {
         return $array;

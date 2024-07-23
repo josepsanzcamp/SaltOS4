@@ -49,7 +49,6 @@
     <sensitivity>Sensibilitat</sensitivity>
     <send_receive>Enviar/Rebre</send_receive>
     <to_send_and_receive_emails>Per rebre i enviar correu electrònic</to_send_and_receive_emails>
-    <delete>Esborrar</delete>
     <to_delete_the_selected_emails>Per esborrar els emails seleccionats</to_delete_the_selected_emails>
     <send>Enviar</send>
     <normal>Normal</normal>

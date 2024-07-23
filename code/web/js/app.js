@@ -1004,6 +1004,12 @@ saltos.app.get_data = full => {
                             old = 0;
                         }
                         break;
+                    case 'multiselect':
+                        if (field.hasOwnProperty('separator')) {
+                            val = val.split(field.separator).sort().join(field.separator);
+                            old = old.split(field.separator).sort().join(field.separator);
+                        }
+                        break;
                 }
                 if (typeof val == 'object' && typeof old == 'object') {
                     if (JSON.stringify(val) != JSON.stringify(old) || full) {
@@ -1311,6 +1317,28 @@ saltos.app.profile = () => {
     });
     document.querySelector('.offcanvas-body').setAttribute('id', 'right');
     saltos.app.send_request('app/dashboard/config');
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.help = () => {
+    if (saltos.bootstrap.offcanvas('isopen')) {
+        saltos.bootstrap.offcanvas('close');
+        return;
+    }
+    saltos.gettext.bootstrap.offcanvas({
+        pos: 'right',
+        title: '',
+        close: 'Close',
+        backdrop: true,
+        resize: true,
+    });
+    document.querySelector('.offcanvas-body').setAttribute('id', 'right');
+    var app = saltos.hash.get().split('/').at(1);
+    saltos.app.send_request(`app/${app}/help`);
 };
 
 /**

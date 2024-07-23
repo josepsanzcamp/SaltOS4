@@ -40,23 +40,24 @@ and the main permissions for the user
 
         <!-- Valid values for owner are 'user', 'group' and 'all' -->
         <table name="tbl_perms">
-            <row id="1" active="1" code="menu" name="Mostrar entrada en el menu"/>
-            <row id="2" active="1" code="create" name="Crear registros"/>
-            <row id="3" active="1" code="widget" name="Mostrar widget"/>
-            <row id="4" active="1" code="action" name="Ejecutar action"/>
-            <row id="5" active="1" code="config" name="Configurar app"/>
-            <row id="11" active="1" code="list" owner="user" name="Listar sólo registros del usuario"/>
-            <row id="12" active="1" code="list" owner="group" name="Listar registros del usuario y grupo"/>
-            <row id="13" active="1" code="list" owner="all" name="Listar todos los registros"/>
-            <row id="21" active="1" code="view" owner="user" name="Ver detalle sólo de los registros del usuario"/>
-            <row id="22" active="1" code="view" owner="group" name="Ver detalle de los registros del usuario y grupo"/>
-            <row id="23" active="1" code="view" owner="all" name="Ver detalle de todos los registros"/>
-            <row id="31" active="1" code="edit" owner="user" name="Modificar sólo los registros del usuario"/>
-            <row id="32" active="1" code="edit" owner="group" name="Modificar los registros del usuario y grupo"/>
-            <row id="33" active="1" code="edit" owner="all" name="Modificar todos los registros"/>
-            <row id="41" active="1" code="delete" owner="user" name="Eliminar sólo los registros del usuario"/>
-            <row id="42" active="1" code="delete" owner="group" name="Eliminar los registros del usuario y grupo"/>
-            <row id="43" active="1" code="delete" owner="all" name="Eliminar todos los registros"/>
+            <row id="1" active="1" code="menu" name="Show entry in menu"/>
+            <row id="2" active="1" code="create" name="Create records"/>
+            <row id="3" active="1" code="widget" name="Show widget"/>
+            <row id="4" active="1" code="action" name="Execute action"/>
+            <row id="5" active="1" code="config" name="Configure app"/>
+            <row id="6" active="1" code="help" name="Show help"/>
+            <row id="11" active="1" code="list" owner="user" name="List only user records"/>
+            <row id="12" active="1" code="list" owner="group" name="List user and group records"/>
+            <row id="13" active="1" code="list" owner="all" name="List all records"/>
+            <row id="21" active="1" code="view" owner="user" name="View details only of user records"/>
+            <row id="22" active="1" code="view" owner="group" name="View details of user and group records"/>
+            <row id="23" active="1" code="view" owner="all" name="View details of all records"/>
+            <row id="31" active="1" code="edit" owner="user" name="Modify only user records"/>
+            <row id="32" active="1" code="edit" owner="group" name="Modify user and group records"/>
+            <row id="33" active="1" code="edit" owner="all" name="Modify all records"/>
+            <row id="41" active="1" code="delete" owner="user" name="Delete only user records"/>
+            <row id="42" active="1" code="delete" owner="group" name="Delete user and group records"/>
+            <row id="43" active="1" code="delete" owner="all" name="Delete all records"/>
         </table>
 
         <!-- This part is for all purposes -->

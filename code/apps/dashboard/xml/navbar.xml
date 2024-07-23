@@ -50,6 +50,7 @@
                     <name eval="true">execute_query("SELECT name FROM tbl_users WHERE id=".current_user())</name>
                     <menu>
                         <item name="Profile" onclick="saltos.app.profile()"/>
+                        <item name="Help" onclick="saltos.app.help()"/>
                         <item name="Logout" onclick="saltos.authenticate.deauthtoken();saltos.hash.trigger();"/>
                     </menu>
                 </item>

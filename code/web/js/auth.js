@@ -54,7 +54,7 @@ saltos.authenticate = {};
 saltos.authenticate.authtoken = (user, pass) => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?authtoken',
+        url: 'api/?auth/login',
         data: JSON.stringify({
             'user': user,
             'pass': pass,
@@ -96,7 +96,7 @@ saltos.authenticate.authtoken = (user, pass) => {
 saltos.authenticate.checktoken = () => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?checktoken',
+        url: 'api/?auth/check',
         async: false,
         success: response => {
             saltos.app.form.screen('unloading');
@@ -134,7 +134,7 @@ saltos.authenticate.checktoken = () => {
 saltos.authenticate.deauthtoken = () => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?deauthtoken',
+        url: 'api/?auth/logout',
         async: false,
         success: response => {
             saltos.app.form.screen('unloading');
@@ -147,6 +147,46 @@ saltos.authenticate.deauthtoken = () => {
             }
             if (response.status == 'ko') {
                 saltos.token.unset();
+                return;
+            }
+            saltos.app.show_error(response);
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        token: saltos.token.get(),
+        lang: saltos.gettext.get(),
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: 'api/?auth/update',
+        data: JSON.stringify({
+            'oldpass': oldpass,
+            'newpass': newpass,
+            'renewpass': renewpass,
+        }),
+        method: 'post',
+        content_type: 'application/json',
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (response.status == 'ok') {
+                saltos.app.modal('Response', 'Password updated successfully');
+                saltos.hash.trigger();
                 return;
             }
             saltos.app.show_error(response);

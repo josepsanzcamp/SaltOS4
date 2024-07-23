@@ -968,21 +968,6 @@ saltos.bootstrap.__field.multiselect = field => {
             </div>
         </div>
     `);
-    var rows_abc = [];
-    var rows_xyz = [];
-    var values = field.value.split(field.separator);
-    for (var key in values) {
-        values[key] = values[key].trim();
-    }
-    for (var key in field.rows) {
-        var val = saltos.core.join_attr_value(field.rows[key]);
-        saltos.core.check_params(val, ['label', 'value']);
-        if (values.includes(val.value.toString())) {
-            rows_xyz.push(val);
-        } else {
-            rows_abc.push(val);
-        }
-    }
     obj.querySelector('.one').append(saltos.bootstrap.__field.hidden(saltos.core.copy_object(field)));
     obj.querySelector('.one').append(saltos.bootstrap.__field.select({
         color: field.color,
@@ -991,7 +976,7 @@ saltos.bootstrap.__field.multiselect = field => {
         tooltip: field.tooltip,
         multiple: true,
         size: field.size,
-        rows: rows_abc,
+        rows: field.rows,
     }));
     obj.querySelector('.two').append(saltos.bootstrap.__field.button({
         class: `bi-chevron-double-right mb-3`,
@@ -999,16 +984,16 @@ saltos.bootstrap.__field.multiselect = field => {
         disabled: field.disabled,
         //tooltip: field.tooltip,
         onclick: () => {
-            document.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
+            obj.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
                 if (option.selected) {
-                    document.getElementById(field.id + '_xyz').append(option);
+                    obj.querySelector('#' + field.id + '_xyz').append(option);
                 }
             });
             var val = [];
-            document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+            obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
                 val.push(option.value);
             });
-            document.getElementById(field.id).value = val.join(field.separator);
+            obj.querySelector('#' + field.id).value = val.join(field.separator);
         },
     }));
     obj.querySelector('.two').append(saltos.core.html('<br />'));
@@ -1018,16 +1003,16 @@ saltos.bootstrap.__field.multiselect = field => {
         disabled: field.disabled,
         //tooltip: field.tooltip,
         onclick: () => {
-            document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+            obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
                 if (option.selected) {
-                    document.getElementById(field.id + '_abc').append(option);
+                    obj.querySelector('#' + field.id + '_abc').append(option);
                 }
             });
             var val = [];
-            document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+            obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
                 val.push(option.value);
             });
-            document.getElementById(field.id).value = val.join(field.separator);
+            obj.querySelector('#' + field.id).value = val.join(field.separator);
         },
     }));
     obj.querySelector('.three').append(saltos.bootstrap.__field.select({
@@ -1037,7 +1022,6 @@ saltos.bootstrap.__field.multiselect = field => {
         tooltip: field.tooltip,
         multiple: true,
         size: field.size,
-        rows: rows_xyz,
     }));
     saltos.core.when_visible(obj, () => {
         document.querySelectorAll('label[for=' + field.id + ']').forEach(_this => {
@@ -1050,20 +1034,26 @@ saltos.bootstrap.__field.multiselect = field => {
         for (var key in values) {
             values[key] = values[key].trim();
         }
-        document.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
+        obj.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
             if (values.includes(option.value)) {
-                document.getElementById(field.id + '_xyz').append(option);
+                obj.querySelector('#' + field.id + '_xyz').append(option);
             }
         });
-        document.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+        obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
             if (!values.includes(option.value)) {
-                document.getElementById(field.id + '_abc').append(option);
+                obj.querySelector('#' + field.id + '_abc').append(option);
             }
         });
+        var val = [];
+        obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
+            val.push(option.value);
+        });
+        obj.querySelector('input[type=hidden]').value = val.join(field.separator);
     };
+    obj.querySelector('input[type=hidden]').set(field.value);
     // Program the disabled feature
     obj.querySelector('input[type=hidden]').set_disabled = bool => {
-        var temp = document.getElementById(field.id).parentElement.parentElement;
+        var temp = obj.querySelector('#' + field.id).parentElement.parentElement;
         temp.querySelectorAll('select,button').forEach(_this => {
             _this.set_disabled(bool);
         });
@@ -4009,7 +3999,7 @@ saltos.bootstrap.window_match_media = window.matchMedia('(prefers-color-scheme: 
  * This function sets the data_bs_theme attribute to enable or disable the dark bs theme
  */
 saltos.bootstrap.set_data_bs_theme = e => {
-    document.querySelector('html').setAttribute('data-bs-theme', e.matches ? 'dark' : '');
+    document.documentElement.setAttribute('data-bs-theme', e.matches ? 'dark' : '');
 };
 
 /**

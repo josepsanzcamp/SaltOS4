@@ -74,7 +74,7 @@ saltos.gettext.get_short = () => {
  */
 saltos.gettext.set = lang => {
     var short = lang.split('_').at(0);
-    document.querySelector('html').setAttribute('lang', short);
+    document.documentElement.setAttribute('lang', short);
     localStorage.setItem('saltos.gettext.lang', lang);
     localStorage.setItem('saltos.gettext.short', short);
 };

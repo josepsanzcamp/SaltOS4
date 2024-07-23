@@ -88,4 +88,29 @@
             <inline>saltos.dashboard.init("config")</inline>
         </javascript>
     </config>
+
+    <help>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <gettext eval="true">T([])</gettext>
+        <javascript>
+            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+        </javascript>
+        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="three,two,one">
+            <row auto="true" col_class="col-12 mb-3">
+                <pdfjs>
+                    <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
+                </pdfjs>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init("view")</inline>
+        </javascript>
+        <title append="modal" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
+    </help>
 </root>

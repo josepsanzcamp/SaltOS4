@@ -37,6 +37,7 @@
                 <perm>1,menu</perm>
                 <perm>4,action</perm>
                 <perm>5,config</perm>
+                <perm>6,help</perm>
             </perms>
         </app>
     </apps>

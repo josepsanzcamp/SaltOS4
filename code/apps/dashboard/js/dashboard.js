@@ -87,36 +87,5 @@ saltos.dashboard.authupdate = () => {
         return;
     }
     var data = saltos.app.get_data(true);
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: 'api/?authupdate',
-        data: JSON.stringify({
-            'oldpass': data.oldpass,
-            'newpass': data.newpass,
-            'renewpass': data.renewpass,
-        }),
-        method: 'post',
-        content_type: 'application/json',
-        success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-            if (response.status == 'ok') {
-                saltos.app.modal('Response', 'Password updated successfully');
-                saltos.hash.trigger();
-                return;
-            }
-            saltos.app.show_error(response);
-        },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
-    });
+    saltos.authenticate.authupdate(data.oldpass, data.newpass, data.renewpass);
 };

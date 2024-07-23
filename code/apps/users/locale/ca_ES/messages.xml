@@ -43,4 +43,33 @@
     <created_at>Creat al</created_at>
     <expires_at>Expira al</expires_at>
     <passwords_history>Historic de contrasenyes</passwords_history>
+    <new_password_differs>La nova contrasenya és diferent</new_password_differs>
+    <new_password_strength_error>La nova contrasenya és massa senzilla</new_password_strength_error>
+    <new_password>Nova clau</new_password>
+    <retype_password>Torni a entrar la nova clau</retype_password>
+    <group>Grup</group>
+    <start>Hora inici</start>
+    <end>Hora final</end>
+    <groups>Grups</groups>
+    <new_user>Nou usuari</new_user>
+    <to_create_a_new_user>Per crear un nou usuari</to_create_a_new_user>
+    <to_create_the_new_user>Per crear el nou usuari</to_create_the_new_user>
+    <to_cancel_the_new_user>Per cancel·lar el nou usuari</to_cancel_the_new_user>
+    <more_users>Més usuaris</more_users>
+    <to_see_more_users_in_the_list>Per carregar més usuaris al llistat</to_see_more_users_in_the_list>
+    <to_modify_this_user>Per modificar aquest usuari</to_modify_this_user>
+    <to_delete_this_user>Per esborrar aquest usuari</to_delete_this_user>
+    <to_save_the_user_changes>Per desar els canvis del usuari</to_save_the_user_changes>
+    <to_cancel_the_user_modification>Per cancel·lar la modificació del usuari</to_cancel_the_user_modification>
+    <users>Usuaris</users>
+    <new_group>Nou grup</new_group>
+    <to_create_a_new_group>Per crear un nou grup</to_create_a_new_group>
+    <to_create_the_new_group>Per crear el nou grup</to_create_the_new_group>
+    <to_cancel_the_new_group>Per cancel·lar el nou grup</to_cancel_the_new_group>
+    <more_groups>Més grups</more_groups>
+    <to_see_more_groups_in_the_list>Per carregar més grups al llistat</to_see_more_groups_in_the_list>
+    <to_modify_this_group>Per modificar aquest grup</to_modify_this_group>
+    <to_delete_this_group>Per esborrar aquest grup</to_delete_this_group>
+    <to_save_the_group_changes>Per desar els canvis del grup</to_save_the_group_changes>
+    <to_cancel_the_group_modification>Per cancel·lar la modificació del grup</to_cancel_the_group_modification>
 </root>
