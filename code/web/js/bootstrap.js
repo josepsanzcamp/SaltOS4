@@ -1704,9 +1704,6 @@ saltos.bootstrap.__field.excel = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    if (saltos.core.eval_bool(field.required)) {
-        field.required = 'required';
-    }
     var border = `border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
