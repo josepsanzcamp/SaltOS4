@@ -72,4 +72,7 @@
     <to_delete_this_group>Per esborrar aquest grup</to_delete_this_group>
     <to_save_the_group_changes>Per desar els canvis del grup</to_save_the_group_changes>
     <to_cancel_the_group_modification>Per cancel·lar la modificació del grup</to_cancel_the_group_modification>
+    <newpass_not_found_or_void>Ha d'entrar la nova clau</newpass_not_found_or_void>
+    <renewpass_not_found_or_void>Ha d'entrar la repetició de la nova clau</renewpass_not_found_or_void>
+    <applications_and_permissions>Aplicacions i permisos</applications_and_permissions>
 </root>

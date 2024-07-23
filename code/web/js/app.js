@@ -1286,7 +1286,7 @@ saltos.app.form_disabled = bool => {
                     obj.removeAttribute('disabled');
                     //~ obj.removeAttribute('readonly');
                 }
-                if (['ckeditor','codemirror'].includes(field.type)) {
+                if (['ckeditor','codemirror','excel'].includes(field.type)) {
                     if (obj.hasOwnProperty('set_disabled')) {
                         obj.set_disabled(bool);
                     } else {

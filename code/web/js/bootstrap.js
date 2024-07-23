@@ -683,11 +683,11 @@ saltos.bootstrap.__field.ckeditor = field => {
                 var toolbar = editor.ui.view.toolbar.element;
                 var editable = editor.ui.view.editable.element;
                 if (isReadOnly) {
-                    toolbar.style.background = 'var(--bs-secondary-bg)';
-                    editable.style.background = 'var(--bs-secondary-bg)';
+                    toolbar.classList.add('bg-body-secondary');
+                    editable.classList.add('bg-body-secondary');
                 } else {
-                    toolbar.style.background = '';
-                    editable.style.background = '';
+                    toolbar.classList.remove('bg-body-secondary');
+                    editable.classList.remove('bg-body-secondary');
                 }
             });
             if (saltos.core.eval_bool(field.disabled)) {
@@ -769,10 +769,10 @@ saltos.bootstrap.__field.codemirror = field => {
         element.set_disabled = bool => {
             if (bool) {
                 cm.setOption('readOnly', 'nocursor');
-                cm.display.lineDiv.style.background = 'var(--bs-secondary-bg)';
+                cm.display.lineDiv.classList.add('bg-body-secondary');
             } else {
                 cm.setOption('readOnly', '');
-                cm.display.lineDiv.style.background = '';
+                cm.display.lineDiv.classList.remove('bg-body-secondary');
             }
         };
         if (saltos.core.eval_bool(field.disabled)) {
@@ -1714,7 +1714,6 @@ saltos.bootstrap.__field.excel = field => {
         </div>
     `);
     var input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
-    input.data = saltos.core.copy_object(field.data);
     obj.prepend(input);
     field.numcols = parseInt(field.numcols);
     field.numrows = parseInt(field.numrows);
@@ -1749,6 +1748,7 @@ saltos.bootstrap.__field.excel = field => {
     } else {
         field.colWidths = parseInt(field.colWidths);
     }
+    input.data = saltos.core.copy_object(field.data);
     var element = obj.querySelector('div');
     saltos.core.when_visible(element, () => {
         var excel = new Handsontable(element, {
@@ -1786,6 +1786,28 @@ saltos.bootstrap.__field.excel = field => {
             },*/
         });
         input.excel = excel;
+        // Program the disabled feature
+        input.set_disabled = bool => {
+            if (bool) {
+                input.excel.updateSettings({
+                    cells: (row, col, prop) => {
+                        return {
+                            readOnly: true,
+                            readOnlyCellClassName: 'bg-body-secondary',
+                        };
+                    },
+                });
+            } else {
+                input.excel.updateSettings({
+                    cells: (row, col, prop) => {
+                        return {
+                            readOnly: false,
+                            readOnlyCellClassName: '',
+                        };
+                    },
+                });
+            }
+        };
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;

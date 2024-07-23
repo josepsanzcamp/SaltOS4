@@ -131,7 +131,7 @@
                 WHERE user_id = ".intval(get_data("rest/3"))."
                 ORDER BY id DESC")</data>
         </table>
-        <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" ifeval="get_data('rest/2')!='view'" rowHeaderWidth="200" colWidths="100" required="true">
+        <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="100" required="true">
             <numcols eval="true">execute_query("SELECT COUNT(*) FROM tbl_perms WHERE active=1 ORDER BY id ASC")</numcols>
             <numrows eval="true">execute_query("SELECT COUNT(*) FROM tbl_apps WHERE active=1 ORDER BY id ASC")</numrows>
             <colHeaders eval="true">execute_query("SELECT CONCAT_WS('/',code,NULLIF(owner,'')) FROM tbl_perms WHERE active=1 ORDER BY id ASC")</colHeaders>
