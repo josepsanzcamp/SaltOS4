@@ -54,11 +54,7 @@ saltos.emails.server = () => {
                 return;
             }
             for (var key in response) {
-                if (saltos.core.fix_key(key) == 'array') {
-                    for (var key2 in response[key]) {
-                        saltos.app.toast('Response', response[key][key2]);
-                    }
-                }
+                saltos.app.toast('Response', response[key]);
             }
             saltos.window.send('saltos.emails.update');
         },
@@ -212,14 +208,14 @@ saltos.emails.send = () => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            if (response.array.status == 'ok') {
-                saltos.app.toast('Response', response.array.text);
+            if (response.status == 'ok') {
+                saltos.app.toast('Response', response.text);
                 saltos.window.send('saltos.emails.update');
                 saltos.driver.close();
                 return;
             }
-            if (response.array.status == 'ko') {
-                saltos.app.toast('Response', response.array.text, {color: 'danger'});
+            if (response.status == 'ko') {
+                saltos.app.toast('Response', response.text, {color: 'danger'});
                 return;
             }
             saltos.app.show_error(response);

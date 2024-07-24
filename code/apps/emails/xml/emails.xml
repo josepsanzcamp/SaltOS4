@@ -30,7 +30,7 @@
 
     <!-- List part -->
     <list default="true">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Email's list</title>
         <javascript>
@@ -68,6 +68,7 @@
     </list>
 
     <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <data eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) header,
                 IF(DATE(datetime)=DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
@@ -109,7 +110,7 @@
 
     <!-- Form part -->
     <create>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>New email</title>
         <javascript>
@@ -174,6 +175,7 @@
     </create>
 
     <create id="accounts">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <data eval="true">execute_query_array("SELECT id,CONCAT(email_name,' &amp;lt;',email_from,'&amp;gt;') name
         FROM app_emails_accounts
         WHERE user_id=".intval(get_data("json/term"))."
@@ -185,6 +187,7 @@
     </create>
 
     <create id="emails">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <data eval="true">execute_query_array("SELECT
                 CASE name
                     WHEN '' THEN value
@@ -209,15 +212,17 @@
     </create>
 
     <create id="signature">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_signature(get_data("json"))</data>
     </create>
 
     <create id="sendmail">
-        <array require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("rest/4"), get_data("rest/5"))</array>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <output require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("rest/4"), get_data("rest/5"))</output>
     </create>
 
     <view>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Detail of the email</title>
         <javascript>
@@ -303,12 +308,12 @@
     </view>
 
     <view id="body">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")))</srcdoc>
     </view>
 
     <view id="files" checkbox="true" dropdown="false" type="table">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <header>
             <name>Filename</name>
             <size>Size</size>
@@ -321,11 +326,12 @@
     </view>
 
     <view id="setter">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <text require="apps/emails/php/getmail.php" eval="true">getmail_setter(get_data("rest/4"), get_data("json/what"))</text>
     </view>
 
     <view id="source">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
@@ -350,7 +356,7 @@
     </view>
 
     <view id="viewpdf">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
@@ -375,17 +381,18 @@
     </view>
 
     <view id="download">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <file require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data("rest/4")),get_data("rest/5"))</file>
     </view>
 
     <delete>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <text require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("rest/3"))</text>
     </delete>
 
     <!-- Actions part -->
     <action id="server">
-        <array require="apps/emails/php/getmail.php" eval="true">getmail_server()</array>
-        <array require="apps/emails/php/sendmail.php" eval="true">sendmail_server()</array>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <output require="apps/emails/php/getmail.php,apps/emails/php/sendmail.php" eval="true">array_merge(getmail_server(),sendmail_server())</output>
     </action>
 </root>

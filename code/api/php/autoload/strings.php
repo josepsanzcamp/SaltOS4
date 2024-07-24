@@ -300,6 +300,15 @@ function words_exists($words, $buffer)
  *
  * @array => the associative array with the pairs keys vals
  * @cad   => the string that you want to apply the replacement
+ *
+ * Notes:
+ *
+ * This function can be replaced by strtr in the two arguments option, the
+ * difference is that str_replace is more efficient that strtr because the
+ * strtr tries to prepare the replacement list by ordering by size the
+ * replace_pairs and too to prevent repeated replacements in previously
+ * replacements, if you write a utest as I, you can see how this function
+ * is more quickly that strtr and for this reason, I maintain this code.
  */
 function str_replace_assoc($array, $cad)
 {

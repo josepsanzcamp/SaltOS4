@@ -27,7 +27,7 @@
 
 <root>
     <menu default="true">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Dashboard</title>
         <screen>type1</screen>
@@ -58,7 +58,7 @@
     </menu>
 
     <config>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title append="offcanvas">Profile</title>
         <layout append="right">
@@ -90,7 +90,7 @@
     </config>
 
     <help>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T([])</gettext>
         <javascript>
             <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>

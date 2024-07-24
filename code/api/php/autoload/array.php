@@ -82,7 +82,7 @@ function join_attr_value($array)
                 $array["value"] = ["value" => $array["value"]];
             }
         }
-        $array = array_merge($array["#attr"], $array["value"]);
+        $array = array_merge($array["value"], $array["#attr"]);
     }
     return $array;
 }

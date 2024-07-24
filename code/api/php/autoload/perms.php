@@ -273,6 +273,15 @@ function perm_exists($perm)
  */
 function check_app_perm_id($app, $perm, $id = null)
 {
+    // Trick to allow to map insert as create and update as edit
+    $perms = [
+        "insert" => "create",
+        "update" => "edit",
+    ];
+    if (isset($perms[$perm])) {
+        $perm = $perms[$perm];
+    }
+    // Continue
     if (!check_user($app, $perm)) {
         return false;
     }
@@ -288,25 +297,6 @@ function check_app_perm_id($app, $perm, $id = null)
         return false;
     }
     return true;
-}
-
-/**
- * Check App Perm Id as Json
- *
- * This function trigger a json error if the app, the perm and the id not
- * accomplishes the expected level of permissions, it is intended to be used
- * before the execution of each action, to guarantee the security and to
- * embed it into a xml fragment
- *
- * @app  => the app to check
- * @perm => the perm to check
- * @id   => the id to check, if needed, you can omit in the create case
- */
-function check_app_perm_id_json($app, $perm, $id = null)
-{
-    if (!check_app_perm_id($app, $perm, $id)) {
-        show_json_error("Permission denied");
-    }
 }
 
 /**

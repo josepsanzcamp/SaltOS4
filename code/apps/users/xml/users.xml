@@ -30,7 +30,7 @@
 
     <!-- List part -->
     <list default="true">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Users list</title>
         <screen eval="true">xmlfile2array("apps/users/xml/users.xml")["screen"]</screen>
@@ -58,6 +58,7 @@
     </list>
 
     <list id="table" dropdown="false" type="table" limit="25" order="id DESC">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <login label="Username"/>
             <name label="Name"/>
@@ -151,7 +152,7 @@
     <data require="apps/users/php/days.php" eval="true">fix4days(execute_query("SELECT * FROM tbl_users WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))))</data>
 
     <create>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title>New user</title>
         <screen eval="true">xmlfile2array("apps/users/xml/users.xml")["screen"]</screen>
@@ -169,19 +170,19 @@
         </javascript>
     </create>
 
-    <create id="insert">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
-        <check require="apps/users/php/days.php" eval="true">set_data("json/data/days",days2bin(get_data("json/data/days")))</check>
-        <check require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
+    <insert>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <days require="apps/users/php/days.php" eval="true">set_data("json/data/days",days2bin(get_data("json/data/days")))</days>
+        <perms require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
             execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
             execute_query("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
             execute_query("SELECT * FROM tbl_apps_perms"),
-            get_data("json/data/perms")))</check>
-        <array require="apps/users/php/users.php" eval="true">insert_user(get_data("json/data"))</array>
-    </create>
+            get_data("json/data/perms")))</perms>
+        <output require="apps/users/php/users.php" eval="true">insert_user(get_data("json/data"))</output>
+    </insert>
 
     <view>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Detail of the user</title>
         <screen eval="true">xmlfile2array("apps/users/xml/users.xml")["screen"]</screen>
@@ -204,7 +205,7 @@
     </view>
 
     <edit>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
         <title>Modify this user</title>
         <screen eval="true">xmlfile2array("apps/users/xml/users.xml")["screen"]</screen>
@@ -223,19 +224,19 @@
         </javascript>
     </edit>
 
-    <edit id="update">
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <check require="apps/users/php/days.php" eval="true">set_data("json/data/days",days2bin(get_data("json/data/days")))</check>
-        <check require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
+    <update>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <days require="apps/users/php/days.php" eval="true">set_data("json/data/days",days2bin(get_data("json/data/days")))</days>
+        <perms require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
             execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
             execute_query("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
             execute_query("SELECT * FROM tbl_apps_perms"),
-            get_data("json/data/perms")))</check>
-        <array require="apps/users/php/users.php" eval="true">update_user(intval(get_data("rest/4")), get_data("json/data"))</array>
-    </edit>
+            get_data("json/data/perms")))</perms>
+        <output require="apps/users/php/users.php" eval="true">update_user(intval(get_data("rest/3")), get_data("json/data"))</output>
+    </update>
 
     <delete>
-        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <array require="apps/users/php/users.php" eval="true">delete_user(intval(get_data("rest/3")))</array>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <output require="apps/users/php/users.php" eval="true">delete_user(intval(get_data("rest/3")))</output>
     </delete>
 </root>

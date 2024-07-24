@@ -544,8 +544,8 @@ saltos.core.join_attr_value = data => {
             };
         }
         data = {
-            ...data['#attr'],
             ...data.value,
+            ...data['#attr'],
         };
     }
     return data;

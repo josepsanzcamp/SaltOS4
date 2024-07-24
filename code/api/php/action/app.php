@@ -94,19 +94,6 @@ if (!isset($array[get_data("rest/2")])) {
     show_json_error("subapp " . get_data("rest/2") . " not found");
 }
 
-// Connect to the database
-db_connect();
-
-//~ set_data("server/token", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/remote_addr", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/user_agent", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/lang", "ca_ES");
-
-//~ // Check permissions
-if (!check_app_perm_id(get_data("rest/1"), fix_key(get_data("rest/2")))) {
-    show_json_error("Permission denied");
-}
-
 // Trick to allow requests like widget/table2
 foreach ($array as $key => $val) {
     if (isset($val["#attr"]["id"])) {
@@ -119,6 +106,13 @@ foreach ($array as $key => $val) {
 // Get only the subapp part
 $array = $array[get_data("rest/2")];
 set_data("rest/2", fix_key(get_data("rest/2")));
+
+// Clean some old attributes
+foreach (["default", "id"] as $attr) {
+    if (isset($array["#attr"][$attr])) {
+        unset($array["#attr"][$attr]);
+    }
+}
 
 // This line is a trick to allow attr in the subapp
 $array = join_attr_value($array);
@@ -153,8 +147,28 @@ if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
     }
 }
 
-// Eval the app/queries
-$array = eval_attr($array);
+// Connect to the database
+db_connect();
+
+// Eval the check/app/queries
+$first = true;
+foreach ($array as $key => $val) {
+    if ($first) {
+        if (fix_key($key) != "check") {
+            show_json_error("Permission denied");
+        }
+        $first = false;
+    }
+    $val = eval_attr($val);
+    if (fix_key($key) == "check") {
+        if (!$val) {
+            show_json_error("Permission denied");
+        }
+        unset($array[$key]);
+    } else {
+        $array[$key] = $val;
+    }
+}
 
 if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
     // Prepare data and actions
@@ -207,6 +221,14 @@ if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
     }
     if (!isset($array["page"]) && get_data("json/page")) {
         $array["page"] = get_data("json/page");
+    }
+}
+
+// Search for output nodes
+foreach ($array as $key => $val) {
+    if (fix_key($key) == "output") {
+        $array = $val;
+        break;
     }
 }
 

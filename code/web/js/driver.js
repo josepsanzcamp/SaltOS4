@@ -253,7 +253,7 @@ saltos.driver.insert = arg => {
     var app = saltos.hash.get().split('/').at(1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/${app}/create/insert`,
+        url: `api/?app/${app}/insert`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -264,17 +264,17 @@ saltos.driver.insert = arg => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            if (response.array.status == 'ok') {
-                if (response.array.hasOwnProperty('text')) {
-                    saltos.app.toast('Response', response.array.text);
+            if (response.status == 'ok') {
+                if (response.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
                 saltos.driver.close();
                 return;
             }
-            if (response.array.status == 'ko') {
-                if (response.array.hasOwnProperty('text')) {
-                    saltos.app.toast('Response', response.array.text, {color: 'danger'});
+            if (response.status == 'ko') {
+                if (response.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.text, {color: 'danger'});
                 }
                 return;
             }
@@ -311,7 +311,7 @@ saltos.driver.update = arg => {
     var id = saltos.hash.get().split('/').at(-1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/${app}/edit/update/${id}`,
+        url: `api/?app/${app}/update/${id}`,
         data: JSON.stringify({
             'data': data,
         }),
@@ -322,17 +322,17 @@ saltos.driver.update = arg => {
             if (!saltos.app.check_response(response)) {
                 return;
             }
-            if (response.array.status == 'ok') {
-                if (response.array.hasOwnProperty('text')) {
-                    saltos.app.toast('Response', response.array.text);
+            if (response.status == 'ok') {
+                if (response.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
                 saltos.driver.close();
                 return;
             }
-            if (response.array.status == 'ko') {
-                if (response.array.hasOwnProperty('text')) {
-                    saltos.app.toast('Response', response.array.text, {color: 'danger'});
+            if (response.status == 'ko') {
+                if (response.hasOwnProperty('text')) {
+                    saltos.app.toast('Response', response.text, {color: 'danger'});
                 }
                 return;
             }
@@ -383,9 +383,9 @@ saltos.driver.delete = async arg => {
                         if (!saltos.app.check_response(response)) {
                             return;
                         }
-                        if (response.array.status == 'ok') {
-                            if (response.array.hasOwnProperty('text')) {
-                                saltos.app.toast('Response', response.array.text);
+                        if (response.status == 'ok') {
+                            if (response.hasOwnProperty('text')) {
+                                saltos.app.toast('Response', response.text);
                             }
                             saltos.window.send(`saltos.${app}.update`);
                             // arg has valid data when is called from the list, and in
@@ -395,9 +395,9 @@ saltos.driver.delete = async arg => {
                             }
                             return;
                         }
-                        if (response.array.status == 'ko') {
-                            if (response.array.hasOwnProperty('text')) {
-                                saltos.app.toast('Response', response.array.text, {color: 'danger'});
+                        if (response.status == 'ko') {
+                            if (response.hasOwnProperty('text')) {
+                                saltos.app.toast('Response', response.text, {color: 'danger'});
                             }
                             return;
                         }
