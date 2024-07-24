@@ -679,7 +679,8 @@ saltos.bootstrap.__field.ckeditor = field => {
             editor.model.document.on('change:data', () => {
                 element.value = editor.getData();
             });
-            editor.on('change:isReadOnly', (evt, propertyName, isReadOnly) => {
+            // I maintain the follow commented lines as an example of usage
+            /*editor.on('change:isReadOnly', (evt, propertyName, isReadOnly) => {
                 var toolbar = editor.ui.view.toolbar.element;
                 var editable = editor.ui.view.editable.element;
                 if (isReadOnly) {
@@ -689,7 +690,7 @@ saltos.bootstrap.__field.ckeditor = field => {
                     toolbar.classList.remove('bg-body-secondary');
                     editable.classList.remove('bg-body-secondary');
                 }
-            });
+            });*/
             if (saltos.core.eval_bool(field.disabled)) {
                 element.set_disabled(true);
             }
@@ -697,6 +698,16 @@ saltos.bootstrap.__field.ckeditor = field => {
             throw new Error(error);
         });
     });
+    obj.append(saltos.core.html(`
+        <style>
+            .ck-read-only {
+                background-color: var(--bs-secondary-bg)!important;
+            }
+            .ck-toolbar:has(.ck-disabled:not(.ck-off)) {
+                background-color: var(--bs-secondary-bg)!important;
+            }
+        </style>
+    `));
     if (field.height) {
         // The follow code allow to sets the min-height for this widget
         obj.append(saltos.core.html(`
