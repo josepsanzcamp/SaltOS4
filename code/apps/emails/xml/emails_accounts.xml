@@ -71,10 +71,9 @@
             FROM app_emails_accounts
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("emails_accounts", "list")."
+            AND (".check_sql("emails_accounts", "list")." OR user_id=".current_user().")
             ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</data>
+            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <actions>
             <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
             <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
@@ -85,8 +84,7 @@
             FROM app_emails_accounts
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("emails_accounts", "list")."
-        ")</footer>
+            AND ".check_sql("emails_accounts", "list"))</footer>
     </list>
 
     <!-- Form part -->
@@ -94,7 +92,11 @@
         <label label="Main" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
         <select id="user_id" label="User" required="true" autofocus="true">
-            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value FROM tbl_users ORDER BY login ASC")</rows>
+            <rows eval="true">execute_query_array("
+                SELECT CONCAT(name,' (',login,')') label, id value
+                FROM tbl_users WHERE active=1
+                AND (".check_sql("users", "list")." OR id=".current_user().")
+                ORDER BY login ASC")</rows>
         </select>
         <div col_class="col-12"/><!-- this act as break line -->
 
@@ -173,6 +175,11 @@
         </javascript>
     </create>
 
+    <create id="insert">
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <array require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json/data"))</array>
+    </create>
+
     <view>
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T([])</gettext>
@@ -216,4 +223,13 @@
         </javascript>
     </edit>
 
+    <edit id="update">
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <array require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json/data"))</array>
+    </edit>
+
+    <delete>
+        <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+        <array require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</array>
+    </delete>
 </root>

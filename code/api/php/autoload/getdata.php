@@ -54,14 +54,19 @@ function get_data($key)
     global $_DATA;
     $keys = explode("/", $key);
     $count = count($keys);
+    // Special case for negative positions of rest
+    if ($count == 2 && $keys[0] == "rest" && intval($keys[1]) < 0) {
+        $keys[1] = count($_DATA[$keys[0]]) + intval($keys[1]);
+    }
+    // Continue
     if ($count == 1) {
         return $_DATA[$keys[0]] ?? null;
     }
     if ($count == 2) {
-        if ($keys[0] == "rest" && intval($keys[1]) < 0) {
-            $keys[1] = count($_DATA[$keys[0]]) + intval($keys[1]);
-        }
         return $_DATA[$keys[0]][$keys[1]] ?? null;
+    }
+    if ($count == 3) {
+        return $_DATA[$keys[0]][$keys[1]][$keys[2]] ?? null;
     }
     show_php_error(["phperror" => "key $key not found"]);
 }
@@ -98,6 +103,14 @@ function set_data($key, $val)
             $_DATA[$keys[0]][$keys[1]] = $val;
         } else {
             unset($_DATA[$keys[0]][$keys[1]]);
+        }
+        return;
+    }
+    if ($count == 3) {
+        if ($val !== null) {
+            $_DATA[$keys[0]][$keys[1]][$keys[2]] = $val;
+        } else {
+            unset($_DATA[$keys[0]][$keys[1]][$keys[2]]);
         }
         return;
     }

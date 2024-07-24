@@ -28,23 +28,22 @@
 declare(strict_types=1);
 
 /**
- * Users functions
+ * Groups functions
  *
- * This file contain all functions needed by the users app
+ * This file contain all functions needed by the groups app
  */
 
 /**
- * Insert user action
+ * Insert group action
  *
  * This action allow to insert registers in the database associated to
- * the users app and only requires the data.
+ * the groups app and only requires the data.
  *
  * TODO
  */
-function insert_user($data)
+function insert_group($data)
 {
     require_once "php/lib/actions.php";
-    require_once "php/lib/auth.php";
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -54,49 +53,21 @@ function insert_user($data)
         ];
     }
 
-    $newpass = $data["newpass"] ?? null;
-    $renewpass = $data["renewpass"] ?? null;
     $perms = $data["perms"] ?? null;
-    unset($data["newpass"]);
-    unset($data["renewpass"]);
     unset($data["perms"]);
 
-    if ($newpass || $renewpass) {
-        // Password checks
-        if ($newpass != $renewpass) {
-            return [
-                "status" => "ko",
-                "text" => "New password differs",
-                "code" => __get_code_from_trace(),
-            ];
-        }
-
-        if (!score_check($newpass)) {
-            return [
-                "status" => "ko",
-                "text" => "New password strength error",
-                "code" => __get_code_from_trace(),
-            ];
-        }
-    }
-
     // Real insert using general insert action
-    $array = insert("users", $data);
+    $array = insert("groups", $data);
     if ($array["status"] == "ko") {
         return $array;
     }
-    $user_id = $array["created_id"];
-
-    // Continue creating the password entry
-    if ($newpass || $renewpass) {
-        newpass_insert($user_id, $newpass);
-    }
+    $group_id = $array["created_id"];
 
     // Create the perms entries
     if ($perms) {
         foreach ($perms as $perm) {
-            $query = make_insert_query("tbl_users_apps_perms", [
-                "user_id" => $user_id,
+            $query = make_insert_query("tbl_groups_apps_perms", [
+                "group_id" => $group_id,
                 "app_id" => $perm["app_id"],
                 "perm_id" => $perm["perm_id"],
                 "allow" => $perm["allow"],
@@ -108,22 +79,21 @@ function insert_user($data)
 
     return [
         "status" => "ok",
-        "created_id" => $user_id,
+        "created_id" => $group_id,
     ];
 }
 
 /**
- * Update user action
+ * Update group action
  *
  * This action allow to update registers in the database associated to
- * the users app and requires the user_id and data.
+ * the groups app and requires the group_id and data.
  *
  * TODO
  */
-function update_user($user_id, $data)
+function update_group($group_id, $data)
 {
     require_once "php/lib/actions.php";
-    require_once "php/lib/auth.php";
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -133,63 +103,26 @@ function update_user($user_id, $data)
         ];
     }
 
-    $newpass = $data["newpass"] ?? null;
-    $renewpass = $data["renewpass"] ?? null;
     $perms = $data["perms"] ?? null;
-    unset($data["newpass"]);
-    unset($data["renewpass"]);
     unset($data["perms"]);
-
-    if ($newpass || $renewpass) {
-        // Password checks
-        if ($newpass != $renewpass) {
-            return [
-                "status" => "ko",
-                "text" => "New password differs",
-                "code" => __get_code_from_trace(),
-            ];
-        }
-
-        if (!score_check($newpass)) {
-            return [
-                "status" => "ko",
-                "text" => "New password strength error",
-                "code" => __get_code_from_trace(),
-            ];
-        }
-
-        if (!newpass_check($user_id, $newpass)) {
-            return [
-                "status" => "ko",
-                "text" => "New password used previously",
-                "code" => __get_code_from_trace(),
-            ];
-        }
-    }
 
     // Real update using general update action
     if (count($data)) {
-        $array = update("users", $user_id, $data);
+        $array = update("groups", $group_id, $data);
         if ($array["status"] == "ko") {
             return $array;
         }
     }
 
-    // Continue creating the password entry
-    if ($newpass || $renewpass) {
-        oldpass_disable($user_id);
-        newpass_insert($user_id, $newpass);
-    }
-
     if ($perms) {
         // Delete the old perms entries
-        $query = "DELETE FROM tbl_users_apps_perms WHERE user_id=$user_id";
+        $query = "DELETE FROM tbl_groups_apps_perms WHERE group_id=$group_id";
         db_query($query);
 
         // Create the perms entries
         foreach ($perms as $perm) {
-            $query = make_insert_query("tbl_users_apps_perms", [
-                "user_id" => $user_id,
+            $query = make_insert_query("tbl_groups_apps_perms", [
+                "group_id" => $group_id,
                 "app_id" => $perm["app_id"],
                 "perm_id" => $perm["perm_id"],
                 "allow" => $perm["allow"],
@@ -201,38 +134,34 @@ function update_user($user_id, $data)
 
     return [
         "status" => "ok",
-        "updated_id" => $user_id,
+        "updated_id" => $group_id,
     ];
 }
 
 /**
- * Delete user action
+ * Delete group action
  *
  * This action allow to delete registers in the database associated to
- * the users app and only requires the user_id.
+ * the groups app and only requires the group_id.
  *
  * TODO
  */
-function delete_user($user_id)
+function delete_group($group_id)
 {
     require_once "php/lib/actions.php";
 
     // Real delete using general delete action
-    $array = delete("users", $user_id);
+    $array = delete("groups", $group_id);
     if ($array["status"] == "ko") {
         return $array;
     }
 
-    // Continue removing the passwords entries
-    $query = "DELETE FROM tbl_users_passwords WHERE user_id = $user_id";
-    db_query($query);
-
     // Continue removing the perms entries
-    $query = "DELETE FROM tbl_users_apps_perms WHERE user_id=$user_id";
+    $query = "DELETE FROM tbl_groups_apps_perms WHERE group_id=$group_id";
     db_query($query);
 
     return [
         "status" => "ok",
-        "deleted_id" => $user_id,
+        "deleted_id" => $group_id,
     ];
 }
