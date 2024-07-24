@@ -466,6 +466,10 @@ function eval_attr($array)
                             unset($attr[$key2]);
                             break;
                     }
+                    // Added this break to force that ifeval cancels the next eval
+                    if ($remove) {
+                        break;
+                    }
                 }
                 if (!$remove) {
                     $value  = eval_attr($value);

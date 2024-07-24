@@ -59,7 +59,7 @@
 
     <list id="table" checkbox="true" dropdown="false" type="table" limit="25" order="id DESC">
         <header>
-            <user label="User"/>
+            <user label="User" ifeval="__user_is_admin(get_data('rest/1'))"/>
             <email_name label="Name"/>
             <email_from label="Email"/>
             <email_disabled label="Enabled" type="icon"/>
@@ -71,7 +71,7 @@
             FROM app_emails_accounts
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
-            AND (".check_sql("emails_accounts", "list")." OR user_id=".current_user().")
+            AND ".check_sql("emails_accounts", "list")."
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
         <actions>
@@ -91,11 +91,11 @@
     <form>
         <label label="Main" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
 
-        <select id="user_id" label="User" required="true" autofocus="true">
+        <select id="user_id" label="User" required="true" autofocus="true" ifeval="__user_is_admin(get_data('rest/1'))">
             <rows eval="true">execute_query_array("
                 SELECT CONCAT(name,' (',login,')') label, id value
                 FROM tbl_users WHERE active=1
-                AND (".check_sql("users", "list")." OR id=".current_user().")
+                AND ".check_sql("users", "list")."
                 ORDER BY login ASC")</rows>
         </select>
         <div col_class="col-12"/><!-- this act as break line -->
@@ -177,6 +177,7 @@
 
     <create id="insert">
         <check eval="true">check_app_perm_id_json(get_data("rest/1"), get_data("rest/2"))</check>
+        <check ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data("json/data/user_id", current_user())</check>
         <array require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json/data"))</array>
     </create>
 
