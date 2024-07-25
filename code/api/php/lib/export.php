@@ -195,6 +195,7 @@ function export_file($args)
  */
 function __export_file_xml($matrix, $eol = "\n", $encoding = "UTF-8")
 {
+    require_once "php/lib/array2xml.php";
     $buffer = str_replace("UTF-8", $encoding, "<?xml version='1.0' encoding='UTF-8' ?>\n");
     $buffer .= __array2xml_write_nodes($matrix, 0);
     $buffer = str_replace("\n", $eol, $buffer);
