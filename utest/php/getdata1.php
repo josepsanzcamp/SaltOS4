@@ -40,4 +40,4 @@ init_timer();
 init_random();
 check_system();
 
-get_data("nada/nada/nada");
+get_data("nada/nada/nada/nada");

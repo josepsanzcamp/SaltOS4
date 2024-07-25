@@ -97,7 +97,7 @@ function inline_img_tag($temp)
     $pattern = "@< *img[^>]*src *= *[\"']?([^\"' >]*)@i";
     preg_match_all($pattern, $temp, $matches);
     foreach ($matches[1] as $src) {
-        $data = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+        $img = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         $scheme = parse_url($src, PHP_URL_SCHEME);
         if (in_array($scheme, ["data", "cid"])) {
             continue;
@@ -120,10 +120,10 @@ function inline_img_tag($temp)
             }
             if ($valid) {
                 $type = $data["headers"]["content-type"];
-                $data = mime_inline($type, $data["body"]);
+                $img = mime_inline($type, $data["body"]);
             }
         }
-        $temp = str_replace($src, $data, $temp);
+        $temp = str_replace($src, $img, $temp);
     }
     return $temp;
 }

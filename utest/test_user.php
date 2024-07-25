@@ -67,7 +67,7 @@ final class test_user extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");

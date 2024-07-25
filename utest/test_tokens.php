@@ -117,7 +117,7 @@ final class test_tokens extends TestCase
         $token2 = check_token_format([]);
         $this->assertSame($token2, "");
 
-        // Check for token concurrence
+        // Check for token collision
         $tokens1 = [];
         for ($i = 0; $i < 1000000; $i++) {
             $tokens1[] = get_unique_token();

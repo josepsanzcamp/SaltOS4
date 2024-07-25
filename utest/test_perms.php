@@ -67,7 +67,7 @@ final class test_perms extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");
@@ -92,12 +92,10 @@ final class test_perms extends TestCase
         $this->assertSame(check_sql("customers", "view"), "1=0");
         $this->assertSame(check_app_perm_id("dashboard", "menu"), true);
         $this->assertSame(check_app_perm_id("customers", "view"), false);
-        $this->assertSame(check_app_perm_id_json("dashboard", "menu"), null);
 
         test_external_exec("php/perms1.php", "phperror.log", "app nada not found");
         test_external_exec("php/perms2.php", "phperror.log", "perm nada not found");
         test_external_exec("php/perms3.php", "phperror.log", "nada(nada) not found");
-        test_external_exec("php/perms4.php", "", "");
 
         $token = $json["token"];
         $row = execute_query("SELECT * FROM tbl_users_tokens WHERE token='$token'");

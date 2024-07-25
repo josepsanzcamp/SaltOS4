@@ -77,7 +77,7 @@ final class test_qrcode extends TestCase
         $json = test_web_helper("qrcode", [], "", "");
         $this->assertArrayHasKey("error", $json);
 
-        $json2 = test_web_helper("authtoken", [
+        $json2 = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");

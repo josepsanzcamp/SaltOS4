@@ -67,18 +67,18 @@ final class test_web_tokens extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
         ], "", "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "nada",
             "pass" => "admin",
         ], "", "");
         $this->assertSame($json["status"], "ko");
 
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "nada",
         ], "", "");
@@ -89,7 +89,7 @@ final class test_web_tokens extends TestCase
         $query = "UPDATE tbl_users_passwords SET user_id=-user_id WHERE user_id=$user_id";
         db_query($query);
 
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");
@@ -101,13 +101,13 @@ final class test_web_tokens extends TestCase
         $query = "UPDATE tbl_users_passwords SET password=MD5('admin') WHERE user_id=$user_id";
         db_query($query);
 
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");
         $this->assertSame($json["status"], "ok");
 
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");
@@ -127,7 +127,7 @@ final class test_web_tokens extends TestCase
      */
     public function test_checktoken(array $json): array
     {
-        $json = test_web_helper("checktoken", "", $json["token"], "");
+        $json = test_web_helper("auth/check", "", $json["token"], "");
         $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 5);
         $this->assertArrayHasKey("token", $json);
@@ -144,11 +144,11 @@ final class test_web_tokens extends TestCase
      */
     public function test_deauthtoken(array $json): array
     {
-        $json2 = test_web_helper("deauthtoken", "", $json["token"], "");
+        $json2 = test_web_helper("auth/logout", "", $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 1);
 
-        $json2 = test_web_helper("deauthtoken", "", $json["token"], "");
+        $json2 = test_web_helper("auth/logout", "", $json["token"], "");
         $this->assertSame($json2["status"], "ko");
         $this->assertSame(count($json2), 3);
         return $json;
@@ -164,7 +164,7 @@ final class test_web_tokens extends TestCase
      */
     public function test_checktoken_ko(array $json): void
     {
-        $json2 = test_web_helper("checktoken", "", $json["token"], "");
+        $json2 = test_web_helper("auth/check", "", $json["token"], "");
         $this->assertSame($json2["status"], "ko");
         $this->assertSame(count($json2), 3);
     }

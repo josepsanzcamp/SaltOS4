@@ -68,7 +68,7 @@ final class test_web_customers extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");
@@ -105,23 +105,25 @@ final class test_web_customers extends TestCase
      */
     public function test_insert(array $json): array
     {
-        $json2 = test_web_helper("insert/customers", [], "", "");
+        $json2 = test_web_helper("app/customers/insert", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("insert/dashboard", [], $json["token"], "");
+        $json2 = test_web_helper("app/dashboard/insert", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("insert/customers", [], $json["token"], "");
-        $this->assertArrayHasKey("error", $json2);
+        $json2 = test_web_helper("app/customers/insert", [], $json["token"], "");
+        $this->assertArrayHasKey("status", $json2);
+        $this->assertSame($json2["status"], "ko");
 
-        $json2 = test_web_helper("insert/customers", [
+        $json2 = test_web_helper("app/customers/insert", [
             "data" => [
                 "nada" => "nada",
             ],
         ], $json["token"], "");
-        $this->assertArrayHasKey("error", $json2);
+        $this->assertArrayHasKey("status", $json2);
+        $this->assertSame($json2["status"], "ko");
 
-        $json2 = test_web_helper("insert/customers", [
+        $json2 = test_web_helper("app/customers/insert", [
             "data" => [
                 "nombre" => "The SaltOS project",
                 "cif" => "12345678X",
@@ -243,23 +245,25 @@ final class test_web_customers extends TestCase
     {
         $id = $json["created_id"];
 
-        $json2 = test_web_helper("update/customers", [], "", "");
+        $json2 = test_web_helper("app/customers/update", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("update/dashboard", [], $json["token"], "");
+        $json2 = test_web_helper("app/dashboard/update", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("update/customers/$id", [], $json["token"], "");
-        $this->assertArrayHasKey("error", $json2);
+        $json2 = test_web_helper("app/customers/update/$id", [], $json["token"], "");
+        $this->assertArrayHasKey("status", $json2);
+        $this->assertSame($json2["status"], "ko");
 
-        $json2 = test_web_helper("update/customers/$id", [
+        $json2 = test_web_helper("app/customers/update/$id", [
             "data" => [
                 "nada" => "nada",
             ],
         ], $json["token"], "");
-        $this->assertArrayHasKey("error", $json2);
+        $this->assertArrayHasKey("status", $json2);
+        $this->assertSame($json2["status"], "ko");
 
-        $json2 = test_web_helper("update/customers/$id", [
+        $json2 = test_web_helper("app/customers/update/$id", [
             "data" => [
                 "nombre" => "The SaltOS project v2",
                 "cif" => "12345678Z",
@@ -287,13 +291,13 @@ final class test_web_customers extends TestCase
     {
         $id = $json["updated_id"];
 
-        $json2 = test_web_helper("delete/customers", [], "", "");
+        $json2 = test_web_helper("app/customers/delete", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("delete/dashboard", [], $json["token"], "");
+        $json2 = test_web_helper("app/dashboard/delete", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("delete/customers/$id", "", $json["token"], "");
+        $json2 = test_web_helper("app/customers/delete/$id", "", $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
         $this->assertArrayHasKey("deleted_id", $json2);

@@ -110,7 +110,7 @@ final class test_apps extends TestCase
         $json = test_web_helper("app/login", "", "", "");
         $this->assertArrayHasKey("layout", $json);
 
-        $json2 = test_web_helper("authtoken", [
+        $json2 = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");

@@ -97,13 +97,13 @@ final class test_file extends TestCase
         unlink($file2);
         unlink($file3);
 
-        $json0 = url_get_contents("127.0.0.1/saltos/code4/api/?checktoken");
-        $json = url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken");
+        $json0 = url_get_contents("127.0.0.1/saltos/code4/api/?auth/check");
+        $json = url_get_contents("https://127.0.0.1/saltos/code4/api/?auth/check");
         $this->assertSame($json0, $json);
         $json = json_decode($json, true);
         $this->assertSame($json["status"], "ko");
         $this->assertSame(count($json), 3);
-        $this->assertArrayHasKey("reason", $json);
+        $this->assertArrayHasKey("text", $json);
 
         $this->assertSame(extension("pepe.txt"), "txt");
 
@@ -149,23 +149,23 @@ final class test_file extends TestCase
         $fd = fsockopen_protected("127.0.0.1", 80, $errno, $errstr, null);
         $this->assertSame(is_resource($fd), true);
 
-        $buffer = __url_get_contents("https://127.0.0.1nada/saltos/code4/api/?checktoken");
+        $buffer = __url_get_contents("https://127.0.0.1nada/saltos/code4/api/?auth/check");
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("nada://127.0.0.1/saltos/code4/api/?checktoken");
+        $buffer = __url_get_contents("nada://127.0.0.1/saltos/code4/api/?auth/check");
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken", [
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?auth/check", [
             "method" => "",
         ]);
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken", [
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?auth/check", [
             "method" => "head",
         ]);
         $this->assertSame($buffer, ["", [], []]);
 
-        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?checktoken", [
+        $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?auth/check", [
             "cookies" => ["nada" => "nada"],
             "method" => "get",
             "values" => ["nada" => "nada"],
@@ -199,7 +199,7 @@ final class test_file extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("authtoken", [
+        $json = test_web_helper("auth/login", [
             "user" => "admin",
             "pass" => "admin",
         ], "", "");

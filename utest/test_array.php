@@ -83,12 +83,12 @@ final class test_array extends TestCase
         $xml = '<a b="c" d="e">f</a>';
         $array = xml2array($xml);
         $array["a"] = join_attr_value($array["a"]);
-        $this->assertSame($array, ["a" => ["b" => "c", "d" => "e", "value" => "f"]]);
+        $this->assertSame($array, ["a" => ["value" => "f", "b" => "c", "d" => "e"]]);
 
         $xml = '<a b="c" d="e"><f>g</f><h>i</h></a>';
         $array = xml2array($xml);
         $array["a"] = join_attr_value($array["a"]);
-        $this->assertSame($array, ["a" => ["b" => "c", "d" => "e", "f" => "g", "h" => "i"]]);
+        $this->assertSame($array, ["a" => ["f" => "g", "h" => "i", "b" => "c", "d" => "e"]]);
 
         $xml = '<a b="c" d="e"><f>g</f><h>i</h></a>';
         $array = xml2array($xml);
