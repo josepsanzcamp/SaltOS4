@@ -1,2 +1,5 @@
+Order Allow,Deny
 Allow from all
 Options -Indexes
+
+DirectoryIndex index.htm
