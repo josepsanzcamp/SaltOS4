@@ -76,4 +76,8 @@
     <renewpass_not_found_or_void>Ha d'entrar la repetició de la nova clau</renewpass_not_found_or_void>
     <applications_and_permissions>Aplicacions i permisos</applications_and_permissions>
     <do_you_must_enter_the_new_passwords>Heu d'introduir les noves contrasenyes</do_you_must_enter_the_new_passwords>
+    <login_used_by_other_user>Login utilitzat per un altre usuari</login_used_by_other_user>
+    <name_used_by_other_user>Nom utilitzat per un altre usuari</name_used_by_other_user>
+    <code_used_by_other_group>Codi utilitzat per un altre grup</code_used_by_other_group>
+    <name_used_by_other_group>Nom utilitzat per un altre grup</name_used_by_other_group>
 </root>

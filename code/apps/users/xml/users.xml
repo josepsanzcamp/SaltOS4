@@ -172,6 +172,8 @@
 
     <create id="insert">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true" message="Code used by other user">!execute_query("SELECT id FROM tbl_users WHERE login='".get_data("json/data/login")."'")</check>
+        <check eval="true" message="Name used by other user">!execute_query("SELECT id FROM tbl_users WHERE name='".get_data("json/data/name")."'")</check>
         <days require="apps/users/php/days.php" eval="true">set_data("json/data/days",days2bin(get_data("json/data/days")))</days>
         <perms require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
             execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
@@ -226,6 +228,8 @@
 
     <edit id="update">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true" message="Login used by other user">!execute_query("SELECT id FROM tbl_users WHERE login='".get_data("json/data/login")."'")</check>
+        <check eval="true" message="Name used by other user">!execute_query("SELECT id FROM tbl_users WHERE name='".get_data("json/data/name")."'")</check>
         <days require="apps/users/php/days.php" eval="true">set_data("json/data/days",days2bin(get_data("json/data/days")))</days>
         <perms require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
             execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),

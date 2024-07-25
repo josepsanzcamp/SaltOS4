@@ -179,8 +179,15 @@ foreach ($array as $key => $val) {
     }
     $val = eval_attr($val);
     if (fix_key($key) == "check") {
+        $message = "Permission denied";
+        if (is_attr_value($val)) {
+            if (isset($val["#attr"]["message"])) {
+                $message = $val["#attr"]["message"];
+            }
+            $val = $val["value"];
+        }
         if (!$val) {
-            show_json_error("Permission denied");
+            show_json_error($message);
         }
         unset($array[$key]);
     } else {
