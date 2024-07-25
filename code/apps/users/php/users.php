@@ -97,7 +97,7 @@ function insert_user($data)
     newpass_insert($user_id, $newpass);
 
     // Create the perms entries
-    if ($perms) {
+    if (is_array($perms)) {
         foreach ($perms as $perm) {
             $query = make_insert_query("tbl_users_apps_perms", [
                 "user_id" => $user_id,
@@ -185,7 +185,7 @@ function update_user($user_id, $data)
         newpass_insert($user_id, $newpass);
     }
 
-    if ($perms) {
+    if (is_array($perms)) {
         // Delete the old perms entries
         $query = "DELETE FROM tbl_users_apps_perms WHERE user_id=$user_id";
         db_query($query);

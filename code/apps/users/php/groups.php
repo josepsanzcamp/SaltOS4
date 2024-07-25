@@ -64,7 +64,7 @@ function insert_group($data)
     $group_id = $array["created_id"];
 
     // Create the perms entries
-    if ($perms) {
+    if (is_array($perms)) {
         foreach ($perms as $perm) {
             $query = make_insert_query("tbl_groups_apps_perms", [
                 "group_id" => $group_id,
@@ -114,7 +114,7 @@ function update_group($group_id, $data)
         }
     }
 
-    if ($perms) {
+    if (is_array($perms)) {
         // Delete the old perms entries
         $query = "DELETE FROM tbl_groups_apps_perms WHERE group_id=$group_id";
         db_query($query);
