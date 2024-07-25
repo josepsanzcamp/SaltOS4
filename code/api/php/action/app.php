@@ -93,20 +93,18 @@ if (get_data("rest/2") == "") {
 if (!isset($array[get_data("rest/2")])) {
     // Trick to allow request like <create id="insert"> using only insert
     foreach ($array as $key => $val) {
-        if (isset($val["#attr"]["id"])) {
-            if ($val["#attr"]["id"] == get_data("rest/2")) {
-                $rest = get_data("rest");
-                array_splice($rest, 2, 1, [$key, $val["#attr"]["id"]]);
-                set_data("rest", $rest);
-                break;
-            }
+        if (isset($val["#attr"]["id"]) && $val["#attr"]["id"] == get_data("rest/2")) {
+            $rest = get_data("rest");
+            array_splice($rest, 2, 1, [$key, $val["#attr"]["id"]]);
+            set_data("rest", $rest);
+            break;
         }
     }
-} else {
+} elseif (get_data("rest/3")) {
     // Trick to allow requests like widget/table2
     foreach ($array as $key => $val) {
-        if (isset($val["#attr"]["id"])) {
-            if (fix_key($key) == get_data("rest/2") && $val["#attr"]["id"] == get_data("rest/3")) {
+        if (fix_key($key) == get_data("rest/2")) {
+            if (isset($val["#attr"]["id"]) && $val["#attr"]["id"] == get_data("rest/3")) {
                 set_data("rest/2", $key);
                 break;
             }
