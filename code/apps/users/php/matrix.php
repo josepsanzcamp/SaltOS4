@@ -194,7 +194,7 @@ function unmake_matrix_data($perms, $apps, $main, $json)
                     $deny = 0;
                     break;
                 default:
-                    show_php_error(["phperror" => "Unknown value $val"]);
+                    show_json_error("Unknown value $val");
             }
             $key =  "$app_id|$perm_id";
             if (isset($main[$key])) {
