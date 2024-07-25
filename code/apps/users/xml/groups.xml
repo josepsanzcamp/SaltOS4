@@ -134,7 +134,7 @@
         </javascript>
     </create>
 
-    <insert>
+    <create id="insert">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <perms require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
             execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
@@ -142,7 +142,7 @@
             execute_query("SELECT * FROM tbl_apps_perms"),
             get_data("json/data/perms")))</perms>
         <output require="apps/users/php/groups.php" eval="true">insert_group(get_data("json/data"))</output>
-    </insert>
+    </create>
 
     <view>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
@@ -187,15 +187,15 @@
         </javascript>
     </edit>
 
-    <update>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
+    <edit id="update">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <perms require="apps/users/php/matrix.php" eval="true">set_data("json/data/perms",unmake_matrix_data(
             execute_query("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
             execute_query("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
             execute_query("SELECT * FROM tbl_apps_perms"),
             get_data("json/data/perms")))</perms>
-        <output require="apps/users/php/groups.php" eval="true">update_group(intval(get_data("rest/3")), get_data("json/data"))</output>
-    </update>
+        <output require="apps/users/php/groups.php" eval="true">update_group(intval(get_data("rest/4")), get_data("json/data"))</output>
+    </edit>
 
     <delete>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>

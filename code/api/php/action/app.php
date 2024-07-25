@@ -91,16 +91,31 @@ if (get_data("rest/2") == "") {
 }
 
 if (!isset($array[get_data("rest/2")])) {
-    show_json_error("subapp " . get_data("rest/2") . " not found");
-}
-
-// Trick to allow requests like widget/table2
-foreach ($array as $key => $val) {
-    if (isset($val["#attr"]["id"])) {
-        if (fix_key($key) == get_data("rest/2") && $val["#attr"]["id"] == get_data("rest/3")) {
-            set_data("rest/2", $key);
+    // Trick to allow request like <create id="insert"> using only insert
+    foreach ($array as $key => $val) {
+        if (isset($val["#attr"]["id"])) {
+            if ($val["#attr"]["id"] == get_data("rest/2")) {
+                $rest = get_data("rest");
+                array_splice($rest, 2, 1, [$key, $val["#attr"]["id"]]);
+                set_data("rest", $rest);
+                break;
+            }
         }
     }
+} else {
+    // Trick to allow requests like widget/table2
+    foreach ($array as $key => $val) {
+        if (isset($val["#attr"]["id"])) {
+            if (fix_key($key) == get_data("rest/2") && $val["#attr"]["id"] == get_data("rest/3")) {
+                set_data("rest/2", $key);
+                break;
+            }
+        }
+    }
+}
+
+if (!isset($array[get_data("rest/2")])) {
+    show_json_error("subapp " . get_data("rest/2") . " not found");
 }
 
 // Get only the subapp part
@@ -149,6 +164,11 @@ if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
 
 // Connect to the database
 db_connect();
+
+//~ set_data("server/token", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/remote_addr", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/user_agent", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
+//~ set_data("server/lang", "ca_ES");
 
 // Eval the check/app/queries
 $first = true;

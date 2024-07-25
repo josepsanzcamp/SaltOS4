@@ -61,23 +61,29 @@ function insert_user($data)
     unset($data["renewpass"]);
     unset($data["perms"]);
 
-    if ($newpass || $renewpass) {
-        // Password checks
-        if ($newpass != $renewpass) {
-            return [
-                "status" => "ko",
-                "text" => "New password differs",
-                "code" => __get_code_from_trace(),
-            ];
-        }
+    if (!$newpass || !$renewpass) {
+        return [
+            "status" => "ko",
+            "text" => "Do you must enter the new passwords",
+            "code" => __get_code_from_trace(),
+        ];
+    }
 
-        if (!score_check($newpass)) {
-            return [
-                "status" => "ko",
-                "text" => "New password strength error",
-                "code" => __get_code_from_trace(),
-            ];
-        }
+    // Password checks
+    if ($newpass != $renewpass) {
+        return [
+            "status" => "ko",
+            "text" => "New password differs",
+            "code" => __get_code_from_trace(),
+        ];
+    }
+
+    if (!score_check($newpass)) {
+        return [
+            "status" => "ko",
+            "text" => "New password strength error",
+            "code" => __get_code_from_trace(),
+        ];
     }
 
     // Real insert using general insert action
@@ -88,9 +94,7 @@ function insert_user($data)
     $user_id = $array["created_id"];
 
     // Continue creating the password entry
-    if ($newpass || $renewpass) {
-        newpass_insert($user_id, $newpass);
-    }
+    newpass_insert($user_id, $newpass);
 
     // Create the perms entries
     if ($perms) {

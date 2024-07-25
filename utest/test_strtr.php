@@ -115,11 +115,11 @@ final class test_strtr extends TestCase
         $time2 = $time2 - $time1;
         $time1 = $time1 - $time0;
 
-        print_r([
-            "time1" => sprintf("%f", $time1),
-            "time2" => sprintf("%f", $time2),
-            "time3" => sprintf("%f", $time3),
-        ]);
+        //~ print_r([
+            //~ "time1" => sprintf("%f", $time1),
+            //~ "time2" => sprintf("%f", $time2),
+            //~ "time3" => sprintf("%f", $time3),
+        //~ ]);
 
         $this->assertTrue($time1 < $time2);
         $this->assertTrue($time2 > $time3);

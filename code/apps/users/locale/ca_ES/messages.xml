@@ -75,4 +75,5 @@
     <newpass_not_found_or_void>Ha d'entrar la nova clau</newpass_not_found_or_void>
     <renewpass_not_found_or_void>Ha d'entrar la repetició de la nova clau</renewpass_not_found_or_void>
     <applications_and_permissions>Aplicacions i permisos</applications_and_permissions>
+    <do_you_must_enter_the_new_passwords>Heu d'introduir les noves contrasenyes</do_you_must_enter_the_new_passwords>
 </root>

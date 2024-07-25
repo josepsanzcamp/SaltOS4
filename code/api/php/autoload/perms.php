@@ -273,15 +273,6 @@ function perm_exists($perm)
  */
 function check_app_perm_id($app, $perm, $id = null)
 {
-    // Trick to allow to map insert as create and update as edit
-    $perms = [
-        "insert" => "create",
-        "update" => "edit",
-    ];
-    if (isset($perms[$perm])) {
-        $perm = $perms[$perm];
-    }
-    // Continue
     if (!check_user($app, $perm)) {
         return false;
     }
