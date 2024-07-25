@@ -206,6 +206,11 @@ function url_get_contents($url)
  */
 function __url_get_contents($url, $args = [])
 {
+    $void = [
+        "body" => "",
+        "headers" => [],
+        "cookies" => [],
+    ];
     require_once "lib/httpclient/http.php";
     $http = new http_class();
     $http->user_agent = get_name_version_revision();
@@ -216,11 +221,28 @@ function __url_get_contents($url, $args = [])
     $arguments = [];
     $error = $http->GetRequestArguments($url, $arguments);
     if ($error != "") {
-        return ["", [], []];
+        return $void;
     }
+    // I have detected that stream_socket_client generates uncontrolable
+    // errors, for this reason, I have overloaded the error handler to
+    // manage this kind of errors
+    set_error_handler(function ($type, $message, $file, $line) {
+        error_clear_last();
+        if (words_exists("stream_socket_client", $message)) {
+            return true;
+        }
+        show_php_error([
+            "phperror" => "{$message} (code {$type})",
+            "details" => "Error on file " . basename($file) . ":" . $line,
+            "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+            "code" => __get_code_from_file_and_line($file, $line),
+        ]);
+    });
     $error = $http->Open($arguments);
+    restore_error_handler();
+    // End of the overloaded error zone
     if ($error != "") {
-        return ["", [], []];
+        return $void;
     }
     if (isset($args["method"])) {
         $arguments["RequestMethod"] = strtoupper($args["method"]);
@@ -241,17 +263,17 @@ function __url_get_contents($url, $args = [])
     }
     $error = $http->SendRequest($arguments);
     if ($error != "") {
-        return ["", [], []];
+        return $void;
     }
     $headers = [];
     $error = $http->ReadReplyHeaders($headers);
     if ($error != "") {
-        return ["", [], []];
+        return $void;
     }
     $body = "";
     $error = $http->ReadWholeReplyBody($body);
     if ($error != "") {
-        return ["", [], []];
+        return $void;
     }
     $http->Close();
     $cookies = [];

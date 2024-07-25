@@ -130,6 +130,10 @@ function show_php_error($array)
         }
         addlog("***** {$hash} *****", $file);
     }
+    // Check for previous headers sent
+    if (headers_sent()) {
+        die();
+    }
     // Trick to clear previous data
     while (ob_get_level()) {
         ob_end_clean();
