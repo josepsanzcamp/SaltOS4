@@ -65,4 +65,6 @@
     <active>Actiu</active>
     <delete>Esborrar</delete>
     <code>Codi</code>
+    <data_used_by_others_apps>Aquest registre esta fent-se servir a altres aplicacions</data_used_by_others_apps>
+    <internal_tables>taula/es interna/es</internal_tables>
 </root>

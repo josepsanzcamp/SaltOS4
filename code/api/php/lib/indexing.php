@@ -159,6 +159,7 @@ function __make_index_helper($table, $id = "")
         return $cache[$hash];
     }
     $fieldnames = array_column(get_fields($table), "name");
+    $fieldnames = escape_reserved_word($fieldnames);
     $result = $fieldnames;
     $tablefield = __get_field_helper($table);
     if ($tablefield != "") {
@@ -168,7 +169,9 @@ function __make_index_helper($table, $id = "")
     foreach ($fieldfkeys as $key => $val) {
         $temp = __get_field_helper($val);
         if ($temp == "") {
-            $temp = implode(",' ',", array_column(get_fields($val), "name"));
+            $temp = array_column(get_fields($val), "name");
+            $temp = escape_reserved_word($temp);
+            $temp = implode(",' ',", $temp);
             if ($temp != "") {
                 $temp = "CONCAT($temp)";
             }

@@ -45,6 +45,7 @@
             <description>Users management</description>
             <table>tbl_users</table>
             <field>CONCAT(name,' (',login,')')</field>
+            <subtables>tbl_users_passwords(user_id),tbl_users_apps_perms(user_id)</subtables>
             <has_index>1</has_index>
             <has_control>1</has_control>
             <has_version>1</has_version>
@@ -79,6 +80,7 @@
             <description>Groups management</description>
             <table>tbl_groups</table>
             <field>CONCAT(name,' (',code,')')</field>
+            <subtables>tbl_groups_apps_perms(group_id)</subtables>
             <has_index>1</has_index>
             <has_control>1</has_control>
             <has_version>1</has_version>

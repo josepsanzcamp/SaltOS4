@@ -215,6 +215,27 @@ function delete($app, $id)
 {
     require_once "php/lib/control.php";
     require_once "php/lib/indexing.php";
+    require_once "php/lib/depend.php";
+
+    $depend = check_dependencies($app, $id);
+    if (count($depend)) {
+        $apps = array_column($depend, "app");
+        $others = count($depend) - count($apps);
+        $message = [];
+        if (count($apps)) {
+            $apps = T($apps);
+            $message[] = implode(", ", $apps);
+        }
+        if ($others) {
+            $message[] = $others . " " . T("internal tables");
+        }
+        $message = implode(", ", $message);
+        return [
+            "status" => "ko",
+            "text" => T("Data used by others apps") . ": " . $message,
+            "code" => __get_code_from_trace(),
+        ];
+    }
 
     // Prepare main query
     $table = app2table($app);

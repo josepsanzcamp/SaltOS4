@@ -63,6 +63,9 @@ function __apps($fn, $arg)
         $dict["app2version"] = [];
         $dict["app2files"] = [];
         $dict["app2notes"] = [];
+        $dict["subtable2id"] = [];
+        $dict["subtable2app"] = [];
+        $dict["subtable2table"] = [];
         while ($row = db_fetch_row($result)) {
             $row["subtables"] = __apps_subtables_helper($row["subtables"]);
             $dict["id2app"][$row["id"]] = $row["code"];
@@ -79,16 +82,27 @@ function __apps($fn, $arg)
             $dict["app2version"][$row["code"]] = $row["has_version"];
             $dict["app2files"][$row["code"]] = $row["has_files"];
             $dict["app2notes"][$row["code"]] = $row["has_notes"];
+            foreach ($row["subtables"] as $subtable) {
+                $dict["subtable2id"][$subtable["subtable"]] = $row["id"];
+                $dict["subtable2app"][$subtable["subtable"]] = $row["code"];
+                $dict["subtable2table"][$subtable["subtable"]] = $row["table"];
+            }
         }
         db_free($result);
     }
     if ($fn == "app_exists") {
         return isset($dict["app2id"][$arg]);
     }
-    if (!isset($dict[$fn][$arg])) {
-        show_php_error(["phperror" => "$fn($arg) not found"]);
+    if ($fn == "table_exists") {
+        return isset($dict["table2id"][$arg]);
     }
-    return $dict[$fn][$arg];
+    if ($fn == "subtable_exists") {
+        return isset($dict["subtable2id"][$arg]);
+    }
+    if (isset($dict[$fn][$arg])) {
+        return $dict[$fn][$arg];
+    }
+    show_php_error(["phperror" => "$fn($arg) not found"]);
 }
 
 /**
@@ -322,4 +336,64 @@ function app2notes($app)
 function current_app()
 {
     return app2id(get_data("rest/1"));
+}
+
+/**
+ * Subtable to Id
+ *
+ * This function resolves the id of the app from the subtable
+ *
+ * @subtable => the app subtable used to resolve the id
+ */
+function subtable2id($subtable)
+{
+    return __apps(__FUNCTION__, $subtable);
+}
+
+/**
+ * Subtable to App
+ *
+ * This function resolves the code of the app from the app subtable
+ *
+ * @subtable => the app subtable used to resolve the app code
+ */
+function subtable2app($subtable)
+{
+    return __apps(__FUNCTION__, $subtable);
+}
+
+/**
+ * Subtable to table
+ *
+ * This function resolves the table of the app from the app subtable
+ *
+ * @subtable => the app subtable used to resolve the table
+ */
+function subtable2table($subtable)
+{
+    return __apps(__FUNCTION__, $subtable);
+}
+
+/**
+ * Table Exists
+ *
+ * This function detect if a table exists
+ *
+ * @table => the table that you want to check if exists
+ */
+function table_exists($table)
+{
+    return __apps(__FUNCTION__, $table);
+}
+
+/**
+ * Subtable Exists
+ *
+ * This function detect if a subtable exists
+ *
+ * @subtable => the subtable that you want to check if exists
+ */
+function subtable_exists($subtable)
+{
+    return __apps(__FUNCTION__, $subtable);
 }

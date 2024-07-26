@@ -63,10 +63,12 @@
             <login label="Username"/>
             <name label="Name"/>
             <description label="Description"/>
+            <group label="Group"/>
             <active label="Active" type="icon"/>
         </header>
         <data eval="true">execute_query_array("
             SELECT id, login, name, description,
+            (SELECT CONCAT(name,' (',code,')') FROM tbl_groups a WHERE a.id=group_id) `group`,
             CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
             FROM tbl_users
             WHERE 1 = 1
@@ -119,19 +121,6 @@
         <multiselect id="groups_id" label="Groups" size="7" col_class="col-md-6 mb-3">
             <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value FROM tbl_groups WHERE active=1 ORDER BY code ASC")</rows>
         </multiselect>
-        <table id="passwords" label="Passwords history" col_class="col-12 mb-3" ifeval="get_data('rest/2')=='view'">
-            <header>
-                <created_at label="Created at"/>
-                <expires_at label="Expires at"/>
-                <active label="Active" type="icon"/>
-            </header>
-            <data eval="true">execute_query_array("
-                SELECT created_at, expires_at,
-                CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
-                FROM tbl_users_passwords
-                WHERE user_id = ".intval(get_data("rest/3"))."
-                ORDER BY id DESC")</data>
-        </table>
         <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="100">
             <numcols eval="true">execute_query("SELECT COUNT(*) FROM tbl_perms WHERE active=1 ORDER BY id ASC")</numcols>
             <numrows eval="true">execute_query("SELECT COUNT(*) FROM tbl_apps WHERE active=1 ORDER BY id ASC")</numrows>
@@ -148,6 +137,19 @@
                 execute_query_array("SELECT * FROM tbl_apps_perms"),
                 execute_query_array("SELECT * FROM tbl_users_apps_perms WHERE user_id = ".intval(get_data("rest/3"))))</cell>
         </excel>
+        <table id="passwords" label="Passwords history" col_class="col-12 mb-3" ifeval="get_data('rest/2')=='view'">
+            <header>
+                <created_at label="Created at"/>
+                <expires_at label="Expires at"/>
+                <active label="Active" type="icon"/>
+            </header>
+            <data eval="true">execute_query_array("
+                SELECT created_at, expires_at,
+                CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
+                FROM tbl_users_passwords
+                WHERE user_id = ".intval(get_data("rest/3"))."
+                ORDER BY id DESC")</data>
+        </table>
     </form>
     <data require="apps/users/php/days.php" eval="true">fix4days(execute_query("SELECT * FROM tbl_users WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))))</data>
 

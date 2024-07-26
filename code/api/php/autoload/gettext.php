@@ -49,6 +49,13 @@ declare(strict_types=1);
  * This function uses multiples locales at same time, SaltOS provides a basic set of
  * usefull strings and each application can add and overwrite more strings, this is
  * the same feature that old SaltOS provides
+ *
+ * If you use a void array as argument, then the function returns the gettext
+ * dictionary intended to populate the clients gettext module and contains the
+ * app, the lang and the locales for the app and lang.
+ *
+ * If you use an array with elements as argument, then the function is applied
+ * to all elements of the array.
  */
 function T($text)
 {
@@ -75,11 +82,17 @@ function T($text)
         }
     }
     if (is_array($text)) {
-        return [
-            "app" => $app,
-            "lang" => $lang,
-            "locale" => $cache,
-        ];
+        if (!count($text)) {
+            return [
+                "app" => $app,
+                "lang" => $lang,
+                "locale" => $cache,
+            ];
+        }
+        foreach ($text as $key => $val) {
+            $text[$key] = T($val);
+        }
+        return $text;
     }
     $hash = encode_bad_chars($text);
     if (isset($cache[$app][$lang][$hash])) {

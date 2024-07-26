@@ -206,10 +206,10 @@ function __perms($fn, $arg)
     if ($fn == "perm_exists") {
         return isset($dict["perm2id"][$arg]);
     }
-    if (!isset($dict[$fn][$arg])) {
-        show_php_error(["phperror" => "$fn($arg) not found"]);
+    if (isset($dict[$fn][$arg])) {
+        return $dict[$fn][$arg];
     }
-    return $dict[$fn][$arg];
+    show_php_error(["phperror" => "$fn($arg) not found"]);
 }
 
 /**

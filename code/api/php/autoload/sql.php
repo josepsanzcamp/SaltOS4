@@ -574,9 +574,20 @@ function make_where_query($array)
  * to escape table names too
  *
  * @word => the word that must to be escape if needed
+ *
+ * Notes:
+ *
+ * If you use an array as argument, then the function is applied to all
+ * elements of the array.
  */
 function escape_reserved_word($word)
 {
+    if (is_array($word)) {
+        foreach ($word as $key => $val) {
+            $word[$key] = escape_reserved_word($val);
+        }
+        return $word;
+    }
     if (in_array($word, ["key", "table", "from", "to"])) {
         return "`$word`";
     }
@@ -586,8 +597,8 @@ function escape_reserved_word($word)
 /**
  * Make Like Query
  *
- * This function is intended to returns the sql fragment to be added to the
- * where condition to filter for the specified keys and values
+ * This function is intended to returns the sql fragment to be added to
+ * the where condition to filter for the specified keys and values
  *
  * @keys    => an string with comma separated field names
  * @values  => the value of the input search
