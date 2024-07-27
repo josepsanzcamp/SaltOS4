@@ -77,10 +77,11 @@ function check_dependencies($app, $id)
             $result[$key]["app"] = table2app($deptable);
         } elseif (subtable_exists($deptable)) {
             $result[$key]["app"] = subtable2app($deptable);
-        }
-        if (isset($result[$key]["app"]) && $result[$key]["app"] == $app) {
-            unset($result[$key]);
-            continue;
+        } else {
+            $temp = str_replace(["_index", "_control", "_version", "_files", "_notes"], "", $deptable);
+            if (table_exists($temp)) {
+                $result[$key]["app"] = table2app($temp);
+            }
         }
     }
     return $result;

@@ -27,8 +27,6 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
-
 /**
  * Output helper module
  *
@@ -113,13 +111,17 @@ function output_handler($array)
         $size = strlen($data);
     }
     if ($cache) {
+        // phpcs:disable Generic.Files.LineLength
         __output_header("Expires: " . gmdate("D, d M Y H:i:s", time() + get_config("server/cachetimeout")) . " GMT");
+        // phpcs:enable Generic.Files.LineLength
         __output_header("Cache-Control: max-age=" . get_config("server/cachetimeout") . ", no-transform");
         __output_header("Pragma: public");
         __output_header("ETag: {$hash2}");
     } else {
         __output_header("Expires: -1");
+        // phpcs:disable Generic.Files.LineLength
         __output_header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0, no-transform");
+        // phpcs:enable Generic.Files.LineLength
         __output_header("Pragma: no-cache");
     }
     __output_header("Content-Type: {$type}");

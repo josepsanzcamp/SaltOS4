@@ -498,23 +498,26 @@ function __dbschema_auto_apps($dbschema)
         $tables = get_tables_from_dbstatic();
         foreach ($tables as $table) {
             if (eval_bool(get_field_from_dbstatic($table, "has_index"))) {
-                $xml = '<table name="__TABLE__">
+                // phpcs:disable Generic.Files.LineLength
+                $xml = '<table name="{$table}_index">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true" fkey="{$table}"/>
                                 <field name="search" type="MEDIUMTEXT"/>
                             </fields>
                             <indexes>
                                 <index fulltext="true" fields="search"/>
                             </indexes>
                         </table>';
-                $xml = str_replace("__TABLE__", "{$table}_index", $xml);
+                // phpcs:enable Generic.Files.LineLength
+                $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
             if (eval_bool(get_field_from_dbstatic($table, "has_control"))) {
-                $xml = '<table name="__TABLE__">
+                // phpcs:disable Generic.Files.LineLength
+                $xml = '<table name="{$table}_control">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true" fkey="{$table}"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="group_id" type="INT(11)" fkey="tbl_groups"/>
                                 <field name="datetime" type="DATETIME"/>
@@ -526,17 +529,18 @@ function __dbschema_auto_apps($dbschema)
                                 <index fields="id,user_id"/>
                             </indexes>
                         </table>';
-                $xml = str_replace("__TABLE__", "{$table}_control", $xml);
+                // phpcs:enable Generic.Files.LineLength
+                $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
             if (eval_bool(get_field_from_dbstatic($table, "has_version"))) {
-                $xml = '<table name="__TABLE__">
+                $xml = '<table name="{$table}_version">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
-                                <field name="reg_id" type="INT(11)"/>
+                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
                                 <field name="ver_id" type="INT(11)"/>
                                 <field name="data" type="MEDIUMTEXT"/>
                                 <field name="hash" type="VARCHAR(255)"/>
@@ -548,17 +552,17 @@ function __dbschema_auto_apps($dbschema)
                                 <index fields="reg_id,ver_id"/>
                             </indexes>
                         </table>';
-                $xml = str_replace("__TABLE__", "{$table}_version", $xml);
+                $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
             if (eval_bool(get_field_from_dbstatic($table, "has_files"))) {
-                $xml = '<table name="__TABLE__">
+                $xml = '<table name="{$table}_files">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
-                                <field name="reg_id" type="INT(11)"/>
+                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
                                 <field name="uniqid" type="VARCHAR(255)"/>
                                 <field name="name" type="VARCHAR(255)"/>
                                 <field name="size" type="INT(11)"/>
@@ -567,21 +571,21 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="hash" type="VARCHAR(255)"/>
                             </fields>
                         </table>';
-                $xml = str_replace("__TABLE__", "{$table}_files", $xml);
+                $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }
             if (eval_bool(get_field_from_dbstatic($table, "has_notes"))) {
-                $xml = '<table name="__TABLE__">
+                $xml = '<table name="{$table}_notes">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
-                                <field name="reg_id" type="INT(11)"/>
+                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
                                 <field name="note" type="TEXT"/>
                             </fields>
                         </table>';
-                $xml = str_replace("__TABLE__", "{$table}_notes", $xml);
+                $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
                 set_array($dbschema["tables"], "table", $array["table"]);
             }

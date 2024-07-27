@@ -66,5 +66,18 @@
     <delete>Esborrar</delete>
     <code>Codi</code>
     <data_used_by_others_apps>Aquest registre esta fent-se servir a altres aplicacions</data_used_by_others_apps>
-    <internal_tables>taula/es interna/es</internal_tables>
+    <internal_table>taula interna</internal_table>
+    <internal_tables>taules internes</internal_tables>
+    <emails>Correu</emails>
+    <emails_accounts>Comptes de correu</emails_accounts>
+    <customers>Clients</customers>
+    <invoices>Factures</invoices>
+    <types>Tipus</types>
+    <tester>Tester</tester>
+    <users>Usuaris</users>
+    <groups>Grups</groups>
+    <customers>Clients</customers>
+    <invoices>Factures</invoices>
+    <types>Tipus</types>
+    <tester>Tester</tester>
 </root>

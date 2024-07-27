@@ -219,15 +219,28 @@ function delete($app, $id)
 
     $depend = check_dependencies($app, $id);
     if (count($depend)) {
-        $apps = array_column($depend, "app");
-        $others = count($depend) - count($apps);
+        $apps = [];
+        $others = [];
+        foreach ($depend as $key => $val) {
+            if (isset($val["app"])) {
+                $apps[$val["app"]] = $val["app"];
+            } else {
+                $others[$val["table"]] = $val["table"];
+            }
+        }
         $message = [];
+        unset($apps[$app]);
         if (count($apps)) {
             $apps = T($apps);
             $message[] = implode(", ", $apps);
         }
+        $others = count($others);
         if ($others) {
-            $message[] = $others . " " . T("internal tables");
+            if ($others == 1) {
+                $message[] = $others . " " . T("internal table");
+            } else {
+                $message[] = $others . " " . T("internal tables");
+            }
         }
         $message = implode(", ", $message);
         return [
