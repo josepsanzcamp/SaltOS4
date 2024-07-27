@@ -48,7 +48,7 @@ saltos.driver.init = arg => {
     if (document.getElementById('saltos-driver-styles')) {
         document.getElementById('saltos-driver-styles').remove();
     }
-    var obj = saltos.driver.styles();
+    var obj = saltos.driver.styles('xl');
     obj.setAttribute('id', 'saltos-driver-styles');
     document.body.append(obj);
     // Detect needed padding
@@ -459,44 +459,23 @@ saltos.driver.placeholder = arg => {
  * TODO
  */
 saltos.driver.styles = arg => {
+    var sizes = {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200,
+        xxl: 1400,
+    };
+    var size = sizes[arg];
     var height = document.getElementById('header').offsetHeight +
         document.getElementById('top').offsetHeight +
         document.getElementById('bottom').offsetHeight +
         document.getElementById('footer').offsetHeight;
     return saltos.core.html(`
         <style>
-            @media (min-width: 0px) {
-                .overflow-auto-xs {
-                    height: calc(100vh - ${height}px);
-                    overflow: auto;
-                }
-            }
-            @media (min-width: 576px) {
-                .overflow-auto-sm {
-                    height: calc(100vh - ${height}px);
-                    overflow: auto;
-                }
-            }
-            @media (min-width: 768px) {
-                .overflow-auto-md {
-                    height: calc(100vh - ${height}px);
-                    overflow: auto;
-                }
-            }
-            @media (min-width: 992px) {
-                .overflow-auto-lg {
-                    height: calc(100vh - ${height}px);
-                    overflow: auto;
-                }
-            }
-            @media (min-width: 1200px) {
-                .overflow-auto-xl {
-                    height: calc(100vh - ${height}px);
-                    overflow: auto;
-                }
-            }
-            @media (min-width: 1400px) {
-                .overflow-auto-xxl {
+            @media (min-width: ${size}px) {
+                .overflow-auto-${arg} {
                     height: calc(100vh - ${height}px);
                     overflow: auto;
                 }
@@ -552,19 +531,19 @@ saltos.driver.__types.type1 = {};
  */
 saltos.driver.__types.type1.template = arg => {
     var obj = saltos.core.html(`
-        <div id="header"></div>
+        <div id="header" class="sticky-top"></div>
         <div class="container">
             <div class="row">
                 <div id="top" class="col-12"></div>
             </div>
             <div class="row">
-                <div id="one" class="col-xl overflow-auto-xl"></div>
+                <div id="one" class="col-12"></div>
             </div>
             <div class="row">
                 <div id="bottom" class="col-12"></div>
             </div>
         </div>
-        <div id="footer"></div>
+        <div id="footer" class="sticky-bottom"></div>
     `);
     return obj;
 };
