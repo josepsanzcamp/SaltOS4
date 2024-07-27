@@ -218,6 +218,13 @@ function delete($app, $id)
     require_once "php/lib/depend.php";
 
     $depend = check_dependencies($app, $id);
+    // Remove this app in the dependencies array
+    foreach ($depend as $key => $val) {
+        if (isset($val["app"]) && $val["app"] == $app) {
+            unset($depend[$key]);
+        }
+    }
+    // If dependencies are found, break the execution
     if (count($depend)) {
         $apps = [];
         $others = [];
@@ -229,7 +236,6 @@ function delete($app, $id)
             }
         }
         $message = [];
-        unset($apps[$app]);
         if (count($apps)) {
             $apps = T($apps);
             $message[] = implode(", ", $apps);
