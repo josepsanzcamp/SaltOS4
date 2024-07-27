@@ -780,10 +780,10 @@ saltos.bootstrap.__field.codemirror = field => {
         element.set_disabled = bool => {
             if (bool) {
                 cm.setOption('readOnly', 'nocursor');
-                cm.display.lineDiv.classList.add('bg-body-secondary');
+                element.nextElementSibling.classList.add('bg-body-secondary');
             } else {
                 cm.setOption('readOnly', '');
-                cm.display.lineDiv.classList.remove('bg-body-secondary');
+                element.nextElementSibling.classList.remove('bg-body-secondary');
             }
         };
         if (saltos.core.eval_bool(field.disabled)) {
