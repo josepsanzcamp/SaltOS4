@@ -926,6 +926,8 @@ function __getmail_insert(
         db_query($query);
     }
     // Insert the control register
+    require_once "php/lib/control.php";
+    require_once "php/lib/indexing.php";
     make_control("emails", $last_id);
     make_index("emails", $last_id);
     return $last_id;
@@ -1460,6 +1462,8 @@ function getmail_delete($ids)
     // BORRAR REGISTRO DE LOS CORREOS
     $ids = explode(",", $ids);
     foreach ($ids as $id) {
+        require_once "php/lib/control.php";
+        require_once "php/lib/indexing.php";
         make_control("emails", $id);
         make_index("emails", $id);
     }
