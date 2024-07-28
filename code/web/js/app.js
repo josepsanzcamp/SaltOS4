@@ -1329,20 +1329,16 @@ saltos.app.profile = () => {
  * TODO
  */
 saltos.app.help = () => {
-    if (saltos.bootstrap.offcanvas('isopen')) {
-        saltos.bootstrap.offcanvas('close');
+    if (saltos.bootstrap.modal('isopen')) {
         return;
     }
-    saltos.gettext.bootstrap.offcanvas({
-        pos: 'right',
-        title: '',
+    saltos.gettext.bootstrap.modal({
         close: 'Close',
-        backdrop: true,
-        resize: true,
+        class: 'modal-xl',
     });
-    document.querySelector('.offcanvas-body').setAttribute('id', 'right');
+    document.querySelector('.modal-body').setAttribute('id', 'three');
     var app = saltos.hash.get().split('/').at(1);
-    saltos.app.send_request(`app/${app}/help`);
+    saltos.app.send_request(`app/dashboard/help/${app}`);
 };
 
 /**

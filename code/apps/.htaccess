@@ -5,3 +5,7 @@ Options -Indexes
 <Files *.js>
 Allow from all
 </Files>
+
+<Files *.pdf>
+Allow from all
+</Files>

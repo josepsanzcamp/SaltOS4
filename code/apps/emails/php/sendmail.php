@@ -84,9 +84,9 @@ function sendmail($account_id, $to, $subject, $body, $files = "", $async = true)
             return $mail->ErrorInfo;
         }
     }
-    if (!$mail->SetLanguage(get_data("server/lang"))) {
+    if (!$mail->SetLanguage(current_lang())) {
         if (!$mail->ErrorInfo) {
-            return sprintf(T("Lang %s not found"), get_data("server/lang"));
+            return sprintf(T("Lang %s not found"), current_lang());
         }
         return $mail->ErrorInfo;
     }

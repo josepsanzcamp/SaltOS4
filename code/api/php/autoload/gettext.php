@@ -60,7 +60,7 @@ declare(strict_types=1);
 function T($text)
 {
     static $cache = [];
-    $lang = get_data("server/lang");
+    $lang = current_lang();
     if (!isset($cache[$lang])) {
         $file = "locale/$lang/messages.xml";
         if (file_exists($file)) {
@@ -133,4 +133,14 @@ function check_lang_format($lang)
     $temp[0] = strtolower($temp[0]);
     $temp[1] = strtoupper($temp[1]);
     return "{$temp[0]}_{$temp[1]}";
+}
+
+/**
+ * Current lang
+ *
+ * This function returns the current lang
+ */
+function current_lang()
+{
+    return get_data("server/lang");
 }

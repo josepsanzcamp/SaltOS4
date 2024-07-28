@@ -90,27 +90,19 @@
     </config>
 
     <help>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
-        <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
-        </javascript>
-        <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="three,two,one">
+        <title append="modal">Help</title>
+        <layout append="three">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
-                    <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
+                    <src require="php/lib/help.php" eval="true">detect_help_file(get_data("rest/3"), current_lang())</src>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
+                <button onclick="saltos.bootstrap.modal('close');" label="Close" tooltip="To close this help" icon="x-lg"/>
             </row>
         </layout>
-        <javascript>
-            <inline>saltos.driver.init("view")</inline>
-        </javascript>
-        <title append="modal" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
     </help>
 </root>
