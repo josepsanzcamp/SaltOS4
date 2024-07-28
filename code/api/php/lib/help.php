@@ -45,10 +45,19 @@ function detect_help_file($app, $lang)
         $files = glob("apps/$app/locale/*/$app.pdf");
     }
     if (!count($files)) {
-        $files = glob("api/locale/$lang/404.pdf");
+        $files = glob("locale/$lang/404.pdf");
+        if (isset($files[0])) {
+            $files[0] = "api/" . $files[0];
+        }
     }
     if (!count($files)) {
-        $files = glob("api/locale/*/404.pdf");
+        $files = glob("locale/*/404.pdf");
+        if (isset($files[0])) {
+            $files[0] = "api/" . $files[0];
+        }
+    }
+    if (!count($files)) {
+        show_php_error(["phperror" => "Help not found"]);
     }
     return $files[0];
 }
