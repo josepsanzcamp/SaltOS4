@@ -73,6 +73,7 @@ saltos.gettext.get_short = () => {
  * @gettext      => the gettext that you want to store in the localStorage
  */
 saltos.gettext.set = lang => {
+    lang = lang.replace('-', '_');
     var short = lang.split('_').at(0);
     document.documentElement.setAttribute('lang', short);
     localStorage.setItem('saltos.gettext.lang', lang);
@@ -193,7 +194,7 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
     }
-    // Only for table widgets
+    // Only for select and multiselect widgets
     if (field.hasOwnProperty('type') && ['select', 'multiselect'].includes(field.type)) {
         if (field.hasOwnProperty('rows')) {
             for (var key in field.rows) {
@@ -204,7 +205,15 @@ saltos.gettext.bootstrap.field = field => {
                 }
             }
         }
-        //~ console.log(field);
+    }
+    // Only for select and multiselect widgets
+    if (field.hasOwnProperty('type') && field.type == 'alert') {
+        var props = ['title', 'text', 'body'];
+        for (var i in props) {
+            if (field.hasOwnProperty(props[i])) {
+                field[props[i]] = T(field[props[i]]);
+            }
+        }
     }
     return saltos.bootstrap.field(field);
 };

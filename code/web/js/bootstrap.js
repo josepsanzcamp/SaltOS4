@@ -2340,9 +2340,15 @@ saltos.bootstrap.__field.alert = field => {
     `);
     if (field.title != '') {
         obj.append(saltos.core.html(`<h4>${field.title}</h4>`));
+        if (field.text + field.body == '') {
+            obj.querySelector('h4').classList.add('mb-0');
+        }
     }
     if (field.text != '') {
         obj.append(saltos.core.html(`<p>${field.text}</p>`));
+        if (field.body == '') {
+            obj.querySelector('p').classList.add('mb-0');
+        }
     }
     if (field.body != '') {
         obj.append(saltos.core.html(field.body));
