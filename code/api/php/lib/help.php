@@ -45,13 +45,13 @@ function detect_help_file($app, $lang)
         $files = glob("apps/$app/locale/*/$app.pdf");
     }
     if (!count($files)) {
-        $files = glob("locale/$lang/404.pdf");
+        $files = glob("locale/$lang/notfound.pdf");
         if (isset($files[0])) {
             $files[0] = "api/" . $files[0];
         }
     }
     if (!count($files)) {
-        $files = glob("locale/*/404.pdf");
+        $files = glob("locale/*/notfound.pdf");
         if (isset($files[0])) {
             $files[0] = "api/" . $files[0];
         }
