@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com)
 and this project adheres to [Semantic Versioning](https://semver.org).
 
+## 2024-07-29 - 2.2.1
+
+### Security Fix
+
+- Prevent XXE when loading files [PR #4119](https://github.com/PHPOffice/PhpSpreadsheet/pull/4119)
+
+### Fixed
+
+- Add Sheet may leave Active Sheet uninitialized. [Issue #4112](https://github.com/PHPOffice/PhpSpreadsheet/issues/4112) [PR #4114](https://github.com/PHPOffice/PhpSpreadsheet/pull/4114)
+- Reference to Defined Name Specifying Worksheet. [Issue #206](https://github.com/PHPOffice/PhpSpreadsheet/issues/296) [PR #4096](https://github.com/PHPOffice/PhpSpreadsheet/pull/4096)
+- Xls Reader Print/Show Gridlines. [Issue #912](https://github.com/PHPOffice/PhpSpreadsheet/issues/912) [PR #4098](https://github.com/PHPOffice/PhpSpreadsheet/pull/4098)
+- ODS Reader Allow Omission of Page Settings Tags. [Issue #4099](https://github.com/PHPOffice/PhpSpreadsheet/issues/4099) [PR #4101](https://github.com/PHPOffice/PhpSpreadsheet/pull/4101)
+
 ## 2024-07-24 - 2.2.0
 
 ### Added

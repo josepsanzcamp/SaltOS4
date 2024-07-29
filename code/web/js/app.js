@@ -190,11 +190,6 @@ saltos.app.process_response = response => {
     for (var key in response) {
         var val = response[key];
         key = saltos.core.fix_key(key);
-        // This is to prevent some attr that causes problems here
-        /*if (['id', 'default', 'check'].includes(key)) {
-            continue;
-        }*/
-        // Continue
         if (typeof saltos.app.form[key] != 'function') {
             throw new Error(`type ${key} not found`);
         }
