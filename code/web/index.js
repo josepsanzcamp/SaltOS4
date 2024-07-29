@@ -109,7 +109,7 @@ var saltos={core:{}};saltos.core.onerror=(e,t,o,s,a)=>{e={jserror:e,details:"Err
                 <div class="pdfViewer"></div>
             </div>
         </div>
-    `),r=(e.append(saltos.core.html(`
+    `),r=("string"==typeof a.src&&(e.src=new URL(a.src,document.location.href).href),e.append(saltos.core.html(`
         <style>
             .viewerContainer {
                 position: absolute;

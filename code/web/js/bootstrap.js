@@ -1871,6 +1871,9 @@ saltos.bootstrap.__field.pdfjs = field => {
             </div>
         </div>
     `);
+    if (typeof field.src == 'string') {
+        obj.src = new URL(field.src, document.location.href).href;
+    }
     // The follow code allow to define the needed css for with widget
     obj.append(saltos.core.html(`
         <style>

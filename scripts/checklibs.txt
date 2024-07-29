@@ -34,5 +34,5 @@ node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDc
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMiAtIDIwMjQtMDctMjI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMGFscGhhMjwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMi44PC90aXRsZT4=
-uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|base64:PHRpdGxlPnYzLjE5LjA8L3RpdGxlPg==
+uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|base64:PHRpdGxlPnYzLjE5LjE8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|base64:PHRpdGxlPjMuMS4wPC90aXRsZT4=
