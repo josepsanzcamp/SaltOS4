@@ -143,7 +143,7 @@
             execute_query_array("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
             execute_query_array("SELECT * FROM tbl_apps_perms"),
             get_data("json/data/perms")))</perms>
-        <output require="apps/users/php/groups.php" eval="true">insert_group(get_data("json/data"))</output>
+        <output require="apps/users/php/groups.php" eval="true">insert_group(get_data("json"))</output>
     </create>
 
     <view>
@@ -198,7 +198,7 @@
             execute_query_array("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
             execute_query_array("SELECT * FROM tbl_apps_perms"),
             get_data("json/data/perms")))</perms>
-        <output require="apps/users/php/groups.php" eval="true">update_group(intval(get_data("rest/4")), get_data("json/data"))</output>
+        <output require="apps/users/php/groups.php" eval="true">update_group(intval(get_data("rest/4")), get_data("json"))</output>
     </edit>
 
     <delete>

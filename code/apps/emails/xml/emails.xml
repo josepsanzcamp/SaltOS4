@@ -41,6 +41,7 @@
         <layout append="top">
             <row auto="true" row_class="row g-1 my-3" col_class="col-auto">
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
+                <button onclick="alert('todo')" tooltip="TODO" icon="funnel" col_class="col-auto"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
@@ -217,7 +218,7 @@
 
     <create id="sendmail">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <output require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("rest/4"), get_data("rest/5"))</output>
+        <output require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("json"), get_data("rest/4"), get_data("rest/5"))</output>
     </create>
 
     <view>

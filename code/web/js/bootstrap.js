@@ -1434,25 +1434,18 @@ saltos.bootstrap.__field.file = field => {
         var row = event.target.parentElement.parentElement;
         var table = row.parentElement.parentElement;
         var input = table.parentElement.previousElementSibling;
-        var data = {
-            files: [],
-        };
-        data.files[0] = row.data;
         saltos.core.ajax({
-            url: 'api/?upload/delfiles',
-            data: JSON.stringify(data),
+            url: 'api/?upload/delfile',
+            data: JSON.stringify(row.data),
             method: 'post',
             content_type: 'application/json',
             success: response => {
-                if (typeof response != 'object') {
-                    throw new Error(response);
+                if (!saltos.app.check_response(response)) {
+                    return;
                 }
-                if (typeof response.error == 'object') {
-                    throw new Error(response.error);
-                }
-                row.data = response[0];
+                row.data = response;
                 // If server removes the file, i remove the row
-                if (response[0].file == '') {
+                if (response.file == '') {
                     row.remove();
                 }
                 // If not there are files, hide the table
@@ -1503,9 +1496,6 @@ saltos.bootstrap.__field.file = field => {
         for (var i = 0; i < files.length; i++) {
             // Prepare the data to send
             var data = {
-                files: [],
-            };
-            data.files[0] = {
                 id: saltos.core.uniqid(),
                 app: saltos.hash.get(),
                 name: files[i].name,
@@ -1517,7 +1507,7 @@ saltos.bootstrap.__field.file = field => {
                 hash: '',
             };
             // Add the row to the table
-            var row = __add_row_file(input, table, data.files[0]);
+            var row = __add_row_file(input, table, data);
             // Get the local file using syncronous techniques
             var reader = new FileReader();
             reader.readAsDataURL(files[i]);
@@ -1526,22 +1516,19 @@ saltos.bootstrap.__field.file = field => {
             }
             // If there is a file
             if (reader.result) {
-                data.files[0].data = reader.result;
+                data.data = reader.result;
                 // This allow multiple uploads in parallel
                 ((data, row) => {
                     saltos.core.ajax({
-                        url: 'api/?upload/addfiles',
+                        url: 'api/?upload/addfile',
                         data: JSON.stringify(data),
                         method: 'post',
                         content_type: 'application/json',
                         success: response => {
-                            if (typeof response != 'object') {
-                                throw new Error(response);
+                            if (!saltos.app.check_response(response)) {
+                                return;
                             }
-                            if (typeof response.error == 'object') {
-                                throw new Error(response.error);
-                            }
-                            row.data = response[0];
+                            row.data = response;
                             __update_data_input_file(input);
                         },
                         error: request => {
@@ -1561,7 +1548,7 @@ saltos.bootstrap.__field.file = field => {
             }
             // If there is an error
             if (reader.error) {
-                data.files[0].error = reader.error.message;
+                data.error = reader.error.message;
                 throw new Error(reader.error);
             }
         }

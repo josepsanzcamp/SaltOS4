@@ -134,7 +134,7 @@
 
     <create id="insert">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <output require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json/data"))</output>
+        <output require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json"))</output>
     </create>
 
     <view>
@@ -182,7 +182,7 @@
 
     <edit id="update">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <output require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json/data"))</output>
+        <output require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json"))</output>
     </edit>
 
     <delete>

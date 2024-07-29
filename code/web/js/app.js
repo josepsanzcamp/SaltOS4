@@ -220,16 +220,16 @@ saltos.app.__form = {
  *
  * TODO
  */
-saltos.app.__form_backup = {
+saltos.app.__form.backup = {
     fields: [],
     templates: {},
     do: () => {
-        saltos.app.__form_backup.fields = saltos.app.__form.fields;
-        saltos.app.__form_backup.templates = saltos.app.__form.templates;
+        saltos.app.__form.backup.fields = saltos.app.__form.fields;
+        saltos.app.__form.backup.templates = saltos.app.__form.templates;
     },
     restore: () => {
-        saltos.app.__form.fields = saltos.app.__form_backup.fields;
-        saltos.app.__form.templates = saltos.app.__form_backup.templates;
+        saltos.app.__form.fields = saltos.app.__form.backup.fields;
+        saltos.app.__form.templates = saltos.app.__form.backup.templates;
     },
 };
 

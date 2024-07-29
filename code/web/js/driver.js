@@ -254,9 +254,7 @@ saltos.driver.insert = arg => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?app/${app}/insert`,
-        data: JSON.stringify({
-            'data': data,
-        }),
+        data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
         success: response => {
@@ -312,9 +310,7 @@ saltos.driver.update = arg => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?app/${app}/update/${id}`,
-        data: JSON.stringify({
-            'data': data,
-        }),
+        data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
         success: response => {
@@ -636,7 +632,7 @@ saltos.driver.__types.type2.template = arg => {
  */
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
-        saltos.app.__form_backup.restore();
+        saltos.app.__form.backup.restore();
         // Continue after the backup
         var action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
@@ -652,7 +648,7 @@ saltos.driver.__types.type2.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        saltos.app.__form_backup.do();
+        saltos.app.__form.backup.do();
         // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
@@ -727,7 +723,7 @@ saltos.driver.__types.type3.template = arg => {
  */
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
-        saltos.app.__form_backup.restore();
+        saltos.app.__form.backup.restore();
         // Continue after the backup
         var action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
@@ -744,7 +740,7 @@ saltos.driver.__types.type3.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        saltos.app.__form_backup.do();
+        saltos.app.__form.backup.do();
         // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
@@ -815,7 +811,7 @@ saltos.driver.__types.type4.template = saltos.driver.__types.type1.template;
  */
 saltos.driver.__types.type4.init = arg => {
     if (arg == 'list') {
-        saltos.app.__form_backup.restore();
+        saltos.app.__form.backup.restore();
         // Continue after the backup
         var action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
@@ -830,7 +826,7 @@ saltos.driver.__types.type4.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        saltos.app.__form_backup.do();
+        saltos.app.__form.backup.do();
         // Continue after the backup
         if (!saltos.bootstrap.modal('isopen')) {
             var obj = document.getElementById('one').firstElementChild;
@@ -898,7 +894,7 @@ saltos.driver.__types.type5.template = saltos.driver.__types.type2.template;
  */
 saltos.driver.__types.type5.init = arg => {
     if (arg == 'list') {
-        saltos.app.__form_backup.restore();
+        saltos.app.__form.backup.restore();
         // Continue after the backup
         var action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
@@ -915,7 +911,7 @@ saltos.driver.__types.type5.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        saltos.app.__form_backup.do();
+        saltos.app.__form.backup.do();
         // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
             var temp = saltos.hash.get().split('/').slice(0, 2).join('/');

@@ -767,20 +767,21 @@ function sendmail_prepare($action, $email_id)
  *
  * TODO
  */
-function sendmail_action($action, $email_id)
+function sendmail_action($json, $action, $email_id)
 {
     require_once "apps/emails/php/getmail.php";
     require_once "php/lib/upload.php";
     // GET ALL DATA
-    $account_id = intval(get_data("json/account_id"));
-    $to = get_data("json/to");
-    $cc = get_data("json/cc");
-    $bcc = get_data("json/bcc");
-    $subject = get_data("json/subject");
-    $body = get_data("json/body");
-    $state_crt = intval(get_data("json/state_crt"));
-    $priority = intval(get_data("json/priority"));
-    $sensitivity = intval(get_data("json/sensitivity"));
+    $account_id = intval($json["account_id"] ?? 0);
+    $to = strval($json["to"] ?? "");
+    $cc = strval($json["cc"] ?? "");
+    $bcc = strval($json["bcc"] ?? "");
+    $subject = strval($json["subject"] ?? "");
+    $body = strval($json["body"] ?? "");
+    $state_crt = intval($json["state_crt"] ?? 0);
+    $priority = intval($json["priority"] ?? 0);
+    $sensitivity = intval($json["sensitivity"] ?? 0);
+    $uploads = array_protected($json["files"]) ?? [];
     // SEARCH FROM
     $query = "SELECT CONCAT(email_name,' <',email_from,'>') email
         FROM app_emails_accounts
@@ -829,7 +830,6 @@ function sendmail_action($action, $email_id)
     }
     // ADD UPLOADED ATTACHMENTS
     $files = [];
-    $uploads = get_data("json/files");
     $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
     foreach ($uploads as $file) {
         $files[] = [
@@ -1066,11 +1066,11 @@ function sendmail_files($action, $email_id)
 function sendmail_signature($json)
 {
     require_once "apps/emails/php/getmail.php";
-    $old = intval($json["old"]);
-    $new = intval($json["new"]);
-    $body = $json["body"];
-    $cc = $json["cc"];
-    $state_crt = intval($json["state_crt"]);
+    $old = intval($json["old"] ?? 0);
+    $new = intval($json["new"] ?? 0);
+    $body = strval($json["body"] ?? "");
+    $cc = strval($json["cc"] ?? "");
+    $state_crt = intval($json["state_crt"] ?? 0);
     // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
     $query = "SELECT * FROM app_emails_accounts
         WHERE user_id='" . current_user() . "' AND id='$old'";

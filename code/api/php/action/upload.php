@@ -43,8 +43,9 @@ declare(strict_types=1);
  * size of the file, the hash of the file, and then, remove the file and
  * clear the file and hash element of the array
  *
- * @files => array of files, each element must contain the follow elements:
+ * @file  => array that contains the follow elements:
  * @id    => unique id that is used by the client to identify the response
+ * @app   => the hash, used to know the app from where the file is uploaded
  * @name  => the name of the file
  * @size  => the size of the file
  * @type  => the type of the file
@@ -61,36 +62,36 @@ if (!$user_id) {
 }
 
 $action = get_data("rest/1");
-$files = get_data("json/files");
-if ($files == "") {
-    show_json_error("files not found");
+$file = get_data("json");
+if ($file == "") {
+    show_json_error("file not found");
 }
 
 require_once "php/lib/upload.php";
-foreach ($files as $key => $val) {
-    $array = ["id", "app", "name", "size", "type", "data", "error", "file", "hash"];
-    foreach ($array as $key2 => $val2) {
-        if (isset($val[$val2])) {
-            unset($array[$key2]);
-        }
+
+$array = ["id", "app", "name", "size", "type", "data", "error", "file", "hash"];
+foreach ($array as $key => $val) {
+    if (isset($file[$val])) {
+        unset($array[$key]);
     }
-    if (count($array)) {
-        continue;
-    }
-    if ($val["error"] != "") {
-        continue;
-    }
-    // Do the action
-    switch ($action) {
-        case "addfiles":
-            $val = add_file($val);
-            break;
-        case "delfiles":
-            $val = del_file($val);
-            break;
-        default:
-            show_php_error(["phperror" => "Unknown action $action"]);
-    }
-    $files[$key] = $val;
 }
-output_handler_json($files);
+if (count($array)) {
+    show_json_error("Missing " . implode(", ", $array));
+}
+if ($file["error"] != "") {
+    show_json_error($file["error"]);
+}
+
+// Do the action
+switch ($action) {
+    case "addfile":
+        $file = add_file($file);
+        break;
+    case "delfile":
+        $file = del_file($file);
+        break;
+    default:
+        show_php_error(["phperror" => "Unknown action $action"]);
+}
+
+output_handler_json($file);
