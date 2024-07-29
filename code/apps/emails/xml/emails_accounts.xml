@@ -90,7 +90,7 @@
 
     <!-- Form part -->
     <form>
-        <label label="Main" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
+        <alert title="Main configuration" col_class="col-12"/>
 
         <select id="user_id" label="User" required="true" autofocus="true" ifeval="__user_is_admin(get_data('rest/1'))">
             <rows eval="true">execute_query_array("
@@ -106,7 +106,7 @@
 
         <ckeditor id="email_signature" label="Signature" height="10em" col_class="col-12 mb-3"/>
 
-        <label label="POP3" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
+        <alert title="POP3 server configuration" col_class="col-12"/>
 
         <text id="pop3_host" label="Host"/>
         <integer id="pop3_port" label="Port" col_class="col-md-2 mb-3"/>
@@ -131,7 +131,7 @@
         </select>
         <integer id="pop3_days" label="Days" col_class="col-md-2 mb-3"/>
 
-        <label label="SMTP" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
+        <alert title="SMTP server configuration" col_class="col-12"/>
 
         <text id="smtp_host" label="Host"/>
         <integer id="smtp_port" label="Port" col_class="col-md-2 mb-3"/>
@@ -147,7 +147,7 @@
         <text id="smtp_user" label="User"/>
         <password id="smtp_pass" label="Password"/>
 
-        <label label="Extra" class="text-center bg-primary-subtle px-3 py-2 w-100" col_class="col-12"/>
+        <alert title="Extra configuration" col_class="col-12"/>
 
         <switch id="email_disabled" label="Disabled"/>
         <switch id="email_privated" label="Privated"/>

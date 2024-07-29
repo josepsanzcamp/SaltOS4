@@ -101,7 +101,7 @@ if (!isset($array[get_data("rest/2")])) {
         }
     }
 } elseif (get_data("rest/3")) {
-    // Trick to allow requests like widget/table2
+    // Trick to allow requests like widget/table2 that is <widget id="table2">
     foreach ($array as $key => $val) {
         if (fix_key($key) == get_data("rest/2")) {
             if (isset($val["#attr"]["id"]) && $val["#attr"]["id"] == get_data("rest/3")) {

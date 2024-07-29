@@ -108,10 +108,13 @@
     <to_cancel_the_email>Per cancel·lar el correu electrònic</to_cancel_the_email>
     <see_more_emails>Veure mes correus electrònics</see_more_emails>
     <to_load_more_emails_in_the_list>Per carregar mes correus electrònics al llistat</to_load_more_emails_in_the_list>
-    <main>Principal</main>
     <delete_emails>Esborrar correus electrònics???</delete_emails>
     <do_you_want_to_delete_the_selected_emails>Voleu esborrar els correus electrònics seleccionats???</do_you_want_to_delete_the_selected_emails>
     <select_emails>Seleccioneu correus electrònics</select_emails>
     <you_must_select_the_desired_emails_to_be_deleted>Heu de seleccionar els correus electrònics que voleu suprimir???</you_must_select_the_desired_emails_to_be_deleted>
     <to_open_this_content_in_a_new_window>Per obrir aquest contingut en una finestra nova</to_open_this_content_in_a_new_window>
+    <main_configuration>Configuració principal</main_configuration>
+    <pop3_server_configuration>Configuració servidor entrant</pop3_server_configuration>
+    <smtp_server_configuration>Configuració servidor sortint</smtp_server_configuration>
+    <extra_configuration>Configuració adicional</extra_configuration>
 </root>
