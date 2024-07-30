@@ -3752,7 +3752,9 @@ saltos.bootstrap.modal = args => {
     `);
     document.body.append(obj);
     if (typeof args.body == 'string') {
-        obj.querySelector('.modal-body').append(saltos.core.html(args.body));
+        if (args.body != '') {
+            obj.querySelector('.modal-body').append(saltos.core.html(args.body));
+        }
     } else {
         obj.querySelector('.modal-body').append(args.body);
     }
@@ -3889,7 +3891,9 @@ saltos.bootstrap.offcanvas = args => {
     `);
     document.body.append(obj);
     if (typeof args.body == 'string') {
-        obj.querySelector('.offcanvas-body').append(saltos.core.html(args.body));
+        if (args.body != '') {
+            obj.querySelector('.offcanvas-body').append(saltos.core.html(args.body));
+        }
     } else {
         obj.querySelector('.offcanvas-body').append(args.body);
     }
@@ -3994,7 +3998,9 @@ saltos.bootstrap.toast = args => {
     `);
     document.querySelector('.toast-container').append(obj);
     if (typeof args.body == 'string') {
-        obj.querySelector('.toast-body').append(saltos.core.html(args.body));
+        if (args.body != '') {
+            obj.querySelector('.to  ast-body').append(saltos.core.html(args.body));
+        }
     } else {
         obj.querySelector('.toast-body').append(args.body);
     }

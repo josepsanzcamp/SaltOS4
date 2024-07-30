@@ -41,7 +41,7 @@
         <layout append="top">
             <row auto="true" row_class="row g-1 my-3" col_class="col-auto">
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
-                <button onclick="alert('todo')" tooltip="TODO" icon="funnel" col_class="col-auto"/>
+                <button onclick="saltos.app.search('search2')" tooltip="TODO" icon="funnel" col_class="col-auto"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
@@ -53,6 +53,41 @@
             </row>
         </layout>
         <layout append="one">
+            <div id="search2" class="d-none">
+                <row auto="true" col_class="col-12 mb-3">
+                    <select id="account_id" label="Email accounts">
+                        <rows eval="true">execute_query_array("
+                            SELECT '' value, '[All accounts]' label
+                            UNION
+                            SELECT id value,CONCAT(email_name,' &lt;',email_from,'&gt;') label
+                            FROM app_emails_accounts
+                            WHERE user_id=".current_user()."
+                            ORDER BY label")</rows>
+                    </select>
+                    <select id="fields" label="Search in fields">
+                        <rows>
+                            <row label="[All fields]" value=""/>
+                            <row label="Only address" value="email"/>
+                            <row label="Only subject" value="subject"/>
+                            <row label="Only message" value="body"/>
+                        </rows>
+                    </select>
+                    <date id="date1" label="From date"/>
+                    <date id="date2" label="Until date"/>
+                    <switch id="onlynew" label="Only new"/>
+                    <switch id="onlywait" label="Only wait"/>
+                    <switch id="onlyspam" label="Only SPAM"/>
+                    <switch id="hidespam" label="Hide SPAM"/>
+                    <switch id="withfiles" label="With files"/>
+                    <switch id="withoutfiles" label="Without files"/>
+                    <switch id="onlyinbox" label="Only inbox"/>
+                    <switch id="onlyoutbox" label="Only outbox"/>
+                </row>
+                <row auto="true" row_class="row g-1" col_class="col-auto">
+                    <div col_class="col"/>
+                    <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                </row>
+            </div>
             <row auto="true" col_class="col-12 mb-3">
                 <list id="list" source="app/emails/list/list"/>
             </row>
@@ -173,18 +208,6 @@
             <file eval="true">file_with_hash("apps/emails/js/emails.js")</file>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
-    </create>
-
-    <create id="accounts">
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <data eval="true">execute_query_array("SELECT id,CONCAT(email_name,' &amp;lt;',email_from,'&amp;gt;') name
-        FROM app_emails_accounts
-        WHERE user_id=".intval(get_data("json/term"))."
-            AND (
-                email_privated='0' OR
-                (TRIM(IFNULL(email_privated,0))='1' AND user_id=".current_user().")
-            )
-        ORDER BY name")</data>
     </create>
 
     <create id="emails">

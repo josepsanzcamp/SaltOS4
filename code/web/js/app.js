@@ -1378,7 +1378,6 @@ saltos.app.profile = () => {
     }
     saltos.gettext.bootstrap.offcanvas({
         pos: 'right',
-        title: '',
         close: 'Close',
         backdrop: true,
         resize: true,
@@ -1403,6 +1402,32 @@ saltos.app.help = () => {
     document.querySelector('.modal-body').setAttribute('id', 'three');
     var app = saltos.hash.get().split('/').at(1);
     saltos.app.send_request(`app/dashboard/help/${app}`);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.search = (id) => {
+    if (saltos.bootstrap.offcanvas('isopen')) {
+        saltos.bootstrap.offcanvas('close');
+        return;
+    }
+    saltos.gettext.bootstrap.offcanvas({
+        pos: 'left',
+        close: 'Close',
+        backdrop: true,
+        resize: true,
+    });
+    var div = document.getElementById(id);
+    var parent = div.parentElement;
+    document.querySelector('.offcanvas-body').append(div);
+    div.classList.remove('d-none');
+    var obj = saltos.bootstrap.__offcanvas.obj;
+    obj.addEventListener('hide.bs.offcanvas', event => {
+        parent.append(div);
+    });
 };
 
 /**
