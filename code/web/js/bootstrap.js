@@ -3808,8 +3808,9 @@ saltos.bootstrap.__offcanvas = {};
  * @close    => text used in the close button for aria purposes
  * @body     => the content used in the offcanvas's body
  * @static   => forces the offcanvas to be static (prevent close by clicking outside the
- *            offcanvas or by pressing the escape key)
- * @backdrop => to configure the backdrop feature (true of false)
+ *              offcanvas or by pressing the escape key)
+ * @backdrop => to configure the backdrop feature (true or false)
+ * @keyboard => to configure the keyboard feature (true or false)
  * @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @resize   => the resize allow to the offcanvas to resize the contents of the screen to prevent
  *              offcanvas from hiding things
@@ -3844,14 +3845,19 @@ saltos.bootstrap.offcanvas = args => {
         return false;
     }
     // Normal operation
-    saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body',
-                                    'resize', 'static', 'backdrop', 'color']);
+    saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body', 'color',
+                                    'resize', 'static', 'backdrop', 'keyboard']);
     var temp = [];
     if (saltos.core.eval_bool(args.static)) {
-        temp.push(`data-bs-backdrop="static" data-bs-keyboard="false"`);
+        temp.push(`data-bs-backdrop="static"`);
+        temp.push(`data-bs-keyboard="false"`);
     }
     if (saltos.core.eval_bool(args.backdrop)) {
         temp.push(`data-bs-backdrop="false"`);
+        temp.push(`data-bs-keyboard="false"`);
+    }
+    if (saltos.core.eval_bool(args.keyboard)) {
+        temp.push(`data-bs-keyboard="false"`);
     }
     temp = temp.join(' ');
     var valid_positions = ['start', 'end', 'top', 'bottom', 'left', 'right'];
@@ -3919,15 +3925,14 @@ saltos.bootstrap.offcanvas = args => {
         delete saltos.bootstrap.__offcanvas.instance;
         delete saltos.bootstrap.__offcanvas.obj;
     });
-    if (saltos.core.eval_bool(args.resize)) {
-        obj.append(saltos.core.html(`
-            <style>
-                .offcanvas {
-                    transition: none;
-                }
-            </style>
-        `));
-    }
+    obj.append(saltos.core.html(`
+        <style>
+            .offcanvas,
+            .offcanvas-backdrop.fade {
+                transition: none;
+            }
+        </style>
+    `));
     instance.show();
     return true;
 };
