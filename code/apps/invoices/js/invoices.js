@@ -90,6 +90,7 @@ saltos.invoices.compute_total = () => {
  * TODO
  */
 saltos.invoices.add_item = () => {
+    saltos.app.form.__backup.restore('two,one');
     var layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
     var obj = saltos.app.form.layout(layout, 'div');
     document.querySelector('.footer').before(obj);

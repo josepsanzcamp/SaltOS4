@@ -230,22 +230,50 @@ saltos.app.__form = {
  * This object is intended to store more forms that one, usefull when driver uses the same
  * screen to allocate lists and forms that contains fields for the search engine or fields
  * for the create or edit features.
+ *
+ * The restore action is able to understand some expressions like comma and plus:
+ * @ two,one => this example is intended to restore the two context if it is found, otherwise
+ *   tries to restore the one context, otherwise a void context is set.
+ * @ top+one => this example is intended to restore two contexts in one contest, intender to
+ *   load the context of the search list that can be contained in the top and one containers.
  */
-saltos.app.form.backup = {
-    forms: {},
+saltos.app.form.__backup = {
+    __forms: {},
     do: key => {
-        saltos.app.form.backup.forms[key] = {};
-        saltos.app.form.backup.forms[key].fields = saltos.app.__form.fields;
-        saltos.app.form.backup.forms[key].templates = saltos.app.__form.templates;
+        saltos.app.form.__backup.__forms[key] = {};
+        saltos.app.form.__backup.__forms[key].fields = saltos.app.__form.fields;
+        saltos.app.form.__backup.__forms[key].templates = saltos.app.__form.templates;
     },
     restore: key => {
-        if (!saltos.app.form.backup.forms.hasOwnProperty(key)) {
-            saltos.app.__form.fields = [];
-            saltos.app.__form.templates = {};
-            return;
+        saltos.app.__form.fields = [];
+        saltos.app.__form.templates = {};
+        if (key.includes('+')) {
+            key = key.split('+');
+            var bool = false;
+            for (var i in key) {
+                if (saltos.app.form.__backup.__forms.hasOwnProperty(key[i])) {
+                    saltos.app.__form.fields = [
+                        ...saltos.app.__form.fields,
+                        ...saltos.app.form.__backup.__forms[key[i]].fields
+                    ];
+                    saltos.app.__form.templates = {
+                        ...saltos.app.__form.templates,
+                        ...saltos.app.form.__backup.__forms[key[i]].templates
+                    };
+                    bool = true;
+                }
+            }
+            return bool;
         }
-        saltos.app.__form.fields = saltos.app.form.backup.forms[key].fields;
-        saltos.app.__form.templates = saltos.app.form.backup.forms[key].templates;
+        key = key.split(',');
+        for (var i in key) {
+            if (saltos.app.form.__backup.__forms.hasOwnProperty(key[i])) {
+                saltos.app.__form.fields = saltos.app.form.__backup.__forms[key[i]].fields;
+                saltos.app.__form.templates = saltos.app.form.__backup.__forms[key[i]].templates;
+                return true;
+            }
+        }
+        return false;
     },
 };
 
@@ -312,13 +340,13 @@ saltos.app.form.data = data => {
                 obj.set(val);
             }
         }
-        // This updates the field spec
-        // TODO: THIS UPDATE ONLY APPLY TO THE EXECUTION CONTEXT
-        // TODO: MAYBE THE SEARCH MUST BE PERFORMED IN ALL BACKUPS???
-        // TODO: ANOTHER SOLUTION IS STORE THE NAME OF THE CURRENT CONTEXT
-        var obj2 = saltos.app.__form.fields.find(elem => elem.id == key);
-        if (typeof obj2 != 'undefined') {
-            obj2.value = val;
+        // This updates the field spec searching in all backups
+        for (var i in saltos.app.form.__backup.__forms) {
+            saltos.app.form.__backup.__forms[i].fields.forEach(_this => {
+                if (_this.id == key) {
+                    _this.value = val;
+                }
+            });
         }
     }
 };
@@ -498,7 +526,7 @@ saltos.app.form.layout = (layout, extra) => {
     if (typeof append != 'undefined') {
         obj = document.getElementById(append);
         // Do a backup of the fields and templates using the append key
-        saltos.app.form.backup.do(append);
+        saltos.app.form.__backup.do(append);
         // It is important to place this innerHTML here because in the body removes all contents
         obj.innerHTML = '';
     }
