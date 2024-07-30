@@ -216,20 +216,36 @@ saltos.app.__form = {
 };
 
 /**
- * TODO
+ * Form backup helper
  *
- * TODO
+ * This object stores the needed structure to allocate the forms backups with all their
+ * data and the functions needed to do and restore the backups to the main __form object.
+ *
+ * @do      => this action performs a backup using the specified key
+ * @restore => this action performs the restoration action using the specified key, if the
+ *             key is not found, then empty fields and templates are used for the restoration.
+ *
+ * Notes:
+ *
+ * This object is intended to store more forms that one, usefull when driver uses the same
+ * screen to allocate lists and forms that contains fields for the search engine or fields
+ * for the create or edit features.
  */
-saltos.app.__form.backup = {
-    fields: [],
-    templates: {},
-    do: () => {
-        saltos.app.__form.backup.fields = saltos.app.__form.fields;
-        saltos.app.__form.backup.templates = saltos.app.__form.templates;
+saltos.app.form.backup = {
+    forms: {},
+    do: key => {
+        saltos.app.form.backup.forms[key] = {};
+        saltos.app.form.backup.forms[key].fields = saltos.app.__form.fields;
+        saltos.app.form.backup.forms[key].templates = saltos.app.__form.templates;
     },
-    restore: () => {
-        saltos.app.__form.fields = saltos.app.__form.backup.fields;
-        saltos.app.__form.templates = saltos.app.__form.backup.templates;
+    restore: key => {
+        if (!saltos.app.form.backup.forms.hasOwnProperty(key)) {
+            saltos.app.__form.fields = [];
+            saltos.app.__form.templates = {};
+            return;
+        }
+        saltos.app.__form.fields = saltos.app.form.backup.forms[key].fields;
+        saltos.app.__form.templates = saltos.app.form.backup.forms[key].templates;
     },
 };
 
@@ -297,6 +313,9 @@ saltos.app.form.data = data => {
             }
         }
         // This updates the field spec
+        // TODO: THIS UPDATE ONLY APPLY TO THE EXECUTION CONTEXT
+        // TODO: MAYBE THE SEARCH MUST BE PERFORMED IN ALL BACKUPS???
+        // TODO: ANOTHER SOLUTION IS STORE THE NAME OF THE CURRENT CONTEXT
         var obj2 = saltos.app.__form.fields.find(elem => elem.id == key);
         if (typeof obj2 != 'undefined') {
             obj2.value = val;
@@ -377,6 +396,17 @@ saltos.app.form.layout = (layout, extra) => {
     if (saltos.core.is_attr_value(layout) && layout['#attr'].hasOwnProperty('append')) {
         var append = layout['#attr'].append;
         layout = layout.value;
+        var temp = append.split(',');
+        for (var i in temp) {
+            obj = document.getElementById(temp[i]);
+            if (obj) {
+                append = temp[i];
+                break;
+            }
+        }
+        if (!obj) {
+            throw new Error(`append ${append} not found`);
+        }
     }
     // This code fix a problem when layout contains the content of a template
     if (saltos.core.is_attr_value(layout)) {
@@ -466,16 +496,9 @@ saltos.app.form.layout = (layout, extra) => {
     // Defaut feature that add the div to the body's document
     var obj = document.body;
     if (typeof append != 'undefined') {
-        var temp = append.split(',');
-        for (var i in temp) {
-            obj = document.getElementById(temp[i]);
-            if (obj) {
-                break;
-            }
-        }
-        if (!obj) {
-            throw new Error(`append ${append} not found`);
-        }
+        obj = document.getElementById(append);
+        // Do a backup of the fields and templates using the append key
+        saltos.app.form.backup.do(append);
         // It is important to place this innerHTML here because in the body removes all contents
         obj.innerHTML = '';
     }
@@ -959,66 +982,69 @@ saltos.app.get_data = full => {
         'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (var i in saltos.app.__form.fields) {
         var field = saltos.app.__form.fields[i];
-        // This trick allow to ignore fields used only for presentation purposes
-        if (field.hasOwnProperty('ignore') && field.ignore == 'true') {
+        var obj = document.getElementById(field.id);
+        if (!obj) {
             continue;
         }
-        var obj = document.getElementById(field.id);
-        if (obj) {
-            if (types.includes(obj.type)) {
-                var val = obj.value;
-                var old = field.value.toString();
-                switch (obj.type) {
-                    case 'textarea':
-                        val = val.replace(/\r\n|\r/g, '\n');
-                        old = old.replace(/\r\n|\r/g, '\n');
-                        break;
-                    case 'file':
-                        val = obj.data;
-                        old = field.data;
-                        break;
+        if (!types.includes(obj.type)) {
+            continue;
+        }
+        // This trick allow to ignore fields used only for presentation purposes
+        if (field.hasOwnProperty('ignore') && saltos.core.eval_bool(field.ignore)) {
+            continue;
+        }
+        // Continue
+        var val = obj.value;
+        var old = field.value.toString();
+        switch (obj.type) {
+            case 'textarea':
+                val = val.replace(/\r\n|\r/g, '\n');
+                old = old.replace(/\r\n|\r/g, '\n');
+                break;
+            case 'file':
+                val = obj.data;
+                old = field.data;
+                break;
+        }
+        switch (field.type) {
+            case 'integer':
+                val = parseInt(val);
+                old = parseInt(old);
+                if (isNaN(val)) {
+                    val = 0;
                 }
-                switch (field.type) {
-                    case 'integer':
-                        val = parseInt(val);
-                        old = parseInt(old);
-                        if (isNaN(val)) {
-                            val = 0;
-                        }
-                        if (isNaN(old)) {
-                            old = 0;
-                        }
-                        break;
-                    case 'float':
-                        val = parseFloat(val);
-                        old = parseFloat(old);
-                        if (isNaN(val)) {
-                            val = 0;
-                        }
-                        if (isNaN(old)) {
-                            old = 0;
-                        }
-                        break;
-                    case 'multiselect':
-                        if (field.hasOwnProperty('separator')) {
-                            val = val.split(field.separator).sort().join(field.separator);
-                            old = old.split(field.separator).sort().join(field.separator);
-                        }
-                        break;
-                    case 'excel':
-                        val = obj.data;
-                        old = field.data;
-                        break;
+                if (isNaN(old)) {
+                    old = 0;
                 }
-                if (typeof val == 'object' && typeof old == 'object') {
-                    if (JSON.stringify(val) != JSON.stringify(old) || full) {
-                        data[field.id] = val;
-                    }
-                } else {
-                    if (val != old || full) {
-                        data[field.id] = val;
-                    }
+                break;
+            case 'float':
+                val = parseFloat(val);
+                old = parseFloat(old);
+                if (isNaN(val)) {
+                    val = 0;
                 }
+                if (isNaN(old)) {
+                    old = 0;
+                }
+                break;
+            case 'multiselect':
+                if (field.hasOwnProperty('separator')) {
+                    val = val.split(field.separator).sort().join(field.separator);
+                    old = old.split(field.separator).sort().join(field.separator);
+                }
+                break;
+            case 'excel':
+                val = obj.data;
+                old = field.data;
+                break;
+        }
+        if (typeof val == 'object' && typeof old == 'object') {
+            if (JSON.stringify(val) != JSON.stringify(old) || full) {
+                data[field.id] = val;
+            }
+        } else {
+            if (val != old || full) {
+                data[field.id] = val;
             }
         }
     }
@@ -1135,16 +1161,29 @@ saltos.app.checkbox_ids = obj => {
  */
 saltos.app.check_required = () => {
     var obj = null;
-    document.querySelectorAll('[required]').forEach(_this => {
+    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
+        'textarea', 'checkbox', 'password', 'file', 'select-one'];
+    for (var i in saltos.app.__form.fields) {
+        var field = saltos.app.__form.fields[i];
+        var _this = document.getElementById(field.id);
+        if (!_this) {
+            continue;
+        }
+        if (!types.includes(_this.type)) {
+            continue;
+        }
+        if (!saltos.core.eval_bool(field.required)) {
+            continue;
+        }
         var value = _this.value;
         var obj_color = _this;
         var obj_focus = _this;
-        // to detect the value of the tags fields
-        if (_this.type == 'text' && _this.id.substr(-5) == '_tags' && _this.classList.contains('last')) {
-            var id2 = _this.id.substr(0, _this.id.length - 5);
-            var obj2 = document.getElementById(id2);
-            if (obj2 && obj2.type == 'hidden' && obj2.classList.contains('first')) {
-                value = obj2.value;
+        // to detect the color and focus of the tags fields
+        if (_this.type == 'hidden') {
+            var tags = document.getElementById(_this.id + '_tags');
+            if (tags && tags.type == 'text') {
+                obj_color = tags;
+                obj_focus = tags;
             }
         }
         // to detect the color and focus of the ckeditor fields
@@ -1252,7 +1291,7 @@ saltos.app.check_required = () => {
                 });
             }
         }
-    });
+    }
     if (obj) {
         obj.focus();
         return false;
@@ -1272,27 +1311,29 @@ saltos.app.form_disabled = bool => {
     for (var i in saltos.app.__form.fields) {
         var field = saltos.app.__form.fields[i];
         var obj = document.getElementById(field.id);
-        if (obj) {
-            if (types.includes(obj.type)) {
-                if (bool) {
-                    obj.setAttribute('disabled', '');
-                    //~ obj.setAttribute('readonly', '');
-                } else {
-                    obj.removeAttribute('disabled');
-                    //~ obj.removeAttribute('readonly');
-                }
-                if (['ckeditor','codemirror','excel'].includes(field.type)) {
-                    if (obj.hasOwnProperty('set_disabled')) {
-                        obj.set_disabled(bool);
-                    } else {
-                        let element = obj;
-                        setTimeout(() => element.set_disabled(bool), 1);
-                    }
-                }
-                if (['multiselect','tags'].includes(field.type)) {
-                    obj.set_disabled(bool);
-                }
+        if (!obj) {
+            continue;
+        }
+        if (!types.includes(obj.type)) {
+            continue;
+        }
+        if (bool) {
+            obj.setAttribute('disabled', '');
+            //~ obj.setAttribute('readonly', '');
+        } else {
+            obj.removeAttribute('disabled');
+            //~ obj.removeAttribute('readonly');
+        }
+        if (['ckeditor','codemirror','excel'].includes(field.type)) {
+            if (obj.hasOwnProperty('set_disabled')) {
+                obj.set_disabled(bool);
+            } else {
+                let element = obj;
+                setTimeout(() => element.set_disabled(bool), 1);
             }
+        }
+        if (['multiselect','tags'].includes(field.type)) {
+            obj.set_disabled(bool);
         }
     }
 };

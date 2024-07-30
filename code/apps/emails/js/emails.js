@@ -180,10 +180,12 @@ saltos.emails.delete2 = () => {
  * TODO
  */
 saltos.emails.send = () => {
+    saltos.app.form.backup.restore('two');
     if (!saltos.app.check_required()) {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
+    var data = saltos.app.get_data(true);
     var action = saltos.hash.get().split('/').at(3);
     if (typeof action == 'undefined') {
         action = '';
@@ -196,7 +198,6 @@ saltos.emails.send = () => {
     } else {
         email_id = '/' + email_id;
     }
-    var data = saltos.app.get_data(true);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?app/emails/create/sendmail${action}${email_id}`,

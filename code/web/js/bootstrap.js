@@ -877,33 +877,38 @@ saltos.bootstrap.__field.select = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange', 'autofocus',
                                      'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
     saltos.core.check_params(field, ['rows'], []);
+    var disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
+        disabled = 'disabled';
     }
+    var required = '';
     if (saltos.core.eval_bool(field.required)) {
-        field.required = 'required';
+        required = 'required';
     }
+    var autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
-        field.autofocus = 'autofocus';
+        autofocus = 'autofocus';
     }
+    var multiple = '';
     if (saltos.core.eval_bool(field.multiple)) {
-        field.multiple = 'multiple';
+        multiple = 'multiple';
     }
+    var size = '';
     if (field.size != '') {
-        field.size = `size="${field.size}"`;
+        size = `size="${field.size}"`;
     }
+    var color = field.color;
     if (!field.color) {
-        field.color = 'primary';
+        color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    var border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
         <select class="form-select ${border} ${field.class}" id="${field.id}"
-            ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
-            data-bs-accesskey="${field.accesskey}" ${field.size}
-            data-bs-title="${field.tooltip}"></select>
+            ${disabled} ${required} ${autofocus} ${multiple} ${size}
+            data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
     `);
     if (field.onchange != '') {
         saltos.bootstrap.__onchange_helper(obj, field.onchange);
@@ -1097,35 +1102,38 @@ saltos.bootstrap.__field.multiselect = field => {
 saltos.bootstrap.__field.checkbox = field => {
     saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly', 'required',
                                      'label', 'tooltip', 'class', 'accesskey', 'color']);
+    var disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
+        disabled = 'disabled';
     }
+    var readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
-        field.readonly = 'readonly';
+        readonly = 'readonly';
     }
+    var required = '';
     if (saltos.core.eval_bool(field.required)) {
-        field.required = 'required';
+        required = 'required';
     }
+    var value = 0;
     if (saltos.core.eval_bool(field.value)) {
-        field.value = 1;
-    } else {
-        field.value = 0;
+        value = 1;
     }
     var checked = '';
-    if (field.value) {
+    if (value) {
         checked = 'checked';
     }
+    var color = field.color;
     if (!field.color) {
-        field.color = 'primary';
+        color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    var border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
         <div class="form-check ${field.class}">
-            <input class="form-check-input ${border}" type="checkbox" id="${field.id}" ${checked}
-                value="${field.value}" ${field.disabled} ${field.readonly} ${field.required}
+            <input class="form-check-input ${border}" type="checkbox" id="${field.id}"
+                value="${value}" ${disabled} ${readonly} ${required} ${checked}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <label class="form-check-label" for="${field.id}"
                 data-bs-title="${field.tooltip}">${field.label}</label>
@@ -1186,6 +1194,8 @@ saltos.bootstrap.__field.switch = field => {
  * @color     => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @collapse  => a boolean to enable or disable the collapse feature in the button
  * @target    => the id of the element controlled by the collapse feature
+ * @addbr     => this special feature adds a void label with a new line tag to align the button with
+ *               the other elements that are label+widget
  *
  * Notes:
  *
@@ -1194,7 +1204,7 @@ saltos.bootstrap.__field.switch = field => {
  */
 saltos.bootstrap.__field.button = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'onclick', 'tooltip',
-                                     'icon', 'label', 'accesskey', 'color', 'collapse', 'target']);
+                                     'icon', 'label', 'accesskey', 'color', 'collapse', 'target', 'addbr']);
     if (saltos.core.eval_bool(field.disabled)) {
         field.disabled = 'disabled';
         field.class += ' opacity-25';
@@ -1239,6 +1249,11 @@ saltos.bootstrap.__field.button = field => {
             obj.classList.remove('opacity-25');
         }
     };
+    if (saltos.core.eval_bool(field.addbr)) {
+        var obj2 = saltos.core.html(`<div><label class="form-label">&nbsp;</label><br/></div>`);
+        obj2.append(obj);
+        return obj2;
+    }
     return obj;
 };
 
@@ -1269,22 +1284,27 @@ saltos.bootstrap.__field.button = field => {
 saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled', 'onenter',
                                      'readonly', 'required', 'autofocus', 'tooltip', 'accesskey', 'color']);
+    var disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
+        disabled = 'disabled';
     }
+    var readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
-        field.readonly = 'readonly';
+        readonly = 'readonly';
     }
+    var required = '';
     if (saltos.core.eval_bool(field.required)) {
-        field.required = 'required';
+        required = 'required';
     }
+    var autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
-        field.autofocus = 'autofocus';
+        autofocus = 'autofocus';
     }
+    var color = field.color;
     if (!field.color) {
-        field.color = 'primary';
+        color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    var border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
@@ -1293,10 +1313,10 @@ saltos.bootstrap.__field.password = field => {
             <div class="input-group">
                 <input type="password" class="form-control ${border} ${field.class}"
                     id="${field.id}" placeholder="${field.placeholder}" value="${field.value}"
-                    ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
+                    ${disabled} ${readonly} ${required} ${autofocus}
                     aria-label="${field.placeholder}" aria-describedby="${field.id}_button"
                     data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
-                <button class="btn btn-${field.color} bi-eye-slash" type="button"
+                <button class="btn btn-${color} bi-eye-slash" type="button"
                     id="${field.id}_button" data-bs-title="${field.tooltip}"></button>
             </div>
         </div>
@@ -1369,23 +1389,28 @@ saltos.bootstrap.__field.password = field => {
 saltos.bootstrap.__field.file = field => {
     saltos.core.check_params(field, ['class', 'id', 'value', 'data', 'disabled', 'required',
                                      'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
+    var disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
+        disabled = 'disabled';
     }
+    var required = '';
     if (saltos.core.eval_bool(field.required)) {
-        field.required = 'required';
+        required = 'required';
     }
+    var autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
-        field.autofocus = 'autofocus';
+        autofocus = 'autofocus';
     }
+    var multiple = '';
     if (saltos.core.eval_bool(field.multiple)) {
-        field.multiple = 'multiple';
+        multiple = 'multiple';
     }
+    var color = field.color;
     if (!field.color) {
-        field.color = 'primary';
+        color = 'primary';
     }
-    var border1 = `border border-${field.color}`;
-    var border2 = `border-${field.color}`;
+    var border1 = `border border-${color}`;
+    var border2 = `border-${color}`;
     if (field.color == 'none') {
         border1 = 'border-0';
         border2 = '';
@@ -1393,7 +1418,7 @@ saltos.bootstrap.__field.file = field => {
     var obj = saltos.core.html(`
         <div>
             <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
-                ${field.disabled} ${field.required} ${field.autofocus} ${field.multiple}
+                ${disabled} ${required} ${autofocus} ${multiple}
                 data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}" />
             <div class="table-responsive">
                 <table class="table table-striped table-hover ${border2} d-none mb-0">
@@ -1980,6 +2005,15 @@ saltos.bootstrap.__field.pdfjs = field => {
 saltos.bootstrap.__field.table = field => {
     saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color']);
     saltos.core.check_params(field, ['header', 'data', 'footer'], []);
+    // Check for data not found
+    if (!field.data.length) {
+        return saltos.bootstrap.__field.alert({
+            title: 'Data not found',
+            color: field.color,
+            id: field.id,
+        });
+    }
+    // Continue
     if (field.checkbox != '') {
         field.checkbox = saltos.core.eval_bool(field.checkbox);
     }
@@ -2323,7 +2357,7 @@ saltos.bootstrap.__field.alert = field => {
         field.color = 'primary';
     }
     var obj = saltos.core.html(`
-        <div class="alert alert-${field.color} ${field.class}" role="alert" id="${field.id}"></div>
+        <div class="alert alert-${field.color} ${field.class} mb-0" role="alert" id="${field.id}"></div>
     `);
     if (field.title != '') {
         obj.append(saltos.core.html(`<h4>${field.title}</h4>`));
@@ -2733,6 +2767,14 @@ saltos.bootstrap.__field.placeholder = field => {
 saltos.bootstrap.__field.list = field => {
     saltos.core.check_params(field, ['class', 'id', 'onclick', 'truncate', 'checkbox']);
     saltos.core.check_params(field, ['data'], []);
+    // Check for data not found
+    if (!field.data.length) {
+        return saltos.bootstrap.__field.alert({
+            title: 'Data not found',
+            id: field.id,
+        });
+    }
+    // Continue
     if (saltos.core.eval_bool(field.onclick)) {
         var obj = saltos.core.html(`<div id="${field.id}" class="list-group ${field.class}"></div>`);
     } else {
@@ -3208,29 +3250,34 @@ saltos.bootstrap.__text_helper = field => {
     saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value',
                                      'disabled', 'onenter', 'readonly', 'required',
                                      'autofocus', 'tooltip', 'accesskey', 'color']);
+    var disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
+        disabled = 'disabled';
     }
+    var readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
-        field.readonly = 'readonly';
+        readonly = 'readonly';
     }
+    var required = '';
     if (saltos.core.eval_bool(field.required)) {
-        field.required = 'required';
+        required = 'required';
     }
+    var autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
-        field.autofocus = 'autofocus';
+        autofocus = 'autofocus';
     }
+    var color = field.color;
     if (!field.color) {
-        field.color = 'primary';
+        color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    var border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
         <input type="${field.type}" class="form-control ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-            ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
+            ${disabled} ${readonly} ${required} ${autofocus}
             id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
     `);
     if (field.tooltip != '') {
@@ -3266,29 +3313,34 @@ saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value',
                                      'disabled', 'readonly', 'required', 'autofocus',
                                      'tooltip', 'accesskey', 'color']);
+    var disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
+        disabled = 'disabled';
     }
+    var readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
-        field.readonly = 'readonly';
+        readonly = 'readonly';
     }
+    var required = '';
     if (saltos.core.eval_bool(field.required)) {
-        field.required = 'required';
+        required = 'required';
     }
+    var autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
-        field.autofocus = 'autofocus';
+        autofocus = 'autofocus';
     }
+    var color = field.color;
     if (!field.color) {
-        field.color = 'primary';
+        color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    var border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
         <textarea class="form-control ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-            ${field.disabled} ${field.readonly} ${field.required} ${field.autofocus}
+            ${disabled} ${readonly} ${required} ${autofocus}
             id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != '') {

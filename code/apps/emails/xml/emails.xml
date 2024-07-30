@@ -137,7 +137,8 @@
                         ORDER BY email_default DESC, counter DESC
                     ")</rows>
                 </select>
-                <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window" icon="arrows-fullscreen" col_class="col-auto mb-3 mt-auto" ifeval="get_data('rest/-1')!='only'"/>
+                <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
+                    icon="arrows-fullscreen" col_class="col-auto mb-3" ifeval="get_data('rest/-1')!='only'" addbr="true"/>
                 <tags id="to" label="To" separator=";" datalist="app/emails/create/emails" required="true"/>
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails"/>
@@ -233,7 +234,8 @@
         <layout append="two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <text id="from" label="From" col_class="col mb-3"/>
-                <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window" icon="arrows-fullscreen" col_class="col-auto mb-3 mt-auto" ifeval="get_data('rest/-1')!='only'"/>
+                <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
+                    icon="arrows-fullscreen" col_class="col-auto mb-3" ifeval="get_data('rest/-1')!='only'" addbr="true"/>
                 <text id="to" label="To" require="apps/emails/php/getmail.php"/>
                 <text id="cc" label="CC" ifeval="getmail_field('cc',intval(get_data('rest/3')))"/>
                 <text id="bcc" label="BCC" ifeval="getmail_field('bcc',intval(get_data('rest/3')))"/>
