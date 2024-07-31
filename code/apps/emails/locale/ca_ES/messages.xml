@@ -117,4 +117,26 @@
     <pop3_server_configuration>Configuració servidor entrant</pop3_server_configuration>
     <smtp_server_configuration>Configuració servidor sortint</smtp_server_configuration>
     <extra_configuration>Configuració adicional</extra_configuration>
+    <search_form>Formulari de cerca</search_form>
+    <all_accounts>[Tots els comptes]</all_accounts>
+    <search_in_fields>Cercar als camps</search_in_fields>
+    <all_fields>[Tots els camps]</all_fields>
+    <only_address>Només adreces</only_address>
+    <only_subject>Només assumpte</only_subject>
+    <only_message>Només missatge</only_message>
+    <common_dates>Dates típiques</common_dates>
+    <all_dates>[Totes les dates]</all_dates>
+    <today>Avui</today>
+    <yesterday>Ahir</yesterday>
+    <last_week>Darrera setmana</last_week>
+    <last_month>Darrer mes</last_month>
+    <only_new>Només nou</only_new>
+    <only_wait>Només pendent</only_wait>
+    <only_spam>Només SPAM</only_spam>
+    <hide_spam>Amagar SPAM</hide_spam>
+    <with_files>Amb adjunts</with_files>
+    <without_files>Sense adjunts</without_files>
+    <only_inbox>Només entrant</only_inbox>
+    <only_outbox>Només sortint</only_outbox>
+    <show_and_hide_the_search_form>Mostrar i amagar el formulari de cerca</show_and_hide_the_search_form>
 </root>

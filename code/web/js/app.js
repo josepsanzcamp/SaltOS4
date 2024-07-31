@@ -1419,7 +1419,7 @@ saltos.app.search = (id) => {
     var div = document.getElementById(id);
     var parent = div.parentElement;
     if (div.hasOwnProperty('data-bs-title')) {
-        document.querySelector('.offcanvas-title').innerHTML = div['data-bs-title'];
+        document.querySelector('.offcanvas-title').innerHTML = T(div['data-bs-title']);
     }
     document.querySelector('.offcanvas-body').append(div);
     div.classList.remove('d-none');
