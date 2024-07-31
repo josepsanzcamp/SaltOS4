@@ -973,7 +973,6 @@ saltos.app.__source_helper = field => {
                     return;
                 }
                 field.source = '';
-                //~ delete response.id;
                 for (var key in response) {
                     field[key] = response[key];
                 }

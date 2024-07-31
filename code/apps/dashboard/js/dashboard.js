@@ -53,6 +53,7 @@ saltos.dashboard.init = arg => {
                     if (!saltos.app.check_response(response)) {
                         return;
                     }
+                    response.id = 'table1';
                     var temp = saltos.bootstrap.field(response);
                     document.getElementById('table1').replaceWith(temp);
                 },
