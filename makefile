@@ -16,7 +16,7 @@ web: clean
 		php scripts/fixpath.php fonts/Atkinson-Hyperlegible atkinson-hyperlegible/fonts/Atkinson-Hyperlegible | \
 		php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
 
-	cat code/web/lib/bootstrap/bootstrap.bundle.min.js code/web/lib/md5/md5.min.js > code/web/lib/index.js
+	cat code/web/lib/bootstrap/bootstrap.bundle.min.js code/web/lib/md5/md5.min.js code/web/lib/sourcemap/sourcemapped-stacktrace.min.js > code/web/lib/index.js
 
 	mkdir -p code/web/js/.js
 	@for i in code/web/js/*.js; do \
@@ -37,7 +37,7 @@ web: clean
 devel: clean
 	cat code/web/htm/index.htm | \
 		php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
-		php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js | \
+		php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js | \
 		php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,app}.js > code/web/index.htm
 
 clean:

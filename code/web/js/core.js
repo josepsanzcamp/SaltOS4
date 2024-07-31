@@ -43,17 +43,22 @@ saltos.core = {};
 /**
  * Error management
  *
- * This function allow to SaltOS to log in server the javascript errors produced in the client's browser
+ * This function allow to SaltOS to log in server the javascript errors produced in the
+ * client's browser
  */
-saltos.core.onerror = (event, source, lineno, colno, error) => {
+saltos.core.onerror = async (msg, file, line, col, error) => {
     var data = {
-        'jserror': event,
-        'details': 'Error on file ' + source + ':' + lineno + ':' + colno +
-                   ', userAgent is ' + navigator.userAgent,
-        'backtrace': 'unknown',
+        jserror: msg,
+        details: `Error on file ${file}:${line}:${col}, userAgent is ${navigator.userAgent}`,
+        backtrace: 'unknown',
     };
     if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
-        data.backtrace = error.stack;
+        window.sourceMappedStackTrace.mapStackTrace(error.stack, mappedStack => {
+            data.backtrace = mappedStack.join('\n');
+        });
+        while (data.backtrace == 'unknown') {
+            await new Promise(resolve => setTimeout(resolve, 1));
+        }
     }
     saltos.core.ajax({
         url: 'api/?adderror',

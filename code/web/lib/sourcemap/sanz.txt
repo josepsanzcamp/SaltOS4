@@ -1,0 +1,6 @@
+
+npm install sourcemapped-stacktrace
+minify node_modules/sourcemapped-stacktrace/dist/sourcemapped-stacktrace.js > sourcemapped-stacktrace.min.js
+rm -rf node_modules
+rm -f package-lock.json
+rm -f package.json
