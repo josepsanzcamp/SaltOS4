@@ -65,6 +65,9 @@ saltos.emails.server = () => {
                 code: request.status,
             });
         },
+        abort: request => {
+            saltos.app.form.screen('unloading');
+        },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
@@ -113,6 +116,9 @@ saltos.emails.delete1 = () => {
                             code: request.status,
                         });
                     },
+                    abort: request => {
+                        saltos.app.form.screen('unloading');
+                    },
                     token: saltos.token.get(),
                     lang: saltos.gettext.get(),
                 });
@@ -159,6 +165,9 @@ saltos.emails.delete2 = () => {
                             text: request.statusText,
                             code: request.status,
                         });
+                    },
+                    abort: request => {
+                        saltos.app.form.screen('unloading');
                     },
                     token: saltos.token.get(),
                     lang: saltos.gettext.get(),
@@ -228,6 +237,9 @@ saltos.emails.send = () => {
                 code: request.status,
             });
         },
+        abort: request => {
+            saltos.app.form.screen('unloading');
+        },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
@@ -259,6 +271,9 @@ saltos.emails.download = file => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
@@ -295,6 +310,9 @@ saltos.emails.setter = what => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
@@ -338,6 +356,9 @@ saltos.emails.signature = () => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),

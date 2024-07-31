@@ -158,6 +158,9 @@ saltos.driver.search = arg => {
                 code: request.status,
             });
         },
+        abort: request => {
+            saltos.app.form.screen('unloading');
+        },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
@@ -251,6 +254,9 @@ saltos.driver.more = arg => {
                 code: request.status,
             });
         },
+        abort: request => {
+            saltos.app.form.screen('unloading');
+        },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
@@ -302,6 +308,9 @@ saltos.driver.insert = arg => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
@@ -359,6 +368,9 @@ saltos.driver.update = arg => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
@@ -424,6 +436,9 @@ saltos.driver.delete = async arg => {
                             text: request.statusText,
                             code: request.status,
                         });
+                    },
+                    abort: request => {
+                        saltos.app.form.screen('unloading');
                     },
                     token: saltos.token.get(),
                     lang: saltos.gettext.get(),

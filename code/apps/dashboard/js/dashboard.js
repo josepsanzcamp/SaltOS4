@@ -62,6 +62,9 @@ saltos.dashboard.init = arg => {
                         code: request.status,
                     });
                 },
+                abort: request => {
+                    saltos.app.form.screen('unloading');
+                },
                 token: saltos.token.get(),
                 lang: saltos.gettext.get(),
             });

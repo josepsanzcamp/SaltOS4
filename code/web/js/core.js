@@ -241,6 +241,14 @@ saltos.core.html = (...args) => {
 };
 
 /**
+ * Ajax helper array
+ *
+ * This array allow to the ajax feature to manage the active request, intended to abort
+ * if it is needed when onhashchange.
+ */
+saltos.core.__ajax = [];
+
+/**
  * AJAX
  *
  * This function allow to use ajax using the same form that with jQuery without jQuery
@@ -250,6 +258,7 @@ saltos.core.html = (...args) => {
  * @method       => the method of the request (can be GET or POST, GET by default)
  * @success      => callback function for the success action (optional)
  * @error        => callback function for the error action (optional)
+ * @abort        => callback function for the abort action (optional)
  * @progress     => callback function to monitorize the progress of the upload/download (optional)
  * @async        => boolean to use the ajax call asynchronously or not, by default is true
  * @content_type => the content-type that you want to use in the transfer
@@ -260,7 +269,7 @@ saltos.core.html = (...args) => {
  */
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
-        'progress', 'async', 'content_type', 'token', 'lang', 'headers']);
+        'abort', 'progress', 'async', 'content_type', 'token', 'lang', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
@@ -278,35 +287,47 @@ saltos.core.ajax = args => {
         throw new Error(`unknown ${args.method} method`);
     }
     var ajax = new XMLHttpRequest();
-    ajax.onreadystatechange = () => {
-        if (ajax.readyState == 4) {
-            if (ajax.status == 200) {
-                if (typeof args.success == 'function') {
-                    if (!saltos.core.hasOwnProperty('about')) {
-                        if (ajax.getResponseHeader('about')) {
-                            saltos.core.about = ajax.getResponseHeader('about');
-                        }
-                    }
-                    var data = ajax.response;
-                    if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
-                        data = JSON.parse(ajax.responseText);
-                    }
-                    if (ajax.getResponseHeader('content-type').toUpperCase().includes('XML')) {
-                        data = ajax.responseXML;
-                    }
-                    args.success(data, ajax.statusText, ajax);
-                }
-            } else {
-                if (typeof args.error == 'function') {
-                    args.error(ajax, ajax.status, ajax);
-                }
+    saltos.core.__ajax.push(ajax);
+    if (typeof args.success == 'function') {
+        ajax.onload = event => {
+            var data = ajax.response;
+            if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
+                data = JSON.parse(ajax.responseText);
             }
-        }
-    };
+            if (ajax.getResponseHeader('content-type').toUpperCase().includes('XML')) {
+                data = ajax.responseXML;
+            }
+            args.success(data);
+        };
+    }
+    if (typeof args.error == 'function') {
+        ajax.onerror = event => {
+            args.error(ajax);
+        };
+    }
+    if (typeof args.abort == 'function') {
+        ajax.onabort = event => {
+            args.abort(ajax);
+        };
+    }
     if (typeof args.progress == 'function') {
         ajax.onprogress = args.progress;
         ajax.upload.onprogress = args.progress;
     }
+    ajax.onloadend = event => {
+        // Remove the element of the ajax request list
+        for (var i in saltos.core.__ajax) {
+            if (saltos.core.__ajax[i] === ajax) {
+                delete saltos.core.__ajax[i];
+            }
+        }
+        // Check for the about in the response header
+        if (!saltos.core.hasOwnProperty('about')) {
+            if (ajax.getResponseHeader('about')) {
+                saltos.core.about = ajax.getResponseHeader('about');
+            }
+        }
+    };
     ajax.open(args.method, args.url, args.async);
     if (args.content_type != '') {
         ajax.setRequestHeader('Content-Type', args.content_type);

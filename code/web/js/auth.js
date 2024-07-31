@@ -84,6 +84,9 @@ saltos.authenticate.authtoken = (user, pass) => {
                 code: request.status,
             });
         },
+        abort: request => {
+            saltos.app.form.screen('unloading');
+        },
         lang: saltos.gettext.get(),
     });
 };
@@ -119,6 +122,9 @@ saltos.authenticate.checktoken = () => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
@@ -157,6 +163,9 @@ saltos.authenticate.deauthtoken = () => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
@@ -197,6 +206,9 @@ saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
                 text: request.statusText,
                 code: request.status,
             });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
