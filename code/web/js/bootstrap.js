@@ -4070,7 +4070,7 @@ saltos.bootstrap.toast = args => {
     document.querySelector('.toast-container').append(obj);
     if (typeof args.body == 'string') {
         if (args.body != '') {
-            obj.querySelector('.to  ast-body').append(saltos.core.html(args.body));
+            obj.querySelector('.toast-body').append(saltos.core.html(args.body));
         }
     } else {
         obj.querySelector('.toast-body').append(args.body);
