@@ -41,10 +41,10 @@
         <layout append="top">
             <row auto="true" row_class="row g-1 my-3" col_class="col-auto">
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
-                <button onclick="saltos.app.search('search2')" tooltip="TODO" icon="funnel" col_class="col-auto"/>
+                <button onclick="saltos.app.search('search_form')" tooltip="TODO" icon="funnel" col_class="col-auto"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
-                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
@@ -53,9 +53,10 @@
             </row>
         </layout>
         <layout append="one">
-            <div id="search2" class="d-none">
-                <row auto="true" col_class="col-12 mb-3">
-                    <select id="account_id" label="Email accounts">
+            <div id="search_form" class="d-none" title="Search form">
+                <row auto="true" col_class="col-6 mb-3">
+                    <text id="search_extra" label="Search" col_class="col-12 mb-3" onchange="document.getElementById('search').value=this.value"/>
+                    <select id="account_id" label="Email accounts" col_class="col-12 mb-3">
                         <rows eval="true">execute_query_array("
                             SELECT '' value, '[All accounts]' label
                             UNION
@@ -72,20 +73,30 @@
                             <row label="Only message" value="body"/>
                         </rows>
                     </select>
+                    <select id="date3" label="Common dates">
+                        <rows>
+                            <row label="[All dates]" value=""/>
+                            <row label="Today" value="today"/>
+                            <row label="Yesterday" value="yesterday"/>
+                            <row label="Last week" value="week"/>
+                            <row label="Last month" value="month"/>
+                        </rows>
+                    </select>
                     <date id="date1" label="From date"/>
                     <date id="date2" label="Until date"/>
                     <switch id="onlynew" label="Only new"/>
                     <switch id="onlywait" label="Only wait"/>
-                    <switch id="onlyspam" label="Only SPAM"/>
-                    <switch id="hidespam" label="Hide SPAM"/>
-                    <switch id="withfiles" label="With files"/>
-                    <switch id="withoutfiles" label="Without files"/>
-                    <switch id="onlyinbox" label="Only inbox"/>
-                    <switch id="onlyoutbox" label="Only outbox"/>
+                    <switch id="onlyspam" label="Only SPAM" onchange="document.getElementById('hidespam').set(false)"/>
+                    <switch id="hidespam" label="Hide SPAM" onchange="document.getElementById('onlyspam').set(false)"/>
+                    <switch id="withfiles" label="With files" onchange="document.getElementById('withoutfiles').set(false)"/>
+                    <switch id="withoutfiles" label="Without files" onchange="document.getElementById('withfiles').set(false)"/>
+                    <switch id="onlyinbox" label="Only inbox" onchange="document.getElementById('onlyoutbox').set(false)"/>
+                    <switch id="onlyoutbox" label="Only outbox" onchange="document.getElementById('onlyinbox').set(false)"/>
                 </row>
                 <row auto="true" row_class="row g-1" col_class="col-auto">
                     <div col_class="col"/>
                     <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 </row>
             </div>
             <row auto="true" col_class="col-12 mb-3">
@@ -104,7 +115,7 @@
 
     <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <data eval="true">execute_query_array("
+        <data require="apps/emails/php/emails.php" eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) header,
                 IF(DATE(datetime)=DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
                 subject body,
@@ -135,6 +146,7 @@
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("emails", "list")."
+            AND ".make_where_query_emails(get_data("json"))."
             ORDER BY ".get_data("json/order")."
             LIMIT ".get_data("json/offset").",".get_data("json/limit")."
         ")</data>

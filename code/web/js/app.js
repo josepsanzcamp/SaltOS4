@@ -324,10 +324,6 @@ saltos.app.form.data = data => {
             if (typeof val != 'object') {
                 obj.value = val;
             }
-            // Special case for checkboxes
-            if (obj.type == 'checkbox') {
-                obj.checked = val ? true : false;
-            }
             // Special case for iframes
             if (obj.hasAttribute('src')) {
                 obj.src = val;
@@ -1422,10 +1418,14 @@ saltos.app.search = (id) => {
     });
     var div = document.getElementById(id);
     var parent = div.parentElement;
+    if (div.hasOwnProperty('data-bs-title')) {
+        document.querySelector('.offcanvas-title').innerHTML = div['data-bs-title'];
+    }
     document.querySelector('.offcanvas-body').append(div);
     div.classList.remove('d-none');
     var obj = saltos.bootstrap.__offcanvas.obj;
     obj.addEventListener('hide.bs.offcanvas', event => {
+        div.classList.add('d-none');
         parent.append(div);
     });
 };

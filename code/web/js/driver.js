@@ -169,8 +169,27 @@ saltos.driver.search = arg => {
  * TODO
  */
 saltos.driver.reset = arg => {
-    document.getElementById('search').value = '';
-    document.getElementById('page').value = '0';
+    saltos.app.form.__backup.restore('top+one');
+    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
+        'textarea', 'checkbox', 'password', 'file', 'select-one'];
+    for (var i in saltos.app.__form.fields) {
+        var field = saltos.app.__form.fields[i];
+        var obj = document.getElementById(field.id);
+        if (!obj) {
+            continue;
+        }
+        if (!types.includes(obj.type)) {
+            continue;
+        }
+        // Check to prevent objects in value
+        if (typeof field.value != 'object') {
+            obj.value = field.value;
+        }
+        // Special case for widgets with set
+        if (obj.hasOwnProperty('set') && typeof obj.set == 'function') {
+            obj.set(field.value);
+        }
+    }
     saltos.driver.search();
 };
 
