@@ -116,7 +116,6 @@ function make_where_query_emails($json)
     if ($date3 != "") {
         $query[] = $date3_array[$date3];
     }
-    addlog(sprintr($query));
     $query = implode(" AND ", $query);
     return $query;
 }
