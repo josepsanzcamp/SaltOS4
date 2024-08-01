@@ -194,6 +194,15 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
     }
+    // Only for table and list widgets
+    if (field.hasOwnProperty('type') && ['table', 'list'].includes(field.type)) {
+        var props = ['nodata'];
+        for (var i in props) {
+            if (field.hasOwnProperty(props[i])) {
+                field[props[i]] = T(field[props[i]]);
+            }
+        }
+    }
     // Only for select and multiselect widgets
     if (field.hasOwnProperty('type') && ['select', 'multiselect'].includes(field.type)) {
         if (field.hasOwnProperty('rows')) {
@@ -206,7 +215,7 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
     }
-    // Only for select and multiselect widgets
+    // Only for alert widgets
     if (field.hasOwnProperty('type') && field.type == 'alert') {
         var props = ['title', 'text', 'body'];
         for (var i in props) {

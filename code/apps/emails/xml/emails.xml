@@ -101,7 +101,7 @@
                 </row>
             </div>
             <row auto="true" col_class="col-12 mb-3">
-                <list id="list" source="app/emails/list/list"/>
+                <list id="list" source="app/emails/list/list" nodata="Data not found"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -114,7 +114,7 @@
         </javascript>
     </list>
 
-    <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true">
+    <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <data require="apps/emails/php/emails.php" eval="true">execute_query_array("
             SELECT id, IF(is_outbox, `to`, `from`) header,

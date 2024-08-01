@@ -2043,6 +2043,7 @@ saltos.bootstrap.__field.pdfjs = field => {
  * @dropdown => a boolean value to force the usage of the dropdown feature, void for auto detection
  * @label    => this parameter is used as text for the label
  * @color    => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @nodata   => text used when no data is found
  * @actions  => each row of the data can contain an array with the actions of each row
  *
  * Each action can contain:
@@ -2074,14 +2075,14 @@ saltos.bootstrap.__field.pdfjs = field => {
  * to identify if you want to use a column with some special type as for example, the icons
  */
 saltos.bootstrap.__field.table = field => {
-    saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color', 'nodata']);
     saltos.core.check_params(field, ['header', 'data', 'footer'], []);
     // Check for data not found
     if (!field.data.length) {
         return saltos.bootstrap.__field.alert({
-            title: 'Data not found',
-            color: field.color,
             id: field.id,
+            color: field.color,
+            title: field.nodata,
         });
     }
     // Continue
@@ -2805,6 +2806,7 @@ saltos.bootstrap.__field.placeholder = field => {
  * @data     => 2D array with the data used to mount the list
  * @truncate => this parameter add the text-truncate to all texts of the items
  * @checkbox => add a checkbox in the first cell of each row, for mono or multi selection
+ * @nodata   => text used when no data is found
  * @label    => this parameter is used as text for the label
  *
  * Each item in the data can contain:
@@ -2837,13 +2839,13 @@ saltos.bootstrap.__field.placeholder = field => {
  * depending of this parameter, the function uses a dir or an ul element to do the list
  */
 saltos.bootstrap.__field.list = field => {
-    saltos.core.check_params(field, ['class', 'id', 'onclick', 'truncate', 'checkbox']);
+    saltos.core.check_params(field, ['class', 'id', 'onclick', 'truncate', 'checkbox', 'nodata']);
     saltos.core.check_params(field, ['data'], []);
     // Check for data not found
     if (!field.data.length) {
         return saltos.bootstrap.__field.alert({
-            title: 'Data not found',
             id: field.id,
+            title: field.nodata,
         });
     }
     // Continue

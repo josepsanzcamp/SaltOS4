@@ -42,8 +42,8 @@
                 <button ifeval="check_user('tester', 'menu')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
                 <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" class="fs-1 w-100 h-100" label="Types"/>
                 <div col_class="col-12"/><!-- this act as break line -->
-                <table id="table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3"/>
-                <table ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-xl-6 col-md-12 mb-3"></table>
+                <table id="table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
+                <table ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot2" mode="pie"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="bar"/>
                 <chartjs ifeval="check_user('customers', 'widget')" source="app/customers/widget/plot1" mode="line"/>

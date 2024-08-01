@@ -141,7 +141,7 @@ saltos.driver.search = arg => {
                 return;
             }
             response.id = type;
-            var temp = saltos.bootstrap.field(response);
+            var temp = saltos.gettext.bootstrap.field(response);
             if (type == 'table') {
                 document.getElementById('table').replaceWith(temp);
             }
@@ -237,7 +237,7 @@ saltos.driver.more = arg => {
                 // Continue
                 return;
             }
-            var temp = saltos.bootstrap.field(response);
+            var temp = saltos.gettext.bootstrap.field(response);
             if (type == 'table') {
                 var obj = document.getElementById('table').querySelector('tbody');
                 temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
