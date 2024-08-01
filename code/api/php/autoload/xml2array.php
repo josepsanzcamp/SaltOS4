@@ -37,31 +37,6 @@ declare(strict_types=1);
  */
 
 /**
- * Eval Protected
- *
- * This function allow to execute PHP code using the eval function in a controlled
- * environment, you can specify some global variables to improve the eval execution
- *
- * @input  => the code to be executed
- * @global => the list (separated by comma) of global variables that you want to use
- */
-function eval_protected($input, $global = "")
-{
-    if (is_string($global) && $global != "") {
-        foreach (explode(",", $global) as $var) {
-            global $$var;
-        }
-    }
-    if (is_array($global) && count($global)) {
-        foreach ($global as $var) {
-            global $$var;
-        }
-    }
-    $output = eval("return $input;");
-    return $output;
-}
-
-/**
  * Set Array
  *
  * This function allow to specify multiples entries in an array with the same key,
@@ -398,15 +373,15 @@ function struct2array(&$data, $file = "")
  *
  * The three attributes are:
  *
- * @global => this attribute allow to SaltOS to prepare what variales must to
- * be global in the eval_protected call
- *
  * @eval => this attribute must be a boolean and allow to evaluate the value
  * of the node
  *
  * @ifeval => this attribute must contains an expression that must evaluate as
  * true or false, and allow to maintain or remove the entire node thas contains
  * the ifeval attribute, this is useful when you need a node in some conditions
+ *
+ * @require => this attribute allow to SaltOS to add code to the current exec
+ * context and is intended to load code that will then be used by the eval feature
  *
  * The great change between the eval_attr of the previous versions of SaltOS is
  * that this version only accepts three internal commands and the other
@@ -416,40 +391,32 @@ function struct2array(&$data, $file = "")
 function eval_attr($array)
 {
     if (!is_array($array)) {
-        return eval_attr(["inline" => $array])["inline"];
+        return eval_attr(["inline" => $array])["inline"] ?? null;
     }
     if (isset($array["value"]) && isset($array["#attr"])) {
-        return eval_attr(["inline" => $array])["inline"];
+        return eval_attr(["inline" => $array])["inline"] ?? null;
     }
     $result = [];
     foreach ($array as $key => $val) {
         if (is_array($val)) {
             if (isset($val["value"]) && isset($val["#attr"])) {
-                $global = "";
                 $value = $val["value"];
                 $attr = $val["#attr"];
                 $remove = 0;
                 foreach ($attr as $key2 => $val2) {
                     $key3 = fix_key($key2);
                     switch ($key3) {
-                        case "global":
-                            $global = $val2;
-                            foreach (explode(",", $global) as $var) {
-                                global $$var;
-                            }
-                            unset($attr[$key2]);
-                            break;
                         case "eval":
                             if (eval_bool($val2)) {
                                 if (!$value) {
                                     show_php_error(["xmlerror" => "Evaluation error: void expression"]);
                                 }
-                                $value = eval_protected($value, $global);
+                                $value = eval("return $value;");
                             }
                             unset($attr[$key2]);
                             break;
                         case "ifeval":
-                            $val2 = eval_protected($val2, $global);
+                            $val2 = eval("return $val2;");
                             if (!$val2) {
                                 $remove = 1;
                             }

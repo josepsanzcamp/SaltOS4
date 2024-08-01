@@ -65,21 +65,25 @@
             <nombre_poblacion label="Población"/>
             <nombre_codpostal label="C.P."/>
         </header>
-        <data eval="true">execute_query_array("
-            SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("customers", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</data>
-        <actions>
-            <action app="customers" action="view" label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
-            <action app="customers" action="edit" label="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.driver.open"/>
-            <action app="customers" action="delete" label="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.driver.delete"/>
-        </actions>
-        <footer eval="true">"Total: " . execute_query("
+        <temp eval="true">[
+            set_data("json/search", strval(get_data("json/search"))),
+            set_data("json/page", intval(get_data("json/page"))),
+            set_data("json/order", "id DESC"),
+            set_data("json/limit", 25),
+            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+        ]</temp>
+        <data eval="true">merge_data_actions(
+            execute_query_array("
+                SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+                FROM app_customers
+                WHERE 1 = 1
+                AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
+                AND ".check_sql("customers", "list")."
+                ORDER BY ".get_data("json/order")."
+                LIMIT ".get_data("json/offset").",".get_data("json/limit")),
+            xmlfile2array("apps/customers/xml/customers.xml")["actions"]
+        )</data>
+        <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM app_customers
             WHERE 1 = 1
@@ -87,6 +91,12 @@
             AND ".check_sql("customers", "list")."
         ")</footer>
     </list>
+
+    <actions>
+        <action app="customers" action="view" label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
+        <action app="customers" action="edit" label="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.driver.open"/>
+        <action app="customers" action="delete" label="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.driver.delete"/>
+    </actions>
 
     <!-- Form part -->
     <form>
@@ -191,7 +201,7 @@
     </delete>
 
     <!-- Widget part -->
-    <widget id="table1" type="table" order="id DESC" limit="5" nodata="Data not found">
+    <widget id="table1" type="table" nodata="Data not found" checkbox="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <nombre label="Nombre"/>
@@ -199,16 +209,22 @@
             <nombre_poblacion label="Población"/>
             <nombre_codpostal label="C.P."/>
         </header>
-        <data eval="true">execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".check_sql("customers", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
-        <actions>
-            <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
-        </actions>
-        <footer eval="true">"Total: " . execute_query("
+        <temp eval="true">[
+            set_data("json/page", intval(get_data("json/page"))),
+            set_data("json/order", "id DESC"),
+            set_data("json/limit", 5),
+            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+        ]</temp>
+        <data eval="true">merge_data_actions(
+            execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+                FROM app_customers
+                WHERE 1 = 1
+                AND ".check_sql("customers", "list")."
+                ORDER BY ".get_data("json/order")."
+                LIMIT ".get_data("json/offset").",".get_data("json/limit")),
+            xmlfile2array("apps/customers/xml/customers.xml")["actions2"]
+        )</data>
+        <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM app_customers
             WHERE 1 = 1
@@ -216,7 +232,7 @@
         ")</footer>
     </widget>
 
-    <widget id="table2" type="table" order="id ASC" limit="5" nodata="Data not found">
+    <widget id="table2" type="table" nodata="Data not found" checkbox="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <nombre label="Nombre"/>
@@ -224,12 +240,21 @@
             <nombre_poblacion label="Población"/>
             <nombre_codpostal label="C.P."/>
         </header>
-        <data eval="true">execute_query_array("SELECT nombre, cif, nombre_poblacion, nombre_codpostal
-            FROM app_customers
-            WHERE 1 = 1
-            AND ".check_sql("customers", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
+        <temp eval="true">[
+            set_data("json/page", intval(get_data("json/page"))),
+            set_data("json/order", "id ASC"),
+            set_data("json/limit", 5),
+            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+        ]</temp>
+        <data eval="true">merge_data_actions(
+            execute_query_array("SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
+                FROM app_customers
+                WHERE 1 = 1
+                AND ".check_sql("customers", "list")."
+                ORDER BY ".get_data("json/order")."
+                LIMIT ".get_data("json/offset").",".get_data("json/limit")),
+            xmlfile2array("apps/customers/xml/customers.xml")["actions2"]
+        )</data>
         <footer>
             <nombre value="A"/>
             <cif value="B"/>
@@ -237,6 +262,10 @@
             <nombre_codpostal value="D"/>
         </footer>
     </widget>
+
+    <actions2>
+        <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
+    </actions2>
 
     <widget id="plot1">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>

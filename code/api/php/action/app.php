@@ -130,36 +130,6 @@ foreach (["default", "id"] as $attr) {
 // This line is a trick to allow attr in the subapp
 $array = join_attr_value($array);
 
-if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
-    // Check json arguments
-    if (!get_data("json/search")) {
-        set_data("json/search", "");
-    }
-    if (!get_data("json/page")) {
-        set_data("json/page", 0);
-    }
-
-    // Check xml arguments
-    if (!isset($array["order"])) {
-        $array["order"] = "id DESC";
-    }
-    set_data("json/order", $array["order"]);
-    unset($array["order"]);
-    if (!isset($array["limit"])) {
-        $array["limit"] = 15;
-    }
-    set_data("json/limit", $array["limit"]);
-    unset($array["limit"]);
-
-    // Compute offset using page and limit
-    set_data("json/offset", intval(get_data("json/page") * get_data("json/limit")));
-
-    // Check to remove header and footer to improve the performance
-    if (get_data("json/page")) {
-        unset($array["footer"]);
-    }
-}
-
 // Connect to the database
 db_connect();
 
@@ -171,14 +141,17 @@ db_connect();
 // Eval the check/app/queries
 $first = true;
 foreach ($array as $key => $val) {
+    // Control that the first node is a check node
     if ($first) {
         if (fix_key($key) != "check") {
             show_json_error("Permission denied");
         }
         $first = false;
     }
+    // Evaluate the node
     $val = eval_attr($val);
     if (fix_key($key) == "check") {
+        // If the node is a check, can contains a message
         $message = "Permission denied";
         if (is_attr_value($val)) {
             if (isset($val["#attr"]["message"])) {
@@ -186,71 +159,25 @@ foreach ($array as $key => $val) {
             }
             $val = $val["value"];
         }
+        // And now, we must check the returned value
         if (!$val) {
             show_json_error($message);
         }
+        // As note: all checks are removed from the array
+        unset($array[$key]);
+    } elseif (fix_key($key) == "temp") {
+        // All temp nodes are removed
         unset($array[$key]);
     } else {
-        $array[$key] = $val;
-    }
-}
-
-if (isset($array["type"]) && in_array($array["type"], ["table", "list"])) {
-    // Prepare data and actions
-    if (!isset($array["data"])) {
-        $array["data"] = [];
-    }
-    if (!isset($array["actions"])) {
-        $array["actions"] = [];
-    }
-
-    // Add the actions to each row checking each permissions's row
-    foreach ($array["data"] as $key => $row) {
-        $actions = [];
-        foreach ($array["actions"] as $action) {
-            $action = join_attr_value($action);
-            if (
-                check_app_perm_id(
-                    $action["app"],
-                    strtok($action["action"], "/"),
-                    strtok(strval($row["id"]), "/")
-                )
-            ) {
-                $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
-            } else {
-                $action["url"] = "";
-            }
-            $actions[] = $action;
-        }
-        if (count($actions)) {
-            $array["data"][$key]["actions"] = $actions;
+        // This check allow to process the case ifeval="false"
+        // In this case, the returned value is null
+        if ($val === null) {
+            unset($array[$key]);
+        } else {
+            $array[$key] = $val;
         }
     }
-    unset($array["actions"]);
-
-    // If contains header and footer, unify to allow attr in the spec
-    if (isset($array["header"]) && is_array($array["header"])) {
-        foreach ($array["header"] as $key => $val) {
-            $array["header"][$key] = join_attr_value($val);
-        }
-    }
-    if (isset($array["footer"]) && is_array($array["footer"])) {
-        foreach ($array["footer"] as $key => $val) {
-            $array["footer"][$key] = join_attr_value($val);
-        }
-    }
-
-    // Add json arguments if they are found
-    if (!isset($array["search"]) && get_data("json/search")) {
-        $array["search"] = get_data("json/search");
-    }
-    if (!isset($array["page"]) && get_data("json/page")) {
-        $array["page"] = get_data("json/page");
-    }
-}
-
-// Search for output nodes
-foreach ($array as $key => $val) {
+    // Search for output nodes
     if (fix_key($key) == "output") {
         $array = $val;
         break;

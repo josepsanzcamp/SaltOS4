@@ -65,28 +65,39 @@
             <email_from label="Email"/>
             <email_disabled label="Enabled" type="icon"/>
         </header>
-        <data eval="true">execute_query_array("
-            SELECT id, email_name, email_from,
-            CASE email_disabled WHEN 1 THEN 'x-lg text-danger' ELSE 'check-lg text-success' END email_disabled,
-            (SELECT CONCAT(name,' (',login,')') FROM tbl_users a WHERE a.id=user_id) user
-            FROM app_emails_accounts
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("emails_accounts", "list")."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit"))</data>
-        <actions>
-            <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
-            <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-            <action app="emails_accounts" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
-        </actions>
-        <footer eval="true">"Total: " . execute_query("
+        <temp eval="true">[
+            set_data("json/search", strval(get_data("json/search"))),
+            set_data("json/page", intval(get_data("json/page"))),
+            set_data("json/order", "id DESC"),
+            set_data("json/limit", 25),
+            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+        ]</temp>
+        <data eval="true">merge_data_actions(
+            execute_query_array("
+                SELECT id, email_name, email_from,
+                CASE email_disabled WHEN 1 THEN 'x-lg text-danger' ELSE 'check-lg text-success' END email_disabled,
+                (SELECT CONCAT(name,' (',login,')') FROM tbl_users a WHERE a.id=user_id) user
+                FROM app_emails_accounts
+                WHERE 1 = 1
+                AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
+                AND ".check_sql("emails_accounts", "list")."
+                ORDER BY ".get_data("json/order")."
+                LIMIT ".get_data("json/offset").",".get_data("json/limit")),
+            xmlfile2array("apps/emails/xml/emails_accounts.xml")["actions"]
+        )</data>
+        <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM app_emails_accounts
             WHERE 1 = 1
             AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("emails_accounts", "list"))</footer>
     </list>
+
+    <actions>
+        <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
+        <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+        <action app="emails_accounts" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
+    </actions>
 
     <!-- Form part -->
     <form>

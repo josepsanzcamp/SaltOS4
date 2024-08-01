@@ -116,45 +116,55 @@
 
     <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <data require="apps/emails/php/emails.php" eval="true">execute_query_array("
-            SELECT id, IF(is_outbox, `to`, `from`) header,
-                IF(DATE(datetime)=DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
-                subject body,
-                TRIM(CONCAT_WS(' ',
-                    CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
-                    CASE state_error WHEN '' THEN '' ELSE 'Error' END,
-                    CASE WHEN is_outbox=1 AND state_sent=0 AND state_error='' THEN 'Unsent' ELSE '' END,
-                    CASE state_new WHEN 1 THEN 'New' ELSE '' END,
-                    CASE state_reply WHEN 1 THEN 'Reply' ELSE '' END,
-                    CASE state_forward WHEN 1 THEN 'Forward' ELSE '' END,
-                    CASE state_wait WHEN 1 THEN 'Wait' ELSE '' END,
-                    CASE state_spam WHEN 1 THEN 'Spam' ELSE '' END,
-                    CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
-                    CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
-                    CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
-                )) body_text,
-                CASE WHEN state_error!='' THEN 'danger'
-                    WHEN state_spam=1 THEN 'danger'
-                    WHEN state_new=1 THEN 'success'
-                    WHEN state_wait=1 THEN 'primary'
-                    ELSE ''
-                END body_color,
-                SUBSTR(body,1,250) footer,
-                CASE WHEN files THEN files ELSE '' END footer_text,
-                CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon,
-                CASE WHEN state_new=1 THEN 'fw-bold' ELSE '' END class
-            FROM app_emails
-            WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("emails", "list")."
-            AND ".make_where_query_emails(get_data("json"))."
-            ORDER BY ".get_data("json/order")."
-            LIMIT ".get_data("json/offset").",".get_data("json/limit")."
-        ")</data>
-        <actions>
-            <action app="emails" action="view" onclick="saltos.driver.open"/>
-        </actions>
+        <temp eval="true">[
+            set_data("json/search", strval(get_data("json/search"))),
+            set_data("json/page", intval(get_data("json/page"))),
+            set_data("json/order", "id DESC"),
+            set_data("json/limit", 25),
+            set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
+        ]</temp>
+        <data require="apps/emails/php/emails.php" eval="true">merge_data_actions(
+            execute_query_array("
+                SELECT id, IF(is_outbox, `to`, `from`) header,
+                    IF(DATE(datetime)=DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
+                    subject body,
+                    TRIM(CONCAT_WS(' ',
+                        CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
+                        CASE state_error WHEN '' THEN '' ELSE 'Error' END,
+                        CASE WHEN is_outbox=1 AND state_sent=0 AND state_error='' THEN 'Unsent' ELSE '' END,
+                        CASE state_new WHEN 1 THEN 'New' ELSE '' END,
+                        CASE state_reply WHEN 1 THEN 'Reply' ELSE '' END,
+                        CASE state_forward WHEN 1 THEN 'Forward' ELSE '' END,
+                        CASE state_wait WHEN 1 THEN 'Wait' ELSE '' END,
+                        CASE state_spam WHEN 1 THEN 'Spam' ELSE '' END,
+                        CASE priority WHEN -1 THEN 'Low' WHEN 1 THEN 'High' ELSE '' END,
+                        CASE sensitivity WHEN 1 THEN 'Personal' WHEN 2 THEN 'Private' WHEN 3 THEN 'Confidential' ELSE '' END,
+                        CASE is_outbox+state_new+state_reply+state_forward+state_wait+state_spam+priority*10+sensitivity WHEN 0 THEN 'Read' ELSE '' END
+                    )) body_text,
+                    CASE WHEN state_error!='' THEN 'danger'
+                        WHEN state_spam=1 THEN 'danger'
+                        WHEN state_new=1 THEN 'success'
+                        WHEN state_wait=1 THEN 'primary'
+                        ELSE ''
+                    END body_color,
+                    SUBSTR(body,1,250) footer,
+                    CASE WHEN files THEN files ELSE '' END footer_text,
+                    CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon,
+                    CASE WHEN state_new=1 THEN 'fw-bold' ELSE '' END class
+                FROM app_emails
+                WHERE 1 = 1
+                AND ".make_fulltext_query(get_data("json/search"), "emails", ["minsize" => 1, "default" => "1=1"])."
+                AND ".check_sql("emails", "list")."
+                AND ".make_where_query_emails(get_data("json"))."
+                ORDER BY ".get_data("json/order")."
+                LIMIT ".get_data("json/offset").",".get_data("json/limit")),
+            xmlfile2array("apps/emails/xml/emails.xml")["actions"]
+        )</data>
     </list>
+
+    <actions>
+        <action app="emails" action="view" onclick="saltos.driver.open"/>
+    </actions>
 
     <!-- Form part -->
     <create>
@@ -350,18 +360,22 @@
         <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")))</srcdoc>
     </view>
 
-    <view id="files" checkbox="true" dropdown="false" type="table">
+    <view id="files" dropdown="false" type="table">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <header>
             <name>Filename</name>
             <size>Size</size>
         </header>
-        <data require="apps/emails/php/getmail.php" eval="true">getmail_files(intval(get_data("rest/4")))</data>
-        <actions>
-            <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.driver.open"/>
-            <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.emails.download"/>
-        </actions>
+        <data require="apps/emails/php/getmail.php" eval="true">merge_data_actions(
+            getmail_files(intval(get_data("rest/4"))),
+            xmlfile2array("apps/emails/xml/emails.xml")["actions2"]
+        )</data>
     </view>
+
+    <actions2>
+        <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.driver.open"/>
+        <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.emails.download"/>
+    </actions2>
 
     <view id="setter">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
