@@ -71,6 +71,8 @@ switch ($action) {
         }
         $array = authupdate(get_data("json/oldpass"), get_data("json/newpass"), get_data("json/renewpass"));
         break;
+    default:
+        show_php_error(["phperror" => "Unknown action $action"]);
 }
 
 semaphore_release("token");

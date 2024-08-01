@@ -121,7 +121,12 @@ function addlog($msg, $file = "")
  */
 function addtrace($array, $file)
 {
-    addlog(gettrace($array), $file);
+    $msg_text = gettrace($array);
+    $hash = md5($msg_text);
+    if (!checklog($hash, $file)) {
+        addlog($msg_text, $file);
+    }
+    addlog("***** {$hash} *****", $file);
 }
 
 /**
@@ -138,7 +143,7 @@ function gettrace($array)
         $array["backtrace"] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
     if (!isset($array["debug"])) {
-        $array["debug"] = session_backtrace();
+        $array["debug"] = array_intersect_key(session_backtrace(), array_flip(["rest", "token"]));
     }
     $msg = do_message_error($array);
     return $msg["text"];

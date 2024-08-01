@@ -28,6 +28,13 @@
 declare(strict_types=1);
 
 /**
+ * Add log action
+ *
+ * This file implements the addlog action, requires a POST JSON request
+ * with an element in the json that contains the message to be added
+ *
+ * @msg => message that you want to add to the log file
+ *
  * Add error action
  *
  * This file implements the adderror action, requires a POST JSON request
@@ -40,14 +47,30 @@ declare(strict_types=1);
  * @backtrace => array with the backtrace used in the error report
  */
 
-foreach (["jserror", "details", "backtrace"] as $key) {
-    if (get_data("json/$key") == "") {
-        show_json_error("$key not found");
-    }
+$action = get_data("rest/1");
+switch ($action) {
+    case "log":
+        if (get_data("json/msg") == "") {
+            show_json_error("msg not found");
+        }
+        addlog(sprintr(get_data("json/msg")));
+        break;
+    case "error":
+        foreach (["jserror", "details", "backtrace"] as $key) {
+            if (get_data("json/$key") == "") {
+                show_json_error("$key not found");
+            }
+        }
+        addtrace([
+            "jserror" => get_data("json/jserror"),
+            "details" => get_data("json/details"),
+            "backtrace" => get_data("json/backtrace"),
+        ], get_config("debug/jserrorfile") ?? "jserror.log");
+        break;
+    default:
+        show_php_error(["phperror" => "Unknown action $action"]);
 }
 
-show_php_error([
-    "jserror" => get_data("json/jserror"),
-    "details" => get_data("json/details"),
-    "backtrace" => get_data("json/backtrace"),
+output_handler_json([
+    "status" => "ok",
 ]);
