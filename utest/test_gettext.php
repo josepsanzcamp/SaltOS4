@@ -64,10 +64,10 @@ final class test_gettext extends TestCase
         set_data("rest/1", "dashboard");
         set_data("server/lang", check_lang_format("en_US.UTF-8"));
         $this->assertSame(get_data("server/lang"), "en_US");
-        $this->assertSame(T("Customers"), "Customers");
+        $this->assertSame(T("Close"), "Close");
         set_data("server/lang", check_lang_format("es_ES.UTF-8"));
         $this->assertSame(get_data("server/lang"), "es_ES");
-        $this->assertSame(T("Customers"), "Clientes");
+        $this->assertSame(T("Close"), "Cerrar");
         set_data("server/lang", check_lang_format("ca_ES"));
         $this->assertSame(get_data("server/lang"), "ca_ES");
         $this->assertSame(T("Close"), "Tancar");

@@ -41,6 +41,55 @@ declare(strict_types=1);
  * @m => margin of the barcode (white area that surround the barcode)
  * @s => size of the footer text, not used if zero
  * @t => type of the barcode, C128 is the most common type used
+ *
+ * QRCode action
+ *
+ * This action allow to generate a qrcode with the SaltOS logo embedded
+ * in the center of the image, you can pass the desired message that you
+ * want to convert in qrcode.
+ *
+ * @msg    => the msg that you want to codify in the qrcode
+ * @format => the format used to the result, only can be png or json
+ *
+ * @s => size of each pixel used in the qrcode
+ * @m => margin of the qrcode (white area that that surround the qrcode)
+ * @l => error correction: L (low), M (medium), Q (better), H (best)
+ *
+ * Captcha action
+ *
+ * This action allo to retrieve the captcha of a randomly number or math
+ * operation, used to prevent massive requests, can perform the action of
+ * create the captcha image and return the result as a simple image or as
+ * a json image
+ *
+ * @type   => the type used to the result, only can be number or math
+ * @format => the format used to the result, only can be png or json
+ *
+ * @width     => the width of the generated image
+ * @height    => the height of the generated image
+ * @letter    => the size of the letters of the generated image
+ * @number    => the size of the numbers of the generated image
+ * @angle     => the angle allowed to rotate the letters and numbers
+ * @color     => the color user to paint the code
+ * @bgcolor   => the background color of the image
+ * @fgcolor   => the color used to paint the letters of the background of the image
+ * @period    => parameter for the wave transformation
+ * @amplitude => parameter for the wave transformation
+ * @blur      => true or false to enable or disable the blur effect
+ *
+ * Score action
+ *
+ * This action allo to retrieve the score of a password, intended to be used
+ * as helper previously to the authupdate call, can perform the action of
+ * compute the score and return the result as a simple image or as a json
+ * image
+ *
+ * @pass   => the password that you want to compute the score
+ * @format => the format used to the result, only can be png or json
+ *
+ * @width  => the width of the generated image
+ * @height => the height of the generated image
+ * @size   => the size of the font of the generated image
  */
 
 db_connect();

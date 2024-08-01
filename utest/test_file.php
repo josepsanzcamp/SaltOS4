@@ -150,20 +150,36 @@ final class test_file extends TestCase
         $this->assertSame(is_resource($fd), true);
 
         $buffer = __url_get_contents("https://127.0.0.1nada/saltos/code4/api/?auth/check");
-        $this->assertSame($buffer, ["", [], []]);
+        $this->assertSame($buffer, [
+            "body" => "",
+            "headers" => [],
+            "cookies" => [],
+        ]);
 
         $buffer = __url_get_contents("nada://127.0.0.1/saltos/code4/api/?auth/check");
-        $this->assertSame($buffer, ["", [], []]);
+        $this->assertSame($buffer, [
+            "body" => "",
+            "headers" => [],
+            "cookies" => [],
+        ]);
 
         $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?auth/check", [
             "method" => "",
         ]);
-        $this->assertSame($buffer, ["", [], []]);
+        $this->assertSame($buffer, [
+            "body" => "",
+            "headers" => [],
+            "cookies" => [],
+        ]);
 
         $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?auth/check", [
             "method" => "head",
         ]);
-        $this->assertSame($buffer, ["", [], []]);
+        $this->assertSame($buffer, [
+            "body" => "",
+            "headers" => [],
+            "cookies" => [],
+        ]);
 
         $buffer = __url_get_contents("https://127.0.0.1/saltos/code4/api/?auth/check", [
             "cookies" => ["nada" => "nada"],
@@ -187,7 +203,11 @@ final class test_file extends TestCase
                 "OP" => "add-printer",
             ],
         ]);
-        $this->assertSame($buffer, ["", [], []]);
+        $this->assertSame($buffer, [
+            "body" => "",
+            "headers" => [],
+            "cookies" => [],
+        ]);
     }
 
     #[testdox('authtoken action')]
@@ -219,35 +239,31 @@ final class test_file extends TestCase
      */
     public function test_addfiles(array $json): array
     {
-        $json2 = test_web_helper("upload/addfiles", [], "", "");
+        $json2 = test_web_helper("upload/addfile", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("upload/addfiles", [], $json["token"], "");
+        $json2 = test_web_helper("upload/addfile", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("upload/addfiles", [
-            "files" => [
-                ["error" => "nada"],
-            ],
+        $json2 = test_web_helper("upload/addfile", [
+            "error" => "nada",
         ], $json["token"], "");
-        //~ print_r($json2);
+        $this->assertArrayHasKey("error", $json2);
+        $this->assertSame($json2["error"]["text"], "Missing id, app, name, size, type, data, file, hash");
 
-        $json2 = test_web_helper("upload/addfiles", [
-            "files" => [
-                [
-                    "id" => "",
-                    "app" => "",
-                    "name" => "",
-                    "size" => "",
-                    "type" => "",
-                    "data" => "",
-                    "error" => "nada",
-                    "file" => "",
-                    "hash" => "",
-                ],
-            ],
+        $json2 = test_web_helper("upload/addfile", [
+            "id" => "",
+            "app" => "",
+            "name" => "",
+            "size" => "",
+            "type" => "",
+            "data" => "",
+            "error" => "nada",
+            "file" => "",
+            "hash" => "",
         ], $json["token"], "");
-        //~ print_r($json2);
+        $this->assertArrayHasKey("error", $json2);
+        $this->assertSame($json2["error"]["text"], "nada");
 
         $count1 = count(glob("data/upload/*"));
 
@@ -259,24 +275,20 @@ final class test_file extends TestCase
         $type = saltos_content_type($file);
         $data = "data:$type;base64," . base64_encode(file_get_contents($file));
         $files = [
-            [
-                "id" => $id,
-                "app" => $app,
-                "name" => $name,
-                "size" => $size,
-                "type" => $type,
-                "data" => $data,
-                "error" => "",
-                "file" => "",
-                "hash" => "",
-            ],
+            "id" => $id,
+            "app" => $app,
+            "name" => $name,
+            "size" => $size,
+            "type" => $type,
+            "data" => $data,
+            "error" => "",
+            "file" => "",
+            "hash" => "",
         ];
-        $json2 = test_web_helper("upload/addfiles", [
-            "files" => $files,
-        ], $json["token"], "");
-        $files[0]["data"] = "";
-        $files[0]["file"] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
-        $files[0]["hash"] = md5_file($file);
+        $json2 = test_web_helper("upload/addfile", $files, $json["token"], "");
+        $files["data"] = "";
+        $files["file"] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
+        $files["hash"] = md5_file($file);
         $this->assertSame($json2, $files);
 
         $count2 = count(glob("data/upload/*"));
@@ -328,35 +340,31 @@ final class test_file extends TestCase
      */
     public function test_delfiles(array $json): void
     {
-        $json2 = test_web_helper("upload/delfiles", [], "", "");
+        $json2 = test_web_helper("upload/delfile", [], "", "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("upload/delfiles", [], $json["token"], "");
+        $json2 = test_web_helper("upload/delfile", [], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
 
-        $json2 = test_web_helper("upload/delfiles", [
-            "files" => [
-                ["error" => "nada"],
-            ],
+        $json2 = test_web_helper("upload/delfile", [
+            "error" => "nada",
         ], $json["token"], "");
-        //~ print_r($json2);
+        $this->assertArrayHasKey("error", $json2);
+        $this->assertSame($json2["error"]["text"], "Missing id, app, name, size, type, data, file, hash");
 
-        $json2 = test_web_helper("upload/delfiles", [
-            "files" => [
-                [
-                    "id" => "",
-                    "app" => "",
-                    "name" => "",
-                    "size" => "",
-                    "type" => "",
-                    "data" => "",
-                    "error" => "nada",
-                    "file" => "",
-                    "hash" => "",
-                ],
-            ],
+        $json2 = test_web_helper("upload/delfile", [
+            "id" => "",
+            "app" => "",
+            "name" => "",
+            "size" => "",
+            "type" => "",
+            "data" => "",
+            "error" => "nada",
+            "file" => "",
+            "hash" => "",
         ], $json["token"], "");
-        //~ print_r($json2);
+        $this->assertArrayHasKey("error", $json2);
+        $this->assertSame($json2["error"]["text"], "nada");
 
         // To cover the first return of the function
         $file1 = [
@@ -463,11 +471,9 @@ final class test_file extends TestCase
         // Continue
         $count1 = count(glob("data/upload/*"));
 
-        $json2 = test_web_helper("upload/delfiles", [
-            "files" => $json["files"],
-        ], $json["token"], "");
-        $json["files"][0]["file"] = "";
-        $json["files"][0]["hash"] = "";
+        $json2 = test_web_helper("upload/delfile", $json["files"], $json["token"], "");
+        $json["files"]["file"] = "";
+        $json["files"]["hash"] = "";
         $this->assertSame($json2, $json["files"]);
 
         $count2 = count(glob("data/upload/*"));
@@ -477,9 +483,7 @@ final class test_file extends TestCase
         $file = "data/logs/phperror.log";
         $this->assertFileDoesNotExist($file);
 
-        $json2 = test_web_helper("upload/nada", [
-            "files" => $json["files"],
-        ], $json["token"], "");
+        $json2 = test_web_helper("upload/nada", $json["files"], $json["token"], "");
         $this->assertArrayHasKey("error", $json2);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists("unknown action nada", file_get_contents($file)));

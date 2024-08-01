@@ -45,4 +45,5 @@ $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
 db_connect();
 
 $id = file_get_contents("/tmp/phpunit.regid");
+require_once "php/lib/control.php";
 get_version("customers", $id, 3);

@@ -116,36 +116,32 @@ final class test_cli_invoices extends TestCase
         $this->assertSame($json2["status"], "ko");
 
         $json2 = test_cli_helper("app/invoices/insert", [
-            "data" => [
-                "nada" => "nada",
-            ],
+            "nada" => "nada",
         ], $json["token"], "");
         $this->assertArrayHasKey("status", $json2);
         $this->assertSame($json2["status"], "ko");
 
         $json2 = test_cli_helper("app/invoices/insert", [
-            "data" => [
-                "nombre" => "The SaltOS project",
-                "direccion" => "X",
-                "nombre_pais" => "Y",
-                "nombre_provincia" => "Z",
-                "nombre_poblacion" => "Barcelona",
-                "nombre_codpostal" => "08001",
-                "cif" => "12345678X",
-                "iva" => "21",
-                "irpf" => "15",
-                "detail" => [
-                    [
-                        "concepto" => "ABC",
-                        "unidades" => "1",
-                        "precio" => "2",
-                        "descuento" => "3",
-                    ], [
-                        "concepto" => "DEF",
-                        "unidades" => "4",
-                        "precio" => "5",
-                        "descuento" => "6",
-                    ],
+            "nombre" => "The SaltOS project",
+            "direccion" => "X",
+            "nombre_pais" => "Y",
+            "nombre_provincia" => "Z",
+            "nombre_poblacion" => "Barcelona",
+            "nombre_codpostal" => "08001",
+            "cif" => "12345678X",
+            "iva" => "21",
+            "irpf" => "15",
+            "detail" => [
+                [
+                    "concepto" => "ABC",
+                    "unidades" => "1",
+                    "precio" => "2",
+                    "descuento" => "3",
+                ], [
+                    "concepto" => "DEF",
+                    "unidades" => "4",
+                    "precio" => "5",
+                    "descuento" => "6",
                 ],
             ],
         ], $json["token"], "");
@@ -154,12 +150,10 @@ final class test_cli_invoices extends TestCase
         $this->assertArrayHasKey("created_id", $json2);
 
         $json3 = test_cli_helper("app/invoices/insert", [
-            "data" => [
-                "nombre" => "The SaltOS project",
-                "detail" => [
-                    [
-                        "nada" => "nada",
-                    ],
+            "nombre" => "The SaltOS project",
+            "detail" => [
+                [
+                    "nada" => "nada",
                 ],
             ],
         ], $json["token"], "");
@@ -295,9 +289,7 @@ final class test_cli_invoices extends TestCase
         $this->assertSame($json2["status"], "ko");
 
         $json2 = test_cli_helper("app/invoices/update/$id", [
-            "data" => [
-                "nada" => "nada",
-            ],
+            "nada" => "nada",
         ], $json["token"], "");
         $this->assertArrayHasKey("status", $json2);
         $this->assertSame($json2["status"], "ko");
@@ -305,24 +297,22 @@ final class test_cli_invoices extends TestCase
         $details_ids = execute_query("SELECT id FROM app_invoices_concepts WHERE id_factura=$id");
 
         $json2 = test_cli_helper("app/invoices/update/$id", [
-            "data" => [
-                "nombre" => "The SaltOS project v2",
-                "cif" => "12345678Z",
-                "detail" => [
-                    [
-                        "concepto" => "GHI",
-                        "unidades" => "7",
-                        "precio" => "8",
-                        "descuento" => "9",
-                    ], [
-                        "id" => $details_ids[0],
-                        "concepto" => "JKL",
-                        "unidades" => "10",
-                        "precio" => "11",
-                        "descuento" => "12",
-                    ], [
-                        "id" => -$details_ids[1],
-                    ],
+            "nombre" => "The SaltOS project v2",
+            "cif" => "12345678Z",
+            "detail" => [
+                [
+                    "concepto" => "GHI",
+                    "unidades" => "7",
+                    "precio" => "8",
+                    "descuento" => "9",
+                ], [
+                    "id" => $details_ids[0],
+                    "concepto" => "JKL",
+                    "unidades" => "10",
+                    "precio" => "11",
+                    "descuento" => "12",
+                ], [
+                    "id" => -$details_ids[1],
                 ],
             ],
         ], $json["token"], "");
@@ -334,11 +324,9 @@ final class test_cli_invoices extends TestCase
         $this->assertFileDoesNotExist($file);
 
         $json3 = test_cli_helper("app/invoices/update/$id", [
-            "data" => [
-                "detail" => [
-                    [
-                        "id" => 0,
-                    ],
+            "detail" => [
+                [
+                    "id" => 0,
                 ],
             ],
         ], $json["token"], "");
@@ -348,11 +336,9 @@ final class test_cli_invoices extends TestCase
         unlink($file);
 
         $json3 = test_cli_helper("app/invoices/update/$id", [
-            "data" => [
-                "detail" => [
-                    [
-                        "nada" => "nada",
-                    ],
+            "detail" => [
+                [
+                    "nada" => "nada",
                 ],
             ],
         ], $json["token"], "");

@@ -45,4 +45,5 @@ $_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
 db_connect();
 
 $array = ["node" => ["value" => "a", "#attr" => ["\a" => "a"]]];
+require_once "php/lib/array2xml.php";
 echo array2xml($array) . "\n";

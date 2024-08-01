@@ -116,20 +116,16 @@ final class test_web_customers extends TestCase
         $this->assertSame($json2["status"], "ko");
 
         $json2 = test_web_helper("app/customers/insert", [
-            "data" => [
-                "nada" => "nada",
-            ],
+            "nada" => "nada",
         ], $json["token"], "");
         $this->assertArrayHasKey("status", $json2);
         $this->assertSame($json2["status"], "ko");
 
         $json2 = test_web_helper("app/customers/insert", [
-            "data" => [
-                "nombre" => "The SaltOS project",
-                "cif" => "12345678X",
-                "nombre_poblacion" => "Barcelona",
-                "nombre_codpostal" => "08001",
-            ],
+            "nombre" => "The SaltOS project",
+            "cif" => "12345678X",
+            "nombre_poblacion" => "Barcelona",
+            "nombre_codpostal" => "08001",
         ], $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
@@ -256,18 +252,14 @@ final class test_web_customers extends TestCase
         $this->assertSame($json2["status"], "ko");
 
         $json2 = test_web_helper("app/customers/update/$id", [
-            "data" => [
-                "nada" => "nada",
-            ],
+            "nada" => "nada",
         ], $json["token"], "");
         $this->assertArrayHasKey("status", $json2);
         $this->assertSame($json2["status"], "ko");
 
         $json2 = test_web_helper("app/customers/update/$id", [
-            "data" => [
-                "nombre" => "The SaltOS project v2",
-                "cif" => "12345678Z",
-            ],
+            "nombre" => "The SaltOS project v2",
+            "cif" => "12345678Z",
         ], $json["token"], "");
         $this->assertSame($json2["status"], "ok");
         $this->assertSame(count($json2), 2);
