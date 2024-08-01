@@ -279,14 +279,11 @@ function __array_filter_rec($node, $filter, $eval, $parent = [])
         // Eval filter
         if ($eval) {
             $vars = array_merge($parent, array_values($node["row"]));
-            $keys = [];
             foreach ($vars as $key => $val) {
                 $key = __import_col2name($key);
-                global $$key;
                 $$key = $val;
-                $keys[] = $key;
             }
-            $result = eval_protected($filter, $keys);
+            $result = eval("return $filter;");
         }
         // Recursive call
         foreach ($node["rows"] as $node2) {
@@ -309,14 +306,11 @@ function __array_filter_rec($node, $filter, $eval, $parent = [])
         // Eval filter
         if ($eval) {
             $vars = array_merge($parent, array_values($node));
-            $keys = [];
             foreach ($vars as $key => $val) {
                 $key = __import_col2name($key);
-                global $$key;
                 $$key = $val;
-                $keys[] = $key;
             }
-            $result = eval_protected($filter, $keys);
+            $result = eval("return $filter;");
         }
     }
 }

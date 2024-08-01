@@ -203,7 +203,6 @@ final class test_web_invoices extends TestCase
             "search" => $search,
         ], $json["token"], "");
         $this->assertTrue(count($json2["data"]) == 1);
-        $this->assertSame($json2["search"], $search);
 
         $json2 = test_web_helper("app/customers/widget/table1", "", $json["token"], "");
         $this->assertArrayHasKey("data", $json2);

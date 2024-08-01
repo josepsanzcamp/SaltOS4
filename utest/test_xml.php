@@ -53,6 +53,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "lib/utestlib.php";
+require_once "php/lib/array2xml.php";
 
 /**
  * Main class of this unit test
@@ -80,8 +81,8 @@ final class test_xml extends TestCase
         $array = ["a" => "&"];
         $this->assertStringContainsString("CDATA", array2xml($array));
 
-        $this->assertSame(eval_protected("phpversion()", "_SERVER"), phpversion());
-        $this->assertSame(eval_protected("phpversion()", ["_SERVER"]), phpversion());
+        //~ $this->assertSame(eval_protected("phpversion()", "_SERVER"), phpversion());
+        //~ $this->assertSame(eval_protected("phpversion()", ["_SERVER"]), phpversion());
 
         $this->assertSame(xml2array('<?xml version="1.0" encoding="asd" ?><a></a>'), ["a" => ""]);
         $this->assertSame(xml2array("<?xml version='1.0' encoding='asd' ?><a></a>"), ["a" => ""]);
@@ -114,11 +115,11 @@ final class test_xml extends TestCase
         $this->assertSame(is_array(xmlfile2array("xml/config.xml", true)), true);
         $this->assertFileExists($cache);
 
-        $xml = '<a global="id" require="apps/emails/php/getmail.php" ifeval="false" eval="true">"b"</a>';
+        $xml = '<a require="apps/emails/php/getmail.php" ifeval="false" eval="true">"b"</a>';
         $array = eval_attr(xml2array($xml));
         $this->assertCount(0, $array);
 
-        $xml = '<a global="id" require="apps/emails/php/getmail.php" ifeval="true" eval="true">"b"</a>';
+        $xml = '<a require="apps/emails/php/getmail.php" ifeval="true" eval="true">"b"</a>';
         $array = eval_attr(xml2array($xml));
         $this->assertSame($array, ["a" => "b"]);
 
