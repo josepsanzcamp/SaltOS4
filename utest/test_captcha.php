@@ -103,7 +103,7 @@ final class test_captcha extends TestCase
         $this->assertSame(is_numeric($text), false);
         $this->assertSame(strlen($text), 5);
 
-        $json = test_web_helper("captcha", [], "", "");
+        $json = test_web_helper("image/captcha", [], "", "");
         $this->assertArrayHasKey("error", $json);
 
         $json2 = test_web_helper("auth/login", [
@@ -114,34 +114,34 @@ final class test_captcha extends TestCase
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);
 
-        $json = test_web_helper("captcha", [], $json2["token"], "");
+        $json = test_web_helper("image/captcha", [], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("captcha", [
+        $json = test_web_helper("image/captcha", [
             "type" => "nada",
             "format" => "nada",
         ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("captcha", [
+        $json = test_web_helper("image/captcha", [
             "type" => "number",
             "format" => "nada",
         ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("captcha", [
+        $json = test_web_helper("image/captcha", [
             "type" => "number",
             "format" => "png",
         ], $json2["token"], "");
         $this->assertStringContainsString("PNG image data", get_mime($json));
 
-        $json = test_web_helper("captcha", [
+        $json = test_web_helper("image/captcha", [
             "type" => "math",
             "format" => "png",
         ], $json2["token"], "");
         $this->assertStringContainsString("PNG image data", get_mime($json));
 
-        $json = test_web_helper("captcha", [
+        $json = test_web_helper("image/captcha", [
             "type" => "number",
             "format" => "json",
         ], $json2["token"], "");

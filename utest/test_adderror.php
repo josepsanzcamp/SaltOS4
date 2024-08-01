@@ -70,22 +70,18 @@ final class test_adderror extends TestCase
         $file = "data/logs/jserror.log";
         $this->assertFileDoesNotExist($file);
 
-        $json = test_web_helper("adderror", [], "", "");
+        $json = test_web_helper("add/error", [], "", "");
         $this->assertArrayHasKey("error", $json);
         $this->assertFileDoesNotExist($file);
 
-        $json = test_web_helper("adderror", [
+        $json = test_web_helper("add/error", [
             "jserror" => "hi jserror",
             "details" => "hi details",
             "backtrace" => "hi backtrace",
         ], "", "");
-        $this->assertArrayHasKey("error", $json);
-        $this->assertArrayHasKey("text", $json["error"]);
-        $this->assertSame($json["error"]["text"], "hi jserror");
-        $this->assertArrayHasKey("code", $json["error"]);
-        $this->assertSame($json["error"]["code"], "adderror:49");
+        $this->assertArrayHasKey("status", $json);
+        $this->assertSame($json["status"], "ok");
         $this->assertSame(count($json), 1);
-        $this->assertSame(count($json["error"]), 2);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists("hi jserror hi details hi backtrace", file_get_contents($file)));
         unlink($file);

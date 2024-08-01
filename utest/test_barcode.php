@@ -77,7 +77,7 @@ final class test_barcode extends TestCase
         // This case is for the special case when tcpdf doesn't returns valid data
         $this->assertSame(__barcode_image(chr(0), 1, 30, 10, 8, "C39"), "");
 
-        $json = test_web_helper("barcode", [], "", "");
+        $json = test_web_helper("image/barcode", [], "", "");
         $this->assertArrayHasKey("error", $json);
 
         $json2 = test_web_helper("auth/login", [
@@ -88,28 +88,28 @@ final class test_barcode extends TestCase
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);
 
-        $json = test_web_helper("barcode", [], $json2["token"], "");
+        $json = test_web_helper("image/barcode", [], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("barcode", [
+        $json = test_web_helper("image/barcode", [
             "msg" => "nada",
             "format" => "nada",
         ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("barcode", [
+        $json = test_web_helper("image/barcode", [
             "msg" => "\0",
             "format" => "png",
         ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("barcode", [
+        $json = test_web_helper("image/barcode", [
             "msg" => "nada",
             "format" => "png",
         ], $json2["token"], "");
         $this->assertStringContainsString("PNG image data", get_mime($json));
 
-        $json = test_web_helper("barcode", [
+        $json = test_web_helper("image/barcode", [
             "msg" => "nada",
             "format" => "json",
         ], $json2["token"], "");

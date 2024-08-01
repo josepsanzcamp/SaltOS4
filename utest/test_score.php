@@ -74,7 +74,7 @@ final class test_score extends TestCase
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
 
-        $json = test_web_helper("score", [], "", "");
+        $json = test_web_helper("image/score", [], "", "");
         $this->assertArrayHasKey("error", $json);
 
         $json2 = test_web_helper("auth/login", [
@@ -85,22 +85,22 @@ final class test_score extends TestCase
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);
 
-        $json = test_web_helper("score", [], $json2["token"], "");
+        $json = test_web_helper("image/score", [], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("score", [
+        $json = test_web_helper("image/score", [
             "pass" => "nada",
             "format" => "nada",
         ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("score", [
+        $json = test_web_helper("image/score", [
             "pass" => "nada",
             "format" => "png",
         ], $json2["token"], "");
         $this->assertStringContainsString("PNG image data", get_mime($json));
 
-        $json = test_web_helper("score", [
+        $json = test_web_helper("image/score", [
             "pass" => "nada",
             "format" => "json",
         ], $json2["token"], "");

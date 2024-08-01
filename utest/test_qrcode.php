@@ -74,7 +74,7 @@ final class test_qrcode extends TestCase
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
 
-        $json = test_web_helper("qrcode", [], "", "");
+        $json = test_web_helper("image/qrcode", [], "", "");
         $this->assertArrayHasKey("error", $json);
 
         $json2 = test_web_helper("auth/login", [
@@ -85,22 +85,22 @@ final class test_qrcode extends TestCase
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey("token", $json2);
 
-        $json = test_web_helper("qrcode", [], $json2["token"], "");
+        $json = test_web_helper("image/qrcode", [], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("qrcode", [
+        $json = test_web_helper("image/qrcode", [
             "msg" => "nada",
             "format" => "nada",
         ], $json2["token"], "");
         $this->assertArrayHasKey("error", $json);
 
-        $json = test_web_helper("qrcode", [
+        $json = test_web_helper("image/qrcode", [
             "msg" => "nada",
             "format" => "png",
         ], $json2["token"], "");
         $this->assertStringContainsString("PNG image data", get_mime($json));
 
-        $json = test_web_helper("qrcode", [
+        $json = test_web_helper("image/qrcode", [
             "msg" => "nada",
             "format" => "json",
         ], $json2["token"], "");
@@ -109,7 +109,7 @@ final class test_qrcode extends TestCase
         $this->assertArrayHasKey("msg", $json);
         $this->assertArrayHasKey("image", $json);
 
-        $json = test_web_helper("qrcode", [
+        $json = test_web_helper("image/qrcode", [
             "msg" => str_repeat("nada", 1000),
             "format" => "png",
         ], $json2["token"], "");
