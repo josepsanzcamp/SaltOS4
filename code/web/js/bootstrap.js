@@ -2355,7 +2355,7 @@ saltos.bootstrap.__field.table = field => {
                 throw new Error(`field.header.length != field.footer.length`);
             }
             if (field.checkbox) {
-                obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td></td>`));
+                obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td class="bg-${field.color}-subtle"></td>`));
             }
             // This is to allow to use tables with footer and without header
             var iterator = field.header;
@@ -2376,7 +2376,7 @@ saltos.bootstrap.__field.table = field => {
                 obj.querySelector('tfoot tr').append(td);
             }
             if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-                obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td></td>`));
+                obj.querySelector('tfoot tr').append(saltos.core.html('tr', `<td class="bg-${field.color}-subtle"></td>`));
             }
         }
         if (typeof field.footer == 'string') {
