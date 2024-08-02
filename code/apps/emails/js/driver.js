@@ -45,7 +45,7 @@ saltos.driver.__types.emails = {};
  * TODO
  */
 saltos.driver.__types.emails.template = arg => {
-    var obj = saltos.driver.__types.type2.template();
+    var obj = saltos.driver.__types.type5.template();
     obj.querySelector('#one').classList.replace('col-xl', 'col-xl-4');
     return obj;
 };

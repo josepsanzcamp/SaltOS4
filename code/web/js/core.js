@@ -54,7 +54,10 @@ saltos.core.onerror = async (msg, file, line, col, error) => {
     };
     if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
         window.sourceMappedStackTrace.mapStackTrace(error.stack, mappedStack => {
+            mappedStack = mappedStack.map(line => line.trim());
             data.backtrace = mappedStack.join('\n');
+        }, {
+            filter: line => !line.includes(' > '),
         });
         while (data.backtrace == 'unknown') {
             await new Promise(resolve => setTimeout(resolve, 1));
