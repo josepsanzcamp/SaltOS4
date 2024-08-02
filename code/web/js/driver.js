@@ -469,19 +469,18 @@ saltos.driver.placeholder = arg => {
     var obj = saltos.core.html(`
         <div class="bg-primary-subtle h-100 driver-placeholder"></div>
     `);
-    var dark = document.documentElement.getAttribute('data-bs-theme');
-    if (!dark) {
-        var img = 'img/logo_white.svg';
-    } else {
-        var img = 'img/logo_black.svg';
-    }
     obj.append(saltos.core.html(`
         <style>
             .driver-placeholder {
-                background-image: url(${img});
+                background-image: url(img/logo_white.svg);
                 background-repeat: no-repeat;
                 background-position: center;
                 background-size: 75% 75%;
+            }
+            @media (prefers-color-scheme: dark) {
+                .driver-placeholder {
+                    background-image: url(img/logo_black.svg);
+                }
             }
         </style>
     `));
