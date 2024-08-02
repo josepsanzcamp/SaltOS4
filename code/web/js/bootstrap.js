@@ -1286,9 +1286,6 @@ saltos.bootstrap.__field.button = field => {
         saltos.bootstrap.__tooltip_helper(obj);
     }
     saltos.bootstrap.__onclick_helper(obj, field.onclick);
-    saltos.bootstrap.__onclick_helper(obj, function() {
-        this.blur();
-    });
     // Program the disabled feature
     obj.set_disabled = bool => {
         if (bool) {
@@ -2881,7 +2878,6 @@ saltos.bootstrap.__field.list = field => {
                 });
                 this.classList.add('active');
                 this.setAttribute('aria-current', 'true');
-                this.blur();
             });
             if (saltos.core.eval_bool(field.checkbox)) {
                 if (val.id == '') {
@@ -3034,7 +3030,6 @@ saltos.bootstrap.__field.list = field => {
                         document.getElementById(button).style.background = '';
                         document.getElementById(button).style.color = '';
                     }
-                    event.target.blur();
                 });
                 checkbox.addEventListener('click', event => {
                     // Here program the multiple selection feature using the ctrlKey
@@ -3082,6 +3077,8 @@ saltos.bootstrap.__field.list = field => {
                     if (obj) {
                         // ctrlKey propagation is important to allow the multiple selection feature
                         obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
+                        // The next focus allow to continue navigating by the other checkboxes
+                        obj.focus();
                     }
                     event.stopPropagation();
                 });

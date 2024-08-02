@@ -1380,7 +1380,9 @@ saltos.app.profile = () => {
     saltos.gettext.bootstrap.offcanvas({
         pos: 'right',
         close: 'Close',
-        backdrop: true,
+        //~ backdrop: true,
+        //~ static: true,
+        //~ keyboard: true,
         resize: true,
     });
     document.querySelector('.offcanvas-body').setAttribute('id', 'right');
@@ -1418,7 +1420,9 @@ saltos.app.search = (id) => {
     saltos.gettext.bootstrap.offcanvas({
         pos: 'left',
         close: 'Close',
-        backdrop: true,
+        //~ backdrop: true,
+        //~ static: true,
+        //~ keyboard: true,
         resize: true,
     });
     var div = document.getElementById(id);
