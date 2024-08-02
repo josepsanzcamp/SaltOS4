@@ -65,7 +65,9 @@ saltos.driver.init = arg => {
     }
     // Remove and apply the old and new paddings
     document.querySelectorAll('#one, #two, #three').forEach(_this => {
-        ['py-3', 'pt-3', 'pb-3'].forEach(_this2 => _this.classList.remove(_this2));
+        ['py-3', 'pt-3', 'pb-3'].forEach(_this2 => {
+            _this.classList.remove(_this2);
+        });
         if (new_class != '') {
             _this.classList.add(new_class);
         }
@@ -146,7 +148,9 @@ saltos.driver.search = arg => {
                 document.getElementById('table').replaceWith(temp);
             }
             if (type == 'list') {
-                document.querySelectorAll('.list-group:not([id=list])').forEach(_this => _this.remove());
+                document.querySelectorAll('.list-group:not([id=list])').forEach(_this => {
+                    _this.remove();
+                });
                 document.getElementById('list').replaceWith(temp);
             }
             document.getElementById('one').scrollTop = 0;
@@ -240,7 +244,9 @@ saltos.driver.more = arg => {
             var temp = saltos.gettext.bootstrap.field(response);
             if (type == 'table') {
                 var obj = document.getElementById('table').querySelector('tbody');
-                temp.querySelectorAll('table tbody tr').forEach(_this => obj.append(_this));
+                temp.querySelectorAll('table tbody tr').forEach(_this => {
+                    obj.append(_this);
+                });
             }
             if (type == 'list') {
                 var obj = document.getElementById('list').parentElement;
