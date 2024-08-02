@@ -287,7 +287,7 @@ saltos.app.form.__backup = {
  * extra, it tries to search the field spec in the array to update the value of the field spec to
  * allow that the get_data can differ between the original data and the modified data.
  */
-saltos.app.form.data = data => {
+saltos.app.form.data = (data, sync = true) => {
     // Check that data is found
     if (data === null) {
         return;
@@ -322,22 +322,26 @@ saltos.app.form.data = data => {
         }
         // This updates the object
         var obj = document.getElementById(key);
-        if (obj) {
-            // Check to prevent objects in value
-            if (typeof val != 'object') {
-                obj.value = val;
-            }
-            // Special case for iframes
-            if (obj.hasAttribute('src')) {
-                obj.src = val;
-            }
-            if (obj.hasAttribute('srcdoc')) {
-                obj.srcdoc = val;
-            }
-            // Special case for widgets with set
-            if (obj.hasOwnProperty('set') && typeof obj.set == 'function') {
-                obj.set(val);
-            }
+        if (!obj) {
+            continue;
+        }
+        // Check to prevent objects in value
+        if (typeof val != 'object') {
+            obj.value = val;
+        }
+        // Special case for iframes
+        if (obj.hasAttribute('src')) {
+            obj.src = val;
+        }
+        if (obj.hasAttribute('srcdoc')) {
+            obj.srcdoc = val;
+        }
+        // Special case for widgets with set
+        if (obj.hasOwnProperty('set') && typeof obj.set == 'function') {
+            obj.set(val);
+        }
+        if (!sync) {
+            continue;
         }
         // This updates the field spec searching in all backups
         for (var i in saltos.app.form.__backup.__forms) {

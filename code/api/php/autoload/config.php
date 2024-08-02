@@ -167,3 +167,25 @@ function detect_config_files($file)
     $files = array_merge(glob("data/files/" . basename($file)), glob($file), glob("apps/*/{$file}"));
     return $files;
 }
+
+/**
+ * Get config array
+ *
+ * This function is intended to retrieve the configuration associated to an user
+ * using a prefix for all keys.
+ *
+ * @prefix  => the prefix used in the keys of the config
+ * @user_id => the user_id used in the search query
+ */
+function get_config_array($prefix, $user_id)
+{
+    $rows = execute_query_array("
+        SELECT `key`, val
+        FROM tbl_config
+        WHERE user_id=$user_id AND `key` LIKE '$prefix%'");
+    $array = array_column($rows, "val", "key");
+    $array = array_map(function ($val) {
+        return json_decode($val, true);
+    }, $array);
+    return $array;
+}

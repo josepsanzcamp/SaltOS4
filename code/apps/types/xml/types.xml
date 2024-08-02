@@ -45,7 +45,7 @@
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <row auto="true" col_class="col-md-12 my-3">
-                <table id="table" source="app/types/list/table" nodata="Data not found"/>
+                <table id="table" nodata="Loading..."/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -65,6 +65,7 @@
             <active label="Active" type="icon"/>
         </header>
         <temp eval="true">[
+            set_config("app/".get_data("rest/1")."/".get_data("rest/2")."/last", json_encode(get_data("json")), current_user()),
             set_data("json/search", strval(get_data("json/search"))),
             set_data("json/page", intval(get_data("json/page"))),
             set_data("json/order", "id DESC"),
@@ -95,6 +96,11 @@
             AND ".make_fulltext_query(get_data("json/search"), "types", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("types", "list")."
         ")</footer>
+    </list>
+
+    <list id="search">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <output eval="true">get_config_array("app/".get_data("rest/1")."/".get_data("rest/2")."/", current_user())</output>
     </list>
 
     <!-- Form part -->

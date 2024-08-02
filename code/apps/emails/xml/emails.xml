@@ -101,7 +101,7 @@
                 </row>
             </div>
             <row auto="true" col_class="col-12 mb-3">
-                <list id="list" source="app/emails/list/list" nodata="Data not found"/>
+                <list id="list" nodata="Loading..."/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
@@ -117,6 +117,7 @@
     <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
+            set_config("app/".get_data("rest/1")."/".get_data("rest/2")."/last", json_encode(get_data("json")), current_user()),
             set_data("json/search", strval(get_data("json/search"))),
             set_data("json/page", intval(get_data("json/page"))),
             set_data("json/order", "id DESC"),
@@ -163,6 +164,11 @@
         <actions>
             <action app="emails" action="view" onclick="saltos.driver.open"/>
         </actions>
+    </list>
+
+    <list id="search">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <output eval="true">get_config_array("app/".get_data("rest/1")."/".get_data("rest/2")."/", current_user())</output>
     </list>
 
     <!-- Form part -->

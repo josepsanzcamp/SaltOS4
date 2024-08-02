@@ -72,6 +72,48 @@ saltos.driver.init = arg => {
             _this.classList.add(new_class);
         }
     });
+    // To check the list preferences
+    var app = saltos.hash.get().split('/').at(1);
+    if (arg == 'list') {
+        if (!Object.keys(saltos.driver.__search).length) {
+            saltos.app.form.screen('loading');
+            saltos.core.ajax({
+                url: `api/?app/${app}/list/search`,
+                method: 'get',
+                success: response => {
+                    saltos.app.form.screen('unloading');
+                    if (!saltos.app.check_response(response)) {
+                        return;
+                    }
+                    saltos.driver.__search = response;
+                    var key = `app/${app}/list/last`;
+                    if (saltos.driver.__search.hasOwnProperty(key)) {
+                        saltos.app.form.data(saltos.driver.__search[key], false);
+                    }
+                    saltos.driver.search();
+                },
+                error: request => {
+                    saltos.app.form.screen('unloading');
+                    saltos.app.show_error({
+                        text: request.statusText,
+                        code: request.status,
+                    });
+                },
+                abort: request => {
+                    saltos.app.form.screen('unloading');
+                },
+                token: saltos.token.get(),
+                lang: saltos.gettext.get(),
+            });
+        } else {
+            var app = saltos.hash.get().split('/').at(1);
+            var key = `app/${app}/list/last`;
+            if (saltos.driver.__search.hasOwnProperty(key)) {
+                saltos.app.form.data(saltos.driver.__search[key], false);
+            }
+            saltos.driver.search();
+        }
+    }
     // Old feature
     var screen = document.body.getAttribute('screen');
     saltos.driver.__types[screen].init(arg);
@@ -104,6 +146,13 @@ saltos.driver.close = arg => {
         }
     }, 100);
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.driver.__search = {};
 
 /**
  * TODO

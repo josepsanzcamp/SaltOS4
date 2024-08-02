@@ -551,15 +551,9 @@ function make_where_query($array)
 {
     $list = [];
     foreach ($array as $key => $val) {
-        if (in_array(substr($key, -2, 2), [">=", "<=", "!="])) {
-            $cmp = "";
-        } elseif (in_array(substr($key, -1, 1), [">", "<", "="])) {
-            $cmp = "";
-        } else {
-            $cmp = "=";
-        }
         $key2 = escape_reserved_word($key);
-        $list[] = $key2 . $cmp . "'" . addslashes(strval($val)) . "'";
+        $val2 = addslashes(strval($val));
+        $list[] = "$key2='$val2'";
     }
     $query = "(" . implode(" AND ", $list) . ")";
     return $query;

@@ -1190,7 +1190,7 @@ saltos.bootstrap.__field.checkbox = field => {
     });
     obj.querySelector('input').set = bool => {
         var input = obj.querySelector('input');
-        if (bool) {
+        if (saltos.core.eval_bool(bool)) {
             input.checked = true;
             input.value = 1;
         } else {
