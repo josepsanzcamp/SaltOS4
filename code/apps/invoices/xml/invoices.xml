@@ -89,8 +89,13 @@
                 AND ".check_sql("invoices", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xmlfile2array("apps/invoices/xml/invoices.xml")["actions"]
+            xpath_search_first("list[id=table]/actions", xmlfile2array("apps/invoices/xml/invoices.xml"))
         )</data>
+        <actions>
+            <action app="invoices" action="view" label="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
+            <action app="invoices" action="edit" label="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.driver.open"/>
+            <action app="invoices" action="delete" label="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.driver.delete"/>
+        </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM app_invoices
@@ -99,12 +104,6 @@
             AND ".check_sql("invoices", "list")."
         ")</footer>
     </list>
-
-    <actions>
-        <action app="invoices" action="view" label="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
-        <action app="invoices" action="edit" label="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.driver.open"/>
-        <action app="invoices" action="delete" label="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.driver.delete"/>
-    </actions>
 
     <!-- Form part -->
     <form_header>

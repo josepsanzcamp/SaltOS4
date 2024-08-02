@@ -423,3 +423,70 @@ function arrays2array()
     }
     return $result;
 }
+
+/**
+ * Xpath search array
+ *
+ * This function is intended to do searches using the xpath notation
+ * like list[id=table]/actions, the main idea is that this function can
+ * returns an array with all occurrences because the same xpath can choose
+ * more that one result
+ *
+ * @xpath => the string containing the search xpath
+ * @array => the array that contains the search data
+ */
+function xpath_search_array($xpath, $array)
+{
+    $xpath = explode("/", $xpath);
+    $pattern = "/^(\w+)|\[(\w+)=([\w\s]+)\]/";
+    $result = [$array];
+    while (count($xpath)) {
+        $search = array_shift($xpath);
+        preg_match_all($pattern, $search, $matches);
+        // Remove unused data from matches
+        // This improve the iteration of matches[2] and matches[3]
+        unset($matches[0]);
+        unset($matches[2][0]);
+        unset($matches[3][0]);
+        $new_result = [];
+        foreach ($result as $array) {
+            foreach ($array as $key => $val) {
+                $found = false;
+                if (fix_key($key) == $matches[1][0]) {
+                    if (is_attr_value($val)) {
+                        $attr = $val["#attr"];
+                        $val = $val["value"];
+                    } else {
+                        $attr = [];
+                    }
+                    $combine = array_combine($matches[2], $matches[3]);
+                    $intersect = array_intersect_assoc($combine, $attr);
+                    $found = ($combine == $intersect);
+                }
+                if ($found) {
+                    $new_result[] = $val;
+                }
+            }
+        }
+        $result = $new_result;
+    }
+    return $result;
+}
+
+/**
+ * Xpath search first
+ *
+ * This function is intended to returns the first result
+ * of the array returned by the xpath_search_first function
+ *
+ * @xpath => the string containing the search xpath
+ * @array => the array that contains the search data
+ *
+ * Notes:
+ *
+ * In case of not occurrences, null is returned
+ */
+function xpath_search_first($xpath, $array)
+{
+    return xpath_search_array($xpath, $array)[0] ?? null;
+}

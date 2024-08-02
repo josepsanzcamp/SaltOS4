@@ -82,8 +82,13 @@
                 AND ".check_sql("groups", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xmlfile2array("apps/users/xml/groups.xml")["actions"]
+            xpath_search_first("list[id=table]/actions", xmlfile2array("apps/users/xml/groups.xml"))
         )</data>
+        <actions>
+            <action app="groups" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
+            <action app="groups" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+            <action app="groups" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
+        </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM tbl_groups
@@ -91,12 +96,6 @@
             AND ".make_fulltext_query(get_data("json/search"), "groups", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("groups", "list"))</footer>
     </list>
-
-    <actions>
-        <action app="groups" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
-        <action app="groups" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-        <action app="groups" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
-    </actions>
 
     <!-- Form part -->
     <form>

@@ -83,8 +83,13 @@
                 AND ".check_sql("emails_accounts", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xmlfile2array("apps/emails/xml/emails_accounts.xml")["actions"]
+            xpath_search_first("list[id=table]/actions", xmlfile2array("apps/emails/xml/emails_accounts.xml"))
         )</data>
+        <actions>
+            <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
+            <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
+            <action app="emails_accounts" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
+        </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
             FROM app_emails_accounts
@@ -92,12 +97,6 @@
             AND ".make_fulltext_query(get_data("json/search"), "emails_accounts", ["minsize" => 1, "default" => "1=1"])."
             AND ".check_sql("emails_accounts", "list"))</footer>
     </list>
-
-    <actions>
-        <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
-        <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-        <action app="emails_accounts" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
-    </actions>
 
     <!-- Form part -->
     <form>
