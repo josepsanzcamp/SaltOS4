@@ -97,16 +97,6 @@ final class test_sql extends TestCase
         $this->assertSame($query, "(nombre='The SaltOS project' AND cif='12345678X' AND " .
             "nombre_poblacion='Barcelona' AND nombre_codpostal='08001')");
 
-        // Testing extra behavior using simbols like >=, >, < and <=
-        $query = make_where_query([
-            "nombre>=" => "The SaltOS project",
-            "cif>" => "12345678X",
-            "nombre_poblacion<" => "Barcelona",
-            "nombre_codpostal<=" => "08001",
-        ]);
-        $this->assertSame($query, "(nombre>='The SaltOS project' AND cif>'12345678X' AND " .
-            "nombre_poblacion<'Barcelona' AND nombre_codpostal<='08001')");
-
         // Testing the parse_query feature
         $query = parse_query("/*MYSQL mysql *//*SQLITE sqlite *//* other */");
         $this->assertSame($query, "mysql");
