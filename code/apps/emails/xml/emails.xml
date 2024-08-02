@@ -39,7 +39,7 @@
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="top">
-            <row auto="true" row_class="row g-1 my-3" col_class="col-auto">
+            <row auto="true" row_class="row g-1 py-3" col_class="col-auto">
                 <button onclick="saltos.app.search('search_form')" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
                 <div col_class="col"/>
@@ -101,7 +101,7 @@
                 </row>
             </div>
             <row auto="true" col_class="col-12 mb-3">
-                <list id="list" nodata="Loading..."/>
+                <list id="list" source="app/emails/list/list" nodata="Data not found"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
