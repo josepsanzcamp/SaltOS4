@@ -2313,7 +2313,8 @@ saltos.bootstrap.__field.table = field => {
                         if (val2.onclick) {
                             row.setAttribute('_onclick', val2.onclick);
                             row.addEventListener('dblclick', event => {
-                                eval(event.target.parentElement.getAttribute('_onclick'));
+                                //~ eval(event.target.parentElement.getAttribute('_onclick'));
+                                (new Function(event.target.parentElement.getAttribute('_onclick'))).call(event.target);
                                 if (document.selection && document.selection.empty) {
                                     window.getSelection().removeAllRanges();
                                 } else if (window.getSelection) {
@@ -3561,7 +3562,8 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
             return;
         }
         if (typeof fn == 'string') {
-            eval(fn);
+            //~ eval(fn);
+            (new Function(fn)).call(obj);
             return;
         }
         if (typeof fn == 'function') {
