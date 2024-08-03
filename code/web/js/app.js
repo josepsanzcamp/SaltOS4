@@ -1011,15 +1011,16 @@ saltos.app.__source_helper = field => {
  */
 saltos.app.get_data = full => {
     var data = {};
-    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
-        'textarea', 'checkbox', 'password', 'file', 'select-one'];
+    var types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
+        'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
+        'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
     for (var i in saltos.app.__form.fields) {
         var field = saltos.app.__form.fields[i];
-        var obj = document.getElementById(field.id);
-        if (!obj) {
+        if (!types.includes(field.type)) {
             continue;
         }
-        if (!types.includes(obj.type)) {
+        var obj = document.getElementById(field.id);
+        if (!obj) {
             continue;
         }
         // This trick allow to ignore fields used only for presentation purposes
@@ -1029,8 +1030,10 @@ saltos.app.get_data = full => {
         // Continue
         var val = obj.value;
         var old = field.value.toString();
-        switch (obj.type) {
+        switch (field.type) {
             case 'textarea':
+            case 'ckeditor':
+            case 'codemirror':
                 val = val.replace(/\r\n|\r/g, '\n');
                 old = old.replace(/\r\n|\r/g, '\n');
                 break;
@@ -1038,8 +1041,6 @@ saltos.app.get_data = full => {
                 val = obj.data;
                 old = field.data;
                 break;
-        }
-        switch (field.type) {
             case 'integer':
                 val = parseInt(val);
                 old = parseInt(old);
@@ -1194,59 +1195,56 @@ saltos.app.checkbox_ids = obj => {
  */
 saltos.app.check_required = () => {
     var obj = null;
-    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
-        'textarea', 'checkbox', 'password', 'file', 'select-one'];
+    var types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
+        'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
+        'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
     for (var i in saltos.app.__form.fields) {
         var field = saltos.app.__form.fields[i];
-        var _this = document.getElementById(field.id);
-        if (!_this) {
-            continue;
-        }
-        if (!types.includes(_this.type)) {
+        if (!types.includes(field.type)) {
             continue;
         }
         if (!saltos.core.eval_bool(field.required)) {
+            continue;
+        }
+        var _this = document.getElementById(field.id);
+        if (!_this) {
             continue;
         }
         var value = _this.value;
         var obj_color = _this;
         var obj_focus = _this;
         // to detect the color and focus of the tags fields
-        if (_this.type == 'hidden') {
-            var tags = document.getElementById(_this.id + '_tags');
-            if (tags && tags.type == 'text') {
-                obj_color = tags;
-                obj_focus = tags;
-            }
+        if (field.type == 'tags') {
+            var tags = document.getElementById(field.id + '_tags');
+            obj_color = tags;
+            obj_focus = tags;
         }
         // to detect the color and focus of the ckeditor fields
-        if (_this.type == 'textarea' && _this.hasOwnProperty('ckeditor')) {
+        if (field.type == 'ckeditor') {
             obj_color = _this.nextElementSibling;
             obj_focus = _this.ckeditor;
         }
         // to detect the color and focus of the codemirror fields
-        if (_this.type == 'textarea' && _this.hasOwnProperty('codemirror')) {
+        if (field.type == 'codemirror') {
             obj_color = _this.nextElementSibling;
             obj_focus = _this.codemirror;
         }
         // to detect the value of the file fields
-        if (_this.type == 'file') {
+        if (field.type == 'file') {
             value = _this.data.length;
         }
         // to detect the color and focus of the multiselects fields
-        if (_this.type == 'hidden') {
-            var abc = document.getElementById(_this.id + '_abc');
-            if (abc && abc.type == 'select-multiple') {
-                obj_color = abc;
-                obj_focus = abc;
-            }
+        if (field.type == 'multiselect') {
+            var abc = document.getElementById(field.id + '_abc');
+            obj_color = abc;
+            obj_focus = abc;
         }
-        // to detect the value of the checkbox fields
-        if (_this.type == 'checkbox') {
-            value = parseInt(_this.value);
+        // to detect the value of the checkbox or switch fields
+        if (['checkbox', 'switch'].includes(field.type)) {
+            value = parseInt(value);
         }
         // to detect the color, focus and value of the excel fields
-        if (_this.hasOwnProperty('excel')) {
+        if (field.type == 'excel') {
             value = _this.data.join().replaceAll(',', '');
             obj_color = _this.parentElement;
         }
@@ -1278,7 +1276,7 @@ saltos.app.check_required = () => {
             }
         }
         // to detect the color of the button in the password fields
-        if (_this.type == 'password') {
+        if (field.type == 'password') {
             var button = _this.nextElementSibling;
             button.classList.forEach(_this2 => {
                 if (_this2.substr(0, 4) == 'btn-') {
@@ -1292,37 +1290,35 @@ saltos.app.check_required = () => {
             }
         }
         // to detect the color of the multiselects fields (the other select + buttons)
-        if (_this.type == 'hidden') {
-            var xyz = document.getElementById(_this.id + '_xyz');
-            if (xyz && xyz.type == 'select-multiple') {
-                obj_color = xyz;
-                obj_color.classList.remove('is-valid');
-                obj_color.classList.remove('is-invalid');
-                obj_color.classList.remove('border');
-                obj_color.classList.forEach(_this2 => {
-                    if (_this2.substr(0, 7) == 'border-') {
-                        obj_color.classList.remove(_this2);
+        if (field.type == 'multiselect') {
+            var xyz = document.getElementById(field.id + '_xyz');
+            obj_color = xyz;
+            obj_color.classList.remove('is-valid');
+            obj_color.classList.remove('is-invalid');
+            obj_color.classList.remove('border');
+            obj_color.classList.forEach(_this2 => {
+                if (_this2.substr(0, 7) == 'border-') {
+                    obj_color.classList.remove(_this2);
+                }
+            });
+            if (value == '') {
+                obj_color.classList.add('is-invalid');
+            } else {
+                obj_color.classList.add('is-valid');
+            }
+            var temp = document.getElementById(field.id).parentElement.parentElement;
+            temp.querySelectorAll('button').forEach(_this2 => {
+                _this2.classList.forEach(_this3 => {
+                    if (_this3.substr(0, 4) == 'btn-') {
+                        _this2.classList.remove(_this3);
                     }
                 });
                 if (value == '') {
-                    obj_color.classList.add('is-invalid');
+                    _this2.classList.add('btn-danger');
                 } else {
-                    obj_color.classList.add('is-valid');
+                    _this2.classList.add('btn-success');
                 }
-                var temp = document.getElementById(_this.id).parentElement.parentElement;
-                temp.querySelectorAll('button').forEach(_this => {
-                    _this.classList.forEach(_this2 => {
-                        if (_this2.substr(0, 4) == 'btn-') {
-                            _this.classList.remove(_this2);
-                        }
-                    });
-                    if (value == '') {
-                        _this.classList.add('btn-danger');
-                    } else {
-                        _this.classList.add('btn-success');
-                    }
-                });
-            }
+            });
         }
     }
     if (obj) {
@@ -1339,15 +1335,16 @@ saltos.app.check_required = () => {
  * to do screen for view mode.
  */
 saltos.app.form_disabled = bool => {
-    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
-        'textarea', 'checkbox', 'password', 'file', 'select-one'];
+    var types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
+        'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
+        'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
     for (var i in saltos.app.__form.fields) {
         var field = saltos.app.__form.fields[i];
-        var obj = document.getElementById(field.id);
-        if (!obj) {
+        if (!types.includes(field.type)) {
             continue;
         }
-        if (!types.includes(obj.type)) {
+        var obj = document.getElementById(field.id);
+        if (!obj) {
             continue;
         }
         if (bool) {

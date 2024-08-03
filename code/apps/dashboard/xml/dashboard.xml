@@ -90,7 +90,7 @@
     </config>
 
     <help>
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
+        <check eval="true">check_app_perm_id(get_data("rest/3"), get_data("rest/2"))</check>
         <gettext eval="true">T([])</gettext>
         <title append="modal">Help</title>
         <layout append="three">

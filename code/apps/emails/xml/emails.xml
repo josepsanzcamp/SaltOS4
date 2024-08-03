@@ -53,9 +53,10 @@
             </row>
         </layout>
         <layout append="one">
+            <!-- Begin of the search form -->
             <div id="search_form" class="d-none" title="Search form">
                 <row auto="true" col_class="col-6 mb-3">
-                    <text id="search_extra" label="Search" col_class="col-12 mb-3" onchange="document.getElementById('search').value=this.value"/>
+                    <text id="search_extra" label="Search" col_class="col-12 mb-3" onchange="document.getElementById('search').value=this.value" autofocus="true"/>
                     <select id="account_id" label="Emails accounts" col_class="col-12 mb-3">
                         <rows eval="true">execute_query_array("
                             SELECT '' value, '[All accounts]' label
@@ -100,6 +101,7 @@
                     <button onclick="saltos.app.search()" label="Close" tooltip="To close this search form" icon="x-lg"/>
                 </row>
             </div>
+            <!-- End of the search form -->
             <row auto="true" col_class="col-12 mb-3">
                 <list id="list" nodata="Loading..."/>
             </row>
