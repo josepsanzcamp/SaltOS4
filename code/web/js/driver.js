@@ -204,7 +204,12 @@ saltos.driver.reset = arg => {
             obj.set(field.value);
         }
     }
-    saltos.driver.search();
+    if (typeof arg == 'undefined') {
+        arg = true;
+    }
+    if (saltos.core.eval_bool(arg)) {
+        saltos.driver.search();
+    }
 };
 
 /**

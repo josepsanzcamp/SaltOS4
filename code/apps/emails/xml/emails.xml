@@ -97,7 +97,7 @@
                 <row auto="true" row_class="row g-1" col_class="col-auto">
                     <div col_class="col"/>
                     <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
-                    <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+                    <button onclick="saltos.driver.reset(false)" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                     <button onclick="saltos.app.search()" label="Close" tooltip="To close this search form" icon="x-lg"/>
                 </row>
             </div>
