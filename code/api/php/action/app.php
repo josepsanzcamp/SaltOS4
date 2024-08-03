@@ -165,14 +165,17 @@ foreach ($array as $key => $val) {
         }
         // As note: all checks are removed from the array
         unset($array[$key]);
+        continue;
     } elseif (fix_key($key) == "temp") {
         // All temp nodes are removed
         unset($array[$key]);
+        continue;
     } else {
         // This check allow to process the case ifeval="false"
         // In this case, the returned value is null
         if ($val === null) {
             unset($array[$key]);
+            continue;
         } else {
             $array[$key] = $val;
         }

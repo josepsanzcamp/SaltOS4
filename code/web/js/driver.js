@@ -73,46 +73,10 @@ saltos.driver.init = arg => {
         }
     });
     // To check the list preferences
-    var app = saltos.hash.get().split('/').at(1);
     if (arg == 'list') {
-        if (!Object.keys(saltos.driver.__search).length) {
-            saltos.app.form.screen('loading');
-            saltos.core.ajax({
-                url: `api/?app/${app}/list/search`,
-                method: 'get',
-                success: response => {
-                    saltos.app.form.screen('unloading');
-                    if (!saltos.app.check_response(response)) {
-                        return;
-                    }
-                    saltos.driver.__search = response;
-                    var key = `app/${app}/list/last`;
-                    if (saltos.driver.__search.hasOwnProperty(key)) {
-                        saltos.app.form.data(saltos.driver.__search[key], false);
-                    }
-                    saltos.driver.search();
-                },
-                error: request => {
-                    saltos.app.form.screen('unloading');
-                    saltos.app.show_error({
-                        text: request.statusText,
-                        code: request.status,
-                    });
-                },
-                abort: request => {
-                    saltos.app.form.screen('unloading');
-                },
-                token: saltos.token.get(),
-                lang: saltos.gettext.get(),
-            });
-        } else {
-            var app = saltos.hash.get().split('/').at(1);
-            var key = `app/${app}/list/last`;
-            if (saltos.driver.__search.hasOwnProperty(key)) {
-                saltos.app.form.data(saltos.driver.__search[key], false);
-            }
-            saltos.driver.search();
-        }
+        var app = saltos.hash.get().split('/').at(1);
+        saltos.filter.init(app);
+        saltos.filter.load(app, 'last');
     }
     // Old feature
     var screen = document.body.getAttribute('screen');
@@ -152,18 +116,12 @@ saltos.driver.close = arg => {
  *
  * TODO
  */
-saltos.driver.__search = {};
-
-/**
- * TODO
- *
- * TODO
- */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     saltos.app.form.__backup.restore('top+one');
     var data = saltos.app.get_data(true);
     var app = saltos.hash.get().split('/').at(1);
+    saltos.filter.update(app, 'last', data);
     var type = '';
     if (document.getElementById('table')) {
         type = 'table';

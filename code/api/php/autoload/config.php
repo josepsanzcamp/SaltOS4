@@ -184,8 +184,8 @@ function get_config_array($prefix, $user_id)
         FROM tbl_config
         WHERE user_id=$user_id AND `key` LIKE '$prefix%'");
     $array = array_column($rows, "val", "key");
-    $array = array_map(function ($val) {
-        return json_decode($val, true);
-    }, $array);
+    //~ $array = array_map(function ($val) {
+        //~ return json_decode($val, true);
+    //~ }, $array);
     return $array;
 }

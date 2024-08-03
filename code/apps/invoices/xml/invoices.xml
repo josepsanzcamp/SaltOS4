@@ -71,7 +71,7 @@
             <cobrado label="Cobrado" type="icon" align="center"/>
         </header>
         <temp eval="true">[
-            set_config("app/".get_data("rest/1")."/".get_data("rest/2")."/last", json_encode(get_data("json")), current_user()),
+            set_config("app/".get_data("rest/1")."/list/filter/last", json_encode(get_data("json")), current_user()),
             set_data("json/search", strval(get_data("json/search"))),
             set_data("json/page", intval(get_data("json/page"))),
             set_data("json/order", "id DESC"),
@@ -106,9 +106,10 @@
         ")</footer>
     </list>
 
-    <list id="search">
+    <list id="filter">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <output eval="true">get_config_array("app/".get_data("rest/1")."/".get_data("rest/2")."/", current_user())</output>
+        <output ifeval="get_data('server/request_method')=='GET'" eval="true">get_config_array("app/".get_data("rest/1")."/list/filter/", current_user())</output>
+        <output eval="true">set_config("app/".get_data("rest/1")."/list/filter/".get_data("json/name"), get_data("json/val"), current_user())</output>
     </list>
 
     <!-- Form part -->
