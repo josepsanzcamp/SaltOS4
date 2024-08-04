@@ -74,9 +74,9 @@ saltos.driver.init = arg => {
     });
     // To check the list preferences
     if (arg == 'list') {
-        var app = saltos.hash.get().split('/').at(1);
-        saltos.filter.init(app);
-        saltos.filter.load(app, 'last');
+        saltos.filter.init();
+        saltos.filter.select();
+        saltos.filter.load('last');
     }
     // Old feature
     var screen = document.body.getAttribute('screen');
@@ -120,8 +120,8 @@ saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     saltos.app.form.__backup.restore('top+one');
     var data = saltos.app.get_data(true);
+    saltos.filter.update('last', data);
     var app = saltos.hash.get().split('/').at(1);
-    saltos.filter.update(app, 'last', data);
     var type = '';
     if (document.getElementById('table')) {
         type = 'table';
@@ -204,12 +204,7 @@ saltos.driver.reset = arg => {
             obj.set(field.value);
         }
     }
-    if (typeof arg == 'undefined') {
-        arg = true;
-    }
-    if (saltos.core.eval_bool(arg)) {
-        saltos.driver.search();
-    }
+    saltos.driver.search();
 };
 
 /**

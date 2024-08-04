@@ -82,4 +82,9 @@
     <tester>Tester</tester>
     <open>Obrir</open>
     <data_not_found>Dades not trobades</data_not_found>
+    <load>Carregar</load>
+    <update>Actualitzar</update>
+    <rename>Renombrar</rename>
+    <old_filters>Filtres guardats</old_filters>
+    <new_filter_name>Nom del nou filtre</new_filter_name>
 </root>

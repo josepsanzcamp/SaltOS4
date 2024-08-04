@@ -55,8 +55,9 @@ saltos.filter.__cache = {};
  *
  * @app => the name of the app used to load the filters
  */
-saltos.filter.init = app => {
+saltos.filter.init = () => {
     if (!Object.keys(saltos.filter.__cache).length) {
+        var app = saltos.hash.get().split('/').at(1);
         saltos.app.form.screen('loading');
         saltos.core.ajax({
             url: `api/?app/${app}/list/filter`,
@@ -68,8 +69,11 @@ saltos.filter.init = app => {
                     return;
                 }
                 saltos.filter.__cache = {};
+                var temp = `app/${app}/list/filter/`;
+                var len = temp.length;
                 for (var key in response) {
                     var val = JSON.parse(response[key]);
+                    key = key.substr(len);
                     saltos.filter.__cache[key] = val;
                 }
             },
@@ -99,10 +103,9 @@ saltos.filter.init = app => {
  * @app  => the name of the desired app to be used
  * @name => the name of the desired filter
  */
-saltos.filter.load = (app, name) => {
-    var key = `app/${app}/list/filter/${name}`;
-    if (saltos.filter.__cache.hasOwnProperty(key)) {
-        saltos.app.form.data(saltos.filter.__cache[key], false);
+saltos.filter.load = (name) => {
+    if (saltos.filter.__cache.hasOwnProperty(name)) {
+        saltos.app.form.data(saltos.filter.__cache[name], false);
     }
     saltos.driver.search();
 };
@@ -116,9 +119,8 @@ saltos.filter.load = (app, name) => {
  * @name => the name of the desired filter that wants to update
  * @data => the data of the desired filter that wants to update
  */
-saltos.filter.update = (app, name, data) => {
-    var key = `app/${app}/list/filter/${name}`;
-    saltos.filter.__cache[key] = data;
+saltos.filter.update = (name, data) => {
+    saltos.filter.__cache[name] = data;
 };
 
 /**
@@ -139,25 +141,25 @@ saltos.filter.update = (app, name, data) => {
  * Too this function checks if data has suffered changes to optimize the network
  * and prevent non needed ajax requests.
  */
-saltos.filter.save = (app, name, data) => {
-    var key = `app/${app}/list/filter/${name}`;
+saltos.filter.save = (name, data) => {
     // Check for detect if the filter is saved or deleted
     if (data !== null) {
-        if (saltos.filter.__cache.hasOwnProperty(key)) {
-            if (JSON.stringify(saltos.filter.__cache[key]) == JSON.stringify(data)) {
+        if (saltos.filter.__cache.hasOwnProperty(name)) {
+            if (JSON.stringify(saltos.filter.__cache[name]) == JSON.stringify(data)) {
                 // In this case, the filter exists and contains the same data, nothing to do
                 return;
             }
         }
-        saltos.filter.__cache[key] = data;
+        saltos.filter.__cache[name] = data;
         data = JSON.stringify(data);
     } else {
-        if (!saltos.filter.__cache.hasOwnProperty(key)) {
+        if (!saltos.filter.__cache.hasOwnProperty(name)) {
             // In this case, the filter does not exists, nothing to do
             return;
         }
-        delete saltos.filter.__cache[key];
+        delete saltos.filter.__cache[name];
     }
+    var app = saltos.hash.get().split('/').at(1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
         url: `api/?app/${app}/list/filter`,
@@ -187,4 +189,69 @@ saltos.filter.save = (app, name, data) => {
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.filter.button = arg => {
+    var form = document.getElementById('filter_form');
+    var select = form.querySelector('select');
+    var input = form.querySelector('input');
+    saltos.app.form.__backup.restore('top+one');
+    var data = saltos.app.get_data(true);
+    switch (arg) {
+        case 'load':
+            saltos.filter.load(select.value);
+            select.value = '';
+            break;
+        case 'update':
+            saltos.filter.save(select.value, data);
+            select.value = '';
+            break;
+        case 'delete':
+            saltos.filter.save(select.value, null);
+            select.value = '';
+            saltos.filter.select();
+            break;
+        case 'create':
+            saltos.filter.save(input.value, data);
+            input.value = '';
+            saltos.filter.select();
+            break;
+        case 'rename':
+            saltos.filter.save(input.value, data);
+            input.value = '';
+            saltos.filter.save(select.value, null);
+            select.value = '';
+            saltos.filter.select();
+            break;
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.filter.select = arg => {
+    var form = document.getElementById('filter_form');
+    if (!form) {
+        return;
+    }
+    var select = form.querySelector('select');
+    if (!select) {
+        return;
+    }
+    select.innerHTML = '';
+    select.append(saltos.core.html(`<option value=""></option>`));
+    for (var key in saltos.filter.__cache) {
+        if (key == 'last') {
+            continue;
+        }
+        var val = saltos.filter.__cache[key];
+        select.append(saltos.core.html(`<option value="${key}">${key}</option>`));
+    }
 };

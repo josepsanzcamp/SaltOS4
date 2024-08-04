@@ -1413,7 +1413,7 @@ saltos.app.help = () => {
  *
  * TODO
  */
-saltos.app.search = (id) => {
+saltos.app.filter = (id) => {
     if (saltos.bootstrap.offcanvas('isopen')) {
         saltos.bootstrap.offcanvas('close');
         return;
@@ -1426,17 +1426,23 @@ saltos.app.search = (id) => {
         //~ keyboard: true,
         resize: true,
     });
-    var div = document.getElementById(id);
-    var parent = div.parentElement;
-    if (div.hasOwnProperty('data-bs-title')) {
-        document.querySelector('.offcanvas-title').innerHTML = T(div['data-bs-title']);
+    id = id.split(',');
+    for (var i in id) {
+        var div = document.getElementById(id[i]);
+        var parent = div.parentElement;
+        if (div.hasOwnProperty('data-bs-title')) {
+            document.querySelector('.offcanvas-title').innerHTML = T(div['data-bs-title']);
+        }
+        document.querySelector('.offcanvas-body').append(div);
+        div.classList.remove('d-none');
     }
-    document.querySelector('.offcanvas-body').append(div);
-    div.classList.remove('d-none');
     var obj = saltos.bootstrap.__offcanvas.obj;
     obj.addEventListener('hide.bs.offcanvas', event => {
-        div.classList.add('d-none');
-        parent.append(div);
+        for (var i in id) {
+            var div = document.getElementById(id[i]);
+            div.classList.add('d-none');
+            parent.append(div);
+        }
     });
 };
 
