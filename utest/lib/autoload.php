@@ -82,13 +82,13 @@ if (count($files)) {
     }
 }
 
-$mssql = intval(ob_passthru("ps uaxw | grep sqlservr | grep -v grep | wc -l"));
-if (!$mssql) {
-    echo "\033[0;31mSQL Server not found\033[0m\n";
-    echo "\033[0;33mStarting it ...\033[0m\n";
-    ob_passthru("sudo systemctl start mssql-server.service");
+//~ $mssql = intval(ob_passthru("ps uaxw | grep sqlservr | grep -v grep | wc -l"));
+//~ if (!$mssql) {
+    //~ echo "\033[0;31mSQL Server not found\033[0m\n";
+    //~ echo "\033[0;33mStarting it ...\033[0m\n";
+    //~ ob_passthru("sudo systemctl start mssql-server.service");
     //~ file_put_contents("/tmp/mssql.stop", getmypid());
-}
+//~ }
 
 //~ register_shutdown_function(function () {
     //~ if (!file_exists("/tmp/mssql.stop")) {
