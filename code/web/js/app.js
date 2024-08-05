@@ -1413,7 +1413,7 @@ saltos.app.help = () => {
  *
  * TODO
  */
-saltos.app.filter = (id) => {
+saltos.app.filter = () => {
     if (saltos.bootstrap.offcanvas('isopen')) {
         saltos.bootstrap.offcanvas('close');
         return;
@@ -1426,22 +1426,20 @@ saltos.app.filter = (id) => {
         //~ keyboard: true,
         resize: true,
     });
-    id = id.split(',');
-    for (var i in id) {
-        var div = document.getElementById(id[i]);
-        var parent = div.parentElement;
-        if (div.hasOwnProperty('data-bs-title')) {
-            document.querySelector('.offcanvas-title').innerHTML = T(div['data-bs-title']);
-        }
-        document.querySelector('.offcanvas-body').append(div);
-        div.classList.remove('d-none');
+    var filter = document.getElementById('filter');
+    if (filter.hasOwnProperty('data-bs-title')) {
+        document.querySelector('.offcanvas-title').innerHTML = T(filter['data-bs-title']);
+    }
+    var items = Array.prototype.slice.call(filter.childNodes);
+    var parents = [];
+    for (var i in items) {
+        parents[i] = items[i].parentElement;
+        document.querySelector('.offcanvas-body').append(items[i]);
     }
     var obj = saltos.bootstrap.__offcanvas.obj;
     obj.addEventListener('hide.bs.offcanvas', event => {
-        for (var i in id) {
-            var div = document.getElementById(id[i]);
-            div.classList.add('d-none');
-            parent.append(div);
+        for (var i in items) {
+            parents[i].append(items[i]);
         }
     });
 };
