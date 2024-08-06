@@ -1,0 +1,7 @@
+
+# https://github.com/vakata/jstree/tree/v.4.0
+
+git clone https://github.com/vakata/jstree.git
+git checkout v.4.0
+rsync -va jstree/dist/jstree.min.* .
+trash jstree

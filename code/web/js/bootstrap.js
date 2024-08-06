@@ -85,7 +85,9 @@ saltos.bootstrap = {};
  * @list        => id, class, header, extra, data, footer, onclick, active, disabled, label
  * @tabs        => id, tabs, name, content, active, disabled, label
  * @pills       => id, tabs, name, content, active, disabled, label
- * @v-pills     => id, tabs, name, content, active, disabled, label
+ * @vpills      => id, tabs, name, content, active, disabled, label
+ * @accordion   => id, flush, multiple, items, label
+ * @jstree      => id, open, onclick, data
  *
  * Notes:
  *
@@ -2313,8 +2315,9 @@ saltos.bootstrap.__field.table = field => {
                         if (val2.onclick) {
                             row.setAttribute('_onclick', val2.onclick);
                             row.addEventListener('dblclick', event => {
-                                //~ eval(event.target.parentElement.getAttribute('_onclick'));
-                                (new Function(event.target.parentElement.getAttribute('_onclick'))).call(event.target);
+                                (new Function(
+                                    event.target.parentElement.getAttribute('_onclick')
+                                )).call(event.target);
                                 if (document.selection && document.selection.empty) {
                                     window.getSelection().removeAllRanges();
                                 } else if (window.getSelection) {
@@ -3197,7 +3200,7 @@ saltos.bootstrap.__field.pills = field => {
  * @active   => this parameter raise the active flag
  * @disabled => this parameter raise the disabled flag
  */
-saltos.bootstrap.__field['v-pills'] = field => {
+saltos.bootstrap.__field.vpills = field => {
     saltos.core.check_params(field, ['id']);
     saltos.core.check_params(field, ['items'], []);
     var obj = saltos.core.html(`
@@ -3303,6 +3306,66 @@ saltos.bootstrap.__field.accordion = field => {
         item.querySelector('.accordion-body').append(val.content);
         obj.append(item);
     }
+    obj = saltos.bootstrap.__label_combine(field, obj);
+    return obj;
+};
+
+/**
+ * JS Tree constructor helper
+ *
+ * This function returns a jstree object using the follow parameters:
+ *
+ * @id      => the id used to set the reference for to the object
+ * @open    => the open boolean that open all nodes
+ * @onclick => the callback that receives the id as argument of the selected item
+ * @data    => the data used to make the tree, must to be an array with nodes
+ *
+ * Each node must contain the follow items:
+ *
+ * @id       => the id of the node (used in the onclick callback)
+ * @text     => the text of the node
+ * @children => an array with the nodes childrens
+ */
+saltos.bootstrap.__field.jstree = field => {
+    saltos.core.require('lib/jstree/jstree.min.css');
+    saltos.core.require('lib/jstree/jstree.min.js');
+    saltos.core.check_params(field, ['id', 'open', 'onclick']);
+    saltos.core.check_params(field, ['data'], []);
+    var obj = saltos.core.html(`<div id="${field.id}"></div>`);
+    var instance = new jsTree({}, obj);
+    obj.instance = instance;
+    instance.empty();
+    instance.create(field.data);
+    if (saltos.core.eval_bool(field.open)) {
+        instance.openAll();
+    }
+    instance.on('select', event => {
+        var id = event.node.data.id;
+        if (typeof field.onclick == 'string') {
+            (new Function(field.onclick)).call(id);
+            return;
+        }
+        if (typeof field.onclick == 'function') {
+            field.onclick(id);
+            return;
+        }
+        throw new Error(`Unknown typeof ${field.onclick}`);
+    });
+    /* .jstree-node-text:hover { background:var(--bs-primary-bg-subtle); } */
+    obj.append(saltos.core.html(`
+        <style>
+            .jstree-node-text { color:var(--bs-primary); }
+            .jstree-node-text:hover { background:#fbec88; color:#373a3c; }
+            .jstree-selected,
+            .jstree-selected:hover { background:var(--bs-primary); color:white; }
+            .jstree-node-icon:before { background:var(--bs-primary); }
+            .jstree-node-icon:after { background:var(--bs-primary); }
+            .jstree-node-text:hover .jstree-node-icon:before { background:#373a3c; }
+            .jstree-node-text:hover .jstree-node-icon:after { background:#373a3c; }
+            .jstree-selected:hover .jstree-node-icon:before { background:white; }
+            .jstree-selected:hover .jstree-node-icon:after { background:white; }
+        </style>
+    `));
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -3562,7 +3625,6 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
             return;
         }
         if (typeof fn == 'string') {
-            //~ eval(fn);
             (new Function(fn)).call(obj);
             return;
         }
@@ -3570,7 +3632,7 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
             fn();
             return;
         }
-        throw new Error(`Unknown typeof ${field.onenter}`);
+        throw new Error(`Unknown typeof ${fn}`);
     });
 };
 

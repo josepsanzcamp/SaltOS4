@@ -203,7 +203,8 @@ saltos.app.process_response = response => {
 /**
  * Form constructor helper object
  *
- * This object allow to the constructor to use a rational structure for a quick access of each helper
+ * This object allow to the constructor to use a rational structure for a quick access of each
+ * helper
  */
 saltos.app.form = {};
 
