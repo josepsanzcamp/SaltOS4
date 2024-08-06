@@ -94,9 +94,9 @@ function remove_meta_tag($temp)
  */
 function inline_img_tag($temp)
 {
-    $pattern = "@< *img[^>]*src *= *[\"']?([^\"' >]*)@i";
-    preg_match_all($pattern, $temp, $matches);
-    foreach ($matches[1] as $src) {
+    $tags = __get_imgs_tags($temp);
+    foreach ($tags as $tag) {
+        $src = __explode_attr($tag)["src"] ?? "";
         $img = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
         $scheme = parse_url($src, PHP_URL_SCHEME);
         if (in_array($scheme, ["data", "cid"])) {
@@ -126,4 +126,81 @@ function inline_img_tag($temp)
         $temp = str_replace($src, $img, $temp);
     }
     return $temp;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __get_imgs_tags($html)
+{
+    $imgs = [];
+    $pos = strpos($html, "<img ");
+    $len = strlen($html);
+    while ($pos !== false) {
+        $pos2 = $pos;
+        for (;;) {
+            $pos2 = strpos($html, '>', $pos2 + 1);
+            $img = substr($html, $pos, $pos2 - $pos);
+            $chars = count_chars($img);
+            if (($chars[ord('"')] & 0x1) != 0) {
+                continue;
+            }
+            if (($chars[ord("'")] & 0x1) != 0) {
+                continue;
+            }
+            break;
+        };
+        $imgs[] = $img;
+        $pos = strpos($html, "<img ", $pos2);
+    }
+    return $imgs;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __explode_attr($html)
+{
+    $result = [];
+    $len = strlen($html);
+    $pos1 = strpos($html, "=");
+    while ($pos1 !== false) {
+        for ($i = $pos1 - 1; $i >= 0; $i--) {
+            if ($html[$i] != " ") {
+                break;
+            }
+        }
+        for ($j = $i; $j >= 0; $j--) {
+            if ($html[$j] == " ") {
+                break;
+            }
+        }
+        $pos2 = $j;
+        for ($i = $pos1 + 1; $i < $len; $i++) {
+            if ($html[$i] != " ") {
+                break;
+            }
+        }
+        for ($j = $i; $j < $len; $j++) {
+            if ($html[$j] == '"' || $html[$j] == "'") {
+                break;
+            }
+        }
+        $pos3 = $j;
+        for ($k = $j + 1; $k < $len; $k++) {
+            if ($html[$j] == $html[$k]) {
+                break;
+            }
+        }
+        $pos4 = $k;
+        $key = substr($html, $pos2 + 1, $pos1 - $pos2 - 1);
+        $val = substr($html, $pos3 + 1, $pos4 - $pos3 - 1);
+        $result[$key] = $val;
+        $pos1 = strpos($html, "=", $pos1 + 1);
+    }
+    return $result;
 }
