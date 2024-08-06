@@ -103,7 +103,7 @@ function inline_img_tag($temp)
             continue;
         }
         if (in_array($scheme, ["https", "http"])) {
-            $cache = get_cache_file($src);
+            $cache = get_cache_file($src, ".tmp");
             if (!file_exists($cache)) {
                 $data = __url_get_contents($src);
                 file_put_contents($cache, serialize($data));
