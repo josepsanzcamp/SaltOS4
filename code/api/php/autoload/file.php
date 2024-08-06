@@ -227,16 +227,11 @@ function __url_get_contents($url, $args = [])
     // errors, for this reason, I have overloaded the error handler to
     // manage this kind of errors
     set_error_handler(function ($type, $message, $file, $line) {
-        error_clear_last();
         if (words_exists("stream_socket_client", $message)) {
+            error_clear_last();
             return true;
         }
-        show_php_error([
-            "phperror" => "{$message} (code {$type})",
-            "details" => "Error on file " . basename($file) . ":" . $line,
-            "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            "code" => __get_code_from_file_and_line($file, $line),
-        ]);
+        __error_handler($type, $message, $file, $line);
     });
     $error = $http->Open($arguments);
     restore_error_handler();

@@ -1284,7 +1284,19 @@ function getmail_server()
                 $pop3->port = $row["pop3_port"];
             }
             $pop3->tls = ($row["pop3_extra"] == "tls") ? 1 : 0;
+            // I have detected that stream_socket_client generates uncontrolable
+            // errors, for this reason, I have overloaded the error handler to
+            // manage this kind of errors
+            set_error_handler(function ($type, $message, $file, $line) {
+                if (words_exists("stream_socket_client", $message)) {
+                    error_clear_last();
+                    return true;
+                }
+                __error_handler($type, $message, $file, $line);
+            });
             $error = $pop3->Open();
+            restore_error_handler();
+            // End of the overloaded error zone
         }
         if ($error == "") {
             $error = $pop3->Login($row["pop3_user"], $row["pop3_pass"]);
