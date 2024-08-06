@@ -5,5 +5,8 @@
     "validateIndentation": 4,
     "jsDoc": {
         "enforceExistence": false
+    },
+    "requireCapitalizedConstructors": {
+        "allExcept": ["jsTree"]
     }
 }

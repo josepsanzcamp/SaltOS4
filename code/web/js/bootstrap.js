@@ -3334,19 +3334,24 @@ saltos.bootstrap.__field.jstree = field => {
     var obj = saltos.core.html(`<div id="${field.id}"></div>`);
     var instance = new jsTree({}, obj);
     obj.instance = instance;
-    instance.empty();
-    instance.create(field.data);
-    if (saltos.core.eval_bool(field.open)) {
-        instance.openAll();
-    }
+    obj.set = data => {
+        instance.empty().create(data);
+        if (saltos.core.eval_bool(field.open)) {
+            instance.openAll();
+        }
+    };
+    obj.set(field.data);
     instance.on('select', event => {
-        var id = event.node.data.id;
+        var val = event.node.data.text;
+        if (event.node.data.hasOwnProperty('id')) {
+            val = event.node.data.id;
+        }
         if (typeof field.onclick == 'string') {
-            (new Function(field.onclick)).call(id);
+            (new Function(field.onclick)).call(val);
             return;
         }
         if (typeof field.onclick == 'function') {
-            field.onclick(id);
+            field.onclick(val);
             return;
         }
         throw new Error(`Unknown typeof ${field.onclick}`);

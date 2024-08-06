@@ -68,7 +68,7 @@
         </javascript>
     </list>
 
-    <filter id="filter" class="d-none" title="Search form" >
+    <filter id="filter" class="d-none" title="Search form">
         <!-- Begin of the search form -->
         <div id="search_form">
             <row auto="true" col_class="col-6 mb-3">
@@ -122,7 +122,8 @@
         <!-- Begin of the filters part -->
         <div id="filter_form">
             <row auto="true" col_class="col-6 mb-3">
-                <select label="Old filters" col_class="col-12 mb-3" ignore="true"/>
+                <jstree id="jstree" label="Old filters" col_class="col-12 mb-3" onclick="saltos.filter.load(this)"/>
+                <select label="Manage filters" col_class="col-12 mb-3" ignore="true"/>
             </row>
             <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
                 <div col_class="col"/>

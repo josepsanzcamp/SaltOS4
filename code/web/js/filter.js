@@ -254,4 +254,19 @@ saltos.filter.select = arg => {
         var val = saltos.filter.__cache[key];
         select.append(saltos.core.html(`<option value="${key}">${key}</option>`));
     }
+    var jstree = document.getElementById('jstree');
+    if (!jstree) {
+        return;
+    }
+    var data = [];
+    for (var key in saltos.filter.__cache) {
+        if (key == 'last') {
+            continue;
+        }
+        var val = saltos.filter.__cache[key];
+        data.push({
+            text: key,
+        });
+    }
+    jstree.set(data);
 };
