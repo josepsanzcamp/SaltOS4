@@ -88,4 +88,5 @@
     <old_filters>Filtres guardats</old_filters>
     <manage_filters>Gestió dels filtres</manage_filters>
     <new_filter_name>Nom del nou filtre</new_filter_name>
+    <filters_not_found>No hi ha cap filtre</filters_not_found>
 </root>

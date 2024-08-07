@@ -204,24 +204,42 @@ saltos.filter.button = arg => {
     var data = saltos.app.get_data(true);
     switch (arg) {
         case 'load':
+            if (!select.value) {
+                break;
+            }
             saltos.filter.load(select.value);
             select.value = '';
             break;
         case 'update':
+            if (!select.value) {
+                break;
+            }
             saltos.filter.save(select.value, data);
             select.value = '';
             break;
         case 'delete':
+            if (!select.value) {
+                break;
+            }
             saltos.filter.save(select.value, null);
             select.value = '';
             saltos.filter.select();
             break;
         case 'create':
+            if (!input.value) {
+                break;
+            }
             saltos.filter.save(input.value, data);
             input.value = '';
             saltos.filter.select();
             break;
         case 'rename':
+            if (!input.value) {
+                break;
+            }
+            if (!select.value) {
+                break;
+            }
             saltos.filter.save(input.value, data);
             input.value = '';
             saltos.filter.save(select.value, null);

@@ -53,7 +53,59 @@
             </row>
         </layout>
         <layout append="one">
-            <div eval="true">xmlfile2array("apps/emails/xml/emails.xml")["filter"]</div>
+            <div id="filter" class="d-none" title="Search form">
+                <!-- Begin of the search form -->
+                <div id="search_form">
+                    <row auto="true" col_class="col-6 mb-3">
+                        <text id="search_extra" label="Search" col_class="col-12 mb-3" onchange="document.getElementById('search').value=this.value" autofocus="true" onenter="document.getElementById('search').value=this.value;saltos.driver.search()"/>
+                        <select id="account_id" label="Emails accounts" col_class="col-12 mb-3">
+                            <rows eval="true">execute_query_array("
+                                SELECT '' value, '[All accounts]' label
+                                UNION
+                                SELECT id value,CONCAT(email_name,' &lt;',email_from,'&gt;') label
+                                FROM app_emails_accounts
+                                WHERE user_id=".current_user()."
+                                ORDER BY label")</rows>
+                        </select>
+                        <select id="fields" label="Search in fields">
+                            <rows>
+                                <row label="[All fields]" value=""/>
+                                <row label="Only address" value="email"/>
+                                <row label="Only subject" value="subject"/>
+                                <row label="Only message" value="body"/>
+                            </rows>
+                        </select>
+                        <select id="date3" label="Common dates">
+                            <rows>
+                                <row label="[All dates]" value=""/>
+                                <row label="Today" value="today"/>
+                                <row label="Yesterday" value="yesterday"/>
+                                <row label="Last week" value="week"/>
+                                <row label="Last month" value="month"/>
+                            </rows>
+                        </select>
+                        <date id="date1" label="From date"/>
+                        <date id="date2" label="Until date"/>
+                        <switch id="onlynew" label="Only new"/>
+                        <switch id="onlywait" label="Only wait"/>
+                        <switch id="onlyspam" label="Only SPAM" onchange="document.getElementById('hidespam').set(false)"/>
+                        <switch id="hidespam" label="Hide SPAM" onchange="document.getElementById('onlyspam').set(false)"/>
+                        <switch id="withfiles" label="With files" onchange="document.getElementById('withoutfiles').set(false)"/>
+                        <switch id="withoutfiles" label="Without files" onchange="document.getElementById('withfiles').set(false)"/>
+                        <switch id="onlyinbox" label="Only inbox" onchange="document.getElementById('onlyoutbox').set(false)"/>
+                        <switch id="onlyoutbox" label="Only outbox" onchange="document.getElementById('onlyinbox').set(false)"/>
+                    </row>
+                    <row auto="true" row_class="row g-1" col_class="col-auto">
+                        <div col_class="col"/>
+                        <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                        <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+                        <button onclick="saltos.app.filter()" label="Close" tooltip="To close this search form" icon="x-lg"/>
+                    </row>
+                </div>
+                <!-- End of the search form -->
+                <hr col_class="col-md-12 mb-1"/>
+                <div eval="true">xpath_search_first("div/div[id=filter_form]", xmlfile2array("apps/dashboard/xml/filter.xml"))</div>
+            </div>
             <row auto="true" col_class="col-12 mb-3">
                 <list id="list" nodata="Loading..."/>
             </row>
@@ -67,81 +119,6 @@
             <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
-
-    <filter id="filter" class="d-none" title="Search form">
-        <!-- Begin of the search form -->
-        <div id="search_form">
-            <row auto="true" col_class="col-6 mb-3">
-                <text id="search_extra" label="Search" col_class="col-12 mb-3" onchange="document.getElementById('search').value=this.value" autofocus="true"/>
-                <select id="account_id" label="Emails accounts" col_class="col-12 mb-3">
-                    <rows eval="true">execute_query_array("
-                        SELECT '' value, '[All accounts]' label
-                        UNION
-                        SELECT id value,CONCAT(email_name,' &lt;',email_from,'&gt;') label
-                        FROM app_emails_accounts
-                        WHERE user_id=".current_user()."
-                        ORDER BY label")</rows>
-                </select>
-                <select id="fields" label="Search in fields">
-                    <rows>
-                        <row label="[All fields]" value=""/>
-                        <row label="Only address" value="email"/>
-                        <row label="Only subject" value="subject"/>
-                        <row label="Only message" value="body"/>
-                    </rows>
-                </select>
-                <select id="date3" label="Common dates">
-                    <rows>
-                        <row label="[All dates]" value=""/>
-                        <row label="Today" value="today"/>
-                        <row label="Yesterday" value="yesterday"/>
-                        <row label="Last week" value="week"/>
-                        <row label="Last month" value="month"/>
-                    </rows>
-                </select>
-                <date id="date1" label="From date"/>
-                <date id="date2" label="Until date"/>
-                <switch id="onlynew" label="Only new"/>
-                <switch id="onlywait" label="Only wait"/>
-                <switch id="onlyspam" label="Only SPAM" onchange="document.getElementById('hidespam').set(false)"/>
-                <switch id="hidespam" label="Hide SPAM" onchange="document.getElementById('onlyspam').set(false)"/>
-                <switch id="withfiles" label="With files" onchange="document.getElementById('withoutfiles').set(false)"/>
-                <switch id="withoutfiles" label="Without files" onchange="document.getElementById('withfiles').set(false)"/>
-                <switch id="onlyinbox" label="Only inbox" onchange="document.getElementById('onlyoutbox').set(false)"/>
-                <switch id="onlyoutbox" label="Only outbox" onchange="document.getElementById('onlyinbox').set(false)"/>
-            </row>
-            <row auto="true" row_class="row g-1" col_class="col-auto">
-                <div col_class="col"/>
-                <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
-                <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
-                <button onclick="saltos.app.filter()" label="Close" tooltip="To close this search form" icon="x-lg"/>
-                <hr col_class="col-md-12 mb-1"/>
-            </row>
-        </div>
-        <!-- End of the search form -->
-        <!-- Begin of the filters part -->
-        <div id="filter_form">
-            <row auto="true" col_class="col-6 mb-3">
-                <jstree id="jstree" label="Old filters" col_class="col-12 mb-3" onclick="saltos.filter.load(this)"/>
-                <select label="Manage filters" col_class="col-12 mb-3" ignore="true"/>
-            </row>
-            <row auto="true" row_class="row g-1 mb-3" col_class="col-auto">
-                <div col_class="col"/>
-                <button onclick="saltos.filter.button('load')" label="Load" tooltip="To load the selected filter" icon="bookmark"/>
-                <button onclick="saltos.filter.button('update')" label="Update" tooltip="To update the selected filter" icon="bookmark-check"/>
-                <button onclick="saltos.filter.button('delete')" label="Delete" tooltip="To delete the selected filter" icon="bookmark-x"/>
-            </row>
-            <row auto="true" col_class="col-6 mb-3">
-                <text label="New filter name" col_class="col-12 mb-3" ignore="true"/>
-            </row>
-            <row auto="true" row_class="row g-1" col_class="col-auto">
-                <div col_class="col"/>
-                <button onclick="saltos.filter.button('create')" label="Create" tooltip="To create a new filter" icon="bookmark-plus"/>
-                <button onclick="saltos.filter.button('rename')" label="Rename" tooltip="To rename the selected filter with the new name" icon="x-lg"/>
-            </row>
-        </div>
-        <!-- End of the filters part -->
-    </filter>
 
     <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>

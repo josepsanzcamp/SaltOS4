@@ -3316,8 +3316,11 @@ saltos.bootstrap.__field.accordion = field => {
  * This function returns a jstree object using the follow parameters:
  *
  * @id      => the id used to set the reference for to the object
+ * @class    => allow to add more classes to the default table table-striped table-hover
  * @open    => the open boolean that open all nodes
  * @onclick => the callback that receives the id as argument of the selected item
+ * @nodata   => text used when no data is found
+ * @label    => this parameter is used as text for the label
  * @data    => the data used to make the tree, must to be an array with nodes
  *
  * Each node must contain the follow items:
@@ -3329,12 +3332,20 @@ saltos.bootstrap.__field.accordion = field => {
 saltos.bootstrap.__field.jstree = field => {
     saltos.core.require('lib/jstree/jstree.min.css');
     saltos.core.require('lib/jstree/jstree.min.js');
-    saltos.core.check_params(field, ['id', 'open', 'onclick']);
+    saltos.core.check_params(field, ['id', 'class', 'open', 'onclick', 'nodata']);
     saltos.core.check_params(field, ['data'], []);
-    var obj = saltos.core.html(`<div id="${field.id}"></div>`);
+    var obj = saltos.core.html(`<div id="${field.id}" class="${field.class}"></div>`);
     var instance = new jsTree({}, obj);
     obj.instance = instance;
     obj.set = data => {
+        // Check for data not found
+        if (!data.length) {
+            data = [{
+                id: null,
+                text: field.nodata,
+            }];
+        }
+        // Continue
         instance.empty().create(data);
         if (saltos.core.eval_bool(field.open)) {
             instance.openAll();
@@ -3345,6 +3356,9 @@ saltos.bootstrap.__field.jstree = field => {
         var val = event.node.data.text;
         if (event.node.data.hasOwnProperty('id')) {
             val = event.node.data.id;
+        }
+        if (!val) {
+            return;
         }
         if (typeof field.onclick == 'string') {
             (new Function(field.onclick)).call(val);

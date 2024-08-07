@@ -195,7 +195,7 @@ saltos.gettext.bootstrap.field = field => {
         }
     }
     // Only for table and list widgets
-    if (field.hasOwnProperty('type') && ['table', 'list'].includes(field.type)) {
+    if (field.hasOwnProperty('type') && ['table', 'list', 'jstree'].includes(field.type)) {
         var props = ['nodata'];
         for (var i in props) {
             if (field.hasOwnProperty(props[i])) {
