@@ -104,7 +104,7 @@
                 </div>
                 <!-- End of the search form -->
                 <hr col_class="col-md-12 mb-1"/>
-                <div eval="true">xpath_search_first("div/div[id=filter_form]", xmlfile2array("apps/dashboard/xml/filter.xml"))</div>
+                <div id="filter_form" eval="true">xpath_search_first("div/div[id=filter_form]", xmlfile2array("apps/dashboard/xml/filter.xml"))</div>
             </div>
             <row auto="true" col_class="col-12 mb-3">
                 <list id="list" nodata="Loading..."/>
