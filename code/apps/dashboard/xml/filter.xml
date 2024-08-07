@@ -40,9 +40,7 @@
             </row>
         </div>
         <!-- End of the search form -->
-
-        <hr col_class="col-md-12 mb-1"/>
-
+        <hr/>
         <!-- Begin of the filter form -->
         <div id="filter_form">
             <row auto="true" col_class="col-6 mb-3">
