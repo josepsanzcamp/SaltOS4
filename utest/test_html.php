@@ -73,7 +73,7 @@ final class test_html extends TestCase
         $this->assertSame(remove_meta_tag("<meta nada>"), "");
 
         $src = "https://127.0.0.1/favicon.ico";
-        $cache = get_cache_file($src);
+        $cache = get_cache_file($src, ".tmp");
         if (file_exists($cache)) {
             unlink($cache);
         }
