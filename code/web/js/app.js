@@ -1446,6 +1446,41 @@ saltos.app.filter = () => {
 };
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.download = file => {
+    saltos.app.form.screen('loading');
+    saltos.core.ajax({
+        url: 'api/?' + file,
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            var a = document.createElement('a');
+            a.download = response.name;
+            response.type = 'application/force-download'; // to force download dialog
+            a.href = `data:${response.type};base64,${response.data}`;
+            a.click();
+        },
+        error: request => {
+            saltos.app.form.screen('unloading');
+            saltos.app.show_error({
+                text: request.statusText,
+                code: request.status,
+            });
+        },
+        abort: request => {
+            saltos.app.form.screen('unloading');
+        },
+        token: saltos.token.get(),
+        lang: saltos.gettext.get(),
+    });
+};
+
+/**
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module

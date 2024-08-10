@@ -384,7 +384,7 @@
         )</data>
         <actions>
             <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.driver.open"/>
-            <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.emails.download"/>
+            <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.app.download"/>
         </actions>
     </view>
 
@@ -445,7 +445,7 @@
 
     <view id="download">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <file require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data("rest/4")),get_data("rest/5"))</file>
+        <output require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data("rest/4")),get_data("rest/5"))</output>
     </view>
 
     <delete>
