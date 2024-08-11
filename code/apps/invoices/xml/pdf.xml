@@ -89,7 +89,7 @@
             <!-- PONER CAJA FACTURA -->
             <color>$row["color_line"],"#000000"</color>
             <eval>!$row["cerrado"]</eval>
-                <rect>130,45,50,20,"D",0.15,1</rect>
+                <rect>130,45,50,20,"D",0.15</rect>
                 <font>"normal","B",8,$row["color_text1"]</font>
                 <text>131,46,T("Delivery note")</text>
                 <line>130,51,180,51</line>
@@ -98,7 +98,7 @@
                 <text>131,56,T("Invoice date").": ".$row["fecha"]</text>
                 <text>131,60,T("Payment method").": ".$row["formapago"]</text>
             <eval>$row["cerrado"]</eval>
-                <rect>130,45,50,24,"D",0.15,1</rect>
+                <rect>130,45,50,24,"D",0.15</rect>
                 <font>"normal","B",8,$row["color_text1"]</font>
                 <text>131,46,T("Invoice")</text>
                 <line>130,51,180,51</line>
@@ -109,7 +109,7 @@
                 <text>131,64,T("Payment method pago").": ".$row["formapago"]</text>
             <eval>true</eval>
             <!-- PONER CAJA CLIENTE -->
-            <rect>30,45,90,36,"D",0.15,1</rect>
+            <rect>30,45,90,36,"D",0.15</rect>
             <font>"normal","B",8,$row["color_text1"]</font>
             <text>31,46,T("Customer details")</text>
             <line>30,51,120,51</line>
@@ -122,7 +122,7 @@
             <text>31,72,T("Town").": ".$row["nombre_poblacion"]</text>
             <text>31,76,T("Postal code").": ".$row["nombre_codpostal"]</text>
             <!-- PONER CAJA CONCEPTOS -->
-            <rect>30,90,150,120,"D",0.15,1</rect>
+            <rect>30,90,150,120,"D",0.15</rect>
             <font>"normal","B",8,$row["color_text1"]</font>
             <textarea>30,91,90,4,"C",T("Concept")</textarea>
             <textarea>120,91,15,4,"C",T("Units")</textarea>
@@ -175,7 +175,7 @@
         <color>$row["color_line"],"#000000"</color>
         <!-- PONER CAJA FINAL IVA + IRPF -->
         <eval>$row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
-            <rect>130,219,50,24,"D",0.15,1</rect>
+            <rect>130,219,50,24,"D",0.15</rect>
             <line>130,225,180,225</line>
             <line>130,231,180,231</line>
             <line>130,237,180,237</line>
@@ -192,7 +192,7 @@
             <textarea>165,238,15,4,"R",$row["total"]</textarea>
         <!-- PONER CAJA FINAL IVA + NOT IRPF-->
         <eval>$row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
-            <rect>130,219,50,18,"D",0.15,1</rect>
+            <rect>130,219,50,18,"D",0.15</rect>
             <line>130,225,180,225</line>
             <line>130,231,180,231</line>
             <line>165,219,165,237</line>
@@ -206,7 +206,7 @@
             <textarea>165,232,15,4,"R",$row["total"]</textarea>
         <!-- PONER CAJA FINAL NOT IVA + IRPF-->
         <eval>!$row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
-            <rect>130,219,50,18,"D",0.15,1</rect>
+            <rect>130,219,50,18,"D",0.15</rect>
             <line>130,225,180,225</line>
             <line>130,231,180,231</line>
             <line>165,219,165,237</line>
@@ -220,7 +220,7 @@
             <textarea>165,232,15,4,"R",$row["total"]</textarea>
         <!-- PONER CAJA FINAL NOT IVA + NOT IRPF-->
         <eval>!$row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
-            <rect>130,219,50,12,"D",0.15,1</rect>
+            <rect>130,219,50,12,"D",0.15</rect>
             <line>130,225,180,225</line>
             <line>165,219,165,231</line>
             <font>"normal","B",8,$row["color_text1"]</font>
@@ -238,13 +238,13 @@
             <textarea>30,226,90,4,"L",$row["notas"]</textarea>
             <getxy>"x","y"</getxy>
         <eval>$row["notas"] AND $row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
-            <rect>30,219,90,max($row["y"]-219+1,24),"D",0.15,1</rect>
+            <rect>30,219,90,max($row["y"]-219+1,24),"D",0.15</rect>
         <eval>$row["notas"] AND $row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
-            <rect>30,219,90,max($row["y"]-219+1,18),"D",0.15,1</rect>
+            <rect>30,219,90,max($row["y"]-219+1,18),"D",0.15</rect>
         <eval>$row["notas"] AND !$row["factura_iva_bool"] AND $row["factura_irpf_bool"]</eval>
-            <rect>30,219,90,max($row["y"]-219+1,18),"D",0.15,1</rect>
+            <rect>30,219,90,max($row["y"]-219+1,18),"D",0.15</rect>
         <eval>$row["notas"] AND !$row["factura_iva_bool"] AND !$row["factura_irpf_bool"]</eval>
-            <rect>30,219,90,max($row["y"]-219+1,12),"D",0.15,1</rect>
+            <rect>30,219,90,max($row["y"]-219+1,12),"D",0.15</rect>
         <eval>true</eval>
         <!-- ACTIVAR EVAL OTRA VEZ -->
         <font>"normal","",6,$row["color_text2"]</font>
