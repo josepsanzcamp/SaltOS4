@@ -265,5 +265,15 @@
             <setxy>30,$row["y"]-1.5</setxy>
         </foreach>
     </foreach>
-    <output/>
+    <eval>strpos($row["id"],",")===false</eval>
+    <output>encode_bad_chars(execute_query("SELECT
+        CASE num WHEN '' THEN
+            CONCAT('".T("Delivery note")."',' ',LPAD(id,5,0),' ',nombre)
+        ELSE
+            CONCAT('".T("Invoice")."',' ',num,' ',nombre)
+        END subject
+        FROM app_invoices
+        WHERE id IN ({$row["id"]})")).".pdf"</output>
+    <eval>true</eval>
+    <output>encode_bad_chars(T("Invoices")).".pdf"</output>
 </root>

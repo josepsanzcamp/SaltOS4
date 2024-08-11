@@ -221,7 +221,9 @@
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
-                    <srcdoc require="apps/invoices/php/invoices.php" eval="true">invoice_pdf(intval(get_data("rest/4")))["data"]</srcdoc>
+                    <srcdoc require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
+                        "id" => intval(get_data("rest/4")),
+                    ])["data"]</srcdoc>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -232,12 +234,16 @@
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
-        <title append="modal" require="apps/invoices/php/invoices.php" eval="true">invoice_pdf(intval(get_data("rest/4")))["name"]</title>
+        <title append="modal" require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
+            "id" => intval(get_data("rest/4")),
+        ])["name"]</title>
     </view>
 
     <view id="download">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <output require="apps/invoices/php/invoices.php" eval="true">invoice_pdf(intval(get_data("rest/4")))</output>
+        <output require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
+            "id" => intval(get_data("rest/4")),
+        ])</output>
     </view>
 
     <edit>

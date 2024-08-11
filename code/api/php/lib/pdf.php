@@ -270,8 +270,12 @@ function __pdf_eval_pdftag($array, $row = [])
                 if (!$booleval) {
                     break;
                 }
-                $buffer = $pdf->Output("", "S");
-                return $buffer;
+                $name = __pdf_eval_value($val, $row, $pdf);
+                $buffer = $pdf->Output($name, "S");
+                return [
+                    "name" => $name,
+                    "data" => $buffer,
+                ];
             case "header":
                 if (!$booleval) {
                     break;
@@ -469,4 +473,21 @@ function __pdf_eval_pdftag($array, $row = [])
         }
     }
     return $pdf;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function pdf($file, $row)
+{
+    $xml = xmlfile2array($file);
+    require_once "php/lib/pdf.php";
+    $pdf = __pdf_eval_pdftag($xml, $row);
+    return [
+        "name" => $pdf["name"],
+        "type" => "application/pdf",
+        "data" => base64_encode($pdf["data"]),
+    ];
 }
