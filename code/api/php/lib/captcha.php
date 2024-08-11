@@ -34,97 +34,6 @@ declare(strict_types=1);
  */
 
 /**
- * Captcha Is Prime Number
- *
- * This function is a detector of prime numbers, uses some optimizations and
- * ideas from www.polprimos.com, please, see the previous web to understand
- * the speedup of this function in the prime numbers validation
- *
- * @num => the number that you want to check if it is a primer numner
- *
- * Notes:
- *
- * See www.polprimos.com for understand it
- */
-function __captcha_isprime($num)
-{
-    if ($num < 2) {
-        return false;
-    }
-    if ($num % 2 == 0 && $num != 2) {
-        return false;
-    }
-    if ($num % 3 == 0 && $num != 3) {
-        return false;
-    }
-    if ($num % 5 == 0 && $num != 5) {
-        return false;
-    }
-    // Primer numbers are distributed in 8 columns
-    $div = 7;
-    $max = intval(sqrt(floatval($num)));
-    for (;;) {
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 4;
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 2;
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 4;
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 2;
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 4;
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 6;
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 2;
-        if ($num % $div == 0 && $num != $div) {
-            return false;
-        }
-        if ($div >= $max) {
-            break;
-        }
-        $div += 6;
-    }
-    return true;
-}
-
-/**
  * Captcha Image
  *
  * This function returns an image with the code drawed in a background that
@@ -153,6 +62,7 @@ function __captcha_isprime($num)
  */
 function __captcha_image($code, $args = [])
 {
+    require_once "php/lib/color.php";
     $code = strval($code);
     $width = isset($args["width"]) ? $args["width"] : 90;
     $height = isset($args["height"]) ? $args["height"] : 45;
@@ -286,9 +196,10 @@ function __captcha_image($code, $args = [])
  */
 function __captcha_make_number($length)
 {
+    require_once "php/lib/math.php";
     do {
         $code = str_pad(strval(rand(0, pow(10, $length) - 1)), $length, "0", STR_PAD_LEFT);
-    } while (!__captcha_isprime($code));
+    } while (!is_prime($code));
     return $code;
 }
 
@@ -302,50 +213,18 @@ function __captcha_make_number($length)
  */
 function __captcha_make_math($length)
 {
+    require_once "php/lib/math.php";
     $max = pow(10, round($length / 2)) - 1;
     do {
         do {
             $num1 = rand(0, intval($max));
-        } while (!__captcha_isprime($num1));
+        } while (!is_prime($num1));
         $oper = rand(0, 1) ? "+" : "-";
         do {
             $num2 = rand(0, intval($max));
             $code = $num1 . $oper . $num2;
-        } while (!__captcha_isprime($num2) || substr(strval($num2), 0, 1) == "7" || strlen($code) != $length);
+        } while (!is_prime($num2) || substr(strval($num2), 0, 1) == "7" || strlen($code) != $length);
     } while ($oper == "-" && $num1 < $num2);
     //~ $real = eval("return $code;");
     return $code;
-}
-
-/**
- * Color To Dec function
- *
- * This function is a helper that allow to get from a RGB hex color the value
- * in decimal of the specified component, useful to get the amount of color
- * red, green or blue in decimal base from an string
- *
- * Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
- *
- * @color     => The color that you want to parse
- * @component => The component that you want to retrieve their value
- */
-function __captcha_color2dec($color, $component)
-{
-    if (substr($color, 0, 1) == "#") {
-        $color = substr($color, 1);
-    }
-    if (strlen($color) == 3) {
-        $R = substr($color, 0, 1);
-        $G = substr($color, 1, 1);
-        $B = substr($color, 2, 1);
-        $color = $R . $R . $G . $G . $B . $B;
-    }
-    if (strlen($color) != 6) {
-        show_php_error(["phperror" => "Unknown color length"]);
-    }
-    $offset = ["R" => 0, "G" => 2, "B" => 4];
-    if (!isset($offset[$component])) {
-        show_php_error(["phperror" => "Unknown color component"]);
-    }
-    return hexdec(substr($color, $offset[$component], 2));
 }

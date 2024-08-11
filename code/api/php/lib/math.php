@@ -50,3 +50,94 @@ function sign($n)
     }
     return 0;
 }
+
+/**
+ * Is Prime Number
+ *
+ * This function is a detector of prime numbers, uses some optimizations and
+ * ideas from www.polprimos.com, please, see the previous web to understand
+ * the speedup of this function in the prime numbers validation
+ *
+ * @num => the number that you want to check if it is a primer numner
+ *
+ * Notes:
+ *
+ * See www.polprimos.com for understand this algorithm
+ */
+function is_prime($num)
+{
+    if ($num < 2) {
+        return false;
+    }
+    if ($num % 2 == 0 && $num != 2) {
+        return false;
+    }
+    if ($num % 3 == 0 && $num != 3) {
+        return false;
+    }
+    if ($num % 5 == 0 && $num != 5) {
+        return false;
+    }
+    // Primer numbers are distributed in 8 columns
+    $div = 7;
+    $max = intval(sqrt(floatval($num)));
+    for (;;) {
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 4;
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 2;
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 4;
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 2;
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 4;
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 6;
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 2;
+        if ($num % $div == 0 && $num != $div) {
+            return false;
+        }
+        if ($div >= $max) {
+            break;
+        }
+        $div += 6;
+    }
+    return true;
+}
