@@ -71,7 +71,7 @@
                 '19.00' accounting_irpf_value,
                 '5' zero_padding_digits
             FROM app_invoices a
-            WHERE id='{$row["id"]}'
+            WHERE id IN ({$row["id"]})
             ORDER BY id ASC
             ) c
             ) d"</query>
@@ -154,7 +154,7 @@
         <foreach>
             <query>"SELECT *,
                 '".$row["color_line"]."' color_line,
-                ROUND(unidades*precio*(100.0-descuento)/100.0,2) total
+                ROUND(unidades * precio * (100.0 - descuento) / 100.0, 2) total
                 FROM app_invoices_concepts
                 WHERE {$row["filtro"]}
                 ORDER BY id ASC"</query>

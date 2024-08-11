@@ -482,12 +482,17 @@ function __pdf_eval_pdftag($array, $row = [])
  */
 function pdf($file, $row)
 {
-    $xml = xmlfile2array($file);
-    require_once "php/lib/pdf.php";
-    $pdf = __pdf_eval_pdftag($xml, $row);
-    return [
-        "name" => $pdf["name"],
-        "type" => "application/pdf",
-        "data" => base64_encode($pdf["data"]),
-    ];
+    static $cache = [];
+    $hash = md5(serialize([$file, $row]));
+    if (!isset($cache[$hash])) {
+        $xml = xmlfile2array($file);
+        require_once "php/lib/pdf.php";
+        $pdf = __pdf_eval_pdftag($xml, $row);
+        $cache[$hash] = [
+            "name" => $pdf["name"],
+            "type" => "application/pdf",
+            "data" => base64_encode($pdf["data"]),
+        ];
+    }
+    return $cache[$hash];
 }

@@ -43,6 +43,12 @@
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
+                <button label="View" tooltip="To see the invoice" icon="filetype-pdf" onclick="
+                    if (!saltos.app.checkbox_ids(document.getElementById('table')).length) { return false; }
+                    saltos.driver.open('app/invoices/view/viewpdf/'+saltos.app.checkbox_ids(document.getElementById('table')).join(','))"/>
+                <button label="Download" tooltip="To download the invoice" icon="save" onclick="
+                    if (!saltos.app.checkbox_ids(document.getElementById('table')).length) { return false; }
+                    saltos.app.download('app/invoices/view/download/'+saltos.app.checkbox_ids(document.getElementById('table')).join(','))"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array("apps/dashboard/xml/filter.xml")["div"]</div>
@@ -59,7 +65,7 @@
         </javascript>
     </list>
 
-    <list id="table" type="table" limit="25" order="id DESC" nodata="Data not found">
+    <list id="table" type="table" limit="25" order="id DESC" nodata="Data not found" checkbox="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <nombre label="Nombre"/>
@@ -189,7 +195,7 @@
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_footer"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button label="View" tooltip="To see the invoice" icon="search">
+                <button label="View" tooltip="To see the invoice" icon="filetype-pdf">
                     <onclick eval="true">"saltos.driver.open('app/invoices/view/viewpdf/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button label="Download" tooltip="To download the invoice" icon="save">
@@ -222,12 +228,15 @@
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
                     <srcdoc require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
-                        "id" => intval(get_data("rest/4")),
+                        "id" => check_ids(get_data("rest/4")),
                     ])["data"]</srcdoc>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
+                <button label="Download" tooltip="To download the invoice" icon="save">
+                    <onclick eval="true">"saltos.app.download('app/invoices/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
+                </button>
                 <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
             </row>
         </layout>
@@ -235,14 +244,14 @@
             <inline>saltos.driver.init("view")</inline>
         </javascript>
         <title append="modal" require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
-            "id" => intval(get_data("rest/4")),
+            "id" => check_ids(get_data("rest/4")),
         ])["name"]</title>
     </view>
 
     <view id="download">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <output require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
-            "id" => intval(get_data("rest/4")),
+            "id" => check_ids(get_data("rest/4")),
         ])</output>
     </view>
 
