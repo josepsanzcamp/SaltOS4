@@ -1,0 +1,4 @@
+
+inkscape logo_saltos.svg --export-type=png --export-background-opacity=0 --export-filename=logo_saltos.png
+pngnq logo_saltos.png
+mv logo_saltos-nq8.png logo_saltos.png

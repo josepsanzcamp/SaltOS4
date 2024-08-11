@@ -42,13 +42,13 @@
                 ROUND((SELECT sum(unidades * precio * (1 - (descuento / 100.0))) FROM app_invoices_concepts b WHERE a.id = b.id_factura), 2) base,
                 'VISA' formapago,
                 CONCAT('id_factura=',id) filtro,
-                '118' logo_left,
+                '132.6' logo_left,
                 '15' logo_top,
-                '72' logo_width,
-                '15' logo_height,
-                '../../apps/invoices/img/deflogo.png' logo_file,
+                '57.4' logo_width,
+                '10.74' logo_height,
+                'img/logo_saltos.png' logo_file,
                 '#666666' color_line,
-                '#ce141d' color_text1,
+                '#2780e3' color_text1,
                 '#666666' color_text2,
                 'factura pie 1' factura_pie1,
                 'factura pie 2' factura_pie2,
@@ -79,7 +79,7 @@
         <header>
             <!-- LOGO -->
             <margins>0,0,0,0</margins>
-            <image>$row["logo_left"],$row["logo_top"],$row["logo_width"],$row["logo_height"],get_directory("dirs/filesdir").$row["logo_file"]</image>
+            <image>$row["logo_left"],$row["logo_top"],$row["logo_width"],$row["logo_height"],$row["logo_file"]</image>
             <!-- PONER MARCA DE AGUA -->
             <font>"normal","B",$row["cerrado"]?$row["water_facturas_size"]:$row["water_albaranes_size"],"#eeeeee"</font>
             <text>$row["cerrado"]?$row["water_facturas_posx"]:$row["water_albaranes_posx"],
