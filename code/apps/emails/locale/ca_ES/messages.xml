@@ -28,6 +28,7 @@
 <root>
     <new_email>Nou correu electrònic</new_email>
     <to_send_a_new_email>Per enviar un nou correu electrònic</to_send_a_new_email>
+    <detail_of_the_email>Detall del correu electrònic</detail_of_the_email>
     <email_s_list>Llistat de correus</email_s_list>
     <the_s_s_wrote>El %s, %s va escriure:</the_s_s_wrote>
     <email_sent_successfully>Correu electrònic enviat correctament</email_sent_successfully>

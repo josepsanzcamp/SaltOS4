@@ -107,6 +107,15 @@ saltos.bootstrap = {};
  * only for internal use.
  */
 saltos.bootstrap.field = field => {
+    // Fix when some attributes need the fix_key feature
+    for (var key in field) {
+        var new_key = saltos.core.fix_key(key);
+        if (new_key != key && !field.hasOwnProperty(new_key)) {
+            field[new_key] = field[key];
+            delete field[key];
+        }
+    }
+    // Continue
     saltos.core.check_params(field, ['id', 'type']);
     if (field.id == '') {
         field.id = saltos.core.uniqid();

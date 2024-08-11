@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <constructor>"P","mm","A4"</constructor>
+    <margins>50,30,30,30</margins>
+    <foreach>
+        <query>"SELECT *,
+            CASE WHEN `to` != '' THEN `to`
+            ELSE
+                CASE WHEN uc.email_name=''
+                THEN uc.email_from
+                ELSE CONCAT(uc.email_name,' &lt;',uc.email_from,'&gt;')
+                END
+            END `to`,
+            CASE WHEN subject='' THEN '".T("sinsubject")."' ELSE subject END subject,
+            (SELECT REPLACE(GROUP_CONCAT(CONCAT(name,' (',
+                CASE
+                    WHEN size&gt;=1073741824 THEN CONCAT(ROUND(size/1073741824.0,2),' Gbytes')
+                    WHEN size&gt;=1048576 THEN CONCAT(ROUND(size/1048576.0,2),' Mbytes')
+                    WHEN size&gt;=1024 THEN CONCAT(ROUND(size/1024.0,2),' Kbytes')
+                    ELSE CONCAT(size,' bytes')
+                END
+            ,')')),',',', ')
+                FROM app_emails_files
+                WHERE reg_id=a.id
+            ) files,
+            '132.6' logo_left,
+            '15' logo_top,
+            '57.4' logo_width,
+            '10.74' logo_height,
+            'img/logo_saltos.png' logo_file,
+            '#666666' color_line,
+            '#2780e3' color_text1,
+            '#666666' color_text2,
+            'Confidencial' water_correo_text,
+            '40' water_correo_posx,
+            '220' water_correo_posy,
+            '100' water_correo_size,
+            '60' water_correo_angle
+            FROM app_emails a
+            LEFT JOIN app_emails_accounts uc ON a.account_id=uc.id
+            WHERE a.id IN ({$row["id"]})
+            ORDER BY a.id ASC"</query>
+        <!-- TEMPLATE -->
+        <header>
+            <!-- LOGO -->
+            <margins>0,0,0,0</margins>
+            <image>$row["logo_left"],$row["logo_top"],$row["logo_width"],$row["logo_height"],$row["logo_file"]</image>
+            <!-- PONER MARCA DE AGUA -->
+            <font>"normal","B",$row["water_correo_size"],"#eeeeee"</font>
+            <text>$row["water_correo_posx"],$row["water_correo_posy"],$row["water_correo_text"],$row["water_correo_angle"]</text>
+            <margins>50,30,30,30</margins>
+            <setxy>30,50</setxy>
+        </header>
+        <footer>
+            <margins>0,0,0,0</margins>
+            <!-- PONER PIE DE PAGINA -->
+            <font>"normal","",6,$row["color_text2"]</font>
+            <pageno>30,279,150,0,"R",T("Page %s of %s")</pageno>
+            <margins>50,30,30,30</margins>
+        </footer>
+        <!-- BEGIN -->
+        <newpage></newpage>
+        <color>$row["color_line"],"#000000"</color>
+        <!-- DATOS CORREO -->
+        <setxy>30,50</setxy>
+        <getxy>"x","y"</getxy>
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>30,$row["y"],25,4,"R",T("from")</textarea>
+        <font>"mono","",8,$row["color_text2"]</font>
+        <textarea>55,$row["y"],125,4,"L",$row["from"]</textarea>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <line>30,$row["y"],180,$row["y"]</line>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>30,$row["y"],25,4,"R",T("to")</textarea>
+        <font>"mono","",8,$row["color_text2"]</font>
+        <textarea>55,$row["y"],125,4,"L",$row["to"]</textarea>
+        <eval>$row["cc"]</eval>
+            <getxy>"x","y"</getxy>
+            <setxy>$row["x"],$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <line>30,$row["y"],180,$row["y"]</line>
+            <getxy>"x","y"</getxy>
+            <setxy>$row["x"],$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>30,$row["y"],25,4,"R",T("CC")</textarea>
+            <font>"mono","",8,$row["color_text2"]</font>
+            <textarea>55,$row["y"],125,4,"L",$row["cc"]</textarea>
+        <eval>$row["bcc"]</eval>
+            <getxy>"x","y"</getxy>
+            <setxy>$row["x"],$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <line>30,$row["y"],180,$row["y"]</line>
+            <getxy>"x","y"</getxy>
+            <setxy>$row["x"],$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>30,$row["y"],25,4,"R",T("BCC")</textarea>
+            <font>"mono","",8,$row["color_text2"]</font>
+            <textarea>55,$row["y"],125,4,"L",$row["bcc"]</textarea>
+        <eval>true</eval>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <line>30,$row["y"],180,$row["y"]</line>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>30,$row["y"],25,4,"R",T("datetime")</textarea>
+        <font>"mono","",8,$row["color_text2"]</font>
+        <textarea>55,$row["y"],125,4,"L",$row["datetime"]</textarea>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <line>30,$row["y"],180,$row["y"]</line>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>30,$row["y"],25,4,"R",T("subject")</textarea>
+        <font>"mono","",8,$row["color_text2"]</font>
+        <textarea>55,$row["y"],125,4,"L",$row["subject"]</textarea>
+        <eval>$row["files"]</eval>
+            <getxy>"x","y"</getxy>
+            <setxy>$row["x"],$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <line>30,$row["y"],180,$row["y"]</line>
+            <getxy>"x","y"</getxy>
+            <setxy>$row["x"],$row["y"]+2</setxy>
+            <getxy>"x","y"</getxy>
+            <font>"normal","B",8,$row["color_text1"]</font>
+            <textarea>30,$row["y"],25,4,"R",T("attachments")</textarea>
+            <font>"mono","",8,$row["color_text2"]</font>
+            <textarea>55,$row["y"],125,4,"L",$row["files"]</textarea>
+        <eval>true</eval>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <line>30,$row["y"],180,$row["y"]</line>
+        <getxy>"x","y"</getxy>
+        <setxy>$row["x"],$row["y"]+2</setxy>
+        <getxy>"x","y"</getxy>
+        <font>"normal","B",8,$row["color_text1"]</font>
+        <textarea>30,$row["y"],25,4,"R",T("body")</textarea>
+        <font>"mono","",8,$row["color_text2"]</font>
+        <textarea>55,$row["y"],125,4,"L",trim($row["body"])</textarea>
+    </foreach>
+    <eval>strpos($row["id"],",")===false</eval>
+    <output>encode_bad_chars(execute_query("SELECT
+        CONCAT('".T("Email")."',' ',LPAD(id,5,0),' ',CASE WHEN subject='' THEN '".T("sinsubject")."' ELSE subject END) subject
+        FROM app_emails
+        WHERE id IN ({$row["id"]})")).".pdf"</output>
+    <eval>true</eval>
+    <output>encode_bad_chars(T("Emails")).".pdf"</output>
+</root>
