@@ -569,6 +569,9 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="type" type="VARCHAR(255)"/>
                                 <field name="file" type="VARCHAR(255)"/>
                                 <field name="hash" type="VARCHAR(255)"/>
+                                <field name="search" type="MEDIUMTEXT"/>
+                                <field name="indexed" type="INT(11)"/>
+                                <field name="retries" type="INT(11)"/>
                             </fields>
                         </table>';
                 $xml = str_replace('{$table}', "{$table}", $xml);
