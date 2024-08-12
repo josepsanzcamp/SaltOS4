@@ -349,6 +349,12 @@ function get_field_type($type)
  * example, returns 65535 if the field is of TEXT type
  *
  * @type => the real type in the database
+ *
+ * Notes:
+ *
+ * In general, type1 is used to detect the size of text fields, the type2
+ * is used for VARCHAR(X) that specify the size of the VARCHAR in the type2
+ * parameter.
  */
 function get_field_size($type)
 {
@@ -360,12 +366,10 @@ function get_field_size($type)
         "TEXT" => 65535,
         "MEDIUMTEXT" => 16777215,
         "LONGTEXT" => 4294967295,
+        "VARCHAR" => $type2,
     ];
     if (isset($datasizes[$type1])) {
         return intval($datasizes[$type1]);
-    }
-    if ($type2 != "") {
-        return intval($type2);
     }
     show_php_error(["phperror" => "Unknown type '$type1'"]);
 }
