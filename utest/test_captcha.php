@@ -53,6 +53,8 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once "lib/utestlib.php";
 require_once "php/lib/captcha.php";
+require_once "php/lib/math.php";
+require_once "php/lib/color.php";
 
 /**
  * Main class of this unit test
@@ -68,26 +70,26 @@ final class test_captcha extends TestCase
      */
     public function test_captcha(): void
     {
-        $this->assertSame(__captcha_isprime(1), false);
-        $this->assertSame(__captcha_isprime(4), false);
-        $this->assertSame(__captcha_isprime(9), false);
-        $this->assertSame(__captcha_isprime(25), false);
-        $this->assertSame(__captcha_isprime(49), false);
-        $this->assertSame(__captcha_isprime(2), true);
-        $this->assertSame(__captcha_isprime(121), false);
-        $this->assertSame(__captcha_isprime(67), true);
-        $this->assertSame(__captcha_isprime(169), false);
-        $this->assertSame(__captcha_isprime(149), true);
-        $this->assertSame(__captcha_isprime(289), false);
-        $this->assertSame(__captcha_isprime(197), true);
-        $this->assertSame(__captcha_isprime(361), false);
-        $this->assertSame(__captcha_isprime(331), true);
-        $this->assertSame(__captcha_isprime(529), false);
-        $this->assertSame(__captcha_isprime(401), true);
-        $this->assertSame(__captcha_isprime(841), false);
-        $this->assertSame(__captcha_isprime(577), true);
-        $this->assertSame(__captcha_isprime(961), false);
-        $this->assertSame(__captcha_isprime(907), true);
+        $this->assertSame(is_prime(1), false);
+        $this->assertSame(is_prime(4), false);
+        $this->assertSame(is_prime(9), false);
+        $this->assertSame(is_prime(25), false);
+        $this->assertSame(is_prime(49), false);
+        $this->assertSame(is_prime(2), true);
+        $this->assertSame(is_prime(121), false);
+        $this->assertSame(is_prime(67), true);
+        $this->assertSame(is_prime(169), false);
+        $this->assertSame(is_prime(149), true);
+        $this->assertSame(is_prime(289), false);
+        $this->assertSame(is_prime(197), true);
+        $this->assertSame(is_prime(361), false);
+        $this->assertSame(is_prime(331), true);
+        $this->assertSame(is_prime(529), false);
+        $this->assertSame(is_prime(401), true);
+        $this->assertSame(is_prime(841), false);
+        $this->assertSame(is_prime(577), true);
+        $this->assertSame(is_prime(961), false);
+        $this->assertSame(is_prime(907), true);
 
         $img = __captcha_image("12345");
         $this->assertStringContainsString("PNG image data", get_mime($img));
@@ -160,22 +162,22 @@ final class test_captcha extends TestCase
      */
     public function test_color(): void
     {
-        $r = __captcha_color2dec("#336699", "R");
+        $r = color2dec("#336699", "R");
         $this->assertSame($r, 51);
 
-        $g = __captcha_color2dec("#336699", "G");
+        $g = color2dec("#336699", "G");
         $this->assertSame($g, 102);
 
-        $b = __captcha_color2dec("#336699", "B");
+        $b = color2dec("#336699", "B");
         $this->assertSame($b, 153);
 
-        $r = __captcha_color2dec("#369", "R");
+        $r = color2dec("#369", "R");
         $this->assertSame($r, 51);
 
-        $g = __captcha_color2dec("#369", "G");
+        $g = color2dec("#369", "G");
         $this->assertSame($g, 102);
 
-        $b = __captcha_color2dec("#369", "B");
+        $b = color2dec("#369", "B");
         $this->assertSame($b, 153);
 
         test_external_exec("php/color1.php", "phperror.log", "unknown color length");

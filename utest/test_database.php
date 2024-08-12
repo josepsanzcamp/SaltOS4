@@ -579,7 +579,7 @@ final class test_database extends TestCase
      * database connection, sendint queries validating the expected results and
      * closing the connection.
      */
-    public function __test_pdo_mssql(): void
+    public function test_pdo_mssql(): void
     {
         // Connection part
         $obj = db_connect([

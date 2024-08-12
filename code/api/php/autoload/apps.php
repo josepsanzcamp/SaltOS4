@@ -335,6 +335,9 @@ function app2notes($app)
  */
 function current_app()
 {
+    if (get_data("rest/0") != "app") {
+        show_php_error(["phperror" => "unknown app in rest args"]);
+    }
     return app2id(get_data("rest/1"));
 }
 

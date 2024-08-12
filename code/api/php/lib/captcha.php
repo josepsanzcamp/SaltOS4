@@ -79,21 +79,21 @@ function __captcha_image($code, $args = [])
     $im = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im,
-        __captcha_color2dec($color, "R"),
-        __captcha_color2dec($color, "G"),
-        __captcha_color2dec($color, "B")
+        color2dec($color, "R"),
+        color2dec($color, "G"),
+        color2dec($color, "B")
     );
     $bgcolor2 = imagecolorallocate(
         $im,
-        __captcha_color2dec($bgcolor, "R"),
-        __captcha_color2dec($bgcolor, "G"),
-        __captcha_color2dec($bgcolor, "B")
+        color2dec($bgcolor, "R"),
+        color2dec($bgcolor, "G"),
+        color2dec($bgcolor, "B")
     );
     $fgcolor2 = imagecolorallocate(
         $im,
-        __captcha_color2dec($fgcolor, "R"),
-        __captcha_color2dec($fgcolor, "G"),
-        __captcha_color2dec($fgcolor, "B")
+        color2dec($fgcolor, "R"),
+        color2dec($fgcolor, "G"),
+        color2dec($fgcolor, "B")
     );
     imagefill($im, 0, 0, $bgcolor2);
     $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -121,21 +121,21 @@ function __captcha_image($code, $args = [])
     $im2 = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im2,
-        __captcha_color2dec($color, "R"),
-        __captcha_color2dec($color, "G"),
-        __captcha_color2dec($color, "B")
+        color2dec($color, "R"),
+        color2dec($color, "G"),
+        color2dec($color, "B")
     );
     $bgcolor2 = imagecolorallocate(
         $im2,
-        __captcha_color2dec($bgcolor, "R"),
-        __captcha_color2dec($bgcolor, "G"),
-        __captcha_color2dec($bgcolor, "B")
+        color2dec($bgcolor, "R"),
+        color2dec($bgcolor, "G"),
+        color2dec($bgcolor, "B")
     );
     $fgcolor2 = imagecolorallocate(
         $im2,
-        __captcha_color2dec($fgcolor, "R"),
-        __captcha_color2dec($fgcolor, "G"),
-        __captcha_color2dec($fgcolor, "B")
+        color2dec($fgcolor, "R"),
+        color2dec($fgcolor, "G"),
+        color2dec($fgcolor, "B")
     );
     imagefill($im2, 0, 0, $bgcolor2);
     imagecolortransparent($im2, $bgcolor2);
