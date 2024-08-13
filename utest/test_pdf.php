@@ -94,5 +94,24 @@ final class test_pdf extends TestCase
         $this->assertTrue(is_array($pdf));
         $this->assertArrayHasKey("name", $pdf);
         $this->assertArrayHasKey("data", $pdf);
+
+        set_data("rest/0", "app");
+        set_data("rest/1", "dashboard");
+
+        $pdf = pdf("../../utest/files/pdf.xml", [
+            "dir" => "ltr",
+        ]);
+        $this->assertTrue(is_array($pdf));
+        $this->assertArrayHasKey("name", $pdf);
+        $this->assertArrayHasKey("data", $pdf);
+
+        $separator = ",";
+        $str = '"x","y","z"';
+        $limit = 2;
+        $array = __pdf_eval_explode($separator, $str, $limit);
+        $this->assertSame($array, [
+            '"x"',
+            '"y","z"',
+        ]);
     }
 }

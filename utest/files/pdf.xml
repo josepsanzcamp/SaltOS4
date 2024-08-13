@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <!-- TO COVERT ALL !$bool CASES -->
+    <eval>false</eval>
+    <constructor>"P","mm","A4"</constructor>
+    <margins>90,30,87,30</margins>
+    <foreach>
+        <query>"SELECT 1"</query>
+    </foreach>
+    <newpage></newpage>
+    <header>
+        <text>131,46,T("Delivery note")</text>
+    </header>
+    <footer>
+        <text>131,46,T("Delivery note")</text>
+    </footer>
+    <newpage></newpage>
+    <font>"normal","",8,"#336699"</font>
+    <image>0,0,100,100,"img/logo_saltos.png"</image>
+    <text>131,46,T("Delivery note")</text>
+    <textarea>120,10,15,4,"R","1"</textarea>
+    <color>"#336699","#000000"</color>
+    <rect>130,219,50,24,"D",0.15</rect>
+    <line>130,225,180,225</line>
+    <setxy>30,10+2</setxy>
+    <getxy>"x","y"</getxy>
+    <pageno>30,279,150,4,"R",T("Page %s of %s")</pageno>
+    <getxy>"x","y"</getxy>
+    <checky>0</checky>
+    <link>131,46,T("Delivery note"),"https://www.saltos.org"</link>
+    <output>encode_bad_chars(T("Invoices")).".pdf"</output>
+    <!-- TO COVERT ALL $bool CASES -->
+    <eval>true</eval>
+    <constructor>"P","mm","A4"</constructor>
+    <margins>90,30,87,30</margins>
+    <foreach>
+        <query>"SELECT 1"</query>
+    </foreach>
+    <newpage></newpage>
+    <header>
+        <text>131,46,T("Delivery note")</text>
+    </header>
+    <footer>
+        <text>131,46,T("Delivery note")</text>
+    </footer>
+    <newpage></newpage>
+    <font>"normal","",8,"#336699"</font>
+    <image>0,0,100,100,"img/logo_saltos.png"</image>
+    <text>131,46,T("Delivery note")</text>
+    <textarea>120,10,15,4,"R","1"</textarea>
+    <color>"#336699","#000000"</color>
+    <rect>130,219,50,24,"D",0.15</rect>
+    <line>130,225,180,225</line>
+    <setxy>30,10+2</setxy>
+    <getxy>"x","y"</getxy>
+    <pageno>30,279,150,4,"R",T("Page %s of %s")</pageno>
+    <getxy>"x","y"</getxy>
+    <checky>0</checky>
+    <link>131,46,T("Delivery note"),"https://www.saltos.org"</link>
+    <!-- TO COVERT OTHER SPECIAL CASES -->
+    <newpage>"P"</newpage>
+    <image>0,0,100,100,"img/logo_saltos.png",45</image>
+    <text>131,46,T("Delivery note"),45</text>
+    <textarea>120,10,15,4,"R","1",45</textarea>
+    <rect>130,219,50,24,"D",0.15,1</rect>
+    <pageno>30,279,150,4,"C"</pageno>
+    <pageno>30,279</pageno>
+    <!-- TO END -->
+    <output>encode_bad_chars(T("Invoices")).".pdf"</output>
+</root>
