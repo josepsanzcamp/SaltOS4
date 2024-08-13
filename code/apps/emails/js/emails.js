@@ -291,7 +291,7 @@ saltos.emails.setter = what => {
  */
 saltos.emails.signature = () => {
     var old_account = saltos.emails.old_account;
-    var new_account = document.getElementById('account_id').value;
+    var new_account = document.getElementById('from').value;
     var body = document.getElementById('body').value;
     var cc = document.getElementById('cc').value;
     var state_crt = document.getElementById('state_crt').value;
@@ -335,6 +335,6 @@ saltos.emails.signature = () => {
  *
  * TODO
  */
-saltos.core.when_visible('account_id', () => {
-    saltos.emails.old_account = document.getElementById('account_id').value;
+saltos.core.when_visible('from', () => {
+    saltos.emails.old_account = document.getElementById('from').value;
 });

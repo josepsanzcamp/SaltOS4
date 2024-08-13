@@ -772,7 +772,7 @@ function sendmail_action($json, $action, $email_id)
     require_once "apps/emails/php/getmail.php";
     require_once "php/lib/upload.php";
     // GET ALL DATA
-    $account_id = intval($json["account_id"] ?? 0);
+    $account_id = intval($json["from"] ?? 0);
     $to = strval($json["to"] ?? "");
     $cc = strval($json["cc"] ?? "");
     $bcc = strval($json["bcc"] ?? "");

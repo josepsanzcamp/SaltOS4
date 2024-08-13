@@ -196,7 +196,7 @@
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <select id="account_id" label="From" required="true" onchange="saltos.emails.signature('update')" autofocus="true" col_class="col mb-3">
+                <select id="from" label="From" required="true" onchange="saltos.emails.signature('update')" autofocus="true" col_class="col mb-3">
                     <rows eval="true">execute_query_array("
                         SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
                             SELECT COUNT(*)
