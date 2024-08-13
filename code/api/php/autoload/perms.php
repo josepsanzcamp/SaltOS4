@@ -52,7 +52,9 @@ declare(strict_types=1);
 function check_user($app, $perm)
 {
     static $array = null;
-    if ($array === null) {
+    static $user_id = null;
+    static $groups_id = null;
+    if ($array === null || $user_id != current_user() || $groups_id != current_groups()) {
         // Get all permissions with all permutations
         $query = "SELECT app_id, perm_id, allow, deny FROM tbl_apps_perms";
         $from_apps_perms = execute_query_array($query);

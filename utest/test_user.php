@@ -100,23 +100,18 @@ final class test_user extends TestCase
         set_data("server/user_agent", $row["user_agent"]);
         $this->assertSame(get_data("server/user_agent"), $row["user_agent"]);
 
-        crontab_users(true);
         crontab_users();
         $this->assertTrue(true);
 
-        $token = current_token(true);
         $token = current_token();
         $this->assertSame($token, $row["id"]);
 
-        $user = current_user(true);
         $user = current_user();
         $this->assertSame($user, 1);
 
-        $group = current_group(true);
         $group = current_group();
         $this->assertSame($group, 1);
 
-        $groups = current_groups(true);
         $groups = current_groups();
         $this->assertSame($groups, "1");
 
@@ -127,16 +122,16 @@ final class test_user extends TestCase
         set_data("server/user_agent", "");
         $this->assertSame(get_data("server/user_agent"), "");
 
-        $token = current_token(true);
+        $token = current_token();
         $this->assertSame($token, 0);
 
-        $user = current_user(true);
+        $user = current_user();
         $this->assertSame($user, 0);
 
-        $group = current_group(true);
+        $group = current_group();
         $this->assertSame($group, 0);
 
-        $groups = current_groups(true);
+        $groups = current_groups();
         $this->assertSame($groups, "0");
     }
 }

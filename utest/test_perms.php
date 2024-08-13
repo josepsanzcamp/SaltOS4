@@ -132,5 +132,20 @@ final class test_perms extends TestCase
         foreach ($rows2 as $row) {
             db_query(make_insert_query("tbl_groups_apps_perms", $row));
         }
+
+        $token = $json["token"];
+        $row = execute_query("SELECT * FROM tbl_users_tokens WHERE token='$token'");
+        set_data("server/token", $row["token"]);
+        set_data("server/remote_addr", $row["remote_addr"]);
+        set_data("server/user_agent", $row["user_agent"]);
+
+        $this->assertSame(check_app_perm_id("users", "view", 1), true);
+        $this->assertSame(__user_is_admin("users"), true);
+
+        set_data("server/token", "a");
+        set_data("server/remote_addr", "b");
+        set_data("server/user_agent", "c");
+
+        $this->assertSame(__user_is_admin("users"), false);
     }
 }

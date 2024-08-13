@@ -89,5 +89,16 @@ final class test_getdata extends TestCase
 
         test_external_exec("php/getdata1.php", "phperror.log", "key nada/nada/nada not found");
         test_external_exec("php/getdata2.php", "phperror.log", "key nada/nada/nada not found");
+
+        set_data("rest/0", "app");
+        set_data("rest/1", "emails");
+        set_data("rest/2", "view");
+        set_data("rest/3", "123");
+        $this->assertSame(get_data("rest/-1"), "123");
+
+        set_data("json/details/id", "hola mundo");
+        $this->assertSame(get_data("json/details/id"), "hola mundo");
+
+        set_data("json/details/id", null);
     }
 }

@@ -42,21 +42,30 @@ declare(strict_types=1);
  * using the token of the request, for security reasons, this validation only
  * can be performed by the same origin that execute the login action
  */
-function current_token($reset = false)
+function current_token()
 {
     static $token_id = null;
-    if ($token_id !== null && !$reset) {
-        return $token_id;
+    static $token = null;
+    static $remote_addr = null;
+    static $user_agent = null;
+    if (
+        $token_id === null ||
+        $token != get_data("server/token") ||
+        $remote_addr != get_data("server/remote_addr") ||
+        $user_agent != get_data("server/user_agent")
+    ) {
+        crontab_users();
+        $token = get_data("server/token");
+        $remote_addr = get_data("server/remote_addr");
+        $user_agent = get_data("server/user_agent");
+        $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query([
+            "token" => $token,
+            "active" => 1,
+            "remote_addr" => $remote_addr,
+            "user_agent" => $user_agent,
+        ]));
+        $token_id = intval($token_id);
     }
-    // Continue
-    crontab_users();
-    $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query([
-        "token" => get_data("server/token"),
-        "active" => 1,
-        "remote_addr" => get_data("server/remote_addr"),
-        "user_agent" => get_data("server/user_agent"),
-    ]));
-    $token_id = intval($token_id);
     return $token_id;
 }
 
@@ -66,18 +75,18 @@ function current_token($reset = false)
  * This function returns the id of the current user, this info is retrieved
  * using the token of the request
  */
-function current_user($reset = false)
+function current_user()
 {
     static $user_id = null;
-    if ($user_id !== null && !$reset) {
-        return $user_id;
+    static $token_id = null;
+    if ($user_id === null || $token_id != current_token()) {
+        $token_id = current_token();
+        $user_id = execute_query("SELECT user_id FROM tbl_users_tokens WHERE " . make_where_query([
+            "id" => $token_id,
+            "active" => 1,
+        ]));
+        $user_id = intval($user_id);
     }
-    // Continue
-    $user_id = execute_query("SELECT user_id FROM tbl_users_tokens WHERE " . make_where_query([
-        "id" => current_token(),
-        "active" => 1,
-    ]));
-    $user_id = intval($user_id);
     return $user_id;
 }
 
@@ -87,18 +96,18 @@ function current_user($reset = false)
  * This function returns the id of the current group, this info is retrieved
  * using the token of the request
  */
-function current_group($reset = false)
+function current_group()
 {
     static $group_id = null;
-    if ($group_id !== null && !$reset) {
-        return $group_id;
+    static $user_id = null;
+    if ($group_id === null || $user_id != current_user()) {
+        $user_id = current_user();
+        $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query([
+            "id" => $user_id,
+            "active" => 1,
+        ]));
+        $group_id = intval($group_id);
     }
-    // Continue
-    $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query([
-        "id" => current_user(),
-        "active" => 1,
-    ]));
-    $group_id = intval($group_id);
     return $group_id;
 }
 
@@ -110,27 +119,27 @@ function current_group($reset = false)
  * returns the list of all groups associated to the current user to facily the
  * permissions checks
  */
-function current_groups($reset = false)
+function current_groups()
 {
     static $groups_id = null;
-    if ($groups_id !== null && !$reset) {
-        return $groups_id;
+    static $user_id = null;
+    if ($groups_id === null || $user_id != current_user()) {
+        $user_id = current_user();
+        if (!$user_id) {
+            $groups_id = "0";
+            return $groups_id;
+        }
+        // Get groups from the users table
+        $query = "SELECT group_id, groups_id FROM tbl_users WHERE active = 1 AND id = $user_id";
+        $from_users = execute_query($query);
+        // Get groups from the groups table linked by the users_id field
+        $query = "SELECT id FROM tbl_groups WHERE active = 1 AND FIND_IN_SET($user_id, users_id)";
+        $from_groups = execute_query_array($query);
+        // Compute the resulting array with all ids
+        $array = array_merge($from_users, $from_groups);
+        $array = array_diff($array, [""]);
+        $groups_id = implode(",", $array);
     }
-    // Continue
-    $user_id = current_user();
-    if (!$user_id) {
-        return "0";
-    }
-    // Get groups from the users table
-    $query = "SELECT group_id, groups_id FROM tbl_users WHERE active = 1 AND id = $user_id";
-    $from_users = execute_query($query);
-    // Get groups from the groups table linked by the users_id field
-    $query = "SELECT id FROM tbl_groups WHERE active = 1 AND FIND_IN_SET($user_id, users_id)";
-    $from_groups = execute_query_array($query);
-    // Compute the resulting array with all ids
-    $array = array_merge($from_users, $from_groups);
-    $array = array_diff($array, [""]);
-    $groups_id = implode(",", $array);
     return $groups_id;
 }
 
@@ -147,10 +156,10 @@ function current_groups($reset = false)
  * to other actions and functions that requires the integrity of the passwords
  * and tokens
  */
-function crontab_users($reset = false)
+function crontab_users()
 {
     static $i_am_executed = false;
-    if ($i_am_executed && !$reset) {
+    if ($i_am_executed) {
         return;
     }
     $i_am_executed = true;
