@@ -129,7 +129,7 @@
                 <switch id="campo18" label="Campo 18 (switch)" tooltip="Tooltip 18 (switch)" value="0" required="true"/>
                 <label label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
                 <hidden id="campo19" label="Campo 19 (hidden)" tooltip="Tooltip 19 (hidden)"/>
-                <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)" required="true"/>
+                <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)" required="true" autocomplete="false"/>
                 <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true" required="true">
                     <data eval="true">execute_query_array("SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
                         FROM tbl_uploads WHERE " . make_where_query([

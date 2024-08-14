@@ -79,9 +79,9 @@
             </row>
             <hr/>
             <row auto="true" col_class="col-md-12 mb-3">
-                <password id="oldpass" label="Old password" required="true" onenter="document.getElementById('newpass').focus()"/>
-                <password id="newpass" label="New password" required="true" onenter="document.getElementById('renewpass').focus()"/>
-                <password id="renewpass" label="Retype password" required="true" onenter="saltos.dashboard.authupdate()"/>
+                <password id="oldpass" label="Old password" required="true" onenter="document.getElementById('newpass').focus()" autocomplete="false"/>
+                <password id="newpass" label="New password" required="true" onenter="document.getElementById('renewpass').focus()" autocomplete="false"/>
+                <password id="renewpass" label="Retype password" required="true" onenter="saltos.dashboard.authupdate()" autocomplete="false"/>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>

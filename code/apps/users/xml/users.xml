@@ -118,8 +118,8 @@
         <div col_class="col-12"/><!-- this act as break line -->
 
         <text id="name" label="Name" required="true"/>
-        <password id="newpass" label="New password"/>
-        <password id="renewpass" label="Retype password"/>
+        <password id="newpass" label="New password" autocomplete="false"/>
+        <password id="renewpass" label="Retype password" autocomplete="false"/>
 
         <textarea id="description" label="Description" required="true" height="10em" col_class="col-12 mb-3"/>
 

@@ -1347,6 +1347,7 @@ saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
                                      'onenter', 'onchange', 'readonly', 'required',
                                      'autofocus', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['autocomplete'], true);
     var disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
@@ -1384,13 +1385,15 @@ saltos.bootstrap.__field.password = field => {
             </div>
         </div>
     `);
-    // Trick to prevent the browser password manager
-    for (var i = 0; i < 10; i++) {
-        var name = saltos.core.uniqid();
-        var value = saltos.core.uniqid();
-        obj.append(saltos.core.html(`
-            <input type="password" name="${name}" value="${value}" class="d-none"/>
-        `));
+    if (!saltos.core.eval_bool(field.autocomplete)) {
+        // Trick to prevent the browser password manager
+        for (var i = 0; i < 10; i++) {
+            var name = saltos.core.uniqid();
+            var value = saltos.core.uniqid();
+            obj.append(saltos.core.html(`
+                <input type="password" name="${name}" value="${value}" class="d-none"/>
+            `));
+        }
     }
     // Continue
     if (field.tooltip != '') {

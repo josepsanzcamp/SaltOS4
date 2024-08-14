@@ -133,7 +133,7 @@
         </select>
         <div col_class="col-12"/><!-- this act as break line -->
         <text id="pop3_user" label="User"/>
-        <password id="pop3_pass" label="Password"/>
+        <password id="pop3_pass" label="Password" autocomplete="false"/>
         <div col_class="col-12"/><!-- this act as break line -->
         <div col_class="col-4"/><!-- this act as a spacer -->
         <select id="pop3_delete" label="Delete" col_class="col-md-2 mb-3">
@@ -156,7 +156,7 @@
         </select>
         <div col_class="col-12"/><!-- this act as break line -->
         <text id="smtp_user" label="User"/>
-        <password id="smtp_pass" label="Password"/>
+        <password id="smtp_pass" label="Password" autocomplete="false"/>
 
         <alert title="Extra configuration" col_class="col-12 mb-3"/>
         <switch id="email_disabled" label="Disabled"/>
