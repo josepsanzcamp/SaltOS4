@@ -496,7 +496,7 @@ function __pdf_eval_pdftag($array, $row = [])
  *
  * TODO
  */
-function pdf($file, $row)
+function pdf($file, $row = [])
 {
     static $cache = [];
     $hash = md5(serialize([$file, $row]));

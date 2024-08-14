@@ -85,6 +85,13 @@ final class test_authupdate extends TestCase
             "oldpass" => "nada",
             "newpass" => "admin",
             "renewpass" => "admin",
+        ], "", "");
+        $this->assertSame($json["status"], "ko");
+
+        $json = test_web_helper("auth/update", [
+            "oldpass" => "nada",
+            "newpass" => "admin",
+            "renewpass" => "admin",
         ], $json2["token"], "");
         $this->assertSame($json["status"], "ko");
 

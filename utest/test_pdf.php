@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "php/lib/pdf.php";
+require_once "lib/utestlib.php";
 
 /**
  * Main class of this unit test
@@ -113,5 +114,11 @@ final class test_pdf extends TestCase
             '"x"',
             '"y","z"',
         ]);
+
+        test_external_exec("php/pdf1.php", "phperror.log", "array not found");
+        test_external_exec("php/pdf2.php", "phperror.log", "foreach without query");
+        test_external_exec("php/pdf3.php", "phperror.log", "file nada not found");
+        test_external_exec("php/pdf4.php", "phperror.log", "eval pdf tag error nada");
+        test_external_exec("php/pdf5.php", "phperror.log", "output node not found in template");
     }
 }
