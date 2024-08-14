@@ -46,5 +46,5 @@ db_connect();
 
 require_once "php/lib/pdf.php";
 __pdf_eval_pdftag([
-    "nada" => '1,2,3,4,"nada"'
+    "nada" => '1,2,3,4,"nada"',
 ]);

@@ -48,5 +48,5 @@ require_once "php/lib/pdf.php";
 __pdf_eval_pdftag([
     "foreach" => [
         "nada" => "",
-    ]
+    ],
 ]);
