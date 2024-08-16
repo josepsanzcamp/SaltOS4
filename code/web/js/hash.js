@@ -50,6 +50,9 @@ saltos.hash.get = () => {
     if (hash.length && hash.substr(0, 1) == '#') {
         hash = hash.substr(1);
     }
+    if (hash.length && hash.substr(0, 1) == '/') {
+        hash = hash.substr(1);
+    }
     return hash;
 };
 
@@ -72,10 +75,13 @@ saltos.hash.set = hash => {
     if (hash.length && hash.substr(0, 1) == '#') {
         hash = hash.substr(1);
     }
+    if (hash.length && hash.substr(0, 1) == '/') {
+        hash = hash.substr(1);
+    }
     if (saltos.hash.get() == hash) {
         return false;
     }
-    history.replaceState(null, null, '.#' + hash);
+    history.replaceState(null, null, '.#/' + hash);
     return true;
 };
 
@@ -98,10 +104,13 @@ saltos.hash.add = hash => {
     if (hash.length && hash.substr(0, 1) == '#') {
         hash = hash.substr(1);
     }
+    if (hash.length && hash.substr(0, 1) == '/') {
+        hash = hash.substr(1);
+    }
     if (saltos.hash.get() == hash) {
         return false;
     }
-    history.pushState(null, null, '.#' + hash);
+    history.pushState(null, null, '.#/' + hash);
     return true;
 };
 

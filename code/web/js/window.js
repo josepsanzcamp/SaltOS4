@@ -50,7 +50,7 @@ saltos.window = {};
  */
 saltos.window.open = url => {
     if (url.substr(0, 4) == 'app/') {
-        window.open('#' + url);
+        window.open('.#/' + url);
         return;
     }
     if (url.substr(0, 7) == 'http://') {

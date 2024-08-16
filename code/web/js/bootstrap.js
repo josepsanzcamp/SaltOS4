@@ -1322,26 +1322,30 @@ saltos.bootstrap.__field.button = field => {
  *
  * This function returns an input object of type password, you can pass some arguments as:
  *
- * @id          => the id used by the object
- * @class       => allow to add more classes to the default form-control
- * @placeholder => the text used as placeholder parameter
- * @value       => the value used as value parameter
- * @disabled    => this parameter raise the disabled flag
- * @readonly    => this parameter raise the readonly flag
- * @required    => this parameter raise the required flag
- * @autofocus   => this parameter raise the autofocus flag
- * @tooltip     => this parameter raise the title flag
- * @accesskey   => the key used as accesskey parameter
- * @label       => this parameter is used as text for the label
- * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
- * @onenter     => the function executed when enter key is pressed
- * @onchange    => the function executed when onchange event is detected
+ * @id           => the id used by the object
+ * @class        => allow to add more classes to the default form-control
+ * @placeholder  => the text used as placeholder parameter
+ * @value        => the value used as value parameter
+ * @disabled     => this parameter raise the disabled flag
+ * @readonly     => this parameter raise the readonly flag
+ * @required     => this parameter raise the required flag
+ * @autofocus    => this parameter raise the autofocus flag
+ * @tooltip      => this parameter raise the title flag
+ * @accesskey    => the key used as accesskey parameter
+ * @label        => this parameter is used as text for the label
+ * @color        => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onenter      => the function executed when enter key is pressed
+ * @onchange     => the function executed when onchange event is detected
+ * @autocomplete => set to false to enable the hiddens passwords trick
  *
  * Notes:
  *
  * This widget add an icon to the end of the widget with an slashed eye, this allow to
  * see the entered password to verify it, in reality, this button swaps the input between
  * password and text type, allowing to do visible or not the contents of the input
+ *
+ * This widget add the hiddens passwords trick that disable the browser autocomplete
+ * feature using the browser password manager
  */
 saltos.bootstrap.__field.password = field => {
     saltos.core.check_params(field, ['label', 'class', 'id', 'placeholder', 'value', 'disabled',
