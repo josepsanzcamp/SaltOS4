@@ -43,7 +43,15 @@ declare(strict_types=1);
  */
 function get_server($key)
 {
-    return $_SERVER[$key] ?? null;
+    $keys = explode("/", $key);
+    $count = count($keys);
+    if ($count == 1) {
+        return $_SERVER[$keys[0]] ?? null;
+    }
+    if ($count == 2) {
+        return $_SERVER[$keys[0]][$keys[1]] ?? null;
+    }
+    show_php_error(["phperror" => "key $key not found"]);
 }
 
 /**
@@ -56,7 +64,25 @@ function get_server($key)
  */
 function set_server($key, $val)
 {
-    $_SERVER[$key] = $val;
+    $keys = explode("/", $key);
+    $count = count($keys);
+    if ($count == 1) {
+        if ($val !== null) {
+            $_SERVER[$keys[0]] = $val;
+        } else {
+            unset($_SERVER[$keys[0]]);
+        }
+        return;
+    }
+    if ($count == 2) {
+        if ($val !== null) {
+            $_SERVER[$keys[0]][$keys[1]] = $val;
+        } else {
+            unset($_SERVER[$keys[0]][$keys[1]]);
+        }
+        return;
+    }
+    show_php_error(["phperror" => "key $key not found"]);
 }
 
 /**

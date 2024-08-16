@@ -102,11 +102,13 @@ eval_putenv(get_config("putenv"));
 eval_extras(get_config("extras"));
 
 // Collect all input data
-if (isset($argv) && defined("STDIN")) {
+if (php_sapi_name() == "cli") {
     // This allow to use SaltOS from the command line using the CLI SAPI
+    set_server("argv/0", null);
+    set_server("QUERY_STRING", implode("/", get_server("argv") ?? ""));
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
-        "rest" => array_values(array_diff(explode("/", implode("/", array_slice($argv, 1))), [""])),
+        "rest" => array_values(array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""])),
         "json" => array_protected(json_decode(file_get_contents("php://stdin"), true)),
         "server" => [
             "request_method" => "CLI",

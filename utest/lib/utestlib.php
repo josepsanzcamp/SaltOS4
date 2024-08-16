@@ -122,7 +122,7 @@ function test_web_helper($rest, $data, $token, $lang)
 {
     test_pcov_start();
     if ($data) {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/?$rest", [
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/?/$rest", [
             "body" => json_encode($data),
             "method" => "post",
             "headers" => [
@@ -132,7 +132,7 @@ function test_web_helper($rest, $data, $token, $lang)
             ],
         ]);
     } else {
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/?$rest", [
+        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/?/$rest", [
             "headers" => [
                 "Token" => $token,
                 "Lang" => $lang,
