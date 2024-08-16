@@ -140,7 +140,7 @@ saltos.driver.search = arg => {
     // Continue
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/${app}/list/${type}`,
+        url: `api/?/app/${app}/list/${type}`,
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -229,7 +229,7 @@ saltos.driver.more = arg => {
     }
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/${app}/list/${type}`,
+        url: `api/?/app/${app}/list/${type}`,
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -290,7 +290,7 @@ saltos.driver.insert = arg => {
     var app = saltos.hash.get().split('/').at(1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/${app}/insert`,
+        url: `api/?/app/${app}/insert`,
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -350,7 +350,7 @@ saltos.driver.update = arg => {
     var id = saltos.hash.get().split('/').at(-1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/${app}/update/${id}`,
+        url: `api/?/app/${app}/update/${id}`,
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -417,7 +417,7 @@ saltos.driver.delete = async arg => {
                 }
                 saltos.app.form.screen('loading');
                 saltos.core.ajax({
-                    url: `api/?app/${app}/delete/${id}`,
+                    url: `api/?/app/${app}/delete/${id}`,
                     success: response => {
                         saltos.app.form.screen('unloading');
                         if (!saltos.app.check_response(response)) {

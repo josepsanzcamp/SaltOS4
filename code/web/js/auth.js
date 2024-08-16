@@ -54,7 +54,7 @@ saltos.authenticate = {};
 saltos.authenticate.authtoken = (user, pass) => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?auth/login',
+        url: 'api/?/auth/login',
         data: JSON.stringify({
             'user': user,
             'pass': pass,
@@ -99,7 +99,7 @@ saltos.authenticate.authtoken = (user, pass) => {
 saltos.authenticate.checktoken = () => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?auth/check',
+        url: 'api/?/auth/check',
         async: false,
         success: response => {
             saltos.app.form.screen('unloading');
@@ -140,7 +140,7 @@ saltos.authenticate.checktoken = () => {
 saltos.authenticate.deauthtoken = () => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?auth/logout',
+        url: 'api/?/auth/logout',
         async: false,
         success: response => {
             saltos.app.form.screen('unloading');
@@ -180,7 +180,7 @@ saltos.authenticate.deauthtoken = () => {
 saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?auth/update',
+        url: 'api/?/auth/update',
         data: JSON.stringify({
             'oldpass': oldpass,
             'newpass': newpass,

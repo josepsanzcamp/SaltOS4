@@ -48,7 +48,7 @@ saltos.dashboard.init = arg => {
     if (arg == 'menu') {
         saltos.window.set_listener('saltos.customers.update', event => {
             saltos.core.ajax({
-                url: 'api/?app/customers/widget/table1',
+                url: 'api/?/app/customers/widget/table1',
                 success: response => {
                     if (!saltos.app.check_response(response)) {
                         return;
@@ -71,7 +71,7 @@ saltos.dashboard.init = arg => {
             });
 
             saltos.core.ajax({
-                url: 'api/?app/customers/widget/table2',
+                url: 'api/?/app/customers/widget/table2',
                 success: response => {
                     if (!saltos.app.check_response(response)) {
                         return;

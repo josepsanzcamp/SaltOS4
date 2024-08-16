@@ -106,7 +106,7 @@ if (isset($argv) && defined("STDIN")) {
     // This allow to use SaltOS from the command line using the CLI SAPI
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
-        "rest" => array_diff(explode("/", implode("/", array_slice($argv, 1))), [""]),
+        "rest" => array_values(array_diff(explode("/", implode("/", array_slice($argv, 1))), [""])),
         "json" => array_protected(json_decode(file_get_contents("php://stdin"), true)),
         "server" => [
             "request_method" => "CLI",
@@ -119,7 +119,7 @@ if (isset($argv) && defined("STDIN")) {
     ];
 } else {
     $_DATA = [
-        "rest" => array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""]),
+        "rest" => array_values(array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""])),
         "json" => array_protected(json_decode(file_get_contents("php://input"), true)),
         "server" => [
             "request_method" => strtoupper(get_server("REQUEST_METHOD") ?? ""),

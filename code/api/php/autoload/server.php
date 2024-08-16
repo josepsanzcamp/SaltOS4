@@ -58,3 +58,17 @@ function set_server($key, $val)
 {
     $_SERVER[$key] = $val;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function current_hash()
+{
+    $hash = get_server("QUERY_STRING");
+    if (substr($hash, 0, 1) == "/") {
+        $hash = substr($hash, 1);
+    }
+    return $hash;
+}

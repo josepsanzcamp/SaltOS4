@@ -316,7 +316,7 @@ saltos.bootstrap.__field.text = field => {
                     option.remove();
                 });
                 saltos.core.ajax({
-                    url: 'api/?' + field.datalist_old,
+                    url: 'api/?/' + field.datalist_old,
                     data: JSON.stringify({term: value}),
                     method: 'post',
                     content_type: 'application/json',
@@ -1536,7 +1536,7 @@ saltos.bootstrap.__field.file = field => {
         var table = row.parentElement.parentElement;
         var input = table.parentElement.previousElementSibling;
         saltos.core.ajax({
-            url: 'api/?upload/delfile',
+            url: 'api/?/upload/delfile',
             data: JSON.stringify(row.data),
             method: 'post',
             content_type: 'application/json',
@@ -1624,7 +1624,7 @@ saltos.bootstrap.__field.file = field => {
                 // This allow multiple uploads in parallel
                 ((data, row) => {
                     saltos.core.ajax({
-                        url: 'api/?upload/addfile',
+                        url: 'api/?/upload/addfile',
                         data: JSON.stringify(data),
                         method: 'post',
                         content_type: 'application/json',

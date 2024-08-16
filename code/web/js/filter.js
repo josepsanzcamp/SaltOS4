@@ -60,7 +60,7 @@ saltos.filter.init = () => {
         var app = saltos.hash.get().split('/').at(1);
         saltos.app.form.screen('loading');
         saltos.core.ajax({
-            url: `api/?app/${app}/list/filter`,
+            url: `api/?/app/${app}/list/filter`,
             method: 'get',
             async: false,
             success: response => {
@@ -162,7 +162,7 @@ saltos.filter.save = (name, data) => {
     var app = saltos.hash.get().split('/').at(1);
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: `api/?app/${app}/list/filter`,
+        url: `api/?/app/${app}/list/filter`,
         data: JSON.stringify({
             'name': name,
             'val': data,

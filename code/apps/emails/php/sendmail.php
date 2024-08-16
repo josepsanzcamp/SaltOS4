@@ -1029,7 +1029,7 @@ function sendmail_files($action, $email_id)
             $id = check_file([
                 "user_id" => current_user(),
                 "uniqid" => $val["chash"],
-                "app" => get_server("QUERY_STRING"),
+                "app" => current_hash(),
                 "name" => $val["cname"],
                 "size" => $val["csize"],
                 "type" => $val["ctype"],
@@ -1041,7 +1041,7 @@ function sendmail_files($action, $email_id)
             // Store it in a local file and do the insert
             add_file([
                 "id" => $val["chash"],
-                "app" => get_server("QUERY_STRING"),
+                "app" => current_hash(),
                 "name" => $val["cname"],
                 "size" => $val["csize"],
                 "type" => $val["ctype"],
@@ -1052,7 +1052,7 @@ function sendmail_files($action, $email_id)
     $query = "SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
         FROM tbl_uploads WHERE " . make_where_query([
         "user_id" => current_user(),
-        "app" => get_server("QUERY_STRING"),
+        "app" => current_hash(),
     ]) . " ORDER BY id DESC";
     $files = execute_query_array($query);
     return $files;

@@ -161,7 +161,7 @@ saltos.app.check_response = response => {
 saltos.app.send_request = hash => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?' + hash,
+        url: 'api/?/' + hash,
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {
@@ -971,7 +971,7 @@ saltos.app.__source_helper = field => {
     if (field.source != '') {
         saltos.app.form.screen('loading');
         saltos.core.ajax({
-            url: 'api/?' + field.source,
+            url: 'api/?/' + field.source,
             success: response => {
                 saltos.app.form.screen('unloading');
                 if (!saltos.app.check_response(response)) {
@@ -1453,7 +1453,7 @@ saltos.app.filter = () => {
 saltos.app.download = file => {
     saltos.app.form.screen('loading');
     saltos.core.ajax({
-        url: 'api/?' + file,
+        url: 'api/?/' + file,
         success: response => {
             saltos.app.form.screen('unloading');
             if (!saltos.app.check_response(response)) {

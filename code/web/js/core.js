@@ -64,7 +64,7 @@ saltos.core.onerror = async (msg, file, line, col, error) => {
         }
     }
     saltos.core.ajax({
-        url: 'api/?add/error',
+        url: 'api/?/add/error',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
@@ -92,7 +92,7 @@ saltos.core.addlog = msg => {
         'msg': msg,
     };
     saltos.core.ajax({
-        url: 'api/?add/log',
+        url: 'api/?/add/log',
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
