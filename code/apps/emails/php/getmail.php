@@ -516,7 +516,7 @@ function __getmail_getinfo($array)
     if (!$subject) {
         $subject = __getmail_fixstring(__getmail_getnode("Headers/subject:", $array));
     }
-    $result["subject"] = prepare_words(str_replace("\t", " ", getutf8($subject)));
+    $result["subject"] = trim_words(str_replace("\t", " ", getutf8($subject)));
     // Check x-spam-status header
     $spam = strtoupper(trim(__getmail_fixstring(__getmail_getnode("Headers/x-spam-status:", $array))));
     $result["spam"] = (substr($spam, 0, 3) == "YES" || substr($spam, -3, 3) == "YES") ? "1" : "0";

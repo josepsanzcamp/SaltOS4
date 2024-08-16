@@ -139,7 +139,7 @@ function dateval($value)
     $expr = ["-", ":", ",", ".", "/", "T"];
     $value = strval($value);
     $value = str_replace($expr, " ", $value);
-    $value = prepare_words($value);
+    $value = trim_words($value);
     $temp = explode(" ", $value);
     foreach ($temp as $key => $val) {
         $temp[$key] = intval($val);
@@ -191,7 +191,7 @@ function timeval($value)
     $expr = ["-", ":", ",", ".", "/", "T"];
     $value = strval($value);
     $value = str_replace($expr, " ", $value);
-    $value = prepare_words($value);
+    $value = trim_words($value);
     $temp = explode(" ", $value);
     foreach ($temp as $key => $val) {
         $temp[$key] = intval($val);
@@ -232,7 +232,7 @@ function datetimeval($value)
     $expr = ["-", ":", ",", ".", "/", "T"];
     $value = strval($value);
     $value = str_replace($expr, " ", $value);
-    $value = prepare_words($value);
+    $value = trim_words($value);
     $temp = explode(" ", $value);
     foreach ($temp as $key => $val) {
         $temp[$key] = intval($val);

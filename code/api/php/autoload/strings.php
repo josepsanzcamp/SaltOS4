@@ -109,7 +109,7 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
             $cad[$i] = $pad;
         }
     }
-    $cad = prepare_words($cad, $pad);
+    $cad = trim_words($cad, $pad);
     return $cad;
 }
 
@@ -126,7 +126,7 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
  * Apart of remove repetitions of the padding char, the function will try to
  * remove padding chars in the start and in the end of the string
  */
-function prepare_words($cad, $pad = " ")
+function trim_words($cad, $pad = " ")
 {
     do {
         $len1 = strlen($cad);
