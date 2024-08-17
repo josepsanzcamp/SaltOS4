@@ -138,7 +138,7 @@ saltos.app.show_error = error => {
 /**
  * Check response helper
  *
- * This function is intended to process the response received by saltos.core.ajax and returns
+ * This function is intended to process the response received by ajax requests and returns
  * if an error is detected in the response.
  */
 saltos.app.check_response = response => {
