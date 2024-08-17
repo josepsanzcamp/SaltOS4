@@ -58,16 +58,10 @@ saltos.filter.__cache = {};
 saltos.filter.init = () => {
     if (!Object.keys(saltos.filter.__cache).length) {
         var app = saltos.hash.get().split('/').at(1);
-        saltos.app.form.screen('loading');
-        saltos.core.ajax({
-            url: `api/?/app/${app}/list/filter`,
-            method: 'get',
+        saltos.app.ajax({
+            url: `app/${app}/list/filter`,
             async: false,
             success: response => {
-                saltos.app.form.screen('unloading');
-                if (!saltos.app.check_response(response)) {
-                    return;
-                }
                 saltos.filter.__cache = {};
                 var temp = `app/${app}/list/filter/`;
                 var len = temp.length;
@@ -77,18 +71,6 @@ saltos.filter.init = () => {
                     saltos.filter.__cache[key] = val;
                 }
             },
-            error: request => {
-                saltos.app.form.screen('unloading');
-                saltos.app.show_error({
-                    text: request.statusText,
-                    code: request.status,
-                });
-            },
-            abort: request => {
-                saltos.app.form.screen('unloading');
-            },
-            token: saltos.token.get(),
-            lang: saltos.gettext.get(),
         });
     }
 };
@@ -160,34 +142,13 @@ saltos.filter.save = (name, data) => {
         delete saltos.filter.__cache[name];
     }
     var app = saltos.hash.get().split('/').at(1);
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/${app}/list/filter`,
-        data: JSON.stringify({
+    saltos.app.ajax({
+        url: `app/${app}/list/filter`,
+        data: {
             'name': name,
             'val': data,
-        }),
-        method: 'post',
-        content_type: 'application/json',
+        },
         async: false,
-        success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
-        },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 

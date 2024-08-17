@@ -159,28 +159,11 @@ saltos.app.check_response = response => {
  * This function allow to send requests to the server and process the response
  */
 saltos.app.send_request = hash => {
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: 'api/?/' + hash,
+    saltos.app.ajax({
+        url: hash,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             saltos.app.process_response(response);
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -969,14 +952,9 @@ saltos.app.__source_helper = field => {
     saltos.core.check_params(field, ['id', 'source']);
     // Check for asynchronous load using the source param
     if (field.source != '') {
-        saltos.app.form.screen('loading');
-        saltos.core.ajax({
-            url: 'api/?/' + field.source,
+        saltos.app.ajax({
+            url: field.source,
             success: response => {
-                saltos.app.form.screen('unloading');
-                if (!saltos.app.check_response(response)) {
-                    return;
-                }
                 field.source = '';
                 for (var key in response) {
                     field[key] = response[key];
@@ -984,18 +962,6 @@ saltos.app.__source_helper = field => {
                 var obj = document.getElementById(field.id);
                 obj.replaceWith(saltos.gettext.bootstrap.field(field));
             },
-            error: request => {
-                saltos.app.form.screen('unloading');
-                saltos.app.show_error({
-                    text: request.statusText,
-                    code: request.status,
-                });
-            },
-            abort: request => {
-                saltos.app.form.screen('unloading');
-            },
-            token: saltos.token.get(),
-            lang: saltos.gettext.get(),
         });
     }
 };
@@ -1451,19 +1417,37 @@ saltos.app.filter = () => {
  * TODO
  */
 saltos.app.download = file => {
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: 'api/?/' + file,
+    saltos.app.ajax({
+        url: file,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             var a = document.createElement('a');
             a.download = response.name;
             response.type = 'application/force-download'; // to force download dialog
             a.href = `data:${response.type};base64,${response.data}`;
             a.click();
+        },
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.ajax = args => {
+    if (!args.hasOwnProperty('url')) {
+        throw new Error(`url not found`);
+    }
+    var temp = {
+        url: 'api/?/' + args.url,
+        success: response => {
+            saltos.app.form.screen('unloading');
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
+            if (typeof args.success == 'function') {
+                args.success(response);
+            }
         },
         error: request => {
             saltos.app.form.screen('unloading');
@@ -1471,13 +1455,29 @@ saltos.app.download = file => {
                 text: request.statusText,
                 code: request.status,
             });
+            if (typeof args.error == 'function') {
+                args.error(response);
+            }
         },
         abort: request => {
             saltos.app.form.screen('unloading');
+            if (typeof args.abort == 'function') {
+                args.abort(response);
+            }
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
-    });
+    };
+    if (args.hasOwnProperty('data')) {
+        temp.data = JSON.stringify(args.data);
+        temp.method = 'post';
+        temp.content_type = 'application/json';
+    }
+    if (args.hasOwnProperty('async')) {
+        temp.async = args.async;
+    }
+    saltos.app.form.screen('loading');
+    saltos.core.ajax(temp);
 };
 
 /**
@@ -1485,7 +1485,7 @@ saltos.app.download = file => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-(() => {
+document.addEventListener('DOMContentLoaded', () => {
     // Theme part
     if (!saltos.bootstrap.get_bs_theme()) {
         saltos.bootstrap.set_bs_theme('auto');
@@ -1509,4 +1509,4 @@ saltos.app.download = file => {
     }
     // Hash part
     saltos.hash.trigger();
-})();
+});

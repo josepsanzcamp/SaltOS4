@@ -138,17 +138,10 @@ saltos.driver.search = arg => {
         obj.set_disabled(false);
     }
     // Continue
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/${app}/list/${type}`,
-        data: JSON.stringify(data),
-        method: 'post',
-        content_type: 'application/json',
+    saltos.app.ajax({
+        url: `app/${app}/list/${type}`,
+        data: data,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             response.id = type;
             var temp = saltos.gettext.bootstrap.field(response);
             if (type == 'table') {
@@ -162,18 +155,6 @@ saltos.driver.search = arg => {
             }
             document.getElementById('one').scrollTop = 0;
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -227,17 +208,10 @@ saltos.driver.more = arg => {
     if (!type) {
         throw new Error(`unknown type in saltos.driver.more`);
     }
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/${app}/list/${type}`,
-        data: JSON.stringify(data),
-        method: 'post',
-        content_type: 'application/json',
+    saltos.app.ajax({
+        url: `app/${app}/list/${type}`,
+        data: data,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             if (!response.data.length) {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 // Disable the more button
@@ -260,18 +234,6 @@ saltos.driver.more = arg => {
                 obj.append(temp);
             }
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -288,17 +250,10 @@ saltos.driver.insert = arg => {
     }
     var data = saltos.app.get_data();
     var app = saltos.hash.get().split('/').at(1);
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/${app}/insert`,
-        data: JSON.stringify(data),
-        method: 'post',
-        content_type: 'application/json',
+    saltos.app.ajax({
+        url: `app/${app}/insert`,
+        data: data,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             if (response.status == 'ok') {
                 if (response.hasOwnProperty('text')) {
                     saltos.app.toast('Response', response.text);
@@ -315,18 +270,6 @@ saltos.driver.insert = arg => {
             }
             saltos.app.show_error(response);
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -348,17 +291,10 @@ saltos.driver.update = arg => {
     }
     var app = saltos.hash.get().split('/').at(1);
     var id = saltos.hash.get().split('/').at(-1);
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/${app}/update/${id}`,
-        data: JSON.stringify(data),
-        method: 'post',
-        content_type: 'application/json',
+    saltos.app.ajax({
+        url: `app/${app}/update/${id}`,
+        data: data,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             if (response.status == 'ok') {
                 if (response.hasOwnProperty('text')) {
                     saltos.app.toast('Response', response.text);
@@ -375,18 +311,6 @@ saltos.driver.update = arg => {
             }
             saltos.app.show_error(response);
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -415,14 +339,9 @@ saltos.driver.delete = async arg => {
                     app = arg.split('/').at(1);
                     id = arg.split('/').at(-1);
                 }
-                saltos.app.form.screen('loading');
-                saltos.core.ajax({
-                    url: `api/?/app/${app}/delete/${id}`,
+                saltos.app.ajax({
+                    url: `app/${app}/delete/${id}`,
                     success: response => {
-                        saltos.app.form.screen('unloading');
-                        if (!saltos.app.check_response(response)) {
-                            return;
-                        }
                         if (response.status == 'ok') {
                             if (response.hasOwnProperty('text')) {
                                 saltos.app.toast('Response', response.text);
@@ -443,18 +362,6 @@ saltos.driver.delete = async arg => {
                         }
                         saltos.app.show_error(response);
                     },
-                    error: request => {
-                        saltos.app.form.screen('unloading');
-                        saltos.app.show_error({
-                            text: request.statusText,
-                            code: request.status,
-                        });
-                    },
-                    abort: request => {
-                        saltos.app.form.screen('unloading');
-                    },
-                    token: saltos.token.get(),
-                    lang: saltos.gettext.get(),
                 });
             },
         },{

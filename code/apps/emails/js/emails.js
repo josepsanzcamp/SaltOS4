@@ -45,31 +45,14 @@ saltos.emails = {};
  * TODO
  */
 saltos.emails.server = () => {
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/emails/action/server`,
+    saltos.app.ajax({
+        url: `app/emails/action/server`,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             for (var key in response) {
                 saltos.app.toast('Response', response[key]);
             }
             saltos.window.send('saltos.emails.update');
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -98,29 +81,12 @@ saltos.emails.delete1 = () => {
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
-                saltos.app.form.screen('loading');
-                saltos.core.ajax({
-                    url: `api/?/app/emails/delete/${ids}`,
+                saltos.app.ajax({
+                    url: `app/emails/delete/${ids}`,
                     success: response => {
-                        saltos.app.form.screen('unloading');
-                        if (!saltos.app.check_response(response)) {
-                            return;
-                        }
                         saltos.app.toast('Response', response.text);
                         saltos.window.send('saltos.emails.update');
                     },
-                    error: request => {
-                        saltos.app.form.screen('unloading');
-                        saltos.app.show_error({
-                            text: request.statusText,
-                            code: request.status,
-                        });
-                    },
-                    abort: request => {
-                        saltos.app.form.screen('unloading');
-                    },
-                    token: saltos.token.get(),
-                    lang: saltos.gettext.get(),
                 });
             },
         },{
@@ -147,30 +113,13 @@ saltos.emails.delete2 = () => {
             autofocus: true,
             onclick: () => {
                 var id = saltos.hash.get().split('/').at(3);
-                saltos.app.form.screen('loading');
-                saltos.core.ajax({
-                    url: `api/?/app/emails/delete/${id}`,
+                saltos.app.ajax({
+                    url: `app/emails/delete/${id}`,
                     success: response => {
-                        saltos.app.form.screen('unloading');
-                        if (!saltos.app.check_response(response)) {
-                            return;
-                        }
                         saltos.app.toast('Response', response.text);
                         saltos.window.send('saltos.emails.update');
                         saltos.driver.close();
                     },
-                    error: request => {
-                        saltos.app.form.screen('unloading');
-                        saltos.app.show_error({
-                            text: request.statusText,
-                            code: request.status,
-                        });
-                    },
-                    abort: request => {
-                        saltos.app.form.screen('unloading');
-                    },
-                    token: saltos.token.get(),
-                    lang: saltos.gettext.get(),
                 });
             },
         },{
@@ -207,17 +156,10 @@ saltos.emails.send = () => {
     } else {
         email_id = '/' + email_id;
     }
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/emails/create/sendmail${action}${email_id}`,
-        data: JSON.stringify(data),
-        method: 'post',
-        content_type: 'application/json',
+    saltos.app.ajax({
+        url: `app/emails/create/sendmail${action}${email_id}`,
+        data: data,
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             if (response.status == 'ok') {
                 saltos.app.toast('Response', response.text);
                 saltos.window.send('saltos.emails.update');
@@ -230,18 +172,6 @@ saltos.emails.send = () => {
             }
             saltos.app.show_error(response);
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -252,35 +182,16 @@ saltos.emails.send = () => {
  */
 saltos.emails.setter = what => {
     var id = saltos.hash.get().split('/').at(3);
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/emails/view/setter/${id}`,
-        data: JSON.stringify({
+    saltos.app.ajax({
+        url: `app/emails/view/setter/${id}`,
+        data: {
             'what': what,
-        }),
-        method: 'post',
-        content_type: 'application/json',
+        },
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             saltos.app.toast('Response', response.text);
             saltos.window.send('saltos.emails.update');
             saltos.hash.trigger();
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 
@@ -296,37 +207,18 @@ saltos.emails.signature = () => {
     var cc = document.getElementById('cc').value;
     var state_crt = document.getElementById('state_crt').value;
     saltos.emails.old_account = new_account;
-    saltos.app.form.screen('loading');
-    saltos.core.ajax({
-        url: `api/?/app/emails/create/signature`,
-        data: JSON.stringify({
+    saltos.app.ajax({
+        url: `app/emails/create/signature`,
+        data: {
             'old': old_account,
             'new': new_account,
             'body': body,
             'cc': cc,
             'state_crt': state_crt,
-        }),
-        method: 'post',
-        content_type: 'application/json',
+        },
         success: response => {
-            saltos.app.form.screen('unloading');
-            if (!saltos.app.check_response(response)) {
-                return;
-            }
             saltos.app.form.data(response.data);
         },
-        error: request => {
-            saltos.app.form.screen('unloading');
-            saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
-            });
-        },
-        abort: request => {
-            saltos.app.form.screen('unloading');
-        },
-        token: saltos.token.get(),
-        lang: saltos.gettext.get(),
     });
 };
 

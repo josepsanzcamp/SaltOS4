@@ -341,9 +341,6 @@ saltos.bootstrap.__field.text = field => {
                             code: request.status,
                         });
                     },
-                    abort: request => {
-                        saltos.app.form.screen('unloading');
-                    },
                     token: saltos.token.get(),
                     lang: saltos.gettext.get(),
                 });
@@ -1558,9 +1555,6 @@ saltos.bootstrap.__field.file = field => {
             error: request => {
                 throw new Error(request);
             },
-            abort: request => {
-                saltos.app.form.screen('unloading');
-            },
             token: saltos.token.get(),
             lang: saltos.gettext.get(),
         });
@@ -1644,9 +1638,6 @@ saltos.bootstrap.__field.file = field => {
                                 row.querySelector('.progress-bar').style.width = percent + '%';
                                 row.querySelector('.progress').setAttribute('aria-valuenow', percent);
                             }
-                        },
-                        abort: request => {
-                            saltos.app.form.screen('unloading');
                         },
                         token: saltos.token.get(),
                         lang: saltos.gettext.get(),

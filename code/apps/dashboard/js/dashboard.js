@@ -47,50 +47,22 @@ saltos.dashboard = {};
 saltos.dashboard.init = arg => {
     if (arg == 'menu') {
         saltos.window.set_listener('saltos.customers.update', event => {
-            saltos.core.ajax({
-                url: 'api/?/app/customers/widget/table1',
+            saltos.app.ajax({
+                url: 'app/customers/widget/table1',
                 success: response => {
-                    if (!saltos.app.check_response(response)) {
-                        return;
-                    }
                     response.id = 'table1';
                     var temp = saltos.bootstrap.field(response);
                     document.getElementById('table1').replaceWith(temp);
                 },
-                error: request => {
-                    saltos.app.show_error({
-                        text: request.statusText,
-                        code: request.status,
-                    });
-                },
-                abort: request => {
-                    saltos.app.form.screen('unloading');
-                },
-                token: saltos.token.get(),
-                lang: saltos.gettext.get(),
             });
 
-            saltos.core.ajax({
-                url: 'api/?/app/customers/widget/table2',
+            saltos.app.ajax({
+                url: 'app/customers/widget/table2',
                 success: response => {
-                    if (!saltos.app.check_response(response)) {
-                        return;
-                    }
                     response.id = 'table2';
                     var temp = saltos.bootstrap.field(response);
                     document.getElementById('table2').replaceWith(temp);
                 },
-                error: request => {
-                    saltos.app.show_error({
-                        text: request.statusText,
-                        code: request.status,
-                    });
-                },
-                abort: request => {
-                    saltos.app.form.screen('unloading');
-                },
-                token: saltos.token.get(),
-                lang: saltos.gettext.get(),
             });
         });
         Sortable.create(document.querySelector('.items'), {
