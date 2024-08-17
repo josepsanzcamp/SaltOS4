@@ -336,10 +336,7 @@ saltos.bootstrap.__field.text = field => {
                         }
                     },
                     error: request => {
-                        saltos.app.show_error({
-                            text: request.statusText,
-                            code: request.status,
-                        });
+                        throw new Error(request);
                     },
                     token: saltos.token.get(),
                     lang: saltos.gettext.get(),
