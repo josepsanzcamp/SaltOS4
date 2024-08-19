@@ -51,6 +51,7 @@ class PDF extends TCPDF
     private $arr_footer;
     private $row_footer;
     private $check_y_enabled;
+    private $arr_pages;
 
     /**
      * TODO
@@ -59,12 +60,12 @@ class PDF extends TCPDF
      */
     public function Init()
     {
-        $this->Set_Header([], []);
-        $this->Set_Footer([], []);
-        $this->check_y_enable(true);
-        //~ if (getDefault("ini_set")) {
-            //~ eval_iniset(getDefault("ini_set"));
-        //~ }
+        $this->arr_header = [];
+        $this->row_header = [];
+        $this->arr_footer = [];
+        $this->row_footer = [];
+        $this->check_y_enabled = true;
+        $this->arr_pages = [];
     }
 
     /**
@@ -108,8 +109,21 @@ class PDF extends TCPDF
      */
     public function Footer()
     {
+        $this->arr_pages[] = $this->getPage();
+    }
+
+    /**
+     * TODO
+     *
+     * TODO
+     */
+    public function Render_Footers()
+    {
         $oldenable = $this->check_y_enable(false);
-        __pdf_eval_pdftag($this->arr_footer, $this->row_footer);
+        foreach ($this->arr_pages as $page) {
+            $this->setPage($page);
+            __pdf_eval_pdftag($this->arr_footer, $this->row_footer);
+        }
         $this->check_y_enable($oldenable);
     }
 
@@ -274,6 +288,8 @@ function __pdf_eval_pdftag($array, $row = [])
                 if (!$bool) {
                     break;
                 }
+                $pdf->Footer();
+                $pdf->Render_Footers();
                 $name = __pdf_eval_value($val, $row, $pdf);
                 $buffer = $pdf->Output($name, "S");
                 return [
@@ -407,7 +423,7 @@ function __pdf_eval_pdftag($array, $row = [])
                 }
                 break;
             case "line":
-                // format => x1, y1, x2, y2, [line width]
+                // format => left, top, width ,height, [line width]
                 if (!$bool) {
                     break;
                 }
@@ -415,7 +431,7 @@ function __pdf_eval_pdftag($array, $row = [])
                 if (isset($temp[4])) {
                     $pdf->SetLineWidth($temp[4]);
                 }
-                $pdf->Line($temp[0], $temp[1], $temp[2], $temp[3]);
+                $pdf->Line($temp[0], $temp[1], $temp[0] + $temp[2], $temp[1] + $temp[3]);
                 break;
             case "setxy":
                 // format => left, top
@@ -447,22 +463,14 @@ function __pdf_eval_pdftag($array, $row = [])
                     if (!isset($temp[2])) {
                         $temp[2] = "%s/%s";
                     }
-                    $temp[2] = sprintf($temp[2], $pdf->getAliasNumPage(), $pdf->getAliasNbPages());
+                    $temp[2] = sprintf($temp[2], $pdf->PageNo(), $pdf->getNumPages());
                     $pdf->Cell(0, 0, $temp[2]);
                 } else {
-                     // TO FIX AN ALIGN BUG
-                    if ($temp[4] == "C") {
-                        $temp[0] += 7.5;
-                    }
-                    if ($temp[4] == "R") {
-                        $temp[0] += 15;
-                    }
-                    // CONTINUE
                     $pdf->SetXY($temp[0], $temp[1]);
                     if (!isset($temp[5])) {
                         $temp[5] = "%s/%s";
                     }
-                    $temp[5] = sprintf($temp[5], $pdf->getAliasNumPage(), $pdf->getAliasNbPages());
+                    $temp[5] = sprintf($temp[5], $pdf->PageNo(), $pdf->getNumPages());
                     $pdf->check_y($temp[3]);
                     $pdf->MultiCell($temp[2], $temp[3], strval($temp[5]), 0, $rtl[$dir][$temp[4]]);
                 }

@@ -27,7 +27,7 @@
 
 <root>
     <constructor>"P","mm","A4"</constructor>
-    <margins>50,30,30,30</margins>
+    <margins>25,10,10,10</margins>
     <foreach>
         <query>"SELECT *,
             CASE WHEN `to` != '' THEN `to`
@@ -49,8 +49,8 @@
                 FROM app_emails_files
                 WHERE reg_id=a.id
             ) files,
-            '132.6' logo_left,
-            '15' logo_top,
+            '142.6' logo_left,
+            '10' logo_top,
             '57.4' logo_width,
             '10.74' logo_height,
             'img/logo_saltos.png' logo_file,
@@ -74,108 +74,108 @@
             <!-- PONER MARCA DE AGUA -->
             <font>"normal","B",$row["water_correo_size"],"#eeeeee"</font>
             <text>$row["water_correo_posx"],$row["water_correo_posy"],$row["water_correo_text"],$row["water_correo_angle"]</text>
-            <margins>50,30,30,30</margins>
-            <setxy>30,50</setxy>
+            <margins>25,10,10,10</margins>
+            <setxy>10,25</setxy>
         </header>
         <footer>
             <margins>0,0,0,0</margins>
             <!-- PONER PIE DE PAGINA -->
             <font>"normal","",6,$row["color_text2"]</font>
-            <pageno>30,279,150,0,"R",T("Page %s of %s")</pageno>
-            <margins>50,30,30,30</margins>
+            <pageno>10,283,190,4,"R",T("Page %s of %s")</pageno>
+            <margins>25,10,10,10</margins>
         </footer>
         <!-- BEGIN -->
         <newpage></newpage>
         <color>$row["color_line"],"#000000"</color>
         <!-- DATOS CORREO -->
-        <setxy>30,50</setxy>
+        <setxy>10,25</setxy>
         <getxy>"x","y"</getxy>
         <font>"normal","B",8,$row["color_text1"]</font>
-        <textarea>30,$row["y"],25,4,"R",T("from")</textarea>
+        <textarea>10,$row["y"],25,4,"R",T("from")</textarea>
         <font>"mono","",8,$row["color_text2"]</font>
-        <textarea>55,$row["y"],125,4,"L",$row["from"]</textarea>
+        <textarea>35,$row["y"],165,4,"L",$row["from"]</textarea>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
-        <line>30,$row["y"],180,$row["y"]</line>
+        <line>10,$row["y"],190,0</line>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
         <font>"normal","B",8,$row["color_text1"]</font>
-        <textarea>30,$row["y"],25,4,"R",T("to")</textarea>
+        <textarea>10,$row["y"],25,4,"R",T("to")</textarea>
         <font>"mono","",8,$row["color_text2"]</font>
-        <textarea>55,$row["y"],125,4,"L",$row["to"]</textarea>
+        <textarea>35,$row["y"],165,4,"L",$row["to"]</textarea>
         <eval>$row["cc"]</eval>
             <getxy>"x","y"</getxy>
             <setxy>$row["x"],$row["y"]+2</setxy>
             <getxy>"x","y"</getxy>
-            <line>30,$row["y"],180,$row["y"]</line>
+            <line>10,$row["y"],190,0</line>
             <getxy>"x","y"</getxy>
             <setxy>$row["x"],$row["y"]+2</setxy>
             <getxy>"x","y"</getxy>
             <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>30,$row["y"],25,4,"R",T("CC")</textarea>
+            <textarea>10,$row["y"],25,4,"R",T("CC")</textarea>
             <font>"mono","",8,$row["color_text2"]</font>
-            <textarea>55,$row["y"],125,4,"L",$row["cc"]</textarea>
+            <textarea>35,$row["y"],165,4,"L",$row["cc"]</textarea>
         <eval>$row["bcc"]</eval>
             <getxy>"x","y"</getxy>
             <setxy>$row["x"],$row["y"]+2</setxy>
             <getxy>"x","y"</getxy>
-            <line>30,$row["y"],180,$row["y"]</line>
+            <line>10,$row["y"],190,0</line>
             <getxy>"x","y"</getxy>
             <setxy>$row["x"],$row["y"]+2</setxy>
             <getxy>"x","y"</getxy>
             <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>30,$row["y"],25,4,"R",T("BCC")</textarea>
+            <textarea>10,$row["y"],25,4,"R",T("BCC")</textarea>
             <font>"mono","",8,$row["color_text2"]</font>
-            <textarea>55,$row["y"],125,4,"L",$row["bcc"]</textarea>
+            <textarea>35,$row["y"],165,4,"L",$row["bcc"]</textarea>
         <eval>true</eval>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
-        <line>30,$row["y"],180,$row["y"]</line>
+        <line>10,$row["y"],190,0</line>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
         <font>"normal","B",8,$row["color_text1"]</font>
-        <textarea>30,$row["y"],25,4,"R",T("datetime")</textarea>
+        <textarea>10,$row["y"],25,4,"R",T("datetime")</textarea>
         <font>"mono","",8,$row["color_text2"]</font>
-        <textarea>55,$row["y"],125,4,"L",$row["datetime"]</textarea>
+        <textarea>35,$row["y"],165,4,"L",$row["datetime"]</textarea>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
-        <line>30,$row["y"],180,$row["y"]</line>
+        <line>10,$row["y"],190,0</line>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
         <font>"normal","B",8,$row["color_text1"]</font>
-        <textarea>30,$row["y"],25,4,"R",T("subject")</textarea>
+        <textarea>10,$row["y"],25,4,"R",T("subject")</textarea>
         <font>"mono","",8,$row["color_text2"]</font>
-        <textarea>55,$row["y"],125,4,"L",$row["subject"]</textarea>
+        <textarea>35,$row["y"],165,4,"L",$row["subject"]</textarea>
         <eval>$row["files"]</eval>
             <getxy>"x","y"</getxy>
             <setxy>$row["x"],$row["y"]+2</setxy>
             <getxy>"x","y"</getxy>
-            <line>30,$row["y"],180,$row["y"]</line>
+            <line>10,$row["y"],190,0</line>
             <getxy>"x","y"</getxy>
             <setxy>$row["x"],$row["y"]+2</setxy>
             <getxy>"x","y"</getxy>
             <font>"normal","B",8,$row["color_text1"]</font>
-            <textarea>30,$row["y"],25,4,"R",T("attachments")</textarea>
+            <textarea>10,$row["y"],25,4,"R",T("attachments")</textarea>
             <font>"mono","",8,$row["color_text2"]</font>
-            <textarea>55,$row["y"],125,4,"L",$row["files"]</textarea>
+            <textarea>35,$row["y"],165,4,"L",$row["files"]</textarea>
         <eval>true</eval>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
-        <line>30,$row["y"],180,$row["y"]</line>
+        <line>10,$row["y"],190,0</line>
         <getxy>"x","y"</getxy>
         <setxy>$row["x"],$row["y"]+2</setxy>
         <getxy>"x","y"</getxy>
         <font>"normal","B",8,$row["color_text1"]</font>
-        <textarea>30,$row["y"],25,4,"R",T("body")</textarea>
+        <textarea>10,$row["y"],25,4,"R",T("body")</textarea>
         <font>"mono","",8,$row["color_text2"]</font>
-        <textarea>55,$row["y"],125,4,"L",trim($row["body"])</textarea>
+        <textarea>35,$row["y"],165,4,"L",trim($row["body"])</textarea>
     </foreach>
     <eval>strpos($row["id"],",")===false</eval>
     <output>encode_bad_chars(execute_query("SELECT
