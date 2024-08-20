@@ -421,7 +421,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
+                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>
@@ -452,7 +452,7 @@
                 <button label="Download" tooltip="To download the email" icon="save">
                     <onclick eval="true">"saltos.app.download('app/emails/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg"/>
+                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>

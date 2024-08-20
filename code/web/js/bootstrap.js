@@ -66,7 +66,7 @@ saltos.bootstrap = {};
  * @multiselect => id, class, DS, RQ, AF, AK, rows, multiple, size, value, multiple, tooltip, label, color
  * @checkbox    => id, class, DS, RO, AK, label, value, tooltip, color, OC
  * @switch      => id, class, DS, RO, AK, label, value, tooltip, color, OC
- * @button      => id, class, DS, AK, label, onclick, tooltip, color
+ * @button      => id, class, DS, AF, AK, label, onclick, tooltip, color, autoclose
  * @password    => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
  * @file        => id, class, DS, RQ, AF, AK, multiple, tooltip, label, color, OC
  * @link        => id, DS, AK, value, onclick, tooltip, label, color
@@ -1260,17 +1260,26 @@ saltos.bootstrap.__field.switch = field => {
  * hidden focus when you try to focus a button inside a modal, for example.
  */
 saltos.bootstrap.__field.button = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'onclick', 'tooltip',
-                                     'icon', 'label', 'accesskey', 'color', 'collapse', 'target', 'addbr']);
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'autoclose',
+                                     'onclick', 'tooltip', 'icon', 'label', 'accesskey',
+                                     'color', 'collapse', 'target', 'addbr']);
+    var disabled = '';
+    var _class = '';
     if (saltos.core.eval_bool(field.disabled)) {
-        field.disabled = 'disabled';
-        field.class += ' opacity-25';
+        disabled = 'disabled';
+        _class = ' opacity-25';
     }
+    var autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
-        field.autofocus = 'autofocus';
+        autofocus = 'autofocus';
     }
+    var autoclose = '';
+    if (saltos.core.eval_bool(field.autoclose)) {
+        autoclose = 'autoclose';
+    }
+    var color = field.color;
     if (!field.color) {
-        field.color = 'primary';
+        color = 'primary';
     }
     var collapse = '';
     if (saltos.core.eval_bool(field.collapse)) {
@@ -1278,8 +1287,8 @@ saltos.bootstrap.__field.button = field => {
             aria-controls="${field.target}" aria-expanded="false"`;
     }
     var obj = saltos.core.html(`
-        <button type="button" id="${field.id}" ${field.disabled} ${field.autofocus}
-            class="btn btn-${field.color} focus-ring focus-ring-${field.color} ${field.class}"
+        <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
+            class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${_class}"
             data-bs-accesskey="${field.accesskey}" ${collapse}
             data-bs-title="${field.tooltip}">${field.label}</button>
     `);
@@ -3951,6 +3960,11 @@ saltos.bootstrap.modal = args => {
             _this.focus();
         });
     });
+    obj.addEventListener('hide.bs.modal', event => {
+        obj.querySelectorAll('[autoclose]').forEach(_this => {
+            _this.click();
+        });
+    });
     obj.addEventListener('hidden.bs.modal', event => {
         saltos.bootstrap.__modal.instance.dispose();
         saltos.bootstrap.__modal.obj.remove();
@@ -4091,6 +4105,11 @@ saltos.bootstrap.offcanvas = args => {
         }
         obj.querySelectorAll('[autofocus]').forEach(_this => {
             _this.focus();
+        });
+    });
+    obj.addEventListener('hide.bs.offcanvas', event => {
+        obj.querySelectorAll('[autoclose]').forEach(_this => {
+            _this.click();
         });
     });
     obj.addEventListener('hidden.bs.offcanvas', event => {
