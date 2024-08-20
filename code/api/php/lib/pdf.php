@@ -44,14 +44,14 @@ require_once "lib/tcpdf/vendor/autoload.php";
  *
  * TODO
  */
-class PDF extends TCPDF
+class MyPDF extends TCPDF
 {
     private $arr_header;
     private $row_header;
     private $arr_footer;
     private $row_footer;
-    private $check_y_enabled;
-    private $arr_pages;
+    private $check_bool;
+    private $list_pages;
 
     /**
      * TODO
@@ -64,8 +64,8 @@ class PDF extends TCPDF
         $this->row_header = [];
         $this->arr_footer = [];
         $this->row_footer = [];
-        $this->check_y_enabled = true;
-        $this->arr_pages = [];
+        $this->check_bool = true;
+        $this->list_pages = [];
     }
 
     /**
@@ -73,7 +73,7 @@ class PDF extends TCPDF
      *
      * TODO
      */
-    public function Set_Header($arr, $row)
+    public function set_header($arr, $row)
     {
         $this->arr_header = $arr;
         $this->row_header = $row;
@@ -84,7 +84,7 @@ class PDF extends TCPDF
      *
      * TODO
      */
-    public function Set_Footer($arr, $row)
+    public function set_footer($arr, $row)
     {
         $this->arr_footer = $arr;
         $this->row_footer = $row;
@@ -97,9 +97,9 @@ class PDF extends TCPDF
      */
     public function Header()
     {
-        $oldenable = $this->check_y_enable(false);
+        [$oldenable, $this->check_bool] = [$this->check_bool, false];
         __pdf_eval_pdftag($this->arr_header, $this->row_header);
-        $this->check_y_enable($oldenable);
+        $this->check_bool = $oldenable;
     }
 
     /**
@@ -109,7 +109,7 @@ class PDF extends TCPDF
      */
     public function Footer()
     {
-        $this->arr_pages[] = $this->getPage();
+        $this->list_pages[] = $this->getPage();
     }
 
     /**
@@ -117,14 +117,14 @@ class PDF extends TCPDF
      *
      * TODO
      */
-    public function Render_Footers()
+    public function render_footers()
     {
-        $oldenable = $this->check_y_enable(false);
-        foreach ($this->arr_pages as $page) {
+        [$oldenable, $this->check_bool] = [$this->check_bool, false];
+        foreach ($this->list_pages as $page) {
             $this->setPage($page);
             __pdf_eval_pdftag($this->arr_footer, $this->row_footer);
         }
-        $this->check_y_enable($oldenable);
+        $this->check_bool = $oldenable;
     }
 
     /**
@@ -134,26 +134,14 @@ class PDF extends TCPDF
      */
     public function check_y($offset = 0)
     {
-        if ($this->check_y_enabled) {
-            if ($this->y + $offset > ($this->hPt / $this->k) - $this->bMargin) {
-                $oldx = $this->GetX();
-                $this->AddPage();
-                $this->SetY($this->tMargin);
-                $this->SetX($oldx);
-            }
+        if (!$this->check_bool) {
+            return;
         }
-    }
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    public function check_y_enable($enable)
-    {
-        $retval = $this->check_y_enabled;
-        $this->check_y_enabled = $enable;
-        return $retval;
+        if ($this->y + $offset > ($this->hPt / $this->k) - $this->bMargin) {
+            $oldx = $this->GetX();
+            $this->AddPage();
+            $this->SetXY($oldx, $this->tMargin);
+        }
     }
 }
 
@@ -252,7 +240,7 @@ function __pdf_eval_pdftag($array, $row = [])
                     break;
                 }
                 $temp = __pdf_eval_array(__pdf_eval_explode(",", $val), $row, $pdf);
-                $pdf = new PDF($temp[0], $temp[1], $temp[2]);
+                $pdf = new MyPDF($temp[0], $temp[1], $temp[2]);
                 $pdf->SetCreator(get_name_version_revision());
                 $pdf->SetDisplayMode("fullwidth", "continuous");
                 $pdf->setRTL($dir == "rtl");
@@ -289,7 +277,7 @@ function __pdf_eval_pdftag($array, $row = [])
                     break;
                 }
                 $pdf->Footer();
-                $pdf->Render_Footers();
+                $pdf->render_footers();
                 $name = __pdf_eval_value($val, $row, $pdf);
                 $buffer = $pdf->Output($name, "S");
                 return [
@@ -301,14 +289,14 @@ function __pdf_eval_pdftag($array, $row = [])
                 if (!$bool) {
                     break;
                 }
-                $pdf->Set_Header($val, $row);
+                $pdf->set_header($val, $row);
                 break;
             case "footer":
                 // format => node
                 if (!$bool) {
                     break;
                 }
-                $pdf->Set_Footer($val, $row);
+                $pdf->set_footer($val, $row);
                 break;
             case "newpage":
                 // format => [orientation]
