@@ -501,7 +501,7 @@ function __dbschema_auto_apps($dbschema)
                 // phpcs:disable Generic.Files.LineLength
                 $xml = '<table name="{$table}_index">
                             <fields>
-                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true" fkey="{$table}"/>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                                 <field name="search" type="MEDIUMTEXT"/>
                             </fields>
                             <indexes>
