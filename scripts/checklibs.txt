@@ -1,6 +1,6 @@
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
-edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|base64:PHRpdGxlPjEuMS4wPC90aXRsZT4=
+edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|base64:PHRpdGxlPjEuMS4xPC90aXRsZT4=
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 locutus|https://github.com/kvz/locutus/tags.atom|<title>|base64:PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|base64:PHRpdGxlPjIuMi4yPC90aXRsZT4=
@@ -31,7 +31,7 @@ browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHR
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNi4xPC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuNC4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMDQgLSAyMDI0LTA2LTEyPC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDgtMjEsIFZlcnNpb24gMjAuMTcuMCAmIzM5O0lyb24mIzM5OyAoTFRTKSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=
+node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDgtMjIsIFZlcnNpb24gMjIuNy4wIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMiAtIDIwMjQtMDctMjI8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjMuMTFSQzI8L3RpdGxlPg==
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMy4xPC90aXRsZT4=
