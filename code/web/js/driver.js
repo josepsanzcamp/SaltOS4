@@ -99,6 +99,11 @@ saltos.driver.open = arg => {
  * TODO
  */
 saltos.driver.close = arg => {
+    // Disable all autoclose
+    document.querySelectorAll('[autoclose]').forEach(_this => {
+        _this.removeAttribute('autoclose');
+    });
+    // Continue
     var url1 = document.location.href.toString();
     history.back();
     setTimeout(() => {

@@ -13,14 +13,14 @@ all:
 
 web: clean
 	cat code/web/lib/bootstrap/bootstrap-icons.min.css code/web/lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
-		php scripts/fixpath.php fonts/Atkinson-Hyperlegible atkinson-hyperlegible/fonts/Atkinson-Hyperlegible | \
-		php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
+	php scripts/fixpath.php fonts/Atkinson-Hyperlegible atkinson-hyperlegible/fonts/Atkinson-Hyperlegible | \
+	php scripts/fixpath.php fonts/bootstrap-icons bootstrap/fonts/bootstrap-icons > code/web/lib/index.css
 
 	cat code/web/lib/bootstrap/bootstrap.bundle.min.js code/web/lib/md5/md5.min.js code/web/lib/sourcemap/sourcemapped-stacktrace.min.js > code/web/lib/index.js
 
 	mkdir -p code/web/js/.js
 	@for i in code/web/js/*.js; do \
-		cat $$i | php scripts/md5sum.php > code/web/js/.js/$${i##*/}; \
+	cat $$i | php scripts/md5sum.php > code/web/js/.js/$${i##*/}; \
 	done
 	uglifyjs code/web/js/.js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,filter,app}.js -c -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
@@ -28,17 +28,17 @@ web: clean
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
 
 	@for i in code/apps/*/js/*.js; do \
-		j=$${i%.*};  # file with path without extension    \
-		k=$${i##*/}; # file without path with extension    \
-		m=$${k%.*};  # file without path without extension \
-		uglifyjs $$i -c -m -o $$j.min.js --source-map url=$$m.min.js.map; \
+	j=$${i%.*};  # file with path without extension    \
+	k=$${i##*/}; # file without path with extension    \
+	m=$${k%.*};  # file without path without extension \
+	uglifyjs $$i -c -m -o $$j.min.js --source-map url=$$m.min.js.map; \
 	done
 
 devel: clean
 	cat code/web/htm/index.htm | \
-		php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
-		php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js | \
-		php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,filter,app}.js > code/web/index.htm
+	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
+	php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js | \
+	php scripts/debug.php index.js js/{object,core,bootstrap,hash,token,auth,window,gettext,driver,filter,app}.js > code/web/index.htm
 
 clean:
 	rm -f code/web/index.{htm,js,js.map}
@@ -56,9 +56,9 @@ else # file=path
 endif
 endif
 	@for i in ${files}; do \
-		echo $$i; \
-		phpcs --colors --standard=scripts/phpcs.xml $$i; \
-		php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
+	echo $$i; \
+	phpcs --colors --standard=scripts/phpcs.xml $$i; \
+	php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
 	done
 
 ifeq ($(file), ) # default behaviour
@@ -71,9 +71,9 @@ else # file=path
 endif
 endif
 	@for i in ${files}; do \
-		echo $$i; \
-		jscs --config=scripts/jscs.json $$i 2>/dev/null; \
-		node -c $$i; \
+	echo $$i; \
+	jscs --config=scripts/jscs.json $$i 2>/dev/null; \
+	node -c $$i; \
 	done
 
 libs:

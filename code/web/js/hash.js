@@ -133,6 +133,10 @@ saltos.hash.onhashchange = event => {
     for (var i in saltos.core.__ajax) {
         saltos.core.__ajax[i].abort();
     }
+    // Autoclose part
+    document.querySelectorAll('[autoclose]').forEach(_this => {
+        _this.removeAttribute('autoclose');
+    });
     // Token part
     if (!saltos.token.get()) {
         saltos.app.send_request('app/login');
