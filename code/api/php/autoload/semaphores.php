@@ -100,16 +100,16 @@ function semaphore_file($name = "")
 function __semaphore_helper($fn, $name, $timeout)
 {
     static $fds = [];
+    if ($name == "") {
+        $name = __FUNCTION__;
+    }
+    $file = get_cache_file($name, ".sem");
+    if (!isset($fds[$file])) {
+        $fds[$file] = null;
+    }
     if (stripos($fn, "acquire") !== false) {
-        if ($name == "") {
-            $name = __FUNCTION__;
-        }
-        $file = get_cache_file($name, ".sem");
         if (!is_writable(dirname($file))) {
             return false;
-        }
-        if (!isset($fds[$file])) {
-            $fds[$file] = null;
         }
         if ($fds[$file]) {
             return false;
@@ -118,9 +118,11 @@ function __semaphore_helper($fn, $name, $timeout)
             return false;
         }
         $fds[$file] = fopen($file, "a");
-        //~ if (!$fds[$file]) {
-            //~ return false;
-        //~ }
+        // This part of code is redundant because fopen never fails
+        if (!$fds[$file]) {
+            return false;
+        }
+        // Continue
         chmod_protected($file, 0666);
         for (;;) {
             $result = flock($fds[$file], LOCK_EX | LOCK_NB);
@@ -138,13 +140,6 @@ function __semaphore_helper($fn, $name, $timeout)
         fwrite($fds[$file], gettrace([]));
         return true;
     } elseif (stripos($fn, "release") !== false) {
-        if ($name == "") {
-            $name = __FUNCTION__;
-        }
-        $file = get_cache_file($name, ".sem");
-        if (!isset($fds[$file])) {
-            $fds[$file] = null;
-        }
         if (!$fds[$file]) {
             return false;
         }
@@ -162,10 +157,6 @@ function __semaphore_helper($fn, $name, $timeout)
         }
         return true;
     } elseif (stripos($fn, "file") !== false) {
-        if ($name == "") {
-            $name = __FUNCTION__;
-        }
-        $file = get_cache_file($name, ".sem");
         return $file;
     }
     show_php_error(["phperror" => "Internal error"]);
