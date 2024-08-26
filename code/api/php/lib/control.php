@@ -74,13 +74,13 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
     if ($datetime === null) {
         $datetime = current_datetime();
     }
-    // Search if control exists
+    // Check if control exists
     $query = "SELECT id FROM {$table}_control WHERE id='$reg_id'";
     if (!db_check($query)) {
         return -2;
     }
     $control_id = execute_query($query);
-    // Search if exists data in the main table
+    // Check if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
@@ -154,13 +154,13 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     if ($datetime === null) {
         $datetime = current_datetime();
     }
-    // Search if version exists
+    // Check if version exists
     $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id='$reg_id'";
     if (!db_check($query)) {
         return -2;
     }
     $version_id = execute_query($query);
-    // Search if exists data in the main table
+    // Check if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {

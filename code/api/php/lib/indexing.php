@@ -64,13 +64,13 @@ function make_index($app, $reg_id)
     if ($table == "") {
         return -1;
     }
-    // Search if index exists
+    // Check if index exists
     $query = "SELECT id FROM {$table}_index WHERE id='$reg_id'";
     if (!db_check($query)) {
         return -2;
     }
     $index_id = execute_query($query);
-    // Search if exists data in the main table
+    // Check if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
@@ -107,20 +107,22 @@ function make_index($app, $reg_id)
         $query = "SELECT $fields FROM $subtable WHERE $field='$reg_id'";
         $queries[] = $query;
     }
-    // OBTENER DATOS DE LAS TABLAS GENERICAS
-    //~ $tables = array("tbl_ficheros","tbl_comentarios");
-    //~ foreach ($tablas as $tabla) {
-        //~ $campos = __make_indexing_helper($tabla);
-        //~ foreach ($campos as $key => $val) {
-            //~ $campos[$key] = "IFNULL(($val),'')";
-        //~ }
-        //~ $campos = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $campos) . "))";
-        //~ $query = "SELECT $campos
-            //~ FROM $tabla
-            //~ WHERE id_aplicacion='$id_aplicacion'
-                //~ AND id_registro='$id_registro'";
-        //~ $queries[] = $query;
-    //~ }
+    // This part allow to get all data of the all fields from files and notes
+    $subtables = array("{$table}_files","{$table}_notes");
+    foreach ($subtables as $subtable) {
+        $query = "SELECT id FROM $subtable WHERE reg_id='$reg_id'";
+        if (!db_check($query)) {
+            continue;
+        }
+        $fields = __make_index_helper($subtable);
+        foreach ($fields as $key => $val) {
+            $val = escape_reserved_word($val);
+            $field[$key] = "IFNULL(($val),'')";
+        }
+        $fields = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $fields) . "))";
+        $query = "SELECT $fields FROM $subtable WHERE reg_id='$reg_id'";
+        $queries[] = $query;
+    }
     // Prepare the main query
     foreach ($queries as $key => $val) {
         $queries[$key] = "IFNULL(($val),'')";
