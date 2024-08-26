@@ -129,3 +129,9 @@ dbschema:
 
 gc:
 	php code/api/index.php gc
+
+indexing:
+	php code/api/index.php indexing
+
+integrity:
+	php code/api/index.php integrity

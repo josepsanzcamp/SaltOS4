@@ -565,8 +565,7 @@ function __getmail_fixstring($arg)
     while (is_array($arg)) {
         $arg = array_shift($arg);
     }
-    $arg = strval($arg);
-    return $arg;
+    return $arg ?? "";
 }
 
 /**
@@ -790,7 +789,7 @@ function __getmail_getcid($array, $hash)
             // For compatibility with old saltos versions
             if (
                 in_array($hash, [
-                    md5(md5($temp) . md5($cid) . md5($cname) . md5($ctype) . md5($csize)),
+                    md5(md5($temp) . md5($cid) . md5($cname) . md5($ctype) . md5(strval($csize))),
                     md5(serialize([$temp, $cid, $cname, $ctype, $csize])),
                     md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])),
                     md5(serialize([md5($temp), null, $cname, $ctype, $csize])),
@@ -1250,7 +1249,7 @@ function getmail_server()
     $newemail = 0;
     $haserror = [];
     foreach ($result as $row) {
-        if (time_get_usage() > get_config("emails/percentstop")) {
+        if (time_get_usage() > get_config("server/percentstop")) {
             break;
         }
         $error = "";
@@ -1317,7 +1316,7 @@ function getmail_server()
             // retrieve all new messages
             $retrieve = array_diff($uidls, $olduidls);
             foreach ($retrieve as $index => $uidl) {
-                if (time_get_usage() > get_config("emails/percentstop")) {
+                if (time_get_usage() > get_config("server/percentstop")) {
                     break;
                 }
                 if ($error == "") {

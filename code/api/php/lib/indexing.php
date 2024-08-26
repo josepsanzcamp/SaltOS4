@@ -74,12 +74,12 @@ function make_index($app, $reg_id)
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
-        if (!$index_id) {
-            return -3;
-        } else {
+        if ($index_id) {
             $query = "DELETE FROM {$table}_index WHERE id='$reg_id'";
             db_query($query);
             return 3;
+        } else {
+            return -3;
         }
     }
     // Continue the process after the checks
@@ -108,7 +108,7 @@ function make_index($app, $reg_id)
         $queries[] = $query;
     }
     // This part allow to get all data of the all fields from files and notes
-    $subtables = array("{$table}_files","{$table}_notes");
+    $subtables = ["{$table}_files", "{$table}_notes"];
     foreach ($subtables as $subtable) {
         $query = "SELECT id FROM $subtable WHERE reg_id='$reg_id'";
         if (!db_check($query)) {
@@ -117,7 +117,7 @@ function make_index($app, $reg_id)
         $fields = __make_index_helper($subtable);
         foreach ($fields as $key => $val) {
             $val = escape_reserved_word($val);
-            $field[$key] = "IFNULL(($val),'')";
+            $fields[$key] = "IFNULL(($val),'')";
         }
         $fields = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $fields) . "))";
         $query = "SELECT $fields FROM $subtable WHERE reg_id='$reg_id'";

@@ -84,12 +84,12 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
-        if (!$control_id) {
-            return -3;
-        } else {
+        if ($control_id) {
             $query = "DELETE FROM {$table}_control WHERE id='$reg_id'";
             db_query($query);
             return 2;
+        } else {
+            return -3;
         }
     }
     if (!$control_id) {
@@ -164,12 +164,12 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     $query = "SELECT id FROM $table WHERE id='$reg_id'";
     $data_id = execute_query($query);
     if (!$data_id) {
-        if (!$version_id) {
-            return -3;
-        } else {
+        if ($version_id) {
             $query = "DELETE FROM {$table}_version WHERE reg_id='$reg_id'";
             db_query($query);
             return 2;
+        } else {
+            return -3;
         }
     }
     // Compute the diff from old data and new data
@@ -269,16 +269,16 @@ function get_version($app, $reg_id, $ver_id)
         ];
         if ($row["hash"] != md5(serialize($array))) {
             $ver_id = $row["ver_id"];
-            show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
+            show_php_error(["phperror" => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
         // Check other vars that must accomplish that new values are greather or equal that old values
         if ($row["datetime"] < $datetime_old) {
             $ver_id = $row["ver_id"];
-            show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
+            show_php_error(["phperror" => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
         if ($row["ver_id"] < $version_old) {
             $ver_id = $row["ver_id"];
-            show_php_error(["phperror" => "Blockchain integrity breaked for $app:$reg_id:$ver_id"]);
+            show_php_error(["phperror" => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
         // Merge the new data with the data of the previous versions
         $data_new = unserialize(base64_decode($row["data"]));

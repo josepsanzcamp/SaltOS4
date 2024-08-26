@@ -482,4 +482,9 @@
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <output require="apps/emails/php/getmail.php,apps/emails/php/sendmail.php" eval="true">array_merge(getmail_server(),sendmail_server())</output>
     </action>
+
+    <action id="indexing">
+        <check eval="true">true</check>
+        <output require="apps/emails/php/indexing.php" eval="true"/>
+    </action>
 </root>

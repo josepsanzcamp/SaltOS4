@@ -28,6 +28,5 @@
 <root>
     <emails>
         <getmailmsgid></getmailmsgid><!-- for debug purposes only -->
-        <percentstop>90</percentstop><!-- long actions stop when reached the 90% of max_execution_time -->
     </emails>
 </root>

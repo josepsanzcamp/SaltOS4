@@ -899,7 +899,7 @@ function sendmail_server()
     $sended = 0;
     $haserror = [];
     foreach ($result as $row) {
-        if (time_get_usage() > get_config("emails/percentstop")) {
+        if (time_get_usage() > get_config("server/percentstop")) {
             break;
         }
         $last_id = $row["id"];
