@@ -1,5 +1,6 @@
-Order Allow,Deny
-Allow from all
 Options -Indexes
-
 DirectoryIndex index.htm
+
+<Files "*">
+    Require all granted
+</Files>

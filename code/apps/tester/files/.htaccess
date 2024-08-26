@@ -1,3 +1,6 @@
-Order Allow,Deny
-Allow from all
 Options -Indexes
+
+<Files "*">
+    Require all granted
+</Files>
+

@@ -1,7 +1,9 @@
-Order Allow,Deny
-Deny from all
 Options -Indexes
 
-<Files *.pdf>
-Allow from all
+<Files "*">
+    Require all denied
+</Files>
+
+<Files "*.pdf">
+    Require all granted
 </Files>
