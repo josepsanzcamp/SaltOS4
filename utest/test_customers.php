@@ -53,6 +53,9 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once "lib/utestlib.php";
+require_once "php/lib/control.php";
+require_once "php/lib/indexing.php";
+
 
 /**
  * Main class of this unit test
@@ -126,7 +129,7 @@ final class test_customers extends TestCase
         db_query($query);
 
         file_put_contents("/tmp/phpunit.regid", $id);
-        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity breaked for customers");
+        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity break for customers");
 
         $query = "UPDATE app_customers_version
                   SET hash='$hash'
@@ -152,7 +155,7 @@ final class test_customers extends TestCase
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
 
-        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity breaked for customers");
+        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity break for customers");
 
         $query = "UPDATE app_customers_version
                   SET hash='$hash', datetime='$datetime'
@@ -175,7 +178,7 @@ final class test_customers extends TestCase
                   WHERE reg_id=$id AND ver_id=-2";
         db_query($query);
 
-        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity breaked for customers");
+        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity break for customers");
         unlink("/tmp/phpunit.regid");
 
         $query = "UPDATE app_customers_version
