@@ -500,7 +500,7 @@ function pdf($file, $row = [])
         $xml = xmlfile2array($file);
         require_once "php/lib/pdf.php";
         $pdf = __pdf_eval_pdftag($xml, $row);
-        if ($pdf instanceof PDF) {
+        if ($pdf instanceof MyPDF) {
             show_php_error(["phperror" => "Output node not found in template"]);
         }
         $cache[$hash] = [
