@@ -514,10 +514,8 @@ saltos.app.form.layout = (layout, extra) => {
         obj = document.getElementById(append);
         // Do a backup of the fields and templates using the append key
         saltos.app.form.__backup.do(append);
-        // It is important to place this innerHTML here because in the body removes all contents
-        obj.innerHTML = '';
     }
-    obj.append(div);
+    obj.replaceChildren(div);
     obj.querySelectorAll('[autofocus]').forEach(_this => {
         _this.focus();
     });
@@ -724,26 +722,19 @@ saltos.app.form.javascript = data => {
  * @title => The title that you want to set in the page
  */
 saltos.app.form.title = title => {
-    // This code fix a problem when title contains the append element
-    if (saltos.core.is_attr_value(title) && title['#attr'].hasOwnProperty('append')) {
-        var append = title['#attr'].append;
-        switch (append) {
-            case 'modal':
-                var obj = document.querySelector('.modal-title');
-                if (obj) {
-                    obj.innerHTML = T(title.value);
-                    return;
-                }
-            case 'offcanvas':
-                var obj = document.querySelector('.offcanvas-title');
-                if (obj) {
-                    obj.innerHTML = T(title.value);
-                    return;
-                }
-        }
-        throw new Error(`append ${append} not found`);
+    // Try for modal
+    var obj = document.querySelector('.modal-title');
+    if (obj) {
+        obj.innerHTML = T(title);
+        return;
     }
-    // Continue
+    // Try for offcanvas
+    var obj = document.querySelector('.offcanvas-title');
+    if (obj) {
+        obj.innerHTML = T(title);
+        return;
+    }
+    // Continue with default behaviour
     if (saltos.core.hasOwnProperty('about')) {
         document.title = T(title) + ' - ' + saltos.core.about;
         return;
@@ -814,8 +805,7 @@ saltos.app.form.screen = action => {
             if (document.body.hasAttribute('screen')) {
                 return false;
             }
-            document.body.innerHTML = '';
-            document.body.append(saltos.driver.__types[action].template());
+            document.body.replaceChildren(saltos.driver.__types[action].template());
             document.body.setAttribute('screen', action);
             return true;
         }
@@ -1370,7 +1360,7 @@ saltos.app.help = () => {
         close: 'Close',
         class: 'modal-xl',
     });
-    document.querySelector('.modal-body').setAttribute('id', 'three');
+    document.querySelector('.modal-body').setAttribute('id', 'four');
     var app = saltos.hash.get().split('/').at(1);
     saltos.app.send_request(`app/dashboard/help/${app}`);
 };

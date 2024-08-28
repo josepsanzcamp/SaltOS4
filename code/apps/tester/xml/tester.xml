@@ -332,7 +332,7 @@
         </layout>
 
         <javascript>
-            <file eval="true">file_with_hash("apps/tester/js/tester.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/tester/js/tester.js"))</file>
         </javascript>
     </menu>
 </root>

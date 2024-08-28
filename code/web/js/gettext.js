@@ -105,9 +105,9 @@ saltos.gettext.unset = () => {
  * usefull strings and each application can add and overwrite more strings, this is
  * the same feature that old SaltOS provides
  */
-window.T = text => {
+saltos.gettext.T = text => {
     if (typeof text != 'string') {
-        return text;
+        throw new Error('unknown typeof ' + typeof text);
     }
     var app = saltos.gettext.cache.app;
     var lang = saltos.gettext.cache.lang;
@@ -127,6 +127,13 @@ window.T = text => {
     }
     return text;
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+window.T = saltos.gettext.T;
 
 /**
  * TODO
@@ -236,7 +243,9 @@ saltos.gettext.bootstrap.modal = args => {
     var props = ['title', 'close', 'body', 'footer'];
     for (var i in props) {
         if (args.hasOwnProperty(props[i])) {
-            args[props[i]] = T(args[props[i]]);
+            if (typeof args[props[i]] == 'string') {
+                args[props[i]] = T(args[props[i]]);
+            }
         }
     }
     return saltos.bootstrap.modal(args);
@@ -251,7 +260,9 @@ saltos.gettext.bootstrap.toast = args => {
     var props = ['title', 'subtitle', 'close', 'body'];
     for (var i in props) {
         if (args.hasOwnProperty(props[i])) {
-            args[props[i]] = T(args[props[i]]);
+            if (typeof args[props[i]] == 'string') {
+                args[props[i]] = T(args[props[i]]);
+            }
         }
     }
     return saltos.bootstrap.toast(args);
@@ -291,7 +302,9 @@ saltos.gettext.bootstrap.offcanvas = args => {
     var props = ['title', 'close', 'body'];
     for (var i in props) {
         if (args.hasOwnProperty(props[i])) {
-            args[props[i]] = T(args[props[i]]);
+            if (typeof args[props[i]] == 'string') {
+                args[props[i]] = T(args[props[i]]);
+            }
         }
     }
     return saltos.bootstrap.offcanvas(args);

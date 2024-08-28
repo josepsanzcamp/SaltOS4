@@ -31,7 +31,7 @@
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Groups list</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -136,7 +136,7 @@
 
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>New group</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -145,7 +145,7 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new group" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the new group" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the new group" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>
@@ -167,7 +167,7 @@
 
     <view>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Detail of the group</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -179,7 +179,7 @@
                     <onclick eval="true">"saltos.driver.open('app/groups/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this group" icon="trash"/>
-                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this window" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this window" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/users/xml/groups.xml")["data"]</data>
@@ -190,7 +190,7 @@
 
     <edit>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Modify this group</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -199,7 +199,7 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the group changes" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the group modification" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the group modification" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/users/xml/groups.xml")["data"]</data>

@@ -28,7 +28,7 @@
 <root>
     <menu default="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Dashboard</title>
         <screen>type1</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -51,7 +51,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash("apps/dashboard/lib/sortablejs/sortable.min.js")</file>
-            <file eval="true">file_with_hash("apps/dashboard/js/dashboard.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/dashboard/js/dashboard.js"))</file>
             <inline>saltos.driver.init("menu")</inline>
             <inline>saltos.dashboard.init("menu")</inline>
         </javascript>
@@ -59,8 +59,8 @@
 
     <config>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
-        <title append="offcanvas">Profile</title>
+        <gettext eval="true">T()</gettext>
+        <title>Profile</title>
         <layout append="right">
             <row auto="true" col_class="col-md-12 mb-3">
                 <select id="bs_theme" label="Color mode" onchange="saltos.bootstrap.set_bs_theme(this.value)">
@@ -90,16 +90,16 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/dashboard/js/dashboard.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/dashboard/js/dashboard.js"))</file>
             <inline>saltos.dashboard.init("config")</inline>
         </javascript>
     </config>
 
     <help>
         <check eval="true">check_app_perm_id(get_data("rest/3"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
-        <title append="modal">Help</title>
-        <layout append="three">
+        <gettext eval="true">T()</gettext>
+        <title>Help</title>
+        <layout append="four">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs id="pdfjs">
                     <src require="php/lib/help.php" eval="true">detect_help_file(get_data("rest/3"), current_lang())</src>

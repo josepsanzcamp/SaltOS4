@@ -31,10 +31,10 @@
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Email's list</title>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -121,7 +121,7 @@
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/emails.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
@@ -187,10 +187,10 @@
     <!-- Form part -->
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>New email</title>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -241,12 +241,12 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.emails.send()" label="Send" tooltip="To send the email" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/emails.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
@@ -288,10 +288,10 @@
 
     <view>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Detail of the email</title>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -368,13 +368,13 @@
                     <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button onclick="saltos.emails.delete2()" color="danger" label="Delete" tooltip="To delete this email" icon="trash"/>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this email" icon="x-lg"/>
+                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this email" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
             FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/emails.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
@@ -407,9 +407,10 @@
 
     <view id="source">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
+        <title>Source of the email</title>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -427,14 +428,17 @@
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
-        <title append="modal">Source of the email</title>
     </view>
 
     <view id="viewpdf">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
+        <title ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
+        <title ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/emails/xml/pdf.xml", [
+            "id" => check_ids(get_data("rest/4")),
+        ])["name"]</title>
         <javascript>
-            <file eval="true">file_with_hash("apps/emails/js/driver.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -458,10 +462,6 @@
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
-        <title ifeval="get_data('rest/5')" append="modal" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
-        <title ifeval="!get_data('rest/5')" append="modal" require="php/lib/pdf.php" eval="true">pdf("apps/emails/xml/pdf.xml", [
-            "id" => check_ids(get_data("rest/4")),
-        ])["name"]</title>
     </view>
 
     <view id="download">

@@ -50,14 +50,11 @@ declare(strict_types=1);
  * usefull strings and each application can add and overwrite more strings, this is
  * the same feature that old SaltOS provides
  *
- * If you use a void array as argument, then the function returns the gettext
+ * If you call the function without argument, the function returns the gettext
  * dictionary intended to populate the clients gettext module and contains the
  * app, the lang and the locales for the app and lang.
- *
- * If you use an array with elements as argument, then the function is applied
- * to all elements of the array.
  */
-function T($text)
+function T($text = "")
 {
     static $cache = [];
     $lang = current_lang();
@@ -71,7 +68,7 @@ function T($text)
     if (!isset($cache[$app][$lang])) {
         $file = "apps/$app/locale/$lang/messages.xml";
         if (!file_exists($file)) {
-            $files = glob("apps/*/xml/" . get_data("rest/1") . ".xml");
+            $files = glob("apps/*/xml/$app.xml");
             if (count($files) == 1) {
                 $temp = explode("/", $files[0])[1];
                 $file = "apps/$temp/locale/$lang/messages.xml";
@@ -81,18 +78,15 @@ function T($text)
             $cache[$app][$lang] = xmlfile2array($file);
         }
     }
-    if (is_array($text)) {
-        if (!count($text)) {
-            return [
-                "app" => $app,
-                "lang" => $lang,
-                "locale" => $cache,
-            ];
-        }
-        foreach ($text as $key => $val) {
-            $text[$key] = T($val);
-        }
-        return $text;
+    if (!count(func_get_args())) {
+        return [
+            "app" => $app,
+            "lang" => $lang,
+            "locale" => $cache,
+        ];
+    }
+    if (!is_string($text)) {
+        show_php_error(["phperror" => "text is not string"]);
     }
     $hash = encode_bad_chars($text);
     if (isset($cache[$app][$lang][$hash])) {

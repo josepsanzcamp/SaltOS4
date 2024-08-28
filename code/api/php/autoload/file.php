@@ -424,27 +424,33 @@ function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $time
 }
 
 /**
- * File with Mtime
+ * File with hash
  *
  * This function returns the name of the file adding as argument the hash
  * of the file for the http/https requests, this allow to helps the browser
  * to know when the file has changed
  *
  * @file => the file that you want to add the hash querystring argument
- *
- * Notes:
- *
- * The file can be a .js file, in this case, if exist the .min.js file then
- * is replaced to serve the minified version of the original file with their
- * md5 hash
  */
 function file_with_hash($file)
 {
-    if (extension($file) == "js") {
-        $minfile = str_replace(".js", ".min.js", $file);
-        if (file_exists($minfile)) {
-            return $minfile . "?" . md5_file($minfile);
-        }
-    }
     return $file . "?" . md5_file($file);
+}
+
+/**
+ * File with min
+ *
+ * This function returns the name of the file adding the .min. between the
+ * filename and the extension of the file if the .min. file exists
+ *
+ * @file => the file that you want to add the .min. part if exists
+ */
+function file_with_min($file)
+{
+    $ext = extension($file);
+    $minfile = str_replace(".$ext", ".min.$ext", $file);
+    if (file_exists($minfile)) {
+        $file = $minfile;
+    }
+    return $file;
 }

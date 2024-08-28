@@ -224,8 +224,7 @@ saltos.filter.select = arg => {
     if (!select) {
         return;
     }
-    select.innerHTML = '';
-    select.append(saltos.core.html(`<option value=""></option>`));
+    select.replaceChildren(saltos.core.html(`<option value=""></option>`));
     for (var key in saltos.filter.__cache) {
         if (key == 'last') {
             continue;

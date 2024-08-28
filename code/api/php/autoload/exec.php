@@ -120,6 +120,12 @@ function check_commands($commands, $expires = 0)
  * disabled functions
  *
  * @fn => the function that you want to check if is it disabled
+ *
+ * Notes:
+ *
+ * As an extra feature, this function can receive two arguments
+ * to add and del functions to the static $array, this is usefull
+ * for utest to check the correctness of the function
  */
 function is_disabled_function($fn)
 {

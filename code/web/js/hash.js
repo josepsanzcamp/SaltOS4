@@ -137,6 +137,9 @@ saltos.hash.onhashchange = event => {
     document.querySelectorAll('[autoclose]').forEach(_this => {
         _this.removeAttribute('autoclose');
     });
+    // Modal and offcanvas part
+    saltos.bootstrap.modal('close');
+    saltos.bootstrap.offcanvas('close');
     // Token part
     if (!saltos.token.get()) {
         saltos.app.send_request('app/login');

@@ -31,7 +31,7 @@
     <!-- List part -->
     <list default="true">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Invoice's list</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -158,7 +158,7 @@
 
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>New invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -169,11 +169,11 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear la nueva factura" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la creación de la nueva factura" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>
-            <file eval="true">file_with_hash("apps/invoices/js/invoices.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/invoices/js/invoices.js"))</file>
             <inline>saltos.invoices.init('create')</inline>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
@@ -186,7 +186,7 @@
 
     <view>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Detail of the invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -206,14 +206,14 @@
                     <onclick eval="true">"saltos.driver.open('app/invoices/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.delete()" color="danger" label="Borrar" tooltip="Para borrar la factura" icon="trash"/>
-                <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle de la factura" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle de la factura" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_footer"]</data>
         <javascript>
-            <file eval="true">file_with_hash("apps/invoices/js/invoices.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/invoices/js/invoices.js"))</file>
             <inline>saltos.invoices.init('view')</inline>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -221,7 +221,10 @@
 
     <view id="viewpdf">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
+        <title require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
+            "id" => check_ids(get_data("rest/4")),
+        ])["name"]</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
@@ -243,9 +246,6 @@
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
-        <title append="modal" require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
-            "id" => check_ids(get_data("rest/4")),
-        ])["name"]</title>
     </view>
 
     <view id="download">
@@ -257,7 +257,7 @@
 
     <edit>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
-        <gettext eval="true">T([])</gettext>
+        <gettext eval="true">T()</gettext>
         <title>Modify this invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
@@ -268,14 +268,14 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios de la factura" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la edición de la factura" icon="x-lg"/>
+                <button onclick="saltos.driver.close()" label="Cancelar" tooltip="Para cancelar la edición de la factura" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_header"]</data>
         <data template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_detail"]</data>
         <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_footer"]</data>
         <javascript>
-            <file eval="true">file_with_hash("apps/invoices/js/invoices.js")</file>
+            <file eval="true">file_with_hash(file_with_min("apps/invoices/js/invoices.js"))</file>
             <inline>saltos.invoices.init('edit')</inline>
             <inline>saltos.driver.init("edit")</inline>
         </javascript>
