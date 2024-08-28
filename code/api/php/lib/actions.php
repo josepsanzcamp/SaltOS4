@@ -237,7 +237,9 @@ function delete($app, $id)
         }
         $message = [];
         if (count($apps)) {
-            $apps = T($apps);
+            foreach ($apps as $key => $val) {
+                $apps[$key] = T($val);
+            }
             $message[] = implode(", ", $apps);
         }
         $others = count($others);
