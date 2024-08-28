@@ -121,7 +121,7 @@ saltos.bootstrap.field = field => {
         field.id = saltos.core.uniqid();
     }
     if (typeof saltos.bootstrap.__field[field.type] != 'function') {
-        throw new Error(`type ${field.type} not found`);
+        throw new Error(`Field type ${field.type} not found`);
     }
     return saltos.bootstrap.__field[field.type](field);
 };
@@ -188,7 +188,7 @@ saltos.bootstrap.__field.container = field => {
         }
     });
     if (!found) {
-        throw new Error('container class not found in a container node');
+        throw new Error('Container class not found in a container node');
     }
     return obj;
 };
@@ -217,7 +217,7 @@ saltos.bootstrap.__field.row = field => {
         }
     });
     if (!found) {
-        throw new Error('row class not found in a row node');
+        throw new Error('Row class not found in a row node');
     }
     return obj;
 };
@@ -246,7 +246,7 @@ saltos.bootstrap.__field.col = field => {
         }
     });
     if (!found) {
-        throw new Error('col class not found in a col node');
+        throw new Error('Col class not found in a col node');
     }
     return obj;
 };
@@ -2320,7 +2320,7 @@ saltos.bootstrap.__field.table = field => {
                         val2.disabled = true;
                     } else {
                         if (!val2.hasOwnProperty('onclick')) {
-                            throw new Error('onclick not found');
+                            throw new Error('Table onclick not found');
                         }
                         val2.onclick = `${val2.onclick}("${val2.url}")`;
                     }
@@ -2368,7 +2368,7 @@ saltos.bootstrap.__field.table = field => {
         `));
         if (typeof field.footer == 'object') {
             if (Object.keys(field.header).length != Object.keys(field.footer).length) {
-                throw new Error(`field.header.length != field.footer.length`);
+                throw new Error('Table field.header.length != field.footer.length');
             }
             if (field.checkbox) {
                 obj.querySelector('tfoot tr').append(saltos.core.html(
@@ -3381,7 +3381,7 @@ saltos.bootstrap.__field.jstree = field => {
             field.onclick(val);
             return;
         }
-        throw new Error(`Unknown typeof ${field.onclick}`);
+        throw new Error('Unknown jstree onclick typeof ' + typeof field.onclick);
     });
     /* .jstree-node-text:hover { background:var(--bs-primary-bg-subtle); } */
     obj.append(saltos.core.html(`
@@ -3619,7 +3619,7 @@ saltos.bootstrap.__onclick_helper = (obj, fn) => {
         obj.addEventListener('click', fn);
         return;
     }
-    throw new Error(`Unknown typeof ${fn}`);
+    throw new Error('Unknown onclick helper fn typeof ' + typeof fn);
 };
 
 /**
@@ -3640,7 +3640,7 @@ saltos.bootstrap.__onchange_helper = (obj, fn) => {
         obj.addEventListener('change', fn);
         return;
     }
-    throw new Error(`Unknown typeof ${fn}`);
+    throw new Error('Unknown onchange helper fn typeof ' + typeof fn);
 };
 
 /**
@@ -3664,7 +3664,7 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
             fn();
             return;
         }
-        throw new Error(`Unknown typeof ${fn}`);
+        throw new Error('Unknown onenter helper fn typeof ' + typeof fn);
     });
 };
 

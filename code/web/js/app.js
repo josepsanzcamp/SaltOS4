@@ -177,7 +177,7 @@ saltos.app.process_response = response => {
         var val = response[key];
         key = saltos.core.fix_key(key);
         if (typeof saltos.app.form[key] != 'function') {
-            throw new Error(`type ${key} not found`);
+            throw new Error(`Response type ${key} not found`);
         }
         saltos.app.form[key](val);
     }
@@ -280,7 +280,7 @@ saltos.app.form.data = (data, sync = true) => {
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
         var template_id = data['#attr'].template_id;
         if (!Array.isArray(data.value)) {
-            throw new Error(`data for template ${template_id} is not an array of rows`);
+            throw new Error(`Data for template ${template_id} is not an array of rows`);
         }
         for (var key in data.value) {
             var val = data.value[key];
@@ -296,7 +296,7 @@ saltos.app.form.data = (data, sync = true) => {
     }
     // Check for the correctness of the data
     if (Array.isArray(data)) {
-        throw new Error(`data is an array instead of an object of key and val pairs`);
+        throw new Error(`Data is an array instead of an object of key and val pairs`);
     }
     // Continue with the normal behaviour
     for (var key in data) {
@@ -420,7 +420,7 @@ saltos.app.form.layout = (layout, extra) => {
             }
         }
         if (!obj) {
-            throw new Error(`append ${append} not found`);
+            throw new Error(`Layout append ${append} not found`);
         }
     }
     // This code fix a problem when layout contains the content of a template
@@ -810,7 +810,7 @@ saltos.app.form.screen = action => {
             return true;
         }
     }
-    throw new Error(`action ${action} not found`);
+    throw new Error(`Screen action ${action} not found`);
 };
 
 /**
@@ -903,7 +903,7 @@ saltos.app.form.navbar = navbar => {
     if (navbar.append) {
         obj2 = document.getElementById(navbar.append);
         if (!obj2) {
-            throw new Error(`append ${navbar.append} not found`);
+            throw new Error(`Navbar append ${navbar.append} not found`);
         }
     }
     obj2.append(obj);
@@ -1426,7 +1426,7 @@ saltos.app.download = file => {
  */
 saltos.app.ajax = args => {
     if (!args.hasOwnProperty('url')) {
-        throw new Error(`url not found`);
+        throw new Error(`Url not found`);
     }
     var temp = {
         url: 'api/?/' + args.url,

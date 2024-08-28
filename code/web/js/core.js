@@ -161,7 +161,7 @@ saltos.core.when_visible = (obj, fn, args) => {
     } else if (typeof obj == 'string') {
         var id = obj;
     } else {
-        throw new Error(`unknown typeof obj`);
+        throw new Error('Unknown when_visible obj typeof' + typeof obj);
     }
     // Launch the interval each millisecond, the idea is wait until found
     // the object and then, validate that not dissapear and wait until the
@@ -287,7 +287,7 @@ saltos.core.ajax = args => {
     }
     args.method = args.method.toUpperCase();
     if (!['GET', 'POST'].includes(args.method)) {
-        throw new Error(`unknown ${args.method} method`);
+        throw new Error(`Unknown ${args.method} method`);
     }
     var ajax = new XMLHttpRequest();
     saltos.core.__ajax.push(ajax);
@@ -513,7 +513,7 @@ saltos.core.eval_bool = arg => {
             return bools[bool];
         }
     }
-    throw new Error(`Unknown typeof ${arg}`);
+    throw new Error('Unknown eval_bool typeof ' + typeof arg);
 };
 
 /**
@@ -538,7 +538,7 @@ saltos.core.toString = arg => {
     if (typeof arg == 'string') {
         return arg;
     }
-    throw new Error(`Unknown typeof ${arg}`);
+    throw new Error('Unknown toString typeof ' + typeof arg);
 };
 
 /**

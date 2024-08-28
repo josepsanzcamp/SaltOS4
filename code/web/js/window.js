@@ -61,7 +61,7 @@ saltos.window.open = url => {
         window.open(url);
         return;
     }
-    throw new Error(`unknown url ${url}`);
+    throw new Error(`Unknown open url ${url}`);
 };
 
 /**

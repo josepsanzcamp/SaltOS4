@@ -135,7 +135,7 @@ saltos.driver.search = arg => {
         type = 'list';
     }
     if (!type) {
-        throw new Error(`unknown type`);
+        throw new Error('Unknown list type');
     }
     // Restore the more button
     var obj = document.getElementById('more');
@@ -211,7 +211,7 @@ saltos.driver.more = arg => {
         type = 'list';
     }
     if (!type) {
-        throw new Error(`unknown type`);
+        throw new Error('Unknown list type');
     }
     saltos.app.ajax({
         url: `app/${app}/list/${type}`,

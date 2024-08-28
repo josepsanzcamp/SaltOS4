@@ -107,7 +107,7 @@ saltos.gettext.unset = () => {
  */
 saltos.gettext.T = text => {
     if (typeof text != 'string') {
-        throw new Error('unknown typeof ' + typeof text);
+        throw new Error('Unknown gettext typeof ' + typeof text);
     }
     var app = saltos.gettext.cache.app;
     var lang = saltos.gettext.cache.lang;
