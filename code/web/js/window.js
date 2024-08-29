@@ -136,9 +136,14 @@ saltos.window.send = (name, data, scope) => {
     }
     saltos.storage.setItem('saltos.window.name', name);
     saltos.storage.setItem('saltos.window.data', data);
+    // This part of code allow to send signals to other tabs using the
+    // localStorage engine provided by the browser
     if (['all', 'other'].includes(scope)) {
         saltos.storage.setItem('saltos.window.trigger', Math.random());
     }
+    // This part of the code allow to send the signal to the same tab
+    // that is originating the signal, you can understand that this part
+    // of the code is trick
     if (['all', 'me'].includes(scope)) {
         window.dispatchEvent(new StorageEvent('storage', {
             storageArea: window.localStorage,
