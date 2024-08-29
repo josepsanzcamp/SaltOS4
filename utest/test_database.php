@@ -460,8 +460,6 @@ final class test_database extends TestCase
         // Connection part
         $obj = db_connect([
             'type' => 'pdo_mysql',
-            'host' => 'localhost',
-            'port' => '3306',
             'name' => 'saltos',
             'user' => 'saltos',
             'pass' => 'saltos',
@@ -491,8 +489,6 @@ final class test_database extends TestCase
         // Connection part
         $obj = db_connect([
             'type' => 'mysqli',
-            'host' => 'localhost',
-            'port' => '3306',
             'name' => 'saltos',
             'user' => 'saltos',
             'pass' => 'saltos',
@@ -584,8 +580,6 @@ final class test_database extends TestCase
         // Connection part
         $obj = db_connect([
             'type' => 'pdo_mssql',
-            'host' => 'localhost',
-            'port' => '1433',
             'name' => 'master',
             'user' => 'sa',
             'pass' => 'asd123ASD',

@@ -81,6 +81,7 @@ class database_pdo_sqlite
             ]);
             // @codeCoverageIgnoreEnd
         }
+        $args['file'] = $args['file'] ?? '';
         if (!file_exists($args['file'])) {
             show_php_error(['dberror' => "File '" . $args['file'] . "' not found"]);
         }

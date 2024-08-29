@@ -75,6 +75,11 @@ class database_pdo_mysql
             ]);
             // @codeCoverageIgnoreEnd
         }
+        $args['host'] = $args['host'] ?? 'localhost';
+        $args['port'] = $args['port'] ?? 3306;
+        $args['name'] = $args['name'] ?? '';
+        $args['user'] = $args['user'] ?? '';
+        $args['pass'] = $args['pass'] ?? '';
         try {
             $this->link = new PDO(
                 'mysql:host=' . $args['host'] . ':' . $args['port'] . ';' .

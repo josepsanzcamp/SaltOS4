@@ -81,6 +81,11 @@ class database_mysqli
             // @codeCoverageIgnoreEnd
         }
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        $args['host'] = $args['host'] ?? 'localhost';
+        $args['port'] = $args['port'] ?? 3306;
+        $args['name'] = $args['name'] ?? '';
+        $args['user'] = $args['user'] ?? '';
+        $args['pass'] = $args['pass'] ?? '';
         try {
             $this->link = new mysqli(
                 $args['host'] . ':' . $args['port'],

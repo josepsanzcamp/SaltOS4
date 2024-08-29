@@ -72,7 +72,7 @@ function db_connect($args = null)
     require_once $php;
     $driver = "database_$type";
     if (isset($config[$type])) {
-        $config = array_merge($config, join_attr_value($config[$type]));
+        $config = array_merge(join_attr_value($config[$type]), $config);
         if ($args === null) {
             set_config('db', $config);
         }

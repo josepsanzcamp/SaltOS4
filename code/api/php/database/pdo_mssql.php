@@ -74,6 +74,11 @@ class database_pdo_mssql
             ]);
             // @codeCoverageIgnoreEnd
         }
+        $args['host'] = $args['host'] ?? 'localhost';
+        $args['port'] = $args['port'] ?? 1433;
+        $args['name'] = $args['name'] ?? '';
+        $args['user'] = $args['user'] ?? '';
+        $args['pass'] = $args['pass'] ?? '';
         try {
             $this->link = new PDO(
                 'dblib:host=' . $args['host'] . ':' . $args['port'] . ';' .
