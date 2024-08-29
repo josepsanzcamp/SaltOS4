@@ -45,7 +45,7 @@ saltos.token = {};
  * This function returns the token stored in the localStorage
  */
 saltos.token.get = () => {
-    return localStorage.getItem('saltos.token.token');
+    return saltos.storage.getItem('saltos.token.token');
 };
 
 /**
@@ -54,7 +54,7 @@ saltos.token.get = () => {
  * This function returns the expires_at stored in the localStorage
  */
 saltos.token.get_expires_at = () => {
-    return localStorage.getItem('saltos.token.expires_at');
+    return saltos.storage.getItem('saltos.token.expires_at');
 };
 
 /**
@@ -67,8 +67,8 @@ saltos.token.get_expires_at = () => {
  * @expires_at => the expires_at of the token that you want to store in the localStorage
  */
 saltos.token.set = response => {
-    localStorage.setItem('saltos.token.token', response.token);
-    localStorage.setItem('saltos.token.expires_at', response.expires_at);
+    saltos.storage.setItem('saltos.token.token', response.token);
+    saltos.storage.setItem('saltos.token.expires_at', response.expires_at);
 };
 
 /**
@@ -77,6 +77,6 @@ saltos.token.set = response => {
  * This function removes the token and expires_at in the localStorage
  */
 saltos.token.unset = () => {
-    localStorage.removeItem('saltos.token.token');
-    localStorage.removeItem('saltos.token.expires_at');
+    saltos.storage.removeItem('saltos.token.token');
+    saltos.storage.removeItem('saltos.token.expires_at');
 };

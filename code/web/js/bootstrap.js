@@ -1969,7 +1969,7 @@ saltos.bootstrap.__field.pdfjs = field => {
         </div>
     `);
     if (typeof field.src == 'string') {
-        obj.src = new URL(field.src, document.location.href).href;
+        obj.src = new URL(field.src, window.location.href).href;
     }
     // The follow code allow to define the needed css for with widget
     obj.append(saltos.core.html(`
@@ -4340,7 +4340,7 @@ saltos.bootstrap.set_bs_theme = theme => {
                 'change', saltos.bootstrap.set_data_bs_theme);
             break;
     }
-    localStorage.setItem('saltos.bootstrap.bs_theme', theme);
+    saltos.storage.setItem('saltos.bootstrap.bs_theme', theme);
 };
 
 /**
@@ -4364,7 +4364,7 @@ saltos.bootstrap.set_css_theme = theme => {
             _this.href = _this.href.replace(_this.href, file);
         }
     });
-    localStorage.setItem('saltos.bootstrap.css_theme', theme);
+    saltos.storage.setItem('saltos.bootstrap.css_theme', theme);
 };
 
 /**
@@ -4373,7 +4373,7 @@ saltos.bootstrap.set_css_theme = theme => {
  * Retrieve the bs_theme stored in the localStorage
  */
 saltos.bootstrap.get_bs_theme = () => {
-    return localStorage.getItem('saltos.bootstrap.bs_theme');
+    return saltos.storage.getItem('saltos.bootstrap.bs_theme');
 };
 
 /**
@@ -4382,5 +4382,5 @@ saltos.bootstrap.get_bs_theme = () => {
  * Retrieve the css_theme stored in the localStorage
  */
 saltos.bootstrap.get_css_theme = () => {
-    return localStorage.getItem('saltos.bootstrap.css_theme');
+    return saltos.storage.getItem('saltos.bootstrap.css_theme');
 };

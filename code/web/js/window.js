@@ -120,6 +120,12 @@ saltos.window.unset_listener = (name) => {
  * are dispatching an event in the current window, this allow that all tabs
  * (including the source of the message sent) receives the notification and
  * executes the listeners if needed
+ *
+ * As this module uses the saltos.storage module, it's important that understand
+ * that the saltos.storage adds a prefix in the keys to allow the separation of
+ * the data for the different instances of the same app, this is important because
+ * the key generated to send the event to the origin of the message must contains
+ * the prefix that too
  */
 saltos.window.send = (name, data, scope) => {
     if (typeof data == 'undefined') {
@@ -128,15 +134,15 @@ saltos.window.send = (name, data, scope) => {
     if (typeof scope == 'undefined') {
         var scope = 'all';
     }
-    localStorage.setItem('saltos.window.name', name);
-    localStorage.setItem('saltos.window.data', data);
+    saltos.storage.setItem('saltos.window.name', name);
+    saltos.storage.setItem('saltos.window.data', data);
     if (['all', 'other'].includes(scope)) {
-        localStorage.setItem('saltos.window.trigger', Math.random());
+        saltos.storage.setItem('saltos.window.trigger', Math.random());
     }
     if (['all', 'me'].includes(scope)) {
         window.dispatchEvent(new StorageEvent('storage', {
-            storageArea: localStorage,
-            key: 'saltos.window.trigger',
+            storageArea: window.localStorage,
+            key: saltos.storage.get_key('saltos.window.trigger'),
         }));
     }
 };
@@ -148,14 +154,14 @@ saltos.window.send = (name, data, scope) => {
  * using the localStorage.
  */
 saltos.window.onstorage = event => {
-    if (event.storageArea != localStorage) {
+    if (event.storageArea != window.localStorage) {
         return;
     }
-    if (event.key != 'saltos.window.trigger') {
+    if (event.key != saltos.storage.get_key('saltos.window.trigger')) {
         return;
     }
-    var name = localStorage.getItem('saltos.window.name');
-    var data = localStorage.getItem('saltos.window.data');
+    var name = saltos.storage.getItem('saltos.window.name');
+    var data = saltos.storage.getItem('saltos.window.data');
     if (!saltos.window.listeners.hasOwnProperty(name)) {
         return;
     }

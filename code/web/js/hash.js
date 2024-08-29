@@ -46,7 +46,7 @@ saltos.hash = {};
  * Function intended to return the current hash without the pillow
  */
 saltos.hash.get = () => {
-    var hash = document.location.hash;
+    var hash = window.location.hash;
     if (hash.length && hash.substr(0, 1) == '#') {
         hash = hash.substr(1);
     }
@@ -67,7 +67,7 @@ saltos.hash.get = () => {
  * Notes:
  *
  * The # char is added by default if it is not found in the hash, additionally the dot is
- * added to force to remove all chars before the # char in the document.location
+ * added to force to remove all chars before the # char in the window.location
  *
  * The operation is cancelled if the current hash is the same that the new hash
  */
@@ -81,7 +81,7 @@ saltos.hash.set = hash => {
     if (saltos.hash.get() == hash) {
         return false;
     }
-    history.replaceState(null, null, '.#/' + hash);
+    window.history.replaceState(null, null, '.#/' + hash);
     return true;
 };
 
@@ -96,7 +96,7 @@ saltos.hash.set = hash => {
  * Notes:
  *
  * The # char is added by default if it is not found in the hash, additionally the dot is
- * added to force to remove all chars before the # char in the document.location
+ * added to force to remove all chars before the # char in the window.location
  *
  * The operation is cancelled if the current hash is the same that the new hash
  */
@@ -110,7 +110,7 @@ saltos.hash.add = hash => {
     if (saltos.hash.get() == hash) {
         return false;
     }
-    history.pushState(null, null, '.#/' + hash);
+    window.history.pushState(null, null, '.#/' + hash);
     return true;
 };
 

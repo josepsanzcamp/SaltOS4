@@ -1332,7 +1332,6 @@ saltos.app.form_disabled = bool => {
  */
 saltos.app.profile = () => {
     if (saltos.bootstrap.offcanvas('isopen')) {
-        saltos.bootstrap.offcanvas('close');
         return;
     }
     saltos.gettext.bootstrap.offcanvas({

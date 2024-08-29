@@ -53,7 +53,7 @@ saltos.gettext = {
  * This function returns the gettext stored in the localStorage
  */
 saltos.gettext.get = () => {
-    return localStorage.getItem('saltos.gettext.lang');
+    return saltos.storage.getItem('saltos.gettext.lang');
 };
 
 /**
@@ -62,7 +62,7 @@ saltos.gettext.get = () => {
  * This function returns the short version of gettext stored in the localStorage
  */
 saltos.gettext.get_short = () => {
-    return localStorage.getItem('saltos.gettext.short');
+    return saltos.storage.getItem('saltos.gettext.short');
 };
 
 /**
@@ -76,8 +76,8 @@ saltos.gettext.set = lang => {
     lang = lang.replace('-', '_');
     var short = lang.split('_').at(0);
     document.documentElement.setAttribute('lang', short);
-    localStorage.setItem('saltos.gettext.lang', lang);
-    localStorage.setItem('saltos.gettext.short', short);
+    saltos.storage.setItem('saltos.gettext.lang', lang);
+    saltos.storage.setItem('saltos.gettext.short', short);
 };
 
 /**
@@ -86,8 +86,8 @@ saltos.gettext.set = lang => {
  * This function removes the gettext and expires_at in the localStorage
  */
 saltos.gettext.unset = () => {
-    localStorage.removeItem('saltos.gettext.lang');
-    localStorage.removeItem('saltos.gettext.short');
+    saltos.storage.removeItem('saltos.gettext.lang');
+    saltos.storage.removeItem('saltos.gettext.short');
 };
 
 /**

@@ -104,10 +104,10 @@ saltos.driver.close = arg => {
         _this.removeAttribute('autoclose');
     });
     // Continue
-    var url1 = document.location.href.toString();
-    history.back();
+    var url1 = window.location.href.toString();
+    window.history.back();
     setTimeout(() => {
-        var url2 = document.location.href.toString();
+        var url2 = window.location.href.toString();
         if (url1 == url2) {
             // Old feature
             var screen = document.body.getAttribute('screen');
