@@ -40,6 +40,10 @@ declare(strict_types=1);
  */
 function __setup()
 {
+    $output = [
+        'history' => [],
+        'count' => 0,
+    ];
     $array = [
         'tbl_users' => [
             [
@@ -59,10 +63,11 @@ function __setup()
                 'id' => 1,
                 'active' => 1,
                 'user_id' => 1,
-                'remote_addr' => '',
-                'user_agent' => '',
-                'password' => '21232f297a57a5a743894a0e4a801fc3',
-                'expires_at' => '9999-99-99 99:99:99',
+                'created_at' => current_datetime(),
+                'remote_addr' => get_data('server/remote_addr'),
+                'user_agent' => get_data('server/user_agent'),
+                'password' => password_hash('admin', PASSWORD_DEFAULT),
+                'expires_at' => current_datetime(get_config('auth/passwordexpires')),
             ],
         ],
         'tbl_groups' => [
@@ -74,7 +79,31 @@ function __setup()
                 'description' => 'Admin group',
             ],
         ],
+        'tbl_users_apps_perms' => execute_query_array("
+            SELECT id, '1' user_id, app_id, perm_id, '1' allow, '0' deny
+            FROM tbl_apps_perms"),
+        'tbl_groups_apps_perms' => execute_query_array("
+            SELECT id, '1' group_id, app_id, perm_id, '1' allow, '0' deny
+            FROM tbl_apps_perms"),
     ];
-
-    return [];
+    // First check
+    foreach ($array as $table => $rows) {
+        $exists = execute_query("SELECT COUNT(*) FROM $table");
+        if ($exists) {
+            return $output;
+        }
+    }
+    // Execute the real code
+    foreach ($array as $table => $rows) {
+        foreach ($rows as $row) {
+            $query = make_insert_query($table, $row);
+            db_query($query);
+            if (!isset($output['history'][$table])) {
+                $output['history'][$table] = 0;
+            }
+            $output['history'][$table]++;
+            $output['count']++;
+        }
+    }
+    return $output;
 }
