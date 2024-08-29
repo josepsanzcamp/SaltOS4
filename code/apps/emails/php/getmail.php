@@ -27,7 +27,6 @@
 
 declare(strict_types=1);
 
-// phpcs:disable Generic.Files.LineLength
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
@@ -50,6 +49,7 @@ require_once 'apps/emails/lib/pop3class/pop3.php';
  *
  * This defines allow to define some useful standards to do html pages and more.
  */
+// phpcs:disable Generic.Files.LineLength
 define('__HTML_PAGE_OPEN__', '<!DOCTYPE html><html><head>
     <style>body { margin: 0px; padding: 9px 12px; }</style>
     <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
@@ -70,6 +70,7 @@ define('__SIGNATURE_CLOSE__', '</div>');
 define('__SIGNATURE_BREAK__', '<p>--</p>');
 define('__SECTION_OPEN__', '<section>');
 define('__SECTION_CLOSE__', '</section>');
+// phpcs:enable Generic.Files.LineLength
 
 /**
  * Remove all body
@@ -180,7 +181,11 @@ function __getmail_getsource($id, $max = 0)
         return '';
     }
     $email = "{$row["account_id"]}/{$row["uidl"]}";
-    $file = ($row['is_outbox'] ? get_directory('dirs/outboxdir') : get_directory('dirs/inboxdir')) . $email . '.eml.gz';
+    $file = (
+        $row['is_outbox'] ?
+            get_directory('dirs/outboxdir') :
+                get_directory('dirs/inboxdir')
+    ) . $email . '.eml.gz';
     if (!file_exists($file)) {
         return '';
     }
@@ -238,7 +243,11 @@ function __getmail_getmime($id)
     $email = "{$row["account_id"]}/{$row["uidl"]}";
     $cache = get_cache_file($row, '.eml');
     if (!file_exists($cache)) {
-        $file = ($row['is_outbox'] ? get_directory('dirs/outboxdir') : get_directory('dirs/inboxdir')) . $email . '.eml.gz';
+        $file = (
+            $row['is_outbox'] ?
+                get_directory('dirs/outboxdir') :
+                    get_directory('dirs/inboxdir')
+        ) . $email . '.eml.gz';
         if (!file_exists($file)) {
             return '';
         }
@@ -366,7 +375,8 @@ function __getmail_getfiles($array, $level = 0)
             if ($cname != '') {
                 $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
                 $hsize = __getmail_gethumansize($csize);
-                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
+                                     // md5 inside as memory trick
+                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize]));
                 $result[] = [
                     'disp' => $disp,
                     'type' => $type,
@@ -541,7 +551,13 @@ function __getmail_getinfo($array)
     }
     // Get the sensitivity if exists
     $sensitivity = strtolower(__getmail_fixstring(__getmail_getnode('Headers/sensitivity:', $array)));
-    $sensitivities = ['personal' => 1, 'private' => 2, 'company-confidential' => 3, 'company confidential' => 3];
+    $sensitivities = [
+        'personal' => 1,
+        'private' => 2,
+        'company-confidential' => 3,
+        // the next line is not an error, this not contains the minus simbol between the words
+        'company confidential' => 3,
+    ];
     if (isset($sensitivities[$sensitivity])) {
         $result['sensitivity'] = $sensitivities[$sensitivity];
     }
@@ -682,7 +698,8 @@ function __getmail_getfullbody($array)
             if ($cid != '' || $cname != '') {
                 $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
                 $hsize = __getmail_gethumansize($csize);
-                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
+                                     // md5 inside as memory trick
+                $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize]));
                 $result[] = [
                     'disp' => $disp,
                     'type' => $type,
@@ -1239,7 +1256,8 @@ function getmail_server()
         die();
     }
     // datos pop3
-    $query = "SELECT * FROM app_emails_accounts WHERE user_id='" . current_user() . "' AND email_disabled='0'";
+    $query = "SELECT * FROM app_emails_accounts
+        WHERE user_id='" . current_user() . "' AND email_disabled='0'";
     $result = execute_query_array($query);
     if (!count($result)) {
         semaphore_release($semaphore);
@@ -1384,11 +1402,14 @@ function getmail_server()
             // remove all unused uidls
             $delete = array_diff($olduidls_d, $uidls);
             $delete = "'" . implode("','", $delete) . "'";
-            $query = "DELETE FROM app_emails_deletes WHERE account_id='{$id_cuenta}' AND uidl IN ({$delete})";
+            $query = "DELETE FROM app_emails_deletes
+                WHERE account_id='{$id_cuenta}' AND uidl IN ({$delete})";
             db_query($query);
         }
         if ($error != '') {
-            $haserror[] = sprintf(T('There has been the following error: %s (%s)'), $error, $row['pop3_host']);
+            $haserror[] = sprintf(
+                T('There has been the following error: %s (%s)'), $error, $row['pop3_host']
+            );
         }
     }
     // release semaphore
@@ -1429,7 +1450,8 @@ function getmail_delete($ids)
             AND is_outbox=0";
     db_query($query);
     // BORRAR FICHEROS .EML.GZ DEL INBOX
-    $query = "SELECT CONCAT('" . get_directory('dirs/inboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
+    $query = "SELECT
+        CONCAT('" . get_directory('dirs/inboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
         FROM app_emails
         WHERE id IN ($ids)
             AND is_outbox='0'";
@@ -1440,7 +1462,8 @@ function getmail_delete($ids)
         }
     }
     // BORRAR FICHEROS .EML.GZ DEL OUTBOX
-    $query = "SELECT CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
+    $query = "SELECT
+        CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
         FROM app_emails
         WHERE id IN ($ids)
             AND is_outbox='1'";
@@ -1451,7 +1474,8 @@ function getmail_delete($ids)
         }
     }
     // BORRAR FICHEROS .OBJ DEL OUTBOX
-    $query = "SELECT CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.obj') action_delete
+    $query = "SELECT
+        CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.obj') action_delete
         FROM app_emails
         WHERE id IN ($ids)
             AND is_outbox='1'";
