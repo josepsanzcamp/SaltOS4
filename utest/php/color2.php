@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -40,5 +40,5 @@ init_timer();
 init_random();
 check_system();
 
-require_once "php/lib/color.php";
-color2dec("369", "nada");
+require_once 'php/lib/color.php';
+color2dec('369', 'nada');

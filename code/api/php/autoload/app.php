@@ -53,19 +53,19 @@ function merge_data_actions($data, $actions)
             $action = join_attr_value($action);
             if (
                 check_app_perm_id(
-                    $action["app"],
-                    strtok($action["action"], "/"),
-                    strtok(strval($row["id"]), "/")
+                    $action['app'],
+                    strtok($action['action'], '/'),
+                    strtok(strval($row['id']), '/')
                 )
             ) {
-                $action["url"] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+                $action['url'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
             } else {
-                $action["url"] = "";
+                $action['url'] = '';
             }
             $merge[] = $action;
         }
         if (count($merge)) {
-            $data[$key]["actions"] = $merge;
+            $data[$key]['actions'] = $merge;
         }
     }
     return $data;

@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,8 +41,8 @@ init_random();
 check_system();
 
 xmlfiles2array([
-    "../../utest/files/nada.xml",
-    "../../utest/files/nada.xml",
+    '../../utest/files/nada.xml',
+    '../../utest/files/nada.xml',
 ], false);
 
 pcov_stop();

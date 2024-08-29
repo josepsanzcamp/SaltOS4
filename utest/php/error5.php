@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -42,5 +42,5 @@ check_system();
 
 ob_start();
 show_php_error([
-    "phperror" => "allowed memory size bytes exhausted tried allocate",
+    'phperror' => 'allowed memory size bytes exhausted tried allocate',
 ]);

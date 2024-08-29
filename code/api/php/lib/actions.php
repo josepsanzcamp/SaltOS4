@@ -43,26 +43,26 @@ declare(strict_types=1);
  */
 function insert($app, $data)
 {
-    require_once "php/lib/control.php";
-    require_once "php/lib/indexing.php";
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/indexing.php';
 
     if (!is_array($data) || !count($data)) {
         return [
-            "status" => "ko",
-            "text" => "Data not found",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Data not found',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     $table = app2table($app);
-    $fields = array_flip(array_column(get_fields($table), "name"));
-    $subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
+    $fields = array_flip(array_column(get_fields($table), 'name'));
+    $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
     $error = array_diff_key($data, $fields, $subtables);
     if (count($error)) {
         return [
-            "status" => "ko",
-            "text" => "Fields mismatch: " . implode(", ", array_keys($error)),
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Fields mismatch: ' . implode(', ', array_keys($error)),
+            'code' => __get_code_from_trace(),
         ];
     }
 
@@ -79,18 +79,18 @@ function insert($app, $data)
     // Prepare all subqueries
     $subtables = app2subtables($app);
     foreach ($subtables as $temp) {
-        $alias = $temp["alias"];
-        $subtable = $temp["subtable"];
-        $field = $temp["field"];
-        $fields = array_flip(array_column(get_fields($subtable), "name"));
+        $alias = $temp['alias'];
+        $subtable = $temp['subtable'];
+        $field = $temp['field'];
+        $fields = array_flip(array_column(get_fields($subtable), 'name'));
         if (isset($subdata[$alias])) {
             foreach ($subdata[$alias] as $temp2) {
                 $error = array_diff_key($temp2, $fields);
                 if (count($error)) {
                     return [
-                        "status" => "ko",
-                        "text" => "Fields mismatch: " . implode(", ", array_keys($error)),
-                        "code" => __get_code_from_trace(),
+                        'status' => 'ko',
+                        'text' => 'Fields mismatch: ' . implode(', ', array_keys($error)),
+                        'code' => __get_code_from_trace(),
                     ];
                 }
                 $temp2[$field] = $id;
@@ -105,8 +105,8 @@ function insert($app, $data)
     add_version($app, $id);
 
     return [
-        "status" => "ok",
-        "created_id" => $id,
+        'status' => 'ok',
+        'created_id' => $id,
     ];
 }
 
@@ -120,26 +120,26 @@ function insert($app, $data)
  */
 function update($app, $id, $data)
 {
-    require_once "php/lib/control.php";
-    require_once "php/lib/indexing.php";
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/indexing.php';
 
     if (!is_array($data) || !count($data)) {
         return [
-            "status" => "ko",
-            "text" => "Data not found",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Data not found',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     $table = app2table($app);
-    $fields = array_flip(array_column(get_fields($table), "name"));
-    $subtables = array_flip(array_diff(array_column(app2subtables($app), "alias"), [""]));
+    $fields = array_flip(array_column(get_fields($table), 'name'));
+    $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
     $error = array_diff_key($data, $fields, $subtables);
     if (count($error)) {
         return [
-            "status" => "ko",
-            "text" => "Fields mismatch: " . implode(", ", array_keys($error)),
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Fields mismatch: ' . implode(', ', array_keys($error)),
+            'code' => __get_code_from_trace(),
         ];
     }
 
@@ -156,38 +156,38 @@ function update($app, $id, $data)
     // Prepare all subqueries
     $subtables = app2subtables($app);
     foreach ($subtables as $temp) {
-        $alias = $temp["alias"];
-        $subtable = $temp["subtable"];
-        $field = $temp["field"];
-        $fields = array_flip(array_column(get_fields($subtable), "name"));
+        $alias = $temp['alias'];
+        $subtable = $temp['subtable'];
+        $field = $temp['field'];
+        $fields = array_flip(array_column(get_fields($subtable), 'name'));
         if (isset($subdata[$alias])) {
             foreach ($subdata[$alias] as $temp2) {
                 $error = array_diff_key($temp2, $fields);
                 if (count($error)) {
                     return [
-                        "status" => "ko",
-                        "text" => "Fields mismatch: " . implode(", ", array_keys($error)),
-                        "code" => __get_code_from_trace(),
+                        'status' => 'ko',
+                        'text' => 'Fields mismatch: ' . implode(', ', array_keys($error)),
+                        'code' => __get_code_from_trace(),
                     ];
                 }
-                if (!isset($temp2["id"])) {
+                if (!isset($temp2['id'])) {
                     // Insert new subdata
                     $temp2[$field] = $id;
                     $query = make_insert_query($subtable, $temp2);
                     db_query($query);
-                } elseif (intval($temp2["id"]) > 0) {
+                } elseif (intval($temp2['id']) > 0) {
                     // Update the subdata
-                    $id2 = intval($temp2["id"]);
-                    unset($temp2["id"]);
+                    $id2 = intval($temp2['id']);
+                    unset($temp2['id']);
                     $query = make_update_query($subtable, $temp2, "id = $id2 AND $field = $id");
                     db_query($query);
-                } elseif (intval($temp2["id"]) < 0) {
+                } elseif (intval($temp2['id']) < 0) {
                     // Delete the subdata
-                    $id2 = -intval($temp2["id"]);
+                    $id2 = -intval($temp2['id']);
                     $query = "DELETE FROM $subtable WHERE id = $id2 AND $field = $id";
                     db_query($query);
                 } else {
-                    show_php_error(["phperror" => "subdata found with id=0"]);
+                    show_php_error(['phperror' => 'subdata found with id=0']);
                 }
             }
         }
@@ -198,8 +198,8 @@ function update($app, $id, $data)
     add_version($app, $id);
 
     return [
-        "status" => "ok",
-        "updated_id" => $id,
+        'status' => 'ok',
+        'updated_id' => $id,
     ];
 }
 
@@ -213,14 +213,14 @@ function update($app, $id, $data)
  */
 function delete($app, $id)
 {
-    require_once "php/lib/control.php";
-    require_once "php/lib/indexing.php";
-    require_once "php/lib/depend.php";
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/indexing.php';
+    require_once 'php/lib/depend.php';
 
     $depend = check_dependencies($app, $id);
     // Remove this app in the dependencies array
     foreach ($depend as $key => $val) {
-        if (isset($val["app"]) && $val["app"] == $app) {
+        if (isset($val['app']) && $val['app'] == $app) {
             unset($depend[$key]);
         }
     }
@@ -229,10 +229,10 @@ function delete($app, $id)
         $apps = [];
         $others = [];
         foreach ($depend as $key => $val) {
-            if (isset($val["app"])) {
-                $apps[$val["app"]] = $val["app"];
+            if (isset($val['app'])) {
+                $apps[$val['app']] = $val['app'];
             } else {
-                $others[$val["table"]] = $val["table"];
+                $others[$val['table']] = $val['table'];
             }
         }
         $message = [];
@@ -240,21 +240,21 @@ function delete($app, $id)
             foreach ($apps as $key => $val) {
                 $apps[$key] = T($val);
             }
-            $message[] = implode(", ", $apps);
+            $message[] = implode(', ', $apps);
         }
         $others = count($others);
         if ($others) {
             if ($others == 1) {
-                $message[] = $others . " " . T("internal table");
+                $message[] = $others . ' ' . T('internal table');
             } else {
-                $message[] = $others . " " . T("internal tables");
+                $message[] = $others . ' ' . T('internal tables');
             }
         }
-        $message = implode(", ", $message);
+        $message = implode(', ', $message);
         return [
-            "status" => "ko",
-            "text" => T("Data used by others apps") . ": " . $message,
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => T('Data used by others apps') . ': ' . $message,
+            'code' => __get_code_from_trace(),
         ];
     }
 
@@ -266,8 +266,8 @@ function delete($app, $id)
     // Prepare all subqueries
     $subtables = app2subtables($app);
     foreach ($subtables as $temp) {
-        $subtable = $temp["subtable"];
-        $field = $temp["field"];
+        $subtable = $temp['subtable'];
+        $field = $temp['field'];
         $query = "DELETE FROM $subtable WHERE $field = $id";
         db_query($query);
     }
@@ -277,7 +277,7 @@ function delete($app, $id)
     add_version($app, $id);
 
     return [
-        "status" => "ok",
-        "deleted_id" => $id,
+        'status' => 'ok',
+        'deleted_id' => $id,
     ];
 }

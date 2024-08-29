@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -40,12 +40,12 @@ init_timer();
 init_random();
 check_system();
 
-set_server("HTTP_ACCEPT_ENCODING", "none");
+set_server('HTTP_ACCEPT_ENCODING', 'none');
 output_handler([
-    "file" => "../../utest/files/numbers.json",
-    "cache" => false,
-    "name" => "numbers.json",
-    "extra" => [
-        "nada: nada",
+    'file' => '../../utest/files/numbers.json',
+    'cache' => false,
+    'name' => 'numbers.json',
+    'extra' => [
+        'nada: nada',
     ],
 ]);

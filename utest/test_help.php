@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "php/lib/help.php";
+require_once 'php/lib/help.php';
 
 /**
  * Main class of this unit test
@@ -67,28 +67,28 @@ final class test_help extends TestCase
      */
     public function test_help(): void
     {
-        $file = detect_help_file("nada", "nada");
-        $this->assertStringContainsString("notfound.pdf", $file);
+        $file = detect_help_file('nada', 'nada');
+        $this->assertStringContainsString('notfound.pdf', $file);
 
-        $file = detect_help_file("nada", "en_US");
-        $this->assertStringContainsString("api/locale/en_US/notfound.pdf", $file);
+        $file = detect_help_file('nada', 'en_US');
+        $this->assertStringContainsString('api/locale/en_US/notfound.pdf', $file);
 
-        $file = detect_help_file("nada", "es_ES");
-        $this->assertStringContainsString("api/locale/es_ES/notfound.pdf", $file);
+        $file = detect_help_file('nada', 'es_ES');
+        $this->assertStringContainsString('api/locale/es_ES/notfound.pdf', $file);
 
-        $file = detect_help_file("nada", "ca_ES");
-        $this->assertStringContainsString("api/locale/ca_ES/notfound.pdf", $file);
+        $file = detect_help_file('nada', 'ca_ES');
+        $this->assertStringContainsString('api/locale/ca_ES/notfound.pdf', $file);
 
-        $file = detect_help_file("emails", "nada");
-        $this->assertStringContainsString("emails.pdf", $file);
+        $file = detect_help_file('emails', 'nada');
+        $this->assertStringContainsString('emails.pdf', $file);
 
-        $file = detect_help_file("emails", "en_US");
-        $this->assertStringContainsString("apps/emails/locale/en_US/emails.pdf", $file);
+        $file = detect_help_file('emails', 'en_US');
+        $this->assertStringContainsString('apps/emails/locale/en_US/emails.pdf', $file);
 
-        $file = detect_help_file("emails", "es_ES");
-        $this->assertStringContainsString("apps/emails/locale/es_ES/emails.pdf", $file);
+        $file = detect_help_file('emails', 'es_ES');
+        $this->assertStringContainsString('apps/emails/locale/es_ES/emails.pdf', $file);
 
-        $file = detect_help_file("emails", "ca_ES");
-        $this->assertStringContainsString("apps/emails/locale/ca_ES/emails.pdf", $file);
+        $file = detect_help_file('emails', 'ca_ES');
+        $this->assertStringContainsString('apps/emails/locale/ca_ES/emails.pdf', $file);
     }
 }

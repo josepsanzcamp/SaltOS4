@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -73,10 +73,10 @@ final class test_semaphore extends TestCase
         $this->assertSame(semaphore_release(), true);
         $this->assertSame(semaphore_release(), false);
         $this->assertSame(semaphore_acquire(), true);
-        $this->assertStringContainsString(".sem", semaphore_file());
+        $this->assertStringContainsString('.sem', semaphore_file());
         $this->assertSame(semaphore_shutdown(), true);
 
-        $dir = "data/cache";
+        $dir = 'data/cache';
         chmod($dir, 0555);
         $this->assertSame(semaphore_acquire(), false);
         chmod($dir, 0777);
@@ -86,19 +86,19 @@ final class test_semaphore extends TestCase
         $this->assertSame(semaphore_acquire(), false);
         chmod($file, 0666);
 
-        $fd = @fopen($file, "a");
+        $fd = @fopen($file, 'a');
         $result = flock($fd, LOCK_EX | LOCK_NB);
         $this->assertSame(semaphore_acquire(null, 1), false);
         flock($fd, LOCK_UN);
         fclose($fd);
         $fd = null;
 
-        test_external_exec("php/semaphore1.php", "phperror.log", "internal error");
+        test_external_exec('php/semaphore1.php', 'phperror.log', 'internal error');
 
         // This part of the test is to cover the errors of the actions
         // when tries to acquire the semaphore
 
-        $file1 = semaphore_file("token");
+        $file1 = semaphore_file('token');
         if (file_exists($file1)) {
             unlink($file1);
         }
@@ -106,36 +106,36 @@ final class test_semaphore extends TestCase
         chmod($file1, 0444);
         $this->assertFileExists($file1);
 
-        $file2 = "data/logs/phperror.log";
+        $file2 = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file2);
 
-        $json = test_web_helper("auth/login", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/login', [], '', '');
+        $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file2);
-        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
+        $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));
         unlink($file2);
 
-        $json = test_web_helper("auth/check", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/check', [], '', '');
+        $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file2);
-        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
+        $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));
         unlink($file2);
 
-        $json = test_web_helper("auth/logout", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/logout', [], '', '');
+        $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file2);
-        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
+        $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));
         unlink($file2);
 
-        $json = test_web_helper("auth/update", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/update', [], '', '');
+        $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file2);
-        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
+        $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));
         unlink($file2);
 
         unlink($file1);
 
-        $file1 = semaphore_file("dbschema");
+        $file1 = semaphore_file('dbschema');
         if (file_exists($file1)) {
             unlink($file1);
         }
@@ -143,15 +143,15 @@ final class test_semaphore extends TestCase
         chmod($file1, 0444);
         $this->assertFileExists($file1);
 
-        $json = test_cli_helper("dbschema", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_cli_helper('dbschema', [], '', '');
+        $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file2);
-        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
+        $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));
         unlink($file2);
 
         unlink($file1);
 
-        $file1 = semaphore_file("gc");
+        $file1 = semaphore_file('gc');
         if (file_exists($file1)) {
             unlink($file1);
         }
@@ -159,10 +159,10 @@ final class test_semaphore extends TestCase
         chmod($file1, 0444);
         $this->assertFileExists($file1);
 
-        $json = test_cli_helper("gc", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_cli_helper('gc', [], '', '');
+        $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file2);
-        $this->assertTrue(words_exists("could not acquire the semaphore", file_get_contents($file2)));
+        $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));
         unlink($file2);
 
         unlink($file1);

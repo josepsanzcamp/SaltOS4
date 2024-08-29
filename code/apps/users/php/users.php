@@ -43,55 +43,55 @@ declare(strict_types=1);
  */
 function insert_user($data)
 {
-    require_once "php/lib/actions.php";
-    require_once "php/lib/auth.php";
+    require_once 'php/lib/actions.php';
+    require_once 'php/lib/auth.php';
 
     if (!is_array($data) || !count($data)) {
         return [
-            "status" => "ko",
-            "text" => "Data not found",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Data not found',
+            'code' => __get_code_from_trace(),
         ];
     }
 
-    $newpass = $data["newpass"] ?? null;
-    $renewpass = $data["renewpass"] ?? null;
-    $perms = $data["perms"] ?? null;
-    unset($data["newpass"]);
-    unset($data["renewpass"]);
-    unset($data["perms"]);
+    $newpass = $data['newpass'] ?? null;
+    $renewpass = $data['renewpass'] ?? null;
+    $perms = $data['perms'] ?? null;
+    unset($data['newpass']);
+    unset($data['renewpass']);
+    unset($data['perms']);
 
     if (!$newpass || !$renewpass) {
         return [
-            "status" => "ko",
-            "text" => "Do you must enter the new passwords",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Do you must enter the new passwords',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     // Password checks
     if ($newpass != $renewpass) {
         return [
-            "status" => "ko",
-            "text" => "New password differs",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'New password differs',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     if (!score_check($newpass)) {
         return [
-            "status" => "ko",
-            "text" => "New password strength error",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'New password strength error',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     // Real insert using general insert action
-    $array = insert("users", $data);
-    if ($array["status"] == "ko") {
+    $array = insert('users', $data);
+    if ($array['status'] == 'ko') {
         return $array;
     }
-    $user_id = $array["created_id"];
+    $user_id = $array['created_id'];
 
     // Continue creating the password entry
     newpass_insert($user_id, $newpass);
@@ -99,20 +99,20 @@ function insert_user($data)
     // Create the perms entries
     if (is_array($perms)) {
         foreach ($perms as $perm) {
-            $query = make_insert_query("tbl_users_apps_perms", [
-                "user_id" => $user_id,
-                "app_id" => $perm["app_id"],
-                "perm_id" => $perm["perm_id"],
-                "allow" => $perm["allow"],
-                "deny" => $perm["deny"],
+            $query = make_insert_query('tbl_users_apps_perms', [
+                'user_id' => $user_id,
+                'app_id' => $perm['app_id'],
+                'perm_id' => $perm['perm_id'],
+                'allow' => $perm['allow'],
+                'deny' => $perm['deny'],
             ]);
             db_query($query);
         }
     }
 
     return [
-        "status" => "ok",
-        "created_id" => $user_id,
+        'status' => 'ok',
+        'created_id' => $user_id,
     ];
 }
 
@@ -126,55 +126,55 @@ function insert_user($data)
  */
 function update_user($user_id, $data)
 {
-    require_once "php/lib/actions.php";
-    require_once "php/lib/auth.php";
+    require_once 'php/lib/actions.php';
+    require_once 'php/lib/auth.php';
 
     if (!is_array($data) || !count($data)) {
         return [
-            "status" => "ko",
-            "text" => "Data not found",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Data not found',
+            'code' => __get_code_from_trace(),
         ];
     }
 
-    $newpass = $data["newpass"] ?? null;
-    $renewpass = $data["renewpass"] ?? null;
-    $perms = $data["perms"] ?? null;
-    unset($data["newpass"]);
-    unset($data["renewpass"]);
-    unset($data["perms"]);
+    $newpass = $data['newpass'] ?? null;
+    $renewpass = $data['renewpass'] ?? null;
+    $perms = $data['perms'] ?? null;
+    unset($data['newpass']);
+    unset($data['renewpass']);
+    unset($data['perms']);
 
     if ($newpass || $renewpass) {
         // Password checks
         if ($newpass != $renewpass) {
             return [
-                "status" => "ko",
-                "text" => "New password differs",
-                "code" => __get_code_from_trace(),
+                'status' => 'ko',
+                'text' => 'New password differs',
+                'code' => __get_code_from_trace(),
             ];
         }
 
         if (!score_check($newpass)) {
             return [
-                "status" => "ko",
-                "text" => "New password strength error",
-                "code" => __get_code_from_trace(),
+                'status' => 'ko',
+                'text' => 'New password strength error',
+                'code' => __get_code_from_trace(),
             ];
         }
 
         if (!newpass_check($user_id, $newpass)) {
             return [
-                "status" => "ko",
-                "text" => "New password used previously",
-                "code" => __get_code_from_trace(),
+                'status' => 'ko',
+                'text' => 'New password used previously',
+                'code' => __get_code_from_trace(),
             ];
         }
     }
 
     // Real update using general update action
     if (count($data)) {
-        $array = update("users", $user_id, $data);
-        if ($array["status"] == "ko") {
+        $array = update('users', $user_id, $data);
+        if ($array['status'] == 'ko') {
             return $array;
         }
     }
@@ -192,20 +192,20 @@ function update_user($user_id, $data)
 
         // Create the perms entries
         foreach ($perms as $perm) {
-            $query = make_insert_query("tbl_users_apps_perms", [
-                "user_id" => $user_id,
-                "app_id" => $perm["app_id"],
-                "perm_id" => $perm["perm_id"],
-                "allow" => $perm["allow"],
-                "deny" => $perm["deny"],
+            $query = make_insert_query('tbl_users_apps_perms', [
+                'user_id' => $user_id,
+                'app_id' => $perm['app_id'],
+                'perm_id' => $perm['perm_id'],
+                'allow' => $perm['allow'],
+                'deny' => $perm['deny'],
             ]);
             db_query($query);
         }
     }
 
     return [
-        "status" => "ok",
-        "updated_id" => $user_id,
+        'status' => 'ok',
+        'updated_id' => $user_id,
     ];
 }
 
@@ -219,11 +219,11 @@ function update_user($user_id, $data)
  */
 function delete_user($user_id)
 {
-    require_once "php/lib/actions.php";
+    require_once 'php/lib/actions.php';
 
     // Real delete using general delete action
-    $array = delete("users", $user_id);
-    if ($array["status"] == "ko") {
+    $array = delete('users', $user_id);
+    if ($array['status'] == 'ko') {
         return $array;
     }
 
@@ -236,7 +236,7 @@ function delete_user($user_id)
     db_query($query);
 
     return [
-        "status" => "ok",
-        "deleted_id" => $user_id,
+        'status' => 'ok',
+        'deleted_id' => $user_id,
     ];
 }

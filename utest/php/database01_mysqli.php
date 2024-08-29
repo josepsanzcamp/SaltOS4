@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,10 +41,10 @@ init_random();
 check_system();
 
 db_connect([
-    "type" => "mysqli",
-    "host" => "localhost",
-    "port" => "nada",
-    "name" => "saltos",
-    "user" => "saltos",
-    "pass" => "saltos",
+    'type' => 'mysqli',
+    'host' => 'localhost',
+    'port' => 'nada',
+    'name' => 'saltos',
+    'user' => 'saltos',
+    'pass' => 'saltos',
 ]);

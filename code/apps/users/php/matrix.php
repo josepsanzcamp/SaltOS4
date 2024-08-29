@@ -46,7 +46,7 @@ function make_matrix_data($perms, $apps, $main, $user)
     $matrix = [];
     foreach ($apps as $app_id => $app_pos) {
         foreach ($perms as $perm_id => $perm_pos) {
-            $matrix[$app_pos][$perm_pos] = "";
+            $matrix[$app_pos][$perm_pos] = '';
         }
     }
     //~ print_r($matrix);
@@ -54,15 +54,15 @@ function make_matrix_data($perms, $apps, $main, $user)
 
     $main = array_protected($main);
     foreach ($main as $cell) {
-        if ($cell["deny"]) {
-            $value = "Deny";
-        } elseif ($cell["allow"]) {
-            $value = "Allow";
+        if ($cell['deny']) {
+            $value = 'Deny';
+        } elseif ($cell['allow']) {
+            $value = 'Allow';
         } else {
-            $value = "";
+            $value = '';
         }
-        $app_pos = $apps[$cell["app_id"]];
-        $perm_pos = $perms[$cell["perm_id"]];
+        $app_pos = $apps[$cell['app_id']];
+        $perm_pos = $perms[$cell['perm_id']];
         $matrix[$app_pos][$perm_pos] = $value;
         //~ print_r($cell);
         //~ die();
@@ -70,15 +70,15 @@ function make_matrix_data($perms, $apps, $main, $user)
 
     $user = array_protected($user);
     foreach ($user as $cell) {
-        if ($cell["deny"]) {
-            $value = "Deny";
-        } elseif ($cell["allow"]) {
-            $value = "Allow";
+        if ($cell['deny']) {
+            $value = 'Deny';
+        } elseif ($cell['allow']) {
+            $value = 'Allow';
         } else {
-            $value = "";
+            $value = '';
         }
-        $app_pos = $apps[$cell["app_id"]];
-        $perm_pos = $perms[$cell["perm_id"]];
+        $app_pos = $apps[$cell['app_id']];
+        $perm_pos = $perms[$cell['perm_id']];
         $matrix[$app_pos][$perm_pos] = $value;
         //~ print_r($cell);
         //~ die();
@@ -103,9 +103,9 @@ function make_matrix_cell($perms, $apps, $main, $user)
     foreach ($apps as $app_id => $app_pos) {
         foreach ($perms as $perm_id => $perm_pos) {
             $matrix[] = [
-                "col" => $perm_pos,
-                "row" => $app_pos,
-                "readOnly" => true,
+                'col' => $perm_pos,
+                'row' => $app_pos,
+                'readOnly' => true,
             ];
         }
     }
@@ -114,23 +114,23 @@ function make_matrix_cell($perms, $apps, $main, $user)
 
     $main = array_protected($main);
     foreach ($main as $cell) {
-        $perm_pos = $perms[$cell["perm_id"]];
-        $app_pos = $apps[$cell["app_id"]];
-        if ($cell["deny"]) {
+        $perm_pos = $perms[$cell['perm_id']];
+        $app_pos = $apps[$cell['app_id']];
+        if ($cell['deny']) {
             $matrix[] = [
-                "col" => $perm_pos,
-                "row" => $app_pos,
-                "type" => "dropdown",
-                "source" => ["Allow", "Deny"],
-                "readOnly" => true,
+                'col' => $perm_pos,
+                'row' => $app_pos,
+                'type' => 'dropdown',
+                'source' => ['Allow', 'Deny'],
+                'readOnly' => true,
             ];
         } else {
             $matrix[] = [
-                "col" => $perm_pos,
-                "row" => $app_pos,
-                "type" => "dropdown",
-                "source" => ["Allow", "Deny"],
-                "readOnly" => false,
+                'col' => $perm_pos,
+                'row' => $app_pos,
+                'type' => 'dropdown',
+                'source' => ['Allow', 'Deny'],
+                'readOnly' => false,
             ];
         }
         //~ print_r($cell);
@@ -139,14 +139,14 @@ function make_matrix_cell($perms, $apps, $main, $user)
 
     $user = array_protected($user);
     foreach ($user as $cell) {
-        $perm_pos = $perms[$cell["perm_id"]];
-        $app_pos = $apps[$cell["app_id"]];
+        $perm_pos = $perms[$cell['perm_id']];
+        $app_pos = $apps[$cell['app_id']];
         $matrix[] = [
-            "col" => $perm_pos,
-            "row" => $app_pos,
-            "type" => "dropdown",
-            "source" => ["Allow", "Deny"],
-            "readOnly" => false,
+            'col' => $perm_pos,
+            'row' => $app_pos,
+            'type' => 'dropdown',
+            'source' => ['Allow', 'Deny'],
+            'readOnly' => false,
         ];
         //~ print_r($cell);
         //~ die();
@@ -170,7 +170,7 @@ function unmake_matrix_data($perms, $apps, $main, $json)
 
     foreach ($main as $key => $val) {
         unset($main[$key]);
-        $key = $val["app_id"] . "|" . $val["perm_id"];
+        $key = $val['app_id'] . '|' . $val['perm_id'];
         $main[$key] = $val;
     }
 
@@ -181,15 +181,15 @@ function unmake_matrix_data($perms, $apps, $main, $json)
             $app_id = $apps[$app_pos];
             $perm_id = $perms[$perm_pos];
             switch ($val) {
-                case "Allow":
+                case 'Allow':
                     $allow = 1;
                     $deny = 0;
                     break;
-                case "Deny":
+                case 'Deny':
                     $allow = 0;
                     $deny = 1;
                     break;
-                case "":
+                case '':
                     $allow = 0;
                     $deny = 0;
                     break;
@@ -198,13 +198,13 @@ function unmake_matrix_data($perms, $apps, $main, $json)
             }
             $key =  "$app_id|$perm_id";
             if (isset($main[$key])) {
-                $case = $main[$key]["allow"] . $main[$key]["deny"] . $allow . $deny;
-                if (in_array($case, ["0010", "0001", "1001"])) {
+                $case = $main[$key]['allow'] . $main[$key]['deny'] . $allow . $deny;
+                if (in_array($case, ['0010', '0001', '1001'])) {
                     $matrix[] = [
-                        "app_id" => $app_id,
-                        "perm_id" => $perm_id,
-                        "allow" => $allow,
-                        "deny" => $deny,
+                        'app_id' => $app_id,
+                        'perm_id' => $perm_id,
+                        'allow' => $allow,
+                        'deny' => $deny,
                     ];
                 }
             }

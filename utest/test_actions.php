@@ -51,8 +51,8 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
-require_once "php/lib/actions.php";
+require_once 'lib/utestlib.php';
+require_once 'php/lib/actions.php';
 
 /**
  * Main class of this unit test
@@ -68,22 +68,22 @@ final class test_actions extends TestCase
      */
     public function test_actions(): void
     {
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 4);
-        $this->assertArrayHasKey("token", $json);
+        $this->assertArrayHasKey('token', $json);
 
         $group_id = execute_query("SELECT id FROM tbl_groups WHERE code='admin'");
         $this->assertTrue(is_numeric($group_id));
         $this->assertTrue($group_id > 0);
 
-        $json2 = test_web_helper("app/groups/delete/$group_id", "", $json["token"], "");
-        $this->assertSame($json2["status"], "ko");
+        $json2 = test_web_helper("app/groups/delete/$group_id", '', $json['token'], '');
+        $this->assertSame($json2['status'], 'ko');
         $this->assertSame(count($json2), 3);
-        $this->assertArrayHasKey("text", $json2);
-        $this->assertTrue(words_exists("data used by others apps", $json2["text"]));
+        $this->assertArrayHasKey('text', $json2);
+        $this->assertTrue(words_exists('data used by others apps', $json2['text']));
     }
 }

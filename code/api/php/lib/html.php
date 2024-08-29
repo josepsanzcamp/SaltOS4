@@ -42,7 +42,7 @@ declare(strict_types=1);
  */
 function remove_script_tag($temp)
 {
-    $temp = preg_replace("@<script[^>]*?.*?</script>@siu", "", $temp);
+    $temp = preg_replace('@<script[^>]*?.*?</script>@siu', '', $temp);
     return $temp;
 }
 
@@ -55,7 +55,7 @@ function remove_script_tag($temp)
  */
 function remove_style_tag($temp)
 {
-    $temp = preg_replace("@<style[^>]*?.*?</style>@siu", "", $temp);
+    $temp = preg_replace('@<style[^>]*?.*?</style>@siu', '', $temp);
     return $temp;
 }
 
@@ -68,7 +68,7 @@ function remove_style_tag($temp)
  */
 function remove_comment_tag($temp)
 {
-    $temp = preg_replace("@<!--[^>]*?.*?-->@siu", "", $temp);
+    $temp = preg_replace('@<!--[^>]*?.*?-->@siu', '', $temp);
     return $temp;
 }
 
@@ -81,7 +81,7 @@ function remove_comment_tag($temp)
  */
 function remove_meta_tag($temp)
 {
-    $temp = preg_replace("@<meta[^>]*?.*?>@siu", "", $temp);
+    $temp = preg_replace('@<meta[^>]*?.*?>@siu', '', $temp);
     return $temp;
 }
 
@@ -96,14 +96,14 @@ function inline_img_tag($temp)
 {
     $tags = __get_imgs_tags($temp);
     foreach ($tags as $tag) {
-        $src = __explode_attr($tag)["src"] ?? "";
-        $img = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+        $src = __explode_attr($tag)['src'] ?? '';
+        $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
         $scheme = parse_url($src, PHP_URL_SCHEME);
-        if (in_array($scheme, ["data", "cid"])) {
+        if (in_array($scheme, ['data', 'cid'])) {
             continue;
         }
-        if (in_array($scheme, ["https", "http"])) {
-            $cache = get_cache_file($src, ".tmp");
+        if (in_array($scheme, ['https', 'http'])) {
+            $cache = get_cache_file($src, '.tmp');
             if (!file_exists($cache)) {
                 $data = __url_get_contents($src);
                 file_put_contents($cache, serialize($data));
@@ -112,15 +112,15 @@ function inline_img_tag($temp)
                 $data = unserialize(file_get_contents($cache));
             }
             $valid = false;
-            foreach ($data["headers"] as $key => $val) {
-                $valid = in_array(strtolower($key), ["http/1.1 200 ok", "http/2.0 200"]);
+            foreach ($data['headers'] as $key => $val) {
+                $valid = in_array(strtolower($key), ['http/1.1 200 ok', 'http/2.0 200']);
                 if ($valid) {
                     break;
                 }
             }
             if ($valid) {
-                $type = $data["headers"]["content-type"];
-                $img = mime_inline($type, $data["body"]);
+                $type = $data['headers']['content-type'];
+                $img = mime_inline($type, $data['body']);
             }
         }
         $temp = str_replace($src, $img, $temp);
@@ -136,7 +136,7 @@ function inline_img_tag($temp)
 function __get_imgs_tags($html)
 {
     $imgs = [];
-    $pos = strpos($html, "<img ");
+    $pos = strpos($html, '<img ');
     $len = strlen($html);
     while ($pos !== false) {
         $pos2 = $pos;
@@ -153,7 +153,7 @@ function __get_imgs_tags($html)
             break;
         };
         $imgs[] = $img;
-        $pos = strpos($html, "<img ", $pos2);
+        $pos = strpos($html, '<img ', $pos2);
     }
     return $imgs;
 }
@@ -167,21 +167,21 @@ function __explode_attr($html)
 {
     $result = [];
     $len = strlen($html);
-    $pos1 = strpos($html, "=");
+    $pos1 = strpos($html, '=');
     while ($pos1 !== false) {
         for ($i = $pos1 - 1; $i >= 0; $i--) {
-            if ($html[$i] != " ") {
+            if ($html[$i] != ' ') {
                 break;
             }
         }
         for ($j = $i; $j >= 0; $j--) {
-            if ($html[$j] == " ") {
+            if ($html[$j] == ' ') {
                 break;
             }
         }
         $pos2 = $j;
         for ($i = $pos1 + 1; $i < $len; $i++) {
-            if ($html[$i] != " ") {
+            if ($html[$i] != ' ') {
                 break;
             }
         }
@@ -200,7 +200,7 @@ function __explode_attr($html)
         $key = substr($html, $pos2 + 1, $pos1 - $pos2 - 1);
         $val = substr($html, $pos3 + 1, $pos4 - $pos3 - 1);
         $result[$key] = $val;
-        $pos1 = strpos($html, "=", $pos1 + 1);
+        $pos1 = strpos($html, '=', $pos1 + 1);
     }
     return $result;
 }

@@ -51,8 +51,8 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
-require_once "php/lib/import.php";
+require_once 'lib/utestlib.php';
+require_once 'php/lib/import.php';
 
 /**
  * Main class of this unit test
@@ -69,10 +69,10 @@ final class test_import extends TestCase
     public function test_import_xml(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/numbers.nada",
-            "type" => "xml",
+            'file' => '../../utest/files/numbers.nada',
+            'type' => 'xml',
         ]);
-        $this->assertStringContainsString("not found", $rows);
+        $this->assertStringContainsString('not found', $rows);
 
         //~ $rows = import_file([
             //~ "file" => "../../utest/files/numbers.xml",
@@ -80,46 +80,46 @@ final class test_import extends TestCase
         //~ ]);
         //~ $this->assertStringContainsString("Unknown type", $rows);
 
-        $data = "\xef\xbb\xbf" . file_get_contents("../../utest/files/numbers.xml");
-        $file = get_cache_file($data, "tmp");
+        $data = "\xef\xbb\xbf" . file_get_contents('../../utest/files/numbers.xml');
+        $file = get_cache_file($data, 'tmp');
         if (file_exists($file)) {
             unlink($file);
         }
         $rows = import_file([
-            "data" => $data,
-            "type" => "xml",
+            'data' => $data,
+            'type' => 'xml',
         ]);
         $this->assertSame(is_array($rows), true);
-        $this->assertSame(count($rows["rows"]), 1000);
-        $this->assertSame(array_keys($rows["rows"]["row"]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(count($rows['rows']), 1000);
+        $this->assertSame(array_keys($rows['rows']['row']), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
 
         $prefn = function ($args) {
-            return "nada";
+            return 'nada';
         };
         $postfn = function ($args) {
             return $args;
         };
         $rows = import_file([
-            "file" => "../../utest/files/numbers.xml",
-            "type" => "xml",
-            "prefn" => $prefn,
-            "postfn" => $postfn,
+            'file' => '../../utest/files/numbers.xml',
+            'type' => 'xml',
+            'prefn' => $prefn,
+            'postfn' => $postfn,
         ]);
-        $this->assertSame($rows, "nada");
+        $this->assertSame($rows, 'nada');
 
         $prefn = function ($args) {
             return $args;
         };
         $postfn = function ($args) {
-            return "nada";
+            return 'nada';
         };
         $rows = import_file([
-            "file" => "../../utest/files/numbers.xml",
-            "type" => "xml",
-            "prefn" => $prefn,
-            "postfn" => $postfn,
+            'file' => '../../utest/files/numbers.xml',
+            'type' => 'xml',
+            'prefn' => $prefn,
+            'postfn' => $postfn,
         ]);
-        $this->assertSame($rows, "nada");
+        $this->assertSame($rows, 'nada');
     }
 
     #[testdox('import csv functions')]
@@ -132,12 +132,12 @@ final class test_import extends TestCase
     public function test_import_csv(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/numbers.csv",
-            "type" => "csv",
+            'file' => '../../utest/files/numbers.csv',
+            'type' => 'csv',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 1000);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
     }
 
     #[testdox('import xlsx functions')]
@@ -150,52 +150,52 @@ final class test_import extends TestCase
     public function test_import_xlsx(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/numbers.xlsx",
-            "type" => "xlsx",
-            "sheet" => "example",
+            'file' => '../../utest/files/numbers.xlsx',
+            'type' => 'xlsx',
+            'sheet' => 'example',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 100);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
-        $this->assertSame($rows[1]["A"], "2");
-        $this->assertSame($rows[99]["I"], "2024-02-01");
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
+        $this->assertSame($rows[1]['A'], '2');
+        $this->assertSame($rows[99]['I'], '2024-02-01');
 
-        $file = get_directory("dirs/cachedir") . get_unique_id_md5() . ".xlsx";
-        copy("../../utest/files/bigsize.xlsx", $file);
+        $file = get_directory('dirs/cachedir') . get_unique_id_md5() . '.xlsx';
+        copy('../../utest/files/bigsize.xlsx', $file);
         $rows = import_file([
-            "file" => $file,
-            "type" => "xlsx",
-            "sheet" => "example",
+            'file' => $file,
+            'type' => 'xlsx',
+            'sheet' => 'example',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 100);
 
         $rows = import_file([
-            "file" => "../../utest/files/numbers.xlsx",
-            "type" => "xlsx",
-            "sheet" => "a",
+            'file' => '../../utest/files/numbers.xlsx',
+            'type' => 'xlsx',
+            'sheet' => 'a',
         ]);
-        $this->assertStringContainsString("not found", $rows);
+        $this->assertStringContainsString('not found', $rows);
 
         $rows = import_file([
-            "file" => "../../utest/files/numbers.xlsx",
-            "type" => "xlsx",
-            "sheet" => "1",
+            'file' => '../../utest/files/numbers.xlsx',
+            'type' => 'xlsx',
+            'sheet' => '1',
         ]);
-        $this->assertStringContainsString("not found", $rows);
+        $this->assertStringContainsString('not found', $rows);
 
-        $file = get_cache_file("../../utest/files/bigsize.xlsx", "csv");
+        $file = get_cache_file('../../utest/files/bigsize.xlsx', 'csv');
         if (file_exists($file)) {
             unlink($file);
         }
         $rows = import_file([
-            "file" => "../../utest/files/bigsize.xlsx",
-            "type" => "xlsx",
-            "sheet" => "example",
+            'file' => '../../utest/files/bigsize.xlsx',
+            'type' => 'xlsx',
+            'sheet' => 'example',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 100);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
     }
 
     #[testdox('import xls functions')]
@@ -208,12 +208,12 @@ final class test_import extends TestCase
     public function test_import_xls(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/numbers.xls",
-            "type" => "xls",
+            'file' => '../../utest/files/numbers.xls',
+            'type' => 'xls',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 100);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
     }
 
     #[testdox('import ods functions')]
@@ -226,12 +226,12 @@ final class test_import extends TestCase
     public function test_import_ods(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/numbers.ods",
-            "type" => "ods",
+            'file' => '../../utest/files/numbers.ods',
+            'type' => 'ods',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 100);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
     }
 
     #[testdox('import bytes functions')]
@@ -244,39 +244,39 @@ final class test_import extends TestCase
     public function test_import_bytes(): void
     {
         $map = [
-            ["A", 0, 10],
-            ["B", 10, 10],
-            ["C", 20, 10],
-            ["D", 30, 10],
-            ["E", 40, 10],
-            ["F", 50, 10],
-            ["G", 60, 10],
-            ["H", 70, 10],
-            ["I", 80, 10],
+            ['A', 0, 10],
+            ['B', 10, 10],
+            ['C', 20, 10],
+            ['D', 30, 10],
+            ['E', 40, 10],
+            ['F', 50, 10],
+            ['G', 60, 10],
+            ['H', 70, 10],
+            ['I', 80, 10],
         ];
         foreach ($map as $key => $val) {
-            $map[$key] = implode(";", $val);
+            $map[$key] = implode(';', $val);
         }
         $map = implode("\n", $map);
 
         $rows = import_file([
-            "file" => "../../utest/files/numbers.bytes",
-            "type" => "bytes",
-            "map" => $map,
+            'file' => '../../utest/files/numbers.bytes',
+            'type' => 'bytes',
+            'map' => $map,
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 1000);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
 
         $rows = import_file([
-            "file" => "../../utest/files/numbers.bytes",
-            "type" => "bytes",
-            "map" => $map,
-            "nomb" => true,
+            'file' => '../../utest/files/numbers.bytes',
+            'type' => 'bytes',
+            'map' => $map,
+            'nomb' => true,
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 1000);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
     }
 
     #[testdox('import edi functions')]
@@ -289,12 +289,12 @@ final class test_import extends TestCase
     public function test_import_edi(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/numbers.edi",
-            "type" => "edi",
+            'file' => '../../utest/files/numbers.edi',
+            'type' => 'edi',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 1000);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
     }
 
     #[testdox('import json functions')]
@@ -307,18 +307,18 @@ final class test_import extends TestCase
     public function test_import_json(): void
     {
         $rows = import_file([
-            "file" => "../../utest/files/numbers.json",
-            "type" => "json",
+            'file' => '../../utest/files/numbers.json',
+            'type' => 'json',
         ]);
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 1000);
-        $this->assertSame(array_keys($rows[0]), ["A", "B", "C", "D", "E", "F", "G", "H", "I"]);
+        $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
 
         $rows = import_file([
-            "data" => "a",
-            "type" => "json",
+            'data' => 'a',
+            'type' => 'json',
         ]);
-        $this->assertStringContainsString("Syntax error", $rows);
+        $this->assertStringContainsString('Syntax error', $rows);
     }
 
     #[testdox('import helper functions')]
@@ -330,13 +330,13 @@ final class test_import extends TestCase
      */
     public function test_import_helper(): void
     {
-        $array = [["a", "b", "c"], ["d", "e", "f"]];
+        $array = [['a', 'b', 'c'], ['d', 'e', 'f']];
         $this->assertSame(__import_check_real_matrix($array), true);
 
-        $array = ["a"];
+        $array = ['a'];
         $this->assertSame(__import_check_real_matrix($array), false);
 
-        $array = [[["a"]]];
+        $array = [[['a']]];
         $this->assertSame(__import_check_real_matrix($array), false);
 
         //~ $array = "";
@@ -346,51 +346,51 @@ final class test_import extends TestCase
         $this->assertSame(__import_removevoid($array), []);
 
         $array = [
-            ["", "1", "5", ""],
-            ["", "2", "6", ""],
-            ["", "3", "7", ""],
-            ["", "4", "8", ""],
+            ['', '1', '5', ''],
+            ['', '2', '6', ''],
+            ['', '3', '7', ''],
+            ['', '4', '8', ''],
         ];
         $this->assertSame(__import_removevoid($array), [
-            ["1", "5"],
-            ["2", "6"],
-            ["3", "7"],
-            ["4", "8"],
+            ['1', '5'],
+            ['2', '6'],
+            ['3', '7'],
+            ['4', '8'],
         ]);
 
         $array = [
-            ["", "", "", ""],
-            ["1", "2", "3", "4"],
-            ["5", "6", "7", "8"],
-            ["", "", "", ""],
+            ['', '', '', ''],
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8'],
+            ['', '', '', ''],
         ];
         $this->assertSame(__import_removevoid($array), [
-            ["1", "2", "3", "4"],
-            ["5", "6", "7", "8"],
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8'],
         ]);
 
         //~ $array = "";
         //~ $this->assertSame(__import_array2tree($array, "", false, false), "");
 
         $array = [];
-        $this->assertSame(__import_array2tree($array, "", false, false), []);
+        $this->assertSame(__import_array2tree($array, '', false, false), []);
 
         $array = [
-            ["1", "2", "3", "4"],
-            ["5", "6", "7", "8"],
-            ["9", "a", "b", "c"],
-            ["d", "e", "f", "g"],
+            ['1', '2', '3', '4'],
+            ['5', '6', '7', '8'],
+            ['9', 'a', 'b', 'c'],
+            ['d', 'e', 'f', 'g'],
         ];
-        $this->assertIsArray(__import_array2tree($array, "", true, false));
-        $this->assertIsArray(__import_array2tree($array, ["0,B,Field", "C,D", ""], true, true));
+        $this->assertIsArray(__import_array2tree($array, '', true, false));
+        $this->assertIsArray(__import_array2tree($array, ['0,B,Field', 'C,D', ''], true, true));
 
         $array = [
-            ["1", "2"],
-            ["3"],
+            ['1', '2'],
+            ['3'],
         ];
-        $this->assertIsArray(__import_array2tree($array, ["0,1,2", "", ""], false, false));
+        $this->assertIsArray(__import_array2tree($array, ['0,1,2', '', ''], false, false));
 
-        $this->assertFalse(__import_isname("0"));
+        $this->assertFalse(__import_isname('0'));
     }
 
     #[testdox('external exec')]
@@ -402,8 +402,8 @@ final class test_import extends TestCase
      */
     public function test_import_external(): void
     {
-        test_external_exec("php/import1.php", "phperror.log", "unknown file");
-        test_external_exec("php/import2.php", "phperror.log", "unknown type");
-        test_external_exec("php/import3.php", "phperror.log", "unknown type nada for file");
+        test_external_exec('php/import1.php', 'phperror.log', 'unknown file');
+        test_external_exec('php/import2.php', 'phperror.log', 'unknown type');
+        test_external_exec('php/import3.php', 'phperror.log', 'unknown type nada for file');
     }
 }

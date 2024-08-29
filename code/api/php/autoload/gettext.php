@@ -54,7 +54,7 @@ declare(strict_types=1);
  * dictionary intended to populate the clients gettext module and contains the
  * app, the lang and the locales for the app and lang.
  */
-function T($text = "")
+function T($text = '')
 {
     static $cache = [];
     $lang = current_lang();
@@ -70,7 +70,7 @@ function T($text = "")
         if (!file_exists($file)) {
             $files = glob("apps/*/xml/$app.xml");
             if (count($files) == 1) {
-                $temp = explode("/", $files[0])[1];
+                $temp = explode('/', $files[0])[1];
                 $file = "apps/$temp/locale/$lang/messages.xml";
             }
         }
@@ -80,13 +80,13 @@ function T($text = "")
     }
     if (!count(func_get_args())) {
         return [
-            "app" => $app,
-            "lang" => $lang,
-            "locale" => $cache,
+            'app' => $app,
+            'lang' => $lang,
+            'locale' => $cache,
         ];
     }
     if (!is_string($text)) {
-        show_php_error(["phperror" => "text is not string"]);
+        show_php_error(['phperror' => 'text is not string']);
     }
     $hash = encode_bad_chars($text);
     if (isset($cache[$app][$lang][$hash])) {
@@ -110,18 +110,18 @@ function check_lang_format($lang)
 {
     // First check
     if (!is_string($lang)) {
-        return "";
+        return '';
     }
     // Check the number of parts and the length of each parts
-    $temp = explode(" ", str_replace(["-", "_", "."], " ", $lang));
+    $temp = explode(' ', str_replace(['-', '_', '.'], ' ', $lang));
     if (count($temp) < 2) {
-        return "";
+        return '';
     }
     if (strlen($temp[0]) != 2) {
-        return "";
+        return '';
     }
     if (strlen($temp[1]) != 2) {
-        return "";
+        return '';
     }
     // Build the output
     $temp[0] = strtolower($temp[0]);
@@ -136,5 +136,5 @@ function check_lang_format($lang)
  */
 function current_lang()
 {
-    return get_data("server/lang");
+    return get_data('server/lang');
 }

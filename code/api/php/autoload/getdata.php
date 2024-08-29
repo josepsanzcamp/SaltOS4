@@ -52,10 +52,10 @@ declare(strict_types=1);
 function get_data($key)
 {
     global $_DATA;
-    $keys = explode("/", $key);
+    $keys = explode('/', $key);
     $count = count($keys);
     // Special case for negative positions of rest
-    if ($count == 2 && $keys[0] == "rest" && intval($keys[1]) < 0) {
+    if ($count == 2 && $keys[0] == 'rest' && intval($keys[1]) < 0) {
         $keys[1] = count($_DATA[$keys[0]]) + intval($keys[1]);
     }
     // Continue
@@ -68,7 +68,7 @@ function get_data($key)
     if ($count == 3) {
         return $_DATA[$keys[0]][$keys[1]][$keys[2]] ?? null;
     }
-    show_php_error(["phperror" => "key $key not found"]);
+    show_php_error(['phperror' => "key $key not found"]);
 }
 
 /**
@@ -88,7 +88,7 @@ function get_data($key)
 function set_data($key, $val)
 {
     global $_DATA;
-    $keys = explode("/", $key);
+    $keys = explode('/', $key);
     $count = count($keys);
     if ($count == 1) {
         if ($val !== null) {
@@ -114,5 +114,5 @@ function set_data($key, $val)
         }
         return;
     }
-    show_php_error(["phperror" => "key $key not found"]);
+    show_php_error(['phperror' => "key $key not found"]);
 }

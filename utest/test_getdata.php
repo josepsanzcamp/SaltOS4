@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,38 +67,38 @@ final class test_getdata extends TestCase
      */
     public function test_getdata(): void
     {
-        set_data("server/token", get_unique_token());
-        $this->assertSame(is_array(get_data("server")), true);
-        $this->assertSame(count(get_data("server")), 1);
-        $this->assertSame(strlen(get_data("server/token")), 36);
+        set_data('server/token', get_unique_token());
+        $this->assertSame(is_array(get_data('server')), true);
+        $this->assertSame(count(get_data('server')), 1);
+        $this->assertSame(strlen(get_data('server/token')), 36);
 
-        set_data("server/token", null);
-        $this->assertSame(is_array(get_data("server")), true);
-        $this->assertSame(count(get_data("server")), 0);
-        $this->assertSame(get_data("server/token"), null);
+        set_data('server/token', null);
+        $this->assertSame(is_array(get_data('server')), true);
+        $this->assertSame(count(get_data('server')), 0);
+        $this->assertSame(get_data('server/token'), null);
 
-        set_data("server/token", get_unique_token());
-        set_data("server", null);
-        $this->assertSame(get_data("server"), null);
-        $this->assertSame(get_data("server/token"), null);
+        set_data('server/token', get_unique_token());
+        set_data('server', null);
+        $this->assertSame(get_data('server'), null);
+        $this->assertSame(get_data('server/token'), null);
 
-        set_data("token", get_unique_token());
-        $this->assertSame(strlen(get_data("token")), 36);
-        set_data("token", null);
-        $this->assertSame(get_data("token"), null);
+        set_data('token', get_unique_token());
+        $this->assertSame(strlen(get_data('token')), 36);
+        set_data('token', null);
+        $this->assertSame(get_data('token'), null);
 
-        test_external_exec("php/getdata1.php", "phperror.log", "key nada/nada/nada not found");
-        test_external_exec("php/getdata2.php", "phperror.log", "key nada/nada/nada not found");
+        test_external_exec('php/getdata1.php', 'phperror.log', 'key nada/nada/nada not found');
+        test_external_exec('php/getdata2.php', 'phperror.log', 'key nada/nada/nada not found');
 
-        set_data("rest/0", "app");
-        set_data("rest/1", "emails");
-        set_data("rest/2", "view");
-        set_data("rest/3", "123");
-        $this->assertSame(get_data("rest/-1"), "123");
+        set_data('rest/0', 'app');
+        set_data('rest/1', 'emails');
+        set_data('rest/2', 'view');
+        set_data('rest/3', '123');
+        $this->assertSame(get_data('rest/-1'), '123');
 
-        set_data("json/details/id", "hola mundo");
-        $this->assertSame(get_data("json/details/id"), "hola mundo");
+        set_data('json/details/id', 'hola mundo');
+        $this->assertSame(get_data('json/details/id'), 'hola mundo');
 
-        set_data("json/details/id", null);
+        set_data('json/details/id', null);
     }
 }

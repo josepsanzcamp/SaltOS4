@@ -62,42 +62,42 @@ declare(strict_types=1);
  */
 function __captcha_image($code, $args = [])
 {
-    require_once "php/lib/color.php";
+    require_once 'php/lib/color.php';
     $code = strval($code);
-    $width = isset($args["width"]) ? $args["width"] : 90;
-    $height = isset($args["height"]) ? $args["height"] : 45;
-    $letter = isset($args["letter"]) ? $args["letter"] : 8;
-    $number = isset($args["number"]) ? $args["number"] : 16;
-    $angle = isset($args["angle"]) ? $args["angle"] : 10;
-    $color = isset($args["color"]) ? $args["color"] : "5C8ED1";
-    $bgcolor = isset($args["bgcolor"]) ? $args["bgcolor"] : "C8C8C8";
-    $fgcolor = isset($args["fgcolor"]) ? $args["fgcolor"] : "B4B4B4";
-    $period = isset($args["period"]) ? $args["period"] : 2;
-    $amplitude = isset($args["amplitude"]) ? $args["amplitude"] : 8;
-    $blur = isset($args["blur"]) ? $args["blur"] : "true";
+    $width = isset($args['width']) ? $args['width'] : 90;
+    $height = isset($args['height']) ? $args['height'] : 45;
+    $letter = isset($args['letter']) ? $args['letter'] : 8;
+    $number = isset($args['number']) ? $args['number'] : 16;
+    $angle = isset($args['angle']) ? $args['angle'] : 10;
+    $color = isset($args['color']) ? $args['color'] : '5C8ED1';
+    $bgcolor = isset($args['bgcolor']) ? $args['bgcolor'] : 'C8C8C8';
+    $fgcolor = isset($args['fgcolor']) ? $args['fgcolor'] : 'B4B4B4';
+    $period = isset($args['period']) ? $args['period'] : 2;
+    $amplitude = isset($args['amplitude']) ? $args['amplitude'] : 8;
+    $blur = isset($args['blur']) ? $args['blur'] : 'true';
     // Create the background image
     $im = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im,
-        color2dec($color, "R"),
-        color2dec($color, "G"),
-        color2dec($color, "B")
+        color2dec($color, 'R'),
+        color2dec($color, 'G'),
+        color2dec($color, 'B')
     );
     $bgcolor2 = imagecolorallocate(
         $im,
-        color2dec($bgcolor, "R"),
-        color2dec($bgcolor, "G"),
-        color2dec($bgcolor, "B")
+        color2dec($bgcolor, 'R'),
+        color2dec($bgcolor, 'G'),
+        color2dec($bgcolor, 'B')
     );
     $fgcolor2 = imagecolorallocate(
         $im,
-        color2dec($fgcolor, "R"),
-        color2dec($fgcolor, "G"),
-        color2dec($fgcolor, "B")
+        color2dec($fgcolor, 'R'),
+        color2dec($fgcolor, 'G'),
+        color2dec($fgcolor, 'B')
     );
     imagefill($im, 0, 0, $bgcolor2);
-    $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    $font = getcwd() . "/lib/fonts/GorriSans.ttf";
+    $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    $font = getcwd() . '/lib/fonts/GorriSans.ttf';
     $bbox = imagettfbbox($letter, 0, $font, $letters[0]);
     $heightline = abs($bbox[7] - $bbox[1]);
     $numlines = intval($height / $heightline) + 1;
@@ -121,21 +121,21 @@ function __captcha_image($code, $args = [])
     $im2 = imagecreatetruecolor($width, $height);
     $color2 = imagecolorallocate(
         $im2,
-        color2dec($color, "R"),
-        color2dec($color, "G"),
-        color2dec($color, "B")
+        color2dec($color, 'R'),
+        color2dec($color, 'G'),
+        color2dec($color, 'B')
     );
     $bgcolor2 = imagecolorallocate(
         $im2,
-        color2dec($bgcolor, "R"),
-        color2dec($bgcolor, "G"),
-        color2dec($bgcolor, "B")
+        color2dec($bgcolor, 'R'),
+        color2dec($bgcolor, 'G'),
+        color2dec($bgcolor, 'B')
     );
     $fgcolor2 = imagecolorallocate(
         $im2,
-        color2dec($fgcolor, "R"),
-        color2dec($fgcolor, "G"),
-        color2dec($fgcolor, "B")
+        color2dec($fgcolor, 'R'),
+        color2dec($fgcolor, 'G'),
+        color2dec($fgcolor, 'B')
     );
     imagefill($im2, 0, 0, $bgcolor2);
     imagecolortransparent($im2, $bgcolor2);
@@ -173,7 +173,7 @@ function __captcha_image($code, $args = [])
     }
     // Apply blur
     if (eval_bool($blur)) {
-        if (function_exists("imagefilter")) {
+        if (function_exists('imagefilter')) {
             imagefilter($im, IMG_FILTER_GAUSSIAN_BLUR);
         }
     }
@@ -196,9 +196,9 @@ function __captcha_image($code, $args = [])
  */
 function __captcha_make_number($length)
 {
-    require_once "php/lib/math.php";
+    require_once 'php/lib/math.php';
     do {
-        $code = str_pad(strval(rand(0, pow(10, $length) - 1)), $length, "0", STR_PAD_LEFT);
+        $code = str_pad(strval(rand(0, pow(10, $length) - 1)), $length, '0', STR_PAD_LEFT);
     } while (!is_prime($code));
     return $code;
 }
@@ -213,18 +213,18 @@ function __captcha_make_number($length)
  */
 function __captcha_make_math($length)
 {
-    require_once "php/lib/math.php";
+    require_once 'php/lib/math.php';
     $max = pow(10, round($length / 2)) - 1;
     do {
         do {
             $num1 = rand(0, intval($max));
         } while (!is_prime($num1));
-        $oper = rand(0, 1) ? "+" : "-";
+        $oper = rand(0, 1) ? '+' : '-';
         do {
             $num2 = rand(0, intval($max));
             $code = $num1 . $oper . $num2;
-        } while (!is_prime($num2) || substr(strval($num2), 0, 1) == "7" || strlen($code) != $length);
-    } while ($oper == "-" && $num1 < $num2);
+        } while (!is_prime($num2) || substr(strval($num2), 0, 1) == '7' || strlen($code) != $length);
+    } while ($oper == '-' && $num1 < $num2);
     //~ $real = eval("return $code;");
     return $code;
 }

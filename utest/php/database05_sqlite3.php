@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -40,12 +40,12 @@ init_timer();
 init_random();
 check_system();
 
-$file = semaphore_file("db_query");
-$fd = @fopen($file, "a");
+$file = semaphore_file('db_query');
+$fd = @fopen($file, 'a');
 $result = flock($fd, LOCK_EX | LOCK_NB);
 
-set_config("db/semaphoretimeout", 0);
+set_config('db/semaphoretimeout', 0);
 db_connect([
-    "type" => "sqlite3",
-    "file" => "data/files/saltos.sqlite",
+    'type' => 'sqlite3',
+    'file' => 'data/files/saltos.sqlite',
 ]);

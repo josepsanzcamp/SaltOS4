@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "php/lib/html.php";
+require_once 'php/lib/html.php';
 
 /**
  * Main class of this unit test
@@ -67,27 +67,27 @@ final class test_html extends TestCase
      */
     public function test_html(): void
     {
-        $this->assertSame(remove_script_tag("<script></script>"), "");
-        $this->assertSame(remove_style_tag("<style></style>"), "");
-        $this->assertSame(remove_comment_tag("<!-- nada -->"), "");
-        $this->assertSame(remove_meta_tag("<meta nada>"), "");
+        $this->assertSame(remove_script_tag('<script></script>'), '');
+        $this->assertSame(remove_style_tag('<style></style>'), '');
+        $this->assertSame(remove_comment_tag('<!-- nada -->'), '');
+        $this->assertSame(remove_meta_tag('<meta nada>'), '');
 
-        $src = "https://127.0.0.1/favicon.ico";
-        $cache = get_cache_file($src, ".tmp");
+        $src = 'https://127.0.0.1/favicon.ico';
+        $cache = get_cache_file($src, '.tmp');
         if (file_exists($cache)) {
             unlink($cache);
         }
 
         $this->assertFileDoesNotExist($cache);
-        $this->assertTrue(words_exists("data image base64", inline_img_tag("<img src='$src'>")));
+        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
 
         $this->assertFileExists($cache);
-        $this->assertTrue(words_exists("data image base64", inline_img_tag("<img src='$src'>")));
+        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
 
-        $src = "https://127.0.0.1/nada";
-        $this->assertTrue(words_exists("data image base64", inline_img_tag("<img src='$src'>")));
+        $src = 'https://127.0.0.1/nada';
+        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
 
-        $src = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
-        $this->assertTrue(words_exists("data image base64", inline_img_tag("<img src='$src'>")));
+        $src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
     }
 }

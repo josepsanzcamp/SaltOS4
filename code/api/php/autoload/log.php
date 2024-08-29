@@ -48,7 +48,7 @@ declare(strict_types=1);
  */
 function checklog($hash, $file)
 {
-    $dir = get_directory("dirs/logsdir") ?? getcwd_protected() . "/data/logs/";
+    $dir = get_directory('dirs/logsdir') ?? getcwd_protected() . '/data/logs/';
     if (
         file_exists($dir . $file) &&
         is_file($dir . $file) &&
@@ -78,13 +78,13 @@ function checklog($hash, $file)
  *
  * This function performs the log rotation is the maxfilesize is reached
  */
-function addlog($msg, $file = "")
+function addlog($msg, $file = '')
 {
     if (!$file) {
-        $file = get_config("debug/logfile") ?? "saltos.log";
+        $file = get_config('debug/logfile') ?? 'saltos.log';
     }
-    $dir = get_directory("dirs/logsdir") ?? getcwd_protected() . "/data/logs/";
-    $maxfilesize = normalize_value(get_config("debug/maxfilesize") ?? "1M");
+    $dir = get_directory('dirs/logsdir') ?? getcwd_protected() . '/data/logs/';
+    $maxfilesize = normalize_value(get_config('debug/maxfilesize') ?? '1M');
     if (
         $maxfilesize > 0 &&
         file_exists($dir . $file) &&
@@ -92,16 +92,16 @@ function addlog($msg, $file = "")
         filesize($dir . $file) >= $maxfilesize
     ) {
         $next = 1;
-        while (file_exists($dir . $file . "." . $next)) {
+        while (file_exists($dir . $file . '.' . $next)) {
             $next++;
         }
-        rename($dir . $file, $dir . $file . "." . $next);
+        rename($dir . $file, $dir . $file . '.' . $next);
     }
     $msg = trim(strval($msg));
     $msg = explode("\n", $msg);
     $pre = current_datetime_decimals();
     foreach ($msg as $key => $val) {
-        $msg[$key] = $pre . ": " . $val;
+        $msg[$key] = $pre . ': ' . $val;
     }
     $msg = implode("\n", $msg) . "\n";
     file_put_contents($dir . $file, $msg, FILE_APPEND);
@@ -139,14 +139,14 @@ function addtrace($array, $file)
  */
 function gettrace($array)
 {
-    if (!isset($array["backtrace"])) {
-        $array["backtrace"] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    if (!isset($array['backtrace'])) {
+        $array['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
-    if (!isset($array["debug"])) {
-        $array["debug"] = array_intersect_key(session_backtrace(), array_flip(["rest", "token"]));
+    if (!isset($array['debug'])) {
+        $array['debug'] = array_intersect_key(session_backtrace(), array_flip(['rest', 'token']));
     }
     $msg = do_message_error($array);
-    return $msg["text"];
+    return $msg['text'];
 }
 
 /**
@@ -163,11 +163,11 @@ function gettrace($array)
 function session_backtrace()
 {
     $array = [
-        "pid" => getmypid(),
-        "time" => current_datetime_decimals(),
-        "rest" => implode("/", array_protected(get_data("rest"))),
-        "token" => get_data("server/token"),
+        'pid' => getmypid(),
+        'time' => current_datetime_decimals(),
+        'rest' => implode('/', array_protected(get_data('rest'))),
+        'token' => get_data('server/token'),
     ];
-    $array = array_diff($array, [""]);
+    $array = array_diff($array, ['']);
     return $array;
 }

@@ -42,29 +42,29 @@ declare(strict_types=1);
  */
 function db_schema()
 {
-    $dbschema = eval_attr(xmlfiles2array(detect_apps_files("xml/dbschema.xml")));
+    $dbschema = eval_attr(xmlfiles2array(detect_apps_files('xml/dbschema.xml')));
     $dbschema = __dbschema_auto_apps($dbschema);
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
     $output = [
-        "history" => [],
-        "count" => 0,
+        'history' => [],
+        'count' => 0,
     ];
-    if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
+    if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
         $ignores = get_ignores_from_dbschema();
         $tables1 = array_diff(get_tables(), $ignores);
         $tables2 = array_diff(get_tables_from_dbschema(), $ignores);
         foreach ($tables1 as $table) {
-            $isbackup = (substr($table, 0, 2) == "__" && substr($table, -2, 2) == "__");
+            $isbackup = (substr($table, 0, 2) == '__' && substr($table, -2, 2) == '__');
             if (!$isbackup && !in_array($table, $tables2)) {
                 $backup = "__{$table}__";
                 db_query(__dbschema_alter_table($table, $backup));
-                $output["history"][] = "Rename $table to $backup";
-                $output["count"]++;
+                $output['history'][] = "Rename $table to $backup";
+                $output['count']++;
             }
         }
-        foreach ($dbschema["tables"] as $tablespec) {
-            $table = $tablespec["#attr"]["name"];
+        foreach ($dbschema['tables'] as $tablespec) {
+            $table = $tablespec['#attr']['name'];
             if (!in_array($table, $tables2)) {
                 continue;
             }
@@ -82,8 +82,8 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
-                    $output["history"][] = "Alter $table";
-                    $output["count"]++;
+                    $output['history'][] = "Alter $table";
+                    $output['count']++;
                 }
             } elseif (in_array($backup, $tables1)) {
                 $fields1 = get_fields($backup);
@@ -97,36 +97,36 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
-                    $output["history"][] = "Alter $table from $backup";
-                    $output["count"]++;
+                    $output['history'][] = "Alter $table from $backup";
+                    $output['count']++;
                 } else {
                     db_query(__dbschema_alter_table($backup, $table));
-                    $output["history"][] = "Rename $backup to $table";
-                    $output["count"]++;
+                    $output['history'][] = "Rename $backup to $table";
+                    $output['count']++;
                 }
             } else {
                 db_query(__dbschema_create_table($tablespec));
                 foreach (get_indexes($table) as $index => $fields) {
                     db_query(__dbschema_drop_index($index, $table));
                 }
-                $output["history"][] = "Create $table";
-                $output["count"]++;
+                $output['history'][] = "Create $table";
+                $output['count']++;
             }
             $indexes1 = get_indexes($table);
             $indexes2 = get_indexes_from_dbschema($table);
             foreach ($indexes1 as $index => $fields) {
                 if (!array_key_exists($index, $indexes2)) {
                     db_query(__dbschema_drop_index($index, $table));
-                    $output["history"][] = "Drop $index on $table";
-                    $output["count"]++;
+                    $output['history'][] = "Drop $index on $table";
+                    $output['count']++;
                 }
             }
-            if (isset($tablespec["value"]["indexes"]) && is_array($tablespec["value"]["indexes"])) {
-                foreach ($tablespec["value"]["indexes"] as $indexspec) {
-                    $indexspec["#attr"]["table"] = $table;
+            if (isset($tablespec['value']['indexes']) && is_array($tablespec['value']['indexes'])) {
+                foreach ($tablespec['value']['indexes'] as $indexspec) {
+                    $indexspec['#attr']['table'] = $table;
                     // This parse_query is important because the name of the index is different
                     // for MySQL and SQLite and must to be parsed
-                    $index = parse_query($indexspec["#attr"]["name"]);
+                    $index = parse_query($indexspec['#attr']['name']);
                     if (array_key_exists($index, $indexes1)) {
                         $fields1 = $indexes1[$index];
                         $fields2 = $indexes2[$index];
@@ -135,19 +135,19 @@ function db_schema()
                         if ($hash3 != $hash4) {
                             db_query(__dbschema_drop_index($index, $table));
                             db_query(__dbschema_create_index($indexspec));
-                            $output["history"][] = "Alter $index on $table";
-                            $output["count"]++;
+                            $output['history'][] = "Alter $index on $table";
+                            $output['count']++;
                         }
                     } else {
                         db_query(__dbschema_create_index($indexspec));
-                        $output["history"][] = "Create $index on $table";
-                        $output["count"]++;
+                        $output['history'][] = "Create $index on $table";
+                        $output['count']++;
                     }
                 }
             }
         }
     }
-    set_config("xml/dbschema.xml", __dbschema_hash(), 0);
+    set_config('xml/dbschema.xml', __dbschema_hash(), 0);
     return $output;
 }
 
@@ -159,9 +159,9 @@ function db_schema()
 function __dbschema_hash()
 {
     return md5(serialize([
-        xmlfiles2array(detect_apps_files("xml/dbschema.xml")),
-        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
-        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
+        xmlfiles2array(detect_apps_files('xml/dbschema.xml')),
+        xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
+        xmlfiles2array(detect_apps_files('xml/manifest.xml')),
     ]));
 }
 
@@ -172,7 +172,7 @@ function __dbschema_hash()
  */
 function __dbschema_check()
 {
-    $hash1 = get_config("xml/dbschema.xml", 0);
+    $hash1 = get_config('xml/dbschema.xml', 0);
     $hash2 = __dbschema_hash();
     return $hash1 == $hash2;
 }
@@ -190,35 +190,35 @@ function __dbschema_check()
 function db_static()
 {
     $dbstatic = eval_attr(arrays2array(
-        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
-        __manifest2dbstatic(detect_apps_files("xml/manifest.xml")),
+        xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
+        __manifest2dbstatic(detect_apps_files('xml/manifest.xml')),
     ));
     $output = [
-        "history" => [],
-        "count" => 0,
+        'history' => [],
+        'count' => 0,
     ];
-    if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
+    if (is_array($dbstatic) && isset($dbstatic['tables']) && is_array($dbstatic['tables'])) {
         $queries = [];
-        foreach ($dbstatic["tables"] as $data) {
-            $table = $data["#attr"]["name"];
-            if (isset($output["history"][$table])) {
+        foreach ($dbstatic['tables'] as $data) {
+            $table = $data['#attr']['name'];
+            if (isset($output['history'][$table])) {
                 continue;
             }
             $count = execute_query("SELECT COUNT(*) FROM $table");
             $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
             $queries[] = $query;
-            $output["history"][$table] = [
-                "from" => $count,
-                "to" => 0,
+            $output['history'][$table] = [
+                'from' => $count,
+                'to' => 0,
             ];
         }
-        foreach ($dbstatic["tables"] as $data) {
-            $table = $data["#attr"]["name"];
-            $rows = $data["value"];
+        foreach ($dbstatic['tables'] as $data) {
+            $table = $data['#attr']['name'];
+            $rows = $data['value'];
             foreach ($rows as $row) {
-                $temp = __dbstatic_insert($table, $row["#attr"]);
+                $temp = __dbstatic_insert($table, $row['#attr']);
                 $queries = array_merge($queries, $temp);
-                $output["history"][$table]["to"] += count($temp);
+                $output['history'][$table]['to'] += count($temp);
             }
         }
         $queries = __dbstatic_optimize_queries($queries);
@@ -226,13 +226,13 @@ function db_static()
             db_query($query);
         }
     }
-    __manifest_perms_check(detect_apps_files("xml/manifest.xml"));
-    set_config("xml/dbstatic.xml", __dbstatic_hash(), 0);
-    foreach ($output["history"] as $key => $val) {
-        $from = $val["from"];
-        $to = $val["to"];
-        $output["history"][$key] = "from $from to $to";
-        $output["count"] += abs($to - $from);
+    __manifest_perms_check(detect_apps_files('xml/manifest.xml'));
+    set_config('xml/dbstatic.xml', __dbstatic_hash(), 0);
+    foreach ($output['history'] as $key => $val) {
+        $from = $val['from'];
+        $to = $val['to'];
+        $output['history'][$key] = "from $from to $to";
+        $output['count'] += abs($to - $from);
     }
     return $output;
 }
@@ -249,10 +249,10 @@ function __dbstatic_optimize_queries($queries)
 {
     $array = [];
     foreach ($queries as $index => $query) {
-        if (substr($query, 0, 11) != "INSERT INTO") {
+        if (substr($query, 0, 11) != 'INSERT INTO') {
             continue;
         }
-        $pos = strpos($query, "VALUES");
+        $pos = strpos($query, 'VALUES');
         if (!$pos) {
             continue;
         }
@@ -265,7 +265,7 @@ function __dbstatic_optimize_queries($queries)
         unset($queries[$index]);
     }
     foreach ($array as $key => $val) {
-        $queries[] = $key . implode(",", $val);
+        $queries[] = $key . implode(',', $val);
     }
     return $queries;
 }
@@ -278,8 +278,8 @@ function __dbstatic_optimize_queries($queries)
 function __dbstatic_hash()
 {
     return md5(serialize([
-        xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
-        xmlfiles2array(detect_apps_files("xml/manifest.xml")),
+        xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
+        xmlfiles2array(detect_apps_files('xml/manifest.xml')),
     ]));
 }
 
@@ -290,7 +290,7 @@ function __dbstatic_hash()
  */
 function __dbstatic_check()
 {
-    $hash1 = get_config("xml/dbstatic.xml", 0);
+    $hash1 = get_config('xml/dbstatic.xml', 0);
     $hash2 = __dbstatic_hash();
     return $hash1 == $hash2;
 }
@@ -312,9 +312,9 @@ function __dbstatic_check()
 function __dbstatic_insert($table, $row)
 {
     foreach ($row as $field => $value) {
-        if ($field == "id" || substr($field, 0, 3) == "id_" || substr($field, -3, 3) == "_id") {
-            if (strpos($value, ",") !== false) {
-                $a = explode(",", $row[$field]);
+        if ($field == 'id' || substr($field, 0, 3) == 'id_' || substr($field, -3, 3) == '_id') {
+            if (strpos($value, ',') !== false) {
+                $a = explode(',', $row[$field]);
                 $queries = [];
                 foreach ($a as $b) {
                     $row[$field] = $b;
@@ -336,7 +336,7 @@ function __dbstatic_insert($table, $row)
  */
 function get_tables_from_dbschema()
 {
-    return __dbschema_helper(__FUNCTION__, "");
+    return __dbschema_helper(__FUNCTION__, '');
 }
 
 /**
@@ -370,7 +370,7 @@ function get_indexes_from_dbschema($table)
  */
 function get_ignores_from_dbschema()
 {
-    return __dbschema_helper(__FUNCTION__, "");
+    return __dbschema_helper(__FUNCTION__, '');
 }
 
 /**
@@ -380,7 +380,7 @@ function get_ignores_from_dbschema()
  */
 function get_fulltext_from_dbschema()
 {
-    return __dbschema_helper(__FUNCTION__, "");
+    return __dbschema_helper(__FUNCTION__, '');
 }
 
 /**
@@ -412,7 +412,7 @@ function __dbschema_helper($fn, $table)
     static $fulltext = null;
     static $fkeys = null;
     if ($tables === null) {
-        $dbschema = eval_attr(xmlfiles2array(detect_apps_files("xml/dbschema.xml")));
+        $dbschema = eval_attr(xmlfiles2array(detect_apps_files('xml/dbschema.xml')));
         $dbschema = __dbschema_auto_apps($dbschema);
         $dbschema = __dbschema_auto_fkey($dbschema);
         $dbschema = __dbschema_auto_name($dbschema);
@@ -421,62 +421,62 @@ function __dbschema_helper($fn, $table)
         $ignores = [];
         $fulltext = [];
         $fkeys = [];
-        if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-            foreach ($dbschema["tables"] as $tablespec) {
-                if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
-                    $ignores[$tablespec["#attr"]["name"]] = 1;
+        if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
+            foreach ($dbschema['tables'] as $tablespec) {
+                if (isset($tablespec['#attr']['ignore']) && eval_bool($tablespec['#attr']['ignore'])) {
+                    $ignores[$tablespec['#attr']['name']] = 1;
                     continue;
                 }
-                $tables[$tablespec["#attr"]["name"]] = [];
-                foreach ($tablespec["value"]["fields"] as $fieldspec) {
-                    $tables[$tablespec["#attr"]["name"]][] = [
-                        "name" => $fieldspec["#attr"]["name"],
-                        "type" => strtoupper(parse_query($fieldspec["#attr"]["type"])),
+                $tables[$tablespec['#attr']['name']] = [];
+                foreach ($tablespec['value']['fields'] as $fieldspec) {
+                    $tables[$tablespec['#attr']['name']][] = [
+                        'name' => $fieldspec['#attr']['name'],
+                        'type' => strtoupper(parse_query($fieldspec['#attr']['type'])),
                     ];
-                    if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
-                        $fkeys[$tablespec["#attr"]["name"]][$fieldspec["#attr"]["name"]]
-                            = $fieldspec["#attr"]["fkey"];
+                    if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] != '') {
+                        $fkeys[$tablespec['#attr']['name']][$fieldspec['#attr']['name']]
+                            = $fieldspec['#attr']['fkey'];
                     }
                 }
-                if (isset($tablespec["value"]["indexes"])) {
-                    $indexes[$tablespec["#attr"]["name"]] = [];
-                    foreach ($tablespec["value"]["indexes"] as $indexspec) {
-                        $indexes[$tablespec["#attr"]["name"]][parse_query($indexspec["#attr"]["name"])]
-                            = explode(",", $indexspec["#attr"]["fields"]);
+                if (isset($tablespec['value']['indexes'])) {
+                    $indexes[$tablespec['#attr']['name']] = [];
+                    foreach ($tablespec['value']['indexes'] as $indexspec) {
+                        $indexes[$tablespec['#attr']['name']][parse_query($indexspec['#attr']['name'])]
+                            = explode(',', $indexspec['#attr']['fields']);
                         if (
-                            isset($indexspec["#attr"]["fulltext"]) &&
-                            eval_bool($indexspec["#attr"]["fulltext"])
+                            isset($indexspec['#attr']['fulltext']) &&
+                            eval_bool($indexspec['#attr']['fulltext'])
                         ) {
-                            $fulltext[$tablespec["#attr"]["name"]] = 1;
+                            $fulltext[$tablespec['#attr']['name']] = 1;
                         }
                     }
                 }
             }
         }
     }
-    if (stripos($fn, "get_tables") !== false) {
+    if (stripos($fn, 'get_tables') !== false) {
         return array_keys($tables);
-    } elseif (stripos($fn, "get_fields") !== false) {
+    } elseif (stripos($fn, 'get_fields') !== false) {
         if (isset($tables[$table])) {
             return $tables[$table];
         }
         return [];
-    } elseif (stripos($fn, "get_indexes") !== false) {
+    } elseif (stripos($fn, 'get_indexes') !== false) {
         if (isset($indexes[$table])) {
             return $indexes[$table];
         }
         return [];
-    } elseif (stripos($fn, "get_ignores") !== false) {
+    } elseif (stripos($fn, 'get_ignores') !== false) {
         return array_keys($ignores);
-    } elseif (stripos($fn, "get_fulltext") !== false) {
+    } elseif (stripos($fn, 'get_fulltext') !== false) {
         return array_keys($fulltext);
-    } elseif (stripos($fn, "get_fkeys") !== false) {
+    } elseif (stripos($fn, 'get_fkeys') !== false) {
         if (isset($fkeys[$table])) {
             return $fkeys[$table];
         }
         return [];
     }
-    show_php_error(["phperror" => "Unknown fn '$fn'"]);
+    show_php_error(['phperror' => "Unknown fn '$fn'"]);
 }
 
 /**
@@ -494,10 +494,10 @@ function __dbschema_helper($fn, $table)
  */
 function __dbschema_auto_apps($dbschema)
 {
-    if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
+    if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
         $tables = get_tables_from_dbstatic();
         foreach ($tables as $table) {
-            if (eval_bool(get_field_from_dbstatic($table, "has_index"))) {
+            if (eval_bool(get_field_from_dbstatic($table, 'has_index'))) {
                 // phpcs:disable Generic.Files.LineLength
                 $xml = '<table name="{$table}_index">
                             <fields>
@@ -511,9 +511,9 @@ function __dbschema_auto_apps($dbschema)
                 // phpcs:enable Generic.Files.LineLength
                 $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
-                set_array($dbschema["tables"], "table", $array["table"]);
+                set_array($dbschema['tables'], 'table', $array['table']);
             }
-            if (eval_bool(get_field_from_dbstatic($table, "has_control"))) {
+            if (eval_bool(get_field_from_dbstatic($table, 'has_control'))) {
                 // phpcs:disable Generic.Files.LineLength
                 $xml = '<table name="{$table}_control">
                             <fields>
@@ -532,9 +532,9 @@ function __dbschema_auto_apps($dbschema)
                 // phpcs:enable Generic.Files.LineLength
                 $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
-                set_array($dbschema["tables"], "table", $array["table"]);
+                set_array($dbschema['tables'], 'table', $array['table']);
             }
-            if (eval_bool(get_field_from_dbstatic($table, "has_version"))) {
+            if (eval_bool(get_field_from_dbstatic($table, 'has_version'))) {
                 $xml = '<table name="{$table}_version">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -554,9 +554,9 @@ function __dbschema_auto_apps($dbschema)
                         </table>';
                 $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
-                set_array($dbschema["tables"], "table", $array["table"]);
+                set_array($dbschema['tables'], 'table', $array['table']);
             }
-            if (eval_bool(get_field_from_dbstatic($table, "has_files"))) {
+            if (eval_bool(get_field_from_dbstatic($table, 'has_files'))) {
                 $xml = '<table name="{$table}_files">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -576,9 +576,9 @@ function __dbschema_auto_apps($dbschema)
                         </table>';
                 $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
-                set_array($dbschema["tables"], "table", $array["table"]);
+                set_array($dbschema['tables'], 'table', $array['table']);
             }
-            if (eval_bool(get_field_from_dbstatic($table, "has_notes"))) {
+            if (eval_bool(get_field_from_dbstatic($table, 'has_notes'))) {
                 $xml = '<table name="{$table}_notes">
                             <fields>
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
@@ -590,7 +590,7 @@ function __dbschema_auto_apps($dbschema)
                         </table>';
                 $xml = str_replace('{$table}', "{$table}", $xml);
                 $array = xml2array($xml);
-                set_array($dbschema["tables"], "table", $array["table"]);
+                set_array($dbschema['tables'], 'table', $array['table']);
             }
         }
     }
@@ -614,29 +614,29 @@ function __dbschema_auto_apps($dbschema)
  */
 function __dbschema_auto_fkey($dbschema)
 {
-    if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-        foreach ($dbschema["tables"] as $tablekey => $tablespec) {
-            if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
+    if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
+        foreach ($dbschema['tables'] as $tablekey => $tablespec) {
+            if (isset($tablespec['#attr']['ignore']) && eval_bool($tablespec['#attr']['ignore'])) {
                 continue;
             }
             $indexes = [];
-            if (isset($dbschema["tables"][$tablekey]["value"]["indexes"])) {
-                foreach ($dbschema["tables"][$tablekey]["value"]["indexes"] as $index) {
-                    $indexes[] = $index["#attr"]["fields"];
+            if (isset($dbschema['tables'][$tablekey]['value']['indexes'])) {
+                foreach ($dbschema['tables'][$tablekey]['value']['indexes'] as $index) {
+                    $indexes[] = $index['#attr']['fields'];
                 }
             }
-            foreach ($tablespec["value"]["fields"] as $fieldkey => $fieldspec) {
-                if (isset($fieldspec["#attr"]["fkey"]) && $fieldspec["#attr"]["fkey"] != "") {
-                    if (in_array($fieldspec["#attr"]["name"], $indexes)) {
+            foreach ($tablespec['value']['fields'] as $fieldkey => $fieldspec) {
+                if (isset($fieldspec['#attr']['fkey']) && $fieldspec['#attr']['fkey'] != '') {
+                    if (in_array($fieldspec['#attr']['name'], $indexes)) {
                         continue;
                     }
-                    if (!isset($dbschema["tables"][$tablekey]["value"]["indexes"])) {
-                        $dbschema["tables"][$tablekey]["value"]["indexes"] = [];
+                    if (!isset($dbschema['tables'][$tablekey]['value']['indexes'])) {
+                        $dbschema['tables'][$tablekey]['value']['indexes'] = [];
                     }
                     $xml = '<index fields="__FIELDS__"/>';
-                    $xml = str_replace("__FIELDS__", $fieldspec["#attr"]["name"], $xml);
+                    $xml = str_replace('__FIELDS__', $fieldspec['#attr']['name'], $xml);
                     $array = xml2array($xml);
-                    set_array($dbschema["tables"][$tablekey]["value"]["indexes"], "index", $array["index"]);
+                    set_array($dbschema['tables'][$tablekey]['value']['indexes'], 'index', $array['index']);
                 }
             }
         }
@@ -664,20 +664,20 @@ function __dbschema_auto_fkey($dbschema)
  */
 function __dbschema_auto_name($dbschema)
 {
-    if (is_array($dbschema) && isset($dbschema["tables"]) && is_array($dbschema["tables"])) {
-        foreach ($dbschema["tables"] as $tablekey => $tablespec) {
-            if (isset($tablespec["#attr"]["ignore"]) && eval_bool($tablespec["#attr"]["ignore"])) {
+    if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
+        foreach ($dbschema['tables'] as $tablekey => $tablespec) {
+            if (isset($tablespec['#attr']['ignore']) && eval_bool($tablespec['#attr']['ignore'])) {
                 continue;
             }
-            if (isset($tablespec["value"]["indexes"])) {
-                $indexes[$tablespec["#attr"]["name"]] = [];
-                foreach ($tablespec["value"]["indexes"] as $indexkey => $indexspec) {
-                    if (!isset($indexspec["#attr"]["name"])) {
-                        $table = $tablespec["#attr"]["name"];
-                        $fields = $indexspec["#attr"]["fields"];
-                        $dbschema["tables"][$tablekey]["value"]["indexes"][$indexkey]["#attr"]["name"] =
-                        "/*MYSQL " . substr(str_replace(",", "_", $fields), 0, 64) . " */" .
-                        "/*SQLITE " . substr($table . "_" . str_replace(",", "_", $fields), 0, 64) . " */";
+            if (isset($tablespec['value']['indexes'])) {
+                $indexes[$tablespec['#attr']['name']] = [];
+                foreach ($tablespec['value']['indexes'] as $indexkey => $indexspec) {
+                    if (!isset($indexspec['#attr']['name'])) {
+                        $table = $tablespec['#attr']['name'];
+                        $fields = $indexspec['#attr']['fields'];
+                        $dbschema['tables'][$tablekey]['value']['indexes'][$indexkey]['#attr']['name'] =
+                        '/*MYSQL ' . substr(str_replace(',', '_', $fields), 0, 64) . ' */' .
+                        '/*SQLITE ' . substr($table . '_' . str_replace(',', '_', $fields), 0, 64) . ' */';
                     }
                 }
             }
@@ -694,7 +694,7 @@ function __dbschema_auto_name($dbschema)
  */
 function get_apps_from_dbstatic()
 {
-    return __dbstatic_helper(__FUNCTION__, "", "");
+    return __dbstatic_helper(__FUNCTION__, '', '');
 }
 
 /**
@@ -705,7 +705,7 @@ function get_apps_from_dbstatic()
  */
 function get_tables_from_dbstatic()
 {
-    return __dbstatic_helper(__FUNCTION__, "", "");
+    return __dbstatic_helper(__FUNCTION__, '', '');
 }
 
 /**
@@ -725,7 +725,7 @@ function get_tables_from_dbstatic()
  * the app code instead of the app table to identify what row do you
  * want to use
  */
-function get_field_from_dbstatic($table, $field = "field")
+function get_field_from_dbstatic($table, $field = 'field')
 {
     return __dbstatic_helper(__FUNCTION__, $table, $field);
 }
@@ -750,38 +750,38 @@ function __dbstatic_helper($fn, $table, $field)
         $apps = [];
         $tables = [];
         $dbstatic = eval_attr(arrays2array(
-            xmlfiles2array(detect_apps_files("xml/dbstatic.xml")),
-            __manifest2dbstatic(detect_apps_files("xml/manifest.xml")),
+            xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
+            __manifest2dbstatic(detect_apps_files('xml/manifest.xml')),
         ));
-        if (is_array($dbstatic) && isset($dbstatic["tables"]) && is_array($dbstatic["tables"])) {
-            foreach ($dbstatic["tables"] as $data) {
-                if ($data["#attr"]["name"] != "tbl_apps") {
+        if (is_array($dbstatic) && isset($dbstatic['tables']) && is_array($dbstatic['tables'])) {
+            foreach ($dbstatic['tables'] as $data) {
+                if ($data['#attr']['name'] != 'tbl_apps') {
                     continue;
                 }
-                $rows = $data["value"];
+                $rows = $data['value'];
                 foreach ($rows as $row) {
-                    if (isset($row["#attr"]["table"]) && $row["#attr"]["table"] != "") {
-                        $apps[$row["#attr"]["code"]] = $row["#attr"];
-                        $tables[$row["#attr"]["table"]] = $row["#attr"];
+                    if (isset($row['#attr']['table']) && $row['#attr']['table'] != '') {
+                        $apps[$row['#attr']['code']] = $row['#attr'];
+                        $tables[$row['#attr']['table']] = $row['#attr'];
                     }
                 }
             }
         }
     }
-    if (stripos($fn, "get_apps") !== false) {
+    if (stripos($fn, 'get_apps') !== false) {
         return array_keys($apps);
-    } elseif (stripos($fn, "get_tables") !== false) {
+    } elseif (stripos($fn, 'get_tables') !== false) {
         return array_keys($tables);
-    } elseif (stripos($fn, "get_field") !== false) {
+    } elseif (stripos($fn, 'get_field') !== false) {
         if (isset($apps[$table][$field])) {
             return $apps[$table][$field];
         }
         if (isset($tables[$table][$field])) {
             return $tables[$table][$field];
         }
-        return "";
+        return '';
     }
-    show_php_error(["phperror" => "Unknown fn '$fn'"]);
+    show_php_error(['phperror' => "Unknown fn '$fn'"]);
 }
 
 /**
@@ -794,18 +794,18 @@ function __dbstatic_helper($fn, $table, $field)
  */
 function __manifest2dbstatic($files)
 {
-    $dbstatic = ["tables" => []];
+    $dbstatic = ['tables' => []];
     foreach ($files as $file) {
         $data = xmlfile2array($file);
-        if (!is_array($data) || !isset($data["apps"]) || !is_array($data["apps"])) {
-            show_php_error(["phperror" => "File $file must contains a valid apps node"]);
+        if (!is_array($data) || !isset($data['apps']) || !is_array($data['apps'])) {
+            show_php_error(['phperror' => "File $file must contains a valid apps node"]);
         }
-        foreach ($data["apps"] as $app) {
-            if (!isset($app["perms"]) || !is_array($app["perms"])) {
-                show_php_error(["phperror" => "File $file must contains a valid perms node"]);
+        foreach ($data['apps'] as $app) {
+            if (!isset($app['perms']) || !is_array($app['perms'])) {
+                show_php_error(['phperror' => "File $file must contains a valid perms node"]);
             }
-            $perms = $app["perms"];
-            unset($app["perms"]);
+            $perms = $app['perms'];
+            unset($app['perms']);
             // Add the apps data package
             $xml = '<table name="tbl_apps">
                         <row id="" active="" code="" name="" description="" table="" subtables="" field=""
@@ -813,39 +813,39 @@ function __manifest2dbstatic($files)
                     </table>';
             $array = xml2array($xml);
             foreach ($app as $key => $val) {
-                $array["table"]["value"]["row"]["#attr"][$key] = $val;
+                $array['table']['value']['row']['#attr'][$key] = $val;
             }
-            set_array($dbstatic["tables"], "table", $array["table"]);
+            set_array($dbstatic['tables'], 'table', $array['table']);
             // Add the perms data package
             if (is_attr_value($perms)) {
-                $value = $perms["value"];
-                $attr = $perms["#attr"];
+                $value = $perms['value'];
+                $attr = $perms['#attr'];
             } else {
                 $value = $perms;
                 $attr = [];
             }
             $perm_id = [];
             foreach ($value as $perm) {
-                $perm0 = strtok($perm, ",");
+                $perm0 = strtok($perm, ',');
                 if (!is_numeric($perm0)) {
-                    show_php_error(["phperror" => "Unknown perm '$perm'"]);
+                    show_php_error(['phperror' => "Unknown perm '$perm'"]);
                 }
                 $perm_id[] = $perm0;
             }
-            $perm_id = implode(",", $perm_id);
+            $perm_id = implode(',', $perm_id);
             $xml = '<table name="tbl_apps_perms">
                         <row app_id="" perm_id="" allow="0" deny="0"/>
                     </table>';
             $array = xml2array($xml);
-            $array["table"]["value"]["row"]["#attr"]["app_id"] = $app["id"];
-            $array["table"]["value"]["row"]["#attr"]["perm_id"] = $perm_id;
-            if (isset($attr["allow"])) {
-                $array["table"]["value"]["row"]["#attr"]["allow"] = $attr["allow"];
+            $array['table']['value']['row']['#attr']['app_id'] = $app['id'];
+            $array['table']['value']['row']['#attr']['perm_id'] = $perm_id;
+            if (isset($attr['allow'])) {
+                $array['table']['value']['row']['#attr']['allow'] = $attr['allow'];
             }
-            if (isset($attr["deny"])) {
-                $array["table"]["value"]["row"]["#attr"]["deny"] = $attr["deny"];
+            if (isset($attr['deny'])) {
+                $array['table']['value']['row']['#attr']['deny'] = $attr['deny'];
             }
-            set_array($dbstatic["tables"], "table", $array["table"]);
+            set_array($dbstatic['tables'], 'table', $array['table']);
         }
     }
     return $dbstatic;
@@ -862,25 +862,25 @@ function __manifest_perms_check($files)
 {
     foreach ($files as $file) {
         $data = xmlfile2array($file);
-        foreach ($data["apps"] as $app) {
-            $perms = $app["perms"];
-            unset($app["perms"]);
+        foreach ($data['apps'] as $app) {
+            $perms = $app['perms'];
+            unset($app['perms']);
             if (is_attr_value($perms)) {
-                $value = $perms["value"];
-                $attr = $perms["#attr"];
+                $value = $perms['value'];
+                $attr = $perms['#attr'];
             } else {
                 $value = $perms;
                 $attr = [];
             }
             foreach ($value as $perm) {
-                $perm_array = explode(",", $perm . ",,");
-                $exists = execute_query("SELECT id FROM tbl_perms WHERE " . make_where_query([
-                    "id" => $perm_array[0],
-                    "code" => $perm_array[1],
-                    "owner" => $perm_array[2],
+                $perm_array = explode(',', $perm . ',,');
+                $exists = execute_query('SELECT id FROM tbl_perms WHERE ' . make_where_query([
+                    'id' => $perm_array[0],
+                    'code' => $perm_array[1],
+                    'owner' => $perm_array[2],
                 ]));
                 if (!$exists) {
-                    show_php_error(["phperror" => "Perm '$perm' not found"]);
+                    show_php_error(['phperror' => "Perm '$perm' not found"]);
                 }
             }
         }
@@ -901,51 +901,51 @@ function __manifest_perms_check($files)
  */
 function __dbschema_create_table($tablespec)
 {
-    $table = $tablespec["#attr"]["name"];
+    $table = $tablespec['#attr']['name'];
     $fields = [];
-    foreach ($tablespec["value"]["fields"] as $field) {
-        $name = $field["#attr"]["name"];
-        $type = $field["#attr"]["type"];
+    foreach ($tablespec['value']['fields'] as $field) {
+        $name = $field['#attr']['name'];
+        $type = $field['#attr']['type'];
         $type2 = get_field_type($type);
-        if ($type2 == "int") {
+        if ($type2 == 'int') {
             $def = intval(0);
-        } elseif ($type2 == "float") {
+        } elseif ($type2 == 'float') {
             $def = floatval(0);
-        } elseif ($type2 == "date") {
+        } elseif ($type2 == 'date') {
             $def = dateval(0);
-        } elseif ($type2 == "time") {
+        } elseif ($type2 == 'time') {
             $def = timeval(0);
-        } elseif ($type2 == "datetime") {
+        } elseif ($type2 == 'datetime') {
             $def = datetimeval(0);
-        } elseif ($type2 == "string") {
-            $def = "";
+        } elseif ($type2 == 'string') {
+            $def = '';
         } else {
             // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "Unknown type '$type'"]);
+            show_php_error(['phperror' => "Unknown type '$type'"]);
             // @codeCoverageIgnoreEnd
         }
         $extra = "NOT NULL DEFAULT '$def'";
-        if (isset($field["#attr"]["pkey"]) && eval_bool($field["#attr"]["pkey"])) {
-            $extra = "PRIMARY KEY /*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */";
+        if (isset($field['#attr']['pkey']) && eval_bool($field['#attr']['pkey'])) {
+            $extra = 'PRIMARY KEY /*MYSQL AUTO_INCREMENT *//*SQLITE AUTOINCREMENT */';
         }
         $name2 = escape_reserved_word($name);
         $fields[] = "$name2 $type $extra";
     }
-    foreach ($tablespec["value"]["fields"] as $field) {
-        if (isset($field["#attr"]["fkey"])) {
-            $fkey = $field["#attr"]["fkey"];
-            if ($fkey != "") {
-                $name = $field["#attr"]["name"];
+    foreach ($tablespec['value']['fields'] as $field) {
+        if (isset($field['#attr']['fkey'])) {
+            $fkey = $field['#attr']['fkey'];
+            if ($fkey != '') {
+                $name = $field['#attr']['name'];
                 $fields[] = "FOREIGN KEY ($name) REFERENCES $fkey (id)";
             }
         }
     }
-    $fields = implode(",", $fields);
-    $post = "/*MYSQL ENGINE=MyISAM CHARSET=utf8mb4 */";
-    if (in_array($table, get_fulltext_from_dbschema()) && __has_engine("mroonga")) {
-        $post = "/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 */";
-    } elseif (__has_engine("aria")) {
-        $post = "/*MYSQL ENGINE=Aria CHARSET=utf8mb4 */";
+    $fields = implode(',', $fields);
+    $post = '/*MYSQL ENGINE=MyISAM CHARSET=utf8mb4 */';
+    if (in_array($table, get_fulltext_from_dbschema()) && __has_engine('mroonga')) {
+        $post = '/*MYSQL ENGINE=Mroonga CHARSET=utf8mb4 */';
+    } elseif (__has_engine('aria')) {
+        $post = '/*MYSQL ENGINE=Aria CHARSET=utf8mb4 */';
     }
     $query = "CREATE TABLE $table ($fields) $post";
     return $query;
@@ -978,32 +978,32 @@ function __dbschema_insert_from_select($dest, $orig)
     $fdest = get_fields($dest);
     $ldest = [];
     foreach ($fdest as $f) {
-        $ldest[] = $f["name"];
+        $ldest[] = $f['name'];
     }
     $forig = get_fields($orig);
     $lorig = [];
     foreach ($forig as $f) {
-        $lorig[] = $f["name"];
+        $lorig[] = $f['name'];
     }
     $defs = [];
     foreach ($fdest as $f) {
-        $type = $f["type"];
+        $type = $f['type'];
         $type2 = get_field_type($type);
-        if ($type2 == "int") {
+        if ($type2 == 'int') {
             $defs[] = intval(0);
-        } elseif ($type2 == "float") {
+        } elseif ($type2 == 'float') {
             $defs[] = floatval(0);
-        } elseif ($type2 == "date") {
+        } elseif ($type2 == 'date') {
             $defs[] = dateval(0);
-        } elseif ($type2 == "time") {
+        } elseif ($type2 == 'time') {
             $defs[] = timeval(0);
-        } elseif ($type2 == "datetime") {
+        } elseif ($type2 == 'datetime') {
             $defs[] = datetimeval(0);
-        } elseif ($type2 == "string") {
-            $defs[] = "";
+        } elseif ($type2 == 'string') {
+            $defs[] = '';
         } else {
             // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "Unknown type '$type'"]);
+            show_php_error(['phperror' => "Unknown type '$type'"]);
             // @codeCoverageIgnoreEnd
         }
     }
@@ -1015,8 +1015,8 @@ function __dbschema_insert_from_select($dest, $orig)
         $keys[] = $l2;
         $vals[] = in_array($l, $lorig) ? $l2 : "'$def'";
     }
-    $keys = implode(",", $keys);
-    $vals = implode(",", $vals);
+    $keys = implode(',', $keys);
+    $vals = implode(',', $vals);
     $query = "INSERT INTO $dest($keys) SELECT $vals FROM $orig";
     return $query;
 }
@@ -1047,17 +1047,17 @@ function __dbschema_drop_table($table)
  */
 function __dbschema_create_index($indexspec)
 {
-    $name = $indexspec["#attr"]["name"];
-    $table = $indexspec["#attr"]["table"];
-    $fields = $indexspec["#attr"]["fields"];
-    $fields = explode(",", $fields);
+    $name = $indexspec['#attr']['name'];
+    $table = $indexspec['#attr']['table'];
+    $fields = $indexspec['#attr']['fields'];
+    $fields = explode(',', $fields);
     foreach ($fields as $key => $val) {
         $fields[$key] = escape_reserved_word($val);
     }
-    $fields = implode(",", $fields);
-    $pre = "";
-    if (isset($indexspec["#attr"]["fulltext"]) && eval_bool($indexspec["#attr"]["fulltext"])) {
-        $pre = "/*MYSQL FULLTEXT */";
+    $fields = implode(',', $fields);
+    $pre = '';
+    if (isset($indexspec['#attr']['fulltext']) && eval_bool($indexspec['#attr']['fulltext'])) {
+        $pre = '/*MYSQL FULLTEXT */';
     }
     $query = "CREATE $pre INDEX $name ON $table ($fields)";
     return $query;

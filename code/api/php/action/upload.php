@@ -58,40 +58,40 @@ declare(strict_types=1);
 db_connect();
 $user_id = current_user();
 if (!$user_id) {
-    show_json_error("Permission denied");
+    show_json_error('Permission denied');
 }
 
-$action = get_data("rest/1");
-$file = get_data("json");
-if ($file == "") {
-    show_json_error("file not found");
+$action = get_data('rest/1');
+$file = get_data('json');
+if ($file == '') {
+    show_json_error('file not found');
 }
 
-require_once "php/lib/upload.php";
+require_once 'php/lib/upload.php';
 
-$array = ["id", "app", "name", "size", "type", "data", "error", "file", "hash"];
+$array = ['id', 'app', 'name', 'size', 'type', 'data', 'error', 'file', 'hash'];
 foreach ($array as $key => $val) {
     if (isset($file[$val])) {
         unset($array[$key]);
     }
 }
 if (count($array)) {
-    show_json_error("Missing " . implode(", ", $array));
+    show_json_error('Missing ' . implode(', ', $array));
 }
-if ($file["error"] != "") {
-    show_json_error($file["error"]);
+if ($file['error'] != '') {
+    show_json_error($file['error']);
 }
 
 // Do the action
 switch ($action) {
-    case "addfile":
+    case 'addfile':
         $file = add_file($file);
         break;
-    case "delfile":
+    case 'delfile':
         $file = del_file($file);
         break;
     default:
-        show_php_error(["phperror" => "Unknown action $action"]);
+        show_php_error(['phperror' => "Unknown action $action"]);
 }
 
 output_handler_json($file);

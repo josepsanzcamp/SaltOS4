@@ -72,27 +72,27 @@ class database_mysqli
      */
     public function __construct($args)
     {
-        if (!class_exists("mysqli")) {
+        if (!class_exists('mysqli')) {
             // @codeCoverageIgnoreStart
             show_php_error([
-                "phperror" => "Class mysqli not found",
-                "details" => "Try to install php-mysql package",
+                'phperror' => 'Class mysqli not found',
+                'details' => 'Try to install php-mysql package',
             ]);
             // @codeCoverageIgnoreEnd
         }
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
             $this->link = new mysqli(
-                $args["host"] . ":" . $args["port"],
-                $args["user"], $args["pass"],
-                $args["name"]
+                $args['host'] . ':' . $args['port'],
+                $args['user'], $args['pass'],
+                $args['name']
             );
         } catch (Exception $e) {
-            show_php_error(["dberror" => $e->getMessage()]);
+            show_php_error(['dberror' => $e->getMessage()]);
         }
         $this->db_query("SET NAMES 'utf8mb4'");
-        $this->db_query("SET FOREIGN_KEY_CHECKS=0");
-        $this->db_query("SET GROUP_CONCAT_MAX_LEN:=@@MAX_ALLOWED_PACKET");
+        $this->db_query('SET FOREIGN_KEY_CHECKS=0');
+        $this->db_query('SET GROUP_CONCAT_MAX_LEN:=@@MAX_ALLOWED_PACKET');
     }
 
     /**
@@ -140,10 +140,10 @@ class database_mysqli
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */
-    public function db_query($query, $fetch = "query")
+    public function db_query($query, $fetch = 'query')
     {
-        $query = parse_query($query, "MYSQL");
-        $result = ["total" => 0, "header" => [], "rows" => []];
+        $query = parse_query($query, 'MYSQL');
+        $result = ['total' => 0, 'header' => [], 'rows' => []];
         if (!strlen(trim($query))) {
             return $result;
         }
@@ -151,40 +151,40 @@ class database_mysqli
         try {
             $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
         } catch (Exception $e) {
-            show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+            show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
         }
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->field_count > 0) {
-            if ($fetch == "auto") {
-                $fetch = $stmt->field_count > 1 ? "query" : "column";
+            if ($fetch == 'auto') {
+                $fetch = $stmt->field_count > 1 ? 'query' : 'column';
             }
-            if ($fetch == "query") {
+            if ($fetch == 'query') {
                 while ($row = $stmt->fetch_assoc()) {
-                    $result["rows"][] = $row;
+                    $result['rows'][] = $row;
                 }
-                $result["total"] = count($result["rows"]);
-                if ($result["total"] > 0) {
-                    $result["header"] = array_keys($result["rows"][0]);
+                $result['total'] = count($result['rows']);
+                if ($result['total'] > 0) {
+                    $result['header'] = array_keys($result['rows'][0]);
                 }
                 $stmt->free_result();
             }
-            if ($fetch == "column") {
+            if ($fetch == 'column') {
                 while ($row = $stmt->fetch_row()) {
-                    $result["rows"][] = $row[0];
+                    $result['rows'][] = $row[0];
                 }
-                $result["total"] = count($result["rows"]);
-                $result["header"] = ["column"];
+                $result['total'] = count($result['rows']);
+                $result['header'] = ['column'];
                 $stmt->free_result();
             }
-            if ($fetch == "concat") {
+            if ($fetch == 'concat') {
                 if ($row = $stmt->fetch_row()) {
-                    $result["rows"][] = $row[0];
+                    $result['rows'][] = $row[0];
                 }
                 while ($row = $stmt->fetch_row()) {
-                    $result["rows"][0] .= "," . $row[0];
+                    $result['rows'][0] .= ',' . $row[0];
                 }
-                $result["total"] = count($result["rows"]);
-                $result["header"] = ["concat"];
+                $result['total'] = count($result['rows']);
+                $result['header'] = ['concat'];
                 $stmt->free_result();
             }
         }

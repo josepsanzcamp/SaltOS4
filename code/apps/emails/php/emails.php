@@ -41,81 +41,81 @@ declare(strict_types=1);
 function make_where_query_emails($json)
 {
     // Prepare fields
-    $account_id = $json["account_id"] ?? "";
-    $fields = $json["fields"] ?? "";
-    $search = $json["search"] ?? "";
-    $date1 = $json["date1"] ?? "";
-    $date2 = $json["date2"] ?? "";
-    $date3 = $json["date3"] ?? "";
-    $onlynew = $json["onlynew"] ?? "";
-    $onlywait = $json["onlywait"] ?? "";
-    $onlyspam = $json["onlyspam"] ?? "";
-    $hidespam = $json["hidespam"] ?? "";
-    $withfiles = $json["withfiles"] ?? "";
-    $withoutfiles = $json["withoutfiles"] ?? "";
-    $onlyinbox = $json["onlyinbox"] ?? "";
-    $onlyoutbox = $json["onlyoutbox"] ?? "";
+    $account_id = $json['account_id'] ?? '';
+    $fields = $json['fields'] ?? '';
+    $search = $json['search'] ?? '';
+    $date1 = $json['date1'] ?? '';
+    $date2 = $json['date2'] ?? '';
+    $date3 = $json['date3'] ?? '';
+    $onlynew = $json['onlynew'] ?? '';
+    $onlywait = $json['onlywait'] ?? '';
+    $onlyspam = $json['onlyspam'] ?? '';
+    $hidespam = $json['hidespam'] ?? '';
+    $withfiles = $json['withfiles'] ?? '';
+    $withoutfiles = $json['withoutfiles'] ?? '';
+    $onlyinbox = $json['onlyinbox'] ?? '';
+    $onlyoutbox = $json['onlyoutbox'] ?? '';
     // Some helper fields
     $fields_array = [
-        "" => "",
-        "email" => "`from`,`to`,cc,bcc",
-        "subject" => "subject",
-        "body" => "body",
+        '' => '',
+        'email' => '`from`,`to`,cc,bcc',
+        'subject' => 'subject',
+        'body' => 'body',
     ];
-    $fields = isset($fields_array[$fields]) ? $fields : "";
+    $fields = isset($fields_array[$fields]) ? $fields : '';
     $date3_array = [
-        "today" => "DATE(datetime)=DATE('" . current_date() . "')",
-        "yesterday" => "DATE(datetime)=DATE('" . current_date(-86400) . "')",
-        "week" => "DATE(datetime)>=DATE('" . current_date(-86400 * 7) . "')",
-        "month" => "DATE(datetime)>=DATE('" . current_date(-86400 * 30) . "')",
+        'today' => "DATE(datetime)=DATE('" . current_date() . "')",
+        'yesterday' => "DATE(datetime)=DATE('" . current_date(-86400) . "')",
+        'week' => "DATE(datetime)>=DATE('" . current_date(-86400 * 7) . "')",
+        'month' => "DATE(datetime)>=DATE('" . current_date(-86400 * 30) . "')",
     ];
-    $date3 = isset($date3_array[$date3]) ? $date3 : "";
+    $date3 = isset($date3_array[$date3]) ? $date3 : '';
     $only = intval($onlynew) . intval($onlywait) . intval($onlyspam);
     $only_array = [
-        "100" => "state_new='1'",
-        "010" => "state_wait='1'",
-        "110" => "(state_new='1' OR state_wait='1')",
-        "001" => "state_spam='1'",
-        "101" => "(state_new='1' OR state_spam='1')",
-        "011" => "(state_wait='1' OR state_spam='1')",
-        "111" => "(state_new='1' OR state_wait='1' OR state_spam='1')",
+        '100' => "state_new='1'",
+        '010' => "state_wait='1'",
+        '110' => "(state_new='1' OR state_wait='1')",
+        '001' => "state_spam='1'",
+        '101' => "(state_new='1' OR state_spam='1')",
+        '011' => "(state_wait='1' OR state_spam='1')",
+        '111' => "(state_new='1' OR state_wait='1' OR state_spam='1')",
     ];
-    $only = isset($only_array[$only]) ? $only : "";
+    $only = isset($only_array[$only]) ? $only : '';
     // Make the query part
-    $query = ["1=1"];
-    if ($account_id != "") {
+    $query = ['1=1'];
+    if ($account_id != '') {
         $query[] = "account_id='$account_id'";
     }
-    if ($fields != "") {
+    if ($fields != '') {
         $query[] = make_like_query($fields_array[$fields], $search);
     }
-    if ($only != "") {
+    if ($only != '') {
         $query[] = $only_array[$only];
     }
     if ($hidespam) {
         $query[] = "state_spam='0'";
     }
     if ($withfiles) {
-        $query[] = "files>0";
+        $query[] = 'files>0';
     }
     if ($withoutfiles) {
-        $query[] = "files=0";
+        $query[] = 'files=0';
     }
     if ($onlyinbox) {
-        $query[] = "is_outbox=0";
+        $query[] = 'is_outbox=0';
     }
     if ($onlyoutbox) {
-        $query[] = "is_outbox=1";
+        $query[] = 'is_outbox=1';
     }
-    if ($date1 != "") {
+    if ($date1 != '') {
         $query[] = "(DATE(datetime)>=DATE('$date1'))";
     }
-    if ($date2 != "") {
+    if ($date2 != '') {
         $query[] = "(DATE('$date2')>=DATE(datetime))";
     }
-    if ($date3 != "") {
+    if ($date3 != '') {
         $query[] = $date3_array[$date3];
     }
-    $query = implode(" AND ", $query);
+    $query = implode(' AND ', $query);
     return $query;
 }

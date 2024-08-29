@@ -61,7 +61,7 @@ function make_index($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
-    if ($table == "") {
+    if ($table == '') {
         return -1;
     }
     // Check if index exists
@@ -90,20 +90,20 @@ function make_index($app, $reg_id)
         $val = escape_reserved_word($val);
         $fields[$key] = "IFNULL(($val),'')";
     }
-    $fields = "CONCAT(" . implode(",' ',", $fields) . ")";
+    $fields = 'CONCAT(' . implode(",' ',", $fields) . ')';
     $query = "SELECT $fields FROM $table WHERE id='$reg_id'";
     $queries[] = $query;
     // This part allow to get all data of the all fields from the subtables
     $subtables = app2subtables($app);
     foreach ($subtables as $temp) {
-        $subtable = $temp["subtable"];
-        $field = $temp["field"];
+        $subtable = $temp['subtable'];
+        $field = $temp['field'];
         $fields = __make_index_helper($subtable);
         foreach ($fields as $key => $val) {
             $val = escape_reserved_word($val);
             $fields[$key] = "IFNULL(($val),'')";
         }
-        $fields = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $fields) . "))";
+        $fields = 'GROUP_CONCAT(CONCAT(' . implode(",' ',", $fields) . '))';
         $query = "SELECT $fields FROM $subtable WHERE $field='$reg_id'";
         $queries[] = $query;
     }
@@ -119,7 +119,7 @@ function make_index($app, $reg_id)
             $val = escape_reserved_word($val);
             $fields[$key] = "IFNULL(($val),'')";
         }
-        $fields = "GROUP_CONCAT(CONCAT(" . implode(",' ',", $fields) . "))";
+        $fields = 'GROUP_CONCAT(CONCAT(' . implode(",' ',", $fields) . '))';
         $query = "SELECT $fields FROM $subtable WHERE reg_id='$reg_id'";
         $queries[] = $query;
     }
@@ -127,7 +127,7 @@ function make_index($app, $reg_id)
     foreach ($queries as $key => $val) {
         $queries[$key] = "IFNULL(($val),'')";
     }
-    $search = "CONCAT(" . implode(",' ',", $queries) . ")";
+    $search = 'CONCAT(' . implode(",' ',", $queries) . ')';
     // Do the insert or update action to the index table
     if (!$index_id) {
         $query = "INSERT INTO {$table}_index(id,search) VALUES($reg_id,$search)";
@@ -153,41 +153,41 @@ function make_index($app, $reg_id)
  * an array with all fields and subqueries to allow to retrieve all data
  * related to the app register
  */
-function __make_index_helper($table, $id = "")
+function __make_index_helper($table, $id = '')
 {
     static $cache = [];
-    $hash = $table . "|" . $id;
+    $hash = $table . '|' . $id;
     if (isset($cache[$hash])) {
         return $cache[$hash];
     }
-    $fieldnames = array_column(get_fields($table), "name");
+    $fieldnames = array_column(get_fields($table), 'name');
     $fieldnames = escape_reserved_word($fieldnames);
     $result = $fieldnames;
     $tablefield = __get_field_helper($table);
-    if ($tablefield != "") {
+    if ($tablefield != '') {
         $result[] = $tablefield;
     }
     $fieldfkeys = __get_fkeys_helper($table);
     foreach ($fieldfkeys as $key => $val) {
         $temp = __get_field_helper($val);
-        if ($temp == "") {
-            $temp = array_column(get_fields($val), "name");
+        if ($temp == '') {
+            $temp = array_column(get_fields($val), 'name');
             $temp = escape_reserved_word($temp);
             $temp = implode(",' ',", $temp);
-            if ($temp != "") {
+            if ($temp != '') {
                 $temp = "CONCAT($temp)";
             }
         }
         $field = $temp;
-        $type = get_field_type(array_column(get_fields($table), "type", "name")[$key]);
-        if ($type == "int") {
-            if ($id == "") {
+        $type = get_field_type(array_column(get_fields($table), 'type', 'name')[$key]);
+        if ($type == 'int') {
+            if ($id == '') {
                 $where = "$val.id=$key";
             } else {
                 $where = "$val.id=(SELECT $key FROM $table WHERE id=$id)";
             }
-        } elseif ($type == "string") {
-            if ($id == "") {
+        } elseif ($type == 'string') {
+            if ($id == '') {
                 $where = "FIND_IN_SET($val.id,$key)";
             } else {
                 $where = "FIND_IN_SET($val.id,(SELECT $key FROM $table WHERE id=$id))";
@@ -195,10 +195,10 @@ function __make_index_helper($table, $id = "")
             $field = "GROUP_CONCAT($field)";
         } else {
             // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "Unknown type '$type'"]);
+            show_php_error(['phperror' => "Unknown type '$type'"]);
             // @codeCoverageIgnoreEnd
         }
-        if ($field != "" && $where != "") {
+        if ($field != '' && $where != '') {
             $result[] = "(SELECT $field FROM $val WHERE $where)";
         }
     }
@@ -220,7 +220,7 @@ function __make_index_helper($table, $id = "")
  */
 function __get_field_helper($table)
 {
-    require_once "php/lib/dbschema.php";
+    require_once 'php/lib/dbschema.php';
     return get_field_from_dbstatic($table);
 }
 
@@ -237,6 +237,6 @@ function __get_field_helper($table)
  */
 function __get_fkeys_helper($table)
 {
-    require_once "php/lib/dbschema.php";
+    require_once 'php/lib/dbschema.php';
     return get_fkeys_from_dbschema($table);
 }

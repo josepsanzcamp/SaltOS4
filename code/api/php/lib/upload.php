@@ -42,8 +42,8 @@ declare(strict_types=1);
 function add_file($val)
 {
     // Get data and remove it from files[key]
-    $data = $val["data"];
-    $val["data"] = "";
+    $data = $val['data'];
+    $val['data'] = '';
     // Check for the data prefix
     $pre = "data:{$val["type"]};base64,";
     $len = strlen($pre);
@@ -52,28 +52,28 @@ function add_file($val)
     }
     // Check for the data size
     $data = base64_decode(substr($data, $len));
-    if (strlen($data) != $val["size"]) {
+    if (strlen($data) != $val['size']) {
         return $val;
     }
     // Store it in a local file
-    $val["file"] = time() . "_" . get_unique_id_md5() . "_" . encode_bad_chars_file($val["name"]);
-    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
-    file_put_contents($dir . $val["file"], $data);
+    $val['file'] = time() . '_' . get_unique_id_md5() . '_' . encode_bad_chars_file($val['name']);
+    $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
+    file_put_contents($dir . $val['file'], $data);
     // Compute the hash
-    $val["hash"] = md5($data);
+    $val['hash'] = md5($data);
     // Do the insert
     $user_id = current_user();
     $datetime = current_datetime();
-    $query = make_insert_query("tbl_uploads", [
-        "user_id" => $user_id,
-        "datetime" => $datetime,
-        "uniqid" => $val["id"],
-        "app" => $val["app"],
-        "name" => $val["name"],
-        "size" => $val["size"],
-        "type" => $val["type"],
-        "file" => $val["file"],
-        "hash" => $val["hash"],
+    $query = make_insert_query('tbl_uploads', [
+        'user_id' => $user_id,
+        'datetime' => $datetime,
+        'uniqid' => $val['id'],
+        'app' => $val['app'],
+        'name' => $val['name'],
+        'size' => $val['size'],
+        'type' => $val['type'],
+        'file' => $val['file'],
+        'hash' => $val['hash'],
     ]);
     db_query($query);
     return $val;
@@ -97,43 +97,43 @@ function del_file($val)
     $user_id = current_user();
     // Check integrity with the database entry
     $id = check_file([
-        "user_id" => $user_id,
-        "uniqid" => $val["id"],
-        "app" => $val["app"],
-        "name" => $val["name"],
-        "size" => $val["size"],
-        "type" => $val["type"],
-        "file" => $val["file"],
-        "hash" => $val["hash"],
+        'user_id' => $user_id,
+        'uniqid' => $val['id'],
+        'app' => $val['app'],
+        'name' => $val['name'],
+        'size' => $val['size'],
+        'type' => $val['type'],
+        'file' => $val['file'],
+        'hash' => $val['hash'],
     ]);
     if (!$id) {
         return $val;
     }
     // Check for file name integrity
-    if (encode_bad_chars_file($val["file"]) != $val["file"]) {
+    if (encode_bad_chars_file($val['file']) != $val['file']) {
         return $val;
     }
     // Check for the file exists and is a file
-    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
-    if (!file_exists($dir . $val["file"]) || !is_file($dir . $val["file"])) {
+    $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
+    if (!file_exists($dir . $val['file']) || !is_file($dir . $val['file'])) {
         return $val;
     }
     // Check for file size integrity
-    if (filesize($dir . $val["file"]) != $val["size"]) {
+    if (filesize($dir . $val['file']) != $val['size']) {
         return $val;
     }
     // Check for file hash integrity
-    if (md5_file($dir . $val["file"]) != $val["hash"]) {
+    if (md5_file($dir . $val['file']) != $val['hash']) {
         return $val;
     }
     // Remove the local file
-    unlink($dir . $val["file"]);
+    unlink($dir . $val['file']);
     // Remove the database entry
     $query = "DELETE FROM tbl_uploads WHERE id = $id";
     db_query($query);
     // Reset vars
-    $val["file"] = "";
-    $val["hash"] = "";
+    $val['file'] = '';
+    $val['hash'] = '';
     return $val;
 }
 
@@ -153,7 +153,7 @@ function del_file($val)
  */
 function check_file($val)
 {
-    $query = "SELECT id FROM tbl_uploads WHERE " . make_where_query($val);
+    $query = 'SELECT id FROM tbl_uploads WHERE ' . make_where_query($val);
     $id = execute_query($query);
     return $id;
 }
@@ -167,22 +167,22 @@ function check_file($val)
  */
 function gc_upload()
 {
-    $delta = current_datetime(-intval(get_config("server/cachetimeout")));
+    $delta = current_datetime(-intval(get_config('server/cachetimeout')));
     $query = "SELECT id, file FROM tbl_uploads WHERE datetime < '$delta'";
     $files = execute_query_array($query);
-    $dir = get_directory("dirs/uploaddir") ?? getcwd_protected() . "/data/upload/";
+    $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     $output = [
-        "deleted" => [],
-        "count" => 0,
+        'deleted' => [],
+        'count' => 0,
     ];
     foreach ($files as $file) {
-        if (file_exists($dir . $file["file"]) && is_file($dir . $file["file"])) {
-            unlink($dir . $file["file"]);
+        if (file_exists($dir . $file['file']) && is_file($dir . $file['file'])) {
+            unlink($dir . $file['file']);
         }
-        $query = "DELETE FROM tbl_uploads WHERE id = " . $file["id"];
+        $query = 'DELETE FROM tbl_uploads WHERE id = ' . $file['id'];
         db_query($query);
-        $output["deleted"][] = $dir . $file["file"];
-        $output["count"]++;
+        $output['deleted'][] = $dir . $file['file'];
+        $output['count']++;
     }
     return $output;
 }

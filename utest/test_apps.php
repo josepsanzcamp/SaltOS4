@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,23 +67,23 @@ final class test_apps extends TestCase
      */
     public function test_apps(): void
     {
-        $this->assertSame(app2id("invoices"), 12);
-        $this->assertSame(id2app(12), "invoices");
-        $this->assertSame(id2app(12), "invoices");
-        $this->assertSame(id2table(12), "app_invoices");
-        $this->assertSame(app2table("invoices"), "app_invoices");
-        $this->assertSame(table2id("app_invoices"), 12);
-        $this->assertSame(table2app("app_invoices"), "invoices");
+        $this->assertSame(app2id('invoices'), 12);
+        $this->assertSame(id2app(12), 'invoices');
+        $this->assertSame(id2app(12), 'invoices');
+        $this->assertSame(id2table(12), 'app_invoices');
+        $this->assertSame(app2table('invoices'), 'app_invoices');
+        $this->assertSame(table2id('app_invoices'), 12);
+        $this->assertSame(table2app('app_invoices'), 'invoices');
         $this->assertSame(count(id2subtables(12)), 2);
-        $this->assertSame(count(app2subtables("invoices")), 2);
-        $this->assertSame(count(table2subtables("app_invoices")), 2);
-        $this->assertSame(app_exists("invoices"), true);
-        $this->assertSame(count(detect_apps_files("xml/dbschema.xml")) > 1, true);
-        $this->assertSame(app2index("invoices"), 1);
-        $this->assertSame(app2control("invoices"), 1);
-        $this->assertSame(app2version("invoices"), 1);
-        $this->assertSame(app2files("invoices"), 1);
-        $this->assertSame(app2notes("invoices"), 1);
+        $this->assertSame(count(app2subtables('invoices')), 2);
+        $this->assertSame(count(table2subtables('app_invoices')), 2);
+        $this->assertSame(app_exists('invoices'), true);
+        $this->assertSame(count(detect_apps_files('xml/dbschema.xml')) > 1, true);
+        $this->assertSame(app2index('invoices'), 1);
+        $this->assertSame(app2control('invoices'), 1);
+        $this->assertSame(app2version('invoices'), 1);
+        $this->assertSame(app2files('invoices'), 1);
+        $this->assertSame(app2notes('invoices'), 1);
     }
 
     #[testdox('app functions')]
@@ -95,66 +95,66 @@ final class test_apps extends TestCase
      */
     public function test_app(): void
     {
-        $json = test_web_helper("app", null, "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('app', null, '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("app/nada", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('app/nada', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("app/customers/nada", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('app/customers/nada', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("app/customers", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('app/customers', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("app/login", "", "", "");
-        $this->assertArrayHasKey("layout", $json);
+        $json = test_web_helper('app/login', '', '', '');
+        $this->assertArrayHasKey('layout', $json);
 
-        $json2 = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json2["status"], "ok");
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey("token", $json2);
+        $this->assertArrayHasKey('token', $json2);
 
-        $json = test_web_helper("app/customers", "", $json2["token"], "");
-        $this->assertArrayHasKey("layout", $json);
+        $json = test_web_helper('app/customers', '', $json2['token'], '');
+        $this->assertArrayHasKey('layout', $json);
 
-        $json = test_web_helper("app/customers/widget/plot1", "", $json2["token"], "");
-        $this->assertArrayHasKey("data", $json);
+        $json = test_web_helper('app/customers/widget/plot1', '', $json2['token'], '');
+        $this->assertArrayHasKey('data', $json);
 
-        test_external_exec("php/apps1.php", "phperror.log", "nada(nada) not found");
+        test_external_exec('php/apps1.php', 'phperror.log', 'nada(nada) not found');
 
-        if (file_exists("apps/nada2/xml/app.xml")) {
-            unlink("apps/nada2/xml/app.xml");
+        if (file_exists('apps/nada2/xml/app.xml')) {
+            unlink('apps/nada2/xml/app.xml');
         }
-        if (file_exists("apps/nada2/xml")) {
-            rmdir("apps/nada2/xml");
+        if (file_exists('apps/nada2/xml')) {
+            rmdir('apps/nada2/xml');
         }
-        if (file_exists("apps/nada2")) {
-            rmdir("apps/nada2");
+        if (file_exists('apps/nada2')) {
+            rmdir('apps/nada2');
         }
 
-        mkdir("apps/nada2/xml", 0777, true);
-        file_put_contents("apps/nada2/xml/app.xml", "<root></root>");
+        mkdir('apps/nada2/xml', 0777, true);
+        file_put_contents('apps/nada2/xml/app.xml', '<root></root>');
 
-        $json = test_web_helper("app/nada2", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('app/nada2', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        file_put_contents("apps/nada2/xml/app.xml", "<root><nada3></nada3><nada4></nada4></root>");
+        file_put_contents('apps/nada2/xml/app.xml', '<root><nada3></nada3><nada4></nada4></root>');
 
-        $json = test_web_helper("app/nada2", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('app/nada2', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        if (file_exists("apps/nada2/xml/app.xml")) {
-            unlink("apps/nada2/xml/app.xml");
+        if (file_exists('apps/nada2/xml/app.xml')) {
+            unlink('apps/nada2/xml/app.xml');
         }
-        if (file_exists("apps/nada2/xml")) {
-            rmdir("apps/nada2/xml");
+        if (file_exists('apps/nada2/xml')) {
+            rmdir('apps/nada2/xml');
         }
-        if (file_exists("apps/nada2")) {
-            rmdir("apps/nada2");
+        if (file_exists('apps/nada2')) {
+            rmdir('apps/nada2');
         }
     }
 
@@ -167,35 +167,35 @@ final class test_apps extends TestCase
      */
     public function test_list(): void
     {
-        if (file_exists("apps/nada2/xml/list.xml")) {
-            unlink("apps/nada2/xml/list.xml");
+        if (file_exists('apps/nada2/xml/list.xml')) {
+            unlink('apps/nada2/xml/list.xml');
         }
-        if (file_exists("apps/nada2/xml")) {
-            rmdir("apps/nada2/xml");
+        if (file_exists('apps/nada2/xml')) {
+            rmdir('apps/nada2/xml');
         }
-        if (file_exists("apps/nada2")) {
-            rmdir("apps/nada2");
+        if (file_exists('apps/nada2')) {
+            rmdir('apps/nada2');
         }
 
-        mkdir("apps/nada2/xml", 0777, true);
-        file_put_contents("apps/nada2/xml/list.xml", "<root></root>");
+        mkdir('apps/nada2/xml', 0777, true);
+        file_put_contents('apps/nada2/xml/list.xml', '<root></root>');
 
-        $json = test_web_helper("list/nada2", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('list/nada2', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        file_put_contents("apps/nada2/xml/list.xml", "<root><nada3></nada3><nada4></nada4></root>");
+        file_put_contents('apps/nada2/xml/list.xml', '<root><nada3></nada3><nada4></nada4></root>');
 
-        $json = test_web_helper("list/nada2", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('list/nada2', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        if (file_exists("apps/nada2/xml/list.xml")) {
-            unlink("apps/nada2/xml/list.xml");
+        if (file_exists('apps/nada2/xml/list.xml')) {
+            unlink('apps/nada2/xml/list.xml');
         }
-        if (file_exists("apps/nada2/xml")) {
-            rmdir("apps/nada2/xml");
+        if (file_exists('apps/nada2/xml')) {
+            rmdir('apps/nada2/xml');
         }
-        if (file_exists("apps/nada2")) {
-            rmdir("apps/nada2");
+        if (file_exists('apps/nada2')) {
+            rmdir('apps/nada2');
         }
     }
 }

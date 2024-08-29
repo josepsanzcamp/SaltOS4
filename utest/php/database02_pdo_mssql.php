@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,13 +41,13 @@ init_random();
 check_system();
 
 $obj = db_connect([
-    "type" => "pdo_mssql",
-    "host" => "localhost",
-    "port" => "1433",
-    "name" => "master",
-    "user" => "sa",
-    "pass" => "asd123ASD",
+    'type' => 'pdo_mssql',
+    'host' => 'localhost',
+    'port' => '1433',
+    'name' => 'master',
+    'user' => 'sa',
+    'pass' => 'asd123ASD',
 ]);
 
-$query = "SELECT nada FROM nada";
+$query = 'SELECT nada FROM nada';
 $obj->db_query($query);

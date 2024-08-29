@@ -60,26 +60,26 @@ final class test_gettext extends TestCase
      */
     public function test_gettext(): void
     {
-        set_data("rest/0", "app");
-        set_data("rest/1", "dashboard");
-        set_data("server/lang", check_lang_format("en_US.UTF-8"));
-        $this->assertSame(get_data("server/lang"), "en_US");
-        $this->assertSame(T("Close"), "Close");
-        set_data("server/lang", check_lang_format("es_ES.UTF-8"));
-        $this->assertSame(get_data("server/lang"), "es_ES");
-        $this->assertSame(T("Close"), "Cerrar");
-        set_data("server/lang", check_lang_format("ca_ES"));
-        $this->assertSame(get_data("server/lang"), "ca_ES");
-        $this->assertSame(T("Close"), "Tancar");
-        $this->assertSame(T("Nada"), "Nada");
+        set_data('rest/0', 'app');
+        set_data('rest/1', 'dashboard');
+        set_data('server/lang', check_lang_format('en_US.UTF-8'));
+        $this->assertSame(get_data('server/lang'), 'en_US');
+        $this->assertSame(T('Close'), 'Close');
+        set_data('server/lang', check_lang_format('es_ES.UTF-8'));
+        $this->assertSame(get_data('server/lang'), 'es_ES');
+        $this->assertSame(T('Close'), 'Cerrar');
+        set_data('server/lang', check_lang_format('ca_ES'));
+        $this->assertSame(get_data('server/lang'), 'ca_ES');
+        $this->assertSame(T('Close'), 'Tancar');
+        $this->assertSame(T('Nada'), 'Nada');
 
-        $this->assertSame(check_lang_format(null), "");
-        $this->assertSame(check_lang_format("AA"), "");
-        $this->assertSame(check_lang_format("AA.asd"), "");
-        $this->assertSame(check_lang_format("AAA-BB"), "");
-        $this->assertSame(check_lang_format("AA-BBB"), "");
-        $this->assertSame(check_lang_format("AA-BB"), "aa_BB");
-        $this->assertSame(check_lang_format("AA_BB"), "aa_BB");
-        $this->assertSame(check_lang_format("AA_BB.asd"), "aa_BB");
+        $this->assertSame(check_lang_format(null), '');
+        $this->assertSame(check_lang_format('AA'), '');
+        $this->assertSame(check_lang_format('AA.asd'), '');
+        $this->assertSame(check_lang_format('AAA-BB'), '');
+        $this->assertSame(check_lang_format('AA-BBB'), '');
+        $this->assertSame(check_lang_format('AA-BB'), 'aa_BB');
+        $this->assertSame(check_lang_format('AA_BB'), 'aa_BB');
+        $this->assertSame(check_lang_format('AA_BB.asd'), 'aa_BB');
     }
 }

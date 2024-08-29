@@ -45,7 +45,7 @@ declare(strict_types=1);
  */
 function current_date($offset = 0)
 {
-    return date("Y-m-d", time() + (int)$offset);
+    return date('Y-m-d', time() + (int)$offset);
 }
 
 /**
@@ -59,7 +59,7 @@ function current_date($offset = 0)
  */
 function current_time($offset = 0)
 {
-    return date("H:i:s", time() + (int)$offset);
+    return date('H:i:s', time() + (int)$offset);
 }
 
 /**
@@ -73,7 +73,7 @@ function current_time($offset = 0)
  */
 function current_datetime($offset = 0)
 {
-    return date("Y-m-d H:i:s", time() + (int)$offset);
+    return date('Y-m-d H:i:s', time() + (int)$offset);
 }
 
 /**
@@ -97,7 +97,7 @@ function current_decimals($offset = 0, $size = 4)
     $decimals -= intval($decimals);
     $decimals = strval($decimals);
     $decimals = substr($decimals, 2, $size);
-    $decimals = str_pad($decimals, $size, "0");
+    $decimals = str_pad($decimals, $size, '0');
     return $decimals;
 }
 
@@ -113,7 +113,7 @@ function current_decimals($offset = 0, $size = 4)
  */
 function current_datetime_decimals($offset = 0, $size = 4)
 {
-    return current_datetime($offset) . "." . current_decimals($offset, $size);
+    return current_datetime($offset) . '.' . current_decimals($offset, $size);
 }
 
 /**
@@ -136,11 +136,11 @@ function current_datetime_decimals($offset = 0, $size = 4)
  */
 function dateval($value)
 {
-    $expr = ["-", ":", ",", ".", "/", "T"];
+    $expr = ['-', ':', ',', '.', '/', 'T'];
     $value = strval($value);
-    $value = str_replace($expr, " ", $value);
+    $value = str_replace($expr, ' ', $value);
     $value = trim_words($value);
-    $temp = explode(" ", $value);
+    $temp = explode(' ', $value);
     foreach ($temp as $key => $val) {
         $temp[$key] = intval($val);
     }
@@ -153,12 +153,12 @@ function dateval($value)
         $temp[2] = min(9999, max(0, $temp[2]));
         $temp[1] = min(12, max(0, $temp[1]));
         $temp[0] = min(__days_of_a_month($temp[2], $temp[1]), max(0, $temp[0]));
-        $value = sprintf("%04d-%02d-%02d", $temp[2], $temp[1], $temp[0]);
+        $value = sprintf('%04d-%02d-%02d', $temp[2], $temp[1], $temp[0]);
     } else {
         $temp[0] = min(9999, max(0, $temp[0]));
         $temp[1] = min(12, max(0, $temp[1]));
         $temp[2] = min(__days_of_a_month($temp[0], $temp[1]), max(0, $temp[2]));
-        $value = sprintf("%04d-%02d-%02d", $temp[0], $temp[1], $temp[2]);
+        $value = sprintf('%04d-%02d-%02d', $temp[0], $temp[1], $temp[2]);
     }
     return $value;
 }
@@ -174,7 +174,7 @@ function dateval($value)
  */
 function __days_of_a_month($year, $month)
 {
-    return date("t", strtotime(sprintf("%04d-%02d-%02d", $year, $month, 1)));
+    return date('t', strtotime(sprintf('%04d-%02d-%02d', $year, $month, 1)));
 }
 
 /**
@@ -188,11 +188,11 @@ function __days_of_a_month($year, $month)
  */
 function timeval($value)
 {
-    $expr = ["-", ":", ",", ".", "/", "T"];
+    $expr = ['-', ':', ',', '.', '/', 'T'];
     $value = strval($value);
-    $value = str_replace($expr, " ", $value);
+    $value = str_replace($expr, ' ', $value);
     $value = trim_words($value);
-    $temp = explode(" ", $value);
+    $temp = explode(' ', $value);
     foreach ($temp as $key => $val) {
         $temp[$key] = intval($val);
     }
@@ -205,7 +205,7 @@ function timeval($value)
     $temp[1] = min(59, max(0, $temp[1]));
     $temp[2] = min(59, max(0, $temp[2]));
     // Continue
-    $value = sprintf("%02d:%02d:%02d", $temp[0], $temp[1], $temp[2]);
+    $value = sprintf('%02d:%02d:%02d', $temp[0], $temp[1], $temp[2]);
     return $value;
 }
 
@@ -229,11 +229,11 @@ function timeval($value)
  */
 function datetimeval($value)
 {
-    $expr = ["-", ":", ",", ".", "/", "T"];
+    $expr = ['-', ':', ',', '.', '/', 'T'];
     $value = strval($value);
-    $value = str_replace($expr, " ", $value);
+    $value = str_replace($expr, ' ', $value);
     $value = trim_words($value);
-    $temp = explode(" ", $value);
+    $temp = explode(' ', $value);
     foreach ($temp as $key => $val) {
         $temp[$key] = intval($val);
     }
@@ -250,7 +250,7 @@ function datetimeval($value)
         $temp[4] = min(59, max(0, $temp[4]));
         $temp[5] = min(59, max(0, $temp[5]));
         $value = sprintf(
-            "%04d-%02d-%02d %02d:%02d:%02d",
+            '%04d-%02d-%02d %02d:%02d:%02d',
             $temp[2], $temp[1], $temp[0], $temp[3], $temp[4], $temp[5]
         );
     } else {
@@ -261,7 +261,7 @@ function datetimeval($value)
         $temp[4] = min(59, max(0, $temp[4]));
         $temp[5] = min(59, max(0, $temp[5]));
         $value = sprintf(
-            "%04d-%02d-%02d %02d:%02d:%02d",
+            '%04d-%02d-%02d %02d:%02d:%02d',
             $temp[0], $temp[1], $temp[2], $temp[3], $temp[4], $temp[5]
         );
     }
@@ -277,7 +277,7 @@ function datetimeval($value)
  */
 function __time2secs($time)
 {
-    $time = explode(":", $time);
+    $time = explode(':', $time);
     $secs = intval($time[0]) * 3600 + intval($time[1]) * 60 + intval($time[2]);
     return $secs;
 }
@@ -291,7 +291,7 @@ function __time2secs($time)
  */
 function __secs2time($secs)
 {
-    $time = sprintf("%02d:%02d:%02d", intval($secs / 3600), intval($secs / 60) % 60, intval($secs) % 60);
+    $time = sprintf('%02d:%02d:%02d', intval($secs / 3600), intval($secs / 60) % 60, intval($secs) % 60);
     return $time;
 }
 
@@ -306,5 +306,5 @@ function __secs2time($secs)
  */
 function current_dow($offset = 0)
 {
-    return date("N", time() + (int)$offset);
+    return date('N', time() + (int)$offset);
 }

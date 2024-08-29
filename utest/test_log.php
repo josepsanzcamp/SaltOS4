@@ -60,32 +60,32 @@ final class test_log extends TestCase
      */
     public function test_log(): void
     {
-        $file0 = "data/logs/saltos.log";
+        $file0 = 'data/logs/saltos.log';
         $this->assertFileDoesNotExist($file0);
 
-        $file1 = "data/logs/saltos.log.1";
+        $file1 = 'data/logs/saltos.log.1';
         $this->assertFileDoesNotExist($file1);
 
-        $file2 = "data/logs/saltos.log.2";
+        $file2 = 'data/logs/saltos.log.2';
         $this->assertFileDoesNotExist($file2);
 
-        addlog("hola");
+        addlog('hola');
         $this->assertFileExists($file0);
 
-        addlog(wordwrap(str_repeat("x", 1024 * 1024 * 100)));
+        addlog(wordwrap(str_repeat('x', 1024 * 1024 * 100)));
         $this->assertSame(filesize($file0) > 1024 * 1024 * 100, true);
 
-        addlog("hola");
+        addlog('hola');
         $this->assertFileExists($file1);
 
-        addlog(wordwrap(str_repeat("x", 1024 * 1024 * 100)));
+        addlog(wordwrap(str_repeat('x', 1024 * 1024 * 100)));
         $this->assertSame(filesize($file0) > 1024 * 1024 * 100, true);
 
-        addlog("hola");
+        addlog('hola');
         $this->assertFileExists($file2);
 
-        $this->assertSame(checklog("hola", "saltos.log"), true);
-        $this->assertSame(checklog("nada", "saltos.log"), false);
+        $this->assertSame(checklog('hola', 'saltos.log'), true);
+        $this->assertSame(checklog('nada', 'saltos.log'), false);
 
         unlink($file0);
         $this->assertFileDoesNotExist($file0);

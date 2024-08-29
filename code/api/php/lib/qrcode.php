@@ -52,19 +52,19 @@ declare(strict_types=1);
  */
 function __qrcode_image($msg, $s, $m, $l)
 {
-    require_once "lib/tcpdf/vendor/autoload.php";
+    require_once 'lib/tcpdf/vendor/autoload.php';
     $barcode = new TCPDF2DBarcode($msg, "QRCODE,$l");
     $array = $barcode->getBarcodeArray();
-    if (!isset($array["num_cols"]) || !isset($array["num_rows"])) {
-        return "";
+    if (!isset($array['num_cols']) || !isset($array['num_rows'])) {
+        return '';
     }
-    $width = ($array["num_cols"] * $s);
-    $height = ($array["num_rows"] * $s);
+    $width = ($array['num_cols'] * $s);
+    $height = ($array['num_rows'] * $s);
     $im = imagecreatetruecolor($width + 2 * $m, $height + 2 * $m);
     $bgcol = imagecolorallocate($im, 255, 255, 255);
     imagefilledrectangle($im, 0, 0, $width + 2 * $m, $height + 2 * $m, $bgcol);
     $fgcol = imagecolorallocate($im, 0, 0, 0);
-    foreach ($array["bcode"] as $key => $val) {
+    foreach ($array['bcode'] as $key => $val) {
         foreach ($val as $key2 => $val2) {
             if ($val2) {
                 imagefilledrectangle(

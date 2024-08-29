@@ -70,52 +70,52 @@ final class test_tokens extends TestCase
 
         // Check when parts is bad
         $token2 = check_token_format(substr($token, 0, 10));
-        $this->assertSame($token2, "");
+        $this->assertSame($token2, '');
 
         // Check when length is bad
         $token2 = check_token_format(substr($token, 0, -1));
-        $this->assertSame($token2, "");
+        $this->assertSame($token2, '');
 
         // Check when not hex is found
-        $token2 = check_token_format(substr($token, 0, -1) . "x");
-        $this->assertSame($token2, "");
+        $token2 = check_token_format(substr($token, 0, -1) . 'x');
+        $this->assertSame($token2, '');
 
         // Check lowercase patterns tokens
-        $token = "gggggggg-gggg-gggg-gggg-gggggggggggg";
+        $token = 'gggggggg-gggg-gggg-gggg-gggggggggggg';
         $token2 = check_token_format($token);
-        $this->assertSame($token2, "");
+        $this->assertSame($token2, '');
 
         // Check generic patterns tokens
-        $token = "00000000-0000-0000-0000-000000000000";
+        $token = '00000000-0000-0000-0000-000000000000';
         $token2 = check_token_format($token);
         $this->assertSame($token2, $token);
 
         // Check generic patterns tokens
-        $token = "99999999-9999-9999-9999-999999999999";
+        $token = '99999999-9999-9999-9999-999999999999';
         $token2 = check_token_format($token);
         $this->assertSame($token2, $token);
 
         // Check lowercase patterns tokens
-        $token = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
+        $token = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
         $token2 = check_token_format($token);
         $this->assertSame($token2, $token);
 
         // Check uppercase patterns tokens
-        $token = "FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF";
+        $token = 'FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF';
         $token2 = check_token_format($token);
         $this->assertSame($token2, $token);
 
         // Check when token is not an string
         $token2 = check_token_format(null);
-        $this->assertSame($token2, "");
+        $this->assertSame($token2, '');
 
         // Check when token is not an string
         $token2 = check_token_format(false);
-        $this->assertSame($token2, "");
+        $this->assertSame($token2, '');
 
         // Check when token is not an string
         $token2 = check_token_format([]);
-        $this->assertSame($token2, "");
+        $this->assertSame($token2, '');
 
         // Check for token collision
         $tokens1 = [];

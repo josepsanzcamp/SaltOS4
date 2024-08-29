@@ -61,77 +61,77 @@ final class test_invoices extends TestCase
     public function test_invoices(): void
     {
         $array = [
-            "nombre" => "Asd Qwerty",
-            "num" => "",
+            'nombre' => 'Asd Qwerty',
+            'num' => '',
         ];
-        $query = make_insert_query("app_invoices", $array);
+        $query = make_insert_query('app_invoices', $array);
         db_query($query);
 
-        $id = execute_query("SELECT MAX(id) FROM app_invoices");
+        $id = execute_query('SELECT MAX(id) FROM app_invoices');
         $this->assertTrue($id > 0);
 
         $array = [
-            "id_factura" => $id,
-            "concepto" => "Clock",
-            "unidades" => "1",
-            "precio" => "99.99",
+            'id_factura' => $id,
+            'concepto' => 'Clock',
+            'unidades' => '1',
+            'precio' => '99.99',
         ];
-        $query = make_insert_query("app_invoices_concepts", $array);
+        $query = make_insert_query('app_invoices_concepts', $array);
         db_query($query);
 
         $array = [
-            "id_factura" => $id,
-            "concepto" => "Belt",
-            "unidades" => "1",
-            "precio" => "19.99",
+            'id_factura' => $id,
+            'concepto' => 'Belt',
+            'unidades' => '1',
+            'precio' => '19.99',
         ];
-        $query = make_insert_query("app_invoices_concepts", $array);
+        $query = make_insert_query('app_invoices_concepts', $array);
         db_query($query);
 
-        $this->assertSame(make_control("invoices", $id), 1);
-        $this->assertSame(make_index("invoices", $id), 1);
-        $this->assertSame(add_version("invoices", $id), 1);
+        $this->assertSame(make_control('invoices', $id), 1);
+        $this->assertSame(make_index('invoices', $id), 1);
+        $this->assertSame(add_version('invoices', $id), 1);
 
-        $this->assertCount(3, get_version("invoices", $id, 1));
+        $this->assertCount(3, get_version('invoices', $id, 1));
 
         $array = [
-            "nombre" => "ASD QWERTY",
-            "num" => "",
+            'nombre' => 'ASD QWERTY',
+            'num' => '',
         ];
-        $query = make_update_query("app_invoices", $array, "id=$id");
+        $query = make_update_query('app_invoices', $array, "id=$id");
         db_query($query);
 
-        $id2 = execute_query("SELECT MAX(id) FROM app_invoices_concepts");
+        $id2 = execute_query('SELECT MAX(id) FROM app_invoices_concepts');
 
         $array = [
-            "id_factura" => $id,
-            "concepto" => "Belt",
-            "unidades" => "1",
-            "precio" => "29.99",
+            'id_factura' => $id,
+            'concepto' => 'Belt',
+            'unidades' => '1',
+            'precio' => '29.99',
         ];
-        $query = make_update_query("app_invoices_concepts", $array, "id=$id2");
+        $query = make_update_query('app_invoices_concepts', $array, "id=$id2");
         db_query($query);
 
         $array = [
-            "id_factura" => $id,
-            "concepto" => "Tools",
-            "unidades" => "1",
-            "precio" => "9.99",
+            'id_factura' => $id,
+            'concepto' => 'Tools',
+            'unidades' => '1',
+            'precio' => '9.99',
         ];
-        $query = make_insert_query("app_invoices_concepts", $array);
+        $query = make_insert_query('app_invoices_concepts', $array);
         db_query($query);
 
-        $this->assertSame(make_control("invoices", $id), -4);
-        $this->assertSame(make_index("invoices", $id), 2);
-        $this->assertSame(add_version("invoices", $id), 1);
+        $this->assertSame(make_control('invoices', $id), -4);
+        $this->assertSame(make_index('invoices', $id), 2);
+        $this->assertSame(add_version('invoices', $id), 1);
 
-        $this->assertCount(3, get_version("invoices", $id, 2));
+        $this->assertCount(3, get_version('invoices', $id, 2));
 
         $array = [
-            "nombre" => "Asd Qwerty",
-            "num" => "123456789",
+            'nombre' => 'Asd Qwerty',
+            'num' => '123456789',
         ];
-        $query = make_update_query("app_invoices", $array, "id=$id");
+        $query = make_update_query('app_invoices', $array, "id=$id");
         db_query($query);
 
         $id3 = execute_query("SELECT MIN(id) FROM app_invoices_concepts WHERE id_factura=$id");
@@ -139,12 +139,12 @@ final class test_invoices extends TestCase
         $query = "DELETE FROM app_invoices_concepts WHERE id=$id3";
         db_query($query);
 
-        $this->assertSame(make_control("invoices", $id), -4);
-        $this->assertSame(make_index("invoices", $id), 2);
-        $this->assertSame(add_version("invoices", $id), 1);
+        $this->assertSame(make_control('invoices', $id), -4);
+        $this->assertSame(make_index('invoices', $id), 2);
+        $this->assertSame(add_version('invoices', $id), 1);
 
-        $this->assertCount(3, get_version("invoices", $id, 3));
-        $this->assertCount(3, get_version("invoices", $id, 2));
+        $this->assertCount(3, get_version('invoices', $id, 3));
+        $this->assertCount(3, get_version('invoices', $id, 2));
 
         $query = "DELETE FROM app_invoices WHERE id=$id";
         db_query($query);
@@ -152,14 +152,14 @@ final class test_invoices extends TestCase
         $query = "DELETE FROM app_invoices_concepts WHERE id_factura=$id";
         db_query($query);
 
-        $this->assertSame(make_control("invoices", $id), 2);
-        $this->assertSame(make_index("invoices", $id), 3);
-        $this->assertSame(add_version("invoices", $id), 2);
+        $this->assertSame(make_control('invoices', $id), 2);
+        $this->assertSame(make_index('invoices', $id), 3);
+        $this->assertSame(add_version('invoices', $id), 2);
 
-        $this->assertCount(0, get_version("invoices", $id, 1));
+        $this->assertCount(0, get_version('invoices', $id, 1));
 
-        $this->assertSame(make_control("invoices", $id), -3);
-        $this->assertSame(make_index("invoices", $id), -3);
-        $this->assertSame(add_version("invoices", $id), -3);
+        $this->assertSame(make_control('invoices', $id), -3);
+        $this->assertSame(make_index('invoices', $id), -3);
+        $this->assertSame(add_version('invoices', $id), -3);
     }
 }

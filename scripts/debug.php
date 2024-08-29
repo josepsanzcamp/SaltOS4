@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$buffer = file_get_contents("php://stdin");
+$buffer = file_get_contents('php://stdin');
 $buffer = explode("\n", $buffer);
 array_shift($argv);
 $orig = array_shift($argv);

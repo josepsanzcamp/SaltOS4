@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -40,8 +40,8 @@ init_timer();
 init_random();
 check_system();
 
-ini_set("memory_limit", "4M");
+ini_set('memory_limit', '4M');
 output_handler([
-    "file" => "../../utest/files/bigsize.xlsx",
-    "cache" => true,
+    'file' => '../../utest/files/bigsize.xlsx',
+    'cache' => true,
 ]);

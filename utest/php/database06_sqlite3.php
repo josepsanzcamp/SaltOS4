@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,11 +41,11 @@ init_random();
 check_system();
 
 $obj = db_connect([
-    "type" => "sqlite3",
-    "file" => "data/files/saltos.sqlite",
+    'type' => 'sqlite3',
+    'file' => 'data/files/saltos.sqlite',
 ]);
 
-set_config("db/semaphoretimeout", 0);
+set_config('db/semaphoretimeout', 0);
 
-$query = "SELECT nada FROM nada";
+$query = 'SELECT nada FROM nada';
 $obj->db_query($query);

@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,98 +67,98 @@ final class test_authupdate extends TestCase
      */
     public function test_authupdate(): void
     {
-        $json = test_web_helper("auth/update", "", "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/update', '', '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json2["status"], "ok");
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey("token", $json2);
+        $this->assertArrayHasKey('token', $json2);
 
-        $json = test_web_helper("auth/update", [], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/update', [], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("auth/update", [
-            "oldpass" => "nada",
-            "newpass" => "admin",
-            "renewpass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/update', [
+            'oldpass' => 'nada',
+            'newpass' => 'admin',
+            'renewpass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ko');
 
-        $json = test_web_helper("auth/update", [
-            "oldpass" => "nada",
-            "newpass" => "admin",
-            "renewpass" => "admin",
-        ], $json2["token"], "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/update', [
+            'oldpass' => 'nada',
+            'newpass' => 'admin',
+            'renewpass' => 'admin',
+        ], $json2['token'], '');
+        $this->assertSame($json['status'], 'ko');
 
         // Check for internal error
-        $file = "data/logs/phperror.log";
+        $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
 
-        $row = execute_query("SELECT * FROM tbl_users_passwords WHERE active=1 AND user_id=1");
-        unset($row["id"]);
-        db_query(make_insert_query("tbl_users_passwords", $row));
-        $id = execute_query("SELECT MAX(id) FROM tbl_users_passwords");
+        $row = execute_query('SELECT * FROM tbl_users_passwords WHERE active=1 AND user_id=1');
+        unset($row['id']);
+        db_query(make_insert_query('tbl_users_passwords', $row));
+        $id = execute_query('SELECT MAX(id) FROM tbl_users_passwords');
 
-        $json = test_web_helper("auth/update", [
-            "oldpass" => "nada",
-            "newpass" => "admin",
-            "renewpass" => "admin",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/update', [
+            'oldpass' => 'nada',
+            'newpass' => 'admin',
+            'renewpass' => 'admin',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
         db_query("DELETE FROM tbl_users_passwords WHERE id='$id'");
 
         $this->assertFileExists($file);
-        $this->assertTrue(words_exists("internal error", file_get_contents($file)));
+        $this->assertTrue(words_exists('internal error', file_get_contents($file)));
         unlink($file);
 
         // Continue with the other checks
-        $json = test_web_helper("auth/update", [
-            "oldpass" => "admin",
-            "newpass" => "admin",
-            "renewpass" => "nada",
-        ], $json2["token"], "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/update', [
+            'oldpass' => 'admin',
+            'newpass' => 'admin',
+            'renewpass' => 'nada',
+        ], $json2['token'], '');
+        $this->assertSame($json['status'], 'ko');
 
-        $json = test_web_helper("auth/update", [
-            "oldpass" => "admin",
-            "newpass" => "admin",
-            "renewpass" => "admin",
-        ], $json2["token"], "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/update', [
+            'oldpass' => 'admin',
+            'newpass' => 'admin',
+            'renewpass' => 'admin',
+        ], $json2['token'], '');
+        $this->assertSame($json['status'], 'ko');
 
-        $json = test_web_helper("auth/update", [
-            "oldpass" => "admin",
-            "newpass" => "asd123ASD",
-            "renewpass" => "asd123ASD",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("status", $json);
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('auth/update', [
+            'oldpass' => 'admin',
+            'newpass' => 'asd123ASD',
+            'renewpass' => 'asd123ASD',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 3);
 
-        $json = test_web_helper("auth/update", [
-            "oldpass" => "asd123ASD",
-            "newpass" => "asd123ASD",
-            "renewpass" => "asd123ASD",
-        ], $json2["token"], "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/update', [
+            'oldpass' => 'asd123ASD',
+            'newpass' => 'asd123ASD',
+            'renewpass' => 'asd123ASD',
+        ], $json2['token'], '');
+        $this->assertSame($json['status'], 'ko');
 
         $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
 
         $query = "UPDATE tbl_users_passwords SET password=MD5('admin') WHERE user_id=$user_id";
         db_query($query);
 
-        $json2 = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json2["status"], "ok");
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey("token", $json2);
+        $this->assertArrayHasKey('token', $json2);
     }
 }

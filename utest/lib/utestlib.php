@@ -52,11 +52,11 @@ use PHPUnit\Framework\Assert;
  */
 function test_pcov_start(): void
 {
-    if (file_exists("pcov.out")) {
-        throw new Error("Coverage pipe found");
+    if (file_exists('pcov.out')) {
+        throw new Error('Coverage pipe found');
     }
-    touch("pcov.out");
-    chmod("pcov.out", 0666);
+    touch('pcov.out');
+    chmod('pcov.out', 0666);
 }
 
 /**
@@ -73,24 +73,24 @@ function test_pcov_start(): void
 function test_pcov_stop($index): void
 {
     for ($i = 0; $i < 1000; $i++) {
-        $buffer = file_get_contents("pcov.out");
-        if (substr($buffer, -1, 1) == "}") {
+        $buffer = file_get_contents('pcov.out');
+        if (substr($buffer, -1, 1) == '}') {
             break;
         }
         usleep(1000);
     }
-    unlink("pcov.out");
-    if ($buffer == "") {
-        throw new Error("Coverage pipe is void");
+    unlink('pcov.out');
+    if ($buffer == '') {
+        throw new Error('Coverage pipe is void');
     }
     $collected = unserialize($buffer);
 
     $coverage = RawCodeCoverageData::fromXdebugWithoutPathCoverage($collected);
     $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-    $method = "unknown::unknown";
+    $method = 'unknown::unknown';
     if (isset($backtrace[$index])) {
-        if (isset($backtrace[$index]["class"]) && isset($backtrace[$index]["function"])) {
-            $method = $backtrace[$index]["class"] . "::" . $backtrace[$index]["function"];
+        if (isset($backtrace[$index]['class']) && isset($backtrace[$index]['function'])) {
+            $method = $backtrace[$index]['class'] . '::' . $backtrace[$index]['function'];
         }
     }
     //~ file_put_contents("debug.log", sprintr([$method, $backtrace]), FILE_APPEND);
@@ -123,25 +123,25 @@ function test_web_helper($rest, $data, $token, $lang)
     test_pcov_start();
     if ($data) {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/?/$rest", [
-            "body" => json_encode($data),
-            "method" => "post",
-            "headers" => [
-                "Content-Type" => "application/json",
-                "Token" => $token,
-                "Lang" => $lang,
+            'body' => json_encode($data),
+            'method' => 'post',
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Token' => $token,
+                'Lang' => $lang,
             ],
         ]);
     } else {
         $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/?/$rest", [
-            "headers" => [
-                "Token" => $token,
-                "Lang" => $lang,
+            'headers' => [
+                'Token' => $token,
+                'Lang' => $lang,
             ],
         ]);
     }
     test_pcov_stop(2);
-    $json = $response["body"];
-    if (in_array(substr($json, 0, 1), ["{", "["])) {
+    $json = $response['body'];
+    if (in_array(substr($json, 0, 1), ['{', '['])) {
         $json = json_decode($json, true);
     }
     return $json;
@@ -174,15 +174,15 @@ function test_cli_helper($rest, $data, $token, $lang)
 {
     test_pcov_start();
     if ($data) {
-        file_put_contents("/tmp/input", json_encode($data));
+        file_put_contents('/tmp/input', json_encode($data));
         $response = ob_passthru("cat /tmp/input | TOKEN=$token LANG=$lang php index.php $rest");
-        unlink("/tmp/input");
+        unlink('/tmp/input');
     } else {
         $response = ob_passthru("TOKEN=$token LANG=$lang php index.php $rest");
     }
     test_pcov_stop(2);
     $json = $response;
-    if (in_array(substr($json, 0, 1), ["{", "["])) {
+    if (in_array(substr($json, 0, 1), ['{', '['])) {
         $json = json_decode($json, true);
     }
     return $json;
@@ -217,7 +217,7 @@ function get_mime($buffer): string
 function test_external_exec($test_file, $error_file, $error_words): void
 {
     $file = "../../utest/$test_file";
-    if ($error_file != "") {
+    if ($error_file != '') {
         $file2 = "data/logs/$error_file";
         Assert::assertFileDoesNotExist($file2);
     } else {
@@ -228,7 +228,7 @@ function test_external_exec($test_file, $error_file, $error_words): void
     ob_passthru("php $file");
     test_pcov_stop(2);
 
-    if ($error_file != "") {
+    if ($error_file != '') {
         Assert::assertFileExists($file2);
         Assert::assertTrue(words_exists($error_words, file_get_contents($file2)));
         unlink($file2);

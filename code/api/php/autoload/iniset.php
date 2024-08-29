@@ -52,8 +52,8 @@ function eval_iniset($array)
             $key = fix_key($key);
             $cur = ini_get($key);
             $diff = false;
-            if (strtolower($val) == "on" || strtolower($val) == "off") {
-                $cur = $cur ? "On" : "Off";
+            if (strtolower($val) == 'on' || strtolower($val) == 'off') {
+                $cur = $cur ? 'On' : 'Off';
                 if (strtolower($val) != strtolower($cur)) {
                     $diff = true;
                 }
@@ -64,7 +64,7 @@ function eval_iniset($array)
             }
             if ($diff) {
                 if (ini_set($key, $val) === false) {
-                    show_php_error(["phperror" => "ini_set fails to set '$key' from '$cur' to '$val'"]);
+                    show_php_error(['phperror' => "ini_set fails to set '$key' from '$cur' to '$val'"]);
                 }
             }
         }
@@ -93,7 +93,7 @@ function eval_putenv($array)
             if ($diff) {
                 if (putenv("$key=$val") === false) {
                     // @codeCoverageIgnoreStart
-                    show_php_error(["phperror" => "putenv fails to set '$key' from '$cur' to '$val'"]);
+                    show_php_error(['phperror' => "putenv fails to set '$key' from '$cur' to '$val'"]);
                     // @codeCoverageIgnoreEnd
                 }
             }
@@ -123,21 +123,21 @@ function eval_extras($array)
             if (is_array($val)) {
                 if (count($val) == 2) {
                     if ($key($val[0], $val[1]) === false) {
-                        $val = implode(",", $val);
-                        show_php_error(["phperror" => "$key fails to set '$val'"]);
+                        $val = implode(',', $val);
+                        show_php_error(['phperror' => "$key fails to set '$val'"]);
                     }
                     continue;
                 }
-                $val = implode(",", $val);
-                show_php_error(["phperror" => "$key fails to set '$val'"]);
+                $val = implode(',', $val);
+                show_php_error(['phperror' => "$key fails to set '$val'"]);
             }
             // Special case only for the mb_detect_order that only accepts encodings
             // that appear in the mb_list_encondings, otherwise an error is launched
-            if ($key == "mb_detect_order") {
-                $val = implode(",", array_intersect(explode(",", $val), mb_list_encodings()));
+            if ($key == 'mb_detect_order') {
+                $val = implode(',', array_intersect(explode(',', $val), mb_list_encodings()));
             }
             if ($key($val) === false) {
-                show_php_error(["phperror" => "$key fails to set '$val'"]);
+                show_php_error(['phperror' => "$key fails to set '$val'"]);
             }
         }
     }

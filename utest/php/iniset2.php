@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,7 +41,7 @@ init_random();
 check_system();
 
 global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
 /**
@@ -57,5 +57,5 @@ db_connect();
  * For this reason, the show_php_error placed after the putenv that must to
  * be executed when putenv returns false never can be executed.
  */
-set_config("putenv/", "nada");
-eval_putenv(get_config("putenv"));
+set_config('putenv/', 'nada');
+eval_putenv(get_config('putenv'));

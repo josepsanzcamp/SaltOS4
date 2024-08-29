@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "php/lib/indexing.php";
+require_once 'php/lib/indexing.php';
 
 /**
  * Main class of this unit test
@@ -67,21 +67,21 @@ final class test_indexing extends TestCase
      */
     public function test_indexing(): void
     {
-        $this->assertSame(make_index("customers", -1), -3);
+        $this->assertSame(make_index('customers', -1), -3);
 
-        $query = "ALTER TABLE app_customers_index RENAME TO app_customers_index_old";
+        $query = 'ALTER TABLE app_customers_index RENAME TO app_customers_index_old';
         db_query($query);
-        $this->assertSame(make_index("customers", -1), -2);
-        $this->assertCount(2, __make_index_helper("app_customers_index_old"));
+        $this->assertSame(make_index('customers', -1), -2);
+        $this->assertCount(2, __make_index_helper('app_customers_index_old'));
 
-        $query = "ALTER TABLE app_customers_index_old RENAME TO app_customers_index";
+        $query = 'ALTER TABLE app_customers_index_old RENAME TO app_customers_index';
         db_query($query);
-        $this->assertSame(make_index("customers", -1), -3);
+        $this->assertSame(make_index('customers', -1), -3);
 
-        __make_index_helper("app_invoices");
-        __make_index_helper("app_invoices");
-        __make_index_helper("app_invoices_concepts");
-        __make_index_helper("app_invoices_concepts", 1);
-        __make_index_helper("app_invoices_concepts", -1);
+        __make_index_helper('app_invoices');
+        __make_index_helper('app_invoices');
+        __make_index_helper('app_invoices_concepts');
+        __make_index_helper('app_invoices_concepts', 1);
+        __make_index_helper('app_invoices_concepts', -1);
     }
 }

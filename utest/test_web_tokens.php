@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,33 +67,33 @@ final class test_web_tokens extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-        ], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+        ], '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("auth/login", [
-            "user" => "nada",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/login', [
+            'user' => 'nada',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ko');
 
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "nada",
-        ], "", "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'nada',
+        ], '', '');
+        $this->assertSame($json['status'], 'ko');
 
         $user_id = execute_query("SELECT id FROM tbl_users WHERE login='admin'");
 
         $query = "UPDATE tbl_users_passwords SET user_id=-user_id WHERE user_id=$user_id";
         db_query($query);
 
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ko");
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ko');
 
         $query = "UPDATE tbl_users_passwords SET user_id=-user_id WHERE user_id=-$user_id";
         db_query($query);
@@ -101,19 +101,19 @@ final class test_web_tokens extends TestCase
         $query = "UPDATE tbl_users_passwords SET password=MD5('admin') WHERE user_id=$user_id";
         db_query($query);
 
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ok');
 
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 4);
-        $this->assertArrayHasKey("token", $json);
+        $this->assertArrayHasKey('token', $json);
         return $json;
     }
 
@@ -127,10 +127,10 @@ final class test_web_tokens extends TestCase
      */
     public function test_checktoken(array $json): array
     {
-        $json = test_web_helper("auth/check", "", $json["token"], "");
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('auth/check', '', $json['token'], '');
+        $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 5);
-        $this->assertArrayHasKey("token", $json);
+        $this->assertArrayHasKey('token', $json);
         return $json;
     }
 
@@ -144,12 +144,12 @@ final class test_web_tokens extends TestCase
      */
     public function test_deauthtoken(array $json): array
     {
-        $json2 = test_web_helper("auth/logout", "", $json["token"], "");
-        $this->assertSame($json2["status"], "ok");
+        $json2 = test_web_helper('auth/logout', '', $json['token'], '');
+        $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 1);
 
-        $json2 = test_web_helper("auth/logout", "", $json["token"], "");
-        $this->assertSame($json2["status"], "ko");
+        $json2 = test_web_helper('auth/logout', '', $json['token'], '');
+        $this->assertSame($json2['status'], 'ko');
         $this->assertSame(count($json2), 3);
         return $json;
     }
@@ -164,8 +164,8 @@ final class test_web_tokens extends TestCase
      */
     public function test_checktoken_ko(array $json): void
     {
-        $json2 = test_web_helper("auth/check", "", $json["token"], "");
-        $this->assertSame($json2["status"], "ko");
+        $json2 = test_web_helper('auth/check', '', $json['token'], '');
+        $this->assertSame($json2['status'], 'ko');
         $this->assertSame(count($json2), 3);
     }
 }

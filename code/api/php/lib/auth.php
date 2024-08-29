@@ -50,81 +50,81 @@ declare(strict_types=1);
 function authtoken($user, $pass)
 {
     // First check
-    $query = "SELECT * FROM tbl_users WHERE " . make_where_query([
-        "active" => 1,
-        "login" => $user,
+    $query = 'SELECT * FROM tbl_users WHERE ' . make_where_query([
+        'active' => 1,
+        'login' => $user,
     ]);
     $row = execute_query($query);
-    if (!is_array($row) || !isset($row["login"]) || $user != $row["login"]) {
+    if (!is_array($row) || !isset($row['login']) || $user != $row['login']) {
         return [
-            "status" => "ko",
-            "text" => "Permission denied",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Permission denied',
+            'code' => __get_code_from_trace(),
         ];
     }
-    $user_id = $row["id"];
+    $user_id = $row['id'];
 
     // Second check
-    $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
-        "user_id" => $user_id,
-        "active" => 1,
+    $query = 'SELECT * FROM tbl_users_passwords WHERE ' . make_where_query([
+        'user_id' => $user_id,
+        'active' => 1,
     ]);
     $row2 = execute_query($query);
-    if (!is_array($row2) || !isset($row2["password"])) {
+    if (!is_array($row2) || !isset($row2['password'])) {
         return [
-            "status" => "ko",
-            "text" => "Permission denied",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Permission denied',
+            'code' => __get_code_from_trace(),
         ];
-    } elseif (password_verify($pass, $row2["password"])) {
+    } elseif (password_verify($pass, $row2['password'])) {
         // Nothing to do, password is correct!!!
-    } elseif (in_array($row2["password"], [md5($pass), sha1($pass)])) {
+    } elseif (in_array($row2['password'], [md5($pass), sha1($pass)])) {
         // Convert from MD5/SHA1 to password_hash format
-        $row2["password"] = password_hash($pass, PASSWORD_DEFAULT);
-        $query = make_update_query("tbl_users_passwords", [
-            "password" => $row2["password"],
+        $row2['password'] = password_hash($pass, PASSWORD_DEFAULT);
+        $query = make_update_query('tbl_users_passwords', [
+            'password' => $row2['password'],
         ], make_where_query([
-            "id" => $row2["id"],
+            'id' => $row2['id'],
         ]));
         db_query($query);
     } else {
         return [
-            "status" => "ko",
-            "text" => "Permission denied",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Permission denied',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     // Continue
-    $query = make_update_query("tbl_users_tokens", [
-        "active" => 0,
+    $query = make_update_query('tbl_users_tokens', [
+        'active' => 0,
     ], make_where_query([
-        "user_id" => $user_id,
-        "active" => 1,
+        'user_id' => $user_id,
+        'active' => 1,
     ]));
     db_query($query);
 
     $created_at = current_datetime();
     $token = get_unique_token();
-    $short_expires = current_datetime(get_config("auth/tokenshortexpires"));
-    $long_expires = current_datetime(get_config("auth/tokenlongexpires"));
+    $short_expires = current_datetime(get_config('auth/tokenshortexpires'));
+    $long_expires = current_datetime(get_config('auth/tokenlongexpires'));
 
-    $query = make_insert_query("tbl_users_tokens", [
-        "user_id" => $user_id,
-        "active" => 1,
-        "created_at" => $created_at,
-        "remote_addr" => get_data("server/remote_addr"),
-        "user_agent" => get_data("server/user_agent"),
-        "token" => $token,
-        "expires_at" => min($short_expires, $long_expires),
+    $query = make_insert_query('tbl_users_tokens', [
+        'user_id' => $user_id,
+        'active' => 1,
+        'created_at' => $created_at,
+        'remote_addr' => get_data('server/remote_addr'),
+        'user_agent' => get_data('server/user_agent'),
+        'token' => $token,
+        'expires_at' => min($short_expires, $long_expires),
     ]);
     db_query($query);
 
     return [
-        "status" => "ok",
-        "token" => $token,
-        "created_at" => $created_at,
-        "expires_at" => min($short_expires, $long_expires),
+        'status' => 'ok',
+        'token' => $token,
+        'created_at' => $created_at,
+        'expires_at' => min($short_expires, $long_expires),
     ];
 }
 
@@ -142,21 +142,21 @@ function deauthtoken()
     $token_id = current_token();
     if (!$token_id) {
         return [
-            "status" => "ko",
-            "text" => "Permission denied",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Permission denied',
+            'code' => __get_code_from_trace(),
         ];
     }
 
-    $query = make_update_query("tbl_users_tokens", [
-        "active" => 0,
+    $query = make_update_query('tbl_users_tokens', [
+        'active' => 0,
     ], make_where_query([
-        "id" => $token_id,
+        'id' => $token_id,
     ]));
     db_query($query);
 
     return [
-        "status" => "ok",
+        'status' => 'ok',
     ];
 }
 
@@ -176,9 +176,9 @@ function checktoken()
     $token_id = current_token();
     if (!$token_id) {
         return [
-            "status" => "ko",
-            "text" => "Permission denied",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Permission denied',
+            'code' => __get_code_from_trace(),
         ];
     }
 
@@ -186,23 +186,23 @@ function checktoken()
     $row = execute_query($query);
 
     $updated_at = current_datetime();
-    $short_expires = current_datetime(get_config("auth/tokenshortexpires"));
-    $long_expires = date("Y-m-d H:i:s", strtotime($row["created_at"]) + get_config("auth/tokenlongexpires"));
+    $short_expires = current_datetime(get_config('auth/tokenshortexpires'));
+    $long_expires = date('Y-m-d H:i:s', strtotime($row['created_at']) + get_config('auth/tokenlongexpires'));
 
-    $query = make_update_query("tbl_users_tokens", [
-        "updated_at" => $updated_at,
-        "expires_at" => min($short_expires, $long_expires),
+    $query = make_update_query('tbl_users_tokens', [
+        'updated_at' => $updated_at,
+        'expires_at' => min($short_expires, $long_expires),
     ], make_where_query([
-        "id" => $token_id,
+        'id' => $token_id,
     ]));
     db_query($query);
 
     return [
-        "status" => "ok",
-        "token" => $row["token"],
-        "created_at" => $row["created_at"],
-        "updated_at" => $updated_at,
-        "expires_at" => min($short_expires, $long_expires),
+        'status' => 'ok',
+        'token' => $row['token'],
+        'created_at' => $row['created_at'],
+        'updated_at' => $updated_at,
+        'expires_at' => min($short_expires, $long_expires),
     ];
 }
 
@@ -226,44 +226,44 @@ function authupdate($oldpass, $newpass, $renewpass)
     $user_id = current_user();
     if (!$user_id) {
         return [
-            "status" => "ko",
-            "text" => "Authentication update error",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Authentication update error',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     // Password checks
     if ($newpass != $renewpass) {
         return [
-            "status" => "ko",
-            "text" => "New password differs",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'New password differs',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     if (!oldpass_check($user_id, $oldpass)) {
         return [
-            "status" => "ko",
-            "text" => "Old password authentication error",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Old password authentication error',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     // Score check
     if (!score_check($newpass)) {
         return [
-            "status" => "ko",
-            "text" => "New password strength error",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'New password strength error',
+            'code' => __get_code_from_trace(),
         ];
     }
 
     // Old passwords check
     if (!newpass_check($user_id, $newpass)) {
         return [
-            "status" => "ko",
-            "text" => "New password used previously",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'New password used previously',
+            'code' => __get_code_from_trace(),
         ];
     }
 
@@ -272,9 +272,9 @@ function authupdate($oldpass, $newpass, $renewpass)
     $array = newpass_insert($user_id, $newpass);
 
     return [
-        "status" => "ok",
-        "updated_at" => $array["created_at"],
-        "expires_at" => $array["expires_at"],
+        'status' => 'ok',
+        'updated_at' => $array['created_at'],
+        'expires_at' => $array['expires_at'],
     ];
 }
 
@@ -287,8 +287,8 @@ function authupdate($oldpass, $newpass, $renewpass)
  */
 function score_check($newpass)
 {
-    $minscore = intval(get_config("auth/passwordminscore"));
-    require_once "php/lib/password.php";
+    $minscore = intval(get_config('auth/passwordminscore'));
+    require_once 'php/lib/password.php';
     return password_strength($newpass) >= $minscore;
 }
 
@@ -302,18 +302,18 @@ function score_check($newpass)
  */
 function oldpass_check($user_id, $oldpass)
 {
-    $query = "SELECT * FROM tbl_users_passwords WHERE " . make_where_query([
-        "user_id" => $user_id,
-        "active" => 1,
+    $query = 'SELECT * FROM tbl_users_passwords WHERE ' . make_where_query([
+        'user_id' => $user_id,
+        'active' => 1,
     ]);
     $row = execute_query($query);
     if (!is_array($row)) {
         return false;
     }
-    if (!isset($row["password"])) {
-        show_php_error(["phperror" => "Internal error"]);
+    if (!isset($row['password'])) {
+        show_php_error(['phperror' => 'Internal error']);
     }
-    return password_verify($oldpass, $row["password"]);
+    return password_verify($oldpass, $row['password']);
 }
 
 /**
@@ -326,8 +326,8 @@ function oldpass_check($user_id, $oldpass)
  */
 function newpass_check($user_id, $newpass)
 {
-    $query = "SELECT password FROM tbl_users_passwords WHERE " . make_where_query([
-        "user_id" => $user_id,
+    $query = 'SELECT password FROM tbl_users_passwords WHERE ' . make_where_query([
+        'user_id' => $user_id,
     ]);
     $oldspass = execute_query_array($query);
     foreach ($oldspass as $oldpass) {
@@ -347,11 +347,11 @@ function newpass_check($user_id, $newpass)
 */
 function oldpass_disable($user_id)
 {
-    $query = make_update_query("tbl_users_passwords", [
-        "active" => 0,
+    $query = make_update_query('tbl_users_passwords', [
+        'active' => 0,
     ], make_where_query([
-        "user_id" => $user_id,
-        "active" => 1,
+        'user_id' => $user_id,
+        'active' => 1,
     ]));
     db_query($query);
 }
@@ -372,21 +372,21 @@ function newpass_insert($user_id, $newpass)
 {
     $newpass = password_hash($newpass, PASSWORD_DEFAULT);
     $created_at = current_datetime();
-    $expires_at = current_datetime(get_config("auth/passwordexpires"));
+    $expires_at = current_datetime(get_config('auth/passwordexpires'));
 
-    $query = make_insert_query("tbl_users_passwords", [
-        "active" => 1,
-        "user_id" => $user_id,
-        "created_at" => $created_at,
-        "remote_addr" => get_data("server/remote_addr"),
-        "user_agent" => get_data("server/user_agent"),
-        "password" => $newpass,
-        "expires_at" => $expires_at,
+    $query = make_insert_query('tbl_users_passwords', [
+        'active' => 1,
+        'user_id' => $user_id,
+        'created_at' => $created_at,
+        'remote_addr' => get_data('server/remote_addr'),
+        'user_agent' => get_data('server/user_agent'),
+        'password' => $newpass,
+        'expires_at' => $expires_at,
     ]);
     db_query($query);
 
     return [
-        "created_at" => $created_at,
-        "expires_at" => $expires_at,
+        'created_at' => $created_at,
+        'expires_at' => $expires_at,
     ];
 }

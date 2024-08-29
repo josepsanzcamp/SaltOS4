@@ -95,126 +95,126 @@ declare(strict_types=1);
 db_connect();
 $user_id = current_user();
 if (!$user_id) {
-    show_json_error("Permission denied");
+    show_json_error('Permission denied');
 }
 
 // Check parameters
-$format = get_data("json/format");
-if (!in_array($format, ["png", "json"])) {
+$format = get_data('json/format');
+if (!in_array($format, ['png', 'json'])) {
     show_json_error("Unknown format $format");
 }
 
 $output = [];
-$action = get_data("rest/1");
+$action = get_data('rest/1');
 switch ($action) {
-    case "barcode":
+    case 'barcode':
         // Check parameters
-        $msg = get_data("json/msg");
-        if ($msg == "") {
-            show_json_error("msg not found");
+        $msg = get_data('json/msg');
+        if ($msg == '') {
+            show_json_error('msg not found');
         }
         // Prepare parameters
-        $w = get_data("json/w") ? get_data("json/w") : 1;
-        $h = get_data("json/h") ? get_data("json/h") : 30;
-        $m = get_data("json/m") ? get_data("json/m") : 10;
-        $s = get_data("json/s") ? get_data("json/s") : 8;
-        $t = get_data("json/t") ? get_data("json/t") : "C39";
+        $w = get_data('json/w') ? get_data('json/w') : 1;
+        $h = get_data('json/h') ? get_data('json/h') : 30;
+        $m = get_data('json/m') ? get_data('json/m') : 10;
+        $s = get_data('json/s') ? get_data('json/s') : 8;
+        $t = get_data('json/t') ? get_data('json/t') : 'C39';
         // Do image
-        require_once "php/lib/barcode.php";
+        require_once 'php/lib/barcode.php';
         $image = __barcode_image($msg, $w, $h, $m, $s, $t);
         $output = [
-            "msg" => $msg,
+            'msg' => $msg,
         ];
         break;
-    case "qrcode":
+    case 'qrcode':
         // Check parameters
-        $msg = get_data("json/msg");
-        if ($msg == "") {
-            show_json_error("msg not found");
+        $msg = get_data('json/msg');
+        if ($msg == '') {
+            show_json_error('msg not found');
         }
         // Prepare parameters
-        $s = get_data("json/s") ? get_data("json/s") : 6;
-        $m = get_data("json/m") ? get_data("json/m") : 10;
-        $l = get_data("json/l") ? get_data("json/l") : "L";
+        $s = get_data('json/s') ? get_data('json/s') : 6;
+        $m = get_data('json/m') ? get_data('json/m') : 10;
+        $l = get_data('json/l') ? get_data('json/l') : 'L';
         // Do image
-        require_once "php/lib/qrcode.php";
+        require_once 'php/lib/qrcode.php';
         $image = __qrcode_image($msg, $s, $m, $l);
         $output = [
-            "msg" => $msg,
+            'msg' => $msg,
         ];
         break;
-    case "captcha":
+    case 'captcha':
         // Check parameters
-        $type = get_data("json/type");
-        if (!in_array($type, ["number", "math"])) {
+        $type = get_data('json/type');
+        if (!in_array($type, ['number', 'math'])) {
             show_json_error("Unknown type $type");
         }
         // Prepare parameters
-        $length = get_data("json/length") ? get_data("json/length") : 5;
+        $length = get_data('json/length') ? get_data('json/length') : 5;
         $args = [];
-        $args["width"] = get_data("json/width") ? get_data("json/width") : 180;
-        $args["height"] = get_data("json/height") ? get_data("json/height") : 90;
-        $args["letter"] = get_data("json/letter") ? get_data("json/letter") : 16;
-        $args["number"] = get_data("json/number") ? get_data("json/number") : 32;
-        $args["angle"] = get_data("json/angle") ? get_data("json/angle") : 10;
-        $args["color"] = get_data("json/color") ? get_data("json/color") : "5c8ed1";
-        $args["bgcolor"] = get_data("json/bgcolor") ? get_data("json/bgcolor") : "c8c8c8";
-        $args["fgcolor"] = get_data("json/fgcolor") ? get_data("json/fgcolor") : "b4b4b4";
-        $args["period"] = get_data("json/period") ? get_data("json/period") : 2;
-        $args["amplitude"] = get_data("json/amplitude") ? get_data("json/amplitude") : 8;
-        $args["blur"] = get_data("json/blur") ? get_data("json/blur") : "true";
+        $args['width'] = get_data('json/width') ? get_data('json/width') : 180;
+        $args['height'] = get_data('json/height') ? get_data('json/height') : 90;
+        $args['letter'] = get_data('json/letter') ? get_data('json/letter') : 16;
+        $args['number'] = get_data('json/number') ? get_data('json/number') : 32;
+        $args['angle'] = get_data('json/angle') ? get_data('json/angle') : 10;
+        $args['color'] = get_data('json/color') ? get_data('json/color') : '5c8ed1';
+        $args['bgcolor'] = get_data('json/bgcolor') ? get_data('json/bgcolor') : 'c8c8c8';
+        $args['fgcolor'] = get_data('json/fgcolor') ? get_data('json/fgcolor') : 'b4b4b4';
+        $args['period'] = get_data('json/period') ? get_data('json/period') : 2;
+        $args['amplitude'] = get_data('json/amplitude') ? get_data('json/amplitude') : 8;
+        $args['blur'] = get_data('json/blur') ? get_data('json/blur') : 'true';
         // Do image
-        require_once "php/lib/captcha.php";
-        if ($type == "number") {
+        require_once 'php/lib/captcha.php';
+        if ($type == 'number') {
             $code = __captcha_make_number($length);
         }
-        if ($type == "math") {
+        if ($type == 'math') {
             $code = __captcha_make_math($length);
         }
         $image = __captcha_image($code, $args);
         $output = [
-            "code" => $code,
+            'code' => $code,
         ];
         break;
-    case "score":
+    case 'score':
         // Check parameters
-        $pass = get_data("json/pass");
-        if ($pass == "") {
-            show_json_error("pass not found");
+        $pass = get_data('json/pass');
+        if ($pass == '') {
+            show_json_error('pass not found');
         }
         // Prepare parameters
-        $width = get_data("json/width") ? get_data("json/width") : 60;
-        $height = get_data("json/height") ? get_data("json/height") : 16;
-        $size = get_data("json/size") ? get_data("json/size") : 8;
+        $width = get_data('json/width') ? get_data('json/width') : 60;
+        $height = get_data('json/height') ? get_data('json/height') : 16;
+        $size = get_data('json/size') ? get_data('json/size') : 8;
         // Do image
-        require_once "php/lib/password.php";
-        require_once "php/lib/score.php";
+        require_once 'php/lib/password.php';
+        require_once 'php/lib/score.php';
         $score = password_strength($pass);
         $image = __score_image($score, $width, $height, $size);
-        $minscore = intval(get_config("auth/passwordminscore"));
-        $valid = ($score >= $minscore) ? "ok" : "ko";
+        $minscore = intval(get_config('auth/passwordminscore'));
+        $valid = ($score >= $minscore) ? 'ok' : 'ko';
         $output = [
-            "score" => $score . "%",
-            "valid" => $valid,
+            'score' => $score . '%',
+            'valid' => $valid,
         ];
         break;
     default:
-        show_php_error(["phperror" => "Unknown action $action"]);
+        show_php_error(['phperror' => "Unknown action $action"]);
 }
 
 // Check image
-if ($image == "") {
-    show_json_error("Internal error");
+if ($image == '') {
+    show_json_error('Internal error');
 }
 // Dump image
-if ($format == "png") {
+if ($format == 'png') {
     output_handler([
-        "data" => $image,
-        "type" => "image/png",
-        "cache" => false,
+        'data' => $image,
+        'type' => 'image/png',
+        'cache' => false,
     ]);
 }
 // Dump json
 output_handler_json(array_merge([
-    "image" => mime_inline("image/png", $image),
+    'image' => mime_inline('image/png', $image),
 ], $output));

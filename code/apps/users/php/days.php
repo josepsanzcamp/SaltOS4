@@ -48,9 +48,9 @@ function days2bin($days)
     if ($days === null) {
         return $days;
     }
-    $days = array_diff(explode(",", $days), [""]);
+    $days = array_diff(explode(',', $days), ['']);
     $days = decbin(array_sum($days));
-    $days = str_pad($days, 7, "0", STR_PAD_LEFT);
+    $days = str_pad($days, 7, '0', STR_PAD_LEFT);
     return $days;
 }
 
@@ -71,7 +71,7 @@ function bin2days($days)
         $days[$key] = 2 ** $key * $val;
     }
     $days = array_diff($days, [0]);
-    $days = implode(",", $days);
+    $days = implode(',', $days);
     return $days;
 }
 
@@ -88,6 +88,6 @@ function bin2days($days)
  */
 function fix4days($data)
 {
-    $data["days"] = bin2days($data["days"]);
+    $data['days'] = bin2days($data['days']);
     return $data;
 }

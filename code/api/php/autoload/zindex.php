@@ -96,40 +96,40 @@ init_random();
 check_system();
 
 // Normal operation
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
-eval_iniset(get_config("iniset"));
-eval_putenv(get_config("putenv"));
-eval_extras(get_config("extras"));
+$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
+eval_iniset(get_config('iniset'));
+eval_putenv(get_config('putenv'));
+eval_extras(get_config('extras'));
 
 // Collect all input data
-if (php_sapi_name() == "cli") {
+if (php_sapi_name() == 'cli') {
     // This allow to use SaltOS from the command line using the CLI SAPI
-    set_server("argv/0", null);
-    set_server("QUERY_STRING", implode("/", get_server("argv") ?? ""));
+    set_server('argv/0', null);
+    set_server('QUERY_STRING', implode('/', get_server('argv') ?? ''));
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
-        "rest" => array_values(array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""])),
-        "json" => array_protected(json_decode(file_get_contents("php://stdin"), true)),
-        "server" => [
-            "request_method" => "CLI",
-            "content_type" => "",
-            "token" => check_token_format(getenv("TOKEN")),
-            "remote_addr" => getenv("USER"),
-            "user_agent" => "PHP/" . phpversion(),
-            "lang" => check_lang_format(getenv("OLD_LANG")),
+        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING') ?? ''), [''])),
+        'json' => array_protected(json_decode(file_get_contents('php://stdin'), true)),
+        'server' => [
+            'request_method' => 'CLI',
+            'content_type' => '',
+            'token' => check_token_format(getenv('TOKEN')),
+            'remote_addr' => getenv('USER'),
+            'user_agent' => 'PHP/' . phpversion(),
+            'lang' => check_lang_format(getenv('OLD_LANG')),
         ],
     ];
 } else {
     $_DATA = [
-        "rest" => array_values(array_diff(explode("/", get_server("QUERY_STRING") ?? ""), [""])),
-        "json" => array_protected(json_decode(file_get_contents("php://input"), true)),
-        "server" => [
-            "request_method" => strtoupper(get_server("REQUEST_METHOD") ?? ""),
-            "content_type" => strtolower(get_server("CONTENT_TYPE") ?? ""),
-            "token" => check_token_format(get_server("HTTP_TOKEN")),
-            "remote_addr" => get_server("REMOTE_ADDR") ?? "",
-            "user_agent" => get_server("HTTP_USER_AGENT") ?? "",
-            "lang" => check_lang_format(get_server("HTTP_LANG")),
+        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING') ?? ''), [''])),
+        'json' => array_protected(json_decode(file_get_contents('php://input'), true)),
+        'server' => [
+            'request_method' => strtoupper(get_server('REQUEST_METHOD') ?? ''),
+            'content_type' => strtolower(get_server('CONTENT_TYPE') ?? ''),
+            'token' => check_token_format(get_server('HTTP_TOKEN')),
+            'remote_addr' => get_server('REMOTE_ADDR') ?? '',
+            'user_agent' => get_server('HTTP_USER_AGENT') ?? '',
+            'lang' => check_lang_format(get_server('HTTP_LANG')),
         ],
     ];
 }
@@ -141,36 +141,36 @@ if (php_sapi_name() == "cli") {
 //~ addlog(sprintr($_SERVER));
 
 // Check for the main requirement: rest/0
-set_data("rest/0", encode_bad_chars(strval(get_data("rest/0"))));
-if (get_data("rest/0") == "") {
-    show_json_error("Unknown request");
+set_data('rest/0', encode_bad_chars(strval(get_data('rest/0'))));
+if (get_data('rest/0') == '') {
+    show_json_error('Unknown request');
 }
 
 // Check for a valid request_method
-if (!in_array(get_data("server/request_method"), ["GET", "POST", "CLI"])) {
-    show_json_error("Unknown request");
+if (!in_array(get_data('server/request_method'), ['GET', 'POST', 'CLI'])) {
+    show_json_error('Unknown request');
 }
 
 // Check for a bad GET request_method
-if (get_data("server/request_method") == "GET") {
-    if (get_data("server/content_type") != "" || count(get_data("json"))) {
-        show_json_error("Unknown request");
+if (get_data('server/request_method') == 'GET') {
+    if (get_data('server/content_type') != '' || count(get_data('json'))) {
+        show_json_error('Unknown request');
     }
 }
 
 // Check for a bad POST request_method
-if (get_data("server/request_method") == "POST") {
-    if (get_data("server/content_type") != "application/json" || !count(get_data("json"))) {
-        show_json_error("Unknown request");
+if (get_data('server/request_method') == 'POST') {
+    if (get_data('server/content_type') != 'application/json' || !count(get_data('json'))) {
+        show_json_error('Unknown request');
     }
 }
 
 // Try to execute the rest/0 if exists
-$action = "php/action/" . get_data("rest/0") . ".php";
+$action = 'php/action/' . get_data('rest/0') . '.php';
 if (file_exists($action)) {
     require $action;
-    show_php_error(["phperror" => "Internal error"]);
+    show_php_error(['phperror' => 'Internal error']);
 }
 
 // Otherwise, we don't know what to do with this request
-show_json_error("Unknown request");
+show_json_error('Unknown request');

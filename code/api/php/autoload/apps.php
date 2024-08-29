@@ -47,62 +47,62 @@ function __apps($fn, $arg)
 {
     static $dict = [];
     if (!count($dict)) {
-        $query = "SELECT * FROM tbl_apps WHERE active = 1";
+        $query = 'SELECT * FROM tbl_apps WHERE active = 1';
         $result = db_query($query);
-        $dict["id2app"] = [];
-        $dict["app2id"] = [];
-        $dict["id2table"] = [];
-        $dict["app2table"] = [];
-        $dict["table2id"] = [];
-        $dict["table2app"] = [];
-        $dict["id2subtables"] = [];
-        $dict["app2subtables"] = [];
-        $dict["table2subtables"] = [];
-        $dict["app2index"] = [];
-        $dict["app2control"] = [];
-        $dict["app2version"] = [];
-        $dict["app2files"] = [];
-        $dict["app2notes"] = [];
-        $dict["subtable2id"] = [];
-        $dict["subtable2app"] = [];
-        $dict["subtable2table"] = [];
+        $dict['id2app'] = [];
+        $dict['app2id'] = [];
+        $dict['id2table'] = [];
+        $dict['app2table'] = [];
+        $dict['table2id'] = [];
+        $dict['table2app'] = [];
+        $dict['id2subtables'] = [];
+        $dict['app2subtables'] = [];
+        $dict['table2subtables'] = [];
+        $dict['app2index'] = [];
+        $dict['app2control'] = [];
+        $dict['app2version'] = [];
+        $dict['app2files'] = [];
+        $dict['app2notes'] = [];
+        $dict['subtable2id'] = [];
+        $dict['subtable2app'] = [];
+        $dict['subtable2table'] = [];
         while ($row = db_fetch_row($result)) {
-            $row["subtables"] = __apps_subtables_helper($row["subtables"]);
-            $dict["id2app"][$row["id"]] = $row["code"];
-            $dict["app2id"][$row["code"]] = $row["id"];
-            $dict["id2table"][$row["id"]] = $row["table"];
-            $dict["app2table"][$row["code"]] = $row["table"];
-            $dict["table2id"][$row["table"]] = $row["id"];
-            $dict["table2app"][$row["table"]] = $row["code"];
-            $dict["id2subtables"][$row["id"]] = $row["subtables"];
-            $dict["app2subtables"][$row["code"]] = $row["subtables"];
-            $dict["table2subtables"][$row["table"]] = $row["subtables"];
-            $dict["app2index"][$row["code"]] = $row["has_index"];
-            $dict["app2control"][$row["code"]] = $row["has_control"];
-            $dict["app2version"][$row["code"]] = $row["has_version"];
-            $dict["app2files"][$row["code"]] = $row["has_files"];
-            $dict["app2notes"][$row["code"]] = $row["has_notes"];
-            foreach ($row["subtables"] as $subtable) {
-                $dict["subtable2id"][$subtable["subtable"]] = $row["id"];
-                $dict["subtable2app"][$subtable["subtable"]] = $row["code"];
-                $dict["subtable2table"][$subtable["subtable"]] = $row["table"];
+            $row['subtables'] = __apps_subtables_helper($row['subtables']);
+            $dict['id2app'][$row['id']] = $row['code'];
+            $dict['app2id'][$row['code']] = $row['id'];
+            $dict['id2table'][$row['id']] = $row['table'];
+            $dict['app2table'][$row['code']] = $row['table'];
+            $dict['table2id'][$row['table']] = $row['id'];
+            $dict['table2app'][$row['table']] = $row['code'];
+            $dict['id2subtables'][$row['id']] = $row['subtables'];
+            $dict['app2subtables'][$row['code']] = $row['subtables'];
+            $dict['table2subtables'][$row['table']] = $row['subtables'];
+            $dict['app2index'][$row['code']] = $row['has_index'];
+            $dict['app2control'][$row['code']] = $row['has_control'];
+            $dict['app2version'][$row['code']] = $row['has_version'];
+            $dict['app2files'][$row['code']] = $row['has_files'];
+            $dict['app2notes'][$row['code']] = $row['has_notes'];
+            foreach ($row['subtables'] as $subtable) {
+                $dict['subtable2id'][$subtable['subtable']] = $row['id'];
+                $dict['subtable2app'][$subtable['subtable']] = $row['code'];
+                $dict['subtable2table'][$subtable['subtable']] = $row['table'];
             }
         }
         db_free($result);
     }
-    if ($fn == "app_exists") {
-        return isset($dict["app2id"][$arg]);
+    if ($fn == 'app_exists') {
+        return isset($dict['app2id'][$arg]);
     }
-    if ($fn == "table_exists") {
-        return isset($dict["table2id"][$arg]);
+    if ($fn == 'table_exists') {
+        return isset($dict['table2id'][$arg]);
     }
-    if ($fn == "subtable_exists") {
-        return isset($dict["subtable2id"][$arg]);
+    if ($fn == 'subtable_exists') {
+        return isset($dict['subtable2id'][$arg]);
     }
     if (isset($dict[$fn][$arg])) {
         return $dict[$fn][$arg];
     }
-    show_php_error(["phperror" => "$fn($arg) not found"]);
+    show_php_error(['phperror' => "$fn($arg) not found"]);
 }
 
 /**
@@ -116,20 +116,20 @@ function __apps($fn, $arg)
  */
 function __apps_subtables_helper($subtables)
 {
-    $subtables = array_diff(explode(",", $subtables), [""]);
+    $subtables = array_diff(explode(',', $subtables), ['']);
     foreach ($subtables as $key => $val) {
-        if (strpos($val, ":")) {
-            $alias = strtok($val, ":");
-            $subtable = strtok("(");
+        if (strpos($val, ':')) {
+            $alias = strtok($val, ':');
+            $subtable = strtok('(');
         } else {
-            $alias = "";
-            $subtable = strtok($val, "(");
+            $alias = '';
+            $subtable = strtok($val, '(');
         }
-        $field = strtok(")");
+        $field = strtok(')');
         $subtables[$key] = [
-            "alias" => $alias,
-            "subtable" => $subtable,
-            "field" => $field,
+            'alias' => $alias,
+            'subtable' => $subtable,
+            'field' => $field,
         ];
     }
     return $subtables;
@@ -335,10 +335,10 @@ function app2notes($app)
  */
 function current_app()
 {
-    if (get_data("rest/0") != "app") {
-        show_php_error(["phperror" => "unknown app in rest args"]);
+    if (get_data('rest/0') != 'app') {
+        show_php_error(['phperror' => 'unknown app in rest args']);
     }
-    return app2id(get_data("rest/1"));
+    return app2id(get_data('rest/1'));
 }
 
 /**

@@ -35,7 +35,7 @@ declare(strict_types=1);
  * This file add some functions used by SaltOS that can not be found in all allowed versions of PHP
  */
 
-if (!function_exists("array_key_last")) {
+if (!function_exists('array_key_last')) {
     /**
      * Array Key Last
      *
@@ -57,7 +57,7 @@ if (!function_exists("array_key_last")) {
     }
 }
 
-if (!function_exists("array_key_first")) {
+if (!function_exists('array_key_first')) {
     /**
      * Array Key First
      *

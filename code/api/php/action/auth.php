@@ -35,45 +35,45 @@ declare(strict_types=1);
  * to control it.
  */
 
-if (!semaphore_acquire("token")) {
-    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+if (!semaphore_acquire('token')) {
+    show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
 db_connect();
 crontab_users();
 
-require_once "php/lib/auth.php";
-$action = get_data("rest/1");
+require_once 'php/lib/auth.php';
+$action = get_data('rest/1');
 switch ($action) {
-    case "login":
+    case 'login':
         // Check parameters
-        foreach (["user", "pass"] as $key) {
-            if (get_data("json/$key") == "") {
-                semaphore_release("token");
+        foreach (['user', 'pass'] as $key) {
+            if (get_data("json/$key") == '') {
+                semaphore_release('token');
                 show_json_error("$key not found or void");
             }
         }
-        $array = authtoken(get_data("json/user"), get_data("json/pass"));
+        $array = authtoken(get_data('json/user'), get_data('json/pass'));
         break;
-    case "logout":
+    case 'logout':
         $array = deauthtoken();
         break;
-    case "check":
+    case 'check':
         $array = checktoken();
         break;
-    case "update":
+    case 'update':
         // Check parameters
-        foreach (["oldpass", "newpass", "renewpass"] as $key) {
-            if (get_data("json/$key") == "") {
-                semaphore_release("token");
+        foreach (['oldpass', 'newpass', 'renewpass'] as $key) {
+            if (get_data("json/$key") == '') {
+                semaphore_release('token');
                 show_json_error("$key not found or void");
             }
         }
-        $array = authupdate(get_data("json/oldpass"), get_data("json/newpass"), get_data("json/renewpass"));
+        $array = authupdate(get_data('json/oldpass'), get_data('json/newpass'), get_data('json/renewpass'));
         break;
     default:
-        show_php_error(["phperror" => "Unknown action $action"]);
+        show_php_error(['phperror' => "Unknown action $action"]);
 }
 
-semaphore_release("token");
+semaphore_release('token');
 output_handler_json($array);

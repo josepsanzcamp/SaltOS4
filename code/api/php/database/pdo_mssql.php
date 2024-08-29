@@ -66,23 +66,23 @@ class database_pdo_mssql
      */
     public function __construct($args)
     {
-        if (!class_exists("PDO")) {
+        if (!class_exists('PDO')) {
             // @codeCoverageIgnoreStart
             show_php_error([
-                "phperror" => "Class PDO not found",
-                "details" => "Try to install php-pdo package",
+                'phperror' => 'Class PDO not found',
+                'details' => 'Try to install php-pdo package',
             ]);
             // @codeCoverageIgnoreEnd
         }
         try {
             $this->link = new PDO(
-                "dblib:host=" . $args["host"] . ":" . $args["port"] . ";" .
-                "dbname=" . $args["name"] . ";" .
-                "charset=UTF-8",
-                $args["user"], $args["pass"]
+                'dblib:host=' . $args['host'] . ':' . $args['port'] . ';' .
+                'dbname=' . $args['name'] . ';' .
+                'charset=UTF-8',
+                $args['user'], $args['pass']
             );
         } catch (PDOException $e) {
-            show_php_error(["dberror" => $e->getMessage()]);
+            show_php_error(['dberror' => $e->getMessage()]);
         }
         $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -132,10 +132,10 @@ class database_pdo_mssql
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */
-    public function db_query($query, $fetch = "query")
+    public function db_query($query, $fetch = 'query')
     {
-        $query = parse_query($query, "MSSQL");
-        $result = ["total" => 0, "header" => [], "rows" => []];
+        $query = parse_query($query, 'MSSQL');
+        $result = ['total' => 0, 'header' => [], 'rows' => []];
         if (!strlen(trim($query))) {
             return $result;
         }
@@ -143,34 +143,34 @@ class database_pdo_mssql
         try {
             $stmt = $this->link->query($query);
         } catch (PDOException $e) {
-            show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+            show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
         }
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
-            if ($fetch == "auto") {
-                $fetch = $stmt->columnCount() > 1 ? "query" : "column";
+            if ($fetch == 'auto') {
+                $fetch = $stmt->columnCount() > 1 ? 'query' : 'column';
             }
-            if ($fetch == "query") {
-                $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $result["total"] = count($result["rows"]);
-                if ($result["total"] > 0) {
-                    $result["header"] = array_keys($result["rows"][0]);
+            if ($fetch == 'query') {
+                $result['rows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $result['total'] = count($result['rows']);
+                if ($result['total'] > 0) {
+                    $result['header'] = array_keys($result['rows'][0]);
                 }
             }
-            if ($fetch == "column") {
-                $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                $result["total"] = count($result["rows"]);
-                $result["header"] = ["column"];
+            if ($fetch == 'column') {
+                $result['rows'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                $result['total'] = count($result['rows']);
+                $result['header'] = ['column'];
             }
-            if ($fetch == "concat") {
+            if ($fetch == 'concat') {
                 if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                    $result["rows"][] = $row;
+                    $result['rows'][] = $row;
                 }
                 while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                    $result["rows"][0] .= "," . $row;
+                    $result['rows'][0] .= ',' . $row;
                 }
-                $result["total"] = count($result["rows"]);
-                $result["header"] = ["concat"];
+                $result['total'] = count($result['rows']);
+                $result['header'] = ['concat'];
             }
         }
         return $result;

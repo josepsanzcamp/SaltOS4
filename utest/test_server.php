@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,28 +67,28 @@ final class test_server extends TestCase
      */
     public function test_server(): void
     {
-        set_server("asd", "sdf");
-        $this->assertSame(get_server("asd"), "sdf");
+        set_server('asd', 'sdf');
+        $this->assertSame(get_server('asd'), 'sdf');
 
-        set_server("asd", null);
-        $this->assertSame(get_server("asd"), null);
+        set_server('asd', null);
+        $this->assertSame(get_server('asd'), null);
 
-        set_server("asd/asd", "sdf");
-        $this->assertSame(get_server("asd/asd"), "sdf");
+        set_server('asd/asd', 'sdf');
+        $this->assertSame(get_server('asd/asd'), 'sdf');
 
-        set_server("asd/asd", null);
-        $this->assertSame(get_server("asd/asd"), null);
+        set_server('asd/asd', null);
+        $this->assertSame(get_server('asd/asd'), null);
 
-        $old = get_server("QUERY_STRING");
-        set_server("QUERY_STRING", "/app/customers");
-        $this->assertSame(get_server("QUERY_STRING"), "/app/customers");
+        $old = get_server('QUERY_STRING');
+        set_server('QUERY_STRING', '/app/customers');
+        $this->assertSame(get_server('QUERY_STRING'), '/app/customers');
 
-        $this->assertSame(current_hash(), "app/customers");
+        $this->assertSame(current_hash(), 'app/customers');
 
-        set_server("QUERY_STRING", $old);
-        $this->assertSame(get_server("QUERY_STRING"), $old);
+        set_server('QUERY_STRING', $old);
+        $this->assertSame(get_server('QUERY_STRING'), $old);
 
-        test_external_exec("php/server1.php", "phperror.log", "key not found");
-        test_external_exec("php/server2.php", "phperror.log", "key not found");
+        test_external_exec('php/server1.php', 'phperror.log', 'key not found');
+        test_external_exec('php/server2.php', 'phperror.log', 'key not found');
     }
 }

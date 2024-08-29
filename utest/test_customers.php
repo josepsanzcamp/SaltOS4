@@ -52,9 +52,9 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
-require_once "php/lib/control.php";
-require_once "php/lib/indexing.php";
+require_once 'lib/utestlib.php';
+require_once 'php/lib/control.php';
+require_once 'php/lib/indexing.php';
 
 
 /**
@@ -72,49 +72,49 @@ final class test_customers extends TestCase
     public function test_customers(): void
     {
         $array = [
-            "nombre" => "Asd Qwerty",
-            "nombre1" => "Asd",
-            "nombre2" => "Qwerty",
-            "nombre_poblacion" => "Barcelona",
-            "nombre_codpostal" => "08001",
+            'nombre' => 'Asd Qwerty',
+            'nombre1' => 'Asd',
+            'nombre2' => 'Qwerty',
+            'nombre_poblacion' => 'Barcelona',
+            'nombre_codpostal' => '08001',
         ];
-        $query = make_insert_query("app_customers", $array);
+        $query = make_insert_query('app_customers', $array);
         db_query($query);
 
-        $id = execute_query("SELECT MAX(id) FROM app_customers");
+        $id = execute_query('SELECT MAX(id) FROM app_customers');
         $this->assertTrue($id > 0);
 
-        $this->assertSame(make_control("customers", $id), 1);
-        $this->assertSame(make_index("customers", $id), 1);
-        $this->assertSame(add_version("customers", $id), 1);
+        $this->assertSame(make_control('customers', $id), 1);
+        $this->assertSame(make_index('customers', $id), 1);
+        $this->assertSame(add_version('customers', $id), 1);
 
-        $this->assertCount(1, get_version("customers", $id, 1));
-
-        $array = [
-            "nombre1" => "ASD",
-            "nombre2" => "QWERTY",
-        ];
-        $query = make_update_query("app_customers", $array, "id=$id");
-        db_query($query);
-
-        $this->assertSame(make_control("customers", $id), -4);
-        $this->assertSame(make_index("customers", $id), 2);
-        $this->assertSame(add_version("customers", $id), 1);
-
-        $this->assertCount(1, get_version("customers", $id, 2));
+        $this->assertCount(1, get_version('customers', $id, 1));
 
         $array = [
-            "cif" => "123456789",
+            'nombre1' => 'ASD',
+            'nombre2' => 'QWERTY',
         ];
-        $query = make_update_query("app_customers", $array, "id=$id");
+        $query = make_update_query('app_customers', $array, "id=$id");
         db_query($query);
 
-        $this->assertSame(make_control("customers", $id), -4);
-        $this->assertSame(make_index("customers", $id), 2);
-        $this->assertSame(add_version("customers", $id), 1);
+        $this->assertSame(make_control('customers', $id), -4);
+        $this->assertSame(make_index('customers', $id), 2);
+        $this->assertSame(add_version('customers', $id), 1);
 
-        $this->assertCount(1, get_version("customers", $id, 3));
-        $this->assertCount(1, get_version("customers", $id, 2));
+        $this->assertCount(1, get_version('customers', $id, 2));
+
+        $array = [
+            'cif' => '123456789',
+        ];
+        $query = make_update_query('app_customers', $array, "id=$id");
+        db_query($query);
+
+        $this->assertSame(make_control('customers', $id), -4);
+        $this->assertSame(make_index('customers', $id), 2);
+        $this->assertSame(add_version('customers', $id), 1);
+
+        $this->assertCount(1, get_version('customers', $id, 3));
+        $this->assertCount(1, get_version('customers', $id, 2));
 
         // Check for hash blockchain integrity
         $oldhash = execute_query("SELECT hash
@@ -128,14 +128,14 @@ final class test_customers extends TestCase
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
 
-        file_put_contents("/tmp/phpunit.regid", $id);
-        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity break for customers");
+        file_put_contents('/tmp/phpunit.regid', $id);
+        test_external_exec('php/customers1.php', 'phperror.log', 'blockchain integrity break for customers');
 
         $query = "UPDATE app_customers_version
                   SET hash='$hash'
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
-        $this->assertCount(1, get_version("customers", $id, 3));
+        $this->assertCount(1, get_version('customers', $id, 3));
 
         // Check for datetime blockchain integrity
         $datetime = execute_query("SELECT datetime
@@ -155,13 +155,13 @@ final class test_customers extends TestCase
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
 
-        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity break for customers");
+        test_external_exec('php/customers1.php', 'phperror.log', 'blockchain integrity break for customers');
 
         $query = "UPDATE app_customers_version
                   SET hash='$hash', datetime='$datetime'
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
-        $this->assertCount(1, get_version("customers", $id, 3));
+        $this->assertCount(1, get_version('customers', $id, 3));
 
         // Check for ver_id blockchain integrity
         $query = "UPDATE app_customers_version
@@ -178,27 +178,27 @@ final class test_customers extends TestCase
                   WHERE reg_id=$id AND ver_id=-2";
         db_query($query);
 
-        test_external_exec("php/customers1.php", "phperror.log", "blockchain integrity break for customers");
-        unlink("/tmp/phpunit.regid");
+        test_external_exec('php/customers1.php', 'phperror.log', 'blockchain integrity break for customers');
+        unlink('/tmp/phpunit.regid');
 
         $query = "UPDATE app_customers_version
                   SET hash='$hash', ver_id=2
                   WHERE reg_id=$id AND ver_id=-2";
         db_query($query);
-        $this->assertCount(1, get_version("customers", $id, 3));
+        $this->assertCount(1, get_version('customers', $id, 3));
 
         // Continue
         $query = "DELETE FROM app_customers WHERE id=$id";
         db_query($query);
 
-        $this->assertSame(make_control("customers", $id), 2);
-        $this->assertSame(make_index("customers", $id), 3);
-        $this->assertSame(add_version("customers", $id), 2);
+        $this->assertSame(make_control('customers', $id), 2);
+        $this->assertSame(make_index('customers', $id), 3);
+        $this->assertSame(add_version('customers', $id), 2);
 
-        $this->assertCount(0, get_version("customers", $id, 1));
+        $this->assertCount(0, get_version('customers', $id, 1));
 
-        $this->assertSame(make_control("customers", $id), -3);
-        $this->assertSame(make_index("customers", $id), -3);
-        $this->assertSame(add_version("customers", $id), -3);
+        $this->assertSame(make_control('customers', $id), -3);
+        $this->assertSame(make_index('customers', $id), -3);
+        $this->assertSame(add_version('customers', $id), -3);
     }
 }

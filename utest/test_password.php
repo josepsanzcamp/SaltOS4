@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "php/lib/password.php";
+require_once 'php/lib/password.php';
 
 /**
  * Main class of this unit test
@@ -67,8 +67,8 @@ final class test_password extends TestCase
      */
     public function test_password(): void
     {
-        $this->assertSame(password_strength("admin"), 15.0);
-        $this->assertSame(password_strength("Admin.123"), 68.0);
-        $this->assertSame(password_strength("#Admin.123_"), 78.0);
+        $this->assertSame(password_strength('admin'), 15.0);
+        $this->assertSame(password_strength('Admin.123'), 68.0);
+        $this->assertSame(password_strength('#Admin.123_'), 78.0);
     }
 }

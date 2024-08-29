@@ -52,11 +52,11 @@ function get_directory($key)
     if ($dir === null) {
         return $dir;
     }
-    if ($dir == "") {
+    if ($dir == '') {
         return $dir;
     }
-    if (substr($dir, -1, 1) != "/") {
-        $dir .= "/";
+    if (substr($dir, -1, 1) != '/') {
+        $dir .= '/';
     }
     return $dir;
 }
@@ -74,15 +74,15 @@ function get_directory($key)
  *
  * This function uses the dirs/tempdir config key
  */
-function get_temp_file($ext = "")
+function get_temp_file($ext = '')
 {
-    if ($ext == "") {
-        $ext = ".tmp";
+    if ($ext == '') {
+        $ext = '.tmp';
     }
-    if (substr($ext, 0, 1) != ".") {
-        $ext = "." . $ext;
+    if (substr($ext, 0, 1) != '.') {
+        $ext = '.' . $ext;
     }
-    $dir = get_directory("dirs/tempdir") ?? getcwd_protected() . "/data/temp/";
+    $dir = get_directory('dirs/tempdir') ?? getcwd_protected() . '/data/temp/';
     for (;;) {
         $uniqid = get_unique_id_md5();
         $file = $dir . $uniqid . $ext;
@@ -106,21 +106,21 @@ function get_temp_file($ext = "")
  *
  * This function uses the dirs/cachedir config key
  */
-function get_cache_file($data, $ext = "")
+function get_cache_file($data, $ext = '')
 {
     if (is_array($data)) {
         $data = serialize($data);
     }
-    if ($ext == "") {
+    if ($ext == '') {
         $ext = strtolower(extension($data));
     }
-    if ($ext == "") {
-        $ext = ".tmp";
+    if ($ext == '') {
+        $ext = '.tmp';
     }
-    if (substr($ext, 0, 1) != ".") {
-        $ext = "." . $ext;
+    if (substr($ext, 0, 1) != '.') {
+        $ext = '.' . $ext;
     }
-    $dir = get_directory("dirs/cachedir") ?? getcwd_protected() . "/data/cache/";
+    $dir = get_directory('dirs/cachedir') ?? getcwd_protected() . '/data/cache/';
     $file = $dir . md5($data) . $ext;
     return $file;
 }
@@ -173,12 +173,12 @@ function url_get_contents($url)
     // Check scheme
     $scheme = parse_url($url, PHP_URL_SCHEME);
     if (!$scheme) {
-        $url = "http://" . $url;
+        $url = 'http://' . $url;
     }
     // Do the request
     $response = __url_get_contents($url);
     // Return response's body
-    return $response["body"];
+    return $response['body'];
 }
 
 /**
@@ -207,27 +207,27 @@ function url_get_contents($url)
 function __url_get_contents($url, $args = [])
 {
     $void = [
-        "body" => "",
-        "headers" => [],
-        "cookies" => [],
+        'body' => '',
+        'headers' => [],
+        'cookies' => [],
     ];
-    require_once "lib/httpclient/http.php";
+    require_once 'lib/httpclient/http.php';
     $http = new http_class();
     $http->user_agent = get_name_version_revision();
     $http->follow_redirect = 1;
-    if (isset($args["cookies"])) {
-        $http->RestoreCookies($args["cookies"]);
+    if (isset($args['cookies'])) {
+        $http->RestoreCookies($args['cookies']);
     }
     $arguments = [];
     $error = $http->GetRequestArguments($url, $arguments);
-    if ($error != "") {
+    if ($error != '') {
         return $void;
     }
     // I have detected that stream_socket_client generates uncontrolable
     // errors, for this reason, I have overloaded the error handler to
     // manage this kind of errors
     set_error_handler(function ($type, $message, $file, $line) {
-        if (words_exists("stream_socket_client", $message)) {
+        if (words_exists('stream_socket_client', $message)) {
             error_clear_last();
             return true;
         }
@@ -236,47 +236,47 @@ function __url_get_contents($url, $args = [])
     $error = $http->Open($arguments);
     restore_error_handler();
     // End of the overloaded error zone
-    if ($error != "") {
+    if ($error != '') {
         return $void;
     }
-    if (isset($args["method"])) {
-        $arguments["RequestMethod"] = strtoupper($args["method"]);
+    if (isset($args['method'])) {
+        $arguments['RequestMethod'] = strtoupper($args['method']);
     }
-    if (isset($args["values"])) {
-        $arguments["PostValues"] = $args["values"];
+    if (isset($args['values'])) {
+        $arguments['PostValues'] = $args['values'];
     }
-    if (isset($args["referer"])) {
-        $arguments["Referer"] = $args["referer"];
+    if (isset($args['referer'])) {
+        $arguments['Referer'] = $args['referer'];
     }
-    if (isset($args["headers"])) {
-        foreach ($args["headers"] as $key => $val) {
-            $arguments["Headers"][$key] = $val;
+    if (isset($args['headers'])) {
+        foreach ($args['headers'] as $key => $val) {
+            $arguments['Headers'][$key] = $val;
         }
     }
-    if (isset($args["body"])) {
-        $arguments["Body"] = $args["body"];
+    if (isset($args['body'])) {
+        $arguments['Body'] = $args['body'];
     }
     $error = $http->SendRequest($arguments);
-    if ($error != "") {
+    if ($error != '') {
         return $void;
     }
     $headers = [];
     $error = $http->ReadReplyHeaders($headers);
-    if ($error != "") {
+    if ($error != '') {
         return $void;
     }
-    $body = "";
+    $body = '';
     $error = $http->ReadWholeReplyBody($body);
-    if ($error != "") {
+    if ($error != '') {
         return $void;
     }
     $http->Close();
     $cookies = [];
     $http->SaveCookies($cookies);
     return [
-        "body" => $body,
-        "headers" => $headers,
-        "cookies" => $cookies,
+        'body' => $body,
+        'headers' => $headers,
+        'cookies' => $cookies,
     ];
 }
 
@@ -305,12 +305,12 @@ function extension($file)
 function encode_bad_chars_file($file)
 {
     $file = strrev($file);
-    $file = explode(".", $file, 2);
+    $file = explode('.', $file, 2);
     foreach ($file as $key => $val) {
         // Exists multiple strrev to prevent UTF8 data lost
         $file[$key] = strrev(encode_bad_chars(strrev($val)));
     }
-    $file = implode(".", $file);
+    $file = implode('.', $file);
     $file = strrev($file);
     return $file;
 }
@@ -328,7 +328,7 @@ function encode_bad_chars_file($file)
  */
 function realpath_protected($path)
 {
-    return realpath(dirname($path)) . "/" . basename($path);
+    return realpath(dirname($path)) . '/' . basename($path);
 }
 
 /**
@@ -342,8 +342,8 @@ function realpath_protected($path)
 function getcwd_protected()
 {
     $dir = getcwd();
-    if (in_array($dir, [false, "", "/"])) {
-        $dir = dirname(get_server("SCRIPT_FILENAME"));
+    if (in_array($dir, [false, '', '/'])) {
+        $dir = dirname(get_server('SCRIPT_FILENAME'));
     }
     return $dir;
 }
@@ -400,23 +400,23 @@ function chmod_protected($file, $mode)
  * Ths arguments is the same that the fsockopen function, in this case, the
  * function uses the stream_socket_client to emulate the original fsockopen
  */
-function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $timeout = null)
+function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = '', $timeout = null)
 {
     if ($timeout == null) {
-        $timeout = floatval(ini_get("default_socket_timeout"));
+        $timeout = floatval(ini_get('default_socket_timeout'));
     }
     return stream_socket_client(
-        $hostname . ":" . $port,
+        $hostname . ':' . $port,
         $errno,
         $errstr,
         $timeout,
         STREAM_CLIENT_CONNECT,
         stream_context_create(
             [
-                "ssl" => [
-                    "verify_peer" => false,
-                    "verify_peer_name" => false,
-                    "allow_self_signed" => true,
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true,
                 ],
             ]
         )
@@ -434,7 +434,7 @@ function fsockopen_protected($hostname, $port, &$errno = 0, &$errstr = "", $time
  */
 function file_with_hash($file)
 {
-    return $file . "?" . md5_file($file);
+    return $file . '?' . md5_file($file);
 }
 
 /**

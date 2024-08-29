@@ -83,32 +83,32 @@ function __array2xml_check_node_attr($name)
 function __array2xml_write_nodes(&$array, $level = null)
 {
     if ($level === null) {
-        $prefix = "";
-        $postfix = "";
+        $prefix = '';
+        $postfix = '';
     } else {
         $prefix = str_repeat("\t", $level);
         $postfix = "\n";
         $level++;
     }
-    $buffer = "";
+    $buffer = '';
     foreach ($array as $key => $val) {
         $key = fix_key($key);
         if (!__array2xml_check_node_name($key)) {
-            show_php_error(["phperror" => "Invalid XML tag name '{$key}'"]);
+            show_php_error(['phperror' => "Invalid XML tag name '{$key}'"]);
         }
-        $attr = "";
+        $attr = '';
         if (is_attr_value($val)) {
             $attr = [];
-            foreach ($val["#attr"] as $key2 => $val2) {
+            foreach ($val['#attr'] as $key2 => $val2) {
                 $key2 = fix_key($key2);
                 if (!__array2xml_check_node_attr($key2)) {
-                    show_php_error(["phperror" => "Invalid XML attr name '{$key2}'"]);
+                    show_php_error(['phperror' => "Invalid XML attr name '{$key2}'"]);
                 }
-                $val2 = str_replace("&", "&amp;", strval($val2));
+                $val2 = str_replace('&', '&amp;', strval($val2));
                 $attr[] = "{$key2}=\"{$val2}\"";
             }
-            $attr = " " . implode(" ", $attr);
-            $val = $val["value"];
+            $attr = ' ' . implode(' ', $attr);
+            $val = $val['value'];
         }
         if (is_array($val)) {
             $buffer .= "{$prefix}<{$key}{$attr}>{$postfix}";
@@ -116,14 +116,14 @@ function __array2xml_write_nodes(&$array, $level = null)
             $buffer .= "{$prefix}</{$key}>{$postfix}";
         } else {
             $val = remove_bad_chars(strval($val));
-            if (strpos($val, "<") !== false || strpos($val, "&") !== false) {
+            if (strpos($val, '<') !== false || strpos($val, '&') !== false) {
                 $count = 1;
                 while ($count) {
-                    $val = str_replace(["<![CDATA[", "]]>"], "", $val, $count);
+                    $val = str_replace(['<![CDATA[', ']]>'], '', $val, $count);
                 }
                 $val = "<![CDATA[{$val}]]>";
             }
-            if ($val != "") {
+            if ($val != '') {
                 $buffer .= "{$prefix}<{$key}{$attr}>{$val}</{$key}>{$postfix}";
             } else {
                 $buffer .= "{$prefix}<{$key}{$attr}/>{$postfix}";

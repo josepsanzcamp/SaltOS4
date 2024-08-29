@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "php/lib/ascii.php";
+require_once 'php/lib/ascii.php';
 
 /**
  * Main class of this unit test
@@ -68,26 +68,26 @@ final class test_ascii extends TestCase
     public function test_ascii(): void
     {
         $array = [
-            "rows" => "ASD",
+            'rows' => 'ASD',
         ];
         $buffer = __ascii_make_table_ascii($array);
         $this->assertTrue(strlen($buffer) > 0);
 
         $array = [
-            "rows" => [],
+            'rows' => [],
         ];
         $buffer = __ascii_make_table_ascii($array);
         $this->assertTrue(strlen($buffer) > 0);
 
         $array = [
-            "rows" => [
-                ["A", "B", "C", "D"],
-                ["1", "2", "3%", "4€"],
-                ["5", "6", "7%", "8€"],
-                ["9", "a", "b%", "c€"],
-                ["d", "e", "f%", "g€"],
+            'rows' => [
+                ['A', 'B', 'C', 'D'],
+                ['1', '2', '3%', '4€'],
+                ['5', '6', '7%', '8€'],
+                ['9', 'a', 'b%', 'c€'],
+                ['d', 'e', 'f%', 'g€'],
             ],
-            "head" => true,
+            'head' => true,
         ];
         $buffer = __ascii_make_table_ascii($array);
         $this->assertTrue(strlen($buffer) > 0);

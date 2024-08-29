@@ -51,8 +51,8 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "php/lib/pdf.php";
-require_once "lib/utestlib.php";
+require_once 'php/lib/pdf.php';
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -68,45 +68,45 @@ final class test_pdf extends TestCase
      */
     public function test_pdf(): void
     {
-        $invoice_id = execute_query("SELECT id FROM app_invoices ORDER BY id DESC LIMIT 1");
+        $invoice_id = execute_query('SELECT id FROM app_invoices ORDER BY id DESC LIMIT 1');
         $this->assertTrue(is_numeric($invoice_id));
         $this->assertTrue($invoice_id > 0);
 
-        set_data("rest/0", "app");
-        set_data("rest/1", "invoices");
+        set_data('rest/0', 'app');
+        set_data('rest/1', 'invoices');
 
-        $pdf = pdf("apps/invoices/xml/pdf.xml", [
-            "id" => $invoice_id,
+        $pdf = pdf('apps/invoices/xml/pdf.xml', [
+            'id' => $invoice_id,
         ]);
         $this->assertTrue(is_array($pdf));
-        $this->assertArrayHasKey("name", $pdf);
-        $this->assertArrayHasKey("data", $pdf);
+        $this->assertArrayHasKey('name', $pdf);
+        $this->assertArrayHasKey('data', $pdf);
 
-        $email_id = execute_query("SELECT id FROM app_emails ORDER BY id DESC LIMIT 1");
+        $email_id = execute_query('SELECT id FROM app_emails ORDER BY id DESC LIMIT 1');
         $this->assertTrue(is_numeric($email_id));
         $this->assertTrue($email_id > 0);
 
-        set_data("rest/0", "app");
-        set_data("rest/1", "emails");
+        set_data('rest/0', 'app');
+        set_data('rest/1', 'emails');
 
-        $pdf = pdf("apps/emails/xml/pdf.xml", [
-            "id" => $email_id,
+        $pdf = pdf('apps/emails/xml/pdf.xml', [
+            'id' => $email_id,
         ]);
         $this->assertTrue(is_array($pdf));
-        $this->assertArrayHasKey("name", $pdf);
-        $this->assertArrayHasKey("data", $pdf);
+        $this->assertArrayHasKey('name', $pdf);
+        $this->assertArrayHasKey('data', $pdf);
 
-        set_data("rest/0", "app");
-        set_data("rest/1", "dashboard");
+        set_data('rest/0', 'app');
+        set_data('rest/1', 'dashboard');
 
-        $pdf = pdf("../../utest/files/pdf.xml", [
-            "dir" => "ltr",
+        $pdf = pdf('../../utest/files/pdf.xml', [
+            'dir' => 'ltr',
         ]);
         $this->assertTrue(is_array($pdf));
-        $this->assertArrayHasKey("name", $pdf);
-        $this->assertArrayHasKey("data", $pdf);
+        $this->assertArrayHasKey('name', $pdf);
+        $this->assertArrayHasKey('data', $pdf);
 
-        $separator = ",";
+        $separator = ',';
         $str = '"x","y","z"';
         $limit = 2;
         $array = __pdf_eval_explode($separator, $str, $limit);
@@ -115,10 +115,10 @@ final class test_pdf extends TestCase
             '"y","z"',
         ]);
 
-        test_external_exec("php/pdf1.php", "phperror.log", "array not found");
-        test_external_exec("php/pdf2.php", "phperror.log", "foreach without query");
-        test_external_exec("php/pdf3.php", "phperror.log", "file nada not found");
-        test_external_exec("php/pdf4.php", "phperror.log", "eval pdf tag error nada");
-        test_external_exec("php/pdf5.php", "phperror.log", "output node not found in template");
+        test_external_exec('php/pdf1.php', 'phperror.log', 'array not found');
+        test_external_exec('php/pdf2.php', 'phperror.log', 'foreach without query');
+        test_external_exec('php/pdf3.php', 'phperror.log', 'file nada not found');
+        test_external_exec('php/pdf4.php', 'phperror.log', 'eval pdf tag error nada');
+        test_external_exec('php/pdf5.php', 'phperror.log', 'output node not found in template');
     }
 }

@@ -41,7 +41,7 @@ declare(strict_types=1);
 function get_unique_token()
 {
     $x = str_split(bin2hex(random_bytes(16)), 4);
-    return $x[0] . $x[1] . "-" . $x[2] . "-" . $x[3] . "-" . $x[4] . "-" . $x[5] . $x[6] . $x[7];
+    return $x[0] . $x[1] . '-' . $x[2] . '-' . $x[3] . '-' . $x[4] . '-' . $x[5] . $x[6] . $x[7];
 }
 
 /**
@@ -56,19 +56,19 @@ function check_token_format($token)
 {
     // First check
     if (!is_string($token)) {
-        return "";
+        return '';
     }
     // Check the number of parts and the length of each parts
-    $parts = explode("-", $token);
+    $parts = explode('-', $token);
     $lengths = array_map(function ($val) {
         return strlen($val);
     }, $parts);
-    if (implode("-", $lengths) != "8-4-4-4-12") {
-        return "";
+    if (implode('-', $lengths) != '8-4-4-4-12') {
+        return '';
     }
     // Check the type of each part
-    if (!ctype_xdigit(implode("", $parts))) {
-        return "";
+    if (!ctype_xdigit(implode('', $parts))) {
+        return '';
     }
     return $token;
 }

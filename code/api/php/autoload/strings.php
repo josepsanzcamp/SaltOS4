@@ -44,7 +44,7 @@ declare(strict_types=1);
  * @temp => input string that you want to fix
  * @pad  => padding string used as replacement for bar chars (void by default)
  */
-function remove_bad_chars($temp, $pad = "")
+function remove_bad_chars($temp, $pad = '')
 {
     static $bad_chars = null;
     if ($bad_chars === null) {
@@ -76,19 +76,19 @@ function remove_bad_chars($temp, $pad = "")
  * @pad   => the padding char using to replace the bar chars
  * @extra => the list of chars allowed to appear in the output
  */
-function encode_bad_chars($cad, $pad = "_", $extra = "")
+function encode_bad_chars($cad, $pad = '_', $extra = '')
 {
     $orig = [
-        "á", "à", "ä", "â", "é", "è", "ë", "ê", "í", "ì", "ï", "î",
-        "ó", "ò", "ö", "ô", "ú", "ù", "ü", "û", "ñ", "ç",
-        "Á", "À", "Ä", "Â", "É", "È", "Ë", "Ê", "Í", "Ì", "Ï", "Î",
-        "Ó", "Ò", "Ö", "Ô", "Ú", "Ù", "Ü", "Û", "Ñ", "Ç",
+        'á', 'à', 'ä', 'â', 'é', 'è', 'ë', 'ê', 'í', 'ì', 'ï', 'î',
+        'ó', 'ò', 'ö', 'ô', 'ú', 'ù', 'ü', 'û', 'ñ', 'ç',
+        'Á', 'À', 'Ä', 'Â', 'É', 'È', 'Ë', 'Ê', 'Í', 'Ì', 'Ï', 'Î',
+        'Ó', 'Ò', 'Ö', 'Ô', 'Ú', 'Ù', 'Ü', 'Û', 'Ñ', 'Ç',
     ];
     $dest = [
-        "a", "a", "a", "a", "e", "e", "e", "e", "i", "i", "i", "i",
-        "o", "o", "o", "o", "u", "u", "u", "u", "n", "c",
-        "a", "a", "a", "a", "e", "e", "e", "e", "i", "i", "i", "i",
-        "o", "o", "o", "o", "u", "u", "u", "u", "n", "c",
+        'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i',
+        'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'n', 'c',
+        'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i',
+        'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'n', 'c',
     ];
     $cad = str_replace($orig, $dest, $cad);
     $cad = strtolower($cad);
@@ -96,10 +96,10 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
     for ($i = 0; $i < $len; $i++) {
         $letter = $cad[$i];
         $replace = true;
-        if ($letter >= "a" && $letter <= "z") {
+        if ($letter >= 'a' && $letter <= 'z') {
             $replace = false;
         }
-        if ($letter >= "0" && $letter <= "9") {
+        if ($letter >= '0' && $letter <= '9') {
             $replace = false;
         }
         if (strpos($extra, $letter) !== false) {
@@ -126,7 +126,7 @@ function encode_bad_chars($cad, $pad = "_", $extra = "")
  * Apart of remove repetitions of the padding char, the function will try to
  * remove padding chars in the start and in the end of the string
  */
-function trim_words($cad, $pad = " ")
+function trim_words($cad, $pad = ' ')
 {
     do {
         $len1 = strlen($cad);
@@ -158,7 +158,7 @@ function sprintr($array)
     $buffer = print_r($array, true);
     $buffer = explode("\n", $buffer);
     foreach ($buffer as $key => $val) {
-        if (in_array(trim($val), ["(", ")", ""])) {
+        if (in_array(trim($val), ['(', ')', ''])) {
             unset($buffer[$key]);
         }
     }
@@ -185,20 +185,20 @@ function get_unique_id_md5()
  * @max => the size of the expected output text
  * @end => the suffix added if the text is cutted
  */
-function intelligence_cut($txt, $max, $end = "...")
+function intelligence_cut($txt, $max, $end = '...')
 {
     $len = strlen($txt);
     if ($len > $max) {
-        while ($max > 0 && $txt[$max] != " ") {
+        while ($max > 0 && $txt[$max] != ' ') {
             $max--;
         }
         if ($max == 0) {
-            while ($max < $len && $txt[$max] != " ") {
+            while ($max < $len && $txt[$max] != ' ') {
                 $max++;
             }
         }
         if ($max > 0) {
-            if (in_array($txt[$max - 1], [",", ".", "-", "("])) {
+            if (in_array($txt[$max - 1], [',', '.', '-', '('])) {
                 $max--;
             }
         }
@@ -222,13 +222,13 @@ function normalize_value($value)
 {
     $number = intval(substr($value, 0, -1));
     $letter = strtoupper(substr($value, -1, 1));
-    if ($letter == "K") {
+    if ($letter == 'K') {
         $value = $number * 1024;
     }
-    if ($letter == "M") {
+    if ($letter == 'M') {
         $value = $number * 1024 * 1024;
     }
-    if ($letter == "G") {
+    if ($letter == 'G') {
         $value = $number * 1024 * 1024 * 1024;
     }
     return $value;
@@ -246,10 +246,10 @@ function normalize_value($value)
  */
 function html2text($html)
 {
-    if (!defined("RCUBE_CHARSET")) {
-        define("RCUBE_CHARSET", "UTF-8");
+    if (!defined('RCUBE_CHARSET')) {
+        define('RCUBE_CHARSET', 'UTF-8');
     }
-    require_once "lib/roundcube/rcube_html2text.php";
+    require_once 'lib/roundcube/rcube_html2text.php';
     $obj = new rcube_html2text($html);
     $text = $obj->get_text();
     return $text;
@@ -264,8 +264,8 @@ function html2text($html)
  */
 function getutf8($str)
 {
-    if ($str != "" && !mb_check_encoding($str, "UTF-8")) {
-        $str = mb_convert_encoding($str, "UTF-8", mb_detect_order());
+    if ($str != '' && !mb_check_encoding($str, 'UTF-8')) {
+        $str = mb_convert_encoding($str, 'UTF-8', mb_detect_order());
     }
     return $str;
 }
@@ -281,7 +281,7 @@ function getutf8($str)
 function words_exists($words, $buffer)
 {
     if (!is_array($words)) {
-        $words = explode(" ", $words);
+        $words = explode(' ', $words);
     }
     foreach ($words as $word) {
         if (stripos($buffer, $word) === false) {
@@ -328,7 +328,7 @@ function str_replace_assoc($array, $cad)
 function get_part_from_string($input, $delim, $index)
 {
     $temp = explode($delim, $input);
-    return $temp[$index] ?? "";
+    return $temp[$index] ?? '';
 }
 
 /**
@@ -343,7 +343,7 @@ function check_ids()
 {
     $value = [];
     foreach (func_get_args() as $arg) {
-        $arg = is_array($arg) ? $arg : explode(",", strval($arg));
+        $arg = is_array($arg) ? $arg : explode(',', strval($arg));
         $value = array_merge($value, $arg);
     }
     foreach ($value as $key => $val) {
@@ -351,6 +351,6 @@ function check_ids()
     }
     $value = array_flip(array_flip($value)); // Remove repetitions
     $value = array_diff($value, [0]); // Remove zeroes
-    $value = count($value) ? implode(",", $value) : "0";
+    $value = count($value) ? implode(',', $value) : '0';
     return $value;
 }

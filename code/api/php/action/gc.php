@@ -34,17 +34,17 @@ declare(strict_types=1);
  * of this accion only is allowed from the command line
  */
 
-if (get_data("server/request_method") != "CLI") {
-    show_php_error(["phperror" => "Permission denied"]);
+if (get_data('server/request_method') != 'CLI') {
+    show_php_error(['phperror' => 'Permission denied']);
 }
 
-if (!semaphore_acquire("gc")) {
-    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+if (!semaphore_acquire('gc')) {
+    show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
 db_connect();
-require_once "php/lib/gc.php";
-require_once "php/lib/upload.php";
+require_once 'php/lib/gc.php';
+require_once 'php/lib/upload.php';
 $time1 = microtime(true);
 $output1 = gc_upload();
 $time2 = microtime(true);

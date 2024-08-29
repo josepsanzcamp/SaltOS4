@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,13 +67,13 @@ final class test_user extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 4);
-        $this->assertArrayHasKey("token", $json);
+        $this->assertArrayHasKey('token', $json);
         return $json;
     }
 
@@ -87,24 +87,24 @@ final class test_user extends TestCase
      */
     public function test_user(array $json): void
     {
-        $token = $json["token"];
+        $token = $json['token'];
         $row = execute_query("SELECT * FROM tbl_users_tokens WHERE token='$token'");
-        $this->assertArrayHasKey("token", $row);
-        $this->assertArrayHasKey("remote_addr", $row);
-        $this->assertArrayHasKey("user_agent", $row);
+        $this->assertArrayHasKey('token', $row);
+        $this->assertArrayHasKey('remote_addr', $row);
+        $this->assertArrayHasKey('user_agent', $row);
 
-        set_data("server/token", $row["token"]);
-        $this->assertSame(get_data("server/token"), $row["token"]);
-        set_data("server/remote_addr", $row["remote_addr"]);
-        $this->assertSame(get_data("server/remote_addr"), $row["remote_addr"]);
-        set_data("server/user_agent", $row["user_agent"]);
-        $this->assertSame(get_data("server/user_agent"), $row["user_agent"]);
+        set_data('server/token', $row['token']);
+        $this->assertSame(get_data('server/token'), $row['token']);
+        set_data('server/remote_addr', $row['remote_addr']);
+        $this->assertSame(get_data('server/remote_addr'), $row['remote_addr']);
+        set_data('server/user_agent', $row['user_agent']);
+        $this->assertSame(get_data('server/user_agent'), $row['user_agent']);
 
         crontab_users();
         $this->assertTrue(true);
 
         $token = current_token();
-        $this->assertSame($token, $row["id"]);
+        $this->assertSame($token, $row['id']);
 
         $user = current_user();
         $this->assertSame($user, 1);
@@ -113,14 +113,14 @@ final class test_user extends TestCase
         $this->assertSame($group, 1);
 
         $groups = current_groups();
-        $this->assertSame($groups, "1");
+        $this->assertSame($groups, '1');
 
-        set_data("server/token", "");
-        $this->assertSame(get_data("server/token"), "");
-        set_data("server/remote_addr", "");
-        $this->assertSame(get_data("server/remote_addr"), "");
-        set_data("server/user_agent", "");
-        $this->assertSame(get_data("server/user_agent"), "");
+        set_data('server/token', '');
+        $this->assertSame(get_data('server/token'), '');
+        set_data('server/remote_addr', '');
+        $this->assertSame(get_data('server/remote_addr'), '');
+        set_data('server/user_agent', '');
+        $this->assertSame(get_data('server/user_agent'), '');
 
         $token = current_token();
         $this->assertSame($token, 0);
@@ -132,6 +132,6 @@ final class test_user extends TestCase
         $this->assertSame($group, 0);
 
         $groups = current_groups();
-        $this->assertSame($groups, "0");
+        $this->assertSame($groups, '0');
     }
 }

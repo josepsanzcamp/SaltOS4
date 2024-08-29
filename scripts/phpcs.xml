@@ -40,4 +40,9 @@
             <property name="lineLimit" value="110"/>
         </properties>
      </rule>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage">
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
+    </rule>
 </ruleset>

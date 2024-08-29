@@ -31,16 +31,16 @@ declare(strict_types=1);
  * This php comparison must be placed here to detect old versions that
  * breaks by the null coalescing operator found in other php scripts
  */
-if (version_compare(PHP_VERSION, "7.0", "<")) {
-    die("PHP 7.0 is required, currently installed version is " . PHP_VERSION);
+if (version_compare(PHP_VERSION, '7.0', '<')) {
+    die('PHP 7.0 is required, currently installed version is ' . PHP_VERSION);
 }
 
 /**
  * This chdir allow to execute this script from a command line and locate
  * all filese needed for the correct execution
  */
-if (isset($argv) && defined("STDIN")) {
-    chdir(dirname($_SERVER["SCRIPT_FILENAME"]));
+if (isset($argv) && defined('STDIN')) {
+    chdir(dirname($_SERVER['SCRIPT_FILENAME']));
 }
 
 /**
@@ -49,9 +49,9 @@ if (isset($argv) && defined("STDIN")) {
  * and prevent errors with old php versions that not supports the null
  * coalescing operator
  */
-foreach (glob("php/autoload/*.php") as $file) {
+foreach (glob('php/autoload/*.php') as $file) {
     require $file;
 }
 
 // You never must to see this error, some wrong thing was occurred in zindex
-show_php_error(["phperror" => "Internal error"]);
+show_php_error(['phperror' => 'Internal error']);

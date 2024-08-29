@@ -60,12 +60,12 @@ final class test_mime extends TestCase
      */
     public function test_mime(): void
     {
-        $this->assertSame(saltos_content_type("pepe.png"), "image/png");
+        $this->assertSame(saltos_content_type('pepe.png'), 'image/png');
 
-        $files = glob("xml/config.xml");
-        $this->assertSame(saltos_content_type($files[0]), "text/xml");
+        $files = glob('xml/config.xml');
+        $this->assertSame(saltos_content_type($files[0]), 'text/xml');
 
-        $this->assertSame(saltos_content_type0("image/png"), "image");
-        $this->assertSame(saltos_content_type1("image/png"), "png");
+        $this->assertSame(saltos_content_type0('image/png'), 'image');
+        $this->assertSame(saltos_content_type1('image/png'), 'png');
     }
 }

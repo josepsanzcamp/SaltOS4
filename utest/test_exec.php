@@ -60,35 +60,35 @@ final class test_exec extends TestCase
      */
     public function test_exec(): void
     {
-        $this->assertSame(__exec_timeout("ls"), "timeout 60 ls");
+        $this->assertSame(__exec_timeout('ls'), 'timeout 60 ls');
 
-        $cache = get_cache_file("ls", ".out");
+        $cache = get_cache_file('ls', '.out');
         if (file_exists($cache)) {
             unlink($cache);
         }
         $this->assertFileDoesNotExist($cache);
-        $buffer = ob_passthru("ls", 60);
+        $buffer = ob_passthru('ls', 60);
         $this->assertSame(strlen($buffer) > 0, true);
 
-        is_disabled_function("add", "passthru");
-        $buffer = ob_passthru("ls");
+        is_disabled_function('add', 'passthru');
+        $buffer = ob_passthru('ls');
         $this->assertSame(strlen($buffer) > 0, true);
 
-        is_disabled_function("add", "system");
-        $buffer = ob_passthru("ls");
+        is_disabled_function('add', 'system');
+        $buffer = ob_passthru('ls');
         $this->assertSame(strlen($buffer) > 0, true);
 
-        is_disabled_function("add", "exec");
-        $buffer = ob_passthru("ls");
+        is_disabled_function('add', 'exec');
+        $buffer = ob_passthru('ls');
         $this->assertSame(strlen($buffer) > 0, true);
 
-        is_disabled_function("add", "shell_exec");
-        $buffer = ob_passthru("ls");
+        is_disabled_function('add', 'shell_exec');
+        $buffer = ob_passthru('ls');
         $this->assertSame(strlen($buffer) > 0, false);
 
-        is_disabled_function("del", "shell_exec");
-        is_disabled_function("del", "exec");
-        is_disabled_function("del", "system");
-        is_disabled_function("del", "passthru");
+        is_disabled_function('del', 'shell_exec');
+        is_disabled_function('del', 'exec');
+        is_disabled_function('del', 'system');
+        is_disabled_function('del', 'passthru');
     }
 }

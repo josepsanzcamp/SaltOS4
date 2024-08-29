@@ -51,8 +51,8 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "php/lib/unoconv.php";
-require_once "php/lib/import.php";
+require_once 'php/lib/unoconv.php';
+require_once 'php/lib/import.php';
 
 /**
  * Main class of this unit test
@@ -66,7 +66,7 @@ final class test_unoconv extends TestCase
      */
     private function test_pdf($input): void
     {
-        $output = get_cache_file($input, ".pdf");
+        $output = get_cache_file($input, '.pdf');
         if (file_exists($output)) {
             unlink($output);
         }
@@ -79,7 +79,7 @@ final class test_unoconv extends TestCase
 
     private function test_txt($input): void
     {
-        $output = get_cache_file($input, ".txt");
+        $output = get_cache_file($input, '.txt');
         if (file_exists($output)) {
             unlink($output);
         }
@@ -101,38 +101,38 @@ final class test_unoconv extends TestCase
     {
         $files = [
             //~ "../../utest/files/bigsize.xlsx",
-            "../../utest/files/blank.odt",
-            "../../utest/files/image.pdf",
-            "../../utest/files/lorem.html",
-            "../../utest/files/lorem.odt",
-            "../../utest/files/lorem.pdf",
-            "../../utest/files/lorem.png",
+            '../../utest/files/blank.odt',
+            '../../utest/files/image.pdf',
+            '../../utest/files/lorem.html',
+            '../../utest/files/lorem.odt',
+            '../../utest/files/lorem.pdf',
+            '../../utest/files/lorem.png',
             //~ "../../utest/files/multipages.odt",
             //~ "../../utest/files/multipages.pdf",
             //~ "../../utest/files/numbers.bytes",
-            "../../utest/files/numbers.csv",
+            '../../utest/files/numbers.csv',
             //~ "../../utest/files/numbers.edi",
-            "../../utest/files/numbers.json",
+            '../../utest/files/numbers.json',
             //~ "../../utest/files/numbers.ods",
             //~ "../../utest/files/numbers.xls",
             //~ "../../utest/files/numbers.xlsx",
             //~ "../../utest/files/numbers.xml",
-            "../../utest/files/repeat.pdf",
-            "../../utest/files/saltos.sqlite",
+            '../../utest/files/repeat.pdf',
+            '../../utest/files/saltos.sqlite',
         ];
         foreach ($files as $file) {
             $this->test_pdf($file);
             $this->test_txt($file);
         }
 
-        $array = ["value" => ["value" => ["a"]]];
-        $this->assertSame(__unoconv_node2value($array), "a");
+        $array = ['value' => ['value' => ['a']]];
+        $this->assertSame(__unoconv_node2value($array), 'a');
 
         $this->assertSame(__unoconv_lines2matrix([
-            ["line", -2244, 592, -556, 638],
-            ["word", -617, 594, -556, 628, "_"],
-            ["word", -617, 594, -556, 628, "x"],
-            ["word", -617, 594, -556, 628, ""],
+            ['line', -2244, 592, -556, 638],
+            ['word', -617, 594, -556, 628, '_'],
+            ['word', -617, 594, -556, 628, 'x'],
+            ['word', -617, 594, -556, 628, ''],
         ], 1, 1), 3);
 
         $this->assertSame(__unoconv_lines2matrix([], 1, 1), []);
@@ -147,7 +147,7 @@ final class test_unoconv extends TestCase
      */
     public function test_ocr(): void
     {
-        $file = "../../utest/files/multipages.pdf";
+        $file = '../../utest/files/multipages.pdf';
         $ocr = __unoconv_pdf2ocr($file);
 
         $ocr = explode("\n\n", $ocr);
@@ -184,33 +184,33 @@ final class test_unoconv extends TestCase
      */
     public function test_commands(): void
     {
-        $old = get_config("unoconv/soffice");
-        set_config("unoconv/soffice", "nada");
-        $this->assertSame(get_config("unoconv/soffice"), "nada");
+        $old = get_config('unoconv/soffice');
+        set_config('unoconv/soffice', 'nada');
+        $this->assertSame(get_config('unoconv/soffice'), 'nada');
         $this->assertSame(__unoconv_list(), []);
-        $this->assertSame(__unoconv_convert("", "", ""), null);
-        set_config("unoconv/soffice", $old);
-        $this->assertSame(get_config("unoconv/soffice"), $old);
+        $this->assertSame(__unoconv_convert('', '', ''), null);
+        set_config('unoconv/soffice', $old);
+        $this->assertSame(get_config('unoconv/soffice'), $old);
 
-        $old = get_config("unoconv/pdftotext");
-        set_config("unoconv/pdftotext", "nada");
-        $this->assertSame(get_config("unoconv/pdftotext"), "nada");
-        $this->assertSame(__unoconv_pdf2txt("", ""), null);
-        set_config("unoconv/pdftotext", $old);
-        $this->assertSame(get_config("unoconv/pdftotext"), $old);
+        $old = get_config('unoconv/pdftotext');
+        set_config('unoconv/pdftotext', 'nada');
+        $this->assertSame(get_config('unoconv/pdftotext'), 'nada');
+        $this->assertSame(__unoconv_pdf2txt('', ''), null);
+        set_config('unoconv/pdftotext', $old);
+        $this->assertSame(get_config('unoconv/pdftotext'), $old);
 
-        $old = get_config("unoconv/convert");
-        set_config("unoconv/convert", "nada");
-        $this->assertSame(get_config("unoconv/convert"), "nada");
-        $this->assertSame(__unoconv_img2ocr(""), "");
-        set_config("unoconv/convert", $old);
-        $this->assertSame(get_config("unoconv/convert"), $old);
+        $old = get_config('unoconv/convert');
+        set_config('unoconv/convert', 'nada');
+        $this->assertSame(get_config('unoconv/convert'), 'nada');
+        $this->assertSame(__unoconv_img2ocr(''), '');
+        set_config('unoconv/convert', $old);
+        $this->assertSame(get_config('unoconv/convert'), $old);
 
-        $old = get_config("unoconv/pdftoppm");
-        set_config("unoconv/pdftoppm", "nada");
-        $this->assertSame(get_config("unoconv/pdftoppm"), "nada");
-        $this->assertSame(__unoconv_pdf2ocr(""), "");
-        set_config("unoconv/pdftoppm", $old);
-        $this->assertSame(get_config("unoconv/pdftoppm"), $old);
+        $old = get_config('unoconv/pdftoppm');
+        set_config('unoconv/pdftoppm', 'nada');
+        $this->assertSame(get_config('unoconv/pdftoppm'), 'nada');
+        $this->assertSame(__unoconv_pdf2ocr(''), '');
+        set_config('unoconv/pdftoppm', $old);
+        $this->assertSame(get_config('unoconv/pdftoppm'), $old);
     }
 }

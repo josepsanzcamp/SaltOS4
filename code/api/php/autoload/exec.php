@@ -52,7 +52,7 @@ declare(strict_types=1);
 function ob_passthru($cmd, $expires = 0)
 {
     if ($expires) {
-        $cache = get_cache_file($cmd, ".out");
+        $cache = get_cache_file($cmd, '.out');
         if (file_exists($cache) && is_file($cache)) {
             $mtime = filemtime($cache);
             if (time() - $expires < $mtime) {
@@ -60,24 +60,24 @@ function ob_passthru($cmd, $expires = 0)
             }
         }
     }
-    if (!is_disabled_function("passthru")) {
+    if (!is_disabled_function('passthru')) {
         ob_start();
         passthru($cmd);
         $buffer = ob_get_clean();
-    } elseif (!is_disabled_function("system")) {
+    } elseif (!is_disabled_function('system')) {
         ob_start();
         system($cmd);
         $buffer = ob_get_clean();
-    } elseif (!is_disabled_function("exec")) {
+    } elseif (!is_disabled_function('exec')) {
         $buffer = [];
         exec($cmd, $buffer);
         $buffer = implode("\n", $buffer);
-    } elseif (!is_disabled_function("shell_exec")) {
+    } elseif (!is_disabled_function('shell_exec')) {
         ob_start();
         $buffer = shell_exec($cmd);
         ob_get_clean();
     } else {
-        $buffer = "";
+        $buffer = '';
     }
     if ($expires) {
         file_put_contents($cache, $buffer);
@@ -98,14 +98,14 @@ function ob_passthru($cmd, $expires = 0)
 function check_commands($commands, $expires = 0)
 {
     if (!is_array($commands)) {
-        $commands = explode(",", $commands);
+        $commands = explode(',', $commands);
     }
     $result = true;
     foreach ($commands as $command) {
         $result &= ob_passthru(str_replace(
-            ["__INPUT__"],
+            ['__INPUT__'],
             [$command],
-            get_config("commands/__which__") ?? "which __INPUT__"
+            get_config('commands/__which__') ?? 'which __INPUT__'
         ), $expires) ? true : false;
     }
     return $result;
@@ -131,17 +131,17 @@ function is_disabled_function($fn)
 {
     static $array = null;
     if ($array === null) {
-        $array = array_diff(explode(",", implode(",", [
-            ini_get("disable_functions"),
-            ini_get("suhosin.executor.func.blacklist"),
-        ])), [""]);
+        $array = array_diff(explode(',', implode(',', [
+            ini_get('disable_functions'),
+            ini_get('suhosin.executor.func.blacklist'),
+        ])), ['']);
     }
     if (count(func_get_args()) == 2) {
         $fn = func_get_args();
-        if ($fn[0] == "add") {
+        if ($fn[0] == 'add') {
             $array[] = $fn[1];
         }
-        if ($fn[0] == "del") {
+        if ($fn[0] == 'del') {
             $array = array_diff($array, [$fn[1]]);
         }
         return;
@@ -163,11 +163,11 @@ function is_disabled_function($fn)
  */
 function __exec_timeout($cmd)
 {
-    if (check_commands(get_config("commands/timeout"), get_config("commands/commandtimeout") ?? 60)) {
+    if (check_commands(get_config('commands/timeout'), get_config('commands/commandtimeout') ?? 60)) {
         $cmd = str_replace(
-            ["__TIMEOUT__", "__COMMAND__"],
-            [get_config("commands/commandtimeout") ?? 60, $cmd],
-            get_config("commands/__timeout__") ?? "timeout __TIMEOUT__ __COMMAND__"
+            ['__TIMEOUT__', '__COMMAND__'],
+            [get_config('commands/commandtimeout') ?? 60, $cmd],
+            get_config('commands/__timeout__') ?? 'timeout __TIMEOUT__ __COMMAND__'
         );
     }
     return $cmd;

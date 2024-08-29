@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,23 +67,23 @@ final class test_adderror extends TestCase
      */
     public function test_adderror(): void
     {
-        $file = "data/logs/jserror.log";
+        $file = 'data/logs/jserror.log';
         $this->assertFileDoesNotExist($file);
 
-        $json = test_web_helper("add/error", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('add/error', [], '', '');
+        $this->assertArrayHasKey('error', $json);
         $this->assertFileDoesNotExist($file);
 
-        $json = test_web_helper("add/error", [
-            "jserror" => "hi jserror",
-            "details" => "hi details",
-            "backtrace" => "hi backtrace",
-        ], "", "");
-        $this->assertArrayHasKey("status", $json);
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('add/error', [
+            'jserror' => 'hi jserror',
+            'details' => 'hi details',
+            'backtrace' => 'hi backtrace',
+        ], '', '');
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 1);
         $this->assertFileExists($file);
-        $this->assertTrue(words_exists("hi jserror hi details hi backtrace", file_get_contents($file)));
+        $this->assertTrue(words_exists('hi jserror hi details hi backtrace', file_get_contents($file)));
         unlink($file);
     }
 }

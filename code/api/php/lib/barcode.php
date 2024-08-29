@@ -54,17 +54,17 @@ declare(strict_types=1);
  */
 function __barcode_image($msg, $w, $h, $m, $s, $t)
 {
-    require_once "lib/tcpdf/vendor/autoload.php";
+    require_once 'lib/tcpdf/vendor/autoload.php';
     $barcode = new TCPDFBarcode($msg, $t);
     $array = $barcode->getBarcodeArray();
-    if (!isset($array["maxw"])) {
-        return "";
+    if (!isset($array['maxw'])) {
+        return '';
     }
-    $width = $array["maxw"] * $w;
+    $width = $array['maxw'] * $w;
     $height = $h;
     $extra = $s;
     if ($s) {
-        $font = getcwd() . "/lib/fonts/DejaVuSans.ttf";
+        $font = getcwd() . '/lib/fonts/DejaVuSans.ttf';
         $bbox = imagettfbbox($s, 0, $font, $msg);
         $extra = abs($bbox[5] - $bbox[1]) + $m;
     }
@@ -73,11 +73,11 @@ function __barcode_image($msg, $w, $h, $m, $s, $t)
     imagefilledrectangle($im, 0, 0, $width + 2 * $m, $height + 2 * $m + $extra, $bgcol);
     $fgcol = imagecolorallocate($im, 0, 0, 0);
     $x = 0;
-    foreach ($array["bcode"] as $key => $val) {
-        $bw = round(($val["w"] * $w), 3);
-        $bh = round(($val["h"] * $h / $array["maxh"]), 3);
-        if ($val["t"]) {
-            $y = round(($val["p"] * $h / $array["maxh"]), 3);
+    foreach ($array['bcode'] as $key => $val) {
+        $bw = round(($val['w'] * $w), 3);
+        $bh = round(($val['h'] * $h / $array['maxh']), 3);
+        if ($val['t']) {
+            $y = round(($val['p'] * $h / $array['maxh']), 3);
             imagefilledrectangle(
                 $im,
                 (int)($x + $m),

@@ -49,7 +49,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -94,26 +94,26 @@ final class test_database extends TestCase
      */
     private function test_helper($obj): void
     {
-        ini_set("date.timezone", "Europe/Madrid");
+        ini_set('date.timezone', 'Europe/Madrid');
 
         // First test part
         $query = "SELECT '1' test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 1],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 1],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
 
         // GROUP_CONCAT test part
-        $query = "SELECT GROUP_CONCAT(a) test FROM (SELECT 1 a UNION SELECT 2 a UNION SELECT 3 a) a;";
+        $query = 'SELECT GROUP_CONCAT(a) test FROM (SELECT 1 a UNION SELECT 2 a UNION SELECT 3 a) a;';
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "1,2,3"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => '1,2,3'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -121,10 +121,10 @@ final class test_database extends TestCase
         // REPLACE test part
         $query = "SELECT REPLACE('abc', 'b', 'c') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "acc"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'acc'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -132,10 +132,10 @@ final class test_database extends TestCase
         // LPAD test part
         $query = "SELECT LPAD('123', '5', '0') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "00123"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => '00123'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -143,10 +143,10 @@ final class test_database extends TestCase
         // CONCAT test part
         $query = "SELECT CONCAT('a', 'b', 'c') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "abc"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'abc'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -154,10 +154,10 @@ final class test_database extends TestCase
         // CONCAT_WS test part
         $query = "SELECT CONCAT_WS(',','a','b','c',null,true,false) test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "a,b,c,1,0"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'a,b,c,1,0'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -165,21 +165,21 @@ final class test_database extends TestCase
         // UNIX_TIMESTAMP test part
         $query = "SELECT UNIX_TIMESTAMP('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 1706787296],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 1706787296],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
 
         // FROM_UNIXTIME test part
-        $query = "SELECT FROM_UNIXTIME(1706787296) test";
+        $query = 'SELECT FROM_UNIXTIME(1706787296) test';
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "2024-02-01 12:34:56"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => '2024-02-01 12:34:56'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -187,10 +187,10 @@ final class test_database extends TestCase
         // YEAR test part
         $query = "SELECT YEAR('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 2024],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 2024],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -198,10 +198,10 @@ final class test_database extends TestCase
         // MONTH test part
         $query = "SELECT MONTH('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 2],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 2],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -209,21 +209,21 @@ final class test_database extends TestCase
         // WEEK test part
         $query = "SELECT WEEK('2024-02-01 12:34:56', 1) test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 5],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 5],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
 
         // TRUNCATE test part
-        $query = "SELECT TRUNCATE(1.2345, 2) test";
+        $query = 'SELECT TRUNCATE(1.2345, 2) test';
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "1.23"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => '1.23'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -231,10 +231,10 @@ final class test_database extends TestCase
         // DAY test part
         $query = "SELECT DAY('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 1],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 1],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -242,10 +242,10 @@ final class test_database extends TestCase
         // DAYOFYEAR test part
         $query = "SELECT DAYOFYEAR('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 32],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 32],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -253,10 +253,10 @@ final class test_database extends TestCase
         // DAYOFWEEK test part
         $query = "SELECT DAYOFWEEK('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 5],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 5],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -264,10 +264,10 @@ final class test_database extends TestCase
         // HOUR test part
         $query = "SELECT HOUR('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 12],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 12],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -275,10 +275,10 @@ final class test_database extends TestCase
         // MINUTE test part
         $query = "SELECT MINUTE('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 34],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 34],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -286,10 +286,10 @@ final class test_database extends TestCase
         // SECOND test part
         $query = "SELECT SECOND('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 56],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 56],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -297,10 +297,10 @@ final class test_database extends TestCase
         // MD5 test part
         $query = "SELECT MD5('fortuna') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => md5("fortuna")],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => md5('fortuna')],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -308,10 +308,10 @@ final class test_database extends TestCase
         // REPEAT test part
         $query = "SELECT REPEAT('abc',3) test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "abcabcabc"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'abcabcabc'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -319,30 +319,30 @@ final class test_database extends TestCase
         // FIND_IN_SET test part
         $query = "SELECT FIND_IN_SET(3,'1,2,3,4,5') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 3],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 3],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
 
         $query = "SELECT FIND_IN_SET(6,'1,2,3,4,5') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 0],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 0],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
 
         $query = "SELECT FIND_IN_SET(3,'12345') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 0],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 0],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -350,41 +350,41 @@ final class test_database extends TestCase
         // IF test part
         $query = "SELECT IF(true, 'ok', 'ko') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "ok"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'ok'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
 
         $query = "SELECT IF(false, 'ok', 'ko') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "ko"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'ko'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
 
         $query = "SELECT IF(null, 'ok', 'ko') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "ko"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'ko'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
 
         // POW test part
-        $query = "SELECT POW(2, 8) test";
+        $query = 'SELECT POW(2, 8) test';
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 256],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 256],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -392,58 +392,58 @@ final class test_database extends TestCase
         // DATE_FORMAT test part
         $query = "SELECT DATE_FORMAT('2024-02-01 12:34:56', '%Y-%m-%d %H:%i:%s') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "2024-02-01 12:34:56"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => '2024-02-01 12:34:56'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
 
         // NOW test part
-        $query = "SELECT NOW() test";
+        $query = 'SELECT NOW() test';
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => current_datetime()],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => current_datetime()],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
 
         // Check part
-        $query = "SELECT 1";
+        $query = 'SELECT 1';
         $this->assertEquals($obj->db_check($query), true);
 
-        $query = "SELECT a";
+        $query = 'SELECT a';
         $this->assertEquals($obj->db_check($query), false);
 
         // This is for improve the coverage of all tests
-        $query = "SELECT id FROM tbl_users_tokens";
-        $result = $obj->db_query($query, "auto");
+        $query = 'SELECT id FROM tbl_users_tokens';
+        $result = $obj->db_query($query, 'auto');
 
-        $query = "SELECT id,token FROM tbl_users_tokens";
-        $result = $obj->db_query($query, "auto");
+        $query = 'SELECT id,token FROM tbl_users_tokens';
+        $result = $obj->db_query($query, 'auto');
 
-        $query = "SELECT id FROM tbl_users_tokens";
-        $result = $obj->db_query($query, "concat");
+        $query = 'SELECT id FROM tbl_users_tokens';
+        $result = $obj->db_query($query, 'concat');
 
-        $this->assertSame(is_array($obj->db_query("")), true);
+        $this->assertSame(is_array($obj->db_query('')), true);
 
         // This is for improve the coverage of sqlite tests
         $query = "SELECT '\'\%' id FROM tbl_users_tokens";
         $result = $obj->db_query($query);
 
-        if (function_exists("__libsqlite_group_concat_step")) {
-            $this->assertEquals(__libsqlite_group_concat_step("a", null, "b", ","), "a,b");
+        if (function_exists('__libsqlite_group_concat_step')) {
+            $this->assertEquals(__libsqlite_group_concat_step('a', null, 'b', ','), 'a,b');
         }
 
-        if (function_exists("__libsqlite_group_concat_finalize")) {
-            $this->assertEquals(__libsqlite_group_concat_finalize("a,b", null), "a,b");
+        if (function_exists('__libsqlite_group_concat_finalize')) {
+            $this->assertEquals(__libsqlite_group_concat_finalize('a,b', null), 'a,b');
         }
 
-        if (function_exists("__libsqlite_replace")) {
-            $this->assertEquals(__libsqlite_replace("asd", "s", "x"), "axd");
+        if (function_exists('__libsqlite_replace')) {
+            $this->assertEquals(__libsqlite_replace('asd', 's', 'x'), 'axd');
         }
     }
 
@@ -459,12 +459,12 @@ final class test_database extends TestCase
     {
         // Connection part
         $obj = db_connect([
-            "type" => "pdo_mysql",
-            "host" => "localhost",
-            "port" => "3306",
-            "name" => "saltos",
-            "user" => "saltos",
-            "pass" => "saltos",
+            'type' => 'pdo_mysql',
+            'host' => 'localhost',
+            'port' => '3306',
+            'name' => 'saltos',
+            'user' => 'saltos',
+            'pass' => 'saltos',
         ]);
         $this->assertSame($obj instanceof database_pdo_mysql, true);
 
@@ -474,8 +474,8 @@ final class test_database extends TestCase
         // Close connection
         $obj->db_disconnect();
 
-        test_external_exec("php/database01_pdo_mysql.php", "dberror.log", "connection refused");
-        test_external_exec("php/database02_pdo_mysql.php", "dberror.log", "base table or view not found table saltos.nada doesn't exist");
+        test_external_exec('php/database01_pdo_mysql.php', 'dberror.log', 'connection refused');
+        test_external_exec('php/database02_pdo_mysql.php', 'dberror.log', "base table or view not found table saltos.nada doesn't exist");
     }
 
     #[testdox('mysqli driver')]
@@ -490,12 +490,12 @@ final class test_database extends TestCase
     {
         // Connection part
         $obj = db_connect([
-            "type" => "mysqli",
-            "host" => "localhost",
-            "port" => "3306",
-            "name" => "saltos",
-            "user" => "saltos",
-            "pass" => "saltos",
+            'type' => 'mysqli',
+            'host' => 'localhost',
+            'port' => '3306',
+            'name' => 'saltos',
+            'user' => 'saltos',
+            'pass' => 'saltos',
         ]);
         $this->assertSame($obj instanceof database_mysqli, true);
 
@@ -505,8 +505,8 @@ final class test_database extends TestCase
         // Close connection
         $obj->db_disconnect();
 
-        test_external_exec("php/database01_mysqli.php", "dberror.log", "connection refused");
-        test_external_exec("php/database02_mysqli.php", "dberror.log", "table saltos.nada doesn't exist");
+        test_external_exec('php/database01_mysqli.php', 'dberror.log', 'connection refused');
+        test_external_exec('php/database02_mysqli.php', 'dberror.log', "table saltos.nada doesn't exist");
     }
 
     #[testdox('pdo_sqlite driver')]
@@ -521,8 +521,8 @@ final class test_database extends TestCase
     {
         // Connection part
         $obj = db_connect([
-            "type" => "pdo_sqlite",
-            "file" => "data/files/saltos.sqlite",
+            'type' => 'pdo_sqlite',
+            'file' => 'data/files/saltos.sqlite',
         ]);
         $this->assertSame($obj instanceof database_pdo_sqlite, true);
 
@@ -532,12 +532,12 @@ final class test_database extends TestCase
         // Close connection
         $obj->db_disconnect();
 
-        test_external_exec("php/database01_pdo_sqlite.php", "dberror.log", "file data/files/nada not found");
-        test_external_exec("php/database02_pdo_sqlite.php", "dberror.log", "general error: 1 no such table: nada");
-        test_external_exec("php/database03_pdo_sqlite.php", "dberror.log", "file /root not writable");
-        test_external_exec("php/database04_pdo_sqlite.php", "dberror.log", "general error: 26 file is not a database");
-        test_external_exec("php/database05_pdo_sqlite.php", "dberror.log", "could not acquire the semaphore");
-        test_external_exec("php/database06_pdo_sqlite.php", "dberror.log", "general error: 1 no such table: nada");
+        test_external_exec('php/database01_pdo_sqlite.php', 'dberror.log', 'file data/files/nada not found');
+        test_external_exec('php/database02_pdo_sqlite.php', 'dberror.log', 'general error: 1 no such table: nada');
+        test_external_exec('php/database03_pdo_sqlite.php', 'dberror.log', 'file /root not writable');
+        test_external_exec('php/database04_pdo_sqlite.php', 'dberror.log', 'general error: 26 file is not a database');
+        test_external_exec('php/database05_pdo_sqlite.php', 'dberror.log', 'could not acquire the semaphore');
+        test_external_exec('php/database06_pdo_sqlite.php', 'dberror.log', 'general error: 1 no such table: nada');
     }
 
     #[testdox('sqlite3 driver')]
@@ -552,8 +552,8 @@ final class test_database extends TestCase
     {
         // Connection part
         $obj = db_connect([
-            "type" => "sqlite3",
-            "file" => "data/files/saltos.sqlite",
+            'type' => 'sqlite3',
+            'file' => 'data/files/saltos.sqlite',
         ]);
         $this->assertSame($obj instanceof database_sqlite3, true);
 
@@ -563,12 +563,12 @@ final class test_database extends TestCase
         // Close connection
         $obj->db_disconnect();
 
-        test_external_exec("php/database01_sqlite3.php", "dberror.log", "file data/files/nada not found");
-        test_external_exec("php/database02_sqlite3.php", "dberror.log", "unable to prepare statement: no such table: nada");
-        test_external_exec("php/database03_sqlite3.php", "dberror.log", "file /root not writable");
-        test_external_exec("php/database04_sqlite3.php", "dberror.log", "unable to prepare statement: file is not a database");
-        test_external_exec("php/database05_sqlite3.php", "dberror.log", "could not acquire the semaphore");
-        test_external_exec("php/database06_sqlite3.php", "dberror.log", "unable to prepare statement: no such table: nada");
+        test_external_exec('php/database01_sqlite3.php', 'dberror.log', 'file data/files/nada not found');
+        test_external_exec('php/database02_sqlite3.php', 'dberror.log', 'unable to prepare statement: no such table: nada');
+        test_external_exec('php/database03_sqlite3.php', 'dberror.log', 'file /root not writable');
+        test_external_exec('php/database04_sqlite3.php', 'dberror.log', 'unable to prepare statement: file is not a database');
+        test_external_exec('php/database05_sqlite3.php', 'dberror.log', 'could not acquire the semaphore');
+        test_external_exec('php/database06_sqlite3.php', 'dberror.log', 'unable to prepare statement: no such table: nada');
     }
 
     #[testdox('pdo_mssql driver')]
@@ -583,22 +583,22 @@ final class test_database extends TestCase
     {
         // Connection part
         $obj = db_connect([
-            "type" => "pdo_mssql",
-            "host" => "localhost",
-            "port" => "1433",
-            "name" => "master",
-            "user" => "sa",
-            "pass" => "asd123ASD",
+            'type' => 'pdo_mssql',
+            'host' => 'localhost',
+            'port' => '1433',
+            'name' => 'master',
+            'user' => 'sa',
+            'pass' => 'asd123ASD',
         ]);
         $this->assertSame($obj instanceof database_pdo_mssql, true);
 
         // First test part
         $query = "SELECT '1' test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 1],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 1],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -606,10 +606,10 @@ final class test_database extends TestCase
         // REPLACE test part
         $query = "SELECT REPLACE('abc', 'b', 'c') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "acc"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'acc'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -617,10 +617,10 @@ final class test_database extends TestCase
         // CONCAT test part
         $query = "SELECT CONCAT('a', 'b', 'c') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => "abc"],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 'abc'],
             ],
         ];
         $this->assertSame($obj->db_query($query), $result);
@@ -628,10 +628,10 @@ final class test_database extends TestCase
         // YEAR test part
         $query = "SELECT YEAR('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 2024],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 2024],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -639,10 +639,10 @@ final class test_database extends TestCase
         // MONTH test part
         $query = "SELECT MONTH('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 2],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 2],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
@@ -650,38 +650,38 @@ final class test_database extends TestCase
         // DAY test part
         $query = "SELECT DAY('2024-02-01 12:34:56') test";
         $result = [
-            "total" => 1,
-            "header" => ["test"],
-            "rows" => [
-                ["test" => 1],
+            'total' => 1,
+            'header' => ['test'],
+            'rows' => [
+                ['test' => 1],
             ],
         ];
         $this->assertEquals($obj->db_query($query), $result);
 
         // Check part
-        $query = "SELECT 1";
+        $query = 'SELECT 1';
         $this->assertEquals($obj->db_check($query), true);
 
-        $query = "SELECT a";
+        $query = 'SELECT a';
         $this->assertEquals($obj->db_check($query), false);
 
         // This is for improve the coverage of all tests
-        $query = "SELECT name FROM spt_values";
-        $result = $obj->db_query($query, "auto");
+        $query = 'SELECT name FROM spt_values';
+        $result = $obj->db_query($query, 'auto');
 
-        $query = "SELECT name,number FROM spt_values";
-        $result = $obj->db_query($query, "auto");
+        $query = 'SELECT name,number FROM spt_values';
+        $result = $obj->db_query($query, 'auto');
 
-        $query = "SELECT name FROM spt_values";
-        $result = $obj->db_query($query, "concat");
+        $query = 'SELECT name FROM spt_values';
+        $result = $obj->db_query($query, 'concat');
 
-        $this->assertSame(is_array($obj->db_query("")), true);
+        $this->assertSame(is_array($obj->db_query('')), true);
 
         // Close connection
         $obj->db_disconnect();
 
-        test_external_exec("php/database01_pdo_mssql.php", "dberror.log", "unable to connect: Adaptive Server is unavailable or does not exist");
-        test_external_exec("php/database02_pdo_mssql.php", "dberror.log", "general error: 20018 invalid object name nada");
+        test_external_exec('php/database01_pdo_mssql.php', 'dberror.log', 'unable to connect: Adaptive Server is unavailable or does not exist');
+        test_external_exec('php/database02_pdo_mssql.php', 'dberror.log', 'general error: 20018 invalid object name nada');
     }
 
     #[testdox('database driver')]
@@ -694,49 +694,49 @@ final class test_database extends TestCase
      */
     public function test_database(): void
     {
-        $this->assertSame(get_config("db/obj") instanceof database_pdo_mysql, true);
+        $this->assertSame(get_config('db/obj') instanceof database_pdo_mysql, true);
 
-        $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), true);
+        $this->assertSame(db_check('SELECT * FROM tbl_users_tokens'), true);
 
-        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $result = db_query('SELECT * FROM tbl_users_tokens');
         $this->assertSame(is_array($result), true);
 
-        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $result = db_query('SELECT * FROM tbl_users_tokens');
         $this->assertSame(count(db_fetch_row($result)) > 0, true);
 
-        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $result = db_query('SELECT * FROM tbl_users_tokens');
         $this->assertSame(count(db_fetch_all($result)) > 0, true);
 
-        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $result = db_query('SELECT * FROM tbl_users_tokens');
         $this->assertSame(db_num_rows($result) > 0, true);
 
-        $result = db_query("SELECT * FROM tbl_users_tokens");
+        $result = db_query('SELECT * FROM tbl_users_tokens');
         $this->assertSame(db_num_fields($result) > 0, true);
 
-        $result = db_query("SELECT * FROM tbl_users_tokens");
-        $this->assertSame(db_field_name($result, 0), "id");
+        $result = db_query('SELECT * FROM tbl_users_tokens');
+        $this->assertSame(db_field_name($result, 0), 'id');
 
-        if (file_exists("data/logs/dbwarning.log")) {
-            unlink("data/logs/dbwarning.log");
+        if (file_exists('data/logs/dbwarning.log')) {
+            unlink('data/logs/dbwarning.log');
         }
-        $this->assertFileDoesNotExist("data/logs/dbwarning.log");
-        set_config("debug/slowquerytime", 0);
-        $result = db_query("SELECT * FROM tbl_users_tokens");
-        set_config("debug/slowquerytime", 5);
+        $this->assertFileDoesNotExist('data/logs/dbwarning.log');
+        set_config('debug/slowquerytime', 0);
+        $result = db_query('SELECT * FROM tbl_users_tokens');
+        set_config('debug/slowquerytime', 5);
         db_free($result);
-        $this->assertFileExists("data/logs/dbwarning.log");
-        if (file_exists("data/logs/dbwarning.log")) {
-            unlink("data/logs/dbwarning.log");
+        $this->assertFileExists('data/logs/dbwarning.log');
+        if (file_exists('data/logs/dbwarning.log')) {
+            unlink('data/logs/dbwarning.log');
         }
 
         db_disconnect();
-        $this->assertSame(db_check("SELECT * FROM tbl_users_tokens"), false);
+        $this->assertSame(db_check('SELECT * FROM tbl_users_tokens'), false);
         db_connect();
 
-        test_external_exec("php/database07.php", "dberror.log", "database type nada not found");
-        test_external_exec("php/database08.php", "dberror.log", "unknown database connector");
-        test_external_exec("php/database09.php", "dberror.log", "unknown database connector");
-        test_external_exec("php/database10.php", "dberror.log", "unknown field name at position nada");
-        test_external_exec("php/database11.php", "dberror.log", "unknown database connector");
+        test_external_exec('php/database07.php', 'dberror.log', 'database type nada not found');
+        test_external_exec('php/database08.php', 'dberror.log', 'unknown database connector');
+        test_external_exec('php/database09.php', 'dberror.log', 'unknown database connector');
+        test_external_exec('php/database10.php', 'dberror.log', 'unknown field name at position nada');
+        test_external_exec('php/database11.php', 'dberror.log', 'unknown database connector');
     }
 }

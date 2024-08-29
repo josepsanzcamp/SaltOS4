@@ -41,35 +41,35 @@ declare(strict_types=1);
  *
  * This requires loads the external libraries needed to run this library.
  */
-require_once "apps/emails/lib/mimeparser/mime_parser.php";
-require_once "apps/emails/lib/mimeparser/rfc822_addresses.php";
-require_once "apps/emails/lib/pop3class/pop3.php";
+require_once 'apps/emails/lib/mimeparser/mime_parser.php';
+require_once 'apps/emails/lib/mimeparser/rfc822_addresses.php';
+require_once 'apps/emails/lib/pop3class/pop3.php';
 
 /**
  * Defines section
  *
  * This defines allow to define some useful standards to do html pages and more.
  */
-define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head>
+define('__HTML_PAGE_OPEN__', '<!DOCTYPE html><html><head>
     <style>body { margin: 0px; padding: 9px 12px; }</style>
     <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
     <style>:root { font-family: var(--bs-font-sans-serif); }</style></head><body>');
-define("__HTML_PAGE_CLOSE__", '</body></html>');
-define("__HTML_BOX_OPEN__", '<div style="background:#ffffff;">');
-define("__HTML_BOX_CLOSE__", '</div>');
-define("__HTML_TEXT_OPEN__", '<div style="color:#333;font-size:0.9rem;line-height:1rem;">');
-define("__HTML_TEXT_CLOSE__", '</div>');
-define("__PLAIN_TEXT_OPEN__", '<div style="color:#333;font-family:monospace;font-size:0.9rem;line-height:1rem;">');
-define("__PLAIN_TEXT_CLOSE__", '</div>');
-define("__HTML_SEPARATOR__", '<hr style="background:#ccc;border:0px;height:1px;"/>');
-define("__HTML_NEWLINE__", '<p>&nbsp;</p>');
-define("__BLOCKQUOTE_OPEN__", '<blockquote style="border-left:#ccc 1px solid;margin:0px 0px 0px 0.8ex;padding-left:1ex;">');
-define("__BLOCKQUOTE_CLOSE__", '</blockquote>');
-define("__SIGNATURE_OPEN__", '<div style="color:#ccc;font-size:0.8rem;line-height:1rem;">');
-define("__SIGNATURE_CLOSE__", '</div>');
-define("__SIGNATURE_BREAK__", '<p>--</p>');
-define("__SECTION_OPEN__", '<section>');
-define("__SECTION_CLOSE__", '</section>');
+define('__HTML_PAGE_CLOSE__', '</body></html>');
+define('__HTML_BOX_OPEN__', '<div style="background:#ffffff;">');
+define('__HTML_BOX_CLOSE__', '</div>');
+define('__HTML_TEXT_OPEN__', '<div style="color:#333;font-size:0.9rem;line-height:1rem;">');
+define('__HTML_TEXT_CLOSE__', '</div>');
+define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:monospace;font-size:0.9rem;line-height:1rem;">');
+define('__PLAIN_TEXT_CLOSE__', '</div>');
+define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0px;height:1px;"/>');
+define('__HTML_NEWLINE__', '<p>&nbsp;</p>');
+define('__BLOCKQUOTE_OPEN__', '<blockquote style="border-left:#ccc 1px solid;margin:0px 0px 0px 0.8ex;padding-left:1ex;">');
+define('__BLOCKQUOTE_CLOSE__', '</blockquote>');
+define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.8rem;line-height:1rem;">');
+define('__SIGNATURE_CLOSE__', '</div>');
+define('__SIGNATURE_BREAK__', '<p>--</p>');
+define('__SECTION_OPEN__', '<section>');
+define('__SECTION_CLOSE__', '</section>');
 
 /**
  * Remove all body
@@ -80,13 +80,13 @@ define("__SECTION_CLOSE__", '</section>');
  */
 function __getmail_removebody($array)
 {
-    if (isset($array["Body"])) {
-        $array["Body"] = "##### BODY REMOVED FOR DEBUG PURPOSES #####";
+    if (isset($array['Body'])) {
+        $array['Body'] = '##### BODY REMOVED FOR DEBUG PURPOSES #####';
     }
-    $parts = __getmail_getnode("Parts", $array);
+    $parts = __getmail_getnode('Parts', $array);
     if ($parts) {
         foreach ($parts as $index => $node) {
-            $array["Parts"][$index] = __getmail_removebody($node);
+            $array['Parts'][$index] = __getmail_removebody($node);
         }
     }
     return $array;
@@ -103,7 +103,7 @@ function __getmail_removebody($array)
  */
 function __getmail_processmessage($disp, $type)
 {
-    return ($type == "message" && $disp == "inline");
+    return ($type == 'message' && $disp == 'inline');
 }
 
 /**
@@ -117,7 +117,7 @@ function __getmail_processmessage($disp, $type)
  */
 function __getmail_processplainhtml($disp, $type)
 {
-    return (in_array($type, ["plain", "html"]) && $disp == "inline");
+    return (in_array($type, ['plain', 'html']) && $disp == 'inline');
 }
 
 /**
@@ -132,8 +132,8 @@ function __getmail_processplainhtml($disp, $type)
 function __getmail_processfile($disp, $type)
 {
     return (
-        $disp == "attachment" ||
-        ($disp == "inline" && !in_array($type, ["plain", "html", "message", "alternative", "multipart"]))
+        $disp == 'attachment' ||
+        ($disp == 'inline' && !in_array($type, ['plain', 'html', 'message', 'alternative', 'multipart']))
     );
 }
 
@@ -160,7 +160,7 @@ function __getmail_checkperm($id)
                 TRIM(IFNULL(email_privated,0))='0' OR
                 (TRIM(IFNULL(email_privated,0))='1' AND e.user_id='" . current_user() . "')
             )
-            AND " . check_sql("emails", "view");
+            AND " . check_sql('emails', 'view');
     return execute_query($query);
 }
 
@@ -177,15 +177,15 @@ function __getmail_getsource($id, $max = 0)
     $query = "SELECT account_id,uidl,is_outbox FROM app_emails WHERE id='$id'";
     $row = execute_query($query);
     if (!$row) {
-        return "";
+        return '';
     }
     $email = "{$row["account_id"]}/{$row["uidl"]}";
-    $file = ($row["is_outbox"] ? get_directory("dirs/outboxdir") : get_directory("dirs/inboxdir")) . $email . ".eml.gz";
+    $file = ($row['is_outbox'] ? get_directory('dirs/outboxdir') : get_directory('dirs/inboxdir')) . $email . '.eml.gz';
     if (!file_exists($file)) {
-        return "";
+        return '';
     }
-    $fp = gzopen($file, "r");
-    $message = "";
+    $fp = gzopen($file, 'r');
+    $message = '';
     if (!$max) {
         $max = gzfilesize($file) + 1;
     }
@@ -210,7 +210,7 @@ function __getmail_getsource($id, $max = 0)
 function __getmail_mime_decode_protected($input)
 {
     $mime = new mime_parser_class();
-    $decoded = "";
+    $decoded = '';
     $mime->Decode($input, $decoded);
     if (!count($decoded)) {
         $mime->decode_bodies = 0;
@@ -233,16 +233,16 @@ function __getmail_getmime($id)
     $query = "SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id='$id'";
     $row = execute_query($query);
     if (!$row) {
-        return "";
+        return '';
     }
     $email = "{$row["account_id"]}/{$row["uidl"]}";
-    $cache = get_cache_file($row, ".eml");
+    $cache = get_cache_file($row, '.eml');
     if (!file_exists($cache)) {
-        $file = ($row["is_outbox"] ? get_directory("dirs/outboxdir") : get_directory("dirs/inboxdir")) . $email . ".eml.gz";
+        $file = ($row['is_outbox'] ? get_directory('dirs/outboxdir') : get_directory('dirs/inboxdir')) . $email . '.eml.gz';
         if (!file_exists($file)) {
-            return "";
+            return '';
         }
-        $decoded = __getmail_mime_decode_protected(["File" => "compress.zlib://" . $file]);
+        $decoded = __getmail_mime_decode_protected(['File' => 'compress.zlib://' . $file]);
         file_put_contents($cache, serialize($decoded));
         chmod_protected($cache, 0666);
     } else {
@@ -262,7 +262,7 @@ function __getmail_getmime($id)
 function __getmail_getnode($path, $array)
 {
     if (!is_array($path)) {
-        $path = explode("/", $path);
+        $path = explode('/', $path);
     }
     $elem = array_shift($path);
     if (!is_array($array) || !isset($array[$elem])) {
@@ -284,22 +284,22 @@ function __getmail_getnode($path, $array)
  */
 function __getmail_gettype($array)
 {
-    $ctype = strtoupper(__getmail_fixstring(__getmail_getnode("Headers/content-type:", $array)));
+    $ctype = strtoupper(__getmail_fixstring(__getmail_getnode('Headers/content-type:', $array)));
     if (!$ctype) {
-        $ctype = "TEXT/PLAIN";
+        $ctype = 'TEXT/PLAIN';
     }
-    if (strpos($ctype, "TEXT/HTML") !== false) {
-        $type = "html";
-    } elseif (strpos($ctype, "TEXT/PLAIN") !== false) {
-        $type = "plain";
-    } elseif (strpos($ctype, "MESSAGE/RFC822") !== false) {
-        $type = "message";
-    } elseif (strpos($ctype, "MULTIPART/ALTERNATIVE") !== false) {
-        $type = "alternative";
-    } elseif (strpos($ctype, "MULTIPART/") !== false) {
-        $type = "multipart";
+    if (strpos($ctype, 'TEXT/HTML') !== false) {
+        $type = 'html';
+    } elseif (strpos($ctype, 'TEXT/PLAIN') !== false) {
+        $type = 'plain';
+    } elseif (strpos($ctype, 'MESSAGE/RFC822') !== false) {
+        $type = 'message';
+    } elseif (strpos($ctype, 'MULTIPART/ALTERNATIVE') !== false) {
+        $type = 'alternative';
+    } elseif (strpos($ctype, 'MULTIPART/') !== false) {
+        $type = 'multipart';
     } else {
-        $type = "other";
+        $type = 'other';
     }
     return $type;
 }
@@ -314,16 +314,16 @@ function __getmail_gettype($array)
  */
 function __getmail_getdisposition($array)
 {
-    $cdisp = strtoupper(__getmail_fixstring(__getmail_getnode("Headers/content-disposition:", $array)));
+    $cdisp = strtoupper(__getmail_fixstring(__getmail_getnode('Headers/content-disposition:', $array)));
     if (!$cdisp) {
-        $cdisp = "INLINE";
+        $cdisp = 'INLINE';
     }
-    if (strpos($cdisp, "ATTACHMENT") !== false) {
-        $disp = "attachment";
-    } elseif (strpos($cdisp, "INLINE") !== false) {
-        $disp = "inline";
+    if (strpos($cdisp, 'ATTACHMENT') !== false) {
+        $disp = 'attachment';
+    } elseif (strpos($cdisp, 'INLINE') !== false) {
+        $disp = 'inline';
     } else {
-        $disp = "other";
+        $disp = 'other';
     }
     return $disp;
 }
@@ -342,59 +342,59 @@ function __getmail_getfiles($array, $level = 0)
     $disp = __getmail_getdisposition($array);
     $type = __getmail_gettype($array);
     if (__getmail_processfile($disp, $type)) {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
-            $cid = __getmail_fixstring(__getmail_getnode("Headers/content-id:", $array));
-            if (substr($cid, 0, 1) == "<") {
+            $cid = __getmail_fixstring(__getmail_getnode('Headers/content-id:', $array));
+            if (substr($cid, 0, 1) == '<') {
                 $cid = substr($cid, 1);
             }
-            if (substr($cid, -1, 1) == ">") {
+            if (substr($cid, -1, 1) == '>') {
                 $cid = substr($cid, 0, -1);
             }
-            $cname = getutf8(__getmail_fixstring(__getmail_getnode("FileName", $array)));
-            $location = __getmail_fixstring(__getmail_getnode("Headers/content-location:", $array));
-            if ($cid == "" && $cname == "" && $location != "") {
+            $cname = getutf8(__getmail_fixstring(__getmail_getnode('FileName', $array)));
+            $location = __getmail_fixstring(__getmail_getnode('Headers/content-location:', $array));
+            if ($cid == '' && $cname == '' && $location != '') {
                 $cid = $location;
             }
-            $ctype = __getmail_fixstring(__getmail_getnode("Headers/content-type:", $array));
-            if (strpos($ctype, ";") !== false) {
-                $ctype = strtok($ctype, ";");
+            $ctype = __getmail_fixstring(__getmail_getnode('Headers/content-type:', $array));
+            if (strpos($ctype, ';') !== false) {
+                $ctype = strtok($ctype, ';');
             }
-            if ($cid == "" && $cname == "" && __getmail_processfile($disp, $type)) {
-                $cname = encode_bad_chars($ctype) . ".eml";
+            if ($cid == '' && $cname == '' && __getmail_processfile($disp, $type)) {
+                $cname = encode_bad_chars($ctype) . '.eml';
             }
-            if ($cname != "") {
-                $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
+            if ($cname != '') {
+                $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
                 $hsize = __getmail_gethumansize($csize);
                 $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
                 $result[] = [
-                    "disp" => $disp,
-                    "type" => $type,
-                    "ctype" => $ctype,
-                    "cid" => $cid,
-                    "cname" => $cname,
-                    "csize" => $csize,
-                    "hsize" => $hsize,
-                    "chash" => $chash,
-                    "body" => $temp,
+                    'disp' => $disp,
+                    'type' => $type,
+                    'ctype' => $ctype,
+                    'cid' => $cid,
+                    'cname' => $cname,
+                    'csize' => $csize,
+                    'hsize' => $hsize,
+                    'chash' => $chash,
+                    'body' => $temp,
                 ];
             }
         }
     } elseif (__getmail_processplainhtml($disp, $type)) {
         // This data is used by the next trick
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
             $temp = getutf8($temp);
-            $result[] = ["disp" => $disp, "type" => $type, "body" => $temp];
+            $result[] = ['disp' => $disp, 'type' => $type, 'body' => $temp];
         }
     } elseif (__getmail_processmessage($disp, $type)) {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
-            $result = array_merge($result, __getmail_getfiles(__getmail_getnode("0", $decoded), $level + 1));
+            $decoded = __getmail_mime_decode_protected(['Data' => $temp]);
+            $result = array_merge($result, __getmail_getfiles(__getmail_getnode('0', $decoded), $level + 1));
         }
     }
-    $parts = __getmail_getnode("Parts", $array);
+    $parts = __getmail_getnode('Parts', $array);
     if ($parts) {
         foreach ($parts as $index => $node) {
             $result = array_merge($result, __getmail_getfiles($node, $level + 1));
@@ -403,16 +403,16 @@ function __getmail_getfiles($array, $level = 0)
     if ($level == 0) {
         // Trick to remove the files that contain name and cid
         foreach ($result as $index => $node) {
-            $disp = $node["disp"];
-            $type = $node["type"];
+            $disp = $node['disp'];
+            $type = $node['type'];
             if (__getmail_processplainhtml($disp, $type)) {
-                $temp = $node["body"];
+                $temp = $node['body'];
                 foreach ($result as $index2 => $node2) {
-                    $disp2 = $node2["disp"];
-                    $type2 = $node2["type"];
+                    $disp2 = $node2['disp'];
+                    $type2 = $node2['type'];
                     if (__getmail_processfile($disp2, $type2)) {
-                        $cid2 = $node2["cid"];
-                        if ($cid2 != "") {
+                        $cid2 = $node2['cid'];
+                        if ($cid2 != '') {
                             if (strpos($temp, "cid:{$cid2}") !== false) {
                                 unset($result[$index2]);
                             }
@@ -436,13 +436,13 @@ function __getmail_getfiles($array, $level = 0)
 function __getmail_gethumansize($size)
 {
     if ($size >= 1073741824) {
-        $size = round($size / 1073741824, 2) . " Gbytes";
+        $size = round($size / 1073741824, 2) . ' Gbytes';
     } elseif ($size >= 1048576) {
-        $size = round($size / 1048576, 2) . " Mbytes";
+        $size = round($size / 1048576, 2) . ' Mbytes';
     } elseif ($size >= 1024) {
-        $size = round($size / 1024, 2) . " Kbytes";
+        $size = round($size / 1024, 2) . ' Kbytes';
     } else {
-        $size = $size . " bytes";
+        $size = $size . ' bytes';
     }
     return $size;
 }
@@ -458,92 +458,92 @@ function __getmail_getinfo($array)
 {
     //~ echo "<pre>" . sprintr(__getmail_removebody($array)) . "</pre>";
     $result = [
-        "emails" => [],
-        "datetime" => "",
-        "subject" => "",
-        "spam" => "",
-        "files" => [],
-        "crt" => 0,
-        "priority" => 0,
-        "sensitivity" => 0,
-        "from" => "",
-        "to" => "",
-        "cc" => "",
-        "bcc" => "",
+        'emails' => [],
+        'datetime' => '',
+        'subject' => '',
+        'spam' => '',
+        'files' => [],
+        'crt' => 0,
+        'priority' => 0,
+        'sensitivity' => 0,
+        'from' => '',
+        'to' => '',
+        'cc' => '',
+        'bcc' => '',
     ];
     // Create the from, to, cc and bcc string
     $lista = [
-        1 => "from",
-        2 => "to",
-        3 => "cc",
-        4 => "bcc",
-        5 => "return-path",
-        6 => "reply-to",
-        7 => "disposition-notification-to",
+        1 => 'from',
+        2 => 'to',
+        3 => 'cc',
+        4 => 'bcc',
+        5 => 'return-path',
+        6 => 'reply-to',
+        7 => 'disposition-notification-to',
     ];
     foreach ($lista as $key => $val) {
         $addresses = __getmail_getnode("ExtractedAddresses/{$val}:", $array);
         if ($addresses) {
             $temp = [];
             foreach ($addresses as $a) {
-                $name = getutf8(__getmail_fixstring(__getmail_getnode("name", $a)));
-                $addr = getutf8(__getmail_fixstring(__getmail_getnode("address", $a)));
-                $result["emails"][] = ["type_id" => $key, "type" => $val, "name" => $name, "value" => $addr];
-                $temp[] = ($name != "") ? $name . " <" . $addr . ">" : $addr;
+                $name = getutf8(__getmail_fixstring(__getmail_getnode('name', $a)));
+                $addr = getutf8(__getmail_fixstring(__getmail_getnode('address', $a)));
+                $result['emails'][] = ['type_id' => $key, 'type' => $val, 'name' => $name, 'value' => $addr];
+                $temp[] = ($name != '') ? $name . ' <' . $addr . '>' : $addr;
             }
-            $temp = implode("; ", $temp);
+            $temp = implode('; ', $temp);
             if (array_key_exists($val, $result)) {
                 $result[$val] = $temp;
             }
         }
     }
     // Create the datetime string
-    $datetime = __getmail_fixstring(__getmail_getnode("Headers/date:", $array));
+    $datetime = __getmail_fixstring(__getmail_getnode('Headers/date:', $array));
     if (!$datetime) {
-        $datetime = __getmail_fixstring(__getmail_getnode("Headers/delivery-date:", $array));
+        $datetime = __getmail_fixstring(__getmail_getnode('Headers/delivery-date:', $array));
     }
-    if ($datetime && strpos($datetime, "(") !== false) {
-        $datetime = strtok($datetime, "(");
+    if ($datetime && strpos($datetime, '(') !== false) {
+        $datetime = strtok($datetime, '(');
     }
     if ($datetime) {
-        $result["datetime"] = date("Y-m-d H:i:s", strtotime($datetime));
+        $result['datetime'] = date('Y-m-d H:i:s', strtotime($datetime));
     }
     if (!$datetime) {
-        $result["datetime"] = current_datetime();
+        $result['datetime'] = current_datetime();
     }
     // Create the subject string
-    $subject = __getmail_fixstring(__getmail_getnode("DecodedHeaders/subject:/0/0/Value", $array));
+    $subject = __getmail_fixstring(__getmail_getnode('DecodedHeaders/subject:/0/0/Value', $array));
     if (!$subject) {
-        $subject = __getmail_fixstring(__getmail_getnode("Headers/subject:", $array));
+        $subject = __getmail_fixstring(__getmail_getnode('Headers/subject:', $array));
     }
-    $result["subject"] = trim_words(str_replace("\t", " ", getutf8($subject)));
+    $result['subject'] = trim_words(str_replace("\t", ' ', getutf8($subject)));
     // Check x-spam-status header
-    $spam = strtoupper(trim(__getmail_fixstring(__getmail_getnode("Headers/x-spam-status:", $array))));
-    $result["spam"] = (substr($spam, 0, 3) == "YES" || substr($spam, -3, 3) == "YES") ? "1" : "0";
+    $spam = strtoupper(trim(__getmail_fixstring(__getmail_getnode('Headers/x-spam-status:', $array))));
+    $result['spam'] = (substr($spam, 0, 3) == 'YES' || substr($spam, -3, 3) == 'YES') ? '1' : '0';
     // Get the number of attachments
-    $result["files"] = __getmail_getfiles($array);
+    $result['files'] = __getmail_getfiles($array);
     // Get the crt if exists
-    foreach ($result["emails"] as $email) {
-        if ($email["type_id"] == 7) {
-            $result["crt"] = 1;
+    foreach ($result['emails'] as $email) {
+        if ($email['type_id'] == 7) {
+            $result['crt'] = 1;
         }
     }
     // Get the priority if exists
-    $priority = strtolower(__getmail_fixstring(__getmail_getnode("Headers/x-priority:", $array)));
-    $priorities = ["low" => 5, "high" => 1];
+    $priority = strtolower(__getmail_fixstring(__getmail_getnode('Headers/x-priority:', $array)));
+    $priorities = ['low' => 5, 'high' => 1];
     if (isset($priorities[$priority])) {
         $priority = $priorities[$priority];
     }
     $priority = intval($priority);
     $priorities = [5 => -1, 4 => -1, 3 => 0, 2 => 1, 1 => 1];
     if (isset($priorities[$priority])) {
-        $result["priority"] = $priorities[$priority];
+        $result['priority'] = $priorities[$priority];
     }
     // Get the sensitivity if exists
-    $sensitivity = strtolower(__getmail_fixstring(__getmail_getnode("Headers/sensitivity:", $array)));
-    $sensitivities = ["personal" => 1, "private" => 2, "company-confidential" => 3, "company confidential" => 3];
+    $sensitivity = strtolower(__getmail_fixstring(__getmail_getnode('Headers/sensitivity:', $array)));
+    $sensitivities = ['personal' => 1, 'private' => 2, 'company-confidential' => 3, 'company confidential' => 3];
     if (isset($sensitivities[$sensitivity])) {
-        $result["sensitivity"] = $sensitivities[$sensitivity];
+        $result['sensitivity'] = $sensitivities[$sensitivity];
     }
     // Return the result
     //~ $result["body"] = __getmail_gettextbody($array);
@@ -565,7 +565,7 @@ function __getmail_fixstring($arg)
     while (is_array($arg)) {
         $arg = array_shift($arg);
     }
-    return $arg ?? "";
+    return $arg ?? '';
 }
 
 /**
@@ -582,40 +582,40 @@ function __getmail_gettextbody($array, $level = 0)
     $disp = __getmail_getdisposition($array);
     $type = __getmail_gettype($array);
     if (__getmail_processplainhtml($disp, $type)) {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
             $temp = getutf8($temp);
-            if ($type == "html") {
+            if ($type == 'html') {
                 $temp = html2text($temp);
             }
-            $result[] = ["type" => $type, "body" => $temp];
+            $result[] = ['type' => $type, 'body' => $temp];
         }
     } elseif (__getmail_processmessage($disp, $type)) {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
-            $result[] = ["type" => $type, "body" => __getmail_gettextbody(__getmail_getnode("0", $decoded))];
+            $decoded = __getmail_mime_decode_protected(['Data' => $temp]);
+            $result[] = ['type' => $type, 'body' => __getmail_gettextbody(__getmail_getnode('0', $decoded))];
         }
     }
-    $parts = __getmail_getnode("Parts", $array);
+    $parts = __getmail_getnode('Parts', $array);
     if ($parts) {
         $recursive = [];
         foreach ($parts as $index => $node) {
             $recursive = array_merge($recursive, __getmail_gettextbody($node, $level + 1));
         }
-        if ($type == "alternative") {
+        if ($type == 'alternative') {
             $count_plain = 0;
             $count_html = 0;
             foreach ($recursive as $index => $node) {
-                if ($node["type"] == "plain") {
+                if ($node['type'] == 'plain') {
                     $count_plain++;
-                } elseif ($node["type"] == "html") {
+                } elseif ($node['type'] == 'html') {
                     $count_html++;
                 }
             }
             if ($count_plain == 1 && $count_html == 1) {
                 foreach ($recursive as $index => $node) {
-                    if ($node["type"] == "plain") {
+                    if ($node['type'] == 'plain') {
                         break;
                     }
                 }
@@ -626,7 +626,7 @@ function __getmail_gettextbody($array, $level = 0)
     }
     if ($level == 0) {
         foreach ($result as $index => $node) {
-            $result[$index] = $node["body"];
+            $result[$index] = $node['body'];
         }
         $result = implode("\n", $result);
     }
@@ -646,76 +646,76 @@ function __getmail_getfullbody($array)
     $disp = __getmail_getdisposition($array);
     $type = __getmail_gettype($array);
     if (__getmail_processplainhtml($disp, $type)) {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
             $temp = getutf8($temp);
-            $result[] = ["disp" => $disp, "type" => $type, "body" => $temp];
+            $result[] = ['disp' => $disp, 'type' => $type, 'body' => $temp];
         }
     } elseif (__getmail_processmessage($disp, $type)) {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
-            $result = array_merge($result, __getmail_getfullbody(__getmail_getnode("0", $decoded)));
+            $decoded = __getmail_mime_decode_protected(['Data' => $temp]);
+            $result = array_merge($result, __getmail_getfullbody(__getmail_getnode('0', $decoded)));
         }
     } else {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
-            $cid = __getmail_fixstring(__getmail_getnode("Headers/content-id:", $array));
-            if (substr($cid, 0, 1) == "<") {
+            $cid = __getmail_fixstring(__getmail_getnode('Headers/content-id:', $array));
+            if (substr($cid, 0, 1) == '<') {
                 $cid = substr($cid, 1);
             }
-            if (substr($cid, -1, 1) == ">") {
+            if (substr($cid, -1, 1) == '>') {
                 $cid = substr($cid, 0, -1);
             }
-            $cname = getutf8(__getmail_fixstring(__getmail_getnode("FileName", $array)));
-            $location = __getmail_fixstring(__getmail_getnode("Headers/content-location:", $array));
-            if ($cid == "" && $cname == "" && $location != "") {
+            $cname = getutf8(__getmail_fixstring(__getmail_getnode('FileName', $array)));
+            $location = __getmail_fixstring(__getmail_getnode('Headers/content-location:', $array));
+            if ($cid == '' && $cname == '' && $location != '') {
                 $cid = $location;
             }
-            $ctype = __getmail_fixstring(__getmail_getnode("Headers/content-type:", $array));
-            if (strpos($ctype, ";") !== false) {
-                $ctype = strtok($ctype, ";");
+            $ctype = __getmail_fixstring(__getmail_getnode('Headers/content-type:', $array));
+            if (strpos($ctype, ';') !== false) {
+                $ctype = strtok($ctype, ';');
             }
-            if ($cid == "" && $cname == "" && __getmail_processfile($disp, $type)) {
-                $cname = encode_bad_chars($ctype) . ".eml";
+            if ($cid == '' && $cname == '' && __getmail_processfile($disp, $type)) {
+                $cname = encode_bad_chars($ctype) . '.eml';
             }
-            if ($cid != "" || $cname != "") {
-                $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
+            if ($cid != '' || $cname != '') {
+                $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
                 $hsize = __getmail_gethumansize($csize);
                 $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
                 $result[] = [
-                    "disp" => $disp,
-                    "type" => $type,
-                    "ctype" => $ctype,
-                    "cid" => $cid,
-                    "cname" => $cname,
-                    "csize" => $csize,
-                    "hsize" => $hsize,
-                    "chash" => $chash,
-                    "body" => $temp,
+                    'disp' => $disp,
+                    'type' => $type,
+                    'ctype' => $ctype,
+                    'cid' => $cid,
+                    'cname' => $cname,
+                    'csize' => $csize,
+                    'hsize' => $hsize,
+                    'chash' => $chash,
+                    'body' => $temp,
                 ];
             }
         }
     }
-    $parts = __getmail_getnode("Parts", $array);
+    $parts = __getmail_getnode('Parts', $array);
     if ($parts) {
         $recursive = [];
         foreach ($parts as $index => $node) {
             $recursive = array_merge($recursive, __getmail_getfullbody($node));
         }
-        if ($type == "alternative") {
+        if ($type == 'alternative') {
             $count_plain = 0;
             $count_html = 0;
             foreach ($recursive as $index => $node) {
-                if ($node["type"] == "plain") {
+                if ($node['type'] == 'plain') {
                     $count_plain++;
-                } elseif ($node["type"] == "html") {
+                } elseif ($node['type'] == 'html') {
                     $count_html++;
                 }
             }
             if ($count_plain == 1 && $count_html == 1) {
                 foreach ($recursive as $index => $node) {
-                    if ($node["type"] == "plain") {
+                    if ($node['type'] == 'plain') {
                         break;
                     }
                 }
@@ -740,50 +740,50 @@ function __getmail_getcid($array, $hash)
     $disp = __getmail_getdisposition($array);
     $type = __getmail_gettype($array);
     if (__getmail_processmessage($disp, $type)) {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
-            $decoded = __getmail_mime_decode_protected(["Data" => $temp]);
-            $result = __getmail_getcid(__getmail_getnode("0", $decoded), $hash);
+            $decoded = __getmail_mime_decode_protected(['Data' => $temp]);
+            $result = __getmail_getcid(__getmail_getnode('0', $decoded), $hash);
             if ($result) {
                 return $result;
             }
         }
     } else {
-        $temp = __getmail_getnode("Body", $array);
+        $temp = __getmail_getnode('Body', $array);
         if ($temp) {
-            $cid = __getmail_fixstring(__getmail_getnode("Headers/content-id:", $array));
-            if (substr($cid, 0, 1) == "<") {
+            $cid = __getmail_fixstring(__getmail_getnode('Headers/content-id:', $array));
+            if (substr($cid, 0, 1) == '<') {
                 $cid = substr($cid, 1);
             }
-            if (substr($cid, -1, 1) == ">") {
+            if (substr($cid, -1, 1) == '>') {
                 $cid = substr($cid, 0, -1);
             }
-            $cname = getutf8(__getmail_fixstring(__getmail_getnode("FileName", $array)));
-            $location = __getmail_fixstring(__getmail_getnode("Headers/content-location:", $array));
-            if ($cid == "" && $cname == "" && $location != "") {
+            $cname = getutf8(__getmail_fixstring(__getmail_getnode('FileName', $array)));
+            $location = __getmail_fixstring(__getmail_getnode('Headers/content-location:', $array));
+            if ($cid == '' && $cname == '' && $location != '') {
                 $cid = $location;
             }
-            $ctype = __getmail_fixstring(__getmail_getnode("Headers/content-type:", $array));
-            if (strpos($ctype, ";") !== false) {
-                $ctype = strtok($ctype, ";");
+            $ctype = __getmail_fixstring(__getmail_getnode('Headers/content-type:', $array));
+            if (strpos($ctype, ';') !== false) {
+                $ctype = strtok($ctype, ';');
             }
-            if ($cid == "" && $cname == "" && __getmail_processfile($disp, $type)) {
-                $cname = encode_bad_chars($ctype) . ".eml";
+            if ($cid == '' && $cname == '' && __getmail_processfile($disp, $type)) {
+                $cname = encode_bad_chars($ctype) . '.eml';
             }
-            $csize = __getmail_fixstring(__getmail_getnode("BodyLength", $array));
+            $csize = __getmail_fixstring(__getmail_getnode('BodyLength', $array));
             $chash = md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])); // md5 inside as memory trick
             if ($chash == $hash) {
                 $hsize = __getmail_gethumansize($csize);
                 return [
-                    "disp" => $disp,
-                    "type" => $type,
-                    "ctype" => $ctype,
-                    "cid" => $cid,
-                    "cname" => $cname,
-                    "csize" => $csize,
-                    "hsize" => $hsize,
-                    "chash" => $chash,
-                    "body" => $temp,
+                    'disp' => $disp,
+                    'type' => $type,
+                    'ctype' => $ctype,
+                    'cid' => $cid,
+                    'cname' => $cname,
+                    'csize' => $csize,
+                    'hsize' => $hsize,
+                    'chash' => $chash,
+                    'body' => $temp,
                 ];
             }
             // For compatibility with old saltos versions
@@ -798,21 +798,21 @@ function __getmail_getcid($array, $hash)
             ) {
                 $hsize = __getmail_gethumansize($csize);
                 return [
-                    "disp" => $disp,
-                    "type" => $type,
-                    "ctype" => $ctype,
-                    "cid" => $cid,
-                    "cname" => $cname,
-                    "csize" => $csize,
-                    "hsize" => $hsize,
-                    "chash" => $chash,
-                    "body" => $temp,
+                    'disp' => $disp,
+                    'type' => $type,
+                    'ctype' => $ctype,
+                    'cid' => $cid,
+                    'cname' => $cname,
+                    'csize' => $csize,
+                    'hsize' => $hsize,
+                    'chash' => $chash,
+                    'body' => $temp,
                 ];
             }
             // End of compatibility code
         }
     }
-    $parts = __getmail_getnode("Parts", $array);
+    $parts = __getmail_getnode('Parts', $array);
     if ($parts) {
         foreach ($parts as $index => $node) {
             $result = __getmail_getcid($node, $hash);
@@ -852,43 +852,43 @@ function __getmail_insert(
     $state_sent,
     $state_error
 ) {
-    list($account_id, $uidl) = explode("/", $messageid);
+    list($account_id, $uidl) = explode('/', $messageid);
     $size = gzfilesize($file);
     $id_usuario = current_user();
     $datetime = current_datetime();
     // Decode the message
-    $decoded = __getmail_mime_decode_protected(["File" => "compress.zlib://" . $file]);
-    $info = __getmail_getinfo(__getmail_getnode("0", $decoded));
-    $body = __getmail_gettextbody(__getmail_getnode("0", $decoded));
+    $decoded = __getmail_mime_decode_protected(['File' => 'compress.zlib://' . $file]);
+    $info = __getmail_getinfo(__getmail_getnode('0', $decoded));
+    $body = __getmail_gettextbody(__getmail_getnode('0', $decoded));
     unset($decoded); // Trick to release memory
     // Insert the new email
     if (!semaphore_acquire(__FUNCTION__)) {
-        show_php_error(["phperror" => "Could not acquire the semaphore"]);
+        show_php_error(['phperror' => 'Could not acquire the semaphore']);
     }
-    $query = make_insert_query("app_emails", [
-        "account_id" => $account_id,
-        "uidl" => $uidl,
-        "size" => $size,
-        "datetime" => $info["datetime"],
-        "subject" => $info["subject"],
-        "body" => $body,
-        "state_new" => $state_new,
-        "state_reply" => $state_reply,
-        "state_forward" => $state_forward,
-        "state_wait" => $state_wait,
-        "state_spam" => $info["spam"],
-        "email_id" => $email_id,
-        "is_outbox" => $is_outbox,
-        "state_sent" => $state_sent,
-        "state_error" => $state_error,
-        "state_crt" => $info["crt"],
-        "priority" => $info["priority"],
-        "sensitivity" => $info["sensitivity"],
-        "from" => $info["from"],
-        "to" => $info["to"],
-        "cc" => $info["cc"],
-        "bcc" => $info["bcc"],
-        "files" => count($info["files"]),
+    $query = make_insert_query('app_emails', [
+        'account_id' => $account_id,
+        'uidl' => $uidl,
+        'size' => $size,
+        'datetime' => $info['datetime'],
+        'subject' => $info['subject'],
+        'body' => $body,
+        'state_new' => $state_new,
+        'state_reply' => $state_reply,
+        'state_forward' => $state_forward,
+        'state_wait' => $state_wait,
+        'state_spam' => $info['spam'],
+        'email_id' => $email_id,
+        'is_outbox' => $is_outbox,
+        'state_sent' => $state_sent,
+        'state_error' => $state_error,
+        'state_crt' => $info['crt'],
+        'priority' => $info['priority'],
+        'sensitivity' => $info['sensitivity'],
+        'from' => $info['from'],
+        'to' => $info['to'],
+        'cc' => $info['cc'],
+        'bcc' => $info['bcc'],
+        'files' => count($info['files']),
     ]);
     unset($body); // Trick to release memory
     db_query($query);
@@ -902,33 +902,33 @@ function __getmail_insert(
     $last_id = execute_query($query);
     semaphore_release(__FUNCTION__);
     // Insert all address
-    foreach ($info["emails"] as $email) {
-        $query = make_insert_query("app_emails_address", [
-            "email_id" => $last_id,
-            "type_id" => $email["type_id"],
-            "name" => $email["name"],
-            "value" => $email["value"],
+    foreach ($info['emails'] as $email) {
+        $query = make_insert_query('app_emails_address', [
+            'email_id' => $last_id,
+            'type_id' => $email['type_id'],
+            'name' => $email['name'],
+            'value' => $email['value'],
         ]);
         db_query($query);
     }
     // Insert all attachments
-    foreach ($info["files"] as $file) {
-        $query = make_insert_query("app_emails_files", [
-            "reg_id" => $last_id,
-            "user_id" => $id_usuario,
-            "datetime" => $datetime,
-            "name" => $file["cname"],
-            "size" => $file["csize"],
-            "type" => $file["ctype"],
-            "hash" => $file["chash"],
+    foreach ($info['files'] as $file) {
+        $query = make_insert_query('app_emails_files', [
+            'reg_id' => $last_id,
+            'user_id' => $id_usuario,
+            'datetime' => $datetime,
+            'name' => $file['cname'],
+            'size' => $file['csize'],
+            'type' => $file['ctype'],
+            'hash' => $file['chash'],
         ]);
         db_query($query);
     }
     // Insert the control register
-    require_once "php/lib/control.php";
-    require_once "php/lib/indexing.php";
-    make_control("emails", $last_id);
-    make_index("emails", $last_id);
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/indexing.php';
+    make_control('emails', $last_id);
+    make_index('emails', $last_id);
     return $last_id;
 }
 
@@ -944,10 +944,10 @@ function __getmail_insert(
  */
 function __getmail_update($field, $value, $id)
 {
-    $query = make_update_query("app_emails", [
+    $query = make_update_query('app_emails', [
         $field => $value,
     ], make_where_query([
-        "id" => $id,
+        'id' => $id,
     ]));
     db_query($query);
 }
@@ -962,7 +962,7 @@ function __getmail_update($field, $value, $id)
  */
 function __getmail_rawurldecode($temp)
 {
-    if (strpos($temp, "%20") !== false) {
+    if (strpos($temp, '%20') !== false) {
         $temp = rawurldecode($temp);
     }
     return $temp;
@@ -982,19 +982,19 @@ function __getmail_add_bcc($id, $bcc)
 {
     foreach ($bcc as $addr) {
         list($value, $name) = __sendmail_parser($addr);
-        $query = make_insert_query("app_emails_address", [
-            "email_id" => $id,
-            "type_id" => 4, // defined in __getmail_getinfo function
-            "name" => $name,
-            "value" => $value,
+        $query = make_insert_query('app_emails_address', [
+            'email_id' => $id,
+            'type_id' => 4, // defined in __getmail_getinfo function
+            'name' => $name,
+            'value' => $value,
         ]);
         db_query($query);
     }
-    $bcc = implode("; ", $bcc);
-    $query = make_update_query("app_emails", [
-        "bcc" => $bcc,
+    $bcc = implode('; ', $bcc);
+    $query = make_update_query('app_emails', [
+        'bcc' => $bcc,
     ], make_where_query([
-        "id" => $id,
+        'id' => $id,
     ]));
     db_query($query);
 }
@@ -1035,46 +1035,46 @@ function gzfilesize($filename)
 function getmail_body($id)
 {
     if (!__getmail_checkperm($id)) {
-        show_php_error(["phperror" => "Permission denied"]);
+        show_php_error(['phperror' => 'Permission denied']);
     }
     $decoded = __getmail_getmime($id);
     if (!$decoded) {
-        show_php_error(["phperror" => "Could not decode de message"]);
+        show_php_error(['phperror' => 'Could not decode de message']);
     }
     // MARCAR CORREO COMO LEIDO SI ES EL PROPIETARIO
     $id2 = execute_query("SELECT id
         FROM app_emails_control
         WHERE id = {$id} AND user_id= " . current_user());
     if ($id == $id2) {
-        $query = make_update_query("app_emails", [
-            "state_new" => 0,
+        $query = make_update_query('app_emails', [
+            'state_new' => 0,
         ], make_where_query([
-            "id" => $id,
-            "state_new" => 1,
+            'id' => $id,
+            'state_new' => 1,
         ]));
         db_query($query);
     }
     // CONTINUE
-    $result = __getmail_getfullbody(__getmail_getnode("0", $decoded));
-    $buffer = "";
+    $result = __getmail_getfullbody(__getmail_getnode('0', $decoded));
+    $buffer = '';
     $buffer .= __HTML_PAGE_OPEN__;
     $first = 1;
     foreach ($result as $index => $node) {
-        $disp = $node["disp"];
-        $type = $node["type"];
+        $disp = $node['disp'];
+        $type = $node['type'];
         if (__getmail_processplainhtml($disp, $type)) {
-            $temp = $node["body"];
-            if ($type == "plain") {
+            $temp = $node['body'];
+            if ($type == 'plain') {
                 $temp = wordwrap($temp, 120);
-                $temp = htmlentities($temp, ENT_COMPAT, "UTF-8");
+                $temp = htmlentities($temp, ENT_COMPAT, 'UTF-8');
                 $temp = str_replace(
-                    [" ", "\t", "\n"],
-                    ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>\n"],
+                    [' ', "\t", "\n"],
+                    ['&nbsp;', str_repeat('&nbsp;', 8), "<br/>\n"],
                     $temp
                 );
             }
-            if ($type == "html") {
-                require_once "php/lib/html.php";
+            if ($type == 'html') {
+                require_once 'php/lib/html.php';
                 $temp = remove_script_tag($temp);
                 $temp = remove_style_tag($temp);
                 $temp = remove_comment_tag($temp);
@@ -1082,17 +1082,17 @@ function getmail_body($id)
                 $temp = inline_img_tag($temp);
             }
             foreach ($result as $index2 => $node2) {
-                $disp2 = $node2["disp"];
-                $type2 = $node2["type"];
+                $disp2 = $node2['disp'];
+                $type2 = $node2['type'];
                 if (
                     !__getmail_processplainhtml($disp2, $type2) &&
                     !__getmail_processmessage($disp2, $type2)
                 ) {
-                    $cid2 = $node2["cid"];
-                    if ($cid2 != "") {
-                        $chash2 = $node2["chash"];
-                        $ctype2 = $node2["ctype"];
-                        $data = mime_inline($ctype2, $node2["body"]);
+                    $cid2 = $node2['cid'];
+                    if ($cid2 != '') {
+                        $chash2 = $node2['chash'];
+                        $ctype2 = $node2['ctype'];
+                        $data = mime_inline($ctype2, $node2['body']);
                         $temp = str_replace("cid:{$cid2}", $data, $temp);
                     }
                 }
@@ -1100,10 +1100,10 @@ function getmail_body($id)
             if (!$first) {
                 $buffer .= __HTML_SEPARATOR__;
             }
-            if ($type == "plain") {
+            if ($type == 'plain') {
                 $buffer .= __PLAIN_TEXT_OPEN__ . $temp . __PLAIN_TEXT_CLOSE__;
             }
-            if ($type == "html") {
+            if ($type == 'html') {
                 $buffer .= __HTML_TEXT_OPEN__ . $temp . __HTML_TEXT_CLOSE__;
             }
             $first = 0;
@@ -1124,14 +1124,14 @@ function getmail_body($id)
 function getmail_source($id)
 {
     if (!__getmail_checkperm($id)) {
-        show_php_error(["phperror" => "Permission denied"]);
+        show_php_error(['phperror' => 'Permission denied']);
     }
     $source = __getmail_getsource($id);
     $source = getutf8($source);
     $source = wordwrap($source, 120);
-    $source = htmlentities($source, ENT_COMPAT, "UTF-8");
-    $source = str_replace([" ", "\t", "\n"], ["&nbsp;", str_repeat("&nbsp;", 8), "<br/>"], $source);
-    $buffer = "";
+    $source = htmlentities($source, ENT_COMPAT, 'UTF-8');
+    $source = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 8), '<br/>'], $source);
+    $buffer = '';
     $buffer .= __HTML_PAGE_OPEN__;
     $buffer .= __PLAIN_TEXT_OPEN__;
     $buffer .= $source;
@@ -1151,20 +1151,20 @@ function getmail_source($id)
 function getmail_files($id)
 {
     if (!__getmail_checkperm($id)) {
-        show_php_error(["phperror" => "Permission denied"]);
+        show_php_error(['phperror' => 'Permission denied']);
     }
     $decoded = __getmail_getmime($id);
     if (!$decoded) {
-        show_php_error(["phperror" => "Could not decode de message"]);
+        show_php_error(['phperror' => 'Could not decode de message']);
     }
     // CONTINUE
-    $result = __getmail_getfiles(__getmail_getnode("0", $decoded));
+    $result = __getmail_getfiles(__getmail_getnode('0', $decoded));
     $array = [];
     foreach ($result as $file) {
         $array[] = [
-            "id" => $id . "/" . $file["chash"],
-            "name" => $file["cname"],
-            "size" => $file["hsize"],
+            'id' => $id . '/' . $file['chash'],
+            'name' => $file['cname'],
+            'size' => $file['hsize'],
         ];
     }
     return $array;
@@ -1181,23 +1181,23 @@ function getmail_files($id)
 function getmail_cid($id, $cid)
 {
     if (!__getmail_checkperm($id)) {
-        show_php_error(["phperror" => "Permission denied"]);
+        show_php_error(['phperror' => 'Permission denied']);
     }
     $decoded = __getmail_getmime($id);
     if (!$decoded) {
-        show_php_error(["phperror" => "Could not decode de message"]);
+        show_php_error(['phperror' => 'Could not decode de message']);
     }
     // continue
-    $result = __getmail_getcid(__getmail_getnode("0", $decoded), $cid);
+    $result = __getmail_getcid(__getmail_getnode('0', $decoded), $cid);
     if (!$result) {
         die();
     }
-    $name = $result["cname"] ? $result["cname"] : $result["cid"];
+    $name = $result['cname'] ? $result['cname'] : $result['cid'];
     return [
-        "data" => $result["body"],
-        "type" => $result["ctype"],
-        "size" => $result["csize"],
-        "name" => $name,
+        'data' => $result['body'],
+        'type' => $result['ctype'],
+        'size' => $result['csize'],
+        'name' => $name,
     ];
 }
 
@@ -1212,7 +1212,7 @@ function getmail_cid($id, $cid)
 function getmail_field($field, $id)
 {
     if (!__getmail_checkperm($id)) {
-        show_php_error(["phperror" => "Permission denied"]);
+        show_php_error(['phperror' => 'Permission denied']);
     }
     return execute_query("SELECT $field FROM app_emails WHERE id=$id");
 }
@@ -1227,15 +1227,15 @@ function getmail_server()
     // check the semaphore
     $semaphore = [__FUNCTION__, current_user()];
     if (!semaphore_acquire($semaphore, 100000)) {
-        return [T("Could not acquire the semaphore")];
+        return [T('Could not acquire the semaphore')];
     }
     // for debug purposes
-    if (get_config("emails/getmailmsgid")) {
-        $file = get_directory("dirs/inboxdir") . get_config("emails/getmailmsgid") . ".eml.gz";
+    if (get_config('emails/getmailmsgid')) {
+        $file = get_directory('dirs/inboxdir') . get_config('emails/getmailmsgid') . '.eml.gz';
         if (!file_exists($file)) {
-            $file = get_directory("dirs/outboxdir") . get_config("emails/getmailmsgid") . ".eml.gz";
+            $file = get_directory('dirs/outboxdir') . get_config('emails/getmailmsgid') . '.eml.gz';
         }
-        __getmail_insert($file, get_config("emails/getmailmsgid"), 1, 0, 0, 0, 0, 0, 0, "");
+        __getmail_insert($file, get_config('emails/getmailmsgid'), 1, 0, 0, 0, 0, 0, 0, '');
         die();
     }
     // datos pop3
@@ -1243,29 +1243,29 @@ function getmail_server()
     $result = execute_query_array($query);
     if (!count($result)) {
         semaphore_release($semaphore);
-        return [T("Could not found configuration")];
+        return [T('Could not found configuration')];
     }
     // begin the loop
     $newemail = 0;
     $haserror = [];
     foreach ($result as $row) {
-        if (time_get_usage() > get_config("server/percentstop")) {
+        if (time_get_usage() > get_config('server/percentstop')) {
             break;
         }
-        $error = "";
-        if ($row["pop3_host"] == "") {
-            $temp = $row["email_from"];
+        $error = '';
+        if ($row['pop3_host'] == '') {
+            $temp = $row['email_from'];
             if (!$temp) {
-                $temp = $row["email_name"];
+                $temp = $row['email_name'];
             }
             if ($temp) {
                 $temp = " ($temp)";
             }
-            $error = sprintf(T("POP3 server %s not configured"), $temp);
+            $error = sprintf(T('POP3 server %s not configured'), $temp);
         }
-        if ($error == "") {
-            $id_cuenta = $row["id"];
-            $prefix = get_directory("dirs/inboxdir") . $id_cuenta;
+        if ($error == '') {
+            $id_cuenta = $row['id'];
+            $prefix = get_directory('dirs/inboxdir') . $id_cuenta;
             if (!file_exists($prefix)) {
                 mkdir($prefix);
                 chmod_protected($prefix, 0777);
@@ -1278,16 +1278,16 @@ function getmail_server()
             $olduidls = array_merge($olduidls, $olduidls_d);
             // pop3 code
             $pop3 = new pop3_class();
-            $pop3->hostname = $row["pop3_host"];
-            if ($row["pop3_port"]) {
-                $pop3->port = $row["pop3_port"];
+            $pop3->hostname = $row['pop3_host'];
+            if ($row['pop3_port']) {
+                $pop3->port = $row['pop3_port'];
             }
-            $pop3->tls = ($row["pop3_extra"] == "tls") ? 1 : 0;
+            $pop3->tls = ($row['pop3_extra'] == 'tls') ? 1 : 0;
             // I have detected that stream_socket_client generates uncontrolable
             // errors, for this reason, I have overloaded the error handler to
             // manage this kind of errors
             set_error_handler(function ($type, $message, $file, $line) {
-                if (words_exists("stream_socket_client", $message)) {
+                if (words_exists('stream_socket_client', $message)) {
                     error_clear_last();
                     return true;
                 }
@@ -1297,60 +1297,60 @@ function getmail_server()
             restore_error_handler();
             // End of the overloaded error zone
         }
-        if ($error == "") {
-            $error = $pop3->Login($row["pop3_user"], $row["pop3_pass"]);
+        if ($error == '') {
+            $error = $pop3->Login($row['pop3_user'], $row['pop3_pass']);
         }
-        if ($error == "") {
-            $sizes = $pop3->ListMessages("", 0);
+        if ($error == '') {
+            $sizes = $pop3->ListMessages('', 0);
             if (!is_array($sizes)) {
                 $error = $sizes;
             }
         }
-        if ($error == "") {
-            $uidls = $pop3->ListMessages("", 1);
+        if ($error == '') {
+            $uidls = $pop3->ListMessages('', 1);
             if (!is_array($uidls)) {
                 $error = $uidls;
             }
         }
-        if ($error == "") {
+        if ($error == '') {
             // retrieve all new messages
             $retrieve = array_diff($uidls, $olduidls);
             foreach ($retrieve as $index => $uidl) {
-                if (time_get_usage() > get_config("server/percentstop")) {
+                if (time_get_usage() > get_config('server/percentstop')) {
                     break;
                 }
-                if ($error == "") {
-                    $file = $prefix . "/" . $uidls[$index] . ".eml.gz";
+                if ($error == '') {
+                    $file = $prefix . '/' . $uidls[$index] . '.eml.gz';
                     if (!file_exists($file)) {
                         // retrieve the entire message
                         $error = $pop3->OpenMessage($index, -1);
-                        if ($error == "") {
-                            $message = "";
+                        if ($error == '') {
+                            $message = '';
                             $eof = 0;
-                            while (!$eof && $error == "") {
-                                $temp = "";
+                            while (!$eof && $error == '') {
+                                $temp = '';
                                 $error = $pop3->GetMessage($sizes[$index] + 1, $temp, $eof);
                                 $message .= $temp;
                             }
                         }
-                        if ($error == "") {
+                        if ($error == '') {
                             // store the message into single file
-                            $fp = gzopen($file, "w");
+                            $fp = gzopen($file, 'w');
                             gzwrite($fp, $message);
                             gzclose($fp);
                             chmod_protected($file, 0666);
-                            $message = ""; // trick to release memory
+                            $message = ''; // trick to release memory
                         }
                     }
-                    if ($error == "") {
-                        $messageid = $id_cuenta . "/" . $uidls[$index];
-                        $last_id = __getmail_insert($file, $messageid, 1, 0, 0, 0, 0, 0, 0, "");
+                    if ($error == '') {
+                        $messageid = $id_cuenta . '/' . $uidls[$index];
+                        $last_id = __getmail_insert($file, $messageid, 1, 0, 0, 0, 0, 0, 0, '');
                         $newemail++;
                     }
                 }
             }
         }
-        if ($error == "" && $row["pop3_delete"]) {
+        if ($error == '' && $row['pop3_delete']) {
             // remove all expired messages (if checked the delete option)
             $delete = "'" . implode("','", $uidls) . "'";
             $query = "SELECT uidl,datetime FROM (
@@ -1366,34 +1366,34 @@ function getmail_server()
             $result2 = execute_query_array($query);
             $time1 = strtotime(current_datetime());
             foreach ($result2 as $row2) {
-                $time2 = strtotime($row2["datetime"]);
-                if ($time1 - $time2 >= $row["pop3_days"] * 86400) {
-                    $index2 = array_search($row2["uidl"], $uidls);
+                $time2 = strtotime($row2['datetime']);
+                if ($time1 - $time2 >= $row['pop3_days'] * 86400) {
+                    $index2 = array_search($row2['uidl'], $uidls);
                     $error = $pop3->DeleteMessage($index2);
                     unset($uidls[$index2]);
                 }
-                if ($error != "") {
+                if ($error != '') {
                     break;
                 }
             }
         }
-        if ($error == "") {
+        if ($error == '') {
             $error = $pop3->Close();
         }
-        if ($error == "") {
+        if ($error == '') {
             // remove all unused uidls
             $delete = array_diff($olduidls_d, $uidls);
             $delete = "'" . implode("','", $delete) . "'";
             $query = "DELETE FROM app_emails_deletes WHERE account_id='{$id_cuenta}' AND uidl IN ({$delete})";
             db_query($query);
         }
-        if ($error != "") {
-            $haserror[] = sprintf(T("There has been the following error: %s (%s)"), $error, $row["pop3_host"]);
+        if ($error != '') {
+            $haserror[] = sprintf(T('There has been the following error: %s (%s)'), $error, $row['pop3_host']);
         }
     }
     // release semaphore
     semaphore_release($semaphore);
-    $haserror[] = sprintf(T("%d email(s) received"), $newemail);
+    $haserror[] = sprintf(T('%d email(s) received'), $newemail);
     return $haserror;
 }
 
@@ -1407,7 +1407,7 @@ function getmail_server()
 function getmail_delete($ids)
 {
     $ids = check_ids($ids);
-    $numids = count(explode(",", $ids));
+    $numids = count(explode(',', $ids));
     $query = "SELECT id FROM
         app_emails a
         WHERE id IN ($ids)
@@ -1419,7 +1419,7 @@ function getmail_delete($ids)
     $result = execute_query_array($query);
     $numresult = count($result);
     if ($numresult != $numids) {
-        return T("Permission denied");
+        return T('Permission denied');
     }
     // CREAR DATOS EN TABLA DE CORREOS BORRADOS (SOLO LOS DEL INBOX)
     $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
@@ -1429,7 +1429,7 @@ function getmail_delete($ids)
             AND is_outbox=0";
     db_query($query);
     // BORRAR FICHEROS .EML.GZ DEL INBOX
-    $query = "SELECT CONCAT('" . get_directory("dirs/inboxdir") . "',account_id,'/',uidl,'.eml.gz') action_delete
+    $query = "SELECT CONCAT('" . get_directory('dirs/inboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
         FROM app_emails
         WHERE id IN ($ids)
             AND is_outbox='0'";
@@ -1440,7 +1440,7 @@ function getmail_delete($ids)
         }
     }
     // BORRAR FICHEROS .EML.GZ DEL OUTBOX
-    $query = "SELECT CONCAT('" . get_directory("dirs/outboxdir") . "',account_id,'/',uidl,'.eml.gz') action_delete
+    $query = "SELECT CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
         FROM app_emails
         WHERE id IN ($ids)
             AND is_outbox='1'";
@@ -1451,7 +1451,7 @@ function getmail_delete($ids)
         }
     }
     // BORRAR FICHEROS .OBJ DEL OUTBOX
-    $query = "SELECT CONCAT('" . get_directory("dirs/outboxdir") . "',account_id,'/',uidl,'.obj') action_delete
+    $query = "SELECT CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.obj') action_delete
         FROM app_emails
         WHERE id IN ($ids)
             AND is_outbox='1'";
@@ -1471,15 +1471,15 @@ function getmail_delete($ids)
     $query = "DELETE FROM app_emails_files WHERE reg_id IN ($ids)";
     db_query($query);
     // BORRAR REGISTRO DE LOS CORREOS
-    $ids = explode(",", $ids);
+    $ids = explode(',', $ids);
     foreach ($ids as $id) {
-        require_once "php/lib/control.php";
-        require_once "php/lib/indexing.php";
-        make_control("emails", $id);
-        make_index("emails", $id);
+        require_once 'php/lib/control.php';
+        require_once 'php/lib/indexing.php';
+        make_control('emails', $id);
+        make_index('emails', $id);
     }
     // MOSTRAR RESULTADO
-    return sprintf(T("%d email(s) deleted"), $numids);
+    return sprintf(T('%d email(s) deleted'), $numids);
 }
 
 /**
@@ -1494,22 +1494,22 @@ function getmail_delete($ids)
 function getmail_viewpdf($id, $cid)
 {
     $file = getmail_cid($id, $cid);
-    $ext = strtolower(extension($file["name"]));
+    $ext = strtolower(extension($file['name']));
     if (!$ext) {
-        $ext = strtolower(saltos_content_type1($file["type"]));
+        $ext = strtolower(saltos_content_type1($file['type']));
     }
     $cache1 = get_cache_file([$id, $cid], $ext);
-    file_put_contents($cache1, $file["data"]);
+    file_put_contents($cache1, $file['data']);
     chmod_protected($cache1, 0666);
     // CREAR THUMBS SI ES NECESARIO
-    $cache2 = get_cache_file([$id, $cid], "pdf");
+    $cache2 = get_cache_file([$id, $cid], 'pdf');
     if (!file_exists($cache2)) {
-        require_once "php/lib/unoconv.php";
+        require_once 'php/lib/unoconv.php';
         file_put_contents($cache2, unoconv2pdf($cache1));
         chmod_protected($cache2, 0666);
     }
     if (!file_exists($cache2)) {
-        show_php_error(["phperror" => "File not found"]);
+        show_php_error(['phperror' => 'File not found']);
     }
     return base64_encode(file_get_contents($cache2));
 }
@@ -1526,7 +1526,7 @@ function getmail_viewpdf($id, $cid)
 function getmail_download($id, $cid)
 {
     $file = getmail_cid($id, $cid);
-    $file["data"] = base64_encode($file["data"]);
+    $file['data'] = base64_encode($file['data']);
     return $file;
 }
 
@@ -1538,7 +1538,7 @@ function getmail_download($id, $cid)
 function getmail_setter($ids, $what)
 {
     $ids = check_ids($ids);
-    $numids = count(explode(",", $ids));
+    $numids = count(explode(',', $ids));
     $query = "SELECT id FROM
         app_emails a
         WHERE id IN ($ids)
@@ -1550,11 +1550,11 @@ function getmail_setter($ids, $what)
     $result = execute_query_array($query);
     $numresult = count($result);
     if ($numresult != $numids) {
-        return T("Permission denied");
+        return T('Permission denied');
     }
     // process the real action
-    $what = explode("=", $what);
-    if ($what[0] == "new") {
+    $what = explode('=', $what);
+    if ($what[0] == 'new') {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
         $query = "SELECT COUNT(*)
             FROM app_emails
@@ -1563,11 +1563,11 @@ function getmail_setter($ids, $what)
                 AND is_outbox='0'";
         $numids = execute_query($query);
         // PONER STATE_NEW=0 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query("app_emails", [
-            "state_new" => $what[1],
+        $query = make_update_query('app_emails', [
+            'state_new' => $what[1],
         ], "id IN ({$ids}) AND state_new!='{$what[1]}' AND is_outbox='0'");
         db_query($query);
-    } elseif ($what[0] == "wait") {
+    } elseif ($what[0] == 'wait') {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
         $query = "SELECT COUNT(*)
             FROM app_emails
@@ -1575,12 +1575,12 @@ function getmail_setter($ids, $what)
                 AND state_wait!='{$what[1]}'";
         $numids = execute_query($query);
         // PONER STATE_WAIT=1 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query("app_emails", [
-            "state_new" => "0",
-            "state_wait" => $what[1],
+        $query = make_update_query('app_emails', [
+            'state_new' => '0',
+            'state_wait' => $what[1],
         ], "id IN ({$ids}) AND state_wait!='{$what[1]}'");
         db_query($query);
-    } elseif ($what[0] == "spam") {
+    } elseif ($what[0] == 'spam') {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
         $query = "SELECT COUNT(*)
             FROM app_emails
@@ -1589,14 +1589,14 @@ function getmail_setter($ids, $what)
                 AND is_outbox='0'";
         $numids = execute_query($query);
         // PONER STATE_SPAM=1 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query("app_emails", [
-            "state_new" => "0",
-            "state_spam" => $what[1],
+        $query = make_update_query('app_emails', [
+            'state_new' => '0',
+            'state_spam' => $what[1],
         ], "id IN ({$ids})
             AND state_spam!='{$what[1]}'
             AND is_outbox='0'");
         db_query($query);
     }
     // return the response
-    return sprintf(T("%d email(s) modified successfully"), $numids);
+    return sprintf(T('%d email(s) modified successfully'), $numids);
 }

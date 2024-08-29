@@ -44,21 +44,21 @@ declare(strict_types=1);
  */
 function unoconv2pdf($input)
 {
-    $output = get_cache_file($input, ".pdf");
+    $output = get_cache_file($input, '.pdf');
     if (!file_exists($output)) {
         $type = saltos_content_type($input);
         $ext = strtolower(extension($input));
         $type0 = saltos_content_type0($type);
-        if ($type == "application/pdf") {
+        if ($type == 'application/pdf') {
             copy($input, $output);
         } elseif (
-            (in_array($ext, __unoconv_list()) && !in_array($type0, ["audio", "video"])) ||
-            in_array($type0, ["text", "message", "image"])
+            (in_array($ext, __unoconv_list()) && !in_array($type0, ['audio', 'video'])) ||
+            in_array($type0, ['text', 'message', 'image'])
         ) {
             __unoconv_all2pdf($input, $output);
         }
         if (!file_exists($output)) {
-            file_put_contents($output, "");
+            file_put_contents($output, '');
         }
         chmod_protected($output, 0666);
     }
@@ -74,40 +74,40 @@ function unoconv2pdf($input)
  */
 function unoconv2txt($input)
 {
-    $output = get_cache_file($input, ".txt");
+    $output = get_cache_file($input, '.txt');
     if (!file_exists($output)) {
         $type = saltos_content_type($input);
         $ext = strtolower(extension($input));
         $type0 = saltos_content_type0($type);
-        if (in_array($type, ["text/plain", "application/json"])) {
+        if (in_array($type, ['text/plain', 'application/json'])) {
             copy($input, $output);
-        } elseif ($type == "text/html") {
+        } elseif ($type == 'text/html') {
             file_put_contents($output, html2text(file_get_contents($input)));
-        } elseif ($type == "application/pdf") {
+        } elseif ($type == 'application/pdf') {
             __unoconv_pdf2txt($input, $output);
-            if (!file_exists($output) || trim(file_get_contents($output)) == "") {
+            if (!file_exists($output) || trim(file_get_contents($output)) == '') {
                 file_put_contents($output, __unoconv_pdf2ocr($input));
             }
         } elseif (
-            (in_array($ext, __unoconv_list()) && !in_array($type0, ["image", "audio", "video"])) ||
-            in_array($type0, ["text", "message"])
+            (in_array($ext, __unoconv_list()) && !in_array($type0, ['image', 'audio', 'video'])) ||
+            in_array($type0, ['text', 'message'])
         ) {
-            $pdf = get_cache_file($input, ".pdf");
+            $pdf = get_cache_file($input, '.pdf');
             if (!file_exists($pdf)) {
                 __unoconv_all2pdf($input, $pdf);
             }
             if (file_exists($pdf)) {
                 chmod_protected($pdf, 0666);
                 __unoconv_pdf2txt($pdf, $output);
-                if (!file_exists($output) || trim(file_get_contents($output)) == "") {
+                if (!file_exists($output) || trim(file_get_contents($output)) == '') {
                     file_put_contents($output, __unoconv_pdf2ocr($pdf));
                 }
             }
-        } elseif ($type0 == "image") {
+        } elseif ($type0 == 'image') {
             file_put_contents($output, __unoconv_img2ocr($input));
         }
         if (!file_exists($output)) {
-            file_put_contents($output, "");
+            file_put_contents($output, '');
         } else {
             file_put_contents($output, getutf8(file_get_contents($output)));
         }
@@ -123,10 +123,10 @@ function unoconv2txt($input)
  */
 function __unoconv_list()
 {
-    if (!check_commands(get_config("unoconv/soffice"), 60)) {
+    if (!check_commands(get_config('unoconv/soffice'), 60)) {
         return [];
     }
-    return explode(",", get_config("unoconv/__soffice_formats__"));
+    return explode(',', get_config('unoconv/__soffice_formats__'));
 }
 
 /**
@@ -139,13 +139,13 @@ function __unoconv_list()
  */
 function __unoconv_pdf2txt($input, $output)
 {
-    if (!check_commands(get_config("unoconv/pdftotext"), 60)) {
+    if (!check_commands(get_config('unoconv/pdftotext'), 60)) {
         return;
     }
     ob_passthru(str_replace_assoc([
-        "__INPUT__" => $input,
-        "__OUTPUT__" => $output,
-    ], get_config("unoconv/__pdftotext__")));
+        '__INPUT__' => $input,
+        '__OUTPUT__' => $output,
+    ], get_config('unoconv/__pdftotext__')));
     if (file_exists($output)) {
         chmod_protected($output, 0666);
         $freq = count_chars(file_get_contents($output));
@@ -167,7 +167,7 @@ function __unoconv_pdf2txt($input, $output)
  */
 function __unoconv_all2pdf($input, $output)
 {
-    __unoconv_convert($input, $output, "pdf");
+    __unoconv_convert($input, $output, 'pdf');
 }
 
 /**
@@ -181,7 +181,7 @@ function __unoconv_all2pdf($input, $output)
  */
 function __unoconv_convert($input, $output, $format)
 {
-    if (!check_commands(get_config("unoconv/soffice"), 60)) {
+    if (!check_commands(get_config('unoconv/soffice'), 60)) {
         return;
     }
     $input = realpath($input);
@@ -194,14 +194,14 @@ function __unoconv_convert($input, $output, $format)
         $input2 = $input;
     }
     ob_passthru(__exec_timeout(str_replace_assoc([
-        "__FORMAT__" => $format,
-        "__INPUT__" => $input2,
-        "__OUTDIR__" => dirname($input2),
-    ], get_config("unoconv/__soffice__"))));
+        '__FORMAT__' => $format,
+        '__INPUT__' => $input2,
+        '__OUTDIR__' => dirname($input2),
+    ], get_config('unoconv/__soffice__'))));
     if ($fix) {
         unlink($input2);
     }
-    $output2 = str_replace("." . extension($input2), "." . $format, $input2);
+    $output2 = str_replace('.' . extension($input2), '.' . $format, $input2);
     if (!file_exists($output2)) {
         return;
     }
@@ -222,38 +222,38 @@ function __unoconv_convert($input, $output, $format)
  */
 function __unoconv_img2ocr($file)
 {
-    if (!check_commands([get_config("unoconv/convert"), get_config("unoconv/tesseract")], 60)) {
-        return "";
+    if (!check_commands([get_config('unoconv/convert'), get_config('unoconv/tesseract')], 60)) {
+        return '';
     }
     $type = saltos_content_type($file);
-    if ($type != "image/tiff") {
-        $tiff = get_cache_file($file, ".tif");
+    if ($type != 'image/tiff') {
+        $tiff = get_cache_file($file, '.tif');
         //~ if(file_exists($tiff)) unlink($tiff);
         if (!file_exists($tiff)) {
             ob_passthru(str_replace_assoc([
-                "__INPUT__" => $file,
-                "__OUTPUT__" => $tiff,
-            ], get_config("unoconv/__convert__")));
+                '__INPUT__' => $file,
+                '__OUTPUT__' => $tiff,
+            ], get_config('unoconv/__convert__')));
             if (!file_exists($tiff)) {
-                return "";
+                return '';
             }
         }
         $file = $tiff;
         chmod_protected($tiff, 0666);
     }
-    $hocr = get_cache_file($file, ".hocr");
-    $html = str_replace(".hocr", ".html", $hocr);
-    $txt = str_replace(".hocr", ".txt", $hocr);
+    $hocr = get_cache_file($file, '.hocr');
+    $html = str_replace('.hocr', '.html', $hocr);
+    $txt = str_replace('.hocr', '.txt', $hocr);
     if (file_exists($html)) {
         $hocr = $html;
     }
     //~ if(file_exists($hocr)) unlink($hocr);
     if (!file_exists($hocr)) {
-        $base = str_replace([".hocr", ".html"], "", $hocr);
+        $base = str_replace(['.hocr', '.html'], '', $hocr);
         ob_passthru(__exec_timeout(str_replace_assoc([
-            "__INPUT__" => $file,
-            "__OUTPUT__" => $base,
-        ], get_config("unoconv/__tesseract__"))));
+            '__INPUT__' => $file,
+            '__OUTPUT__' => $base,
+        ], get_config('unoconv/__tesseract__'))));
         if (file_exists($html)) {
             $hocr = $html;
         }
@@ -262,11 +262,11 @@ function __unoconv_img2ocr($file)
         }
     }
     if (isset($tiff)) {
-        file_put_contents($tiff, "");
+        file_put_contents($tiff, '');
         chmod_protected($tiff, 0666);
     }
     if (!file_exists($hocr)) {
-        return "";
+        return '';
     }
     chmod_protected($hocr, 0666);
     //~ if(file_exists($txt)) unlink($txt);
@@ -287,25 +287,25 @@ function __unoconv_img2ocr($file)
  */
 function __unoconv_pdf2ocr($pdf)
 {
-    if (!check_commands(get_config("unoconv/pdftoppm"), 60)) {
-        return "";
+    if (!check_commands(get_config('unoconv/pdftoppm'), 60)) {
+        return '';
     }
     // EXTRACT ALL IMAGES FROM PDF
-    $root = get_directory("dirs/cachedir") . md5_file($pdf);
+    $root = get_directory('dirs/cachedir') . md5_file($pdf);
     $files = glob("{$root}-*");
     //~ foreach($files as $file) unlink(array_pop($files));
     if (!count($files)) {
         ob_passthru(str_replace_assoc([
-            "__INPUT__" => $pdf,
-            "__OUTPUT__" => $root,
-        ], get_config("unoconv/__pdftoppm__")));
+            '__INPUT__' => $pdf,
+            '__OUTPUT__' => $root,
+        ], get_config('unoconv/__pdftoppm__')));
     }
     // EXTRACT ALL TEXT FROM TIFF
     $files = glob("{$root}-*");
     $result = [];
     foreach ($files as $file) {
         $result[] = __unoconv_img2ocr($file);
-        file_put_contents($file, "");
+        file_put_contents($file, '');
         chmod_protected($file, 0666);
     }
     $result = implode("\n\n", $result);
@@ -380,17 +380,17 @@ function __unoconv_rotate($posx, $posy, $angle)
  */
 function __unoconv_node2attr($node)
 {
-    if (strpos($node["#attr"]["title"], "; ") !== false) {
-        $temp = explode("; ", $node["#attr"]["title"]);
+    if (strpos($node['#attr']['title'], '; ') !== false) {
+        $temp = explode('; ', $node['#attr']['title']);
         foreach ($temp as $temp2) {
-            if (substr($temp2, 0, 4) == "bbox") {
-                $node["#attr"]["title"] = $temp2;
+            if (substr($temp2, 0, 4) == 'bbox') {
+                $node['#attr']['title'] = $temp2;
             }
         }
     }
-    $temp = explode("_", $node["#attr"]["id"]);
-    $node["#attr"]["id"] = $temp[0];
-    $temp = array_merge([$node["#attr"]["id"]], array_slice(explode(" ", $node["#attr"]["title"]), 1));
+    $temp = explode('_', $node['#attr']['id']);
+    $node['#attr']['id'] = $temp[0];
+    $temp = array_merge([$node['#attr']['id']], array_slice(explode(' ', $node['#attr']['title']), 1));
     return $temp;
 }
 
@@ -401,11 +401,11 @@ function __unoconv_node2attr($node)
  */
 function __unoconv_node2value($node)
 {
-    while (is_array($node["value"])) {
-        $node["value"] = array_pop($node["value"]);
+    while (is_array($node['value'])) {
+        $node['value'] = array_pop($node['value']);
     }
-    $node["value"] = trim($node["value"]);
-    return $node["value"];
+    $node['value'] = trim($node['value']);
+    return $node['value'];
 }
 
 /**
@@ -417,16 +417,16 @@ function __unoconv_lines2matrix($lines, $width, $height)
 {
     $matrix = [];
     foreach ($lines as $index => $line) {
-        if ($line[0] == "line") {
+        if ($line[0] == 'line') {
             $posy = round((($line[4] + $line[2]) / 2) / $height, 0);
             if (!isset($matrix[$posy])) {
                 $matrix[$posy] = [];
             }
         }
-        if ($line[0] == "word") {
+        if ($line[0] == 'word') {
             // AS MAKEBOX FEATURE
-            if ($line[5] == "") {
-                $line[5] = "~";
+            if ($line[5] == '') {
+                $line[5] = '~';
             }
             // AS DEFAULT FEATURE
             $len = mb_strlen($line[5]);
@@ -435,8 +435,8 @@ function __unoconv_lines2matrix($lines, $width, $height)
             for ($i = 0; $i < $len; $i++) {
                 $letter = mb_substr($line[5], $i, 1);
                 if (isset($matrix[$posy][$posx])) {
-                    if ($letter != "_") {
-                        if ($matrix[$posy][$posx] != "_") {
+                    if ($letter != '_') {
+                        if ($matrix[$posy][$posx] != '_') {
                             return $index;
                         }
                         $matrix[$posy][$posx] = $letter;
@@ -475,24 +475,24 @@ function __unoconv_hocr2txt($hocr)
 {
     // LOAD XML
     $array = __import_xml2array($hocr);
-    $array = __array_getnode("html/body", $array);
+    $array = __array_getnode('html/body', $array);
     // PARTE XML
     $lines = [];
     $words = 0;
     if (is_array($array)) {
         foreach ($array as $page) {
             $lines[] = __unoconv_node2attr($page);
-            if (is_array($page["value"])) {
-                foreach ($page["value"] as $block) {
+            if (is_array($page['value'])) {
+                foreach ($page['value'] as $block) {
                     $lines[] = __unoconv_node2attr($block);
-                    if (is_array($block["value"])) {
-                        foreach ($block["value"] as $par) {
+                    if (is_array($block['value'])) {
+                        foreach ($block['value'] as $par) {
                             $lines[] = __unoconv_node2attr($par);
-                            if (is_array($par["value"])) {
-                                foreach ($par["value"] as $line) {
+                            if (is_array($par['value'])) {
+                                foreach ($par['value'] as $line) {
                                     $lines[] = __unoconv_node2attr($line);
-                                    if (is_array($line["value"])) {
-                                        foreach ($line["value"] as $word) {
+                                    if (is_array($line['value'])) {
+                                        foreach ($line['value'] as $word) {
                                             $lines[] = array_merge(
                                                 __unoconv_node2attr($word),
                                                 [__unoconv_node2value($word)]
@@ -509,16 +509,16 @@ function __unoconv_hocr2txt($hocr)
         }
     }
     if ($words < 1) {
-        return "";
+        return '';
     }
     //~ echo "<pre>".sprintr($lines)."</pre>";
     // COMPUTE ANGLE
     $angles = [];
     foreach ($lines as $line) {
-        if ($line[0] == "line") {
+        if ($line[0] == 'line') {
             $pos1 = null;
         }
-        if ($line[0] == "word") {
+        if ($line[0] == 'word') {
             $pos2 = [($line[3] + $line[1]) / 2, ($line[4] + $line[2]) / 2];
             if (is_array($pos1)) {
                 $incrx = $pos2[0] - $pos1[0];
@@ -573,7 +573,7 @@ function __unoconv_hocr2txt($hocr)
     }
     //~ echo "<pre>".sprintr(array($size,$width,$height))."</pre>";
     if (!is_array($matrix)) {
-        return "";
+        return '';
     }
     // MAKE OUTPUT
     $buffer = [];
@@ -584,9 +584,9 @@ function __unoconv_hocr2txt($hocr)
     for ($y = $miny; $y <= $maxy; $y++) {
         $temp = [];
         for ($x = $minx; $x <= $maxx; $x++) {
-            $temp[] = isset($matrix[$y][$x]) ? $matrix[$y][$x] : " ";
+            $temp[] = isset($matrix[$y][$x]) ? $matrix[$y][$x] : ' ';
         }
-        $buffer[] = implode("", $temp);
+        $buffer[] = implode('', $temp);
     }
     $buffer = implode("\n", $buffer);
     return $buffer;
@@ -644,7 +644,7 @@ function __unoconv_remove_margins($page)
             $min = $max;
         }
         $min = min(mb_strlen($line) - mb_strlen(ltrim($line)), $min);
-        if (trim($line) != "") {
+        if (trim($line) != '') {
             if ($first == -1) {
                 $first = $index;
             } else {

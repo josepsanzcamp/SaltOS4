@@ -50,19 +50,19 @@ function current_token()
     static $user_agent = null;
     if (
         $token_id === null ||
-        $token != get_data("server/token") ||
-        $remote_addr != get_data("server/remote_addr") ||
-        $user_agent != get_data("server/user_agent")
+        $token != get_data('server/token') ||
+        $remote_addr != get_data('server/remote_addr') ||
+        $user_agent != get_data('server/user_agent')
     ) {
         crontab_users();
-        $token = get_data("server/token");
-        $remote_addr = get_data("server/remote_addr");
-        $user_agent = get_data("server/user_agent");
-        $token_id = execute_query("SELECT id FROM tbl_users_tokens WHERE " . make_where_query([
-            "token" => $token,
-            "active" => 1,
-            "remote_addr" => $remote_addr,
-            "user_agent" => $user_agent,
+        $token = get_data('server/token');
+        $remote_addr = get_data('server/remote_addr');
+        $user_agent = get_data('server/user_agent');
+        $token_id = execute_query('SELECT id FROM tbl_users_tokens WHERE ' . make_where_query([
+            'token' => $token,
+            'active' => 1,
+            'remote_addr' => $remote_addr,
+            'user_agent' => $user_agent,
         ]));
         $token_id = intval($token_id);
     }
@@ -81,9 +81,9 @@ function current_user()
     static $token_id = null;
     if ($user_id === null || $token_id != current_token()) {
         $token_id = current_token();
-        $user_id = execute_query("SELECT user_id FROM tbl_users_tokens WHERE " . make_where_query([
-            "id" => $token_id,
-            "active" => 1,
+        $user_id = execute_query('SELECT user_id FROM tbl_users_tokens WHERE ' . make_where_query([
+            'id' => $token_id,
+            'active' => 1,
         ]));
         $user_id = intval($user_id);
     }
@@ -102,9 +102,9 @@ function current_group()
     static $user_id = null;
     if ($group_id === null || $user_id != current_user()) {
         $user_id = current_user();
-        $group_id = execute_query("SELECT group_id FROM tbl_users WHERE " . make_where_query([
-            "id" => $user_id,
-            "active" => 1,
+        $group_id = execute_query('SELECT group_id FROM tbl_users WHERE ' . make_where_query([
+            'id' => $user_id,
+            'active' => 1,
         ]));
         $group_id = intval($group_id);
     }
@@ -126,7 +126,7 @@ function current_groups()
     if ($groups_id === null || $user_id != current_user()) {
         $user_id = current_user();
         if (!$user_id) {
-            $groups_id = "0";
+            $groups_id = '0';
             return $groups_id;
         }
         // Get groups from the users table
@@ -137,8 +137,8 @@ function current_groups()
         $from_groups = execute_query_array($query);
         // Compute the resulting array with all ids
         $array = array_merge($from_users, $from_groups);
-        $array = array_diff($array, [""]);
-        $groups_id = implode(",", $array);
+        $array = array_diff($array, ['']);
+        $groups_id = implode(',', $array);
     }
     return $groups_id;
 }
@@ -174,8 +174,8 @@ function crontab_users()
     $query = "UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires_at <= '$datetime'";
     db_query($query);
     // Disable tokens that have not an active password
-    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id NOT IN (
-        SELECT user_id FROM tbl_users_passwords WHERE active = 1)";
+    $query = 'UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id NOT IN (
+        SELECT user_id FROM tbl_users_passwords WHERE active = 1)';
     db_query($query);
     // Disable tokens that have not permission by the user time and day filter
     $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id IN (

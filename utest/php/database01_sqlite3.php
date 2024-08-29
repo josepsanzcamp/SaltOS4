@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,6 +41,6 @@ init_random();
 check_system();
 
 db_connect([
-    "type" => "sqlite3",
-    "file" => "data/files/nada",
+    'type' => 'sqlite3',
+    'file' => 'data/files/nada',
 ]);

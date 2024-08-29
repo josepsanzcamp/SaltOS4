@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,14 +67,14 @@ final class test_output extends TestCase
      */
     public function test_output(): void
     {
-        test_external_exec("php/output1.php", "", "");
-        test_external_exec("php/output2.php", "", "");
-        test_external_exec("php/output3.php", "", "");
-        test_external_exec("php/output4.php", "", "");
-        test_external_exec("php/output5.php", "", "");
-        test_external_exec("php/output6.php", "", "");
-        test_external_exec("php/output7.php", "phperror.log", "file nada not found");
-        test_external_exec("php/output8.php", "phperror.log", "output_handler requires the type parameter");
-        test_external_exec("php/output9.php", "phperror.log", "output_handler requires the cache parameter");
+        test_external_exec('php/output1.php', '', '');
+        test_external_exec('php/output2.php', '', '');
+        test_external_exec('php/output3.php', '', '');
+        test_external_exec('php/output4.php', '', '');
+        test_external_exec('php/output5.php', '', '');
+        test_external_exec('php/output6.php', '', '');
+        test_external_exec('php/output7.php', 'phperror.log', 'file nada not found');
+        test_external_exec('php/output8.php', 'phperror.log', 'output_handler requires the type parameter');
+        test_external_exec('php/output9.php', 'phperror.log', 'output_handler requires the cache parameter');
     }
 }

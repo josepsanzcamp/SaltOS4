@@ -54,20 +54,20 @@ declare(strict_types=1);
  * @query => the query that must be parsed
  * @type  => the db type that you want to allow by the filters
  */
-function parse_query($query, $type = "")
+function parse_query($query, $type = '')
 {
-    if ($type == "") {
+    if ($type == '') {
         $type = __parse_query_type();
     }
-    $pos = __parse_query_strpos($query, "/*");
+    $pos = __parse_query_strpos($query, '/*');
     $len = strlen($type);
     while ($pos !== false) {
-        $pos2 = __parse_query_strpos($query, "*/", $pos + 2);
+        $pos2 = __parse_query_strpos($query, '*/', $pos + 2);
         if ($pos2 !== false) {
-            $pos3 = __parse_query_strpos($query, "/*", $pos + 2);
+            $pos3 = __parse_query_strpos($query, '/*', $pos + 2);
             while ($pos3 !== false && $pos3 < $pos2) {
                 $pos = $pos3;
-                $pos3 = __parse_query_strpos($query, "/*", $pos + 2);
+                $pos3 = __parse_query_strpos($query, '/*', $pos + 2);
             }
             if (substr($query, $pos + 2, $len) == $type) {
                 $query = substr($query, 0, $pos) .
@@ -76,9 +76,9 @@ function parse_query($query, $type = "")
             } else {
                 $query = substr($query, 0, $pos) . substr($query, $pos2 + 2);
             }
-            $pos = __parse_query_strpos($query, "/*", $pos);
+            $pos = __parse_query_strpos($query, '/*', $pos);
         } else {
-            $pos = __parse_query_strpos($query, "/*", $pos + 2);
+            $pos = __parse_query_strpos($query, '/*', $pos + 2);
         }
     }
     return $query;
@@ -92,15 +92,15 @@ function parse_query($query, $type = "")
  */
 function __parse_query_type()
 {
-    switch (get_config("db/type")) {
-        case "pdo_sqlite":
-        case "sqlite3":
-            return "SQLITE";
-        case "pdo_mysql":
-        case "mysqli":
-            return "MYSQL";
+    switch (get_config('db/type')) {
+        case 'pdo_sqlite':
+        case 'sqlite3':
+            return 'SQLITE';
+        case 'pdo_mysql':
+        case 'mysqli':
+            return 'MYSQL';
         default:
-            show_php_error(["phperror" => "Unknown type '" . get_config("db/type") . "'"]);
+            show_php_error(['phperror' => "Unknown type '" . get_config('db/type') . "'"]);
     }
 }
 
@@ -184,7 +184,7 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
  */
 function execute_query($query)
 {
-    $result = db_query($query, "auto");
+    $result = db_query($query, 'auto');
     $numrows = db_num_rows($result);
     $numfields = db_num_fields($result);
     $value = null;
@@ -213,7 +213,7 @@ function execute_query($query)
  */
 function execute_query_array($query)
 {
-    $result = db_query($query, "auto");
+    $result = db_query($query, 'auto');
     $rows = db_fetch_all($result);
     db_free($result);
     return $rows;
@@ -232,11 +232,11 @@ function get_fields($table)
     $result = db_query($query);
     $fields = [];
     while ($row = db_fetch_row($result)) {
-        if (isset($row["Field"])) {
-            $fields[] = ["name" => $row["Field"], "type" => strtoupper($row["Type"])];
+        if (isset($row['Field'])) {
+            $fields[] = ['name' => $row['Field'], 'type' => strtoupper($row['Type'])];
         }
-        if (isset($row["name"])) {
-            $fields[] = ["name" => $row["name"], "type" => strtoupper($row["type"])];
+        if (isset($row['name'])) {
+            $fields[] = ['name' => $row['name'], 'type' => strtoupper($row['type'])];
         }
     }
     db_free($result);
@@ -257,12 +257,12 @@ function get_indexes($table)
     $query = "/*SQLITE PRAGMA INDEX_LIST($table) */";
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
-        $index = $row["name"];
+        $index = $row['name'];
         $query2 = "/*SQLITE PRAGMA INDEX_INFO($index) */";
         $result2 = db_query($query2);
         $fields = [];
         while ($row2 = db_fetch_row($result2)) {
-            $fields[] = $row2["name"];
+            $fields[] = $row2['name'];
         }
         db_free($result2);
         $indexes[$index] = $fields;
@@ -272,14 +272,14 @@ function get_indexes($table)
     $query = "/*MYSQL SHOW INDEXES FROM $table */";
     $result = db_query($query);
     while ($row = db_fetch_row($result)) {
-        $index = $row["Key_name"];
-        if ($index == "PRIMARY") {
+        $index = $row['Key_name'];
+        if ($index == 'PRIMARY') {
             continue;
         }
         if (!isset($indexes[$index])) {
             $indexes[$index] = [];
         }
-        $column = $row["Column_name"];
+        $column = $row['Column_name'];
         $indexes[$index][] = $column;
     }
     return $indexes;
@@ -317,20 +317,20 @@ function get_tables()
 function get_field_type($type)
 {
     $type = parse_query($type);
-    $type1 = strtoupper(strtok($type, "("));
+    $type1 = strtoupper(strtok($type, '('));
     static $datatypes = null;
     if ($datatypes === null) {
         $temp = [
-            "int" => "TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER",
-            "string" => "TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR",
-            "float" => "DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE",
-            "date" => "DATE",
-            "time" => "TIME",
-            "datetime" => "DATETIME",
+            'int' => 'TINYINT,SMALLINT,MEDIUMINT,INT,BIGINT,INTEGER',
+            'string' => 'TINYTEXT,TEXT,MEDIUMTEXT,LONGTEXT,VARCHAR',
+            'float' => 'DECIMAL,NUMERIC,FLOAT,REAL,DOUBLE',
+            'date' => 'DATE',
+            'time' => 'TIME',
+            'datetime' => 'DATETIME',
         ];
         $datatypes = [];
         foreach ($temp as $key => $val) {
-            $val = explode(",", $val);
+            $val = explode(',', $val);
             foreach ($val as $key2 => $val2) {
                 $datatypes[$val2] = $key;
             }
@@ -339,7 +339,7 @@ function get_field_type($type)
     if (isset($datatypes[$type1])) {
         return $datatypes[$type1];
     }
-    show_php_error(["phperror" => "Unknown type '$type1'"]);
+    show_php_error(['phperror' => "Unknown type '$type1'"]);
 }
 
 /**
@@ -359,19 +359,19 @@ function get_field_type($type)
 function get_field_size($type)
 {
     $type = parse_query($type);
-    $type1 = strtoupper(strtok($type, "("));
-    $type2 = strtok(")");
+    $type1 = strtoupper(strtok($type, '('));
+    $type2 = strtok(')');
     $datasizes = [
-        "TINYTEXT" => 255,
-        "TEXT" => 65535,
-        "MEDIUMTEXT" => 16777215,
-        "LONGTEXT" => 4294967295,
-        "VARCHAR" => $type2,
+        'TINYTEXT' => 255,
+        'TEXT' => 65535,
+        'MEDIUMTEXT' => 16777215,
+        'LONGTEXT' => 4294967295,
+        'VARCHAR' => $type2,
     ];
     if (isset($datasizes[$type1])) {
         return intval($datasizes[$type1]);
     }
-    show_php_error(["phperror" => "Unknown type '$type1'"]);
+    show_php_error(['phperror' => "Unknown type '$type1'"]);
 }
 
 /**
@@ -387,8 +387,8 @@ function __has_engine($engine)
     static $engines = null;
     if ($engines === null) {
         $engines = [];
-        if (get_config("db/obj")) {
-            $query = "/*MYSQL SHOW ENGINES */";
+        if (get_config('db/obj')) {
+            $query = '/*MYSQL SHOW ENGINES */';
             $result = db_query($query);
             while ($row = db_fetch_row($result)) {
                 $row = array_values($row);
@@ -430,28 +430,28 @@ function make_insert_query($table, $array)
     $list1 = [];
     $list2 = [];
     foreach ($fields as $field) {
-        $name = $field["name"];
+        $name = $field['name'];
         if (!array_key_exists($name, $array)) {
             continue;
         }
-        $type = $field["type"];
+        $type = $field['type'];
         $type2 = get_field_type($type);
-        if ($type2 == "int") {
+        if ($type2 == 'int') {
             $temp = intval($array[$name]);
-        } elseif ($type2 == "float") {
+        } elseif ($type2 == 'float') {
             $temp = floatval($array[$name]);
-        } elseif ($type2 == "date") {
+        } elseif ($type2 == 'date') {
             $temp = dateval($array[$name]);
-        } elseif ($type2 == "time") {
+        } elseif ($type2 == 'time') {
             $temp = timeval($array[$name]);
-        } elseif ($type2 == "datetime") {
+        } elseif ($type2 == 'datetime') {
             $temp = datetimeval($array[$name]);
-        } elseif ($type2 == "string") {
+        } elseif ($type2 == 'string') {
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
             // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "Unknown type '$type'"]);
+            show_php_error(['phperror' => "Unknown type '$type'"]);
             // @codeCoverageIgnoreEnd
         }
         $name2 = escape_reserved_word($name);
@@ -460,11 +460,11 @@ function make_insert_query($table, $array)
         unset($array[$name]);
     }
     if (count($array)) {
-        $temp = implode(", ", array_keys($array));
-        show_php_error(["phperror" => "Unused data '$temp'"]);
+        $temp = implode(', ', array_keys($array));
+        show_php_error(['phperror' => "Unused data '$temp'"]);
     }
-    $list1 = implode(",", $list1);
-    $list2 = implode(",", $list2);
+    $list1 = implode(',', $list1);
+    $list2 = implode(',', $list2);
     $query = "INSERT INTO $table($list1) VALUES($list2)";
     return $query;
 }
@@ -499,28 +499,28 @@ function make_update_query($table, $array, $where)
     $fields = get_fields($table);
     $list = [];
     foreach ($fields as $field) {
-        $name = $field["name"];
+        $name = $field['name'];
         if (!array_key_exists($name, $array)) {
             continue;
         }
-        $type = $field["type"];
+        $type = $field['type'];
         $type2 = get_field_type($type);
-        if ($type2 == "int") {
+        if ($type2 == 'int') {
             $temp = intval($array[$name]);
-        } elseif ($type2 == "float") {
+        } elseif ($type2 == 'float') {
             $temp = floatval($array[$name]);
-        } elseif ($type2 == "date") {
+        } elseif ($type2 == 'date') {
             $temp = dateval($array[$name]);
-        } elseif ($type2 == "time") {
+        } elseif ($type2 == 'time') {
             $temp = timeval($array[$name]);
-        } elseif ($type2 == "datetime") {
+        } elseif ($type2 == 'datetime') {
             $temp = datetimeval($array[$name]);
-        } elseif ($type2 == "string") {
+        } elseif ($type2 == 'string') {
             $size2 = get_field_size($type);
             $temp = addslashes(substr(strval($array[$name]), 0, $size2));
         } else {
             // @codeCoverageIgnoreStart
-            show_php_error(["phperror" => "Unknown type '$type'"]);
+            show_php_error(['phperror' => "Unknown type '$type'"]);
             // @codeCoverageIgnoreEnd
         }
         $name2 = escape_reserved_word($name);
@@ -528,10 +528,10 @@ function make_update_query($table, $array, $where)
         unset($array[$name]);
     }
     if (count($array)) {
-        $temp = implode(", ", array_keys($array));
-        show_php_error(["phperror" => "Unused data '$temp'"]);
+        $temp = implode(', ', array_keys($array));
+        show_php_error(['phperror' => "Unused data '$temp'"]);
     }
-    $list = implode(",", $list);
+    $list = implode(',', $list);
     $query = "UPDATE $table SET $list WHERE $where";
     return $query;
 }
@@ -559,7 +559,7 @@ function make_where_query($array)
         $val2 = addslashes(strval($val));
         $list[] = "$key2='$val2'";
     }
-    $query = "(" . implode(" AND ", $list) . ")";
+    $query = '(' . implode(' AND ', $list) . ')';
     return $query;
 }
 
@@ -586,7 +586,7 @@ function escape_reserved_word($word)
         }
         return $word;
     }
-    if (in_array($word, ["key", "table", "from", "to"])) {
+    if (in_array($word, ['key', 'table', 'from', 'to'])) {
         return "`$word`";
     }
     return $word;
@@ -614,13 +614,13 @@ function escape_reserved_word($word)
 function make_like_query($keys, $values, $args = [])
 {
     // Process args
-    $minsize = $args["minsize"] ?? 3;
-    $default = $args["default"] ?? "1=0";
+    $minsize = $args['minsize'] ?? 3;
+    $default = $args['default'] ?? '1=0';
     // Continue
-    $keys = explode(",", $keys);
+    $keys = explode(',', $keys);
     foreach ($keys as $key => $val) {
         $val = trim($val);
-        if ($val != "") {
+        if ($val != '') {
             $keys[$key] = $val;
         } else {
             unset($keys[$key]);
@@ -629,11 +629,11 @@ function make_like_query($keys, $values, $args = [])
     if (!count($keys)) {
         return $default;
     }
-    $values = explode(" ", encode_bad_chars($values, " ", "+-"));
+    $values = explode(' ', encode_bad_chars($values, ' ', '+-'));
     $types = [];
     foreach ($values as $key => $val) {
-        $types[$key] = "+";
-        while (isset($val[0]) && in_array($val[0], ["+", "-"])) {
+        $types[$key] = '+';
+        while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
             $types[$key] = $val[0];
             $val = substr($val, 1);
         }
@@ -648,21 +648,21 @@ function make_like_query($keys, $values, $args = [])
     }
     $query = [];
     foreach ($values as $key => $val) {
-        if ($types[$key] == "+") {
+        if ($types[$key] == '+') {
             $query2 = [];
             foreach ($keys as $key2) {
                 $query2[] = "$key2 LIKE '%$val%'";
             }
-            $query[] = "(" . implode(" OR ", $query2) . ")";
+            $query[] = '(' . implode(' OR ', $query2) . ')';
         } else {
             $query2 = [];
             foreach ($keys as $key2) {
                 $query2[] = "$key2 NOT LIKE '%$val%'";
             }
-            $query[] = "(" . implode(" AND ", $query2) . ")";
+            $query[] = '(' . implode(' AND ', $query2) . ')';
         }
     }
-    $query = "(" . implode(" AND ", $query) . ")";
+    $query = '(' . implode(' AND ', $query) . ')';
     return $query;
 }
 
@@ -687,13 +687,13 @@ function make_like_query($keys, $values, $args = [])
 function __make_fulltext_query_helper($values, $args = [])
 {
     // Process args
-    $minsize = $args["minsize"] ?? 3;
-    $default = $args["default"] ?? "1=0";
+    $minsize = $args['minsize'] ?? 3;
+    $default = $args['default'] ?? '1=0';
     // Continue
-    $values = explode(" ", encode_bad_chars($values, " ", "+-"));
+    $values = explode(' ', encode_bad_chars($values, ' ', '+-'));
     foreach ($values as $key => $val) {
-        $type = "+";
-        while (isset($val[0]) && in_array($val[0], ["+", "-"])) {
+        $type = '+';
+        while (isset($val[0]) && in_array($val[0], ['+', '-'])) {
             $type = $val[0];
             $val = substr($val, 1);
         }
@@ -706,7 +706,7 @@ function __make_fulltext_query_helper($values, $args = [])
     if (!count($values)) {
         return $default;
     }
-    $query = "MATCH(search) AGAINST('+(" . implode(" ", $values) . ")' IN BOOLEAN MODE)";
+    $query = "MATCH(search) AGAINST('+(" . implode(' ', $values) . ")' IN BOOLEAN MODE)";
     return $query;
 }
 
@@ -722,9 +722,9 @@ function get_engine($table)
 {
     $query = "/*MYSQL SHOW TABLE STATUS WHERE Name='$table' */";
     $result = db_query($query);
-    $engine = "";
+    $engine = '';
     while ($row = db_fetch_row($result)) {
-        $engine = $row["Engine"];
+        $engine = $row['Engine'];
     }
     db_free($result);
     return $engine;
@@ -747,16 +747,16 @@ function get_engine($table)
 function make_fulltext_query($values, $app, $args = [])
 {
     // Process args
-    $prefix = $args["prefix"] ?? "";
-    $minsize = $args["minsize"] ?? 3;
-    $default = $args["default"] ?? "1=0";
+    $prefix = $args['prefix'] ?? '';
+    $minsize = $args['minsize'] ?? 3;
+    $default = $args['default'] ?? '1=0';
     // Continue
     $table = app2table($app);
     $engine = strtolower(get_engine("{$table}_index"));
-    if ($engine == "mroonga") {
+    if ($engine == 'mroonga') {
         $where = __make_fulltext_query_helper($values, $args);
     } else {
-        $where = make_like_query("search", $values, $args);
+        $where = make_like_query('search', $values, $args);
     }
     if ($where == $default) {
         return $where;

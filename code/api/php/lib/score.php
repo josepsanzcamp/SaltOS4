@@ -67,15 +67,15 @@ function __score_image($score, $width, $height, $size)
         imageline($im, $posx, 0, $posx, $height, $color);
         $posx++;
     }
-    $font = getcwd() . "/lib/fonts/DejaVuSans.ttf";
-    $bbox = imagettfbbox($size, 0, $font, $score . "%");
+    $font = getcwd() . '/lib/fonts/DejaVuSans.ttf';
+    $bbox = imagettfbbox($size, 0, $font, $score . '%');
     $sx = $bbox[4] - $bbox[0];
     $sy = $bbox[5] - $bbox[1];
     $color = imagecolorallocate($im, 0, 0, 0);
     imagettftext(
         $im, $size, 0,
         (int)($width / 2 - $sx / 2), (int)($height / 2 - $sy / 2),
-        $color, $font, $score . "%"
+        $color, $font, $score . '%'
     );
     // CONTINUE
     ob_start();

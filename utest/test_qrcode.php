@@ -51,8 +51,8 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
-require_once "php/lib/qrcode.php";
+require_once 'lib/utestlib.php';
+require_once 'php/lib/qrcode.php';
 
 /**
  * Main class of this unit test
@@ -68,51 +68,51 @@ final class test_qrcode extends TestCase
      */
     public function test_qrcode(): void
     {
-        $img = __qrcode_image("12345", 6, 10, "L");
-        $this->assertStringContainsString("PNG image data", get_mime($img));
+        $img = __qrcode_image('12345', 6, 10, 'L');
+        $this->assertStringContainsString('PNG image data', get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
 
-        $json = test_web_helper("image/qrcode", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/qrcode', [], '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json2["status"], "ok");
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey("token", $json2);
+        $this->assertArrayHasKey('token', $json2);
 
-        $json = test_web_helper("image/qrcode", [], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/qrcode', [], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/qrcode", [
-            "msg" => "nada",
-            "format" => "nada",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/qrcode', [
+            'msg' => 'nada',
+            'format' => 'nada',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/qrcode", [
-            "msg" => "nada",
-            "format" => "png",
-        ], $json2["token"], "");
-        $this->assertStringContainsString("PNG image data", get_mime($json));
+        $json = test_web_helper('image/qrcode', [
+            'msg' => 'nada',
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper("image/qrcode", [
-            "msg" => "nada",
-            "format" => "json",
-        ], $json2["token"], "");
+        $json = test_web_helper('image/qrcode', [
+            'msg' => 'nada',
+            'format' => 'json',
+        ], $json2['token'], '');
         $this->assertIsArray($json);
         $this->assertSame(count($json), 2);
-        $this->assertArrayHasKey("msg", $json);
-        $this->assertArrayHasKey("image", $json);
+        $this->assertArrayHasKey('msg', $json);
+        $this->assertArrayHasKey('image', $json);
 
-        $json = test_web_helper("image/qrcode", [
-            "msg" => str_repeat("nada", 1000),
-            "format" => "png",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/qrcode', [
+            'msg' => str_repeat('nada', 1000),
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
     }
 }

@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,10 +41,10 @@ init_random();
 check_system();
 
 global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
-set_data("server/token", file_get_contents("/tmp/phpunit.token"));
-set_data("server/remote_addr", file_get_contents("/tmp/phpunit.remote_addr"));
-set_data("server/user_agent", file_get_contents("/tmp/phpunit.user_agent"));
-check_user("customers", "view");
+set_data('server/token', file_get_contents('/tmp/phpunit.token'));
+set_data('server/remote_addr', file_get_contents('/tmp/phpunit.remote_addr'));
+set_data('server/user_agent', file_get_contents('/tmp/phpunit.user_agent'));
+check_user('customers', 'view');

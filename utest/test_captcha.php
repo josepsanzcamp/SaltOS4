@@ -51,10 +51,10 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
-require_once "php/lib/captcha.php";
-require_once "php/lib/math.php";
-require_once "php/lib/color.php";
+require_once 'lib/utestlib.php';
+require_once 'php/lib/captcha.php';
+require_once 'php/lib/math.php';
+require_once 'php/lib/color.php';
 
 /**
  * Main class of this unit test
@@ -91,8 +91,8 @@ final class test_captcha extends TestCase
         $this->assertSame(is_prime(961), false);
         $this->assertSame(is_prime(907), true);
 
-        $img = __captcha_image("12345");
-        $this->assertStringContainsString("PNG image data", get_mime($img));
+        $img = __captcha_image('12345');
+        $this->assertStringContainsString('PNG image data', get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
@@ -105,52 +105,52 @@ final class test_captcha extends TestCase
         $this->assertSame(is_numeric($text), false);
         $this->assertSame(strlen($text), 5);
 
-        $json = test_web_helper("image/captcha", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/captcha', [], '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json2["status"], "ok");
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey("token", $json2);
+        $this->assertArrayHasKey('token', $json2);
 
-        $json = test_web_helper("image/captcha", [], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/captcha', [], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/captcha", [
-            "type" => "nada",
-            "format" => "nada",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/captcha', [
+            'type' => 'nada',
+            'format' => 'nada',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/captcha", [
-            "type" => "number",
-            "format" => "nada",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/captcha', [
+            'type' => 'number',
+            'format' => 'nada',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/captcha", [
-            "type" => "number",
-            "format" => "png",
-        ], $json2["token"], "");
-        $this->assertStringContainsString("PNG image data", get_mime($json));
+        $json = test_web_helper('image/captcha', [
+            'type' => 'number',
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper("image/captcha", [
-            "type" => "math",
-            "format" => "png",
-        ], $json2["token"], "");
-        $this->assertStringContainsString("PNG image data", get_mime($json));
+        $json = test_web_helper('image/captcha', [
+            'type' => 'math',
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper("image/captcha", [
-            "type" => "number",
-            "format" => "json",
-        ], $json2["token"], "");
+        $json = test_web_helper('image/captcha', [
+            'type' => 'number',
+            'format' => 'json',
+        ], $json2['token'], '');
         $this->assertIsArray($json);
         $this->assertSame(count($json), 2);
-        $this->assertArrayHasKey("code", $json);
-        $this->assertArrayHasKey("image", $json);
+        $this->assertArrayHasKey('code', $json);
+        $this->assertArrayHasKey('image', $json);
     }
 
     #[testdox('color functions')]
@@ -162,25 +162,25 @@ final class test_captcha extends TestCase
      */
     public function test_color(): void
     {
-        $r = color2dec("#336699", "R");
+        $r = color2dec('#336699', 'R');
         $this->assertSame($r, 51);
 
-        $g = color2dec("#336699", "G");
+        $g = color2dec('#336699', 'G');
         $this->assertSame($g, 102);
 
-        $b = color2dec("#336699", "B");
+        $b = color2dec('#336699', 'B');
         $this->assertSame($b, 153);
 
-        $r = color2dec("#369", "R");
+        $r = color2dec('#369', 'R');
         $this->assertSame($r, 51);
 
-        $g = color2dec("#369", "G");
+        $g = color2dec('#369', 'G');
         $this->assertSame($g, 102);
 
-        $b = color2dec("#369", "B");
+        $b = color2dec('#369', 'B');
         $this->assertSame($b, 153);
 
-        test_external_exec("php/color1.php", "phperror.log", "unknown color length");
-        test_external_exec("php/color2.php", "phperror.log", "unknown color component");
+        test_external_exec('php/color1.php', 'phperror.log', 'unknown color length');
+        test_external_exec('php/color2.php', 'phperror.log', 'unknown color component');
     }
 }

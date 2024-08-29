@@ -47,7 +47,7 @@ declare(strict_types=1);
  */
 function color2dec($color, $component)
 {
-    if (substr($color, 0, 1) == "#") {
+    if (substr($color, 0, 1) == '#') {
         $color = substr($color, 1);
     }
     if (strlen($color) == 3) {
@@ -57,12 +57,12 @@ function color2dec($color, $component)
         $color = $R . $R . $G . $G . $B . $B;
     }
     if (strlen($color) != 6) {
-        show_php_error(["phperror" => "Unknown color length"]);
+        show_php_error(['phperror' => 'Unknown color length']);
     }
-    $offset = ["R" => 0, "G" => 2, "B" => 4];
+    $offset = ['R' => 0, 'G' => 2, 'B' => 4];
     $component = strtoupper(strval($component));
     if (!isset($offset[$component])) {
-        show_php_error(["phperror" => "Unknown color component"]);
+        show_php_error(['phperror' => 'Unknown color component']);
     }
     return hexdec(substr($color, $offset[$component], 2));
 }

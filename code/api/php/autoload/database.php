@@ -59,27 +59,27 @@ declare(strict_types=1);
 function db_connect($args = null)
 {
     if ($args === null) {
-        $config = get_config("db");
+        $config = get_config('db');
     }
     if ($args !== null) {
         $config = $args;
     }
-    $type = $config["type"];
+    $type = $config['type'];
     $php = "php/database/$type.php";
     if (!file_exists($php)) {
-        show_php_error(["dberror" => "Database type '$type' not found"]);
+        show_php_error(['dberror' => "Database type '$type' not found"]);
     }
     require_once $php;
     $driver = "database_$type";
     if (isset($config[$type])) {
         $config = array_merge($config, join_attr_value($config[$type]));
         if ($args === null) {
-            set_config("db", $config);
+            set_config('db', $config);
         }
     }
     $obj = new $driver($config);
     if ($args === null) {
-        set_config("db/obj", $obj);
+        set_config('db/obj', $obj);
     }
     if ($args !== null) {
         return $obj;
@@ -95,13 +95,13 @@ function db_connect($args = null)
  */
 function db_check($query)
 {
-    if (!get_config("db/obj")) {
+    if (!get_config('db/obj')) {
         return false;
     }
-    if (!method_exists(get_config("db/obj"), "db_check")) {
-        show_php_error(["dberror" => "Unknown database connector"]);
+    if (!method_exists(get_config('db/obj'), 'db_check')) {
+        show_php_error(['dberror' => 'Unknown database connector']);
     }
-    return get_config("db/obj")->db_check($query);
+    return get_config('db/obj')->db_check($query);
 }
 
 /**
@@ -132,30 +132,30 @@ function db_check($query)
  * sized array, in this case, is more efficient to get an string separated by commas with all
  * ids instead of an array where each element is an id
  */
-function db_query($query, $fetch = "query")
+function db_query($query, $fetch = 'query')
 {
-    if (!get_config("db/obj") || !method_exists(get_config("db/obj"), "db_query")) {
-        show_php_error(["dberror" => "Unknown database connector"]);
+    if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_query')) {
+        show_php_error(['dberror' => 'Unknown database connector']);
     }
     if (
-        eval_bool(get_config("debug/patternquerydebug")) &&
-        words_exists(get_config("debug/patternquerywords"), $query)
+        eval_bool(get_config('debug/patternquerydebug')) &&
+        words_exists(get_config('debug/patternquerywords'), $query)
     ) {
-        file_put_contents(get_config("debug/patternqueryoutput"), $query, FILE_APPEND);
-        chmod_protected(get_config("debug/patternqueryoutput"), 0666);
+        file_put_contents(get_config('debug/patternqueryoutput'), $query, FILE_APPEND);
+        chmod_protected(get_config('debug/patternqueryoutput'), 0666);
     }
-    if (eval_bool(get_config("debug/slowquerydebug"))) {
+    if (eval_bool(get_config('debug/slowquerydebug'))) {
         $curtime = microtime(true);
     }
-    $result = get_config("db/obj")->db_query($query, $fetch);
-    if (eval_bool(get_config("debug/slowquerydebug"))) {
+    $result = get_config('db/obj')->db_query($query, $fetch);
+    if (eval_bool(get_config('debug/slowquerydebug'))) {
         $curtime = microtime(true) - $curtime;
-        $maxtime = get_config("debug/slowquerytime");
+        $maxtime = get_config('debug/slowquerytime');
         if ($curtime > $maxtime) {
             addtrace([
-                "dbwarning" => "Slow query requires $curtime seconds",
-                "query" => $query,
-            ], get_config("debug/dbwarningfile") ?? "dbwarning.log");
+                'dbwarning' => "Slow query requires $curtime seconds",
+                'query' => $query,
+            ], get_config('debug/dbwarningfile') ?? 'dbwarning.log');
         }
     }
     return $result;
@@ -171,11 +171,11 @@ function db_query($query, $fetch = "query")
  */
 function db_fetch_row(&$result)
 {
-    if (!isset($result["__array_reverse__"])) {
-        $result["rows"] = array_reverse($result["rows"]);
-        $result["__array_reverse__"] = 1;
+    if (!isset($result['__array_reverse__'])) {
+        $result['rows'] = array_reverse($result['rows']);
+        $result['__array_reverse__'] = 1;
     }
-    return array_pop($result["rows"]);
+    return array_pop($result['rows']);
 }
 
 /**
@@ -188,7 +188,7 @@ function db_fetch_row(&$result)
  */
 function db_fetch_all(&$result)
 {
-    return $result["rows"];
+    return $result['rows'];
 }
 
 /**
@@ -201,7 +201,7 @@ function db_fetch_all(&$result)
  */
 function db_num_rows($result)
 {
-    return $result["total"];
+    return $result['total'];
 }
 
 /**
@@ -214,7 +214,7 @@ function db_num_rows($result)
  */
 function db_num_fields($result)
 {
-    return count($result["header"]);
+    return count($result['header']);
 }
 
 /**
@@ -227,10 +227,10 @@ function db_num_fields($result)
  */
 function db_field_name($result, $index)
 {
-    if (!isset($result["header"][$index])) {
-        show_php_error(["dberror" => "Unknown field name at position {$index}"]);
+    if (!isset($result['header'][$index])) {
+        show_php_error(['dberror' => "Unknown field name at position {$index}"]);
     }
-    return $result["header"][$index];
+    return $result['header'][$index];
 }
 
 /**
@@ -243,7 +243,7 @@ function db_field_name($result, $index)
  */
 function db_free(&$result)
 {
-    $result = ["total" => 0, "header" => [], "rows" => []];
+    $result = ['total' => 0, 'header' => [], 'rows' => []];
 }
 
 /**
@@ -253,9 +253,9 @@ function db_free(&$result)
  */
 function db_disconnect()
 {
-    if (!get_config("db/obj") || !method_exists(get_config("db/obj"), "db_disconnect")) {
-        show_php_error(["dberror" => "Unknown database connector"]);
+    if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_disconnect')) {
+        show_php_error(['dberror' => 'Unknown database connector']);
     }
-    get_config("db/obj")->db_disconnect();
-    set_config("db/obj", null);
+    get_config('db/obj')->db_disconnect();
+    set_config('db/obj', null);
 }

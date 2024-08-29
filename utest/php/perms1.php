@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,7 +41,7 @@ init_random();
 check_system();
 
 global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
-check_user("nada", "nada");
+check_user('nada', 'nada');

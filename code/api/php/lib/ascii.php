@@ -47,38 +47,38 @@ declare(strict_types=1);
 function __ascii_make_table_ascii($array)
 {
     // Preparar datos
-    if (!is_array($array["rows"])) {
-        $array["rows"] = [[$array["rows"]]];
-        $array["head"] = 0;
+    if (!is_array($array['rows'])) {
+        $array['rows'] = [[$array['rows']]];
+        $array['head'] = 0;
     }
-    if (!count($array["rows"])) {
-        $array["rows"] = [["Data not found"]];
-        $array["head"] = 0;
+    if (!count($array['rows'])) {
+        $array['rows'] = [['Data not found']];
+        $array['head'] = 0;
     }
     // Inicializar variables locales
-    $rows = isset($array["rows"]) ? $array["rows"] : [];
-    $head = isset($array["head"]) ? $array["head"] : 1;
-    $compact = isset($array["compact"]) ? $array["compact"] : 0;
+    $rows = isset($array['rows']) ? $array['rows'] : [];
+    $head = isset($array['head']) ? $array['head'] : 1;
+    $compact = isset($array['compact']) ? $array['compact'] : 0;
     // Calcular alineaciones
     $aligns = [];
     foreach ($rows as $row) {
         foreach ($row as $key => $val) {
             if (!isset($aligns[$key])) {
-                $aligns[$key] = ["L" => 0, "R" => 0];
+                $aligns[$key] = ['L' => 0, 'R' => 0];
             }
             if (is_numeric($val)) {
-                $aligns[$key]["R"]++;
-            } elseif (substr($val, -1, 1) == "%") {
-                $aligns[$key]["R"]++;
-            } elseif (mb_substr($val, -1, 1) == "€") {
-                $aligns[$key]["R"]++;
+                $aligns[$key]['R']++;
+            } elseif (substr($val, -1, 1) == '%') {
+                $aligns[$key]['R']++;
+            } elseif (mb_substr($val, -1, 1) == '€') {
+                $aligns[$key]['R']++;
             } else {
-                $aligns[$key]["L"]++;
+                $aligns[$key]['L']++;
             }
         }
     }
     foreach ($aligns as $key => $val) {
-        $aligns[$key] = ($val["R"] > $val["L"]) ? "R" : "L";
+        $aligns[$key] = ($val['R'] > $val['L']) ? 'R' : 'L';
     }
     // Calcular medidas
     $widths = [];
@@ -93,32 +93,32 @@ function __ascii_make_table_ascii($array)
     // Pintar tabla
     ob_start();
     foreach ($widths as $width) {
-        echo "+" . str_repeat("-", $width + ($compact ? 0 : 2));
+        echo '+' . str_repeat('-', $width + ($compact ? 0 : 2));
     }
     echo "+\n";
     foreach ($rows as $index => $row) {
         if ($index == 1 && $head) {
             foreach ($widths as $width) {
-                echo "+" . str_repeat("-", $width + ($compact ? 0 : 2));
+                echo '+' . str_repeat('-', $width + ($compact ? 0 : 2));
             }
             echo "+\n";
         }
         foreach ($row as $key => $val) {
-            echo "|";
-            if ($aligns[$key] == "R") {
-                echo str_repeat(" ", $widths[$key] - mb_strlen(strval($val)));
+            echo '|';
+            if ($aligns[$key] == 'R') {
+                echo str_repeat(' ', $widths[$key] - mb_strlen(strval($val)));
             }
-            echo ($compact ? "" : " ") . $val . ($compact ? "" : " ");
-            if ($aligns[$key] == "L") {
-                echo str_repeat(" ", $widths[$key] - mb_strlen(strval($val)));
+            echo ($compact ? '' : ' ') . $val . ($compact ? '' : ' ');
+            if ($aligns[$key] == 'L') {
+                echo str_repeat(' ', $widths[$key] - mb_strlen(strval($val)));
             }
         }
         echo "|\n";
     }
     foreach ($widths as $width) {
-        echo "+" . str_repeat("-", $width + ($compact ? 0 : 2));
+        echo '+' . str_repeat('-', $width + ($compact ? 0 : 2));
     }
-    echo "+";
+    echo '+';
     $buffer = ob_get_clean();
     // Bye bye
     return $buffer;

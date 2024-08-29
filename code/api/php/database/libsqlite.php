@@ -45,9 +45,9 @@ declare(strict_types=1);
  *
  * This function add the GROUP_CONCAT to the SQLite database
  */
-function __libsqlite_group_concat_step($context, $rows, $string, $separator = ",")
+function __libsqlite_group_concat_step($context, $rows, $string, $separator = ',')
 {
-    if ($context != "") {
+    if ($context != '') {
         $context .= $separator;
     }
     $context .= $string;
@@ -92,7 +92,7 @@ function __libsqlite_lpad($input, $length, $char)
 function __libsqlite_concat()
 {
     $array = func_get_args();
-    return implode("", $array);
+    return implode('', $array);
 }
 
 /**
@@ -125,7 +125,7 @@ function __libsqlite_unix_timestamp($date)
  */
 function __libsqlite_from_unixtime($timestamp)
 {
-    return date("Y-m-d H:i:s", $timestamp);
+    return date('Y-m-d H:i:s', $timestamp);
 }
 
 /**
@@ -135,7 +135,7 @@ function __libsqlite_from_unixtime($timestamp)
  */
 function __libsqlite_year($date)
 {
-    return intval(date("Y", strtotime($date)));
+    return intval(date('Y', strtotime($date)));
 }
 
 /**
@@ -145,7 +145,7 @@ function __libsqlite_year($date)
  */
 function __libsqlite_month($date)
 {
-    return intval(date("m", strtotime($date)));
+    return intval(date('m', strtotime($date)));
 }
 
 /**
@@ -156,7 +156,7 @@ function __libsqlite_month($date)
 function __libsqlite_week($date, $mode = 0)
 {
     $mode = $mode * 86400;
-    return intval(date("W", strtotime($date) + $mode));
+    return intval(date('W', strtotime($date) + $mode));
 }
 
 /**
@@ -177,7 +177,7 @@ function __libsqlite_truncate($n, $d)
  */
 function __libsqlite_day($date)
 {
-    return intval(date("d", strtotime($date)));
+    return intval(date('d', strtotime($date)));
 }
 
 /**
@@ -187,7 +187,7 @@ function __libsqlite_day($date)
  */
 function __libsqlite_dayofyear($date)
 {
-    return date("z", strtotime($date)) + 1;
+    return date('z', strtotime($date)) + 1;
 }
 
 /**
@@ -197,7 +197,7 @@ function __libsqlite_dayofyear($date)
  */
 function __libsqlite_dayofweek($date)
 {
-    return date("w", strtotime($date)) + 1;
+    return date('w', strtotime($date)) + 1;
 }
 
 /**
@@ -207,7 +207,7 @@ function __libsqlite_dayofweek($date)
  */
 function __libsqlite_hour($date)
 {
-    return intval(date("H", strtotime($date)));
+    return intval(date('H', strtotime($date)));
 }
 
 /**
@@ -217,7 +217,7 @@ function __libsqlite_hour($date)
  */
 function __libsqlite_minute($date)
 {
-    return intval(date("i", strtotime($date)));
+    return intval(date('i', strtotime($date)));
 }
 
 /**
@@ -227,7 +227,7 @@ function __libsqlite_minute($date)
  */
 function __libsqlite_second($date)
 {
-    return intval(date("s", strtotime($date)));
+    return intval(date('s', strtotime($date)));
 }
 
 /**
@@ -257,7 +257,7 @@ function __libsqlite_repeat($str, $count)
  */
 function __libsqlite_find_in_set($str, $strlist)
 {
-    $index = array_search($str, explode(",", $strlist));
+    $index = array_search($str, explode(',', $strlist));
     return $index !== false ? $index + 1 : 0;
 }
 
@@ -288,7 +288,7 @@ function __libsqlite_pow($base, $exp)
  */
 function __libsqlite_date_format($date, $format)
 {
-    return date(str_replace("%", "", $format), strtotime($date));
+    return date(str_replace('%', '', $format), strtotime($date));
 }
 
 /**
@@ -298,5 +298,5 @@ function __libsqlite_date_format($date, $format)
  */
 function __libsqlite_now()
 {
-    return date("Y-m-d H:i:s");
+    return date('Y-m-d H:i:s');
 }

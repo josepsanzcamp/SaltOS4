@@ -49,81 +49,81 @@ declare(strict_types=1);
  */
 
 // Check for rest/1, that is the name of the app to load
-set_data("rest/1", encode_bad_chars(strval(get_data("rest/1"))));
-if (get_data("rest/1") == "") {
-    show_json_error("app not found");
+set_data('rest/1', encode_bad_chars(strval(get_data('rest/1'))));
+if (get_data('rest/1') == '') {
+    show_json_error('app not found');
 }
 
-$file = "apps/" . get_data("rest/1") . "/xml/" . get_data("rest/1") . ".xml";
+$file = 'apps/' . get_data('rest/1') . '/xml/' . get_data('rest/1') . '.xml';
 if (!file_exists($file)) {
-    $files = glob("apps/*/xml/" . get_data("rest/1") . ".xml");
+    $files = glob('apps/*/xml/' . get_data('rest/1') . '.xml');
     if (count($files) == 1) {
         $file = $files[0];
     }
 }
 if (!file_exists($file)) {
-    show_json_error("app " . get_data("rest/1") . " not found");
+    show_json_error('app ' . get_data('rest/1') . ' not found');
 }
 
 // Load the app xml file
 $array = xmlfile2array($file);
 if (!is_array($array) || !count($array)) {
-    show_json_error("internal error");
+    show_json_error('internal error');
 }
 
 // Check for rest/2, that is the name of the subapp to load
-set_data("rest/2", encode_bad_chars(strval(get_data("rest/2"))));
-if (get_data("rest/2") == "" && count($array) == 1) {
-    set_data("rest/2", key($array));
+set_data('rest/2', encode_bad_chars(strval(get_data('rest/2'))));
+if (get_data('rest/2') == '' && count($array) == 1) {
+    set_data('rest/2', key($array));
 }
 
-if (get_data("rest/2") == "") {
+if (get_data('rest/2') == '') {
     foreach ($array as $key => $val) {
-        if (isset($val["#attr"]["default"]) && eval_bool($val["#attr"]["default"])) {
-            set_data("rest/2", $key);
+        if (isset($val['#attr']['default']) && eval_bool($val['#attr']['default'])) {
+            set_data('rest/2', $key);
             break;
         }
     }
 }
 
-if (get_data("rest/2") == "") {
-    show_json_error("subapp not found");
+if (get_data('rest/2') == '') {
+    show_json_error('subapp not found');
 }
 
-if (!isset($array[get_data("rest/2")])) {
+if (!isset($array[get_data('rest/2')])) {
     // Trick to allow request like <create id="insert"> using only insert
     foreach ($array as $key => $val) {
-        if (isset($val["#attr"]["id"]) && $val["#attr"]["id"] == get_data("rest/2")) {
-            $rest = get_data("rest");
-            array_splice($rest, 2, 1, [$key, $val["#attr"]["id"]]);
-            set_data("rest", $rest);
+        if (isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/2')) {
+            $rest = get_data('rest');
+            array_splice($rest, 2, 1, [$key, $val['#attr']['id']]);
+            set_data('rest', $rest);
             break;
         }
     }
-} elseif (get_data("rest/3")) {
+} elseif (get_data('rest/3')) {
     // Trick to allow requests like widget/table2 that is <widget id="table2">
     foreach ($array as $key => $val) {
-        if (fix_key($key) == get_data("rest/2")) {
-            if (isset($val["#attr"]["id"]) && $val["#attr"]["id"] == get_data("rest/3")) {
-                set_data("rest/2", $key);
+        if (fix_key($key) == get_data('rest/2')) {
+            if (isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/3')) {
+                set_data('rest/2', $key);
                 break;
             }
         }
     }
 }
 
-if (!isset($array[get_data("rest/2")])) {
-    show_json_error("subapp " . get_data("rest/2") . " not found");
+if (!isset($array[get_data('rest/2')])) {
+    show_json_error('subapp ' . get_data('rest/2') . ' not found');
 }
 
 // Get only the subapp part
-$array = $array[get_data("rest/2")];
-set_data("rest/2", fix_key(get_data("rest/2")));
+$array = $array[get_data('rest/2')];
+set_data('rest/2', fix_key(get_data('rest/2')));
 
 // Clean some old attributes
-foreach (["default", "id"] as $attr) {
-    if (isset($array["#attr"][$attr])) {
-        unset($array["#attr"][$attr]);
+foreach (['default', 'id'] as $attr) {
+    if (isset($array['#attr'][$attr])) {
+        unset($array['#attr'][$attr]);
     }
 }
 
@@ -143,21 +143,21 @@ $first = true;
 foreach ($array as $key => $val) {
     // Control that the first node is a check node
     if ($first) {
-        if (fix_key($key) != "check") {
-            show_json_error("Permission denied");
+        if (fix_key($key) != 'check') {
+            show_json_error('Permission denied');
         }
         $first = false;
     }
     // Evaluate the node
     $val = eval_attr($val);
-    if (fix_key($key) == "check") {
+    if (fix_key($key) == 'check') {
         // If the node is a check, can contains a message
-        $message = "Permission denied";
+        $message = 'Permission denied';
         if (is_attr_value($val)) {
-            if (isset($val["#attr"]["message"])) {
-                $message = $val["#attr"]["message"];
+            if (isset($val['#attr']['message'])) {
+                $message = $val['#attr']['message'];
             }
-            $val = $val["value"];
+            $val = $val['value'];
         }
         // And now, we must check the returned value
         if (!$val) {
@@ -166,7 +166,7 @@ foreach ($array as $key => $val) {
         // As note: all checks are removed from the array
         unset($array[$key]);
         continue;
-    } elseif (fix_key($key) == "temp") {
+    } elseif (fix_key($key) == 'temp') {
         // All temp nodes are removed
         unset($array[$key]);
         continue;
@@ -181,7 +181,7 @@ foreach ($array as $key => $val) {
         }
     }
     // Search for output nodes
-    if (fix_key($key) == "output") {
+    if (fix_key($key) == 'output') {
         $array = $val;
         break;
     }

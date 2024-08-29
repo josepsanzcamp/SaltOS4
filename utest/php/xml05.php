@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,4 +41,4 @@ init_random();
 check_system();
 
 $xml = '<?xml version="1.0" encoding="asd" ?><a b="c" b="d"></a>';
-xml2struct($xml, "nada");
+xml2struct($xml, 'nada');

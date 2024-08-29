@@ -83,41 +83,41 @@ declare(strict_types=1);
 function show_php_error($array)
 {
     // Trick for exhausted memory error
-    $words = "allowed memory size bytes exhausted tried allocate";
-    if (isset($array["phperror"]) && words_exists($words, $array["phperror"])) {
+    $words = 'allowed memory size bytes exhausted tried allocate';
+    if (isset($array['phperror']) && words_exists($words, $array['phperror'])) {
         set_max_memory_limit();
     }
     // Add backtrace and debug if not found
-    if (!isset($array["backtrace"])) {
-        $array["backtrace"] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+    if (!isset($array['backtrace'])) {
+        $array['backtrace'] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
-    if (!isset($array["debug"])) {
-        $array["debug"] = array_intersect_key(session_backtrace(), array_flip(["rest", "token"]));
+    if (!isset($array['debug'])) {
+        $array['debug'] = array_intersect_key(session_backtrace(), array_flip(['rest', 'token']));
     }
     // Create the message error using html entities and plain text
     $msg = do_message_error($array);
-    $msg_text = $msg["text"];
-    $msg_json = $msg["json"];
+    $msg_text = $msg['text'];
+    $msg_json = $msg['json'];
     $hash = md5($msg_text);
-    $dir = get_directory("dirs/logsdir") ?? getcwd_protected() . "/data/logs/";
+    $dir = get_directory('dirs/logsdir') ?? getcwd_protected() . '/data/logs/';
     // Detect the deprecated warnings
-    if (isset($array["phperror"]) && stripos($array["phperror"], "deprecated") !== false) {
-        $array["deprecated"] = $array["phperror"];
-        unset($array["phperror"]);
+    if (isset($array['phperror']) && stripos($array['phperror'], 'deprecated') !== false) {
+        $array['deprecated'] = $array['phperror'];
+        unset($array['phperror']);
     }
     // Add the msg_text to the error log file
     if (is_writable($dir)) {
-        $file = get_config("debug/errorfile") ?? "error.log";
+        $file = get_config('debug/errorfile') ?? 'error.log';
         $types = [
-            ["dberror", "debug/dberrorfile", "dberror.log"],
-            ["phperror", "debug/phperrorfile", "phperror.log"],
-            ["xmlerror", "debug/xmlerrorfile", "xmlerror.log"],
-            ["jserror", "debug/jserrorfile", "jserror.log"],
-            ["dbwarning", "debug/dbwarningfile", "dbwarning.log"],
-            ["phpwarning", "debug/phpwarningfile", "phpwarning.log"],
-            ["xmlwarning", "debug/xmlwarningfile", "xmlwarning.log"],
-            ["jswarning", "debug/jswarningfile", "jswarning.log"],
-            ["deprecated", "debug/deprecatedfile", "deprecated.log"],
+            ['dberror', 'debug/dberrorfile', 'dberror.log'],
+            ['phperror', 'debug/phperrorfile', 'phperror.log'],
+            ['xmlerror', 'debug/xmlerrorfile', 'xmlerror.log'],
+            ['jserror', 'debug/jserrorfile', 'jserror.log'],
+            ['dbwarning', 'debug/dbwarningfile', 'dbwarning.log'],
+            ['phpwarning', 'debug/phpwarningfile', 'phpwarning.log'],
+            ['xmlwarning', 'debug/xmlwarningfile', 'xmlwarning.log'],
+            ['jswarning', 'debug/jswarningfile', 'jswarning.log'],
+            ['deprecated', 'debug/deprecatedfile', 'deprecated.log'],
         ];
         foreach ($types as $type) {
             if (isset($array[$type[0]])) {
@@ -140,7 +140,7 @@ function show_php_error($array)
     }
     // Prepare the final report
     output_handler_json([
-        "error" => $msg_json,
+        'error' => $msg_json,
     ]);
 }
 
@@ -173,43 +173,43 @@ function show_php_error($array)
 function do_message_error($array)
 {
     $json = [
-        "text" => "",
-        "code" => "",
+        'text' => '',
+        'code' => '',
     ];
     // Prepare json version
     foreach ($array as $type => $data) {
         switch ($type) {
-            case "dberror":
+            case 'dberror':
                 $privated = [
-                    get_config("db/host"),
-                    get_config("db/port"),
-                    get_config("db/user"),
-                    get_config("db/pass"),
-                    get_config("db/name"),
-                    get_config("db/file"),
+                    get_config('db/host'),
+                    get_config('db/port'),
+                    get_config('db/user'),
+                    get_config('db/pass'),
+                    get_config('db/name'),
+                    get_config('db/file'),
                 ];
-                $data = str_replace($privated, "...", $data);
+                $data = str_replace($privated, '...', $data);
                 break;
-            case "backtrace":
+            case 'backtrace':
                 if (is_array($data)) {
-                    $json["code"] = __get_code_from_trace($data);
+                    $json['code'] = __get_code_from_trace($data);
                     foreach ($data as $key => $item) {
-                        $temp = $item["function"];
-                        if (isset($item["class"])) {
-                            $temp .= " (in class " . $item["class"] . ")";
+                        $temp = $item['function'];
+                        if (isset($item['class'])) {
+                            $temp .= ' (in class ' . $item['class'] . ')';
                         }
-                        if (isset($item["file"]) && isset($item["line"])) {
-                            $temp .= " (in file " . basename($item["file"]) . ":" . $item["line"] . ")";
+                        if (isset($item['file']) && isset($item['line'])) {
+                            $temp .= ' (in file ' . basename($item['file']) . ':' . $item['line'] . ')';
                         }
                         $data[$key] = $temp;
                     }
                 }
                 if (is_string($data)) {
-                    $json["code"] = __get_code_from_trace(2);
+                    $json['code'] = __get_code_from_trace(2);
                     $data = trim($data);
                 }
                 break;
-            case "debug":
+            case 'debug':
                 if (is_string($data)) {
                     $data = trim($data);
                 }
@@ -217,39 +217,39 @@ function do_message_error($array)
         }
         if (is_array($data) && !count($data)) {
             unset($array[$type]);
-        } elseif (is_string($data) && $data == "") {
+        } elseif (is_string($data) && $data == '') {
             unset($array[$type]);
-        } elseif ($type == "code") {
+        } elseif ($type == 'code') {
             unset($array[$type]);
             $json[$type] = $data;
-        } elseif (is_string($data) && $json["text"] == "") {
+        } elseif (is_string($data) && $json['text'] == '') {
             $array[$type] = $data;
-            $json["text"] = $data;
+            $json['text'] = $data;
         } else {
             $array[$type] = $data;
         }
     }
     // Prepare html version
     $types = [
-        "dberror" => "DB Error",
-        "phperror" => "PHP Error",
-        "xmlerror" => "XML Error",
-        "jserror" => "JS Error",
-        "dbwarning" => "DB Warning",
-        "phpwarning" => "PHP Warning",
-        "xmlwarning" => "XML Warning",
-        "jswarning" => "JS Warning",
-        "source" => "Source",
-        "details" => "Details",
-        "query" => "Query",
-        "backtrace" => "Backtrace",
-        "debug" => "Debug",
-        "deprecated" => "Deprecated",
+        'dberror' => 'DB Error',
+        'phperror' => 'PHP Error',
+        'xmlerror' => 'XML Error',
+        'jserror' => 'JS Error',
+        'dbwarning' => 'DB Warning',
+        'phpwarning' => 'PHP Warning',
+        'xmlwarning' => 'XML Warning',
+        'jswarning' => 'JS Warning',
+        'source' => 'Source',
+        'details' => 'Details',
+        'query' => 'Query',
+        'backtrace' => 'Backtrace',
+        'debug' => 'Debug',
+        'deprecated' => 'Deprecated',
     ];
     $text = [];
     foreach ($array as $type => $data) {
         switch ($type) {
-            case "backtrace":
+            case 'backtrace':
                 if (is_array($data)) {
                     foreach ($data as $key => $item) {
                         $data[$key] = "{$key} => {$item}";
@@ -257,7 +257,7 @@ function do_message_error($array)
                     $data = implode("\n", $data);
                 }
                 break;
-            case "debug":
+            case 'debug':
                 if (is_array($data)) {
                     foreach ($data as $key => $item) {
                         $data[$key] = "{$key} => {$item}";
@@ -267,17 +267,17 @@ function do_message_error($array)
                 break;
         }
         if (!isset($types[$type])) {
-            show_php_error(["phperror" => "Unknown type $type"]);
+            show_php_error(['phperror' => "Unknown type $type"]);
         }
         $text[] = [$types[$type], $data];
     }
     foreach ($text as $key => $item) {
-        $text[$key] = "***** " . $item[0] . " *****" . "\n" . $item[1];
+        $text[$key] = '***** ' . $item[0] . ' *****' . "\n" . $item[1];
     }
     $text = implode("\n", $text);
     return [
-        "text" => $text,
-        "json" => $json,
+        'text' => $text,
+        'json' => $json,
     ];
 }
 
@@ -289,9 +289,9 @@ function do_message_error($array)
 function program_handlers()
 {
     error_reporting(E_ALL);
-    set_error_handler("__error_handler");
-    set_exception_handler("__exception_handler");
-    register_shutdown_function("__shutdown_handler");
+    set_error_handler('__error_handler');
+    set_exception_handler('__exception_handler');
+    register_shutdown_function('__shutdown_handler');
 }
 
 /**
@@ -309,10 +309,10 @@ function program_handlers()
 function __error_handler($type, $message, $file, $line)
 {
     show_php_error([
-        "phperror" => "{$message} (code {$type})",
-        "details" => "Error on file " . basename($file) . ":" . $line,
-        "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-        "code" => __get_code_from_file_and_line($file, $line),
+        'phperror' => "{$message} (code {$type})",
+        'details' => 'Error on file ' . basename($file) . ':' . $line,
+        'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+        'code' => __get_code_from_file_and_line($file, $line),
     ]);
 }
 
@@ -329,10 +329,10 @@ function __error_handler($type, $message, $file, $line)
 function __exception_handler($e)
 {
     show_php_error([
-        "phperror" => $e->getMessage() . " (code " . $e->getCode() . ")",
-        "details" => "Error on file " . basename($e->getFile()) . ":" . $e->getLine(),
-        "backtrace" => $e->getTrace(),
-        "code" => __get_code_from_file_and_line($e->getFile(), $e->getLine()),
+        'phperror' => $e->getMessage() . ' (code ' . $e->getCode() . ')',
+        'details' => 'Error on file ' . basename($e->getFile()) . ':' . $e->getLine(),
+        'backtrace' => $e->getTrace(),
+        'code' => __get_code_from_file_and_line($e->getFile(), $e->getLine()),
     ]);
 }
 
@@ -349,12 +349,12 @@ function __shutdown_handler()
 {
     semaphore_shutdown();
     $error = error_get_last();
-    if (is_array($error) && isset($error["type"]) && $error["type"] != 0) {
+    if (is_array($error) && isset($error['type']) && $error['type'] != 0) {
         show_php_error([
-            "phperror" => "{$error["message"]}",
-            "details" => "Error on file " . basename($error["file"]) . ":" . $error["line"],
-            "backtrace" => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            "code" => __get_code_from_file_and_line($error["file"], $error["line"]),
+            'phperror' => "{$error["message"]}",
+            'details' => 'Error on file ' . basename($error['file']) . ':' . $error['line'],
+            'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+            'code' => __get_code_from_file_and_line($error['file'], $error['line']),
         ]);
     }
 }
@@ -391,11 +391,11 @@ function __get_code_from_trace()
     if ($trace === null) {
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     }
-    $code = "unknown:0";
+    $code = 'unknown:0';
     if (isset($trace[$index])) {
         $trace = $trace[$index];
-        if (isset($trace["file"]) && isset($trace["line"])) {
-            $code = __get_code_from_file_and_line($trace["file"], $trace["line"]);
+        if (isset($trace['file']) && isset($trace['line'])) {
+            $code = __get_code_from_file_and_line($trace['file'], $trace['line']);
         }
     }
     return $code;
@@ -414,9 +414,9 @@ function __get_code_from_trace()
 function show_json_error($msg)
 {
     output_handler_json([
-        "error" => [
-            "text" => $msg,
-            "code" => __get_code_from_trace(1),
+        'error' => [
+            'text' => $msg,
+            'code' => __get_code_from_trace(1),
         ],
     ]);
 }
@@ -432,7 +432,7 @@ function show_json_error($msg)
  */
 function __get_code_from_file_and_line($file, $line)
 {
-    return pathinfo($file, PATHINFO_FILENAME) . ":" . $line;
+    return pathinfo($file, PATHINFO_FILENAME) . ':' . $line;
 }
 
 /**
@@ -449,14 +449,14 @@ function __get_code_from_file_and_line($file, $line)
 function detect_recursion($fn)
 {
     if (!is_array($fn)) {
-        $fn = explode(",", $fn);
+        $fn = explode(',', $fn);
     }
     $temp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     foreach ($temp as $key => $val) {
-        if (isset($val["function"]) && in_array($val["function"], $fn)) {
+        if (isset($val['function']) && in_array($val['function'], $fn)) {
             continue;
         }
-        if (isset($val["file"]) && in_array(basename($val["file"]), $fn)) {
+        if (isset($val['file']) && in_array(basename($val['file']), $fn)) {
             continue;
         }
         unset($temp[$key]);

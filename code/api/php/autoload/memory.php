@@ -44,7 +44,7 @@ declare(strict_types=1);
  */
 function memory_get_free($bytes = false)
 {
-    $memory_limit = normalize_value(ini_get("memory_limit"));
+    $memory_limit = normalize_value(ini_get('memory_limit'));
     if ($memory_limit == -1) {
         $memory_limit = INF;
     }
@@ -102,18 +102,18 @@ function init_timer()
 function __time_get_helper($fn, $secs)
 {
     static $ini = null;
-    if (stripos($fn, "init") !== false) {
+    if (stripos($fn, 'init') !== false) {
         $ini = microtime(true);
         return;
     }
     $cur = microtime(true);
-    $max = ini_get("max_execution_time");
+    $max = ini_get('max_execution_time');
     if (!$max) {
-        $max = get_config("iniset/max_execution_time");
+        $max = get_config('iniset/max_execution_time');
     }
-    if (stripos($fn, "usage") !== false) {
+    if (stripos($fn, 'usage') !== false) {
         $diff = $cur - $ini;
-    } elseif (stripos($fn, "free") !== false) {
+    } elseif (stripos($fn, 'free') !== false) {
         $diff = $max - ($cur - $ini);
     }
     if (!$secs) {
@@ -130,7 +130,7 @@ function __time_get_helper($fn, $secs)
  */
 function set_max_memory_limit()
 {
-    ini_set("memory_limit", get_config("server/maxmemorylimit"));
+    ini_set('memory_limit', get_config('server/maxmemorylimit'));
 }
 
 /**
@@ -141,5 +141,5 @@ function set_max_memory_limit()
  */
 function set_max_execution_time()
 {
-    ini_set("max_execution_time", get_config("server/maxexecutiontime"));
+    ini_set('max_execution_time', get_config('server/maxexecutiontime'));
 }

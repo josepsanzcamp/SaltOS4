@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -68,30 +68,30 @@ final class test_config extends TestCase
     public function test_config(): void
     {
         db_disconnect();
-        $this->assertSame(get_config("db", 0), null);
+        $this->assertSame(get_config('db', 0), null);
         db_connect();
 
-        $this->assertSame(is_array(get_config("db")), true);
-        $this->assertSame(get_config("db/user"), "saltos");
-        $this->assertSame(strlen(get_config("xml/dbschema.xml", 0)), 32);
+        $this->assertSame(is_array(get_config('db')), true);
+        $this->assertSame(get_config('db/user'), 'saltos');
+        $this->assertSame(strlen(get_config('xml/dbschema.xml', 0)), 32);
 
         $uniqid = get_unique_id_md5();
-        set_config("test", $uniqid, 1);
-        $this->assertSame(get_config("test", 1), $uniqid);
-        set_config("test", $uniqid . $uniqid, 1);
-        $this->assertSame(get_config("test", 1), $uniqid . $uniqid);
-        set_config("test", null, 1);
-        $this->assertSame(get_config("test", 1), null);
+        set_config('test', $uniqid, 1);
+        $this->assertSame(get_config('test', 1), $uniqid);
+        set_config('test', $uniqid . $uniqid, 1);
+        $this->assertSame(get_config('test', 1), $uniqid . $uniqid);
+        set_config('test', null, 1);
+        $this->assertSame(get_config('test', 1), null);
 
         $uniqid = get_unique_id_md5();
-        set_config("test", $uniqid, -1);
-        $this->assertSame(get_config("test", -1), $uniqid);
-        set_config("test", null, -1);
-        $this->assertSame(get_config("test", -1), null);
+        set_config('test', $uniqid, -1);
+        $this->assertSame(get_config('test', -1), $uniqid);
+        set_config('test', null, -1);
+        $this->assertSame(get_config('test', -1), null);
 
-        $this->assertSame(count(detect_config_files("xml/config.xml")) > 1, true);
+        $this->assertSame(count(detect_config_files('xml/config.xml')) > 1, true);
 
-        test_external_exec("php/config1.php", "phperror.log", "key nada/nada/nada not found");
-        test_external_exec("php/config2.php", "phperror.log", "key nada/nada/nada not found");
+        test_external_exec('php/config1.php', 'phperror.log', 'key nada/nada/nada not found');
+        test_external_exec('php/config2.php', 'phperror.log', 'key nada/nada/nada not found');
     }
 }

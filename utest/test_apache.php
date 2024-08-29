@@ -61,18 +61,18 @@ final class test_apache extends TestCase
     public function test_apache(): void
     {
         $urls = [
-            "https://127.0.0.1/saltos/code4/",
-            "https://127.0.0.1/saltos/code4/api/lib/",
-            "https://127.0.0.1/saltos/code4/apps/",
-            "https://127.0.0.1/saltos/code4/data/",
-            "https://127.0.0.1/saltos/code4/web/lib/",
-            "https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/",
-            "https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/index.php",
+            'https://127.0.0.1/saltos/code4/',
+            'https://127.0.0.1/saltos/code4/api/lib/',
+            'https://127.0.0.1/saltos/code4/apps/',
+            'https://127.0.0.1/saltos/code4/data/',
+            'https://127.0.0.1/saltos/code4/web/lib/',
+            'https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/',
+            'https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/index.php',
         ];
         foreach ($urls as $url) {
             $response = __url_get_contents($url);
-            $this->assertStringContainsString("403 Forbidden", $response["body"]);
-            $this->assertStringContainsString("403 forbidden", array_keys($response["headers"])[0]);
+            $this->assertStringContainsString('403 Forbidden', $response['body']);
+            $this->assertStringContainsString('403 forbidden', array_keys($response['headers'])[0]);
         }
     }
 }

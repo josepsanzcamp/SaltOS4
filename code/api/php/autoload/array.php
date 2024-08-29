@@ -52,7 +52,7 @@ function array_protected($x)
         return [];
     }
     if (is_string($x)) {
-        if ($x == "") {
+        if ($x == '') {
             return [];
         }
         return [$x];
@@ -75,14 +75,14 @@ function array_protected($x)
 function join_attr_value($array)
 {
     if (is_attr_value($array)) {
-        if (is_string($array["value"])) {
-            if (trim($array["value"]) == "") {
-                $array["value"] = [];
+        if (is_string($array['value'])) {
+            if (trim($array['value']) == '') {
+                $array['value'] = [];
             } else {
-                $array["value"] = ["value" => $array["value"]];
+                $array['value'] = ['value' => $array['value']];
             }
         }
-        $array = array_merge($array["value"], $array["#attr"]);
+        $array = array_merge($array['value'], $array['#attr']);
     }
     return $array;
 }
@@ -100,7 +100,7 @@ function join_attr_value($array)
 function __array_getnode($path, $array)
 {
     if (!is_array($path)) {
-        $path = explode("/", $path);
+        $path = explode('/', $path);
     }
     $elem = array_shift($path);
     if (!is_array($array) || !isset($array[$elem])) {
@@ -123,7 +123,7 @@ function __array_getnode($path, $array)
  */
 function __array_getvalue($array)
 {
-    return is_attr_value($array) ? $array["value"] : $array;
+    return is_attr_value($array) ? $array['value'] : $array;
 }
 
 /**
@@ -138,7 +138,7 @@ function __array_getvalue($array)
  */
 function __array_getattr($elem, $array)
 {
-    return is_attr_value($array) && isset($array["#attr"][$elem]) ? $array["#attr"][$elem] : null;
+    return is_attr_value($array) && isset($array['#attr'][$elem]) ? $array['#attr'][$elem] : null;
 }
 
 /**
@@ -155,7 +155,7 @@ function __array_getattr($elem, $array)
 function __array_addnode($path, &$array, $value)
 {
     if (!is_array($path)) {
-        $path = explode("/", $path);
+        $path = explode('/', $path);
     }
     $elem = array_shift($path);
     if (count($path) == 0) {
@@ -166,7 +166,7 @@ function __array_addnode($path, &$array, $value)
         return false;
     }
     if (is_attr_value($array[$elem])) {
-        return __array_addnode($path, $array[$elem]["value"], $value);
+        return __array_addnode($path, $array[$elem]['value'], $value);
     } else {
         return __array_addnode($path, $array[$elem], $value);
     }
@@ -186,7 +186,7 @@ function __array_addnode($path, &$array, $value)
 function __array_setnode($path, &$array, $value)
 {
     if (!is_array($path)) {
-        $path = explode("/", $path);
+        $path = explode('/', $path);
     }
     $elem = array_shift($path);
     if (!is_array($array) || !isset($array[$elem])) {
@@ -197,7 +197,7 @@ function __array_setnode($path, &$array, $value)
         return true;
     }
     if (is_attr_value($array[$elem])) {
-        return __array_setnode($path, $array[$elem]["value"], $value);
+        return __array_setnode($path, $array[$elem]['value'], $value);
     } else {
         return __array_setnode($path, $array[$elem], $value);
     }
@@ -216,7 +216,7 @@ function __array_setnode($path, &$array, $value)
 function __array_delnode($path, &$array)
 {
     if (!is_array($path)) {
-        $path = explode("/", $path);
+        $path = explode('/', $path);
     }
     $elem = array_shift($path);
     if (!is_array($array) || !isset($array[$elem])) {
@@ -227,7 +227,7 @@ function __array_delnode($path, &$array)
         return true;
     }
     if (is_attr_value($array[$elem])) {
-        return __array_delnode($path, $array[$elem]["value"]);
+        return __array_delnode($path, $array[$elem]['value']);
     } else {
         return __array_delnode($path, $array[$elem]);
     }
@@ -268,17 +268,17 @@ function __array_filter($array, $filter, $eval = false)
  */
 function __array_filter_rec($node, $filter, $eval, $parent = [])
 {
-    require_once "php/lib/import.php";
-    if (isset($node["row"]) && isset($node["rows"])) {
+    require_once 'php/lib/import.php';
+    if (isset($node['row']) && isset($node['rows'])) {
         // Normal filter
-        foreach ($node["row"] as $val) {
+        foreach ($node['row'] as $val) {
             if (stripos($val, $filter) !== false) {
                 return true;
             }
         }
         // Eval filter
         if ($eval) {
-            $vars = array_merge($parent, array_values($node["row"]));
+            $vars = array_merge($parent, array_values($node['row']));
             foreach ($vars as $key => $val) {
                 $key = __import_col2name($key);
                 $$key = $val;
@@ -286,11 +286,11 @@ function __array_filter_rec($node, $filter, $eval, $parent = [])
             $result = eval("return $filter;");
         }
         // Recursive call
-        foreach ($node["rows"] as $node2) {
+        foreach ($node['rows'] as $node2) {
             if (
                 __array_filter_rec(
                     $node2, $filter, $eval,
-                    array_merge($parent, array_values($node["row"]))
+                    array_merge($parent, array_values($node['row']))
                 )
             ) {
                 return true;
@@ -327,7 +327,7 @@ function __array_filter_rec($node, $filter, $eval, $parent = [])
  */
 function __array_apply_patch(&$array, $key, $val)
 {
-    $key = explode("/", $key);
+    $key = explode('/', $key);
     $key = array_reverse($key);
     array_pop($key);
     __array_apply_patch_rec($array, $key, $val);
@@ -347,20 +347,20 @@ function __array_apply_patch_rec(&$array, $key, $val)
 {
     $key0 = array_pop($key);
     $key1 = array_pop($key);
-    if ($key0 == "row") {
-        if (isset($array["rows"][$key1])) {
-            __array_apply_patch_rec($array["rows"][$key1], $key, $val);
+    if ($key0 == 'row') {
+        if (isset($array['rows'][$key1])) {
+            __array_apply_patch_rec($array['rows'][$key1], $key, $val);
         } elseif (isset($array[$key1])) {
             __array_apply_patch_rec($array[$key1], $key, $val);
         } else {
-            show_php_error(["phperror" => "Path '{$key0}' for '{$key1}' not found"]);
+            show_php_error(['phperror' => "Path '{$key0}' for '{$key1}' not found"]);
         }
-    } elseif ($key0 == "col") {
-        if (isset($array["row"]) && isset($array["rows"])) {
+    } elseif ($key0 == 'col') {
+        if (isset($array['row']) && isset($array['rows'])) {
             $col = 0;
-            foreach ($array["row"] as $key2 => $val2) {
+            foreach ($array['row'] as $key2 => $val2) {
                 if ($col == $key1) {
-                    $array["row"][$key2] = $val;
+                    $array['row'][$key2] = $val;
                 }
                 $col++;
             }
@@ -374,7 +374,7 @@ function __array_apply_patch_rec(&$array, $key, $val)
             }
         }
     } else {
-        show_php_error(["phperror" => "Unknown '{$key0}' for '{$key1}'"]);
+        show_php_error(['phperror' => "Unknown '{$key0}' for '{$key1}'"]);
     }
 }
 
@@ -387,7 +387,7 @@ function __array_apply_patch_rec(&$array, $key, $val)
  */
 function is_attr_value($array)
 {
-    return is_array($array) && isset($array["value"]) && isset($array["#attr"]);
+    return is_array($array) && isset($array['value']) && isset($array['#attr']);
 }
 
 /**
@@ -437,8 +437,8 @@ function arrays2array()
  */
 function xpath_search_array($xpath, $array)
 {
-    $xpath = explode("/", $xpath);
-    $pattern = "/^(\w+)|\[(\w+)=([\w\s]+)\]/";
+    $xpath = explode('/', $xpath);
+    $pattern = '/^(\w+)|\[(\w+)=([\w\s]+)\]/';
     $result = [$array];
     while (count($xpath)) {
         $search = array_shift($xpath);
@@ -454,8 +454,8 @@ function xpath_search_array($xpath, $array)
                 $found = false;
                 if (fix_key($key) == $matches[1][0]) {
                     if (is_attr_value($val)) {
-                        $attr = $val["#attr"];
-                        $val = $val["value"];
+                        $attr = $val['#attr'];
+                        $val = $val['value'];
                     } else {
                         $attr = [];
                     }

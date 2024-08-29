@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,13 +67,13 @@ final class test_perms extends TestCase
      */
     public function test_authtoken(): array
     {
-        $json = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json["status"], "ok");
+        $json = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 4);
-        $this->assertArrayHasKey("token", $json);
+        $this->assertArrayHasKey('token', $json);
         return $json;
     }
 
@@ -87,30 +87,30 @@ final class test_perms extends TestCase
      */
     public function test_perms(array $json): void
     {
-        $this->assertSame(check_user("dashboard", "menu"), true);
-        $this->assertSame(check_user("customers", "view"), false);
-        $this->assertSame(check_sql("customers", "view"), "1=0");
-        $this->assertSame(check_app_perm_id("dashboard", "menu"), true);
-        $this->assertSame(check_app_perm_id("customers", "view"), false);
+        $this->assertSame(check_user('dashboard', 'menu'), true);
+        $this->assertSame(check_user('customers', 'view'), false);
+        $this->assertSame(check_sql('customers', 'view'), '1=0');
+        $this->assertSame(check_app_perm_id('dashboard', 'menu'), true);
+        $this->assertSame(check_app_perm_id('customers', 'view'), false);
 
-        test_external_exec("php/perms1.php", "phperror.log", "app nada not found");
-        test_external_exec("php/perms2.php", "phperror.log", "perm nada not found");
-        test_external_exec("php/perms3.php", "phperror.log", "nada(nada) not found");
+        test_external_exec('php/perms1.php', 'phperror.log', 'app nada not found');
+        test_external_exec('php/perms2.php', 'phperror.log', 'perm nada not found');
+        test_external_exec('php/perms3.php', 'phperror.log', 'nada(nada) not found');
 
-        $token = $json["token"];
+        $token = $json['token'];
         $row = execute_query("SELECT * FROM tbl_users_tokens WHERE token='$token'");
-        file_put_contents("/tmp/phpunit.token", $row["token"]);
-        file_put_contents("/tmp/phpunit.remote_addr", $row["remote_addr"]);
-        file_put_contents("/tmp/phpunit.user_agent", $row["user_agent"]);
+        file_put_contents('/tmp/phpunit.token', $row['token']);
+        file_put_contents('/tmp/phpunit.remote_addr', $row['remote_addr']);
+        file_put_contents('/tmp/phpunit.user_agent', $row['user_agent']);
 
         // remove all perms to force the internal error of check_user
-        $rows = execute_query_array("SELECT * FROM tbl_apps_perms");
-        db_query("TRUNCATE TABLE tbl_apps_perms");
+        $rows = execute_query_array('SELECT * FROM tbl_apps_perms');
+        db_query('TRUNCATE TABLE tbl_apps_perms');
 
-        test_external_exec("php/perms5.php", "phperror.log", "internal error for 11|1");
+        test_external_exec('php/perms5.php', 'phperror.log', 'internal error for 11|1');
 
         foreach ($rows as $row) {
-            db_query(make_insert_query("tbl_apps_perms", $row));
+            db_query(make_insert_query('tbl_apps_perms', $row));
         }
 
         // remove some perms to force the last return of the check_sql
@@ -122,30 +122,30 @@ final class test_perms extends TestCase
         $rows2 = execute_query_array("SELECT * FROM tbl_groups_apps_perms WHERE perm_id IN ($perms_ids)");
         db_query("DELETE FROM tbl_groups_apps_perms WHERE perm_id IN ($perms_ids)");
 
-        test_external_exec("php/perms6.php", "", "");
-        test_external_exec("php/perms7.php", "", "");
+        test_external_exec('php/perms6.php', '', '');
+        test_external_exec('php/perms7.php', '', '');
 
         foreach ($rows1 as $row) {
-            db_query(make_insert_query("tbl_users_apps_perms", $row));
+            db_query(make_insert_query('tbl_users_apps_perms', $row));
         }
 
         foreach ($rows2 as $row) {
-            db_query(make_insert_query("tbl_groups_apps_perms", $row));
+            db_query(make_insert_query('tbl_groups_apps_perms', $row));
         }
 
-        $token = $json["token"];
+        $token = $json['token'];
         $row = execute_query("SELECT * FROM tbl_users_tokens WHERE token='$token'");
-        set_data("server/token", $row["token"]);
-        set_data("server/remote_addr", $row["remote_addr"]);
-        set_data("server/user_agent", $row["user_agent"]);
+        set_data('server/token', $row['token']);
+        set_data('server/remote_addr', $row['remote_addr']);
+        set_data('server/user_agent', $row['user_agent']);
 
-        $this->assertSame(check_app_perm_id("users", "view", 1), true);
-        $this->assertSame(__user_is_admin("users"), true);
+        $this->assertSame(check_app_perm_id('users', 'view', 1), true);
+        $this->assertSame(__user_is_admin('users'), true);
 
-        set_data("server/token", "a");
-        set_data("server/remote_addr", "b");
-        set_data("server/user_agent", "c");
+        set_data('server/token', 'a');
+        set_data('server/remote_addr', 'b');
+        set_data('server/user_agent', 'c');
 
-        $this->assertSame(__user_is_admin("users"), false);
+        $this->assertSame(__user_is_admin('users'), false);
     }
 }

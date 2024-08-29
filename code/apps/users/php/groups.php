@@ -43,43 +43,43 @@ declare(strict_types=1);
  */
 function insert_group($data)
 {
-    require_once "php/lib/actions.php";
+    require_once 'php/lib/actions.php';
 
     if (!is_array($data) || !count($data)) {
         return [
-            "status" => "ko",
-            "text" => "Data not found",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Data not found',
+            'code' => __get_code_from_trace(),
         ];
     }
 
-    $perms = $data["perms"] ?? null;
-    unset($data["perms"]);
+    $perms = $data['perms'] ?? null;
+    unset($data['perms']);
 
     // Real insert using general insert action
-    $array = insert("groups", $data);
-    if ($array["status"] == "ko") {
+    $array = insert('groups', $data);
+    if ($array['status'] == 'ko') {
         return $array;
     }
-    $group_id = $array["created_id"];
+    $group_id = $array['created_id'];
 
     // Create the perms entries
     if (is_array($perms)) {
         foreach ($perms as $perm) {
-            $query = make_insert_query("tbl_groups_apps_perms", [
-                "group_id" => $group_id,
-                "app_id" => $perm["app_id"],
-                "perm_id" => $perm["perm_id"],
-                "allow" => $perm["allow"],
-                "deny" => $perm["deny"],
+            $query = make_insert_query('tbl_groups_apps_perms', [
+                'group_id' => $group_id,
+                'app_id' => $perm['app_id'],
+                'perm_id' => $perm['perm_id'],
+                'allow' => $perm['allow'],
+                'deny' => $perm['deny'],
             ]);
             db_query($query);
         }
     }
 
     return [
-        "status" => "ok",
-        "created_id" => $group_id,
+        'status' => 'ok',
+        'created_id' => $group_id,
     ];
 }
 
@@ -93,23 +93,23 @@ function insert_group($data)
  */
 function update_group($group_id, $data)
 {
-    require_once "php/lib/actions.php";
+    require_once 'php/lib/actions.php';
 
     if (!is_array($data) || !count($data)) {
         return [
-            "status" => "ko",
-            "text" => "Data not found",
-            "code" => __get_code_from_trace(),
+            'status' => 'ko',
+            'text' => 'Data not found',
+            'code' => __get_code_from_trace(),
         ];
     }
 
-    $perms = $data["perms"] ?? null;
-    unset($data["perms"]);
+    $perms = $data['perms'] ?? null;
+    unset($data['perms']);
 
     // Real update using general update action
     if (count($data)) {
-        $array = update("groups", $group_id, $data);
-        if ($array["status"] == "ko") {
+        $array = update('groups', $group_id, $data);
+        if ($array['status'] == 'ko') {
             return $array;
         }
     }
@@ -121,20 +121,20 @@ function update_group($group_id, $data)
 
         // Create the perms entries
         foreach ($perms as $perm) {
-            $query = make_insert_query("tbl_groups_apps_perms", [
-                "group_id" => $group_id,
-                "app_id" => $perm["app_id"],
-                "perm_id" => $perm["perm_id"],
-                "allow" => $perm["allow"],
-                "deny" => $perm["deny"],
+            $query = make_insert_query('tbl_groups_apps_perms', [
+                'group_id' => $group_id,
+                'app_id' => $perm['app_id'],
+                'perm_id' => $perm['perm_id'],
+                'allow' => $perm['allow'],
+                'deny' => $perm['deny'],
             ]);
             db_query($query);
         }
     }
 
     return [
-        "status" => "ok",
-        "updated_id" => $group_id,
+        'status' => 'ok',
+        'updated_id' => $group_id,
     ];
 }
 
@@ -148,11 +148,11 @@ function update_group($group_id, $data)
  */
 function delete_group($group_id)
 {
-    require_once "php/lib/actions.php";
+    require_once 'php/lib/actions.php';
 
     // Real delete using general delete action
-    $array = delete("groups", $group_id);
-    if ($array["status"] == "ko") {
+    $array = delete('groups', $group_id);
+    if ($array['status'] == 'ko') {
         return $array;
     }
 
@@ -161,7 +161,7 @@ function delete_group($group_id)
     db_query($query);
 
     return [
-        "status" => "ok",
-        "deleted_id" => $group_id,
+        'status' => 'ok',
+        'deleted_id' => $group_id,
     ];
 }

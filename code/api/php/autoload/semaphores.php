@@ -42,7 +42,7 @@ declare(strict_types=1);
  * @name    => the name of the semaphore
  * @timeout => the timeout used in waiting operations
  */
-function semaphore_acquire($name = "", $timeout = INF)
+function semaphore_acquire($name = '', $timeout = INF)
 {
     return __semaphore_helper(__FUNCTION__, $name, $timeout);
 }
@@ -54,7 +54,7 @@ function semaphore_acquire($name = "", $timeout = INF)
  *
  * @name => the name of the semaphore
  */
-function semaphore_release($name = "")
+function semaphore_release($name = '')
 {
     return __semaphore_helper(__FUNCTION__, $name, null);
 }
@@ -79,7 +79,7 @@ function semaphore_shutdown()
  *
  * @name => the name of the semaphore
  */
-function semaphore_file($name = "")
+function semaphore_file($name = '')
 {
     return __semaphore_helper(__FUNCTION__, $name, null);
 }
@@ -100,14 +100,14 @@ function semaphore_file($name = "")
 function __semaphore_helper($fn, $name, $timeout)
 {
     static $fds = [];
-    if ($name == "") {
+    if ($name == '') {
         $name = __FUNCTION__;
     }
-    $file = get_cache_file($name, ".sem");
+    $file = get_cache_file($name, '.sem');
     if (!isset($fds[$file])) {
         $fds[$file] = null;
     }
-    if (stripos($fn, "acquire") !== false) {
+    if (stripos($fn, 'acquire') !== false) {
         if (!is_writable(dirname($file))) {
             return false;
         }
@@ -117,7 +117,7 @@ function __semaphore_helper($fn, $name, $timeout)
         if (file_exists($file) && !is_writable($file)) {
             return false;
         }
-        $fds[$file] = fopen($file, "a");
+        $fds[$file] = fopen($file, 'a');
         // This part of code is redundant because fopen never fails
         if (!$fds[$file]) {
             return false;
@@ -139,7 +139,7 @@ function __semaphore_helper($fn, $name, $timeout)
         ftruncate($fds[$file], 0);
         fwrite($fds[$file], gettrace([]));
         return true;
-    } elseif (stripos($fn, "release") !== false) {
+    } elseif (stripos($fn, 'release') !== false) {
         if (!$fds[$file]) {
             return false;
         }
@@ -147,7 +147,7 @@ function __semaphore_helper($fn, $name, $timeout)
         fclose($fds[$file]);
         $fds[$file] = null;
         return true;
-    } elseif (stripos($fn, "shutdown") !== false) {
+    } elseif (stripos($fn, 'shutdown') !== false) {
         foreach ($fds as $file => $fd) {
             if ($fds[$file]) {
                 flock($fds[$file], LOCK_UN);
@@ -156,10 +156,10 @@ function __semaphore_helper($fn, $name, $timeout)
             }
         }
         return true;
-    } elseif (stripos($fn, "file") !== false) {
+    } elseif (stripos($fn, 'file') !== false) {
         return $file;
     }
-    show_php_error(["phperror" => "Internal error"]);
+    show_php_error(['phperror' => 'Internal error']);
 }
 
 /**
@@ -179,7 +179,7 @@ function __semaphore_helper($fn, $name, $timeout)
  */
 function __semaphore_usleep($usec)
 {
-    if (function_exists("socket_create")) {
+    if (function_exists('socket_create')) {
         $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         $read = null;
         $write = null;

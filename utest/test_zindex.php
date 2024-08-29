@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -67,40 +67,40 @@ final class test_zindex extends TestCase
      */
     public function test_zindex(): void
     {
-        $json = test_web_helper("", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('', [], '', '');
+        $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?nada", [
-            "method" => "put",
+        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/index.php?nada', [
+            'method' => 'put',
         ]);
         test_pcov_stop(1);
-        $json = json_decode($response["body"], true);
-        $this->assertArrayHasKey("error", $json);
+        $json = json_decode($response['body'], true);
+        $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?nada", [
-            "method" => "get",
-            "headers" => [
-                "Content-Type" => "application/json",
+        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/index.php?nada', [
+            'method' => 'get',
+            'headers' => [
+                'Content-Type' => 'application/json',
             ],
         ]);
         test_pcov_stop(1);
-        $json = json_decode($response["body"], true);
-        $this->assertArrayHasKey("error", $json);
+        $json = json_decode($response['body'], true);
+        $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?nada", [
-            "method" => "post",
+        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/index.php?nada', [
+            'method' => 'post',
         ]);
         test_pcov_stop(1);
-        $json = json_decode($response["body"], true);
-        $this->assertArrayHasKey("error", $json);
+        $json = json_decode($response['body'], true);
+        $this->assertArrayHasKey('error', $json);
 
         test_pcov_start();
-        $response = __url_get_contents("https://127.0.0.1/saltos/code4/api/index.php?nada");
+        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/index.php?nada');
         test_pcov_stop(1);
-        $json = json_decode($response["body"], true);
-        $this->assertArrayHasKey("error", $json);
+        $json = json_decode($response['body'], true);
+        $this->assertArrayHasKey('error', $json);
     }
 }

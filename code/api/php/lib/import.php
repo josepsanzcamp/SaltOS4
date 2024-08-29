@@ -63,115 +63,115 @@ declare(strict_types=1);
 function import_file($args)
 {
     // Check parameters
-    if (isset($args["data"])) {
-        $args["file"] = get_cache_file($args["data"], "tmp");
-        if (!file_exists($args["file"])) {
-            file_put_contents($args["file"], $args["data"]);
+    if (isset($args['data'])) {
+        $args['file'] = get_cache_file($args['data'], 'tmp');
+        if (!file_exists($args['file'])) {
+            file_put_contents($args['file'], $args['data']);
         }
     }
-    if (!isset($args["file"])) {
-        show_php_error(["phperror" => "Unknown file"]);
+    if (!isset($args['file'])) {
+        show_php_error(['phperror' => 'Unknown file']);
     }
-    if (!isset($args["type"])) {
-        show_php_error(["phperror" => "Unknown type"]);
+    if (!isset($args['type'])) {
+        show_php_error(['phperror' => 'Unknown type']);
     }
-    if (!isset($args["sep"])) {
-        $args["sep"] = ";";
+    if (!isset($args['sep'])) {
+        $args['sep'] = ';';
     }
-    if (!isset($args["sheet"])) {
-        $args["sheet"] = 0;
+    if (!isset($args['sheet'])) {
+        $args['sheet'] = 0;
     }
-    if (!isset($args["map"])) {
-        $args["map"] = "";
+    if (!isset($args['map'])) {
+        $args['map'] = '';
     }
-    if (!isset($args["offset"])) {
-        $args["offset"] = 0;
+    if (!isset($args['offset'])) {
+        $args['offset'] = 0;
     }
-    if (!isset($args["nomb"])) {
-        $args["nomb"] = 0;
+    if (!isset($args['nomb'])) {
+        $args['nomb'] = 0;
     }
-    if (!isset($args["novoid"])) {
-        $args["novoid"] = 0;
+    if (!isset($args['novoid'])) {
+        $args['novoid'] = 0;
     }
-    if (!isset($args["prefn"])) {
-        $args["prefn"] = "";
+    if (!isset($args['prefn'])) {
+        $args['prefn'] = '';
     }
-    if (!isset($args["notree"])) {
-        $args["notree"] = 0;
+    if (!isset($args['notree'])) {
+        $args['notree'] = 0;
     }
-    if (!isset($args["nodes"])) {
-        $args["nodes"] = [];
+    if (!isset($args['nodes'])) {
+        $args['nodes'] = [];
     }
-    if (!isset($args["nohead"])) {
-        $args["nohead"] = 0;
+    if (!isset($args['nohead'])) {
+        $args['nohead'] = 0;
     }
-    if (!isset($args["noletter"])) {
-        $args["noletter"] = 0;
+    if (!isset($args['noletter'])) {
+        $args['noletter'] = 0;
     }
-    if (!isset($args["postfn"])) {
-        $args["postfn"] = "";
+    if (!isset($args['postfn'])) {
+        $args['postfn'] = '';
     }
-    if (!file_exists($args["file"])) {
+    if (!file_exists($args['file'])) {
         return "Error: File '{$args["file"]}' not found";
     }
     // Continue
-    switch ($args["type"]) {
-        case "application/xml":
-        case "text/xml":
-        case "xml":
-            $array = __import_xml2array($args["file"]);
+    switch ($args['type']) {
+        case 'application/xml':
+        case 'text/xml':
+        case 'xml':
+            $array = __import_xml2array($args['file']);
             break;
-        case "text/plain":
-        case "text/csv":
-        case "csv":
-            $array = __import_csv2array($args["file"], $args["sep"]);
+        case 'text/plain':
+        case 'text/csv':
+        case 'csv':
+            $array = __import_csv2array($args['file'], $args['sep']);
             break;
-        case "application/wps-office.xls":
-        case "application/vnd.ms-excel":
-        case "application/excel":
-        case "excel":
-        case "xlsx":
-        case "xls":
-        case "ods":
-            $array = __import_xls2array($args["file"], $args["sheet"]);
+        case 'application/wps-office.xls':
+        case 'application/vnd.ms-excel':
+        case 'application/excel':
+        case 'excel':
+        case 'xlsx':
+        case 'xls':
+        case 'ods':
+            $array = __import_xls2array($args['file'], $args['sheet']);
             break;
-        case "bytes":
-            $array = __import_bytes2array($args["file"], $args["map"], $args["offset"], $args["nomb"]);
+        case 'bytes':
+            $array = __import_bytes2array($args['file'], $args['map'], $args['offset'], $args['nomb']);
             break;
-        case "edi":
-            $array = __import_edi2array($args["file"]);
+        case 'edi':
+            $array = __import_edi2array($args['file']);
             break;
-        case "application/json":
-        case "text/json":
-        case "json":
-            $array = __import_json2array($args["file"]);
+        case 'application/json':
+        case 'text/json':
+        case 'json':
+            $array = __import_json2array($args['file']);
             break;
         default:
-            show_php_error(["phperror" => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
+            show_php_error(['phperror' => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
     }
     if (!is_array($array)) {
         return $array;
     }
-    if (!$args["novoid"]) {
+    if (!$args['novoid']) {
         $array = __import_removevoid($array);
         //~ if (!is_array($array)) {
             //~ return $array;
         //~ }
     }
-    if ($args["prefn"]) {
-        $array = $args["prefn"]($array, $args);
+    if ($args['prefn']) {
+        $array = $args['prefn']($array, $args);
         if (!is_array($array)) {
             return $array;
         }
     }
-    if (!$args["notree"]) {
-        $array = __import_array2tree($array, $args["nodes"], $args["nohead"], $args["noletter"]);
+    if (!$args['notree']) {
+        $array = __import_array2tree($array, $args['nodes'], $args['nohead'], $args['noletter']);
         //~ if (!is_array($array)) {
             //~ return $array;
         //~ }
     }
-    if ($args["postfn"]) {
-        $array = $args["postfn"]($array, $args);
+    if ($args['postfn']) {
+        $array = $args['postfn']($array, $args);
         if (!is_array($array)) {
             return $array;
         }
@@ -244,7 +244,7 @@ function __import_specialchars($arg)
 function __import_csv2array($file, $sep)
 {
     $sep = __import_specialchars($sep);
-    $fd = fopen($file, "r");
+    $fd = fopen($file, 'r');
     $array = [];
     while ($row = fgetcsv($fd, 0, $sep)) {
         foreach ($row as $key => $val) {
@@ -274,7 +274,7 @@ function __import_csv2array($file, $sep)
  */
 function __import_xls2array($file, $sheet)
 {
-    require_once "lib/phpspreadsheet/vendor/autoload.php";
+    require_once 'lib/phpspreadsheet/vendor/autoload.php';
     $objReader = PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
     // Check the sheet param
     //~ if (!method_exists($objReader, "listWorksheetNames")) {
@@ -300,10 +300,10 @@ function __import_xls2array($file, $sheet)
         }
     }
     // Trick for a big files
-    if (filesize($file) > 1048576 && check_commands(get_config("commands/xlsx2csv"), 60)) { // filesize > 1Mb
-        $csv = get_cache_file($file, "csv");
+    if (filesize($file) > 1048576 && check_commands(get_config('commands/xlsx2csv'), 60)) { // filesize > 1Mb
+        $csv = get_cache_file($file, 'csv');
         if (!file_exists($csv)) {
-            $xlsx = get_cache_file($file, "xlsx");
+            $xlsx = get_cache_file($file, 'xlsx');
             $fix = (dirname(realpath($file)) != dirname(realpath_protected($xlsx)));
             if ($fix) {
                 symlink(realpath($file), $xlsx);
@@ -311,27 +311,27 @@ function __import_xls2array($file, $sheet)
                 $xlsx = realpath($file);
             }
             ob_passthru(str_replace(
-                ["__DIR__", "__INPUT__"],
+                ['__DIR__', '__INPUT__'],
                 [dirname($xlsx), basename($xlsx)],
-                get_config("commands/__xlsx2csv__")
+                get_config('commands/__xlsx2csv__')
             ));
             if ($fix) {
                 unlink($xlsx);
             }
             foreach ($sheets as $key => $val) {
-                $temp = $xlsx . "." . $val . ".csv";
+                $temp = $xlsx . '.' . $val . '.csv';
                 if (file_exists($temp)) {
                     if ($key == $sheet) {
                         rename($temp, $csv);
                     } else {
-                        unlink($xlsx . "." . $val . ".csv");
+                        unlink($xlsx . '.' . $val . '.csv');
                     }
                 }
             }
         }
         if (file_exists($csv)) {
             unset($objReader);
-            $array = __import_csv2array($csv, ",");
+            $array = __import_csv2array($csv, ',');
             return $array;
         }
     }
@@ -366,7 +366,7 @@ function __import_xls2array($file, $sheet)
                 //~ $temp2=$cell->getValue();
                 //~ $temp2=PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($temp2);
                 //~ $temp2=date("Y-m-d",$temp2);
-                $cell->getStyle()->getNumberFormat()->setFormatCode("YYYY-MM-DD");
+                $cell->getStyle()->getNumberFormat()->setFormatCode('YYYY-MM-DD');
                 $temp2 = $cell->getFormattedValue();
             } else {
                 $temp2 = $cell->getFormattedValue();
@@ -408,7 +408,7 @@ function __import_bytes2array($file, $map, $offset, $nomb)
         $map = explode("\n", $map);
         foreach ($map as $key => $val) {
             $val = trim($val);
-            $val = explode(";", $val);
+            $val = explode(';', $val);
             foreach ($val as $key2 => $val2) {
                 if (is_numeric($val2)) {
                     $val[$key2] = intval($val2);
@@ -454,7 +454,7 @@ function __import_bytes2array($file, $map, $offset, $nomb)
  */
 function __import_edi2array($file)
 {
-    require_once "lib/edifact/vendor/autoload.php";
+    require_once 'lib/edifact/vendor/autoload.php';
     $parser = new EDI\Parser();
     $parser->load($file);
     $array = $parser->get();
@@ -538,7 +538,7 @@ function __import_removevoid($array)
     $cols = array_fill(0, $count_cols, 0);
     foreach ($array as $key => $val) {
         foreach ($val as $key2 => $val2) {
-            if ($val2 != "") {
+            if ($val2 != '') {
                 $rows[$key]++;
                 $cols[$key2]++;
             }
@@ -603,7 +603,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
     $temp = [];
     foreach ($head as $temp2) {
         $temp2 = trim($temp2);
-        set_array($temp, $temp2, "");
+        set_array($temp, $temp2, '');
     }
     $head = array_keys($temp);
     // Continue
@@ -613,10 +613,10 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
         $col = 0;
         foreach ($nodes as $key => $val) {
             if (!is_array($val)) {
-                if ($val == "") {
+                if ($val == '') {
                     $val = [];
                 } else {
-                    $val = explode(",", $val);
+                    $val = explode(',', $val);
                 }
             }
             $nodes[$key] = [];
@@ -642,7 +642,7 @@ function __import_array2tree($array, $nodes, $nohead, $noletter)
                 if (count($head2) > count($line2)) {
                     $temp = [];
                     foreach ($head2 as $key => $val) {
-                        $temp[$key] = isset($line2[$key]) ? $line2[$key] : "";
+                        $temp[$key] = isset($line2[$key]) ? $line2[$key] : '';
                     }
                     $line2 = $temp;
                 }
@@ -697,9 +697,9 @@ function __import_array2tree_set(&$result, $parts)
     unset($parts[$key]);
     if (count($parts)) {
         if (!isset($result[$key])) {
-            $result[$key] = ["row" => $val, "rows" => []];
+            $result[$key] = ['row' => $val, 'rows' => []];
         }
-        __import_array2tree_set($result[$key]["rows"], $parts);
+        __import_array2tree_set($result[$key]['rows'], $parts);
     } else {
         set_array($result, $key, $val);
     }
@@ -716,8 +716,8 @@ function __import_array2tree_clean($array)
 {
     $result = [];
     foreach ($array as $node) {
-        if (isset($node["row"]) && isset($node["rows"])) {
-            $result[] = ["row" => $node["row"], "rows" => __import_array2tree_clean($node["rows"])];
+        if (isset($node['row']) && isset($node['rows'])) {
+            $result[] = ['row' => $node['row'], 'rows' => __import_array2tree_clean($node['rows'])];
         } else {
             $result[] = $node;
         }
@@ -802,8 +802,8 @@ function __import_isname($name)
  */
 function __import_cell2colrow($cell)
 {
-    $col = "";
-    $row = "";
+    $col = '';
+    $row = '';
     $len = strlen($cell);
     for ($i = 0; $i < $len; $i++) {
         if ($cell[$i] >= 'A' && $cell[$i] <= 'Z') {

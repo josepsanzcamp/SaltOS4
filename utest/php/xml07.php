@@ -27,8 +27,8 @@
 
 declare(strict_types=1);
 
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -41,6 +41,6 @@ init_random();
 check_system();
 
 $data = [
-    ["tag" => "nada", "type" => "nada"],
+    ['tag' => 'nada', 'type' => 'nada'],
 ];
-struct2array($data, "nada");
+struct2array($data, 'nada');

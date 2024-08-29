@@ -51,89 +51,89 @@ declare(strict_types=1);
  */
 function output_handler($array)
 {
-    $file = isset($array["file"]) ? $array["file"] : "";
-    $data = isset($array["data"]) ? $array["data"] : "";
-    $type = isset($array["type"]) ? $array["type"] : "";
-    $cache = isset($array["cache"]) ? $array["cache"] : "";
-    $name = isset($array["name"]) ? $array["name"] : "";
-    $extra = isset($array["extra"]) ? $array["extra"] : [];
-    if ($file != "") {
+    $file = isset($array['file']) ? $array['file'] : '';
+    $data = isset($array['data']) ? $array['data'] : '';
+    $type = isset($array['type']) ? $array['type'] : '';
+    $cache = isset($array['cache']) ? $array['cache'] : '';
+    $name = isset($array['name']) ? $array['name'] : '';
+    $extra = isset($array['extra']) ? $array['extra'] : [];
+    if ($file != '') {
         if (!file_exists($file) || !is_file($file)) {
-            show_php_error(["phperror" => "file {$file} not found"]);
+            show_php_error(['phperror' => "file {$file} not found"]);
         }
-        if ($data == "" && filesize($file) < memory_get_free(true) / 3) {
+        if ($data == '' && filesize($file) < memory_get_free(true) / 3) {
             $data = file_get_contents($file);
         }
-        if ($type == "") {
+        if ($type == '') {
             $type = saltos_content_type($file);
         }
     }
-    if ($type === "") {
-        show_php_error(["phperror" => "output_handler requires the type parameter"]);
+    if ($type === '') {
+        show_php_error(['phperror' => 'output_handler requires the type parameter']);
     }
-    if ($cache === "") {
-        show_php_error(["phperror" => "output_handler requires the cache parameter"]);
+    if ($cache === '') {
+        show_php_error(['phperror' => 'output_handler requires the cache parameter']);
     }
-    __output_header("About: " . get_name_version_revision());
+    __output_header('About: ' . get_name_version_revision());
     if ($cache) {
-        $hash1 = get_server("HTTP_IF_NONE_MATCH");
-        if ($file != "" && $data == "") {
+        $hash1 = get_server('HTTP_IF_NONE_MATCH');
+        if ($file != '' && $data == '') {
             $hash2 = md5_file($file);
         } else {
             $hash2 = md5($data);
         }
         if ($hash1 == $hash2) {
-            __output_header("HTTP/1.1 304 Not Modified");
+            __output_header('HTTP/1.1 304 Not Modified');
             pcov_stop();
             // @codeCoverageIgnoreStart
             die();
             // @codeCoverageIgnoreEnd
         }
     }
-    if ($file != "" && $data == "") {
-        __output_header("Content-Encoding: none");
+    if ($file != '' && $data == '') {
+        __output_header('Content-Encoding: none');
     } else {
-        $encoding = strval(get_server("HTTP_ACCEPT_ENCODING"));
-        if (stripos($encoding, "gzip") !== false && function_exists("gzencode")) {
-            __output_header("Content-Encoding: gzip");
+        $encoding = strval(get_server('HTTP_ACCEPT_ENCODING'));
+        if (stripos($encoding, 'gzip') !== false && function_exists('gzencode')) {
+            __output_header('Content-Encoding: gzip');
             $data = gzencode($data);
-        } elseif (stripos($encoding, "deflate") !== false && function_exists("gzdeflate")) {
-            __output_header("Content-Encoding: deflate");
+        } elseif (stripos($encoding, 'deflate') !== false && function_exists('gzdeflate')) {
+            __output_header('Content-Encoding: deflate');
             $data = gzdeflate($data);
         } else {
-            __output_header("Content-Encoding: none");
+            __output_header('Content-Encoding: none');
         }
-        __output_header("Vary: Accept-Encoding");
+        __output_header('Vary: Accept-Encoding');
     }
-    if ($file != "" && $data == "") {
+    if ($file != '' && $data == '') {
         $size = filesize($file);
     } else {
         $size = strlen($data);
     }
     if ($cache) {
         __output_header(
-            "Expires: " . gmdate("D, d M Y H:i:s", time() + get_config("server/cachetimeout")) . " GMT"
+            'Expires: ' . gmdate('D, d M Y H:i:s', time() + get_config('server/cachetimeout')) . ' GMT'
         );
-        __output_header("Cache-Control: max-age=" . get_config("server/cachetimeout") . ", no-transform");
-        __output_header("Pragma: public");
+        __output_header('Cache-Control: max-age=' . get_config('server/cachetimeout') . ', no-transform');
+        __output_header('Pragma: public');
         __output_header("ETag: {$hash2}");
     } else {
-        __output_header("Expires: -1");
+        __output_header('Expires: -1');
         __output_header(
-            "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0, no-transform"
+            'Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0, no-transform'
         );
-        __output_header("Pragma: no-cache");
+        __output_header('Pragma: no-cache');
     }
     __output_header("Content-Type: {$type}");
     __output_header("Content-Length: {$size}");
-    if ($name != "") {
+    if ($name != '') {
         __output_header("Content-disposition: attachment; filename=\"{$name}\"");
     }
     foreach ($extra as $temp) {
         __output_header($temp, false);
     }
-    __output_header("Connection: keep-alive, close");
-    if ($file != "" && $data == "") {
+    __output_header('Connection: keep-alive, close');
+    if ($file != '' && $data == '') {
         readfile($file);
     } else {
         echo $data;
@@ -154,7 +154,7 @@ function output_handler($array)
  */
 function __output_header($header, $replace = true)
 {
-    if (get_data("server/request_method") == "CLI") {
+    if (get_data('server/request_method') == 'CLI') {
         return;
     }
     header($header, $replace);
@@ -171,8 +171,8 @@ function __output_header($header, $replace = true)
 function output_handler_json($array)
 {
     output_handler([
-        "data" => json_encode($array),
-        "type" => "application/json",
-        "cache" => false,
+        'data' => json_encode($array),
+        'type' => 'application/json',
+        'cache' => false,
     ]);
 }

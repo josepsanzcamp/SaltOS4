@@ -34,17 +34,17 @@ declare(strict_types=1);
  * library, the execution of this accion only is allowed from the command line
  */
 
-if (get_data("server/request_method") != "CLI") {
-    show_php_error(["phperror" => "Permission denied"]);
+if (get_data('server/request_method') != 'CLI') {
+    show_php_error(['phperror' => 'Permission denied']);
 }
 
-if (!semaphore_acquire("dbschema")) {
-    show_php_error(["phperror" => "Could not acquire the semaphore"]);
+if (!semaphore_acquire('dbschema')) {
+    show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
 db_connect();
-require_once "php/lib/dbschema.php";
-require_once "php/lib/setup.php";
+require_once 'php/lib/dbschema.php';
+require_once 'php/lib/setup.php';
 $dbschema_check = __dbschema_check();
 $dbschema_hash = __dbschema_hash();
 $dbstatic_check = __dbstatic_check();
@@ -56,7 +56,7 @@ $output2 = db_static();
 $time3 = microtime(true);
 $output3 = __setup();
 $time4 = microtime(true);
-semaphore_release("dbschema");
+semaphore_release('dbschema');
 output_handler([
     'data' => json_encode([
         'db_schema' => array_merge([

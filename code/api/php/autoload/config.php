@@ -57,7 +57,7 @@ function get_config($key, $user_id = -1)
     global $_CONFIG;
     if ($user_id < 0) {
         // Try to search the key in the config file
-        $keys = explode("/", $key);
+        $keys = explode('/', $key);
         $count = count($keys);
         if ($count == 1) {
             return $_CONFIG[$keys[0]] ?? null;
@@ -65,12 +65,12 @@ function get_config($key, $user_id = -1)
         if ($count == 2) {
             return $_CONFIG[$keys[0]][$keys[1]] ?? null;
         }
-        show_php_error(["phperror" => "key $key not found"]);
+        show_php_error(['phperror' => "key $key not found"]);
     }
     // Search the key for the specified user in the database
-    $query = "SELECT val FROM tbl_config WHERE " . make_where_query([
-        "user_id" => $user_id,
-        "key" => $key,
+    $query = 'SELECT val FROM tbl_config WHERE ' . make_where_query([
+        'user_id' => $user_id,
+        'key' => $key,
     ]);
     if (db_check($query)) {
         $val = execute_query($query);
@@ -102,7 +102,7 @@ function set_config($key, $val, $user_id = -1)
     if ($user_id < 0) {
         // Try to sets the val for the specified key in the config file
         // This case only affects to the memory version of the config file
-        $keys = explode("/", $key);
+        $keys = explode('/', $key);
         $count = count($keys);
         if ($count == 1) {
             if ($val !== null) {
@@ -120,35 +120,35 @@ function set_config($key, $val, $user_id = -1)
             }
             return;
         }
-        show_php_error(["phperror" => "key $key not found"]);
+        show_php_error(['phperror' => "key $key not found"]);
     }
     // Try to insert or update the key for the specified user
     // In this case, zero user is allowed and used as global user
-    $query = "SELECT id FROM tbl_config WHERE " . make_where_query([
-        "user_id" => $user_id,
-        "key" => $key,
+    $query = 'SELECT id FROM tbl_config WHERE ' . make_where_query([
+        'user_id' => $user_id,
+        'key' => $key,
     ]);
     $id = execute_query($query);
     if ($id === null) {
         if ($val !== null) {
-            $query = make_insert_query("tbl_config", [
-                "user_id" => $user_id,
-                "key" => $key,
-                "val" => $val,
+            $query = make_insert_query('tbl_config', [
+                'user_id' => $user_id,
+                'key' => $key,
+                'val' => $val,
             ]);
             db_query($query);
         }
     } else {
         if ($val !== null) {
-            $query = make_update_query("tbl_config", [
-                "val" => $val,
+            $query = make_update_query('tbl_config', [
+                'val' => $val,
             ], make_where_query([
-                "id" => $id,
+                'id' => $id,
             ]));
             db_query($query);
         } else {
-            $query = "DELETE FROM tbl_config WHERE " . make_where_query([
-                "id" => $id,
+            $query = 'DELETE FROM tbl_config WHERE ' . make_where_query([
+                'id' => $id,
             ]);
             db_query($query);
         }
@@ -164,7 +164,7 @@ function set_config($key, $val, $user_id = -1)
  */
 function detect_config_files($file)
 {
-    $files = array_merge(glob("data/files/" . basename($file)), glob($file), glob("apps/*/{$file}"));
+    $files = array_merge(glob('data/files/' . basename($file)), glob($file), glob("apps/*/{$file}"));
     return $files;
 }
 
@@ -183,7 +183,7 @@ function get_config_array($prefix, $user_id)
         SELECT `key`, val
         FROM tbl_config
         WHERE user_id=$user_id AND `key` LIKE '$prefix%'");
-    $array = array_column($rows, "val", "key");
+    $array = array_column($rows, 'val', 'key');
     //~ $array = array_map(function ($val) {
         //~ return json_decode($val, true);
     //~ }, $array);

@@ -60,32 +60,32 @@ final class test_version extends TestCase
      */
     public function test_version(): void
     {
-        $this->assertStringContainsString("SaltOS", get_name_version_revision(false));
-        $this->assertStringContainsString("Copyright", get_name_version_revision(true));
+        $this->assertStringContainsString('SaltOS', get_name_version_revision(false));
+        $this->assertStringContainsString('Copyright', get_name_version_revision(true));
 
         $this->assertSame(svnversion() > 0, true);
-        file_put_contents("/tmp/svnversion", "123");
-        $this->assertSame(svnversion("/tmp/"), 123);
-        unlink("/tmp/svnversion");
+        file_put_contents('/tmp/svnversion', '123');
+        $this->assertSame(svnversion('/tmp/'), 123);
+        unlink('/tmp/svnversion');
 
-        $old = get_config("commands/svnversion");
-        set_config("commands/svnversion", "nada");
-        $this->assertSame(svnversion("/tmp/"), 0);
-        set_config("commands/svnversion", $old);
+        $old = get_config('commands/svnversion');
+        set_config('commands/svnversion', 'nada');
+        $this->assertSame(svnversion('/tmp/'), 0);
+        set_config('commands/svnversion', $old);
 
-        $old = get_config("commands/__gitversion__");
-        set_config("commands/__gitversion__", "ls");
+        $old = get_config('commands/__gitversion__');
+        set_config('commands/__gitversion__', 'ls');
         $this->assertSame(gitversion(), 0);
-        set_config("commands/__gitversion__", $old);
+        set_config('commands/__gitversion__', $old);
 
-        file_put_contents("/tmp/gitversion", "123");
-        $this->assertSame(gitversion("/tmp/"), 123);
-        unlink("/tmp/gitversion");
+        file_put_contents('/tmp/gitversion', '123');
+        $this->assertSame(gitversion('/tmp/'), 123);
+        unlink('/tmp/gitversion');
 
-        $old = get_config("commands/gitversion");
-        set_config("commands/gitversion", "nada");
-        $this->assertSame(gitversion("/tmp/"), 0);
-        set_config("commands/gitversion", $old);
+        $old = get_config('commands/gitversion');
+        set_config('commands/gitversion', 'nada');
+        $this->assertSame(gitversion('/tmp/'), 0);
+        set_config('commands/gitversion', $old);
 
         $this->assertSame(isphp(0), true);
         $this->assertSame(isphp(99), false);

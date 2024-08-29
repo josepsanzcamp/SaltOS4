@@ -37,7 +37,7 @@ declare(strict_types=1);
  * This file contains useful functions related to PDF using tcpdf
  */
 
-require_once "lib/tcpdf/vendor/autoload.php";
+require_once 'lib/tcpdf/vendor/autoload.php';
 
 /**
  * TODO
@@ -185,9 +185,9 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
         $letter = $str[$i];
         if (array_key_exists($letter, $open)) {
             $open[$letter] = ($open[$letter] == 1) ? 0 : 1;
-        } elseif ($letter == "(") {
+        } elseif ($letter == '(') {
             $pars++;
-        } elseif ($letter == ")") {
+        } elseif ($letter == ')') {
             $pars--;
         }
         if ($letter == $separator && array_sum($open) + $pars == 0) {
@@ -215,63 +215,63 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
  */
 function __pdf_eval_pdftag($array, $row = [])
 {
-    require_once "php/lib/color.php";
+    require_once 'php/lib/color.php';
     static $pdf = null;
     // Support for ltr and rtl langs
-    $dir = "ltr";
-    if (isset($row["dir"])) {
-        $dir = $row["dir"];
+    $dir = 'ltr';
+    if (isset($row['dir'])) {
+        $dir = $row['dir'];
     }
-    $rtl = ["ltr" => ["L" => "L", "C" => "C", "R" => "R"], "rtl" => ["L" => "R", "C" => "C", "R" => "L"]];
-    $fonts = ["normal" => "atkinsonhyperlegible", "mono" => "dejavusansmono"];
+    $rtl = ['ltr' => ['L' => 'L', 'C' => 'C', 'R' => 'R'], 'rtl' => ['L' => 'R', 'C' => 'C', 'R' => 'L']];
+    $fonts = ['normal' => 'atkinsonhyperlegible', 'mono' => 'dejavusansmono'];
     if (!is_array($array)) {
-        show_php_error(["phperror" => "Array not found"]);
+        show_php_error(['phperror' => 'Array not found']);
     }
     foreach ($array as $key => $val) {
         $key = fix_key($key);
         static $bool = 1;
         switch ($key) {
-            case "eval":
+            case 'eval':
                 $bool = __pdf_eval_value($val, $row, $pdf);
                 break;
-            case "constructor":
+            case 'constructor':
                 // format => orientation, unit, format
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val), $row, $pdf);
                 $pdf = new MyPDF($temp[0], $temp[1], $temp[2]);
                 $pdf->SetCreator(get_name_version_revision());
-                $pdf->SetDisplayMode("fullwidth", "continuous");
-                $pdf->setRTL($dir == "rtl");
+                $pdf->SetDisplayMode('fullwidth', 'continuous');
+                $pdf->setRTL($dir == 'rtl');
                 $pdf->Init();
                 break;
-            case "margins":
+            case 'margins':
                 // format => top, right, bottom, left
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val), $row, $pdf);
                 $pdf->SetMargins($temp[3], $temp[0], $temp[1]);
                 $pdf->SetAutoPageBreak(true, $temp[2]);
                 break;
-            case "foreach":
+            case 'foreach':
                 // requires query node with a valid sql sentence
                 if (!$bool) {
                     break;
                 }
-                if (!isset($val["query"])) {
-                    show_php_error(["phperror" => "Foreach without query!!!"]);
+                if (!isset($val['query'])) {
+                    show_php_error(['phperror' => 'Foreach without query!!!']);
                 }
-                $query = __pdf_eval_value($val["query"], $row, $pdf);
-                unset($val["query"]);
+                $query = __pdf_eval_value($val['query'], $row, $pdf);
+                unset($val['query']);
                 $result = db_query($query);
                 while ($row2 = db_fetch_row($result)) {
                     __pdf_eval_pdftag($val, $row2);
                 }
                 db_free($result);
                 break;
-            case "output":
+            case 'output':
                 // format => filename and defines the name of the output
                 if (!$bool) {
                     break;
@@ -279,26 +279,26 @@ function __pdf_eval_pdftag($array, $row = [])
                 $pdf->Footer();
                 $pdf->render_footers();
                 $name = __pdf_eval_value($val, $row, $pdf);
-                $buffer = $pdf->Output($name, "S");
+                $buffer = $pdf->Output($name, 'S');
                 return [
-                    "name" => $name,
-                    "data" => $buffer,
+                    'name' => $name,
+                    'data' => $buffer,
                 ];
-            case "header":
+            case 'header':
                 // format => node
                 if (!$bool) {
                     break;
                 }
                 $pdf->set_header($val, $row);
                 break;
-            case "footer":
+            case 'footer':
                 // format => node
                 if (!$bool) {
                     break;
                 }
                 $pdf->set_footer($val, $row);
                 break;
-            case "newpage":
+            case 'newpage':
                 // format => [orientation]
                 if (!$bool) {
                     break;
@@ -309,14 +309,14 @@ function __pdf_eval_pdftag($array, $row = [])
                     $pdf->AddPage();
                 }
                 break;
-            case "font":
+            case 'font':
                 // format => family, style, size, color
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 4), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 4), $row, $pdf);
                 $temp = [$temp[0], $temp[1], $temp[2],
-                    color2dec($temp[3], "R"), color2dec($temp[3], "G"), color2dec($temp[3], "B"),
+                    color2dec($temp[3], 'R'), color2dec($temp[3], 'G'), color2dec($temp[3], 'B'),
                 ];
                 if (isset($fonts[$temp[0]])) {
                     $temp[0] = $fonts[$temp[0]];
@@ -324,12 +324,12 @@ function __pdf_eval_pdftag($array, $row = [])
                 $pdf->SetFont($temp[0], $temp[1], $temp[2]);
                 $pdf->SetTextColor($temp[3], $temp[4], $temp[5]);
                 break;
-            case "image":
+            case 'image':
                 // format => left, top, width, height, file, [angle]
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 6), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 6), $row, $pdf);
                 if (isset($temp[5])) {
                     $pdf->StartTransform();
                 }
@@ -337,19 +337,19 @@ function __pdf_eval_pdftag($array, $row = [])
                     $pdf->Rotate(floatval($temp[5]), $temp[0], $temp[1]);
                 }
                 if (!file_exists($temp[4])) {
-                    show_php_error(["phperror" => "File {$temp[4]} not found"]);
+                    show_php_error(['phperror' => "File {$temp[4]} not found"]);
                 }
                 $pdf->Image($temp[4], $temp[0], $temp[1], $temp[2], $temp[3]);
                 if (isset($temp[5])) {
                     $pdf->StopTransform();
                 }
                 break;
-            case "text":
+            case 'text':
                 // format => left, top, text, [angle]
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 4), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 4), $row, $pdf);
                 if (isset($temp[3])) {
                     $pdf->StartTransform();
                 }
@@ -362,12 +362,12 @@ function __pdf_eval_pdftag($array, $row = [])
                     $pdf->StopTransform();
                 }
                 break;
-            case "textarea":
+            case 'textarea':
                 // format => left, top, width, height, align(L,C,R), text, [angle]
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 7), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 7), $row, $pdf);
                 if (isset($temp[6])) {
                     $pdf->StartTransform();
                 }
@@ -383,105 +383,105 @@ function __pdf_eval_pdftag($array, $row = [])
                     $pdf->StopTransform();
                 }
                 break;
-            case "color":
+            case 'color':
                 // format => draw color, fill color
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 2), $row, $pdf);
-                $temp = [color2dec($temp[0], "R"), color2dec($temp[0], "G"), color2dec($temp[0], "B"),
-                    color2dec($temp[1], "R"), color2dec($temp[1], "G"), color2dec($temp[1], "B"),
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 2), $row, $pdf);
+                $temp = [color2dec($temp[0], 'R'), color2dec($temp[0], 'G'), color2dec($temp[0], 'B'),
+                    color2dec($temp[1], 'R'), color2dec($temp[1], 'G'), color2dec($temp[1], 'B'),
                 ];
                 $pdf->SetDrawColor($temp[0], $temp[1], $temp[2]);
                 $pdf->SetFillColor($temp[3], $temp[4], $temp[5]);
                 break;
-            case "rect":
+            case 'rect':
                 // format => left, top, width, height, style (D,F,DF), [line width], [radious]
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 7), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 7), $row, $pdf);
                 if (isset($temp[5])) {
                     $pdf->SetLineWidth($temp[5]);
                 }
                 if (isset($temp[6])) {
-                    $pdf->RoundedRect($temp[0], $temp[1], $temp[2], $temp[3], $temp[6], "1111", $temp[4]);
+                    $pdf->RoundedRect($temp[0], $temp[1], $temp[2], $temp[3], $temp[6], '1111', $temp[4]);
                 } else {
                     $pdf->Rect($temp[0], $temp[1], $temp[2], $temp[3], $temp[4]);
                 }
                 break;
-            case "line":
+            case 'line':
                 // format => left, top, width ,height, [line width]
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 5), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 5), $row, $pdf);
                 if (isset($temp[4])) {
                     $pdf->SetLineWidth($temp[4]);
                 }
                 $pdf->Line($temp[0], $temp[1], $temp[0] + $temp[2], $temp[1] + $temp[3]);
                 break;
-            case "setxy":
+            case 'setxy':
                 // format => left, top
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 2), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 2), $row, $pdf);
                 $pdf->SetXY($temp[0], $temp[1]);
                 $pdf->check_y();
                 break;
-            case "getxy":
+            case 'getxy':
                 // format => index for x, index for y
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 2), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 2), $row, $pdf);
                 $row[$temp[0]] = $pdf->GetX();
                 $row[$temp[1]] = $pdf->GetY();
                 break;
-            case "pageno":
+            case 'pageno':
                 // format => left, top, [text]
                 // format => left, top, width, height, align(L,C,R), [text]
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 6), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 6), $row, $pdf);
                 if (!isset($temp[4])) {
                     $pdf->SetXY($temp[0], $temp[1]);
                     if (!isset($temp[2])) {
-                        $temp[2] = "%s/%s";
+                        $temp[2] = '%s/%s';
                     }
                     $temp[2] = sprintf($temp[2], $pdf->PageNo(), $pdf->getNumPages());
                     $pdf->Cell(0, 0, $temp[2]);
                 } else {
                     $pdf->SetXY($temp[0], $temp[1]);
                     if (!isset($temp[5])) {
-                        $temp[5] = "%s/%s";
+                        $temp[5] = '%s/%s';
                     }
                     $temp[5] = sprintf($temp[5], $pdf->PageNo(), $pdf->getNumPages());
                     $pdf->check_y($temp[3]);
                     $pdf->MultiCell($temp[2], $temp[3], strval($temp[5]), 0, $rtl[$dir][$temp[4]]);
                 }
                 break;
-            case "checky":
+            case 'checky':
                 // format => height to check
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 1), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 1), $row, $pdf);
                 $pdf->check_y($temp[0]);
                 break;
-            case "link":
+            case 'link':
                 // format => left, top, text, url
                 if (!$bool) {
                     break;
                 }
-                $temp = __pdf_eval_array(__pdf_eval_explode(",", $val, 4), $row, $pdf);
+                $temp = __pdf_eval_array(__pdf_eval_explode(',', $val, 4), $row, $pdf);
                 $pdf->SetXY($temp[0], $temp[1]);
-                $pdf->Cell(0, 0, $temp[2], 0, 0, "", false, $temp[3]);
+                $pdf->Cell(0, 0, $temp[2], 0, 0, '', false, $temp[3]);
                 break;
             default:
-                show_php_error(["phperror" => "Eval PDF Tag error: $key"]);
+                show_php_error(['phperror' => "Eval PDF Tag error: $key"]);
         }
     }
     return $pdf;
@@ -498,15 +498,15 @@ function pdf($file, $row = [])
     $hash = md5(serialize([$file, $row]));
     if (!isset($cache[$hash])) {
         $xml = xmlfile2array($file);
-        require_once "php/lib/pdf.php";
+        require_once 'php/lib/pdf.php';
         $pdf = __pdf_eval_pdftag($xml, $row);
         if ($pdf instanceof MyPDF) {
-            show_php_error(["phperror" => "Output node not found in template"]);
+            show_php_error(['phperror' => 'Output node not found in template']);
         }
         $cache[$hash] = [
-            "name" => $pdf["name"],
-            "type" => "application/pdf",
-            "data" => base64_encode($pdf["data"]),
+            'name' => $pdf['name'],
+            'type' => 'application/pdf',
+            'data' => base64_encode($pdf['data']),
         ];
     }
     return $cache[$hash];

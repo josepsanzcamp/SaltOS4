@@ -41,11 +41,11 @@ declare(strict_types=1);
 function get_browser_platform_device_type($user_agent = null)
 {
     $default = array_fill_keys([
-        "browser",
-        "platform",
-        "device_type",
-    ], "unknown");
-    $browscap = ini_get("browscap");
+        'browser',
+        'platform',
+        'device_type',
+    ], 'unknown');
+    $browscap = ini_get('browscap');
     if (!$browscap) {
         return $default;
     }

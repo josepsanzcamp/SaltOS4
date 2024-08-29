@@ -72,69 +72,69 @@ class database_pdo_sqlite
      */
     public function __construct($args)
     {
-        require_once "php/database/libsqlite.php";
-        if (!class_exists("PDO")) {
+        require_once 'php/database/libsqlite.php';
+        if (!class_exists('PDO')) {
             // @codeCoverageIgnoreStart
             show_php_error([
-                "dberror" => "Class PDO not found",
-                "details" => "Try to install php-pdo package",
+                'dberror' => 'Class PDO not found',
+                'details' => 'Try to install php-pdo package',
             ]);
             // @codeCoverageIgnoreEnd
         }
-        if (!file_exists($args["file"])) {
-            show_php_error(["dberror" => "File '" . $args["file"] . "' not found"]);
+        if (!file_exists($args['file'])) {
+            show_php_error(['dberror' => "File '" . $args['file'] . "' not found"]);
         }
-        if (!is_writable($args["file"])) {
-            show_php_error(["dberror" => "File '" . $args["file"] . "' not writable"]);
+        if (!is_writable($args['file'])) {
+            show_php_error(['dberror' => "File '" . $args['file'] . "' not writable"]);
         }
         try {
-            $this->link = new PDO("sqlite:" . $args["file"]);
+            $this->link = new PDO('sqlite:' . $args['file']);
         // @codeCoverageIgnoreStart
         } catch (PDOException $e) {
-            show_php_error(["dberror" => $e->getMessage()]);
+            show_php_error(['dberror' => $e->getMessage()]);
             // @codeCoverageIgnoreEnd
         }
         $this->link->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->link->setAttribute(PDO::ATTR_TIMEOUT, 0);
-        $this->db_query("PRAGMA cache_size=2000");
-        $this->db_query("PRAGMA synchronous=OFF");
-        $this->db_query("PRAGMA foreign_keys=OFF");
-        if (!$this->db_check("SELECT GROUP_CONCAT(1)")) {
+        $this->db_query('PRAGMA cache_size=2000');
+        $this->db_query('PRAGMA synchronous=OFF');
+        $this->db_query('PRAGMA foreign_keys=OFF');
+        if (!$this->db_check('SELECT GROUP_CONCAT(1)')) {
             // @codeCoverageIgnoreStart
             $this->link->sqliteCreateAggregate(
-                "GROUP_CONCAT",
-                "__libsqlite_group_concat_step",
-                "__libsqlite_group_concat_finalize"
+                'GROUP_CONCAT',
+                '__libsqlite_group_concat_step',
+                '__libsqlite_group_concat_finalize'
             );
             // @codeCoverageIgnoreEnd
         }
-        if (!$this->db_check("SELECT REPLACE(1,2,3)")) {
+        if (!$this->db_check('SELECT REPLACE(1,2,3)')) {
             // @codeCoverageIgnoreStart
-            $this->link->sqliteCreateFunction("REPLACE", "__libsqlite_replace");
+            $this->link->sqliteCreateFunction('REPLACE', '__libsqlite_replace');
             // @codeCoverageIgnoreEnd
         }
-        $this->link->sqliteCreateFunction("LPAD", "__libsqlite_lpad");
-        $this->link->sqliteCreateFunction("CONCAT", "__libsqlite_concat");
-        $this->link->sqliteCreateFunction("CONCAT_WS", "__libsqlite_concat_ws");
-        $this->link->sqliteCreateFunction("UNIX_TIMESTAMP", "__libsqlite_unix_timestamp");
-        $this->link->sqliteCreateFunction("FROM_UNIXTIME", "__libsqlite_from_unixtime");
-        $this->link->sqliteCreateFunction("YEAR", "__libsqlite_year");
-        $this->link->sqliteCreateFunction("MONTH", "__libsqlite_month");
-        $this->link->sqliteCreateFunction("WEEK", "__libsqlite_week");
-        $this->link->sqliteCreateFunction("TRUNCATE", "__libsqlite_truncate");
-        $this->link->sqliteCreateFunction("DAY", "__libsqlite_day");
-        $this->link->sqliteCreateFunction("DAYOFYEAR", "__libsqlite_dayofyear");
-        $this->link->sqliteCreateFunction("DAYOFWEEK", "__libsqlite_dayofweek");
-        $this->link->sqliteCreateFunction("HOUR", "__libsqlite_hour");
-        $this->link->sqliteCreateFunction("MINUTE", "__libsqlite_minute");
-        $this->link->sqliteCreateFunction("SECOND", "__libsqlite_second");
-        $this->link->sqliteCreateFunction("MD5", "__libsqlite_md5");
-        $this->link->sqliteCreateFunction("REPEAT", "__libsqlite_repeat");
-        $this->link->sqliteCreateFunction("FIND_IN_SET", "__libsqlite_find_in_set");
-        $this->link->sqliteCreateFunction("IF", "__libsqlite_if");
-        $this->link->sqliteCreateFunction("POW", "__libsqlite_pow");
-        $this->link->sqliteCreateFunction("DATE_FORMAT", "__libsqlite_date_format");
-        $this->link->sqliteCreateFunction("NOW", "__libsqlite_now");
+        $this->link->sqliteCreateFunction('LPAD', '__libsqlite_lpad');
+        $this->link->sqliteCreateFunction('CONCAT', '__libsqlite_concat');
+        $this->link->sqliteCreateFunction('CONCAT_WS', '__libsqlite_concat_ws');
+        $this->link->sqliteCreateFunction('UNIX_TIMESTAMP', '__libsqlite_unix_timestamp');
+        $this->link->sqliteCreateFunction('FROM_UNIXTIME', '__libsqlite_from_unixtime');
+        $this->link->sqliteCreateFunction('YEAR', '__libsqlite_year');
+        $this->link->sqliteCreateFunction('MONTH', '__libsqlite_month');
+        $this->link->sqliteCreateFunction('WEEK', '__libsqlite_week');
+        $this->link->sqliteCreateFunction('TRUNCATE', '__libsqlite_truncate');
+        $this->link->sqliteCreateFunction('DAY', '__libsqlite_day');
+        $this->link->sqliteCreateFunction('DAYOFYEAR', '__libsqlite_dayofyear');
+        $this->link->sqliteCreateFunction('DAYOFWEEK', '__libsqlite_dayofweek');
+        $this->link->sqliteCreateFunction('HOUR', '__libsqlite_hour');
+        $this->link->sqliteCreateFunction('MINUTE', '__libsqlite_minute');
+        $this->link->sqliteCreateFunction('SECOND', '__libsqlite_second');
+        $this->link->sqliteCreateFunction('MD5', '__libsqlite_md5');
+        $this->link->sqliteCreateFunction('REPEAT', '__libsqlite_repeat');
+        $this->link->sqliteCreateFunction('FIND_IN_SET', '__libsqlite_find_in_set');
+        $this->link->sqliteCreateFunction('IF', '__libsqlite_if');
+        $this->link->sqliteCreateFunction('POW', '__libsqlite_pow');
+        $this->link->sqliteCreateFunction('DATE_FORMAT', '__libsqlite_date_format');
+        $this->link->sqliteCreateFunction('NOW', '__libsqlite_now');
     }
 
     /**
@@ -182,30 +182,30 @@ class database_pdo_sqlite
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */
-    public function db_query($query, $fetch = "query")
+    public function db_query($query, $fetch = 'query')
     {
-        $query = parse_query($query, "SQLITE");
-        $result = ["total" => 0, "header" => [], "rows" => []];
+        $query = parse_query($query, 'SQLITE');
+        $result = ['total' => 0, 'header' => [], 'rows' => []];
         if (!strlen(trim($query))) {
             return $result;
         }
         // TRICK TO DO THE STRIP SLASHES
-        $pos = strpos($query, "\\");
+        $pos = strpos($query, '\\');
         while ($pos !== false) {
-            $extra = "";
+            $extra = '';
             if ($query[$pos + 1] == "'") {
                 $extra = "'";
             }
-            if ($query[$pos + 1] == "%") {
-                $extra = "\\";
+            if ($query[$pos + 1] == '%') {
+                $extra = '\\';
             }
             $query = substr_replace($query, $extra, $pos, 1);
-            $pos = strpos($query, "\\", $pos + 1);
+            $pos = strpos($query, '\\', $pos + 1);
         }
         // CONTINUE THE NORMAL OPERATION
-        $timeout = get_config("db/semaphoretimeout") ?? 10000000;
+        $timeout = get_config('db/semaphoretimeout') ?? 10000000;
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
-            show_php_error(["dberror" => "Could not acquire the semaphore", "query" => $query]);
+            show_php_error(['dberror' => 'Could not acquire the semaphore', 'query' => $query]);
         }
         // DO QUERY
         for (;;) {
@@ -214,47 +214,47 @@ class database_pdo_sqlite
                 break;
             } catch (PDOException $e) {
                 if ($timeout <= 0) {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
-                } elseif (stripos($e->getMessage(), "database is locked") !== false) {
+                    show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
+                } elseif (stripos($e->getMessage(), 'database is locked') !== false) {
                     // @codeCoverageIgnoreStart
                     $timeout -= __semaphore_usleep(rand(0, 1000));
                     // @codeCoverageIgnoreEnd
-                } elseif (stripos($e->getMessage(), "database schema has changed") !== false) {
+                } elseif (stripos($e->getMessage(), 'database schema has changed') !== false) {
                     // @codeCoverageIgnoreStart
                     $timeout -= __semaphore_usleep(rand(0, 1000));
                     // @codeCoverageIgnoreEnd
                 } else {
-                    show_php_error(["dberror" => $e->getMessage(), "query" => $query]);
+                    show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
                 }
             }
         }
         semaphore_release(__FUNCTION__);
         // DUMP RESULT TO MATRIX
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
-            if ($fetch == "auto") {
-                $fetch = $stmt->columnCount() > 1 ? "query" : "column";
+            if ($fetch == 'auto') {
+                $fetch = $stmt->columnCount() > 1 ? 'query' : 'column';
             }
-            if ($fetch == "query") {
-                $result["rows"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $result["total"] = count($result["rows"]);
-                if ($result["total"] > 0) {
-                    $result["header"] = array_keys($result["rows"][0]);
+            if ($fetch == 'query') {
+                $result['rows'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $result['total'] = count($result['rows']);
+                if ($result['total'] > 0) {
+                    $result['header'] = array_keys($result['rows'][0]);
                 }
             }
-            if ($fetch == "column") {
-                $result["rows"] = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                $result["total"] = count($result["rows"]);
-                $result["header"] = ["column"];
+            if ($fetch == 'column') {
+                $result['rows'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
+                $result['total'] = count($result['rows']);
+                $result['header'] = ['column'];
             }
-            if ($fetch == "concat") {
+            if ($fetch == 'concat') {
                 if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                    $result["rows"][] = $row;
+                    $result['rows'][] = $row;
                 }
                 while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                    $result["rows"][0] .= "," . $row;
+                    $result['rows'][0] .= ',' . $row;
                 }
-                $result["total"] = count($result["rows"]);
-                $result["header"] = ["concat"];
+                $result['total'] = count($result['rows']);
+                $result['header'] = ['concat'];
             }
         }
         return $result;

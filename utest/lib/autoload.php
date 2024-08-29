@@ -46,11 +46,11 @@ use PHPUnit\Framework\Assert;
  * check_system function.
  */
 
-set_include_path(get_include_path() . ":" . getcwd() . "/" . "utest");
+set_include_path(get_include_path() . ':' . getcwd() . '/' . 'utest');
 
-chdir("code/api");
-foreach (glob("php/autoload/*.php") as $file) {
-    if (basename($file) == "zindex.php") {
+chdir('code/api');
+foreach (glob('php/autoload/*.php') as $file) {
+    if (basename($file) == 'zindex.php') {
         continue;
     }
     require $file;
@@ -61,21 +61,21 @@ init_random();
 check_system();
 
 global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files("xml/config.xml")));
+$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
-$files = glob("data/logs/*");
+$files = glob('data/logs/*');
 if (count($files)) {
-    echo "\033[0;31mLog files found: " . implode(", ", $files) . "\033[0m\n";
+    echo "\033[0;31mLog files found: " . implode(', ', $files) . "\033[0m\n";
     echo "\033[0;33mRemoving files ...\033[0m\n";
     foreach ($files as $file) {
         unlink($file);
     }
 }
 
-$files = glob("pcov.out");
+$files = glob('pcov.out');
 if (count($files)) {
-    echo "\033[0;31mCoverage pipe found: " . implode(", ", $files) . "\033[0m\n";
+    echo "\033[0;31mCoverage pipe found: " . implode(', ', $files) . "\033[0m\n";
     echo "\033[0;33mRemoving files ...\033[0m\n";
     foreach ($files as $file) {
         unlink($file);

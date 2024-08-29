@@ -64,120 +64,120 @@ function export_file($args)
 {
     //~ echo "<pre>".sprintr($args)."</pre>";die();
     // Check parameters
-    if (!isset($args["type"])) {
-        show_php_error(["phperror" => "Unknown type"]);
+    if (!isset($args['type'])) {
+        show_php_error(['phperror' => 'Unknown type']);
     }
-    if (!isset($args["data"])) {
-        show_php_error(["phperror" => "Unknown data"]);
+    if (!isset($args['data'])) {
+        show_php_error(['phperror' => 'Unknown data']);
     }
-    if (!isset($args["sep"])) {
-        $args["sep"] = ";";
+    if (!isset($args['sep'])) {
+        $args['sep'] = ';';
     }
-    if (!isset($args["eol"])) {
-        $args["eol"] = "\n";
+    if (!isset($args['eol'])) {
+        $args['eol'] = "\n";
     }
-    if (!isset($args["encoding"])) {
-        $args["encoding"] = "UTF-8";
+    if (!isset($args['encoding'])) {
+        $args['encoding'] = 'UTF-8';
     }
-    if (!isset($args["replace"])) {
-        $args["replace"] = ["from" => "", "to" => ""];
+    if (!isset($args['replace'])) {
+        $args['replace'] = ['from' => '', 'to' => ''];
     }
-    if (!isset($args["escape"])) {
-        $args["escape"] = ["char" => '"', "mode" => "auto"];
+    if (!isset($args['escape'])) {
+        $args['escape'] = ['char' => '"', 'mode' => 'auto'];
     }
-    if (!isset($args["title"])) {
-        $args["title"] = "";
+    if (!isset($args['title'])) {
+        $args['title'] = '';
     }
-    if (!isset($args["file"])) {
-        $args["file"] = "";
+    if (!isset($args['file'])) {
+        $args['file'] = '';
     }
-    if (!isset($args["ext"])) {
-        $args["ext"] = "";
+    if (!isset($args['ext'])) {
+        $args['ext'] = '';
     }
-    if (!isset($args["wrap"])) {
-        $args["wrap"] = false;
+    if (!isset($args['wrap'])) {
+        $args['wrap'] = false;
     }
-    if (!isset($args["indent"])) {
-        $args["indent"] = false;
+    if (!isset($args['indent'])) {
+        $args['indent'] = false;
     }
-    if (!isset($args["prefn"])) {
-        $args["prefn"] = "";
+    if (!isset($args['prefn'])) {
+        $args['prefn'] = '';
     }
-    if (!isset($args["notree"])) {
-        $args["notree"] = true;
-        if ($args["type"] != "xml") {
-            $args["notree"] = false;
+    if (!isset($args['notree'])) {
+        $args['notree'] = true;
+        if ($args['type'] != 'xml') {
+            $args['notree'] = false;
         }
     }
-    if (!isset($args["postfn"])) {
-        $args["postfn"] = "";
+    if (!isset($args['postfn'])) {
+        $args['postfn'] = '';
     }
-    if (!isset($args["novoid"])) {
-        $args["novoid"] = false;
+    if (!isset($args['novoid'])) {
+        $args['novoid'] = false;
     }
     // New part that apply the same concept used in the import_file
-    if ($args["prefn"]) {
-        $args["data"] = $args["prefn"]($args["data"], $args);
-        if (!is_array($args["data"])) {
-            return $args["data"];
+    if ($args['prefn']) {
+        $args['data'] = $args['prefn']($args['data'], $args);
+        if (!is_array($args['data'])) {
+            return $args['data'];
         }
     }
-    if (!$args["notree"]) {
-        $args["data"] = __export_tree2array($args["data"]);
+    if (!$args['notree']) {
+        $args['data'] = __export_tree2array($args['data']);
         //~ if (!is_array($args["data"])) {
             //~ return $args["data"];
         //~ }
     }
-    if ($args["postfn"]) {
-        $args["data"] = $args["postfn"]($args["data"], $args);
-        if (!is_array($args["data"])) {
-            return $args["data"];
+    if ($args['postfn']) {
+        $args['data'] = $args['postfn']($args['data'], $args);
+        if (!is_array($args['data'])) {
+            return $args['data'];
         }
     }
-    if (!$args["novoid"]) {
-        $args["data"] = __import_removevoid($args["data"]);
+    if (!$args['novoid']) {
+        $args['data'] = __import_removevoid($args['data']);
         //~ if (!is_array($args["data"])) {
             //~ return $args["data"];
         //~ }
     }
     // Continue
-    switch ($args["type"]) {
-        case "xml":
-            $buffer = __export_file_xml($args["data"], $args["eol"], $args["encoding"]);
+    switch ($args['type']) {
+        case 'xml':
+            $buffer = __export_file_xml($args['data'], $args['eol'], $args['encoding']);
             break;
-        case "csv":
+        case 'csv':
             $buffer = __export_file_csv(
-                $args["data"], $args["sep"], $args["eol"],
-                $args["encoding"], $args["replace"], $args["escape"]
+                $args['data'], $args['sep'], $args['eol'],
+                $args['encoding'], $args['replace'], $args['escape']
             );
             break;
-        case "xls":
-            $buffer = __export_file_excel($args["data"], $args["title"], "Xls");
+        case 'xls':
+            $buffer = __export_file_excel($args['data'], $args['title'], 'Xls');
             break;
-        case "xlsx":
-            $buffer = __export_file_excel($args["data"], $args["title"], "Xlsx");
+        case 'xlsx':
+            $buffer = __export_file_excel($args['data'], $args['title'], 'Xlsx');
             break;
-        case "ods":
-            $buffer = __export_file_excel($args["data"], $args["title"], "Ods");
+        case 'ods':
+            $buffer = __export_file_excel($args['data'], $args['title'], 'Ods');
             break;
-        case "edi":
-            $buffer = __export_file_edi($args["data"], $args["wrap"]);
+        case 'edi':
+            $buffer = __export_file_edi($args['data'], $args['wrap']);
             break;
-        case "json":
-            $buffer = __export_file_json($args["data"], $args["indent"]);
+        case 'json':
+            $buffer = __export_file_json($args['data'], $args['indent']);
             break;
         default:
-            show_php_error(["phperror" => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
+            show_php_error(['phperror' => "Unknown type '{$args["type"]}' for file '{$args["file"]}'"]);
     }
-    if ($args["file"] != "") {
-        if ($args["ext"] == "") {
-            $args["ext"] = $args["type"];
+    if ($args['file'] != '') {
+        if ($args['ext'] == '') {
+            $args['ext'] = $args['type'];
         }
-        if (strtolower(extension($args["file"])) != $args["ext"]) {
-            $args["file"] .= "." . $args["ext"];
+        if (strtolower(extension($args['file'])) != $args['ext']) {
+            $args['file'] .= '.' . $args['ext'];
         }
-        file_put_contents($args["file"], $buffer);
-        return "";
+        file_put_contents($args['file'], $buffer);
+        return '';
     }
     return $buffer;
 }
@@ -193,13 +193,13 @@ function export_file($args)
  *
  * They will returns all data
  */
-function __export_file_xml($matrix, $eol = "\n", $encoding = "UTF-8")
+function __export_file_xml($matrix, $eol = "\n", $encoding = 'UTF-8')
 {
-    require_once "php/lib/array2xml.php";
-    $buffer = str_replace("UTF-8", $encoding, "<?xml version='1.0' encoding='UTF-8' ?>\n");
+    require_once 'php/lib/array2xml.php';
+    $buffer = str_replace('UTF-8', $encoding, "<?xml version='1.0' encoding='UTF-8' ?>\n");
     $buffer .= __array2xml_write_nodes($matrix, 0);
     $buffer = str_replace("\n", $eol, $buffer);
-    $buffer = mb_convert_encoding($buffer, $encoding, "UTF-8");
+    $buffer = mb_convert_encoding($buffer, $encoding, 'UTF-8');
     return $buffer;
 }
 
@@ -220,23 +220,23 @@ function __export_file_xml($matrix, $eol = "\n", $encoding = "UTF-8")
  */
 function __export_file_csv(
     $matrix,
-    $sep = ";",
+    $sep = ';',
     $eol = "\r\n",
-    $encoding = "UTF-8",
-    $replace = ["from" => "", "to" => ""],
-    $escape = ["char" => '"', "mode" => "auto"]
+    $encoding = 'UTF-8',
+    $replace = ['from' => '', 'to' => ''],
+    $escape = ['char' => '"', 'mode' => 'auto']
 ) {
     $sep = __import_specialchars($sep);
     $eol = __import_specialchars($eol);
-    $replace["from"] = __import_specialchars(explode(",", $replace["from"]));
-    $replace["to"] = __import_specialchars($replace["to"]);
-    $xchar = $escape["char"];
+    $replace['from'] = __import_specialchars(explode(',', $replace['from']));
+    $replace['to'] = __import_specialchars($replace['to']);
+    $xchar = $escape['char'];
     $buffer = [];
     foreach ($matrix as $key => $val) {
-        $val = str_replace($replace["from"], $replace["to"], $val);
+        $val = str_replace($replace['from'], $replace['to'], $val);
         foreach ($val as $key2 => $val2) {
             $val2 = trim($val2);
-            if ($escape["mode"] == "auto") {
+            if ($escape['mode'] == 'auto') {
                 $has_sep = strpos($val2, $sep) !== false ? 1 : 0;
                 $has_new = strpos($val2, "\n") !== false ? 1 : 0;
                 $has_ret = strpos($val2, "\r") !== false ? 1 : 0;
@@ -244,7 +244,7 @@ function __export_file_csv(
                 if ($has_sep + $has_new + $has_ret + $has_tab) {
                     $val2 = $xchar . str_replace($xchar, $xchar . $xchar, $val2) . $xchar;
                 }
-            } elseif (eval_bool($escape["mode"])) {
+            } elseif (eval_bool($escape['mode'])) {
                 $val2 = $xchar . str_replace($xchar, $xchar . $xchar, $val2) . $xchar;
             }
             $val[$key2] = $val2;
@@ -252,7 +252,7 @@ function __export_file_csv(
         $buffer[] = implode($sep, $val);
     }
     $buffer = implode($eol, $buffer);
-    $buffer = mb_convert_encoding($buffer, $encoding, "UTF-8");
+    $buffer = mb_convert_encoding($buffer, $encoding, 'UTF-8');
     return $buffer;
 }
 
@@ -267,13 +267,13 @@ function __export_file_csv(
  *
  * They will returns all data
  */
-function __export_file_excel($matrix, $title = "", $type = "Xlsx")
+function __export_file_excel($matrix, $title = '', $type = 'Xlsx')
 {
-    require_once "lib/phpspreadsheet/vendor/autoload.php";
+    require_once 'lib/phpspreadsheet/vendor/autoload.php';
     $objPHPExcel = new PhpOffice\PhpSpreadsheet\Spreadsheet();
     $objPHPExcel->getProperties()->setCreator(get_name_version_revision());
     $objPHPExcel->getProperties()->setLastModifiedBy(current_datetime());
-    if ($title != "") {
+    if ($title != '') {
         $objPHPExcel->getProperties()->setTitle($title);
         $objPHPExcel->getProperties()->setSubject($title);
         $objPHPExcel->getProperties()->setDescription($title);
@@ -281,11 +281,11 @@ function __export_file_excel($matrix, $title = "", $type = "Xlsx")
         $objPHPExcel->getProperties()->setCategory($title);
     }
     $objPHPExcel->setActiveSheetIndex(0);
-    $objPHPExcel->getActiveSheet()->fromArray($matrix, null, "A1");
+    $objPHPExcel->getActiveSheet()->fromArray($matrix, null, 'A1');
     for ($i = 0; $i < count($matrix[0]); $i++) {
         $objPHPExcel->getActiveSheet()->getColumnDimension(__import_col2name($i))->setAutoSize(true);
     }
-    if ($title != "") {
+    if ($title != '') {
         $objPHPExcel->getActiveSheet()->setTitle(substr($title, 0, 31));
     }
     // Convert all long numbers to string
@@ -295,7 +295,7 @@ function __export_file_excel($matrix, $title = "", $type = "Xlsx")
         foreach ($val as $key2 => $val2) {
             if (is_numeric($val2)) {
                 if (strlen($val2) > 15) {
-                    if (substr($val2, 0, 1) != "0") {
+                    if (substr($val2, 0, 1) != '0') {
                         $objPHPExcel->getActiveSheet()->setCellValueExplicit(
                             __import_col2name($col) . strval($row + 1),
                             $val2,
@@ -311,7 +311,7 @@ function __export_file_excel($matrix, $title = "", $type = "Xlsx")
     // Continue
     $objWriter = PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, $type);
     ob_start();
-    $objWriter->save("php://output");
+    $objWriter->save('php://output');
     $buffer = ob_get_clean();
     return $buffer;
 }
@@ -335,7 +335,7 @@ function __export_file_edi($matrix, $wrap = false)
             if (is_array($field)) {
                 foreach ($field as $key3 => $subfield) {
                     if (is_array($subfield)) {
-                        show_php_error(["phperror" => "Arrays in subfields not allowed"]);
+                        show_php_error(['phperror' => 'Arrays in subfields not allowed']);
                     } else {
                         $matrix[$key][$key2][$key3] = strval($subfield);
                     }
@@ -346,7 +346,7 @@ function __export_file_edi($matrix, $wrap = false)
         }
     }
     // Continue
-    require_once "lib/edifact/vendor/autoload.php";
+    require_once 'lib/edifact/vendor/autoload.php';
     $encoder = new EDI\Encoder();
     $encoder->encode($matrix, $wrap);
     $buffer = $encoder->get();
@@ -385,10 +385,10 @@ function __export_tree2array($array)
 {
     $result = [];
     foreach ($array as $node) {
-        if (isset($node["row"]) && isset($node["rows"])) {
-            foreach (__export_tree2array($node["rows"]) as $row) {
+        if (isset($node['row']) && isset($node['rows'])) {
+            foreach (__export_tree2array($node['rows']) as $row) {
                 // Fix for duplicates
-                $temp = $node["row"];
+                $temp = $node['row'];
                 foreach ($row as $key => $val) {
                     set_array($temp, $key, $val);
                 }
@@ -415,8 +415,8 @@ function __export_getkeys($array)
     $result = [];
     if (isset($array[0])) {
         $node = $array[0];
-        if (isset($node["row"]) && isset($node["rows"])) {
-            $result = array_merge(array_keys($node["row"]), __export_getkeys($node["rows"]));
+        if (isset($node['row']) && isset($node['rows'])) {
+            $result = array_merge(array_keys($node['row']), __export_getkeys($node['rows']));
         } else {
             $result = array_keys($node);
         }

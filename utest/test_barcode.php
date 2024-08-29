@@ -51,8 +51,8 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
-require_once "php/lib/barcode.php";
+require_once 'lib/utestlib.php';
+require_once 'php/lib/barcode.php';
 
 /**
  * Main class of this unit test
@@ -68,54 +68,54 @@ final class test_barcode extends TestCase
      */
     public function test_barcode(): void
     {
-        $img = __barcode_image("12345", 1, 30, 10, 8, "C39");
-        $this->assertStringContainsString("PNG image data", get_mime($img));
+        $img = __barcode_image('12345', 1, 30, 10, 8, 'C39');
+        $this->assertStringContainsString('PNG image data', get_mime($img));
         $gd = @imagecreatefromstring($img);
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
 
         // This case is for the special case when tcpdf doesn't returns valid data
-        $this->assertSame(__barcode_image(chr(0), 1, 30, 10, 8, "C39"), "");
+        $this->assertSame(__barcode_image(chr(0), 1, 30, 10, 8, 'C39'), '');
 
-        $json = test_web_helper("image/barcode", [], "", "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/barcode', [], '', '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper("auth/login", [
-            "user" => "admin",
-            "pass" => "admin",
-        ], "", "");
-        $this->assertSame($json2["status"], "ok");
+        $json2 = test_web_helper('auth/login', [
+            'user' => 'admin',
+            'pass' => 'admin',
+        ], '', '');
+        $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey("token", $json2);
+        $this->assertArrayHasKey('token', $json2);
 
-        $json = test_web_helper("image/barcode", [], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/barcode', [], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/barcode", [
-            "msg" => "nada",
-            "format" => "nada",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/barcode', [
+            'msg' => 'nada',
+            'format' => 'nada',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/barcode", [
-            "msg" => "\0",
-            "format" => "png",
-        ], $json2["token"], "");
-        $this->assertArrayHasKey("error", $json);
+        $json = test_web_helper('image/barcode', [
+            'msg' => "\0",
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper("image/barcode", [
-            "msg" => "nada",
-            "format" => "png",
-        ], $json2["token"], "");
-        $this->assertStringContainsString("PNG image data", get_mime($json));
+        $json = test_web_helper('image/barcode', [
+            'msg' => 'nada',
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper("image/barcode", [
-            "msg" => "nada",
-            "format" => "json",
-        ], $json2["token"], "");
+        $json = test_web_helper('image/barcode', [
+            'msg' => 'nada',
+            'format' => 'json',
+        ], $json2['token'], '');
         $this->assertIsArray($json);
         $this->assertSame(count($json), 2);
-        $this->assertArrayHasKey("msg", $json);
-        $this->assertArrayHasKey("image", $json);
+        $this->assertArrayHasKey('msg', $json);
+        $this->assertArrayHasKey('image', $json);
     }
 }

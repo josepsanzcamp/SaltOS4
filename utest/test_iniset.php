@@ -52,7 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once "lib/utestlib.php";
+require_once 'lib/utestlib.php';
 
 /**
  * Main class of this unit test
@@ -68,33 +68,33 @@ final class test_iniset extends TestCase
      */
     public function test_iniset(): void
     {
-        set_config("iniset/display_errors", "On");
-        set_config("extras/ini_set", ["display_errors", "Off"]);
+        set_config('iniset/display_errors', 'On');
+        set_config('extras/ini_set', ['display_errors', 'Off']);
 
-        $this->assertSame(ini_get("memory_limit"), "-1");
-        $this->assertSame(ini_get("max_execution_time"), "0");
-        eval_iniset(get_config("iniset"));
-        $this->assertSame(ini_get("memory_limit"), "128M");
-        $this->assertSame(ini_get("max_execution_time"), "600");
+        $this->assertSame(ini_get('memory_limit'), '-1');
+        $this->assertSame(ini_get('max_execution_time'), '0');
+        eval_iniset(get_config('iniset'));
+        $this->assertSame(ini_get('memory_limit'), '128M');
+        $this->assertSame(ini_get('max_execution_time'), '600');
 
-        ini_set("memory_limit", -1);
-        $this->assertSame(ini_get("memory_limit"), "-1");
-        ini_set("max_execution_time", 0);
-        $this->assertSame(ini_get("max_execution_time"), "0");
+        ini_set('memory_limit', -1);
+        $this->assertSame(ini_get('memory_limit'), '-1');
+        ini_set('max_execution_time', 0);
+        $this->assertSame(ini_get('max_execution_time'), '0');
 
-        $this->assertSame(getenv("LANG"), "en_US.UTF-8");
-        eval_putenv(get_config("putenv"));
-        $this->assertSame(getenv("LANG"), "es_ES.UTF-8");
+        $this->assertSame(getenv('LANG'), 'en_US.UTF-8');
+        eval_putenv(get_config('putenv'));
+        $this->assertSame(getenv('LANG'), 'es_ES.UTF-8');
 
-        $this->assertSame(mb_internal_encoding("ISO-8859-1"), true);
-        $this->assertSame(mb_internal_encoding(), "ISO-8859-1");
-        eval_extras(get_config("extras"));
-        $this->assertSame(mb_internal_encoding(), "UTF-8");
+        $this->assertSame(mb_internal_encoding('ISO-8859-1'), true);
+        $this->assertSame(mb_internal_encoding(), 'ISO-8859-1');
+        eval_extras(get_config('extras'));
+        $this->assertSame(mb_internal_encoding(), 'UTF-8');
 
-        test_external_exec("php/iniset1.php", "phperror.log", "ini_set fails to set nada from to nada");
-        test_external_exec("php/iniset2.php", "phperror.log", "putenv(): argument assignment must have a valid syntax");
-        test_external_exec("php/iniset3.php", "phperror.log", "nada fails to set nada,nada,nada");
-        test_external_exec("php/iniset4.php", "phperror.log", "ini_set fails to set nada,nada");
-        test_external_exec("php/iniset5.php", "phperror.log", "is_array fails to set nada");
+        test_external_exec('php/iniset1.php', 'phperror.log', 'ini_set fails to set nada from to nada');
+        test_external_exec('php/iniset2.php', 'phperror.log', 'putenv(): argument assignment must have a valid syntax');
+        test_external_exec('php/iniset3.php', 'phperror.log', 'nada fails to set nada,nada,nada');
+        test_external_exec('php/iniset4.php', 'phperror.log', 'ini_set fails to set nada,nada');
+        test_external_exec('php/iniset5.php', 'phperror.log', 'is_array fails to set nada');
     }
 }
