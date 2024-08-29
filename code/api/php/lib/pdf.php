@@ -34,7 +34,7 @@ declare(strict_types=1);
 /**
  * PDF helper module
  *
- * This fie contains useful functions related to PDF using tcpdf
+ * This file contains useful functions related to PDF using tcpdf
  */
 
 require_once "lib/tcpdf/vendor/autoload.php";

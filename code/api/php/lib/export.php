@@ -365,11 +365,11 @@ function __export_file_edi($matrix, $wrap = false)
  */
 function __export_file_json($matrix, $indent = false)
 {
-    $flags = 0;
     if ($indent) {
-        $flags |=  JSON_PRETTY_PRINT;
+        $buffer = json_encode($matrix, JSON_PRETTY_PRINT);
+    } else {
+        $buffer = json_encode($matrix);
     }
-    $buffer = json_encode($matrix, $flags);
     return $buffer;
 }
 
