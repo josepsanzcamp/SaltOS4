@@ -46,12 +46,8 @@
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
-                <button label="View" tooltip="To see the email" icon="filetype-pdf" onclick="
-                    if (!saltos.app.checkbox_ids(document.getElementById('list').parentElement).length) { return false; }
-                    saltos.driver.open('app/emails/view/viewpdf/'+saltos.app.checkbox_ids(document.getElementById('list').parentElement).join(','))"/>
-                <button label="Download" tooltip="To download the email" icon="save" onclick="
-                    if (!saltos.app.checkbox_ids(document.getElementById('list').parentElement).length) { return false; }
-                    saltos.app.download('app/emails/view/download/'+saltos.app.checkbox_ids(document.getElementById('list').parentElement).join(','))"/>
+                <button label="View" tooltip="To see the email" icon="filetype-pdf" onclick="saltos.emails.viewpdf()"/>
+                <button label="Download" tooltip="To download the email" icon="save" onclick="saltos.emails.download()"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
                 <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>

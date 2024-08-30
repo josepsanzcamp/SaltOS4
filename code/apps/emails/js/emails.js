@@ -227,6 +227,48 @@ saltos.emails.signature = () => {
  *
  * TODO
  */
+saltos.emails.viewpdf = () => {
+    var ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    if (!ids.length) {
+        saltos.app.modal(
+            'Select emails',
+            'You must select the desired emails that you want see in the PDF file',
+            {
+                color: 'warning',
+            },
+        );
+        return;
+    }
+    ids = ids.join(',');
+    saltos.driver.open('app/emails/view/viewpdf/' + ids);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.download = () => {
+    var ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    if (!ids.length) {
+        saltos.app.modal(
+            'Select emails',
+            'You must select the desired emails that you want download in the PDF file',
+            {
+                color: 'warning',
+            },
+        );
+        return;
+    }
+    ids = ids.join(',');
+    saltos.app.download('app/emails/view/download/' + ids);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.core.when_visible('from', () => {
     saltos.emails.old_account = document.getElementById('from').value;
 });

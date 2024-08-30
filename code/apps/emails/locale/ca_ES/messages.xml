@@ -112,7 +112,7 @@
     <delete_emails>Esborrar correus electrònics???</delete_emails>
     <do_you_want_to_delete_the_selected_emails>Voleu esborrar els correus electrònics seleccionats???</do_you_want_to_delete_the_selected_emails>
     <select_emails>Seleccioneu correus electrònics</select_emails>
-    <you_must_select_the_desired_emails_to_be_deleted>Heu de seleccionar els correus electrònics que voleu suprimir???</you_must_select_the_desired_emails_to_be_deleted>
+    <you_must_select_the_desired_emails_to_be_deleted>Heu de seleccionar els correus electrònics que voleu suprimir</you_must_select_the_desired_emails_to_be_deleted>
     <to_open_this_content_in_a_new_window>Per obrir aquest contingut en una finestra nova</to_open_this_content_in_a_new_window>
     <main_configuration>Configuració principal</main_configuration>
     <pop3_server_configuration>Configuració servidor entrant</pop3_server_configuration>
@@ -140,4 +140,6 @@
     <only_inbox>Només entrant</only_inbox>
     <only_outbox>Només sortint</only_outbox>
     <show_and_hide_the_search_form>Mostrar i amagar el formulari de cerca</show_and_hide_the_search_form>
+    <you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file>Heu de seleccionar els correus electrònics desitjats que voleu veure al fitxer PDF</you_must_select_the_desired_emails_that_you_want_see_in_the_pdf_file>
+    <you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file>Heu de seleccionar els correus electrònics desitjats que voleu descarregar al fitxer PDF</you_must_select_the_desired_emails_that_you_want_download_in_the_pdf_file>
 </root>

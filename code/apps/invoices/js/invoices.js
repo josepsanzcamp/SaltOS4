@@ -114,3 +114,45 @@ saltos.invoices.remove_item = (obj) => {
     });
     saltos.invoices.compute_total();
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.viewpdf = () => {
+    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    if (!ids.length) {
+        saltos.app.modal(
+            'Select invoices',
+            'You must select the desired invoices that you want see in the PDF file',
+            {
+                color: 'warning',
+            },
+        );
+        return;
+    }
+    ids = ids.join(',');
+    saltos.driver.open('app/invoices/view/viewpdf/' + ids);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.invoices.download = () => {
+    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    if (!ids.length) {
+        saltos.app.modal(
+            'Select invoices',
+            'You must select the desired invoices that you want download in the PDF file',
+            {
+                color: 'warning',
+            },
+        );
+        return;
+    }
+    ids = ids.join(',');
+    saltos.app.download('app/invoices/view/download/' + ids);
+};

@@ -43,12 +43,8 @@
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
-                <button label="View" tooltip="To see the invoice" icon="filetype-pdf" onclick="
-                    if (!saltos.app.checkbox_ids(document.getElementById('table')).length) { return false; }
-                    saltos.driver.open('app/invoices/view/viewpdf/'+saltos.app.checkbox_ids(document.getElementById('table')).join(','))"/>
-                <button label="Download" tooltip="To download the invoice" icon="save" onclick="
-                    if (!saltos.app.checkbox_ids(document.getElementById('table')).length) { return false; }
-                    saltos.app.download('app/invoices/view/download/'+saltos.app.checkbox_ids(document.getElementById('table')).join(','))"/>
+                <button label="View" tooltip="To see the invoice" icon="filetype-pdf" onclick="saltos.invoices.viewpdf()"/>
+                <button label="Download" tooltip="To download the invoice" icon="save" onclick="saltos.invoices.download()"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
             <div eval="true">xmlfile2array("apps/dashboard/xml/filter.xml")["div"]</div>
@@ -61,6 +57,7 @@
             </row>
         </layout>
         <javascript>
+            <file eval="true">file_with_hash(file_with_min("apps/invoices/js/invoices.js"))</file>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
