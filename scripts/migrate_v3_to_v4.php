@@ -13,7 +13,7 @@ function db_query($query)
 {
     file_put_contents('/tmp/query', $query);
     ob_start();
-    passthru('cat /tmp/query | mysql -N');
+    passthru('cat /tmp/query | mysql -N 2>&1');
     $buffer = ob_get_clean();
     $buffer = trim($buffer);
     return $buffer;
@@ -37,11 +37,16 @@ $queries = [
     'app_emails' => "INSERT INTO $destination.app_emails SELECT * FROM $source.tbl_correo",
     'app_emails_address' => "INSERT INTO $destination.app_emails_address SELECT * FROM $source.tbl_correo_a",
     'app_emails_deletes' => "INSERT INTO $destination.app_emails_deletes SELECT * FROM $source.tbl_correo_d",
+    'tbl_users' => "INSERT INTO $destination.tbl_users SELECT id, activo, id_grupo, login, 'TODO', 'TODO', hora_ini, hora_fin, dias_sem, '' FROM $source.tbl_usuarios",
+    'tbl_groups' => "INSERT INTO $destination.tbl_groups SELECT id, '1', nombre, nombre, descripcion, '' FROM $source.tbl_grupos",
+    'tbl_users_passwords' => "INSERT INTO $destination.tbl_users_passwords SELECT id, activo, id, NOW(), '', '', password, NOW() + INTERVAL 1 YEAR FROM $source.tbl_usuarios",
 
     // Index data from main apps
     'app_customers_index' => "INSERT INTO $destination.app_customers_index SELECT * FROM $source.idx_clientes",
     'app_invoices_index' => "INSERT INTO $destination.app_invoices_index SELECT * FROM $source.idx_facturas",
     'app_emails_index' => "INSERT INTO $destination.app_emails_index SELECT * FROM $source.idx_correo",
+    'tbl_users_index' => "INSERT INTO $destination.tbl_users_index SELECT * FROM $source.idx_usuarios",
+    'tbl_groups_index' => "INSERT INTO $destination.tbl_groups_index SELECT * FROM $source.idx_grupos",
 
     // Control data from main apps
     'app_customers_control' => "INSERT INTO $destination.app_customers_control
@@ -53,6 +58,12 @@ $queries = [
     'app_emails_control' => "INSERT INTO $destination.app_emails_control
         SELECT id_registro, id_usuario, (SELECT id_grupo FROM $source.tbl_usuarios WHERE $source.tbl_registros.id_usuario=$source.tbl_usuarios.id), datetime, '', ''
         FROM $source.tbl_registros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='correo') AND first=1",
+    'tbl_users_control' => "INSERT INTO $destination.tbl_users_control
+        SELECT id_registro, id_usuario, (SELECT id_grupo FROM $source.tbl_usuarios WHERE $source.tbl_registros.id_usuario=$source.tbl_usuarios.id), datetime, '', ''
+        FROM $source.tbl_registros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='usuarios') AND first=1",
+    'tbl_groups_control' => "INSERT INTO $destination.tbl_groups_control
+        SELECT id_registro, id_usuario, (SELECT id_grupo FROM $source.tbl_usuarios WHERE $source.tbl_registros.id_usuario=$source.tbl_usuarios.id), datetime, '', ''
+        FROM $source.tbl_registros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='grupos') AND first=1",
 
     // Files data from main apps
     'app_customers_files' => "INSERT INTO $destination.app_customers_files
@@ -60,10 +71,30 @@ $queries = [
         FROM $source.tbl_ficheros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='clientes')",
     'app_invoices_files' => "INSERT INTO $destination.app_invoices_files
         SELECT id, id_usuario, datetime, id_registro, '', fichero, fichero_size, fichero_type, fichero_file, fichero_hash, search, indexed, retries
-        FROM $source.tbl_ficheros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='clientes')",
+        FROM $source.tbl_ficheros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='facturas')",
     'app_emails_files' => "INSERT INTO $destination.app_emails_files
         SELECT id, id_usuario, datetime, id_registro, '', fichero, fichero_size, fichero_type, fichero_file, fichero_hash, search, indexed, retries
         FROM $source.tbl_ficheros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='correo')",
+    'tbl_users_files' => "INSERT INTO $destination.tbl_users_files
+        SELECT id, id_usuario, datetime, id_registro, '', fichero, fichero_size, fichero_type, fichero_file, fichero_hash, search, indexed, retries
+        FROM $source.tbl_ficheros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='usuarios')",
+    'tbl_groups_files' => "INSERT INTO $destination.tbl_groups_files
+        SELECT id, id_usuario, datetime, id_registro, '', fichero, fichero_size, fichero_type, fichero_file, fichero_hash, search, indexed, retries
+        FROM $source.tbl_ficheros WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='grupos')",
+
+    // Notes data from main apps
+    'app_customers_notes' => "INSERT INTO $destination.app_customers_notes
+        SELECT id, id_usuario, datetime, id_registro, comentarios
+        FROM $source.tbl_comentarios WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='clientes')",
+    'app_invoices_notes' => "INSERT INTO $destination.app_invoices_notes
+        SELECT id, id_usuario, datetime, id_registro, comentarios
+        FROM $source.tbl_comentarios WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='facturas')",
+    'tbl_users_notes' => "INSERT INTO $destination.tbl_users_notes
+        SELECT id, id_usuario, datetime, id_registro, comentarios
+        FROM $source.tbl_comentarios WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='usuarios')",
+    'tbl_groups_notes' => "INSERT INTO $destination.tbl_groups_notes
+        SELECT id, id_usuario, datetime, id_registro, comentarios
+        FROM $source.tbl_comentarios WHERE id_aplicacion=(SELECT id FROM $source.tbl_aplicaciones WHERE codigo='grupos')",
 
     // Accounts emails
     'app_emails_accounts' => "INSERT INTO $destination.app_emails_accounts
@@ -74,13 +105,21 @@ $queries = [
         FROM $source.tbl_usuarios_c",
 ];
 
-foreach ($queries as $table => $query) {
-    $temp = "SELECT COUNT(*) FROM $destination.$table";
-    $exists = db_query($temp);
-    if ($exists) {
+foreach ($queries as $table => $query1) {
+    $query0 = "SELECT COUNT(*) FROM $destination.$table";
+    $result = db_query($query0);
+    if (strpos($result, 'ERROR') !== false) {
+        echo "$result\n";
+        die();
+    }
+    if (intval($result) > 0) {
         continue;
     }
-    db_query($query);
+    $result = db_query($query1);
+    if (strpos($result, 'ERROR') !== false) {
+        echo "$result\n";
+        die();
+    }
 }
 
 $files = [
