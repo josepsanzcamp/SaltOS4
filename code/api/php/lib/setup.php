@@ -38,12 +38,13 @@ declare(strict_types=1);
  *
  * TODO
  */
-function __setup()
+function setup()
 {
     $output = [
         'history' => [],
         'count' => 0,
     ];
+
     $array = [
         'tbl_users' => [
             [
@@ -86,24 +87,20 @@ function __setup()
             SELECT id, '1' group_id, app_id, perm_id, '1' allow, '0' deny
             FROM tbl_apps_perms"),
     ];
-    // First check
+
     foreach ($array as $table => $rows) {
+        $output['history'][$table] = 0;
         $exists = execute_query("SELECT COUNT(*) FROM $table");
         if ($exists) {
-            return $output;
+            continue;
         }
-    }
-    // Execute the real code
-    foreach ($array as $table => $rows) {
         foreach ($rows as $row) {
             $query = make_insert_query($table, $row);
             db_query($query);
-            if (!isset($output['history'][$table])) {
-                $output['history'][$table] = 0;
-            }
             $output['history'][$table]++;
             $output['count']++;
         }
     }
+
     return $output;
 }

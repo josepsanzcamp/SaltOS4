@@ -304,4 +304,10 @@
                 ]]
         ]</data>
     </widget>
+
+    <!-- Actions part -->
+    <action id="setup">
+        <check eval="true">true</check>
+        <output require="apps/customers/sample/setup.php"/>
+    </action>
 </root>

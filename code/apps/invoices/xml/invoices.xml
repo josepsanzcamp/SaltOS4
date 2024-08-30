@@ -287,4 +287,10 @@
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <output require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</output>
     </delete>
+
+    <!-- Actions part -->
+    <action id="setup">
+        <check eval="true">true</check>
+        <output require="apps/invoices/sample/setup.php"/>
+    </action>
 </root>

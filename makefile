@@ -47,10 +47,10 @@ clean:
 
 test:
 ifeq ($(file), ) # default behaviour
-	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print $$2}' | sort))
+	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print $$2}' | sort))
 else
 ifeq ($(file), all) # file=all
-	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php -name *.php | sort))
+	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample -name *.php | sort))
 else # file=path
 	$(eval files := $(shell find $(file) -name *.php | sort))
 endif

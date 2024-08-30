@@ -28,51 +28,52 @@
 declare(strict_types=1);
 
 /**
- * DB Schema action
+ * Setup helper module
  *
- * This action executes the db_schema and db_static functions in the dbschema.php
- * library, the execution of this accion only is allowed from the command line
+ * This file contains useful functions related to the setup process
  */
 
 if (get_data('server/request_method') != 'CLI') {
     show_php_error(['phperror' => 'Permission denied']);
 }
 
-if (!semaphore_acquire('dbschema')) {
-    show_php_error(['phperror' => 'Could not acquire the semaphore']);
+require_once 'php/lib/control.php';
+require_once 'php/lib/indexing.php';
+$time1 = microtime(true);
+$output = [
+    'total' => 0,
+];
+
+// Import customers
+$exists = execute_query('SELECT COUNT(*) FROM app_customers');
+if (!$exists) {
+    $files = glob('apps/customers/sample/*.sql.gz');
+    foreach ($files as $file) {
+        $query = file_get_contents('compress.zlib://' . $file);
+        db_query($query);
+    }
+    // Insert the control register
+    $ids = execute_query_array('SELECT id FROM app_customers');
+    foreach ($ids as $id) {
+        make_control('customers', $id);
+        make_index('customers', $id);
+        $output['total']++;
+    }
+    // Fix permissions
+    $query = make_update_query('app_customers_control', [
+        'user_id' => 1,
+        'group_id' => 1,
+    ], '1=1');
+    db_query($query);
 }
 
-db_connect();
-require_once 'php/lib/dbschema.php';
-require_once 'php/lib/setup.php';
-$dbschema_check = __dbschema_check();
-$dbschema_hash = __dbschema_hash();
-$dbstatic_check = __dbstatic_check();
-$dbstatic_hash = __dbstatic_hash();
-$time1 = microtime(true);
-$output1 = db_schema();
 $time2 = microtime(true);
-$output2 = db_static();
-$time3 = microtime(true);
-$output3 = setup();
-$time4 = microtime(true);
-semaphore_release('dbschema');
 output_handler([
     'data' => json_encode([
-        'db_schema' => array_merge([
-            'time' => sprintf('%f', $time2 - $time1),
-            'check' => $dbschema_check,
-            'hash' => $dbschema_hash,
-        ], $output1),
-        'db_static' => array_merge([
-            'time' => sprintf('%f', $time3 - $time2),
-            'check' => $dbstatic_check,
-            'hash' => $dbstatic_hash,
-        ], $output2),
         'setup' => array_merge([
-            'time' => sprintf('%f', $time4 - $time3),
-        ], $output3),
-    ], JSON_PRETTY_PRINT) . PHP_EOL,
+            'time' => sprintf('%f', $time2 - $time1),
+        ], $output),
+    ], JSON_PRETTY_PRINT) . "\n",
     'type' => 'application/json',
     'cache' => false,
 ]);
