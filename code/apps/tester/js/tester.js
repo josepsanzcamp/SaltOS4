@@ -75,27 +75,27 @@ saltos.tester.campo9 = () => {
                 </ul>
             </div>
         `,
-        footer: function() {
+        footer: (() => {
             var obj = saltos.core.html('<div></div>');
             obj.append(saltos.bootstrap.field({
                 type: 'button',
-                value: 'Aceptar',
-                onclick: function() {
+                label: 'Aceptar',
+                onclick: () => {
                     console.log('OK');
                     saltos.bootstrap.modal('close');
                 }
             }));
             obj.append(saltos.bootstrap.field({
                 type: 'button',
-                value: 'Cancelar',
+                label: 'Cancelar',
                 class: 'ms-1',
-                onclick: function() {
+                onclick: () => {
                     console.log('KO');
                     saltos.bootstrap.modal('close');
                 },
             }));
             return obj;
-        }()
+        })()
     });
 };
 

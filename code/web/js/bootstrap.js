@@ -895,8 +895,8 @@ saltos.bootstrap.__field.iframe = field => {
         saltos.core.when_visible(obj, () => {
             window.dispatchEvent(new Event('resize'));
         });
-        _this.contentWindow.addEventListener('keydown', function(event) {
-            window.dispatchEvent(new KeyboardEvent('keydown', {
+        _this.contentWindow.document.addEventListener('keydown', event => {
+            document.dispatchEvent(new KeyboardEvent('keydown', {
                 altKey: event.altKey,
                 ctrlKey: event.ctrlKey,
                 shiftKey: event.shiftKey,
@@ -2921,13 +2921,14 @@ saltos.bootstrap.__field.list = field => {
             }
             saltos.bootstrap.__onclick_helper(item, val.onclick);
             // To prevent that the button remain focused
-            saltos.bootstrap.__onclick_helper(item, function() {
-                this.parentElement.parentElement.querySelectorAll('button').forEach(_this => {
+            item.addEventListener('click', event => {
+                var button = event.target.closest('button');
+                button.parentElement.parentElement.querySelectorAll('button').forEach(_this => {
                     _this.classList.remove('active');
                     _this.removeAttribute('aria-current');
                 });
-                this.classList.add('active');
-                this.setAttribute('aria-current', 'true');
+                button.classList.add('active');
+                button.setAttribute('aria-current', 'true');
             });
             if (saltos.core.eval_bool(field.checkbox)) {
                 if (val.id == '') {
@@ -4452,7 +4453,7 @@ saltos.bootstrap.__accesskey_listener = event => {
  *
  * Attach the accesskey listener function to the keydown event of the document
  */
-window.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
+document.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
 
 /**
  * Window match media

@@ -1477,7 +1477,7 @@ saltos.app.ajax = args => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     // Theme part
     if (!saltos.bootstrap.get_bs_theme()) {
         saltos.bootstrap.set_bs_theme('auto');
