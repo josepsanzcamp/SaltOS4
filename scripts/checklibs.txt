@@ -18,7 +18,7 @@ imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,ver
 imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64:eyJuYW1lIjoiaW1hc2siLCJ2ZXJzaW9uIjoiNy42LjEifQ==
 masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base64:eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
-pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuNS4xMzYifQ==
+pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuNi44MiJ9
 sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|base64:eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS4yIn0=
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 
