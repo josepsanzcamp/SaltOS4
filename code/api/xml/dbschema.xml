@@ -69,7 +69,7 @@ that maintain the database using as reference this file
                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                 <field name="key" type="VARCHAR(255)"/>
-                <field name="val" type="VARCHAR(255)"/>
+                <field name="val" type="TEXT"/>
             </fields>
             <indexes>
                 <index fields="user_id,key"/>

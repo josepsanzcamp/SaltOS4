@@ -102,8 +102,84 @@
     </putenv>
     <extras>
         <mb_internal_encoding>UTF-8</mb_internal_encoding>
-        <mb_detect_order ifeval="!isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-11,ISO-8859-12,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16,Windows-1250,Windows-1251,Windows-1252,Windows-1253,Windows-1254,Windows-1255,Windows-1256,Windows-1257,Windows-1258,CP1256,CP1250,CP1252,CP437,CP737,CP850,CP852,CP855,CP857,CP858,CP860,CP861,CP862,CP863,CP865,CP866,CP869,CP37,CP930,CP1047</mb_detect_order>
-        <mb_detect_order ifeval="isphp(8.1)">UTF-7,ISO-8859-1,ISO-8859-2,ISO-8859-3,ISO-8859-4,ISO-8859-5,ISO-8859-6,ISO-8859-7,ISO-8859-8,ISO-8859-9,ISO-8859-10,ISO-8859-13,ISO-8859-14,ISO-8859-15,ISO-8859-16</mb_detect_order>
+        <mb_detect_order>
+            <!-- Codificaciones UTF -->
+            <encoding>UTF-8</encoding>
+            <encoding>UTF-7</encoding>
+            <!-- Codificaciones EUC (Extended Unix Code) - Prioridad alta -->
+            <encoding>EUC-CN</encoding>  <!-- Simplified Chinese (alias GB2312) -->
+            <encoding>EUC-JP</encoding>  <!-- Japanese -->
+            <encoding>EUC-KR</encoding>  <!-- Korean -->
+            <!-- Codificaciones BIG5 y Shift_JIS - Prioridad alta -->
+            <encoding>BIG5</encoding>    <!-- Traditional Chinese (Taiwan, Hong Kong) -->
+            <encoding>Shift_JIS</encoding> <!-- Japanese (Shift JIS) -->
+            <!-- Codificaciones KOI8 -->
+            <encoding>KOI8-R</encoding>  <!-- Russian -->
+            <encoding>KOI8-U</encoding>  <!-- Ukrainian -->
+            <!-- Codificaciones ISO-8859 (Latín y otras) -->
+            <encoding>ISO-8859-1</encoding>  <!-- Western European (Latin-1) -->
+            <encoding>ISO-8859-2</encoding>  <!-- Central European (Latin-2) -->
+            <encoding>ISO-8859-3</encoding>  <!-- South European (Latin-3) -->
+            <encoding>ISO-8859-4</encoding>  <!-- North European (Latin-4) -->
+            <encoding>ISO-8859-5</encoding>  <!-- Cyrillic (Latin/Cyrillic) -->
+            <encoding>ISO-8859-6</encoding>  <!-- Arabic -->
+            <encoding>ISO-8859-7</encoding>  <!-- Greek -->
+            <encoding>ISO-8859-8</encoding>  <!-- Hebrew -->
+            <encoding>ISO-8859-9</encoding>  <!-- Turkish -->
+            <encoding>ISO-8859-10</encoding> <!-- Nordic -->
+            <encoding>ISO-8859-11</encoding> <!-- Thai -->
+            <!-- No existe ISO-8859-12 -->
+            <encoding>ISO-8859-13</encoding> <!-- Baltic -->
+            <encoding>ISO-8859-14</encoding> <!-- Celtic -->
+            <encoding>ISO-8859-15</encoding> <!-- Western European (Latin-9) -->
+            <encoding>ISO-8859-16</encoding> <!-- South-Eastern European (Latin-10) -->
+            <!-- Codificaciones Windows-125x -->
+            <encoding>Windows-1250</encoding> <!-- Central European -->
+            <encoding>Windows-1251</encoding> <!-- Cyrillic -->
+            <encoding>Windows-1252</encoding> <!-- Western European -->
+            <encoding>Windows-1253</encoding> <!-- Greek -->
+            <encoding>Windows-1254</encoding> <!-- Turkish -->
+            <encoding>Windows-1255</encoding> <!-- Hebrew -->
+            <encoding>Windows-1256</encoding> <!-- Arabic -->
+            <encoding>Windows-1257</encoding> <!-- Baltic -->
+            <encoding>Windows-1258</encoding> <!-- Vietnamese -->
+            <!-- Codificaciones CP (Code Page) -->
+            <encoding>CP1250</encoding> <!-- Central European -->
+            <encoding>CP1251</encoding> <!-- Cyrillic -->
+            <encoding>CP1252</encoding> <!-- Western European -->
+            <encoding>CP1253</encoding> <!-- Greek -->
+            <encoding>CP1254</encoding> <!-- Turkish -->
+            <encoding>CP1255</encoding> <!-- Hebrew -->
+            <encoding>CP1256</encoding> <!-- Arabic -->
+            <encoding>CP1257</encoding> <!-- Baltic -->
+            <encoding>CP1258</encoding> <!-- Vietnamese -->
+            <!-- Codificaciones DOS -->
+            <encoding>CP437</encoding>  <!-- Original IBM PC (DOS) -->
+            <encoding>CP737</encoding>  <!-- Greek (DOS) -->
+            <encoding>CP850</encoding>  <!-- Western European (DOS) -->
+            <encoding>CP852</encoding>  <!-- Central European (DOS) -->
+            <encoding>CP855</encoding>  <!-- Cyrillic (DOS) -->
+            <encoding>CP857</encoding>  <!-- Turkish (DOS) -->
+            <encoding>CP858</encoding>  <!-- Western European (DOS with € symbol) -->
+            <encoding>CP860</encoding>  <!-- Portuguese (DOS) -->
+            <encoding>CP861</encoding>  <!-- Icelandic (DOS) -->
+            <encoding>CP862</encoding>  <!-- Hebrew (DOS) -->
+            <encoding>CP863</encoding>  <!-- French Canadian (DOS) -->
+            <encoding>CP865</encoding>  <!-- Nordic (DOS) -->
+            <encoding>CP866</encoding>  <!-- Cyrillic (DOS) -->
+            <encoding>CP869</encoding>  <!-- Greek (DOS) -->
+            <!-- Codificaciones EBCDIC -->
+            <encoding>CP37</encoding>    <!-- EBCDIC US-Canada -->
+            <encoding>CP930</encoding>   <!-- EBCDIC Japanese -->
+            <encoding>CP1047</encoding>  <!-- EBCDIC Latin-1 Open Systems -->
+            <!-- Codificaciones Mac -->
+            <encoding>MacRoman</encoding>        <!-- Western European (Mac) -->
+            <encoding>MacCentralEurope</encoding> <!-- Central European (Mac) -->
+            <encoding>MacGreek</encoding>        <!-- Greek (Mac) -->
+            <encoding>MacCyrillic</encoding>     <!-- Cyrillic (Mac) -->
+            <encoding>MacHebrew</encoding>       <!-- Hebrew (Mac) -->
+            <encoding>MacTurkish</encoding>      <!-- Turkish (Mac) -->
+        </mb_detect_order>
     </extras>
     <unoconv>
         <soffice>soffice</soffice><!-- for unoconv module -->

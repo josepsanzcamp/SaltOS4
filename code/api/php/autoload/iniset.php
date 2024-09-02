@@ -92,9 +92,7 @@ function eval_putenv($array)
             }
             if ($diff) {
                 if (putenv("$key=$val") === false) {
-                    // @codeCoverageIgnoreStart
                     show_php_error(['phperror' => "putenv fails to set '$key' from '$cur' to '$val'"]);
-                    // @codeCoverageIgnoreEnd
                 }
             }
         }
@@ -108,33 +106,14 @@ function eval_putenv($array)
  * functions and for the gettext initialization process
  *
  * @array => the array with the pairs of keys vals
- *
- * Notes:
- *
- * If the val of the pair key val is an array, then each value of the array is
- * used as an argument for the key function, only is intended at the moment to
- * accept functions with one and two arguments, otherwise an error is triggered
  */
 function eval_extras($array)
 {
     if (is_array($array)) {
         foreach ($array as $key => $val) {
             $key = fix_key($key);
-            if (is_array($val)) {
-                if (count($val) == 2) {
-                    if ($key($val[0], $val[1]) === false) {
-                        $val = implode(',', $val);
-                        show_php_error(['phperror' => "$key fails to set '$val'"]);
-                    }
-                    continue;
-                }
-                $val = implode(',', $val);
-                show_php_error(['phperror' => "$key fails to set '$val'"]);
-            }
-            // Special case only for the mb_detect_order that only accepts encodings
-            // that appear in the mb_list_encondings, otherwise an error is launched
             if ($key == 'mb_detect_order') {
-                $val = implode(',', array_intersect(explode(',', $val), mb_list_encodings()));
+                $val = array_intersect($val, mb_list_encodings());
             }
             if ($key($val) === false) {
                 show_php_error(['phperror' => "$key fails to set '$val'"]);
