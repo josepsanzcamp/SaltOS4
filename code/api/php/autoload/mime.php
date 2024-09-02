@@ -67,7 +67,10 @@ function saltos_content_type($file)
         return mime_content_type($file);
     }
     if (function_exists('finfo_file')) {
-        return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $file);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $type = finfo_file($finfo, $file);
+        finfo_close($finfo);
+        return $type;
     }
     return 'application/octet-stream';
 }
@@ -112,4 +115,20 @@ function saltos_content_type1($mime)
 function mime_inline($type, $data)
 {
     return "data:$type;base64," . base64_encode($data);
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function saltos_content_type_from_string($buffer)
+{
+    if (function_exists('finfo_file')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $type = finfo_buffer($finfo, $buffer);
+        finfo_close($finfo);
+        return $type;
+    }
+    return 'application/octet-stream';
 }

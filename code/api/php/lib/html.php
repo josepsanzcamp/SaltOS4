@@ -119,7 +119,11 @@ function inline_img_tag($temp)
                 }
             }
             if ($valid) {
-                $type = $data['headers']['content-type'];
+                if (isset($data['headers']['content-type'])) {
+                    $type = $data['headers']['content-type'];
+                } else {
+                    $type = saltos_content_type_from_string($data['body']);
+                }
                 $img = mime_inline($type, $data['body']);
             }
         }
