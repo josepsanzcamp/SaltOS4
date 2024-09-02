@@ -382,6 +382,7 @@
                 </button>
                 <button onclick="saltos.emails.delete2()" color="danger" label="Delete" tooltip="To delete this email" icon="trash"/>
                 <button onclick="saltos.driver.close();" label="Close" tooltip="To close this email" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.close(true);" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject

@@ -99,6 +99,12 @@ saltos.driver.open = arg => {
  * TODO
  */
 saltos.driver.close = arg => {
+    if (typeof arg != 'undefined' && saltos.core.eval_bool(arg)) {
+        // Old feature
+        var screen = document.body.getAttribute('screen');
+        saltos.driver.__types[screen].close(arg);
+        return;
+    }
     // Disable all autoclose
     document.querySelectorAll('[autoclose]').forEach(_this => {
         _this.removeAttribute('autoclose');
@@ -547,7 +553,7 @@ saltos.driver.__types.type1.open = arg => {
  * TODO
  */
 saltos.driver.__types.type1.close = arg => {
-    saltos.window.close(arg);
+    saltos.window.close();
 };
 
 /**

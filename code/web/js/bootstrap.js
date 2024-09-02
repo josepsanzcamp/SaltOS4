@@ -183,7 +183,10 @@ saltos.bootstrap.__field.container = field => {
     // Checks to guarantee that some container class is found
     var found = false;
     obj.classList.forEach(_this => {
-        if (_this == 'container' || _this.substr(0, 10) == 'container-') {
+        if (['container', 'd-none'].includes(_this)) {
+            found = true;
+        }
+        if (_this.substr(0, 10) == 'container-') {
             found = true;
         }
     });
@@ -212,7 +215,10 @@ saltos.bootstrap.__field.row = field => {
     // Checks to guarantee that some row class is found
     var found = false;
     obj.classList.forEach(_this => {
-        if (_this == 'row' || _this.substr(0, 4) == 'row-') {
+        if (['row', 'd-none'].includes(_this)) {
+            found = true;
+        }
+        if (_this.substr(0, 4) == 'row-') {
             found = true;
         }
     });
@@ -241,7 +247,10 @@ saltos.bootstrap.__field.col = field => {
     // Checks to guarantee that some col class is found
     var found = false;
     obj.classList.forEach(_this => {
-        if (_this == 'col' || _this.substr(0, 4) == 'col-') {
+        if (['col', 'd-none'].includes(_this)) {
+            found = true;
+        }
+        if (_this.substr(0, 4) == 'col-') {
             found = true;
         }
     });
