@@ -59,7 +59,6 @@
     <create>Crear</create>
     <edit>Modificar</edit>
     <save>Desar</save>
-    <loading>Carregant...</loading>
     <no_changes_detected>No s'han detectat canvis</no_changes_detected>
     <description>Descripció</description>
     <active>Actiu</active>
@@ -89,4 +88,8 @@
     <manage_filters>Gestió dels filtres</manage_filters>
     <new_filter_name>Nom del nou filtre</new_filter_name>
     <filters_not_found>No hi ha cap filtre</filters_not_found>
+    <to_see_the_email>Per veure el correu electrònic</to_see_the_email>
+    <to_download_the_email>Per descarregar el correu electrònic</to_download_the_email>
+    <view>Veure</view>
+    <download>Descarregar</download>
 </root>

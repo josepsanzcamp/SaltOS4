@@ -231,6 +231,21 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
     }
+    // Only for dropdown widgets
+    if (field.hasOwnProperty('type') && field.type == 'dropdown') {
+        if (field.hasOwnProperty('menu')) {
+            for (var key in field.menu) {
+                field.menu[key] = saltos.core.join_attr_value(field.menu[key]);
+                var val = field.menu[key];
+                var props = ['label', 'tooltip'];
+                for (var i in props) {
+                    if (val.hasOwnProperty(props[i])) {
+                        field.menu[key][props[i]] = T(field.menu[key][props[i]]);
+                    }
+                }
+            }
+        }
+    }
     return saltos.bootstrap.field(field);
 };
 
@@ -277,14 +292,14 @@ saltos.gettext.bootstrap.menu = args => {
     if (args.hasOwnProperty('menu')) {
         for (var key in args.menu) {
             var val = args.menu[key];
-            if (val.hasOwnProperty('name')) {
-                args.menu[key].name = T(val.name);
+            if (val.hasOwnProperty('label')) {
+                args.menu[key].label = T(val.label);
             }
             if (val.hasOwnProperty('menu')) {
                 for (var key2 in val.menu) {
                     var val2 = val.menu[key2];
-                    if (val2.hasOwnProperty('name')) {
-                        args.menu[key].menu[key2].name = T(val2.name);
+                    if (val2.hasOwnProperty('label')) {
+                        args.menu[key].menu[key2].label = T(val2.label);
                     }
                 }
             }

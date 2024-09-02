@@ -26,32 +26,32 @@
 -->
 
 <root>
-    <navbar id="navbar" append="header" brand.logo="img/logo_saltos.png" brand.alt="SaltOS" brand.width="155" brand.height="29">
+    <navbar id="navbar" append="header" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="155" brand.height="29">
         <items>
             <menu class="navbar-nav me-auto mb-2 mb-lg-0">
-                <item name="Dashboard" onclick="saltos.window.open('app/dashboard')"/>
-                <item name="Applications">
+                <item label="Dashboard" onclick="saltos.window.open('app/dashboard')"/>
+                <item label="Applications">
                     <menu>
-                        <item name="Emails" onclick="saltos.window.open('app/emails')"/>
+                        <item label="Emails" onclick="saltos.window.open('app/emails')"/>
                         <item divider="true"/>
-                        <item name="Customers" onclick="saltos.window.open('app/customers')"/>
-                        <item name="Invoices" onclick="saltos.window.open('app/invoices')"/>
+                        <item label="Customers" onclick="saltos.window.open('app/customers')"/>
+                        <item label="Invoices" onclick="saltos.window.open('app/invoices')"/>
                         <item divider="true"/>
-                        <item name="Users" onclick="saltos.window.open('app/users')"/>
-                        <item name="Groups" onclick="saltos.window.open('app/groups')"/>
+                        <item label="Users" onclick="saltos.window.open('app/users')"/>
+                        <item label="Groups" onclick="saltos.window.open('app/groups')"/>
                         <item divider="true"/>
-                        <item name="Types" onclick="saltos.window.open('app/types')"/>
-                        <item name="Tester" onclick="saltos.window.open('app/tester')"/>
+                        <item label="Types" onclick="saltos.window.open('app/types')"/>
+                        <item label="Tester" onclick="saltos.window.open('app/tester')"/>
                     </menu>
                 </item>
             </menu>
             <menu class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <item id="username" dropdown_menu_end="true" icon="person">
-                    <name eval="true">execute_query("SELECT name FROM tbl_users WHERE id=".current_user())</name>
+                    <label eval="true">execute_query("SELECT name FROM tbl_users WHERE id=".current_user())</label>
                     <menu>
-                        <item name="Profile" onclick="saltos.app.profile()"/>
-                        <item name="Help" onclick="saltos.app.help()"/>
-                        <item name="Logout" onclick="saltos.authenticate.deauthtoken();saltos.hash.trigger();"/>
+                        <item label="Profile" onclick="saltos.app.profile()"/>
+                        <item label="Help" onclick="saltos.app.help()"/>
+                        <item label="Logout" onclick="saltos.authenticate.deauthtoken();saltos.hash.trigger();"/>
                     </menu>
                 </item>
             </menu>

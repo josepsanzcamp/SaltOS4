@@ -31,61 +31,61 @@
         <title>New Tester Demo App</title>
         <screen>clear</screen>
 
-        <navbar id="navbar" pos="sticky-top" brand.logo="img/logo_saltos.png" brand.alt="SaltOS" brand.width="155" brand.height="29">
+        <navbar id="navbar" pos="sticky-top" brand.image="img/logo_saltos.png" brand.alt="SaltOS" brand.width="155" brand.height="29">
             <items>
                 <menu class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <item name="Home" disabled="false" onclick="alert(1)"/>
-                    <item name="Link" disabled="false" onclick="alert(2)"/>
-                    <item name="Dropdown" disabled="false">
+                    <item label="Home" disabled="false" onclick="alert(1)"/>
+                    <item label="Link" disabled="false" onclick="alert(2)"/>
+                    <item label="Dropdown" disabled="false">
                         <menu>
-                            <item name="Action" disabled="false" onclick="alert(3)"/>
-                            <item name="Another action" disabled="false" onclick="alert(4)"/>
+                            <item label="Action" disabled="false" onclick="alert(3)"/>
+                            <item label="Another action" disabled="false" onclick="alert(4)"/>
                             <item divider="true"/>
-                            <item name="Something else here" disabled="false" onclick="alert(5)"/>
+                            <item label="Something else here" disabled="false" onclick="alert(5)"/>
                         </menu>
                     </item>
-                    <item name="Disable" disabled="false" onclick="saltos.app.form_disabled(true)"/>
-                    <item name="Enable" disabled="false" onclick="saltos.app.form_disabled(false)"/>
+                    <item label="Disable" disabled="false" onclick="saltos.app.form_disabled(true)"/>
+                    <item label="Enable" disabled="false" onclick="saltos.app.form_disabled(false)"/>
                 </menu>
                 <form class="d-flex">
                     <text placeholder="Search" color="light" id="search"/>
                     <button onclick="alert(7)" color="light" class=" mx-1 text-nowrap" label="Search"/>
                 </form>
                 <menu class="navbar-nav mb-2 mb-lg-0">
-                    <item name="Themes" dropdown_menu_end="true">
+                    <item label="Themes" dropdown_menu_end="true">
                         <menu>
-                            <item name="bootstrap" disabled="false" onclick="alert('bootstrap')"/>
-                            <item name="cerulean" disabled="false" onclick="alert('cerulean')"/>
-                            <item name="cosmo" disabled="false" onclick="alert('cosmo')"/>
-                            <item name="cyborg" disabled="false" onclick="alert('cyborg')"/>
-                            <item name="darkly" disabled="false" onclick="alert('darkly')"/>
-                            <item name="flatly" disabled="false" onclick="alert('flatly')"/>
-                            <item name="journal" disabled="false" onclick="alert('journal')"/>
-                            <item name="litera" disabled="false" onclick="alert('litera')"/>
-                            <item name="lumen" disabled="false" onclick="alert('lumen')"/>
-                            <item name="lux" disabled="false" onclick="alert('lux')"/>
-                            <item name="materia" disabled="false" onclick="alert('materia')"/>
-                            <item name="minty" disabled="false" onclick="alert('minty')"/>
-                            <item name="morph" disabled="false" onclick="alert('morph')"/>
-                            <item name="pulse" disabled="false" onclick="alert('pulse')"/>
-                            <item name="quartz" disabled="false" onclick="alert('quartz')"/>
-                            <item name="sandstone" disabled="false" onclick="alert('sandstone')"/>
-                            <item name="simplex" disabled="false" onclick="alert('simplex')"/>
-                            <item name="sketchy" disabled="false" onclick="alert('sketchy')"/>
-                            <item name="slate" disabled="false" onclick="alert('slate')"/>
-                            <item name="solar" disabled="false" onclick="alert('solar')"/>
-                            <item name="spacelab" disabled="false" onclick="alert('spacelab')"/>
-                            <item name="superhero" disabled="false" onclick="alert('superhero')"/>
-                            <item name="united" disabled="false" onclick="alert('united')"/>
-                            <item name="vapor" disabled="false" onclick="alert('vapor')"/>
-                            <item name="yeti" disabled="false" onclick="alert('yeti')"/>
-                            <item name="zephyr" disabled="false" onclick="alert('zephyr')"/>
+                            <item label="bootstrap" disabled="false" onclick="alert('bootstrap')"/>
+                            <item label="cerulean" disabled="false" onclick="alert('cerulean')"/>
+                            <item label="cosmo" disabled="false" onclick="alert('cosmo')"/>
+                            <item label="cyborg" disabled="false" onclick="alert('cyborg')"/>
+                            <item label="darkly" disabled="false" onclick="alert('darkly')"/>
+                            <item label="flatly" disabled="false" onclick="alert('flatly')"/>
+                            <item label="journal" disabled="false" onclick="alert('journal')"/>
+                            <item label="litera" disabled="false" onclick="alert('litera')"/>
+                            <item label="lumen" disabled="false" onclick="alert('lumen')"/>
+                            <item label="lux" disabled="false" onclick="alert('lux')"/>
+                            <item label="materia" disabled="false" onclick="alert('materia')"/>
+                            <item label="minty" disabled="false" onclick="alert('minty')"/>
+                            <item label="morph" disabled="false" onclick="alert('morph')"/>
+                            <item label="pulse" disabled="false" onclick="alert('pulse')"/>
+                            <item label="quartz" disabled="false" onclick="alert('quartz')"/>
+                            <item label="sandstone" disabled="false" onclick="alert('sandstone')"/>
+                            <item label="simplex" disabled="false" onclick="alert('simplex')"/>
+                            <item label="sketchy" disabled="false" onclick="alert('sketchy')"/>
+                            <item label="slate" disabled="false" onclick="alert('slate')"/>
+                            <item label="solar" disabled="false" onclick="alert('solar')"/>
+                            <item label="spacelab" disabled="false" onclick="alert('spacelab')"/>
+                            <item label="superhero" disabled="false" onclick="alert('superhero')"/>
+                            <item label="united" disabled="false" onclick="alert('united')"/>
+                            <item label="vapor" disabled="false" onclick="alert('vapor')"/>
+                            <item label="yeti" disabled="false" onclick="alert('yeti')"/>
+                            <item label="zephyr" disabled="false" onclick="alert('zephyr')"/>
                         </menu>
                     </item>
                     <item icon="sun-fill" dropdown_menu_end="true">
                         <menu>
-                            <item name="Light" icon="sun-fill" disabled="false" onclick="alert('light')"/>
-                            <item name="Dark" icon="moon-stars-fill" disabled="false" onclick="alert('dark')"/>
+                            <item label="Light" icon="sun-fill" disabled="false" onclick="alert('light')"/>
+                            <item label="Dark" icon="moon-stars-fill" disabled="false" onclick="alert('dark')"/>
                         </menu>
                     </item>
                 </menu>
@@ -137,10 +137,30 @@
                         "app" => current_hash(),
                     ]) . " ORDER BY id DESC")</data>
                 </file>
-                <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas" onclick="saltos.tester.campo22()"/>
                 <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2" required="true">
                     <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>
                 </select>
+                <div/>
+
+                <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas" onclick="saltos.tester.campo22()"/>
+                <dropdown id="campo43" label="Campo 43 (dropdown)" tooltip="Tooltip 43 (dropdown)">
+                    <menu>
+                        <item label="Action" disabled="false" onclick="alert(1)" accesskey="ctrl+1" tooltip="Tooltip for first action"/>
+                        <item label="Another action" disabled="false" onclick="alert(2)" tooltip="Tooltip for second action"/>
+                        <item divider="true"/>
+                        <item label="Something else here" disabled="false" onclick="alert(3)" tooltip="Tooltip for action number three"/>
+                    </menu>
+                </dropdown>
+                <dropdown id="campo44" label="Campo 44 (dropdown)" tooltip="Tooltip 44 (dropdown)" split="true" onclick="alert(4)">
+                    <menu>
+                        <item label="Action" disabled="false" onclick="alert(5)" tooltip="Tooltip for first action"/>
+                        <item label="Another action" disabled="false" onclick="alert(6)" tooltip="Tooltip for second action"/>
+                        <item divider="true"/>
+                        <item label="Something else here" disabled="false" onclick="alert(7)" tooltip="Tooltip for action number three"/>
+                    </menu>
+                </dropdown>
+                <div/>
+
                 <image id="campo24" label="Campo 24 (image)" tooltip="Tooltip 24 (image)" value="apps/tester/files/philips-pm5544.svg"/>
                 <excel id="campo25" label="Campo 25 (excel)" tooltip="Tooltip 25 (excel)" numcols="26" numrows="20" required="true"/>
                 <pdfjs id="campo26" label="Campo 26 (pdfjs)" tooltip="Tooltip 26 (pdfjs)" src="apps/tester/files/test-josep-1.pdf"/>
@@ -173,16 +193,16 @@
                 </gallery>
                 <accordion id="campo36" label="Campo 36 (accordion)" tooltip="Tooltip 36 (accordion)" multiple="true">
                     <items>
-                        <item name="Lorem ipsum" active="true">
+                        <item label="Lorem ipsum" active="true">
                             <content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</content>
                         </item>
-                        <item name="Sed ut per...">
+                        <item label="Sed ut per...">
                             <content>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,</content>
                         </item>
-                        <item name="But I must">
+                        <item label="But I must">
                             <content>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.</content>
                         </item>
-                        <item name="At vero" active="true">
+                        <item label="At vero" active="true">
                             <content>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus,</content>
                         </item>
                     </items>
@@ -265,48 +285,48 @@
                 </list>
                 <vpills id="campo39" label="Campo 39 (vertical)" tooltip="Tooltip 39 (vertical)" vertical="true">
                     <items>
-                        <item name="Lorem ipsum">
+                        <item label="Lorem ipsum">
                             <content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</content>
                         </item>
-                        <item name="Sed ut per...">
+                        <item label="Sed ut per...">
                             <content>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</content>
                         </item>
-                        <item name="But I must" active="true">
+                        <item label="But I must" active="true">
                             <content>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?</content>
                         </item>
-                        <item name="At vero" disabled="true">
+                        <item label="At vero" disabled="true">
                             <content>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</content>
                         </item>
                     </items>
                 </vpills>
                 <tabs id="campo40" label="Campo 40 (tabs)" tooltip="Tooltip 40 (tabs)">
                     <items>
-                        <item name="Lorem ipsum" active="true">
+                        <item label="Lorem ipsum" active="true">
                             <content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</content>
                         </item>
-                        <item name="Sed ut per...">
+                        <item label="Sed ut per...">
                             <content>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</content>
                         </item>
-                        <item name="But I must">
+                        <item label="But I must">
                             <content>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?</content>
                         </item>
-                        <item name="At vero" disabled="true">
+                        <item label="At vero" disabled="true">
                             <content>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</content>
                         </item>
                     </items>
                 </tabs>
                 <pills id="campo41" label="Campo 41 (pills)" tooltip="Tooltip 41 (pills)">
                     <items>
-                        <item name="Lorem ipsum" active="true">
+                        <item label="Lorem ipsum" active="true">
                             <content>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</content>
                         </item>
-                        <item name="Sed ut per...">
+                        <item label="Sed ut per...">
                             <content>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</content>
                         </item>
-                        <item name="But I must">
+                        <item label="But I must">
                             <content>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?</content>
                         </item>
-                        <item name="At vero" disabled="true">
+                        <item label="At vero" disabled="true">
                             <content>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</content>
                         </item>
                     </items>

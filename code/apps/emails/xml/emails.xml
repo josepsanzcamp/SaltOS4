@@ -46,9 +46,13 @@
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
-                <button label="View" tooltip="To see the email" icon="filetype-pdf" onclick="saltos.emails.viewpdf()"/>
-                <button label="Download" tooltip="To download the email" icon="save" onclick="saltos.emails.download()"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
+                    <menu>
+                        <button label="View" tooltip="To see the email" icon="search" onclick="saltos.emails.viewpdf()"/>
+                        <button label="Download" tooltip="To download the email" icon="save" onclick="saltos.emails.download()"/>
+                    </menu>
+                </dropdown>
                 <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
                 <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
                 <button onclick="saltos.window.open('app/emails_accounts')" tooltip="To manage emails accounts" icon="gear"/>
@@ -335,32 +339,45 @@
                 <button label="Source" tooltip="To see the source of this email" icon="file-text">
                     <onclick eval="true">"saltos.driver.open('app/emails/view/source/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button label="View" tooltip="To see the email" icon="filetype-pdf">
-                    <onclick eval="true">"saltos.driver.open('app/emails/view/viewpdf/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
-                <button label="Download" tooltip="To download the email" icon="save">
-                    <onclick eval="true">"saltos.app.download('app/emails/view/download/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
-                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
-                    onclick="saltos.emails.setter('new=1')" color="success" label="New" tooltip="To mark this email as new" icon="patch-check"/>
-                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_new',intval(get_data('rest/3')))"
-                    onclick="saltos.emails.setter('new=0')" color="success" label="No new" tooltip="To unmark this email as new" icon="patch-check"/>
-                <button ifeval="!getmail_field('state_wait',intval(get_data('rest/3')))"
-                    onclick="saltos.emails.setter('wait=1')" label="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
-                <button ifeval="getmail_field('state_wait',intval(get_data('rest/3')))"
-                    onclick="saltos.emails.setter('wait=0')" label="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
-                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_spam',intval(get_data('rest/3')))"
-                    onclick="saltos.emails.setter('spam=1')" color="danger" label="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
-                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_spam',intval(get_data('rest/3')))"
-                    onclick="saltos.emails.setter('spam=0')" color="danger" label="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
+                <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
+                    <menu>
+                        <button label="View" tooltip="To see the email" icon="search">
+                            <onclick eval="true">"saltos.driver.open('app/emails/view/viewpdf/".intval(get_data("rest/3"))."')"</onclick>
+                        </button>
+                        <button label="Download" tooltip="To download the email" icon="save">
+                            <onclick eval="true">"saltos.app.download('app/emails/view/download/".intval(get_data("rest/3"))."')"</onclick>
+                        </button>
+                    </menu>
+                </dropdown>
+                <dropdown label="Mark" icon="bookmark" tooltip="Mark options">
+                    <menu>
+                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_new',intval(get_data('rest/3')))"
+                            onclick="saltos.emails.setter('new=1')" color="success" label="New" tooltip="To mark this email as new" icon="patch-check"/>
+                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_new',intval(get_data('rest/3')))"
+                            onclick="saltos.emails.setter('new=0')" color="success" label="No new" tooltip="To unmark this email as new" icon="patch-check"/>
+                        <button ifeval="!getmail_field('state_wait',intval(get_data('rest/3')))"
+                            onclick="saltos.emails.setter('wait=1')" label="Wait" tooltip="To mark this email as wait" icon="patch-question"/>
+                        <button ifeval="getmail_field('state_wait',intval(get_data('rest/3')))"
+                            onclick="saltos.emails.setter('wait=0')" label="No wait" tooltip="To unmark this email as wait" icon="patch-question"/>
+                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND !getmail_field('state_spam',intval(get_data('rest/3')))"
+                            onclick="saltos.emails.setter('spam=1')" color="danger" label="Spam" tooltip="To mark this email as spam" icon="patch-exclamation"/>
+                        <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3'))) AND getmail_field('state_spam',intval(get_data('rest/3')))"
+                            onclick="saltos.emails.setter('spam=0')" color="danger" label="No spam" tooltip="To unmark this email as spam" icon="patch-exclamation"/>
+                    </menu>
+                </dropdown>
                 <div col_class="col"/>
-                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" label="Reply" tooltip="To reply this email" icon="reply">
+                <dropdown ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" label="Reply" tooltip="To reply this email" icon="reply" split="true">
                     <onclick eval="true">"saltos.driver.open('app/emails/create/reply/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
-                <button ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))" label="Reply all" tooltip="To reply all this email" icon="reply-all">
-                    <onclick eval="true">"saltos.driver.open('app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
-                <button label="Forward" tooltip="To forward this email" icon="forward">
+                    <menu>
+                        <button label="Reply all" tooltip="To reply all this email" icon="reply-all">
+                            <onclick eval="true">"saltos.driver.open('app/emails/create/replyall/".intval(get_data("rest/3"))."')"</onclick>
+                        </button>
+                        <button label="Forward" tooltip="To forward this email" icon="forward">
+                            <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
+                        </button>
+                    </menu>
+                </dropdown>
+                <button ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))" label="Forward" tooltip="To forward this email" icon="forward">
                     <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button onclick="saltos.emails.delete2()" color="danger" label="Delete" tooltip="To delete this email" icon="trash"/>

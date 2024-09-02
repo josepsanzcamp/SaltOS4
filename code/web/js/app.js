@@ -509,13 +509,16 @@ saltos.app.form.layout = (layout, extra) => {
         return div;
     }
     // Defaut feature that add the div to the body's document
-    var obj = document.body;
     if (typeof append != 'undefined') {
-        obj = document.getElementById(append);
         // Do a backup of the fields and templates using the append key
         saltos.app.form.__backup.do(append);
+        // Continue
+        var obj = document.getElementById(append);
+        obj.replaceChildren(div);
+    } else {
+        var obj = document.body;
+        obj.append(div);
     }
-    obj.replaceChildren(div);
     obj.querySelectorAll('[autofocus]').forEach(_this => {
         _this.focus();
     });
@@ -758,13 +761,11 @@ saltos.app.form.screen = action => {
             if (obj) {
                 return false;
             }
-            var loading = T('Loading...');
             obj = saltos.core.html(`
                 <div id="loading">
                     <div class="modal-backdrop show" style="z-index:202"></div>
                     <div class="position-fixed top-50 start-50 translate-middle" style="z-index:203">
                         <div class="spinner-border text-light" role="status" style="width:3rem;height:3rem;">
-                            <span class="visually-hidden">${loading}</span>
                         </div>
                     </div>
                 </div>
@@ -843,7 +844,7 @@ saltos.app.form.navbar = navbar => {
                 for (var key2 in val) {
                     var val2 = val[key2];
                     // Trick to allow to put attr in the value node intended to use the eval=true
-                    var temp = ['name', 'id', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end'];
+                    var temp = ['label', 'id', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end'];
                     for (var i in temp) {
                         var j = temp[i];
                         if (val2.value.hasOwnProperty(j) && !val2['#attr'].hasOwnProperty(j)) {
@@ -859,7 +860,7 @@ saltos.app.form.navbar = navbar => {
                         for (var key3 in val2.value.menu) {
                             var val3 = val2.value.menu[key3];
                             // Trick to allow to put attr in the value node intended to use the eval=true
-                            var temp = ['name', 'id', 'icon', 'disabled', 'active', 'onclick', 'divider'];
+                            var temp = ['label', 'id', 'icon', 'disabled', 'active', 'onclick', 'divider'];
                             for (var i in temp) {
                                 var j = temp[i];
                                 if (val3.value.hasOwnProperty(j) && !val3['#attr'].hasOwnProperty(j)) {
@@ -899,14 +900,16 @@ saltos.app.form.navbar = navbar => {
         }
     }
     var obj = saltos.bootstrap.navbar(navbar);
-    var obj2 = document.body;
-    if (navbar.append) {
-        obj2 = document.getElementById(navbar.append);
+    if (navbar.hasOwnProperty('append')) {
+        var obj2 = document.getElementById(navbar.append);
         if (!obj2) {
             throw new Error(`Navbar append ${navbar.append} not found`);
         }
+        obj2.replaceChildren(obj);
+    } else {
+        var obj2 = document.body;
+        obj2.append(obj);
     }
-    obj2.append(obj);
 };
 
 /**
