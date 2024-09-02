@@ -895,6 +895,14 @@ saltos.bootstrap.__field.iframe = field => {
         saltos.core.when_visible(obj, () => {
             window.dispatchEvent(new Event('resize'));
         });
+        _this.contentWindow.addEventListener('keydown', function(event) {
+            window.dispatchEvent(new KeyboardEvent('keydown', {
+                altKey: event.altKey,
+                ctrlKey: event.ctrlKey,
+                shiftKey: event.shiftKey,
+                keyCode: event.keyCode,
+            }));
+        });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -4444,7 +4452,7 @@ saltos.bootstrap.__accesskey_listener = event => {
  *
  * Attach the accesskey listener function to the keydown event of the document
  */
-document.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
+window.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
 
 /**
  * Window match media
