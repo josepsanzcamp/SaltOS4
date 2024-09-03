@@ -430,10 +430,6 @@ final class test_database extends TestCase
 
         $this->assertSame(is_array($obj->db_query('')), true);
 
-        // This is for improve the coverage of sqlite tests
-        $query = "SELECT '\'\%' id FROM tbl_users_tokens";
-        $result = $obj->db_query($query);
-
         if (function_exists('__libsqlite_group_concat_step')) {
             $this->assertEquals(__libsqlite_group_concat_step('a', null, 'b', ','), 'a,b');
         }
@@ -469,6 +465,9 @@ final class test_database extends TestCase
         // Helper part
         $this->test_helper($obj);
 
+        // Specific part
+        $this->assertSame($obj->db_escape('\'"%'), '\\\'\"%');
+
         // Close connection
         $obj->db_disconnect();
 
@@ -498,6 +497,9 @@ final class test_database extends TestCase
         // Helper part
         $this->test_helper($obj);
 
+        // Specific part
+        $this->assertSame($obj->db_escape('\'"%'), '\\\'\"%');
+
         // Close connection
         $obj->db_disconnect();
 
@@ -524,6 +526,9 @@ final class test_database extends TestCase
 
         // Helper part
         $this->test_helper($obj);
+
+        // Specific part
+        $this->assertSame($obj->db_escape('\'"%'), '\'\'"%');
 
         // Close connection
         $obj->db_disconnect();
@@ -555,6 +560,9 @@ final class test_database extends TestCase
 
         // Helper part
         $this->test_helper($obj);
+
+        // Specific part
+        $this->assertSame($obj->db_escape('\'"%'), '\'\'"%');
 
         // Close connection
         $obj->db_disconnect();
@@ -670,6 +678,9 @@ final class test_database extends TestCase
         $result = $obj->db_query($query, 'concat');
 
         $this->assertSame(is_array($obj->db_query('')), true);
+
+        // Specific part
+        $this->assertSame($obj->db_escape('\'"%'), '\'\'"%');
 
         // Close connection
         $obj->db_disconnect();
