@@ -155,6 +155,19 @@ class database_sqlite3
     }
 
     /**
+     * DB Escape
+     *
+     * This public function is intended to escape the special chars to sanitize the string to be used
+     * in a sql query
+     *
+     * @str => the string that you want to sanitize
+     */
+    public function db_escape($str)
+    {
+        return $this->link->escapeString($str);
+    }
+
+    /**
      * DB Query
      *
      * This public function is intended to execute the query and returns the resultset
@@ -189,20 +202,7 @@ class database_sqlite3
         if (!strlen(trim($query))) {
             return $result;
         }
-        // TRICK TO DO THE STRIP SLASHES
-        $pos = strpos($query, '\\');
-        while ($pos !== false) {
-            $extra = '';
-            if ($query[$pos + 1] == "'") {
-                $extra = "'";
-            }
-            if ($query[$pos + 1] == '%') {
-                $extra = '\\';
-            }
-            $query = substr_replace($query, $extra, $pos, 1);
-            $pos = strpos($query, '\\', $pos + 1);
-        }
-        // CONTINUE THE NORMAL OPERATION
+        // SEMAPHORE PART
         $timeout = get_config('db/semaphoretimeout') ?? 10000000;
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
             show_php_error(['dberror' => 'Could not acquire the semaphore', 'query' => $query]);

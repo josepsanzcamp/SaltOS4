@@ -118,6 +118,19 @@ class database_mysqli
     }
 
     /**
+     * DB Escape
+     *
+     * This public function is intended to escape the special chars to sanitize the string to be used
+     * in a sql query
+     *
+     * @str => the string that you want to sanitize
+     */
+    public function db_escape($cad)
+    {
+        return $this->link->real_escape_string($cad);
+    }
+
+    /**
      * DB Query
      *
      * This public function is intended to execute the query and returns the resultset

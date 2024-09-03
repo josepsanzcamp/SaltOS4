@@ -156,6 +156,24 @@ class database_pdo_sqlite
     }
 
     /**
+     * DB Escape
+     *
+     * This public function is intended to escape the special chars to sanitize the string to be used
+     * in a sql query
+     *
+     * @str => the string that you want to sanitize
+     *
+     * Notes:
+     *
+     * This driver adds a simple quotes at the beginning and at the finish of ths string, by this
+     * reason this function returns the substr(1, -1) of the quoted string.
+     */
+    public function db_escape($str)
+    {
+        return substr($this->link->quote($str), 1, -1);
+    }
+
+    /**
      * DB Query
      *
      * This public function is intended to execute the query and returns the resultset
@@ -190,20 +208,7 @@ class database_pdo_sqlite
         if (!strlen(trim($query))) {
             return $result;
         }
-        // TRICK TO DO THE STRIP SLASHES
-        $pos = strpos($query, '\\');
-        while ($pos !== false) {
-            $extra = '';
-            if ($query[$pos + 1] == "'") {
-                $extra = "'";
-            }
-            if ($query[$pos + 1] == '%') {
-                $extra = '\\';
-            }
-            $query = substr_replace($query, $extra, $pos, 1);
-            $pos = strpos($query, '\\', $pos + 1);
-        }
-        // CONTINUE THE NORMAL OPERATION
+        // SEMAPHORE PART
         $timeout = get_config('db/semaphoretimeout') ?? 10000000;
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
             show_php_error(['dberror' => 'Could not acquire the semaphore', 'query' => $query]);

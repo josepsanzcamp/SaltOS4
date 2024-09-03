@@ -105,6 +105,22 @@ function db_check($query)
 }
 
 /**
+ * DB Escape
+ *
+ * This function is intended to escape the special chars to sanitize the string to be used
+ * in a sql query
+ *
+ * @str => the string that you want to sanitize
+ */
+function db_escape($str)
+{
+    if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_escape')) {
+        show_php_error(['dberror' => 'Unknown database connector']);
+    }
+    return get_config('db/obj')->db_escape($str);
+}
+
+/**
  * DB Query
  *
  * This public function is intended to execute the query and returns the resultset

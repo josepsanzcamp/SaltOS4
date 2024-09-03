@@ -110,6 +110,24 @@ class database_pdo_mssql
     }
 
     /**
+     * DB Escape
+     *
+     * This public function is intended to escape the special chars to sanitize the string to be used
+     * in a sql query
+     *
+     * @str => the string that you want to sanitize
+     *
+     * Notes:
+     *
+     * This driver adds a simple quotes at the beginning and at the finish of ths string, by this
+     * reason this function returns the substr(1, -1) of the quoted string.
+     */
+    public function db_escape($str)
+    {
+        return substr($this->link->quote($str), 1, -1);
+    }
+
+    /**
      * DB Query
      *
      * This public function is intended to execute the query and returns the resultset
