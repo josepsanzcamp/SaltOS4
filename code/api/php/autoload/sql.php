@@ -764,3 +764,97 @@ function make_fulltext_query($values, $app, $args = [])
     $query = "{$prefix}id IN (SELECT id FROM {$table}_index WHERE $where)";
     return $query;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __prepare_helper_query($table, $array)
+{
+    $fields = get_fields($table);
+    $names = [];
+    $values = [];
+    foreach ($fields as $field) {
+        $name = $field['name'];
+        if (!array_key_exists($name, $array)) {
+            continue;
+        }
+        $names[] = escape_reserved_word($name);
+        $type = $field['type'];
+        $type2 = get_field_type($type);
+        if ($type2 == 'int') {
+            $values[] = intval($array[$name]);
+        } elseif ($type2 == 'float') {
+            $values[] = floatval($array[$name]);
+        } elseif ($type2 == 'date') {
+            $values[] = dateval($array[$name]);
+        } elseif ($type2 == 'time') {
+            $values[] = timeval($array[$name]);
+        } elseif ($type2 == 'datetime') {
+            $values[] = datetimeval($array[$name]);
+        } elseif ($type2 == 'string') {
+            $size2 = get_field_size($type);
+            $values[] = substr(strval($array[$name]), 0, $size2);
+        } else {
+            // @codeCoverageIgnoreStart
+            show_php_error(['phperror' => "Unknown type '$type'"]);
+            // @codeCoverageIgnoreEnd
+        }
+        unset($array[$name]);
+    }
+    if (count($array)) {
+        $temp = implode(', ', array_keys($array));
+        show_php_error(['phperror' => "Unused data '$temp'"]);
+    }
+    return [$names, $values];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function prepare_insert_query($table, $array)
+{
+    [$names, $values] = __prepare_helper_query($table, $array);
+    $temp = array_fill(0, count($names), '?');
+    $names = implode(',', $names);
+    $temp = implode(',', $temp);
+    $query = "INSERT INTO $table($names) VALUES($temp)";
+    return [$query, $values];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function prepare_update_query($table, $array, $array2)
+{
+    [$names, $values] = __prepare_helper_query($table, $array);
+    $temp = [];
+    foreach ($names as $name) {
+        $temp[] = $name . '=?';
+    }
+    $temp = implode(',', $temp);
+    [$where, $values2] = prepare_where_query($table, $array2);
+    $query = "UPDATE $table SET $temp WHERE $where";
+    return [$query, array_merge($values, $values2)];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function prepare_where_query($table, $array)
+{
+    [$names, $values] = __prepare_helper_query($table, $array);
+    $temp = [];
+    foreach ($names as $name) {
+        $temp[] = $name . '=?';
+    }
+    $query = '(' . implode(' AND ', $temp) . ')';
+    return [$query, $values];
+}

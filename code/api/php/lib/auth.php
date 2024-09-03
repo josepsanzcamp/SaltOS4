@@ -50,11 +50,8 @@ declare(strict_types=1);
 function authtoken($user, $pass)
 {
     // First check
-    $query = 'SELECT * FROM tbl_users WHERE ' . make_where_query([
-        'active' => 1,
-        'login' => $user,
-    ]);
-    $row = execute_query($query);
+    $query = 'SELECT * FROM tbl_users WHERE active = 1 AND login = ?';
+    $row = execute_query($query, [$user]);
     if (!is_array($row) || !isset($row['login']) || $user != $row['login']) {
         return [
             'status' => 'ko',
@@ -65,11 +62,8 @@ function authtoken($user, $pass)
     $user_id = $row['id'];
 
     // Second check
-    $query = 'SELECT * FROM tbl_users_passwords WHERE ' . make_where_query([
-        'user_id' => $user_id,
-        'active' => 1,
-    ]);
-    $row2 = execute_query($query);
+    $query = 'SELECT * FROM tbl_users_passwords WHERE user_id = ? AND active = 1';
+    $row2 = execute_query($query, [$user_id]);
     if (!is_array($row2) || !isset($row2['password'])) {
         return [
             'status' => 'ko',
@@ -81,12 +75,12 @@ function authtoken($user, $pass)
     } elseif (in_array($row2['password'], [md5($pass), sha1($pass)])) {
         // Convert from MD5/SHA1 to password_hash format
         $row2['password'] = password_hash($pass, PASSWORD_DEFAULT);
-        $query = make_update_query('tbl_users_passwords', [
+        $query = prepare_update_query('tbl_users_passwords', [
             'password' => $row2['password'],
-        ], make_where_query([
+        ], [
             'id' => $row2['id'],
-        ]));
-        db_query($query);
+        ]);
+        db_query(...$query);
     } else {
         return [
             'status' => 'ko',
@@ -96,20 +90,20 @@ function authtoken($user, $pass)
     }
 
     // Continue
-    $query = make_update_query('tbl_users_tokens', [
+    $query = prepare_update_query('tbl_users_tokens', [
         'active' => 0,
-    ], make_where_query([
+    ], [
         'user_id' => $user_id,
         'active' => 1,
-    ]));
-    db_query($query);
+    ]);
+    db_query(...$query);
 
     $created_at = current_datetime();
     $token = get_unique_token();
     $short_expires = current_datetime(get_config('auth/tokenshortexpires'));
     $long_expires = current_datetime(get_config('auth/tokenlongexpires'));
 
-    $query = make_insert_query('tbl_users_tokens', [
+    $query = prepare_insert_query('tbl_users_tokens', [
         'user_id' => $user_id,
         'active' => 1,
         'created_at' => $created_at,
@@ -118,7 +112,7 @@ function authtoken($user, $pass)
         'token' => $token,
         'expires_at' => min($short_expires, $long_expires),
     ]);
-    db_query($query);
+    db_query(...$query);
 
     return [
         'status' => 'ok',
@@ -148,12 +142,12 @@ function deauthtoken()
         ];
     }
 
-    $query = make_update_query('tbl_users_tokens', [
+    $query = prepare_update_query('tbl_users_tokens', [
         'active' => 0,
-    ], make_where_query([
+    ], [
         'id' => $token_id,
-    ]));
-    db_query($query);
+    ]);
+    db_query(...$query);
 
     return [
         'status' => 'ok',
@@ -182,20 +176,20 @@ function checktoken()
         ];
     }
 
-    $query = "SELECT * FROM tbl_users_tokens WHERE id='$token_id'";
-    $row = execute_query($query);
+    $query = 'SELECT * FROM tbl_users_tokens WHERE id = ?';
+    $row = execute_query($query, [$token_id]);
 
     $updated_at = current_datetime();
     $short_expires = current_datetime(get_config('auth/tokenshortexpires'));
     $long_expires = date('Y-m-d H:i:s', strtotime($row['created_at']) + get_config('auth/tokenlongexpires'));
 
-    $query = make_update_query('tbl_users_tokens', [
+    $query = prepare_update_query('tbl_users_tokens', [
         'updated_at' => $updated_at,
         'expires_at' => min($short_expires, $long_expires),
-    ], make_where_query([
+    ], [
         'id' => $token_id,
-    ]));
-    db_query($query);
+    ]);
+    db_query(...$query);
 
     return [
         'status' => 'ok',
@@ -302,11 +296,8 @@ function score_check($newpass)
  */
 function oldpass_check($user_id, $oldpass)
 {
-    $query = 'SELECT * FROM tbl_users_passwords WHERE ' . make_where_query([
-        'user_id' => $user_id,
-        'active' => 1,
-    ]);
-    $row = execute_query($query);
+    $query = 'SELECT * FROM tbl_users_passwords WHERE user_id = ? AND active = 1';
+    $row = execute_query($query, [$user_id]);
     if (!is_array($row)) {
         return false;
     }
@@ -326,10 +317,8 @@ function oldpass_check($user_id, $oldpass)
  */
 function newpass_check($user_id, $newpass)
 {
-    $query = 'SELECT password FROM tbl_users_passwords WHERE ' . make_where_query([
-        'user_id' => $user_id,
-    ]);
-    $oldspass = execute_query_array($query);
+    $query = 'SELECT password FROM tbl_users_passwords WHERE user_id = ?';
+    $oldspass = execute_query_array($query, [$user_id]);
     foreach ($oldspass as $oldpass) {
         if (password_verify($newpass, $oldpass)) {
             return false;
@@ -347,13 +336,13 @@ function newpass_check($user_id, $newpass)
 */
 function oldpass_disable($user_id)
 {
-    $query = make_update_query('tbl_users_passwords', [
+    $query = prepare_update_query('tbl_users_passwords', [
         'active' => 0,
-    ], make_where_query([
+    ], [
         'user_id' => $user_id,
         'active' => 1,
-    ]));
-    db_query($query);
+    ]);
+    db_query(...$query);
 }
 
 /**
@@ -374,7 +363,7 @@ function newpass_insert($user_id, $newpass)
     $created_at = current_datetime();
     $expires_at = current_datetime(get_config('auth/passwordexpires'));
 
-    $query = make_insert_query('tbl_users_passwords', [
+    $query = prepare_insert_query('tbl_users_passwords', [
         'active' => 1,
         'user_id' => $user_id,
         'created_at' => $created_at,
@@ -383,7 +372,7 @@ function newpass_insert($user_id, $newpass)
         'password' => $newpass,
         'expires_at' => $expires_at,
     ]);
-    db_query($query);
+    db_query(...$query);
 
     return [
         'created_at' => $created_at,

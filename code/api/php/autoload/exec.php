@@ -136,7 +136,7 @@ function is_disabled_function($fn)
             ini_get('suhosin.executor.func.blacklist'),
         ])), ['']);
     }
-    if (count(func_get_args()) == 2) {
+    if (func_num_args() == 2) {
         $fn = func_get_args();
         if ($fn[0] == 'add') {
             $array[] = $fn[1];

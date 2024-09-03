@@ -68,12 +68,10 @@ function get_config($key, $user_id = -1)
         show_php_error(['phperror' => "key $key not found"]);
     }
     // Search the key for the specified user in the database
-    $query = 'SELECT val FROM tbl_config WHERE ' . make_where_query([
-        'user_id' => $user_id,
-        'key' => $key,
-    ]);
+    $query = 'SELECT val FROM tbl_config LIMIT 1';
     if (db_check($query)) {
-        $val = execute_query($query);
+        $query = 'SELECT val FROM tbl_config WHERE user_id = ? AND `key` = ?';
+        $val = execute_query($query, [$user_id, $key]);
         return $val;
     }
     return null;
@@ -124,33 +122,20 @@ function set_config($key, $val, $user_id = -1)
     }
     // Try to insert or update the key for the specified user
     // In this case, zero user is allowed and used as global user
-    $query = 'SELECT id FROM tbl_config WHERE ' . make_where_query([
-        'user_id' => $user_id,
-        'key' => $key,
-    ]);
-    $id = execute_query($query);
+    $query = 'SELECT id FROM tbl_config WHERE user_id = ? AND `key` = ?';
+    $id = execute_query($query, [$user_id, $key]);
     if ($id === null) {
         if ($val !== null) {
-            $query = make_insert_query('tbl_config', [
-                'user_id' => $user_id,
-                'key' => $key,
-                'val' => $val,
-            ]);
-            db_query($query);
+            $query = 'INSERT INTO tbl_config(user_id, `key`, val) VALUES (?, ?, ?)';
+            db_query($query, [$user_id, $key, $val]);
         }
     } else {
         if ($val !== null) {
-            $query = make_update_query('tbl_config', [
-                'val' => $val,
-            ], make_where_query([
-                'id' => $id,
-            ]));
-            db_query($query);
+            $query = 'UPDATE tbl_config SET val = ? WHERE `id` = ?';
+            db_query($query, [$val, $id]);
         } else {
-            $query = 'DELETE FROM tbl_config WHERE ' . make_where_query([
-                'id' => $id,
-            ]);
-            db_query($query);
+            $query = 'DELETE FROM tbl_config WHERE id = ?';
+            db_query($query, [$id]);
         }
     }
 }
@@ -179,10 +164,8 @@ function detect_config_files($file)
  */
 function get_config_array($prefix, $user_id)
 {
-    $rows = execute_query_array("
-        SELECT `key`, val
-        FROM tbl_config
-        WHERE user_id=$user_id AND `key` LIKE '$prefix%'");
+    $query = 'SELECT `key`, val FROM tbl_config WHERE user_id = ? AND `key` LIKE ?';
+    $rows = execute_query_array($query, [$user_id, $prefix . '%']);
     $array = array_column($rows, 'val', 'key');
     //~ $array = array_map(function ($val) {
         //~ return json_decode($val, true);

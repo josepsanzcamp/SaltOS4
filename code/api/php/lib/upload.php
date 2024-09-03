@@ -64,7 +64,7 @@ function add_file($val)
     // Do the insert
     $user_id = current_user();
     $datetime = current_datetime();
-    $query = make_insert_query('tbl_uploads', [
+    $query = prepare_insert_query('tbl_uploads', [
         'user_id' => $user_id,
         'datetime' => $datetime,
         'uniqid' => $val['id'],
@@ -75,7 +75,7 @@ function add_file($val)
         'file' => $val['file'],
         'hash' => $val['hash'],
     ]);
-    db_query($query);
+    db_query(...$query);
     return $val;
 }
 
@@ -129,8 +129,8 @@ function del_file($val)
     // Remove the local file
     unlink($dir . $val['file']);
     // Remove the database entry
-    $query = "DELETE FROM tbl_uploads WHERE id = $id";
-    db_query($query);
+    $query = 'DELETE FROM tbl_uploads WHERE id = ?';
+    db_query($query, [$id]);
     // Reset vars
     $val['file'] = '';
     $val['hash'] = '';
@@ -153,8 +153,9 @@ function del_file($val)
  */
 function check_file($val)
 {
-    $query = 'SELECT id FROM tbl_uploads WHERE ' . make_where_query($val);
-    $id = execute_query($query);
+    [$where, $values] = prepare_where_query('tbl_uploads', $val);
+    $query = 'SELECT id FROM tbl_uploads WHERE ' . $where;
+    $id = execute_query($query, $values);
     return $id;
 }
 
@@ -168,8 +169,8 @@ function check_file($val)
 function gc_upload()
 {
     $delta = current_datetime(-intval(get_config('server/cachetimeout')));
-    $query = "SELECT id, file FROM tbl_uploads WHERE datetime < '$delta'";
-    $files = execute_query_array($query);
+    $query = 'SELECT id, file FROM tbl_uploads WHERE datetime < ?';
+    $files = execute_query_array($query, [$delta]);
     $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     $output = [
         'deleted' => [],
@@ -179,8 +180,8 @@ function gc_upload()
         if (file_exists($dir . $file['file']) && is_file($dir . $file['file'])) {
             unlink($dir . $file['file']);
         }
-        $query = 'DELETE FROM tbl_uploads WHERE id = ' . $file['id'];
-        db_query($query);
+        $query = 'DELETE FROM tbl_uploads WHERE id = ?';
+        db_query($query, [$file['id']]);
         $output['deleted'][] = $dir . $file['file'];
         $output['count']++;
     }

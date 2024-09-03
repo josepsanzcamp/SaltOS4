@@ -71,8 +71,8 @@ function insert($app, $data)
     $data = array_diff_key($data, $subdata);
 
     // Prepare main query
-    $query = make_insert_query($table, $data);
-    db_query($query);
+    $query = prepare_insert_query($table, $data);
+    db_query(...$query);
 
     $id = execute_query("SELECT MAX(id) FROM $table");
 
@@ -94,8 +94,8 @@ function insert($app, $data)
                     ];
                 }
                 $temp2[$field] = $id;
-                $query = make_insert_query($subtable, $temp2);
-                db_query($query);
+                $query = prepare_insert_query($subtable, $temp2);
+                db_query(...$query);
             }
         }
     }
@@ -149,8 +149,10 @@ function update($app, $id, $data)
 
     // Prepare main query
     if (count($data)) {
-        $query = make_update_query($table, $data, "id = $id");
-        db_query($query);
+        $query = prepare_update_query($table, $data, [
+            'id' => $id,
+        ]);
+        db_query(...$query);
     }
 
     // Prepare all subqueries
@@ -173,19 +175,22 @@ function update($app, $id, $data)
                 if (!isset($temp2['id'])) {
                     // Insert new subdata
                     $temp2[$field] = $id;
-                    $query = make_insert_query($subtable, $temp2);
-                    db_query($query);
+                    $query = prepare_insert_query($subtable, $temp2);
+                    db_query(...$query);
                 } elseif (intval($temp2['id']) > 0) {
                     // Update the subdata
                     $id2 = intval($temp2['id']);
                     unset($temp2['id']);
-                    $query = make_update_query($subtable, $temp2, "id = $id2 AND $field = $id");
-                    db_query($query);
+                    $query = prepare_update_query($subtable, $temp2, [
+                        'id' => $id2,
+                        $field => $id,
+                    ]);
+                    db_query(...$query);
                 } elseif (intval($temp2['id']) < 0) {
                     // Delete the subdata
                     $id2 = -intval($temp2['id']);
-                    $query = "DELETE FROM $subtable WHERE id = $id2 AND $field = $id";
-                    db_query($query);
+                    $query = "DELETE FROM $subtable WHERE id = ? AND $field = ?";
+                    db_query($query, [$id2, $id]);
                 } else {
                     show_php_error(['phperror' => 'subdata found with id=0']);
                 }
@@ -260,16 +265,16 @@ function delete($app, $id)
 
     // Prepare main query
     $table = app2table($app);
-    $query = "DELETE FROM $table WHERE id = $id";
-    db_query($query);
+    $query = "DELETE FROM $table WHERE id = ?";
+    db_query($query, [$id]);
 
     // Prepare all subqueries
     $subtables = app2subtables($app);
     foreach ($subtables as $temp) {
         $subtable = $temp['subtable'];
         $field = $temp['field'];
-        $query = "DELETE FROM $subtable WHERE $field = $id";
-        db_query($query);
+        $query = "DELETE FROM $subtable WHERE $field = ?";
+        db_query($query, [$id]);
     }
 
     make_index($app, $id);

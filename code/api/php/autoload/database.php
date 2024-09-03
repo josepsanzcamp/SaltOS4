@@ -93,7 +93,7 @@ function db_connect($args = null)
  *
  * @query => the query that you want to validate
  */
-function db_check($query)
+function db_check($query, $params = null)
 {
     if (!get_config('db/obj')) {
         return false;
@@ -101,7 +101,7 @@ function db_check($query)
     if (!method_exists(get_config('db/obj'), 'db_check')) {
         show_php_error(['dberror' => 'Unknown database connector']);
     }
-    return get_config('db/obj')->db_check($query);
+    return get_config('db/obj')->db_check($query, $params);
 }
 
 /**
@@ -148,7 +148,7 @@ function db_escape($str)
  * sized array, in this case, is more efficient to get an string separated by commas with all
  * ids instead of an array where each element is an id
  */
-function db_query($query, $arg1 = null, $arg2 = null)
+function db_query($query, ...$args)
 {
     if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_query')) {
         show_php_error(['dberror' => 'Unknown database connector']);
@@ -163,7 +163,7 @@ function db_query($query, $arg1 = null, $arg2 = null)
     if (eval_bool(get_config('debug/slowquerydebug'))) {
         $curtime = microtime(true);
     }
-    $result = get_config('db/obj')->db_query($query, $arg1, $arg2);
+    $result = get_config('db/obj')->db_query($query, ...$args);
     if (eval_bool(get_config('debug/slowquerydebug'))) {
         $curtime = microtime(true) - $curtime;
         $maxtime = get_config('debug/slowquerytime');

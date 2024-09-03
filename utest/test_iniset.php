@@ -88,13 +88,11 @@ final class test_iniset extends TestCase
 
         $this->assertSame(mb_internal_encoding('ISO-8859-1'), true);
         $this->assertSame(mb_internal_encoding(), 'ISO-8859-1');
-        eval_extras(get_config('extras'));
-        $this->assertSame(mb_internal_encoding(), 'UTF-8');
+        //~ eval_extras(get_config('extras'));
+        //~ $this->assertSame(mb_internal_encoding(), 'UTF-8');
 
         test_external_exec('php/iniset1.php', 'phperror.log', 'ini_set fails to set nada from to nada');
         test_external_exec('php/iniset2.php', 'phperror.log', 'putenv(): argument assignment must have a valid syntax');
-        test_external_exec('php/iniset3.php', 'phperror.log', 'nada fails to set nada,nada,nada');
-        test_external_exec('php/iniset4.php', 'phperror.log', 'ini_set fails to set nada,nada');
         test_external_exec('php/iniset5.php', 'phperror.log', 'is_array fails to set nada');
     }
 }

@@ -107,10 +107,17 @@ class database_mysqli
      *
      * @query => the query that you want to validate
      */
-    public function db_check($query)
+    public function db_check($query, $params = null)
     {
         try {
-            $this->link->query($query);
+            if (is_array($params)) {
+                $stmt = $this->link->prepare($query);
+                $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+                $stmt->execute();
+                $stmt = $stmt->get_result();
+            } else {
+                $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
+            }
             return true;
         } catch (Exception $e) {
             return false;
@@ -158,21 +165,17 @@ class database_mysqli
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */
-    public function db_query($query, $arg1 = null, $arg2 = null)
+    public function db_query($query, ...$args)
     {
         $fetch = 'query';
         $params = null;
-        if (is_string($arg1)) {
-            $fetch = $arg1;
-        }
-        if (is_array($arg1)) {
-            $params = $arg1;
-        }
-        if (is_string($arg2)) {
-            $fetch = $arg2;
-        }
-        if (is_array($arg2)) {
-            $params = $arg2;
+        foreach ($args as $arg) {
+            if (is_string($arg)) {
+                $fetch = $arg;
+            }
+            if (is_array($arg)) {
+                $params = $arg;
+            }
         }
         // CONTINUE
         $query = parse_query($query, 'MYSQL');

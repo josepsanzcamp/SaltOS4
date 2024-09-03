@@ -58,12 +58,9 @@ function current_token()
         $token = get_data('server/token');
         $remote_addr = get_data('server/remote_addr');
         $user_agent = get_data('server/user_agent');
-        $token_id = execute_query('SELECT id FROM tbl_users_tokens WHERE ' . make_where_query([
-            'token' => $token,
-            'active' => 1,
-            'remote_addr' => $remote_addr,
-            'user_agent' => $user_agent,
-        ]));
+        $query = 'SELECT id FROM tbl_users_tokens
+            WHERE token = ? AND active = 1 AND remote_addr = ? AND user_agent = ?';
+        $token_id = execute_query($query, [$token, $remote_addr, $user_agent]);
         $token_id = intval($token_id);
     }
     return $token_id;
@@ -81,10 +78,8 @@ function current_user()
     static $token_id = null;
     if ($user_id === null || $token_id != current_token()) {
         $token_id = current_token();
-        $user_id = execute_query('SELECT user_id FROM tbl_users_tokens WHERE ' . make_where_query([
-            'id' => $token_id,
-            'active' => 1,
-        ]));
+        $query = 'SELECT user_id FROM tbl_users_tokens WHERE id = ? AND active = 1';
+        $user_id = execute_query($query, [$token_id]);
         $user_id = intval($user_id);
     }
     return $user_id;
@@ -102,10 +97,8 @@ function current_group()
     static $user_id = null;
     if ($group_id === null || $user_id != current_user()) {
         $user_id = current_user();
-        $group_id = execute_query('SELECT group_id FROM tbl_users WHERE ' . make_where_query([
-            'id' => $user_id,
-            'active' => 1,
-        ]));
+        $query = 'SELECT group_id FROM tbl_users WHERE id = ? AND active = 1';
+        $group_id = execute_query($query, [$user_id]);
         $group_id = intval($group_id);
     }
     return $group_id;
@@ -130,11 +123,11 @@ function current_groups()
             return $groups_id;
         }
         // Get groups from the users table
-        $query = "SELECT group_id, groups_id FROM tbl_users WHERE active = 1 AND id = $user_id";
-        $from_users = execute_query($query);
+        $query = 'SELECT group_id, groups_id FROM tbl_users WHERE active = 1 AND id = ?';
+        $from_users = execute_query($query, [$user_id]);
         // Get groups from the groups table linked by the users_id field
-        $query = "SELECT id FROM tbl_groups WHERE active = 1 AND FIND_IN_SET($user_id, users_id)";
-        $from_groups = execute_query_array($query);
+        $query = 'SELECT id FROM tbl_groups WHERE active = 1 AND FIND_IN_SET(?, users_id)';
+        $from_groups = execute_query_array($query, [$user_id]);
         // Compute the resulting array with all ids
         $array = array_merge($from_users, $from_groups);
         $array = array_diff($array, ['']);
@@ -168,11 +161,11 @@ function crontab_users()
     $time = current_time();
     $dow = current_dow();
     // Disable tokens that have been expired
-    $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires_at <= '$datetime'";
-    db_query($query);
+    $query = 'UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND expires_at <= ?';
+    db_query($query, [$datetime]);
     // Disable passwords that have been expired
-    $query = "UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires_at <= '$datetime'";
-    db_query($query);
+    $query = 'UPDATE tbl_users_passwords SET active = 0 WHERE active = 1 AND expires_at <= ?';
+    db_query($query, [$datetime]);
     // Disable tokens that have not an active password
     $query = 'UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id NOT IN (
         SELECT user_id FROM tbl_users_passwords WHERE active = 1)';
@@ -181,8 +174,8 @@ function crontab_users()
     $query = "UPDATE tbl_users_tokens SET active = 0 WHERE active = 1 AND user_id IN (
         SELECT id FROM tbl_users WHERE (
             start = end OR
-            (start < end AND ('$time' < start OR '$time' > end)) OR
-            (start > end AND '$time' < start AND '$time' > end) OR
-            SUBSTR(days, $dow, 1) = '0'))";
-    db_query($query);
+            (start < end AND (? < start OR ? > end)) OR
+            (start > end AND ? < start AND ? > end) OR
+            SUBSTR(days, ?, 1) = '0'))";
+    db_query($query, [$time, $time, $time, $time, $dow]);
 }

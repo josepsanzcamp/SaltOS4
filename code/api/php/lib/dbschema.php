@@ -206,7 +206,7 @@ function db_static()
             }
             $count = execute_query("SELECT COUNT(*) FROM $table");
             $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
-            $queries[] = $query;
+            $queries[] = [$query, null];
             $output['history'][$table] = [
                 'from' => $count,
                 'to' => 0,
@@ -221,9 +221,8 @@ function db_static()
                 $output['history'][$table]['to'] += count($temp);
             }
         }
-        $queries = __dbstatic_optimize_queries($queries);
         foreach ($queries as $query) {
-            db_query($query);
+            db_query(...$query);
         }
     }
     __manifest_perms_check(detect_apps_files('xml/manifest.xml'));
@@ -235,39 +234,6 @@ function db_static()
         $output['count'] += abs($to - $from);
     }
     return $output;
-}
-
-/**
- * DB Static optimize queries
- *
- * This function tries to join in the same insert multiple values packages
- * to improve the insert performance.
- *
- * @queries => The array of queries to be optimised if it is possible
- */
-function __dbstatic_optimize_queries($queries)
-{
-    $array = [];
-    foreach ($queries as $index => $query) {
-        if (substr($query, 0, 11) != 'INSERT INTO') {
-            continue;
-        }
-        $pos = strpos($query, 'VALUES');
-        if (!$pos) {
-            continue;
-        }
-        $key = substr($query, 0, $pos + 6);
-        $val = substr($query, $pos + 6);
-        if (!isset($array[$key])) {
-            $array[$key] = [];
-        }
-        $array[$key][] = $val;
-        unset($queries[$index]);
-    }
-    foreach ($array as $key => $val) {
-        $queries[] = $key . implode(',', $val);
-    }
-    return $queries;
 }
 
 /**
@@ -325,7 +291,7 @@ function __dbstatic_insert($table, $row)
         }
     }
     // Original insert query
-    $query = make_insert_query($table, $row);
+    $query = prepare_insert_query($table, $row);
     return [$query];
 }
 
@@ -874,11 +840,8 @@ function __manifest_perms_check($files)
             }
             foreach ($value as $perm) {
                 $perm_array = explode(',', $perm . ',,');
-                $exists = execute_query('SELECT id FROM tbl_perms WHERE ' . make_where_query([
-                    'id' => $perm_array[0],
-                    'code' => $perm_array[1],
-                    'owner' => $perm_array[2],
-                ]));
+                $query = 'SELECT id FROM tbl_perms WHERE id = ? AND code = ? AND owner = ?';
+                $exists = execute_query($query, [$perm_array[0], $perm_array[1], $perm_array[2]]);
                 if (!$exists) {
                     show_php_error(['phperror' => "Perm '$perm' not found"]);
                 }

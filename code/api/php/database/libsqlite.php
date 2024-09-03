@@ -89,10 +89,9 @@ function __libsqlite_lpad($input, $length, $char)
  *
  * This function add the CONCAT to the SQLite database
  */
-function __libsqlite_concat()
+function __libsqlite_concat(...$args)
 {
-    $array = func_get_args();
-    return implode('', $array);
+    return implode('', $args);
 }
 
 /**
@@ -100,12 +99,11 @@ function __libsqlite_concat()
  *
  * This function add the CONCAT_WS to the SQLite database
  */
-function __libsqlite_concat_ws()
+function __libsqlite_concat_ws(...$args)
 {
-    $array = func_get_args();
-    $separator = array_shift($array);
-    $array = array_diff($array, [null]);
-    return implode($separator, $array);
+    $separator = array_shift($args);
+    $args = array_diff($args, [null]);
+    return implode($separator, $args);
 }
 
 /**
