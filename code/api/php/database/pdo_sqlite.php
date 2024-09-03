@@ -201,22 +201,42 @@ class database_pdo_sqlite
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */
-    public function db_query($query, $fetch = 'query')
+    public function db_query($query, $arg1 = null, $arg2 = null)
     {
+        $fetch = 'query';
+        $params = null;
+        if (is_string($arg1)) {
+            $fetch = $arg1;
+        }
+        if (is_array($arg1)) {
+            $params = $arg1;
+        }
+        if (is_string($arg2)) {
+            $fetch = $arg2;
+        }
+        if (is_array($arg2)) {
+            $params = $arg2;
+        }
+        // CONTINUE
         $query = parse_query($query, 'SQLITE');
         $result = ['total' => 0, 'header' => [], 'rows' => []];
         if (!strlen(trim($query))) {
             return $result;
         }
-        // SEMAPHORE PART
+        // Semaphore part
         $timeout = get_config('db/semaphoretimeout') ?? 10000000;
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
             show_php_error(['dberror' => 'Could not acquire the semaphore', 'query' => $query]);
         }
-        // DO QUERY
+        // Do the query
         for (;;) {
             try {
-                $stmt = $this->link->query($query);
+                if (is_array($params)) {
+                    $stmt = $this->link->prepare($query);
+                    $stmt->execute($params);
+                } else {
+                    $stmt = $this->link->query($query);
+                }
                 break;
             } catch (PDOException $e) {
                 if ($timeout <= 0) {
@@ -235,7 +255,7 @@ class database_pdo_sqlite
             }
         }
         semaphore_release(__FUNCTION__);
-        // DUMP RESULT TO MATRIX
+        // Dump result to matrix
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
             if ($fetch == 'auto') {
                 $fetch = $stmt->columnCount() > 1 ? 'query' : 'column';

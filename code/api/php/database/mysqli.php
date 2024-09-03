@@ -158,20 +158,42 @@ class database_mysqli
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */
-    public function db_query($query, $fetch = 'query')
+    public function db_query($query, $arg1 = null, $arg2 = null)
     {
+        $fetch = 'query';
+        $params = null;
+        if (is_string($arg1)) {
+            $fetch = $arg1;
+        }
+        if (is_array($arg1)) {
+            $params = $arg1;
+        }
+        if (is_string($arg2)) {
+            $fetch = $arg2;
+        }
+        if (is_array($arg2)) {
+            $params = $arg2;
+        }
+        // CONTINUE
         $query = parse_query($query, 'MYSQL');
         $result = ['total' => 0, 'header' => [], 'rows' => []];
         if (!strlen(trim($query))) {
             return $result;
         }
-        // DO QUERY
+        // Do the query
         try {
-            $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
+            if (is_array($params)) {
+                $stmt = $this->link->prepare($query);
+                $stmt->bind_param(str_repeat('s', count($params)), ...$params);
+                $stmt->execute();
+                $stmt = $stmt->get_result();
+            } else {
+                $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
+            }
         } catch (Exception $e) {
             show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
         }
-        // DUMP RESULT TO MATRIX
+        // Dump result to matrix
         if (!is_bool($stmt) && $stmt->field_count > 0) {
             if ($fetch == 'auto') {
                 $fetch = $stmt->field_count > 1 ? 'query' : 'column';

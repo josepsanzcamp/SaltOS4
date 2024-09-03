@@ -148,7 +148,7 @@ function db_escape($str)
  * sized array, in this case, is more efficient to get an string separated by commas with all
  * ids instead of an array where each element is an id
  */
-function db_query($query, $fetch = 'query')
+function db_query($query, $arg1 = null, $arg2 = null)
 {
     if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_query')) {
         show_php_error(['dberror' => 'Unknown database connector']);
@@ -163,7 +163,7 @@ function db_query($query, $fetch = 'query')
     if (eval_bool(get_config('debug/slowquerydebug'))) {
         $curtime = microtime(true);
     }
-    $result = get_config('db/obj')->db_query($query, $fetch);
+    $result = get_config('db/obj')->db_query($query, $arg1, $arg2);
     if (eval_bool(get_config('debug/slowquerydebug'))) {
         $curtime = microtime(true) - $curtime;
         $maxtime = get_config('debug/slowquerytime');

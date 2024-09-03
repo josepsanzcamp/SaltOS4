@@ -155,20 +155,40 @@ class database_pdo_mssql
      * sized array, in this case, is more efficient to get an string separated by commas with all
      * ids instead of an array where each element is an id
      */
-    public function db_query($query, $fetch = 'query')
+    public function db_query($query, $arg1 = null, $arg2 = null)
     {
+        $fetch = 'query';
+        $params = null;
+        if (is_string($arg1)) {
+            $fetch = $arg1;
+        }
+        if (is_array($arg1)) {
+            $params = $arg1;
+        }
+        if (is_string($arg2)) {
+            $fetch = $arg2;
+        }
+        if (is_array($arg2)) {
+            $params = $arg2;
+        }
+        // CONTINUE
         $query = parse_query($query, 'MSSQL');
         $result = ['total' => 0, 'header' => [], 'rows' => []];
         if (!strlen(trim($query))) {
             return $result;
         }
-        // DO QUERY
+        // Do the query
         try {
-            $stmt = $this->link->query($query);
+            if (is_array($params)) {
+                $stmt = $this->link->prepare($query);
+                $stmt->execute($params);
+            } else {
+                $stmt = $this->link->query($query);
+            }
         } catch (PDOException $e) {
             show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
         }
-        // DUMP RESULT TO MATRIX
+        // Dump result to matrix
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {
             if ($fetch == 'auto') {
                 $fetch = $stmt->columnCount() > 1 ? 'query' : 'column';

@@ -182,9 +182,9 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
  * because you can get for the same query differents output types, if you
  * need to be more standarized in the output types, see the execute_query_array
  */
-function execute_query($query)
+function execute_query($query, $params = null)
 {
-    $result = db_query($query, 'auto');
+    $result = db_query($query, 'auto', $params);
     $numrows = db_num_rows($result);
     $numfields = db_num_fields($result);
     $value = null;
@@ -211,9 +211,9 @@ function execute_query($query)
  *
  * @query => the SQL query that you want to execute
  */
-function execute_query_array($query)
+function execute_query_array($query, $params = null)
 {
-    $result = db_query($query, 'auto');
+    $result = db_query($query, 'auto', $params);
     $rows = db_fetch_all($result);
     db_free($result);
     return $rows;
