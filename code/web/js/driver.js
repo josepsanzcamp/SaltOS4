@@ -332,6 +332,11 @@ saltos.driver.update = arg => {
  */
 saltos.driver.delete = async arg => {
     if (saltos.bootstrap.modal('isopen')) {
+        // Disable all autoclose
+        document.querySelectorAll('[autoclose]').forEach(_this => {
+            _this.removeAttribute('autoclose');
+        });
+        // Continue
         saltos.bootstrap.modal('close');
         while (saltos.bootstrap.modal('isopen')) {
             await new Promise(resolve => setTimeout(resolve, 1));
@@ -775,6 +780,7 @@ saltos.driver.__types.type4.template = arg => {
  * TODO
  */
 saltos.driver.__types.type4.init = arg => {
+    console.log(arg);
     if (arg == 'list') {
         // Continue after the backup
         var action = saltos.hash.get().split('/').at(2);
@@ -797,11 +803,15 @@ saltos.driver.__types.type4.init = arg => {
         }
         if (document.getElementById('two').textContent.trim().length) {
             var obj = document.getElementById('two').firstElementChild;
-            saltos.gettext.bootstrap.modal({
-                close: 'Close',
-                body: obj,
-                class: 'modal-xl',
-            });
+            if (!saltos.bootstrap.modal('isopen')) {
+                saltos.gettext.bootstrap.modal({
+                    close: 'Close',
+                    body: obj,
+                    class: 'modal-xl',
+                });
+            } else {
+                document.querySelector('.modal-body').replaceChildren(obj);
+            }
         }
     }
     if (arg == 'view') {
@@ -883,11 +893,15 @@ saltos.driver.__types.type5.init = arg => {
         }
         if (document.getElementById('three').textContent.trim().length) {
             var obj = document.getElementById('three').firstElementChild;
-            saltos.gettext.bootstrap.modal({
-                close: 'Close',
-                body: obj,
-                class: 'modal-xl',
-            });
+            if (!saltos.bootstrap.modal('isopen')) {
+                saltos.gettext.bootstrap.modal({
+                    close: 'Close',
+                    body: obj,
+                    class: 'modal-xl',
+                });
+            } else {
+                document.querySelector('.modal-body').replaceChildren(obj);
+            }
         }
     }
     if (arg == 'view') {
