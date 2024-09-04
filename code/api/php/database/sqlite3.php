@@ -144,21 +144,17 @@ class database_sqlite3
      *
      * @query => the query that you want to validate
      */
-    public function db_check($query, $params = null)
+    public function db_check($query, $params = [])
     {
         try {
-            if (is_array($params)) {
-                $stmt = $this->link->prepare($query);
-                foreach ($params as $key => $val) {
-                    if (is_int($key)) {
-                        $key++;
-                    }
-                    $stmt->bindValue($key, $val);
+            $stmt = $this->link->prepare($query);
+            foreach ($params as $key => $val) {
+                if (is_int($key)) {
+                    $key++;
                 }
-                $stmt = $stmt->execute();
-            } else {
-                $stmt = $this->link->query($query);
+                $stmt->bindValue($key, $val);
             }
+            $stmt = $stmt->execute();
             return true;
         } catch (Exception $e) {
             return false;
@@ -209,7 +205,7 @@ class database_sqlite3
     public function db_query($query, ...$args)
     {
         $fetch = 'query';
-        $params = null;
+        $params = [];
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $fetch = $arg;
@@ -232,18 +228,14 @@ class database_sqlite3
         // Do the query
         for (;;) {
             try {
-                if (is_array($params)) {
-                    $stmt = $this->link->prepare($query);
-                    foreach ($params as $key => $val) {
-                        if (is_int($key)) {
-                            $key++;
-                        }
-                        $stmt->bindValue($key, $val);
+                $stmt = $this->link->prepare($query);
+                foreach ($params as $key => $val) {
+                    if (is_int($key)) {
+                        $key++;
                     }
-                    $stmt = $stmt->execute();
-                } else {
-                    $stmt = $this->link->query($query);
+                    $stmt->bindValue($key, $val);
                 }
+                $stmt = $stmt->execute();
                 break;
             } catch (Exception $e) {
                 if ($timeout <= 0) {

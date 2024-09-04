@@ -107,17 +107,15 @@ class database_mysqli
      *
      * @query => the query that you want to validate
      */
-    public function db_check($query, $params = null)
+    public function db_check($query, $params = [])
     {
         try {
-            if (is_array($params)) {
-                $stmt = $this->link->prepare($query);
+            $stmt = $this->link->prepare($query);
+            if (count($params)) {
                 $stmt->bind_param(str_repeat('s', count($params)), ...$params);
-                $stmt->execute();
-                $stmt = $stmt->get_result();
-            } else {
-                $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
             }
+            $stmt->execute();
+            $stmt = $stmt->get_result();
             return true;
         } catch (Exception $e) {
             return false;
@@ -132,9 +130,9 @@ class database_mysqli
      *
      * @str => the string that you want to sanitize
      */
-    public function db_escape($cad)
+    public function db_escape($str)
     {
-        return $this->link->real_escape_string($cad);
+        return $this->link->real_escape_string($str);
     }
 
     /**
@@ -168,7 +166,7 @@ class database_mysqli
     public function db_query($query, ...$args)
     {
         $fetch = 'query';
-        $params = null;
+        $params = [];
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $fetch = $arg;
@@ -185,14 +183,12 @@ class database_mysqli
         }
         // Do the query
         try {
-            if (is_array($params)) {
-                $stmt = $this->link->prepare($query);
+            $stmt = $this->link->prepare($query);
+            if (count($params)) {
                 $stmt->bind_param(str_repeat('s', count($params)), ...$params);
-                $stmt->execute();
-                $stmt = $stmt->get_result();
-            } else {
-                $stmt = $this->link->query($query, MYSQLI_USE_RESULT);
             }
+            $stmt->execute();
+            $stmt = $stmt->get_result();
         } catch (Exception $e) {
             show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
         }

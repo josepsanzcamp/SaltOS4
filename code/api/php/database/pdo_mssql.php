@@ -99,15 +99,11 @@ class database_pdo_mssql
      *
      * @query => the query that you want to validate
      */
-    public function db_check($query, $params = null)
+    public function db_check($query, $params = [])
     {
         try {
-            if (is_array($params)) {
-                $stmt = $this->link->prepare($query);
-                $stmt->execute($params);
-            } else {
-                $stmt = $this->link->query($query);
-            }
+            $stmt = $this->link->prepare($query);
+            $stmt->execute($params);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -163,7 +159,7 @@ class database_pdo_mssql
     public function db_query($query, ...$args)
     {
         $fetch = 'query';
-        $params = null;
+        $params = [];
         foreach ($args as $arg) {
             if (is_string($arg)) {
                 $fetch = $arg;
@@ -180,12 +176,8 @@ class database_pdo_mssql
         }
         // Do the query
         try {
-            if (is_array($params)) {
-                $stmt = $this->link->prepare($query);
-                $stmt->execute($params);
-            } else {
-                $stmt = $this->link->query($query);
-            }
+            $stmt = $this->link->prepare($query);
+            $stmt->execute($params);
         } catch (PDOException $e) {
             show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
         }

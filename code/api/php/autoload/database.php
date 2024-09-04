@@ -93,7 +93,7 @@ function db_connect($args = null)
  *
  * @query => the query that you want to validate
  */
-function db_check($query, $params = null)
+function db_check($query, $params = [])
 {
     if (!get_config('db/obj')) {
         return false;
