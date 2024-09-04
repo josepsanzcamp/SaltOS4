@@ -115,7 +115,7 @@ class database_mysqli
                 $stmt->bind_param(str_repeat('s', count($params)), ...$params);
             }
             $stmt->execute();
-            $stmt = $stmt->get_result();
+            $stmt->free_result();
             return true;
         } catch (Exception $e) {
             return false;

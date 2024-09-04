@@ -155,6 +155,7 @@ class database_sqlite3
                 $stmt->bindValue($key, $val);
             }
             $stmt = $stmt->execute();
+            $stmt->finalize();
             return true;
         } catch (Exception $e) {
             return false;
@@ -267,6 +268,7 @@ class database_sqlite3
                 if ($result['total'] > 0) {
                     $result['header'] = array_keys($result['rows'][0]);
                 }
+                $stmt->finalize();
             }
             if ($fetch == 'column') {
                 while ($row = $stmt->fetchArray(SQLITE3_NUM)) {
@@ -274,6 +276,7 @@ class database_sqlite3
                 }
                 $result['total'] = count($result['rows']);
                 $result['header'] = ['column'];
+                $stmt->finalize();
             }
             if ($fetch == 'concat') {
                 if ($row = $stmt->fetchArray(SQLITE3_NUM)) {
@@ -284,6 +287,7 @@ class database_sqlite3
                 }
                 $result['total'] = count($result['rows']);
                 $result['header'] = ['concat'];
+                $stmt->finalize();
             }
         }
         return $result;

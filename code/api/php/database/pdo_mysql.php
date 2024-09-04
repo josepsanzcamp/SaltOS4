@@ -108,6 +108,7 @@ class database_pdo_mysql
         try {
             $stmt = $this->link->prepare($query);
             $stmt->execute($params);
+            $stmt = null; // like free_result
             return true;
         } catch (PDOException $e) {
             return false;
@@ -196,11 +197,13 @@ class database_pdo_mysql
                 if ($result['total'] > 0) {
                     $result['header'] = array_keys($result['rows'][0]);
                 }
+                $stmt = null; // like free_result
             }
             if ($fetch == 'column') {
                 $result['rows'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 $result['total'] = count($result['rows']);
                 $result['header'] = ['column'];
+                $stmt = null; // like free_result
             }
             if ($fetch == 'concat') {
                 if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
@@ -211,6 +214,7 @@ class database_pdo_mysql
                 }
                 $result['total'] = count($result['rows']);
                 $result['header'] = ['concat'];
+                $stmt = null; // like free_result
             }
         }
         return $result;
