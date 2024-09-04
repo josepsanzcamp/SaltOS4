@@ -895,6 +895,7 @@ saltos.bootstrap.__field.iframe = field => {
         saltos.core.when_visible(obj, () => {
             window.dispatchEvent(new Event('resize'));
         });
+        // To propagate the keydown event suck as escape key
         _this.contentWindow.document.addEventListener('keydown', event => {
             document.dispatchEvent(new KeyboardEvent('keydown', {
                 altKey: event.altKey,
@@ -902,6 +903,10 @@ saltos.bootstrap.__field.iframe = field => {
                 shiftKey: event.shiftKey,
                 keyCode: event.keyCode,
             }));
+        });
+        // To open the links in a new window and prevent the same origin error
+        _this.contentWindow.document.querySelectorAll('a').forEach(link => {
+            link.setAttribute('target', '_blank');
         });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
