@@ -95,8 +95,8 @@ function setup()
             continue;
         }
         foreach ($rows as $row) {
-            $query = make_insert_query($table, $row);
-            db_query($query);
+            $query = prepare_insert_query($table, $row);
+            db_query(...$query);
             $output['history'][$table]++;
             $output['count']++;
         }

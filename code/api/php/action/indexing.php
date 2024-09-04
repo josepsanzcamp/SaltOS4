@@ -71,21 +71,23 @@ foreach ($apps as $app) {
             break;
         }
         // Check if exists
-        $query = "SELECT id FROM {$table}_files WHERE id='{$row["id"]}'";
-        $exists = execute_query($query);
+        $query = "SELECT id FROM {$table}_files WHERE id = ?";
+        $exists = execute_query($query, [$row['id']]);
         if (!$exists) {
             continue;
         }
         // Continue
-        $query = "UPDATE {$table}_files SET retries=retries+1 WHERE id='{$row["id"]}'";
-        db_query($query);
+        $query = "UPDATE {$table}_files SET retries = retries + 1 WHERE id = ?";
+        db_query($query, [$row['id']]);
         $input = get_directory('dirs/filesdir') . $row['file'];
         $search = unoconv2txt($input);
-        $query = make_update_query("{$table}_files", [
+        $query = prepare_update_query("{$table}_files", [
             'indexed' => 1,
             'search' => $search,
-        ], make_where_query(['id' => $row['id']]));
-        db_query($query);
+        ], [
+            'id' => $row['id'],
+        ]);
+        db_query(...$query);
         make_index($app['code'], $row['reg_id']);
         $output['total']++;
     }
@@ -115,9 +117,9 @@ foreach ($apps as $app) {
             // Search ids of the main application table, that doesn't exists on the
             // partial indexing table
             $query = "SELECT a.id FROM {$table} a
-                LEFT JOIN {$table}_index b ON a.id=b.id
-                WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
-            $ids = execute_query_array($query);
+                LEFT JOIN {$table}_index b ON a.id = b.id
+                WHERE b.id IS NULL AND a.id >= ? AND a.id < ? + 100000 LIMIT 1000";
+            $ids = execute_query_array($query, [$i, $i]);
             if (!count($ids)) {
                 break;
             }
@@ -142,9 +144,9 @@ foreach ($apps as $app) {
             // Search ids of the partial indexing table, that doesn't exists on the
             // main application table
             $query = "SELECT a.id FROM {$table}_index a
-                LEFT JOIN {$table} b ON b.id=a.id
-                WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
-            $ids = execute_query_array($query);
+                LEFT JOIN {$table} b ON b.id = a.id
+                WHERE b.id IS NULL AND a.id >= ? AND a.id < ? + 100000 LIMIT 1000";
+            $ids = execute_query_array($query, [$i, $i]);
             if (!count($ids)) {
                 break;
             }

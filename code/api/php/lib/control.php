@@ -75,33 +75,34 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
         $datetime = current_datetime();
     }
     // Check if control exists
-    $query = "SELECT id FROM {$table}_control WHERE id='$reg_id'";
+    $query = "SELECT id FROM {$table}_control LIMIT 1";
     if (!db_check($query)) {
         return -2;
     }
-    $control_id = execute_query($query);
+    $query = "SELECT id FROM {$table}_control WHERE id = ?";
+    $control_id = execute_query($query, [$reg_id]);
     // Check if exists data in the main table
-    $query = "SELECT id FROM $table WHERE id='$reg_id'";
-    $data_id = execute_query($query);
+    $query = "SELECT id FROM $table WHERE id = ?";
+    $data_id = execute_query($query, [$reg_id]);
     if (!$data_id) {
         if ($control_id) {
-            $query = "DELETE FROM {$table}_control WHERE id='$reg_id'";
-            db_query($query);
+            $query = "DELETE FROM {$table}_control WHERE id = ?";
+            db_query($query, [$reg_id]);
             return 2;
         } else {
             return -3;
         }
     }
     if (!$control_id) {
-        $query = "SELECT group_id FROM tbl_users WHERE id=$user_id";
-        $group_id = execute_query($query);
-        $query = make_insert_query("{$table}_control", [
+        $query = 'SELECT group_id FROM tbl_users WHERE id = ?';
+        $group_id = execute_query($query, [$user_id]);
+        $query = prepare_insert_query("{$table}_control", [
             'id' => $reg_id,
             'user_id' => $user_id,
             'group_id' => $group_id,
             'datetime' => $datetime,
         ]);
-        db_query($query);
+        db_query(...$query);
         return 1;
     } else {
         return -4;
@@ -155,18 +156,19 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
         $datetime = current_datetime();
     }
     // Check if version exists
-    $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id='$reg_id'";
+    $query = "SELECT id FROM {$table}_version LIMIT 1";
     if (!db_check($query)) {
         return -2;
     }
-    $version_id = execute_query($query);
+    $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id = ?";
+    $version_id = execute_query($query, [$reg_id]);
     // Check if exists data in the main table
-    $query = "SELECT id FROM $table WHERE id='$reg_id'";
-    $data_id = execute_query($query);
+    $query = "SELECT id FROM $table WHERE id = ?";
+    $data_id = execute_query($query, [$reg_id]);
     if (!$data_id) {
         if ($version_id) {
-            $query = "DELETE FROM {$table}_version WHERE reg_id='$reg_id'";
-            db_query($query);
+            $query = "DELETE FROM {$table}_version WHERE reg_id = ?";
+            db_query($query, [$reg_id]);
             return 2;
         } else {
             return -3;
@@ -174,18 +176,18 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     }
     // Compute the diff from old data and new data
     $data_old = get_version($app, $reg_id, INF);
-    $query = "SELECT * FROM $table WHERE id='$reg_id'";
+    $query = "SELECT * FROM $table WHERE id = ?";
     $data_new = [];
     $data_new[$table] = [];
-    $data_new[$table][$reg_id] = execute_query($query);
+    $data_new[$table][$reg_id] = execute_query($query, [$reg_id]);
     // Add the data from subtables, if exists
     $subtables = app2subtables($app);
     foreach ($subtables as $temp) {
         $subtable = $temp['subtable'];
         $field = $temp['field'];
-        $query = "SELECT * FROM $subtable WHERE $field='$reg_id'";
+        $query = "SELECT * FROM $subtable WHERE $field = ?";
         $data_new[$subtable] = [];
-        $rows = execute_query_array($query);
+        $rows = execute_query_array($query, [$reg_id]);
         foreach ($rows as $key => $val) {
             $data_new[$subtable][$val['id']] = $val;
         }
@@ -206,10 +208,10 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     }
     // Prepare extra data as old hash and last ver_id
     $table = app2table($app);
-    $query = "SELECT hash FROM {$table}_version WHERE id='$version_id'";
-    $hash_old = strval(execute_query($query));
-    $query = "SELECT ver_id FROM {$table}_version WHERE id='$version_id'";
-    $ver_id = intval(execute_query($query));
+    $query = "SELECT hash FROM {$table}_version WHERE id = ?";
+    $hash_old = strval(execute_query($query, [$version_id]));
+    $query = "SELECT ver_id FROM {$table}_version WHERE id = ?";
+    $ver_id = intval(execute_query($query, [$version_id]));
     // Prepare the array to the insert
     $array = [
         'user_id' => $user_id,
@@ -222,8 +224,8 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     // Update the hash with the new hash to do the blockchain
     $array['hash'] = md5(serialize($array));
     // Do the insert of the new version
-    $query = make_insert_query("{$table}_version", $array);
-    db_query($query);
+    $query = prepare_insert_query("{$table}_version", $array);
+    db_query(...$query);
     return 1;
 }
 
@@ -248,8 +250,8 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
 function get_version($app, $reg_id, $ver_id)
 {
     $table = app2table($app);
-    $query = "SELECT * FROM {$table}_version WHERE reg_id='$reg_id' ORDER BY id ASC";
-    $rows = execute_query_array($query);
+    $query = "SELECT * FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
+    $rows = execute_query_array($query, [$reg_id]);
     $data = [];
     $hash_old = '';
     $datetime_old = '';
