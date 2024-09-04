@@ -415,6 +415,9 @@ final class test_database extends TestCase
         $query = 'SELECT 1';
         $this->assertEquals($obj->db_check($query), true);
 
+        $query = 'SELECT 1';
+        $this->assertEquals($obj->db_check($query), true);
+
         $query = 'SELECT a';
         $this->assertEquals($obj->db_check($query), false);
 
@@ -441,6 +444,23 @@ final class test_database extends TestCase
         if (function_exists('__libsqlite_replace')) {
             $this->assertEquals(__libsqlite_replace('asd', 's', 'x'), 'axd');
         }
+
+        // To test the prepared statements feature
+        $query = 'SELECT 1 WHERE ? = ?';
+        $this->assertEquals($obj->db_check($query, [1, 1]), true);
+
+        $query = 'SELECT 1 WHERE ? = ?';
+        $this->assertEquals($obj->db_query($query, [1, 1]), [
+            'total' => 1,
+            'header' => [
+                0 => 1,
+            ],
+            'rows' => [
+                0 => [
+                    1 => 1,
+                ],
+            ],
+        ]);
     }
 
     #[testdox('pdo_mysql driver')]
@@ -681,6 +701,23 @@ final class test_database extends TestCase
 
         // Specific part
         $this->assertSame($obj->db_escape('\'"%'), '\'\'"%');
+
+        // To test the prepared statements feature
+        $query = 'SELECT 1 WHERE ? = ?';
+        $this->assertEquals($obj->db_check($query, [1, 1]), true);
+
+        $query = 'SELECT 1 WHERE ? = ?';
+        $this->assertEquals($obj->db_query($query, [1, 1]), [
+            'total' => 1,
+            'header' => [
+                0 => 'computed',
+            ],
+            'rows' => [
+                0 => [
+                    'computed' => 1,
+                ],
+            ],
+        ]);
 
         // Close connection
         $obj->db_disconnect();
