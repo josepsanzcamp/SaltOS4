@@ -66,11 +66,31 @@ function svnversion($dir = null)
     if ($dir === null) {
         $dir = getcwd_protected();
     }
-    // USING REGULAR FILE
+    $version = __svnversion_helper($dir);
+    if (!$version) {
+        $file = get_server('SCRIPT_FILENAME');
+        if (is_link($file)) {
+            $dir = dirname(readlink($file));
+            $version = __svnversion_helper($dir);
+        }
+    }
+    return $version;
+}
+
+/**
+ * SVN Version helper
+ *
+ * This function tries to return the svn version of the project
+ *
+ * @dir => allow to specify where do you want to execute the svnversion command
+ */
+function __svnversion_helper($dir)
+{
+    // Using regular file
     if (file_exists("{$dir}/svnversion")) {
         return intval(file_get_contents("{$dir}/svnversion"));
     }
-    // USING SVNVERSION
+    // Using svnversion
     if (
         check_commands(
             get_config('commands/svnversion') ?? 'svnversion',
@@ -83,7 +103,7 @@ function svnversion($dir = null)
             get_config('commands/__svnversion__') ?? 'cd __DIR__; svnversion'
         ), get_config('commands/commandexpires') ?? 60));
     }
-    // NOTHING TO DO
+    // Nothing to do
     return 0;
 }
 
@@ -99,11 +119,31 @@ function gitversion($dir = null)
     if ($dir === null) {
         $dir = getcwd_protected();
     }
-    // USING REGULAR FILE
+    $version = __gitversion_helper($dir);
+    if (!$version) {
+        $file = get_server('SCRIPT_FILENAME');
+        if (is_link($file)) {
+            $dir = dirname(readlink($file));
+            $version = __gitversion_helper($dir);
+        }
+    }
+    return $version;
+}
+
+/**
+ * GIT Version helper
+ *
+ * This function tries to return the git version of the project
+ *
+ * @dir => allow to specify where do you want to execute the gitversion command
+ */
+function __gitversion_helper($dir)
+{
+    // Using regular file
     if (file_exists("{$dir}/gitversion")) {
         return intval(file_get_contents("{$dir}/gitversion"));
     }
-    // USING GIT
+    // Using git
     if (
         check_commands(
             get_config('commands/gitversion') ?? 'git',
@@ -116,7 +156,7 @@ function gitversion($dir = null)
             get_config('commands/__gitversion__') ?? 'cd __DIR__; git rev-list HEAD --count'
         ), get_config('commands/commandexpires') ?? 60));
     }
-    // NOTHING TO DO
+    // Nothing to do
     return 0;
 }
 
