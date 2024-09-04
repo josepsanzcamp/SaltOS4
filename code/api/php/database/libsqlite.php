@@ -81,7 +81,7 @@ function __libsqlite_replace($subject, $search, $replace)
  */
 function __libsqlite_lpad($input, $length, $char)
 {
-    return str_pad($input, intval($length), $char, STR_PAD_LEFT);
+    return str_pad(strval($input), intval($length), strval($char), STR_PAD_LEFT);
 }
 
 /**
@@ -245,7 +245,7 @@ function __libsqlite_md5($temp)
  */
 function __libsqlite_repeat($str, $count)
 {
-    return str_repeat($str, $count);
+    return str_repeat(strval($str), intval($count));
 }
 
 /**
