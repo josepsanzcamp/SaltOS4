@@ -314,7 +314,7 @@ saltos.bootstrap.__field.text = field => {
         if (typeof field.datalist == 'string') {
             field.datalist_old = field.datalist;
             field.datalist = [];
-            obj.querySelector('input').addEventListener('keypress', saltos.core.delay(event => {
+            obj.querySelector('input').addEventListener('input', saltos.core.delay(event => {
                 var value = event.target.value;
                 var old_value = event.target.getAttribute('old_value');
                 if (value == old_value || value == '') {
