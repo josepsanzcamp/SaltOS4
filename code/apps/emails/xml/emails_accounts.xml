@@ -113,7 +113,7 @@
         <select id="user_id" label="User" required="true" autofocus="true" ifeval="__user_is_admin(get_data('rest/1'))">
             <rows eval="true">execute_query_array("
                 SELECT CONCAT(name,' (',login,')') label, id value
-                FROM tbl_users WHERE active=1
+                FROM tbl_users WHERE active = 1
                 AND ".check_sql("users", "list")."
                 ORDER BY login ASC")</rows>
         </select>

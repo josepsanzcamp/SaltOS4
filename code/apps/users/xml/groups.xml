@@ -113,26 +113,26 @@
         <switch id="active" label="Active"/>
         <textarea id="description" label="Description" required="true" height="10em" col_class="col-12 mb-3"/>
         <multiselect id="users_id" label="Users" size="7" col_class="col-md-8 mb-3">
-            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value FROM tbl_users WHERE active=1 ORDER BY login ASC")</rows>
+            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value FROM tbl_users WHERE active = 1 ORDER BY login ASC")</rows>
         </multiselect>
         <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="100">
-            <numcols eval="true">execute_query("SELECT COUNT(*) FROM tbl_perms WHERE active=1 ORDER BY id ASC")</numcols>
-            <numrows eval="true">execute_query("SELECT COUNT(*) FROM tbl_apps WHERE active=1 ORDER BY id ASC")</numrows>
-            <colHeaders eval="true">execute_query_array("SELECT CONCAT_WS('/',code,NULLIF(owner,'')) FROM tbl_perms WHERE active=1 ORDER BY id ASC")</colHeaders>
-            <rowHeaders eval="true">execute_query_array("SELECT code FROM tbl_apps WHERE active=1 ORDER BY id ASC")</rowHeaders>
+            <numcols eval="true">execute_query("SELECT COUNT(*) FROM tbl_perms WHERE active = 1 ORDER BY id ASC")</numcols>
+            <numrows eval="true">execute_query("SELECT COUNT(*) FROM tbl_apps WHERE active = 1 ORDER BY id ASC")</numrows>
+            <colHeaders eval="true">execute_query_array("SELECT CONCAT_WS('/',code,NULLIF(owner,'')) FROM tbl_perms WHERE active = 1 ORDER BY id ASC")</colHeaders>
+            <rowHeaders eval="true">execute_query_array("SELECT code FROM tbl_apps WHERE active = 1 ORDER BY id ASC")</rowHeaders>
             <data require="apps/users/php/matrix.php" eval="true">make_matrix_data(
-                execute_query_array("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
-                execute_query_array("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
+                execute_query_array("SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC"),
+                execute_query_array("SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC"),
                 execute_query_array("SELECT * FROM tbl_apps_perms"),
-                execute_query_array("SELECT * FROM tbl_groups_apps_perms WHERE group_id = ".intval(get_data("rest/3"))))</data>
+                execute_query_array("SELECT * FROM tbl_groups_apps_perms WHERE group_id = ?", [intval(get_data("rest/3"))]))</data>
             <cell require="apps/users/php/matrix.php" eval="true">make_matrix_cell(
-                execute_query_array("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
-                execute_query_array("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
+                execute_query_array("SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC"),
+                execute_query_array("SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC"),
                 execute_query_array("SELECT * FROM tbl_apps_perms"),
-                execute_query_array("SELECT * FROM tbl_groups_apps_perms WHERE group_id = ".intval(get_data("rest/3"))))</cell>
+                execute_query_array("SELECT * FROM tbl_groups_apps_perms WHERE group_id = ?", [intval(get_data("rest/3"))]))</cell>
         </excel>
     </form>
-    <data eval="true">execute_query("SELECT * FROM tbl_groups WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+    <data eval="true">execute_query("SELECT * FROM tbl_groups WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
@@ -155,11 +155,11 @@
 
     <create id="insert">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <check eval="true" message="Code used by other group">!execute_query("SELECT id FROM tbl_groups WHERE code='".get_data("json/code")."'")</check>
-        <check eval="true" message="Name used by other group">!execute_query("SELECT id FROM tbl_groups WHERE name='".get_data("json/name")."'")</check>
+        <check eval="true" message="Code used by other group">!execute_query("SELECT id FROM tbl_groups WHERE code = ?", [get_data("json/code")])</check>
+        <check eval="true" message="Name used by other group">!execute_query("SELECT id FROM tbl_groups WHERE name = ?", [get_data("json/name")])</check>
         <perms require="apps/users/php/matrix.php" eval="true">set_data("json/perms",unmake_matrix_data(
-            execute_query_array("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
-            execute_query_array("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
+            execute_query_array("SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC"),
+            execute_query_array("SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC"),
             execute_query_array("SELECT * FROM tbl_apps_perms"),
             get_data("json/perms")))</perms>
         <output require="apps/users/php/groups.php" eval="true">insert_group(get_data("json"))</output>
@@ -211,11 +211,11 @@
 
     <edit id="update">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <check eval="true" message="Code used by other group">!execute_query("SELECT id FROM tbl_groups WHERE code='".get_data("json/code")."'")</check>
-        <check eval="true" message="Name used by other group">!execute_query("SELECT id FROM tbl_groups WHERE name='".get_data("json/name")."'")</check>
+        <check eval="true" message="Code used by other group">!execute_query("SELECT id FROM tbl_groups WHERE code = ?", [get_data("json/code")])</check>
+        <check eval="true" message="Name used by other group">!execute_query("SELECT id FROM tbl_groups WHERE name = ?", [get_data("json/name")])</check>
         <perms require="apps/users/php/matrix.php" eval="true">set_data("json/perms",unmake_matrix_data(
-            execute_query_array("SELECT id FROM tbl_perms WHERE active=1 ORDER BY id ASC"),
-            execute_query_array("SELECT id FROM tbl_apps WHERE active=1 ORDER BY id ASC"),
+            execute_query_array("SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC"),
+            execute_query_array("SELECT id FROM tbl_apps WHERE active = 1 ORDER BY id ASC"),
             execute_query_array("SELECT * FROM tbl_apps_perms"),
             get_data("json/perms")))</perms>
         <output require="apps/users/php/groups.php" eval="true">update_group(intval(get_data("rest/4")), get_data("json"))</output>
