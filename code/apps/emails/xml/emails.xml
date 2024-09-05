@@ -68,10 +68,10 @@
                             <rows eval="true">execute_query_array("
                                 SELECT '' value, '[All accounts]' label
                                 UNION
-                                SELECT id value,CONCAT(email_name,' &lt;',email_from,'&gt;') label
+                                SELECT id value, CONCAT(email_name,' &lt;',email_from,'&gt;') label
                                 FROM app_emails_accounts
-                                WHERE user_id=".current_user()."
-                                ORDER BY label")</rows>
+                                WHERE user_id = ?
+                                ORDER BY label", [current_user()])</rows>
                         </select>
                         <select id="fields" label="Search in fields">
                             <rows>
@@ -204,14 +204,14 @@
                             WHERE email_id IN (
                                 SELECT id
                                 FROM app_emails
-                                WHERE account_id=a.id AND is_outbox=1
+                                WHERE account_id = a.id AND is_outbox = 1
                             )
                             AND type_id IN (1,2,3,4)
                         ) counter
                         FROM app_emails_accounts a
-                        WHERE user_id='".current_user()."' AND email_disabled='0' AND smtp_host!=''
+                        WHERE user_id = ? AND email_disabled = 0 AND smtp_host != ''
                         ORDER BY email_default DESC, counter DESC
-                    ")</rows>
+                    ", [current_user()])</rows>
                 </select>
                 <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
                     icon="arrows-fullscreen" col_class="col-auto mb-3" ifeval="get_data('rest/-1')!='only'" addbr="true"/>
@@ -259,21 +259,21 @@
                     ELSE CONCAT(name,' &lt;',value,'&gt;')
                 END label,
                 SUM(CASE
-                    WHEN DATE(datetime)>=DATE('".current_date()."') THEN '20'
-                    WHEN DATE(datetime)>=DATE('".current_date(-86400*7)."') THEN '10'
-                    WHEN DATE(datetime)>=DATE('".current_date(-86400*30)."') THEN '5'
-                    ELSE '1'
+                    WHEN DATE(datetime) >= DATE(?) THEN 20
+                    WHEN DATE(datetime) >= DATE(?) THEN 10
+                    WHEN DATE(datetime) >= DATE(?) THEN 5
+                    ELSE 1
                 END) score
             FROM app_emails_address a
             LEFT JOIN app_emails b
-                ON a.email_id=b.id
-                AND account_id IN (SELECT id FROM app_emails_accounts WHERE user_id=".current_user().")
-                AND state_spam='0'
+                ON a.email_id = b.id
+                AND account_id IN (SELECT id FROM app_emails_accounts WHERE user_id = ?)
+                AND state_spam = 0
             WHERE b.id IS NOT NULL
                 AND type_id IN (1,2,3,4)
                 AND (".make_like_query("name,value",strval(get_data("json/term"))).")
             GROUP BY label
-            ORDER BY score DESC LIMIT 25")</data>
+            ORDER BY score DESC LIMIT 25", [current_date(), current_date(-86400*7), current_date(-86400*30), current_user()])</data>
     </create>
 
     <create id="signature">
@@ -327,6 +327,7 @@
                 <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
                 <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
                 <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
+                <text id="state_error" label="Error" color="danger" ifeval="getmail_field('state_error',intval(get_data('rest/3')))"/>
                 <text id="subject" label="Subject"/>
                 <iframe id="body" label="Body" height="10em">
                     <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
@@ -385,8 +386,8 @@
                 <button onclick="saltos.driver.close(true);" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject
-            FROM app_emails WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+        <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject,state_error
+            FROM app_emails WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
             <inline>saltos.driver.init("view")</inline>

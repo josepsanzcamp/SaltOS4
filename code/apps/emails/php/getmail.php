@@ -148,21 +148,21 @@ function __getmail_processfile($disp, $type)
  */
 function __getmail_checkperm($id)
 {
-    $query = "SELECT a.id
+    $query = 'SELECT a.id
         FROM (
-            SELECT a2.*,uc.email_privated email_privated
+            SELECT a2.*, uc.email_privated email_privated
             FROM app_emails a2
-            LEFT JOIN app_emails_accounts uc ON a2.account_id=uc.id
+            LEFT JOIN app_emails_accounts uc ON a2.account_id = uc.id
         ) a
-        LEFT JOIN app_emails_control e ON e.id=a.id
-        LEFT JOIN tbl_users d ON e.user_id=d.id
-        WHERE a.id='" . abs($id) . "'
+        LEFT JOIN app_emails_control e ON e.id = a.id
+        LEFT JOIN tbl_users d ON e.user_id = d.id
+        WHERE a.id = ?
             AND (
-                TRIM(IFNULL(email_privated,0))='0' OR
-                (TRIM(IFNULL(email_privated,0))='1' AND e.user_id='" . current_user() . "')
+                IFNULL(email_privated, 0) = 0 OR
+                (IFNULL(email_privated, 0) = 1 AND e.user_id = ?)
             )
-            AND " . check_sql('emails', 'view');
-    return execute_query($query);
+            AND ' . check_sql('emails', 'view');
+    return execute_query($query, [abs($id), current_user()]);
 }
 
 /**
@@ -175,12 +175,12 @@ function __getmail_checkperm($id)
  */
 function __getmail_getsource($id, $max = 0)
 {
-    $query = "SELECT account_id,uidl,is_outbox FROM app_emails WHERE id='$id'";
-    $row = execute_query($query);
+    $query = 'SELECT account_id, uidl, is_outbox FROM app_emails WHERE id = ?';
+    $row = execute_query($query, [$id]);
     if (!$row) {
         return '';
     }
-    $email = "{$row["account_id"]}/{$row["uidl"]}";
+    $email = $row['account_id'] . '/' . $row['uidl'];
     $file = (
         $row['is_outbox'] ?
             get_directory('dirs/outboxdir') :
@@ -235,12 +235,12 @@ function __getmail_mime_decode_protected($input)
  */
 function __getmail_getmime($id)
 {
-    $query = "SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id='$id'";
-    $row = execute_query($query);
+    $query = 'SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id = ?';
+    $row = execute_query($query, [$id]);
     if (!$row) {
         return '';
     }
-    $email = "{$row["account_id"]}/{$row["uidl"]}";
+    $email = $row['account_id'] . '/' . $row['uidl'];
     $cache = get_cache_file($row, '.eml');
     if (!file_exists($cache)) {
         $file = (
@@ -882,7 +882,7 @@ function __getmail_insert(
     if (!semaphore_acquire(__FUNCTION__)) {
         show_php_error(['phperror' => 'Could not acquire the semaphore']);
     }
-    $query = make_insert_query('app_emails', [
+    $query = prepare_insert_query('app_emails', [
         'account_id' => $account_id,
         'uidl' => $uidl,
         'size' => $size,
@@ -908,29 +908,24 @@ function __getmail_insert(
         'files' => count($info['files']),
     ]);
     unset($body); // Trick to release memory
-    db_query($query);
+    db_query(...$query);
     // Get last_id
-    $query = "SELECT id
-        FROM app_emails
-        WHERE account_id='{$account_id}'
-            AND is_outbox='{$is_outbox}'
-        ORDER BY id DESC
-        LIMIT 1";
-    $last_id = execute_query($query);
+    $query = 'SELECT MAX(id) FROM app_emails WHERE account_id = ? AND is_outbox = ?';
+    $last_id = execute_query($query, [$account_id, $is_outbox]);
     semaphore_release(__FUNCTION__);
     // Insert all address
     foreach ($info['emails'] as $email) {
-        $query = make_insert_query('app_emails_address', [
+        $query = prepare_insert_query('app_emails_address', [
             'email_id' => $last_id,
             'type_id' => $email['type_id'],
             'name' => $email['name'],
             'value' => $email['value'],
         ]);
-        db_query($query);
+        db_query(...$query);
     }
     // Insert all attachments
     foreach ($info['files'] as $file) {
-        $query = make_insert_query('app_emails_files', [
+        $query = prepare_insert_query('app_emails_files', [
             'reg_id' => $last_id,
             'user_id' => $id_usuario,
             'datetime' => $datetime,
@@ -939,7 +934,7 @@ function __getmail_insert(
             'type' => $file['ctype'],
             'hash' => $file['chash'],
         ]);
-        db_query($query);
+        db_query(...$query);
     }
     // Insert the control register
     require_once 'php/lib/control.php';
@@ -961,12 +956,12 @@ function __getmail_insert(
  */
 function __getmail_update($field, $value, $id)
 {
-    $query = make_update_query('app_emails', [
+    $query = prepare_update_query('app_emails', [
         $field => $value,
-    ], make_where_query([
+    ], [
         'id' => $id,
-    ]));
-    db_query($query);
+    ]);
+    db_query(...$query);
 }
 
 /**
@@ -999,21 +994,21 @@ function __getmail_add_bcc($id, $bcc)
 {
     foreach ($bcc as $addr) {
         list($value, $name) = __sendmail_parser($addr);
-        $query = make_insert_query('app_emails_address', [
+        $query = prepare_insert_query('app_emails_address', [
             'email_id' => $id,
             'type_id' => 4, // defined in __getmail_getinfo function
             'name' => $name,
             'value' => $value,
         ]);
-        db_query($query);
+        db_query(...$query);
     }
     $bcc = implode('; ', $bcc);
-    $query = make_update_query('app_emails', [
+    $query = prepare_update_query('app_emails', [
         'bcc' => $bcc,
-    ], make_where_query([
+    ], [
         'id' => $id,
-    ]));
-    db_query($query);
+    ]);
+    db_query(...$query);
 }
 
 /**
@@ -1059,17 +1054,16 @@ function getmail_body($id)
         show_php_error(['phperror' => 'Could not decode de message']);
     }
     // MARCAR CORREO COMO LEIDO SI ES EL PROPIETARIO
-    $id2 = execute_query("SELECT id
-        FROM app_emails_control
-        WHERE id = {$id} AND user_id= " . current_user());
+    $query = 'SELECT id FROM app_emails_control WHERE id = ? AND user_id = ?';
+    $id2 = execute_query($query, [$id, current_user()]);
     if ($id == $id2) {
-        $query = make_update_query('app_emails', [
+        $query = prepare_update_query('app_emails', [
             'state_new' => 0,
-        ], make_where_query([
+        ], [
             'id' => $id,
             'state_new' => 1,
-        ]));
-        db_query($query);
+        ]);
+        db_query(...$query);
     }
     // CONTINUE
     $result = __getmail_getfullbody(__getmail_getnode('0', $decoded));
@@ -1231,7 +1225,8 @@ function getmail_field($field, $id)
     if (!__getmail_checkperm($id)) {
         show_php_error(['phperror' => 'Permission denied']);
     }
-    return execute_query("SELECT $field FROM app_emails WHERE id=$id");
+    $query = "SELECT $field FROM app_emails WHERE id = ?";
+    return execute_query($query, [$id]);
 }
 
 /**
@@ -1256,9 +1251,8 @@ function getmail_server()
         die();
     }
     // datos pop3
-    $query = "SELECT * FROM app_emails_accounts
-        WHERE user_id='" . current_user() . "' AND email_disabled='0'";
-    $result = execute_query_array($query);
+    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND email_disabled = 0';
+    $result = execute_query_array($query, [current_user()]);
     if (!count($result)) {
         semaphore_release($semaphore);
         return [T('Could not found configuration')];
@@ -1289,10 +1283,10 @@ function getmail_server()
                 chmod_protected($prefix, 0777);
             }
             // db code
-            $query = "SELECT uidl FROM app_emails WHERE account_id='{$id_cuenta}'";
-            $olduidls = execute_query_array($query);
-            $query = "SELECT uidl FROM app_emails_deletes WHERE account_id='{$id_cuenta}'";
-            $olduidls_d = execute_query_array($query);
+            $query = 'SELECT uidl FROM app_emails WHERE account_id = ?';
+            $olduidls = execute_query_array($query, [$id_cuenta]);
+            $query = 'SELECT uidl FROM app_emails_deletes WHERE account_id = ?';
+            $olduidls_d = execute_query_array($query, [$id_cuenta]);
             $olduidls = array_merge($olduidls, $olduidls_d);
             // pop3 code
             $pop3 = new pop3_class();
@@ -1374,14 +1368,12 @@ function getmail_server()
             $query = "SELECT uidl,datetime FROM (
                 SELECT uidl,datetime
                 FROM app_emails
-                WHERE account_id='{$id_cuenta}'
-                    AND uidl IN ($delete)
+                WHERE account_id = ? AND uidl IN ($delete)
                 UNION
                 SELECT uidl,datetime
                 FROM app_emails_deletes
-                WHERE account_id='{$id_cuenta}'
-                    AND uidl IN ($delete)) a";
-            $result2 = execute_query_array($query);
+                WHERE account_id = ? AND uidl IN ($delete) ) a";
+            $result2 = execute_query_array($query, [$id_cuenta, $id_cuenta]);
             $time1 = strtotime(current_datetime());
             foreach ($result2 as $row2) {
                 $time2 = strtotime($row2['datetime']);
@@ -1402,9 +1394,8 @@ function getmail_server()
             // remove all unused uidls
             $delete = array_diff($olduidls_d, $uidls);
             $delete = "'" . implode("','", $delete) . "'";
-            $query = "DELETE FROM app_emails_deletes
-                WHERE account_id='{$id_cuenta}' AND uidl IN ({$delete})";
-            db_query($query);
+            $query = "DELETE FROM app_emails_deletes WHERE account_id = ? AND uidl IN ($delete)";
+            db_query($query, [$id_cuenta]);
         }
         if ($error != '') {
             $haserror[] = sprintf(
@@ -1429,15 +1420,9 @@ function getmail_delete($ids)
 {
     $ids = check_ids($ids);
     $numids = count(explode(',', $ids));
-    $query = "SELECT id FROM
-        app_emails a
-        WHERE id IN ($ids)
-            AND id IN (
-                SELECT id
-                FROM app_emails_control b
-                WHERE b.id=a.id
-                    AND user_id='" . current_user() . "')";
-    $result = execute_query_array($query);
+    $query = "SELECT id FROM app_emails a WHERE id IN ($ids) AND id IN (
+        SELECT id FROM app_emails_control b WHERE b.id = a.id AND user_id = ? )";
+    $result = execute_query_array($query, [current_user()]);
     $numresult = count($result);
     if ($numresult != $numids) {
         return T('Permission denied');
@@ -1445,16 +1430,12 @@ function getmail_delete($ids)
     // CREAR DATOS EN TABLA DE CORREOS BORRADOS (SOLO LOS DEL INBOX)
     $query = "INSERT INTO app_emails_deletes(account_id,uidl,datetime)
         SELECT account_id,uidl,datetime
-        FROM app_emails
-        WHERE id IN ($ids)
-            AND is_outbox=0";
+        FROM app_emails WHERE id IN ($ids) AND is_outbox = 0";
     db_query($query);
     // BORRAR FICHEROS .EML.GZ DEL INBOX
     $query = "SELECT
         CONCAT('" . get_directory('dirs/inboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
-        FROM app_emails
-        WHERE id IN ($ids)
-            AND is_outbox='0'";
+        FROM app_emails WHERE id IN ($ids) AND is_outbox = 0";
     $result = execute_query_array($query);
     foreach ($result as $delete) {
         if (file_exists($delete) && is_file($delete)) {
@@ -1464,9 +1445,7 @@ function getmail_delete($ids)
     // BORRAR FICHEROS .EML.GZ DEL OUTBOX
     $query = "SELECT
         CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.eml.gz') action_delete
-        FROM app_emails
-        WHERE id IN ($ids)
-            AND is_outbox='1'";
+        FROM app_emails WHERE id IN ($ids) AND is_outbox = 1";
     $result = execute_query_array($query);
     foreach ($result as $delete) {
         if (file_exists($delete) && is_file($delete)) {
@@ -1476,9 +1455,7 @@ function getmail_delete($ids)
     // BORRAR FICHEROS .OBJ DEL OUTBOX
     $query = "SELECT
         CONCAT('" . get_directory('dirs/outboxdir') . "',account_id,'/',uidl,'.obj') action_delete
-        FROM app_emails
-        WHERE id IN ($ids)
-            AND is_outbox='1'";
+        FROM app_emails WHERE id IN ($ids) AND is_outbox = 1";
     $result = execute_query_array($query);
     foreach ($result as $delete) {
         if (file_exists($delete) && is_file($delete)) {
@@ -1563,63 +1540,43 @@ function getmail_setter($ids, $what)
 {
     $ids = check_ids($ids);
     $numids = count(explode(',', $ids));
-    $query = "SELECT id FROM
-        app_emails a
-        WHERE id IN ($ids)
-            AND id IN (
-                SELECT id
-                FROM app_emails_control b
-                WHERE b.id=a.id
-                    AND user_id='" . current_user() . "')";
-    $result = execute_query_array($query);
+    $query = "SELECT id FROM app_emails a WHERE id IN ($ids) AND id IN (
+        SELECT id FROM app_emails_control b WHERE b.id=a.id AND user_id = ?)";
+    $result = execute_query_array($query, [current_user()]);
     $numresult = count($result);
     if ($numresult != $numids) {
         return T('Permission denied');
     }
     // process the real action
     $what = explode('=', $what);
+    $what[1] = intval($what[1]);
     if ($what[0] == 'new') {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
-        $query = "SELECT COUNT(*)
-            FROM app_emails
-            WHERE id IN ($ids)
-                AND state_new!='{$what[1]}'
-                AND is_outbox='0'";
-        $numids = execute_query($query);
-        // PONER STATE_NEW=0 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query('app_emails', [
-            'state_new' => $what[1],
-        ], "id IN ({$ids}) AND state_new!='{$what[1]}' AND is_outbox='0'");
-        db_query($query);
+        $query = "SELECT COUNT(*) FROM app_emails
+            WHERE id IN ($ids) AND state_new != ? AND is_outbox = 0";
+        $numids = execute_query($query, [$what[1]]);
+        // PONER STATE_NEW = 0 EN LOS CORREOS SELECCIONADOS
+        $query = "UPDATE app_emails SET state_new = ?
+            WHERE id IN ($ids) AND state_new != ? AND is_outbox = 0";
+        db_query($query, [$what[1], $what[1]]);
     } elseif ($what[0] == 'wait') {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
-        $query = "SELECT COUNT(*)
-            FROM app_emails
-            WHERE id IN ($ids)
-                AND state_wait!='{$what[1]}'";
-        $numids = execute_query($query);
-        // PONER STATE_WAIT=1 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query('app_emails', [
-            'state_new' => '0',
-            'state_wait' => $what[1],
-        ], "id IN ({$ids}) AND state_wait!='{$what[1]}'");
-        db_query($query);
+        $query = "SELECT COUNT(*) FROM app_emails
+            WHERE id IN ($ids) AND state_wait != ?";
+        $numids = execute_query($query, [$what[1]]);
+        // PONER STATE_WAIT = 1 EN LOS CORREOS SELECCIONADOS
+        $query = "UPDATE app_emails SET state_new = 0, state_wait = ?
+            WHERE id IN ($ids) AND state_wait != ?";
+        db_query($query, [$what[1], $what[1]]);
     } elseif ($what[0] == 'spam') {
         // BUSCAR CUANTOS REGISTROS SE VAN A MODIFICAR
-        $query = "SELECT COUNT(*)
-            FROM app_emails
-            WHERE id IN ($ids)
-                AND state_spam!='{$what[1]}'
-                AND is_outbox='0'";
-        $numids = execute_query($query);
-        // PONER STATE_SPAM=1 EN LOS CORREOS SELECCIONADOS
-        $query = make_update_query('app_emails', [
-            'state_new' => '0',
-            'state_spam' => $what[1],
-        ], "id IN ({$ids})
-            AND state_spam!='{$what[1]}'
-            AND is_outbox='0'");
-        db_query($query);
+        $query = "SELECT COUNT(*) FROM app_emails
+            WHERE id IN ($ids) AND state_spam != ? AND is_outbox = 0";
+        $numids = execute_query($query, [$what[1]]);
+        // PONER STATE_SPAM = 1 EN LOS CORREOS SELECCIONADOS
+        $query = "UPDATE app_emails SET state_new = 0, state_spam = ?
+            WHERE id IN ($ids) AND state_spam != ? AND is_outbox = 0";
+        db_query($query, [$what[1], $what[1]]);
     }
     // return the response
     return sprintf(T('%d email(s) modified successfully'), $numids);

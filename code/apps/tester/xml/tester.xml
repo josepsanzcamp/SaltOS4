@@ -132,10 +132,7 @@
                 <password id="campo20" label="Campo 20 (password)" placeholder="Escriba aqui" tooltip="Tooltip 20 (password)" required="true" autocomplete="false"/>
                 <file id="campo21" label="Campo 21 (file)" tooltip="Tooltip 21 (file)" multiple="true" required="true">
                     <data eval="true">execute_query_array("SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
-                        FROM tbl_uploads WHERE " . make_where_query([
-                        "user_id" => current_user(),
-                        "app" => current_hash(),
-                    ]) . " ORDER BY id DESC")</data>
+                        FROM tbl_uploads WHERE user_id = ? AND app = ? ORDER BY id DESC", [current_user(), current_hash()])</data>
                 </file>
                 <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2" required="true">
                     <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>

@@ -60,11 +60,11 @@ if (!$exists) {
         $output['total']++;
     }
     // Fix permissions
-    $query = make_update_query('app_invoices_control', [
+    $query = prepare_update_query('app_invoices_control', [
         'user_id' => 1,
         'group_id' => 1,
-    ], '1=1');
-    db_query($query);
+    ]);
+    db_query(...$query);
 }
 
 $time2 = microtime(true);

@@ -41,29 +41,46 @@ require_once 'apps/emails/php/getmail.php';
 $time1 = microtime(true);
 $output = [
     'account' => 0,
-    'symlink' => 0,
+    'files' => 0,
     'emails' => 0,
 ];
 
 // Add a new email account
 $exists = execute_query('SELECT COUNT(*) FROM app_emails_accounts');
 if (!$exists) {
-    $query = make_insert_query('app_emails_accounts', [
+    $query = prepare_insert_query('app_emails_accounts', [
         'id' => 1,
         'user_id' => 1,
         'email_name' => 'Admin user',
         'email_from' => 'admin@example.com',
         'email_signature' => 'Email sent from my <a href="https://www.saltos.org">SaltOS</a>',
+        'pop3_host' => 'localhost',
+        'pop3_port' => '995',
+        'pop3_extra' => 'TLS',
+        'pop3_user' => 'admin',
+        'pop3_pass' => 'admin',
+        'pop3_delete' => 1,
+        'pop3_days' => 90,
+        'smtp_host' => 'localhost',
+        'smtp_port' => '465',
+        'smtp_extra' => 'TLS',
+        'smtp_user' => 'admin',
+        'smtp_pass' => 'admin',
         'email_default' => 1,
     ]);
-    db_query($query);
+    db_query(...$query);
     $output['account']++;
 }
 
-// Create the symlink
+// Create the account directory and copy all initial RFC822 files
 if (!file_exists('data/inbox/1')) {
-    symlink(realpath('apps/emails/sample/inbox/1'), 'data/inbox/1');
-    $output['symlink']++;
+    mkdir('data/inbox/1');
+    chmod_protected('data/inbox/1', 0777);
+    $files = glob('apps/emails/sample/inbox/1/*.eml.gz');
+    foreach ($files as $file) {
+        copy($file, 'data/inbox/1/' . basename($file));
+        $output['files']++;
+    }
 }
 
 // Import emails
@@ -76,11 +93,11 @@ if (!$exists) {
         $output['emails']++;
     }
     // Fix permissions
-    $query = make_update_query('app_emails_control', [
+    $query = prepare_update_query('app_emails_control', [
         'user_id' => 1,
         'group_id' => 1,
-    ], '1=1');
-    db_query($query);
+    ]);
+    db_query(...$query);
 }
 
 $time2 = microtime(true);

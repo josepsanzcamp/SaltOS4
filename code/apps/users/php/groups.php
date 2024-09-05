@@ -66,14 +66,14 @@ function insert_group($data)
     // Create the perms entries
     if (is_array($perms)) {
         foreach ($perms as $perm) {
-            $query = make_insert_query('tbl_groups_apps_perms', [
+            $query = prepare_insert_query('tbl_groups_apps_perms', [
                 'group_id' => $group_id,
                 'app_id' => $perm['app_id'],
                 'perm_id' => $perm['perm_id'],
                 'allow' => $perm['allow'],
                 'deny' => $perm['deny'],
             ]);
-            db_query($query);
+            db_query(...$query);
         }
     }
 
@@ -116,19 +116,19 @@ function update_group($group_id, $data)
 
     if (is_array($perms)) {
         // Delete the old perms entries
-        $query = "DELETE FROM tbl_groups_apps_perms WHERE group_id=$group_id";
-        db_query($query);
+        $query = 'DELETE FROM tbl_groups_apps_perms WHERE group_id = ?';
+        db_query($query, [$group_id]);
 
         // Create the perms entries
         foreach ($perms as $perm) {
-            $query = make_insert_query('tbl_groups_apps_perms', [
+            $query = prepare_insert_query('tbl_groups_apps_perms', [
                 'group_id' => $group_id,
                 'app_id' => $perm['app_id'],
                 'perm_id' => $perm['perm_id'],
                 'allow' => $perm['allow'],
                 'deny' => $perm['deny'],
             ]);
-            db_query($query);
+            db_query(...$query);
         }
     }
 
@@ -157,8 +157,8 @@ function delete_group($group_id)
     }
 
     // Continue removing the perms entries
-    $query = "DELETE FROM tbl_groups_apps_perms WHERE group_id=$group_id";
-    db_query($query);
+    $query = 'DELETE FROM tbl_groups_apps_perms WHERE group_id = ?';
+    db_query($query, [$group_id]);
 
     return [
         'status' => 'ok',

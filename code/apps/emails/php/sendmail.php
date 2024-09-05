@@ -59,8 +59,8 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     require_once 'apps/emails/lib/phpmailer/vendor/autoload.php';
     require_once 'apps/emails/php/getmail.php';
     // FIND ACCOUNT DATA
-    $query = "SELECT * FROM app_emails_accounts WHERE id='$account_id'";
-    $result = execute_query($query);
+    $query = 'SELECT * FROM app_emails_accounts WHERE id = ?';
+    $result = execute_query($query, [$account_id]);
     if (!isset($result['id'])) {
         return T('Id not found');
     }
@@ -414,33 +414,26 @@ function sendmail_prepare($action, $email_id)
     require_once 'apps/emails/php/getmail.php';
     $query = "SELECT id
         FROM app_emails_accounts
-        WHERE user_id='" . current_user() . "'
-            AND email_disabled='0'
-            AND smtp_host!=''
-            AND email_default='1'
+        WHERE user_id = ?
+            AND email_disabled = 0
+            AND smtp_host != ''
+            AND email_default = 1
         LIMIT 1";
-    $account_id = execute_query($query);
+    $account_id = execute_query($query, [current_user()]);
     if (!$account_id) {
         $query = "SELECT id FROM (
             SELECT id,(
-                SELECT COUNT(*)
-                FROM app_emails_address
+                SELECT COUNT(*) FROM app_emails_address
                 WHERE email_id IN (
-                    SELECT id
-                    FROM app_emails
-                    WHERE account_id=a.id
-                        AND is_outbox=1
-                )
-                AND type_id IN (1,2,3,4)
-            ) counter,
-            email_default
+                    SELECT id FROM app_emails
+                    WHERE account_id = a.id AND is_outbox = 1
+                ) AND type_id IN (1,2,3,4)
+            ) counter, email_default
             FROM app_emails_accounts a
-            WHERE user_id='" . current_user() . "'
-                AND email_disabled='0'
-                AND smtp_host!=''
-            ORDER BY email_default DESC,counter DESC
+            WHERE user_id = ? AND email_disabled = 0 AND smtp_host != ''
+            ORDER BY email_default DESC, counter DESC
             LIMIT 1) z";
-        $account_id = execute_query($query);
+        $account_id = execute_query($query, [current_user()]);
     }
     $to_extra = [];
     $cc_extra = [];
@@ -449,32 +442,29 @@ function sendmail_prepare($action, $email_id)
     $subject_extra = '';
     $body_extra = '';
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
-        $query = "SELECT account_id FROM app_emails WHERE id='{$email_id}'";
-        $result2 = execute_query($query);
+        $query = 'SELECT account_id FROM app_emails WHERE id = ?';
+        $result2 = execute_query($query, [$email_id]);
         if ($result2 && $account_id != $result2) {
             $account_id = $result2;
         }
     }
     if (1) { // GET THE DEFAULT ADDMETOCC
-        $query = "SELECT * FROM app_emails_accounts
-            WHERE user_id='" . current_user() . "' AND id='$account_id'";
-        $result2 = execute_query($query);
+        $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
+        $result2 = execute_query($query, [current_user(), $account_id]);
         if ($result2 && $result2['email_addmetocc']) {
             $cc_extra[] = $result2['email_name'] . ' <' . $result2['email_from'] . '>';
         }
     }
     if (1) { // GET THE DEFAULT CRT
-        $query = "SELECT * FROM app_emails_accounts
-            WHERE user_id='" . current_user() . "' AND id='$account_id'";
-        $result2 = execute_query($query);
+        $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
+        $result2 = execute_query($query, [current_user(), $account_id]);
         if ($result2) {
             $state_crt = $result2['email_crt'];
         }
     }
     if (1) { // GET THE DEFAULT SIGNATURE
-        $query = "SELECT * FROM app_emails_accounts
-            WHERE user_id='" . current_user() . "' AND id='$account_id'";
-        $result2 = execute_query($query);
+        $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
+        $result2 = execute_query($query, [current_user(), $account_id]);
         if ($result2) {
             $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SIGNATURE_OPEN__ .
                 __SIGNATURE_BREAK__ . $result2['email_signature'] . __SIGNATURE_CLOSE__ . __SECTION_CLOSE__;
@@ -483,8 +473,8 @@ function sendmail_prepare($action, $email_id)
         }
     }
     if (in_array($action, ['reply', 'replyall'])) {
-        $query = "SELECT * FROM app_emails_address WHERE email_id='{$email_id}'";
-        $result2 = execute_query_array($query);
+        $query = 'SELECT * FROM app_emails_address WHERE email_id = ?';
+        $result2 = execute_query_array($query, [$email_id]);
         foreach ($result2 as $addr) {
             if ($addr['type_id'] == 6) {
                 $finded_replyto = $addr;
@@ -527,9 +517,8 @@ function sendmail_prepare($action, $email_id)
                     }
                 }
             }
-            $query = "SELECT * FROM app_emails_accounts
-                WHERE user_id='" . current_user() . "' AND id='$account_id'";
-            $result2 = execute_query_array($query);
+            $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
+            $result2 = execute_query_array($query, [current_user(), $account_id]);
             foreach ($result2 as $addr) {
                 foreach ($finded_tocc as $key2 => $addr2) {
                     if ($addr2['value'] == $addr['email_from']) {
@@ -547,8 +536,8 @@ function sendmail_prepare($action, $email_id)
         }
     }
     if ($action == 'forward') {
-        $query = "SELECT * FROM app_emails_address WHERE email_id='{$email_id}'";
-        $result2 = execute_query_array($query);
+        $query = 'SELECT * FROM app_emails_address WHERE email_id = ?';
+        $result2 = execute_query_array($query, [$email_id]);
         foreach ($result2 as $addr) {
             if ($addr['type_id'] == 1) {
                 $finded_from = $addr;
@@ -556,8 +545,8 @@ function sendmail_prepare($action, $email_id)
         }
     }
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
-        $query = "SELECT * FROM app_emails WHERE id='{$email_id}'";
-        $row2 = execute_query($query);
+        $query = 'SELECT * FROM app_emails WHERE id = ?';
+        $row2 = execute_query($query, [$email_id]);
         if ($row2 && isset($row2['subject'])) {
             $subject_extra = $row2['subject'];
             $prefixes = ['reply' => 'Re: ', 'replyall' => 'Re: ', 'forward' => 'Fwd: '];
@@ -596,44 +585,30 @@ function sendmail_prepare($action, $email_id)
                 }
                 if (isset($result2['to'])) {
                     $result2['to'] = implode('; ', $result2['to']);
-                    $query = "SELECT email_from
-                        FROM app_emails_accounts
-                        WHERE id=(
-                            SELECT account_id
-                            FROM app_emails
-                            WHERE id='{$email_id}')";
-                    $result2['to'] = str_replace('<>', '<' . execute_query($query) . '>', $result2['to']);
+                    $query = 'SELECT email_from FROM app_emails_accounts WHERE id=(
+                        SELECT account_id FROM app_emails WHERE id = ? )';
+                    $result2['to'] = str_replace('<>', '<' .
+                        execute_query($query, [$email_id]) . '>', $result2['to']);
                 }
                 if (!isset($result2['to'])) {
                     $query = "SELECT CASE
                         WHEN (
-                            SELECT email_name
-                            FROM app_emails_accounts
-                            WHERE id=(
-                                SELECT account_id
-                                FROM app_emails
-                                WHERE id='{$email_id}'
+                            SELECT email_name FROM app_emails_accounts WHERE id=(
+                                SELECT account_id FROM app_emails WHERE id = ?
                             )
                         )=''
                         THEN (
-                            SELECT email_from
-                            FROM app_emails_accounts
-                            WHERE id=(
-                                SELECT account_id
-                                FROM app_emails
-                                WHERE id='{$email_id}'
+                            SELECT email_from FROM app_emails_accounts WHERE id=(
+                                SELECT account_id FROM app_emails WHERE id = ?
                             )
                         )
                         ELSE (
                             SELECT CONCAT(email_name,' <',email_from,'>')
-                            FROM app_emails_accounts
-                            WHERE id=(
-                                SELECT account_id
-                                FROM app_emails
-                                WHERE id='{$email_id}'
+                            FROM app_emails_accounts WHERE id=(
+                                SELECT account_id FROM app_emails WHERE id = ?
                             )
                         ) END";
-                    $result2['to'] = execute_query($query);
+                    $result2['to'] = execute_query($query, [$email_id, $email_id, $email_id]);
                 }
                 if (isset($result2['cc'])) {
                     $result2['cc'] = implode('; ', $result2['cc']);
@@ -784,10 +759,8 @@ function sendmail_action($json, $action, $email_id)
     $uploads = array_protected($json['files']) ?? [];
     // SEARCH FROM
     $query = "SELECT CONCAT(email_name,' <',email_from,'>') email
-        FROM app_emails_accounts
-        WHERE user_id='" . current_user() . "'
-            AND id='{$account_id}'";
-    $from = execute_query($query);
+        FROM app_emails_accounts WHERE user_id = ? AND id = ?";
+    $from = execute_query($query, [current_user(), $account_id]);
     if (!$from) {
         show_php_error(['phperror' => 'From not found']);
     }
@@ -847,8 +820,8 @@ function sendmail_action($json, $action, $email_id)
             'text' => $send,
         ];
     }
-    $query = "SELECT MAX(id) FROM app_emails WHERE account_id='{$account_id}' AND is_outbox='1'";
-    $last_id = execute_query($query);
+    $query = 'SELECT MAX(id) FROM app_emails WHERE account_id = ? AND is_outbox = 1';
+    $last_id = execute_query($query, [$account_id]);
     // SOME UPDATES
     if (in_array($action, ['reply', 'replyall', 'forward'])) {
         __getmail_update('email_id', $email_id, $last_id);
@@ -887,13 +860,11 @@ function sendmail_server()
         return [T('Could not acquire the semaphore')];
     }
     // begin the spool operation
-    $query = "SELECT a.id,a.account_id,a.uidl
+    $query = 'SELECT a.id, a.account_id, a.uidl
         FROM app_emails a
-        LEFT JOIN app_emails_accounts c ON c.id=a.account_id
-        WHERE c.user_id='" . current_user() . "'
-            AND a.is_outbox='1'
-            AND a.state_sent='0'";
-    $result = execute_query_array($query);
+        LEFT JOIN app_emails_accounts c ON c.id = a.account_id
+        WHERE c.user_id = ? AND a.is_outbox = 1 AND a.state_sent = 0';
+    $result = execute_query_array($query, [current_user()]);
     require_once 'apps/emails/lib/phpmailer/vendor/autoload.php';
     require_once 'apps/emails/php/getmail.php';
     $sended = 0;
@@ -924,8 +895,8 @@ function sendmail_server()
                     $user = $mail->Username;
                     $pass = $mail->Password;
                     // FIND ACCOUNT DATA
-                    $query = "SELECT * FROM app_emails_accounts WHERE id='" . $row['account_id'] . "'";
-                    $result2 = execute_query($query);
+                    $query = 'SELECT * FROM app_emails_accounts WHERE id = ?';
+                    $result2 = execute_query($query, [$row['account_id']]);
                     $current_host = $result2['smtp_host'];
                     $current_port = $result2['smtp_port'] ? $result2['smtp_port'] : 25;
                     $current_extra = $result2['smtp_extra'];
@@ -1050,11 +1021,8 @@ function sendmail_files($action, $email_id)
         }
     }
     $query = "SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
-        FROM tbl_uploads WHERE " . make_where_query([
-        'user_id' => current_user(),
-        'app' => current_hash(),
-    ]) . ' ORDER BY id DESC';
-    $files = execute_query_array($query);
+        FROM tbl_uploads WHERE user_id = ? AND app = ? ORDER BY id DESC";
+    $files = execute_query_array($query, [current_user(), current_hash()]);
     return $files;
 }
 
@@ -1072,12 +1040,10 @@ function sendmail_signature($json)
     $cc = strval($json['cc'] ?? '');
     $state_crt = intval($json['state_crt'] ?? 0);
     // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
-    $query = "SELECT * FROM app_emails_accounts
-        WHERE user_id='" . current_user() . "' AND id='$old'";
-    $result_old = execute_query($query);
-    $query = "SELECT * FROM app_emails_accounts
-        WHERE user_id='" . current_user() . "' AND id='$new'";
-    $result_new = execute_query($query);
+    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
+    $result_old = execute_query($query, [current_user(), $old]);
+    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
+    $result_new = execute_query($query, [current_user(), $new]);
     // REPLACE THE SIGNATURE BODY
     if ($result_new) {
         $auto = __SIGNATURE_OPEN__ . __SIGNATURE_BREAK__ .

@@ -830,7 +830,7 @@ function prepare_insert_query($table, $array)
  *
  * TODO
  */
-function prepare_update_query($table, $array, $array2)
+function prepare_update_query($table, $array, $where = [])
 {
     [$names, $values] = __prepare_helper_query($table, $array);
     $temp = [];
@@ -838,9 +838,13 @@ function prepare_update_query($table, $array, $array2)
         $temp[] = $name . '=?';
     }
     $temp = implode(',', $temp);
-    [$where, $values2] = prepare_where_query($table, $array2);
-    $query = "UPDATE $table SET $temp WHERE $where";
-    return [$query, array_merge($values, $values2)];
+    $query = "UPDATE $table SET $temp";
+    if (count($where)) {
+        [$query2, $values2] = prepare_where_query($table, $where);
+        $query .= "WHERE $query2";
+        $values = array_merge($values, $values2);
+    }
+    return [$query, $values];
 }
 
 /**

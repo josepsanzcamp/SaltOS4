@@ -99,14 +99,14 @@ function insert_user($data)
     // Create the perms entries
     if (is_array($perms)) {
         foreach ($perms as $perm) {
-            $query = make_insert_query('tbl_users_apps_perms', [
+            $query = prepare_insert_query('tbl_users_apps_perms', [
                 'user_id' => $user_id,
                 'app_id' => $perm['app_id'],
                 'perm_id' => $perm['perm_id'],
                 'allow' => $perm['allow'],
                 'deny' => $perm['deny'],
             ]);
-            db_query($query);
+            db_query(...$query);
         }
     }
 
@@ -187,19 +187,19 @@ function update_user($user_id, $data)
 
     if (is_array($perms)) {
         // Delete the old perms entries
-        $query = "DELETE FROM tbl_users_apps_perms WHERE user_id=$user_id";
-        db_query($query);
+        $query = 'DELETE FROM tbl_users_apps_perms WHERE user_id = ?';
+        db_query($query, [$user_id]);
 
         // Create the perms entries
         foreach ($perms as $perm) {
-            $query = make_insert_query('tbl_users_apps_perms', [
+            $query = prepare_insert_query('tbl_users_apps_perms', [
                 'user_id' => $user_id,
                 'app_id' => $perm['app_id'],
                 'perm_id' => $perm['perm_id'],
                 'allow' => $perm['allow'],
                 'deny' => $perm['deny'],
             ]);
-            db_query($query);
+            db_query(...$query);
         }
     }
 
@@ -228,12 +228,12 @@ function delete_user($user_id)
     }
 
     // Continue removing the passwords entries
-    $query = "DELETE FROM tbl_users_passwords WHERE user_id = $user_id";
-    db_query($query);
+    $query = 'DELETE FROM tbl_users_passwords WHERE user_id = ?';
+    db_query($query, [$user_id]);
 
     // Continue removing the perms entries
-    $query = "DELETE FROM tbl_users_apps_perms WHERE user_id=$user_id";
-    db_query($query);
+    $query = 'DELETE FROM tbl_users_apps_perms WHERE user_id = ?';
+    db_query($query, [$user_id]);
 
     return [
         'status' => 'ok',

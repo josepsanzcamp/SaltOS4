@@ -49,22 +49,21 @@ $time1 = microtime(true);
 $output = ['total' => 0];
 
 // Search all pending files
-$query = 'SELECT id,reg_id,hash FROM app_emails_files
-    WHERE indexed=0 AND retries<3 LIMIT 1000';
+$query = 'SELECT id, reg_id, hash FROM app_emails_files WHERE indexed = 0 AND retries < 3 LIMIT 1000';
 $result = db_query($query);
 while ($row = db_fetch_row($result)) {
     if (time_get_usage() > get_config('server/percentstop')) {
         break;
     }
     // Check if exists
-    $query = "SELECT id FROM app_emails_files WHERE id='{$row["id"]}'";
-    $exists = execute_query($query);
+    $query = 'SELECT id FROM app_emails_files WHERE id = ?';
+    $exists = execute_query($query, [$row['id']]);
     if (!$exists) {
         continue;
     }
     // Continue
-    $query = "UPDATE app_emails_files SET retries=retries+1 WHERE id='{$row["id"]}'";
-    db_query($query);
+    $query = 'UPDATE app_emails_files SET retries = retries + 1 WHERE id = ?';
+    db_query($query, [$row['id']]);
     // Prepare the input file
     $decoded = __getmail_getmime($row['reg_id']);
     if (!$decoded) {
@@ -72,10 +71,12 @@ while ($row = db_fetch_row($result)) {
             'phperror' => 'Email not found',
             'details' => sprintr($row),
         ], get_config('debug/warningfile') ?? 'warning.log');
-        $query = make_update_query('app_emails_files', [
+        $query = prepare_update_query('app_emails_files', [
             'retries' => '3',
-        ], make_where_query(['id' => $row['id']]));
-        db_query($query);
+        ], [
+            'id' => $row['id'],
+        ]);
+        db_query(...$query);
         continue;
     }
     $file = __getmail_getcid(__getmail_getnode('0', $decoded), $row['hash']);
@@ -84,10 +85,12 @@ while ($row = db_fetch_row($result)) {
             'phperror' => 'Attachment not found',
             'details' => sprintr($row),
         ], get_config('debug/warningfile') ?? 'warning.log');
-        $query = make_update_query('app_emails_files', [
+        $query = prepare_update_query('app_emails_files', [
             'retries' => '3',
-        ], make_where_query(['id' => $row['id']]));
-        db_query($query);
+        ], [
+            'id' => $row['id'],
+        ]);
+        db_query(...$query);
         continue;
     }
     $ext = strtolower(extension($file['cname']));
@@ -98,11 +101,13 @@ while ($row = db_fetch_row($result)) {
     file_put_contents($input, $file['body']);
     // Do the real indexing
     $search = unoconv2txt($input);
-    $query = make_update_query('app_emails_files', [
+    $query = prepare_update_query('app_emails_files', [
         'indexed' => 1,
         'search' => $search,
-    ], make_where_query(['id' => $row['id']]));
-    db_query($query);
+    ], [
+        'id' => $row['id'],
+    ]);
+    db_query(...$query);
     make_index('emails', $row['reg_id']);
     $output['total']++;
 }
