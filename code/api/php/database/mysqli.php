@@ -95,7 +95,7 @@ class database_mysqli
         } catch (Exception $e) {
             show_php_error(['dberror' => $e->getMessage()]);
         }
-        $this->db_query("SET NAMES 'utf8mb4'");
+        $this->db_query('SET NAMES utf8mb4 COLLATE utf8mb4_general_ci');
         $this->db_query('SET FOREIGN_KEY_CHECKS=0');
         $this->db_query('SET GROUP_CONCAT_MAX_LEN:=@@MAX_ALLOWED_PACKET');
     }
