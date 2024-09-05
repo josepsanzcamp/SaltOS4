@@ -67,5 +67,9 @@ final class test_mime extends TestCase
 
         $this->assertSame(saltos_content_type0('image/png'), 'image');
         $this->assertSame(saltos_content_type1('image/png'), 'png');
+
+        $files = glob('xml/config.xml');
+        $buffer = file_get_contents($files[0]);
+        $this->assertSame(saltos_content_type_from_string($buffer), 'text/xml');
     }
 }
