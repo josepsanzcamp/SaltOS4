@@ -80,6 +80,9 @@ function checklog($hash, $file)
  */
 function addlog($msg, $file = '')
 {
+    if (is_array($msg)) {
+        $msg = sprintr($msg);
+    }
     if (!$file) {
         $file = get_config('debug/logfile') ?? 'saltos.log';
     }
