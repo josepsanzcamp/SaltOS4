@@ -181,40 +181,46 @@ function __explode_attr($html)
 {
     $result = [];
     $len = strlen($html);
-    $pos1 = strpos($html, '=');
-    while ($pos1 !== false) {
-        for ($i = $pos1 - 1; $i >= 0; $i--) {
+    $pos0 = strpos($html, '=');
+    while ($pos0 !== false) {
+        for ($i = $pos0 - 1; $i >= 0; $i--) {
             if ($html[$i] != ' ') {
                 break;
             }
         }
-        for ($j = $i; $j >= 0; $j--) {
-            if ($html[$j] == ' ') {
+        $pos2 = $i;
+        for ($i = $pos2; $i >= 0; $i--) {
+            if ($html[$i] == ' ') {
                 break;
             }
         }
-        $pos2 = $j;
-        for ($i = $pos1 + 1; $i < $len; $i++) {
+        $pos1 = $i + 1;
+        $pos2++;
+        for ($i = $pos0 + 1; $i < $len; $i++) {
             if ($html[$i] != ' ') {
                 break;
             }
         }
-        for ($j = $i; $j < $len; $j++) {
-            if ($html[$j] == '"' || $html[$j] == "'") {
+        $pos3 = $i;
+        $next = ' ';
+        if ($html[$i] == '"' || $html[$i] == "'") {
+            $next = $html[$i];
+            $pos3++;
+        }
+        for ($i = $pos3; $i < $len; $i++) {
+            if ($html[$i] == $next) {
                 break;
             }
         }
-        $pos3 = $j;
-        for ($k = $j + 1; $k < $len; $k++) {
-            if ($html[$j] == $html[$k]) {
-                break;
-            }
-        }
-        $pos4 = $k;
-        $key = substr($html, $pos2 + 1, $pos1 - $pos2 - 1);
-        $val = substr($html, $pos3 + 1, $pos4 - $pos3 - 1);
+        $pos4 = $i;
+        $key = substr($html, $pos1, $pos2 - $pos1);
+        $val = substr($html, $pos3, $pos4 - $pos3);
         $result[$key] = $val;
-        $pos1 = strpos($html, '=', $pos1 + 1);
+        if ($pos4 + 1 < $len) {
+            $pos0 = strpos($html, '=', $pos4 + 1);
+        } else {
+            break;
+        }
     }
     return $result;
 }
