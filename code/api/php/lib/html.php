@@ -92,135 +92,71 @@ function remove_meta_tag($temp)
  *
  * @temp => the string that you want to process
  */
-function inline_img_tag($temp)
+function inline_img_tag($html)
 {
-    $tags = __get_imgs_tags($temp);
-    foreach ($tags as $tag) {
-        $attrs = __explode_attr($tag);
-        $src = '';
-        foreach ($attrs as $key => $val) {
-            if (strtolower($key) == 'src') {
-                $src = $val;
-                break;
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Evitar warnings por HTML mal formado
+    $dom->loadHTML($html);
+    libxml_clear_errors();
+    $items = $dom->getElementsByTagName('img');
+    foreach ($items as $item) {
+        $src = $item->getAttribute('src');
+        $img = __inline_img_helper($src);
+        $html = str_replace($src, $img, $html);
+    }
+    $items = $dom->getElementsByTagName('*');
+    foreach ($items as $item) {
+        $style = $item->getAttribute('style');
+        preg_match_all('/url\((\'|")?(.*?)\1\)/', $style, $matches);
+        if (count($matches[2])) {
+            foreach ($matches[2] as $src) {
+                $img = __inline_img_helper($src);
+                $html = str_replace($src, $img, $html);
             }
         }
-        $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-        $scheme = parse_url($src, PHP_URL_SCHEME);
-        if (in_array($scheme, ['data', 'cid'])) {
-            continue;
-        }
-        if (in_array($scheme, ['https', 'http'])) {
-            $cache = get_cache_file($src, '.tmp');
-            if (!file_exists($cache)) {
-                $data = __url_get_contents($src);
-                $valid = false;
-                foreach ($data['headers'] as $key => $val) {
-                    $key = substr(strtolower($key), 0, 12);
-                    $valid = in_array($key, ['http/1.1 200', 'http/2.0 200']);
-                    if ($valid) {
-                        break;
-                    }
-                }
+    }
+    return $html;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __inline_img_helper($src)
+{
+    $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+    $scheme = parse_url($src, PHP_URL_SCHEME);
+    if (in_array($scheme, ['data', 'cid'])) {
+        return $src;
+    }
+    if (in_array($scheme, ['https', 'http'])) {
+        $cache = get_cache_file($src, '.tmp');
+        if (!file_exists($cache)) {
+            $data = __url_get_contents($src);
+            $valid = false;
+            foreach ($data['headers'] as $key => $val) {
+                $key = substr(strtolower($key), 0, 12);
+                $valid = in_array($key, ['http/1.1 200', 'http/2.0 200']);
                 if ($valid) {
-                    if (isset($data['headers']['content-type'])) {
-                        $type = $data['headers']['content-type'];
-                    } else {
-                        $type = saltos_content_type_from_string($data['body']);
-                    }
-                    if (saltos_content_type0($type) == 'image') {
-                        $img = mime_inline($type, $data['body']);
-                    }
+                    break;
                 }
-                file_put_contents($cache, $img);
-                chmod_protected($cache, 0666);
-            } else {
-                $img = file_get_contents($cache);
             }
-        }
-        $temp = str_replace($src, $img, $temp);
-    }
-    return $temp;
-}
-
-/**
- * TODO
- *
- * TODO
- */
-function __get_imgs_tags($html)
-{
-    $imgs = [];
-    $pos = stripos($html, '<img ');
-    $len = strlen($html);
-    while ($pos !== false) {
-        $pos2 = $pos;
-        for (;;) {
-            $pos2 = strpos($html, '>', $pos2 + 1);
-            $img = substr($html, $pos, $pos2 - $pos);
-            $chars = count_chars($img);
-            if (($chars[ord('"')] & 0x1) != 0) {
-                continue;
+            if ($valid) {
+                if (isset($data['headers']['content-type'])) {
+                    $type = $data['headers']['content-type'];
+                } else {
+                    $type = saltos_content_type_from_string($data['body']);
+                }
+                if (saltos_content_type0($type) == 'image') {
+                    $img = mime_inline($type, $data['body']);
+                }
             }
-            if (($chars[ord("'")] & 0x1) != 0) {
-                continue;
-            }
-            break;
-        };
-        $imgs[] = $img;
-        $pos = stripos($html, '<img ', $pos2);
-    }
-    return $imgs;
-}
-
-/**
- * TODO
- *
- * TODO
- */
-function __explode_attr($html)
-{
-    $result = [];
-    $len = strlen($html);
-    $pos0 = strpos($html, '=');
-    while ($pos0 !== false) {
-        for ($i = $pos0 - 1; $i >= 0; $i--) {
-            if ($html[$i] != ' ') {
-                break;
-            }
-        }
-        $pos2 = $i;
-        for ($i = $pos2; $i >= 0; $i--) {
-            if ($html[$i] == ' ') {
-                break;
-            }
-        }
-        $pos1 = $i + 1;
-        $pos2++;
-        for ($i = $pos0 + 1; $i < $len; $i++) {
-            if ($html[$i] != ' ') {
-                break;
-            }
-        }
-        $pos3 = $i;
-        $next = ' ';
-        if ($html[$i] == '"' || $html[$i] == "'") {
-            $next = $html[$i];
-            $pos3++;
-        }
-        for ($i = $pos3; $i < $len; $i++) {
-            if ($html[$i] == $next) {
-                break;
-            }
-        }
-        $pos4 = $i;
-        $key = substr($html, $pos1, $pos2 - $pos1);
-        $val = substr($html, $pos3, $pos4 - $pos3);
-        $result[$key] = $val;
-        if ($pos4 + 1 < $len) {
-            $pos0 = strpos($html, '=', $pos4 + 1);
+            file_put_contents($cache, $img);
+            chmod_protected($cache, 0666);
         } else {
-            break;
+            $img = file_get_contents($cache);
         }
     }
-    return $result;
+    return $img;
 }
