@@ -86,7 +86,10 @@ function saltos_content_type($file)
 function saltos_content_type0($mime)
 {
     $mime = explode('/', $mime);
-    return array_shift($mime);
+    if (count($mime) != 2) {
+        return '';
+    }
+    return $mime[0];
 }
 
 /**
@@ -100,7 +103,10 @@ function saltos_content_type0($mime)
 function saltos_content_type1($mime)
 {
     $mime = explode('/', $mime);
-    return array_pop($mime);
+    if (count($mime) != 2) {
+        return '';
+    }
+    return $mime[1];
 }
 
 /**

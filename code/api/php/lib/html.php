@@ -106,26 +106,28 @@ function inline_img_tag($temp)
             $cache = get_cache_file($src, '.tmp');
             if (!file_exists($cache)) {
                 $data = __url_get_contents($src);
-                file_put_contents($cache, serialize($data));
+                $valid = false;
+                foreach ($data['headers'] as $key => $val) {
+                    $valid = in_array(strtolower($key), ['http/1.1 200 ok', 'http/2.0 200']);
+                    if ($valid) {
+                        break;
+                    }
+                }
+                if ($valid) {
+                    if (isset($data['headers']['content-type'])) {
+                        $type = $data['headers']['content-type'];
+                    } else {
+                        $type = saltos_content_type_from_string($data['body']);
+                    }
+                    if (saltos_content_type0($type) == 'image') {
+                        $img = mime_inline($type, $data['body']);
+                    }
+                }
+                file_put_contents($cache, $img);
                 chmod_protected($cache, 0666);
             } else {
-                $data = unserialize(file_get_contents($cache));
-            }
-            $valid = false;
-            foreach ($data['headers'] as $key => $val) {
-                $valid = in_array(strtolower($key), ['http/1.1 200 ok', 'http/2.0 200']);
-                if ($valid) {
-                    break;
-                }
-            }
-            if ($valid) {
-                if (isset($data['headers']['content-type'])) {
-                    $type = $data['headers']['content-type'];
-                } else {
-                    $type = saltos_content_type_from_string($data['body']);
-                }
-                $img = mime_inline($type, $data['body']);
-            }
+                $img = file_get_contents($cache);
+           }
         }
         $temp = str_replace($src, $img, $temp);
     }
