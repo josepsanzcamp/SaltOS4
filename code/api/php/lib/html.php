@@ -96,7 +96,14 @@ function inline_img_tag($temp)
 {
     $tags = __get_imgs_tags($temp);
     foreach ($tags as $tag) {
-        $src = __explode_attr($tag)['src'] ?? '';
+        $attrs = __explode_attr($tag);
+        $src = '';
+        foreach ($attrs as $key => $val) {
+            if (strtolower($key) == 'src') {
+                $src = $val;
+                break;
+            }
+        }
         $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
         $scheme = parse_url($src, PHP_URL_SCHEME);
         if (in_array($scheme, ['data', 'cid'])) {
@@ -108,7 +115,8 @@ function inline_img_tag($temp)
                 $data = __url_get_contents($src);
                 $valid = false;
                 foreach ($data['headers'] as $key => $val) {
-                    $valid = in_array(strtolower($key), ['http/1.1 200 ok', 'http/2.0 200']);
+                    $key = substr(strtolower($key), 0, 12);
+                    $valid = in_array($key, ['http/1.1 200', 'http/2.0 200']);
                     if ($valid) {
                         break;
                     }
@@ -142,7 +150,7 @@ function inline_img_tag($temp)
 function __get_imgs_tags($html)
 {
     $imgs = [];
-    $pos = strpos($html, '<img ');
+    $pos = stripos($html, '<img ');
     $len = strlen($html);
     while ($pos !== false) {
         $pos2 = $pos;
@@ -159,7 +167,7 @@ function __get_imgs_tags($html)
             break;
         };
         $imgs[] = $img;
-        $pos = strpos($html, '<img ', $pos2);
+        $pos = stripos($html, '<img ', $pos2);
     }
     return $imgs;
 }
