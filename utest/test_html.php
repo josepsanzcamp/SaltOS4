@@ -72,6 +72,32 @@ final class test_html extends TestCase
         $this->assertSame(remove_comment_tag('<!-- nada -->'), '');
         $this->assertSame(remove_meta_tag('<meta nada>'), '');
 
+        $html = [
+            // phpcs:disable Generic.Files.LineLength
+            '<img src=holamundo width=1 height=1' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            '<img src=holamundo width=1 height=1 ' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            '<img src=holamundo width=1 height=1 >' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            '<img src=holamundo width=1 height=1 />' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            '<img src="hola mundo" width="1" height="1"' => ['src' => 'hola mundo', 'width' => '1', 'height' => '1'],
+            '<img src="hola=mundo" width="1" height="1" ' => ['src' => 'hola=mundo', 'width' => '1', 'height' => '1'],
+            '<img src="hola?mundo" width="1" height="1" >' => ['src' => 'hola?mundo', 'width' => '1', 'height' => '1'],
+            '<img src="hola\'mundo" width="1" height="1" />' => ['src' => 'hola\'mundo', 'width' => '1', 'height' => '1'],
+            "<img src='hola mundo' width='1' height='1'" => ['src' => 'hola mundo', 'width' => '1', 'height' => '1'],
+            "<img src='hola=mundo' width='1' height='1' " => ['src' => 'hola=mundo', 'width' => '1', 'height' => '1'],
+            "<img src='hola?mundo' width='1' height='1' >" => ['src' => 'hola?mundo', 'width' => '1', 'height' => '1'],
+            "<img src='hola\"mundo' width='1' height='1' />" => ['src' => 'hola"mundo', 'width' => '1', 'height' => '1'],
+            '<img src = holamundo width = 1 height = 1' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            '<img src = "holamundo" width = "1" height = "1"' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            "<img src = 'holamundo' width = '1' height = '1'" => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            '<img src  =  holamundo width  =  1 height  =  1' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            '<img src  =  "holamundo" width  =  "1" height  =  "1"' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            "<img src  =  'holamundo' width  =  '1' height  =  '1'" => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
+            // phpcs:enable Generic.Files.LineLength
+        ];
+        foreach ($html as $key => $val) {
+            $this->assertSame(__explode_attr($key), $val);
+        }
+
         $src = 'https://127.0.0.1/favicon.ico';
         $cache = get_cache_file($src, '.tmp');
         if (file_exists($cache)) {
