@@ -94,7 +94,10 @@ function output_handler($array)
         __output_header('Content-Encoding: none');
     } else {
         $encoding = strval(get_server('HTTP_ACCEPT_ENCODING'));
-        if (stripos($encoding, 'gzip') !== false && function_exists('gzencode')) {
+        if (stripos($encoding, 'zstd') !== false && function_exists('zstd_compress')) {
+            __output_header('Content-Encoding: zstd');
+            $data = zstd_compress($data);
+        } elseif (stripos($encoding, 'gzip') !== false && function_exists('gzencode')) {
             __output_header('Content-Encoding: gzip');
             $data = gzencode($data);
         } elseif (stripos($encoding, 'deflate') !== false && function_exists('gzdeflate')) {

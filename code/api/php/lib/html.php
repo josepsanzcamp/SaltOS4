@@ -127,7 +127,7 @@ function inline_img_tag($temp)
                 chmod_protected($cache, 0666);
             } else {
                 $img = file_get_contents($cache);
-           }
+            }
         }
         $temp = str_replace($src, $img, $temp);
     }
