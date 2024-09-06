@@ -872,7 +872,7 @@ saltos.bootstrap.__field.iframe = field => {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
-        <iframe id="${field.id}" frameborder="0"
+        <iframe id="${field.id}" frameborder="0" sandbox="allow-same-origin allow-popups"
             class="form-control p-0 ${border} ${field.class}"></iframe>
     `);
     if (field.src) {
