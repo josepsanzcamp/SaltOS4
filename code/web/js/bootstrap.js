@@ -2926,7 +2926,7 @@ saltos.bootstrap.__field.list = field => {
             }
             saltos.bootstrap.__onclick_helper(item, val.onclick);
             // To prevent that the button remain focused
-            item.addEventListener('click', event => {
+            /*item.addEventListener('click', event => {
                 var button = event.target.closest('button');
                 button.parentElement.parentElement.querySelectorAll('button').forEach(_this => {
                     _this.classList.remove('active');
@@ -2934,7 +2934,7 @@ saltos.bootstrap.__field.list = field => {
                 });
                 button.classList.add('active');
                 button.setAttribute('aria-current', 'true');
-            });
+            });*/
             if (saltos.core.eval_bool(field.checkbox)) {
                 if (val.id == '') {
                     val.id = saltos.core.uniqid();
@@ -3052,6 +3052,9 @@ saltos.bootstrap.__field.list = field => {
             }
             .list-group-item.active h5 {
                 color: inherit;
+            }
+            .list-group-item.active [class^="text-"] {
+                color: inherit!important;
             }
         </style>
     `));

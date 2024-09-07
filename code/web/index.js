@@ -197,7 +197,7 @@ var saltos={core:{}};saltos.core.onerror=async(e,t,o,s,a)=>{var r={jserror:e,det
             <span class="w-100 h-100 placeholder"></span>
         </div>
     `)),saltos.bootstrap.__field.list=s=>{if(saltos.core.check_params(s,["class","id","onclick","truncate","checkbox","nodata"]),saltos.core.check_params(s,["data"],[]),!s.data.length)return saltos.bootstrap.__field.alert({id:s.id,title:s.nodata});var a,e;for(e in a=saltos.core.eval_bool(s.onclick)?saltos.core.html(`<div id="${s.id}" class="list-group ${s.class}"></div>`):saltos.core.html(`<ul id="${s.id}" class="list-group ${s.class}"></ul>`),s.data){var t,o,r=s.data[e];saltos.core.check_params(r,["header","body","footer","class","header_text","header_icon","header_color","body_text","body_icon","body_color","footer_text","footer_icon","footer_color","onclick","url","active","disabled","actions","id"]),saltos.core.eval_bool(s.onclick)?(t=saltos.core.html(`<button
-                class="list-group-item list-group-item-action ${r.class}"></button>`),r.hasOwnProperty("actions")&&r.actions.hasOwnProperty("0")&&r.actions[0].hasOwnProperty("onclick")&&r.actions[0].hasOwnProperty("url")&&(r.onclick=r.actions[0].onclick,r.url=r.actions[0].url),""!=r.url&&(r.onclick=`${r.onclick}("${r.url}")`),saltos.bootstrap.__onclick_helper(t,r.onclick),t.addEventListener("click",e=>{e=e.target.closest("button");e.parentElement.parentElement.querySelectorAll("button").forEach(e=>{e.classList.remove("active"),e.removeAttribute("aria-current")}),e.classList.add("active"),e.setAttribute("aria-current","true")}),saltos.core.eval_bool(s.checkbox)&&(""==r.id&&(r.id=saltos.core.uniqid()),t.setAttribute("id","button_"+r.id))):t=saltos.core.html(`<li class="list-group-item ${r.class}"></li>`),""!=r.header&&((o=saltos.core.html(`
+                class="list-group-item list-group-item-action ${r.class}"></button>`),r.hasOwnProperty("actions")&&r.actions.hasOwnProperty("0")&&r.actions[0].hasOwnProperty("onclick")&&r.actions[0].hasOwnProperty("url")&&(r.onclick=r.actions[0].onclick,r.url=r.actions[0].url),""!=r.url&&(r.onclick=`${r.onclick}("${r.url}")`),saltos.bootstrap.__onclick_helper(t,r.onclick),saltos.core.eval_bool(s.checkbox)&&(""==r.id&&(r.id=saltos.core.uniqid()),t.setAttribute("id","button_"+r.id))):t=saltos.core.html(`<li class="list-group-item ${r.class}"></li>`),""!=r.header&&((o=saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1 ${r.class}"></h5>
                 </div>
@@ -249,6 +249,9 @@ var saltos={core:{}};saltos.core.onerror=async(e,t,o,s,a)=>{var r={jserror:e,det
             }
             .list-group-item.active h5 {
                 color: inherit;
+            }
+            .list-group-item.active [class^="text-"] {
+                color: inherit!important;
             }
         </style>
     `)),saltos.core.eval_bool(s.checkbox)&&(a.classList.add("rounded-0"),saltos.core.when_visible(a,()=>{for(var e in a.classList.add("position-relative"),s.data){var e=s.data[e],t=(a.append(saltos.core.html(`
