@@ -199,16 +199,8 @@
             <row auto="true" col_class="col-12 mb-3">
                 <select id="from" label="From" required="true" onchange="saltos.emails.signature('update')" autofocus="true" col_class="col mb-3">
                     <rows eval="true">execute_query_array("
-                        SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label,id value,email_default,(
-                            SELECT COUNT(*)
-                            FROM app_emails_address
-                            WHERE email_id IN (
-                                SELECT id
-                                FROM app_emails
-                                WHERE account_id = a.id AND is_outbox = 1
-                            )
-                            AND type_id IN (1,2,3,4)
-                        ) counter
+                        SELECT CONCAT(email_name,' &lt;',email_from,'&gt;') label, id value, email_default,
+                            (SELECT COUNT(*) FROM app_emails WHERE account_id = a.id AND is_outbox = 1) counter
                         FROM app_emails_accounts a
                         WHERE user_id = ? AND email_disabled = 0 AND smtp_host != ''
                         ORDER BY email_default DESC, counter DESC
@@ -275,7 +267,7 @@
                 AND type_id IN (1,2,3,4)
                 AND (".make_like_query("name,value",strval(get_data("json/term"))).")
             GROUP BY label
-            ORDER BY score DESC LIMIT 25", [current_date(), current_date(-86400*7), current_date(-86400*30), current_user()])</data>
+            ORDER BY score DESC LIMIT 25", [current_date(-86400), current_date(-86400*7), current_date(-86400*30), current_user()])</data>
     </create>
 
     <create id="signature">
