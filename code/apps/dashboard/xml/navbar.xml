@@ -47,7 +47,7 @@
             </menu>
             <menu class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <item id="username" dropdown_menu_end="true" icon="person">
-                    <label eval="true">execute_query("SELECT name FROM tbl_users WHERE id=".current_user())</label>
+                    <label eval="true">execute_query("SELECT name FROM tbl_users WHERE id = ?", [current_user()])</label>
                     <menu>
                         <item label="Profile" onclick="saltos.app.profile()"/>
                         <item label="Help" onclick="saltos.app.help()"/>

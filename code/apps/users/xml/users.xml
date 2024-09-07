@@ -112,7 +112,8 @@
     <form>
         <text id="login" label="Username" required="true" autofocus="true"/>
         <select id="group_id" label="Group" required="true">
-            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value FROM tbl_groups WHERE active = 1 ORDER BY code ASC")</rows>
+            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value
+                FROM tbl_groups WHERE active = 1 ORDER BY code ASC")</rows>
         </select>
         <switch id="active" label="Active"/>
         <div col_class="col-12"/><!-- this act as break line -->
@@ -138,7 +139,8 @@
             </rows>
         </multiselect>
         <multiselect id="groups_id" label="Groups" size="7" col_class="col-md-6 mb-3">
-            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value FROM tbl_groups WHERE active = 1 ORDER BY code ASC")</rows>
+            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',code,')') label, id value
+                FROM tbl_groups WHERE active = 1 ORDER BY code ASC")</rows>
         </multiselect>
         <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="100">
             <numcols eval="true">execute_query("SELECT COUNT(*) FROM tbl_perms WHERE active = 1 ORDER BY id ASC")</numcols>

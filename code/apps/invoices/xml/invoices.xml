@@ -153,9 +153,12 @@
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
         <button onclick="saltos.invoices.add_item()" icon="plus-lg" col_class="col-auto mb-3" tooltip="Añadir mas conceptos" addbr="true"/>
     </form_footer>
-    <data_header eval="true">execute_query("SELECT * FROM app_invoices WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_header>
-    <data_detail eval="true">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC")</data_detail>
-    <data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total FROM app_invoices_concepts WHERE id_factura=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data_footer>
+    <data_header eval="true">execute_query("SELECT * FROM app_invoices
+        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data_header>
+    <data_detail eval="true">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total
+        FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC", [intval(get_data("rest/3"))])</data_detail>
+    <data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total
+        FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data_footer>
 
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>

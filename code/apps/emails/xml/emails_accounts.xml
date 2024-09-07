@@ -165,7 +165,8 @@
         <switch id="email_addmetocc" label="Add me to CC"/>
         <switch id="email_crt" label="Confirm reading to"/>
     </form>
-    <data eval="true">execute_query("SELECT * FROM app_emails_accounts WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+    <data eval="true">execute_query("SELECT * FROM app_emails_accounts
+        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>

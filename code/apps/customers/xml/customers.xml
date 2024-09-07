@@ -129,7 +129,8 @@
         <text id="tel_movil" label="Tel movil"/>
         <text id="fax" label="Fax"/>
     </form>
-    <data eval="true">execute_query("SELECT * FROM app_customers WHERE id=".intval(get_data("rest/3"))." AND ".check_sql(get_data("rest/1"), get_data("rest/2")))</data>
+    <data eval="true">execute_query("SELECT * FROM app_customers
+        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>

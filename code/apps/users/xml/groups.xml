@@ -113,7 +113,8 @@
         <switch id="active" label="Active"/>
         <textarea id="description" label="Description" required="true" height="10em" col_class="col-12 mb-3"/>
         <multiselect id="users_id" label="Users" size="7" col_class="col-md-8 mb-3">
-            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value FROM tbl_users WHERE active = 1 ORDER BY login ASC")</rows>
+            <rows eval="true">execute_query_array("SELECT CONCAT(name,' (',login,')') label, id value
+                FROM tbl_users WHERE active = 1 ORDER BY login ASC")</rows>
         </multiselect>
         <excel id="perms" label="Applications and permissions" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="100">
             <numcols eval="true">execute_query("SELECT COUNT(*) FROM tbl_perms WHERE active = 1 ORDER BY id ASC")</numcols>
