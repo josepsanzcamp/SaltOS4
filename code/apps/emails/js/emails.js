@@ -44,6 +44,34 @@ saltos.emails = {};
  *
  * TODO
  */
+saltos.emails.init = arg => {
+    if (['create', 'view', 'close'].includes(arg)) {
+        saltos.core.when_visible('list', () => {
+            var obj = document.getElementById('list').parentElement;
+            obj.querySelectorAll('button').forEach(_this => {
+                _this.classList.remove('active');
+                _this.removeAttribute('aria-current');
+            });
+        });
+    }
+
+    if (arg == 'view') {
+        var id = saltos.hash.get().split('/').at(-1);
+        saltos.core.when_visible(`button_${id}`, () => {
+            var button = document.getElementById(`button_${id}`);
+            button.classList.add('active');
+            button.setAttribute('aria-current', 'true');
+            button.classList.remove('fw-bold');
+            button.querySelector('h5').classList.remove('fw-bold');
+        });
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.emails.server = () => {
     saltos.app.ajax({
         url: `app/emails/action/server`,

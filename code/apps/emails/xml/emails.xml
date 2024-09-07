@@ -122,6 +122,7 @@
         </layout>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
+            <inline>saltos.emails.init("list")</inline>
             <inline>saltos.driver.init("list")</inline>
         </javascript>
     </list>
@@ -136,7 +137,7 @@
             set_data("json/limit", 25),
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
-        <data require="apps/emails/php/emails.php" eval="true">merge_data_actions(
+        <data require="apps/emails/php/filter.php" eval="true">merge_data_actions(
             execute_query_array("
                 SELECT id, IF(is_outbox, `to`, `from`) header,
                     IF(DATE(datetime)=DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
@@ -247,6 +248,7 @@
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
+            <inline>saltos.emails.init("create")</inline>
             <inline>saltos.driver.init("create")</inline>
         </javascript>
     </create>
@@ -382,14 +384,15 @@
                     <onclick eval="true">"saltos.driver.open('app/emails/create/forward/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button onclick="saltos.emails.delete2()" color="danger" label="Delete" tooltip="To delete this email" icon="trash"/>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this email" icon="x-lg" autoclose="true"/>
-                <button onclick="saltos.driver.close(true);" col_class="d-none" accesskey="escape"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this email" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.emails.init('close');saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
         <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject,state_error
             FROM app_emails WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
+            <inline>saltos.emails.init("view")</inline>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
     </view>
@@ -437,7 +440,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>
@@ -471,7 +474,7 @@
                 <button label="Download" tooltip="To download the email" icon="save">
                     <onclick eval="true">"saltos.app.download('app/emails/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>

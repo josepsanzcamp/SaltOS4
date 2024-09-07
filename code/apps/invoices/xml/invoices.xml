@@ -212,7 +212,7 @@
                 </button>
                 <button onclick="saltos.driver.delete()" color="danger" label="Borrar" tooltip="Para borrar la factura" icon="trash"/>
                 <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle de la factura" icon="x-lg" autoclose="true"/>
-                <button onclick="saltos.driver.close(true);" col_class="d-none" accesskey="escape"/>
+                <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["data_header"]</data>
@@ -246,7 +246,7 @@
                 <button label="Download" tooltip="To download the invoice" icon="save">
                     <onclick eval="true">"saltos.app.download('app/invoices/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.close();" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>

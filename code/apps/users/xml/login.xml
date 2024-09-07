@@ -38,7 +38,7 @@
                     <label class="fs-2 w-100 text-center" label="Please login"/>
                     <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
-                    <button class="w-100" onclick="saltos.login.authenticate();" label="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
+                    <button class="w-100" onclick="saltos.login.authenticate()" label="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
                     <label class="w-100 text-center" label="(C) 2024 The SaltOS Project" col_class="col-12 mt-3"/>
                 </container>
             </div>

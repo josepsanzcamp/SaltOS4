@@ -180,7 +180,7 @@
                 </button>
                 <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this group" icon="trash"/>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this window" icon="x-lg" autoclose="true"/>
-                <button onclick="saltos.driver.close(true);" col_class="d-none" accesskey="escape"/>
+                <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/users/xml/groups.xml")["data"]</data>
