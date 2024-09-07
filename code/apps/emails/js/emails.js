@@ -55,20 +55,22 @@ saltos.emails.init = arg => {
         });
     }
 
-    if (arg == 'view') {
+    if (['list', 'view'].includes(arg)) {
         var id = saltos.hash.get().split('/').at(-1);
-        saltos.core.when_visible(`button_${id}`, () => {
-            var button = document.getElementById(`button_${id}`);
-            button.classList.add('active');
-            button.setAttribute('aria-current', 'true');
-            button.classList.remove('fw-bold');
-            button.querySelector('h5').classList.remove('fw-bold');
-            var is_new = button.querySelector('small.text-success');
-            if (is_new && ['New', T('New')].includes(is_new.innerHTML)) {
-                is_new.classList.remove('text-success');
-                is_new.innerHTML = T('Read');
-            }
-        });
+        if (!isNaN(parseInt(id))) {
+            saltos.core.when_visible(`button_${id}`, () => {
+                var button = document.getElementById(`button_${id}`);
+                button.classList.add('active');
+                button.setAttribute('aria-current', 'true');
+                button.classList.remove('fw-bold');
+                button.querySelector('h5').classList.remove('fw-bold');
+                var is_new = button.querySelector('small.text-success');
+                if (is_new && ['New', T('New')].includes(is_new.innerHTML)) {
+                    is_new.classList.remove('text-success');
+                    is_new.innerHTML = T('Read');
+                }
+            });
+        }
     }
 };
 
