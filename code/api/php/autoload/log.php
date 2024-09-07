@@ -80,7 +80,7 @@ function checklog($hash, $file)
  */
 function addlog($msg, $file = '')
 {
-    if (is_array($msg)) {
+    if (is_array($msg) || is_object($msg)) {
         $msg = sprintr($msg);
     }
     if (!$file) {

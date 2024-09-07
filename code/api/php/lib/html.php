@@ -86,6 +86,19 @@ function remove_meta_tag($temp)
 }
 
 /**
+ * Remove Link Tag
+ *
+ * This function tries to remove all <link > tags of the string
+ *
+ * @temp => the string that you want to process
+ */
+function remove_link_tag($temp)
+{
+    $temp = preg_replace('@<link\b[^>]*?.*?>@siu', '', $temp);
+    return $temp;
+}
+
+/**
  * Inline Img Tag
  *
  * This function tries to convert all imgs to an inline imgs
@@ -102,8 +115,31 @@ function inline_img_tag($html)
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $img = __inline_img_helper($src);
-        $html = str_replace($src, $img, $html);
+        $froms = [
+            $src,
+            str_replace('&', '&amp;', $src),
+            htmlspecialchars($src),
+        ];
+        foreach ($froms as $from) {
+            $html = str_replace($from, $img, $html);
+        }
     }
+    return $html;
+}
+
+/**
+ * Inline Img Style
+ *
+ * This function tries to convert all imgs to an inline imgs
+ *
+ * @temp => the string that you want to process
+ */
+function inline_img_style($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Evitar warnings por HTML mal formado
+    $dom->loadHTML($html);
+    libxml_clear_errors();
     $items = $dom->getElementsByTagName('*');
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
@@ -111,7 +147,14 @@ function inline_img_tag($html)
         if (count($matches[2])) {
             foreach ($matches[2] as $src) {
                 $img = __inline_img_helper($src);
-                $html = str_replace($src, $img, $html);
+                $froms = [
+                    $src,
+                    str_replace('&', '&amp;', $src),
+                    htmlspecialchars($src),
+                ];
+                foreach ($froms as $from) {
+                    $html = str_replace($from, $img, $html);
+                }
             }
         }
     }
