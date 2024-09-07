@@ -729,7 +729,7 @@ function sendmail_prepare($action, $email_id)
     $to_extra = implode('; ', $to_extra);
     $cc_extra = implode('; ', $cc_extra);
     $bcc_extra = implode('; ', $bcc_extra);
-    return ['account_id' => $account_id,
+    return ['from' => $account_id,
         'to' => $to_extra, 'cc' => $cc_extra, 'bcc' => $bcc_extra,
         'subject' => $subject_extra, 'body' => $body_extra,
         'state_crt' => $state_crt, 'priority' => 0, 'sensitivity' => 0,
