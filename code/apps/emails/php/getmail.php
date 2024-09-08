@@ -50,11 +50,6 @@ require_once 'apps/emails/lib/pop3class/pop3.php';
  * This defines allow to define some useful standards to do html pages and more.
  */
 // phpcs:disable Generic.Files.LineLength
-define('__HTML_PAGE_OPEN__', '<!DOCTYPE html><html><head>
-    <style>body { margin: 0px; padding: 9px 12px; }</style>
-    <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
-    <style>:root { font-family: var(--bs-font-sans-serif); }</style></head><body>');
-define('__HTML_PAGE_CLOSE__', '</body></html>');
 define('__HTML_BOX_OPEN__', '<div style="background:#ffffff;">');
 define('__HTML_BOX_CLOSE__', '</div>');
 define('__HTML_TEXT_OPEN__', '<div style="color:#333;font-size:0.9rem;line-height:1rem;">');
@@ -1068,7 +1063,6 @@ function getmail_body($id)
     // CONTINUE
     $result = __getmail_getfullbody(__getmail_getnode('0', $decoded));
     $buffer = '';
-    $buffer .= __HTML_PAGE_OPEN__;
     $first = 1;
     foreach ($result as $index => $node) {
         $disp = $node['disp'];
@@ -1122,7 +1116,6 @@ function getmail_body($id)
             $first = 0;
         }
     }
-    $buffer .= __HTML_PAGE_CLOSE__;
     return $buffer;
 }
 
@@ -1145,11 +1138,9 @@ function getmail_source($id)
     $source = htmlentities($source, ENT_COMPAT, 'UTF-8');
     $source = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 8), '<br/>'], $source);
     $buffer = '';
-    $buffer .= __HTML_PAGE_OPEN__;
     $buffer .= __PLAIN_TEXT_OPEN__;
     $buffer .= $source;
     $buffer .= __PLAIN_TEXT_CLOSE__;
-    $buffer .= __HTML_PAGE_CLOSE__;
     return $buffer;
 }
 

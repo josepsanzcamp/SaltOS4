@@ -178,4 +178,4 @@ saltos.window.onstorage = event => {
  *
  * Attach the storage management function to the window
  */
-window.onstorage = saltos.window.onstorage;
+window.addEventListener('storage', saltos.window.onstorage);

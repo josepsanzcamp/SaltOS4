@@ -158,4 +158,4 @@ saltos.hash.onhashchange = event => {
  *
  * Attach the hash change management function to the window
  */
-window.onhashchange = saltos.hash.onhashchange;
+window.addEventListener('hashchange', saltos.hash.onhashchange);

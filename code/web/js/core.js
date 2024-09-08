@@ -78,7 +78,7 @@ saltos.core.onerror = async (msg, file, line, col, error) => {
  *
  * Attach the error management function to the window
  */
-window.onerror = saltos.core.onerror;
+window.addEventListener('error', saltos.core.onerror);
 
 /**
  * Log management

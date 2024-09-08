@@ -861,6 +861,13 @@ saltos.bootstrap.__field.codemirror = field => {
  * @height => the height used as style.minHeight parameter
  * @label  => this parameter is used as text for the label
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ *
+ * Notes:
+ *
+ * This function allow to put contents in the srcdoc, as an extra feature, this content is
+ * embedded with a doctype with html, head and body, includes the default saltos font and
+ * to provide a security layer, this function creates an iframe with a sandbox and add to
+ * the srcdoc a meta to configure the CSP that must apply to the contents
  */
 saltos.bootstrap.__field.iframe = field => {
     saltos.core.check_params(field, ['src', 'srcdoc', 'id', 'class', 'height', 'color']);
@@ -872,14 +879,22 @@ saltos.bootstrap.__field.iframe = field => {
         border = 'border-0';
     }
     var obj = saltos.core.html(`
-        <iframe id="${field.id}" frameborder="0" sandbox="allow-same-origin allow-popups"
+        <iframe id="${field.id}" frameborder="0"
             class="form-control p-0 ${border} ${field.class}"></iframe>
     `);
     if (field.src) {
         obj.src = field.src;
     }
     if (field.srcdoc) {
-        obj.srcdoc = field.srcdoc;
+        obj.srcdoc = `<!DOCTYPE html><html><head>
+        <style>body { margin: 0px; padding: 9px 12px; }</style>
+        <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
+        <style>:root { font-family: var(--bs-font-sans-serif); }</style>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+            style-src 'self' 'unsafe-inline';
+            font-src 'self' ${window.location.origin};
+            img-src 'self' data:;">
+        </head><body>${field.srcdoc}</body></html>`;
     }
     if (field.height) {
         obj.style.minHeight = field.height;
