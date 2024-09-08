@@ -113,9 +113,6 @@
             <!-- Codificaciones BIG5 y Shift_JIS - Prioridad alta -->
             <encoding>BIG5</encoding>    <!-- Traditional Chinese (Taiwan, Hong Kong) -->
             <encoding>Shift_JIS</encoding> <!-- Japanese (Shift JIS) -->
-            <!-- Codificaciones KOI8 -->
-            <encoding>KOI8-R</encoding>  <!-- Russian -->
-            <encoding>KOI8-U</encoding>  <!-- Ukrainian -->
             <!-- Codificaciones ISO-8859 (Latín y otras) -->
             <encoding>ISO-8859-1</encoding>  <!-- Western European (Latin-1) -->
             <encoding>ISO-8859-2</encoding>  <!-- Central European (Latin-2) -->
@@ -143,6 +140,9 @@
             <encoding>Windows-1256</encoding> <!-- Arabic -->
             <encoding>Windows-1257</encoding> <!-- Baltic -->
             <encoding>Windows-1258</encoding> <!-- Vietnamese -->
+            <!-- Codificaciones KOI8 -->
+            <encoding>KOI8-R</encoding>  <!-- Russian -->
+            <encoding>KOI8-U</encoding>  <!-- Ukrainian -->
             <!-- Codificaciones CP (Code Page) -->
             <encoding>CP1250</encoding> <!-- Central European -->
             <encoding>CP1251</encoding> <!-- Cyrillic -->
