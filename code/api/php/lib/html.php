@@ -143,9 +143,15 @@ function inline_img_style($html)
     $items = $dom->getElementsByTagName('*');
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
-        preg_match_all('/url\((\'|")?(.*?)\1\)/', $style, $matches);
-        if (count($matches[2])) {
-            foreach ($matches[2] as $src) {
+        preg_match_all('/url\((.*?)\)/', $style, $matches);
+        if (count($matches[1])) {
+            foreach ($matches[1] as $src) {
+                if (in_array(substr($src, 0, 1), ['"', "'"])) {
+                    $src = substr($src, 1);
+                }
+                if (in_array(substr($src, -1, 1), ['"', "'"])) {
+                    $src = substr($src, 0, -1);
+                }
                 $img = __inline_img_helper($src);
                 $froms = [
                     $src,
