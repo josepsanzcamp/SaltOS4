@@ -688,7 +688,9 @@ function sendmail_prepare($action, $email_id)
                         $temp = remove_style_tag($temp);
                         $temp = remove_comment_tag($temp);
                         $temp = remove_meta_tag($temp);
+                        $temp = remove_link_tag($temp);
                         $temp = inline_img_tag($temp);
+                        $temp = inline_img_style($temp);
                     }
                     foreach ($result2 as $index2 => $node2) {
                         $disp2 = $node2['disp'];
