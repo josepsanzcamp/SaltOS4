@@ -46,14 +46,14 @@ saltos.core = {};
  * This function allow to SaltOS to log in server the javascript errors produced in the
  * client's browser
  */
-saltos.core.onerror = async (msg, file, line, col, error) => {
+saltos.core.onerror = async event => {
     var data = {
-        jserror: msg,
-        details: `Error on file ${file}:${line}:${col}, userAgent is ${navigator.userAgent}`,
+        jserror: event.message,
+        details: `Error on file ${event.filename}:${event.lineno}:${event.colno}, userAgent is ${navigator.userAgent}`,
         backtrace: 'unknown',
     };
-    if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
-        window.sourceMappedStackTrace.mapStackTrace(error.stack, mappedStack => {
+    if (event.error !== null && typeof event.error == 'object' && typeof event.error.stack == 'string') {
+        window.sourceMappedStackTrace.mapStackTrace(event.error.stack, mappedStack => {
             mappedStack = mappedStack.map(line => line.trim());
             data.backtrace = mappedStack.join('\n');
         }, {
