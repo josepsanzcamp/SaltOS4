@@ -108,9 +108,9 @@ function remove_link_tag($temp)
 function inline_img_tag($html)
 {
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Evitar warnings por HTML mal formado
+    libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
-    libxml_clear_errors();
+    libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('img');
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
@@ -137,9 +137,9 @@ function inline_img_tag($html)
 function inline_img_style($html)
 {
     $dom = new DOMDocument();
-    libxml_use_internal_errors(true); // Evitar warnings por HTML mal formado
+    libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
-    libxml_clear_errors();
+    libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('*');
     foreach ($items as $item) {
         $style = $item->getAttribute('style');

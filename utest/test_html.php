@@ -71,32 +71,7 @@ final class test_html extends TestCase
         $this->assertSame(remove_style_tag('<style></style>'), '');
         $this->assertSame(remove_comment_tag('<!-- nada -->'), '');
         $this->assertSame(remove_meta_tag('<meta nada>'), '');
-
-        //~ $html = [
-            //~ // phpcs:disable Generic.Files.LineLength
-            //~ '<img src=holamundo width=1 height=1' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src=holamundo width=1 height=1 ' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src=holamundo width=1 height=1 >' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src=holamundo width=1 height=1 />' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src="hola mundo" width="1" height="1"' => ['src' => 'hola mundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src="hola=mundo" width="1" height="1" ' => ['src' => 'hola=mundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src="hola?mundo" width="1" height="1" >' => ['src' => 'hola?mundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src="hola\'mundo" width="1" height="1" />' => ['src' => 'hola\'mundo', 'width' => '1', 'height' => '1'],
-            //~ "<img src='hola mundo' width='1' height='1'" => ['src' => 'hola mundo', 'width' => '1', 'height' => '1'],
-            //~ "<img src='hola=mundo' width='1' height='1' " => ['src' => 'hola=mundo', 'width' => '1', 'height' => '1'],
-            //~ "<img src='hola?mundo' width='1' height='1' >" => ['src' => 'hola?mundo', 'width' => '1', 'height' => '1'],
-            //~ "<img src='hola\"mundo' width='1' height='1' />" => ['src' => 'hola"mundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src = holamundo width = 1 height = 1' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src = "holamundo" width = "1" height = "1"' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ "<img src = 'holamundo' width = '1' height = '1'" => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src  =  holamundo width  =  1 height  =  1' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ '<img src  =  "holamundo" width  =  "1" height  =  "1"' => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ "<img src  =  'holamundo' width  =  '1' height  =  '1'" => ['src' => 'holamundo', 'width' => '1', 'height' => '1'],
-            //~ // phpcs:enable Generic.Files.LineLength
-        //~ ];
-        //~ foreach ($html as $key => $val) {
-            //~ $this->assertSame(__explode_attr($key), $val);
-        //~ }
+        $this->assertSame(remove_link_tag('<link nada>'), '');
 
         $src = 'https://127.0.0.1/favicon.ico';
         $cache = get_cache_file($src, '.tmp');
@@ -105,15 +80,45 @@ final class test_html extends TestCase
         }
 
         $this->assertFileDoesNotExist($cache);
-        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_tag("<img src='$src'>")
+        ));
 
         $this->assertFileExists($cache);
-        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_tag("<img src=\"$src\">")
+        ));
+
+        $this->assertFileExists($cache);
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_style("<div style='background:url($src)'>")
+        ));
+
+        $this->assertFileExists($cache);
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_style("<div style='background:url(\"$src\")'>")
+        ));
+
+        $this->assertFileExists($cache);
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_style("<div style=\"background:url('$src')\">")
+        ));
 
         $src = 'https://127.0.0.1/nada';
-        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_tag("<img src='$src'>")
+        ));
 
         $src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-        $this->assertTrue(words_exists('data image base64', inline_img_tag("<img src='$src'>")));
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_tag("<img src='$src'>")
+        ));
     }
 }
