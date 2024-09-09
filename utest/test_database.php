@@ -431,6 +431,15 @@ final class test_database extends TestCase
         $query = 'SELECT id FROM tbl_users_tokens';
         $result = $obj->db_query($query, 'concat');
 
+        $query = 'SELECT 1';
+        $result = $obj->db_query($query, 'concat');
+
+        $query = 'SELECT 1 WHERE 1=0';
+        $result = $obj->db_query($query, 'concat');
+
+        $query = 'SELECT 1 UNION SELECT 2';
+        $result = $obj->db_query($query, 'concat');
+
         $this->assertSame(is_array($obj->db_query('')), true);
 
         if (function_exists('__libsqlite_group_concat_step')) {
@@ -695,6 +704,9 @@ final class test_database extends TestCase
         $result = $obj->db_query($query, 'auto');
 
         $query = 'SELECT name FROM spt_values';
+        $result = $obj->db_query($query, 'concat');
+
+        $query = 'SELECT name FROM spt_values WHERE 1=0';
         $result = $obj->db_query($query, 'concat');
 
         $this->assertSame(is_array($obj->db_query('')), true);

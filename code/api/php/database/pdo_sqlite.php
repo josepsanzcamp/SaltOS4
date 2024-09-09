@@ -269,11 +269,9 @@ class database_pdo_sqlite
                 $stmt = null; // like free_result
             }
             if ($fetch == 'concat') {
-                if ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                    $result['rows'][] = $row;
-                }
-                while ($row = $stmt->fetch(PDO::FETCH_COLUMN)) {
-                    $result['rows'][0] .= ',' . $row;
+                $result['rows'][] = implode(',', $stmt->fetchAll(PDO::FETCH_COLUMN));
+                if ($result['rows'][0] == '') {
+                    unset($result['rows'][0]);
                 }
                 $result['total'] = count($result['rows']);
                 $result['header'] = ['concat'];
