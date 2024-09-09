@@ -70,12 +70,12 @@ final class test_dbschema extends TestCase
     {
         $query = 'CREATE TABLE tbl_one (' .
             'id INT(11) PRIMARY KEY AUTO_INCREMENT' .
-            ') ENGINE=Aria CHARSET=utf8mb4';
+            ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci';
         db_query($query);
 
         $query = 'CREATE TABLE tbl_utest (' .
             'id INT(11) PRIMARY KEY AUTO_INCREMENT' .
-            ') ENGINE=Aria CHARSET=utf8mb4';
+            ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci';
         db_query($query);
 
         $query = 'ALTER TABLE tbl_config
@@ -204,7 +204,7 @@ final class test_dbschema extends TestCase
         $this->assertSame($query, 'CREATE TABLE app_customers_index (' .
             'id INT(11) PRIMARY KEY AUTO_INCREMENT,' .
             "search MEDIUMTEXT NOT NULL DEFAULT ''" .
-            ') ENGINE=Mroonga CHARSET=utf8mb4');
+            ') ENGINE=Mroonga CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci');
 
         $xml = '<index name="tbl_utest_search" table="tbl_utest" fulltext="true" fields="search"/>';
         $indexspec = xml2array($xml);
@@ -240,7 +240,7 @@ final class test_dbschema extends TestCase
             "val4 TIME NOT NULL DEFAULT '00:00:00'," .
             "val5 DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00'," .
             'FOREIGN KEY (user_id) REFERENCES tbl_users (id)' .
-            ') ENGINE=Aria CHARSET=utf8mb4');
+            ') ENGINE=Aria CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci');
         db_query($query);
 
         $query = make_insert_query('tbl_utest', [

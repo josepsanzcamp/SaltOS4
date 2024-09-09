@@ -56,7 +56,6 @@ require_once 'lib/utestlib.php';
 require_once 'php/lib/control.php';
 require_once 'php/lib/indexing.php';
 
-
 /**
  * Main class of this unit test
  */

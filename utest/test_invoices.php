@@ -47,6 +47,15 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once 'lib/utestlib.php';
+require_once 'php/lib/control.php';
+require_once 'php/lib/indexing.php';
+
+/**
  * Main class of this unit test
  */
 final class test_invoices extends TestCase
