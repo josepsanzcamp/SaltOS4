@@ -55,19 +55,25 @@ final class test_apache extends TestCase
     /**
      * addlog test
      *
-     * This test performs some tests to validate the correctness
-     * of the apache configuration
+     * This test performs some tests to validate the correctness of the apache configuration,
+     * the main idea is that the path saltos/code4 of the web server must point to the web
+     * directory.
      */
     public function test_apache(): void
     {
         $urls = [
-            'https://127.0.0.1/saltos/code4/',
+            'https://127.0.0.1/saltos/code4/api/apps/',
+            'https://127.0.0.1/saltos/code4/api/data/',
+            'https://127.0.0.1/saltos/code4/api/data/files',
+            'https://127.0.0.1/saltos/code4/api/data/files/config.xml',
+            'https://127.0.0.1/saltos/code4/api/data/files/saltos.sqlite',
             'https://127.0.0.1/saltos/code4/api/lib/',
-            'https://127.0.0.1/saltos/code4/apps/',
-            'https://127.0.0.1/saltos/code4/data/',
-            'https://127.0.0.1/saltos/code4/web/lib/',
             'https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/',
             'https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/index.php',
+            'https://127.0.0.1/saltos/code4/api/xml/',
+            'https://127.0.0.1/saltos/code4/api/xml/config.xml',
+            'https://127.0.0.1/saltos/code4/apps/',
+            'https://127.0.0.1/saltos/code4/lib/',
         ];
         foreach ($urls as $url) {
             $response = __url_get_contents($url);
