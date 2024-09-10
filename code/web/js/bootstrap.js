@@ -911,8 +911,8 @@ saltos.bootstrap.__field.iframe = field => {
             window.dispatchEvent(new Event('resize'));
         });
         // To propagate the keydown event suck as escape key
-        _this.contentWindow.document.addEventListener('keydown', event => {
-            document.dispatchEvent(new KeyboardEvent('keydown', {
+        _this.contentWindow.addEventListener('keydown', event => {
+            window.dispatchEvent(new KeyboardEvent('keydown', {
                 altKey: event.altKey,
                 ctrlKey: event.ctrlKey,
                 shiftKey: event.shiftKey,
@@ -4476,7 +4476,7 @@ saltos.bootstrap.__accesskey_listener = event => {
  *
  * Attach the accesskey listener function to the keydown event of the document
  */
-document.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
+window.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
 
 /**
  * Window match media

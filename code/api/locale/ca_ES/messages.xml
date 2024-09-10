@@ -92,4 +92,6 @@
     <to_download_the_email>Per descarregar el correu electrònic</to_download_the_email>
     <view>Veure</view>
     <download>Descarregar</download>
+    <navigator_is_online>El navegador està en línia</navigator_is_online>
+    <navigator_is_offline>El navegador està fora de línia</navigator_is_offline>
 </root>

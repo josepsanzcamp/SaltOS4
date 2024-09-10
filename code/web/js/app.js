@@ -1473,11 +1473,32 @@ saltos.app.ajax = args => {
 };
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+saltos.core.online = event => {
+    if (navigator.onLine) {
+        saltos.app.toast(T('Warning'), T('Navigator is online'), {color: 'success'});
+    } else {
+        saltos.app.toast(T('Warning'), T('Navigator is offline'), {color: 'danger'});
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+window.addEventListener('online', saltos.core.online);
+window.addEventListener('offline', saltos.core.online);
+
+/**
  * Main code
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', event => {
     // Theme part
     if (!saltos.bootstrap.get_bs_theme()) {
         saltos.bootstrap.set_bs_theme('auto');
