@@ -21,9 +21,9 @@ var saltos={core:{}};saltos.core.onerror=async e=>{var t={jserror:e.message,deta
         <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
         <style>:root { font-family: var(--bs-font-sans-serif); }</style>
         <meta http-equiv="Content-Security-Policy" content="default-src 'self';
-            style-src 'self' 'unsafe-inline';
+            style-src 'self' 'unsafe-inline' ${window.location.origin};
             font-src 'self' ${window.location.origin};
-            img-src 'self' data:;">
+            img-src 'self' data: ${window.location.origin};">
         </head><body>${e.srcdoc}</body></html>`),e.height&&(s.style.minHeight=e.height),s.addEventListener("load",e=>{var o=e.target;window.addEventListener("resize",e=>{var t;o.contentWindow&&(t=o.contentWindow.document.documentElement.offsetHeight+2,o.style.height=t+"px")}),saltos.core.when_visible(s,()=>{window.dispatchEvent(new Event("resize"))}),o.contentWindow.addEventListener("keydown",e=>{window.dispatchEvent(new KeyboardEvent("keydown",{altKey:e.altKey,ctrlKey:e.ctrlKey,shiftKey:e.shiftKey,keyCode:e.keyCode}))}),o.contentWindow.document.querySelectorAll("a").forEach(e=>{e.setAttribute("target","_blank")})}),s=saltos.bootstrap.__label_combine(e,s)},saltos.bootstrap.__field.select=e=>{saltos.core.check_params(e,["class","id","disabled","required","onchange","autofocus","multiple","size","value","tooltip","accesskey","color"]),saltos.core.check_params(e,["rows"],[]);var t,o="",s=(saltos.core.eval_bool(e.disabled)&&(o="disabled"),""),a=(saltos.core.eval_bool(e.required)&&(s="required"),""),r=(saltos.core.eval_bool(e.autofocus)&&(a="autofocus"),""),l=(saltos.core.eval_bool(e.multiple)&&(r="multiple"),""),i=(""!=e.size&&(l=`size="${e.size}"`),e.color),i="border border-"+(i=e.color?i:"primary"),c=saltos.core.html(`
         <select class="form-select ${i="none"==e.color?"border-0":i} ${e.class}" id="${e.id}"
             ${o} ${s} ${a} ${r} ${l}

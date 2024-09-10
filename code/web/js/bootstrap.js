@@ -891,9 +891,9 @@ saltos.bootstrap.__field.iframe = field => {
         <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
         <style>:root { font-family: var(--bs-font-sans-serif); }</style>
         <meta http-equiv="Content-Security-Policy" content="default-src 'self';
-            style-src 'self' 'unsafe-inline';
+            style-src 'self' 'unsafe-inline' ${window.location.origin};
             font-src 'self' ${window.location.origin};
-            img-src 'self' data:;">
+            img-src 'self' data: ${window.location.origin};">
         </head><body>${field.srcdoc}</body></html>`;
     }
     if (field.height) {
