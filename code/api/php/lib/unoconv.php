@@ -474,6 +474,7 @@ function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
 function __unoconv_hocr2txt($hocr)
 {
     // LOAD XML
+    require_once "php/lib/import.php";
     $array = __import_xml2array($hocr);
     $array = __array_getnode('html/body', $array);
     // PARTE XML
