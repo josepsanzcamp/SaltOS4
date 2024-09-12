@@ -17,7 +17,7 @@ var proxy = async request => {
     });
     headers = JSON.stringify(headers);
     var body = await request.clone().text();
-    var new_request = new Request([url, method, headers, body].join('|'));
+    var new_request = new Request([url, method, md5(headers), md5(body)].join('/'));
 
     try {
         response = await fetch(request);

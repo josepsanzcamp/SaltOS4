@@ -34,7 +34,7 @@ web: clean
 	uglifyjs $$i -c -m -o $$j.min.js --source-map url=$$m.min.js.map; \
 	done
 
-	uglifyjs code/web/js/proxy.js -c -m -o code/web/proxy.js --source-map url=proxy.js.map;
+	uglifyjs code/web/lib/md5/md5.min.js code/web/js/proxy.js -c -m -o code/web/proxy.js --source-map filename=code/web/proxy.js.map,url=proxy.js.map
 
 devel: clean
 	cat code/web/htm/index.htm | \
