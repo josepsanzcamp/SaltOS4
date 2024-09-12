@@ -4395,7 +4395,7 @@ saltos.bootstrap.toast = args => {
  *
  * @obj => the object that you want to enable the accesskey feature
  */
-saltos.bootstrap.__accesskey_listener = event => {
+window.addEventListener('keydown', event => {
     var keycodes = {
         'backspace': 8, 'tab': 9, 'enter': 13, 'pauseBreak': 19, 'capsLock': 20, 'escape': 27,
         'space': 32, 'pageUp': 33, 'pageDown': 34, 'end': 35, 'home': 36, 'leftArrow': 37,
@@ -4469,14 +4469,7 @@ saltos.bootstrap.__accesskey_listener = event => {
             }
         }
     });
-};
-
-/**
- * Accesskey listener
- *
- * Attach the accesskey listener function to the keydown event of the document
- */
-window.addEventListener('keydown', saltos.bootstrap.__accesskey_listener);
+});
 
 /**
  * Window match media

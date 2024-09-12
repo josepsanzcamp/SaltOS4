@@ -128,7 +128,7 @@ saltos.hash.trigger = () => {
  *
  * This function allow to SaltOS to update the contents when hash change
  */
-saltos.hash.onhashchange = event => {
+window.addEventListener('hashchange', event => {
     // Ajax part
     for (var i in saltos.core.__ajax) {
         saltos.core.__ajax[i].abort();
@@ -151,11 +151,4 @@ saltos.hash.onhashchange = event => {
     }
     // Do the request
     saltos.app.send_request(saltos.hash.get());
-};
-
-/**
- * Hash change management
- *
- * Attach the hash change management function to the window
- */
-window.addEventListener('hashchange', saltos.hash.onhashchange);
+});

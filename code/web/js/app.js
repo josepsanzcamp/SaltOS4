@@ -1473,32 +1473,29 @@ saltos.app.ajax = args => {
 };
 
 /**
- * Online helper
+ * Online message
  *
- * This function only displays a message when navigator detects an online/offline change
+ * This function show a message when navigator detects an online/offline change
  */
-saltos.app.online = event => {
-    if (navigator.onLine) {
-        saltos.app.toast(T('Warning'), T('Navigator is online'), {color: 'success'});
-    } else {
-        saltos.app.toast(T('Warning'), T('Navigator is offline'), {color: 'danger'});
-    }
-};
+window.addEventListener('online', event => {
+    saltos.app.toast(T('Warning'), T('Navigator is online'), {color: 'success'});
+});
 
 /**
- * Online bindings
+ * Offline message
  *
- * These are the bindings to listen the online and offline events
+ * This function show a message when navigator detects an online/offline change
  */
-window.addEventListener('online', saltos.app.online);
-window.addEventListener('offline', saltos.app.online);
+window.addEventListener('offline', event => {
+    saltos.app.toast(T('Warning'), T('Navigator is offline'), {color: 'danger'});
+});
 
 /**
  * Main app code
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-saltos.app.onload = event => {
+window.addEventListener('load', event => {
     // Theme part
     if (!saltos.bootstrap.get_bs_theme()) {
         saltos.bootstrap.set_bs_theme('auto');
@@ -1522,11 +1519,4 @@ saltos.app.onload = event => {
     }
     // Hash part
     saltos.hash.trigger();
-};
-
-/**
- * Main app binding
- *
- * This is the binding to listen the onload event
- */
-window.addEventListener('load', saltos.app.onload);
+});

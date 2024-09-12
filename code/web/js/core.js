@@ -46,7 +46,7 @@ saltos.core = {};
  * This function allow to SaltOS to log in server the javascript errors produced in the
  * client's browser
  */
-saltos.core.onerror = async event => {
+window.addEventListener('error', async event => {
     var file = event.filename;
     var line = event.lineno;
     var col = event.colno;
@@ -75,14 +75,7 @@ saltos.core.onerror = async event => {
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
-};
-
-/**
- * Error management
- *
- * Attach the error management function to the window
- */
-window.addEventListener('error', saltos.core.onerror);
+});
 
 /**
  * Log management
@@ -691,7 +684,7 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-saltos.core.onload = async event => {
+window.addEventListener('load', async event => {
     try {
         await navigator.serviceWorker.register('./proxy.js');
     } catch (error) {
@@ -708,11 +701,4 @@ saltos.core.onload = async event => {
     if (navigator.serviceWorker.controller) {
         navigator.serviceWorker.controller.postMessage('hello');
     }
-};
-
-/**
- * Main app binding
- *
- * This is the binding to listen the onload event
- */
-window.addEventListener('load', saltos.core.onload);
+});

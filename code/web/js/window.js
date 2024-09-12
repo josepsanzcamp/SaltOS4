@@ -158,7 +158,7 @@ saltos.window.send = (name, data, scope) => {
  * This function allow to SaltOS to receive the messages sended by other tabs
  * using the localStorage.
  */
-saltos.window.onstorage = event => {
+window.addEventListener('storage', event => {
     if (event.storageArea != window.localStorage) {
         return;
     }
@@ -171,11 +171,4 @@ saltos.window.onstorage = event => {
         return;
     }
     saltos.window.listeners[name](data);
-};
-
-/**
- * Storage management
- *
- * Attach the storage management function to the window
- */
-window.addEventListener('storage', saltos.window.onstorage);
+});
