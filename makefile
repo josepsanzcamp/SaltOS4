@@ -34,16 +34,21 @@ web: clean
 	uglifyjs $$i -c -m -o $$j.min.js --source-map url=$$m.min.js.map; \
 	done
 
+	uglifyjs code/web/js/proxy.js -c -m -o code/web/proxy.js --source-map url=proxy.js.map;
+
 devel: clean
 	cat code/web/htm/index.htm | \
 	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
 	php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js | \
 	php scripts/debug.php index.js js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,app}.js > code/web/index.htm
 
+	ln -sr code/web/js/proxy.js code/web/proxy.js
+
 clean:
 	rm -f code/web/index.{htm,js,js.map}
 	rm -f code/web/lib/index.{js,css}
 	rm -f code/apps/*/js/*.min.{js,js.map}
+	rm -f code/web/proxy.{js,js.map}
 
 test:
 ifeq ($(file), ) # default behaviour

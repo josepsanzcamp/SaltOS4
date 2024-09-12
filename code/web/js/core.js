@@ -47,13 +47,17 @@ saltos.core = {};
  * client's browser
  */
 saltos.core.onerror = async event => {
+    var file = event.filename;
+    var line = event.lineno;
+    var col = event.colno;
     var data = {
         jserror: event.message,
-        details: `Error on file ${event.filename}:${event.lineno}:${event.colno}, userAgent is ${navigator.userAgent}`,
+        details: `Error on file ${file}:${line}:${col}, userAgent is ${navigator.userAgent}`,
         backtrace: 'unknown',
     };
-    if (event.error !== null && typeof event.error == 'object' && typeof event.error.stack == 'string') {
-        window.sourceMappedStackTrace.mapStackTrace(event.error.stack, mappedStack => {
+    var error = event.error;
+    if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
+        window.sourceMappedStackTrace.mapStackTrace(error.stack, mappedStack => {
             mappedStack = mappedStack.map(line => line.trim());
             data.backtrace = mappedStack.join('\n');
         }, {
@@ -681,3 +685,34 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
     }
     return cad;
 };
+
+/**
+ * Main core code
+ *
+ * This is the code that must to be executed to initialize all requirements of this module
+ */
+saltos.core.onload = async event => {
+    try {
+        await navigator.serviceWorker.register('./proxy.js');
+    } catch (error) {
+        throw new Error(error);
+    }
+    navigator.serviceWorker.addEventListener('message', event => {
+        console.log(
+            '%cPROXY%c %s',
+            'color:white;background:dimgrey',
+            'color:inherit;background:inherit;',
+            event.data
+        );
+    });
+    if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage('hello');
+    }
+};
+
+/**
+ * Main app binding
+ *
+ * This is the binding to listen the onload event
+ */
+window.addEventListener('load', saltos.core.onload);
