@@ -691,14 +691,19 @@ window.addEventListener('load', async event => {
         throw new Error(error);
     }
     navigator.serviceWorker.addEventListener('message', event => {
-        console.log(
-            '%cPROXY%c %s',
-            'color:white;background:dimgrey',
-            'color:inherit;background:inherit;',
-            event.data
-        );
+        var black = 'color:white;background:dimgrey';
+        var reset = 'color:inherit;background:inherit;';
+        console.log('%cPROXY%c %s', black, reset, event.data);
     });
-    if (navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage('hello');
-    }
 });
+
+/**
+ * Proxy feature
+ *
+ * This function is intended to send messages to the proxy feature
+ */
+saltos.core.proxy = msg => {
+    if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage(msg);
+    }
+};
