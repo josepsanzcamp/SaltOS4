@@ -684,16 +684,13 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-window.addEventListener('load', async event => {
-    try {
-        await navigator.serviceWorker.register('./proxy.js');
-    } catch (error) {
+window.addEventListener('load', event => {
+    navigator.serviceWorker.register('./proxy.js').catch(error => {
         throw new Error(error);
-    }
+    });
     navigator.serviceWorker.addEventListener('message', event => {
         var black = 'color:white;background:dimgrey';
         var reset = 'color:inherit;background:inherit;';
-
         if (typeof event.data == 'object') {
             var array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
         } else {
