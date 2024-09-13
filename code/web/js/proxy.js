@@ -34,6 +34,8 @@
  * it with the more better manner.
  */
 
+const queue = [];
+
 /**
  * Debug function
  *
@@ -44,7 +46,7 @@
  * @type     => type of the request (network, cache or error)
  * @duration => duration of the entire task in milliseconds
  */
-var debug = (url, type, duration) => {
+const debug = (url, type, duration) => {
     var black = 'color:white;background:dimgrey';
     var color = 'color:white;background:dimgrey';
     switch (type) {
@@ -53,6 +55,9 @@ var debug = (url, type, duration) => {
             break;
         case 'cache':
             color = 'color:white;background:blue';
+            break;
+        case 'queue':
+            color = 'color:white;background:orange';
             break;
         case 'error':
             color = 'color:white;background:red';
@@ -74,39 +79,65 @@ var debug = (url, type, duration) => {
  * if a network error occurs, if no response is available, a json error is returned
  * to the application layer
  */
-var proxy = async request => {
+const proxy = async request => {
     // Prepare new_request for cache usage
-    var url = request.url;
-    var method = request.method;
-    var headers = {};
-    request.headers.forEach((value, key) => {
-        headers[key] = value;
-    });
-    headers = JSON.stringify(headers);
-    var body = await request.clone().text();
-    var new_request = new Request([url, method, md5(headers), md5(body)].join('/'));
+    const url = request.url;
+    const method = request.method;
+    const headers = JSON.stringify(Object.fromEntries([...request.headers]));
+    const body = await request.clone().text();
+    const new_request = new Request([url, method, md5(headers), md5(body)].join('/'));
 
-    // Network feature
-    try {
-        var response = await fetch(request);
-    } catch (error) {
-        //console.log(error);
+    // Prepare the order list used to solve the request
+    var order = request.headers.get('proxy');
+    if (order === null) {
+        // This is the default order used if no proxy is provided
+        order = 'network,cache';
     }
-    if (response) {
-        (await caches.open('saltos')).put(new_request, response.clone());
-        return {
-            type: 'network',
-            response: response,
-        };
-    }
+    order = order.split(',');
 
-    // Cache feature
-    response = await caches.match(new_request);
-    if (response) {
-        return {
-            type: 'cache',
-            response: response,
-        };
+    for (var i in order) {
+        switch (order[i]) {
+            case 'network':
+                // Network feature
+                try {
+                    var response = await fetch(request.clone());
+                } catch (error) {
+                    //console.log(error);
+                }
+                if (response) {
+                    (await caches.open('saltos')).put(new_request, response.clone());
+                    return {
+                        type: 'network',
+                        response: response,
+                    };
+                }
+                break;
+
+            case 'cache':
+                // Cache feature
+                response = await caches.match(new_request);
+                if (response) {
+                    return {
+                        type: 'cache',
+                        response: response,
+                    };
+                }
+                break;
+
+            case 'queue':
+                // Queue feature
+                response = new Response(JSON.stringify({
+                    'status': 'ok',
+                }), {
+                    status: 200,
+                    headers: {'Content-Type': 'application/json'},
+                });
+                queue.push(request);
+                return {
+                    type: 'queue',
+                    response: response,
+                };
+        }
     }
 
     // Error feature
@@ -152,11 +183,11 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     //console.log('fetch ' + event.request.url);
-    var start = Date.now();
+    const start = Date.now();
     event.respondWith(
         proxy(event.request).then(result => {
-            var end = Date.now();
-            var array = debug(event.request.url, result.type, end - start);
+            const end = Date.now();
+            const array = debug(event.request.url, result.type, end - start);
             if (event.clientId) {
                 event.waitUntil(
                     clients.get(event.clientId).then(client => {
@@ -202,5 +233,21 @@ self.addEventListener('message', async event => {
     // Hello feature
     if (event.data == 'hello') {
         event.source.postMessage('hello');
+    }
+
+    // Sync feature
+    if (event.data == 'sync') {
+        const total = queue.length;
+        while (queue.length > 0) {
+            const request = queue.shift();
+            try {
+                await fetch(request.clone());
+            } catch (error) {
+                //console.log(error);
+                queue.unshift(request);
+                break;
+            }
+        }
+        event.source.postMessage(total - queue.length);
     }
 });

@@ -72,6 +72,7 @@ window.addEventListener('error', async event => {
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
+        proxy: 'network,queue',
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
@@ -93,6 +94,7 @@ saltos.core.addlog = msg => {
         data: JSON.stringify(data),
         method: 'post',
         content_type: 'application/json',
+        proxy: 'network,queue',
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
@@ -262,6 +264,9 @@ saltos.core.__ajax = [];
  * @progress     => callback function to monitorize the progress of the upload/download (optional)
  * @async        => boolean to use the ajax call asynchronously or not, by default is true
  * @content_type => the content-type that you want to use in the transfer
+ * @proxy        => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
+ * @token        => add the Token header with the value passed, intended to be used by the SaltOS API
+ * @lang         => add the Lang header with the value passed, intended to be used by the SaltOS API
  * @headers      => an object with the headers that you want to send
  *
  * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
@@ -269,7 +274,7 @@ saltos.core.__ajax = [];
  */
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
-        'abort', 'progress', 'async', 'content_type', 'token', 'lang', 'headers']);
+        'abort', 'progress', 'async', 'content_type', 'proxy', 'token', 'lang', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
@@ -331,6 +336,9 @@ saltos.core.ajax = args => {
     ajax.open(args.method, args.url, args.async);
     if (args.content_type != '') {
         ajax.setRequestHeader('Content-Type', args.content_type);
+    }
+    if (args.proxy != '') {
+        ajax.setRequestHeader('Proxy', args.proxy);
     }
     if (args.token != '') {
         ajax.setRequestHeader('Token', args.token);
@@ -710,3 +718,12 @@ saltos.core.proxy = msg => {
         navigator.serviceWorker.controller.postMessage(msg);
     }
 };
+
+/**
+ * Online sync
+ *
+ * This function send a sync message to the proxy when navigator detects an online change
+ */
+window.addEventListener('online', event => {
+    saltos.core.proxy('sync');
+});

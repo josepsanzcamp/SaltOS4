@@ -1468,6 +1468,9 @@ saltos.app.ajax = args => {
     if (args.hasOwnProperty('async')) {
         temp.async = args.async;
     }
+    if (args.hasOwnProperty('proxy')) {
+        temp.proxy = args.proxy;
+    }
     saltos.app.form.screen('loading');
     saltos.core.ajax(temp);
 };

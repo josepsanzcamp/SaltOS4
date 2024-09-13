@@ -264,6 +264,7 @@ saltos.driver.insert = arg => {
     saltos.app.ajax({
         url: `app/${app}/insert`,
         data: data,
+        proxy: 'network,queue',
         success: response => {
             if (response.status == 'ok') {
                 if (response.hasOwnProperty('text')) {
@@ -305,6 +306,7 @@ saltos.driver.update = arg => {
     saltos.app.ajax({
         url: `app/${app}/update/${id}`,
         data: data,
+        proxy: 'network,queue',
         success: response => {
             if (response.status == 'ok') {
                 if (response.hasOwnProperty('text')) {
@@ -357,6 +359,7 @@ saltos.driver.delete = async arg => {
                 }
                 saltos.app.ajax({
                     url: `app/${app}/delete/${id}`,
+                    proxy: 'network',
                     success: response => {
                         if (response.status == 'ok') {
                             if (response.hasOwnProperty('text')) {

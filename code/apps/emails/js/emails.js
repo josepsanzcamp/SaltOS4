@@ -82,6 +82,7 @@ saltos.emails.init = arg => {
 saltos.emails.server = () => {
     saltos.app.ajax({
         url: `app/emails/action/server`,
+        proxy: 'network',
         success: response => {
             for (var key in response) {
                 saltos.app.toast('Response', response[key]);
@@ -118,6 +119,7 @@ saltos.emails.delete1 = () => {
             onclick: () => {
                 saltos.app.ajax({
                     url: `app/emails/delete/${ids}`,
+                    proxy: 'network',
                     success: response => {
                         saltos.app.toast('Response', response.text);
                         saltos.window.send('saltos.emails.update');
@@ -150,6 +152,7 @@ saltos.emails.delete2 = () => {
                 var id = saltos.hash.get().split('/').at(3);
                 saltos.app.ajax({
                     url: `app/emails/delete/${id}`,
+                    proxy: 'network',
                     success: response => {
                         saltos.app.toast('Response', response.text);
                         saltos.window.send('saltos.emails.update');
@@ -194,6 +197,7 @@ saltos.emails.send = () => {
     saltos.app.ajax({
         url: `app/emails/create/sendmail${action}${email_id}`,
         data: data,
+        proxy: 'network,queue',
         success: response => {
             if (response.status == 'ok') {
                 saltos.app.toast('Response', response.text);
@@ -219,6 +223,7 @@ saltos.emails.setter = what => {
     var id = saltos.hash.get().split('/').at(3);
     saltos.app.ajax({
         url: `app/emails/view/setter/${id}`,
+        proxy: 'network',
         data: {
             'what': what,
         },
