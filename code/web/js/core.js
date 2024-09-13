@@ -693,7 +693,13 @@ window.addEventListener('load', async event => {
     navigator.serviceWorker.addEventListener('message', event => {
         var black = 'color:white;background:dimgrey';
         var reset = 'color:inherit;background:inherit;';
-        console.log('%cPROXY%c %s', black, reset, event.data);
+
+        if (typeof event.data == 'object') {
+            var array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
+        } else {
+            var array = ['%cPROXY%c %s', black, reset, event.data];
+        }
+        console.log(...array);
     });
 });
 

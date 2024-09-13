@@ -35,34 +35,16 @@
  */
 
 /**
- * TODO
+ * Debug function
  *
- * TODO
- */
-var __debug = false;
-
-/**
- * TODO
+ * This function returns an array with the needed things to print into a console.log
+ * the fetch message with the url, the response type and the duration of the task
  *
- * TODO
+ * @url      => url of the request
+ * @type     => type of the request (network, cache or error)
+ * @duration => duration of the entire task in milliseconds
  */
-var log = msg => {
-    if (!__debug) {
-        return;
-    }
-    console.log(msg);
-};
-
-/**
- * TODO
- *
- * TODO
- */
-var debug = (url, type, start) => {
-    if (!__debug) {
-        return;
-    }
-    var used = Date.now() - start;
+var debug = (url, type, duration) => {
     var black = 'color:white;background:dimgrey';
     var color = 'color:white;background:dimgrey';
     switch (type) {
@@ -77,10 +59,12 @@ var debug = (url, type, start) => {
             break;
     }
     var reset = 'color:inherit;background:inherit;';
-    console.log(
-        `fetch %c${url}%c type %c${type}%c duration %c${used}ms%c`,
+    var array = [
+        `fetch %c${url}%c type %c${type}%c duration %c${duration}ms%c`,
         black, reset, color, reset, black, reset,
-    );
+    ];
+    //console.log(...array);
+    return array;
 };
 
 /**
@@ -91,8 +75,6 @@ var debug = (url, type, start) => {
  * to the application layer
  */
 var proxy = async request => {
-    var start = Date.now();
-
     // Prepare new_request for cache usage
     var url = request.url;
     var method = request.method;
@@ -106,21 +88,25 @@ var proxy = async request => {
 
     // Network feature
     try {
-        response = await fetch(request);
+        var response = await fetch(request);
     } catch (error) {
         //console.log(error);
     }
     if (response) {
-        debug(url, 'network', start);
         (await caches.open('saltos')).put(new_request, response.clone());
-        return response;
+        return {
+            type: 'network',
+            response: response,
+        };
     }
 
     // Cache feature
-    var response = await caches.match(new_request);
+    response = await caches.match(new_request);
     if (response) {
-        debug(url, 'cache', start);
-        return response;
+        return {
+            type: 'cache',
+            response: response,
+        };
     }
 
     // Error feature
@@ -133,8 +119,10 @@ var proxy = async request => {
         status: 200,
         headers: {'Content-Type': 'application/json'},
     });
-    debug(url, 'error', start);
-    return response;
+    return {
+        type: 'error',
+        response: response,
+    };
 };
 
 /**
@@ -143,7 +131,7 @@ var proxy = async request => {
  * This code implements the install feature
  */
 self.addEventListener('install', event => {
-    log('install');
+    //console.log('install');
     self.skipWaiting(); // Skips waiting and activates the service worker immediately
 });
 
@@ -153,7 +141,7 @@ self.addEventListener('install', event => {
  * This code implements the activate feature
  */
 self.addEventListener('activate', event => {
-    log('activate');
+    //console.log('activate');
     event.waitUntil(clients.claim()); // Takes control of all open pages immediately
 });
 
@@ -163,8 +151,24 @@ self.addEventListener('activate', event => {
  * This code implements the fetch feature
  */
 self.addEventListener('fetch', event => {
-    log('fetch ' + event.request.url);
-    event.respondWith(proxy(event.request));
+    //console.log('fetch ' + event.request.url);
+    var start = Date.now();
+    event.respondWith(
+        proxy(event.request).then(result => {
+            var end = Date.now();
+            var array = debug(event.request.url, result.type, end - start);
+            if (event.clientId) {
+                event.waitUntil(
+                    clients.get(event.clientId).then(client => {
+                        if (client) {
+                            client.postMessage(array);
+                        }
+                    })
+                );
+            }
+            return result.response;
+        })
+    );
 });
 
 /**
@@ -179,13 +183,18 @@ self.addEventListener('fetch', event => {
  * to test the comunication between the proxy and the app layer
  */
 self.addEventListener('message', async event => {
-    log('message ' + event.data);
+    //console.log('message ' + event.data);
 
     // Reset feature
     if (event.data == 'reset') {
         (await caches.keys()).forEach(key => {
             caches.delete(key);
         });
+        event.source.postMessage('ok');
+    }
+
+    // Stop feature
+    if (event.data == 'stop') {
         self.registration.unregister();
         event.source.postMessage('ok');
     }
@@ -193,25 +202,5 @@ self.addEventListener('message', async event => {
     // Hello feature
     if (event.data == 'hello') {
         event.source.postMessage('hello');
-    }
-
-    // Debug on feature
-    if (event.data == 'debug=on') {
-        if (!__debug) {
-            __debug = true;
-            event.source.postMessage('ok');
-        } else {
-            event.source.postMessage('ko');
-        }
-    }
-
-    // Debug off feature
-    if (event.data == 'debug=off') {
-        if (__debug) {
-            __debug = false;
-            event.source.postMessage('ok');
-        } else {
-            event.source.postMessage('ko');
-        }
     }
 });
