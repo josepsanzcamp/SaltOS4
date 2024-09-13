@@ -60,8 +60,8 @@ var debug = (url, type, duration) => {
     }
     var reset = 'color:inherit;background:inherit;';
     var array = [
-        `fetch %c${url}%c type %c${type}%c duration %c${duration}ms%c`,
-        black, reset, color, reset, black, reset,
+        `fetch ${url} type %c${type}%c duration %c${duration}ms%c`,
+        color, reset, black, reset,
     ];
     //console.log(...array);
     return array;
