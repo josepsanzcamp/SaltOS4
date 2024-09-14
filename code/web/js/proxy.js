@@ -91,7 +91,11 @@ const proxy = async request => {
     var order = request.headers.get('proxy');
     if (order === null) {
         // This is the default order used if no proxy is provided
-        order = 'network,cache';
+        if (url.includes('/api/?/')) {
+            order = 'network,cache';
+        } else {
+            order = 'cache,network';
+        }
     }
     order = order.split(',');
 
