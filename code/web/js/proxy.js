@@ -85,13 +85,21 @@ const proxy = async request => {
     const method = request.method;
     const headers = JSON.stringify(Object.fromEntries([...request.headers]));
     const body = await request.clone().text();
-    const new_request = new Request([url, method, md5(headers), md5(body)].join('/'));
+    const is_api = url.includes('/api/?/');
+    const array = [url, method];
+    if (is_api) {
+        array.push(md5(headers));
+    }
+    if (method == 'POST') {
+        array.push(md5(body));
+    }
+    const new_request = new Request(array.join('/'));
 
     // Prepare the order list used to solve the request
     var order = request.headers.get('proxy');
     if (order === null) {
         // This is the default order used if no proxy is provided
-        if (url.includes('/api/?/')) {
+        if (is_api) {
             order = 'network,cache';
         } else {
             order = 'cache,network';
