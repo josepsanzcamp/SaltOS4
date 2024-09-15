@@ -42,7 +42,7 @@ devel: clean
 	php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js | \
 	php scripts/debug.php index.js js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,app}.js > code/web/index.htm
 
-	ln -sr code/web/js/proxy.js code/web/proxy.js
+	echo "importScripts('lib/md5/md5.min.js','js/proxy.js');" > code/web/proxy.js
 
 clean:
 	rm -f code/web/index.{htm,js,js.map}

@@ -34,8 +34,6 @@
  * it with the more better manner.
  */
 
-const queue = [];
-
 /**
  * Debug function
  *
@@ -47,8 +45,8 @@ const queue = [];
  * @duration => duration of the entire task in milliseconds
  */
 const debug = (url, type, duration) => {
-    var black = 'color:white;background:dimgrey';
-    var color = 'color:white;background:dimgrey';
+    const black = 'color:white;background:dimgrey';
+    let color = 'color:white;background:dimgrey';
     switch (type) {
         case 'network':
             color = 'color:white;background:green';
@@ -63,8 +61,8 @@ const debug = (url, type, duration) => {
             color = 'color:white;background:red';
             break;
     }
-    var reset = 'color:inherit;background:inherit;';
-    var array = [
+    const reset = 'color:inherit;background:inherit;';
+    const array = [
         `fetch ${url} type %c${type}%c duration %c${duration}ms%c`,
         color, reset, black, reset,
     ];
@@ -85,8 +83,8 @@ const proxy = async request => {
     const method = request.method;
     const headers = JSON.stringify(Object.fromEntries([...request.headers]));
     const body = await request.clone().text();
-    const is_api = url.includes('/api/?/');
     const array = [url, method];
+    const is_api = url.includes('/api/?/');
     if (is_api) {
         array.push(md5(headers));
     }
@@ -96,10 +94,10 @@ const proxy = async request => {
     const new_request = new Request(array.join('/'));
 
     // Prepare the order list used to solve the request
-    var order = request.headers.get('proxy');
+    let order = request.headers.get('proxy');
     if (order === null) {
-        // This is the default order used if no proxy is provided
-        if (is_api) {
+        const is_index = url.includes('/#/');
+        if (is_api || is_index) {
             order = 'network,cache';
         } else {
             order = 'cache,network';
@@ -107,7 +105,7 @@ const proxy = async request => {
     }
     order = order.split(',');
 
-    for (var i in order) {
+    for (let i in order) {
         switch (order[i]) {
             case 'network':
                 // Network feature
@@ -138,13 +136,13 @@ const proxy = async request => {
 
             case 'queue':
                 // Queue feature
+                queue_push(await request_serialize(request));
                 response = new Response(JSON.stringify({
                     'status': 'ok',
                 }), {
                     status: 200,
                     headers: {'Content-Type': 'application/json'},
                 });
-                queue.push(request);
                 return {
                     type: 'queue',
                     response: response,
@@ -166,6 +164,120 @@ const proxy = async request => {
         type: 'error',
         response: response,
     };
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+const queue_open = () => {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('saltos', 1);
+
+        request.onupgradeneeded = event => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('saltos')) {
+                const objectStore = db.createObjectStore('saltos', {
+                    autoIncrement: true,
+                });
+            }
+        };
+
+        request.onsuccess = event => {
+            const db = event.target.result;
+            const transaction = db.transaction('saltos', 'readwrite');
+            const store = transaction.objectStore('saltos');
+            resolve(store);
+        };
+
+        request.onerror = event => {
+            reject(event);
+        };
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+const queue_push = data => {
+    queue_open().then(store => {
+        store.add(data);
+    }).catch(error => {
+        //console.log(error);
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+const queue_getall = () => {
+    return new Promise((resolve, reject) => {
+        queue_open().then(store => {
+            const items = store.getAll();
+            const keys = store.getAllKeys();
+
+            items.onsuccess = () => {
+                keys.onsuccess = () => {
+                    const result = keys.result.map((key, index) => ({
+                        key: key,
+                        value: items.result[index],
+                    }));
+
+                    resolve(result);
+                };
+            };
+
+            items.onerror = (event) => reject(event);
+            keys.onerror = (event) => reject(event);
+        }).catch(error => {
+            //console.log(error);
+        });
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+const queue_delete = key => {
+    queue_open().then(store => {
+        store.delete(key);
+    }).catch(error => {
+        //console.log(error);
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+const request_serialize = async request => {
+    return {
+        url: request.url,
+        method: request.method,
+        headers: [...request.headers.entries()],
+        body: await request.clone().text(),
+    };
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+const request_unserialize = request => {
+    return new Request(request.url, {
+        method: request.method,
+        headers: new Headers(request.headers),
+        body: request.body,
+    });
 };
 
 /**
@@ -194,7 +306,7 @@ self.addEventListener('activate', event => {
  * This code implements the fetch feature
  */
 self.addEventListener('fetch', event => {
-    //console.log('fetch ' + event.request.url);
+    //~ console.log('fetch ' + event.request.url);
     const start = Date.now();
     event.respondWith(
         proxy(event.request).then(result => {
@@ -249,17 +361,21 @@ self.addEventListener('message', async event => {
 
     // Sync feature
     if (event.data == 'sync') {
-        const total = queue.length;
-        while (queue.length > 0) {
-            const request = queue.shift();
-            try {
-                await fetch(request.clone());
-            } catch (error) {
-                //console.log(error);
-                queue.unshift(request);
-                break;
+        let total = 0;
+        await queue_getall().then(async result => {
+            for (let i in result) {
+                try {
+                    await fetch(request_unserialize(result[i].value));
+                } catch (error) {
+                    //console.log(error);
+                    break;
+                }
+                queue_delete(result[i].key);
+                total++;
             }
-        }
-        event.source.postMessage(total - queue.length);
+        }).catch(error => {
+            //console.log(error);
+        });
+        event.source.postMessage(total);
     }
 });
