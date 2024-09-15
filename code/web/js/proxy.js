@@ -46,21 +46,17 @@
  */
 const debug = (url, type, duration) => {
     const black = 'color:white;background:dimgrey';
-    let color = 'color:white;background:dimgrey';
-    switch (type) {
-        case 'network':
-            color = 'color:white;background:green';
-            break;
-        case 'cache':
-            color = 'color:white;background:blue';
-            break;
-        case 'queue':
-            color = 'color:white;background:orange';
-            break;
-        case 'error':
-            color = 'color:white;background:red';
-            break;
+    const types = {
+        'network': 'green',
+        'cache': 'blue',
+        'queue': 'orange',
+        'error': 'red',
+    };
+    let temp = 'dimgrey';
+    if (types.hasOwnProperty(type)) {
+        temp = types[type];
     }
+    const color = `color:white;background:${temp}`;
     const reset = 'color:inherit;background:inherit;';
     const array = [
         `fetch ${url} type %c${type}%c duration %c${duration}ms%c`,
@@ -118,7 +114,7 @@ const proxy = async request => {
 
             case 'cache':
                 // Cache feature
-                response = await caches.match(new_request);
+                var response = await caches.match(new_request);
                 if (response) {
                     return {
                         type: 'cache',
@@ -130,7 +126,7 @@ const proxy = async request => {
             case 'queue':
                 // Queue feature
                 queue_push(await request_serialize(request));
-                response = new Response(JSON.stringify({
+                var response = new Response(JSON.stringify({
                     'status': 'ok',
                 }), {
                     status: 200,
@@ -144,7 +140,7 @@ const proxy = async request => {
     }
 
     // Error feature
-    response = new Response(JSON.stringify({
+    var response = new Response(JSON.stringify({
         'error': {
             'text': 'You are offline and the requested content is not cached',
             'code': 'offline'
@@ -261,12 +257,15 @@ const queue_delete = key => {
  * @request => the request that must to be converted into an object
  */
 const request_serialize = async request => {
-    return {
+    const result = {
         url: request.url,
         method: request.method,
         headers: [...request.headers.entries()],
-        body: await request.clone().text(),
     };
+    if (request.method == 'POST') {
+        result.body = await request.clone().text();
+    }
+    return result;
 };
 
 /**
@@ -278,11 +277,14 @@ const request_serialize = async request => {
  * @request => the object that must to be converted into a request
  */
 const request_unserialize = request => {
-    return new Request(request.url, {
+    const options = {
         method: request.method,
         headers: new Headers(request.headers),
-        body: request.body,
-    });
+    };
+    if (request.method == 'POST') {
+        options.body = request.body;
+    }
+    return new Request(request.url, options);
 };
 
 /**
@@ -367,20 +369,33 @@ self.addEventListener('message', async event => {
     // Sync feature
     if (event.data == 'sync') {
         let total = 0;
+        let count = 0;
         await queue_getall().then(async result => {
+            total = result.length;
             for (let i in result) {
+                const start = Date.now();
+                const request = request_unserialize(result[i].value);
                 try {
-                    await fetch(request_unserialize(result[i].value));
+                    var response = await fetch(request);
                 } catch (error) {
-                    //console.log(error);
+                    //~ console.log(error);
+                }
+                let type = 'network';
+                if (!response) {
+                    type = 'error';
+                }
+                const end = Date.now();
+                const array = debug(request.url, type, end - start);
+                event.source.postMessage(array);
+                if (!response) {
                     break;
                 }
                 queue_delete(result[i].key);
-                total++;
+                count++;
             }
         }).catch(error => {
-            //console.log(error);
+            //~ console.log(error);
         });
-        event.source.postMessage(total);
+        event.source.postMessage(`sync ${count} of ${total}`);
     }
 });
