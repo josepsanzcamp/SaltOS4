@@ -89,25 +89,12 @@ const proxy = async request => {
     const method = request.method;
     const headers = JSON.stringify(Object.fromEntries([...request.headers]));
     const body = await request.clone().text();
-    const array = [url, method];
-    const is_api = url.includes('/api/?/');
-    if (is_api) {
-        array.push(md5(headers));
-    }
-    if (method == 'POST') {
-        array.push(md5(body));
-    }
-    const new_request = new Request(array.join('/'));
+    const new_request = new Request([url, method, md5(headers), md5(body)].join('/'));
 
     // Prepare the order list used to solve the request
     let order = request.headers.get('proxy');
     if (order === null) {
-        const is_index = url.includes('/#/');
-        if (is_api || is_index) {
-            order = 'network,cache';
-        } else {
-            order = 'cache,network';
-        }
+        order = 'network,cache';
     }
     order = order.split(',');
 
