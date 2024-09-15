@@ -76,6 +76,12 @@ const debug = (url, type, duration) => {
  * This function receives a request to do a fetch or try to use a cached result
  * if a network error occurs, if no response is available, a json error is returned
  * to the application layer
+ *
+ * This function can perform actions like fetch, cache, queue or error, in each
+ * case, tries to execute each part using the order defined by the proxy header
+ * that can be added from the layer application ajax call
+ *
+ * @request => the request that must to be processed
  */
 const proxy = async request => {
     // Prepare new_request for cache usage
@@ -167,9 +173,10 @@ const proxy = async request => {
 };
 
 /**
- * TODO
+ * Queue open
  *
- * TODO
+ * This function returns a promise to the store object that can be used
+ * in the add, delete or getAll features.
  */
 const queue_open = () => {
     return new Promise((resolve, reject) => {
@@ -198,9 +205,11 @@ const queue_open = () => {
 };
 
 /**
- * TODO
+ * Queue push
  *
- * TODO
+ * This function adds an entry to the queue system
+ *
+ * @data => the object that you want to store in the database
  */
 const queue_push = data => {
     queue_open().then(store => {
@@ -211,9 +220,10 @@ const queue_push = data => {
 };
 
 /**
- * TODO
+ * Queue getall
  *
- * TODO
+ * This function returns all entries of the queue using the fifo
+ * order
  */
 const queue_getall = () => {
     return new Promise((resolve, reject) => {
@@ -241,9 +251,11 @@ const queue_getall = () => {
 };
 
 /**
- * TODO
+ * Queue delete
  *
- * TODO
+ * This function allow to delete the entry identified by @key
+ *
+ * @key => the primaryKey that you want to delete
  */
 const queue_delete = key => {
     queue_open().then(store => {
@@ -254,9 +266,12 @@ const queue_delete = key => {
 };
 
 /**
- * TODO
+ * Request serialize
  *
- * TODO
+ * This function allow to gets a request and returns an object
+ * that can be stored in an indexedDB
+ *
+ * @request => the request that must to be converted into an object
  */
 const request_serialize = async request => {
     return {
@@ -268,9 +283,12 @@ const request_serialize = async request => {
 };
 
 /**
- * TODO
+ * Request unserialize
  *
- * TODO
+ * This function allow to convert an object stored in an indexedDB
+ * into a valid request that can be used in fetch operations
+ *
+ * @request => the object that must to be converted into a request
  */
 const request_unserialize = request => {
     return new Request(request.url, {
