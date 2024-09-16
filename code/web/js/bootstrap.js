@@ -108,8 +108,8 @@ saltos.bootstrap = {};
  */
 saltos.bootstrap.field = field => {
     // Fix when some attributes need the fix_key feature
-    for (var key in field) {
-        var new_key = saltos.core.fix_key(key);
+    for (const key in field) {
+        const new_key = saltos.core.fix_key(key);
         if (new_key != key && !field.hasOwnProperty(new_key)) {
             field[new_key] = field[key];
             delete field[key];
@@ -151,8 +151,10 @@ saltos.bootstrap.__field = {};
  */
 saltos.bootstrap.__field.div = field => {
     saltos.core.check_params(field, ['class', 'id', 'style']);
-    var obj = saltos.core.html(`<div class="${field.class}" id="${field.id}" style="${field.style}"></div>`);
-    for (var i in field) {
+    const obj = saltos.core.html(`
+        <div class="${field.class}" id="${field.id}" style="${field.style}"></div>
+    `);
+    for (const i in field) {
         if (obj.hasAttribute(i)) {
             continue;
         }
@@ -179,9 +181,9 @@ saltos.bootstrap.__field.container = field => {
     if (field.class == '') {
         field.class = 'container-fluid';
     }
-    var obj = saltos.bootstrap.__field.div(field);
+    const obj = saltos.bootstrap.__field.div(field);
     // Checks to guarantee that some container class is found
-    var found = false;
+    let found = false;
     obj.classList.forEach(_this => {
         if (['container', 'd-none'].includes(_this)) {
             found = true;
@@ -211,9 +213,9 @@ saltos.bootstrap.__field.row = field => {
     if (field.class == '') {
         field.class = 'row';
     }
-    var obj = saltos.bootstrap.__field.div(field);
+    const obj = saltos.bootstrap.__field.div(field);
     // Checks to guarantee that some row class is found
-    var found = false;
+    let found = false;
     obj.classList.forEach(_this => {
         if (['row', 'd-none'].includes(_this)) {
             found = true;
@@ -243,9 +245,9 @@ saltos.bootstrap.__field.col = field => {
     if (field.class == '') {
         field.class = 'col';
     }
-    var obj = saltos.bootstrap.__field.div(field);
+    const obj = saltos.bootstrap.__field.div(field);
     // Checks to guarantee that some col class is found
-    var found = false;
+    let found = false;
     obj.classList.forEach(_this => {
         if (['col', 'd-none'].includes(_this)) {
             found = true;
@@ -272,7 +274,7 @@ saltos.bootstrap.__field.col = field => {
  */
 saltos.bootstrap.__field.hr = field => {
     saltos.core.check_params(field, ['class', 'id', 'style']);
-    var obj = saltos.core.html(`<hr class="${field.class}" id="${field.id}" style="${field.style}"/>`);
+    const obj = saltos.core.html(`<hr class="${field.class}" id="${field.id}" style="${field.style}"/>`);
     return obj;
 };
 
@@ -307,7 +309,7 @@ saltos.bootstrap.__field.hr = field => {
 saltos.bootstrap.__field.text = field => {
     saltos.core.check_params(field, ['datalist'], []);
     field.type = 'text';
-    var obj = saltos.core.html(`<div></div>`);
+    let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__text_helper(field));
     if (field.datalist.length) {
@@ -315,8 +317,8 @@ saltos.bootstrap.__field.text = field => {
             field.datalist_old = field.datalist;
             field.datalist = [];
             obj.querySelector('input').addEventListener('input', saltos.core.delay(event => {
-                var value = event.target.value;
-                var old_value = event.target.getAttribute('old_value');
+                const value = event.target.value;
+                const old_value = event.target.getAttribute('old_value');
                 if (value == old_value || value == '') {
                     return;
                 }
@@ -333,8 +335,8 @@ saltos.bootstrap.__field.text = field => {
                         if (!saltos.app.check_response(response)) {
                             return;
                         }
-                        for (var key in response.data) {
-                            var val = response.data[key];
+                        for (const key in response.data) {
+                            const val = response.data[key];
                             if (typeof val == 'object') {
                                 obj.querySelector('datalist')
                                     .append(saltos.core.html(`<option value="${val.label}" />`));
@@ -354,8 +356,8 @@ saltos.bootstrap.__field.text = field => {
         }
         obj.querySelector('input').setAttribute('list', field.id + '_datalist');
         obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
-        for (var key in field.datalist) {
-            var val = field.datalist[key];
+        for (const key in field.datalist) {
+            const val = field.datalist[key];
             obj.querySelector('datalist').append(saltos.core.html(`<option value="${val}" />`));
         }
     }
@@ -391,7 +393,7 @@ saltos.bootstrap.__field.text = field => {
  */
 saltos.bootstrap.__field.hidden = field => {
     field.type = 'hidden';
-    var obj = saltos.bootstrap.__text_helper(field);
+    const obj = saltos.bootstrap.__text_helper(field);
     return obj;
 };
 
@@ -426,9 +428,9 @@ saltos.bootstrap.__field.hidden = field => {
 saltos.bootstrap.__field.integer = field => {
     saltos.core.require('lib/imaskjs/imask.min.js');
     field.type = 'text';
-    var obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
-    var element = obj;
+    const element = obj;
     saltos.core.when_visible(element, () => {
         IMask(element, {
             mask: Number,
@@ -470,9 +472,9 @@ saltos.bootstrap.__field.integer = field => {
 saltos.bootstrap.__field.float = field => {
     saltos.core.require('lib/imaskjs/imask.min.js');
     field.type = 'text';
-    var obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
-    var element = obj;
+    const element = obj;
     saltos.core.when_visible(element, () => {
         IMask(element, {
             mask: Number,
@@ -518,7 +520,7 @@ saltos.bootstrap.__field.color = field => {
     }
     field.type = 'color';
     field.class = 'form-control-color';
-    var obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__text_helper(field);
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -546,7 +548,7 @@ saltos.bootstrap.__field.color = field => {
  */
 saltos.bootstrap.__field.date = field => {
     field.type = 'date';
-    var obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__text_helper(field);
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -574,7 +576,7 @@ saltos.bootstrap.__field.date = field => {
  */
 saltos.bootstrap.__field.time = field => {
     field.type = 'time';
-    var obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__text_helper(field);
     obj.step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
@@ -603,7 +605,7 @@ saltos.bootstrap.__field.time = field => {
  */
 saltos.bootstrap.__field.datetime = field => {
     field.type = 'datetime-local';
-    var obj = saltos.bootstrap.__text_helper(field);
+    let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'datetime';
     obj.step = 1; // This enable the seconds
     obj = saltos.bootstrap.__label_combine(field, obj);
@@ -640,10 +642,10 @@ saltos.bootstrap.__field.datetime = field => {
 saltos.bootstrap.__field.textarea = field => {
     saltos.core.require('lib/autoheight/autoheight.min.js');
     saltos.core.check_params(field, ['height']);
-    var obj = saltos.core.html(`<div></div>`);
+    let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
-    var element = obj.querySelector('textarea');
+    const element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
         autoheight(element);
     });
@@ -688,7 +690,7 @@ saltos.bootstrap.__field.textarea = field => {
 saltos.bootstrap.__field.ckeditor = field => {
     saltos.core.require('lib/ckeditor/ckeditor.min.js');
     // Language prefetch
-    var lang = saltos.gettext.get_short();
+    const lang = saltos.gettext.get_short();
     if (lang != 'en') {
         saltos.core.require(`lib/ckeditor/translations/${lang}.js`);
     }
@@ -697,10 +699,10 @@ saltos.bootstrap.__field.ckeditor = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var obj = saltos.core.html(`<div></div>`);
+    const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
-    var element = obj.querySelector('textarea');
+    const element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
         ClassicEditor.create(element, {
             language: lang,
@@ -727,8 +729,8 @@ saltos.bootstrap.__field.ckeditor = field => {
             });
             // I maintain the follow commented lines as an example of usage
             /*editor.on('change:isReadOnly', (evt, propertyName, isReadOnly) => {
-                var toolbar = editor.ui.view.toolbar.element;
-                var editable = editor.ui.view.editable.element;
+                const toolbar = editor.ui.view.toolbar.element;
+                const editable = editor.ui.view.editable.element;
                 if (isReadOnly) {
                     toolbar.classList.add('bg-body-secondary');
                     editable.classList.add('bg-body-secondary');
@@ -807,12 +809,12 @@ saltos.bootstrap.__field.codemirror = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var obj = saltos.core.html(`<div></div>`);
+    const obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
-    var element = obj.querySelector('textarea');
+    const element = obj.querySelector('textarea');
     saltos.core.when_visible(element, () => {
-        var cm = CodeMirror.fromTextArea(element, {
+        const cm = CodeMirror.fromTextArea(element, {
             mode: field.mode,
             styleActiveLine: true,
             lineNumbers: true,
@@ -874,11 +876,11 @@ saltos.bootstrap.__field.iframe = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    let border = `border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <iframe id="${field.id}" frameborder="0"
             class="form-control p-0 ${border} ${field.class}"></iframe>
     `);
@@ -900,10 +902,10 @@ saltos.bootstrap.__field.iframe = field => {
         obj.style.minHeight = field.height;
     }
     obj.addEventListener('load', event => {
-        var _this = event.target;
+        const _this = event.target;
         window.addEventListener('resize', event => {
             if (_this.contentWindow) {
-                var size = _this.contentWindow.document.documentElement.offsetHeight + 2;
+                const size = _this.contentWindow.document.documentElement.offsetHeight + 2;
                 _this.style.height = size + 'px';
             }
         });
@@ -953,35 +955,35 @@ saltos.bootstrap.__field.select = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange', 'autofocus',
                                      'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
     saltos.core.check_params(field, ['rows'], []);
-    var disabled = '';
+    let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
     }
-    var required = '';
+    let required = '';
     if (saltos.core.eval_bool(field.required)) {
         required = 'required';
     }
-    var autofocus = '';
+    let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
-    var multiple = '';
+    let multiple = '';
     if (saltos.core.eval_bool(field.multiple)) {
         multiple = 'multiple';
     }
-    var size = '';
+    let size = '';
     if (field.size != '') {
         size = `size="${field.size}"`;
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
-    var border = `border border-${color}`;
+    let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <select class="form-select ${border} ${field.class}" id="${field.id}"
             ${disabled} ${required} ${autofocus} ${multiple} ${size}
             data-bs-accesskey="${field.accesskey}" data-bs-title="${field.tooltip}"></select>
@@ -992,14 +994,14 @@ saltos.bootstrap.__field.select = field => {
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }
-    for (var key in field.rows) {
-        var val = saltos.core.join_attr_value(field.rows[key]);
+    for (const key in field.rows) {
+        const val = saltos.core.join_attr_value(field.rows[key]);
         saltos.core.check_params(val, ['label', 'value']);
-        var selected = '';
+        let selected = '';
         if (field.value.toString() == val.value.toString()) {
             selected = 'selected';
         }
-        var option = saltos.core.html(`<option value="${val.value}" ${selected}></option>`);
+        const option = saltos.core.html(`<option value="${val.value}" ${selected}></option>`);
         option.append(val.label);
         obj.append(option);
     }
@@ -1049,7 +1051,7 @@ saltos.bootstrap.__field.multiselect = field => {
     if (!field.separator) {
         field.separator = ',';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div class="container-fluid">
             <div class="row">
                 <div class="col px-0 one d-flex">
@@ -1082,7 +1084,7 @@ saltos.bootstrap.__field.multiselect = field => {
                     obj.querySelector('#' + field.id + '_xyz').append(option);
                 }
             });
-            var val = [];
+            const val = [];
             obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
                 val.push(option.value);
             });
@@ -1101,7 +1103,7 @@ saltos.bootstrap.__field.multiselect = field => {
                     obj.querySelector('#' + field.id + '_abc').append(option);
                 }
             });
-            var val = [];
+            const val = [];
             obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
                 val.push(option.value);
             });
@@ -1123,8 +1125,8 @@ saltos.bootstrap.__field.multiselect = field => {
     });
     // Program the set feature
     obj.querySelector('input[type=hidden]').set = value => {
-        var values = value.split(field.separator);
-        for (var key in values) {
+        const values = value.split(field.separator);
+        for (const key in values) {
             values[key] = values[key].trim();
         }
         obj.querySelectorAll('#' + field.id + '_abc option').forEach(option => {
@@ -1137,7 +1139,7 @@ saltos.bootstrap.__field.multiselect = field => {
                 obj.querySelector('#' + field.id + '_abc').append(option);
             }
         });
-        var val = [];
+        const val = [];
         obj.querySelectorAll('#' + field.id + '_xyz option').forEach(option => {
             val.push(option.value);
         });
@@ -1146,7 +1148,7 @@ saltos.bootstrap.__field.multiselect = field => {
     obj.querySelector('input[type=hidden]').set(field.value);
     // Program the disabled feature
     obj.querySelector('input[type=hidden]').set_disabled = bool => {
-        var temp = obj.querySelector('#' + field.id).parentElement.parentElement;
+        const temp = obj.querySelector('#' + field.id).parentElement.parentElement;
         temp.querySelectorAll('select,button').forEach(_this => {
             _this.set_disabled(bool);
         });
@@ -1180,35 +1182,35 @@ saltos.bootstrap.__field.multiselect = field => {
 saltos.bootstrap.__field.checkbox = field => {
     saltos.core.check_params(field, ['value', 'id', 'disabled', 'readonly', 'required', 'onchange',
                                      'label', 'tooltip', 'class', 'accesskey', 'color']);
-    var disabled = '';
+    let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
     }
-    var readonly = '';
+    let readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
         readonly = 'readonly';
     }
-    var required = '';
+    let required = '';
     if (saltos.core.eval_bool(field.required)) {
         required = 'required';
     }
-    var value = 0;
+    let value = 0;
     if (saltos.core.eval_bool(field.value)) {
         value = 1;
     }
-    var checked = '';
+    let checked = '';
     if (value) {
         checked = 'checked';
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
-    var border = `border border-${color}`;
+    let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div class="form-check ${field.class}">
             <input class="form-check-input ${border}" type="checkbox" id="${field.id}"
                 value="${value}" ${disabled} ${readonly} ${required} ${checked}
@@ -1231,7 +1233,7 @@ saltos.bootstrap.__field.checkbox = field => {
         event.target.value = event.target.checked ? 1 : 0;
     });
     obj.querySelector('input').set = bool => {
-        var input = obj.querySelector('input');
+        const input = obj.querySelector('input');
         if (saltos.core.eval_bool(bool)) {
             input.checked = true;
             input.value = 1;
@@ -1265,7 +1267,7 @@ saltos.bootstrap.__field.checkbox = field => {
  * This widget uses the checkbox constructor
  */
 saltos.bootstrap.__field.switch = field => {
-    var obj = saltos.bootstrap.__field.checkbox(field);
+    const obj = saltos.bootstrap.__field.checkbox(field);
     obj.classList.add('form-switch');
     obj.querySelector('input').setAttribute('role', 'switch');
     obj.querySelector('input').classList.add('rounded-pill'); // to do more pretty with cosmo
@@ -1300,30 +1302,30 @@ saltos.bootstrap.__field.button = field => {
     saltos.core.check_params(field, ['class', 'id', 'disabled', 'autofocus', 'autoclose',
                                      'onclick', 'tooltip', 'icon', 'label', 'accesskey',
                                      'color', 'collapse', 'target', 'addbr']);
-    var disabled = '';
-    var _class = '';
+    let disabled = '';
+    let _class = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
         _class = ' opacity-25';
     }
-    var autofocus = '';
+    let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
-    var autoclose = '';
+    let autoclose = '';
     if (saltos.core.eval_bool(field.autoclose)) {
         autoclose = 'autoclose';
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
-    var collapse = '';
+    let collapse = '';
     if (saltos.core.eval_bool(field.collapse)) {
         collapse = `data-bs-toggle="collapse" data-bs-target="#${field.target}"
             aria-controls="${field.target}" aria-expanded="false"`;
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <button type="button" id="${field.id}" ${disabled} ${autofocus} ${autoclose}
             class="btn btn-${color} focus-ring focus-ring-${color} ${field.class} ${_class}"
             data-bs-accesskey="${field.accesskey}" ${collapse}
@@ -1350,7 +1352,7 @@ saltos.bootstrap.__field.button = field => {
         }
     };
     if (saltos.core.eval_bool(field.addbr)) {
-        var obj2 = saltos.core.html(`<div><label class="form-label">&nbsp;</label><br/></div>`);
+        const obj2 = saltos.core.html(`<div><label class="form-label">&nbsp;</label><br/></div>`);
         obj2.append(obj);
         return obj2;
     }
@@ -1392,31 +1394,31 @@ saltos.bootstrap.__field.password = field => {
                                      'onenter', 'onchange', 'readonly', 'required',
                                      'autofocus', 'tooltip', 'accesskey', 'color']);
     saltos.core.check_params(field, ['autocomplete'], true);
-    var disabled = '';
+    let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
     }
-    var readonly = '';
+    let readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
         readonly = 'readonly';
     }
-    var required = '';
+    let required = '';
     if (saltos.core.eval_bool(field.required)) {
         required = 'required';
     }
-    var autofocus = '';
+    let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
-    var border = `border border-${color}`;
+    let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div>
             <div class="input-group">
                 <input type="password" class="form-control ${border} ${field.class}"
@@ -1431,9 +1433,9 @@ saltos.bootstrap.__field.password = field => {
     `);
     if (!saltos.core.eval_bool(field.autocomplete)) {
         // Trick to prevent the browser password manager
-        for (var i = 0; i < 10; i++) {
-            var name = saltos.core.uniqid();
-            var value = saltos.core.uniqid();
+        for (let i = 0; i < 10; i++) {
+            const name = saltos.core.uniqid();
+            const value = saltos.core.uniqid();
             obj.append(saltos.core.html(`
                 <input type="password" name="${name}" value="${value}" class="d-none"/>
             `));
@@ -1456,7 +1458,7 @@ saltos.bootstrap.__field.password = field => {
         });
     }
     obj.querySelector('button').addEventListener('click', event => {
-        var input = event.target.parentElement.querySelector('input[type=password], input[type=text]');
+        const input = event.target.parentElement.querySelector('input[type=password], input[type=text]');
         switch (input.type) {
             case 'password':
                 input.type = 'text';
@@ -1505,33 +1507,33 @@ saltos.bootstrap.__field.password = field => {
 saltos.bootstrap.__field.file = field => {
     saltos.core.check_params(field, ['class', 'id', 'value', 'data', 'disabled', 'required', 'onchange',
                                      'autofocus', 'multiple', 'tooltip', 'accesskey', 'color']);
-    var disabled = '';
+    let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
     }
-    var required = '';
+    let required = '';
     if (saltos.core.eval_bool(field.required)) {
         required = 'required';
     }
-    var autofocus = '';
+    let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
-    var multiple = '';
+    let multiple = '';
     if (saltos.core.eval_bool(field.multiple)) {
         multiple = 'multiple';
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
-    var border1 = `border border-${color}`;
-    var border2 = `border-${color}`;
+    let border1 = `border border-${color}`;
+    let border2 = `border-${color}`;
     if (field.color == 'none') {
         border1 = 'border-0';
         border2 = '';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div>
             <input type="file" class="form-control ${border1} ${field.class}" id="${field.id}"
                 ${disabled} ${required} ${autofocus} ${multiple}
@@ -1561,9 +1563,9 @@ saltos.bootstrap.__field.file = field => {
         });
     }
     // This helper programs the input file data update
-    var __update_data_input_file = input => {
-        var data = [];
-        var tabla = input.nextElementSibling.querySelector('table');
+    const __update_data_input_file = input => {
+        const data = [];
+        const tabla = input.nextElementSibling.querySelector('table');
         tabla.querySelectorAll('tr').forEach(_this => {
             data.push(_this.data);
         });
@@ -1571,10 +1573,10 @@ saltos.bootstrap.__field.file = field => {
     };
     __update_data_input_file(obj.querySelector('input'));
     // This helper programs the delete file button
-    var __button_remove_file = event => {
-        var row = event.target.parentElement.parentElement;
-        var table = row.parentElement.parentElement;
-        var input = table.parentElement.previousElementSibling;
+    const __button_remove_file = event => {
+        const row = event.target.parentElement.parentElement;
+        const table = row.parentElement.parentElement;
+        const input = table.parentElement.previousElementSibling;
         saltos.core.ajax({
             url: 'api/?/upload/delfile',
             data: JSON.stringify(row.data),
@@ -1603,11 +1605,11 @@ saltos.bootstrap.__field.file = field => {
         });
     };
     // This helper paints each row of the table
-    var __add_row_file = (input, table, file) => {
+    const __add_row_file = (input, table, file) => {
         // Show the table
         table.classList.remove('d-none');
         // Add the row for the new file
-        var row = saltos.core.html('tbody', `
+        const row = saltos.core.html('tbody', `
             <tr id="${file.id}">
                 <td class="text-break">${file.name}</td>
                 <td class="w-25 align-middle">
@@ -1631,12 +1633,12 @@ saltos.bootstrap.__field.file = field => {
     };
     // Program the automatic upload
     obj.querySelector('input').addEventListener('change', async event => {
-        var input = event.target;
-        var files = event.target.files;
-        var table = event.target.nextElementSibling.querySelector('table');
-        for (var i = 0; i < files.length; i++) {
+        const input = event.target;
+        const files = event.target.files;
+        const table = event.target.nextElementSibling.querySelector('table');
+        for (let i = 0; i < files.length; i++) {
             // Prepare the data to send
-            var data = {
+            const data = {
                 id: saltos.core.uniqid(),
                 app: saltos.hash.get(),
                 name: files[i].name,
@@ -1648,9 +1650,9 @@ saltos.bootstrap.__field.file = field => {
                 hash: '',
             };
             // Add the row to the table
-            var row = __add_row_file(input, table, data);
+            const row = __add_row_file(input, table, data);
             // Get the local file using syncronous techniques
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.readAsDataURL(files[i]);
             while (!reader.result && !reader.error) {
                 await new Promise(resolve => setTimeout(resolve, 1));
@@ -1677,7 +1679,7 @@ saltos.bootstrap.__field.file = field => {
                         },
                         progress: event => {
                             if (event.lengthComputable) {
-                                var percent = Math.round((event.loaded / event.total) * 100);
+                                const percent = Math.round((event.loaded / event.total) * 100);
                                 row.querySelector('.progress-bar').style.width = percent + '%';
                                 row.querySelector('.progress').setAttribute('aria-valuenow', percent);
                             }
@@ -1697,11 +1699,11 @@ saltos.bootstrap.__field.file = field => {
     });
     // Program the set function
     obj.querySelector('input').set = data => {
-        for (var i in data) {
-            var input = obj.querySelector('input');
-            var table = input.nextElementSibling.querySelector('table');
-            var row = __add_row_file(input, table, data[i]);
-            var percent = 100;
+        for (const i in data) {
+            const input = obj.querySelector('input');
+            const table = input.nextElementSibling.querySelector('table');
+            const row = __add_row_file(input, table, data[i]);
+            const percent = 100;
             row.querySelector('.progress-bar').style.width = percent + '%';
             row.querySelector('.progress').setAttribute('aria-valuenow', percent);
         }
@@ -1746,7 +1748,7 @@ saltos.bootstrap.__field.file = field => {
  */
 saltos.bootstrap.__field.link = field => {
     field.color = 'link';
-    var obj = saltos.bootstrap.__field.button(field);
+    const obj = saltos.bootstrap.__field.button(field);
     return obj;
 };
 
@@ -1762,7 +1764,7 @@ saltos.bootstrap.__field.link = field => {
  */
 saltos.bootstrap.__field.label = field => {
     saltos.core.check_params(field, ['id', 'class', 'label', 'tooltip']);
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <label for="${field.id}" class="form-label ${field.class}"
             data-bs-title="${field.tooltip}">${field.label}</label>
     `);
@@ -1796,11 +1798,11 @@ saltos.bootstrap.__field.image = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    let border = `border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <img id="${field.id}" src="${field.value}" class="${border} ${field.class}" alt="${field.alt}"
             data-bs-title="${field.tooltip}" width="${field.width}" height="${field.height}" />
     `);
@@ -1855,16 +1857,16 @@ saltos.bootstrap.__field.excel = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    let border = `border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div style="width: 100%; height: 100%; overflow: auto" class="${border}">
             <div></div>
         </div>
     `);
-    var input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
+    const input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
     obj.prepend(input);
     field.numcols = parseInt(field.numcols);
     field.numrows = parseInt(field.numrows);
@@ -1900,9 +1902,9 @@ saltos.bootstrap.__field.excel = field => {
         field.colWidths = parseInt(field.colWidths);
     }
     input.data = saltos.core.copy_object(field.data);
-    var element = obj.querySelector('div');
+    const element = obj.querySelector('div');
     saltos.core.when_visible(element, () => {
-        var excel = new Handsontable(element, {
+        const excel = new Handsontable(element, {
             data: input.data, // This links the data
             rowHeaders: field.rowHeaders,
             colHeaders: field.colHeaders,
@@ -2004,7 +2006,7 @@ saltos.bootstrap.__field.pdfjs = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div id="${field.id}" class="${field.class}">
             <div class="viewerContainer">
                 <div class="pdfViewer"></div>
@@ -2030,23 +2032,24 @@ saltos.bootstrap.__field.pdfjs = field => {
             }
         </style>
     `));
-    var element = obj.querySelector('.viewerContainer');
+    const element = obj.querySelector('.viewerContainer');
     saltos.core.when_visible(element, () => {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.src).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
                 return;
             }
-            var container = element;
-            var eventBus = new pdfjsViewer.EventBus();
-            var pdfViewer = new pdfjsViewer.PDFViewer({
+            const container = element;
+            const eventBus = new pdfjsViewer.EventBus();
+            const pdfViewer = new pdfjsViewer.PDFViewer({
                 container: container,
                 eventBus: eventBus,
             });
             eventBus.on('pagesinit', () => {
-                var modal = document.querySelector('.modal');
+                const modal = document.querySelector('.modal');
+                let scrollTop;
                 if (modal) {
-                    var scrollTop = modal.scrollTop;
+                    scrollTop = modal.scrollTop;
                 }
                 pdfViewer.currentScaleValue = 'auto';
                 if (modal) {
@@ -2068,9 +2071,10 @@ saltos.bootstrap.__field.pdfjs = field => {
             pdfViewer.setDocument(pdfDocument);
             container.style.position = 'relative';
             window.addEventListener('resize', event => {
-                var modal = document.querySelector('.modal');
+                const modal = document.querySelector('.modal');
+                let scrollTop;
                 if (modal) {
-                    var scrollTop = modal.scrollTop;
+                    scrollTop = modal.scrollTop;
                 }
                 pdfViewer.currentScaleValue = 'auto';
                 if (modal) {
@@ -2151,7 +2155,7 @@ saltos.bootstrap.__field.table = field => {
     }
     // This creates a responsive table (a table inside a div with table-responsive class)
     // We are using the same div to put inside the overlodaded styles of the table
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div id="${field.id}" class="table-responsive">
             <table class="table table-striped table-hover border-${field.color} ${field.class} mb-0">
             </table>
@@ -2170,7 +2174,7 @@ saltos.bootstrap.__field.table = field => {
                 `<th class="text-bg-${field.color}" style="width: 1%"><input type="checkbox" /></th>`
             ));
             obj.querySelector('thead input[type=checkbox]').addEventListener('change', event => {
-                var _this = event.target;
+                const _this = event.target;
                 obj.querySelectorAll('tbody input[type=checkbox]').forEach(_this2 => {
                     if (_this2.checked != _this.checked) {
                         _this2.click();
@@ -2185,13 +2189,14 @@ saltos.bootstrap.__field.table = field => {
                 event.stopPropagation();
             });
         }
-        for (var key in field.header) {
+        for (const key in field.header) {
             field.header[key] = saltos.core.join_attr_value(field.header[key]);
-            var val = field.header[key];
+            const val = field.header[key];
+            let th;
             if (typeof val == 'object' && val !== null) {
-                var th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val.label}</th>`);
+                th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val.label}</th>`);
             } else {
-                var th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val}</th>`);
+                th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val}</th>`);
             }
             if (val.hasOwnProperty('align')) {
                 th.classList.add('text-' + val.align);
@@ -2199,7 +2204,7 @@ saltos.bootstrap.__field.table = field => {
             obj.querySelector('thead tr').append(th);
         }
         if (field.data.length && field.data[0].hasOwnProperty('actions')) {
-            var th = saltos.core.html('tr', `<th class="text-bg-${field.color}" style="width: 1%"></th>`);
+            const th = saltos.core.html('tr', `<th class="text-bg-${field.color}" style="width: 1%"></th>`);
             obj.querySelector('thead tr').append(th);
         }
     }
@@ -2209,14 +2214,14 @@ saltos.bootstrap.__field.table = field => {
             </tbody>
         `));
         // This function close all dropdowns
-        var dropdown_close = () => {
+        const dropdown_close = () => {
             obj.querySelectorAll('.show').forEach(_this => {
                 _this.classList.remove('show');
             });
         };
-        for (var key in field.data) {
-            var val = field.data[key];
-            var row = saltos.core.html('tbody', `<tr></tr>`);
+        for (const key in field.data) {
+            const val = field.data[key];
+            const row = saltos.core.html('tbody', `<tr></tr>`);
             if (field.checkbox) {
                 row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}" /></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
@@ -2240,11 +2245,11 @@ saltos.bootstrap.__field.table = field => {
                         saltos.bootstrap.__checkbox_id2 = event.target.value;
                     }
                     if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
-                        var obj = event.target.parentElement.parentElement.parentElement;
-                        var nodes = obj.querySelectorAll('input[type=checkbox][value]');
-                        var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
+                        const obj = event.target.parentElement.parentElement.parentElement;
+                        const nodes = obj.querySelectorAll('input[type=checkbox][value]');
+                        const ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
                         // Check that the two ids are presents
-                        var count = 0;
+                        let count = 0;
                         nodes.forEach(_this => {
                             if (ids.includes(_this.value)) {
                                 count++;
@@ -2252,7 +2257,7 @@ saltos.bootstrap.__field.table = field => {
                         });
                         // If the two ids are present, then apply
                         if (count == 2) {
-                            var found = false;
+                            let found = false;
                             nodes.forEach(_this => {
                                 if (ids.includes(_this.value)) {
                                     found = !found;
@@ -2271,7 +2276,7 @@ saltos.bootstrap.__field.table = field => {
                     event.stopPropagation();
                 });
                 row.addEventListener('click', event => {
-                    var obj = event.target.parentElement.querySelector('input[type=checkbox]');
+                    const obj = event.target.parentElement.querySelector('input[type=checkbox]');
                     if (obj) {
                         // ctrlKey propagation is important to allow the multiple selection feature
                         obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
@@ -2280,37 +2285,37 @@ saltos.bootstrap.__field.table = field => {
                 });
             }
             // This is to allow to use tables with data and without header
-            var iterator = field.header;
+            let iterator = field.header;
             if (!Object.keys(iterator).length) {
                 iterator = val;
             }
-            for (var key2 in iterator) {
-                var val2 = val[key2];
-                var td = saltos.core.html('tr', `<td></td>`);
+            for (const key2 in iterator) {
+                let val2 = val[key2];
+                const td = saltos.core.html('tr', `<td></td>`);
                 if (typeof val2 == 'object' && val2 !== null) {
                     if (val2.hasOwnProperty('type')) {
-                        var temp = saltos.bootstrap.field(val2);
+                        const temp = saltos.bootstrap.field(val2);
                         td.append(temp);
                     } else {
-                        var temp = `object without type`;
+                        const temp = `object without type`;
                         td.append(temp);
                     }
                 } else {
                     val2 = saltos.core.toString(val2);
-                    var type = 'text';
+                    let type = 'text';
                     if (iterator[key2].hasOwnProperty('type')) {
                         type = iterator[key2].type;
                     }
                     switch (type) {
                         case 'icon':
                             if (val2) {
-                                var temp = saltos.core.html(`<i class="bi bi-${val2}"></i>`);
+                                const temp = saltos.core.html(`<i class="bi bi-${val2}"></i>`);
                                 td.append(temp);
                             }
                             break;
                         case 'html':
                             if (val2) {
-                                var temp = saltos.core.html(val2);
+                                const temp = saltos.core.html(val2);
                                 td.append(temp);
                             }
                             break;
@@ -2320,7 +2325,7 @@ saltos.bootstrap.__field.table = field => {
                             }
                             break;
                         default:
-                            var temp = `unknown type ${type}`;
+                            const temp = `unknown type ${type}`;
                             td.append(temp);
                             break;
                     }
@@ -2338,8 +2343,8 @@ saltos.bootstrap.__field.table = field => {
                 row.append(td);
             }
             if (val.hasOwnProperty('actions')) {
-                var td = saltos.core.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
-                var dropdown = val.actions.length > 1;
+                const td = saltos.core.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
+                let dropdown = val.actions.length > 1;
                 if (field.dropdown != '') {
                     dropdown = saltos.core.eval_bool(field.dropdown);
                 }
@@ -2356,9 +2361,9 @@ saltos.bootstrap.__field.table = field => {
                     // This close all dropdowns when a new dropdown appear
                     td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', dropdown_close);
                 }
-                var first_action = true;
-                for (var key2 in val.actions) {
-                    var val2 = val.actions[key2];
+                let first_action = true;
+                for (const key2 in val.actions) {
+                    const val2 = val.actions[key2];
                     if (val2.url == '') {
                         val2.disabled = true;
                     } else {
@@ -2384,12 +2389,12 @@ saltos.bootstrap.__field.table = field => {
                         first_action = false;
                     }
                     val2.color = 'none';
-                    var button = saltos.bootstrap.__field.button(val2);
+                    const button = saltos.bootstrap.__field.button(val2);
                     if (dropdown) {
                         button.classList.replace('btn', 'dropdown-item');
                         // This close all dropdowns when click an option inside a dropdown
                         button.addEventListener('click', dropdown_close);
-                        var li = saltos.core.html(`<li></li>`);
+                        const li = saltos.core.html(`<li></li>`);
                         li.append(button);
                         td.querySelector('ul').append(li);
                     } else {
@@ -2420,17 +2425,18 @@ saltos.bootstrap.__field.table = field => {
                 ));
             }
             // This is to allow to use tables with footer and without header
-            var iterator = field.header;
+            let iterator = field.header;
             if (!Object.keys(iterator).length) {
                 iterator = field.footer;
             }
-            for (var key in iterator) {
+            for (const key in iterator) {
                 field.footer[key] = saltos.core.join_attr_value(field.footer[key]);
-                var val = field.footer[key];
+                const val = field.footer[key];
+                let td;
                 if (typeof val == 'object' && val !== null) {
-                    var td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val.value}</td>`);
+                    td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val.value}</td>`);
                 } else {
-                    var td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val}</td>`);
+                    td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val}</td>`);
                 }
                 if (iterator[key].hasOwnProperty('align')) {
                     td.classList.add('text-' + iterator[key].align);
@@ -2493,7 +2499,7 @@ saltos.bootstrap.__field.alert = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div class="alert alert-${field.color} ${field.class} mb-0" role="alert" id="${field.id}"></div>
     `);
     if (field.title != '') {
@@ -2555,7 +2561,7 @@ saltos.bootstrap.__field.card = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var obj = saltos.core.html(`<div class="card border-${field.color}" id="${field.id}"></div>`);
+    let obj = saltos.core.html(`<div class="card border-${field.color}" id="${field.id}"></div>`);
     if (field.image != '') {
         obj.append(saltos.core.html(`
             <img src="${field.image}" class="card-img-top" alt="${field.alt}" />
@@ -2611,11 +2617,11 @@ saltos.bootstrap.__field.card = field => {
 saltos.bootstrap.__field.chartjs = field => {
     saltos.core.require('lib/chartjs/chart.umd.min.js');
     saltos.core.check_params(field, ['id', 'mode', 'data']);
-    var obj = saltos.core.html(`<canvas id="${field.id}"></canvas>`);
-    for (var key in field.data.datasets) {
+    let obj = saltos.core.html(`<canvas id="${field.id}"></canvas>`);
+    for (const key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
-    var element = obj;
+    const element = obj;
     saltos.core.when_visible(element, () => {
         new Chart(element, {
             type: field.mode,
@@ -2666,21 +2672,21 @@ saltos.bootstrap.__field.tags = field => {
     }
     // This container must have the hidden input and the text input used by the
     // user to write the tags
-    var obj = saltos.core.html(`<div></div>`);
+    const obj = saltos.core.html(`<div></div>`);
     // The first field is the hidden input
-    var field_first = saltos.core.copy_object(field);
+    const field_first = saltos.core.copy_object(field);
     field_first.class = 'first';
     field_first.required = false;
     obj.append(saltos.bootstrap.__field.hidden(field_first));
     // The last field is the text input used to write the tags
-    var field_last = saltos.core.copy_object(field);
+    const field_last = saltos.core.copy_object(field);
     field_last.id = field.id + '_tags';
     field_last.value = '';
     field_last.class = 'last';
     obj.append(saltos.bootstrap.__field.text(field_last));
     // This function draws a tag and programs the delete of the same tag
-    var fn = val => {
-        var span = saltos.core.html(`
+    const fn = val => {
+        const span = saltos.core.html(`
             <span class="badge text-bg-${field.color} mt-1 me-1 fs-6 fw-normal pe-2" data="${val}">
                 <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
             </span>
@@ -2688,12 +2694,12 @@ saltos.bootstrap.__field.tags = field => {
         span.prepend(val);
         obj.append(span);
         span.querySelector('i').addEventListener('click', event => {
-            var tag = event.target.parentElement;
-            var val = tag.getAttribute('data').trim();
-            var input = obj.querySelector('input.first');
-            var val_old = input.value.split(field.separator);
-            var val_new = [];
-            for (var key in val_old) {
+            const tag = event.target.parentElement;
+            const val = tag.getAttribute('data').trim();
+            const input = obj.querySelector('input.first');
+            const val_old = input.value.split(field.separator);
+            const val_new = [];
+            for (const key in val_old) {
                 val_old[key] = val_old[key].trim();
                 if (![val, ''].includes(val_old[key])) {
                     val_new.push(val_old[key]);
@@ -2709,15 +2715,15 @@ saltos.bootstrap.__field.tags = field => {
         if (![13, 9].includes(saltos.core.get_keycode(event))) {
             return;
         }
-        var input_new = obj.querySelector('input.last');
-        var val = input_new.value.trim();
+        const input_new = obj.querySelector('input.last');
+        const val = input_new.value.trim();
         if (val == '') {
             return;
         }
-        var input = obj.querySelector('input.first');
-        var val_old = input.value.split(field.separator);
-        var val_new = [];
-        for (var key in val_old) {
+        const input = obj.querySelector('input.first');
+        const val_old = input.value.split(field.separator);
+        const val_new = [];
+        for (const key in val_old) {
             val_old[key] = val_old[key].trim();
             if (![val, ''].includes(val_old[key])) {
                 val_new.push(val_old[key]);
@@ -2737,12 +2743,12 @@ saltos.bootstrap.__field.tags = field => {
         obj.querySelectorAll('span.badge').forEach(_this => {
             _this.remove();
         });
-        var value_array = value.split(field.separator);
+        let value_array = value.split(field.separator);
         if (value == '') {
             value_array = [];
         }
-        for (var key in value_array) {
-            var val = value_array[key].trim();
+        for (const key in value_array) {
+            const val = value_array[key].trim();
             fn(val);
         }
     };
@@ -2801,24 +2807,24 @@ saltos.bootstrap.__field.gallery = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var border = `border border-${field.color}`;
+    let border = `border border-${field.color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div id="${field.id}" class="container-fluid">
             <div class="row">
             </div>
         </div>
     `);
     if (typeof field.images == 'object') {
-        for (var key in field.images) {
-            var val = field.images[key];
+        for (const key in field.images) {
+            let val = field.images[key];
             if (typeof val == 'string') {
                 val = {image: val};
             }
             saltos.core.check_params(val, ['image', 'title']);
-            var img = saltos.core.html(`
+            const img = saltos.core.html(`
                 <div class="${field.class} p-1">
                     <a href="${val.image}" class="venobox" data-gall="${field.id}" title="${val.title}">
                         <img src="${val.image}" class="img-fluid img-thumbnail ${border} p-0" />
@@ -2828,9 +2834,9 @@ saltos.bootstrap.__field.gallery = field => {
             obj.querySelector('.row').append(img);
         }
     }
-    var element = obj.querySelector('.row');
+    const element = obj.querySelector('.row');
     saltos.core.when_visible(element, () => {
-        var msnry = new Masonry(element, {
+        const msnry = new Masonry(element, {
             percentPosition: true,
         });
         imagesLoaded(element).on('progress', () => {
@@ -2854,7 +2860,7 @@ saltos.bootstrap.__field.placeholder = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div id="${field.id}" class="w-100 h-100 placeholder-glow text-${field.color}" aria-hidden="true">
             <span class="w-100 h-100 placeholder"></span>
         </div>
@@ -2916,20 +2922,22 @@ saltos.bootstrap.__field.list = field => {
         });
     }
     // Continue
+    let obj;
     if (saltos.core.eval_bool(field.onclick)) {
-        var obj = saltos.core.html(`<div id="${field.id}" class="list-group ${field.class}"></div>`);
+        obj = saltos.core.html(`<div id="${field.id}" class="list-group ${field.class}"></div>`);
     } else {
-        var obj = saltos.core.html(`<ul id="${field.id}" class="list-group ${field.class}"></ul>`);
+        obj = saltos.core.html(`<ul id="${field.id}" class="list-group ${field.class}"></ul>`);
     }
-    for (var key in field.data) {
-        var val = field.data[key];
+    for (const key in field.data) {
+        const val = field.data[key];
         saltos.core.check_params(val, ['header', 'body', 'footer', 'class',
             'header_text', 'header_icon', 'header_color',
             'body_text', 'body_icon', 'body_color',
             'footer_text', 'footer_icon', 'footer_color',
             'onclick', 'url', 'active', 'disabled', 'actions', 'id']);
+        let item;
         if (saltos.core.eval_bool(field.onclick)) {
-            var item = saltos.core.html(`<button
+            item = saltos.core.html(`<button
                 class="list-group-item list-group-item-action ${val.class}"></button>`);
             if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
                 val.actions[0].hasOwnProperty('onclick') && val.actions[0].hasOwnProperty('url')) {
@@ -2942,7 +2950,7 @@ saltos.bootstrap.__field.list = field => {
             saltos.bootstrap.__onclick_helper(item, val.onclick);
             // To prevent that the button remain focused
             /*item.addEventListener('click', event => {
-                var button = event.target.closest('button');
+                const button = event.target.closest('button');
                 button.parentElement.parentElement.querySelectorAll('button').forEach(_this => {
                     _this.classList.remove('active');
                     _this.removeAttribute('aria-current');
@@ -2957,10 +2965,10 @@ saltos.bootstrap.__field.list = field => {
                 item.setAttribute('id', `button_${val.id}`);
             }
         } else {
-            var item = saltos.core.html(`<li class="list-group-item ${val.class}"></li>`);
+            item = saltos.core.html(`<li class="list-group-item ${val.class}"></li>`);
         }
         if (val.header != '') {
-            var temp = saltos.core.html(`
+            const temp = saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1 ${val.class}"></h5>
                 </div>
@@ -2988,7 +2996,7 @@ saltos.bootstrap.__field.list = field => {
             item.append(temp);
         }
         if (val.body != '') {
-            var temp = saltos.core.html(`
+            const temp = saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <p class="mb-1"></p>
                 </div>
@@ -3016,7 +3024,7 @@ saltos.bootstrap.__field.list = field => {
             item.append(temp);
         }
         if (val.footer != '') {
-            var temp = saltos.core.html(`
+            const temp = saltos.core.html(`
                 <div class="d-flex w-100 justify-content-between">
                     <small></small>
                 </div>
@@ -3077,24 +3085,24 @@ saltos.bootstrap.__field.list = field => {
         obj.classList.add('rounded-0');
         saltos.core.when_visible(obj, () => {
             obj.classList.add('position-relative');
-            for (var key in field.data) {
-                var val = field.data[key];
+            for (const key in field.data) {
+                const val = field.data[key];
                 obj.append(saltos.core.html(`
                     <div class="position-absolute p-2">
                         <input class="form-check-input" type="checkbox"
                             value="${val.id}" id="checkbox_${val.id}">
                     </div>
                 `));
-                var button = obj.querySelector(`#button_${val.id}`);
-                var checkbox = obj.querySelector(`#checkbox_${val.id}`);
+                const button = obj.querySelector(`#button_${val.id}`);
+                const checkbox = obj.querySelector(`#checkbox_${val.id}`);
                 checkbox.parentElement.style.height = button.offsetHeight + 'px';
                 checkbox.parentElement.style.top = button.offsetTop + 'px';
-                var width = checkbox.parentElement.offsetWidth;
+                const width = checkbox.parentElement.offsetWidth;
                 button.style.paddingLeft = width + 'px';
                 checkbox.parentElement.style.zIndex = 201;
                 button.style.zIndex = 200;
                 checkbox.addEventListener('change', event => {
-                    var button = event.target.id.replace('checkbox', 'button');
+                    const button = event.target.id.replace('checkbox', 'button');
                     if (event.target.checked) {
                         document.getElementById(button).style.background =
                             'var(--bs-list-group-action-active-bg)';
@@ -3116,11 +3124,11 @@ saltos.bootstrap.__field.list = field => {
                         saltos.bootstrap.__checkbox_id2 = event.target.value;
                     }
                     if (saltos.bootstrap.__checkbox_id1 && saltos.bootstrap.__checkbox_id2) {
-                        var obj = event.target.parentElement.parentElement.parentElement;
-                        var nodes = obj.querySelectorAll('input[type=checkbox][value]');
-                        var ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
+                        const obj = event.target.parentElement.parentElement.parentElement;
+                        const nodes = obj.querySelectorAll('input[type=checkbox][value]');
+                        const ids = [saltos.bootstrap.__checkbox_id1, saltos.bootstrap.__checkbox_id2];
                         // Check that the two ids are presents
-                        var count = 0;
+                        let count = 0;
                         nodes.forEach(_this => {
                             if (ids.includes(_this.value)) {
                                 count++;
@@ -3128,7 +3136,7 @@ saltos.bootstrap.__field.list = field => {
                         });
                         // If the two ids are present, then apply
                         if (count == 2) {
-                            var found = false;
+                            let found = false;
                             nodes.forEach(_this => {
                                 if (ids.includes(_this.value)) {
                                     found = !found;
@@ -3147,7 +3155,7 @@ saltos.bootstrap.__field.list = field => {
                     event.stopPropagation();
                 });
                 checkbox.parentElement.addEventListener('click', event => {
-                    var obj = event.target.querySelector('input[type=checkbox]');
+                    const obj = event.target.querySelector('input[type=checkbox]');
                     if (obj) {
                         // ctrlKey propagation is important to allow the multiple selection feature
                         obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
@@ -3183,27 +3191,27 @@ saltos.bootstrap.__field.list = field => {
 saltos.bootstrap.__field.tabs = field => {
     saltos.core.check_params(field, ['id', 'type']);
     saltos.core.check_params(field, ['items'], []);
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <ul class="nav nav-${field.type} mb-3" id="${field.id}-tab" role="tablist"></ul>
         <div class="tab-content" id="${field.id}-content"></div>
     `);
-    for (var key in field.items) {
-        var val = field.items[key];
+    for (const key in field.items) {
+        let val = field.items[key];
         val = saltos.core.join_attr_value(val);
         saltos.core.check_params(val, ['label', 'content', 'active', 'disabled']);
-        var active = '';
-        var selected = 'false';
-        var show = '';
+        let active = '';
+        let selected = 'false';
+        let show = '';
         if (saltos.core.eval_bool(val.active)) {
             active = 'active';
             selected = 'true';
             show = 'show';
         }
-        var disabled = '';
+        let disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
             disabled = 'disabled';
         }
-        var id = saltos.core.uniqid();
+        const id = saltos.core.uniqid();
         obj.querySelector('ul.nav').append(saltos.core.html(`
             <li class="nav-item" role="presentation">
                 <button class="nav-link ${active} text-nowrap" id="${field.id}-${id}-tab"
@@ -3212,7 +3220,7 @@ saltos.bootstrap.__field.tabs = field => {
                     aria-selected="${selected}" ${disabled}>${val.label}</button>
             </li>
         `));
-        var div = saltos.core.html(`
+        const div = saltos.core.html(`
             <div class="tab-pane fade ${show} ${active}" id="${field.id}-${id}"
                 role="tabpanel" aria-labelledby="${field.id}-${id}-tab" tabindex="0">
             </div>
@@ -3263,37 +3271,37 @@ saltos.bootstrap.__field.pills = field => {
 saltos.bootstrap.__field.vpills = field => {
     saltos.core.check_params(field, ['id']);
     saltos.core.check_params(field, ['items'], []);
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div class="d-flex align-items-start">
             <div class="nav flex-column nav-pills me-3" id="${field.id}-tab"
                 role="tablist" aria-orientation="vertical"></div>
             <div class="tab-content" id="${field.id}-content"></div>
         </div>
     `);
-    for (var key in field.items) {
-        var val = field.items[key];
+    for (let key in field.items) {
+        let val = field.items[key];
         val = saltos.core.join_attr_value(val);
         saltos.core.check_params(val, ['label', 'content', 'active', 'disabled']);
-        var active = '';
-        var selected = 'false';
-        var show = '';
+        let active = '';
+        let selected = 'false';
+        let show = '';
         if (saltos.core.eval_bool(val.active)) {
             active = 'active';
             selected = 'true';
             show = 'show';
         }
-        var disabled = '';
+        let disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
             disabled = 'disabled';
         }
-        var id = saltos.core.uniqid();
+        const id = saltos.core.uniqid();
         obj.querySelector('div.nav').append(saltos.core.html(`
             <button class="nav-link ${active} text-nowrap" id="${field.id}-${id}-tab"
                 data-bs-toggle="pill" data-bs-target="#${field.id}-${id}"
                 type="button" role="tab" aria-controls="${field.id}-${id}"
                 aria-selected="${selected}" ${disabled}>${val.label}</button>
         `));
-        var div = saltos.core.html(`
+        const div = saltos.core.html(`
             <div class="tab-pane fade ${show} ${active}" id="${field.id}-${id}"
                 role="tabpanel" aria-labelledby="${field.id}-${id}-tab" tabindex="0">
             </div>
@@ -3328,27 +3336,27 @@ saltos.bootstrap.__field.accordion = field => {
     if (saltos.core.eval_bool(field.flush)) {
         field.flush = 'accordion-flush';
     }
-    var obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div class="accordion ${field.flush}" id="${field.id}"></div>
     `);
-    for (var key in field.items) {
-        var val = field.items[key];
+    for (const key in field.items) {
+        let val = field.items[key];
         val = saltos.core.join_attr_value(val);
         saltos.core.check_params(val, ['label', 'content', 'active']);
-        var collapsed = 'collapsed';
-        var expanded = 'false';
-        var show = '';
+        let collapsed = 'collapsed';
+        let expanded = 'false';
+        let show = '';
         if (saltos.core.eval_bool(val.active)) {
             collapsed = '';
             expanded = 'true';
             show = 'show';
         }
-        var parent = `data-bs-parent="#${field.id}"`;
+        let parent = `data-bs-parent="#${field.id}"`;
         if (saltos.core.eval_bool(field.multiple)) {
             parent = '';
         }
-        var id = saltos.core.uniqid();
-        var item = saltos.core.html(`
+        const id = saltos.core.uniqid();
+        const item = saltos.core.html(`
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button ${collapsed}" type="button"
@@ -3394,8 +3402,8 @@ saltos.bootstrap.__field.jstree = field => {
     saltos.core.require('lib/jstree/jstree.min.js');
     saltos.core.check_params(field, ['id', 'class', 'open', 'onclick', 'nodata']);
     saltos.core.check_params(field, ['data'], []);
-    var obj = saltos.core.html(`<div id="${field.id}" class="${field.class}"></div>`);
-    var instance = new jsTree({}, obj);
+    let obj = saltos.core.html(`<div id="${field.id}" class="${field.class}"></div>`);
+    const instance = new jsTree({}, obj);
     obj.instance = instance;
     obj.set = data => {
         // Check for data not found
@@ -3413,7 +3421,7 @@ saltos.bootstrap.__field.jstree = field => {
     };
     obj.set(field.data);
     instance.on('select', event => {
-        var val = event.node.data.text;
+        let val = event.node.data.text;
         if (event.node.data.hasOwnProperty('id')) {
             val = event.node.data.id;
         }
@@ -3487,19 +3495,20 @@ saltos.bootstrap.__field.dropdown = field => {
                                      'split', 'tooltip', 'icon', 'accesskey', 'color']);
     saltos.core.check_params(field, ['menu'], []);
     // Check for main attributes
-    var disabled = '';
-    var _class = '';
+    let disabled = '';
+    let _class = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
         _class = ' opacity-25';
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
     // Create the main object
+    let obj;
     if (!saltos.core.eval_bool(field.split)) {
-        var obj = saltos.core.html(`
+        obj = saltos.core.html(`
             <div class="btn-group ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
                     class="btn btn-${color} ${_class} dropdown-toggle"
@@ -3510,7 +3519,7 @@ saltos.bootstrap.__field.dropdown = field => {
             </div>
         `);
     } else {
-        var obj = saltos.core.html(`
+        obj = saltos.core.html(`
             <div class="btn-group ${field.class}" id="${field.id}">
                 <button type="button" ${disabled}
                     class="btn btn-${color} ${_class}"
@@ -3537,22 +3546,23 @@ saltos.bootstrap.__field.dropdown = field => {
     }
     obj.append(saltos.core.html(`<ul class="dropdown-menu"></ul>`));
     // Add the dropdown items
-    for (var key in field.menu) {
-        var val = field.menu[key];
+    for (const key in field.menu) {
+        const val = field.menu[key];
         saltos.core.check_params(val, ['label', 'icon', 'disabled', 'active',
                                        'onclick', 'divider', 'tooltip', 'accesskey']);
-        var disabled = '';
+        let disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
             disabled = 'disabled';
         }
-        var active = '';
+        let active = '';
         if (saltos.core.eval_bool(val.active)) {
             active = 'active';
         }
+        let temp;
         if (saltos.core.eval_bool(val.divider)) {
-            var temp = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
+            temp = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
         } else {
-            var temp = saltos.core.html(`
+            temp = saltos.core.html(`
                 <li><button class="dropdown-item ${disabled} ${active}"
                     data-bs-accesskey="${val.accesskey}" data-bs-title="${val.tooltip}">
                         ${val.label}
@@ -3602,31 +3612,31 @@ saltos.bootstrap.__text_helper = field => {
     saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value',
                                      'disabled', 'onenter', 'onchange', 'readonly', 'required',
                                      'autofocus', 'tooltip', 'accesskey', 'color']);
-    var disabled = '';
+    let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
     }
-    var readonly = '';
+    let readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
         readonly = 'readonly';
     }
-    var required = '';
+    let required = '';
     if (saltos.core.eval_bool(field.required)) {
         required = 'required';
     }
-    var autofocus = '';
+    let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
-    var border = `border border-${color}`;
+    let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <input type="${field.type}" class="form-control ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${disabled} ${readonly} ${required} ${autofocus}
@@ -3669,31 +3679,31 @@ saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'onchange',
                                      'disabled', 'readonly', 'required', 'autofocus',
                                      'tooltip', 'accesskey', 'color']);
-    var disabled = '';
+    let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
     }
-    var readonly = '';
+    let readonly = '';
     if (saltos.core.eval_bool(field.readonly)) {
         readonly = 'readonly';
     }
-    var required = '';
+    let required = '';
     if (saltos.core.eval_bool(field.required)) {
         required = 'required';
     }
-    var autofocus = '';
+    let autofocus = '';
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
-    var color = field.color;
+    let color = field.color;
     if (!field.color) {
         color = 'primary';
     }
-    var border = `border border-${color}`;
+    let border = `border border-${color}`;
     if (field.color == 'none') {
         border = 'border-0';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <textarea class="form-control ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
             ${disabled} ${readonly} ${required} ${autofocus}
@@ -3718,7 +3728,7 @@ saltos.bootstrap.__textarea_helper = field => {
  * @obj => the object that you want to enable the tooltip feature
  */
 saltos.bootstrap.__tooltip_helper = obj => {
-    var instance = new bootstrap.Tooltip(obj, {
+    const instance = new bootstrap.Tooltip(obj, {
         trigger: 'hover'
     });
     obj.addEventListener('focus', () => {
@@ -3746,7 +3756,7 @@ saltos.bootstrap.__label_helper = field => {
     if (field.label == '') {
         return '';
     }
-    var temp = saltos.core.copy_object(field);
+    const temp = saltos.core.copy_object(field);
     delete temp.class;
     return saltos.bootstrap.__field.label(temp);
 };
@@ -3768,7 +3778,7 @@ saltos.bootstrap.__label_helper = field => {
  * their code because each case is different
  */
 saltos.bootstrap.__label_combine = (field, old) => {
-    var obj = saltos.core.html(`<div></div>`);
+    let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(old);
     obj = saltos.core.optimize(obj);
@@ -3870,26 +3880,26 @@ saltos.bootstrap.__onenter_helper = (obj, fn) => {
 saltos.bootstrap.menu = args => {
     saltos.core.check_params(args, ['class']);
     saltos.core.check_params(args, ['menu'], []);
-    var obj = saltos.core.html(`<ul class="${args.class}"></ul>`);
-    for (var key in args.menu) {
-        var val = args.menu[key];
+    const obj = saltos.core.html(`<ul class="${args.class}"></ul>`);
+    for (const key in args.menu) {
+        const val = args.menu[key];
         saltos.core.check_params(val, ['label', 'icon',
             'disabled', 'active', 'onclick', 'dropdown_menu_end', 'id']);
         saltos.core.check_params(val, ['menu'], []);
-        var disabled = '';
+        let disabled = '';
         if (saltos.core.eval_bool(val.disabled)) {
             disabled = 'disabled';
         }
-        var active = '';
+        let active = '';
         if (saltos.core.eval_bool(val.active)) {
             active = 'active';
         }
         if (val.menu.length) {
-            var dropdown_menu_end = '';
+            let dropdown_menu_end = '';
             if (saltos.core.eval_bool(val.dropdown_menu_end)) {
                 dropdown_menu_end = 'dropdown-menu-end';
             }
-            var temp = saltos.core.html(`
+            const temp = saltos.core.html(`
                 <li class="nav-item dropdown">
                     <button id="${val.id}" class="nav-link dropdown-toggle ${disabled} ${active}"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -3905,22 +3915,23 @@ saltos.bootstrap.menu = args => {
             if (val.label && val.icon) {
                 temp.querySelector('i').classList.add('me-1');
             }
-            for (var key2 in val.menu) {
-                var val2 = val.menu[key2];
+            for (const key2 in val.menu) {
+                const val2 = val.menu[key2];
                 saltos.core.check_params(val2, ['label', 'icon',
                     'disabled', 'active', 'onclick', 'divider', 'id']);
-                var disabled2 = '';
+                let disabled2 = '';
                 if (saltos.core.eval_bool(val2.disabled)) {
                     disabled2 = 'disabled';
                 }
-                var active2 = '';
+                let active2 = '';
                 if (saltos.core.eval_bool(val2.active)) {
                     active2 = 'active';
                 }
                 if (saltos.core.eval_bool(val2.divider)) {
-                    var temp2 = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
+                    const temp2 = saltos.core.html(`<li><hr class="dropdown-divider"></li>`);
+                    temp.querySelector('ul').append(temp2);
                 } else {
-                    var temp2 = saltos.core.html(`
+                    const temp2 = saltos.core.html(`
                         <li><button id="${val2.id}" class="dropdown-item ${disabled2} ${active2}">
                             ${val2.label}
                         </button></li>`);
@@ -3934,11 +3945,12 @@ saltos.bootstrap.menu = args => {
                     if (!saltos.core.eval_bool(val2.disabled)) {
                         saltos.bootstrap.__onclick_helper(temp2, val2.onclick);
                     }
+                    temp.querySelector('ul').append(temp2);
                 }
-                temp.querySelector('ul').append(temp2);
             }
+            obj.append(temp);
         } else {
-            var temp = saltos.core.html(`
+            const temp = saltos.core.html(`
                 <li class="nav-item">
                     <button id="${val.id}" class="nav-link ${disabled} ${active}">${val.label}</button>
                 </li>
@@ -3952,8 +3964,8 @@ saltos.bootstrap.menu = args => {
             if (!saltos.core.eval_bool(val.disabled)) {
                 saltos.bootstrap.__onclick_helper(temp, val.onclick);
             }
+            obj.append(temp);
         }
-        obj.append(temp);
     }
     return obj;
 };
@@ -3992,7 +4004,7 @@ saltos.bootstrap.navbar = args => {
     if (!args.color) {
         args.color = 'primary';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <nav class="navbar navbar-expand-md navbar-dark bg-${args.color} ${args.pos} ${args.class}">
             <div class="container-fluid">
                 <div class="navbar-brand ${args.brand.class}"></div>
@@ -4017,8 +4029,8 @@ saltos.bootstrap.navbar = args => {
             ${args.brand.label}
         `));
     }
-    for (var key in args.items) {
-        var val = args.items[key];
+    for (const key in args.items) {
+        const val = args.items[key];
         obj.querySelector('.collapse').append(val);
     }
     return obj;
@@ -4070,7 +4082,7 @@ saltos.bootstrap.__modal = {};
 saltos.bootstrap.modal = args => {
     // Helper actions
     if (args == 'close') {
-        var bool = typeof saltos.bootstrap.__modal.instance == 'object';
+        const bool = typeof saltos.bootstrap.__modal.instance == 'object';
         if (bool) {
             saltos.bootstrap.__modal.instance.hide();
         }
@@ -4085,7 +4097,7 @@ saltos.bootstrap.modal = args => {
     }
     // Normal operation
     saltos.core.check_params(args, ['id', 'class', 'title', 'close', 'body', 'footer', 'static', 'color']);
-    var temp = '';
+    let temp = '';
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
@@ -4096,7 +4108,7 @@ saltos.bootstrap.modal = args => {
         args.color = 'primary';
     }
     // Note: removed the fade class in the first div, the old class was "modal fade"
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div class="modal" id="${args.id}" tabindex="-1" aria-labelledby="${args.id}_label"
             aria-hidden="true" ${temp}>
             <div class="modal-dialog ${args.class}">
@@ -4131,7 +4143,7 @@ saltos.bootstrap.modal = args => {
     } else {
         obj.querySelector('.modal-footer').append(args.footer);
     }
-    var instance = new bootstrap.Modal(obj);
+    const instance = new bootstrap.Modal(obj);
     saltos.bootstrap.__modal.obj = obj;
     saltos.bootstrap.__modal.instance = instance;
     obj.addEventListener('shown.bs.modal', event => {
@@ -4202,7 +4214,7 @@ saltos.bootstrap.__offcanvas = {};
 saltos.bootstrap.offcanvas = args => {
     // Helper actions
     if (args == 'close') {
-        var bool = typeof saltos.bootstrap.__offcanvas.instance == 'object';
+        const bool = typeof saltos.bootstrap.__offcanvas.instance == 'object';
         if (bool) {
             saltos.bootstrap.__offcanvas.instance.hide();
         }
@@ -4218,7 +4230,7 @@ saltos.bootstrap.offcanvas = args => {
     // Normal operation
     saltos.core.check_params(args, ['id', 'pos', 'title', 'close', 'body', 'color',
                                     'resize', 'static', 'backdrop', 'keyboard']);
-    var temp = [];
+    let temp = [];
     if (saltos.core.eval_bool(args.static)) {
         temp.push(`data-bs-backdrop="static"`);
         temp.push(`data-bs-keyboard="false"`);
@@ -4231,7 +4243,7 @@ saltos.bootstrap.offcanvas = args => {
         temp.push(`data-bs-keyboard="false"`);
     }
     temp = temp.join(' ');
-    var valid_positions = ['start', 'end', 'top', 'bottom', 'left', 'right'];
+    const valid_positions = ['start', 'end', 'top', 'bottom', 'left', 'right'];
     if (!valid_positions.includes(args.pos)) {
         args.pos = valid_positions[0];
     }
@@ -4247,7 +4259,7 @@ saltos.bootstrap.offcanvas = args => {
     if (!args.color) {
         args.color = 'primary';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div class="offcanvas offcanvas-${args.pos}" tabindex="-1" id="${args.id}"
             aria-labelledby="${args.id}_label" ${temp}>
             <div class="offcanvas-header text-bg-${args.color}">
@@ -4266,13 +4278,13 @@ saltos.bootstrap.offcanvas = args => {
     } else {
         obj.querySelector('.offcanvas-body').append(args.body);
     }
-    var instance = new bootstrap.Offcanvas(obj);
+    const instance = new bootstrap.Offcanvas(obj);
     saltos.bootstrap.__offcanvas.obj = obj;
     saltos.bootstrap.__offcanvas.instance = instance;
     obj.addEventListener('shown.bs.offcanvas', event => {
         if (saltos.core.eval_bool(args.resize)) {
-            var width = obj.offsetWidth;
-            var item = document.body.firstChild;
+            const width = obj.offsetWidth;
+            const item = document.body.firstChild;
             item.classList.add('position-absolute');
             if (args.pos == 'start') {
                 item.style.left = `${width}px`;
@@ -4293,7 +4305,7 @@ saltos.bootstrap.offcanvas = args => {
     });
     obj.addEventListener('hidden.bs.offcanvas', event => {
         if (saltos.core.eval_bool(args.resize)) {
-            var item = document.body.firstChild;
+            const item = document.body.firstChild;
             item.classList.remove('position-absolute');
             item.style.left = '';
             item.style.width = '';
@@ -4349,7 +4361,7 @@ saltos.bootstrap.toast = args => {
         `));
     }
     // Check for repetitions
-    var hash = md5(JSON.stringify(args));
+    const hash = md5(JSON.stringify(args));
     if (document.querySelector(`.toast[hash=x${hash}]`)) {
         return false;
     }
@@ -4357,7 +4369,7 @@ saltos.bootstrap.toast = args => {
     if (!args.color) {
         args.color = 'primary';
     }
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div id="${args.id}" class="toast ${args.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${hash}">
             <div class="toast-header text-bg-${args.color}">
@@ -4378,7 +4390,7 @@ saltos.bootstrap.toast = args => {
     } else {
         obj.querySelector('.toast-body').append(args.body);
     }
-    var toast = new bootstrap.Toast(obj);
+    const toast = new bootstrap.Toast(obj);
     obj.addEventListener('hidden.bs.toast', event => {
         toast.dispose();
         obj.remove();
@@ -4396,7 +4408,7 @@ saltos.bootstrap.toast = args => {
  * @obj => the object that you want to enable the accesskey feature
  */
 window.addEventListener('keydown', event => {
-    var keycodes = {
+    const keycodes = {
         'backspace': 8, 'tab': 9, 'enter': 13, 'pauseBreak': 19, 'capsLock': 20, 'escape': 27,
         'space': 32, 'pageUp': 33, 'pageDown': 34, 'end': 35, 'home': 36, 'leftArrow': 37,
         'upArrow': 38, 'rightArrow': 39, 'downArrow': 40, 'insert': 45, 'delete': 46,
@@ -4415,12 +4427,12 @@ window.addEventListener('keydown', event => {
         'backSlash': 220, 'closeBraket': 221, 'singleQuote': 222
     };
     document.querySelectorAll('[data-bs-accesskey]:not([data-bs-accesskey=""])').forEach(obj => {
-        var temp = obj.getAttribute('data-bs-accesskey').split('+');
-        var useAlt = false;
-        var useCtrl = false;
-        var useShift = false;
-        var key = null;
-        for (var i = 0,len = temp.length; i < len; i++) {
+        const temp = obj.getAttribute('data-bs-accesskey').split('+');
+        let useAlt = false;
+        let useCtrl = false;
+        let useShift = false;
+        let key = null;
+        for (let i = 0,len = temp.length; i < len; i++) {
             switch (temp[i]) {
                 case 'alt':
                     useAlt = true;
@@ -4436,7 +4448,7 @@ window.addEventListener('keydown', event => {
                     break;
             }
         }
-        var count = 0;
+        let count = 0;
         if (useAlt && event.altKey) {
             count++;
         }
@@ -4523,14 +4535,15 @@ saltos.bootstrap.set_bs_theme = theme => {
  * @theme => Can be default or one of the bootswatch themes
  */
 saltos.bootstrap.set_css_theme = theme => {
+    let file;
     if (theme == 'default') {
-        var file = 'lib/bootstrap/bootstrap.min.css';
+        file = 'lib/bootstrap/bootstrap.min.css';
     } else {
-        var file = `lib/bootswatch/${theme}.min.css`;
+        file = `lib/bootswatch/${theme}.min.css`;
     }
     document.querySelectorAll('link[rel=stylesheet]').forEach(_this => {
-        var found1 = _this.href.includes('bootstrap/bootstrap.min.css');
-        var found2 = _this.href.includes('bootswatch/') && _this.href.includes('.min.css');
+        const found1 = _this.href.includes('bootstrap/bootstrap.min.css');
+        const found2 = _this.href.includes('bootswatch/') && _this.href.includes('.min.css');
         if (found1 || found2) {
             _this.removeAttribute('integrity');
             _this.href = _this.href.replace(_this.href, file);

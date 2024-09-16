@@ -51,7 +51,7 @@ saltos.dashboard.init = arg => {
                 url: 'app/customers/widget/table1',
                 success: response => {
                     response.id = 'table1';
-                    var temp = saltos.bootstrap.field(response);
+                    const temp = saltos.bootstrap.field(response);
                     document.getElementById('table1').replaceWith(temp);
                 },
             });
@@ -60,7 +60,7 @@ saltos.dashboard.init = arg => {
                 url: 'app/customers/widget/table2',
                 success: response => {
                     response.id = 'table2';
-                    var temp = saltos.bootstrap.field(response);
+                    const temp = saltos.bootstrap.field(response);
                     document.getElementById('table2').replaceWith(temp);
                 },
             });
@@ -86,6 +86,6 @@ saltos.dashboard.authupdate = () => {
     if (!saltos.app.check_required()) {
         return;
     }
-    var data = saltos.app.get_data(true);
+    const data = saltos.app.get_data(true);
     saltos.authenticate.authupdate(data.oldpass, data.newpass, data.renewpass);
 };

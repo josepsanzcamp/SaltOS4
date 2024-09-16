@@ -68,15 +68,15 @@ saltos.invoices.init = arg => {
  * TODO
  */
 saltos.invoices.compute_total = () => {
-    var total = 0;
+    let total = 0;
     document.querySelectorAll('.detail').forEach(_this => {
         if (_this.querySelector('[id*=unidades]') === null) {
             return;
         }
-        var unidades = _this.querySelector('[id*=unidades]').value;
-        var precio = _this.querySelector('[id*=precio]').value;
-        var descuento = _this.querySelector('[id*=descuento]').value;
-        var subtotal = unidades * precio * (1 - (descuento / 100));
+        const unidades = _this.querySelector('[id*=unidades]').value;
+        const precio = _this.querySelector('[id*=precio]').value;
+        const descuento = _this.querySelector('[id*=descuento]').value;
+        let subtotal = unidades * precio * (1 - (descuento / 100));
         subtotal = Math.round(100 * subtotal) / 100;
         _this.querySelector('[id*=total]').value = subtotal;
         total += subtotal;
@@ -91,8 +91,8 @@ saltos.invoices.compute_total = () => {
  */
 saltos.invoices.add_item = () => {
     saltos.app.form.__backup.restore('two,one');
-    var layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
-    var obj = saltos.app.form.layout(layout, 'div');
+    const layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
+    const obj = saltos.app.form.layout(layout, 'div');
     document.querySelector('.footer').before(obj);
     saltos.invoices.init('edit');
 };
@@ -104,7 +104,7 @@ saltos.invoices.add_item = () => {
  */
 saltos.invoices.remove_item = (obj) => {
     // This long line is to do a copy of the array to iterate and remove at the same time
-    var items = Array.prototype.slice.call(obj.closest('.row').childNodes);
+    const items = Array.prototype.slice.call(obj.closest('.row').childNodes);
     items.forEach(_this => {
         if (_this.classList.contains('d-none') && _this.querySelector('input').value != '') {
             _this.querySelector('input').value *= -1;
@@ -121,7 +121,7 @@ saltos.invoices.remove_item = (obj) => {
  * TODO
  */
 saltos.invoices.viewpdf = () => {
-    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    let ids = saltos.app.checkbox_ids(document.getElementById('table'));
     if (!ids.length) {
         saltos.app.modal(
             'Select invoices',
@@ -142,7 +142,7 @@ saltos.invoices.viewpdf = () => {
  * TODO
  */
 saltos.invoices.download = () => {
-    var ids = saltos.app.checkbox_ids(document.getElementById('table'));
+    let ids = saltos.app.checkbox_ids(document.getElementById('table'));
     if (!ids.length) {
         saltos.app.modal(
             'Select invoices',

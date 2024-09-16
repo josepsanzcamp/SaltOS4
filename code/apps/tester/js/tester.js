@@ -76,7 +76,7 @@ saltos.tester.campo9 = () => {
             </div>
         `,
         footer: (() => {
-            var obj = saltos.core.html('<div></div>');
+            const obj = saltos.core.html('<div></div>');
             obj.append(saltos.bootstrap.field({
                 type: 'button',
                 label: 'Aceptar',

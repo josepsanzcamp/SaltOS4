@@ -47,7 +47,7 @@ saltos.emails = {};
 saltos.emails.init = arg => {
     if (['create', 'view', 'close'].includes(arg)) {
         saltos.core.when_visible('list', () => {
-            var obj = document.getElementById('list').parentElement;
+            const obj = document.getElementById('list').parentElement;
             obj.querySelectorAll('button').forEach(_this => {
                 _this.classList.remove('active');
                 _this.removeAttribute('aria-current');
@@ -56,15 +56,15 @@ saltos.emails.init = arg => {
     }
 
     if (['list', 'view'].includes(arg)) {
-        var id = saltos.hash.get().split('/').at(-1);
+        const id = saltos.hash.get().split('/').at(-1);
         if (!isNaN(parseInt(id))) {
             saltos.core.when_visible(`button_${id}`, () => {
-                var button = document.getElementById(`button_${id}`);
+                const button = document.getElementById(`button_${id}`);
                 button.classList.add('active');
                 button.setAttribute('aria-current', 'true');
                 button.classList.remove('fw-bold');
                 button.querySelector('h5').classList.remove('fw-bold');
-                var is_new = button.querySelector('small.text-success');
+                const is_new = button.querySelector('small.text-success');
                 if (is_new && ['New', T('New')].includes(is_new.innerHTML)) {
                     is_new.classList.remove('text-success');
                     is_new.innerHTML = T('Read');
@@ -84,7 +84,7 @@ saltos.emails.server = () => {
         url: `app/emails/action/server`,
         proxy: 'network',
         success: response => {
-            for (var key in response) {
+            for (const key in response) {
                 saltos.app.toast('Response', response[key]);
             }
             saltos.window.send('saltos.emails.update');
@@ -98,7 +98,7 @@ saltos.emails.server = () => {
  * TODO
  */
 saltos.emails.delete1 = () => {
-    var ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
     if (!ids.length) {
         saltos.app.modal(
             'Select emails',
@@ -149,7 +149,7 @@ saltos.emails.delete2 = () => {
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
-                var id = saltos.hash.get().split('/').at(3);
+                const id = saltos.hash.get().split('/').at(3);
                 saltos.app.ajax({
                     url: `app/emails/delete/${id}`,
                     proxy: 'network',
@@ -181,14 +181,14 @@ saltos.emails.send = () => {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
-    var data = saltos.app.get_data(true);
-    var action = saltos.hash.get().split('/').at(3);
+    const data = saltos.app.get_data(true);
+    let action = saltos.hash.get().split('/').at(3);
     if (typeof action == 'undefined') {
         action = '';
     } else {
         action = '/' + action;
     }
-    var email_id = saltos.hash.get().split('/').at(4);
+    let email_id = saltos.hash.get().split('/').at(4);
     if (typeof email_id == 'undefined') {
         email_id = '';
     } else {
@@ -220,7 +220,7 @@ saltos.emails.send = () => {
  * TODO
  */
 saltos.emails.setter = what => {
-    var id = saltos.hash.get().split('/').at(3);
+    const id = saltos.hash.get().split('/').at(3);
     saltos.app.ajax({
         url: `app/emails/view/setter/${id}`,
         proxy: 'network',
@@ -241,11 +241,11 @@ saltos.emails.setter = what => {
  * TODO
  */
 saltos.emails.signature = () => {
-    var old_account = saltos.emails.old_account;
-    var new_account = document.getElementById('from').value;
-    var body = document.getElementById('body').value;
-    var cc = document.getElementById('cc').value;
-    var state_crt = document.getElementById('state_crt').value;
+    const old_account = saltos.emails.old_account;
+    const new_account = document.getElementById('from').value;
+    const body = document.getElementById('body').value;
+    const cc = document.getElementById('cc').value;
+    const state_crt = document.getElementById('state_crt').value;
     saltos.emails.old_account = new_account;
     saltos.app.ajax({
         url: `app/emails/create/signature`,
@@ -268,7 +268,7 @@ saltos.emails.signature = () => {
  * TODO
  */
 saltos.emails.viewpdf = () => {
-    var ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
     if (!ids.length) {
         saltos.app.modal(
             'Select emails',
@@ -289,7 +289,7 @@ saltos.emails.viewpdf = () => {
  * TODO
  */
 saltos.emails.download = () => {
-    var ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
+    let ids = saltos.app.checkbox_ids(document.getElementById('list').parentElement);
     if (!ids.length) {
         saltos.app.modal(
             'Select emails',

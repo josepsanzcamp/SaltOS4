@@ -715,7 +715,7 @@ saltos.driver.__types.type3.init = arg => {
             saltos.app.send_request(temp);
         }
         if (!document.getElementById('two').textContent.trim().length) {
-            const temp = saltos.hash.get().split('/');
+            let temp = saltos.hash.get().split('/');
             temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
             saltos.app.send_request(temp);
         }
@@ -748,7 +748,7 @@ saltos.driver.__types.type3.close = arg => {
     if (arr.length >= 5 && action == 'view') {
         saltos.driver.placeholder('three');
         // Hash part
-        const temp = saltos.hash.get().split('/');
+        let temp = saltos.hash.get().split('/');
         temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
     } else {
@@ -932,7 +932,7 @@ saltos.driver.__types.type5.close = arg => {
     if (arr.length >= 5 && action == 'view') {
         saltos.bootstrap.modal('close');
         // Hash part
-        const temp = saltos.hash.get().split('/');
+        let temp = saltos.hash.get().split('/');
         temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
     } else {

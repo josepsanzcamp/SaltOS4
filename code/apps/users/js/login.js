@@ -49,7 +49,7 @@ saltos.login.authenticate = () => {
     if (!saltos.app.check_required()) {
         return;
     }
-    var data = saltos.app.get_data(true);
+    const data = saltos.app.get_data(true);
     saltos.authenticate.authtoken(data.user, data.pass);
     if (!saltos.token.get()) {
         saltos.app.toast('Access denied', 'Incorrect user or password, try again', {color: 'danger'});
