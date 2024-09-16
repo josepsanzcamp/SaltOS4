@@ -53,7 +53,7 @@ saltos.app = {};
  */
 saltos.app.modal = (title, message, extra) => {
     if (typeof extra == 'undefined') {
-        var extra = {};
+        extra = {};
     }
     if (!extra.hasOwnProperty('buttons')) {
         extra.buttons = [{
@@ -72,8 +72,8 @@ saltos.app.modal = (title, message, extra) => {
         close: 'Close',
         body: message,
         footer: (() => {
-            var obj = saltos.core.html('<div></div>');
-            for (var key in extra.buttons) {
+            const obj = saltos.core.html('<div></div>');
+            for (const key in extra.buttons) {
                 (button => {
                     saltos.core.check_params(button, ['label', 'class',
                         'color', 'icon', 'autofocus', 'onclick']);
@@ -108,7 +108,7 @@ saltos.app.modal = (title, message, extra) => {
  */
 saltos.app.toast = (title, message, extra) => {
     if (typeof extra == 'undefined') {
-        var extra = {};
+        extra = {};
     }
     if (!extra.hasOwnProperty('color')) {
         extra.color = 'primary';
@@ -173,8 +173,8 @@ saltos.app.send_request = hash => {
  * This function process the responses received by the send request
  */
 saltos.app.process_response = response => {
-    for (var key in response) {
-        var val = response[key];
+    for (let key in response) {
+        const val = response[key];
         key = saltos.core.fix_key(key);
         if (typeof saltos.app.form[key] != 'function') {
             throw new Error(`Response type ${key} not found`);
@@ -236,8 +236,8 @@ saltos.app.form.__backup = {
         saltos.app.__form.templates = {};
         if (key.includes('+')) {
             key = key.split('+');
-            var bool = false;
-            for (var i in key) {
+            let bool = false;
+            for (const i in key) {
                 if (saltos.app.form.__backup.__forms.hasOwnProperty(key[i])) {
                     saltos.app.__form.fields = [
                         ...saltos.app.__form.fields,
@@ -253,7 +253,7 @@ saltos.app.form.__backup = {
             return bool;
         }
         key = key.split(',');
-        for (var i in key) {
+        for (const i in key) {
             if (saltos.app.form.__backup.__forms.hasOwnProperty(key[i])) {
                 saltos.app.__form.fields = saltos.app.form.__backup.__forms[key[i]].fields;
                 saltos.app.__form.templates = saltos.app.form.__backup.__forms[key[i]].templates;
@@ -278,16 +278,16 @@ saltos.app.form.data = (data, sync = true) => {
     }
     // Check for attr template_id
     if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
-        var template_id = data['#attr'].template_id;
+        const template_id = data['#attr'].template_id;
         if (!Array.isArray(data.value)) {
             throw new Error(`Data for template ${template_id} is not an array of rows`);
         }
-        for (var key in data.value) {
-            var val = data.value[key];
+        for (const key in data.value) {
+            const val = data.value[key];
             if (parseInt(key)) {
-                var temp1 = saltos.app.form.__layout_template_helper(template_id, key);
-                var temp2 = saltos.app.form.layout(temp1, 'div');
-                var temp3 = document.getElementById(template_id + '.' + (key - 1));
+                const temp1 = saltos.app.form.__layout_template_helper(template_id, key);
+                const temp2 = saltos.app.form.layout(temp1, 'div');
+                const temp3 = document.getElementById(template_id + '.' + (key - 1));
                 temp3.after(temp2);
             }
             saltos.app.form.data(saltos.app.form.__data_template_helper(template_id, val, key));
@@ -299,13 +299,13 @@ saltos.app.form.data = (data, sync = true) => {
         throw new Error(`Data is an array instead of an object of key and val pairs`);
     }
     // Continue with the normal behaviour
-    for (var key in data) {
-        var val = data[key];
+    for (const key in data) {
+        let val = data[key];
         if (val === null) {
             val = '';
         }
         // This updates the object
-        var obj = document.getElementById(key);
+        const obj = document.getElementById(key);
         if (!obj) {
             continue;
         }
@@ -328,7 +328,7 @@ saltos.app.form.data = (data, sync = true) => {
             continue;
         }
         // This updates the field spec searching in all backups
-        for (var i in saltos.app.form.__backup.__forms) {
+        for (const i in saltos.app.form.__backup.__forms) {
             saltos.app.form.__backup.__forms[i].fields.forEach(_this => {
                 if (_this.id == key) {
                     _this.value = val;
@@ -350,8 +350,8 @@ saltos.app.form.data = (data, sync = true) => {
  * @index       => the index used in all fields of the template
  */
 saltos.app.form.__data_template_helper = (template_id, data, index) => {
-    for (var key in data) {
-        var val = data[key];
+    for (const key in data) {
+        const val = data[key];
         delete data[key];
         data[template_id + '.' + index + '.' + key] = val;
     }
@@ -368,12 +368,12 @@ saltos.app.form.__data_template_helper = (template_id, data, index) => {
  * @index       => the index used in all fields of the template
  */
 saltos.app.form.__layout_template_helper = (template_id, index) => {
-    var template = saltos.core.copy_object(saltos.app.__form.templates[template_id]);
+    const template = saltos.core.copy_object(saltos.app.__form.templates[template_id]);
     template['#attr'].id = template_id + '.' + index;
-    for (var key in template.value) {
-        var val = template.value[key];
+    for (const key in template.value) {
+        const val = template.value[key];
         if (val['#attr'].hasOwnProperty('id')) {
-            var id = val['#attr'].id;
+            const id = val['#attr'].id;
             val['#attr'].id = template_id + '.' + index + '.' + id;
         }
     }
@@ -408,11 +408,13 @@ saltos.app.form.layout = (layout, extra) => {
         saltos.app.__form.templates = {};
     }
     // This code fix a problem when layout contains the append element
+    let append = '';
     if (saltos.core.is_attr_value(layout) && layout['#attr'].hasOwnProperty('append')) {
-        var append = layout['#attr'].append;
+        append = layout['#attr'].append;
         layout = layout.value;
-        var temp = append.split(',');
-        for (var i in temp) {
+        const temp = append.split(',');
+        let obj = null;
+        for (const i in temp) {
             obj = document.getElementById(temp[i]);
             if (obj) {
                 append = temp[i];
@@ -428,12 +430,12 @@ saltos.app.form.layout = (layout, extra) => {
         layout = {[layout['#attr'].type]: layout};
     }
     // Continue
-    var arr = [];
-    for (var key in layout) {
-        var val = layout[key];
+    let arr = [];
+    for (let key in layout) {
+        let val = layout[key];
         key = saltos.core.fix_key(key);
-        var attr = {};
-        var value = val;
+        let attr = {};
+        let value = val;
         if (saltos.core.is_attr_value(val)) {
             attr = val['#attr'];
             value = val.value;
@@ -444,7 +446,7 @@ saltos.app.form.layout = (layout, extra) => {
         // Check for template_id attr
         if (attr.hasOwnProperty('template_id')) {
             // Store it in the templates container
-            var template_id = attr.template_id;
+            const template_id = attr.template_id;
             delete val['#attr'].template_id;
             saltos.app.__form.templates[template_id] = val;
             // Modify the id of the first elements to convert it to the format TEMPLATE_ID#ID#0
@@ -457,20 +459,20 @@ saltos.app.form.layout = (layout, extra) => {
             attr.hasOwnProperty('auto') && saltos.core.eval_bool(attr.auto)
         ) {
             val = saltos.app.form.__layout_auto_helper[key](val);
-            var temp = saltos.app.form.layout(val, 'arr');
-            for (var i in temp) {
+            const temp = saltos.app.form.layout(val, 'arr');
+            for (const i in temp) {
                 arr.push(temp[i]);
             }
         } else if (['container', 'col', 'row', 'div'].includes(key)) {
-            var obj = saltos.gettext.bootstrap.field(attr);
-            var temp = saltos.app.form.layout(value, 'arr');
-            for (var i in temp) {
+            const obj = saltos.gettext.bootstrap.field(attr);
+            const temp = saltos.app.form.layout(value, 'arr');
+            for (const i in temp) {
                 obj.append(temp[i]);
             }
             arr.push(obj);
         } else {
             if (typeof value == 'object') {
-                for (var key2 in value) {
+                for (const key2 in value) {
                     if (!attr.hasOwnProperty(key2)) {
                         attr[key2] = value[key2];
                     }
@@ -483,14 +485,15 @@ saltos.app.form.layout = (layout, extra) => {
                 attr.id = saltos.core.uniqid();
             }
             saltos.app.__form.fields.push(attr);
+            let obj = null;
             if (attr.source != '') {
-                var obj = saltos.gettext.bootstrap.field({
+                obj = saltos.gettext.bootstrap.field({
                     type: 'placeholder',
                     id: attr.id,
                 });
                 saltos.app.__source_helper(attr);
             } else {
-                var obj = saltos.gettext.bootstrap.field(attr);
+                obj = saltos.gettext.bootstrap.field(attr);
             }
             arr.push(obj);
         }
@@ -499,8 +502,8 @@ saltos.app.form.layout = (layout, extra) => {
     if (extra == 'arr') {
         return arr;
     }
-    var div = saltos.core.html('<div></div>');
-    for (var i in arr) {
+    let div = saltos.core.html('<div></div>');
+    for (const i in arr) {
         div.append(arr[i]);
     }
     div = saltos.core.optimize(div);
@@ -509,14 +512,15 @@ saltos.app.form.layout = (layout, extra) => {
         return div;
     }
     // Defaut feature that add the div to the body's document
-    if (typeof append != 'undefined') {
+    let obj = null;
+    if (append != '') {
         // Do a backup of the fields and templates using the append key
         saltos.app.form.__backup.do(append);
         // Continue
-        var obj = document.getElementById(append);
+        obj = document.getElementById(append);
         obj.replaceChildren(div);
     } else {
-        var obj = document.body;
+        obj = document.body;
         obj.append(div);
     }
     obj.querySelectorAll('[autofocus]').forEach(_this => {
@@ -546,13 +550,13 @@ saltos.app.form.__layout_auto_helper = {};
  * @col_style       => defines the style used by the col element
  */
 saltos.app.form.__layout_auto_helper.container = layout => {
-    var attr = layout['#attr'];
+    const attr = layout['#attr'];
     saltos.core.check_params(attr, ['id', 'container_class', 'container_style',
         'row_class', 'row_style', 'col_class', 'col_style']);
     // Store and delete to prevent the id propagation to the next childrens
-    var id = layout['#attr'].id;
+    const id = layout['#attr'].id;
     delete layout['#attr'].id;
-    var temp = saltos.app.form.__layout_auto_helper.row(layout);
+    const temp = saltos.app.form.__layout_auto_helper.row(layout);
     // This is the new layout object created with one container and the row inside
     layout = {
         container: {
@@ -564,7 +568,7 @@ saltos.app.form.__layout_auto_helper.container = layout => {
             }
         }
     };
-    for (var i in temp) {
+    for (const i in temp) {
         layout.container.value[i] = temp[i];
     }
     return layout;
@@ -583,12 +587,12 @@ saltos.app.form.__layout_auto_helper.container = layout => {
  * @col_style       => defines the style used by the col element
  */
 saltos.app.form.__layout_auto_helper.row = layout => {
-    var attr = layout['#attr'];
+    const attr = layout['#attr'];
     saltos.core.check_params(attr, ['id', 'row_class', 'row_style', 'col_class', 'col_style']);
     // Store and delete to prevent the id propagation to the next childrens
-    var id = layout['#attr'].id;
+    const id = layout['#attr'].id;
     delete layout['#attr'].id;
-    var temp = saltos.app.form.__layout_auto_helper.col(layout);
+    const temp = saltos.app.form.__layout_auto_helper.col(layout);
     // This is the new layout object created with one row and the cols inside
     layout = {
         row: {
@@ -600,7 +604,7 @@ saltos.app.form.__layout_auto_helper.row = layout => {
             }
         }
     };
-    for (var i in temp) {
+    for (const i in temp) {
         layout.row.value[i] = temp[i];
     }
     return layout;
@@ -622,21 +626,21 @@ saltos.app.form.__layout_auto_helper.row = layout => {
  * to each col without repetitions.
  */
 saltos.app.form.__layout_auto_helper.col = layout => {
-    var attr = layout['#attr'];
-    var value = layout.value;
+    const attr = layout['#attr'];
+    const value = layout.value;
     saltos.core.check_params(attr, ['col_class', 'col_style']);
     // This trick convert all entries of the object in an array with the keys and values
-    var temp = [];
-    for (var key in value) {
+    const temp = [];
+    for (const key in value) {
         temp.push([key, value[key]]);
     }
     // This is the new layout object created with one cols by each original field
     layout = {};
-    var numcol = 0;
+    let numcol = 0;
     while (temp.length) {
-        var item = temp.shift();
-        var col_class = attr.col_class;
-        var col_style = attr.col_style;
+        const item = temp.shift();
+        let col_class = attr.col_class;
+        let col_style = attr.col_style;
         if (saltos.core.is_attr_value(item[1])) {
             if (item[1]['#attr'].hasOwnProperty('col_class')) {
                 col_class = item[1]['#attr'].col_class;
@@ -675,11 +679,11 @@ saltos.app.form.__layout_auto_helper.col = layout => {
  * @data => the object that contains the styles requirements (can be file or inline)
  */
 saltos.app.form.style = data => {
-    for (var key in data) {
-        var val = data[key];
+    for (let key in data) {
+        const val = data[key];
         key = saltos.core.fix_key(key);
         if (key == 'inline') {
-            var style = document.createElement('style');
+            const style = document.createElement('style');
             style.innerHTML = val;
             document.head.append(style);
         }
@@ -701,11 +705,11 @@ saltos.app.form.style = data => {
  * @data => the object that contains the javascript requirements (can be file or inline)
  */
 saltos.app.form.javascript = data => {
-    for (var key in data) {
-        var val = data[key];
+    for (let key in data) {
+        const val = data[key];
         key = saltos.core.fix_key(key);
         if (key == 'inline') {
-            var script = document.createElement('script');
+            const script = document.createElement('script');
             script.innerHTML = val;
             document.body.append(script);
         }
@@ -726,13 +730,13 @@ saltos.app.form.javascript = data => {
  */
 saltos.app.form.title = title => {
     // Try for modal
-    var obj = document.querySelector('.modal-title');
+    let obj = document.querySelector('.modal-title');
     if (obj) {
         obj.innerHTML = T(title);
         return;
     }
     // Try for offcanvas
-    var obj = document.querySelector('.offcanvas-title');
+    obj = document.querySelector('.offcanvas-title');
     if (obj) {
         obj.innerHTML = T(title);
         return;
@@ -755,9 +759,9 @@ saltos.app.form.title = title => {
  */
 saltos.app.form.screen = action => {
     switch (action) {
-        case 'loading':
+        case 'loading': {
             saltos.app.__form.loading++;
-            var obj = document.getElementById('loading');
+            let obj = document.getElementById('loading');
             if (obj) {
                 return false;
             }
@@ -772,7 +776,8 @@ saltos.app.form.screen = action => {
             `);
             document.body.append(obj);
             return true;
-        case 'unloading':
+        }
+        case 'unloading': {
             saltos.app.__form.loading--;
             if (saltos.app.__form.loading < 0) {
                 saltos.app.__form.loading = 0;
@@ -780,25 +785,27 @@ saltos.app.form.screen = action => {
             if (saltos.app.__form.loading > 0) {
                 return false;
             }
-            var obj = document.getElementById('loading');
+            const obj = document.getElementById('loading');
             if (!obj) {
                 return false;
             }
             obj.remove();
             return true;
-        case 'isloading':
-            var obj = document.getElementById('loading');
+        }
+        case 'isloading': {
+            const obj = document.getElementById('loading');
             if (obj) {
                 return true;
             }
             return false;
+        }
         case 'clear':
             document.body.innerHTML = '';
             document.body.removeAttribute('screen');
             return true;
     }
     if (saltos.driver.hasOwnProperty('__types')) {
-        var only = saltos.hash.get().split('/').at(-1);
+        const only = saltos.hash.get().split('/').at(-1);
         if (only == 'only') {
             action = 'type1';
         }
@@ -829,40 +836,42 @@ saltos.app.form.navbar = navbar => {
         return;
     }
     if (navbar.hasOwnProperty('items')) {
-        var items = [];
-        for (var key in navbar.items) {
-            var val = navbar.items[key];
+        for (const key in navbar.items) {
+            let val = navbar.items[key];
             if (saltos.core.fix_key(key) == 'menu') {
-                var _class = '';
-                var menu = [];
+                let _class = '';
+                const menu = [];
                 if (saltos.core.is_attr_value(val)) {
                     if (val['#attr'].hasOwnProperty('class')) {
                         _class = val['#attr'].class;
                     }
                     val = val.value;
                 }
-                for (var key2 in val) {
-                    var val2 = val[key2];
+                for (const key2 in val) {
+                    const val2 = val[key2];
                     // Trick to allow to put attr in the value node intended to use the eval=true
-                    var temp = ['label', 'id', 'icon', 'disabled', 'active', 'onclick', 'dropdown_menu_end'];
-                    for (var i in temp) {
-                        var j = temp[i];
-                        if (val2.value.hasOwnProperty(j) && !val2['#attr'].hasOwnProperty(j)) {
-                            val2['#attr'][j] = val2.value[j];
-                            delete val2.value[j];
+                    { // This curly brackets allow to create a block for the temp const
+                        const temp = ['label', 'id', 'icon', 'disabled',
+                                      'active', 'onclick', 'dropdown_menu_end'];
+                        for (const i in temp) {
+                            const j = temp[i];
+                            if (val2.value.hasOwnProperty(j) && !val2['#attr'].hasOwnProperty(j)) {
+                                val2['#attr'][j] = val2.value[j];
+                                delete val2.value[j];
+                            }
                         }
-                    }
+                    } // Here the temp const disapear!!!
                     // Continue
                     if (typeof val2.value == 'string') {
                         menu.push(val2['#attr']);
                     } else if (val2.value.hasOwnProperty('menu')) {
-                        var menu2 = [];
-                        for (var key3 in val2.value.menu) {
-                            var val3 = val2.value.menu[key3];
+                        const menu2 = [];
+                        for (const key3 in val2.value.menu) {
+                            const val3 = val2.value.menu[key3];
                             // Trick to allow to put attr in the value node intended to use the eval=true
-                            var temp = ['label', 'id', 'icon', 'disabled', 'active', 'onclick', 'divider'];
-                            for (var i in temp) {
-                                var j = temp[i];
+                            const temp = ['label', 'id', 'icon', 'disabled', 'active', 'onclick', 'divider'];
+                            for (const i in temp) {
+                                const j = temp[i];
                                 if (val3.value.hasOwnProperty(j) && !val3['#attr'].hasOwnProperty(j)) {
                                     val3['#attr'][j] = val3.value[j];
                                     delete val3.value[j];
@@ -882,16 +891,16 @@ saltos.app.form.navbar = navbar => {
                     menu: menu,
                 });
             } else if (saltos.core.fix_key(key) == 'form') {
-                var _class = '';
+                let _class = '';
                 if (saltos.core.is_attr_value(val)) {
                     if (val['#attr'].hasOwnProperty('class')) {
                         _class = val['#attr'].class;
                     }
                     val = val.value;
                 }
-                var obj = saltos.core.html(`<form class='${_class}' onsubmit='return false'></form>`);
-                for (var key2 in val) {
-                    var val2 = val[key2];
+                const obj = saltos.core.html(`<form class='${_class}' onsubmit='return false'></form>`);
+                for (const key2 in val) {
+                    const val2 = val[key2];
                     val2['#attr'].type = saltos.core.fix_key(key2);
                     obj.append(saltos.gettext.bootstrap.field(val2['#attr']));
                 }
@@ -899,15 +908,15 @@ saltos.app.form.navbar = navbar => {
             }
         }
     }
-    var obj = saltos.bootstrap.navbar(navbar);
+    const obj = saltos.bootstrap.navbar(navbar);
     if (navbar.hasOwnProperty('append')) {
-        var obj2 = document.getElementById(navbar.append);
+        const obj2 = document.getElementById(navbar.append);
         if (!obj2) {
             throw new Error(`Navbar append ${navbar.append} not found`);
         }
         obj2.replaceChildren(obj);
     } else {
-        var obj2 = document.body;
+        const obj2 = document.body;
         obj2.append(obj);
     }
 };
@@ -949,10 +958,10 @@ saltos.app.__source_helper = field => {
             url: field.source,
             success: response => {
                 field.source = '';
-                for (var key in response) {
+                for (const key in response) {
                     field[key] = response[key];
                 }
-                var obj = document.getElementById(field.id);
+                const obj = document.getElementById(field.id);
                 obj.replaceWith(saltos.gettext.bootstrap.field(field));
             },
         });
@@ -970,16 +979,16 @@ saltos.app.__source_helper = field => {
  * @full => boolean to indicate if you want the entire form or only the differences
  */
 saltos.app.get_data = full => {
-    var data = {};
-    var types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
+    let data = {};
+    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
         'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
         'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
-    for (var i in saltos.app.__form.fields) {
-        var field = saltos.app.__form.fields[i];
+    for (const i in saltos.app.__form.fields) {
+        const field = saltos.app.__form.fields[i];
         if (!types.includes(field.type)) {
             continue;
         }
-        var obj = document.getElementById(field.id);
+        const obj = document.getElementById(field.id);
         if (!obj) {
             continue;
         }
@@ -988,8 +997,8 @@ saltos.app.get_data = full => {
             continue;
         }
         // Continue
-        var val = obj.value;
-        var old = field.value.toString();
+        let val = obj.value;
+        let old = field.value.toString();
         switch (field.type) {
             case 'textarea':
             case 'ckeditor':
@@ -1063,15 +1072,15 @@ saltos.app.get_data = full => {
  * that void.
  */
 saltos.app.__get_data_ids_helper = data => {
-    for (var key in data) {
-        var id = key.split('.');
+    for (const key in data) {
+        let id = key.split('.');
         if (id.length == 3 && id[2] != 'id') {
             id[2] = 'id';
             id = id.join('.');
             if (!data.hasOwnProperty(id)) {
-                var obj = document.getElementById(id);
+                const obj = document.getElementById(id);
                 if (obj) {
-                    var val = obj.value;
+                    const val = obj.value;
                     if (val != '') {
                         data[id] = val;
                     }
@@ -1099,12 +1108,12 @@ saltos.app.__get_data_ids_helper = data => {
  * in the invoices.
  */
 saltos.app.parse_data = data => {
-    for (var key in data) {
-        var id = key.split('.');
+    for (const key in data) {
+        const id = key.split('.');
         if (id.length == 2) {
-            var id0 = id[0];
-            var id1 = id[1];
-            var val = data[key];
+            const id0 = id[0];
+            const id1 = id[1];
+            const val = data[key];
             if (!data.hasOwnProperty(id0)) {
                 data[id0] = {};
             }
@@ -1112,10 +1121,10 @@ saltos.app.parse_data = data => {
             delete data[key];
         }
         if (id.length == 3) {
-            var id0 = id[0];
-            var id1 = id[1];
-            var id2 = id[2];
-            var val = data[key];
+            const id0 = id[0];
+            const id1 = id[1];
+            const id2 = id[2];
+            const val = data[key];
             if (!data.hasOwnProperty(id0)) {
                 data[id0] = {};
             }
@@ -1138,7 +1147,7 @@ saltos.app.parse_data = data => {
  * @obj => the object that contains the checkboxes, generally the table widget
  */
 saltos.app.checkbox_ids = obj => {
-    var values = [];
+    const values = [];
     obj.querySelectorAll('input[type=checkbox]:checked[value]').forEach(_this => {
         values.push(_this.value);
     });
@@ -1154,28 +1163,28 @@ saltos.app.checkbox_ids = obj => {
  * returned.
  */
 saltos.app.check_required = () => {
-    var obj = null;
-    var types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
+    let obj = null;
+    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
         'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
         'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
-    for (var i in saltos.app.__form.fields) {
-        var field = saltos.app.__form.fields[i];
+    for (const i in saltos.app.__form.fields) {
+        const field = saltos.app.__form.fields[i];
         if (!types.includes(field.type)) {
             continue;
         }
         if (!saltos.core.eval_bool(field.required)) {
             continue;
         }
-        var _this = document.getElementById(field.id);
+        const _this = document.getElementById(field.id);
         if (!_this) {
             continue;
         }
-        var value = _this.value;
-        var obj_color = _this;
-        var obj_focus = _this;
+        let value = _this.value;
+        let obj_color = _this;
+        let obj_focus = _this;
         // to detect the color and focus of the tags fields
         if (field.type == 'tags') {
-            var tags = document.getElementById(field.id + '_tags');
+            const tags = document.getElementById(field.id + '_tags');
             obj_color = tags;
             obj_focus = tags;
         }
@@ -1195,7 +1204,7 @@ saltos.app.check_required = () => {
         }
         // to detect the color and focus of the multiselects fields
         if (field.type == 'multiselect') {
-            var abc = document.getElementById(field.id + '_abc');
+            const abc = document.getElementById(field.id + '_abc');
             obj_color = abc;
             obj_focus = abc;
         }
@@ -1237,7 +1246,7 @@ saltos.app.check_required = () => {
         }
         // to detect the color of the button in the password fields
         if (field.type == 'password') {
-            var button = _this.nextElementSibling;
+            const button = _this.nextElementSibling;
             button.classList.forEach(_this2 => {
                 if (_this2.substr(0, 4) == 'btn-') {
                     button.classList.remove(_this2);
@@ -1251,7 +1260,7 @@ saltos.app.check_required = () => {
         }
         // to detect the color of the multiselects fields (the other select + buttons)
         if (field.type == 'multiselect') {
-            var xyz = document.getElementById(field.id + '_xyz');
+            const xyz = document.getElementById(field.id + '_xyz');
             obj_color = xyz;
             obj_color.classList.remove('is-valid');
             obj_color.classList.remove('is-invalid');
@@ -1266,7 +1275,7 @@ saltos.app.check_required = () => {
             } else {
                 obj_color.classList.add('is-valid');
             }
-            var temp = document.getElementById(field.id).parentElement.parentElement;
+            const temp = document.getElementById(field.id).parentElement.parentElement;
             temp.querySelectorAll('button').forEach(_this2 => {
                 _this2.classList.forEach(_this3 => {
                     if (_this3.substr(0, 4) == 'btn-') {
@@ -1295,15 +1304,15 @@ saltos.app.check_required = () => {
  * to do screen for view mode.
  */
 saltos.app.form_disabled = bool => {
-    var types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
+    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
         'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
         'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
-    for (var i in saltos.app.__form.fields) {
-        var field = saltos.app.__form.fields[i];
+    for (const i in saltos.app.__form.fields) {
+        const field = saltos.app.__form.fields[i];
         if (!types.includes(field.type)) {
             continue;
         }
-        var obj = document.getElementById(field.id);
+        const obj = document.getElementById(field.id);
         if (!obj) {
             continue;
         }
@@ -1318,7 +1327,7 @@ saltos.app.form_disabled = bool => {
             if (obj.hasOwnProperty('set_disabled')) {
                 obj.set_disabled(bool);
             } else {
-                let element = obj;
+                const element = obj;
                 setTimeout(() => element.set_disabled(bool), 1);
             }
         }
@@ -1363,7 +1372,7 @@ saltos.app.help = () => {
         class: 'modal-xl',
     });
     document.querySelector('.modal-body').setAttribute('id', 'four');
-    var app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.get().split('/').at(1);
     saltos.app.send_request(`app/dashboard/help/${app}`);
 };
 
@@ -1385,19 +1394,19 @@ saltos.app.filter = () => {
         //~ keyboard: true,
         resize: true,
     });
-    var filter = document.getElementById('filter');
+    const filter = document.getElementById('filter');
     if (filter.hasOwnProperty('data-bs-title')) {
         document.querySelector('.offcanvas-title').innerHTML = T(filter['data-bs-title']);
     }
-    var items = Array.prototype.slice.call(filter.childNodes);
-    var parents = [];
-    for (var i in items) {
+    const items = Array.prototype.slice.call(filter.childNodes);
+    const parents = [];
+    for (const i in items) {
         parents[i] = items[i].parentElement;
         document.querySelector('.offcanvas-body').append(items[i]);
     }
-    var obj = saltos.bootstrap.__offcanvas.obj;
+    const obj = saltos.bootstrap.__offcanvas.obj;
     obj.addEventListener('hide.bs.offcanvas', event => {
-        for (var i in items) {
+        for (const i in items) {
             parents[i].append(items[i]);
         }
     });
@@ -1412,7 +1421,7 @@ saltos.app.download = file => {
     saltos.app.ajax({
         url: file,
         success: response => {
-            var a = document.createElement('a');
+            const a = document.createElement('a');
             a.download = response.name;
             response.type = 'application/force-download'; // to force download dialog
             a.href = `data:${response.type};base64,${response.data}`;
@@ -1430,7 +1439,7 @@ saltos.app.ajax = args => {
     if (!args.hasOwnProperty('url')) {
         throw new Error(`Url not found`);
     }
-    var temp = {
+    const temp = {
         url: 'api/?/' + args.url,
         success: response => {
             saltos.app.form.screen('unloading');

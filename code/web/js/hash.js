@@ -46,7 +46,7 @@ saltos.hash = {};
  * Function intended to return the current hash without the pillow
  */
 saltos.hash.get = () => {
-    var hash = window.location.hash;
+    let hash = window.location.hash;
     if (hash.length && hash.substr(0, 1) == '#') {
         hash = hash.substr(1);
     }
@@ -130,7 +130,7 @@ saltos.hash.trigger = () => {
  */
 window.addEventListener('hashchange', event => {
     // Ajax part
-    for (var i in saltos.core.__ajax) {
+    for (const i in saltos.core.__ajax) {
         saltos.core.__ajax[i].abort();
     }
     // Autoclose part

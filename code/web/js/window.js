@@ -129,10 +129,10 @@ saltos.window.unset_listener = (name) => {
  */
 saltos.window.send = (name, data, scope) => {
     if (typeof data == 'undefined') {
-        var data = '';
+        data = '';
     }
     if (typeof scope == 'undefined') {
-        var scope = 'all';
+        scope = 'all';
     }
     saltos.storage.setItem('saltos.window.name', name);
     saltos.storage.setItem('saltos.window.data', data);
@@ -165,8 +165,8 @@ window.addEventListener('storage', event => {
     if (event.key != saltos.storage.get_key('saltos.window.trigger')) {
         return;
     }
-    var name = saltos.storage.getItem('saltos.window.name');
-    var data = saltos.storage.getItem('saltos.window.data');
+    const name = saltos.storage.getItem('saltos.window.name');
+    const data = saltos.storage.getItem('saltos.window.data');
     if (!saltos.window.listeners.hasOwnProperty(name)) {
         return;
     }

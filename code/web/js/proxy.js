@@ -44,7 +44,7 @@
  * @type     => type of the request (network, cache or error)
  * @duration => duration of the entire task in milliseconds
  */
-const debug = (url, type, duration) => {
+const debug = (action, url, type, duration) => {
     const black = 'color:white;background:dimgrey';
     const types = {
         'network': 'green',
@@ -59,7 +59,7 @@ const debug = (url, type, duration) => {
     const color = `color:white;background:${temp}`;
     const reset = 'color:inherit;background:inherit;';
     const array = [
-        `fetch ${url} type %c${type}%c duration %c${duration}ms%c`,
+        `${action} ${url} type %c${type}%c duration %c${duration}ms%c`,
         color, reset, black, reset,
     ];
     //console.log(...array);
@@ -94,12 +94,13 @@ const proxy = async request => {
     }
     order = order.split(',');
 
-    for (let i in order) {
+    let response = null;
+    for (const i in order) {
         switch (order[i]) {
             case 'network':
                 // Network feature
                 try {
-                    var response = await fetch(request.clone());
+                    response = await fetch(request.clone());
                 } catch (error) {
                     //console.log(error);
                 }
@@ -114,7 +115,7 @@ const proxy = async request => {
 
             case 'cache':
                 // Cache feature
-                var response = await caches.match(new_request);
+                response = await caches.match(new_request);
                 if (response) {
                     return {
                         type: 'cache',
@@ -126,7 +127,7 @@ const proxy = async request => {
             case 'queue':
                 // Queue feature
                 queue_push(await request_serialize(request));
-                var response = new Response(JSON.stringify({
+                response = new Response(JSON.stringify({
                     'status': 'ok',
                 }), {
                     status: 200,
@@ -140,7 +141,7 @@ const proxy = async request => {
     }
 
     // Error feature
-    var response = new Response(JSON.stringify({
+    response = new Response(JSON.stringify({
         'error': {
             'text': 'You are offline and the requested content is not cached',
             'code': 'offline'
@@ -318,7 +319,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         proxy(event.request).then(result => {
             const end = Date.now();
-            const array = debug(event.request.url, result.type, end - start);
+            const array = debug('fetch', event.request.url, result.type, end - start);
             if (event.clientId) {
                 event.waitUntil(
                     clients.get(event.clientId).then(client => {
@@ -372,11 +373,12 @@ self.addEventListener('message', async event => {
         let count = 0;
         await queue_getall().then(async result => {
             total = result.length;
-            for (let i in result) {
+            for (const i in result) {
                 const start = Date.now();
                 const request = request_unserialize(result[i].value);
+                let response = null;
                 try {
-                    var response = await fetch(request);
+                    response = await fetch(request);
                 } catch (error) {
                     //~ console.log(error);
                 }
@@ -385,7 +387,7 @@ self.addEventListener('message', async event => {
                     type = 'error';
                 }
                 const end = Date.now();
-                const array = debug(request.url, type, end - start);
+                const array = debug('sync', request.url, type, end - start);
                 event.source.postMessage(array);
                 if (!response) {
                     break;

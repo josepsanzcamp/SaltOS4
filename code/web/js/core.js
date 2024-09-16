@@ -47,15 +47,15 @@ saltos.core = {};
  * client's browser
  */
 window.addEventListener('error', async event => {
-    var file = event.filename;
-    var line = event.lineno;
-    var col = event.colno;
-    var data = {
+    const file = event.filename;
+    const line = event.lineno;
+    const col = event.colno;
+    const data = {
         jserror: event.message,
         details: `Error on file ${file}:${line}:${col}, userAgent is ${navigator.userAgent}`,
         backtrace: 'unknown',
     };
-    var error = event.error;
+    const error = event.error;
     if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
         window.sourceMappedStackTrace.mapStackTrace(error.stack, mappedStack => {
             mappedStack = mappedStack.map(line => line.trim());
@@ -86,7 +86,7 @@ window.addEventListener('error', async event => {
  * @msg => the message that do you want to log on the server log file
  */
 saltos.core.addlog = msg => {
-    var data = {
+    const data = {
         'msg': msg,
     };
     saltos.core.ajax({
@@ -116,7 +116,7 @@ saltos.core.check_params = (obj, params, value) => {
     if (typeof value == 'undefined') {
         value = '';
     }
-    for (var key in params) {
+    for (const key in params) {
         if (!obj.hasOwnProperty(params[key])) {
             obj[params[key]] = value;
         }
@@ -151,23 +151,24 @@ saltos.core.uniqid = () => {
  * to be used when the object not exists at the moment to call this function
  */
 saltos.core.when_visible = (obj, fn, args) => {
+    let id;
     if (typeof obj == 'object') {
         // Check for the id existence
         if (!obj.getAttribute('id')) {
             obj.setAttribute('id', saltos.core.uniqid());
         }
-        var id = obj.getAttribute('id');
+        id = obj.getAttribute('id');
     } else if (typeof obj == 'string') {
-        var id = obj;
+        id = obj;
     } else {
         throw new Error('Unknown when_visible obj typeof' + typeof obj);
     }
     // Launch the interval each millisecond, the idea is wait until found
     // the object and then, validate that not dissapear and wait until the
     // object is visible to execute the fn(args)
-    var step = 1;
-    var interval = setInterval(() => {
-        var obj2 = document.getElementById(id);
+    let step = 1;
+    let interval = setInterval(() => {
+        let obj2 = document.getElementById(id);
         if (step == 1) {
             // Maintain the state machine in the first state until found
             // the object in the document
@@ -198,7 +199,7 @@ saltos.core.when_visible = (obj, fn, args) => {
  * @event => the event that contains the keyboard data
  */
 saltos.core.get_keycode = event => {
-    var keycode = 0;
+    let keycode = 0;
     if (event.keyCode) {
         keycode = event.keyCode;
     } else if (event.which) {
@@ -227,8 +228,8 @@ saltos.core.get_keycode = event => {
  * create separate portions of the table as trs or tds.
  */
 saltos.core.html = (...args) => {
-    var type = 'div';
-    var html = '';
+    let type = 'div';
+    let html = '';
     if (args.length == 1) {
         html = args[0];
     }
@@ -236,7 +237,7 @@ saltos.core.html = (...args) => {
         type = args[0];
         html = args[1];
     }
-    var obj = document.createElement(type);
+    let obj = document.createElement(type);
     obj.innerHTML = html.trim();
     obj = saltos.core.optimize(obj);
     return obj;
@@ -291,11 +292,11 @@ saltos.core.ajax = args => {
     if (!['GET', 'POST'].includes(args.method)) {
         throw new Error(`Unknown ${args.method} method`);
     }
-    var ajax = new XMLHttpRequest();
+    let ajax = new XMLHttpRequest();
     saltos.core.__ajax.push(ajax);
     if (typeof args.success == 'function') {
         ajax.onload = event => {
-            var data = ajax.response;
+            let data = ajax.response;
             if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
                 data = JSON.parse(ajax.responseText);
             }
@@ -321,7 +322,7 @@ saltos.core.ajax = args => {
     }
     ajax.onloadend = event => {
         // Remove the element of the ajax request list
-        for (var i in saltos.core.__ajax) {
+        for (const i in saltos.core.__ajax) {
             if (saltos.core.__ajax[i] === ajax) {
                 delete saltos.core.__ajax[i];
             }
@@ -346,7 +347,7 @@ saltos.core.ajax = args => {
     if (args.lang != '') {
         ajax.setRequestHeader('Lang', args.lang);
     }
-    for (var i in args.headers) {
+    for (const i in args.headers) {
         ajax.setRequestHeader(i, args.headers[i]);
     }
     ajax.send(args.data);
@@ -366,12 +367,12 @@ saltos.core.ajax = args => {
  */
 saltos.core.fix_key = arg => {
     if (typeof arg == 'object') {
-        for (var key in arg) {
+        for (const key in arg) {
             arg[key] = saltos.core.fix_key(arg[key]);
         }
         return arg;
     }
-    var pos = arg.indexOf('#');
+    let pos = arg.indexOf('#');
     if (pos != -1) {
         arg = arg.substr(0, pos);
     }
@@ -433,7 +434,7 @@ saltos.core.require = file => {
     }
     saltos.core.__require.push(file);
     // The next call serve as prefetch
-    var ajax = saltos.core.ajax({
+    const ajax = saltos.core.ajax({
         url: file,
         async: false,
     });
@@ -441,27 +442,27 @@ saltos.core.require = file => {
         throw new Error(`${ajax.status} ${ajax.statusText} loading ${file}`);
     }
     // Hash check if exists
-    var pos = file.indexOf('?');
+    const pos = file.indexOf('?');
     if (pos != -1) {
-        var hash = file.substr(pos + 1);
+        const hash = file.substr(pos + 1);
         if (md5(ajax.response) != hash) {
             throw new Error(`Hash error loading ${file}`);
         }
     }
     // Now, add the tag to load the resource (previously prefetched)
     if (file.substr(-4) == '.css' || file.includes('.css?')) {
-        var link = document.createElement('link');
+        const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = file;
         document.head.append(link);
     }
     if (file.substr(-3) == '.js' || file.includes('.js?')) {
-        var script = document.createElement('script');
+        const script = document.createElement('script');
         script.innerHTML = ajax.response;
         document.body.append(script);
     }
     if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
-        var script = document.createElement('script');
+        const script = document.createElement('script');
         script.type = 'module';
         //~ script.src = file;
         //~ script.async = false;
@@ -503,7 +504,7 @@ saltos.core.eval_bool = arg => {
         if (arg == '') {
             return false;
         }
-        var bools = {
+        const bools = {
             '1': true,
             '0': false,
             'true': true,
@@ -513,7 +514,7 @@ saltos.core.eval_bool = arg => {
             'yes': true,
             'no': false,
         };
-        var bool = arg.toLowerCase();
+        const bool = arg.toLowerCase();
         if (bools.hasOwnProperty(bool)) {
             return bools[bool];
         }
@@ -602,13 +603,13 @@ saltos.core.join_attr_value = data => {
  * @extra => the list of chars allowed to appear in the output
  */
 saltos.core.encode_bad_chars = (cad, pad = '_', extra = '') => {
-    var orig = [
+    const orig = [
         'á', 'à', 'ä', 'â', 'é', 'è', 'ë', 'ê', 'í', 'ì', 'ï', 'î',
         'ó', 'ò', 'ö', 'ô', 'ú', 'ù', 'ü', 'û', 'ñ', 'ç',
         'Á', 'À', 'Ä', 'Â', 'É', 'È', 'Ë', 'Ê', 'Í', 'Ì', 'Ï', 'Î',
         'Ó', 'Ò', 'Ö', 'Ô', 'Ú', 'Ù', 'Ü', 'Û', 'Ñ', 'Ç',
     ];
-    var dest = [
+    const dest = [
         'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i',
         'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'n', 'c',
         'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i',
@@ -616,9 +617,9 @@ saltos.core.encode_bad_chars = (cad, pad = '_', extra = '') => {
     ];
     cad = cad.replace(new RegExp(orig.join('|'), 'g'), (match) => dest[orig.indexOf(match)]);
     cad = cad.toLowerCase();
-    for (var i = 0; i < cad.length; i++) {
-        var letter = cad[i];
-        var replace = true;
+    for (let i = 0; i < cad.length; i++) {
+        const letter = cad[i];
+        let replace = true;
         if (letter >= 'a' && letter <= 'z') {
             replace = false;
         }
@@ -652,7 +653,7 @@ saltos.core.encode_bad_chars = (cad, pad = '_', extra = '') => {
  * @ms => the delay to apply
  */
 saltos.core.delay = (fn, ms) => {
-    var timer = 0;
+    let timer = 0;
     return (...args) => {
         clearTimeout(timer);
         timer = setTimeout(fn.bind(this, ...args), ms || 0);
@@ -673,10 +674,12 @@ saltos.core.delay = (fn, ms) => {
  * remove padding chars in the start and in the end of the string
  */
 saltos.core.prepare_words = (cad, pad = ' ') => {
+    let len1;
+    let len2;
     do {
-        var len1 = cad.length;
+        len1 = cad.length;
         cad = cad.replace(new RegExp(pad + pad, 'g'), (match) => pad);
-        var len2 = cad.length;
+        len2 = cad.length;
     } while (len1 - len2 > 0);
     if (cad.startsWith(pad)) {
         cad = cad.substring(pad.length);
@@ -697,12 +700,13 @@ window.addEventListener('load', event => {
         throw new Error(error);
     });
     navigator.serviceWorker.addEventListener('message', event => {
-        var black = 'color:white;background:dimgrey';
-        var reset = 'color:inherit;background:inherit;';
+        const black = 'color:white;background:dimgrey';
+        const reset = 'color:inherit;background:inherit;';
+        let array;
         if (typeof event.data == 'object') {
-            var array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
+            array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
         } else {
-            var array = ['%cPROXY%c %s', black, reset, event.data];
+            array = ['%cPROXY%c %s', black, reset, event.data];
         }
         console.log(...array);
     });

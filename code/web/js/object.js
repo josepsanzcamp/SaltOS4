@@ -37,4 +37,4 @@
  *
  * This object contains all SaltOS code
  */
-var saltos = {};
+const saltos = {};

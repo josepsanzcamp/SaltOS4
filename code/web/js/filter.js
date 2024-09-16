@@ -57,16 +57,16 @@ saltos.filter.__cache = {};
  */
 saltos.filter.init = () => {
     if (!Object.keys(saltos.filter.__cache).length) {
-        var app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.get().split('/').at(1);
         saltos.app.ajax({
             url: `app/${app}/list/filter`,
             async: false,
             success: response => {
                 saltos.filter.__cache = {};
-                var temp = `app/${app}/list/filter/`;
-                var len = temp.length;
-                for (var key in response) {
-                    var val = JSON.parse(response[key]);
+                const temp = `app/${app}/list/filter/`;
+                const len = temp.length;
+                for (let key in response) {
+                    const val = JSON.parse(response[key]);
                     key = key.substr(len);
                     saltos.filter.__cache[key] = val;
                 }
@@ -141,7 +141,7 @@ saltos.filter.save = (name, data) => {
         }
         delete saltos.filter.__cache[name];
     }
-    var app = saltos.hash.get().split('/').at(1);
+    const app = saltos.hash.get().split('/').at(1);
     saltos.app.ajax({
         url: `app/${app}/list/filter`,
         data: {
@@ -158,11 +158,11 @@ saltos.filter.save = (name, data) => {
  * TODO
  */
 saltos.filter.button = arg => {
-    var form = document.getElementById('filter_form');
-    var select = form.querySelector('select');
-    var input = form.querySelector('input');
+    const form = document.getElementById('filter_form');
+    const select = form.querySelector('select');
+    const input = form.querySelector('input');
     saltos.app.form.__backup.restore('top+one');
-    var data = saltos.app.get_data(true);
+    const data = saltos.app.get_data(true);
     switch (arg) {
         case 'load':
             if (!select.value) {
@@ -216,32 +216,32 @@ saltos.filter.button = arg => {
  * TODO
  */
 saltos.filter.select = arg => {
-    var form = document.getElementById('filter_form');
+    const form = document.getElementById('filter_form');
     if (!form) {
         return;
     }
-    var select = form.querySelector('select');
+    const select = form.querySelector('select');
     if (!select) {
         return;
     }
     select.replaceChildren(saltos.core.html(`<option value=""></option>`));
-    for (var key in saltos.filter.__cache) {
+    for (const key in saltos.filter.__cache) {
         if (key == 'last') {
             continue;
         }
-        var val = saltos.filter.__cache[key];
+        const val = saltos.filter.__cache[key];
         select.append(saltos.core.html(`<option value="${key}">${key}</option>`));
     }
-    var jstree = document.getElementById('jstree');
+    const jstree = document.getElementById('jstree');
     if (!jstree) {
         return;
     }
-    var data = [];
-    for (var key in saltos.filter.__cache) {
+    const data = [];
+    for (const key in saltos.filter.__cache) {
         if (key == 'last') {
             continue;
         }
-        var val = saltos.filter.__cache[key];
+        const val = saltos.filter.__cache[key];
         data.push({
             text: key,
         });

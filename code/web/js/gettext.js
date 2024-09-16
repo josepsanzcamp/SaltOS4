@@ -74,7 +74,7 @@ saltos.gettext.get_short = () => {
  */
 saltos.gettext.set = lang => {
     lang = lang.replace('-', '_');
-    var short = lang.split('_').at(0);
+    const short = lang.split('_').at(0);
     document.documentElement.setAttribute('lang', short);
     saltos.storage.setItem('saltos.gettext.lang', lang);
     saltos.storage.setItem('saltos.gettext.short', short);
@@ -109,10 +109,10 @@ saltos.gettext.T = text => {
     if (typeof text != 'string') {
         throw new Error('Unknown gettext typeof ' + typeof text);
     }
-    var app = saltos.gettext.cache.app;
-    var lang = saltos.gettext.cache.lang;
-    var locale = saltos.gettext.cache.locale;
-    var hash = saltos.core.encode_bad_chars(text);
+    const app = saltos.gettext.cache.app;
+    const lang = saltos.gettext.cache.lang;
+    const locale = saltos.gettext.cache.locale;
+    const hash = saltos.core.encode_bad_chars(text);
     if (locale.hasOwnProperty(app)) {
         if (locale[app].hasOwnProperty(lang)) {
             if (locale[app][lang].hasOwnProperty(hash)) {
@@ -149,8 +149,8 @@ saltos.gettext.bootstrap = {};
  */
 saltos.gettext.bootstrap.field = field => {
     // For all general bootstrap widgers
-    var props = ['label', 'tooltip', 'placeholder'];
-    for (var i in props) {
+    const props = ['label', 'tooltip', 'placeholder'];
+    for (const i in props) {
         if (field.hasOwnProperty(props[i])) {
             field[props[i]] = T(field[props[i]]);
         }
@@ -158,9 +158,9 @@ saltos.gettext.bootstrap.field = field => {
     // Only for table widgets
     if (field.hasOwnProperty('type') && field.type == 'table') {
         if (field.hasOwnProperty('header')) {
-            for (var key in field.header) {
+            for (const key in field.header) {
                 field.header[key] = saltos.core.join_attr_value(field.header[key]);
-                var val = field.header[key];
+                const val = field.header[key];
                 if (typeof val == 'object' && val !== null) {
                     field.header[key].label = T(val.label);
                 } else {
@@ -169,13 +169,13 @@ saltos.gettext.bootstrap.field = field => {
             }
         }
         if (field.hasOwnProperty('data')) {
-            for (var key in field.data) {
-                var val = field.data[key];
+            for (const key in field.data) {
+                const val = field.data[key];
                 if (val.hasOwnProperty('actions')) {
-                    for (var key2 in val.actions) {
-                        var val2 = val.actions[key2];
-                        var props = ['label', 'tooltip'];
-                        for (var i in props) {
+                    for (const key2 in val.actions) {
+                        const val2 = val.actions[key2];
+                        const props = ['label', 'tooltip'];
+                        for (const i in props) {
                             if (val2.hasOwnProperty(props[i])) {
                                 field.data[key].actions[key2][props[i]] =
                                     T(field.data[key].actions[key2][props[i]]);
@@ -187,8 +187,8 @@ saltos.gettext.bootstrap.field = field => {
         }
         if (field.hasOwnProperty('footer')) {
             if (typeof field.footer == 'object') {
-                for (var key in field.footer) {
-                    var val = field.footer[key];
+                for (const key in field.footer) {
+                    const val = field.footer[key];
                     if (typeof val == 'object' && val !== null) {
                         field.footer[key].value = T(val.value);
                     } else {
@@ -203,8 +203,8 @@ saltos.gettext.bootstrap.field = field => {
     }
     // Only for table and list widgets
     if (field.hasOwnProperty('type') && ['table', 'list', 'jstree'].includes(field.type)) {
-        var props = ['nodata'];
-        for (var i in props) {
+        const props = ['nodata'];
+        for (const i in props) {
             if (field.hasOwnProperty(props[i])) {
                 field[props[i]] = T(field[props[i]]);
             }
@@ -213,9 +213,9 @@ saltos.gettext.bootstrap.field = field => {
     // Only for select and multiselect widgets
     if (field.hasOwnProperty('type') && ['select', 'multiselect'].includes(field.type)) {
         if (field.hasOwnProperty('rows')) {
-            for (var key in field.rows) {
+            for (const key in field.rows) {
                 field.rows[key] = saltos.core.join_attr_value(field.rows[key]);
-                var val = field.rows[key];
+                const val = field.rows[key];
                 if (val.hasOwnProperty('label')) {
                     field.rows[key].label = T(val.label);
                 }
@@ -224,8 +224,8 @@ saltos.gettext.bootstrap.field = field => {
     }
     // Only for alert widgets
     if (field.hasOwnProperty('type') && field.type == 'alert') {
-        var props = ['title', 'text', 'body'];
-        for (var i in props) {
+        const props = ['title', 'text', 'body'];
+        for (const i in props) {
             if (field.hasOwnProperty(props[i])) {
                 field[props[i]] = T(field[props[i]]);
             }
@@ -234,11 +234,11 @@ saltos.gettext.bootstrap.field = field => {
     // Only for dropdown widgets
     if (field.hasOwnProperty('type') && field.type == 'dropdown') {
         if (field.hasOwnProperty('menu')) {
-            for (var key in field.menu) {
+            for (const key in field.menu) {
                 field.menu[key] = saltos.core.join_attr_value(field.menu[key]);
-                var val = field.menu[key];
-                var props = ['label', 'tooltip'];
-                for (var i in props) {
+                const val = field.menu[key];
+                const props = ['label', 'tooltip'];
+                for (const i in props) {
                     if (val.hasOwnProperty(props[i])) {
                         field.menu[key][props[i]] = T(field.menu[key][props[i]]);
                     }
@@ -255,8 +255,8 @@ saltos.gettext.bootstrap.field = field => {
  * TODO
  */
 saltos.gettext.bootstrap.modal = args => {
-    var props = ['title', 'close', 'body', 'footer'];
-    for (var i in props) {
+    const props = ['title', 'close', 'body', 'footer'];
+    for (const i in props) {
         if (args.hasOwnProperty(props[i])) {
             if (typeof args[props[i]] == 'string') {
                 args[props[i]] = T(args[props[i]]);
@@ -272,8 +272,8 @@ saltos.gettext.bootstrap.modal = args => {
  * TODO
  */
 saltos.gettext.bootstrap.toast = args => {
-    var props = ['title', 'subtitle', 'close', 'body'];
-    for (var i in props) {
+    const props = ['title', 'subtitle', 'close', 'body'];
+    for (const i in props) {
         if (args.hasOwnProperty(props[i])) {
             if (typeof args[props[i]] == 'string') {
                 args[props[i]] = T(args[props[i]]);
@@ -290,14 +290,14 @@ saltos.gettext.bootstrap.toast = args => {
  */
 saltos.gettext.bootstrap.menu = args => {
     if (args.hasOwnProperty('menu')) {
-        for (var key in args.menu) {
-            var val = args.menu[key];
+        for (const key in args.menu) {
+            const val = args.menu[key];
             if (val.hasOwnProperty('label')) {
                 args.menu[key].label = T(val.label);
             }
             if (val.hasOwnProperty('menu')) {
-                for (var key2 in val.menu) {
-                    var val2 = val.menu[key2];
+                for (const key2 in val.menu) {
+                    const val2 = val.menu[key2];
                     if (val2.hasOwnProperty('label')) {
                         args.menu[key].menu[key2].label = T(val2.label);
                     }
@@ -314,8 +314,8 @@ saltos.gettext.bootstrap.menu = args => {
  * TODO
  */
 saltos.gettext.bootstrap.offcanvas = args => {
-    var props = ['title', 'close', 'body'];
-    for (var i in props) {
+    const props = ['title', 'close', 'body'];
+    for (const i in props) {
         if (args.hasOwnProperty(props[i])) {
             if (typeof args[props[i]] == 'string') {
                 args[props[i]] = T(args[props[i]]);

@@ -22,7 +22,7 @@ web: clean
 	@for i in code/web/js/*.js; do \
 	cat $$i | php scripts/md5sum.php > code/web/js/.js/$${i##*/}; \
 	done
-	uglifyjs code/web/js/.js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,app}.js -c -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
+	uglifyjs code/web/js/.js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,app}.js -c reduce_vars=false -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
 	rmdir code/web/js/.js
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
@@ -31,10 +31,10 @@ web: clean
 	j=$${i%.*};  # file with path without extension    \
 	k=$${i##*/}; # file without path with extension    \
 	m=$${k%.*};  # file without path without extension \
-	uglifyjs $$i -c -m -o $$j.min.js --source-map url=$$m.min.js.map; \
+	uglifyjs $$i -c reduce_vars=false -m -o $$j.min.js --source-map url=$$m.min.js.map; \
 	done
 
-	uglifyjs code/web/lib/md5/md5.min.js code/web/js/proxy.js -c -m -o code/web/proxy.js --source-map filename=code/web/proxy.js.map,url=proxy.js.map
+	uglifyjs code/web/lib/md5/md5.min.js code/web/js/proxy.js -c reduce_vars=false -m -o code/web/proxy.js --source-map filename=code/web/proxy.js.map,url=proxy.js.map
 
 devel: clean
 	cat code/web/htm/index.htm | \

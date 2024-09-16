@@ -91,7 +91,7 @@ saltos.storage.removeItem = key => {
  * keys and removes all items that starts with the prefix returned by get_key
  */
 saltos.storage.clear = () => {
-    var prefix = saltos.storage.get_key('');
+    const prefix = saltos.storage.get_key('');
     Object.keys(window.localStorage).forEach(key => {
         if (key.startsWith(prefix)) {
             window.localStorage.removeItem(key);

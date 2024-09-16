@@ -48,20 +48,21 @@ saltos.driver.init = arg => {
     if (document.getElementById('saltos-driver-styles')) {
         document.getElementById('saltos-driver-styles').remove();
     }
-    var obj = saltos.driver.styles('xl');
+    const obj = saltos.driver.styles('xl');
     obj.setAttribute('id', 'saltos-driver-styles');
     document.body.append(obj);
     // Detect needed padding
-    var has_top = document.getElementById('top').innerHTML.length;
-    var has_bottom = document.getElementById('bottom').innerHTML.length;
+    const has_top = document.getElementById('top').innerHTML.length;
+    const has_bottom = document.getElementById('bottom').innerHTML.length;
+    let new_class;
     if (!has_top && !has_bottom) {
-        var new_class = 'py-3';
+        new_class = 'py-3';
     } else if (!has_top) {
-        var new_class = 'pt-3';
+        new_class = 'pt-3';
     } else if (!has_bottom) {
-        var new_class = 'pb-3';
+        new_class = 'pb-3';
     } else {
-        var new_class = '';
+        new_class = '';
     }
     // Remove and apply the old and new paddings
     document.querySelectorAll('#one, #two, #three').forEach(_this => {
@@ -79,7 +80,7 @@ saltos.driver.init = arg => {
         saltos.filter.load('last');
     }
     // Old feature
-    var screen = document.body.getAttribute('screen');
+    const screen = document.body.getAttribute('screen');
     saltos.driver.__types[screen].init(arg);
 };
 
@@ -89,7 +90,7 @@ saltos.driver.init = arg => {
  * TODO
  */
 saltos.driver.open = arg => {
-    var screen = document.body.getAttribute('screen');
+    const screen = document.body.getAttribute('screen');
     saltos.driver.__types[screen].open(arg);
 };
 
@@ -101,7 +102,7 @@ saltos.driver.open = arg => {
 saltos.driver.close = arg => {
     if (typeof arg != 'undefined' && saltos.core.eval_bool(arg)) {
         // Old feature
-        var screen = document.body.getAttribute('screen');
+        const screen = document.body.getAttribute('screen');
         saltos.driver.__types[screen].close(arg);
         return;
     }
@@ -110,13 +111,13 @@ saltos.driver.close = arg => {
         _this.removeAttribute('autoclose');
     });
     // Continue
-    var url1 = window.location.href.toString();
+    const url1 = window.location.href.toString();
     window.history.back();
     setTimeout(() => {
-        var url2 = window.location.href.toString();
+        const url2 = window.location.href.toString();
         if (url1 == url2) {
             // Old feature
-            var screen = document.body.getAttribute('screen');
+            const screen = document.body.getAttribute('screen');
             saltos.driver.__types[screen].close(arg);
         }
     }, 100);
@@ -130,10 +131,10 @@ saltos.driver.close = arg => {
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     saltos.app.form.__backup.restore('top+one');
-    var data = saltos.app.get_data(true);
+    const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
-    var app = saltos.hash.get().split('/').at(1);
-    var type = '';
+    const app = saltos.hash.get().split('/').at(1);
+    let type = '';
     if (document.getElementById('table')) {
         type = 'table';
     }
@@ -144,7 +145,7 @@ saltos.driver.search = arg => {
         throw new Error('Unknown list type');
     }
     // Restore the more button
-    var obj = document.getElementById('more');
+    const obj = document.getElementById('more');
     if (obj && obj.hasOwnProperty('set_disabled') && typeof obj.set_disabled == 'function') {
         obj.set_disabled(false);
     }
@@ -154,7 +155,7 @@ saltos.driver.search = arg => {
         data: data,
         success: response => {
             response.id = type;
-            var temp = saltos.gettext.bootstrap.field(response);
+            const temp = saltos.gettext.bootstrap.field(response);
             if (type == 'table') {
                 document.getElementById('table').replaceWith(temp);
             }
@@ -176,11 +177,11 @@ saltos.driver.search = arg => {
  */
 saltos.driver.reset = arg => {
     saltos.app.form.__backup.restore('top+one');
-    var types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
+    const types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
         'textarea', 'checkbox', 'password', 'file', 'select-one'];
-    for (var i in saltos.app.__form.fields) {
-        var field = saltos.app.__form.fields[i];
-        var obj = document.getElementById(field.id);
+    for (const i in saltos.app.__form.fields) {
+        const field = saltos.app.__form.fields[i];
+        const obj = document.getElementById(field.id);
         if (!obj) {
             continue;
         }
@@ -207,9 +208,9 @@ saltos.driver.reset = arg => {
 saltos.driver.more = arg => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1;
     saltos.app.form.__backup.restore('top+one');
-    var data = saltos.app.get_data(true);
-    var app = saltos.hash.get().split('/').at(1);
-    var type = '';
+    const data = saltos.app.get_data(true);
+    const app = saltos.hash.get().split('/').at(1);
+    let type = '';
     if (document.getElementById('table')) {
         type = 'table';
     }
@@ -226,22 +227,22 @@ saltos.driver.more = arg => {
             if (!response.data.length) {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 // Disable the more button
-                var obj = document.getElementById('more');
+                const obj = document.getElementById('more');
                 if (obj && obj.hasOwnProperty('set_disabled') && typeof obj.set_disabled == 'function') {
                     obj.set_disabled(true);
                 }
                 // Continue
                 return;
             }
-            var temp = saltos.gettext.bootstrap.field(response);
+            const temp = saltos.gettext.bootstrap.field(response);
             if (type == 'table') {
-                var obj = document.getElementById('table').querySelector('tbody');
+                const obj = document.getElementById('table').querySelector('tbody');
                 temp.querySelectorAll('table tbody tr').forEach(_this => {
                     obj.append(_this);
                 });
             }
             if (type == 'list') {
-                var obj = document.getElementById('list').parentElement;
+                const obj = document.getElementById('list').parentElement;
                 obj.append(temp);
             }
         },
@@ -259,8 +260,8 @@ saltos.driver.insert = arg => {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
-    var data = saltos.app.get_data();
-    var app = saltos.hash.get().split('/').at(1);
+    const data = saltos.app.get_data();
+    const app = saltos.hash.get().split('/').at(1);
     saltos.app.ajax({
         url: `app/${app}/insert`,
         data: data,
@@ -296,13 +297,13 @@ saltos.driver.update = arg => {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
     }
-    var data = saltos.app.get_data();
+    const data = saltos.app.get_data();
     if (!Object.keys(data).length) {
         saltos.app.toast('Warning', 'No changes detected', {color: 'danger'});
         return;
     }
-    var app = saltos.hash.get().split('/').at(1);
-    var id = saltos.hash.get().split('/').at(-1);
+    const app = saltos.hash.get().split('/').at(1);
+    const id = saltos.hash.get().split('/').at(-1);
     saltos.app.ajax({
         url: `app/${app}/update/${id}`,
         data: data,
@@ -351,8 +352,8 @@ saltos.driver.delete = async arg => {
             icon: 'check-lg',
             autofocus: true,
             onclick: () => {
-                var app = saltos.hash.get().split('/').at(1);
-                var id = saltos.hash.get().split('/').at(-1);
+                let app = saltos.hash.get().split('/').at(1);
+                let id = saltos.hash.get().split('/').at(-1);
                 if (typeof arg == 'string') {
                     app = arg.split('/').at(1);
                     id = arg.split('/').at(-1);
@@ -399,7 +400,7 @@ saltos.driver.delete = async arg => {
  * TODO
  */
 saltos.driver.placeholder = arg => {
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div class="bg-primary-subtle h-100 driver-placeholder"></div>
     `);
     obj.append(saltos.core.html(`
@@ -426,7 +427,7 @@ saltos.driver.placeholder = arg => {
  * TODO
  */
 saltos.driver.styles = arg => {
-    var sizes = {
+    const sizes = {
         xs: 0,
         sm: 576,
         md: 768,
@@ -434,8 +435,8 @@ saltos.driver.styles = arg => {
         xl: 1200,
         xxl: 1400,
     };
-    var size = sizes[arg];
-    var height = document.getElementById('header').offsetHeight +
+    const size = sizes[arg];
+    const height = document.getElementById('header').offsetHeight +
         document.getElementById('top').offsetHeight +
         document.getElementById('bottom').offsetHeight +
         document.getElementById('footer').offsetHeight;
@@ -457,17 +458,17 @@ saltos.driver.styles = arg => {
  * TODO
  */
 saltos.driver.search_if_needed = arg => {
-    var action1 = saltos.hash.get().split('/').at(2);
+    const action1 = saltos.hash.get().split('/').at(2);
     setTimeout(() => {
-        var action2 = saltos.hash.get().split('/').at(2);
+        const action2 = saltos.hash.get().split('/').at(2);
         //~ console.log(action1 + ' => ' + action2);
         if (action1 == action2) {
             // Old feature
             saltos.driver.search();
             return;
         }
-        for (var key in arg) {
-            var val = arg[key];
+        for (const key in arg) {
+            const val = arg[key];
             if (action1 == val[0] && action2 == val[1]) {
                 // Old feature
                 saltos.driver.search();
@@ -497,7 +498,7 @@ saltos.driver.__types.type1 = {};
  * TODO
  */
 saltos.driver.__types.type1.template = arg => {
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div id="header" class="sticky-top"></div>
         <div class="container">
             <div class="row">
@@ -523,14 +524,14 @@ saltos.driver.__types.type1.template = arg => {
 saltos.driver.__types.type1.init = arg => {
     if (arg == 'list') {
         // Program the update event
-        var app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search();
         });
     }
     if (arg == 'view') {
         // Program the update event
-        var app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.hash.trigger();
         });
@@ -547,8 +548,8 @@ saltos.driver.__types.type1.init = arg => {
  * TODO
  */
 saltos.driver.__types.type1.open = arg => {
-    var only1 = saltos.hash.get().split('/').at(-1);
-    var only2 = arg.split('/').at(-1);
+    const only1 = saltos.hash.get().split('/').at(-1);
+    const only2 = arg.split('/').at(-1);
     if (only1 == 'only' && only2 != 'only') {
         arg += '/only';
     }
@@ -577,7 +578,7 @@ saltos.driver.__types.type2 = {};
  * TODO
  */
 saltos.driver.__types.type2.template = arg => {
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div id="header"></div>
         <div class="container-fluid">
             <div class="row">
@@ -604,12 +605,12 @@ saltos.driver.__types.type2.template = arg => {
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
         // Continue after the backup
-        var action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder('two');
         }
         // Program the update event
-        var app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['create', 'view'],
@@ -620,7 +621,7 @@ saltos.driver.__types.type2.init = arg => {
     if (['create', 'view', 'edit'].includes(arg)) {
         // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
-            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
     }
@@ -648,7 +649,7 @@ saltos.driver.__types.type2.open = arg => {
 saltos.driver.__types.type2.close = arg => {
     saltos.driver.placeholder('two');
     // Hash part
-    var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+    const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
 };
 
@@ -665,7 +666,7 @@ saltos.driver.__types.type3 = {};
  * TODO
  */
 saltos.driver.__types.type3.template = arg => {
-    var obj = saltos.core.html(`
+    const obj = saltos.core.html(`
         <div id="header"></div>
         <div class="container-fluid">
             <div class="row">
@@ -693,13 +694,13 @@ saltos.driver.__types.type3.template = arg => {
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
         // Continue after the backup
-        var action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder('two');
             saltos.driver.placeholder('three');
         }
         // Program the update event
-        var app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['create', 'view'],
@@ -710,15 +711,15 @@ saltos.driver.__types.type3.init = arg => {
     if (['create', 'view', 'edit'].includes(arg)) {
         // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
-            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
         if (!document.getElementById('two').textContent.trim().length) {
-            var temp = saltos.hash.get().split('/');
+            const temp = saltos.hash.get().split('/');
             temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
             saltos.app.send_request(temp);
         }
-        var arr = saltos.hash.get().split('/');
+        const arr = saltos.hash.get().split('/');
         if (arr.length < 5) {
             saltos.driver.placeholder('three');
         }
@@ -742,18 +743,18 @@ saltos.driver.__types.type3.open = saltos.driver.__types.type2.open;
  * TODO
  */
 saltos.driver.__types.type3.close = arg => {
-    var arr = saltos.hash.get().split('/');
-    var action = saltos.hash.get().split('/').at(2);
+    const arr = saltos.hash.get().split('/');
+    const action = saltos.hash.get().split('/').at(2);
     if (arr.length >= 5 && action == 'view') {
         saltos.driver.placeholder('three');
         // Hash part
-        var temp = saltos.hash.get().split('/');
+        const temp = saltos.hash.get().split('/');
         temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
     } else {
         saltos.driver.placeholder('two');
         // Hash part
-        var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+        const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
         saltos.hash.add(temp);
     }
 };
@@ -771,8 +772,8 @@ saltos.driver.__types.type4 = {};
  * TODO
  */
 saltos.driver.__types.type4.template = arg => {
-    var obj = saltos.driver.__types.type1.template();
-    var div = saltos.core.html(`<div id="two" class="d-none"></div>`);
+    const obj = saltos.driver.__types.type1.template();
+    const div = saltos.core.html(`<div id="two" class="d-none"></div>`);
     obj.querySelector('#one').after(div);
     return obj;
 };
@@ -786,12 +787,12 @@ saltos.driver.__types.type4.init = arg => {
     console.log(arg);
     if (arg == 'list') {
         // Continue after the backup
-        var action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.bootstrap.modal('close');
         }
         // Program the update event
-        var app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['edit', 'view'],
@@ -801,11 +802,11 @@ saltos.driver.__types.type4.init = arg => {
     if (['create', 'view', 'edit'].includes(arg)) {
         // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
-            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
         if (document.getElementById('two').textContent.trim().length) {
-            var obj = document.getElementById('two').firstElementChild;
+            const obj = document.getElementById('two').firstElementChild;
             if (!saltos.bootstrap.modal('isopen')) {
                 saltos.gettext.bootstrap.modal({
                     close: 'Close',
@@ -838,7 +839,7 @@ saltos.driver.__types.type4.open = saltos.driver.__types.type2.open;
 saltos.driver.__types.type4.close = arg => {
     saltos.bootstrap.modal('close');
     // Hash part
-    var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+    const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
     saltos.hash.add(temp);
 };
 
@@ -855,8 +856,8 @@ saltos.driver.__types.type5 = {};
  * TODO
  */
 saltos.driver.__types.type5.template = arg => {
-    var obj = saltos.driver.__types.type2.template();
-    var div = saltos.core.html(`<div id="three" class="d-none"></div>`);
+    const obj = saltos.driver.__types.type2.template();
+    const div = saltos.core.html(`<div id="three" class="d-none"></div>`);
     obj.querySelector('#two').after(div);
     return obj;
 };
@@ -869,13 +870,13 @@ saltos.driver.__types.type5.template = arg => {
 saltos.driver.__types.type5.init = arg => {
     if (arg == 'list') {
         // Continue after the backup
-        var action = saltos.hash.get().split('/').at(2);
+        const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder('two');
             saltos.bootstrap.modal('close');
         }
         // Program the update event
-        var app = saltos.hash.get().split('/').at(1);
+        const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search_if_needed([
                 ['create', 'view'],
@@ -886,16 +887,16 @@ saltos.driver.__types.type5.init = arg => {
     if (['create', 'view', 'edit'].includes(arg)) {
         // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
-            var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+            const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
         }
         if (!document.getElementById('two').textContent.trim().length) {
-            var temp = saltos.hash.get().split('/');
+            let temp = saltos.hash.get().split('/');
             temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
             saltos.app.send_request(temp);
         }
         if (document.getElementById('three').textContent.trim().length) {
-            var obj = document.getElementById('three').firstElementChild;
+            const obj = document.getElementById('three').firstElementChild;
             if (!saltos.bootstrap.modal('isopen')) {
                 saltos.gettext.bootstrap.modal({
                     close: 'Close',
@@ -926,18 +927,18 @@ saltos.driver.__types.type5.open = saltos.driver.__types.type2.open;
  * TODO
  */
 saltos.driver.__types.type5.close = arg => {
-    var arr = saltos.hash.get().split('/');
-    var action = saltos.hash.get().split('/').at(2);
+    const arr = saltos.hash.get().split('/');
+    const action = saltos.hash.get().split('/').at(2);
     if (arr.length >= 5 && action == 'view') {
         saltos.bootstrap.modal('close');
         // Hash part
-        var temp = saltos.hash.get().split('/');
+        const temp = saltos.hash.get().split('/');
         temp = [...temp.slice(0, 3), ...temp.slice(4, 5)].join('/');
         saltos.hash.add(temp);
     } else {
         saltos.driver.placeholder('two');
         // Hash part
-        var temp = saltos.hash.get().split('/').slice(0, 2).join('/');
+        const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
         saltos.hash.add(temp);
     }
 };
