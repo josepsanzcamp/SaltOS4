@@ -58,7 +58,7 @@ saltos.authenticate.authtoken = (user, pass) => {
             'user': user,
             'pass': pass,
         },
-        async: false,
+        sync: true,
         success: response => {
             if (response.status == 'ok') {
                 saltos.token.set(response);
@@ -81,7 +81,7 @@ saltos.authenticate.authtoken = (user, pass) => {
 saltos.authenticate.checktoken = () => {
     saltos.app.ajax({
         url: 'auth/check',
-        async: false,
+        sync: true,
         success: response => {
             if (response.status == 'ok') {
                 saltos.token.set(response);
@@ -105,7 +105,7 @@ saltos.authenticate.checktoken = () => {
 saltos.authenticate.deauthtoken = () => {
     saltos.app.ajax({
         url: 'auth/logout',
-        async: false,
+        sync: true,
         success: response => {
             if (response.status == 'ok') {
                 saltos.token.unset();

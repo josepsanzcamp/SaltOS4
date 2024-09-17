@@ -3403,9 +3403,11 @@ saltos.bootstrap.__field.jstree = field => {
     saltos.core.check_params(field, ['id', 'class', 'open', 'onclick', 'nodata']);
     saltos.core.check_params(field, ['data'], []);
     let obj = saltos.core.html(`<div id="${field.id}" class="${field.class}"></div>`);
-    const instance = new jsTree({}, obj);
-    obj.instance = instance;
-    obj.set = data => {
+    const element = obj;
+    //~ saltos.core.when_visible(element, () => {
+    const instance = new jsTree({}, element);
+    element.instance = instance;
+    element.set = data => {
         // Check for data not found
         if (!data.length) {
             data = [{
@@ -3419,7 +3421,7 @@ saltos.bootstrap.__field.jstree = field => {
             instance.openAll();
         }
     };
-    obj.set(field.data);
+    element.set(field.data);
     instance.on('select', event => {
         let val = event.node.data.text;
         if (event.node.data.hasOwnProperty('id')) {
@@ -3438,6 +3440,7 @@ saltos.bootstrap.__field.jstree = field => {
         }
         throw new Error('Unknown jstree onclick typeof ' + typeof field.onclick);
     });
+    //~ });
     /* .jstree-node-text:hover { background:var(--bs-primary-bg-subtle); } */
     obj.append(saltos.core.html(`
         <style>

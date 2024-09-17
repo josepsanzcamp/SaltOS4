@@ -711,7 +711,7 @@ saltos.app.form.javascript = data => {
         if (key == 'inline') {
             const script = document.createElement('script');
             script.innerHTML = val;
-            document.body.append(script);
+            document.head.append(script);
         }
         if (key == 'file') {
             saltos.core.require(val);
@@ -1474,8 +1474,8 @@ saltos.app.ajax = args => {
         temp.method = 'post';
         temp.content_type = 'application/json';
     }
-    if (args.hasOwnProperty('async')) {
-        temp.async = args.async;
+    if (args.hasOwnProperty('sync')) {
+        temp.sync = args.sync;
     }
     if (args.hasOwnProperty('proxy')) {
         temp.proxy = args.proxy;

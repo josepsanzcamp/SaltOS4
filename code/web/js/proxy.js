@@ -314,7 +314,7 @@ self.addEventListener('activate', event => {
  * This code implements the fetch feature
  */
 self.addEventListener('fetch', event => {
-    //~ console.log('fetch ' + event.request.url);
+    //console.log('fetch ' + event.request.url);
     const start = Date.now();
     event.respondWith(
         proxy(event.request).then(result => {
@@ -380,7 +380,7 @@ self.addEventListener('message', async event => {
                 try {
                     response = await fetch(request);
                 } catch (error) {
-                    //~ console.log(error);
+                    //console.log(error);
                 }
                 let type = 'network';
                 if (!response) {
@@ -396,7 +396,7 @@ self.addEventListener('message', async event => {
                 count++;
             }
         }).catch(error => {
-            //~ console.log(error);
+            //console.log(error);
         });
         event.source.postMessage(`sync ${count} of ${total}`);
     }

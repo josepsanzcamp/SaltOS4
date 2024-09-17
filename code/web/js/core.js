@@ -263,7 +263,7 @@ saltos.core.__ajax = [];
  * @error        => callback function for the error action (optional)
  * @abort        => callback function for the abort action (optional)
  * @progress     => callback function to monitorize the progress of the upload/download (optional)
- * @async        => boolean to use the ajax call asynchronously or not, by default is true
+ * @sync         => boolean to use the ajax call synchronously or not, by default is false
  * @content_type => the content-type that you want to use in the transfer
  * @proxy        => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
  * @token        => add the Token header with the value passed, intended to be used by the SaltOS API
@@ -275,24 +275,53 @@ saltos.core.__ajax = [];
  */
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
-        'abort', 'progress', 'async', 'content_type', 'proxy', 'token', 'lang', 'headers']);
+        'abort', 'progress', 'sync', 'content_type', 'proxy', 'token', 'lang', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
     if (args.method == '') {
         args.method = 'GET';
     }
-    if (args.async === '') {
-        args.async = true;
-    }
-    if (args.headers == '') {
-        args.headers = {};
+    if (args.sync === '') {
+        args.sync = false;
     }
     args.method = args.method.toUpperCase();
     if (!['GET', 'POST'].includes(args.method)) {
         throw new Error(`Unknown ${args.method} method`);
     }
-    let ajax = new XMLHttpRequest();
+    if (args.headers == '') {
+        args.headers = {};
+    }
+    if (args.content_type != '') {
+        args.headers['Content-Type'] = args.content_type;
+    }
+    if (args.proxy != '') {
+        args.headers[`Proxy`] = args.proxy;
+    }
+    if (args.token != '') {
+        args.headers[`Token`] = args.token;
+    }
+    if (args.lang != '') {
+        args.headers[`Lang`] = args.lang;
+    }
+    if (saltos.core.eval_bool(args.sync)) {
+        // Synchronous is only supported by xhr
+        return saltos.core.__ajax_using_xhr(args);
+    } else if (typeof args.progress == 'function') {
+        // Progress is only supported by xhr
+        return saltos.core.__ajax_using_xhr(args);
+    } else {
+        return saltos.core.__ajax_using_fetch(args);
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.core.__ajax_using_xhr = args => {
+    const ajax = new XMLHttpRequest();
     saltos.core.__ajax.push(ajax);
     if (typeof args.success == 'function') {
         ajax.onload = event => {
@@ -334,24 +363,76 @@ saltos.core.ajax = args => {
             }
         }
     };
-    ajax.open(args.method, args.url, args.async);
-    if (args.content_type != '') {
-        ajax.setRequestHeader('Content-Type', args.content_type);
-    }
-    if (args.proxy != '') {
-        ajax.setRequestHeader('Proxy', args.proxy);
-    }
-    if (args.token != '') {
-        ajax.setRequestHeader('Token', args.token);
-    }
-    if (args.lang != '') {
-        ajax.setRequestHeader('Lang', args.lang);
-    }
+    ajax.open(args.method, args.url, !args.sync); // async = !sync
     for (const i in args.headers) {
         ajax.setRequestHeader(i, args.headers[i]);
     }
-    ajax.send(args.data);
+    try {
+        ajax.send(args.data);
+    } catch (error) {
+        //~ console.log(error);
+    }
     return ajax;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.core.__ajax_using_fetch = args => {
+    const controller = new AbortController();
+    saltos.core.__ajax.push(controller);
+    let options = {
+        method: args.method,
+        headers: new Headers(args.headers),
+        signal: controller.signal,
+    };
+    if (args.method == 'POST') {
+        options.body = args.data;
+    }
+    return fetch(args.url, options).then(async response => {
+        // Check for the about in the response header
+        if (!saltos.core.hasOwnProperty('about')) {
+            const about = response.headers.get('about');
+            if (about) {
+                saltos.core.about = response.headers.get('about');
+            }
+        }
+        // Process response
+        let data;
+        const type = response.headers.get('content-type').toUpperCase();
+        if (type.includes('JSON')) {
+            data = await response.json();
+        } else if (type.includes('XML')) {
+            data = await response.text();
+            const parser = new DOMParser();
+            data = parser.parseFromString(data, 'application/xml');
+        } else {
+            data = await response.text();
+        }
+        // Finish with success or return;
+        if (typeof args.success == 'function') {
+            args.success(data);
+        }
+    }).catch(error => {
+        if (error.name === 'AbortError') {
+            if (typeof args.abort == 'function') {
+                args.abort(error);
+            }
+        } else {
+            if (typeof args.error == 'function') {
+                args.error(error);
+            }
+        }
+    }).finally(() => {
+        // Remove the element of the ajax request list
+        for (const i in saltos.core.__ajax) {
+            if (saltos.core.__ajax[i] === controller) {
+                delete saltos.core.__ajax[i];
+            }
+        }
+    });
 };
 
 /**
@@ -434,10 +515,9 @@ saltos.core.require = file => {
     }
     saltos.core.__require.push(file);
     // The next call serve as prefetch
-    const ajax = saltos.core.ajax({
-        url: file,
-        async: false,
-    });
+    const ajax = new XMLHttpRequest();
+    ajax.open('GET', file, false);
+    ajax.send();
     if (ajax.status != 200) {
         throw new Error(`${ajax.status} ${ajax.statusText} loading ${file}`);
     }
@@ -459,7 +539,7 @@ saltos.core.require = file => {
     if (file.substr(-3) == '.js' || file.includes('.js?')) {
         const script = document.createElement('script');
         script.innerHTML = ajax.response;
-        document.body.append(script);
+        document.head.append(script);
     }
     if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
         const script = document.createElement('script');
@@ -467,7 +547,7 @@ saltos.core.require = file => {
         //~ script.src = file;
         //~ script.async = false;
         script.innerHTML = ajax.response;
-        document.body.append(script);
+        document.head.append(script);
     }
 };
 
@@ -695,8 +775,10 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-window.addEventListener('load', event => {
-    navigator.serviceWorker.register('./proxy.js').catch(error => {
+window.addEventListener('DOMContentLoaded', event => {
+    navigator.serviceWorker.register('./proxy.js').then(registration => {
+        registration.update();
+    }).catch(error => {
         throw new Error(error);
     });
     navigator.serviceWorker.addEventListener('message', event => {

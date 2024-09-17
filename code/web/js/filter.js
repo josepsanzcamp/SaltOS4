@@ -60,7 +60,7 @@ saltos.filter.init = () => {
         const app = saltos.hash.get().split('/').at(1);
         saltos.app.ajax({
             url: `app/${app}/list/filter`,
-            async: false,
+            sync: true,
             success: response => {
                 saltos.filter.__cache = {};
                 const temp = `app/${app}/list/filter/`;
@@ -148,7 +148,7 @@ saltos.filter.save = (name, data) => {
             'name': name,
             'val': data,
         },
-        async: false,
+        sync: true,
     });
 };
 
