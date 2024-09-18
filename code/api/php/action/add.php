@@ -53,7 +53,7 @@ switch ($action) {
         if (get_data('json/msg') == '') {
             show_json_error('msg not found');
         }
-        addlog(sprintr(get_data('json/msg')));
+        addlog(get_data('json/msg'));
         break;
     case 'error':
         foreach (['jserror', 'details', 'backtrace'] as $key) {

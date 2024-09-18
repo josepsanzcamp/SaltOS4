@@ -134,11 +134,11 @@ if (php_sapi_name() == 'cli') {
     ];
 }
 
-//~ echo sprintr($_DATA); die();
-//~ echo sprintr($_SERVER); die();
+//~ print_r($_DATA); die();
+//~ print_r($_SERVER); die();
 
-//~ addlog(sprintr($_DATA));
-//~ addlog(sprintr($_SERVER));
+//~ addlog($_DATA);
+//~ addlog($_SERVER);
 
 // Check for the main requirement: rest/0
 set_data('rest/0', encode_bad_chars(strval(get_data('rest/0'))));

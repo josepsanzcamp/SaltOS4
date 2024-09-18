@@ -1668,7 +1668,7 @@ saltos.bootstrap.__field.file = field => {
                 data.data = reader.result;
                 // This allow multiple uploads in parallel
                 ((data, row) => {
-                    saltos.core.ajax({
+                    /*saltos.core.ajax({
                         url: 'api/?/upload/addfile',
                         data: JSON.stringify(data),
                         method: 'post',
@@ -1692,7 +1692,38 @@ saltos.bootstrap.__field.file = field => {
                         },
                         token: saltos.token.get(),
                         lang: saltos.gettext.get(),
-                    });
+                    });*/
+                    const ajax = new XMLHttpRequest();
+                    ajax.open('POST', 'api/?/upload/addfile');
+                    ajax.setRequestHeader('Content-Type', 'application/json');
+                    ajax.setRequestHeader('Token', saltos.token.get());
+                    ajax.setRequestHeader('Lang', saltos.gettext.get());
+                    ajax.setRequestHeader('Proxy', 'network');
+                    ajax.onload = event => {
+                        let data = ajax.response;
+                        if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
+                            data = JSON.parse(ajax.responseText);
+                        }
+                        if (ajax.getResponseHeader('content-type').toUpperCase().includes('XML')) {
+                            data = ajax.responseXML;
+                        }
+                        if (!saltos.app.check_response(data)) {
+                            return;
+                        }
+                        row.data = data;
+                        __update_data_input_file(input);
+                    };
+                    ajax.onerror = event => {
+                        throw new Error(ajax);
+                    };
+                    ajax.onprogress = event => {
+                        if (event.lengthComputable) {
+                            const percent = Math.round((event.loaded / event.total) * 100);
+                            row.querySelector('.progress-bar').style.width = percent + '%';
+                            row.querySelector('.progress').setAttribute('aria-valuenow', percent);
+                        }
+                    };
+                    ajax.send(JSON.stringify(data));
                 })(data, row);
             }
             // If there is an error
