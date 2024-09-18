@@ -51,14 +51,13 @@ saltos.authenticate = {};
  * @user => username used to the authentication process
  * @pass => password used to the authentication process
  */
-saltos.authenticate.authtoken = (user, pass) => {
-    saltos.app.ajax({
+saltos.authenticate.authtoken = async (user, pass) => {
+    await saltos.app.ajax({
         url: 'auth/login',
         data: {
             'user': user,
             'pass': pass,
         },
-        sync: true,
         success: response => {
             if (response.status == 'ok') {
                 saltos.token.set(response);
@@ -78,10 +77,9 @@ saltos.authenticate.authtoken = (user, pass) => {
  *
  * This function uses the checktoken action to check the validity of the current token.
  */
-saltos.authenticate.checktoken = () => {
-    saltos.app.ajax({
+saltos.authenticate.checktoken = async () => {
+    await saltos.app.ajax({
         url: 'auth/check',
-        sync: true,
         success: response => {
             if (response.status == 'ok') {
                 saltos.token.set(response);
@@ -102,10 +100,9 @@ saltos.authenticate.checktoken = () => {
  * This function uses the deauthtoken action to try to de-authenticate an user with the token
  * credentials.
  */
-saltos.authenticate.deauthtoken = () => {
-    saltos.app.ajax({
+saltos.authenticate.deauthtoken = async () => {
+    await saltos.app.ajax({
         url: 'auth/logout',
-        sync: true,
         success: response => {
             if (response.status == 'ok') {
                 saltos.token.unset();

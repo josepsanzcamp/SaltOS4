@@ -51,7 +51,7 @@
                     <menu>
                         <item label="Profile" onclick="saltos.app.profile()"/>
                         <item label="Help" onclick="saltos.app.help()"/>
-                        <item label="Logout" onclick="saltos.authenticate.deauthtoken();saltos.hash.trigger()"/>
+                        <item label="Logout" onclick="saltos.app.logout()"/>
                     </menu>
                 </item>
             </menu>

@@ -45,12 +45,12 @@ saltos.login = {};
  * This function tries to authenticate the user using the user and pass fields of the form, to do
  * it uses the authenticate function that send data to the authtoken action
  */
-saltos.login.authenticate = () => {
+saltos.login.authenticate = async () => {
     if (!saltos.app.check_required()) {
         return;
     }
     const data = saltos.app.get_data(true);
-    saltos.authenticate.authtoken(data.user, data.pass);
+    await saltos.authenticate.authtoken(data.user, data.pass);
     if (!saltos.token.get()) {
         saltos.app.toast('Access denied', 'Incorrect user or password, try again', {color: 'danger'});
         return;

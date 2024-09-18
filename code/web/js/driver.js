@@ -44,7 +44,7 @@ saltos.driver = {};
  *
  * TODO
  */
-saltos.driver.init = arg => {
+saltos.driver.init = async arg => {
     if (document.getElementById('saltos-driver-styles')) {
         document.getElementById('saltos-driver-styles').remove();
     }
@@ -75,7 +75,7 @@ saltos.driver.init = arg => {
     });
     // To check the list preferences
     if (arg == 'list') {
-        saltos.filter.init();
+        await saltos.filter.init();
         saltos.filter.select();
         saltos.filter.load('last');
     }

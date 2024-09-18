@@ -426,12 +426,13 @@ saltos.bootstrap.__field.hidden = field => {
  * @lib/imaskjs/imask.min.js
  */
 saltos.bootstrap.__field.integer = field => {
-    saltos.core.require('lib/imaskjs/imask.min.js');
     field.type = 'text';
     let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'integer';
     const element = obj;
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/imaskjs/imask.min.js',
+    ], () => {
         IMask(element, {
             mask: Number,
             scale: 0,
@@ -470,12 +471,13 @@ saltos.bootstrap.__field.integer = field => {
  * @lib/imaskjs/imask.min.js
  */
 saltos.bootstrap.__field.float = field => {
-    saltos.core.require('lib/imaskjs/imask.min.js');
     field.type = 'text';
     let obj = saltos.bootstrap.__text_helper(field);
     field.type = 'float';
     const element = obj;
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/imaskjs/imask.min.js',
+    ], () => {
         IMask(element, {
             mask: Number,
             radix: '.',
@@ -640,13 +642,14 @@ saltos.bootstrap.__field.datetime = field => {
  * @lib/autoheight/autoheight.min.js
  */
 saltos.bootstrap.__field.textarea = field => {
-    saltos.core.require('lib/autoheight/autoheight.min.js');
     saltos.core.check_params(field, ['height']);
     let obj = saltos.core.html(`<div></div>`);
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(field));
     const element = obj.querySelector('textarea');
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/autoheight/autoheight.min.js',
+    ], () => {
         autoheight(element);
     });
     if (field.height) {
@@ -688,13 +691,6 @@ saltos.bootstrap.__field.textarea = field => {
  * value of the ckeditor, intended to load new data.
  */
 saltos.bootstrap.__field.ckeditor = field => {
-    saltos.core.require('lib/ckeditor/ckeditor.min.js');
-    // Language prefetch
-    const lang = saltos.gettext.get_short();
-    if (lang != 'en') {
-        saltos.core.require(`lib/ckeditor/translations/${lang}.js`);
-    }
-    // Continue
     saltos.core.check_params(field, ['height', 'color', 'disabled']);
     if (!field.color) {
         field.color = 'primary';
@@ -703,7 +699,16 @@ saltos.bootstrap.__field.ckeditor = field => {
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
-    saltos.core.when_visible(element, () => {
+    const array = [
+        'lib/ckeditor/ckeditor.min.js',
+    ];
+    // Language prefetch
+    const lang = saltos.gettext.get_short();
+    if (lang != 'en') {
+        array.push(`lib/ckeditor/translations/${lang}.js`);
+    }
+    // Continue
+    saltos.core.require(array, () => {
         ClassicEditor.create(element, {
             language: lang,
         }).then(editor => {
@@ -803,8 +808,6 @@ saltos.bootstrap.__field.ckeditor = field => {
  * value of the codemirror, intended to load new data.
  */
 saltos.bootstrap.__field.codemirror = field => {
-    saltos.core.require('lib/codemirror/codemirror.min.css');
-    saltos.core.require('lib/codemirror/codemirror.min.js');
     saltos.core.check_params(field, ['mode', 'height', 'color', 'disabled']);
     if (!field.color) {
         field.color = 'primary';
@@ -813,7 +816,10 @@ saltos.bootstrap.__field.codemirror = field => {
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/codemirror/codemirror.min.css',
+        'lib/codemirror/codemirror.min.js',
+    ], () => {
         const cm = CodeMirror.fromTextArea(element, {
             mode: field.mode,
             styleActiveLine: true,
@@ -1848,8 +1854,6 @@ saltos.bootstrap.__field.image = field => {
  * @lib/handsontable/handsontable.full.min.js
  */
 saltos.bootstrap.__field.excel = field => {
-    saltos.core.require('lib/handsontable/handsontable.full.min.css');
-    saltos.core.require('lib/handsontable/handsontable.full.min.js');
     saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required',
                                      'rowHeaders', 'colHeaders', 'minSpareRows',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths',
@@ -1903,7 +1907,10 @@ saltos.bootstrap.__field.excel = field => {
     }
     input.data = saltos.core.copy_object(field.data);
     const element = obj.querySelector('div');
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/handsontable/handsontable.full.min.css',
+        'lib/handsontable/handsontable.full.min.js',
+    ], () => {
         const excel = new Handsontable(element, {
             data: input.data, // This links the data
             rowHeaders: field.rowHeaders,
@@ -1996,9 +2003,6 @@ saltos.bootstrap.__field.excel = field => {
  * that modal scrollTop is the same.
  */
 saltos.bootstrap.__field.pdfjs = field => {
-    saltos.core.require('lib/pdfjs/pdf_viewer.min.css');
-    saltos.core.require('lib/pdfjs/pdf.min.mjs');
-    saltos.core.require('lib/pdfjs/pdf_viewer.min.mjs');
     saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color']);
     if (field.srcdoc != '') {
         field.src = {data: atob(field.srcdoc)};
@@ -2033,7 +2037,11 @@ saltos.bootstrap.__field.pdfjs = field => {
         </style>
     `));
     const element = obj.querySelector('.viewerContainer');
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/pdfjs/pdf_viewer.min.css',
+        'lib/pdfjs/pdf.min.mjs',
+        'lib/pdfjs/pdf_viewer.min.mjs',
+    ], () => {
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.src).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
@@ -2615,14 +2623,15 @@ saltos.bootstrap.__field.card = field => {
  * @lib/chartjs/chart.umd.min.js
  */
 saltos.bootstrap.__field.chartjs = field => {
-    saltos.core.require('lib/chartjs/chart.umd.min.js');
     saltos.core.check_params(field, ['id', 'mode', 'data']);
     let obj = saltos.core.html(`<canvas id="${field.id}"></canvas>`);
     for (const key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
     const element = obj;
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/chartjs/chart.umd.min.js',
+    ], () => {
         new Chart(element, {
             type: field.mode,
             data: field.data,
@@ -2796,10 +2805,6 @@ saltos.bootstrap.__field.tags = field => {
  * @lib/imagesloaded/imagesloaded.pkgd.min.js
  */
 saltos.bootstrap.__field.gallery = field => {
-    saltos.core.require('lib/venobox/venobox.min.css');
-    saltos.core.require('lib/venobox/venobox.min.js');
-    saltos.core.require('lib/masonry/masonry.pkgd.min.js');
-    saltos.core.require('lib/imagesloaded/imagesloaded.pkgd.min.js');
     saltos.core.check_params(field, ['id', 'class', 'images', 'color']);
     if (field.class == '') {
         field.class = 'col';
@@ -2835,7 +2840,12 @@ saltos.bootstrap.__field.gallery = field => {
         }
     }
     const element = obj.querySelector('.row');
-    saltos.core.when_visible(element, () => {
+    saltos.core.require([
+        'lib/venobox/venobox.min.css',
+        'lib/venobox/venobox.min.js',
+        'lib/masonry/masonry.pkgd.min.js',
+        'lib/imagesloaded/imagesloaded.pkgd.min.js',
+    ], () => {
         const msnry = new Masonry(element, {
             percentPosition: true,
         });
@@ -3398,64 +3408,65 @@ saltos.bootstrap.__field.accordion = field => {
  * @children => an array with the nodes childrens
  */
 saltos.bootstrap.__field.jstree = field => {
-    saltos.core.require('lib/jstree/jstree.min.css');
-    saltos.core.require('lib/jstree/jstree.min.js');
     saltos.core.check_params(field, ['id', 'class', 'open', 'onclick', 'nodata']);
     saltos.core.check_params(field, ['data'], []);
     let obj = saltos.core.html(`<div id="${field.id}" class="${field.class}"></div>`);
     const element = obj;
-    //~ saltos.core.when_visible(element, () => {
-    const instance = new jsTree({}, element);
-    element.instance = instance;
-    element.set = data => {
-        // Check for data not found
-        if (!data.length) {
-            data = [{
-                id: null,
-                text: field.nodata,
-            }];
-        }
-        // Continue
-        instance.empty().create(data);
-        if (saltos.core.eval_bool(field.open)) {
-            instance.openAll();
-        }
-    };
-    element.set(field.data);
-    instance.on('select', event => {
-        let val = event.node.data.text;
-        if (event.node.data.hasOwnProperty('id')) {
-            val = event.node.data.id;
-        }
-        if (!val) {
-            return;
-        }
-        if (typeof field.onclick == 'string') {
-            (new Function(field.onclick)).call(val);
-            return;
-        }
-        if (typeof field.onclick == 'function') {
-            field.onclick(val);
-            return;
-        }
-        throw new Error('Unknown jstree onclick typeof ' + typeof field.onclick);
+    saltos.core.require([
+        'lib/jstree/jstree.min.css',
+        'lib/jstree/jstree.min.js',
+    ], () => {
+        const instance = new jsTree({}, element);
+        element.instance = instance;
+        element.set = data => {
+            // Check for data not found
+            if (!data.length) {
+                data = [{
+                    id: null,
+                    text: field.nodata,
+                }];
+            }
+            // Continue
+            instance.empty().create(data);
+            if (saltos.core.eval_bool(field.open)) {
+                instance.openAll();
+            }
+        };
+        element.set(field.data);
+        instance.on('select', event => {
+            let val = event.node.data.text;
+            if (event.node.data.hasOwnProperty('id')) {
+                val = event.node.data.id;
+            }
+            if (!val) {
+                return;
+            }
+            if (typeof field.onclick == 'string') {
+                (new Function(field.onclick)).call(val);
+                return;
+            }
+            if (typeof field.onclick == 'function') {
+                field.onclick(val);
+                return;
+            }
+            throw new Error('Unknown jstree onclick typeof ' + typeof field.onclick);
+        });
+        /* .jstree-node-text:hover { background:var(--bs-primary-bg-subtle); } */
+        element.append(saltos.core.html(`
+            <style>
+                .jstree-node-text { color:var(--bs-primary); }
+                .jstree-node-text:hover { background:#fbec88; color:#373a3c; }
+                .jstree-selected,
+                .jstree-selected:hover { background:var(--bs-primary); color:white; }
+                .jstree-node-icon:before { background:var(--bs-primary); }
+                .jstree-node-icon:after { background:var(--bs-primary); }
+                .jstree-node-text:hover .jstree-node-icon:before { background:#373a3c; }
+                .jstree-node-text:hover .jstree-node-icon:after { background:#373a3c; }
+                .jstree-selected:hover .jstree-node-icon:before { background:white; }
+                .jstree-selected:hover .jstree-node-icon:after { background:white; }
+            </style>
+        `));
     });
-    //~ });
-    /* .jstree-node-text:hover { background:var(--bs-primary-bg-subtle); } */
-    obj.append(saltos.core.html(`
-        <style>
-            .jstree-node-text { color:var(--bs-primary); }
-            .jstree-node-text:hover { background:#fbec88; color:#373a3c; }
-            .jstree-selected,
-            .jstree-selected:hover { background:var(--bs-primary); color:white; }
-            .jstree-node-icon:before { background:var(--bs-primary); }
-            .jstree-node-icon:after { background:var(--bs-primary); }
-            .jstree-node-text:hover .jstree-node-icon:before { background:#373a3c; }
-            .jstree-node-text:hover .jstree-node-icon:after { background:#373a3c; }
-            .jstree-selected:hover .jstree-node-icon:before { background:white; }
-            .jstree-selected:hover .jstree-node-icon:after { background:white; }
-        </style>
-    `));
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };

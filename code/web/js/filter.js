@@ -55,12 +55,11 @@ saltos.filter.__cache = {};
  *
  * @app => the name of the app used to load the filters
  */
-saltos.filter.init = () => {
+saltos.filter.init = async () => {
     if (!Object.keys(saltos.filter.__cache).length) {
         const app = saltos.hash.get().split('/').at(1);
-        saltos.app.ajax({
+        await saltos.app.ajax({
             url: `app/${app}/list/filter`,
-            sync: true,
             success: response => {
                 saltos.filter.__cache = {};
                 const temp = `app/${app}/list/filter/`;
@@ -148,7 +147,6 @@ saltos.filter.save = (name, data) => {
             'name': name,
             'val': data,
         },
-        sync: true,
     });
 };
 
@@ -246,5 +244,7 @@ saltos.filter.select = arg => {
             text: key,
         });
     }
-    jstree.set(data);
+    setTimeout(() => {
+        jstree.set(data);
+    }, 100);
 };

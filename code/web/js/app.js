@@ -172,14 +172,18 @@ saltos.app.send_request = hash => {
  *
  * This function process the responses received by the send request
  */
-saltos.app.process_response = response => {
+saltos.app.process_response = async response => {
     for (let key in response) {
         const val = response[key];
         key = saltos.core.fix_key(key);
         if (typeof saltos.app.form[key] != 'function') {
             throw new Error(`Response type ${key} not found`);
         }
-        saltos.app.form[key](val);
+        if (saltos.app.form[key].constructor.name == 'AsyncFunction') {
+            await saltos.app.form[key](val);
+        } else {
+            saltos.app.form[key](val);
+        }
     }
 };
 
@@ -673,12 +677,9 @@ saltos.app.form.__layout_auto_helper.col = layout => {
  * This function allow to specify styles, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  *
- * Note that as some part of this code appear in the core.require function, we have decided
- * to replace it by a call to the saltos.core.require
- *
  * @data => the object that contains the styles requirements (can be file or inline)
  */
-saltos.app.form.style = data => {
+saltos.app.form.style = async data => {
     for (let key in data) {
         const val = data[key];
         key = saltos.core.fix_key(key);
@@ -688,7 +689,11 @@ saltos.app.form.style = data => {
             document.head.append(style);
         }
         if (key == 'file') {
-            saltos.core.require(val);
+            const response = await fetch(val);
+            const data = await response.text();
+            const style = document.createElement('style');
+            style.innerHTML = data;
+            document.head.append(style);
         }
     }
 };
@@ -699,12 +704,9 @@ saltos.app.form.style = data => {
  * This function allow to specify scripts, you can use the inline of file key to specify
  * what kind of usage do you want to do.
  *
- * Note that as some part of this code appear in the core.require function, we have decided
- * to replace it by a call to the saltos.core.require
- *
  * @data => the object that contains the javascript requirements (can be file or inline)
  */
-saltos.app.form.javascript = data => {
+saltos.app.form.javascript = async data => {
     for (let key in data) {
         const val = data[key];
         key = saltos.core.fix_key(key);
@@ -714,7 +716,11 @@ saltos.app.form.javascript = data => {
             document.head.append(script);
         }
         if (key == 'file') {
-            saltos.core.require(val);
+            const response = await fetch(val);
+            const data = await response.text();
+            const script = document.createElement('script');
+            script.innerHTML = data;
+            document.head.append(script);
         }
     }
 };
@@ -1381,6 +1387,16 @@ saltos.app.help = () => {
  *
  * TODO
  */
+saltos.app.logout = async () => {
+    await saltos.authenticate.deauthtoken();
+    saltos.hash.trigger();
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.app.filter = () => {
     if (saltos.bootstrap.offcanvas('isopen')) {
         saltos.bootstrap.offcanvas('close');
@@ -1450,20 +1466,20 @@ saltos.app.ajax = args => {
                 args.success(response);
             }
         },
-        error: request => {
+        error: error => {
             saltos.app.form.screen('unloading');
             saltos.app.show_error({
-                text: request.statusText,
-                code: request.status,
+                text: error.message,
+                code: saltos.core.__get_code_from_file_and_line(error.fileName, error.lineNumber),
             });
             if (typeof args.error == 'function') {
-                args.error(response);
+                args.error(error);
             }
         },
-        abort: request => {
+        abort: error => {
             saltos.app.form.screen('unloading');
             if (typeof args.abort == 'function') {
-                args.abort(response);
+                args.abort(error);
             }
         },
         token: saltos.token.get(),
@@ -1474,14 +1490,11 @@ saltos.app.ajax = args => {
         temp.method = 'post';
         temp.content_type = 'application/json';
     }
-    if (args.hasOwnProperty('sync')) {
-        temp.sync = args.sync;
-    }
     if (args.hasOwnProperty('proxy')) {
         temp.proxy = args.proxy;
     }
     saltos.app.form.screen('loading');
-    saltos.core.ajax(temp);
+    return saltos.core.ajax(temp);
 };
 
 /**
@@ -1507,7 +1520,7 @@ window.addEventListener('offline', event => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-window.addEventListener('load', event => {
+window.addEventListener('load', async event => {
     // Theme part
     if (!saltos.bootstrap.get_bs_theme()) {
         saltos.bootstrap.set_bs_theme('auto');
@@ -1527,7 +1540,7 @@ window.addEventListener('load', event => {
     }
     // Token part
     if (saltos.token.get()) {
-        saltos.authenticate.checktoken();
+        await saltos.authenticate.checktoken();
     }
     // Hash part
     saltos.hash.trigger();

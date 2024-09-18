@@ -263,7 +263,6 @@ saltos.core.__ajax = [];
  * @error        => callback function for the error action (optional)
  * @abort        => callback function for the abort action (optional)
  * @progress     => callback function to monitorize the progress of the upload/download (optional)
- * @sync         => boolean to use the ajax call synchronously or not, by default is false
  * @content_type => the content-type that you want to use in the transfer
  * @proxy        => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
  * @token        => add the Token header with the value passed, intended to be used by the SaltOS API
@@ -275,15 +274,12 @@ saltos.core.__ajax = [];
  */
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
-        'abort', 'progress', 'sync', 'content_type', 'proxy', 'token', 'lang', 'headers']);
+        'abort', 'progress', 'content_type', 'proxy', 'token', 'lang', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
     if (args.method == '') {
         args.method = 'GET';
-    }
-    if (args.sync === '') {
-        args.sync = false;
     }
     args.method = args.method.toUpperCase();
     if (!['GET', 'POST'].includes(args.method)) {
@@ -304,83 +300,6 @@ saltos.core.ajax = args => {
     if (args.lang != '') {
         args.headers[`Lang`] = args.lang;
     }
-    if (saltos.core.eval_bool(args.sync)) {
-        // Synchronous is only supported by xhr
-        return saltos.core.__ajax_using_xhr(args);
-    } else if (typeof args.progress == 'function') {
-        // Progress is only supported by xhr
-        return saltos.core.__ajax_using_xhr(args);
-    } else {
-        return saltos.core.__ajax_using_fetch(args);
-    }
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.core.__ajax_using_xhr = args => {
-    const ajax = new XMLHttpRequest();
-    saltos.core.__ajax.push(ajax);
-    if (typeof args.success == 'function') {
-        ajax.onload = event => {
-            let data = ajax.response;
-            if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
-                data = JSON.parse(ajax.responseText);
-            }
-            if (ajax.getResponseHeader('content-type').toUpperCase().includes('XML')) {
-                data = ajax.responseXML;
-            }
-            args.success(data);
-        };
-    }
-    if (typeof args.error == 'function') {
-        ajax.onerror = event => {
-            args.error(ajax);
-        };
-    }
-    if (typeof args.abort == 'function') {
-        ajax.onabort = event => {
-            args.abort(ajax);
-        };
-    }
-    if (typeof args.progress == 'function') {
-        ajax.onprogress = args.progress;
-        ajax.upload.onprogress = args.progress;
-    }
-    ajax.onloadend = event => {
-        // Remove the element of the ajax request list
-        for (const i in saltos.core.__ajax) {
-            if (saltos.core.__ajax[i] === ajax) {
-                delete saltos.core.__ajax[i];
-            }
-        }
-        // Check for the about in the response header
-        if (!saltos.core.hasOwnProperty('about')) {
-            if (ajax.getResponseHeader('about')) {
-                saltos.core.about = ajax.getResponseHeader('about');
-            }
-        }
-    };
-    ajax.open(args.method, args.url, !args.sync); // async = !sync
-    for (const i in args.headers) {
-        ajax.setRequestHeader(i, args.headers[i]);
-    }
-    try {
-        ajax.send(args.data);
-    } catch (error) {
-        //~ console.log(error);
-    }
-    return ajax;
-};
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.core.__ajax_using_fetch = args => {
     const controller = new AbortController();
     saltos.core.__ajax.push(controller);
     let options = {
@@ -433,6 +352,11 @@ saltos.core.__ajax_using_fetch = args => {
             }
         }
     });
+    // TODO: FALTA LO DEL ONPROGRESS
+    /*if (typeof args.progress == 'function') {
+        ajax.onprogress = args.progress;
+        ajax.upload.onprogress = args.progress;
+    }*/
 };
 
 /**
@@ -492,7 +416,7 @@ saltos.core.optimize = obj => {
  *
  * This array allow to the require feature to control the loaded libraries
  */
-saltos.core.__require = [];
+saltos.core.__require = {};
 
 /**
  * Require feature
@@ -508,47 +432,57 @@ saltos.core.__require = [];
  * case, they uses a different technique, for css the load is asynchronous and for javascript
  * the load will be synchronous.
  */
-saltos.core.require = file => {
-    // To prevent duplicates
-    if (saltos.core.__require.includes(file)) {
-        return;
-    }
-    saltos.core.__require.push(file);
-    // The next call serve as prefetch
-    const ajax = new XMLHttpRequest();
-    ajax.open('GET', file, false);
-    ajax.send();
-    if (ajax.status != 200) {
-        throw new Error(`${ajax.status} ${ajax.statusText} loading ${file}`);
-    }
-    // Hash check if exists
-    const pos = file.indexOf('?');
-    if (pos != -1) {
-        const hash = file.substr(pos + 1);
-        if (md5(ajax.response) != hash) {
-            throw new Error(`Hash error loading ${file}`);
-        }
-    }
-    // Now, add the tag to load the resource (previously prefetched)
-    if (file.substr(-4) == '.css' || file.includes('.css?')) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = file;
-        document.head.append(link);
-    }
-    if (file.substr(-3) == '.js' || file.includes('.js?')) {
-        const script = document.createElement('script');
-        script.innerHTML = ajax.response;
-        document.head.append(script);
-    }
-    if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
-        const script = document.createElement('script');
-        script.type = 'module';
-        //~ script.src = file;
-        //~ script.async = false;
-        script.innerHTML = ajax.response;
-        document.head.append(script);
-    }
+saltos.core.require = (files, callback) => {
+    files.reduce((promiseChain, file) => {
+        return promiseChain.then(async () => {
+            // To prevent duplicates
+            if (saltos.core.__require.hasOwnProperty(file)) {
+                while (saltos.core.__require[file] != 'load') {
+                    await new Promise(resolve => setTimeout(resolve, 1));
+                }
+                return;
+            }
+            saltos.core.__require[file] = 'loading';
+            // Continue
+            try {
+                const response = await fetch(file);
+                const data = await response.text();
+                // Hash check if exists
+                const pos = file.indexOf('?');
+                if (pos != -1) {
+                    const hash = file.substr(pos + 1);
+                    if (md5(data) != hash) {
+                        throw new Error(`Hash error loading ${file}`);
+                    }
+                }
+                // Now, add the tag to load the resource (previously prefetched)
+                if (file.substr(-4) == '.css' || file.includes('.css?')) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = file;
+                    document.head.append(link);
+                }
+                if (file.substr(-3) == '.js' || file.includes('.js?')) {
+                    const script = document.createElement('script');
+                    script.innerHTML = data;
+                    document.head.append(script);
+                }
+                if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
+                    const script = document.createElement('script');
+                    script.type = 'module';
+                    //~ script.src = file;
+                    //~ script.async = false;
+                    script.innerHTML = data;
+                    document.head.append(script);
+                }
+                saltos.core.__require[file] = 'load';
+            } catch (error) {
+                throw new Error(`${error.name} ${error.message} loading ${file}`);
+            }
+        });
+    }, Promise.resolve()).then(() => {
+        callback();
+    });
 };
 
 /**
@@ -775,7 +709,7 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-window.addEventListener('DOMContentLoaded', event => {
+document.addEventListener('DOMContentLoaded', event => {
     navigator.serviceWorker.register('./proxy.js').then(registration => {
         registration.update();
     }).catch(error => {
@@ -813,3 +747,16 @@ saltos.core.proxy = msg => {
 window.addEventListener('online', event => {
     saltos.core.proxy('sync');
 });
+
+/**
+ * Get code from file and line
+ *
+ * This function returns the string that contains the PATHINFO_FILENAME and the line to idenfify
+ * the launcher of an error, for example
+ *
+ * @file => filename used to obtain the first part of the code
+ * @line => line used to construct the last part of the code
+ */
+saltos.core.__get_code_from_file_and_line = (file, line) => {
+    return file.split('/').pop().split('.').shift() + ':' + line;
+};
