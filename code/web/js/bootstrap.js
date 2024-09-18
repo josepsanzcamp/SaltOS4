@@ -1723,7 +1723,7 @@ saltos.bootstrap.__field.file = field => {
                             row.querySelector('.progress').setAttribute('aria-valuenow', percent);
                         }
                     };
-                    ajax.upload.onprogress = ajax.onprogress
+                    ajax.upload.onprogress = ajax.onprogress;
                     ajax.send(JSON.stringify(data));
                 })(data, row);
             }

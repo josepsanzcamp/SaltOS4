@@ -31,8 +31,8 @@ browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHR
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNi4xPC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuNC4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMDcgLSAyMDI0LTA5LTA2PC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDktMDMsIFZlcnNpb24gMjIuOC4wIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
-phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMiAtIDIwMjQtMDctMjI8L3RpdGxlPg==
+node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDktMTcsIFZlcnNpb24gMjIuOS4wIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
+phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMyAtIDIwMjQtMDktMTg8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMGJldGE1PC90aXRsZT4=
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMy41PC90aXRsZT4=
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
