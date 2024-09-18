@@ -315,8 +315,8 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
     //console.log('fetch ' + event.request.url);
-    const proxy = event.request.headers.get('proxy');
-    if (['no', 'omit', 'cancel', 'bypass'].includes(proxy)) {
+    const order = event.request.headers.get('proxy');
+    if (['no', 'omit', 'cancel', 'bypass'].includes(order)) {
         return;
     }
     const start = Date.now();
