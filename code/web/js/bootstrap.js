@@ -640,6 +640,7 @@ saltos.bootstrap.__field.ckeditor = field => {
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
+    element.style.display = 'none';
     const array = [
         'lib/ckeditor/ckeditor.min.js',
     ];
@@ -650,7 +651,6 @@ saltos.bootstrap.__field.ckeditor = field => {
     }
     // Continue
     saltos.core.require(array, () => {
-        saltos.bootstrap.__tooltip_hide();
         ClassicEditor.create(element, {
             language: lang,
         }).then(editor => {
@@ -758,11 +758,11 @@ saltos.bootstrap.__field.codemirror = field => {
     obj.append(saltos.bootstrap.__label_helper(field));
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
+    element.style.display = 'none';
     saltos.core.require([
         'lib/codemirror/codemirror.min.css',
         'lib/codemirror/codemirror.min.js',
     ], () => {
-        saltos.bootstrap.__tooltip_hide();
         const cm = CodeMirror.fromTextArea(element, {
             mode: field.mode,
             styleActiveLine: true,
@@ -2673,6 +2673,7 @@ saltos.bootstrap.__field.tags = field => {
     const obj = saltos.bootstrap.__field.text(field);
     field.type = 'tags';
     const element = obj.querySelector('input');
+    element.style.display = 'none';
     let fn = null;
     if (typeof field.datalist == 'string' && field.datalist != '') {
         fn = (query, callback) => {
@@ -2758,7 +2759,6 @@ saltos.bootstrap.__field.tags = field => {
         'lib/tomselect/tom-select.bootstrap5.min.css',
         'lib/tomselect/tom-select.complete.min.js',
     ], () => {
-        saltos.bootstrap.__tooltip_hide();
         const tags = new TomSelect(element, {
             delimiter: field.separator,
             create: true,
@@ -3760,7 +3760,11 @@ saltos.bootstrap.__textarea_helper = field => {
  */
 saltos.bootstrap.__tooltip_helper = obj => {
     const instance = new bootstrap.Tooltip(obj, {
-        trigger: 'hover'
+        trigger: 'hover',
+        delay: {
+            'show': 500,
+            'hide': 0,
+        },
     });
     obj.addEventListener('focus', () => {
         instance.hide();
