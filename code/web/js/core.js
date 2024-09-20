@@ -710,22 +710,24 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  * This is the code that must to be executed to initialize all requirements of this module
  */
 document.addEventListener('DOMContentLoaded', event => {
-    navigator.serviceWorker.register('./proxy.js').then(registration => {
-        registration.update();
-    }).catch(error => {
-        throw new Error(error);
-    });
-    navigator.serviceWorker.addEventListener('message', event => {
-        const black = 'color:white;background:dimgrey';
-        const reset = 'color:inherit;background:inherit;';
-        let array;
-        if (typeof event.data == 'object') {
-            array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
-        } else {
-            array = ['%cPROXY%c %s', black, reset, event.data];
-        }
-        console.log(...array);
-    });
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./proxy.js').then(registration => {
+            registration.update();
+        }).catch(error => {
+            throw new Error(error);
+        });
+        navigator.serviceWorker.addEventListener('message', event => {
+            const black = 'color:white;background:dimgrey';
+            const reset = 'color:inherit;background:inherit;';
+            let array;
+            if (typeof event.data == 'object') {
+                array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
+            } else {
+                array = ['%cPROXY%c %s', black, reset, event.data];
+            }
+            console.log(...array);
+        });
+    }
 });
 
 /**
