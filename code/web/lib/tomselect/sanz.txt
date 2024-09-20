@@ -1,0 +1,8 @@
+
+wget https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/js/tom-select.complete.min.js
+wget https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.bootstrap5.min.css
+
+for i in tom-select.*; do
+    cat $i | grep -v sourceMappingURL > $i.new
+    mv $i.new $i
+done

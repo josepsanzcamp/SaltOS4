@@ -1036,6 +1036,14 @@ saltos.app.get_data = full => {
                     old = 0;
                 }
                 break;
+            case 'select':
+                if (field.hasOwnProperty('multiple') && saltos.core.eval_bool(field.multiple)) {
+                    if (field.hasOwnProperty('separator')) {
+                        val = val.split(field.separator).sort().join(field.separator);
+                        old = old.split(field.separator).sort().join(field.separator);
+                    }
+                }
+                break;
             case 'multiselect':
                 if (field.hasOwnProperty('separator')) {
                     val = val.split(field.separator).sort().join(field.separator);
@@ -1190,9 +1198,8 @@ saltos.app.check_required = () => {
         let obj_focus = _this;
         // to detect the color and focus of the tags fields
         if (field.type == 'tags') {
-            const tags = document.getElementById(field.id + '_tags');
-            obj_color = tags;
-            obj_focus = tags;
+            obj_color = _this.nextElementSibling;
+            obj_focus = _this.nextElementSibling.querySelector('input');
         }
         // to detect the color and focus of the ckeditor fields
         if (field.type == 'ckeditor') {

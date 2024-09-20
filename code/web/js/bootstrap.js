@@ -50,7 +50,7 @@ saltos.bootstrap = {};
  * @container   => id, class, style
  * @row         => id, class, style
  * @col         => id, class, style
- * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OE, OC
+ * @text        => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
  * @hidden      => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, color, OE, OC
  * @integer     => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
  * @float       => id, class, PL, value, DS, RO, RQ, AF, AK, tooltip, label, color, OE, OC
@@ -295,73 +295,14 @@ saltos.bootstrap.__field.hr = field => {
  * @tooltip     => this parameter raise the title flag
  * @accesskey   => the key used as accesskey parameter
  * @label       => this parameter is used as text for the label
- * @datalist    => array with options for the datalist, used as autocomplete for the text input
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @onenter     => the function executed when enter key is pressed
  * @onchange    => the function executed when onchange event is detected
- *
- * Notes:
- *
- * This widget contains a datalist with ajax autoload, this allow to send requests
- * to the desired path to retrieve the contents of the datalist for the autocomplete,
- * this request uses an historical keyword that can be retrieved in the json/term
  */
 saltos.bootstrap.__field.text = field => {
-    saltos.core.check_params(field, ['datalist'], []);
     field.type = 'text';
-    let obj = saltos.core.html(`<div></div>`);
-    obj.append(saltos.bootstrap.__label_helper(field));
-    obj.append(saltos.bootstrap.__text_helper(field));
-    if (field.datalist.length) {
-        if (typeof field.datalist == 'string') {
-            field.datalist_old = field.datalist;
-            field.datalist = [];
-            obj.querySelector('input').addEventListener('input', saltos.core.delay(event => {
-                const value = event.target.value;
-                const old_value = event.target.getAttribute('old_value');
-                if (value == old_value || value == '') {
-                    return;
-                }
-                event.target.setAttribute('old_value', value);
-                obj.querySelectorAll('datalist option').forEach(option => {
-                    option.remove();
-                });
-                saltos.core.ajax({
-                    url: 'api/?/' + field.datalist_old,
-                    data: JSON.stringify({term: value}),
-                    method: 'post',
-                    content_type: 'application/json',
-                    success: response => {
-                        if (!saltos.app.check_response(response)) {
-                            return;
-                        }
-                        for (const key in response.data) {
-                            const val = response.data[key];
-                            if (typeof val == 'object') {
-                                obj.querySelector('datalist')
-                                    .append(saltos.core.html(`<option value="${val.label}" />`));
-                            } else {
-                                obj.querySelector('datalist')
-                                    .append(saltos.core.html(`<option value="${val}" />`));
-                            }
-                        }
-                    },
-                    error: request => {
-                        throw new Error(request);
-                    },
-                    token: saltos.token.get(),
-                    lang: saltos.gettext.get(),
-                });
-            }, 500));
-        }
-        obj.querySelector('input').setAttribute('list', field.id + '_datalist');
-        obj.append(saltos.core.html(`<datalist id="${field.id}_datalist"></datalist>`));
-        for (const key in field.datalist) {
-            const val = field.datalist[key];
-            obj.querySelector('datalist').append(saltos.core.html(`<option value="${val}" />`));
-        }
-    }
-    obj = saltos.core.optimize(obj);
+    let obj = saltos.bootstrap.__text_helper(field);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 
@@ -958,8 +899,9 @@ saltos.bootstrap.__field.iframe = field => {
  * @onchange  => the function executed when onchange event is detected
  */
 saltos.bootstrap.__field.select = field => {
-    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange', 'autofocus',
-                                     'multiple', 'size', 'value', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['class', 'id', 'disabled', 'required', 'onchange',
+                                     'autofocus', 'multiple', 'size', 'value', 'tooltip',
+                                     'accesskey', 'color', 'separator']);
     saltos.core.check_params(field, ['rows'], []);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
@@ -1000,16 +942,33 @@ saltos.bootstrap.__field.select = field => {
     if (field.tooltip != '') {
         saltos.bootstrap.__tooltip_helper(obj);
     }
+    if (!field.separator) {
+        field.separator = ',';
+    }
+    const values = field.value.split(field.separator);
+    for (const key in values) {
+        values[key] = values[key].trim();
+    }
     for (const key in field.rows) {
         const val = saltos.core.join_attr_value(field.rows[key]);
-        saltos.core.check_params(val, ['label', 'value']);
-        let selected = '';
-        if (field.value.toString() == val.value.toString()) {
-            selected = 'selected';
+        if (typeof val == 'object') {
+            saltos.core.check_params(val, ['label', 'value']);
+            let selected = '';
+            if (values.includes(val.value.toString())) {
+                selected = 'selected';
+            }
+            const option = saltos.core.html(`<option value="${val.value}" ${selected}></option>`);
+            option.append(val.label);
+            obj.append(option);
+        } else {
+            let selected = '';
+            if (values.includes(val.toString())) {
+                selected = 'selected';
+            }
+            const option = saltos.core.html(`<option value="${val}" ${selected}></option>`);
+            option.append(val);
+            obj.append(option);
         }
-        const option = saltos.core.html(`<option value="${val.value}" ${selected}></option>`);
-        option.append(val.label);
-        obj.append(option);
     }
     // Program the disabled feature
     obj.set_disabled = bool => {
@@ -1603,8 +1562,8 @@ saltos.bootstrap.__field.file = field => {
                 }
                 __update_data_input_file(input);
             },
-            error: request => {
-                throw new Error(request);
+            error: error => {
+                throw new Error(error);
             },
             token: saltos.token.get(),
             lang: saltos.gettext.get(),
@@ -1680,8 +1639,8 @@ saltos.bootstrap.__field.file = field => {
                             row.data = response;
                             __update_data_input_file(input);
                         },
-                        error: request => {
-                            throw new Error(request);
+                        error: error => {
+                            throw new Error(error);
                         },
                         progress: event => {
                             if (event.lengthComputable) {
@@ -2697,120 +2656,143 @@ saltos.bootstrap.__field.chartjs = field => {
  *
  * Notes:
  *
- * This object creates a hidden input, a text input with/without a datalist, and a badge for
- * each value, and requires the arguments of the specific widgets used in this widget
+ * This widget contains a datalist with ajax autoload, this allow to send requests
+ * to the desired path to retrieve the contents of the datalist for the autocomplete,
+ * this request uses an historical keyword that can be retrieved in the json/term
  *
- * The returned object contains a hiden input with one new properties like set, this is a
- * function used to update the value of the tags widget, intended to load new data.
+ * This widget uses the tom-select plugin, more info in their project website:
+ * - https://tom-select.js.org/
  */
 saltos.bootstrap.__field.tags = field => {
-    saltos.core.check_params(field, ['id', 'value', 'color', 'separator']);
-    if (!field.color) {
-        field.color = 'primary';
-    }
+    saltos.core.check_params(field, ['separator', 'datalist']);
     if (!field.separator) {
         field.separator = ',';
     }
-    // This container must have the hidden input and the text input used by the
-    // user to write the tags
-    const obj = saltos.core.html(`<div></div>`);
-    // The first field is the hidden input
-    const field_first = saltos.core.copy_object(field);
-    field_first.class = 'first';
-    field_first.required = false;
-    obj.append(saltos.bootstrap.__field.hidden(field_first));
-    // The last field is the text input used to write the tags
-    const field_last = saltos.core.copy_object(field);
-    field_last.id = field.id + '_tags';
-    field_last.value = '';
-    field_last.class = 'last';
-    obj.append(saltos.bootstrap.__field.text(field_last));
-    // This function draws a tag and programs the delete of the same tag
-    const fn = val => {
-        const span = saltos.core.html(`
-            <span class="badge text-bg-${field.color} mt-1 me-1 fs-6 fw-normal pe-2" data="${val}">
-                <i class="bi bi-x-circle ps-1" style="cursor: pointer"></i>
-            </span>
-        `);
-        span.prepend(val);
-        obj.append(span);
-        span.querySelector('i').addEventListener('click', event => {
-            const tag = event.target.parentElement;
-            const val = tag.getAttribute('data').trim();
-            const input = obj.querySelector('input.first');
-            const val_old = input.value.split(field.separator);
-            const val_new = [];
-            for (const key in val_old) {
-                val_old[key] = val_old[key].trim();
-                if (![val, ''].includes(val_old[key])) {
-                    val_new.push(val_old[key]);
+    const obj = saltos.bootstrap.__field.text(field);
+    field.type = 'tags';
+    const element = obj.querySelector('input');
+    let fn = null;
+    if (typeof field.datalist == 'string' && field.datalist != '') {
+        fn = (query, callback) => {
+            saltos.core.ajax({
+                url: 'api/?/' + field.datalist,
+                data: JSON.stringify({term: query}),
+                method: 'post',
+                content_type: 'application/json',
+                success: response => {
+                    if (!saltos.app.check_response(response)) {
+                        return;
+                    }
+                    const array = [];
+                    for (const key in response.data) {
+                        const val = response.data[key];
+                        if (typeof val == 'object') {
+                            const temp = {};
+                            if (val.hasOwnProperty('text')) {
+                                temp.text = val.text;
+                            } else if (val.hasOwnProperty('label')) {
+                                temp.text = val.label;
+                            } else if (val.hasOwnProperty('value')) {
+                                temp.text = val.value;
+                            }
+                            if (val.hasOwnProperty('value')) {
+                                temp.value = val.value;
+                            } else if (val.hasOwnProperty('label')) {
+                                temp.value = val.label;
+                            } else if (val.hasOwnProperty('text')) {
+                                temp.value = val.text;
+                            }
+                            array.push(temp);
+                        } else {
+                            array.push({
+                                text: val,
+                                value: val,
+                            });
+                        }
+                    }
+                    callback(array);
+                },
+                error: error => {
+                    throw new Error(error);
+                },
+                token: saltos.token.get(),
+                lang: saltos.gettext.get(),
+            });
+        };
+    }
+    if (typeof field.datalist == 'object') {
+        fn = (query, callback) => {
+            const array = [];
+            for (const key in field.datalist) {
+                const val = field.datalist[key];
+                if (typeof val == 'object') {
+                    const temp = {};
+                    if (val.hasOwnProperty('text')) {
+                        temp.text = val.text;
+                    } else if (val.hasOwnProperty('label')) {
+                        temp.text = val.label;
+                    } else if (val.hasOwnProperty('value')) {
+                        temp.text = val.value;
+                    }
+                    if (val.hasOwnProperty('value')) {
+                        temp.value = val.value;
+                    } else if (val.hasOwnProperty('label')) {
+                        temp.value = val.label;
+                    } else if (val.hasOwnProperty('text')) {
+                        temp.value = val.text;
+                    }
+                    array.push(temp);
+                } else {
+                    array.push({
+                        text: val,
+                        value: val,
+                    });
                 }
             }
-            input.value = val_new.join(field.separator);
-            tag.remove();
+            callback(array);
+        };
+    }
+    saltos.core.require([
+        'lib/tomselect/tom-select.bootstrap5.min.css',
+        'lib/tomselect/tom-select.complete.min.js',
+    ], () => {
+        const tags = new TomSelect(element, {
+            delimiter: field.separator,
+            create: true,
+            persist: false,
+            sortField: [{field: '$order'}, {field: '$score'}],
+            closeAfterSelect: true,
+            selectOnTab: true,
+            load: fn,
+            plugins: [
+                'remove_button',
+                'clear_button',
+                'caret_position',
+                'input_autogrow',
+            ],
         });
-    };
-    // This function program the enter event that adds tags to the hidden and
-    // draw the new tag using the previous function
-    obj.querySelector('input.last').addEventListener('keydown', event => {
-        if (![13, 9].includes(saltos.core.get_keycode(event))) {
-            return;
-        }
-        const input_new = obj.querySelector('input.last');
-        const val = input_new.value.trim();
-        if (val == '') {
-            return;
-        }
-        const input = obj.querySelector('input.first');
-        const val_old = input.value.split(field.separator);
-        const val_new = [];
-        for (const key in val_old) {
-            val_old[key] = val_old[key].trim();
-            if (![val, ''].includes(val_old[key])) {
-                val_new.push(val_old[key]);
+        element.tomselect = tags;
+        // Program the set in the input first
+        element.set = value => {
+            value = value.split(field.separator);
+            let array = [];
+            for (const key in value) {
+                const val = value[key].trim();
+                if (val.length) {
+                    array.push(val);
+                }
             }
-            if (val_old[key] == val) {
-                return;
+            element.value = array.join(field.separator);
+            element.tomselect.sync();
+        };
+        // Program the disabled feature
+        element.set_disabled = bool => {
+            if (bool) {
+                element.tomselect.disable();
+            } else {
+                element.tomselect.enable();
             }
-        }
-        fn(val);
-        val_new.push(val);
-        input.value = val_new.join(field.separator);
-        input_new.value = '';
-    });
-    // Program the set in the input first
-    obj.querySelector('input.first').set = value => {
-        obj.querySelector('input.first').value = value;
-        obj.querySelectorAll('span.badge').forEach(_this => {
-            _this.remove();
-        });
-        let value_array = value.split(field.separator);
-        if (value == '') {
-            value_array = [];
-        }
-        for (const key in value_array) {
-            const val = value_array[key].trim();
-            fn(val);
-        }
-    };
-    // This part of the code adds the initials tags using the fn function
-    obj.querySelector('input.first').set(field.value);
-    // Program the disabled feature
-    obj.querySelector('input.first').set_disabled = bool => {
-        if (bool) {
-            obj.querySelector('input.last').setAttribute('disabled', '');
-        } else {
-            obj.querySelector('input.last').removeAttribute('disabled');
-        }
-    };
-    // This part of the code is a trick to allow that labels previously created
-    // will be linked to the input type text instead of the input type hidden,
-    // remember that the hidden contains the original id and the visible textbox
-    // contains the id with the _tags ending
-    saltos.core.when_visible(obj, () => {
-        document.querySelectorAll('label[for=' + field.id_old + ']').forEach(_this => {
-            _this.setAttribute('for', field.id_new);
-        });
+        };
     });
     return obj;
 };

@@ -20,6 +20,7 @@ masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
 pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuNi44MiJ9
 sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|base64:eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS4zIn0=
+tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|base64:eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjMuMSJ9
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 
 httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPjMgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
@@ -34,7 +35,7 @@ mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1y
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDktMTcsIFZlcnNpb24gMjIuOS4wIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMyAtIDIwMjQtMDktMTg8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMGJldGE1PC90aXRsZT4=
-phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMy41PC90aXRsZT4=
+phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuMy42PC90aXRsZT4=
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|base64:PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|base64:PHRpdGxlPjMuMS4wPC90aXRsZT4=
