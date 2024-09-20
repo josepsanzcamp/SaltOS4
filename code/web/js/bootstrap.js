@@ -650,6 +650,7 @@ saltos.bootstrap.__field.ckeditor = field => {
     }
     // Continue
     saltos.core.require(array, () => {
+        saltos.bootstrap.__tooltip_hide();
         ClassicEditor.create(element, {
             language: lang,
         }).then(editor => {
@@ -761,6 +762,7 @@ saltos.bootstrap.__field.codemirror = field => {
         'lib/codemirror/codemirror.min.css',
         'lib/codemirror/codemirror.min.js',
     ], () => {
+        saltos.bootstrap.__tooltip_hide();
         const cm = CodeMirror.fromTextArea(element, {
             mode: field.mode,
             styleActiveLine: true,
@@ -2756,6 +2758,7 @@ saltos.bootstrap.__field.tags = field => {
         'lib/tomselect/tom-select.bootstrap5.min.css',
         'lib/tomselect/tom-select.complete.min.js',
     ], () => {
+        saltos.bootstrap.__tooltip_hide();
         const tags = new TomSelect(element, {
             delimiter: field.separator,
             create: true,
@@ -3768,14 +3771,29 @@ saltos.bootstrap.__tooltip_helper = obj => {
 };
 
 /**
+ * Private tooltip hide helper
+ *
+ * This function is intended to hide all running tooltips, it's used when some widgets
+ * replaces the old elements by new elements, if the tooltip is show when the transition
+ * happens, it's necessary to remove it to prevent a blocking elements in the user
+ * interface.
+ */
+saltos.bootstrap.__tooltip_hide = () => {
+    document.querySelectorAll('[id^="tooltip"]').forEach(_this => {
+        if (!isNaN(parseFloat(_this.id.slice(7)))) {
+            _this.remove();
+        }
+    });
+};
+
+/**
  * Label helper
  *
- * This function is a helper for label field, it is intended to returns the
- * label object or a void string, this is because if no label is present in
- * the field argument, then an empty string is returned, in the reception
- * of the result, generally this is added to an object and it is ignored
- * because an empty string is not an element, this thing is used by the
- * optimizer to removes the unnecessary envelopment
+ * This function is a helper for label field, it is intended to returns the label object
+ * or a void string, this is because if no label is present in the field argument, then
+ * an empty string is returned, in the reception of the result, generally this is added
+ * to an object and it is ignored because an empty string is not an element, this thing
+ * is used by the optimizer to removes the unnecessary envelopment
  *
  * @field => the field that contains the label to be added if needed
  */
