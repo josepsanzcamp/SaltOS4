@@ -614,6 +614,9 @@ final class test_database extends TestCase
      */
     public function test_pdo_mssql(): void
     {
+        $mssql = intval(ob_passthru('ps uaxw | grep sqlservr | grep -v grep | wc -l'));
+        $this->assertTrue($mssql > 0, 'No se ha detectado al servidor de SQL Server');
+
         // Connection part
         $obj = db_connect([
             'type' => 'pdo_mssql',
