@@ -190,7 +190,11 @@ class database_mysqli
             $stmt->execute();
             $stmt = $stmt->get_result();
         } catch (Exception $e) {
-            show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
+            show_php_error([
+                'dberror' => $e->getMessage(),
+                'query' => $query,
+                'params' => $args,
+            ]);
         }
         // Dump result to matrix
         if (!is_bool($stmt) && $stmt->field_count > 0) {

@@ -224,7 +224,11 @@ class database_pdo_sqlite
         // Semaphore part
         $timeout = get_config('db/semaphoretimeout') ?? 10000000;
         if (!semaphore_acquire(__FUNCTION__, $timeout)) {
-            show_php_error(['dberror' => 'Could not acquire the semaphore', 'query' => $query]);
+            show_php_error([
+                'dberror' => 'Could not acquire the semaphore',
+                'query' => $query,
+                'params' => $args,
+            ]);
         }
         // Do the query
         for (;;) {

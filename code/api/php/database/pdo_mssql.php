@@ -180,7 +180,11 @@ class database_pdo_mssql
             $stmt = $this->link->prepare($query);
             $stmt->execute($params);
         } catch (PDOException $e) {
-            show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
+            show_php_error([
+                'dberror' => $e->getMessage(),
+                'query' => $query,
+                'params' => $args,
+            ]);
         }
         // Dump result to matrix
         if (!is_bool($stmt) && $stmt->columnCount() > 0) {

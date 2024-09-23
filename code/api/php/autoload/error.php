@@ -242,6 +242,7 @@ function do_message_error($array)
         'source' => 'Source',
         'details' => 'Details',
         'query' => 'Query',
+        'params' => 'Params',
         'backtrace' => 'Backtrace',
         'debug' => 'Debug',
         'deprecated' => 'Deprecated',
@@ -250,13 +251,6 @@ function do_message_error($array)
     foreach ($array as $type => $data) {
         switch ($type) {
             case 'backtrace':
-                if (is_array($data)) {
-                    foreach ($data as $key => $item) {
-                        $data[$key] = "{$key} => {$item}";
-                    }
-                    $data = implode("\n", $data);
-                }
-                break;
             case 'debug':
                 if (is_array($data)) {
                     foreach ($data as $key => $item) {
@@ -265,6 +259,10 @@ function do_message_error($array)
                     $data = implode("\n", $data);
                 }
                 break;
+            case 'params':
+                if (is_array($data)) {
+                    $data = trim(sprintr($data));
+                }
         }
         if (!isset($types[$type])) {
             show_php_error(['phperror' => "Unknown type $type"]);

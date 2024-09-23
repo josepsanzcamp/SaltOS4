@@ -171,6 +171,7 @@ function db_query($query, ...$args)
             addtrace([
                 'dbwarning' => "Slow query requires $curtime seconds",
                 'query' => $query,
+                'params' => $args,
             ], get_config('debug/dbwarningfile') ?? 'dbwarning.log');
         }
     }
