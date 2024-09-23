@@ -784,7 +784,6 @@ saltos.driver.__types.type4.template = arg => {
  * TODO
  */
 saltos.driver.__types.type4.init = arg => {
-    console.log(arg);
     if (arg == 'list') {
         // Continue after the backup
         const action = saltos.hash.get().split('/').at(2);

@@ -124,7 +124,9 @@
 
         <alert title="POP3 server configuration" col_class="col-12 mb-3"/>
         <text id="pop3_host" label="Host"/>
-        <integer id="pop3_port" label="Port" col_class="col-md-2 mb-3"/>
+        <onetag id="pop3_port" label="Port" col_class="col-md-2 mb-3">
+            <datalist eval="true">['110','995']</datalist>
+        </onetag>
         <select id="pop3_extra" label="Extra" col_class="col-md-2 mb-3">
             <rows>
                 <row label="" value=""/>
@@ -146,7 +148,9 @@
 
         <alert title="SMTP server configuration" col_class="col-12 mb-3"/>
         <text id="smtp_host" label="Host"/>
-        <integer id="smtp_port" label="Port" col_class="col-md-2 mb-3"/>
+        <onetag id="smtp_port" label="Port" col_class="col-md-2 mb-3">
+            <datalist eval="true">['25','465','587']</datalist>
+        </onetag>
         <select id="smtp_extra" label="Extra" col_class="col-md-2 mb-3">
             <rows>
                 <row label="" value=""/>

@@ -94,9 +94,7 @@
 
         <layout>
             <container auto="true" row_class="row mt-3" col_class="col-xl-3 col-md-4 col-sm-6 mb-3">
-                <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)" required="true">
-                    <datalist eval="true">["Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve","Diez"]</datalist>
-                </text>
+                <text id="campo0" label="Campo 0 (text)" placeholder="Escriba aqui" tooltip="Tooltip 0 (text)" required="true"/>
                 <integer id="campo1" label="Campo 1 (integer)" placeholder="Escriba aqui" tooltip="Tooltip 1 (integer)" required="true"/>
                 <float id="campo2" label="Campo 2 (float)" placeholder="Escriba aqui" tooltip="Tooltip 2 (float)" required="true"/>
                 <color id="campo3" label="Campo 3 (color)" placeholder="Escriba aqui" tooltip="Tooltip 3 (color)" required="true"/>
@@ -104,7 +102,7 @@
                 <time id="campo5" label="Campo 5 (time)" placeholder="Escriba aqui" tooltip="Tooltip 5 (time)" required="true"/>
                 <datetime id="campo6" label="Campo 6 (datetime)" placeholder="Escriba aqui" tooltip="Tooltip 6 (datetime)" required="true"/>
                 <tags id="campo7" label="Campo 7 (tags)" placeholder="Escriba aqui" tooltip="Tooltip 7 (tags)" separator=";" required="true">
-                    <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU\/Linux","GNU","Linut","SaltOS","RhinOS"]</datalist>
+                    <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU/Linux","GNU","Linux","SaltOS","RhinOS"]</datalist>
                     <value>SaltOS; PHP; JavaScript</value>
                 </tags>
                 <button id="campo8" tooltip="Tooltip 8 (button)" label="Button text here" onclick="saltos.tester.campo8()" required="true"/>
@@ -137,7 +135,9 @@
                 <select id="campo23" label="Campo 23 (select)" tooltip="Tooltip 23 (select)" value="2" required="true">
                     <rows eval="true">[["label"=>"Uno","value"=>1],["label"=>"Dos","value"=>2],["label"=>"Tres","value"=>3]]</rows>
                 </select>
-                <div/>
+                <onetag id="campo45" label="Campo 45 (select)" tooltip="Tooltip 45 (onetag)" value="GNU/Linux" required="true">
+                    <datalist eval="true">["PHP","JS","CSS","XML","JavaScript","GNU/Linux","GNU","Linux","SaltOS","RhinOS"]</datalist>
+                </onetag>
 
                 <link id="campo22" label="Campo 22 (link)" tooltip="Tooltip 22 (link)" value="https://www.saltos.org/portal/es/estadisticas" onclick="saltos.tester.campo22()"/>
                 <dropdown id="campo43" label="Campo 43 (dropdown)" tooltip="Tooltip 43 (dropdown)">

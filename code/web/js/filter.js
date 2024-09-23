@@ -244,7 +244,5 @@ saltos.filter.select = arg => {
             text: key,
         });
     }
-    setTimeout(() => {
-        jstree.set(data);
-    }, 100);
+    jstree.set(data);
 };

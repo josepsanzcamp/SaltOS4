@@ -988,7 +988,7 @@ saltos.app.get_data = full => {
     let data = {};
     const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
         'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
-        'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
+        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
     for (const i in saltos.app.__form.fields) {
         const field = saltos.app.__form.fields[i];
         if (!types.includes(field.type)) {
@@ -1180,7 +1180,7 @@ saltos.app.check_required = () => {
     let obj = null;
     const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
         'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
-        'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
+        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
     for (const i in saltos.app.__form.fields) {
         const field = saltos.app.__form.fields[i];
         if (!types.includes(field.type)) {
@@ -1197,7 +1197,7 @@ saltos.app.check_required = () => {
         let obj_color = _this;
         let obj_focus = _this;
         // to detect the color and focus of the tags fields
-        if (field.type == 'tags') {
+        if (['tags', 'onetag'].includes(field.type)) {
             obj_color = _this.nextElementSibling;
             obj_focus = _this.nextElementSibling.querySelector('input');
         }
@@ -1319,7 +1319,7 @@ saltos.app.check_required = () => {
 saltos.app.form_disabled = bool => {
     const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
         'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
-        'checkbox', 'switch', 'password', 'file', 'excel', 'tags'];
+        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
     for (const i in saltos.app.__form.fields) {
         const field = saltos.app.__form.fields[i];
         if (!types.includes(field.type)) {
@@ -1336,15 +1336,7 @@ saltos.app.form_disabled = bool => {
             obj.removeAttribute('disabled');
             //~ obj.removeAttribute('readonly');
         }
-        if (['ckeditor','codemirror','excel'].includes(field.type)) {
-            if (obj.hasOwnProperty('set_disabled')) {
-                obj.set_disabled(bool);
-            } else {
-                const element = obj;
-                setTimeout(() => element.set_disabled(bool), 1);
-            }
-        }
-        if (['multiselect','tags'].includes(field.type)) {
+        if (obj.hasOwnProperty('set_disabled')) {
             obj.set_disabled(bool);
         }
     }
