@@ -614,7 +614,7 @@ function escape_reserved_word($word)
 function make_like_query($keys, $values, $args = [])
 {
     // Process args
-    $minsize = $args['minsize'] ?? 3;
+    $minsize = $args['minsize'] ?? 1;
     $default = $args['default'] ?? '1=0';
     // Continue
     $keys = explode(',', $keys);
@@ -687,7 +687,7 @@ function make_like_query($keys, $values, $args = [])
 function __make_fulltext_query_helper($values, $args = [])
 {
     // Process args
-    $minsize = $args['minsize'] ?? 3;
+    $minsize = $args['minsize'] ?? 1;
     $default = $args['default'] ?? '1=0';
     // Continue
     $values = explode(' ', encode_bad_chars($values, ' ', '+-'));
@@ -748,7 +748,6 @@ function make_fulltext_query($values, $app, $args = [])
 {
     // Process args
     $prefix = $args['prefix'] ?? '';
-    $minsize = $args['minsize'] ?? 3;
     $default = $args['default'] ?? '1=0';
     // Continue
     $table = app2table($app);
