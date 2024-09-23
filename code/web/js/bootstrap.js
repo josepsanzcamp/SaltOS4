@@ -2688,10 +2688,10 @@ saltos.bootstrap.__field.chartjs = field => {
  * - https://tom-select.js.org/
  */
 saltos.bootstrap.__field.tags = field => {
-    saltos.core.check_params(field, ['separator', 'datalist']);
-    if (!field.separator) {
-        field.separator = ',';
-    }
+    saltos.core.check_params(field, ['separator'], ',');
+    saltos.core.check_params(field, ['datalist']);
+    saltos.core.check_params(field, ['create'], true);
+    field.create = saltos.core.eval_bool(field.create);
     field.value = saltos.bootstrap.__value_helper(field.value, field.separator);
     const obj = saltos.bootstrap.__field.text(field);
     field.type = 'tags';
@@ -2705,7 +2705,7 @@ saltos.bootstrap.__field.tags = field => {
         const tags = new TomSelect(element, {
             delimiter: field.separator,
             preload: true,
-            create: true,
+            create: field.create,
             createOnBlur: true,
             persist: false,
             sortField: [{field: '$order'}, {field: '$score'}],
@@ -2753,6 +2753,8 @@ saltos.bootstrap.__field.tags = field => {
  */
 saltos.bootstrap.__field.onetag = field => {
     saltos.core.check_params(field, ['datalist', 'value']);
+    saltos.core.check_params(field, ['create'], true);
+    field.create = saltos.core.eval_bool(field.create);
     if (field.value)  {
         field.rows = [field.value];
     }
@@ -2767,7 +2769,7 @@ saltos.bootstrap.__field.onetag = field => {
     ], () => {
         const tags = new TomSelect(element, {
             preload: true,
-            create: true,
+            create: field.create,
             createOnBlur: true,
             persist: false,
             sortField: [{field: '$order'}, {field: '$score'}],
