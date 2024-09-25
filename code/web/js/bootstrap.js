@@ -82,7 +82,7 @@ saltos.bootstrap = {};
  * @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OC
  * @onetag      => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OC
  * @gallery     => id, class, label, images, color
- * @placeholder => id, color
+ * @placeholder => id, color, height
  * @list        => id, class, header, extra, data, footer, onclick, active, disabled, label
  * @tabs        => id, tabs, label, content, active, disabled, label
  * @pills       => id, tabs, label, content, active, disabled, label
@@ -650,8 +650,15 @@ saltos.bootstrap.__field.ckeditor = field => {
     if (lang != 'en') {
         array.push(`lib/ckeditor/translations/${lang}.js`);
     }
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+        height: field.height,
+    });
+    obj.append(placeholder);
     // Continue
     saltos.core.require(array, () => {
+        placeholder.remove();
         ClassicEditor.create(element, {
             language: lang,
         }).then(editor => {
@@ -769,10 +776,18 @@ saltos.bootstrap.__field.codemirror = field => {
     obj.append(saltos.bootstrap.__textarea_helper(saltos.core.copy_object(field)));
     const element = obj.querySelector('textarea');
     element.style.display = 'none';
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+        height: field.height,
+    });
+    obj.append(placeholder);
+    // Continue
     saltos.core.require([
         'lib/codemirror/codemirror.min.css',
         'lib/codemirror/codemirror.min.js',
     ], () => {
+        placeholder.remove();
         const cm = CodeMirror.fromTextArea(element, {
             mode: field.mode,
             styleActiveLine: true,
@@ -2689,7 +2704,7 @@ saltos.bootstrap.__field.chartjs = field => {
  */
 saltos.bootstrap.__field.tags = field => {
     saltos.core.check_params(field, ['separator'], ',');
-    saltos.core.check_params(field, ['datalist']);
+    saltos.core.check_params(field, ['datalist', 'color']);
     saltos.core.check_params(field, ['create'], true);
     field.create = saltos.core.eval_bool(field.create);
     field.value = saltos.bootstrap.__value_helper(field.value, field.separator);
@@ -2698,10 +2713,17 @@ saltos.bootstrap.__field.tags = field => {
     const element = obj.querySelector('input');
     element.style.display = 'none';
     const fn = saltos.bootstrap.__datalist_helper(field.datalist);
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+    });
+    obj.append(placeholder);
+    // Continue
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
         'lib/tomselect/tom-select.complete.min.js',
     ], () => {
+        placeholder.remove();
         const tags = new TomSelect(element, {
             delimiter: field.separator,
             preload: true,
@@ -2752,7 +2774,7 @@ saltos.bootstrap.__field.tags = field => {
  * TODO
  */
 saltos.bootstrap.__field.onetag = field => {
-    saltos.core.check_params(field, ['datalist', 'value']);
+    saltos.core.check_params(field, ['datalist', 'color', 'value']);
     saltos.core.check_params(field, ['create'], true);
     field.create = saltos.core.eval_bool(field.create);
     if (field.value)  {
@@ -2763,10 +2785,17 @@ saltos.bootstrap.__field.onetag = field => {
     const element = obj.querySelector('select');
     element.style.display = 'none';
     const fn = saltos.bootstrap.__datalist_helper(field.datalist);
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+    });
+    obj.append(placeholder);
+    // Continue
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
         'lib/tomselect/tom-select.complete.min.js',
     ], () => {
+        placeholder.remove();
         const tags = new TomSelect(element, {
             preload: true,
             create: field.create,
@@ -2998,15 +3027,18 @@ saltos.bootstrap.__field.gallery = field => {
  *
  * This function returns a grey area that uses all space with the placeholder glow effect
  *
- * @id => id used in the original object, it must be replaced when the data will be available
+ * @id     => id used in the original object, it must be replaced when the data will be available
+ * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @height => the height used as style.minHeight parameter
  */
 saltos.bootstrap.__field.placeholder = field => {
-    saltos.core.check_params(field, ['id', 'color']);
+    saltos.core.check_params(field, ['id', 'color', 'height']);
     if (!field.color) {
         field.color = 'primary';
     }
     const obj = saltos.core.html(`
-        <div id="${field.id}" class="w-100 h-100 placeholder-glow text-${field.color}" aria-hidden="true">
+        <div id="${field.id}" class="w-100 h-100 placeholder-glow text-${field.color}"
+             aria-hidden="true" style="height:${field.height}!important">
             <span class="w-100 h-100 placeholder"></span>
         </div>
     `);
