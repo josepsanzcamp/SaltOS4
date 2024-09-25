@@ -795,7 +795,15 @@ saltos.app.form.screen = action => {
             if (!obj) {
                 return false;
             }
-            obj.remove();
+            // This setTimeout allow to prevent the blinking effect caused by
+            // consecutives loadings and unloadings by adding a delay in the
+            // real unloading code
+            setTimeout(() => {
+                if (saltos.app.__form.loading > 0) {
+                    return;
+                }
+                obj.remove();
+            }, 300);
             return true;
         }
         case 'isloading': {
