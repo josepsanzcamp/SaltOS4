@@ -803,7 +803,7 @@ saltos.app.form.screen = action => {
                     return;
                 }
                 obj.remove();
-            }, 300);
+            }, 100);
             return true;
         }
         case 'isloading': {
