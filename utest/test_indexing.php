@@ -51,6 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
+require_once 'lib/utestlib.php';
 require_once 'php/lib/indexing.php';
 
 /**
@@ -83,5 +84,15 @@ final class test_indexing extends TestCase
         __make_index_helper('app_invoices_concepts');
         __make_index_helper('app_invoices_concepts', 1);
         __make_index_helper('app_invoices_concepts', -1);
+
+        $json = test_cli_helper('indexing', [], '', '');
+        $this->assertArrayHasKey('indexing', $json);
+        $this->assertArrayHasKey('time', $json['indexing']);
+        $this->assertArrayHasKey('total', $json['indexing']);
+
+        $json = test_cli_helper('integrity', [], '', '');
+        $this->assertArrayHasKey('integrity', $json);
+        $this->assertArrayHasKey('time', $json['integrity']);
+        $this->assertArrayHasKey('total', $json['integrity']);
     }
 }
