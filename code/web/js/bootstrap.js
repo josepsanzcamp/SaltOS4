@@ -3029,19 +3029,21 @@ saltos.bootstrap.__field.gallery = field => {
  *
  * @id     => id used in the original object, it must be replaced when the data will be available
  * @color  => the color of the widget (primary, secondary, success, danger, warning, info, none)
- * @height => the height used as style.minHeight parameter
+ * @height => the height used as style.height parameter
+ * @label  => this parameter is used as text for the label
  */
 saltos.bootstrap.__field.placeholder = field => {
-    saltos.core.check_params(field, ['id', 'color', 'height']);
+    saltos.core.check_params(field, ['id', 'color', 'height', 'label']);
     if (!field.color) {
         field.color = 'primary';
     }
-    const obj = saltos.core.html(`
+    let obj = saltos.core.html(`
         <div id="${field.id}" class="w-100 h-100 placeholder-glow text-${field.color}"
              aria-hidden="true" style="height:${field.height}!important">
             <span class="w-100 h-100 placeholder"></span>
         </div>
     `);
+    obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
 

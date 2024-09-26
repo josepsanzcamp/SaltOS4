@@ -491,11 +491,7 @@ saltos.app.form.layout = (layout, extra) => {
             saltos.app.__form.fields.push(attr);
             let obj = null;
             if (attr.source != '') {
-                obj = saltos.gettext.bootstrap.field({
-                    type: 'placeholder',
-                    id: attr.id,
-                });
-                saltos.app.__source_helper(attr);
+                obj = saltos.app.__source_helper(attr);
             } else {
                 obj = saltos.gettext.bootstrap.field(attr);
             }
@@ -958,6 +954,8 @@ saltos.app.form.gettext = array => {
  * @type   => the type used to set the type for to the object
  * @source => data source used to load asynchronously the contents of the table (header, data,
  *            footer and divider)
+ * @height => the height used as style.height parameter
+ * @label  => this parameter is used as text for the label
  *
  * Notes:
  *
@@ -965,21 +963,28 @@ saltos.app.form.gettext = array => {
  * that the update was finished.
  */
 saltos.app.__source_helper = field => {
-    saltos.core.check_params(field, ['id', 'source']);
+    saltos.core.check_params(field, ['id', 'source', 'height', 'label']);
     // Check for asynchronous load using the source param
-    if (field.source != '') {
-        saltos.app.ajax({
-            url: field.source,
-            success: response => {
-                field.source = '';
-                for (const key in response) {
-                    field[key] = response[key];
-                }
-                const obj = document.getElementById(field.id);
-                obj.replaceWith(saltos.gettext.bootstrap.field(field));
-            },
-        });
-    }
+    saltos.app.ajax({
+        url: field.source,
+        success: response => {
+            field.source = '';
+            for (const key in response) {
+                field[key] = response[key];
+            }
+            const obj = document.getElementById(field.id);
+            obj.replaceWith(saltos.gettext.bootstrap.field(field));
+        },
+    });
+    // Create the placeholder object with label
+    const obj = saltos.gettext.bootstrap.field({
+        type: 'placeholder',
+        id: field.id,
+        height: field.height,
+        label: field.label,
+    });
+    field.label = ''; // Remove the label to prevent two labels
+    return obj;
 };
 
 /**

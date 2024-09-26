@@ -119,6 +119,8 @@ saltos.core.check_params = (obj, params, value) => {
     for (const key in params) {
         if (!obj.hasOwnProperty(params[key])) {
             obj[params[key]] = value;
+        } else if (typeof obj[params[key]] == 'undefined') {
+            obj[params[key]] = value;
         }
     }
 };
