@@ -82,7 +82,7 @@ saltos.bootstrap = {};
  * @tags        => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OC
  * @onetag      => id, class, PL, value, DS, RO, RQ, AF, AK, datalist, tooltip, label, color, OC
  * @gallery     => id, class, label, images, color
- * @placeholder => id, color, height
+ * @placeholder => id, color, height, label
  * @list        => id, class, header, extra, data, footer, onclick, active, disabled, label
  * @tabs        => id, tabs, label, content, active, disabled, label
  * @pills       => id, tabs, label, content, active, disabled, label
@@ -655,7 +655,7 @@ saltos.bootstrap.__field.ckeditor = field => {
         color: field.color,
         height: field.height,
     });
-    obj.append(placeholder);
+    obj.prepend(placeholder);
     // Continue
     saltos.core.require(array, () => {
         placeholder.remove();
@@ -781,7 +781,7 @@ saltos.bootstrap.__field.codemirror = field => {
         color: field.color,
         height: field.height,
     });
-    obj.append(placeholder);
+    obj.prepend(placeholder);
     // Continue
     saltos.core.require([
         'lib/codemirror/codemirror.min.css',
@@ -1887,12 +1887,12 @@ saltos.bootstrap.__field.excel = field => {
     if (!field.color) {
         field.color = 'primary';
     }
-    let border = `border border-${field.color}`;
+    let border = ['border', `border-${field.color}`];
     if (field.color == 'none') {
-        border = 'border-0';
+        border = ['border-0'];
     }
     let obj = saltos.core.html(`
-        <div style="width: 100%; height: 100%; overflow: auto" class="${border}">
+        <div style="width: 100%; height: 100%; overflow: auto">
             <div></div>
         </div>
     `);
@@ -1933,10 +1933,17 @@ saltos.bootstrap.__field.excel = field => {
     }
     input.data = saltos.core.copy_object(field.data);
     const element = obj.querySelector('div');
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+    });
+    obj.prepend(placeholder);
+    // Continue
     saltos.core.require([
         'lib/handsontable/handsontable.full.min.css',
         'lib/handsontable/handsontable.full.min.js',
     ], () => {
+        placeholder.remove();
         const excel = new Handsontable(element, {
             data: input.data, // This links the data
             rowHeaders: field.rowHeaders,
@@ -1972,6 +1979,7 @@ saltos.bootstrap.__field.excel = field => {
             },*/
         });
         input.excel = excel;
+        element.parentElement.classList.add(...border);
     });
     // Program the disabled feature
     input.set_disabled = bool => {
@@ -2067,11 +2075,18 @@ saltos.bootstrap.__field.pdfjs = field => {
         </style>
     `));
     const element = obj.querySelector('.viewerContainer');
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+    });
+    obj.prepend(placeholder);
+    // Continue
     saltos.core.require([
         'lib/pdfjs/pdf_viewer.min.css',
         'lib/pdfjs/pdf.min.mjs',
         'lib/pdfjs/pdf_viewer.min.mjs',
     ], () => {
+        placeholder.remove();
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.src).promise.then(pdfDocument => {
             if (!pdfDocument.numPages) {
@@ -2654,14 +2669,21 @@ saltos.bootstrap.__field.card = field => {
  */
 saltos.bootstrap.__field.chartjs = field => {
     saltos.core.check_params(field, ['id', 'mode', 'data']);
-    let obj = saltos.core.html(`<canvas id="${field.id}"></canvas>`);
+    let obj = saltos.core.html(`<div><canvas id="${field.id}"></canvas></div>`);
     for (const key in field.data.datasets) {
         field.data.datasets[key].borderWidth = 1;
     }
-    const element = obj;
+    const element = obj.querySelector('canvas');
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+    });
+    obj.prepend(placeholder);
+    // Continue
     saltos.core.require([
         'lib/chartjs/chart.umd.min.js',
     ], () => {
+        placeholder.remove();
         new Chart(element, {
             type: field.mode,
             data: field.data,
@@ -2717,7 +2739,7 @@ saltos.bootstrap.__field.tags = field => {
     const placeholder = saltos.bootstrap.__field.placeholder({
         color: field.color,
     });
-    obj.append(placeholder);
+    obj.prepend(placeholder);
     // Continue
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
@@ -2789,7 +2811,7 @@ saltos.bootstrap.__field.onetag = field => {
     const placeholder = saltos.bootstrap.__field.placeholder({
         color: field.color,
     });
-    obj.append(placeholder);
+    obj.prepend(placeholder);
     // Continue
     saltos.core.require([
         'lib/tomselect/tom-select.bootstrap5.min.css',
@@ -3577,14 +3599,24 @@ saltos.bootstrap.__field.accordion = field => {
  * @children => an array with the nodes childrens
  */
 saltos.bootstrap.__field.jstree = field => {
-    saltos.core.check_params(field, ['id', 'class', 'open', 'onclick', 'nodata']);
+    saltos.core.check_params(field, ['id', 'class', 'open', 'onclick', 'nodata', 'color']);
     saltos.core.check_params(field, ['data'], []);
+    if (!field.color) {
+        field.color = 'primary';
+    }
     let obj = saltos.core.html(`<div id="${field.id}" class="${field.class}"></div>`);
     const element = obj;
+    // Add the placeholder
+    const placeholder = saltos.bootstrap.__field.placeholder({
+        color: field.color,
+    });
+    obj.prepend(placeholder);
+    // Continue
     saltos.core.require([
         'lib/jstree/jstree.min.css',
         'lib/jstree/jstree.min.js',
     ], () => {
+        placeholder.remove();
         const instance = new jsTree({}, element);
         element.instance = instance;
         instance.on('select', event => {
@@ -3608,12 +3640,12 @@ saltos.bootstrap.__field.jstree = field => {
         /* .jstree-node-text:hover { background:var(--bs-primary-bg-subtle); } */
         element.append(saltos.core.html(`
             <style>
-                .jstree-node-text { color:var(--bs-primary); }
+                .jstree-node-text { color:var(--bs-${field.color}); }
                 .jstree-node-text:hover { background:#fbec88; color:#373a3c; }
                 .jstree-selected,
-                .jstree-selected:hover { background:var(--bs-primary); color:white; }
-                .jstree-node-icon:before { background:var(--bs-primary); }
-                .jstree-node-icon:after { background:var(--bs-primary); }
+                .jstree-selected:hover { background:var(--bs-${field.color}); color:white; }
+                .jstree-node-icon:before { background:var(--bs-${field.color}); }
+                .jstree-node-icon:after { background:var(--bs-${field.color}); }
                 .jstree-node-text:hover .jstree-node-icon:before { background:#373a3c; }
                 .jstree-node-text:hover .jstree-node-icon:after { background:#373a3c; }
                 .jstree-selected:hover .jstree-node-icon:before { background:white; }

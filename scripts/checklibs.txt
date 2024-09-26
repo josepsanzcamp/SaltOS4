@@ -31,7 +31,7 @@ rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex--
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHRpdGxlPnYxNy4wLjA8L3RpdGxlPg==
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNi4xPC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuNC4xPC90aXRsZT4=
-mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMDcgLSAyMDI0LTA5LTA2PC90aXRsZT4=
+mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMDggLSAyMDI0LTA5LTI1PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMDktMTcsIFZlcnNpb24gMjIuOS4wIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTAuMyAtIDIwMjQtMDktMTg8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMFJDMTwvdGl0bGU+
