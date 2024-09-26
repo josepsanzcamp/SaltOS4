@@ -670,6 +670,8 @@ saltos.bootstrap.__field.ckeditor = field => {
             editor.model.document.on('change:data', () => {
                 element.value = editor.getData();
             });
+            editor.keystrokes.set('Enter', 'shiftEnter');
+            editor.keystrokes.set('Shift+Enter', 'enter');
             // I maintain the follow commented lines as an example of usage
             /*editor.on('change:isReadOnly', (evt, propertyName, isReadOnly) => {
                 const toolbar = editor.ui.view.toolbar.element;
