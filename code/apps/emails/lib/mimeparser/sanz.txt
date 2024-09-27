@@ -5,3 +5,4 @@ Code downloaded from:
 Fixed bugs by sanz:
 - Fixed a bug in php8.0 in mime_parser.php to solve the problem when hex contains non hexadecimal chars
 - Fixed a bug in php8.1 in rfc822_addresses.php to solve the problem when local_part is null
+- Fixed a bug when tries to do a base64_decode of unaligned chunks, see the body_fix_unaligned_chunks variable
