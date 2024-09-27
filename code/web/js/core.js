@@ -654,29 +654,6 @@ saltos.core.encode_bad_chars = (cad, pad = '_', extra = '') => {
 };
 
 /**
- * Delay helper
- *
- * This function allow to apply a delay to an event, the main idea of this
- * code is to program a timer to execute a callback and in each call to the
- * function, the old timer is removed and a new timer is programmed, allowing
- * to call repeteadly times the function and only executing the latest call
- * after a delay
- *
- * You can see the original code here: *
- * - https://stackoverflow.com/questions/1909441/#answer-1909508
- *
- * @fn => the callback function to execute after delay
- * @ms => the delay to apply
- */
-saltos.core.delay = (fn, ms) => {
-    let timer = 0;
-    return (...args) => {
-        clearTimeout(timer);
-        timer = setTimeout(fn.bind(this, ...args), ms || 0);
-    };
-};
-
-/**
  * Prepare Words
  *
  * This function allow to prepare words removing repetitions in the padding char

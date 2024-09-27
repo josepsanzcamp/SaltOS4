@@ -204,6 +204,7 @@ saltos.app.__form = {
     fields: [],
     templates: {},
     loading: 0,
+    timer: null,
 };
 
 /**
@@ -762,6 +763,7 @@ saltos.app.form.title = title => {
 saltos.app.form.screen = action => {
     switch (action) {
         case 'loading': {
+            clearTimeout(saltos.app.__form.timer);
             saltos.app.__form.loading++;
             let obj = document.getElementById('loading');
             if (obj) {
@@ -780,6 +782,7 @@ saltos.app.form.screen = action => {
             return true;
         }
         case 'unloading': {
+            clearTimeout(saltos.app.__form.timer);
             saltos.app.__form.loading--;
             if (saltos.app.__form.loading < 0) {
                 saltos.app.__form.loading = 0;
@@ -794,10 +797,7 @@ saltos.app.form.screen = action => {
             // This setTimeout allow to prevent the blinking effect caused by
             // consecutives loadings and unloadings by adding a delay in the
             // real unloading code
-            setTimeout(() => {
-                if (saltos.app.__form.loading > 0) {
-                    return;
-                }
+            saltos.app.__form.timer = setTimeout(() => {
                 obj.remove();
             }, 100);
             return true;
@@ -823,7 +823,7 @@ saltos.app.form.screen = action => {
             if (document.body.hasAttribute('screen')) {
                 return false;
             }
-            document.body.replaceChildren(saltos.driver.__types[action].template());
+            document.body.append(saltos.driver.__types[action].template());
             document.body.setAttribute('screen', action);
             return true;
         }
