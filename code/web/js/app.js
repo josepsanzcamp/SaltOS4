@@ -823,8 +823,14 @@ saltos.app.form.screen = action => {
             if (document.body.hasAttribute('screen')) {
                 return false;
             }
-            document.body.append(saltos.driver.__types[action].template());
+            // Get the loading object before remove the screen
+            const obj = document.getElementById('loading');
+            document.body.replaceChildren(saltos.driver.__types[action].template());
             document.body.setAttribute('screen', action);
+            if (obj) {
+                // Restore the loading after replace the screen
+                document.body.append(obj);
+            }
             return true;
         }
     }
