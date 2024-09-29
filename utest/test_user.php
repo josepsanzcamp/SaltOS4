@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
+require_once 'php/lib/browser.php';
 
 /**
  * Main class of this unit test
@@ -133,5 +134,15 @@ final class test_user extends TestCase
 
         $groups = current_groups();
         $this->assertSame($groups, '0');
+
+        $browser = get_browser_platform_device_type(get_data('server/user_agent'));
+        $this->assertIsArray($browser);
+        $this->assertArrayHasKey('browser', $browser);
+        $this->assertArrayHasKey('platform', $browser);
+        $this->assertArrayHasKey('device_type', $browser);
+        $this->assertTrue(in_array($browser['browser'], ['Default Browser', 'unknown']));
+        $this->assertTrue(in_array($browser['platform'], ['unknown']));
+        $this->assertTrue(in_array($browser['device_type'], ['unknown']));
+
     }
 }

@@ -157,7 +157,7 @@ final class test_import extends TestCase
         $this->assertSame(is_array($rows), true);
         $this->assertSame(count($rows), 100);
         $this->assertSame(array_keys($rows[0]), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']);
-        $this->assertSame($rows[1]['A'], '2');
+        $this->assertSame($rows[1]['A'], 2);
         $this->assertSame($rows[99]['I'], '2024-02-01');
 
         $file = get_directory('dirs/cachedir') . get_unique_id_md5() . '.xlsx';

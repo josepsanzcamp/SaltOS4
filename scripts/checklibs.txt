@@ -3,7 +3,7 @@ autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|b
 edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|base64:PHRpdGxlPjEuMS4xPC90aXRsZT4=
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 locutus|https://github.com/kvz/locutus/tags.atom|<title>|base64:PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
-phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|base64:PHRpdGxlPlNlY3VyaXR5IFBhdGNoPC90aXRsZT4=
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|base64:PHRpdGxlPjMuMy4wPC90aXRsZT4=
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQxNzoyMjo1Nlo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|base64:PHRpdGxlPjYuNy41PC90aXRsZT4=
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|base64:PHRpdGxlPlBIUE1haWxlciA2LjkuMTwvdGl0bGU+
