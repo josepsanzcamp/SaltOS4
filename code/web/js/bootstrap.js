@@ -3951,6 +3951,7 @@ saltos.bootstrap.__textarea_helper = field => {
 saltos.bootstrap.__tooltip_helper = obj => {
     const instance = new bootstrap.Tooltip(obj, {
         trigger: 'hover',
+        animation: false,
         delay: {
             'show': 500,
             'hide': 0,
@@ -3961,6 +3962,9 @@ saltos.bootstrap.__tooltip_helper = obj => {
     });
     obj.addEventListener('click', () => {
         instance.hide();
+    });
+    obj.addEventListener('show.bs.tooltip', () => {
+        saltos.bootstrap.__tooltip_hide();
     });
 };
 
