@@ -45,6 +45,7 @@ function insert($app, $data)
 {
     require_once 'php/lib/control.php';
     require_once 'php/lib/indexing.php';
+    require_once 'php/lib/upload.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -57,7 +58,9 @@ function insert($app, $data)
     $table = app2table($app);
     $fields = array_flip(array_column(get_fields($table), 'name'));
     $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
-    $error = array_diff_key($data, $fields, $subtables);
+    $files = app2files($app) ? array_flip(['newfiles']) : [];
+    $notes = app2notes($app) ? array_flip(['newnotes']) : [];
+    $error = array_diff_key($data, $fields, $subtables, $files, $notes);
     if (count($error)) {
         return [
             'status' => 'ko',
@@ -68,7 +71,9 @@ function insert($app, $data)
 
     // Separate the data associated to a subtables
     $subdata = array_intersect_key($data, $subtables);
-    $data = array_diff_key($data, $subdata);
+    $filesdata = array_intersect_key($data, $files);
+    $notesdata = array_intersect_key($data, $notes);
+    $data = array_diff_key($data, $subdata, $files, $notes);
 
     // Prepare main query
     $query = prepare_insert_query($table, $data);
@@ -100,6 +105,39 @@ function insert($app, $data)
         }
     }
 
+    // Prepare notes
+    if (isset($notesdata['newnotes'])) {
+        $temp = [
+            'user_id' => current_user(),
+            'datetime' => current_datetime(),
+            'reg_id' => $id,
+            'note' => $notesdata['newnotes'],
+        ];
+        $query = prepare_insert_query("{$table}_notes", $temp);
+        db_query(...$query);
+    }
+
+    // Prepare files
+    if (isset($filesdata['newfiles'])) {
+        foreach ($filesdata['newfiles'] as $file) {
+            if (
+                check_file([
+                    'user_id' => current_user(),
+                    'uniqid' => $file['id'],
+                    'app' => $file['app'],
+                    'name' => $file['name'],
+                    'size' => $file['size'],
+                    'type' => $file['type'],
+                    'file' => $file['file'],
+                    'hash' => $file['hash'],
+                ])
+            ) {
+                copy_file($file, $app, $id);
+                del_file($file);
+            }
+        }
+    }
+
     make_index($app, $id);
     make_control($app, $id);
     add_version($app, $id);
@@ -122,6 +160,7 @@ function update($app, $id, $data)
 {
     require_once 'php/lib/control.php';
     require_once 'php/lib/indexing.php';
+    require_once 'php/lib/upload.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -134,7 +173,9 @@ function update($app, $id, $data)
     $table = app2table($app);
     $fields = array_flip(array_column(get_fields($table), 'name'));
     $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
-    $error = array_diff_key($data, $fields, $subtables);
+    $files = app2files($app) ? array_flip(['newfiles', 'delfiles']) : [];
+    $notes = app2notes($app) ? array_flip(['newnotes', 'delnotes']) : [];
+    $error = array_diff_key($data, $fields, $subtables, $files, $notes);
     if (count($error)) {
         return [
             'status' => 'ko',
@@ -145,7 +186,9 @@ function update($app, $id, $data)
 
     // Separate the data associated to a subtables
     $subdata = array_intersect_key($data, $subtables);
-    $data = array_diff_key($data, $subdata);
+    $filesdata = array_intersect_key($data, $files);
+    $notesdata = array_intersect_key($data, $notes);
+    $data = array_diff_key($data, $subdata, $files, $notes);
 
     // Prepare main query
     if (count($data)) {
@@ -194,6 +237,61 @@ function update($app, $id, $data)
                 } else {
                     show_php_error(['phperror' => 'subdata found with id=0']);
                 }
+            }
+        }
+    }
+
+    // Remove selected notes
+    if (isset($notesdata['delnotes'])) {
+        $ids = json_decode($notesdata['delnotes']);
+        foreach ($ids as $id2) {
+            $query = "DELETE FROM {$table}_notes WHERE reg_id = ? AND id = ?";
+            db_query($query, [$id, $id2]);
+        }
+    }
+
+    // Prepare notes
+    if (isset($notesdata['newnotes'])) {
+        $temp = [
+            'user_id' => current_user(),
+            'datetime' => current_datetime(),
+            'reg_id' => $id,
+            'note' => $notesdata['newnotes'],
+        ];
+        $query = prepare_insert_query("{$table}_notes", $temp);
+        db_query(...$query);
+    }
+
+    // Remove selected files
+    if (isset($filesdata['delfiles'])) {
+        $ids = json_decode($filesdata['delfiles']);
+        foreach ($ids as $id2) {
+            $query = "SELECT file FROM {$table}_files WHERE reg_id = ? AND id = ?";
+            $file = execute_query($query, [$id, $id2]);
+            $dir = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+            unlink($dir . $app . '/' . $file);
+            $query = "DELETE FROM {$table}_files WHERE reg_id = ? AND id = ?";
+            db_query($query, [$id, $id2]);
+        }
+    }
+
+    // Prepare files
+    if (isset($filesdata['newfiles'])) {
+        foreach ($filesdata['newfiles'] as $file) {
+            if (
+                check_file([
+                    'user_id' => current_user(),
+                    'uniqid' => $file['id'],
+                    'app' => $file['app'],
+                    'name' => $file['name'],
+                    'size' => $file['size'],
+                    'type' => $file['type'],
+                    'file' => $file['file'],
+                    'hash' => $file['hash'],
+                ])
+            ) {
+                copy_file($file, $app, $id);
+                del_file($file);
             }
         }
     }
@@ -276,6 +374,20 @@ function delete($app, $id)
         $query = "DELETE FROM $subtable WHERE $field = ?";
         db_query($query, [$id]);
     }
+
+    // Remove all notes
+    $query = "DELETE FROM {$table}_notes WHERE reg_id = ?";
+    db_query($query, [$id]);
+
+    // Remove all files
+    $query = "SELECT file FROM {$table}_files WHERE reg_id = ?";
+    $files = execute_query_array($query, [$id]);
+    $dir = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+    foreach ($files as $file) {
+        unlink($dir . $app . '/' . $file);
+    }
+    $query = "DELETE FROM {$table}_files WHERE reg_id = ?";
+    db_query($query, [$id]);
 
     make_index($app, $id);
     make_control($app, $id);

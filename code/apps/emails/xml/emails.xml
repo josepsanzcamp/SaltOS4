@@ -471,7 +471,8 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Download" tooltip="To download the email" icon="save">
-                    <onclick eval="true">"saltos.app.download('app/emails/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
+                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.app.download('app/emails/view/download/".intval(get_data("rest/4"))."/".get_data("rest/5")."')"</onclick>
+                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.app.download('app/emails/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>

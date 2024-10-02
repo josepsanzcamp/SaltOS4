@@ -807,11 +807,24 @@ function sendmail_action($json, $action, $email_id)
     $files = [];
     $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     foreach ($uploads as $file) {
-        $files[] = [
-            'file' => $dir . $file['file'],
-            'name' => $file['name'],
-            'mime' => $file['type'],
-        ];
+        if (
+            check_file([
+                'user_id' => current_user(),
+                'uniqid' => $file['id'],
+                'app' => $file['app'],
+                'name' => $file['name'],
+                'size' => $file['size'],
+                'type' => $file['type'],
+                'file' => $file['file'],
+                'hash' => $file['hash'],
+            ])
+        ) {
+            $files[] = [
+                'file' => $dir . $file['file'],
+                'name' => $file['name'],
+                'mime' => $file['type'],
+            ];
+        }
     }
     // DO THE SEND ACTION
     $send = sendmail($account_id, $recipients, $subject, $body, $files);

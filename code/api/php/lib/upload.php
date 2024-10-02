@@ -160,6 +160,40 @@ function check_file($val)
 }
 
 /**
+ * TODO
+ *
+ * TODO
+ */
+function copy_file($val, $app, $id)
+{
+    // check that app folder exists
+    $files = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+    if (!file_exists($files . $app)) {
+        mkdir($files . $app);
+        chmod_protected($files . $app, 0777);
+    }
+    // Copy the file to the app folder
+    $upload = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
+    copy($upload . $val['file'], $files . $app . '/' . $val['file']);
+    // Create the app register
+    $user_id = current_user();
+    $datetime = current_datetime();
+    $table = app2table($app);
+    $query = prepare_insert_query("{$table}_files", [
+        'user_id' => $user_id,
+        'datetime' => $datetime,
+        'reg_id' => $id,
+        'uniqid' => $val['id'],
+        'name' => $val['name'],
+        'size' => $val['size'],
+        'type' => $val['type'],
+        'file' => $val['file'],
+        'hash' => $val['hash'],
+    ]);
+    db_query(...$query);
+}
+
+/**
  * Garbage Collector Upload
  *
  * This function tries to clean the upload database of old files, the parameters

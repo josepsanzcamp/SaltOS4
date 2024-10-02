@@ -65,10 +65,11 @@ function make_index($app, $reg_id)
         return -1;
     }
     // Check if index exists
-    $query = "SELECT id FROM {$table}_index WHERE id='$reg_id'";
+    $query = "SELECT id FROM {$table}_index LIMIT 1";
     if (!db_check($query)) {
         return -2;
     }
+    $query = "SELECT id FROM {$table}_index WHERE id='$reg_id'";
     $index_id = execute_query($query);
     // Check if exists data in the main table
     $query = "SELECT id FROM $table WHERE id='$reg_id'";

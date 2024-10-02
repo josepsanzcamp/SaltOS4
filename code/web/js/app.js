@@ -229,12 +229,12 @@ saltos.app.__form = {
  * @ top+one => this example is intended to restore two contexts in one contest, intender to
  *   load the context of the search list that can be contained in the top and one containers.
  */
-saltos.app.form.__backup = {
+saltos.app.__backup = {
     __forms: {},
     do: key => {
-        saltos.app.form.__backup.__forms[key] = {};
-        saltos.app.form.__backup.__forms[key].fields = saltos.app.__form.fields;
-        saltos.app.form.__backup.__forms[key].templates = saltos.app.__form.templates;
+        saltos.app.__backup.__forms[key] = {};
+        saltos.app.__backup.__forms[key].fields = saltos.app.__form.fields;
+        saltos.app.__backup.__forms[key].templates = saltos.app.__form.templates;
     },
     restore: key => {
         saltos.app.__form.fields = [];
@@ -243,14 +243,14 @@ saltos.app.form.__backup = {
             key = key.split('+');
             let bool = false;
             for (const i in key) {
-                if (saltos.app.form.__backup.__forms.hasOwnProperty(key[i])) {
+                if (saltos.app.__backup.__forms.hasOwnProperty(key[i])) {
                     saltos.app.__form.fields = [
                         ...saltos.app.__form.fields,
-                        ...saltos.app.form.__backup.__forms[key[i]].fields
+                        ...saltos.app.__backup.__forms[key[i]].fields
                     ];
                     saltos.app.__form.templates = {
                         ...saltos.app.__form.templates,
-                        ...saltos.app.form.__backup.__forms[key[i]].templates
+                        ...saltos.app.__backup.__forms[key[i]].templates
                     };
                     bool = true;
                 }
@@ -259,9 +259,9 @@ saltos.app.form.__backup = {
         }
         key = key.split(',');
         for (const i in key) {
-            if (saltos.app.form.__backup.__forms.hasOwnProperty(key[i])) {
-                saltos.app.__form.fields = saltos.app.form.__backup.__forms[key[i]].fields;
-                saltos.app.__form.templates = saltos.app.form.__backup.__forms[key[i]].templates;
+            if (saltos.app.__backup.__forms.hasOwnProperty(key[i])) {
+                saltos.app.__form.fields = saltos.app.__backup.__forms[key[i]].fields;
+                saltos.app.__form.templates = saltos.app.__backup.__forms[key[i]].templates;
                 return true;
             }
         }
@@ -333,8 +333,8 @@ saltos.app.form.data = (data, sync = true) => {
             continue;
         }
         // This updates the field spec searching in all backups
-        for (const i in saltos.app.form.__backup.__forms) {
-            saltos.app.form.__backup.__forms[i].fields.forEach(_this => {
+        for (const i in saltos.app.__backup.__forms) {
+            saltos.app.__backup.__forms[i].fields.forEach(_this => {
                 if (_this.id == key) {
                     _this.value = val;
                 }
@@ -516,7 +516,7 @@ saltos.app.form.layout = (layout, extra) => {
     let obj = null;
     if (append != '') {
         // Do a backup of the fields and templates using the append key
-        saltos.app.form.__backup.do(append);
+        saltos.app.__backup.do(append);
         // Continue
         obj = document.getElementById(append);
         obj.replaceChildren(div);
@@ -1462,6 +1462,20 @@ saltos.app.download = file => {
             a.click();
         },
     });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.delete = file => {
+    const row = document.getElementById('all' + file.split('/').slice(3, 6).join('/'));
+    row.remove();
+    const obj = document.getElementById('del' + file.split('/').at(3));
+    let value = JSON.parse(obj.value);
+    value.push(file.split('/').at(-1));
+    obj.value = JSON.stringify(value);
 };
 
 /**

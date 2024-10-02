@@ -46,6 +46,9 @@ declare(strict_types=1);
  */
 function merge_data_actions($data, $actions)
 {
+    if (is_string($actions) && trim($actions) == '') {
+        $actions = [];
+    }
     // Add the actions to each row checking each permissions's row
     foreach ($data as $key => $row) {
         $merge = [];

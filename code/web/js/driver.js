@@ -130,7 +130,7 @@ saltos.driver.close = arg => {
  */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
-    saltos.app.form.__backup.restore('top+one');
+    saltos.app.__backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
     const app = saltos.hash.get().split('/').at(1);
@@ -176,7 +176,7 @@ saltos.driver.search = arg => {
  * TODO
  */
 saltos.driver.reset = arg => {
-    saltos.app.form.__backup.restore('top+one');
+    saltos.app.__backup.restore('top+one');
     const types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
         'textarea', 'checkbox', 'password', 'file', 'select-one'];
     for (const i in saltos.app.__form.fields) {
@@ -207,7 +207,7 @@ saltos.driver.reset = arg => {
  */
 saltos.driver.more = arg => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1;
-    saltos.app.form.__backup.restore('top+one');
+    saltos.app.__backup.restore('top+one');
     const data = saltos.app.get_data(true);
     const app = saltos.hash.get().split('/').at(1);
     let type = '';
@@ -255,7 +255,7 @@ saltos.driver.more = arg => {
  * TODO
  */
 saltos.driver.insert = arg => {
-    saltos.app.form.__backup.restore('two,one');
+    saltos.app.__backup.restore('two,one');
     if (!saltos.app.check_required()) {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -292,7 +292,7 @@ saltos.driver.insert = arg => {
  * TODO
  */
 saltos.driver.update = arg => {
-    saltos.app.form.__backup.restore('two,one');
+    saltos.app.__backup.restore('two,one');
     if (!saltos.app.check_required()) {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;

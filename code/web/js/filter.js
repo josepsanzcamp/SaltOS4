@@ -159,7 +159,7 @@ saltos.filter.button = arg => {
     const form = document.getElementById('filter_form');
     const select = form.querySelector('select');
     const input = form.querySelector('input');
-    saltos.app.form.__backup.restore('top+one');
+    saltos.app.__backup.restore('top+one');
     const data = saltos.app.get_data(true);
     switch (arg) {
         case 'load':

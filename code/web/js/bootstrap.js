@@ -2193,6 +2193,7 @@ saltos.bootstrap.__field.pdfjs = field => {
 saltos.bootstrap.__field.table = field => {
     saltos.core.check_params(field, ['class', 'id', 'checkbox', 'dropdown', 'color', 'nodata']);
     saltos.core.check_params(field, ['header', 'data', 'footer'], []);
+    saltos.core.check_params(field, ['first_action'], true);
     // Check for data not found
     if (!field.data.length) {
         return saltos.bootstrap.__field.alert({
@@ -2339,6 +2340,8 @@ saltos.bootstrap.__field.table = field => {
                     }
                     event.stopPropagation();
                 });
+            } else {
+                row.setAttribute('id', `${field.id}/${val.id}`);
             }
             // This is to allow to use tables with data and without header
             let iterator = field.header;
@@ -2417,7 +2420,7 @@ saltos.bootstrap.__field.table = field => {
                     // This close all dropdowns when a new dropdown appear
                     td.querySelector('ul').parentElement.addEventListener('show.bs.dropdown', dropdown_close);
                 }
-                let first_action = true;
+                let first_action = saltos.core.eval_bool(field.first_action);
                 for (const key2 in val.actions) {
                     const val2 = val.actions[key2];
                     if (val2.url == '') {

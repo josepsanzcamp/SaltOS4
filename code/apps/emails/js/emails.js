@@ -176,7 +176,7 @@ saltos.emails.delete2 = () => {
  * TODO
  */
 saltos.emails.send = () => {
-    saltos.app.form.__backup.restore('two,one');
+    saltos.app.__backup.restore('two,one');
     if (!saltos.app.check_required()) {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
