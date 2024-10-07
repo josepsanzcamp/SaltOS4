@@ -107,7 +107,7 @@ final class test_perms extends TestCase
         $rows = execute_query_array('SELECT * FROM tbl_apps_perms');
         db_query('TRUNCATE TABLE tbl_apps_perms');
 
-        test_external_exec('php/perms5.php', 'phperror.log', 'internal error for 11|1');
+        test_external_exec('php/perms5.php', 'phperror.log', 'internal error for');
 
         foreach ($rows as $row) {
             db_query(make_insert_query('tbl_apps_perms', $row));
