@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <form>
+        <hidden id="delnotes" value="[]" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))"/>
+        <table id="allnotes" label="Notes" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
+            <source eval="true">"app/".get_data("rest/1")."/view/notes/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
+        </table>
+        <textarea id="newnotes" label="New note" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
+    </form>
+
+    <view id="notes" dropdown="false" type="table" first_action="false">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <header>
+            <user>User</user>
+            <datetime>Datetime</datetime>
+            <note>Note</note>
+        </header>
+        <data eval="true">merge_data_actions(
+            execute_query_array("SELECT CONCAT(reg_id, '/', id) id, (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, note
+                FROM " . app2table(get_data("rest/1")) . "_notes WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/4"))]),
+            xpath_search_first_value("view[id=notes]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/common/xml/notes.xml"))
+        )</data>
+        <actions id="view"/>
+        <actions id="edit">
+            <action action="delete/notes" icon="trash" tooltip="Delete note" onclick="saltos.app.delete">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+        </actions>
+    </view>
+</root>

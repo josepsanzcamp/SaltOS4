@@ -120,6 +120,11 @@ if (!isset($array[get_data('rest/2')])) {
 $array = $array[get_data('rest/2')];
 set_data('rest/2', fix_key(get_data('rest/2')));
 
+// Check if array contains an eval attr
+if (is_attr_value($array) && isset($array['#attr']['eval']) && eval_bool($array['#attr']['eval'])) {
+    $array = eval("return {$array['value']};");
+}
+
 // Clean some old attributes
 foreach (['default', 'id'] as $attr) {
     if (isset($array['#attr'][$attr])) {

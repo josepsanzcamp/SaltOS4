@@ -34,7 +34,7 @@
         <gettext eval="true">T()</gettext>
         <title>Groups list</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
@@ -45,7 +45,7 @@
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
-            <div eval="true">xmlfile2array("apps/dashboard/xml/filter.xml")["div"]</div>
+            <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-12 my-3">
                 <table id="table" nodata="Loading..."/>
             </row>
@@ -85,7 +85,7 @@
                 AND ".check_sql("groups", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first("list[id=table]/actions", xmlfile2array("apps/users/xml/groups.xml"))
+            xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/users/xml/groups.xml"))
         )</data>
         <actions>
             <action app="groups" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
@@ -140,7 +140,7 @@
         <gettext eval="true">T()</gettext>
         <title>New group</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/groups.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -171,7 +171,7 @@
         <gettext eval="true">T()</gettext>
         <title>Detail of the group</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/groups.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -195,7 +195,7 @@
         <gettext eval="true">T()</gettext>
         <title>Modify this group</title>
         <screen eval="true">xmlfile2array("apps/users/xml/groups.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/groups.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">

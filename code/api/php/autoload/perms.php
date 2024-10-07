@@ -60,9 +60,9 @@ function check_user($app, $perm)
         $from_apps_perms = execute_query_array($query);
         // Get all relevant permissions associated to the user
         $user_id = current_user();
-        $query = "SELECT app_id, perm_id, allow, deny
-            FROM tbl_users_apps_perms WHERE user_id = $user_id";
-        $from_users_apps_perms = execute_query_array($query);
+        $query = 'SELECT app_id, perm_id, allow, deny
+            FROM tbl_users_apps_perms WHERE user_id = ?';
+        $from_users_apps_perms = execute_query_array($query, [$user_id]);
         // Get all relevant permissions associated to the groups associated to the user
         $groups_id = current_groups();
         $query = "SELECT app_id, perm_id, allow, deny
@@ -284,8 +284,8 @@ function check_app_perm_id($app, $perm, $id = null)
     $table = app2table($app);
     $sql = check_sql($app, $perm);
     $id = intval($id);
-    $query = "SELECT id FROM $table WHERE id = $id AND $sql";
-    $exists = execute_query($query);
+    $query = "SELECT id FROM $table WHERE id = ? AND $sql";
+    $exists = execute_query($query, [$id]);
     if (!$exists) {
         return false;
     }
@@ -300,9 +300,9 @@ function check_app_perm_id($app, $perm, $id = null)
 function __user_is_admin($app)
 {
     $app_id = app2id($app);
-    $query = "SELECT * FROM tbl_perms
-        WHERE active = 1 AND id IN (SELECT perm_id FROM tbl_apps_perms WHERE app_id=$app_id)";
-    $rows = execute_query_array($query);
+    $query = 'SELECT * FROM tbl_perms
+        WHERE active = 1 AND id IN (SELECT perm_id FROM tbl_apps_perms WHERE app_id = ?)';
+    $rows = execute_query_array($query, [$app_id]);
     foreach ($rows as $row) {
         if ($row['owner'] != '') {
             $perm = $row['code'] . '|' . $row['owner'];
@@ -314,4 +314,47 @@ function __user_is_admin($app)
         }
     }
     return true;
+}
+
+/**
+ * Merge data actions
+ *
+ * This function merge the rows of a table or list with the specified actions
+ *
+ * @data    => the data of the table or list widget
+ * @actions => the desired actions to use in the table or list widget
+ */
+function merge_data_actions($data, $actions)
+{
+    // Prepare the actions
+    if (is_string($actions) && trim($actions) == '') {
+        $actions = [];
+    }
+    foreach ($actions as $key => $action) {
+        $action = join_attr_value($action);
+        $action = eval_attr($action);
+        $actions[$key] = $action;
+    }
+    // Add the actions to each row checking each permissions's row
+    foreach ($data as $key => $row) {
+        $merge = [];
+        foreach ($actions as $action) {
+            if (
+                check_app_perm_id(
+                    $action['app'],
+                    strtok($action['action'], '/'),
+                    strtok(strval($row['id']), '/')
+                )
+            ) {
+                $action['url'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+            } else {
+                $action['url'] = '';
+            }
+            $merge[] = $action;
+        }
+        if (count($merge)) {
+            $data[$key]['actions'] = $merge;
+        }
+    }
+    return $data;
 }

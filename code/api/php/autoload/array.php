@@ -387,7 +387,7 @@ function __array_apply_patch_rec(&$array, $key, $val)
  */
 function is_attr_value($array)
 {
-    return is_array($array) && isset($array['value']) && isset($array['#attr']);
+    return is_array($array) && isset($array['value']) && isset($array['#attr']) && count($array) == 2;
 }
 
 /**
@@ -450,12 +450,12 @@ function xpath_search_array($xpath, $array)
         unset($matches[3][0]);
         $new_result = [];
         foreach ($result as $array) {
+            $array = __array_getvalue($array);
             foreach ($array as $key => $val) {
                 $found = false;
                 if (fix_key($key) == $matches[1][0]) {
                     if (is_attr_value($val)) {
                         $attr = $val['#attr'];
-                        $val = $val['value'];
                     } else {
                         $attr = [];
                     }
@@ -489,4 +489,14 @@ function xpath_search_array($xpath, $array)
 function xpath_search_first($xpath, $array)
 {
     return xpath_search_array($xpath, $array)[0] ?? null;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function xpath_search_first_value($xpath, $array)
+{
+    return __array_getvalue(xpath_search_first($xpath, $array));
 }

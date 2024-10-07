@@ -79,7 +79,7 @@ foreach ($apps as $app) {
         // Continue
         $query = "UPDATE {$table}_files SET retries = retries + 1 WHERE id = ?";
         db_query($query, [$row['id']]);
-        $input = get_directory('dirs/filesdir') . $row['file'];
+        $input = get_directory('dirs/filesdir') . $app['code'] . '/' . $row['file'];
         $search = unoconv2txt($input);
         $query = prepare_update_query("{$table}_files", [
             'indexed' => 1,

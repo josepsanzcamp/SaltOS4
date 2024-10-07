@@ -66,14 +66,8 @@ function T($text = '')
     }
     $app = id2app(current_app());
     if (!isset($cache[$app][$lang])) {
-        $file = "apps/$app/locale/$lang/messages.xml";
-        if (!file_exists($file)) {
-            $files = glob("apps/*/xml/$app.xml");
-            if (count($files) == 1) {
-                $temp = explode('/', $files[0])[1];
-                $file = "apps/$temp/locale/$lang/messages.xml";
-            }
-        }
+        $dir = detect_app_folder($app);
+        $file = "apps/$dir/locale/$lang/messages.xml";
         if (file_exists($file)) {
             $cache[$app][$lang] = xmlfile2array($file);
         }

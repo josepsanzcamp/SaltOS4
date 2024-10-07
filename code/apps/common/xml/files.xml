@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <form>
+        <hidden id="delfiles" value="[]" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))"/>
+        <table id="allfiles" label="Files" col_class="col-12 mb-3" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
+            <source eval="true">"app/".get_data("rest/1")."/view/files/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
+        </table>
+        <file id="newfiles" label="New files" col_class="col-12 mb-3" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('rest/1'), get_data('rest/2'))">
+            <data eval="true">execute_query_array("SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
+                FROM tbl_uploads WHERE user_id = ? AND app = ? ORDER BY id DESC", [current_user(), current_hash()])</data>
+        </file>
+    </form>
+
+    <view id="files" dropdown="false" type="table">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <first_action eval="true">get_data("rest/5") == "view"</first_action>
+        <header>
+            <name>Filename</name>
+            <size>Size</size>
+        </header>
+        <data eval="true">merge_data_actions(
+            execute_query_array("SELECT CONCAT(reg_id, '/', id) id, user_id, datetime, name, size FROM " . app2table(get_data("rest/1")) . "_files WHERE reg_id = ?", [intval(get_data("rest/4"))]),
+            xpath_search_first_value("view[id=files]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/common/xml/files.xml"))
+        )</data>
+        <actions id="view">
+            <action action="view/viewpdf" icon="search" tooltip="View file" onclick="saltos.driver.open">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+            <action action="view/download" icon="save" tooltip="Download file" onclick="saltos.app.download">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+        </actions>
+        <actions id="edit">
+            <action action="delete/files" icon="trash" tooltip="Delete file" onclick="saltos.app.delete">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+        </actions>
+    </view>
+
+    <view id="viewpdf">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <gettext eval="true">T()</gettext>
+        <title require="php/lib/files.php" eval="true">files_cid(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))["name"]</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="three,two,one">
+            <row auto="true" col_class="col-12 mb-3">
+                <pdfjs>
+                    <srcdoc require="php/lib/files.php" eval="true">files_viewpdf(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))</srcdoc>
+                </pdfjs>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button label="Download" tooltip="To download the email" icon="save">
+                    <onclick eval="true">"saltos.app.download('app/".get_data("rest/1")."/view/download/".intval(get_data("rest/4"))."/".intval(get_data("rest/5"))."')"</onclick>
+                </button>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init("view")</inline>
+        </javascript>
+    </view>
+
+    <view id="download">
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <output require="php/lib/files.php" eval="true">files_download(get_data('rest/1'), intval(get_data("rest/4")), intval(get_data("rest/5")))</output>
+    </view>
+</root>

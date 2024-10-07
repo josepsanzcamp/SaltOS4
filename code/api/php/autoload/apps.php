@@ -256,19 +256,6 @@ function app_exists($app)
 }
 
 /**
- * Detect apps files
- *
- * This function returns the files found in the main path and in the apps path
- *
- * @file => the pattern used to search files
- */
-function detect_apps_files($file)
-{
-    $files = array_merge(glob($file), glob("apps/*/{$file}"));
-    return $files;
-}
-
-/**
  * App to Index
  *
  * This function returns the has_index of the app
@@ -329,19 +316,6 @@ function app2notes($app)
 }
 
 /**
- * Current app
- *
- * This function returns the id of the current app
- */
-function current_app()
-{
-    if (get_data('rest/0') != 'app') {
-        show_php_error(['phperror' => 'unknown app in rest args']);
-    }
-    return app2id(get_data('rest/1'));
-}
-
-/**
  * Subtable to Id
  *
  * This function resolves the id of the app from the subtable
@@ -399,4 +373,68 @@ function table_exists($table)
 function subtable_exists($subtable)
 {
     return __apps(__FUNCTION__, $subtable);
+}
+
+/**
+ * Detect apps files
+ *
+ * This function returns the files found in the main path and in the apps path
+ *
+ * @file => the pattern used to search files
+ */
+function detect_apps_files($file)
+{
+    $files = array_merge(glob($file), glob("apps/*/{$file}"));
+    return $files;
+}
+
+/**
+ * Current app
+ *
+ * This function returns the id of the current app
+ */
+function current_app()
+{
+    if (get_data('rest/0') != 'app') {
+        show_php_error(['phperror' => 'unknown app in rest args']);
+    }
+    return app2id(get_data('rest/1'));
+}
+
+/**
+ * Detect app file
+ *
+ * This function returns the path found for the requested app
+ *
+ * @app => the app that wants to retrieve the file path
+ */
+function detect_app_file($app)
+{
+    $dir = detect_app_folder($app);
+    $file = "apps/$dir/xml/$app.xml";
+    return $file;
+}
+
+/**
+ * Detect app folder
+ *
+ * This function returns the path found for the requested app
+ *
+ * @app => the app that wants to retrieve the folder path
+ */
+function detect_app_folder($app)
+{
+    $file = "apps/$app/xml/$app.xml";
+    if (!file_exists($file)) {
+        $files = glob("apps/*/xml/$app.xml");
+        if (count($files) == 1) {
+            $temp = explode('/', $files[0])[1];
+            $file = "apps/$temp/xml/$app.xml";
+        }
+    }
+    if (!file_exists($file)) {
+        show_php_error(['phperror' => "path not found for $app"]);
+    }
+    $temp = explode('/', $file)[1];
+    return $temp;
 }

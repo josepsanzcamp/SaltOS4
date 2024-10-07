@@ -34,7 +34,7 @@
         <gettext eval="true">T()</gettext>
         <title>Customer's list</title>
         <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
@@ -45,7 +45,7 @@
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
-            <div eval="true">xmlfile2array("apps/dashboard/xml/filter.xml")["div"]</div>
+            <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="table" nodata="Loading..."/>
             </row>
@@ -84,7 +84,7 @@
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first("list[id=table]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
+            xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions>
             <action app="customers" action="view" label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
@@ -132,35 +132,16 @@
     <data eval="true">execute_query("SELECT * FROM app_customers
         WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
-    <files>
-        <hidden id="delfiles" value="[]" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))"/>
-        <table id="allfiles" label="Files" col_class="col-12 mb-3" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
-            <source eval="true">"app/customers/view/files/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
-        </table>
-        <file id="newfiles" label="New files" col_class="col-12 mb-3" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('rest/1'), get_data('rest/2'))">
-            <data eval="true">execute_query_array("SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
-                FROM tbl_uploads WHERE user_id = ? AND app = ? ORDER BY id DESC", [current_user(), current_hash()])</data>
-        </file>
-    </files>
-
-    <notes>
-        <hidden id="delnotes" value="[]" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))"/>
-        <table id="allnotes" label="Notes" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
-            <source eval="true">"app/customers/view/notes/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
-        </table>
-        <textarea id="newnotes" label="New note" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_new(get_data('rest/1'), get_data('rest/2'))"/>
-    </notes>
-
     <create>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>New customer</title>
         <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["files"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["notes"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg"/>
@@ -182,11 +163,11 @@
         <gettext eval="true">T()</gettext>
         <title>Detail of the customer</title>
         <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["files"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["notes"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Editar" tooltip="Para editar el cliente" icon="pencil">
@@ -203,83 +184,21 @@
         </javascript>
     </view>
 
-    <view id="files" dropdown="false" type="table" first_action="false">
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <header>
-            <name>Filename</name>
-            <size>Size</size>
-        </header>
-        <data eval="true">merge_data_actions(
-            execute_query_array("SELECT CONCAT(reg_id, '/', id) id, user_id, datetime, name, size FROM app_customers_files WHERE reg_id = ?", [intval(get_data("rest/4"))]),
-            xpath_search_first("view[id=files]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/customers/xml/customers.xml"))
-        )</data>
-        <actions id="view">
-            <action app="customers" action="view/viewpdf" icon="search" tooltip="View file" onclick="saltos.driver.open"/>
-            <action app="customers" action="view/download" icon="save" tooltip="Download file" onclick="saltos.app.download"/>
-        </actions>
-        <actions id="edit">
-            <action app="customers" action="delete/files" icon="trash" tooltip="Delete file" onclick="saltos.app.delete"/>
-        </actions>
-    </view>
-
-    <view id="notes" dropdown="false" type="table" first_action="false">
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <header>
-            <user>User</user>
-            <datetime>Datetime</datetime>
-            <note>Note</note>
-        </header>
-        <data eval="true">merge_data_actions(
-            execute_query_array("SELECT CONCAT(reg_id, '/', id) id, (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, note
-                FROM app_customers_notes WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/4"))]),
-            xpath_search_first("view[id=notes]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/customers/xml/customers.xml"))
-        )</data>
-        <actions id="view"/>
-        <actions id="edit">
-            <action app="customers" action="delete/notes" icon="trash" tooltip="Delete note" onclick="saltos.app.delete"/>
-        </actions>
-    </view>
-
-    <view id="viewpdf">
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <gettext eval="true">T()</gettext>
-        <title require="php/lib/files.php" eval="true">files_cid(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))["name"]</title>
-        <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="three,two,one">
-            <row auto="true" col_class="col-12 mb-3">
-                <pdfjs>
-                    <srcdoc require="php/lib/files.php" eval="true">files_viewpdf(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))</srcdoc>
-                </pdfjs>
-            </row>
-            <row auto="true" row_class="row g-1" col_class="col-auto">
-                <div col_class="col"/>
-                <button label="Download" tooltip="To download the email" icon="save">
-                    <onclick eval="true">"saltos.app.download('app/".get_data("rest/1")."/view/download/".intval(get_data("rest/4"))."/".intval(get_data("rest/5"))."')"</onclick>
-                </button>
-                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
-            </row>
-        </layout>
-        <javascript>
-            <inline>saltos.driver.init("view")</inline>
-        </javascript>
-    </view>
-
-    <view id="download">
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <output require="php/lib/files.php" eval="true">files_download(get_data('rest/1'), intval(get_data("rest/4")), intval(get_data("rest/5")))</output>
-    </view>
+    <view id="files" eval="true">xpath_search_first("view[id=files]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="notes" eval="true">xpath_search_first("view[id=notes]", xmlfile2array("apps/common/xml/notes.xml"))</view>
+    <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
 
     <edit>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Modify this customer</title>
         <screen eval="true">xmlfile2array("apps/customers/xml/customers.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["form"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["files"]</row>
-            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/customers/xml/customers.xml")["notes"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg"/>
@@ -324,7 +243,7 @@
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first("widget[id=table1]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
+            xpath_search_first_value("widget[id=table1]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions>
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
@@ -358,7 +277,7 @@
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first("widget[id=table2]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
+            xpath_search_first_value("widget[id=table2]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions>
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>

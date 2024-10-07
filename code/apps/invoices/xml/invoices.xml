@@ -34,7 +34,7 @@
         <gettext eval="true">T()</gettext>
         <title>Invoice's list</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
@@ -51,7 +51,7 @@
                 </dropdown>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
             </row>
-            <div eval="true">xmlfile2array("apps/dashboard/xml/filter.xml")["div"]</div>
+            <div eval="true">xmlfile2array("apps/common/xml/filter.xml")["div"]</div>
             <row auto="true" col_class="col-md-12 my-3">
                 <table id="table" nodata="Loading..."/>
             </row>
@@ -99,7 +99,7 @@
                 AND ".check_sql("invoices", "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first("list[id=table]/actions", xmlfile2array("apps/invoices/xml/invoices.xml"))
+            xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/invoices/xml/invoices.xml"))
         )</data>
         <actions>
             <action app="invoices" action="view" label="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
@@ -165,7 +165,7 @@
         <gettext eval="true">T()</gettext>
         <title>New invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
@@ -193,7 +193,7 @@
         <gettext eval="true">T()</gettext>
         <title>Detail of the invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
@@ -235,7 +235,7 @@
             "id" => check_ids(get_data("rest/4")),
         ])["name"]</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
@@ -269,7 +269,7 @@
         <gettext eval="true">T()</gettext>
         <title>Modify this invoice</title>
         <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>

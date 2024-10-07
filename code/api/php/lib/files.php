@@ -102,15 +102,18 @@ function files_cid($app, $id, $cid)
     // Check the app table
     $table = app2table($app);
     if ($table == '') {
-        die();
+        show_php_error(['phperror' => 'table not found']);
     }
     // check that app folder exists
     $files = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
     if (!file_exists($files . $app)) {
-        die();
+        show_php_error(['phperror' => 'dir not found']);
     }
     // Prepare the output
     $result = execute_query("SELECT * FROM {$table}_files WHERE id = ? AND reg_id = ?", [$cid, $id]);
+    if (!is_array($result)) {
+        show_php_error(['phperror' => 'file not found']);
+    }
     return [
         'name' => $result['name'],
         'size' => $result['size'],

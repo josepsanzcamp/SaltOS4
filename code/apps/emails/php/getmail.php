@@ -1194,7 +1194,7 @@ function getmail_cid($id, $cid)
     // continue
     $result = __getmail_getcid(__getmail_getnode('0', $decoded), $cid);
     if (!$result) {
-        die();
+        show_php_error(['phperror' => 'cid not found in message']);
     }
     $name = $result['cname'] ? $result['cname'] : $result['cid'];
     return [

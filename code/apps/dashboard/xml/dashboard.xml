@@ -31,7 +31,7 @@
         <gettext eval="true">T()</gettext>
         <title>Dashboard</title>
         <screen>type1</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row items" col_class="col-xl-4 col-md-6 mb-3">
                 <button ifeval="check_user('customers', 'menu')" onclick="saltos.window.open('app/customers')" class="fs-1 w-100 h-100" label="Customers"/>

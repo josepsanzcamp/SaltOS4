@@ -37,7 +37,7 @@
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="top">
             <row auto="true" row_class="row g-1 py-3" col_class="col-auto">
                 <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
@@ -110,7 +110,7 @@
                 </div>
                 <!-- End of the search form -->
                 <hr/>
-                <div id="filter_form" eval="true">xpath_search_first("div/div[id=filter_form]", xmlfile2array("apps/dashboard/xml/filter.xml"))</div>
+                <div id="filter_form" eval="true">xpath_search_first_value("div/div[id=filter_form]", xmlfile2array("apps/common/xml/filter.xml"))</div>
             </div>
             <row auto="true" col_class="col-12 mb-3">
                 <list id="list" nodata="Loading..."/>
@@ -172,7 +172,7 @@
                 AND ".make_where_query_emails(get_data("json"))."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first("list[id=list]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
+            xpath_search_first_value("list[id=list]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
         )</data>
         <actions>
             <action app="emails" action="view" onclick="saltos.driver.open"/>
@@ -194,7 +194,7 @@
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <select id="from" label="From" required="true" onchange="saltos.emails.signature('update')" autofocus="true" col_class="col mb-3">
@@ -295,7 +295,7 @@
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <text id="from" label="From" col_class="col mb-3"/>
@@ -409,7 +409,7 @@
         </header>
         <data require="apps/emails/php/getmail.php" eval="true">merge_data_actions(
             getmail_files(intval(get_data("rest/4"))),
-            xpath_search_first("view[id=files]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
+            xpath_search_first_value("view[id=files]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
         )</data>
         <actions>
             <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.driver.open"/>
@@ -430,7 +430,7 @@
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <iframe>
@@ -458,7 +458,7 @@
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
         <screen eval="true">xmlfile2array("apps/emails/xml/emails.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/dashboard/xml/navbar.xml")["navbar"]</navbar>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
