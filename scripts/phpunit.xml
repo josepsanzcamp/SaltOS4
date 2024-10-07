@@ -27,7 +27,7 @@
             <file>../code/api/php/autoload/pcov.php</file>
         </exclude>
     </source>
-    <coverage includeUncoveredFiles="true">
+    <coverage>
         <report>
             <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
             <html outputDirectory="/tmp/phpunit.report"/>
