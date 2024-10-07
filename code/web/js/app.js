@@ -734,13 +734,13 @@ saltos.app.form.javascript = async data => {
 saltos.app.form.title = title => {
     // Try for modal
     let obj = document.querySelector('.modal-title');
-    if (obj) {
+    if (obj && obj.innerHTML == '') {
         obj.innerHTML = T(title);
         return;
     }
     // Try for offcanvas
     obj = document.querySelector('.offcanvas-title');
-    if (obj) {
+    if (obj && obj.innerHTML == '') {
         obj.innerHTML = T(title);
         return;
     }
