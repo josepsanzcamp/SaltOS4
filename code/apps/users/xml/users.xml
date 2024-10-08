@@ -26,7 +26,7 @@
 -->
 
 <root>
-    <screen>type2</screen>
+    <screen>type5</screen>
 
     <!-- List part -->
     <list default="true">
@@ -179,6 +179,8 @@
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new user" icon="check-lg"/>
@@ -211,6 +213,8 @@
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Edit" tooltip="To modify this user" icon="pencil">
@@ -227,6 +231,11 @@
         </javascript>
     </view>
 
+    <view id="files" eval="true">xpath_search_first("view[id=files]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="notes" eval="true">xpath_search_first("view[id=notes]", xmlfile2array("apps/common/xml/notes.xml"))</view>
+    <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
+
     <edit>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
@@ -235,6 +244,8 @@
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
             <row auto="true" col_class="col-md-4 mb-3" eval="true">xmlfile2array("apps/users/xml/users.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the user changes" icon="check-lg"/>

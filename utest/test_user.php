@@ -143,6 +143,5 @@ final class test_user extends TestCase
         $this->assertTrue(in_array($browser['browser'], ['Default Browser', 'unknown']));
         $this->assertTrue(in_array($browser['platform'], ['unknown']));
         $this->assertTrue(in_array($browser['device_type'], ['unknown']));
-
     }
 }

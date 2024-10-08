@@ -166,6 +166,8 @@
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear la nueva factura" icon="check-lg"/>
@@ -194,6 +196,8 @@
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
                     <menu>
@@ -224,41 +228,10 @@
         </javascript>
     </view>
 
-    <view id="viewpdf">
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <gettext eval="true">T()</gettext>
-        <title require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
-            "id" => check_ids(get_data("rest/4")),
-        ])["name"]</title>
-        <screen eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["screen"]</screen>
-        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
-        <layout append="three,two,one">
-            <row auto="true" col_class="col-12 mb-3">
-                <pdfjs>
-                    <srcdoc require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
-                        "id" => check_ids(get_data("rest/4")),
-                    ])["data"]</srcdoc>
-                </pdfjs>
-            </row>
-            <row auto="true" row_class="row g-1" col_class="col-auto">
-                <div col_class="col"/>
-                <button label="Download" tooltip="To download the invoice" icon="save">
-                    <onclick eval="true">"saltos.app.download('app/invoices/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
-                </button>
-                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
-            </row>
-        </layout>
-        <javascript>
-            <inline>saltos.driver.init("view")</inline>
-        </javascript>
-    </view>
-
-    <view id="download">
-        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <output require="php/lib/pdf.php" eval="true">pdf("apps/invoices/xml/pdf.xml", [
-            "id" => check_ids(get_data("rest/4")),
-        ])</output>
-    </view>
+    <view id="files" eval="true">xpath_search_first("view[id=files]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="notes" eval="true">xpath_search_first("view[id=notes]", xmlfile2array("apps/common/xml/notes.xml"))</view>
+    <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
 
     <edit>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
@@ -270,6 +243,8 @@
             <row auto="true" col_class="col-md-6 mb-3" row_class="row header" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_header"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row detail" template_id="detail" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_detail"]</row>
             <row auto="true" col_class="col-md-6 mb-3" row_class="row footer" eval="true">xmlfile2array("apps/invoices/xml/invoices.xml")["form_footer"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
+            <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios de la factura" icon="check-lg"/>

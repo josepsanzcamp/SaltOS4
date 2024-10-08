@@ -66,19 +66,26 @@
     <view id="viewpdf">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T()</gettext>
-        <title require="php/lib/files.php" eval="true">files_cid(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))["name"]</title>
+        <title ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_cid(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))["name"]</title>
+        <title ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/".get_data("rest/1")."/xml/pdf.xml", [
+            "id" => check_ids(get_data("rest/4")),
+        ])["name"]</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
-                    <srcdoc require="php/lib/files.php" eval="true">files_viewpdf(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))</srcdoc>
+                    <srcdoc ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_viewpdf(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))</srcdoc>
+                    <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/".get_data("rest/1")."/xml/pdf.xml", [
+                        "id" => check_ids(get_data("rest/4")),
+                    ])["data"]</srcdoc>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button label="Download" tooltip="To download the email" icon="save">
-                    <onclick eval="true">"saltos.app.download('app/".get_data("rest/1")."/view/download/".intval(get_data("rest/4"))."/".intval(get_data("rest/5"))."')"</onclick>
+                    <onclick ifeval="get_data('rest/5')" eval="true">"saltos.app.download('app/".get_data("rest/1")."/view/download/".intval(get_data("rest/4"))."/".intval(get_data("rest/5"))."')"</onclick>
+                    <onclick ifeval="!get_data('rest/5')" eval="true">"saltos.app.download('app/".get_data("rest/1")."/view/download/".check_ids(get_data("rest/4"))."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
             </row>
@@ -90,6 +97,9 @@
 
     <view id="download">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <output require="php/lib/files.php" eval="true">files_download(get_data('rest/1'), intval(get_data("rest/4")), intval(get_data("rest/5")))</output>
+        <output ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_download(get_data('rest/1'), intval(get_data("rest/4")), intval(get_data("rest/5")))</output>
+        <output ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/".get_data("rest/1")."/xml/pdf.xml", [
+            "id" => check_ids(get_data("rest/4")),
+        ])</output>
     </view>
 </root>
