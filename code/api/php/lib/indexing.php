@@ -53,7 +53,7 @@ declare(strict_types=1);
  * +3 => delete executed, this is because the app register not exists and the index register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => index table not found, this is because the has_index feature is disabled by dbstatic
- * -3 => data not found, this is because the app register not exists and the indexting register too not exists
+ * -3 => data not found, this is because the app register not exists and the indexting register not exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */

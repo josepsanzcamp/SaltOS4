@@ -56,7 +56,7 @@ declare(strict_types=1);
  * +2 => delete executed, this is because the app register not exists and the control register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => control table not found, this is because the has_control feature is disabled by dbstatic
- * -3 => data not found, this is because the app register not exists and the control register too not exists
+ * -3 => data not found, this is because the app register not exists and the control register not exists
  * -4 => control exists, this is because the app register exists and the control register too exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
@@ -138,7 +138,7 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
  * +2 => delete executed, this is because the app register not exists and the version register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => version table not found, this is because the has_version feature is disabled by dbstatic
- * -3 => data not found, this is because the app register not exists and the control register too not exists
+ * -3 => data not found, this is because the app register not exists and the control register not exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
@@ -261,17 +261,29 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
  * in the moment where the version will be stored, to do it, they must to
  * restore versions from 1 to ver_id, and must to discard the next versions
  */
-function get_version($app, $reg_id, $ver_id)
+function get_version($app, $reg_id, $ver_id = null)
 {
     $table = app2table($app);
+    // Check for ver_id valid range
+    if ($ver_id !== null && $ver_id !== INF) {
+        if ($ver_id <= 0) {
+            return null;
+        }
+        $query = "SELECT MAX(ver_id) FROM {$table}_version WHERE reg_id = ?";
+        $max_id = intval(execute_query($query, [$reg_id]));
+        if ($ver_id > $max_id) {
+            return null;
+        }
+    }
+    // Continue
     $query = "SELECT * FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
     $rows = execute_query_array($query, [$reg_id]);
     $data = [];
     $hash_old = '';
     $datetime_old = '';
-    $version_old = '';
+    $version_old = 0;
     foreach ($rows as $row) {
-        if ($row['ver_id'] > $ver_id) {
+        if ($ver_id !== null && $row['ver_id'] > $ver_id) {
             break;
         }
         // Check the blockchain integrity
@@ -292,28 +304,32 @@ function get_version($app, $reg_id, $ver_id)
             $ver_id = $row['ver_id'];
             show_php_error(['phperror' => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
-        if ($row['ver_id'] < $version_old) {
+        if ($row['ver_id'] != $version_old + 1) {
             $ver_id = $row['ver_id'];
             show_php_error(['phperror' => "Blockchain integrity break for $app:$reg_id:$ver_id"]);
         }
         // Merge the new data with the data of the previous versions
         $data_new = unserialize(base64_decode($row['data']));
-        foreach ($data_new as $table => $temp) {
-            if (!isset($data[$table])) {
-                $data[$table] = [];
-            }
-            foreach ($temp as $key => $val) {
-                if (!isset($data[$table][$key])) {
-                    $data[$table][$key] = [];
+        if ($ver_id !== null) {
+            foreach ($data_new as $table => $temp) {
+                if (!isset($data[$table])) {
+                    $data[$table] = [];
                 }
-                $data[$table][$key] = array_merge($data[$table][$key], $val);
-            }
-            // This part is to emulate the delete command
-            foreach ($data[$table] as $key => $val) {
-                if (!isset($temp[$key])) {
-                    unset($data[$table][$key]);
+                foreach ($temp as $key => $val) {
+                    if (!isset($data[$table][$key])) {
+                        $data[$table][$key] = [];
+                    }
+                    $data[$table][$key] = array_merge($data[$table][$key], $val);
+                }
+                // This part is to emulate the delete command
+                foreach ($data[$table] as $key => $val) {
+                    if (!isset($temp[$key])) {
+                        unset($data[$table][$key]);
+                    }
                 }
             }
+        } else {
+            $data[$row['ver_id']] = $data_new;
         }
         $hash_old = $row['hash'];
         $datetime_old = $row['datetime'];
