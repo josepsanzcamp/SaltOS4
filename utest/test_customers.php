@@ -87,7 +87,9 @@ final class test_customers extends TestCase
         $this->assertSame(make_index('customers', $id), 1);
         $this->assertSame(add_version('customers', $id), 1);
 
+        $this->assertNull(get_version('customers', $id, 0));
         $this->assertCount(3, get_version('customers', $id, 1));
+        $this->assertNull(get_version('customers', $id, 2));
 
         $array = [
             'nombre1' => 'ASD',
@@ -100,7 +102,10 @@ final class test_customers extends TestCase
         $this->assertSame(make_index('customers', $id), 2);
         $this->assertSame(add_version('customers', $id), 1);
 
+        $this->assertNull(get_version('customers', $id, 0));
+        $this->assertCount(3, get_version('customers', $id, 1));
         $this->assertCount(3, get_version('customers', $id, 2));
+        $this->assertNull(get_version('customers', $id, 3));
 
         $array = [
             'cif' => '123456789',
@@ -112,8 +117,11 @@ final class test_customers extends TestCase
         $this->assertSame(make_index('customers', $id), 2);
         $this->assertSame(add_version('customers', $id), 1);
 
-        $this->assertCount(3, get_version('customers', $id, 3));
+        $this->assertNull(get_version('customers', $id, 0));
+        $this->assertCount(3, get_version('customers', $id, 1));
         $this->assertCount(3, get_version('customers', $id, 2));
+        $this->assertCount(3, get_version('customers', $id, 3));
+        $this->assertNull(get_version('customers', $id, 4));
 
         // Check for hash blockchain integrity
         $oldhash = execute_query("SELECT hash
