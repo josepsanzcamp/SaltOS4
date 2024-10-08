@@ -111,7 +111,7 @@ function make_index($app, $reg_id)
     // This part allow to get all data of the all fields from files and notes
     $subtables = ["{$table}_files", "{$table}_notes"];
     foreach ($subtables as $subtable) {
-        $query = "SELECT id FROM $subtable WHERE reg_id='$reg_id'";
+        $query = "SELECT id FROM $subtable LIMIT 1";
         if (!db_check($query)) {
             continue;
         }

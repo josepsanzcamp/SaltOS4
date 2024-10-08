@@ -55,8 +55,9 @@ if (!$exists) {
     // Insert the control register
     $ids = execute_query_array('SELECT id FROM app_invoices');
     foreach ($ids as $id) {
-        make_control('invoices', $id);
         make_index('invoices', $id);
+        make_control('invoices', $id);
+        add_version('invoices', $id);
         $output['total']++;
     }
     // Fix permissions

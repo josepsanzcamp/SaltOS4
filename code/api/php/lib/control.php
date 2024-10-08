@@ -192,6 +192,20 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
             $data_new[$subtable][$val['id']] = $val;
         }
     }
+    // This part allow to get data from files and notes
+    $subtables = ["{$table}_files", "{$table}_notes"];
+    foreach ($subtables as $subtable) {
+        $query = "SELECT id FROM $subtable LIMIT 1";
+        if (!db_check($query)) {
+            continue;
+        }
+        $query = "SELECT * FROM $subtable WHERE reg_id = ?";
+        $data_new[$subtable] = [];
+        $rows = execute_query_array($query, [$reg_id]);
+        foreach ($rows as $key => $val) {
+            $data_new[$subtable][$val['id']] = $val;
+        }
+    }
     // Continue computing the diff from old data and new data
     $data = [];
     foreach ($data_new as $table => $rows) {
