@@ -2063,7 +2063,13 @@ saltos.bootstrap.__field.pdfjs = field => {
     // Continue
     saltos.core.require([
         'lib/pdfjs/pdf.min.mjs',
-    ], () => {
+    ], async () => {
+        // This code is to guarantee that the module is ready to be used, this bug
+        // only appear in google chrome.
+        while (typeof pdfjsLib != 'object') {
+            await new Promise(resolve => setTimeout(resolve, 1));
+        }
+        // Continue
         placeholder.remove();
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.src).promise.then(pdf => {

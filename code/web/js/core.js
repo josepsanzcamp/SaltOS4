@@ -459,10 +459,9 @@ saltos.core.require = (files, callback) => {
                 }
                 // Now, add the tag to load the resource (previously prefetched)
                 if (file.substr(-4) == '.css' || file.includes('.css?')) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = file;
-                    document.head.append(link);
+                    const style = document.createElement('style');
+                    style.innerHTML = data;
+                    document.head.append(style);
                 }
                 if (file.substr(-3) == '.js' || file.includes('.js?')) {
                     const script = document.createElement('script');
@@ -472,8 +471,6 @@ saltos.core.require = (files, callback) => {
                 if (file.substr(-4) == '.mjs' || file.includes('.mjs?')) {
                     const script = document.createElement('script');
                     script.type = 'module';
-                    //~ script.src = file;
-                    //~ script.async = false;
                     script.innerHTML = data;
                     document.head.append(script);
                 }
