@@ -2030,9 +2030,7 @@ saltos.bootstrap.__field.excel = field => {
  * This widget requires the pdfjs library and can be loaded automatically using the require
  * feature:
  *
- * @lib/pdfjs/pdf_viewer.min.css,
  * @lib/pdfjs/pdf.min.mjs
- * @lib/pdfjs/pdf_viewer.min.mjs
  * @lib/pdfjs/pdf.worker.min.mjs
  *
  * The last file (the worker) is loaded by the library and not by SaltOS, is for this reason
@@ -2051,32 +2049,12 @@ saltos.bootstrap.__field.pdfjs = field => {
         field.color = 'primary';
     }
     let obj = saltos.core.html(`
-        <div id="${field.id}" class="${field.class}">
-            <div class="viewerContainer">
-                <div class="pdfViewer"></div>
-            </div>
-        </div>
+        <div id="${field.id}" class="${field.class}"></div>
     `);
     if (typeof field.src == 'string') {
         obj.src = new URL(field.src, window.location.href).href;
     }
-    // The follow code allow to define the needed css for with widget
-    obj.append(saltos.core.html(`
-        <style>
-            .viewerContainer {
-                position: absolute;
-                width: calc(100% - 2px);
-                left: -9px;
-                top: -10px;
-            }
-            .viewerContainer *,
-            .viewerContainer *::before,
-            .viewerContainer *::after {
-                box-sizing: content-box;
-            }
-        </style>
-    `));
-    const element = obj.querySelector('.viewerContainer');
+    const element = obj;
     // Add the placeholder
     const placeholder = saltos.bootstrap.__field.placeholder({
         color: field.color,
@@ -2084,58 +2062,39 @@ saltos.bootstrap.__field.pdfjs = field => {
     obj.append(placeholder);
     // Continue
     saltos.core.require([
-        'lib/pdfjs/pdf_viewer.min.css',
         'lib/pdfjs/pdf.min.mjs',
-        'lib/pdfjs/pdf_viewer.min.mjs',
     ], () => {
         placeholder.remove();
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
-        pdfjsLib.getDocument(field.src).promise.then(pdfDocument => {
-            if (!pdfDocument.numPages) {
+        pdfjsLib.getDocument(field.src).promise.then(pdf => {
+            if (!pdf.numPages) {
                 return;
             }
-            const container = element;
-            const eventBus = new pdfjsViewer.EventBus();
-            const pdfViewer = new pdfjsViewer.PDFViewer({
-                container: container,
-                eventBus: eventBus,
-            });
-            eventBus.on('pagesinit', () => {
-                const modal = document.querySelector('.modal');
-                let scrollTop;
-                if (modal) {
-                    scrollTop = modal.scrollTop;
-                }
-                pdfViewer.currentScaleValue = 'auto';
-                if (modal) {
-                    modal.scrollTop = scrollTop;
-                }
-            });
-            eventBus.on('annotationlayerrendered', () => {
-                container.querySelectorAll('a').forEach(_this => {
-                    _this.setAttribute('target', '_blank');
-                });
-                if (field.color != 'none') {
-                    container.querySelectorAll('.viewerContainer .canvasWrapper').forEach(_this => {
-                        _this.classList.add('border');
-                        _this.classList.add('border-' + field.color);
+            const render = num => {
+                pdf.getPage(num).then(page => {
+                    const width = element.clientWidth;
+                    let viewport = page.getViewport({scale: 1});
+                    const scale = 2 * width / viewport.width;
+                    viewport = page.getViewport({scale: scale});
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise.then(() => {
+                        element.append(canvas);
+                        canvas.style.width = '100%';
+                        canvas.classList.add('border');
+                        canvas.classList.add('border-' + field.color);
+                        if (num < pdf.numPages) {
+                            render(num + 1);
+                        }
                     });
-                }
-            });
-            pdfViewer.removePageBorders = true;
-            pdfViewer.setDocument(pdfDocument);
-            container.style.position = 'relative';
-            window.addEventListener('resize', event => {
-                const modal = document.querySelector('.modal');
-                let scrollTop;
-                if (modal) {
-                    scrollTop = modal.scrollTop;
-                }
-                pdfViewer.currentScaleValue = 'auto';
-                if (modal) {
-                    modal.scrollTop = scrollTop;
-                }
-            });
+                });
+            };
+            render(1);
         },
         (message, exception) => {
             throw new Error(message);
