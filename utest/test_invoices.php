@@ -101,9 +101,9 @@ final class test_invoices extends TestCase
         $this->assertSame(make_index('invoices', $id), 1);
         $this->assertSame(add_version('invoices', $id), 1);
 
-        $this->assertNull(get_version('invoices', $id, 0));
+        $this->assertCount(0, get_version('invoices', $id, 0));
         $this->assertCount(5, get_version('invoices', $id, 1));
-        $this->assertNull(get_version('invoices', $id, 2));
+        $this->assertCount(0, get_version('invoices', $id, 2));
 
         $array = [
             'nombre' => 'ASD QWERTY',
@@ -136,10 +136,10 @@ final class test_invoices extends TestCase
         $this->assertSame(make_index('invoices', $id), 2);
         $this->assertSame(add_version('invoices', $id), 1);
 
-        $this->assertNull(get_version('invoices', $id, 0));
+        $this->assertCount(0, get_version('invoices', $id, 0));
         $this->assertCount(5, get_version('invoices', $id, 1));
         $this->assertCount(5, get_version('invoices', $id, 2));
-        $this->assertNull(get_version('invoices', $id, 3));
+        $this->assertCount(0, get_version('invoices', $id, 3));
 
         $array = [
             'nombre' => 'Asd Qwerty',
@@ -157,11 +157,11 @@ final class test_invoices extends TestCase
         $this->assertSame(make_index('invoices', $id), 2);
         $this->assertSame(add_version('invoices', $id), 1);
 
-        $this->assertNull(get_version('invoices', $id, 0));
+        $this->assertCount(0, get_version('invoices', $id, 0));
         $this->assertCount(5, get_version('invoices', $id, 1));
         $this->assertCount(5, get_version('invoices', $id, 2));
         $this->assertCount(5, get_version('invoices', $id, 3));
-        $this->assertNull(get_version('invoices', $id, 4));
+        $this->assertCount(0, get_version('invoices', $id, 4));
 
         $query = "DELETE FROM app_invoices WHERE id=$id";
         db_query($query);
@@ -173,7 +173,7 @@ final class test_invoices extends TestCase
         $this->assertSame(make_index('invoices', $id), 3);
         $this->assertSame(add_version('invoices', $id), 2);
 
-        $this->assertNull(get_version('invoices', $id, 1));
+        $this->assertCount(0, get_version('invoices', $id, 1));
 
         $this->assertSame(make_control('invoices', $id), -3);
         $this->assertSame(make_index('invoices', $id), -3);

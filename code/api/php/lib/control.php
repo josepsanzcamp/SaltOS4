@@ -264,28 +264,14 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
 function get_version($app, $reg_id, $ver_id = null)
 {
     $table = app2table($app);
-    // Check for ver_id valid range
-    if ($ver_id !== null && $ver_id !== INF) {
-        if ($ver_id <= 0) {
-            return null;
-        }
-        $query = "SELECT MAX(ver_id) FROM {$table}_version WHERE reg_id = ?";
-        $max_id = intval(execute_query($query, [$reg_id]));
-        if ($ver_id > $max_id) {
-            return null;
-        }
-    }
-    // Continue
     $query = "SELECT * FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
     $rows = execute_query_array($query, [$reg_id]);
     $data = [];
     $hash_old = '';
     $datetime_old = '';
     $version_old = 0;
+    $result = [];
     foreach ($rows as $row) {
-        if ($ver_id !== null && $row['ver_id'] > $ver_id) {
-            break;
-        }
         // Check the blockchain integrity
         $array = [
             'user_id' => $row['user_id'],
@@ -310,30 +296,48 @@ function get_version($app, $reg_id, $ver_id = null)
         }
         // Merge the new data with the data of the previous versions
         $data_new = unserialize(base64_decode($row['data']));
-        if ($ver_id !== null) {
-            foreach ($data_new as $table => $temp) {
-                if (!isset($data[$table])) {
-                    $data[$table] = [];
+        foreach ($data_new as $table => $temp) {
+            if (!isset($data[$table])) {
+                $data[$table] = [];
+            }
+            foreach ($temp as $key => $val) {
+                if (!isset($data[$table][$key])) {
+                    $data[$table][$key] = [];
                 }
-                foreach ($temp as $key => $val) {
-                    if (!isset($data[$table][$key])) {
-                        $data[$table][$key] = [];
-                    }
-                    $data[$table][$key] = array_merge($data[$table][$key], $val);
-                }
-                // This part is to emulate the delete command
-                foreach ($data[$table] as $key => $val) {
-                    if (!isset($temp[$key])) {
-                        unset($data[$table][$key]);
-                    }
+                $data[$table][$key] = array_merge($data[$table][$key], $val);
+            }
+            // This part is to emulate the delete command
+            foreach ($data[$table] as $key => $val) {
+                if (!isset($temp[$key])) {
+                    unset($data[$table][$key]);
                 }
             }
-        } else {
-            $data[$row['ver_id']] = $data_new;
         }
         $hash_old = $row['hash'];
         $datetime_old = $row['datetime'];
         $version_old = $row['ver_id'];
+        // Store data in result
+        $result[$row['ver_id']] = $data;
     }
-    return $data;
+    if ($ver_id === null) {
+        foreach ($result as $key => $val) {
+            $temp = [];
+            foreach ($val as $key2 => $val2) {
+                foreach ($val2 as $key3 => $val3) {
+                    foreach ($val3 as $key4 => $val4) {
+                        $temp["$key2.$key3.$key4"] = $val4;
+                    }
+                }
+            }
+            $result[$key] = $temp;
+        }
+        return $result;
+    }
+    if ($ver_id === INF) {
+        $ver_id = $version_old;
+    }
+    if (!isset($result[$ver_id])) {
+        return [];
+    }
+    return $result[$ver_id];
 }
