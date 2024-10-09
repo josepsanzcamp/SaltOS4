@@ -45,27 +45,33 @@ saltos.core = {};
  *
  * This function allow to SaltOS to log in server the javascript errors produced in the
  * client's browser
+ *
+ * @message => the error message
+ * @source  => the filename where the error was triggered
+ * @lineno  => the line number where the error was triggered
+ * @colno   => the column number where the error was triggered
+ * @stack   => the backtrace stack of all execution until the error
+ *
+ * Notes:
+ *
+ * This function is called from some addEventListeners, the original was the error event
+ * but when change the ajax requests from xhr to fetch to setup the proxy feature, the
+ * errors was mapped by the event unhandledrejection.
  */
-window.addEventListener('error', async event => {
-    const file = event.filename;
-    const line = event.lineno;
-    const col = event.colno;
+saltos.core.adderror = async (message, source, lineno, colno, stack) => {
     const data = {
-        jserror: event.message,
-        details: `Error on file ${file}:${line}:${col}, userAgent is ${navigator.userAgent}`,
+        jserror: message,
+        details: `Error on file ${source}:${lineno}:${colno}, userAgent is ${navigator.userAgent}`,
         backtrace: 'unknown',
     };
-    const error = event.error;
-    if (error !== null && typeof error == 'object' && typeof error.stack == 'string') {
-        window.sourceMappedStackTrace.mapStackTrace(error.stack, mappedStack => {
-            mappedStack = mappedStack.map(line => line.trim());
-            data.backtrace = mappedStack.join('\n');
-        }, {
-            filter: line => !line.includes(' > '),
-        });
-        while (data.backtrace == 'unknown') {
-            await new Promise(resolve => setTimeout(resolve, 1));
-        }
+    window.sourceMappedStackTrace.mapStackTrace(stack, mappedStack => {
+        mappedStack = mappedStack.map(line => line.trim());
+        data.backtrace = mappedStack.join('\n');
+    }, {
+        filter: line => !line.includes(' > '),
+    });
+    while (data.backtrace == 'unknown') {
+        await new Promise(resolve => setTimeout(resolve, 1));
     }
     saltos.core.ajax({
         url: 'api/?/add/error',
@@ -76,6 +82,36 @@ window.addEventListener('error', async event => {
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
     });
+};
+
+/**
+ * Old error handler
+ *
+ * This code allow to capture the old errors triggered outside the fetch requests
+ */
+window.addEventListener('error', event => {
+    saltos.core.adderror(
+        event.message,
+        event.filename,
+        event.lineno,
+        event.colno,
+        event.error.stack
+    );
+});
+
+/**
+ * New error handler
+ *
+ * This code allow to capture the new errors triggered inside the fetch requests
+ */
+window.addEventListener('unhandledrejection', event => {
+    saltos.core.adderror(
+        event.reason.name + ': ' + event.reason.message,
+        event.reason.fileName,
+        event.reason.lineNumber,
+        event.reason.columnNumber,
+        event.reason.stack
+    );
 });
 
 /**
