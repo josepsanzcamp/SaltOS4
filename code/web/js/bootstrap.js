@@ -2064,13 +2064,11 @@ saltos.bootstrap.__field.pdfjs = field => {
     saltos.core.require([
         'lib/pdfjs/pdf.min.mjs',
     ], async () => {
-        // This code is to guarantee that the module is ready to be used, this bug
-        // only appear in google chrome.
+        // To guarantee that the mjs is ready, this bug only appear in google chrome.
         while (typeof pdfjsLib != 'object') {
             await new Promise(resolve => setTimeout(resolve, 1));
         }
         // Continue
-        placeholder.remove();
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.src).promise.then(pdf => {
             if (!pdf.numPages) {
@@ -2090,6 +2088,9 @@ saltos.bootstrap.__field.pdfjs = field => {
                         canvasContext: context,
                         viewport: viewport
                     }).promise.then(() => {
+                        if (num == 1) {
+                            placeholder.remove();
+                        }
                         element.append(canvas);
                         canvas.style.width = '100%';
                         canvas.classList.add('border');
@@ -2101,9 +2102,8 @@ saltos.bootstrap.__field.pdfjs = field => {
                 });
             };
             render(1);
-        },
-        (message, exception) => {
-            throw new Error(message);
+        }, error => {
+            throw new Error(error);
         });
     });
     obj = saltos.bootstrap.__label_combine(field, obj);
