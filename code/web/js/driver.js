@@ -538,6 +538,7 @@ saltos.driver.__types.type1.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
+        saltos.app.__backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -604,7 +605,6 @@ saltos.driver.__types.type2.template = arg => {
  */
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
-        // Continue after the backup
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder('two');
@@ -619,7 +619,6 @@ saltos.driver.__types.type2.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
             const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -627,6 +626,7 @@ saltos.driver.__types.type2.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
+        saltos.app.__backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -693,7 +693,6 @@ saltos.driver.__types.type3.template = arg => {
  */
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
-        // Continue after the backup
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder('two');
@@ -709,7 +708,6 @@ saltos.driver.__types.type3.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
             const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -726,6 +724,7 @@ saltos.driver.__types.type3.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
+        saltos.app.__backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -785,7 +784,6 @@ saltos.driver.__types.type4.template = arg => {
  */
 saltos.driver.__types.type4.init = arg => {
     if (arg == 'list') {
-        // Continue after the backup
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.bootstrap.modal('close');
@@ -799,7 +797,6 @@ saltos.driver.__types.type4.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
             const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -819,6 +816,7 @@ saltos.driver.__types.type4.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
+        saltos.app.__backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -868,7 +866,6 @@ saltos.driver.__types.type5.template = arg => {
  */
 saltos.driver.__types.type5.init = arg => {
     if (arg == 'list') {
-        // Continue after the backup
         const action = saltos.hash.get().split('/').at(2);
         if (!['create', 'view', 'edit'].includes(action)) {
             saltos.driver.placeholder('two');
@@ -884,7 +881,6 @@ saltos.driver.__types.type5.init = arg => {
         });
     }
     if (['create', 'view', 'edit'].includes(arg)) {
-        // Continue after the backup
         if (!document.getElementById('one').textContent.trim().length) {
             const temp = saltos.hash.get().split('/').slice(0, 2).join('/');
             saltos.app.send_request(temp);
@@ -909,6 +905,7 @@ saltos.driver.__types.type5.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
+        saltos.app.__backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
