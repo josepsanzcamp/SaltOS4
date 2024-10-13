@@ -1882,7 +1882,7 @@ saltos.bootstrap.__field.image = field => {
  * @lib/handsontable/handsontable.full.min.js
  */
 saltos.bootstrap.__field.excel = field => {
-    saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required',
+    saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled',
                                      'rowHeaders', 'colHeaders', 'minSpareRows',
                                      'contextMenu', 'rowHeaderWidth', 'colWidths',
                                      'numcols', 'numrows', 'color', 'cell', 'cells']);
@@ -2016,6 +2016,9 @@ saltos.bootstrap.__field.excel = field => {
             },
         });
     };
+    if (saltos.core.eval_bool(field.disabled)) {
+        input.set_disabled(true);
+    }
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
