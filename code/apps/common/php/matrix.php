@@ -41,12 +41,17 @@ declare(strict_types=1);
 function make_matrix_version($app, $id)
 {
     // the table and fields are the hidden fields of files tables
-    $table = app2table($app) . '_files';
-    $fields = ['uniqid', 'file', 'hash', 'search', 'indexed', 'retries'];
+    $table = app2table($app);
+    $files_table = "{$table}_files";
+    $files_fields = ['uniqid', 'file', 'hash', 'search', 'indexed', 'retries'];
     // continue retrieving versions data
     require_once 'php/lib/control.php';
     $data = get_version($app, $id);
-    $versions = array_keys($data);
+    $query = "SELECT CONCAT(
+        IFNULL((SELECT name FROM tbl_users b WHERE b.id=user_id), ''),
+        '<br/>', datetime, '<br/>v', ver_id
+        ) FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
+    $versions = execute_query_array($query, [$id]);
     // join table with id with field name
     // and convert the tree into a matrix
     foreach ($data as $key => $val) {
@@ -59,7 +64,7 @@ function make_matrix_version($app, $id)
                         continue;
                     }
                     // hide some files fields
-                    if ($key2 == $table && in_array($key4, $fields)) {
+                    if ($key2 == $files_table && in_array($key4, $files_fields)) {
                         continue;
                     }
                     $temp["$key2.$key3.$key4"] = $val4;
