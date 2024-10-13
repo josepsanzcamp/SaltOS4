@@ -184,6 +184,7 @@
     <view id="notes" eval="true">xpath_search_first("view[id=notes]", xmlfile2array("apps/common/xml/notes.xml"))</view>
     <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
     <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
 
     <edit>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>

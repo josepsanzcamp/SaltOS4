@@ -492,11 +492,46 @@ function xpath_search_first($xpath, $array)
 }
 
 /**
- * TODO
+ * Xpath search first
  *
- * TODO
+ * This function is intended to returns the value of the first
+ * result obtained from the xpath_search_first function
+ *
+ * @xpath => the string containing the search xpath
+ * @array => the array that contains the search data
+ *
+ * Notes:
+ *
+ * In case of not occurrences, null is returned
  */
 function xpath_search_first_value($xpath, $array)
 {
     return __array_getvalue(xpath_search_first($xpath, $array));
+}
+
+/**
+ * Array transpose
+ *
+ * This function returns a transposed array, intended to be used
+ * when needs an array of cols instead of rows, for example, ideal
+ * to be used in the excel widget
+ *
+ * The expected output must to be the same input array but swaping
+ * the first and second indeces level, in other words, this function
+ * is able to convert arrays from A*B to B*A dimensions
+ *
+ * @input => the input array
+ */
+function array_transpose($input)
+{
+    $output = [];
+    foreach ($input as $key => $val) {
+        foreach ($val as $key2 => $val2) {
+            if (!isset($output[$key2])) {
+                $output[$key2] = [];
+            }
+            $output[$key2][$key] = $val2;
+        }
+    }
+    return $output;
 }

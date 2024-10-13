@@ -46,6 +46,9 @@ function make_matrix_data($perms, $apps, $main, $user)
     $matrix = [];
     foreach ($apps as $app_id => $app_pos) {
         foreach ($perms as $perm_id => $perm_pos) {
+            if (!isset($matrix[$app_pos])) {
+                $matrix[$app_pos] = [];
+            }
             $matrix[$app_pos][$perm_pos] = '';
         }
     }
@@ -102,7 +105,10 @@ function make_matrix_cell($perms, $apps, $main, $user)
     $matrix = [];
     foreach ($apps as $app_id => $app_pos) {
         foreach ($perms as $perm_id => $perm_pos) {
-            $matrix[] = [
+            if (!isset($matrix[$app_pos])) {
+                $matrix[$app_pos] = [];
+            }
+            $matrix[$app_pos][$perm_pos] = [
                 'col' => $perm_pos,
                 'row' => $app_pos,
                 'readOnly' => true,
@@ -117,7 +123,7 @@ function make_matrix_cell($perms, $apps, $main, $user)
         $perm_pos = $perms[$cell['perm_id']];
         $app_pos = $apps[$cell['app_id']];
         if ($cell['deny']) {
-            $matrix[] = [
+            $matrix[$app_pos][$perm_pos] = [
                 'col' => $perm_pos,
                 'row' => $app_pos,
                 'type' => 'dropdown',
@@ -125,12 +131,11 @@ function make_matrix_cell($perms, $apps, $main, $user)
                 'readOnly' => true,
             ];
         } else {
-            $matrix[] = [
+            $matrix[$app_pos][$perm_pos] = [
                 'col' => $perm_pos,
                 'row' => $app_pos,
                 'type' => 'dropdown',
                 'source' => ['Allow', 'Deny'],
-                'readOnly' => false,
             ];
         }
         //~ print_r($cell);
@@ -141,19 +146,20 @@ function make_matrix_cell($perms, $apps, $main, $user)
     foreach ($user as $cell) {
         $perm_pos = $perms[$cell['perm_id']];
         $app_pos = $apps[$cell['app_id']];
-        $matrix[] = [
+        $matrix[$app_pos][$perm_pos] = [
             'col' => $perm_pos,
             'row' => $app_pos,
             'type' => 'dropdown',
             'source' => ['Allow', 'Deny'],
-            'readOnly' => false,
         ];
         //~ print_r($cell);
         //~ die();
     }
 
+    $matrix = array_merge(...$matrix);
     //~ print_r($matrix);
     //~ die();
+
     return $matrix;
 }
 

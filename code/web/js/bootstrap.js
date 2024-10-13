@@ -1989,25 +1989,32 @@ saltos.bootstrap.__field.excel = field => {
             setTimeout(() => input.set_disabled(bool), 1);
             return;
         }
-        if (bool) {
-            input.excel.updateSettings({
-                cells: (row, col, prop) => {
-                    return {
-                        readOnly: true,
-                        readOnlyCellClassName: 'bg-body-secondary',
-                    };
-                },
-            });
-        } else {
-            input.excel.updateSettings({
-                cells: (row, col, prop) => {
-                    return {
-                        readOnly: false,
-                        readOnlyCellClassName: '',
-                    };
-                },
-            });
-        }
+        input.excel.updateSettings({
+            cells: (row, col, prop) => {
+                let cell = {};
+                for (let key in field.cell) {
+                    const val = field.cell[key];
+                    if (val.row == row && val.col == col) {
+                        cell = val;
+                    }
+                }
+                if (cell.hasOwnProperty('readOnly')) {
+                    // Nothing to do
+                } else {
+                    cell.readOnly = bool;
+                }
+                if (cell.hasOwnProperty('className')) {
+                    // Nothing to do
+                } else if (cell.hasOwnProperty('readOnlyCellClassName')) {
+                    // Nothing to do
+                } else if (bool) {
+                    cell.readOnlyCellClassName = 'bg-body-secondary';
+                } else {
+                    cell.readOnlyCellClassName = '';
+                }
+                return cell;
+            },
+        });
     };
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;

@@ -320,17 +320,6 @@ function get_version($app, $reg_id, $ver_id = null)
         $result[$row['ver_id']] = $data;
     }
     if ($ver_id === null) {
-        foreach ($result as $key => $val) {
-            $temp = [];
-            foreach ($val as $key2 => $val2) {
-                foreach ($val2 as $key3 => $val3) {
-                    foreach ($val3 as $key4 => $val4) {
-                        $temp["$key2.$key3.$key4"] = $val4;
-                    }
-                }
-            }
-            $result[$key] = $temp;
-        }
         return $result;
     }
     if ($ver_id === INF) {
