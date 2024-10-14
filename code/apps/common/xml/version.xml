@@ -34,7 +34,7 @@
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <excel id="version" label="Versions of data" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="200" disabled="true" require="apps/common/php/matrix.php" eval="true">
+                <excel id="version" col_class="col-12 mb-3" rowHeaderWidth="200" colWidths="200" disabled="true" require="apps/common/php/matrix.php" eval="true">
                     make_matrix_version(get_data('rest/1'), get_data('rest/4'))
                 </excel>
             </row>

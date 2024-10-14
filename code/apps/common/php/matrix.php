@@ -47,6 +47,7 @@ function make_matrix_version($app, $id)
     // continue retrieving versions data
     require_once 'php/lib/control.php';
     $data = get_version($app, $id);
+    // compute the versions header used in the sheet
     $query = "SELECT CONCAT(
         IFNULL((SELECT name FROM tbl_users b WHERE b.id=user_id), ''),
         '<br/>', datetime, '<br/>v', ver_id
@@ -88,13 +89,65 @@ function make_matrix_version($app, $id)
     }
     // change the dimensions of the matrix
     $data = array_transpose($data);
+    // compute ranges to colotize
+    $ranges = [];
+    $old = [];
+    $pos = [];
+    foreach ($header as $key => $val) {
+        $temp = explode('.', $val);
+        unset($temp[2]);
+        $temp = implode('.', $temp);
+        if (!count($old)) {
+            $old['key'] = $key;
+            $old['val'] = $temp;
+            $pos[] = $key;
+            continue;
+        }
+        if ($old['val'] != $temp) {
+            $pos[] = $old['key'];
+            $range[] = $pos;
+            $old['key'] = $key;
+            $old['val'] = $temp;
+            $pos = [$key];
+            continue;
+        }
+        $old['key'] = $key;
+        $old['val'] = $temp;
+    }
+    if (count($pos) == 1) {
+        $pos[] = $key;
+        $range[] = $pos;
+    }
     // remove the table and id from header
     foreach ($header as $key => $val) {
         $temp = explode('.', $val);
         $header[$key] = $temp[2];
     }
-    // define colors
+    // define colors for odd ranges
     $matrix = [];
+    $colors = [
+        'bg-primary-subtle text-black',
+        //~ 'bg-secondary-subtle text-black',
+        'bg-success-subtle text-black',
+        'bg-danger-subtle text-black',
+        'bg-warning-subtle text-black',
+        'bg-info-subtle text-black',
+        //~ 'bg-light-subtle text-black',
+        //~ 'bg-dark-subtle text-black',
+    ];
+    foreach ($range as $key => $val) {
+        $color = $colors[$key % count($colors)];
+        for ($i = $val[0]; $i <= $val[1]; $i++) {
+            for ($j = 0; $j < count($versions); $j++) {
+                $matrix[$i][$j] = [
+                    'col' => $j,
+                    'row' => $i,
+                    'className' => $color,
+                ];
+            }
+        }
+    }
+    // define colors using diff detector
     foreach ($data as $key => $val) {
         // Convert keys from 1..n to 0..n-1
         $val = array_values($val);
@@ -108,9 +161,9 @@ function make_matrix_version($app, $id)
                 if ($val2 != '') {
                     $color = 'bg-success text-white';
                 } else {
-                    $color = 'bg-danger';
+                    $color = 'bg-danger text-white';
                 }
-                $matrix[] = [
+                $matrix[$key][$key2] = [
                     'col' => $key2,
                     'row' => $key,
                     'className' => $color,
@@ -119,6 +172,8 @@ function make_matrix_version($app, $id)
             $val0 = $val2;
         }
     }
+    // convert the matrix to one dimension
+    $matrix = array_merge(...$matrix);
     // return the excel field
     return [
         'numcols' => count($versions),
