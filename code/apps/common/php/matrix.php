@@ -109,7 +109,7 @@ function make_matrix_version($app, $id)
         }
         if ($old['val'] != $temp) {
             $pos[] = $old['key'];
-            $range[] = $pos;
+            $ranges[] = $pos;
             $old['key'] = $key;
             $old['val'] = $temp;
             $pos = [$key];
@@ -120,7 +120,7 @@ function make_matrix_version($app, $id)
     }
     if (count($pos) == 1) {
         $pos[] = $key;
-        $range[] = $pos;
+        $ranges[] = $pos;
     }
     // remove the table and id from header
     foreach ($header as $key => $val) {
@@ -139,7 +139,7 @@ function make_matrix_version($app, $id)
         //~ 'bg-light-subtle text-black',
         //~ 'bg-dark-subtle text-black',
     ];
-    foreach ($range as $key => $val) {
+    foreach ($ranges as $key => $val) {
         $color = $colors[$key % count($colors)];
         for ($i = $val[0]; $i <= $val[1]; $i++) {
             for ($j = 0; $j < count($versions); $j++) {

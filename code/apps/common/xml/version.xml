@@ -29,7 +29,7 @@
     <view id="version">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Version's history</title>
+        <title>History of changes</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">

@@ -206,6 +206,9 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
+                <button label="History" tooltip="To see the history of the changes" icon="file-text">
+                    <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/version/".intval(get_data("rest/3"))."')"</onclick>
+                </button>
                 <div col_class="col"/>
                 <button label="Edit" tooltip="To modify this email account" icon="pencil">
                     <onclick eval="true">"saltos.driver.open('app/emails_accounts/edit/".intval(get_data("rest/3"))."')"</onclick>
@@ -225,6 +228,7 @@
     <view id="notes" eval="true">xpath_search_first("view[id=notes]", xmlfile2array("apps/common/xml/notes.xml"))</view>
     <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
     <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
+    <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
 
     <edit>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
