@@ -47,6 +47,7 @@
                 <perm>4,action</perm>
                 <perm>5,config</perm>
                 <perm>6,help</perm>
+                <perm>7,version</perm>
                 <perm>11,list,user</perm>
                 <perm>12,list,group</perm>
                 <perm>13,list,all</perm>

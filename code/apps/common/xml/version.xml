@@ -28,6 +28,7 @@
 <root>
     <view id="version">
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_user(get_data("rest/1"), 'version')</check>
         <gettext eval="true">T()</gettext>
         <title>History of changes</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>

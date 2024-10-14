@@ -102,5 +102,16 @@ function setup()
         }
     }
 
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/indexing.php';
+
+    make_index('users', 1);
+    make_control('users', 1);
+    add_version('users', 1);
+
+    make_index('groups', 1);
+    make_control('groups', 1);
+    add_version('groups', 1);
+
     return $output;
 }

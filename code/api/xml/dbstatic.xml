@@ -42,6 +42,7 @@ and the main permissions for the user
             <row id="4" active="1" code="action" name="Execute action"/>
             <row id="5" active="1" code="config" name="Configure app"/>
             <row id="6" active="1" code="help" name="Show help"/>
+            <row id="7" active="1" code="version" name="Version feature"/>
             <row id="11" active="1" code="list" owner="user" name="List only user records"/>
             <row id="12" active="1" code="list" owner="group" name="List user and group records"/>
             <row id="13" active="1" code="list" owner="all" name="List all records"/>
