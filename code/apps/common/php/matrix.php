@@ -48,11 +48,15 @@ function make_matrix_version($app, $id)
     require_once 'php/lib/control.php';
     $data = get_version($app, $id);
     // compute the versions header used in the sheet
-    $query = "SELECT CONCAT(
-        IFNULL((SELECT name FROM tbl_users b WHERE b.id=user_id), ''),
-        '<br/>', datetime, '<br/>v', ver_id
-        ) FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
+    $query = "SELECT (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, ver_id
+        FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
     $versions = execute_query_array($query, [$id]);
+    foreach ($versions as $key => $val) {
+        $val['user'] = $val['user']  ?? '-';
+        $val['datetime'] = datetime_format($val['datetime']);
+        $val['ver_id'] = 'v' . $val['ver_id'];
+        $versions[$key] = implode('<br/>', $val);
+    }
     // join table with id with field name
     // and convert the tree into a matrix
     foreach ($data as $key => $val) {

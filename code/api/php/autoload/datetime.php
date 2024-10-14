@@ -308,3 +308,13 @@ function current_dow($offset = 0)
 {
     return date('N', time() + (int)$offset);
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function datetime_format($x)
+{
+    return (new DateTime($x))->format('d/m/Y H:i:s');
+}
