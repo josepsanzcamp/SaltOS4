@@ -45,6 +45,7 @@ function insert_user($data)
 {
     require_once 'php/lib/actions.php';
     require_once 'php/lib/auth.php';
+    require_once 'php/lib/control.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -92,6 +93,9 @@ function insert_user($data)
         return $array;
     }
     $user_id = $array['created_id'];
+    // note: the next del_version is because this function add
+    // more data and it is executed at the end of the function
+    del_version('users', $user_id);
 
     // Continue creating the password entry
     newpass_insert($user_id, $newpass);
@@ -109,6 +113,8 @@ function insert_user($data)
             db_query(...$query);
         }
     }
+
+    add_version('users', $user_id);
 
     return [
         'status' => 'ok',
@@ -128,6 +134,7 @@ function update_user($user_id, $data)
 {
     require_once 'php/lib/actions.php';
     require_once 'php/lib/auth.php';
+    require_once 'php/lib/control.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -177,6 +184,9 @@ function update_user($user_id, $data)
         if ($array['status'] == 'ko') {
             return $array;
         }
+        // note: the next del_version is because this function add
+        // more data and it is executed at the end of the function
+        del_version('users', $user_id);
     }
 
     // Continue creating the password entry
@@ -186,9 +196,27 @@ function update_user($user_id, $data)
     }
 
     if (is_array($perms)) {
+        $query = 'SELECT * FROM tbl_users_apps_perms WHERE user_id = ?';
+        $old_perms = execute_query_array($query, [$user_id]);
+        foreach ($perms as $key => $val) {
+            foreach ($old_perms as $old_key => $old_val) {
+                if (
+                    $val['app_id'] == $old_val['app_id'] &&
+                    $val['perm_id'] == $old_val['perm_id'] &&
+                    $val['allow'] == $old_val['allow'] &&
+                    $val['deny'] == $old_val['deny']
+                ) {
+                    unset($perms[$key]);
+                    unset($old_perms[$old_key]);
+                }
+            }
+        }
+
         // Delete the old perms entries
-        $query = 'DELETE FROM tbl_users_apps_perms WHERE user_id = ?';
-        db_query($query, [$user_id]);
+        foreach ($old_perms as $perm) {
+            $query = 'DELETE FROM tbl_users_apps_perms WHERE user_id = ? AND id = ?';
+            db_query($query, [$user_id, $perm['id']]);
+        }
 
         // Create the perms entries
         foreach ($perms as $perm) {
@@ -202,6 +230,8 @@ function update_user($user_id, $data)
             db_query(...$query);
         }
     }
+
+    add_version('users', $user_id);
 
     return [
         'status' => 'ok',

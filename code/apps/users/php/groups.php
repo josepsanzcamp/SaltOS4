@@ -44,6 +44,7 @@ declare(strict_types=1);
 function insert_group($data)
 {
     require_once 'php/lib/actions.php';
+    require_once 'php/lib/control.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -62,6 +63,9 @@ function insert_group($data)
         return $array;
     }
     $group_id = $array['created_id'];
+    // note: the next del_version is because this function add
+    // more data and it is executed at the end of the function
+    del_version('groups', $group_id);
 
     // Create the perms entries
     if (is_array($perms)) {
@@ -76,6 +80,8 @@ function insert_group($data)
             db_query(...$query);
         }
     }
+
+    add_version('groups', $group_id);
 
     return [
         'status' => 'ok',
@@ -94,6 +100,7 @@ function insert_group($data)
 function update_group($group_id, $data)
 {
     require_once 'php/lib/actions.php';
+    require_once 'php/lib/control.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -112,12 +119,33 @@ function update_group($group_id, $data)
         if ($array['status'] == 'ko') {
             return $array;
         }
+        // note: the next del_version is because this function add
+        // more data and it is executed at the end of the function
+        del_version('groups', $group_id);
     }
 
     if (is_array($perms)) {
+        $query = 'SELECT * FROM tbl_groups_apps_perms WHERE group_id = ?';
+        $old_perms = execute_query_array($query, [$group_id]);
+        foreach ($perms as $key => $val) {
+            foreach ($old_perms as $old_key => $old_val) {
+                if (
+                    $val['app_id'] == $old_val['app_id'] &&
+                    $val['perm_id'] == $old_val['perm_id'] &&
+                    $val['allow'] == $old_val['allow'] &&
+                    $val['deny'] == $old_val['deny']
+                ) {
+                    unset($perms[$key]);
+                    unset($old_perms[$old_key]);
+                }
+            }
+        }
+
         // Delete the old perms entries
-        $query = 'DELETE FROM tbl_groups_apps_perms WHERE group_id = ?';
-        db_query($query, [$group_id]);
+        foreach ($old_perms as $perm) {
+            $query = 'DELETE FROM tbl_groups_apps_perms WHERE group_id = ? AND id = ?';
+            db_query($query, [$group_id, $perm['id']]);
+        }
 
         // Create the perms entries
         foreach ($perms as $perm) {
@@ -131,6 +159,8 @@ function update_group($group_id, $data)
             db_query(...$query);
         }
     }
+
+    add_version('groups', $group_id);
 
     return [
         'status' => 'ok',
