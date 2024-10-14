@@ -37,6 +37,9 @@ if (get_data('server/request_method') != 'CLI') {
     show_php_error(['phperror' => 'Permission denied']);
 }
 
+require_once 'php/lib/control.php';
+require_once 'php/lib/indexing.php';
+
 require_once 'apps/emails/php/getmail.php';
 $time1 = microtime(true);
 $output = [
@@ -44,6 +47,13 @@ $output = [
     'files' => 0,
     'emails' => 0,
 ];
+
+$remote_addr = get_data('server/remote_addr');
+$user_agent = get_data('server/user_agent');
+$query = 'SELECT token FROM tbl_users_tokens
+    WHERE user_id = 1 AND active = 1 AND remote_addr = ? AND user_agent = ?';
+$token = execute_query($query, [$remote_addr, $user_agent]);
+set_data('server/token', $token);
 
 // Add a new email account
 $exists = execute_query('SELECT COUNT(*) FROM app_emails_accounts');
@@ -70,6 +80,9 @@ if (!$exists) {
     ]);
     db_query(...$query);
     $output['account']++;
+    make_index('emails_accounts', 1);
+    make_control('emails_accounts', 1);
+    add_version('emails_accounts', 1);
 }
 
 // Create the account directory and copy all initial RFC822 files
@@ -92,12 +105,6 @@ if (!$exists) {
         __getmail_insert($file, $msgid, 1, 0, 0, 0, 0, 0, 0, '');
         $output['emails']++;
     }
-    // Fix permissions
-    $query = prepare_update_query('app_emails_control', [
-        'user_id' => 1,
-        'group_id' => 1,
-    ]);
-    db_query(...$query);
 }
 
 $time2 = microtime(true);

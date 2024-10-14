@@ -44,6 +44,13 @@ $output = [
     'total' => 0,
 ];
 
+$remote_addr = get_data('server/remote_addr');
+$user_agent = get_data('server/user_agent');
+$query = 'SELECT token FROM tbl_users_tokens
+    WHERE user_id = 1 AND active = 1 AND remote_addr = ? AND user_agent = ?';
+$token = execute_query($query, [$remote_addr, $user_agent]);
+set_data('server/token', $token);
+
 // Import invoices
 $exists = execute_query('SELECT COUNT(*) FROM app_invoices');
 if (!$exists) {
@@ -60,12 +67,6 @@ if (!$exists) {
         add_version('invoices', $id);
         $output['total']++;
     }
-    // Fix permissions
-    $query = prepare_update_query('app_invoices_control', [
-        'user_id' => 1,
-        'group_id' => 1,
-    ]);
-    db_query(...$query);
 }
 
 $time2 = microtime(true);

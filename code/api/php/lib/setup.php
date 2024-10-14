@@ -45,6 +45,9 @@ function setup()
         'count' => 0,
     ];
 
+    $token = get_unique_token();
+    set_data('server/token', $token);
+
     $array = [
         'tbl_users' => [
             [
@@ -86,6 +89,18 @@ function setup()
         'tbl_groups_apps_perms' => execute_query_array("
             SELECT id, '1' group_id, app_id, perm_id, '1' allow, '0' deny
             FROM tbl_apps_perms"),
+        'tbl_users_tokens' => [
+            [
+                'id' => 1,
+                'active' => 1,
+                'user_id' => 1,
+                'created_at' => current_datetime(),
+                'remote_addr' => get_data('server/remote_addr'),
+                'user_agent' => get_data('server/user_agent'),
+                'token' => get_data('server/token'),
+                'expires_at' => current_datetime(get_config('auth/tokenshortexpires')),
+            ],
+        ],
     ];
 
     foreach ($array as $table => $rows) {
@@ -105,13 +120,17 @@ function setup()
     require_once 'php/lib/control.php';
     require_once 'php/lib/indexing.php';
 
-    make_index('users', 1);
-    make_control('users', 1);
-    add_version('users', 1);
+    if (isset($output['history']['tbl_users'])) {
+        make_index('users', 1);
+        make_control('users', 1);
+        add_version('users', 1);
+    }
 
-    make_index('groups', 1);
-    make_control('groups', 1);
-    add_version('groups', 1);
+    if (isset($output['history']['tbl_groups'])) {
+        make_index('groups', 1);
+        make_control('groups', 1);
+        add_version('groups', 1);
+    }
 
     return $output;
 }
