@@ -98,11 +98,11 @@ final class test_invoices extends TestCase
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), 1);
+        $this->assertSame(make_version('invoices', $id), 1);
         $this->assertSame(make_index('invoices', $id), 1);
-        $this->assertSame(add_version('invoices', $id), 1);
 
         $this->assertCount(0, get_version('invoices', $id, 0));
-        $this->assertCount(5, get_version('invoices', $id, 1));
+        $this->assertCount(6, get_version('invoices', $id, 1));
         $this->assertCount(0, get_version('invoices', $id, 2));
 
         $array = [
@@ -133,12 +133,12 @@ final class test_invoices extends TestCase
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), -4);
+        $this->assertSame(make_version('invoices', $id), 1);
         $this->assertSame(make_index('invoices', $id), 2);
-        $this->assertSame(add_version('invoices', $id), 1);
 
         $this->assertCount(0, get_version('invoices', $id, 0));
-        $this->assertCount(5, get_version('invoices', $id, 1));
-        $this->assertCount(5, get_version('invoices', $id, 2));
+        $this->assertCount(6, get_version('invoices', $id, 1));
+        $this->assertCount(6, get_version('invoices', $id, 2));
         $this->assertCount(0, get_version('invoices', $id, 3));
 
         $array = [
@@ -154,13 +154,13 @@ final class test_invoices extends TestCase
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), -4);
+        $this->assertSame(make_version('invoices', $id), 1);
         $this->assertSame(make_index('invoices', $id), 2);
-        $this->assertSame(add_version('invoices', $id), 1);
 
         $this->assertCount(0, get_version('invoices', $id, 0));
-        $this->assertCount(5, get_version('invoices', $id, 1));
-        $this->assertCount(5, get_version('invoices', $id, 2));
-        $this->assertCount(5, get_version('invoices', $id, 3));
+        $this->assertCount(6, get_version('invoices', $id, 1));
+        $this->assertCount(6, get_version('invoices', $id, 2));
+        $this->assertCount(6, get_version('invoices', $id, 3));
         $this->assertCount(0, get_version('invoices', $id, 4));
 
         $query = "DELETE FROM app_invoices WHERE id=$id";
@@ -170,13 +170,13 @@ final class test_invoices extends TestCase
         db_query($query);
 
         $this->assertSame(make_control('invoices', $id), 2);
+        $this->assertSame(make_version('invoices', $id), -4);
         $this->assertSame(make_index('invoices', $id), 3);
-        $this->assertSame(add_version('invoices', $id), 2);
 
-        $this->assertCount(0, get_version('invoices', $id, 1));
+        $this->assertCount(6, get_version('invoices', $id, 1));
 
         $this->assertSame(make_control('invoices', $id), -3);
+        $this->assertSame(make_version('invoices', $id), -4);
         $this->assertSame(make_index('invoices', $id), -3);
-        $this->assertSame(add_version('invoices', $id), -3);
     }
 }

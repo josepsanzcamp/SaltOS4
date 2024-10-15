@@ -40,15 +40,10 @@ declare(strict_types=1);
  * This function allow to insert and delete the control registers associacted
  * to any application and to any register of the application
  *
- * @app      => code of the application that you want to index
- * @reg_id   => register of the app that you want to index
- * @user_id  => user id of the owner of the app register
- * @datetime => time mark used as creation time of the app register
+ * @app    => code of the application that you want to index
+ * @reg_id => register of the app that you want to index
  *
  * Notes:
- *
- * You can pass a null user_id and/or null datetime, in these cases, the
- * function will determine the user_id and datetime automatically
  *
  * This function returns an integer as response about the control action:
  *
@@ -61,19 +56,15 @@ declare(strict_types=1);
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
-function make_control($app, $reg_id, $user_id = null, $datetime = null)
+function make_control($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
     if ($table == '') {
         return -1;
     }
-    if ($user_id === null) {
-        $user_id = current_user();
-    }
-    if ($datetime === null) {
-        $datetime = current_datetime();
-    }
+    $user_id = current_user();
+    $datetime = current_datetime();
     // Check if control exists
     $query = "SELECT id FROM {$table}_control LIMIT 1";
     if (!db_check($query)) {
@@ -110,7 +101,7 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
 }
 
 /**
- * Add Version function
+ * Make Version function
  *
  * This function allow to add a new version to a reg_id of an app, to do it,
  * the function requires to specify the app, reg_id, the original data and
@@ -122,39 +113,30 @@ function make_control($app, $reg_id, $user_id = null, $datetime = null)
  * the old hash to do the blockchain, get the last ver_id and compute all
  * needed things to do the insert of the new version register
  *
- * @app      => code of the application that you want to add a new version
- * @reg_id   => register of the app that you want to add a new version
- * @user_id  => user id of the owner of the version register
- * @datetime => time mark used as creation time of the version register
+ * @app    => code of the application that you want to add a new version
+ * @reg_id => register of the app that you want to add a new version
  *
  * Notes:
- *
- * You can pass a null user_id and/or null datetime, in these cases, the
- * function will determine the user_id and datetime automatically
  *
  * This function returns an integer as response about the control action:
  *
  * +1 => insert executed, this is because the app register exists and they can add a new version register
- * +2 => delete executed, this is because the app register not exists and the version register exists
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => version table not found, this is because the has_version feature is disabled by dbstatic
- * -3 => data not found, this is because the app register not exists and the control register not exists
+ * -3 => data not found and version not found, app register not exists and version register not exists
+ * -4 => data not found but version found, app register not exists and version register exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
-function add_version($app, $reg_id, $user_id = null, $datetime = null)
+function make_version($app, $reg_id)
 {
     // Check the passed parameters
     $table = app2table($app);
     if ($table == '') {
         return -1;
     }
-    if ($user_id === null) {
-        $user_id = current_user();
-    }
-    if ($datetime === null) {
-        $datetime = current_datetime();
-    }
+    $user_id = current_user();
+    $datetime = current_datetime();
     // Check if version exists
     $query = "SELECT id FROM {$table}_version LIMIT 1";
     if (!db_check($query)) {
@@ -166,12 +148,10 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     $query = "SELECT id FROM $table WHERE id = ?";
     $data_id = execute_query($query, [$reg_id]);
     if (!$data_id) {
-        if ($version_id) {
-            $query = "DELETE FROM {$table}_version WHERE reg_id = ?";
-            db_query($query, [$reg_id]);
-            return 2;
-        } else {
+        if (!$version_id) {
             return -3;
+        } else {
+            return -4;
         }
     }
     // Compute the diff from old data and new data
@@ -182,24 +162,38 @@ function add_version($app, $reg_id, $user_id = null, $datetime = null)
     $data_new[$table][$reg_id] = execute_query($query, [$reg_id]);
     // Add the data from subtables, if exists
     $subtables = app2subtables($app);
+    // Add the control table to subtables, if apply
+    $subtable = "{$table}_control";
+    $query = "SELECT id FROM $subtable LIMIT 1";
+    if (db_check($query)) {
+        $subtables[] = [
+            'subtable' => $subtable,
+            'field' => 'id',
+        ];
+    }
+    // Add the files table to subtables, if apply
+    $subtable = "{$table}_files";
+    $query = "SELECT id FROM $subtable LIMIT 1";
+    if (db_check($query)) {
+        $subtables[] = [
+            'subtable' => $subtable,
+            'field' => 'reg_id',
+        ];
+    }
+    // Add the notes table to subtables, if apply
+    $subtable = "{$table}_notes";
+    $query = "SELECT id FROM $subtable LIMIT 1";
+    if (db_check($query)) {
+        $subtables[] = [
+            'subtable' => $subtable,
+            'field' => 'reg_id',
+        ];
+    }
+    // And now, process subtables
     foreach ($subtables as $temp) {
         $subtable = $temp['subtable'];
         $field = $temp['field'];
         $query = "SELECT * FROM $subtable WHERE $field = ?";
-        $data_new[$subtable] = [];
-        $rows = execute_query_array($query, [$reg_id]);
-        foreach ($rows as $key => $val) {
-            $data_new[$subtable][$val['id']] = $val;
-        }
-    }
-    // This part allow to get data from files and notes
-    $subtables = ["{$table}_files", "{$table}_notes"];
-    foreach ($subtables as $subtable) {
-        $query = "SELECT id FROM $subtable LIMIT 1";
-        if (!db_check($query)) {
-            continue;
-        }
-        $query = "SELECT * FROM $subtable WHERE reg_id = ?";
         $data_new[$subtable] = [];
         $rows = execute_query_array($query, [$reg_id]);
         foreach ($rows as $key => $val) {
@@ -347,7 +341,7 @@ function get_version($app, $reg_id, $ver_id = null)
  * +1 => delete executed, this is because the app register exists and they can delete the last register
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => version table not found, this is because the has_version feature is disabled by dbstatic
- * -3 => data not found, this is because the app register not exists and the control register not exists
+ * -3 => data not found, this is because the app register not exists and the version register not exists
  *
  * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */

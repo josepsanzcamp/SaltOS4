@@ -62,9 +62,9 @@ if (!$exists) {
     // Insert the control register
     $ids = execute_query_array('SELECT id FROM app_customers');
     foreach ($ids as $id) {
-        make_index('customers', $id);
         make_control('customers', $id);
-        add_version('customers', $id);
+        make_version('customers', $id);
+        make_index('customers', $id);
         $output['total']++;
     }
 }

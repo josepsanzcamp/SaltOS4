@@ -114,7 +114,7 @@ function insert_user($data)
         }
     }
 
-    add_version('users', $user_id);
+    make_version('users', $user_id);
 
     return [
         'status' => 'ok',
@@ -231,7 +231,7 @@ function update_user($user_id, $data)
         }
     }
 
-    add_version('users', $user_id);
+    make_version('users', $user_id);
 
     return [
         'status' => 'ok',

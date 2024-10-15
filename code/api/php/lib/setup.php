@@ -121,15 +121,15 @@ function setup()
     require_once 'php/lib/indexing.php';
 
     if (isset($output['history']['tbl_users'])) {
-        make_index('users', 1);
         make_control('users', 1);
-        add_version('users', 1);
+        make_version('users', 1);
+        make_index('users', 1);
     }
 
     if (isset($output['history']['tbl_groups'])) {
-        make_index('groups', 1);
         make_control('groups', 1);
-        add_version('groups', 1);
+        make_version('groups', 1);
+        make_index('groups', 1);
     }
 
     return $output;

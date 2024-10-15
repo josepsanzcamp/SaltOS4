@@ -84,11 +84,11 @@ final class test_customers extends TestCase
         $this->assertTrue($id > 0);
 
         $this->assertSame(make_control('customers', $id), 1);
+        $this->assertSame(make_version('customers', $id), 1);
         $this->assertSame(make_index('customers', $id), 1);
-        $this->assertSame(add_version('customers', $id), 1);
 
         $this->assertCount(0, get_version('customers', $id, 0));
-        $this->assertCount(3, get_version('customers', $id, 1));
+        $this->assertCount(4, get_version('customers', $id, 1));
         $this->assertCount(0, get_version('customers', $id, 2));
 
         $array = [
@@ -99,12 +99,12 @@ final class test_customers extends TestCase
         db_query($query);
 
         $this->assertSame(make_control('customers', $id), -4);
+        $this->assertSame(make_version('customers', $id), 1);
         $this->assertSame(make_index('customers', $id), 2);
-        $this->assertSame(add_version('customers', $id), 1);
 
         $this->assertCount(0, get_version('customers', $id, 0));
-        $this->assertCount(3, get_version('customers', $id, 1));
-        $this->assertCount(3, get_version('customers', $id, 2));
+        $this->assertCount(4, get_version('customers', $id, 1));
+        $this->assertCount(4, get_version('customers', $id, 2));
         $this->assertCount(0, get_version('customers', $id, 3));
 
         $array = [
@@ -114,13 +114,13 @@ final class test_customers extends TestCase
         db_query($query);
 
         $this->assertSame(make_control('customers', $id), -4);
+        $this->assertSame(make_version('customers', $id), 1);
         $this->assertSame(make_index('customers', $id), 2);
-        $this->assertSame(add_version('customers', $id), 1);
 
         $this->assertCount(0, get_version('customers', $id, 0));
-        $this->assertCount(3, get_version('customers', $id, 1));
-        $this->assertCount(3, get_version('customers', $id, 2));
-        $this->assertCount(3, get_version('customers', $id, 3));
+        $this->assertCount(4, get_version('customers', $id, 1));
+        $this->assertCount(4, get_version('customers', $id, 2));
+        $this->assertCount(4, get_version('customers', $id, 3));
         $this->assertCount(0, get_version('customers', $id, 4));
 
         // Check for hash blockchain integrity
@@ -142,7 +142,7 @@ final class test_customers extends TestCase
                   SET hash='$hash'
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
-        $this->assertCount(3, get_version('customers', $id, 3));
+        $this->assertCount(4, get_version('customers', $id, 3));
 
         // Check for datetime blockchain integrity
         $datetime = execute_query("SELECT datetime
@@ -168,7 +168,7 @@ final class test_customers extends TestCase
                   SET hash='$hash', datetime='$datetime'
                   WHERE reg_id=$id AND ver_id=2";
         db_query($query);
-        $this->assertCount(3, get_version('customers', $id, 3));
+        $this->assertCount(4, get_version('customers', $id, 3));
 
         // Check for ver_id blockchain integrity
         $query = "UPDATE app_customers_version
@@ -192,20 +192,20 @@ final class test_customers extends TestCase
                   SET hash='$hash', ver_id=2
                   WHERE reg_id=$id AND ver_id=-2";
         db_query($query);
-        $this->assertCount(3, get_version('customers', $id, 3));
+        $this->assertCount(4, get_version('customers', $id, 3));
 
         // Continue
         $query = "DELETE FROM app_customers WHERE id=$id";
         db_query($query);
 
         $this->assertSame(make_control('customers', $id), 2);
+        $this->assertSame(make_version('customers', $id), -4);
         $this->assertSame(make_index('customers', $id), 3);
-        $this->assertSame(add_version('customers', $id), 2);
 
-        $this->assertCount(0, get_version('customers', $id, 1));
+        $this->assertCount(4, get_version('customers', $id, 1));
 
         $this->assertSame(make_control('customers', $id), -3);
+        $this->assertSame(make_version('customers', $id), -4);
         $this->assertSame(make_index('customers', $id), -3);
-        $this->assertSame(add_version('customers', $id), -3);
     }
 }

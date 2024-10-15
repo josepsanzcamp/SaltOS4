@@ -45,31 +45,36 @@ declare(strict_types=1);
  */
 function gc_exec()
 {
-    $dirs = [
-        get_directory('dirs/cachedir') ?? getcwd_protected() . '/data/cache/',
-        get_directory('dirs/tempdir') ?? getcwd_protected() . '/data/temp/',
-        get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/',
+    $output = [
+        'deleted' => [],
+        'count' => 0,
     ];
-    $files = [];
-    foreach ($dirs as $dir) {
+
+    $dirs = [
+        get_directory('dirs/cachedir') ?? getcwd_protected() . '/data/cache/'
+            => get_config('server/cachetimeout'),
+        get_directory('dirs/tempdir') ?? getcwd_protected() . '/data/temp/'
+            => get_config('server/cachetimeout'),
+        get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/'
+            => get_config('server/cachetimeout'),
+        get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/'
+            => get_config('server/trashtimeout'),
+    ];
+    foreach ($dirs as $dir => $timeout) {
         if ($dir == '') {
             show_php_error(['phperror' => 'Internal error']);
         }
         $files1 = glob_protected($dir . '*'); // Visible files
         $files2 = glob_protected($dir . '.*'); // Hidden files
         $files2 = array_diff($files2, [$dir . '.', $dir . '..', $dir . '.htaccess']); // Exceptions
-        $files = array_merge($files, $files1, $files2);
-    }
-    $delta = time() - intval(get_config('server/cachetimeout'));
-    $output = [
-        'deleted' => [],
-        'count' => 0,
-    ];
-    foreach ($files as $file) {
-        if (file_exists($file) && is_file($file) && filemtime($file) < $delta) {
-            unlink($file);
-            $output['deleted'][] = $file;
-            $output['count']++;
+        $files = array_merge($files1, $files2);
+        $delta = time() - intval($timeout);
+        foreach ($files as $file) {
+            if (file_exists($file) && is_file($file) && filemtime($file) < $delta) {
+                unlink($file);
+                $output['deleted'][] = $file;
+                $output['count']++;
+            }
         }
     }
     return $output;

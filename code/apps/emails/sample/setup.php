@@ -80,9 +80,9 @@ if (!$exists) {
     ]);
     db_query(...$query);
     $output['account']++;
-    make_index('emails_accounts', 1);
     make_control('emails_accounts', 1);
-    add_version('emails_accounts', 1);
+    make_version('emails_accounts', 1);
+    make_index('emails_accounts', 1);
 }
 
 // Create the account directory and copy all initial RFC822 files

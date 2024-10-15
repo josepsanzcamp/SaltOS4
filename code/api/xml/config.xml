@@ -42,6 +42,7 @@
         <maxmemorylimit>1G</maxmemorylimit><!-- to be used in some actions that requires more memory -->
         <maxexecutiontime>3600</maxexecutiontime><!-- to be used in some actions that requires more time -->
         <cachetimeout>86400</cachetimeout><!-- in seconds, 86400 is 1 day -->
+        <trashtimeout eval="true">86400*30</trashtimeout><!-- in seconds, around one month -->
         <percentstop>90</percentstop><!-- long actions stop when reached the 90% of max_execution_time -->
     </server>
     <dirs>
@@ -52,6 +53,7 @@
         <uploaddir eval="true">getcwd()."/data/upload"</uploaddir>
         <inboxdir eval="true">getcwd()."/data/inbox"</inboxdir>
         <outboxdir eval="true">getcwd()."/data/outbox"</outboxdir>
+        <trashdir eval="true">getcwd()."/data/trash"</trashdir>
     </dirs>
     <commands>
         <which>which</which><!-- for check commands -->

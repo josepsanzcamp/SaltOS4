@@ -31,7 +31,7 @@
         <table id="allfiles" label="Files" col_class="col-12 mb-3" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
             <source eval="true">"app/".get_data("rest/1")."/view/files/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
         </table>
-        <file id="newfiles" label="New files" col_class="col-12 mb-3" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('rest/1'), get_data('rest/2'))">
+        <file id="addfiles" label="New files" col_class="col-12 mb-3" multiple="true" require="php/lib/files.php" ifeval="check_files_new(get_data('rest/1'), get_data('rest/2'))">
             <data eval="true">execute_query_array("SELECT uniqid id,app,name,size,type,'' data,'' error,file,hash
                 FROM tbl_uploads WHERE user_id = ? AND app = ? ORDER BY id DESC", [current_user(), current_hash()])</data>
         </file>
@@ -74,7 +74,7 @@
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <pdfjs>
+                <pdfjs height="calc(100vh - 200px)">
                     <srcdoc ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_viewpdf(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))</srcdoc>
                     <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/".get_data("rest/1")."/xml/pdf.xml", [
                         "id" => check_ids(get_data("rest/4")),

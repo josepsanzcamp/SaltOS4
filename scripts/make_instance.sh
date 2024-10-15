@@ -34,7 +34,7 @@ cd ..
 mkdir data
 cd data
 ln -s ../../code/data/.htaccess
-for i in cache files inbox logs outbox temp upload; do
+for i in cache files inbox logs outbox temp trash upload; do
 	mkdir $i
 	chmod 777 $i
 done

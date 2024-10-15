@@ -1883,9 +1883,9 @@ saltos.bootstrap.__field.image = field => {
  */
 saltos.bootstrap.__field.excel = field => {
     saltos.core.check_params(field, ['id', 'class', 'value', 'data', 'required', 'disabled',
-                                     'rowHeaders', 'colHeaders', 'minSpareRows',
-                                     'contextMenu', 'rowHeaderWidth', 'colWidths',
-                                     'numcols', 'numrows', 'color', 'cell', 'cells']);
+                                     'rowHeaders', 'colHeaders', 'minSpareRows', 'height',
+                                     'contextMenu', 'rowHeaderWidth', 'colWidths', 'color',
+                                     'numcols', 'numrows', 'cell', 'cells']);
     if (!field.color) {
         field.color = 'primary';
     }
@@ -1893,8 +1893,12 @@ saltos.bootstrap.__field.excel = field => {
     if (field.color == 'none') {
         border = ['border-0'];
     }
+    let height = field.height;
+    if (field.height == '') {
+        height = '100%';
+    }
     let obj = saltos.core.html(`
-        <div style="width: 100%; height: 100%; overflow: auto">
+        <div style="width: 100%; height: ${height}; overflow: auto">
             <div></div>
         </div>
     `);
@@ -2030,15 +2034,20 @@ saltos.bootstrap.__field.excel = field => {
  * that modal scrollTop is the same.
  */
 saltos.bootstrap.__field.pdfjs = field => {
-    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color']);
+    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color', 'height']);
     if (field.srcdoc != '') {
         field.src = {data: atob(field.srcdoc)};
     }
     if (!field.color) {
         field.color = 'primary';
     }
+    let height = field.height;
+    if (field.height == '') {
+        height = '100%';
+    }
     let obj = saltos.core.html(`
-        <div id="${field.id}" class="${field.class}"></div>
+        <div id="${field.id}" class="${field.class}"
+            style="width: 100%; height: ${height}; overflow: auto"></div>
     `);
     if (typeof field.src == 'string') {
         obj.src = new URL(field.src, window.location.href).href;

@@ -81,7 +81,7 @@ function insert_group($data)
         }
     }
 
-    add_version('groups', $group_id);
+    make_version('groups', $group_id);
 
     return [
         'status' => 'ok',
@@ -160,7 +160,7 @@ function update_group($group_id, $data)
         }
     }
 
-    add_version('groups', $group_id);
+    make_version('groups', $group_id);
 
     return [
         'status' => 'ok',

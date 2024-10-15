@@ -58,8 +58,8 @@ function insert($app, $data)
     $table = app2table($app);
     $fields = array_flip(array_column(get_fields($table), 'name'));
     $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
-    $files = app2files($app) ? array_flip(['newfiles']) : [];
-    $notes = app2notes($app) ? array_flip(['newnotes']) : [];
+    $files = app2files($app) ? array_flip(['addfiles']) : [];
+    $notes = app2notes($app) ? array_flip(['addnotes']) : [];
     $error = array_diff_key($data, $fields, $subtables, $files, $notes);
     if (count($error)) {
         return [
@@ -106,20 +106,20 @@ function insert($app, $data)
     }
 
     // Prepare notes
-    if (isset($notesdata['newnotes'])) {
+    if (isset($notesdata['addnotes'])) {
         $temp = [
             'user_id' => current_user(),
             'datetime' => current_datetime(),
             'reg_id' => $id,
-            'note' => $notesdata['newnotes'],
+            'note' => $notesdata['addnotes'],
         ];
         $query = prepare_insert_query("{$table}_notes", $temp);
         db_query(...$query);
     }
 
     // Prepare files
-    if (isset($filesdata['newfiles'])) {
-        foreach ($filesdata['newfiles'] as $file) {
+    if (isset($filesdata['addfiles'])) {
+        foreach ($filesdata['addfiles'] as $file) {
             if (
                 check_file([
                     'user_id' => current_user(),
@@ -138,9 +138,9 @@ function insert($app, $data)
         }
     }
 
-    make_index($app, $id);
     make_control($app, $id);
-    add_version($app, $id);
+    make_version($app, $id);
+    make_index($app, $id);
 
     return [
         'status' => 'ok',
@@ -173,8 +173,8 @@ function update($app, $id, $data)
     $table = app2table($app);
     $fields = array_flip(array_column(get_fields($table), 'name'));
     $subtables = array_flip(array_diff(array_column(app2subtables($app), 'alias'), ['']));
-    $files = app2files($app) ? array_flip(['newfiles', 'delfiles']) : [];
-    $notes = app2notes($app) ? array_flip(['newnotes', 'delnotes']) : [];
+    $files = app2files($app) ? array_flip(['addfiles', 'delfiles']) : [];
+    $notes = app2notes($app) ? array_flip(['addnotes', 'delnotes']) : [];
     $error = array_diff_key($data, $fields, $subtables, $files, $notes);
     if (count($error)) {
         return [
@@ -251,12 +251,12 @@ function update($app, $id, $data)
     }
 
     // Prepare notes
-    if (isset($notesdata['newnotes'])) {
+    if (isset($notesdata['addnotes'])) {
         $temp = [
             'user_id' => current_user(),
             'datetime' => current_datetime(),
             'reg_id' => $id,
-            'note' => $notesdata['newnotes'],
+            'note' => $notesdata['addnotes'],
         ];
         $query = prepare_insert_query("{$table}_notes", $temp);
         db_query(...$query);
@@ -268,16 +268,17 @@ function update($app, $id, $data)
         foreach ($ids as $id2) {
             $query = "SELECT file FROM {$table}_files WHERE reg_id = ? AND id = ?";
             $file = execute_query($query, [$id, $id2]);
-            $dir = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
-            unlink($dir . $app . '/' . $file);
+            $dir1 = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+            $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
+            rename($dir1 . $app . '/' . $file, $dir2 . $file);
             $query = "DELETE FROM {$table}_files WHERE reg_id = ? AND id = ?";
             db_query($query, [$id, $id2]);
         }
     }
 
     // Prepare files
-    if (isset($filesdata['newfiles'])) {
-        foreach ($filesdata['newfiles'] as $file) {
+    if (isset($filesdata['addfiles'])) {
+        foreach ($filesdata['addfiles'] as $file) {
             if (
                 check_file([
                     'user_id' => current_user(),
@@ -296,9 +297,9 @@ function update($app, $id, $data)
         }
     }
 
-    make_index($app, $id);
     make_control($app, $id);
-    add_version($app, $id);
+    make_version($app, $id);
+    make_index($app, $id);
 
     return [
         'status' => 'ok',
@@ -382,16 +383,17 @@ function delete($app, $id)
     // Remove all files
     $query = "SELECT file FROM {$table}_files WHERE reg_id = ?";
     $files = execute_query_array($query, [$id]);
-    $dir = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+    $dir1 = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+    $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
     foreach ($files as $file) {
-        unlink($dir . $app . '/' . $file);
+        rename($dir1 . $app . '/' . $file, $dir2 . $file);
     }
     $query = "DELETE FROM {$table}_files WHERE reg_id = ?";
     db_query($query, [$id]);
 
-    make_index($app, $id);
     make_control($app, $id);
-    add_version($app, $id);
+    make_version($app, $id);
+    make_index($app, $id);
 
     return [
         'status' => 'ok',
