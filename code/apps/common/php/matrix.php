@@ -46,7 +46,7 @@ function make_matrix_version($app, $id)
     $files_fields = ['uniqid', 'file', 'hash', 'search', 'indexed', 'retries'];
     // continue retrieving versions data
     require_once 'php/lib/control.php';
-    $data = get_version($app, $id);
+    $data = array_values(get_version($app, $id));
     // compute the versions header used in the sheet
     $query = "SELECT (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, ver_id
         FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
@@ -153,8 +153,6 @@ function make_matrix_version($app, $id)
     }
     // define colors using diff detector
     foreach ($data as $key => $val) {
-        // Convert keys from 1..n to 0..n-1
-        $val = array_values($val);
         foreach ($val as $key2 => $val2) {
             if (!$key2) {
                 // first iteration, only store val0

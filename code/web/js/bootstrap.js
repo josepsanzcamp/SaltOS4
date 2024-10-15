@@ -1958,27 +1958,6 @@ saltos.bootstrap.__field.excel = field => {
             autoWrapRow: false,
             cell: field.cell,
             cells: field.cells,
-            // I maintain the follow commented lines as an example of usage
-            /*enterMoves: {row: 0, col: 1},*/
-            /*cell: [{
-                col: 1,
-                row: 0,
-                type: 'dropdown',
-                source: ['Allow', 'Deny'],
-                readOnly: true,
-            }],*/
-            /*cells: (row, col, prop) => {
-                if (row === 0 && col === 0) {
-                    console.log([row,col,prop]);
-                    return {
-                        readOnly: true,
-                        editor: 'select',
-                        selectOptions: ['Allow', 'Deny'],
-                        type: 'dropdown',
-                        source: ['Allow', 'Deny'],
-                    };
-                }
-            },*/
         });
         input.excel = excel;
         element.parentElement.classList.add(...border);
@@ -1995,7 +1974,7 @@ saltos.bootstrap.__field.excel = field => {
                 for (let key in field.cell) {
                     const val = field.cell[key];
                     if (val.row == row && val.col == col) {
-                        cell = val;
+                        cell = saltos.core.copy_object(val);
                     }
                 }
                 if (cell.hasOwnProperty('readOnly')) {
