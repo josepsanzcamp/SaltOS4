@@ -12,17 +12,17 @@
 # You can get a copy of a license here:
 # https://brailleinstitute.org/wp-content/uploads/2020/11/Atkinson-Hyperlegible-Font-License-2020-1104.pdf
 
-mv fonts/Atkinson-Hyperlegible-Bold-102.ttf fonts/Atkinson-Hyperlegible-Bold.ttf
-mv fonts/Atkinson-Hyperlegible-BoldItalic-102.ttf fonts/Atkinson-Hyperlegible-BoldItalic.ttf
-mv fonts/Atkinson-Hyperlegible-Italic-102.ttf fonts/Atkinson-Hyperlegible-Italic.ttf
-mv fonts/Atkinson-Hyperlegible-Regular-102.ttf fonts/Atkinson-Hyperlegible-Regular.ttf
+cp fonts/Atkinson-Hyperlegible-Bold-102.ttf Atkinson-Hyperlegible-Bold.ttf
+cp fonts/Atkinson-Hyperlegible-BoldItalic-102.ttf Atkinson-Hyperlegible-BoldItalic.ttf
+cp fonts/Atkinson-Hyperlegible-Italic-102.ttf Atkinson-Hyperlegible-Italic.ttf
+cp fonts/Atkinson-Hyperlegible-Regular-102.ttf Atkinson-Hyperlegible-Regular.ttf
 
-php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i fonts/Atkinson-Hyperlegible-Regular.ttf
-php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i fonts/Atkinson-Hyperlegible-Italic.ttf
-php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i fonts/Atkinson-Hyperlegible-Bold.ttf
-php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i fonts/Atkinson-Hyperlegible-BoldItalic.ttf
+php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i Atkinson-Hyperlegible-Regular.ttf
+php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i Atkinson-Hyperlegible-Italic.ttf
+php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i Atkinson-Hyperlegible-Bold.ttf
+php ../tcpdf/vendor/tecnickcom/tcpdf/tools/tcpdf_addfont.php -i Atkinson-Hyperlegible-BoldItalic.ttf
 
-mv fonts/Atkinson-Hyperlegible-Bold.ttf fonts/Atkinson-Hyperlegible-Bold-102.ttf
-mv fonts/Atkinson-Hyperlegible-BoldItalic.ttf fonts/Atkinson-Hyperlegible-BoldItalic-102.ttf
-mv fonts/Atkinson-Hyperlegible-Italic.ttf fonts/Atkinson-Hyperlegible-Italic-102.ttf
-mv fonts/Atkinson-Hyperlegible-Regular.ttf fonts/Atkinson-Hyperlegible-Regular-102.ttf
+rm -f Atkinson-Hyperlegible-Bold.ttf
+rm -f Atkinson-Hyperlegible-BoldItalic.ttf
+rm -f Atkinson-Hyperlegible-Italic.ttf
+rm -f Atkinson-Hyperlegible-Regular.ttf

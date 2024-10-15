@@ -1930,7 +1930,7 @@ saltos.bootstrap.__field.excel = field => {
     }
     if (field.colWidths == '') {
         field.colWidths = undefined;
-    } else {
+    } else if (typeof field.colWidths == 'string') {
         field.colWidths = parseInt(field.colWidths);
     }
     input.data = saltos.core.copy_object(field.data);

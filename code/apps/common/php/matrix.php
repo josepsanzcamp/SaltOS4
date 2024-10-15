@@ -78,15 +78,15 @@ function make_matrix_version($app, $id)
         }
         $data[$key] = $temp;
     }
-    // compute header with all unique table.id.field
-    $header = [];
+    // compute headers with all unique table.id.field
+    $headers = [];
     foreach ($data as $key => $val) {
-        $header = array_merge($header, array_keys($val));
+        $headers = array_merge($headers, array_keys($val));
     }
-    $header = array_keys(array_flip($header));
-    // create a filled matrix using as key the header
+    $headers = array_keys(array_flip($headers));
+    // create a filled matrix using as key the headers
     foreach ($data as $key => $val) {
-        $temp = array_fill_keys($header, '');
+        $temp = array_fill_keys($headers, '');
         $temp = array_replace($temp, $val);
         $temp = array_values($temp);
         $data[$key] = $temp;
@@ -97,7 +97,7 @@ function make_matrix_version($app, $id)
     $ranges = [];
     $old = [];
     $pos = [];
-    foreach ($header as $key => $val) {
+    foreach ($headers as $key => $val) {
         $temp = explode('.', $val);
         unset($temp[2]);
         $temp = implode('.', $temp);
@@ -122,10 +122,10 @@ function make_matrix_version($app, $id)
         $pos[] = $key;
         $ranges[] = $pos;
     }
-    // remove the table and id from header
-    foreach ($header as $key => $val) {
+    // remove the table and id from headers
+    foreach ($headers as $key => $val) {
         $temp = explode('.', $val);
-        $header[$key] = $temp[2];
+        $headers[$key] = $temp[2];
     }
     // define colors for odd ranges
     $matrix = [];
@@ -174,15 +174,38 @@ function make_matrix_version($app, $id)
             $val0 = $val2;
         }
     }
+    // compute widths using atkinson hyperlegible font
+    require_once 'php/lib/gdlib.php';
+    $widths = [0];
+    $size = 12;
+    $margin = 10;
+    $maxwidth = 500;
+    foreach ($headers as $key => $val) {
+        $width = compute_width(strval($val), $size);
+        $widths[0] = max($widths[0], $width + $margin);
+    }
+    foreach ($versions as $key => $val) {
+        $val = str_replace('<br/>', "\n", $val);
+        $width = compute_width($val, $size);
+        $widths[$key + 1] = $width + $margin;
+    }
+    foreach ($data as $key => $val) {
+        foreach ($val as $key2 => $val2) {
+            $width = compute_width(strval($val2), $size);
+            $widths[$key2 + 1] = min($maxwidth, max($widths[$key2 + 1], $width + $margin));
+        }
+    }
     // convert the matrix to one dimension
     $matrix = array_merge(...$matrix);
     // return the excel field
     return [
         'numcols' => count($versions),
-        'numrows' => count($header),
+        'numrows' => count($headers),
         'colHeaders' => $versions,
-        'rowHeaders' => $header,
+        'rowHeaders' => $headers,
         'data' => $data,
         'cell' => $matrix,
+        'rowHeaderWidth' => $widths[0],
+        'colWidths' => array_slice($widths, 1),
     ];
 }
