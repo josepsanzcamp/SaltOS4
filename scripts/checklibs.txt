@@ -1,6 +1,6 @@
 
 autoheight|https://github.com/kamilkp/autoheight/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxNi0wOC0wN1QyMzo0MToxMVo8L3VwZGF0ZWQ+
-edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|base64:PHRpdGxlPjEuMS4xPC90aXRsZT4=
+edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|base64:PHRpdGxlPjEuMi4wPC90aXRsZT4=
 jstree|https://github.com/vakata/jstree/commits/v.4.0.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyMy0wMS0xNlQxMTo1MzoyMFo8L3VwZGF0ZWQ+
 locutus|https://github.com/kvz/locutus/tags.atom|<title>|base64:PHRpdGxlPnYyLjAuMzI8L3RpdGxlPg==
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|base64:PHRpdGxlPjMuMy4wPC90aXRsZT4=
