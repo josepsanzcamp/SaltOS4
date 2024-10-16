@@ -2047,7 +2047,7 @@ saltos.bootstrap.__field.pdfjs = field => {
     }
     let obj = saltos.core.html(`
         <div id="${field.id}" class="${field.class}"
-            style="width: 100%; height: ${height}; overflow: auto"></div>
+            style="width: 100%; max-height: ${height}; overflow: auto"></div>
     `);
     if (typeof field.src == 'string') {
         obj.src = new URL(field.src, window.location.href).href;
