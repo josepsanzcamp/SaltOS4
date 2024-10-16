@@ -197,6 +197,11 @@ function make_version($app, $reg_id)
         $data_new[$subtable] = [];
         $rows = execute_query_array($query, [$reg_id]);
         foreach ($rows as $key => $val) {
+            // Ignote the search field in the files tables
+            if ($subtable == "{$table}_files") {
+                unset($val['search']);
+            }
+            // Continue;
             $data_new[$subtable][$val['id']] = $val;
         }
     }

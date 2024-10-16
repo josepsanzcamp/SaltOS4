@@ -42,8 +42,6 @@ function make_matrix_version($app, $id)
 {
     // the table and fields are the hidden fields of files tables
     $table = app2table($app);
-    $files_table = "{$table}_files";
-    $files_fields = ['uniqid', 'file', 'hash', 'search', 'indexed', 'retries'];
     // continue retrieving versions data
     require_once 'php/lib/control.php';
     $data = array_values(get_version($app, $id));
@@ -64,14 +62,6 @@ function make_matrix_version($app, $id)
         foreach ($val as $key2 => $val2) {
             foreach ($val2 as $key3 => $val3) {
                 foreach ($val3 as $key4 => $val4) {
-                    // hide the main id field of all tables
-                    if ($key4 == 'id') {
-                        continue;
-                    }
-                    // hide some files fields
-                    if ($key2 == $files_table && in_array($key4, $files_fields)) {
-                        continue;
-                    }
                     $temp["$key2.$key3.$key4"] = $val4;
                 }
             }
@@ -174,12 +164,17 @@ function make_matrix_version($app, $id)
             $val0 = $val2;
         }
     }
+    // add the text-break class to all cells
+    foreach ($data as $key => $val) {
+        foreach ($val as $key2 => $val2) {
+            $matrix[$key][$key2]['className'] .= ' text-break';
+        }
+    }
     // compute widths using atkinson hyperlegible font
     require_once 'php/lib/gdlib.php';
     $widths = [0];
     $size = 12;
     $margin = 10;
-    $maxwidth = 500;
     foreach ($headers as $key => $val) {
         $width = compute_width(strval($val), $size);
         $widths[0] = max($widths[0], $width + $margin);
@@ -192,8 +187,12 @@ function make_matrix_version($app, $id)
     foreach ($data as $key => $val) {
         foreach ($val as $key2 => $val2) {
             $width = compute_width(strval($val2), $size);
-            $widths[$key2 + 1] = min($maxwidth, max($widths[$key2 + 1], $width + $margin));
+            $widths[$key2 + 1] = max($widths[$key2 + 1], $width + $margin);
         }
+    }
+    $maxwidth = 500;
+    foreach ($widths as $key => $val) {
+        $widths[$key] = min($maxwidth, $val);
     }
     // convert the matrix to one dimension
     $matrix = array_merge(...$matrix);
