@@ -120,16 +120,32 @@ function setup()
     require_once 'php/lib/control.php';
     require_once 'php/lib/indexing.php';
 
-    if (isset($output['history']['tbl_users'])) {
+    if ($output['history']['tbl_users']) {
         make_control('users', 1);
         make_version('users', 1);
         make_index('users', 1);
     }
 
-    if (isset($output['history']['tbl_groups'])) {
+    if ($output['history']['tbl_groups']) {
         make_control('groups', 1);
         make_version('groups', 1);
         make_index('groups', 1);
+    }
+
+    $array = [
+        'tbl_users_apps_perms' => execute_query_array("SELECT * FROM tbl_users_apps_perms
+            WHERE CONCAT(app_id,'|',perm_id) NOT IN (SELECT CONCAT(app_id,'|',perm_id) FROM tbl_apps_perms)"),
+        'tbl_groups_apps_perms' => execute_query_array("SELECT * FROM tbl_groups_apps_perms
+            WHERE CONCAT(app_id,'|',perm_id) NOT IN (SELECT CONCAT(app_id,'|',perm_id) FROM tbl_apps_perms)"),
+    ];
+
+    foreach ($array as $table => $rows) {
+        foreach ($rows as $row) {
+            $query = "DELETE FROM $table WHERE id = ?";
+            db_query($query, [$row['id']]);
+            $output['history'][$table]--;
+            $output['count']++;
+        }
     }
 
     return $output;
