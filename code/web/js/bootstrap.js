@@ -2256,7 +2256,7 @@ saltos.bootstrap.__field.table = field => {
                 });
                 row.querySelector('input[type=checkbox]').addEventListener('click', event => {
                     // Here program the multiple selection feature using the ctrlKey
-                    if (!event.ctrlKey) {
+                    if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
                         // First state, sets the id1
                         saltos.bootstrap.__checkbox_id1 = event.target.value;
                         saltos.bootstrap.__checkbox_id2 = null;
@@ -2299,7 +2299,11 @@ saltos.bootstrap.__field.table = field => {
                     const obj = event.target.parentElement.querySelector('input[type=checkbox]');
                     if (obj) {
                         // ctrlKey propagation is important to allow the multiple selection feature
-                        obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
+                        obj.dispatchEvent(new MouseEvent('click', {
+                            altKey: event.altKey,
+                            ctrlKey: event.ctrlKey,
+                            shiftKey: event.shiftKey,
+                        }));
                     }
                     event.stopPropagation();
                 });
@@ -3286,7 +3290,7 @@ saltos.bootstrap.__field.list = field => {
                 });
                 checkbox.addEventListener('click', event => {
                     // Here program the multiple selection feature using the ctrlKey
-                    if (!event.ctrlKey) {
+                    if (!event.altKey && !event.ctrlKey && !event.shiftKey) {
                         // First state, sets the id1
                         saltos.bootstrap.__checkbox_id1 = event.target.value;
                         saltos.bootstrap.__checkbox_id2 = null;
@@ -3329,7 +3333,11 @@ saltos.bootstrap.__field.list = field => {
                     const obj = event.target.querySelector('input[type=checkbox]');
                     if (obj) {
                         // ctrlKey propagation is important to allow the multiple selection feature
-                        obj.dispatchEvent(new MouseEvent('click', {ctrlKey: event.ctrlKey}));
+                        obj.dispatchEvent(new MouseEvent('click', {
+                            altKey: event.altKey,
+                            ctrlKey: event.ctrlKey,
+                            shiftKey: event.shiftKey,
+                        }));
                         // The next focus allow to continue navigating by the other checkboxes
                         obj.focus();
                     }
