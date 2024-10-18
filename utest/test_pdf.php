@@ -115,6 +115,12 @@ final class test_pdf extends TestCase
             '"y","z"',
         ]);
 
+        $this->assertTrue(
+            defined('K_TCPDF_THROW_EXCEPTION_ERROR'),
+            'K_TCPDF_THROW_EXCEPTION_ERROR not found'
+        );
+        $this->assertTrue(K_TCPDF_THROW_EXCEPTION_ERROR);
+
         test_external_exec('php/pdf1.php', 'phperror.log', 'array not found');
         test_external_exec('php/pdf2.php', 'phperror.log', 'foreach without query');
         test_external_exec('php/pdf3.php', 'phperror.log', 'file nada not found');
