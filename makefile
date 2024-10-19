@@ -141,7 +141,7 @@ indexing:
 integrity:
 	php code/api/index.php integrity
 
-setup:
+setupclean:
 	rm -f code/data/inbox/1/*
 	-rmdir code/data/inbox/1
 	rm -f code/data/outbox/1/*
@@ -155,7 +155,11 @@ setup:
 	rm -f code/data/upload/*
 	echo "DROP DATABASE saltos;" | mariadb
 	echo "CREATE DATABASE saltos;" | mariadb
+
+setupdoit:
 	php code/api/index.php dbschema
 	php code/api/index.php app/customers/setup
 	php code/api/index.php app/invoices/setup
 	php code/api/index.php app/emails/setup
+
+setup: setupclean setupdoit

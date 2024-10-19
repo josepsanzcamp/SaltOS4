@@ -85,10 +85,10 @@ function setup()
         ],
         'tbl_users_apps_perms' => execute_query_array("
             SELECT id, '1' user_id, app_id, perm_id, '1' allow, '0' deny
-            FROM tbl_apps_perms"),
+            FROM tbl_apps_perms WHERE allow = 0 AND deny = 0"),
         'tbl_groups_apps_perms' => execute_query_array("
             SELECT id, '1' group_id, app_id, perm_id, '1' allow, '0' deny
-            FROM tbl_apps_perms"),
+            FROM tbl_apps_perms WHERE allow = 0 AND deny = 0"),
         'tbl_users_tokens' => [
             [
                 'id' => 1,

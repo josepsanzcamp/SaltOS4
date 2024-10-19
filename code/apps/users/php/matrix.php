@@ -224,13 +224,14 @@ function unmake_matrix_data($perms, $apps, $main, $json)
 
 function make_matrix_perms($table, $field, $id)
 {
-    $perms = execute_query_array("SELECT id, CONCAT_WS('/',code,NULLIF(owner,'')) code FROM tbl_perms WHERE active = 1 ORDER BY id ASC");
-    $apps = execute_query_array("SELECT id, code FROM tbl_apps WHERE active = 1 ORDER BY id ASC");
+    $perms = execute_query_array("SELECT id, CONCAT_WS('/',code,NULLIF(owner,'')) code
+        FROM tbl_perms WHERE active = 1 ORDER BY id ASC");
+    $apps = execute_query_array('SELECT id, code FROM tbl_apps WHERE active = 1 ORDER BY id ASC');
     $perms_code = array_column($perms, 'code');
     $apps_code = array_column($apps, 'code');
     $perms_id = array_column($perms, 'id');
     $apps_id = array_column($apps, 'id');
-    $apps_perms = execute_query_array("SELECT * FROM tbl_apps_perms");
+    $apps_perms = execute_query_array('SELECT * FROM tbl_apps_perms');
     $reg_apps_perms = execute_query_array("SELECT * FROM $table WHERE $field = ?", [$id]);
     $data = make_matrix_data($perms_id, $apps_id, $apps_perms, $reg_apps_perms);
     $cell = make_matrix_cell($perms_id, $apps_id, $apps_perms, $reg_apps_perms);
