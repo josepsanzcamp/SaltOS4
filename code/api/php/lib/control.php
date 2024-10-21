@@ -142,6 +142,12 @@ function make_version($app, $reg_id)
     if (!db_check($query)) {
         return -2;
     }
+    // Sets the semaphore
+    $semaphore = [$app, $reg_id];
+    if (!semaphore_acquire($semaphore)) {
+        return [T('Could not acquire the semaphore')];
+    }
+    // Continue
     $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id = ?";
     $version_id = execute_query($query, [$reg_id]);
     // Check if exists data in the main table
@@ -149,8 +155,10 @@ function make_version($app, $reg_id)
     $data_id = execute_query($query, [$reg_id]);
     if (!$data_id) {
         if (!$version_id) {
+            semaphore_release($semaphore);
             return -3;
         } else {
+            semaphore_release($semaphore);
             return -4;
         }
     }
@@ -239,6 +247,7 @@ function make_version($app, $reg_id)
     // Do the insert of the new version
     $query = prepare_insert_query("{$table}_version", $array);
     db_query(...$query);
+    semaphore_release($semaphore);
     return 1;
 }
 
