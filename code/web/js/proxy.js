@@ -339,6 +339,17 @@ self.addEventListener('fetch', event => {
 });
 
 /**
+ * Sync in progress flag
+ *
+ * Flag used to prevent concurrent execution of the sync operation in a service worker.
+ * It ensures that only one sync process runs at a time by setting the flag to true
+ * when the sync starts and resetting it to false once the process completes. If another
+ * sync request is received while sync_in_progress is true, the new sync is ignored
+ * until the current one finishes.
+ */
+let sync_in_progress = false;
+
+/**
  * Message binding
  *
  * This code implements the message feature
@@ -372,7 +383,8 @@ self.addEventListener('message', async event => {
     }
 
     // Sync feature
-    if (event.data == 'sync') {
+    if (event.data == 'sync' && !sync_in_progress) {
+        sync_in_progress = true;
         let total = 0;
         let count = 0;
         await queue_getall().then(async result => {
@@ -403,5 +415,6 @@ self.addEventListener('message', async event => {
             //console.log(error);
         });
         event.source.postMessage(`sync ${count} of ${total}`);
+        sync_in_progress = false;
     }
 });
