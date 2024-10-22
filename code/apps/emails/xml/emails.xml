@@ -207,7 +207,7 @@
                 <tags id="to" label="To" separator=";" datalist="app/emails/create/emails" required="true"/>
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails"/>
-                <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
+                <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-12 col-md-4 col-lg-6 mb-3"/>
                 <select id="priority" label="Prioriry" value="0" col_class="col-sm-6 col-md-4 col-lg-3 mb-3">
                     <rows eval="true">[
                         ["label"=>T("Low"),"value"=>-1],
@@ -317,13 +317,13 @@
                         ["label"=>"Confidential","value"=>3],
                     ]</rows>
                 </select>
-                <checkbox id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                <checkbox id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                <checkbox id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                <checkbox id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-                <checkbox id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
-                <checkbox id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
-                <checkbox id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
+                <switch id="state_sent" label="Sent" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <switch id="state_new" label="New" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <switch id="state_reply" label="Reply" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <switch id="state_forward" label="Forward" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+                <switch id="state_wait" label="Pending" col_class="col-sm-3 col-md-2 col-lg-2 mb-3"/>
+                <switch id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
+                <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
                 <text id="state_error" label="Error" color="danger" ifeval="getmail_field('state_error',intval(get_data('rest/3')))"/>
                 <text id="subject" label="Subject"/>
                 <iframe id="body" label="Body" height="10em">
