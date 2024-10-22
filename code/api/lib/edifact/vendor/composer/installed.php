@@ -20,9 +20,9 @@
             'dev_requirement' => false,
         ),
         'sabas/edifact' => array(
-            'pretty_version' => '1.2.0',
-            'version' => '1.2.0.0',
-            'reference' => '9f2c96ebca535b654e821fcd825e66279c03d7be',
+            'pretty_version' => '1.2.1',
+            'version' => '1.2.1.0',
+            'reference' => 'bb6e825f4ee806bf6c014a421f3d0ae84614ef23',
             'type' => 'library',
             'install_path' => __DIR__ . '/../sabas/edifact',
             'aliases' => array(),

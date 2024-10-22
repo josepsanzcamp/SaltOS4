@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "sabas/edifact",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-edifact/edifact.git",
-                "reference": "9f2c96ebca535b654e821fcd825e66279c03d7be"
+                "reference": "bb6e825f4ee806bf6c014a421f3d0ae84614ef23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-edifact/edifact/zipball/9f2c96ebca535b654e821fcd825e66279c03d7be",
-                "reference": "9f2c96ebca535b654e821fcd825e66279c03d7be",
+                "url": "https://api.github.com/repos/php-edifact/edifact/zipball/bb6e825f4ee806bf6c014a421f3d0ae84614ef23",
+                "reference": "bb6e825f4ee806bf6c014a421f3d0ae84614ef23",
                 "shasum": ""
             },
             "require": {
@@ -28,7 +28,7 @@
             },
             "require-dev": {
                 "php-edifact/edifact-mapping": "dev-master",
-                "phpunit/phpunit": "~9.0",
+                "phpunit/phpunit": "~11.0",
                 "symplify/easy-coding-standard": "^12.0"
             },
             "type": "library",
@@ -67,9 +67,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-edifact/edifact/issues",
-                "source": "https://github.com/php-edifact/edifact/tree/1.2.0"
+                "source": "https://github.com/php-edifact/edifact/tree/1.2.1"
             },
-            "time": "2024-10-16T07:52:42+00:00"
+            "time": "2024-10-22T10:55:14+00:00"
         }
     ],
     "packages-dev": [],
