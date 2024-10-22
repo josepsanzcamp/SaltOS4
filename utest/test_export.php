@@ -297,6 +297,20 @@ final class test_export extends TestCase
         ]);
         $this->assertSame(is_string($buffer), true);
         $this->assertStringContainsString('JSON text data', get_mime($buffer));
+        $this->assertStringEndsWith(PHP_EOL, $buffer);
+        $len1 = strlen($buffer);
+
+        $buffer = export_file([
+            'type' => 'json',
+            'data' => $data,
+            'indent' => 'false',
+        ]);
+        $this->assertSame(is_string($buffer), true);
+        $this->assertStringContainsString('JSON text data', get_mime($buffer));
+        $this->assertStringEndsNotWith(PHP_EOL, $buffer);
+        $len2 = strlen($buffer);
+
+        $this->assertTrue($len1 > $len2, 'Error with intend and not indent');
     }
 
     #[testdox('tree2array functions')]

@@ -173,8 +173,13 @@ function __output_header($header, $replace = true)
  */
 function output_handler_json($array)
 {
+    if (get_data('server/request_method') == 'CLI') {
+        $data = json_encode($array, JSON_PRETTY_PRINT) . PHP_EOL;
+    } else {
+        $data = json_encode($array);
+    }
     output_handler([
-        'data' => json_encode($array),
+        'data' => $data,
         'type' => 'application/json',
         'cache' => false,
     ]);

@@ -46,6 +46,7 @@ saltos.driver.__types.emails = {};
  */
 saltos.driver.__types.emails.template = arg => {
     const obj = saltos.driver.__types.type5.template();
+    obj.setAttribute('type', 'emails');
     obj.querySelector('#one').classList.replace('col-xl', 'col-xl-4');
     return obj;
 };

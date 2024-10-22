@@ -50,7 +50,7 @@ saltos.driver.init = async arg => {
     }
     const obj = saltos.driver.styles('xl');
     obj.setAttribute('id', 'saltos-driver-styles');
-    document.body.append(obj);
+    document.getElementById('screen').append(obj);
     // Detect needed padding
     const has_top = document.getElementById('top').innerHTML.length;
     const has_bottom = document.getElementById('bottom').innerHTML.length;
@@ -80,8 +80,8 @@ saltos.driver.init = async arg => {
         saltos.filter.load('last');
     }
     // Old feature
-    const screen = document.body.getAttribute('screen');
-    saltos.driver.__types[screen].init(arg);
+    const type = document.getElementById('screen').getAttribute('type');
+    saltos.driver.__types[type].init(arg);
 };
 
 /**
@@ -90,8 +90,8 @@ saltos.driver.init = async arg => {
  * TODO
  */
 saltos.driver.open = arg => {
-    const screen = document.body.getAttribute('screen');
-    saltos.driver.__types[screen].open(arg);
+    const type = document.getElementById('screen').getAttribute('type');
+    saltos.driver.__types[type].open(arg);
 };
 
 /**
@@ -102,8 +102,8 @@ saltos.driver.open = arg => {
 saltos.driver.close = arg => {
     if (typeof arg != 'undefined' && saltos.core.eval_bool(arg)) {
         // Old feature
-        const screen = document.body.getAttribute('screen');
-        saltos.driver.__types[screen].close(arg);
+        const type = document.getElementById('screen').getAttribute('type');
+        saltos.driver.__types[type].close(arg);
         return;
     }
     // Disable all autoclose
@@ -117,8 +117,8 @@ saltos.driver.close = arg => {
         const url2 = window.location.href.toString();
         if (url1 == url2) {
             // Old feature
-            const screen = document.body.getAttribute('screen');
-            saltos.driver.__types[screen].close(arg);
+            const type = document.getElementById('screen').getAttribute('type');
+            saltos.driver.__types[type].close(arg);
         }
     }, 100);
 };
@@ -499,19 +499,21 @@ saltos.driver.__types.type1 = {};
  */
 saltos.driver.__types.type1.template = arg => {
     const obj = saltos.core.html(`
-        <div id="header" class="sticky-top"></div>
-        <div class="container">
-            <div class="row">
-                <div id="top" class="col-12"></div>
+        <div id="screen" type="type1">
+            <div id="header" class="sticky-top"></div>
+            <div class="container">
+                <div class="row">
+                    <div id="top" class="col-12"></div>
+                </div>
+                <div class="row">
+                    <div id="one" class="col-12"></div>
+                </div>
+                <div class="row">
+                    <div id="bottom" class="col-12"></div>
+                </div>
             </div>
-            <div class="row">
-                <div id="one" class="col-12"></div>
-            </div>
-            <div class="row">
-                <div id="bottom" class="col-12"></div>
-            </div>
+            <div id="footer" class="sticky-bottom"></div>
         </div>
-        <div id="footer" class="sticky-bottom"></div>
     `);
     return obj;
 };
@@ -580,20 +582,22 @@ saltos.driver.__types.type2 = {};
  */
 saltos.driver.__types.type2.template = arg => {
     const obj = saltos.core.html(`
-        <div id="header"></div>
-        <div class="container-fluid">
-            <div class="row">
-                <div id="top" class="col-12"></div>
+        <div id="screen" type="type2">
+            <div id="header"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="top" class="col-12"></div>
+                </div>
+                <div class="row">
+                    <div id="one" class="col-xl overflow-auto-xl"></div>
+                    <div id="two" class="col-xl overflow-auto-xl"></div>
+                </div>
+                <div class="row">
+                    <div id="bottom" class="col-12"></div>
+                </div>
             </div>
-            <div class="row">
-                <div id="one" class="col-xl overflow-auto-xl"></div>
-                <div id="two" class="col-xl overflow-auto-xl"></div>
-            </div>
-            <div class="row">
-                <div id="bottom" class="col-12"></div>
-            </div>
+            <div id="footer"></div>
         </div>
-        <div id="footer"></div>
     `);
     return obj;
 };
@@ -667,21 +671,23 @@ saltos.driver.__types.type3 = {};
  */
 saltos.driver.__types.type3.template = arg => {
     const obj = saltos.core.html(`
-        <div id="header"></div>
-        <div class="container-fluid">
-            <div class="row">
-                <div id="top" class="col-12"></div>
+        <div id="screen" type="type3">
+            <div id="header"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div id="top" class="col-12"></div>
+                </div>
+                <div class="row">
+                    <div id="one" class="col-xl overflow-auto-xl"></div>
+                    <div id="two" class="col-xl overflow-auto-xl"></div>
+                    <div id="three" class="col-xl overflow-auto-xl"></div>
+                </div>
+                <div class="row">
+                    <div id="bottom" class="col-12"></div>
+                </div>
             </div>
-            <div class="row">
-                <div id="one" class="col-xl overflow-auto-xl"></div>
-                <div id="two" class="col-xl overflow-auto-xl"></div>
-                <div id="three" class="col-xl overflow-auto-xl"></div>
-            </div>
-            <div class="row">
-                <div id="bottom" class="col-12"></div>
-            </div>
+            <div id="footer"></div>
         </div>
-        <div id="footer"></div>
     `);
     return obj;
 };
@@ -772,6 +778,7 @@ saltos.driver.__types.type4 = {};
  */
 saltos.driver.__types.type4.template = arg => {
     const obj = saltos.driver.__types.type1.template();
+    obj.setAttribute('type', 'type4');
     const div = saltos.core.html(`<div id="two" class="d-none"></div>`);
     obj.querySelector('#one').after(div);
     return obj;
@@ -854,6 +861,7 @@ saltos.driver.__types.type5 = {};
  */
 saltos.driver.__types.type5.template = arg => {
     const obj = saltos.driver.__types.type2.template();
+    obj.setAttribute('type', 'type5');
     const div = saltos.core.html(`<div id="three" class="d-none"></div>`);
     obj.querySelector('#two').after(div);
     return obj;

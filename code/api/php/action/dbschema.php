@@ -57,22 +57,18 @@ $time3 = microtime(true);
 $output3 = setup();
 $time4 = microtime(true);
 semaphore_release('dbschema');
-output_handler([
-    'data' => json_encode([
-        'db_schema' => array_merge([
-            'time' => sprintf('%f', $time2 - $time1),
-            'check' => $dbschema_check,
-            'hash' => $dbschema_hash,
-        ], $output1),
-        'db_static' => array_merge([
-            'time' => sprintf('%f', $time3 - $time2),
-            'check' => $dbstatic_check,
-            'hash' => $dbstatic_hash,
-        ], $output2),
-        'setup' => array_merge([
-            'time' => sprintf('%f', $time4 - $time3),
-        ], $output3),
-    ], JSON_PRETTY_PRINT) . PHP_EOL,
-    'type' => 'application/json',
-    'cache' => false,
+output_handler_json([
+    'db_schema' => array_merge([
+        'time' => sprintf('%f', $time2 - $time1),
+        'check' => $dbschema_check,
+        'hash' => $dbschema_hash,
+    ], $output1),
+    'db_static' => array_merge([
+        'time' => sprintf('%f', $time3 - $time2),
+        'check' => $dbstatic_check,
+        'hash' => $dbstatic_hash,
+    ], $output2),
+    'setup' => array_merge([
+        'time' => sprintf('%f', $time4 - $time3),
+    ], $output3),
 ]);

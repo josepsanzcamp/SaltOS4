@@ -409,14 +409,18 @@ function __get_code_from_trace()
  *
  * @msg => this contains a simple text that is used in the json output
  */
-function show_json_error($msg)
+function show_json_error($msg, $logout = false)
 {
-    output_handler_json([
+    $array = [
         'error' => [
             'text' => $msg,
             'code' => __get_code_from_trace(1),
         ],
-    ]);
+    ];
+    if ($logout) {
+        $array['error']['logout'] = true;
+    }
+    output_handler_json($array);
 }
 
 /**

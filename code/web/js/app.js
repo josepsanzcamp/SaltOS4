@@ -133,6 +133,10 @@ saltos.app.show_error = error => {
     if (!saltos.app.modal('Error ' + error.code, error.text, {color: 'danger'})) {
         saltos.app.toast('Error ' + error.code, error.text, {color: 'danger'});
     }
+    if (error.hasOwnProperty('logout') && error.logout) {
+        saltos.app.form.screen('clear');
+        saltos.app.send_request('app/login');
+    }
 };
 
 /**
@@ -765,11 +769,11 @@ saltos.app.form.screen = action => {
         case 'loading': {
             clearTimeout(saltos.app.__form.timer);
             saltos.app.__form.loading++;
-            let obj = document.getElementById('loading');
+            const obj = document.getElementById('loading');
             if (obj) {
                 return false;
             }
-            obj = saltos.core.html(`
+            document.body.append(saltos.core.html(`
                 <div id="loading">
                     <div class="modal-backdrop show" style="z-index:202"></div>
                     <div class="position-fixed top-50 start-50 translate-middle" style="z-index:203">
@@ -777,8 +781,7 @@ saltos.app.form.screen = action => {
                         </div>
                     </div>
                 </div>
-            `);
-            document.body.append(obj);
+            `));
             return true;
         }
         case 'unloading': {
@@ -810,8 +813,11 @@ saltos.app.form.screen = action => {
             return false;
         }
         case 'clear':
-            document.body.innerHTML = '';
-            document.body.removeAttribute('screen');
+            const obj = document.getElementById('screen');
+            if (!obj) {
+                return false;
+            }
+            obj.remove();
             return true;
     }
     if (saltos.driver.hasOwnProperty('__types')) {
@@ -820,17 +826,11 @@ saltos.app.form.screen = action => {
             action = 'type1';
         }
         if (saltos.driver.__types.hasOwnProperty(action)) {
-            if (document.body.hasAttribute('screen')) {
+            const obj = document.getElementById('screen');
+            if (obj) {
                 return false;
             }
-            // Get the loading object before remove the screen
-            const obj = document.getElementById('loading');
-            document.body.replaceChildren(saltos.driver.__types[action].template());
-            document.body.setAttribute('screen', action);
-            if (obj) {
-                // Restore the loading after replace the screen
-                document.body.append(obj);
-            }
+            document.body.append(saltos.driver.__types[action].template());
             return true;
         }
     }
@@ -1407,6 +1407,7 @@ saltos.app.help = () => {
  */
 saltos.app.logout = async () => {
     await saltos.authenticate.deauthtoken();
+    saltos.app.form.screen('clear');
     saltos.hash.trigger();
 };
 

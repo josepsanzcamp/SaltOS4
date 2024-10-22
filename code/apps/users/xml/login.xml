@@ -30,9 +30,8 @@
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Login form</title>
-        <screen>clear</screen>
         <layout>
-            <div class="vh-100 d-flex bg-body-secondary">
+            <div id="screen" class="vh-100 d-flex bg-body-secondary">
                 <container auto="true" container_class="container m-auto bg-body rounded p-5" col_class="col-12 mb-3" container_style="max-width:400px">
                     <image width="100px" height="100px" value="img/logo_red.svg"  col_class="col-12 mb-3 text-center" color="none"/>
                     <label class="fs-2 w-100 text-center" label="Please login"/>

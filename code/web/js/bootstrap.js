@@ -4504,7 +4504,7 @@ saltos.bootstrap.offcanvas = args => {
     obj.addEventListener('shown.bs.offcanvas', event => {
         if (saltos.core.eval_bool(args.resize)) {
             const width = obj.offsetWidth;
-            const item = document.body.firstChild;
+            const item = document.getElementById('screen');
             item.classList.add('position-absolute');
             if (args.pos == 'start') {
                 item.style.left = `${width}px`;
@@ -4525,7 +4525,7 @@ saltos.bootstrap.offcanvas = args => {
     });
     obj.addEventListener('hidden.bs.offcanvas', event => {
         if (saltos.core.eval_bool(args.resize)) {
-            const item = document.body.firstChild;
+            const item = document.getElementById('screen');
             item.classList.remove('position-absolute');
             item.style.left = '';
             item.style.width = '';

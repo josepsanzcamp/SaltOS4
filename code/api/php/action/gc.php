@@ -51,15 +51,11 @@ $time2 = microtime(true);
 $output2 = gc_exec();
 $time3 = microtime(true);
 semaphore_release('gc');
-output_handler([
-    'data' => json_encode([
-        'gc_upload' => array_merge([
-            'time' => sprintf('%f', $time2 - $time1),
-        ], $output1),
-        'gc_exec' => array_merge([
-            'time' => sprintf('%f', $time3 - $time2),
-        ], $output2),
-    ], JSON_PRETTY_PRINT) . PHP_EOL,
-    'type' => 'application/json',
-    'cache' => false,
+output_handler_json([
+    'gc_upload' => array_merge([
+        'time' => sprintf('%f', $time2 - $time1),
+    ], $output1),
+    'gc_exec' => array_merge([
+        'time' => sprintf('%f', $time3 - $time2),
+    ], $output2),
 ]);

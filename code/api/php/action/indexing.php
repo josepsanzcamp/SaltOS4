@@ -163,12 +163,8 @@ foreach ($apps as $app) {
 
 $time2 = microtime(true);
 semaphore_release('indexing');
-output_handler([
-    'data' => json_encode([
-        'indexing' => array_merge([
-            'time' => sprintf('%f', $time2 - $time1),
-        ], $output),
-    ], JSON_PRETTY_PRINT) . PHP_EOL,
-    'type' => 'application/json',
-    'cache' => false,
+output_handler_json([
+    'indexing' => array_merge([
+        'time' => sprintf('%f', $time2 - $time1),
+    ], $output),
 ]);

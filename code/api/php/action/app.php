@@ -149,7 +149,7 @@ foreach ($array as $key => $val) {
     // Control that the first node is a check node
     if ($first) {
         if (fix_key($key) != 'check') {
-            show_json_error('Permission denied');
+            show_json_error('Permission denied', true);
         }
         $first = false;
     }
@@ -166,7 +166,7 @@ foreach ($array as $key => $val) {
         }
         // And now, we must check the returned value
         if (!$val) {
-            show_json_error($message);
+            show_json_error($message, true);
         }
         // As note: all checks are removed from the array
         unset($array[$key]);

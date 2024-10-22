@@ -63,13 +63,12 @@ function make_control($app, $reg_id)
     if ($table == '') {
         return -1;
     }
-    $user_id = current_user();
-    $datetime = current_datetime();
     // Check if control exists
     $query = "SELECT id FROM {$table}_control LIMIT 1";
     if (!db_check($query)) {
         return -2;
     }
+    // Check if exists data in the control table
     $query = "SELECT id FROM {$table}_control WHERE id = ?";
     $control_id = execute_query($query, [$reg_id]);
     // Check if exists data in the main table
@@ -85,8 +84,10 @@ function make_control($app, $reg_id)
         }
     }
     if (!$control_id) {
+        $user_id = current_user();
         $query = 'SELECT group_id FROM tbl_users WHERE id = ?';
         $group_id = execute_query($query, [$user_id]);
+        $datetime = current_datetime();
         $query = prepare_insert_query("{$table}_control", [
             'id' => $reg_id,
             'user_id' => $user_id,
@@ -135,8 +136,6 @@ function make_version($app, $reg_id)
     if ($table == '') {
         return -1;
     }
-    $user_id = current_user();
-    $datetime = current_datetime();
     // Check if version exists
     $query = "SELECT id FROM {$table}_version LIMIT 1";
     if (!db_check($query)) {
@@ -147,7 +146,7 @@ function make_version($app, $reg_id)
     if (!semaphore_acquire($semaphore)) {
         return [T('Could not acquire the semaphore')];
     }
-    // Continue
+    // Chck if exists data in the version table
     $query = "SELECT MAX(id) FROM {$table}_version WHERE reg_id = ?";
     $version_id = execute_query($query, [$reg_id]);
     // Check if exists data in the main table
@@ -228,6 +227,8 @@ function make_version($app, $reg_id)
         }
     }
     // Prepare extra data as old hash and last ver_id
+    $user_id = current_user();
+    $datetime = current_datetime();
     $table = app2table($app);
     $query = "SELECT hash FROM {$table}_version WHERE id = ?";
     $hash_old = strval(execute_query($query, [$version_id]));
