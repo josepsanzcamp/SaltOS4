@@ -30,6 +30,7 @@
 
     <!-- List part -->
     <list default="true">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Groups list</title>
@@ -60,6 +61,7 @@
     </list>
 
     <list id="table" dropdown="false" type="table" limit="25" order="id DESC" nodata="Data not found">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <code label="Code"/>
@@ -119,6 +121,7 @@
     <data eval="true">execute_query("SELECT * FROM tbl_groups WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
     <create>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>New group</title>
@@ -140,6 +143,7 @@
     </create>
 
     <create id="insert">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <check eval="true" message="Code used by other group">!execute_query("SELECT id FROM tbl_groups WHERE code = ?", [get_data("json/code")])</check>
         <check eval="true" message="Name used by other group">!execute_query("SELECT id FROM tbl_groups WHERE name = ?", [get_data("json/name")])</check>
@@ -152,6 +156,7 @@
     </create>
 
     <view>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Detail of the group</title>
@@ -187,6 +192,7 @@
     <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
 
     <edit>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Modify this group</title>
@@ -209,6 +215,7 @@
     </edit>
 
     <edit id="update">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <check eval="true" message="Code used by other group">!execute_query("SELECT id FROM tbl_groups WHERE code = ?", [get_data("json/code")])</check>
         <check eval="true" message="Name used by other group">!execute_query("SELECT id FROM tbl_groups WHERE name = ?", [get_data("json/name")])</check>
@@ -221,6 +228,7 @@
     </edit>
 
     <delete>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <output require="apps/users/php/groups.php" eval="true">delete_group(intval(get_data("rest/3")))</output>
     </delete>

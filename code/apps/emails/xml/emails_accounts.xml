@@ -30,6 +30,7 @@
 
     <!-- List part -->
     <list default="true">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Emails accounts list</title>
@@ -60,6 +61,7 @@
     </list>
 
     <list id="table" checkbox="true" dropdown="false" type="table" limit="25" order="id DESC" nodata="Data not found">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <user label="User" ifeval="__user_is_admin(get_data('rest/1'))"/>
@@ -169,6 +171,7 @@
         WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
     <create>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>New email account</title>
@@ -190,12 +193,14 @@
     </create>
 
     <create id="insert">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data("json/user_id", current_user())</temp>
         <output require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json"))</output>
     </create>
 
     <view>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Detail of the email account</title>
@@ -231,6 +236,7 @@
     <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
 
     <edit>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Modify this email account</title>
@@ -253,12 +259,14 @@
     </edit>
 
     <edit id="update">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <temp ifeval="!__user_is_admin(get_data('rest/1'))" eval="true">set_data("json/user_id", null)</temp>
         <output require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json"))</output>
     </edit>
 
     <delete>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <output require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</output>
     </delete>

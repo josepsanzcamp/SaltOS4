@@ -30,6 +30,7 @@
 
     <!-- List part -->
     <list default="true">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Invoice's list</title>
@@ -67,6 +68,7 @@
     </list>
 
     <list id="table" type="table" limit="25" order="id DESC" nodata="Data not found" checkbox="true">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <nombre label="Nombre"/>
@@ -157,6 +159,7 @@
         FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data_footer>
 
     <create>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>New invoice</title>
@@ -182,11 +185,13 @@
     </create>
 
     <create id="insert">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <output require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json"))</output>
     </create>
 
     <view>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Detail of the invoice</title>
@@ -238,6 +243,7 @@
     <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
 
     <edit>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Modify this invoice</title>
@@ -266,11 +272,13 @@
     </edit>
 
     <edit id="update">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <output require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json"))</output>
     </edit>
 
     <delete>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <output require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</output>
     </delete>

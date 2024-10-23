@@ -35,6 +35,7 @@
     </form>
 
     <view id="notes" dropdown="false" type="table" first_action="false">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <header>
             <user>User</user>

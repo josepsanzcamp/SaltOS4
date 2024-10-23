@@ -27,6 +27,7 @@
 
 <root>
     <list id="filter">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <output ifeval="get_data('server/request_method')=='GET'" eval="true">get_config_array("app/".get_data("rest/1")."/list/filter/", current_user())</output>
         <output eval="true">set_config("app/".get_data("rest/1")."/list/filter/".get_data("json/name"), get_data("json/val"), current_user())</output>

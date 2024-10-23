@@ -30,6 +30,7 @@
 
     <!-- List part -->
     <list default="true">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Email's list</title>
@@ -128,6 +129,7 @@
     </list>
 
     <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
             set_config("app/".get_data("rest/1")."/list/filter/last", json_encode(get_data("json")), current_user()),
@@ -183,6 +185,7 @@
 
     <!-- Form part -->
     <create>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>New email</title>
@@ -242,6 +245,7 @@
     </create>
 
     <create id="emails">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <data eval="true">execute_query_array("SELECT
                 CASE name
@@ -274,16 +278,19 @@
     </create>
 
     <create id="signature">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_signature(get_data("json"))</data>
     </create>
 
     <create id="sendmail">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <output require="apps/emails/php/sendmail.php" eval="true">sendmail_action(get_data("json"), get_data("rest/4"), get_data("rest/5"))</output>
     </create>
 
     <view>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Detail of the email</title>
@@ -393,11 +400,13 @@
     </view>
 
     <view id="body">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")))</srcdoc>
     </view>
 
     <view id="files" dropdown="false" type="table">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <header>
             <name>Filename</name>
@@ -414,11 +423,13 @@
     </view>
 
     <view id="setter">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <text require="apps/emails/php/getmail.php" eval="true">getmail_setter(get_data("rest/4"), get_data("json/what"))</text>
     </view>
 
     <view id="source">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T()</gettext>
         <title>Source of the email</title>
@@ -444,6 +455,7 @@
     </view>
 
     <view id="viewpdf">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T()</gettext>
         <title ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
@@ -479,6 +491,7 @@
     </view>
 
     <view id="download">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <output ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data("rest/4")),get_data("rest/5"))</output>
         <output ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/emails/xml/pdf.xml", [
@@ -487,12 +500,14 @@
     </view>
 
     <delete>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <text require="apps/emails/php/getmail.php" eval="true">getmail_delete(get_data("rest/3"))</text>
     </delete>
 
     <!-- Actions part -->
     <action id="server">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <output require="apps/emails/php/getmail.php,apps/emails/php/sendmail.php" eval="true">array_merge(getmail_server(),sendmail_server())</output>
     </action>

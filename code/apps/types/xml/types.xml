@@ -30,6 +30,7 @@
 
     <!-- List part -->
     <list default="true">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Types list</title>
@@ -60,6 +61,7 @@
     </list>
 
     <list id="table" dropdown="false" type="table" limit="25" order="id DESC" nodata="Data not found">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
             <name label="Name"/>
@@ -112,6 +114,7 @@
         WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
     <create>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>New type</title>
@@ -133,11 +136,13 @@
     </create>
 
     <create id="insert">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <output require="php/lib/actions.php" eval="true">insert(get_data("rest/1"), get_data("json"))</output>
     </create>
 
     <view>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Detail of the type</title>
@@ -173,6 +178,7 @@
     <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
 
     <edit>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
         <title>Modify this type</title>
@@ -195,11 +201,13 @@
     </edit>
 
     <edit id="update">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <output require="php/lib/actions.php" eval="true">update(get_data("rest/1"), intval(get_data("rest/4")), get_data("json"))</output>
     </edit>
 
     <delete>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <output require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</output>
     </delete>

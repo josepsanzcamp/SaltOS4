@@ -79,7 +79,7 @@ if (get_data('rest/2') == '' && count($array) == 1) {
 
 if (get_data('rest/2') == '') {
     foreach ($array as $key => $val) {
-        if (isset($val['#attr']['default']) && eval_bool($val['#attr']['default'])) {
+        if (is_attr_value($val) && isset($val['#attr']['default']) && eval_bool($val['#attr']['default'])) {
             set_data('rest/2', $key);
             break;
         }
@@ -93,7 +93,7 @@ if (get_data('rest/2') == '') {
 if (!isset($array[get_data('rest/2')])) {
     // Trick to allow request like <create id="insert"> using only insert
     foreach ($array as $key => $val) {
-        if (isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/2')) {
+        if (is_attr_value($val) && isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/2')) {
             $rest = get_data('rest');
             array_splice($rest, 2, 1, [$key, $val['#attr']['id']]);
             set_data('rest', $rest);
@@ -104,7 +104,9 @@ if (!isset($array[get_data('rest/2')])) {
     // Trick to allow requests like widget/table2 that is <widget id="table2">
     foreach ($array as $key => $val) {
         if (fix_key($key) == get_data('rest/2')) {
-            if (isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/3')) {
+            if (
+                is_attr_value($val) && isset($val['#attr']['id']) && $val['#attr']['id'] == get_data('rest/3')
+            ) {
                 set_data('rest/2', $key);
                 break;
             }
@@ -126,9 +128,11 @@ if (is_attr_value($array) && isset($array['#attr']['eval']) && eval_bool($array[
 }
 
 // Clean some old attributes
-foreach (['default', 'id'] as $attr) {
-    if (isset($array['#attr'][$attr])) {
-        unset($array['#attr'][$attr]);
+if (is_attr_value($array)) {
+    foreach (['default', 'id'] as $attr) {
+        if (isset($array['#attr'][$attr])) {
+            unset($array['#attr'][$attr]);
+        }
     }
 }
 
@@ -149,7 +153,7 @@ foreach ($array as $key => $val) {
     // Control that the first node is a check node
     if ($first) {
         if (fix_key($key) != 'check') {
-            show_json_error('Permission denied', true);
+            show_json_error('Permission denied');
         }
         $first = false;
     }
@@ -158,15 +162,19 @@ foreach ($array as $key => $val) {
     if (fix_key($key) == 'check') {
         // If the node is a check, can contains a message
         $message = 'Permission denied';
+        $logout = false;
         if (is_attr_value($val)) {
             if (isset($val['#attr']['message'])) {
                 $message = $val['#attr']['message'];
+            }
+            if (isset($val['#attr']['logout'])) {
+                $logout = eval_bool($val['#attr']['logout']);
             }
             $val = $val['value'];
         }
         // And now, we must check the returned value
         if (!$val) {
-            show_json_error($message, true);
+            show_json_error($message, $logout);
         }
         // As note: all checks are removed from the array
         unset($array[$key]);

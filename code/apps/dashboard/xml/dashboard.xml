@@ -27,6 +27,7 @@
 
 <root>
     <menu default="true">
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Dashboard</title>
@@ -58,6 +59,7 @@
     </menu>
 
     <config>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Profile</title>
@@ -96,6 +98,7 @@
     </config>
 
     <help>
+        <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/3"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
         <title>Help</title>
