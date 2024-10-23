@@ -527,7 +527,7 @@ saltos.app.form.layout = (layout, extra) => {
         obj.replaceChildren(div);
     } else {
         obj = document.body;
-        obj.append(div);
+        document.body.append(div);
     }
     obj.querySelectorAll('[autofocus]').forEach(_this => {
         _this.focus();
@@ -933,8 +933,7 @@ saltos.app.form.navbar = navbar => {
         }
         obj2.replaceChildren(obj);
     } else {
-        const obj2 = document.body;
-        obj2.append(obj);
+        document.body.append(obj);
     }
 };
 
