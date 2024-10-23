@@ -133,10 +133,6 @@ saltos.app.show_error = error => {
     if (!saltos.app.modal('Error ' + error.code, error.text, {color: 'danger'})) {
         saltos.app.toast('Error ' + error.code, error.text, {color: 'danger'});
     }
-    if (error.hasOwnProperty('logout') && error.logout) {
-        saltos.app.form.screen('clear');
-        saltos.app.send_request('app/login');
-    }
 };
 
 /**
@@ -150,11 +146,16 @@ saltos.app.check_response = response => {
         saltos.app.show_error(response);
         return false;
     }
-    if (typeof response.error == 'object') {
+    let bool = true;
+    if (response.hasOwnProperty('error') && typeof response.error == 'object') {
         saltos.app.show_error(response.error);
-        return false;
+        bool = false;
     }
-    return true;
+    if (response.hasOwnProperty('logout') && response.logout) {
+        saltos.app.send_request('app/login');
+        bool = false;
+    }
+    return bool;
 };
 
 /**
@@ -1407,8 +1408,7 @@ saltos.app.help = () => {
  */
 saltos.app.logout = async () => {
     await saltos.authenticate.deauthtoken();
-    saltos.app.form.screen('clear');
-    saltos.hash.trigger();
+    saltos.app.send_request('app/login');
 };
 
 /**

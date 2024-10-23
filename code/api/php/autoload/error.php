@@ -407,7 +407,8 @@ function __get_code_from_trace()
  * do it, we have this function that can be called with a simple message and the code
  * is created automatically to help the backtrace of the issues
  *
- * @msg => this contains a simple text that is used in the json output
+ * @msg    => this contains a simple text that is used in the json output
+ * @logout => this allow to send the logout flag to force to show the login screen
  */
 function show_json_error($msg, $logout = false)
 {
@@ -418,7 +419,7 @@ function show_json_error($msg, $logout = false)
         ],
     ];
     if ($logout) {
-        $array['error']['logout'] = true;
+        $array['logout'] = true;
     }
     output_handler_json($array);
 }
