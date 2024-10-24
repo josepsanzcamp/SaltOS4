@@ -113,14 +113,11 @@ while ($row = db_fetch_row($result)) {
 }
 db_free($result);
 
-$time2 = microtime(true);
 semaphore_release('indexing');
-output_handler([
-    'data' => json_encode([
-        'indexing' => array_merge([
-            'time' => sprintf('%f', $time2 - $time1),
-        ], $output),
-    ], JSON_PRETTY_PRINT) . "\n",
-    'type' => 'application/json',
-    'cache' => false,
+
+$time2 = microtime(true);
+output_handler_json([
+    'indexing' => array_merge([
+        'time' => sprintf('%f', $time2 - $time1),
+    ], $output),
 ]);

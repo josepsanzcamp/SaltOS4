@@ -70,12 +70,8 @@ if (!$exists) {
 }
 
 $time2 = microtime(true);
-output_handler([
-    'data' => json_encode([
-        'setup' => array_merge([
-            'time' => sprintf('%f', $time2 - $time1),
-        ], $output),
-    ], JSON_PRETTY_PRINT) . "\n",
-    'type' => 'application/json',
-    'cache' => false,
+output_handler_json([
+    'setup' => array_merge([
+        'time' => sprintf('%f', $time2 - $time1),
+    ], $output),
 ]);
