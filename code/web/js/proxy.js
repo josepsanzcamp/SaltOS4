@@ -125,15 +125,15 @@ const proxy = async request => {
                 // Network feature
                 try {
                     response = await fetch(request.clone());
+                    if (response.ok) {
+                        (await caches.open('saltos')).put(new_request, response.clone());
+                        return {
+                            type: 'network',
+                            response: response,
+                        };
+                    }
                 } catch (error) {
                     //console.log(error);
-                }
-                if (response) {
-                    (await caches.open('saltos')).put(new_request, response.clone());
-                    return {
-                        type: 'network',
-                        response: response,
-                    };
                 }
                 break;
 
@@ -427,19 +427,19 @@ self.addEventListener('message', async event => {
                 const start = Date.now();
                 const request = request_unserialize(result[i].value);
                 let response = null;
+                let type = 'error';
                 try {
                     response = await fetch(request);
+                    if (response.ok) {
+                        type = 'network';
+                    }
                 } catch (error) {
                     //console.log(error);
-                }
-                let type = 'network';
-                if (!response) {
-                    type = 'error';
                 }
                 const end = Date.now();
                 const array = debug('sync', request.url, type, end - start);
                 event.source.postMessage(array);
-                if (!response) {
+                if (type == 'error') {
                     break;
                 }
                 queue_delete(result[i].key);

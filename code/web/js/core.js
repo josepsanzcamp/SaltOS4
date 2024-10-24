@@ -349,6 +349,10 @@ saltos.core.ajax = args => {
         options.body = args.data;
     }
     return fetch(args.url, options).then(async response => {
+        if (!response.ok) {
+            args.error(response);
+            return;
+        }
         // Check for the about in the response header
         if (!saltos.core.hasOwnProperty('about')) {
             const about = response.headers.get('about');
@@ -484,6 +488,9 @@ saltos.core.require = (files, callback) => {
             // Continue
             try {
                 const response = await fetch(file);
+                if (!response.ok) {
+                    throw new Error(`${response.status} ${response.statusText} loading ${file}`);
+                }
                 const data = await response.text();
                 // Hash check if exists
                 const pos = file.indexOf('?');

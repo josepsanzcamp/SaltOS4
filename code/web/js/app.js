@@ -691,11 +691,18 @@ saltos.app.form.style = async data => {
             document.head.append(style);
         }
         if (key == 'file') {
-            const response = await fetch(val);
-            const data = await response.text();
-            const style = document.createElement('style');
-            style.innerHTML = data;
-            document.head.append(style);
+            try {
+                const response = await fetch(val);
+                if (!response.ok) {
+                    throw new Error(`${response.status} ${response.statusText} loading ${val}`);
+                }
+                const data = await response.text();
+                const style = document.createElement('style');
+                style.innerHTML = data;
+                document.head.append(style);
+            } catch (error) {
+                throw new Error(`${error.name} ${error.message} loading ${val}`);
+            }
         }
     }
 };
@@ -718,11 +725,18 @@ saltos.app.form.javascript = async data => {
             document.head.append(script);
         }
         if (key == 'file') {
-            const response = await fetch(val);
-            const data = await response.text();
-            const script = document.createElement('script');
-            script.innerHTML = data;
-            document.head.append(script);
+            try {
+                const response = await fetch(val);
+                if (!response.ok) {
+                    throw new Error(`${response.status} ${response.statusText} loading ${val}`);
+                }
+                const data = await response.text();
+                const script = document.createElement('script');
+                script.innerHTML = data;
+                document.head.append(script);
+            } catch (error) {
+                throw new Error(`${error.name} ${error.message} loading ${val}`);
+            }
         }
     }
 };
@@ -1500,8 +1514,14 @@ saltos.app.ajax = args => {
         },
         error: error => {
             saltos.app.form.screen('unloading');
+            let text = 'unknown';
+            if (error.hasOwnProperty('status') && error.hasOwnProperty('statusText')) {
+                text = error.status + ' ' + error.statusText;
+            } else if (error.hasOwnProperty('name') && error.hasOwnProperty('message')) {
+                text = error.name + ' ' + error.message;
+            }
             saltos.app.show_error({
-                text: error.message,
+                text: text,
                 code: saltos.core.__get_code_from_file_and_line(error.fileName, error.lineNumber),
             });
             if (typeof args.error == 'function') {
