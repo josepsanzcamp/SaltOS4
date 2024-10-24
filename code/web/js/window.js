@@ -128,10 +128,10 @@ saltos.window.unset_listener = (name) => {
  * the prefix that too
  */
 saltos.window.send = (name, data, scope) => {
-    if (typeof data == 'undefined') {
+    if (data === undefined) {
         data = '';
     }
-    if (typeof scope == 'undefined') {
+    if (scope === undefined) {
         scope = 'all';
     }
     saltos.storage.setItem('saltos.window.name', name);

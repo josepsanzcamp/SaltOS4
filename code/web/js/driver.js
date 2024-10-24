@@ -100,7 +100,7 @@ saltos.driver.open = arg => {
  * TODO
  */
 saltos.driver.close = arg => {
-    if (typeof arg != 'undefined' && saltos.core.eval_bool(arg)) {
+    if (arg !== undefined && saltos.core.eval_bool(arg)) {
         // Old feature
         const type = document.getElementById('screen').getAttribute('type');
         saltos.driver.__types[type].close(arg);
@@ -369,7 +369,7 @@ saltos.driver.delete = async arg => {
                             saltos.window.send(`saltos.${app}.update`);
                             // arg has valid data when is called from the list, and in
                             // this case, it is improtant to don't close the current view
-                            if (typeof arg == 'undefined') {
+                            if (arg === undefined) {
                                 saltos.driver.close();
                             }
                             return;

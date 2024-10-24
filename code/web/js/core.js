@@ -149,13 +149,13 @@ saltos.core.addlog = msg => {
  * @value  => the default value used if an argument doesn't exists
  */
 saltos.core.check_params = (obj, params, value) => {
-    if (typeof value == 'undefined') {
+    if (value === undefined) {
         value = '';
     }
     for (const key in params) {
         if (!obj.hasOwnProperty(params[key])) {
             obj[params[key]] = value;
-        } else if (typeof obj[params[key]] == 'undefined') {
+        } else if (obj[params[key]] === undefined) {
             obj[params[key]] = value;
         }
     }
@@ -540,7 +540,7 @@ saltos.core.eval_bool = arg => {
     if (arg === null) {
         return false;
     }
-    if (typeof arg == 'undefined') {
+    if (arg === undefined) {
         return false;
     }
     if (typeof arg == 'boolean') {
@@ -581,7 +581,7 @@ saltos.core.toString = arg => {
     if (arg === null) {
         return 'null';
     }
-    if (typeof arg == 'undefined') {
+    if (arg === undefined) {
         return 'undefined';
     }
     if (typeof arg == 'boolean') {
@@ -728,9 +728,10 @@ document.addEventListener('DOMContentLoaded', event => {
         }).catch(error => {
             throw new Error(error);
         });
+
         navigator.serviceWorker.addEventListener('message', event => {
             const black = 'color:white;background:dimgrey';
-            const reset = 'color:inherit;background:inherit;';
+            const reset = 'color:inherit;background:inherit';
             let array;
             if (typeof event.data == 'object') {
                 array = ['%cPROXY%c ' + event.data[0], black, reset, ...event.data.slice(1)];
@@ -772,5 +773,11 @@ window.addEventListener('online', event => {
  * @line => line used to construct the last part of the code
  */
 saltos.core.__get_code_from_file_and_line = (file, line) => {
+    if (file === undefined) {
+        file = 'unknown';
+    }
+    if (line === undefined) {
+        line = 'unknown';
+    }
     return file.split('/').pop().split('.').shift() + ':' + line;
 };

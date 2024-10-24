@@ -183,13 +183,13 @@ saltos.emails.send = () => {
     }
     const data = saltos.app.get_data(true);
     let action = saltos.hash.get().split('/').at(3);
-    if (typeof action == 'undefined') {
+    if (action === undefined) {
         action = '';
     } else {
         action = '/' + action;
     }
     let email_id = saltos.hash.get().split('/').at(4);
-    if (typeof email_id == 'undefined') {
+    if (email_id === undefined) {
         email_id = '';
     } else {
         email_id = '/' + email_id;

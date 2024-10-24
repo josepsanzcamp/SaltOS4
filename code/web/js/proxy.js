@@ -35,6 +35,30 @@
  */
 
 /**
+ * Console log
+ *
+ * This function only apply as console.log replacement for debug purposes
+ *
+ * @message => the message that you want to send to the console
+ *
+ * Notes:
+ *
+ * This function send a message to all clients and exists because in some cases
+ * the console.log not apply for service workers, this is a simple and quick
+ * solution for help in the debug process
+ */
+const console_log = (message) => {
+    const black = 'color:white;background:dimgrey';
+    const reset = 'color:inherit;background:inherit';
+    message = [`%c${message}%c`, black, reset];
+    clients.matchAll().then((clients) => {
+        clients.forEach((client) => {
+            client.postMessage(message);
+        });
+    });
+};
+
+/**
  * Debug function
  *
  * This function returns an array with the needed things to print into a console.log
@@ -57,7 +81,7 @@ const debug = (action, url, type, duration) => {
         temp = types[type];
     }
     const color = `color:white;background:${temp}`;
-    const reset = 'color:inherit;background:inherit;';
+    const reset = 'color:inherit;background:inherit';
     const array = [
         `${action} ${url} type %c${type}%c duration %c${duration}ms%c`,
         color, reset, black, reset,
@@ -363,10 +387,20 @@ let sync_in_progress = false;
 self.addEventListener('message', async event => {
     //console.log('message ' + event.data);
 
-    // Reset feature
-    if (event.data == 'reset') {
+    // Reset cache feature
+    if (event.data == 'resetcache') {
         (await caches.keys()).forEach(key => {
             caches.delete(key);
+        });
+        event.source.postMessage('ok');
+    }
+
+    // Reset queue feature
+    if (event.data == 'resetqueue') {
+        queue_open().then(store => {
+            store.clear();
+        }).catch(error => {
+            //console.log(error);
         });
         event.source.postMessage('ok');
     }

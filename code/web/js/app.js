@@ -52,7 +52,7 @@ saltos.app = {};
  * @extra   => object with array of buttons and color
  */
 saltos.app.modal = (title, message, extra) => {
-    if (typeof extra == 'undefined') {
+    if (extra === undefined) {
         extra = {};
     }
     if (!extra.hasOwnProperty('buttons')) {
@@ -107,7 +107,7 @@ saltos.app.modal = (title, message, extra) => {
  * @extra   => object with array of buttons and color
  */
 saltos.app.toast = (title, message, extra) => {
-    if (typeof extra == 'undefined') {
+    if (extra === undefined) {
         extra = {};
     }
     if (!extra.hasOwnProperty('color')) {
@@ -413,7 +413,7 @@ saltos.app.form.__layout_template_helper = (template_id, index) => {
  * can retrieve the desired information of the fields.
  */
 saltos.app.form.layout = (layout, extra) => {
-    if (typeof extra == 'undefined') {
+    if (extra === undefined) {
         saltos.app.__form.fields = [];
         saltos.app.__form.templates = {};
     }
