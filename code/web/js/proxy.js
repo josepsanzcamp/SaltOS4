@@ -319,7 +319,7 @@ const request_unserialize = request => {
  */
 self.addEventListener('install', event => {
     //console.log('install');
-    self.skipWaiting(); // Skips waiting and activates the service worker immediately
+    skipWaiting(); // Skips waiting and activates the service worker immediately
 });
 
 /**
@@ -407,7 +407,7 @@ self.addEventListener('message', async event => {
 
     // Stop feature
     if (event.data == 'stop') {
-        self.registration.unregister();
+        registration.unregister();
         event.source.postMessage('ok');
     }
 
