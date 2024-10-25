@@ -62,7 +62,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Profile</title>
+        <title append="offcanvas">Profile</title>
         <layout append="right">
             <row auto="true" col_class="col-md-12 mb-3">
                 <select id="bs_theme" label="Color mode" onchange="saltos.bootstrap.set_bs_theme(this.value)">
@@ -101,7 +101,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/3"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Help</title>
+        <title append="modal">Help</title>
         <layout append="four">
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs id="pdfjs" height="calc(100vh - 200px)">

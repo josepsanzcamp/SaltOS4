@@ -68,8 +68,8 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T()</gettext>
-        <title ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_cid(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))["name"]</title>
-        <title ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/".get_data("rest/1")."/xml/pdf.xml", [
+        <title append="modal" ifeval="get_data('rest/5')" require="php/lib/files.php" eval="true">files_cid(get_data("rest/1"), intval(get_data("rest/4")), intval(get_data("rest/5")))["name"]</title>
+        <title append="modal" ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/".get_data("rest/1")."/xml/pdf.xml", [
             "id" => check_ids(get_data("rest/4")),
         ])["name"]</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>

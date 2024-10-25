@@ -4324,9 +4324,6 @@ saltos.bootstrap.modal = args => {
     if (saltos.core.eval_bool(args.static)) {
         temp = `data-bs-backdrop="static" data-bs-keyboard="false"`;
     }
-    //if (args.class == '') {
-    //    args.class = 'modal-dialog-centered';
-    //}
     if (!args.color) {
         args.color = 'primary';
     }

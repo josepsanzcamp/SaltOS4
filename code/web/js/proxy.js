@@ -50,10 +50,10 @@
 const console_log = (message) => {
     const black = 'color:white;background:dimgrey';
     const reset = 'color:inherit;background:inherit';
-    message = [`%c${message}%c`, black, reset];
+    const array = [`%c${message}%c`, black, reset];
     clients.matchAll().then((clients) => {
         clients.forEach((client) => {
-            client.postMessage(message);
+            client.postMessage(array);
         });
     });
 };
@@ -165,15 +165,27 @@ const proxy = async request => {
     }
 
     // Error feature
-    response = new Response(JSON.stringify({
-        'error': {
-            'text': 'You are offline and the requested content is not cached',
-            'code': 'offline'
-        }
-    }), {
-        status: 200,
-        headers: {'Content-Type': 'application/json'},
-    });
+    if (navigator.onLine) {
+        response = new Response(JSON.stringify({
+            'error': {
+                'text': 'A network error occurred and the requested content is not cached.',
+                'code': 'proxy.js:172',
+            }
+        }), {
+            status: 200,
+            headers: {'Content-Type': 'application/json'},
+        });
+    } else {
+        response = new Response(JSON.stringify({
+            'error': {
+                'text': 'You are offline and the requested content is not cached',
+                'code': 'proxy.js:182',
+            }
+        }), {
+            status: 200,
+            headers: {'Content-Type': 'application/json'},
+        });
+    }
     return {
         type: 'error',
         response: response,

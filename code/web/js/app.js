@@ -130,9 +130,13 @@ saltos.app.show_error = error => {
         document.body.append(saltos.core.html(`<pre class="m-3">${error}</pre>`));
         return;
     }
-    if (!saltos.app.modal('Error ' + error.code, error.text, {color: 'danger'})) {
-        saltos.app.toast('Error ' + error.code, error.text, {color: 'danger'});
+    if (!saltos.app.modal('Error', error.text, {color: 'danger'})) {
+        saltos.app.toast('Error', error.text, {color: 'danger'});
     }
+    const red = 'color:white;background:red';
+    const reset = 'color:inherit;background:inherit';
+    const array = [`%c${error.code}%c ${error.text}`, red, reset];
+    console.log(...array);
 };
 
 /**
@@ -751,17 +755,40 @@ saltos.app.form.javascript = async data => {
  * @title => The title that you want to set in the page
  */
 saltos.app.form.title = title => {
-    // Try for modal
-    let obj = document.querySelector('.modal-title');
-    if (obj && obj.innerHTML == '') {
-        obj.innerHTML = T(title);
-        return;
-    }
-    // Try for offcanvas
-    obj = document.querySelector('.offcanvas-title');
-    if (obj && obj.innerHTML == '') {
-        obj.innerHTML = T(title);
-        return;
+    if (saltos.core.is_attr_value(title)) {
+        const attr = title['#attr'];
+        if (attr.hasOwnProperty('append')) {
+            const append = attr.append.split(',');
+            for (const i in append) {
+                if (append[i] == 'modal') {
+                    // Try for modal
+                    const obj = document.querySelector('.modal-title');
+                    if (obj) {
+                        obj.innerHTML = T(title.value);
+                        return;
+                    }
+                } else if (append[i] == 'offcanvas') {
+                    // Try for offcanvas
+                    const obj = document.querySelector('.offcanvas-title');
+                    if (obj) {
+                        obj.innerHTML = T(title.value);
+                        return;
+                    }
+                } else {
+                    // Try for element id
+                    const obj = document.getElementById(append[i]);
+                    if (obj) {
+                        obj.innerHTML = T(title.value);
+                        return;
+                    }
+                }
+            }
+            setTimeout(() => {
+                saltos.app.form.title(title);
+            }, 1);
+            return;
+        }
+        throw new Error(`Unknown attr`);
     }
     // Continue with default behaviour
     if (saltos.core.hasOwnProperty('about')) {
