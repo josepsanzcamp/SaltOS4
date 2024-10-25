@@ -394,11 +394,6 @@ saltos.core.ajax = args => {
             }
         }
     });
-    // TODO: FALTA LO DEL ONPROGRESS
-    /*if (typeof args.progress == 'function') {
-        ajax.onprogress = args.progress;
-        ajax.upload.onprogress = args.progress;
-    }*/
 };
 
 /**
