@@ -1694,8 +1694,11 @@ saltos.bootstrap.__field.file = field => {
                     ajax.setRequestHeader('Content-Type', 'application/json');
                     ajax.setRequestHeader('Token', saltos.token.get());
                     ajax.setRequestHeader('Lang', saltos.gettext.get());
-                    ajax.setRequestHeader('Proxy', 'omit');
+                    ajax.setRequestHeader('Proxy', 'no');
                     ajax.onload = event => {
+                        if (ajax.status < 200 || ajax.status >= 300) {
+                            throw new Error(ajax);
+                        }
                         let data = ajax.response;
                         if (ajax.getResponseHeader('content-type').toUpperCase().includes('JSON')) {
                             data = JSON.parse(ajax.responseText);
