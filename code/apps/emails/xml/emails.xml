@@ -469,7 +469,7 @@
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="three,two,one">
             <row auto="true" col_class="col-12 mb-3">
-                <pdfjs height="calc(100vh - 200px)">
+                <pdfjs>
                     <srcdoc ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
                     <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/emails/xml/pdf.xml", [
                         "id" => check_ids(get_data("rest/4")),

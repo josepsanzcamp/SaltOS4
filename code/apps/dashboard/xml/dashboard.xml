@@ -104,7 +104,7 @@
         <title append="modal">Help</title>
         <layout append="four">
             <row auto="true" col_class="col-12 mb-3">
-                <pdfjs id="pdfjs" height="calc(100vh - 200px)">
+                <pdfjs id="pdfjs">
                     <src require="php/lib/help.php" eval="true">detect_help_file(get_data("rest/3"), current_lang())</src>
                 </pdfjs>
             </row>

@@ -2037,20 +2037,15 @@ saltos.bootstrap.__field.excel = field => {
  * that modal scrollTop is the same.
  */
 saltos.bootstrap.__field.pdfjs = field => {
-    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color', 'height']);
+    saltos.core.check_params(field, ['id', 'class', 'src', 'srcdoc', 'color']);
     if (field.srcdoc != '') {
         field.src = {data: atob(field.srcdoc)};
     }
     if (!field.color) {
         field.color = 'primary';
     }
-    let height = field.height;
-    if (field.height == '') {
-        height = '100%';
-    }
     let obj = saltos.core.html(`
-        <div id="${field.id}" class="${field.class}"
-            style="width: 100%; max-height: ${height}; overflow: auto"></div>
+        <div id="${field.id}" class="${field.class}"></div>
     `);
     if (typeof field.src == 'string') {
         obj.src = new URL(field.src, window.location.href).href;
