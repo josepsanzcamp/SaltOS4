@@ -45,7 +45,7 @@
                 <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
-                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="alt+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
+                <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
                 <button onclick="saltos.driver.search()" label="Search" tooltip="To search in all contents" icon="search"/>
                 <button onclick="saltos.driver.reset()" label="Reset" tooltip="To reset the search filter" icon="x-lg"/>
                 <dropdown label="PDF" icon="filetype-pdf" tooltip="PDF options">
@@ -55,7 +55,7 @@
                     </menu>
                 </dropdown>
                 <button onclick="saltos.emails.server()" label="Send/Receive" tooltip="To send and receive emails" icon="envelope"/>
-                <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="alt+delete"/>
+                <button onclick="saltos.emails.delete1()" color="danger" label="Delete" tooltip="To delete the selected emails" icon="trash" accesskey="ctrl+delete"/>
                 <button onclick="saltos.window.open('app/emails_accounts')" tooltip="To manage emails accounts" icon="gear"/>
             </row>
         </layout>

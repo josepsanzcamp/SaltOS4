@@ -4623,7 +4623,7 @@ saltos.bootstrap.toast = args => {
  * Accesskey listener
  *
  * This function is intended to improve the default accesskey in the object by
- * adding features suck as combinations of keys like alt+f or alt+delete
+ * adding features suck as combinations of keys like ctrl+shift+f or ctrl+delete
  *
  * @obj => the object that you want to enable the accesskey feature
  */
