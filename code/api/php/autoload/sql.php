@@ -840,7 +840,7 @@ function prepare_update_query($table, $array, $where = [])
     $query = "UPDATE $table SET $temp";
     if (count($where)) {
         [$query2, $values2] = prepare_where_query($table, $where);
-        $query .= "WHERE $query2";
+        $query .= " WHERE $query2";
         $values = array_merge($values, $values2);
     }
     return [$query, $values];
