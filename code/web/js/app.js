@@ -1542,9 +1542,9 @@ saltos.app.ajax = args => {
         error: error => {
             saltos.app.form.screen('unloading');
             let text = 'unknown';
-            if (error.hasOwnProperty('status') && error.hasOwnProperty('statusText')) {
+            if (error.status !== undefined && error.statusText !== undefined) {
                 text = error.status + ' ' + error.statusText;
-            } else if (error.hasOwnProperty('name') && error.hasOwnProperty('message')) {
+            } else if (error.name !== undefined && error.message !== undefined) {
                 text = error.name + ' ' + error.message;
             }
             saltos.app.show_error({

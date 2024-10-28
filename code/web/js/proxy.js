@@ -125,13 +125,11 @@ const proxy = async request => {
                 // Network feature
                 try {
                     response = await fetch(request.clone());
-                    if (response.ok) {
-                        (await caches.open('saltos')).put(new_request, response.clone());
-                        return {
-                            type: 'network',
-                            response: response,
-                        };
-                    }
+                    (await caches.open('saltos')).put(new_request, response.clone());
+                    return {
+                        type: 'network',
+                        response: response,
+                    };
                 } catch (error) {
                     //console.log(error);
                 }
