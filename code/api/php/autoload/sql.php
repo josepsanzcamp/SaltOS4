@@ -448,8 +448,8 @@ function make_insert_query($table, $array)
  * @table => table where you want to update the register
  * @array => array with key val pairs that represent the field and the value of
  *           the field
- * @where => where clausule used to update only the expected registers, can be
- *           the output of make_where_query
+ * @where => array with key val pairs that represent the field and the value of
+ *           the field used in the where part of the query
  *
  * Notes:
  *
@@ -475,7 +475,11 @@ function make_update_query($table, $array, $where)
         $temp[$key] = "$key='$val'";
     }
     $temp = implode(',', $temp);
-    $query = "UPDATE $table SET $temp WHERE $where";
+    $query = "UPDATE $table SET $temp";
+    if (count($where)) {
+        $temp = make_where_query($table, $where);
+        $query .= " WHERE $temp";
+    }
     return $query;
 }
 
@@ -484,6 +488,7 @@ function make_update_query($table, $array, $where)
  *
  * This function allow to create where sentences joinin all fields by AND
  *
+ * @table => table where you want to apply the where
  * @array => array with key val pairs that represent the field and the value of
  *           the field
  *
@@ -494,13 +499,13 @@ function make_update_query($table, $array, $where)
  * operator that you want to use in the comparison, the allowed comparison
  * operators are >, <, =, >=, <=, !=
  */
-function make_where_query($array)
+function make_where_query($table, $array)
 {
-    $temp = [];
-    foreach ($array as $key => $val) {
-        $key = escape_reserved_word($key);
+    [$names, $values] = __prepare_helper_query($table, $array);
+    $temp = array_combine($names, $values);
+    foreach ($temp as $key => $val) {
         $val = db_escape(strval($val));
-        $temp[] = "$key='$val'";
+        $temp[$key] = "$key='$val'";
     }
     $query = '(' . implode(' AND ', $temp) . ')';
     return $query;

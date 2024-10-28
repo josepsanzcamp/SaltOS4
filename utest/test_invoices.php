@@ -109,7 +109,9 @@ final class test_invoices extends TestCase
             'nombre' => 'ASD QWERTY',
             'num' => '',
         ];
-        $query = make_update_query('app_invoices', $array, "id=$id");
+        $query = make_update_query('app_invoices', $array, [
+            'id' => $id,
+        ]);
         db_query($query);
 
         $id2 = execute_query('SELECT MAX(id) FROM app_invoices_concepts');
@@ -120,7 +122,9 @@ final class test_invoices extends TestCase
             'unidades' => '1',
             'precio' => '29.99',
         ];
-        $query = make_update_query('app_invoices_concepts', $array, "id=$id2");
+        $query = make_update_query('app_invoices_concepts', $array, [
+            'id' => $id2,
+        ]);
         db_query($query);
 
         $array = [
@@ -145,7 +149,9 @@ final class test_invoices extends TestCase
             'nombre' => 'Asd Qwerty',
             'num' => '123456789',
         ];
-        $query = make_update_query('app_invoices', $array, "id=$id");
+        $query = make_update_query('app_invoices', $array, [
+            'id' => $id,
+        ]);
         db_query($query);
 
         $id3 = execute_query("SELECT MIN(id) FROM app_invoices_concepts WHERE id_factura=$id");

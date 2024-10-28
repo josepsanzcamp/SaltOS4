@@ -144,7 +144,9 @@ final class test_gc extends TestCase
 
         $query = make_update_query('tbl_uploads', [
             'datetime' => '0000-00-00 00:00:00',
-        ], "id=$id");
+        ], [
+            'id' => $id,
+        ]);
         db_query($query);
 
         gc_upload();

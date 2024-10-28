@@ -83,12 +83,14 @@ final class test_sql extends TestCase
             'cif' => '12345678X',
             'nombre_poblacion' => 'Barcelona',
             'nombre_codpostal' => '08001',
-        ], 'id=1');
+        ], [
+            'id' => 1,
+        ]);
         $this->assertSame($query, "UPDATE app_customers SET nombre='The SaltOS project',cif='12345678X'," .
-            "nombre_poblacion='Barcelona',nombre_codpostal='08001' WHERE id=1");
+            "nombre_poblacion='Barcelona',nombre_codpostal='08001' WHERE (id='1')");
 
         // Testing normal behavior
-        $query = make_where_query([
+        $query = make_where_query('app_customers', [
             'nombre' => 'The SaltOS project',
             'cif' => '12345678X',
             'nombre_poblacion' => 'Barcelona',

@@ -263,9 +263,9 @@ final class test_dbschema extends TestCase
             'val3' => '9999-99-99',
             'val4' => '99:99:99',
             'val5' => '9999-99-99 99:99:99',
-        ], make_where_query([
+        ], [
             'id' => 1,
-        ]));
+        ]);
         $this->assertSame($query, "UPDATE tbl_utest SET val='nada',val1='1',val2='3.141592'," .
             "val3='9999-12-31',val4='23:59:59',val5='9999-12-31 23:59:59' WHERE (id='1')");
         db_query($query);

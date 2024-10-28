@@ -95,7 +95,9 @@ final class test_customers extends TestCase
             'nombre1' => 'ASD',
             'nombre2' => 'QWERTY',
         ];
-        $query = make_update_query('app_customers', $array, "id=$id");
+        $query = make_update_query('app_customers', $array, [
+            'id' => $id,
+        ]);
         db_query($query);
 
         $this->assertSame(make_control('customers', $id), -4);
@@ -110,7 +112,9 @@ final class test_customers extends TestCase
         $array = [
             'cif' => '123456789',
         ];
-        $query = make_update_query('app_customers', $array, "id=$id");
+        $query = make_update_query('app_customers', $array, [
+            'id' => $id,
+        ]);
         db_query($query);
 
         $this->assertSame(make_control('customers', $id), -4);

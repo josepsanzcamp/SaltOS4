@@ -46,4 +46,6 @@ db_connect();
 
 make_update_query('tbl_config', [
     'nada' => 'nada',
-], 'nada');
+], [
+    'nada' => 'nada',
+]);

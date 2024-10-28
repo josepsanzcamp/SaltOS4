@@ -380,7 +380,7 @@ final class test_file extends TestCase
         $this->assertSame($file2, $file1);
 
         // Search the good data to be used in the next steps of this utest
-        $query = 'SELECT * FROM tbl_uploads WHERE ' . make_where_query([
+        $query = 'SELECT * FROM tbl_uploads WHERE ' . make_where_query('tbl_uploads', [
             'app' => 'app/test/file',
         ]);
         $file0 = execute_query($query);
@@ -390,7 +390,9 @@ final class test_file extends TestCase
         $query = make_update_query('tbl_uploads', [
            'file' => 'pepe/pepe.txt',
            'user_id' => 0,
-        ], 'id = ' . $file0['id']);
+        ], [
+            'id' => $file0['id'],
+        ]);
         db_query($query);
 
         $file1 = [
@@ -408,7 +410,9 @@ final class test_file extends TestCase
         // Change the filename to break the file_exists integrity
         $query = make_update_query('tbl_uploads', [
            'file' => 'pepe_pepe.txt',
-        ], 'id = ' . $file0['id']);
+        ], [
+            'id' => $file0['id'],
+        ]);
         db_query($query);
 
         $file1 = [
@@ -427,7 +431,9 @@ final class test_file extends TestCase
         $query = make_update_query('tbl_uploads', [
            'file' => $file0['file'],
            'size' => -1,
-        ], 'id = ' . $file0['id']);
+        ], [
+            'id' => $file0['id'],
+        ]);
         db_query($query);
 
         $file1 = [
@@ -446,7 +452,9 @@ final class test_file extends TestCase
         $query = make_update_query('tbl_uploads', [
            'size' => $file0['size'],
            'hash' => 'nada',
-        ], 'id = ' . $file0['id']);
+        ], [
+            'id' => $file0['id'],
+        ]);
         db_query($query);
 
         $file1 = [
@@ -465,7 +473,9 @@ final class test_file extends TestCase
         $query = make_update_query('tbl_uploads', [
            'hash' => $file0['hash'],
            'user_id' => $file0['user_id'],
-        ], 'id = ' . $file0['id']);
+        ], [
+            'id' => $file0['id'],
+        ]);
         db_query($query);
 
         // Continue
