@@ -127,7 +127,7 @@ endif
 endif
 
 cloc:
-	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale}
+	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample}
 
 dbschema:
 	php code/api/index.php dbschema
