@@ -426,46 +426,16 @@ function __has_engine($engine)
  */
 function make_insert_query($table, $array)
 {
-    $fields = get_fields($table);
-    $list1 = [];
-    $list2 = [];
-    foreach ($fields as $field) {
-        $name = $field['name'];
-        if (!array_key_exists($name, $array)) {
-            continue;
-        }
-        $type = $field['type'];
-        $type2 = get_field_type($type);
-        if ($type2 == 'int') {
-            $temp = intval($array[$name]);
-        } elseif ($type2 == 'float') {
-            $temp = floatval($array[$name]);
-        } elseif ($type2 == 'date') {
-            $temp = dateval($array[$name]);
-        } elseif ($type2 == 'time') {
-            $temp = timeval($array[$name]);
-        } elseif ($type2 == 'datetime') {
-            $temp = datetimeval($array[$name]);
-        } elseif ($type2 == 'string') {
-            $size2 = get_field_size($type);
-            $temp = db_escape(substr(strval($array[$name]), 0, $size2));
-        } else {
-            // @codeCoverageIgnoreStart
-            show_php_error(['phperror' => "Unknown type '$type'"]);
-            // @codeCoverageIgnoreEnd
-        }
-        $name2 = escape_reserved_word($name);
-        $list1[] = $name2;
-        $list2[] = "'$temp'";
-        unset($array[$name]);
+    [$names, $values] = __prepare_helper_query($table, $array);
+    $names = implode(',', $names);
+    foreach ($values as $key => $val) {
+        // this is needed because prepared statements
+        // does not require to escape special chars
+        $val = db_escape(strval($val));
+        $values[$key] = "'$val'";
     }
-    if (count($array)) {
-        $temp = implode(', ', array_keys($array));
-        show_php_error(['phperror' => "Unused data '$temp'"]);
-    }
-    $list1 = implode(',', $list1);
-    $list2 = implode(',', $list2);
-    $query = "INSERT INTO $table($list1) VALUES($list2)";
+    $values = implode(',', $values);
+    $query = "INSERT INTO $table($names) VALUES($values)";
     return $query;
 }
 
@@ -496,43 +466,16 @@ function make_insert_query($table, $array)
  */
 function make_update_query($table, $array, $where)
 {
-    $fields = get_fields($table);
-    $list = [];
-    foreach ($fields as $field) {
-        $name = $field['name'];
-        if (!array_key_exists($name, $array)) {
-            continue;
-        }
-        $type = $field['type'];
-        $type2 = get_field_type($type);
-        if ($type2 == 'int') {
-            $temp = intval($array[$name]);
-        } elseif ($type2 == 'float') {
-            $temp = floatval($array[$name]);
-        } elseif ($type2 == 'date') {
-            $temp = dateval($array[$name]);
-        } elseif ($type2 == 'time') {
-            $temp = timeval($array[$name]);
-        } elseif ($type2 == 'datetime') {
-            $temp = datetimeval($array[$name]);
-        } elseif ($type2 == 'string') {
-            $size2 = get_field_size($type);
-            $temp = db_escape(substr(strval($array[$name]), 0, $size2));
-        } else {
-            // @codeCoverageIgnoreStart
-            show_php_error(['phperror' => "Unknown type '$type'"]);
-            // @codeCoverageIgnoreEnd
-        }
-        $name2 = escape_reserved_word($name);
-        $list[] = "$name2='$temp'";
-        unset($array[$name]);
+    [$names, $values] = __prepare_helper_query($table, $array);
+    $temp = array_combine($names, $values);
+    foreach ($temp as $key => $val) {
+        // this is needed because prepared statements
+        // does not require to escape special chars
+        $val = db_escape(strval($val));
+        $temp[$key] = "$key='$val'";
     }
-    if (count($array)) {
-        $temp = implode(', ', array_keys($array));
-        show_php_error(['phperror' => "Unused data '$temp'"]);
-    }
-    $list = implode(',', $list);
-    $query = "UPDATE $table SET $list WHERE $where";
+    $temp = implode(',', $temp);
+    $query = "UPDATE $table SET $temp WHERE $where";
     return $query;
 }
 
@@ -553,13 +496,13 @@ function make_update_query($table, $array, $where)
  */
 function make_where_query($array)
 {
-    $list = [];
+    $temp = [];
     foreach ($array as $key => $val) {
-        $key2 = escape_reserved_word($key);
-        $val2 = db_escape(strval($val));
-        $list[] = "$key2='$val2'";
+        $key = escape_reserved_word($key);
+        $val = db_escape(strval($val));
+        $temp[] = "$key='$val'";
     }
-    $query = '(' . implode(' AND ', $list) . ')';
+    $query = '(' . implode(' AND ', $temp) . ')';
     return $query;
 }
 
