@@ -119,7 +119,10 @@ final class test_pdf extends TestCase
             defined('K_TCPDF_THROW_EXCEPTION_ERROR'),
             'K_TCPDF_THROW_EXCEPTION_ERROR not found'
         );
-        $this->assertTrue(K_TCPDF_THROW_EXCEPTION_ERROR, 'tcpdf_config.php contains K_TCPDF_THROW_EXCEPTION_ERROR as false instead of true');
+        $this->assertTrue(
+            K_TCPDF_THROW_EXCEPTION_ERROR,
+            'tcpdf_config.php contains K_TCPDF_THROW_EXCEPTION_ERROR as false instead of true'
+        );
 
         test_external_exec('php/pdf1.php', 'phperror.log', 'array not found');
         test_external_exec('php/pdf2.php', 'phperror.log', 'foreach without query');
