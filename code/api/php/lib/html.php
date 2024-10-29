@@ -180,7 +180,7 @@ function __inline_img_helper($src)
         return $src;
     }
     if (in_array($scheme, ['https', 'http'])) {
-        $cache = get_cache_file($src, '.tmp');
+        $cache = get_cache_file($src, '.b64');
         if (!file_exists($cache)) {
             $data = __url_get_contents($src);
             $valid = false;
