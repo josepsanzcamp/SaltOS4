@@ -235,7 +235,7 @@ saltos.app.__form = {
  * The restore action is able to understand some expressions like comma and plus:
  * @ two,one => this example is intended to restore the two context if it is found, otherwise
  *   tries to restore the one context, otherwise a void context is set.
- * @ top+one => this example is intended to restore two contexts in one contest, intender to
+ * @ top+one => this example is intended to restore two contexts in one context, intender to
  *   load the context of the search list that can be contained in the top and one containers.
  */
 saltos.app.__backup = {
