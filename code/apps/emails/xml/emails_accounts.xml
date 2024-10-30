@@ -184,7 +184,7 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new email account" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the new email account" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the new email account" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <javascript>
@@ -249,7 +249,7 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.driver.update()" label="Save" tooltip="To save the email account changes" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email account modification" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email account modification" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>

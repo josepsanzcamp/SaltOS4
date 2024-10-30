@@ -240,7 +240,7 @@ saltos.app.__form = {
  */
 saltos.app.__backup = {
     __forms: {},
-    do: key => {
+    save: key => {
         saltos.app.__backup.__forms[key] = {};
         saltos.app.__backup.__forms[key].fields = saltos.app.__form.fields;
         saltos.app.__backup.__forms[key].templates = saltos.app.__form.templates;
@@ -525,7 +525,7 @@ saltos.app.form.layout = (layout, extra) => {
     let obj = null;
     if (append != '') {
         // Do a backup of the fields and templates using the append key
-        saltos.app.__backup.do(append);
+        saltos.app.__backup.save(append);
         // Continue
         obj = document.getElementById(append);
         obj.replaceChildren(div);
@@ -1077,6 +1077,8 @@ saltos.app.get_data = full => {
                 old = field.data;
                 break;
             case 'integer':
+            case 'checkbox':
+            case 'switch':
                 val = parseInt(val);
                 old = parseInt(old);
                 if (isNaN(val)) {
@@ -1574,6 +1576,42 @@ saltos.app.ajax = args => {
     }
     saltos.app.form.screen('loading');
     return saltos.core.ajax(temp);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.autosave = {
+    save: arg => {
+        let bool = false;
+        for (const key in saltos.app.__backup.__forms) {
+            if (arg !== undefined && arg != key) {
+                continue;
+            }
+            saltos.app.__backup.restore(key);
+            const hash = saltos.hash.get();
+            const data = saltos.app.get_data(true);
+            saltos.storage.setItem(`saltos.all.autosave/${hash}/${key}`, JSON.stringify(data));
+            bool = true;
+        }
+        return bool;
+    },
+    restore: arg => {
+        let bool = false;
+        for (const key in saltos.app.__backup.__forms) {
+            if (arg !== undefined && arg != key) {
+                continue;
+            }
+            saltos.app.__backup.restore(key);
+            const hash = saltos.hash.get();
+            const data = JSON.parse(saltos.storage.getItem(`saltos.all.autosave/${hash}/${key}`));
+            saltos.app.form.data(data, false);
+            bool = true;
+        }
+        return bool;
+    },
 };
 
 /**

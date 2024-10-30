@@ -467,7 +467,7 @@ function sendmail_prepare($action, $email_id)
         $result2 = execute_query($query, [current_user(), $account_id]);
         if ($result2) {
             $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SIGNATURE_OPEN__ .
-                __SIGNATURE_BREAK__ . $result2['email_signature'] . __SIGNATURE_CLOSE__ . __SECTION_CLOSE__;
+                $result2['email_signature'] . __SIGNATURE_CLOSE__ . __SECTION_CLOSE__;
         } else {
             $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SECTION_CLOSE__;
         }
@@ -1061,8 +1061,7 @@ function sendmail_signature($json)
     $result_new = execute_query($query, [current_user(), $new]);
     // REPLACE THE SIGNATURE BODY
     if ($result_new) {
-        $auto = __SIGNATURE_OPEN__ . __SIGNATURE_BREAK__ .
-            $result_new['email_signature'] . __SIGNATURE_CLOSE__;
+        $auto = __SIGNATURE_OPEN__ . $result_new['email_signature'] . __SIGNATURE_CLOSE__;
     } else {
         $auto = '';
     }

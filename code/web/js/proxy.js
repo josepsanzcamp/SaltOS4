@@ -167,7 +167,7 @@ const proxy = async request => {
         response = new Response(JSON.stringify({
             'error': {
                 'text': 'A network error occurred and the requested content is not cached.',
-                'code': 'proxy.js:172',
+                'code': 'proxy.js:170',
             }
         }), {
             status: 200,
@@ -177,7 +177,7 @@ const proxy = async request => {
         response = new Response(JSON.stringify({
             'error': {
                 'text': 'You are offline and the requested content is not cached',
-                'code': 'proxy.js:182',
+                'code': 'proxy.js:180',
             }
         }), {
             status: 200,
@@ -353,6 +353,10 @@ self.addEventListener('fetch', event => {
     if (['no', 'omit', 'cancel', 'bypass'].includes(order)) {
         return;
     }
+    /*const url = event.request.url;
+    if(['127.0.0.1', 'localhost'].includes((new URL(url)).hostname)) {
+        return;
+    }*/
     const start = Date.now();
     event.respondWith(
         proxy(event.request).then(result => {

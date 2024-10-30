@@ -128,6 +128,44 @@ saltos.driver.close = arg => {
  *
  * TODO
  */
+saltos.driver.cancel = arg => {
+    saltos.app.__backup.restore('two,one');
+    const data = saltos.app.get_data();
+    if (Object.keys(data).length) {
+        if (saltos.bootstrap.modal('isopen')) {
+            const bool = confirm('Do you want to close this screen???');
+            if (bool) {
+                saltos.driver.close(arg);
+            }
+            return;
+        }
+        saltos.app.modal('Close this screen???', 'Do you want to close this screen???', {
+            buttons: [{
+                label: 'Yes',
+                color: 'success',
+                icon: 'check-lg',
+                onclick: () => {
+                    saltos.driver.close(arg);
+                },
+            },{
+                label: 'No',
+                color: 'danger',
+                icon: 'x-lg',
+                autofocus: true,
+                onclick: () => {},
+            }],
+            color: 'danger',
+        });
+        return;
+    }
+    saltos.driver.close(arg);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
     saltos.app.__backup.restore('top+one');

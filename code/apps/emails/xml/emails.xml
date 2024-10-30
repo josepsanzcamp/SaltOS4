@@ -233,7 +233,7 @@
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
                 <button onclick="saltos.emails.send()" label="Send" tooltip="To send the email" icon="check-lg"/>
-                <button onclick="saltos.driver.close()" label="Cancel" tooltip="To cancel the email" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email" icon="x-lg" autoclose="true"/>
             </row>
         </layout>
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>
