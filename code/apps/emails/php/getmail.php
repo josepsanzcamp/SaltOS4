@@ -60,8 +60,8 @@ define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0px;height:1px;"
 define('__HTML_NEWLINE__', '<p>&nbsp;</p>');
 define('__BLOCKQUOTE_OPEN__', '<blockquote style="border-left:#ccc 1px solid;margin:0px 0px 0px 0.8ex;padding-left:1ex;">');
 define('__BLOCKQUOTE_CLOSE__', '</blockquote>');
-define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.8rem;line-height:1rem;"><p>--<br><br>');
-define('__SIGNATURE_CLOSE__', '</p></div>');
+define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.8rem;line-height:1rem;"><p>--</p>');
+define('__SIGNATURE_CLOSE__', '</div>');
 define('__SECTION_OPEN__', '<section>');
 define('__SECTION_CLOSE__', '</section>');
 // phpcs:enable Generic.Files.LineLength
