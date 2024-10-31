@@ -1590,8 +1590,8 @@ saltos.app.autosave = {
             if (arg !== undefined && arg != key) {
                 continue;
             }
-            saltos.app.__backup.restore(key);
             const hash = saltos.hash.get();
+            saltos.app.__backup.restore(key);
             const data = saltos.app.get_data(true);
             saltos.storage.setItem(`saltos.all.autosave/${hash}/${key}`, JSON.stringify(data));
             bool = true;
@@ -1604,10 +1604,22 @@ saltos.app.autosave = {
             if (arg !== undefined && arg != key) {
                 continue;
             }
-            saltos.app.__backup.restore(key);
             const hash = saltos.hash.get();
+            saltos.app.__backup.restore(key);
             const data = JSON.parse(saltos.storage.getItem(`saltos.all.autosave/${hash}/${key}`));
             saltos.app.form.data(data, false);
+            bool = true;
+        }
+        return bool;
+    },
+    clear: arg => {
+        let bool = false;
+        for (const key in saltos.app.__backup.__forms) {
+            if (arg !== undefined && arg != key) {
+                continue;
+            }
+            const hash = saltos.hash.get();
+            saltos.storage.removeItem(`saltos.all.autosave/${hash}/${key}`);
             bool = true;
         }
         return bool;
