@@ -248,33 +248,18 @@ saltos.app.__backup = {
     restore: key => {
         saltos.app.__form.fields = [];
         saltos.app.__form.templates = {};
-        if (key.includes('+')) {
-            key = key.split('+');
-            let bool = false;
-            for (const i in key) {
-                if (saltos.app.__backup.__forms.hasOwnProperty(key[i])) {
-                    saltos.app.__form.fields = [
-                        ...saltos.app.__form.fields,
-                        ...saltos.app.__backup.__forms[key[i]].fields
-                    ];
-                    saltos.app.__form.templates = {
-                        ...saltos.app.__form.templates,
-                        ...saltos.app.__backup.__forms[key[i]].templates
-                    };
-                    bool = true;
-                }
-            }
-            return bool;
-        }
-        key = key.split(',');
+        key = saltos.app.__comma_plus_parser_helper(key);
         for (const i in key) {
-            if (saltos.app.__backup.__forms.hasOwnProperty(key[i])) {
-                saltos.app.__form.fields = saltos.app.__backup.__forms[key[i]].fields;
-                saltos.app.__form.templates = saltos.app.__backup.__forms[key[i]].templates;
-                return true;
-            }
+            saltos.app.__form.fields = [
+                ...saltos.app.__form.fields,
+                ...saltos.app.__backup.__forms[key[i]].fields
+            ];
+            saltos.app.__form.templates = {
+                ...saltos.app.__form.templates,
+                ...saltos.app.__backup.__forms[key[i]].templates
+            };
         }
-        return false;
+        return key.length > 0;
     },
 };
 
@@ -888,7 +873,7 @@ saltos.app.form.screen = action => {
  * @navbar
  */
 saltos.app.form.navbar = navbar => {
-    navbar['#attr'] = saltos.app.parse_data(navbar['#attr']);
+    navbar['#attr'] = saltos.app.__get_data_parser_helper(navbar['#attr']);
     navbar = saltos.core.join_attr_value(navbar);
     if (document.getElementById(navbar.id)) {
         return;
@@ -1130,7 +1115,7 @@ saltos.app.get_data = full => {
     // This thick allow to add the id field of the template used
     data = saltos.app.__get_data_ids_helper(data);
     // This trick allow to do more pretty the structure of some composed fields
-    data = saltos.app.parse_data(data);
+    data = saltos.app.__get_data_parser_helper(data);
     return data;
 };
 
@@ -1168,7 +1153,7 @@ saltos.app.__get_data_ids_helper = data => {
 };
 
 /**
- * Parse data
+ * Get data parse helper
  *
  * This function allow to join in an object the values that share the same prefix part of
  * the key, for example, if you have an object with two ventries (a.a and a.b), then the
@@ -1183,7 +1168,7 @@ saltos.app.__get_data_ids_helper = data => {
  * is used by get_data to separate in a more pretty structure some fields as the details used
  * in the invoices.
  */
-saltos.app.parse_data = data => {
+saltos.app.__get_data_parser_helper = data => {
     for (const key in data) {
         const id = key.split('.');
         if (id.length == 2) {
@@ -1584,46 +1569,59 @@ saltos.app.ajax = args => {
  * TODO
  */
 saltos.app.autosave = {
-    save: arg => {
-        let bool = false;
-        for (const key in saltos.app.__backup.__forms) {
-            if (arg !== undefined && arg != key) {
-                continue;
-            }
+    save: key => {
+        key = saltos.app.__comma_plus_parser_helper(key);
+        for (const i in key) {
+            saltos.app.__backup.restore(key[i]);
             const hash = saltos.hash.get();
-            saltos.app.__backup.restore(key);
-            const data = saltos.app.get_data(true);
-            saltos.storage.setItem(`saltos.all.autosave/${hash}/${key}`, JSON.stringify(data));
-            bool = true;
+            const data = saltos.app.get_data();
+            saltos.storage.setItem(`saltos.all.autosave/${hash}/${key[i]}`, JSON.stringify(data));
         }
-        return bool;
+        return key.length > 0;
     },
-    restore: arg => {
-        let bool = false;
-        for (const key in saltos.app.__backup.__forms) {
-            if (arg !== undefined && arg != key) {
-                continue;
-            }
+    restore: key => {
+        key = saltos.app.__comma_plus_parser_helper(key);
+        for (const i in key) {
+            saltos.app.__backup.restore(key[i]);
             const hash = saltos.hash.get();
-            saltos.app.__backup.restore(key);
-            const data = JSON.parse(saltos.storage.getItem(`saltos.all.autosave/${hash}/${key}`));
+            const data = JSON.parse(saltos.storage.getItem(`saltos.all.autosave/${hash}/${key[i]}`));
             saltos.app.form.data(data, false);
-            bool = true;
         }
-        return bool;
+        return key.length > 0;
     },
-    clear: arg => {
-        let bool = false;
-        for (const key in saltos.app.__backup.__forms) {
-            if (arg !== undefined && arg != key) {
-                continue;
-            }
+    clear: key => {
+        key = saltos.app.__comma_plus_parser_helper(key);
+        for (const i in key) {
             const hash = saltos.hash.get();
-            saltos.storage.removeItem(`saltos.all.autosave/${hash}/${key}`);
-            bool = true;
+            saltos.storage.removeItem(`saltos.all.autosave/${hash}/${key[i]}`);
         }
-        return bool;
+        return key.length > 0;
     },
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.__comma_plus_parser_helper = key => {
+    if (key.includes('+')) {
+        key = key.split('+');
+        let result = [];
+        for (const i in key) {
+            if (saltos.app.__backup.__forms.hasOwnProperty(key[i])) {
+                result.push(key[i]);
+            }
+        }
+        return result;
+    }
+    key = key.split(',');
+    for (const i in key) {
+        if (saltos.app.__backup.__forms.hasOwnProperty(key[i])) {
+            return [key[i]];
+        }
+    }
+    return [];
 };
 
 /**
