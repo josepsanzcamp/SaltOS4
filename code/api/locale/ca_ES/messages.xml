@@ -88,8 +88,6 @@
     <manage_filters>Gestió dels filtres</manage_filters>
     <new_filter_name>Nom del nou filtre</new_filter_name>
     <filters_not_found>No hi ha cap filtre</filters_not_found>
-    <to_see_the_email>Per veure el correu electrònic</to_see_the_email>
-    <to_download_the_email>Per descarregar el correu electrònic</to_download_the_email>
     <view>Veure</view>
     <download>Descarregar</download>
     <navigator_is_online>El navegador està en línia</navigator_is_online>
