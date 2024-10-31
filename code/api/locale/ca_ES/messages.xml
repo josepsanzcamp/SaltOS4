@@ -52,7 +52,6 @@
     <applications>Aplicacions</applications>
     <user>Usuari</user>
     <name>Nom</name>
-    <email>Correu electrònic</email>
     <enabled>Activat</enabled>
     <password>Contrasenya</password>
     <days>Dies</days>
@@ -67,7 +66,7 @@
     <data_used_by_others_apps>Aquest registre esta fent-se servir a altres aplicacions</data_used_by_others_apps>
     <internal_table>taula interna</internal_table>
     <internal_tables>taules internes</internal_tables>
-    <emails>Correu</emails>
+    <emails>Correus</emails>
     <emails_accounts>Comptes de correu</emails_accounts>
     <customers>Clients</customers>
     <invoices>Factures</invoices>
