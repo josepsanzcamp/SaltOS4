@@ -982,7 +982,7 @@ saltos.bootstrap.__field.select = field => {
     if (!field.separator) {
         field.separator = ',';
     }
-    const values = field.value.split(field.separator);
+    const values = field.value.toString().split(field.separator);
     for (const key in values) {
         values[key] = values[key].trim();
     }
@@ -1127,7 +1127,7 @@ saltos.bootstrap.__field.multiselect = field => {
     });
     // Program the set feature
     obj.querySelector('input[type=hidden]').set = value => {
-        const values = value.split(field.separator);
+        const values = value.toString().split(field.separator);
         for (const key in values) {
             values[key] = values[key].trim();
         }
@@ -2936,7 +2936,7 @@ saltos.bootstrap.__datalist_helper = datalist => {
  * TODO
  */
 saltos.bootstrap.__value_helper = (value, separator) => {
-    value = value.split(separator);
+    value = value.toString().split(separator);
     let array = [];
     for (const key in value) {
         const val = value[key].trim();

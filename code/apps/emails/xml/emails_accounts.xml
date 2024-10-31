@@ -114,6 +114,7 @@
                 FROM tbl_users WHERE active = 1
                 AND ".check_sql("users", "list")."
                 ORDER BY login ASC")</rows>
+            <value eval="true">current_user()</value>
         </select>
         <div col_class="col-12"/><!-- this act as break line -->
         <text id="email_name" label="Name" required="true"/>
@@ -136,7 +137,7 @@
         <password id="pop3_pass" label="Password" autocomplete="false"/>
         <div col_class="col-12"/><!-- this act as break line -->
         <div col_class="col-4"/><!-- this act as a spacer -->
-        <select id="pop3_delete" label="Delete" col_class="col-md-2 mb-3">
+        <select id="pop3_delete" label="Delete" value="0" col_class="col-md-2 mb-3">
             <rows>
                 <row label="No" value="0"/>
                 <row label="Yes" value="1"/>
