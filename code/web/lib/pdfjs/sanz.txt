@@ -1,8 +1,8 @@
 
 # https://cdnjs.com/libraries/pdf.js
 
-wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs
-wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.mjs
+#wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.min.mjs
+#wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.mjs
 #wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf_viewer.min.css
 #wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf_viewer.mjs
 
@@ -13,3 +13,7 @@ wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.7.76/pdf.worker.min.mjs
 
 #cat pdf_viewer.mjs | minify --js > pdf_viewer.min.mjs
 #rm -f pdf_viewer.mjs
+
+version=$(curl -s https://api.cdnjs.com/libraries/pdf.js?fields=version | jq -r .version)
+wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/$version/pdf.min.mjs
+wget https://cdnjs.cloudflare.com/ajax/libs/pdf.js/$version/pdf.worker.min.mjs
