@@ -67,7 +67,7 @@
         </javascript>
     </list>
 
-    <list id="table" type="table" limit="25" order="id DESC" nodata="Data not found" checkbox="true">
+    <list id="table" type="table" nodata="Data not found" checkbox="true">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
@@ -103,7 +103,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/invoices/xml/invoices.xml"))
         )</data>
-        <actions>
+        <actions ifeval="false">
             <action app="invoices" action="view" label="View" icon="search" tooltip="Ver detalle factura" onclick="saltos.driver.open"/>
             <action app="invoices" action="edit" label="Edit" icon="pencil" tooltip="Editar factura" onclick="saltos.driver.open"/>
             <action app="invoices" action="delete" label="Delete" icon="trash" tooltip="Borrar factura" onclick="saltos.driver.delete"/>

@@ -128,7 +128,7 @@
         </javascript>
     </list>
 
-    <list id="list" type="list" limit="50" order="datetime DESC" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
+    <list id="list" type="list" onclick="true" truncate="true" checkbox="true" nodata="Data not found">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <temp eval="true">[
@@ -176,7 +176,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
             xpath_search_first_value("list[id=list]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
         )</data>
-        <actions>
+        <actions ifeval="false">
             <action app="emails" action="view" onclick="saltos.driver.open"/>
         </actions>
     </list>
@@ -416,7 +416,7 @@
             getmail_files(intval(get_data("rest/4"))),
             xpath_search_first_value("view[id=files]/actions", xmlfile2array("apps/emails/xml/emails.xml"))
         )</data>
-        <actions>
+        <actions ifeval="false">
             <action app="emails" action="view/viewpdf" icon="search" tooltip="View attachment" onclick="saltos.driver.open"/>
             <action app="emails" action="view/download" icon="save" tooltip="Download attachment" onclick="saltos.app.download"/>
         </actions>

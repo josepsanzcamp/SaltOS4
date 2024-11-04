@@ -60,7 +60,7 @@
         </javascript>
     </list>
 
-    <list id="table" dropdown="false" type="table" limit="25" order="id DESC" nodata="Data not found">
+    <list id="table" dropdown="false" type="table" nodata="Data not found">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
@@ -88,7 +88,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/types/xml/types.xml"))
         )</data>
-        <actions>
+        <actions ifeval="false">
             <action app="types" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
             <action app="types" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
             <action app="types" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>

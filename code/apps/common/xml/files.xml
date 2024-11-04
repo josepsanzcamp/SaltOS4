@@ -49,7 +49,7 @@
             execute_query_array("SELECT CONCAT(reg_id, '/', id) id, user_id, datetime, name, size FROM " . app2table(get_data("rest/1")) . "_files WHERE reg_id = ?", [intval(get_data("rest/4"))]),
             xpath_search_first_value("view[id=files]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/common/xml/files.xml"))
         )</data>
-        <actions id="view">
+        <actions id="view" ifeval="false">
             <action action="view/viewpdf" icon="search" tooltip="View file" onclick="saltos.driver.open">
                 <app eval="true">get_data("rest/1")</app>
             </action>
@@ -57,7 +57,7 @@
                 <app eval="true">get_data("rest/1")</app>
             </action>
         </actions>
-        <actions id="edit">
+        <actions id="edit" ifeval="false">
             <action action="delete/files" icon="trash" tooltip="Delete file" onclick="saltos.app.delete">
                 <app eval="true">get_data("rest/1")</app>
             </action>

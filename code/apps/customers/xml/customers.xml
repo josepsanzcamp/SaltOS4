@@ -60,7 +60,7 @@
         </javascript>
     </list>
 
-    <list id="table" type="table" limit="25" order="id DESC" nodata="Data not found">
+    <list id="table" type="table" nodata="Data not found">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <header>
@@ -88,7 +88,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
-        <actions>
+        <actions ifeval="false">
             <action app="customers" action="view" label="View" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
             <action app="customers" action="edit" label="Edit" icon="pencil" tooltip="Editar cliente" onclick="saltos.driver.open"/>
             <action app="customers" action="delete" label="Delete" icon="trash" tooltip="Borrar cliente" onclick="saltos.driver.delete"/>
@@ -254,7 +254,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
             xpath_search_first_value("widget[id=table1]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
-        <actions>
+        <actions ifeval="false">
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
         </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
@@ -289,7 +289,7 @@
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
             xpath_search_first_value("widget[id=table2]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
-        <actions>
+        <actions ifeval="false">
             <action app="customers" action="view" icon="search" tooltip="Ver detalle cliente" onclick="saltos.driver.open"/>
         </actions>
         <footer>

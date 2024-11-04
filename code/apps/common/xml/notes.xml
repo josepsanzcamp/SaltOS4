@@ -47,8 +47,8 @@
                 FROM " . app2table(get_data("rest/1")) . "_notes WHERE reg_id = ? ORDER BY id DESC", [intval(get_data("rest/4"))]),
             xpath_search_first_value("view[id=notes]/actions[id=".get_data("rest/5")."]", xmlfile2array("apps/common/xml/notes.xml"))
         )</data>
-        <actions id="view"/>
-        <actions id="edit">
+        <actions id="view" ifeval="false"/>
+        <actions id="edit" ifeval="false">
             <action action="delete/notes" icon="trash" tooltip="Delete note" onclick="saltos.app.delete">
                 <app eval="true">get_data("rest/1")</app>
             </action>

@@ -210,6 +210,11 @@ final class test_web_invoices extends TestCase
         $json2 = test_web_helper('app/customers/widget/table2', '', $json['token'], '');
         $this->assertArrayHasKey('data', $json2);
 
+        $json2 = test_web_helper('app/invoices/list/table', [
+            'search' => '',
+        ], $json['token'], '');
+        $this->assertArrayHasKey('data', $json2);
+
         return [
             'token' => $json['token'],
             'created_id' => $json['created_id'],

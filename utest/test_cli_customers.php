@@ -177,6 +177,11 @@ final class test_cli_customers extends TestCase
         $json2 = test_cli_helper('app/customers/widget/table2', '', $json['token'], '');
         $this->assertArrayHasKey('data', $json2);
 
+        $json2 = test_cli_helper('app/customers/list/table', [
+            'search' => '',
+        ], $json['token'], '');
+        $this->assertArrayHasKey('data', $json2);
+
         return [
             'token' => $json['token'],
             'created_id' => $json['created_id'],
