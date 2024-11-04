@@ -2087,7 +2087,14 @@ saltos.bootstrap.__field.pdfjs = field => {
                         if (num == 1) {
                             placeholder.remove();
                         }
-                        element.append(canvas);
+                        if (num < pdf.numPages) {
+                            element.append(canvas);
+                        } else {
+                            const div = document.createElement('div');
+                            div.append(canvas);
+                            div.style.lineHeight = 0;
+                            element.append(div);
+                        }
                         canvas.style.width = '100%';
                         canvas.classList.add('border');
                         canvas.classList.add('border-' + field.color);
