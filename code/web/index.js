@@ -434,7 +434,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             }
             @media (prefers-color-scheme: dark) {
                 .driver-placeholder {
-                    background-image: url(img/logo_black.svg);
+                    background-image: url(img/logo_grey.svg);
                 }
             }
         </style>

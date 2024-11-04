@@ -451,7 +451,7 @@ saltos.driver.placeholder = arg => {
             }
             @media (prefers-color-scheme: dark) {
                 .driver-placeholder {
-                    background-image: url(img/logo_black.svg);
+                    background-image: url(img/logo_grey.svg);
                 }
             }
         </style>
