@@ -146,8 +146,9 @@ setupclean:
 	-rmdir code/data/inbox/1
 	rm -f code/data/outbox/1/*
 	-rmdir code/data/outbox/1
-	rm -f code/data/files/customers/*
-	-rmdir code/data/files/customers
+	rm -f code/data/files/*/*
+	rm -f code/data/files/*
+	-rmdir code/data/files/*
 	rm -f code/data/cache/*
 	rm -f code/data/logs/*
 	rm -f code/data/temp/*
