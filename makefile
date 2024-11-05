@@ -157,10 +157,15 @@ setupclean:
 	echo "DROP DATABASE saltos;" | mariadb
 	echo "CREATE DATABASE saltos;" | mariadb
 
-setupdoit:
+setupmysql:
 	php code/api/index.php dbschema
 	php code/api/index.php app/customers/setup
 	php code/api/index.php app/invoices/setup
 	php code/api/index.php app/emails/setup
 
-setup: setupclean setupdoit
+setupsqlite:
+	echo '<root><db><type>pdo_sqlite</type></db></root>' > code/data/files/config.xml
+	php code/api/index.php dbschema
+	rm -f code/data/files/config.xml
+
+setup: setupclean setupmysql setupsqlite

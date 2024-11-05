@@ -82,7 +82,8 @@ class database_sqlite3
         }
         $args['file'] = $args['file'] ?? '';
         if (!file_exists($args['file'])) {
-            show_php_error(['dberror' => "File '" . $args['file'] . "' not found"]);
+            touch($args['file']);
+            chmod_protected($args['file'], 0666);
         }
         if (!is_writable($args['file'])) {
             show_php_error(['dberror' => "File '" . $args['file'] . "' not writable"]);

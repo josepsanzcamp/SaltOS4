@@ -562,7 +562,7 @@ final class test_database extends TestCase
         // Close connection
         $obj->db_disconnect();
 
-        test_external_exec('php/database01_pdo_sqlite.php', 'dberror.log', 'file data/files/nada not found');
+        test_external_exec('php/database01_pdo_sqlite.php', '', '');
         test_external_exec('php/database02_pdo_sqlite.php', 'dberror.log', 'general error: 1 no such table: nada');
         test_external_exec('php/database03_pdo_sqlite.php', 'dberror.log', 'file /root not writable');
         test_external_exec('php/database04_pdo_sqlite.php', 'dberror.log', 'general error: 26 file is not a database');
@@ -596,7 +596,7 @@ final class test_database extends TestCase
         // Close connection
         $obj->db_disconnect();
 
-        test_external_exec('php/database01_sqlite3.php', 'dberror.log', 'file data/files/nada not found');
+        test_external_exec('php/database01_sqlite3.php', '', '');
         test_external_exec('php/database02_sqlite3.php', 'dberror.log', 'unable to prepare statement: no such table: nada');
         test_external_exec('php/database03_sqlite3.php', 'dberror.log', 'file /root not writable');
         test_external_exec('php/database04_sqlite3.php', 'dberror.log', 'unable to prepare statement: file is not a database');
