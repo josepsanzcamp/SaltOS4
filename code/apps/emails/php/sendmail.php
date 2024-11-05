@@ -830,12 +830,12 @@ function sendmail_action($json, $action, $email_id)
     require_once 'php/lib/html.php';
     [$body, $files1] = extract_img_tag($body);
     [$body, $files2] = extract_img_style($body);
-    foreach (array_merge($files1, $files2) as $file) {
+    foreach (array_merge($files1, $files2) as $hash => $file) {
         $files[] = [
             'data' => $file['data'],
             'name' => saltos_content_type0($file['type']) . '.' . saltos_content_type1($file['type']),
             'mime' => $file['type'],
-            'cid' => md5($file['data']),
+            'cid' => $hash,
         ];
     }
     // DO THE SEND ACTION

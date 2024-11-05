@@ -259,7 +259,7 @@ function extract_img_style($html)
                 }
                 $img = mime_extract($src);
                 $hash = md5($img['data']);
-                $files[$hash] = $img['data'];
+                $files[$hash] = $img;
                 $html = str_replace($src, "cid:$hash", $html);
             }
         }
