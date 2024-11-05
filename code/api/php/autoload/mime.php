@@ -138,3 +138,19 @@ function saltos_content_type_from_string($buffer)
     }
     return 'application/octet-stream';
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function mime_extract($data)
+{
+    if (preg_match('/^data:(.*?);base64,(.*)$/', $data, $matches)) {
+        return [
+            'type' => $matches[1],
+            'data' => base64_decode($matches[2]),
+        ];
+    }
+    show_php_error(['phperror' => 'unknown inline mime data']);
+}

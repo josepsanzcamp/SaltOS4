@@ -209,3 +209,60 @@ function __inline_img_helper($src)
     }
     return $img;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function extract_img_tag($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('img');
+    $files = [];
+    foreach ($items as $item) {
+        $src = $item->getAttribute('src');
+        $img = mime_extract($src);
+        $hash = md5($img['data']);
+        $files[$hash] = $img;
+        $html = str_replace($src, "cid:$hash", $html);
+    }
+    return [$html, $files];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function extract_img_style($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('*');
+    $files = [];
+    foreach ($items as $item) {
+        $style = $item->getAttribute('style');
+        preg_match_all('/url\((.*?)\)/', $style, $matches);
+        if (count($matches[1])) {
+            foreach ($matches[1] as $src) {
+                if (in_array(substr($src, 0, 1), ['"', "'"])) {
+                    $src = substr($src, 1);
+                }
+                if (in_array(substr($src, -1, 1), ['"', "'"])) {
+                    $src = substr($src, 0, -1);
+                }
+                $img = mime_extract($src);
+                $hash = md5($img['data']);
+                $files[$hash] = $img['data'];
+                $html = str_replace($src, "cid:$hash", $html);
+            }
+        }
+    }
+    return [$html, $files];
+}

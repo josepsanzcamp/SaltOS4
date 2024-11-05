@@ -826,6 +826,18 @@ function sendmail_action($json, $action, $email_id)
             ];
         }
     }
+    // TRY TO CONVERT THE INLINE IMAGES INTO ATTACHMENTS WITH CID
+    require_once 'php/lib/html.php';
+    [$body, $files1] = extract_img_tag($body);
+    [$body, $files2] = extract_img_style($body);
+    foreach (array_merge($files1, $files2) as $file) {
+        $files[] = [
+            'data' => $file['data'],
+            'name' => saltos_content_type0($file['type']) . '.' . saltos_content_type1($file['type']),
+            'mime' => $file['type'],
+            'cid' => md5($file['data']),
+        ];
+    }
     // DO THE SEND ACTION
     $send = sendmail($account_id, $recipients, $subject, $body, $files);
     if ($send != '') {
