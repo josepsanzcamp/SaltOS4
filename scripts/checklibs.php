@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 // phpcs:disable PSR1.Files.SideEffects
 
-function grep($pattern, $data)
+function grep($data, $pattern)
 {
     $data = explode("\n", $data);
     $result = [];
@@ -17,7 +17,7 @@ function grep($pattern, $data)
     return $result;
 }
 
-function head($lines, $data)
+function head($data, $lines)
 {
     $data = explode("\n", $data);
     $result = [];
@@ -60,16 +60,16 @@ foreach ($libs as $key => $lib) {
         //~ $temp=@file_get_contents($lib[1]);
         $temp = wget($lib[1]);
         $iserror = ($temp == '') ? 1 : 0;
-        $temp = str_replace("</TH>\n<TD>", '</TH><TD>', $temp); // FIX FOR WWW.PHPCLASSES.ORG
-        $temp = str_replace("</th>\n<td>", '</th><td>', $temp); // FIX FOR WWW.PHPCLASSES.ORG
+        $temp = str_replace('<TD><span ', "<TD>\n<span ", $temp); // FIX FOR WWW.PHPCLASSES.ORG
+        $temp = str_replace('">', "\">\n", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace('><svg', ">\n<svg", $temp); // FIX FOR SOURCEFORGE.NET
         $temp = str_replace('<title>Tags from', '', $temp); // FIX FOR GITHUB.COM
-        $temp = grep($lib[2], $temp);
-        $temp = head(1, $temp);
+        $temp = grep($temp, $lib[2]);
+        $temp = head($temp, 1);
         if (substr($lib[3], 0, 7) != 'base64:') {
-            $temp2 = grep($lib[3], $temp);
+            $temp2 = grep($temp, $lib[3]);
         } else {
-            $temp2 = grep(base64_decode(substr($lib[3], 7)), $temp);
+            $temp2 = grep($temp, base64_decode(substr($lib[3], 7)));
         }
         $isko = ($temp2 == '') ? 1 : 0;
         if ($iserror) {

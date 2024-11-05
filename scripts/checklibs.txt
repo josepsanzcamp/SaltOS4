@@ -23,10 +23,10 @@ sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|
 tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|base64:eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjMuMSJ9
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 
-httpclient|http://www.phpclasses.org/browse/file/5.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPjMgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
-mimeparser|http://www.phpclasses.org/browse/file/14670.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPjE2IGhvdXJzIGFnbzwvc3Bhbj48L1REPg==
-pop3|http://www.phpclasses.org/browse/file/3.html|Date<!--/htdig_noindex-->:|base64:PFRIIFZBTElHTj0idG9wIiBBTElHTj1yaWdodCBXSURUSD0iMSUiIE5PV1JBUD48IS0taHRkaWdfbm9pbmRleC0tPkRhdGU8IS0tL2h0ZGlnX25vaW5kZXgtLT46PC9USD48VEQ+PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPjIgeWVhcnMgYWdvPC9zcGFuPjwvVEQ+
-rfc822|http://www.phpclasses.org/browse/file/21704.html|Date<!--/htdig_noindex-->:|base64:
+httpclient|http://www.phpclasses.org/browse/file/5.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPg==
+mimeparser|http://www.phpclasses.org/browse/file/14670.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
+pop3|http://www.phpclasses.org/browse/file/3.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
+rfc822|http://www.phpclasses.org/browse/file/21704.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
 
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNC40PC90aXRsZT4=
