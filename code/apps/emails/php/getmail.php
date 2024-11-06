@@ -1027,7 +1027,7 @@ function gzfilesize($filename)
         }
         fclose($zp);
     }
-    return($gzfs);
+    return $gzfs;
 }
 
 /**
@@ -1060,9 +1060,20 @@ function getmail_body($id)
         db_query(...$query);
     }
     // CONTINUE
-    $result = __getmail_getfullbody(__getmail_getnode('0', $decoded));
+    $buffer = __getmail_body_helper($decoded);
+    return $buffer;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __getmail_body_helper($decoded)
+{
     $buffer = '';
-    $first = 1;
+    $result = __getmail_getfullbody(__getmail_getnode('0', $decoded));
+    $first = true;
     foreach ($result as $index => $node) {
         $disp = $node['disp'];
         $type = $node['type'];
@@ -1071,11 +1082,7 @@ function getmail_body($id)
             if ($type == 'plain') {
                 $temp = wordwrap($temp, 120);
                 $temp = htmlentities($temp, ENT_COMPAT, 'UTF-8');
-                $temp = str_replace(
-                    [' ', "\t", "\n"],
-                    ['&nbsp;', str_repeat('&nbsp;', 8), "<br/>\n"],
-                    $temp
-                );
+                $temp = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $temp);
             }
             if ($type == 'html') {
                 require_once 'php/lib/html.php';
@@ -1103,6 +1110,10 @@ function getmail_body($id)
                     }
                 }
             }
+            if ($type == 'html') {
+                $temp = fix_img_tag($temp);
+                $temp = fix_img_style($temp);
+            }
             if (!$first) {
                 $buffer .= __HTML_SEPARATOR__;
             }
@@ -1112,7 +1123,7 @@ function getmail_body($id)
             if ($type == 'html') {
                 $buffer .= __HTML_TEXT_OPEN__ . $temp . __HTML_TEXT_CLOSE__;
             }
-            $first = 0;
+            $first = false;
         }
     }
     return $buffer;
@@ -1135,7 +1146,7 @@ function getmail_source($id)
     $source = getutf8($source);
     $source = wordwrap($source, 120);
     $source = htmlentities($source, ENT_COMPAT, 'UTF-8');
-    $source = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 8), '<br/>'], $source);
+    $source = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $source);
     $buffer = '';
     $buffer .= __PLAIN_TEXT_OPEN__;
     $buffer .= $source;

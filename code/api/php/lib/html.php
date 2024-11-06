@@ -272,3 +272,68 @@ function extract_img_style($html)
     }
     return [$html, $files];
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function fix_img_tag($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('img');
+    foreach ($items as $item) {
+        $src = $item->getAttribute('src');
+        $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+        $froms = [
+            $src,
+            str_replace('&', '&amp;', $src),
+            htmlspecialchars($src),
+        ];
+        foreach ($froms as $from) {
+            $html = str_replace($from, $img, $html);
+        }
+    }
+    return $html;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function fix_img_style($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('*');
+    foreach ($items as $item) {
+        $style = $item->getAttribute('style');
+        preg_match_all('/url\((.*?)\)/', $style, $matches);
+        if (count($matches[1])) {
+            foreach ($matches[1] as $src) {
+                if (in_array(substr($src, 0, 1), ['"', "'"])) {
+                    $src = substr($src, 1);
+                }
+                if (in_array(substr($src, -1, 1), ['"', "'"])) {
+                    $src = substr($src, 0, -1);
+                }
+                $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+                $froms = [
+                    $src,
+                    str_replace('&', '&amp;', $src),
+                    htmlspecialchars($src),
+                ];
+                foreach ($froms as $from) {
+                    $html = str_replace($from, $img, $html);
+                }
+            }
+        }
+    }
+    return $html;
+}

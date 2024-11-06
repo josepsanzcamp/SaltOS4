@@ -647,7 +647,7 @@ function sendmail_prepare($action, $email_id)
                     $oldbody .= '<b>' . $result2[$key2] . '</b>';
                     $oldbody .= __HTML_TEXT_CLOSE__;
                 }
-                $first = 1;
+                $first = true;
                 foreach ($result2['files'] as $file) {
                     $cname = $file['cname'];
                     $hsize = $file['hsize'];
@@ -658,7 +658,7 @@ function sendmail_prepare($action, $email_id)
                         $oldbody .= ' | ';
                     }
                     $oldbody .= "<b>{$cname}</b> ({$hsize})";
-                    $first = 0;
+                    $first = false;
                 }
                 if (!$first) {
                     $oldbody .= __HTML_TEXT_CLOSE__;
@@ -666,60 +666,7 @@ function sendmail_prepare($action, $email_id)
                 $oldbody .= __HTML_BOX_CLOSE__;
                 $oldbody .= __HTML_SEPARATOR__;
             }
-            $result2 = __getmail_getfullbody(__getmail_getnode('0', $decoded));
-            $first = 1;
-            foreach ($result2 as $index => $node) {
-                $disp = $node['disp'];
-                $type = $node['type'];
-                if (__getmail_processplainhtml($disp, $type)) {
-                    $temp = $node['body'];
-                    if ($type == 'plain') {
-                        $temp = wordwrap($temp, 120);
-                        $temp = htmlentities($temp, ENT_COMPAT, 'UTF-8');
-                        $temp = str_replace(
-                            [' ', "\t", "\n"],
-                            ['&nbsp;', str_repeat('&nbsp;', 8), '<br/>'],
-                            $temp
-                        );
-                    }
-                    if ($type == 'html') {
-                        require_once 'php/lib/html.php';
-                        $temp = remove_script_tag($temp);
-                        $temp = remove_style_tag($temp);
-                        $temp = remove_comment_tag($temp);
-                        $temp = remove_meta_tag($temp);
-                        $temp = remove_link_tag($temp);
-                        $temp = inline_img_tag($temp);
-                        $temp = inline_img_style($temp);
-                    }
-                    foreach ($result2 as $index2 => $node2) {
-                        $disp2 = $node2['disp'];
-                        $type2 = $node2['type'];
-                        if (
-                            !__getmail_processplainhtml($disp2, $type2) &&
-                            !__getmail_processmessage($disp2, $type2)
-                        ) {
-                            $cid2 = $node2['cid'];
-                            if ($cid2 != '') {
-                                $chash2 = $node2['chash'];
-                                $ctype2 = $node2['ctype'];
-                                $data = mime_inline($ctype2, $node2['body']);
-                                $temp = str_replace("cid:{$cid2}", $data, $temp);
-                            }
-                        }
-                    }
-                    if (!$first) {
-                        $oldbody .= __HTML_SEPARATOR__;
-                    }
-                    if ($type == 'plain') {
-                        $oldbody .= __PLAIN_TEXT_OPEN__ . $temp . __PLAIN_TEXT_CLOSE__;
-                    }
-                    if ($type == 'html') {
-                        $oldbody .= __HTML_TEXT_OPEN__ . $temp . __HTML_TEXT_CLOSE__;
-                    }
-                    $first = 0;
-                }
-            }
+            $oldbody .= __getmail_body_helper($decoded);
             $body_extra .= __HTML_NEWLINE__ . $oldhead . __HTML_NEWLINE__ .
                 __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__ . __HTML_NEWLINE__;
             unset($oldhead); // TRICK TO RELEASE MEMORY
