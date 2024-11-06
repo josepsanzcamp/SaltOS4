@@ -11,7 +11,7 @@ phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|base64:PHRpdG
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4zIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMyJ9
 chartjs|https://api.cdnjs.com/libraries/Chart.js?fields=name,version|version|base64:eyJuYW1lIjoiQ2hhcnQuanMiLCJ2ZXJzaW9uIjoiNC40LjEifQ==
-ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjQzLjMuMCJ9
+ckeditor|https://api.cdnjs.com/libraries/ckeditor5?fields=name,version|version|base64:eyJuYW1lIjoiY2tlZGl0b3I1IiwidmVyc2lvbiI6IjQzLjMuMSJ9
 codemirror|https://api.cdnjs.com/libraries/codemirror?fields=name,version|version|base64:eyJuYW1lIjoiY29kZW1pcnJvciIsInZlcnNpb24iOiI2LjY1LjcifQ==
 icons|https://api.cdnjs.com/libraries/bootstrap-icons?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwLWljb25zIiwidmVyc2lvbiI6IjEuMTEuMyJ9
 imagesloaded|https://api.cdnjs.com/libraries/jquery.imagesloaded?fields=name,version|version|base64:eyJuYW1lIjoianF1ZXJ5LmltYWdlc2xvYWRlZCIsInZlcnNpb24iOiI1LjAuMCJ9
