@@ -287,6 +287,10 @@ function fix_img_tag($html)
     $items = $dom->getElementsByTagName('img');
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
+        $scheme = parse_url($src, PHP_URL_SCHEME);
+        if (in_array($scheme, ['data'])) {
+            continue;
+        }
         $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
         $froms = [
             $src,
@@ -322,6 +326,10 @@ function fix_img_style($html)
                 }
                 if (in_array(substr($src, -1, 1), ['"', "'"])) {
                     $src = substr($src, 0, -1);
+                }
+                $scheme = parse_url($src, PHP_URL_SCHEME);
+                if (in_array($scheme, ['data'])) {
+                    continue;
                 }
                 $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
                 $froms = [
