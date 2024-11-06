@@ -225,7 +225,10 @@ function extract_img_tag($html)
     $files = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
-        $img = mime_extract($src);
+        $img = mime_extract(__inline_img_helper($src));
+        if ($img['data'] == '' || $img['type'] == '') {
+            continue;
+        }
         $hash = md5($img['data']);
         $files[$hash] = $img;
         $html = str_replace($src, "cid:$hash", $html);
@@ -257,7 +260,10 @@ function extract_img_style($html)
                 if (in_array(substr($src, -1, 1), ['"', "'"])) {
                     $src = substr($src, 0, -1);
                 }
-                $img = mime_extract($src);
+                $img = mime_extract(__inline_img_helper($src));
+                if ($img['data'] == '' || $img['type'] == '') {
+                    continue;
+                }
                 $hash = md5($img['data']);
                 $files[$hash] = $img;
                 $html = str_replace($src, "cid:$hash", $html);

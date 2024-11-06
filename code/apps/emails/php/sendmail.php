@@ -833,7 +833,7 @@ function sendmail_action($json, $action, $email_id)
     foreach (array_merge($files1, $files2) as $hash => $file) {
         $files[] = [
             'data' => $file['data'],
-            'name' => saltos_content_type0($file['type']) . '.' . saltos_content_type1($file['type']),
+            'name' => str_replace('/', '.', $file['type']),
             'mime' => $file['type'],
             'cid' => $hash,
         ];

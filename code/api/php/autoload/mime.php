@@ -152,5 +152,8 @@ function mime_extract($data)
             'data' => base64_decode($matches[2]),
         ];
     }
-    show_php_error(['phperror' => 'unknown inline mime data']);
+    return [
+        'type' => '',
+        'data' => '',
+    ];
 }
