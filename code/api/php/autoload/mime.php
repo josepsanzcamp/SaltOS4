@@ -157,3 +157,22 @@ function mime_extract($data)
         'data' => '',
     ];
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function mime2name($type)
+{
+    $type0 = saltos_content_type0($type);
+    $type1 = saltos_content_type1($type);
+    $types = [
+        'octet-stream' => 'bin',
+        'svg+xml' => 'svg',
+    ];
+    if (isset($types[$type1])) {
+        $type1 = $types[$type1];
+    }
+    return $type0 . '.' . $type1;
+}
