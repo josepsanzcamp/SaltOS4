@@ -79,6 +79,11 @@ saltos.driver.init = async arg => {
         saltos.filter.select();
         saltos.filter.load('last');
     }
+    // To check the autosave feature
+    if (['create', 'edit'].includes(arg)) {
+        saltos.app.autosave.init('two,one');
+        saltos.app.autosave.restore('two,one');
+    }
     // Old feature
     const type = document.getElementById('screen').getAttribute('type');
     saltos.driver.__types[type].init(arg);
@@ -135,6 +140,7 @@ saltos.driver.cancel = arg => {
         if (saltos.bootstrap.modal('isopen')) {
             const bool = confirm('Do you want to close this screen???');
             if (bool) {
+                saltos.app.autosave.clear('two,one');
                 saltos.driver.close(arg);
             }
             return;
@@ -145,6 +151,7 @@ saltos.driver.cancel = arg => {
                 color: 'success',
                 icon: 'check-lg',
                 onclick: () => {
+                    saltos.app.autosave.clear('two,one');
                     saltos.driver.close(arg);
                 },
             },{
@@ -158,6 +165,7 @@ saltos.driver.cancel = arg => {
         });
         return;
     }
+    saltos.app.autosave.clear('two,one');
     saltos.driver.close(arg);
 };
 
@@ -310,6 +318,7 @@ saltos.driver.insert = arg => {
                     saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
+                saltos.app.autosave.clear('two,one');
                 saltos.driver.close();
                 return;
             }
@@ -352,6 +361,7 @@ saltos.driver.update = arg => {
                     saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
+                saltos.app.autosave.clear('two,one');
                 saltos.driver.close();
                 return;
             }

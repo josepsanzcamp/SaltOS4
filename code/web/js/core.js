@@ -205,8 +205,8 @@ saltos.core.when_visible = (obj, fn, args) => {
     // the object and then, validate that not dissapear and wait until the
     // object is visible to execute the fn(args)
     let step = 1;
-    let interval = setInterval(() => {
-        let obj2 = document.getElementById(id);
+    const interval = setInterval(() => {
+        const obj2 = document.getElementById(id);
         if (step == 1) {
             // Maintain the state machine in the first state until found
             // the object in the document

@@ -691,7 +691,22 @@ saltos.bootstrap.__field.ckeditor = field => {
     // Program the set feature
     element.set = value => {
         if (typeof element.ckeditor != 'object') {
-            setTimeout(() => element.set(value), 1);
+            if (!element.hasOwnProperty('queue')) {
+                element.queue = [];
+            }
+            element.queue.push(value);
+            if (!element.hasOwnProperty('timer')) {
+                element.timer = setInterval(() => {
+                    if (typeof element.ckeditor != 'object') {
+                        return;
+                    }
+                    clearInterval(element.timer);
+                    while (element.queue.length) {
+                        const item = element.queue.shift();
+                        element.set(item);
+                    }
+                }, 1);
+            }
             return;
         }
         element.ckeditor.setData(value);
@@ -810,7 +825,22 @@ saltos.bootstrap.__field.codemirror = field => {
     // Program the set feature
     element.set = value => {
         if (typeof element.codemirror != 'object') {
-            setTimeout(() => element.set(value), 1);
+            if (!element.hasOwnProperty('queue')) {
+                element.queue = [];
+            }
+            element.queue.push(value);
+            if (!element.hasOwnProperty('timer')) {
+                element.timer = setInterval(() => {
+                    if (typeof element.codemirror != 'object') {
+                        return;
+                    }
+                    clearInterval(element.timer);
+                    while (element.queue.length) {
+                        const item = element.queue.shift();
+                        element.set(item);
+                    }
+                }, 1);
+            }
             return;
         }
         element.codemirror.setValue(value);
@@ -2746,7 +2776,22 @@ saltos.bootstrap.__field.tags = field => {
     // Program the set in the input first
     element.set = value => {
         if (typeof element.tomselect != 'object') {
-            setTimeout(() => element.set(value), 1);
+            if (!element.hasOwnProperty('queue')) {
+                element.queue = [];
+            }
+            element.queue.push(value);
+            if (!element.hasOwnProperty('timer')) {
+                element.timer = setInterval(() => {
+                    if (typeof element.tomselect != 'object') {
+                        return;
+                    }
+                    clearInterval(element.timer);
+                    while (element.queue.length) {
+                        const item = element.queue.shift();
+                        element.set(item);
+                    }
+                }, 1);
+            }
             return;
         }
         value = saltos.bootstrap.__value_helper(value, field.separator);
@@ -2815,7 +2860,22 @@ saltos.bootstrap.__field.onetag = field => {
     // Program the set in the input first
     element.set = value => {
         if (typeof element.tomselect != 'object') {
-            setTimeout(() => element.set(value), 1);
+            if (!element.hasOwnProperty('queue')) {
+                element.queue = [];
+            }
+            element.queue.push(value);
+            if (!element.hasOwnProperty('timer')) {
+                element.timer = setInterval(() => {
+                    if (typeof element.tomselect != 'object') {
+                        return;
+                    }
+                    clearInterval(element.timer);
+                    while (element.queue.length) {
+                        const item = element.queue.shift();
+                        element.set(item);
+                    }
+                }, 1);
+            }
             return;
         }
         element.tomselect.addOption({
@@ -3646,7 +3706,22 @@ saltos.bootstrap.__field.jstree = field => {
     });
     element.set = data => {
         if (typeof element.instance != 'object') {
-            setTimeout(() => element.set(data), 1);
+            if (!element.hasOwnProperty('queue')) {
+                element.queue = [];
+            }
+            element.queue.push(data);
+            if (!element.hasOwnProperty('timer')) {
+                element.timer = setInterval(() => {
+                    if (typeof element.instance != 'object') {
+                        return;
+                    }
+                    clearInterval(element.timer);
+                    while (element.queue.length) {
+                        const item = element.queue.shift();
+                        element.set(item);
+                    }
+                }, 1);
+            }
             return;
         }
         // Check for data not found

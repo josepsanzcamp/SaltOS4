@@ -1569,31 +1569,62 @@ saltos.app.ajax = args => {
  * TODO
  */
 saltos.app.autosave = {
-    save: key => {
+    init: (key, hash) => {
         key = saltos.app.__comma_plus_parser_helper(key);
+        if (hash === undefined) {
+            hash = saltos.hash.get();
+        }
         for (const i in key) {
-            saltos.app.__backup.restore(key[i]);
-            const hash = saltos.hash.get();
-            const data = saltos.app.get_data();
-            saltos.storage.setItem(`saltos.all.autosave/${hash}/${key[i]}`, JSON.stringify(data));
+            if (saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+                continue;
+            }
+            saltos.storage.setItem(`saltos.app.autosave/${hash}/${key[i]}`, '{}');
         }
         return key.length > 0;
     },
-    restore: key => {
+    save: (key, hash) => {
         key = saltos.app.__comma_plus_parser_helper(key);
+        if (hash === undefined) {
+            hash = saltos.hash.get();
+        }
         for (const i in key) {
+            if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+                continue;
+            }
             saltos.app.__backup.restore(key[i]);
-            const hash = saltos.hash.get();
-            const data = JSON.parse(saltos.storage.getItem(`saltos.all.autosave/${hash}/${key[i]}`));
+            const data = saltos.app.get_data();
+            if (!Object.keys(data).length) {
+                continue;
+            }
+            saltos.storage.setItem(`saltos.app.autosave/${hash}/${key[i]}`, JSON.stringify(data));
+        }
+        return key.length > 0;
+    },
+    restore: (key, hash) => {
+        key = saltos.app.__comma_plus_parser_helper(key);
+        if (hash === undefined) {
+            hash = saltos.hash.get();
+        }
+        for (const i in key) {
+            if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+                continue;
+            }
+            const data = JSON.parse(saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`));
+            if (!Object.keys(data).length) {
+                continue;
+            }
+            saltos.app.__backup.restore(key[i]);
             saltos.app.form.data(data, false);
         }
         return key.length > 0;
     },
-    clear: key => {
+    clear: (key, hash) => {
         key = saltos.app.__comma_plus_parser_helper(key);
+        if (hash === undefined) {
+            hash = saltos.hash.get();
+        }
         for (const i in key) {
-            const hash = saltos.hash.get();
-            saltos.storage.removeItem(`saltos.all.autosave/${hash}/${key[i]}`);
+            saltos.storage.removeItem(`saltos.app.autosave/${hash}/${key[i]}`);
         }
         return key.length > 0;
     },

@@ -47,12 +47,7 @@ saltos.hash = {};
  */
 saltos.hash.get = () => {
     let hash = window.location.hash;
-    if (hash.length && hash.substr(0, 1) == '#') {
-        hash = hash.substr(1);
-    }
-    if (hash.length && hash.substr(0, 1) == '/') {
-        hash = hash.substr(1);
-    }
+    hash = saltos.hash.__helper(hash);
     return hash;
 };
 
@@ -72,12 +67,7 @@ saltos.hash.get = () => {
  * The operation is cancelled if the current hash is the same that the new hash
  */
 saltos.hash.set = hash => {
-    if (hash.length && hash.substr(0, 1) == '#') {
-        hash = hash.substr(1);
-    }
-    if (hash.length && hash.substr(0, 1) == '/') {
-        hash = hash.substr(1);
-    }
+    hash = saltos.hash.__helper(hash);
     if (saltos.hash.get() == hash) {
         return false;
     }
@@ -101,17 +91,36 @@ saltos.hash.set = hash => {
  * The operation is cancelled if the current hash is the same that the new hash
  */
 saltos.hash.add = hash => {
+    hash = saltos.hash.__helper(hash);
+    if (saltos.hash.get() == hash) {
+        return false;
+    }
+    window.history.pushState(null, null, '.#/' + hash);
+    return true;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.hash.__helper = hash => {
     if (hash.length && hash.substr(0, 1) == '#') {
         hash = hash.substr(1);
     }
     if (hash.length && hash.substr(0, 1) == '/') {
         hash = hash.substr(1);
     }
-    if (saltos.hash.get() == hash) {
-        return false;
-    }
-    window.history.pushState(null, null, '.#/' + hash);
-    return true;
+    return hash;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.hash.url2hash = url => {
+    return saltos.hash.__helper((new URL(url)).hash);
 };
 
 /**
@@ -129,9 +138,13 @@ saltos.hash.trigger = () => {
  * This function allow to SaltOS to update the contents when hash change
  */
 window.addEventListener('hashchange', event => {
+    if (event.oldURL != '') {
+        const hash = saltos.hash.url2hash(event.oldURL);
+        saltos.app.autosave.save('two,one', hash);
+    }
     // Ajax part
     for (const i in saltos.core.__ajax) {
-        saltos.core.__ajax[i].abort();
+        //~ saltos.core.__ajax[i].abort();
     }
     // Autoclose part
     document.querySelectorAll('[autoclose]').forEach(_this => {
@@ -151,4 +164,13 @@ window.addEventListener('hashchange', event => {
     }
     // Do the request
     saltos.app.send_request(saltos.hash.get());
+});
+
+/**
+ * Before unload management
+ *
+ * This function allow to SaltOS to update the contents when hash change
+ */
+window.addEventListener('beforeunload', event => {
+    saltos.app.autosave.save('two,one');
 });

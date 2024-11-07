@@ -202,6 +202,7 @@ saltos.emails.send = () => {
             if (response.status == 'ok') {
                 saltos.app.toast('Response', response.text);
                 saltos.window.send('saltos.emails.update');
+                saltos.app.autosave.clear('two,one');
                 saltos.driver.close();
                 return;
             }
