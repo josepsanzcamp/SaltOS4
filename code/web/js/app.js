@@ -51,10 +51,7 @@ saltos.app = {};
  * @message => message of the modal dialog
  * @extra   => object with array of buttons and color
  */
-saltos.app.modal = (title, message, extra) => {
-    if (extra === undefined) {
-        extra = {};
-    }
+saltos.app.modal = (title, message, extra = {}) => {
     if (!extra.hasOwnProperty('buttons')) {
         extra.buttons = [{
             label: 'Close',
@@ -106,10 +103,7 @@ saltos.app.modal = (title, message, extra) => {
  * @message => message of the toast
  * @extra   => object with array of buttons and color
  */
-saltos.app.toast = (title, message, extra) => {
-    if (extra === undefined) {
-        extra = {};
-    }
+saltos.app.toast = (title, message, extra = {}) => {
     if (!extra.hasOwnProperty('color')) {
         extra.color = 'primary';
     }
@@ -1570,87 +1564,98 @@ saltos.app.ajax = args => {
  *
  * TODO
  */
-saltos.app.autosave = {
-    init: (key, hash) => {
-        key = saltos.app.__comma_plus_parser_helper(key);
-        if (hash === undefined) {
-            hash = saltos.hash.get();
-        }
-        for (const i in key) {
-            if (saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
-                continue;
-            }
-            saltos.storage.setItem(`saltos.app.autosave/${hash}/${key[i]}`, '{}');
-        }
-        return key.length > 0;
-    },
+saltos.app.autosave = {};
 
-    save: (key, hash) => {
-        key = saltos.app.__comma_plus_parser_helper(key);
-        if (hash === undefined) {
-            hash = saltos.hash.get();
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.autosave.init = (key, hash = saltos.hash.get()) => {
+    key = saltos.app.__comma_plus_parser_helper(key);
+    for (const i in key) {
+        if (saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+            continue;
         }
-        for (const i in key) {
-            if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
-                continue;
-            }
-            saltos.app.__backup.restore(key[i]);
-            const data = saltos.app.get_data();
-            if (!Object.keys(data).length) {
-                continue;
-            }
-            saltos.storage.setItem(`saltos.app.autosave/${hash}/${key[i]}`, JSON.stringify(data));
-        }
-        return key.length > 0;
-    },
+        saltos.storage.setItemWithTimestamp(`saltos.app.autosave/${hash}/${key[i]}`, {});
+    }
+    return key.length > 0;
+};
 
-    restore: (key, hash) => {
-        key = saltos.app.__comma_plus_parser_helper(key);
-        if (hash === undefined) {
-            hash = saltos.hash.get();
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.autosave.save = (key, hash = saltos.hash.get()) => {
+    key = saltos.app.__comma_plus_parser_helper(key);
+    for (const i in key) {
+        if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+            continue;
         }
-        for (const i in key) {
-            if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
-                continue;
-            }
-            const data = JSON.parse(saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`));
-            if (!Object.keys(data).length) {
-                continue;
-            }
-            saltos.app.__backup.restore(key[i]);
-            saltos.app.form.data(data, false);
+        saltos.app.__backup.restore(key[i]);
+        const data = saltos.app.get_data();
+        if (!Object.keys(data).length) {
+            continue;
         }
-        return key.length > 0;
-    },
+        saltos.storage.setItemWithTimestamp(`saltos.app.autosave/${hash}/${key[i]}`, data);
+    }
+    return key.length > 0;
+};
 
-    clear: (key, hash) => {
-        key = saltos.app.__comma_plus_parser_helper(key);
-        if (hash === undefined) {
-            hash = saltos.hash.get();
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.autosave.restore = (key, hash = saltos.hash.get()) => {
+    key = saltos.app.__comma_plus_parser_helper(key);
+    for (const i in key) {
+        if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+            continue;
         }
-        for (const i in key) {
-            saltos.storage.removeItem(`saltos.app.autosave/${hash}/${key[i]}`);
+        const data = saltos.storage.getItemWithTimestamp(`saltos.app.autosave/${hash}/${key[i]}`);
+        if (!Object.keys(data).length) {
+            continue;
         }
-        return key.length > 0;
-    },
+        saltos.app.__backup.restore(key[i]);
+        saltos.app.form.data(data, false);
+    }
+    return key.length > 0;
+};
 
-    purge: (key, hash) => {
-        key = saltos.app.__comma_plus_parser_helper(key);
-        if (hash === undefined) {
-            hash = saltos.hash.get();
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.autosave.clear = (key, hash = saltos.hash.get()) => {
+    key = saltos.app.__comma_plus_parser_helper(key);
+    for (const i in key) {
+        saltos.storage.removeItem(`saltos.app.autosave/${hash}/${key[i]}`);
+    }
+    return key.length > 0;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.autosave.purge = (key, hash = saltos.hash.get()) => {
+    key = saltos.app.__comma_plus_parser_helper(key);
+    for (const i in key) {
+        if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+            continue;
         }
-        for (const i in key) {
-            if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
-                continue;
-            }
-            const data = JSON.parse(saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`));
-            if (Object.keys(data).length) {
-                continue;
-            }
-            saltos.storage.removeItem(`saltos.app.autosave/${hash}/${key[i]}`);
+        const data = saltos.storage.getItemWithTimestamp(`saltos.app.autosave/${hash}/${key[i]}`);
+        if (Object.keys(data).length) {
+            continue;
         }
-        return key.length > 0;
-    },
+        saltos.storage.removeItem(`saltos.app.autosave/${hash}/${key[i]}`);
+    }
+    saltos.storage.purgeWithTimestamp('saltos.app.autosave', -86400);
+    return key.length > 0;
 };
 
 /**

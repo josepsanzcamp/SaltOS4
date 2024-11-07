@@ -127,13 +127,7 @@ saltos.window.unset_listener = (name) => {
  * the key generated to send the event to the origin of the message must contains
  * the prefix that too
  */
-saltos.window.send = (name, data, scope) => {
-    if (data === undefined) {
-        data = '';
-    }
-    if (scope === undefined) {
-        scope = 'all';
-    }
+saltos.window.send = (name, data = '', scope = 'all') => {
     saltos.storage.setItem('saltos.window.name', name);
     saltos.storage.setItem('saltos.window.data', data);
     // This part of code allow to send signals to other tabs using the

@@ -98,3 +98,52 @@ saltos.storage.clear = () => {
         }
     });
 };
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.storage.getItemWithTimestamp = key => {
+    try {
+        const data = JSON.parse(saltos.storage.getItem(key));
+        return data.value;
+    } catch (error) {
+        return null;
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.storage.setItemWithTimestamp = (key, value) => {
+    return saltos.storage.setItem(key, JSON.stringify({
+        'timestamp': saltos.core.timestamp(),
+        'value': value,
+    }));
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.storage.purgeWithTimestamp = (prefix, offset) => {
+    prefix = saltos.storage.get_key(prefix);
+    const timestamp = saltos.core.timestamp(offset);
+    Object.keys(window.localStorage).forEach(key => {
+        if (!key.startsWith(prefix)) {
+            return;
+        }
+        try {
+            const data = JSON.parse(window.localStorage.getItem(key));
+            if (data.timestamp < timestamp) {
+                window.localStorage.removeItem(key);
+            }
+        } catch (error) {
+            return;
+        }
+    });
+};

@@ -148,10 +148,7 @@ saltos.core.addlog = msg => {
  * @params => an array with the arguments that must to exists
  * @value  => the default value used if an argument doesn't exists
  */
-saltos.core.check_params = (obj, params, value) => {
-    if (value === undefined) {
-        value = '';
-    }
+saltos.core.check_params = (obj, params, value = '') => {
     for (const key in params) {
         if (!obj.hasOwnProperty(params[key])) {
             obj[params[key]] = value;
@@ -539,10 +536,10 @@ saltos.core.require = (files, callback) => {
  * php/autoload/xml2array.php file with more javascript details as type detection.
  */
 saltos.core.eval_bool = arg => {
-    if (arg === null) {
+    if (arg === undefined) {
         return false;
     }
-    if (arg === undefined) {
+    if (arg === null) {
         return false;
     }
     if (typeof arg == 'boolean') {
@@ -580,11 +577,11 @@ saltos.core.eval_bool = arg => {
  * number, null, undefined or other type.
  */
 saltos.core.toString = arg => {
-    if (arg === null) {
-        return 'null';
-    }
     if (arg === undefined) {
         return 'undefined';
+    }
+    if (arg === null) {
+        return 'null';
     }
     if (typeof arg == 'boolean') {
         return arg ? 'true' : 'false';
@@ -774,12 +771,15 @@ window.addEventListener('online', event => {
  * @file => filename used to obtain the first part of the code
  * @line => line used to construct the last part of the code
  */
-saltos.core.__get_code_from_file_and_line = (file, line) => {
-    if (file === undefined) {
-        file = 'unknown';
-    }
-    if (line === undefined) {
-        line = 'unknown';
-    }
+saltos.core.__get_code_from_file_and_line = (file = 'unknown', line = 'unknown') => {
     return file.split('/').pop().split('.').shift() + ':' + line;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.core.timestamp = (offset = 0) => {
+    return Date.now() / 1000 + offset;
 };

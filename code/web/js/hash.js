@@ -145,7 +145,7 @@ window.addEventListener('hashchange', event => {
     }
     // Ajax part
     for (const i in saltos.core.__ajax) {
-        //~ saltos.core.__ajax[i].abort();
+        saltos.core.__ajax[i].abort();
     }
     // Autoclose part
     document.querySelectorAll('[autoclose]').forEach(_this => {
