@@ -81,8 +81,8 @@ saltos.driver.init = async arg => {
     }
     // To check the autosave feature
     if (['create', 'edit'].includes(arg)) {
-        saltos.app.autosave.init('two,one');
         saltos.app.autosave.restore('two,one');
+        saltos.app.autosave.init('two,one');
     }
     // Old feature
     const type = document.getElementById('screen').getAttribute('type');

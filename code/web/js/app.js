@@ -240,11 +240,13 @@ saltos.app.__form = {
  */
 saltos.app.__backup = {
     __forms: {},
+
     save: key => {
         saltos.app.__backup.__forms[key] = {};
         saltos.app.__backup.__forms[key].fields = saltos.app.__form.fields;
         saltos.app.__backup.__forms[key].templates = saltos.app.__form.templates;
     },
+
     restore: key => {
         saltos.app.__form.fields = [];
         saltos.app.__form.templates = {};
@@ -1582,6 +1584,7 @@ saltos.app.autosave = {
         }
         return key.length > 0;
     },
+
     save: (key, hash) => {
         key = saltos.app.__comma_plus_parser_helper(key);
         if (hash === undefined) {
@@ -1600,6 +1603,7 @@ saltos.app.autosave = {
         }
         return key.length > 0;
     },
+
     restore: (key, hash) => {
         key = saltos.app.__comma_plus_parser_helper(key);
         if (hash === undefined) {
@@ -1618,12 +1622,31 @@ saltos.app.autosave = {
         }
         return key.length > 0;
     },
+
     clear: (key, hash) => {
         key = saltos.app.__comma_plus_parser_helper(key);
         if (hash === undefined) {
             hash = saltos.hash.get();
         }
         for (const i in key) {
+            saltos.storage.removeItem(`saltos.app.autosave/${hash}/${key[i]}`);
+        }
+        return key.length > 0;
+    },
+
+    purge: (key, hash) => {
+        key = saltos.app.__comma_plus_parser_helper(key);
+        if (hash === undefined) {
+            hash = saltos.hash.get();
+        }
+        for (const i in key) {
+            if (!saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`)) {
+                continue;
+            }
+            const data = JSON.parse(saltos.storage.getItem(`saltos.app.autosave/${hash}/${key[i]}`));
+            if (Object.keys(data).length) {
+                continue;
+            }
             saltos.storage.removeItem(`saltos.app.autosave/${hash}/${key[i]}`);
         }
         return key.length > 0;

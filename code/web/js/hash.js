@@ -141,6 +141,7 @@ window.addEventListener('hashchange', event => {
     if (event.oldURL != '') {
         const hash = saltos.hash.url2hash(event.oldURL);
         saltos.app.autosave.save('two,one', hash);
+        saltos.app.autosave.purge('two,one', hash);
     }
     // Ajax part
     for (const i in saltos.core.__ajax) {
@@ -173,4 +174,5 @@ window.addEventListener('hashchange', event => {
  */
 window.addEventListener('beforeunload', event => {
     saltos.app.autosave.save('two,one');
+    saltos.app.autosave.purge('two,one');
 });
