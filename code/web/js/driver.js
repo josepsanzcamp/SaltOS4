@@ -584,9 +584,11 @@ saltos.driver.__types = {};
 saltos.driver.__types.type1 = {};
 
 /**
- * TODO
+ * Driver type1 template
  *
- * TODO
+ * This function returns the type1 template to mount the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type1.template = arg => {
     const obj = saltos.core.html(`
@@ -610,9 +612,11 @@ saltos.driver.__types.type1.template = arg => {
 };
 
 /**
- * TODO
+ * Driver type1 init
  *
- * TODO
+ * This function initialize the type1 driver screen for the arg requested
+ *
+ * @arg => the desired action to do
  */
 saltos.driver.__types.type1.init = arg => {
     if (arg == 'list') {
@@ -637,9 +641,11 @@ saltos.driver.__types.type1.init = arg => {
 };
 
 /**
- * TODO
+ * Driver type1 open
  *
- * TODO
+ * This function open a new window
+ *
+ * @arg => the desired url
  */
 saltos.driver.__types.type1.open = arg => {
     const only1 = saltos.hash.get().split('/').at(-1);
@@ -651,9 +657,11 @@ saltos.driver.__types.type1.open = arg => {
 };
 
 /**
- * TODO
+ * Driver type1 close
  *
- * TODO
+ * This function close the window
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type1.close = arg => {
     saltos.window.close();
@@ -667,9 +675,11 @@ saltos.driver.__types.type1.close = arg => {
 saltos.driver.__types.type2 = {};
 
 /**
- * TODO
+ * Driver type2 template
  *
- * TODO
+ * This function returns the type2 template to mount the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type2.template = arg => {
     const obj = saltos.core.html(`
@@ -694,9 +704,11 @@ saltos.driver.__types.type2.template = arg => {
 };
 
 /**
- * TODO
+ * Driver type2 init
  *
- * TODO
+ * This function initialize the type2 driver screen for the arg requested
+ *
+ * @arg => the desired action to do
  */
 saltos.driver.__types.type2.init = arg => {
     if (arg == 'list') {
@@ -727,9 +739,11 @@ saltos.driver.__types.type2.init = arg => {
 };
 
 /**
- * TODO
+ * Driver type2 open
  *
- * TODO
+ * This function open a new content
+ *
+ * @arg => the desired url
  */
 saltos.driver.__types.type2.open = arg => {
     saltos.hash.add(arg);
@@ -737,9 +751,11 @@ saltos.driver.__types.type2.open = arg => {
 };
 
 /**
- * TODO
+ * Driver type2 close
  *
- * TODO
+ * This function close the two zone of the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type2.close = arg => {
     saltos.driver.placeholder('two');
@@ -756,9 +772,11 @@ saltos.driver.__types.type2.close = arg => {
 saltos.driver.__types.type3 = {};
 
 /**
- * TODO
+ * Driver type3 template
  *
- * TODO
+ * This function returns the type3 template to mount the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type3.template = arg => {
     const obj = saltos.core.html(`
@@ -784,9 +802,11 @@ saltos.driver.__types.type3.template = arg => {
 };
 
 /**
- * TODO
+ * Driver type3 init
  *
- * TODO
+ * This function initialize the type3 driver screen for the arg requested
+ *
+ * @arg => the desired action to do
  */
 saltos.driver.__types.type3.init = arg => {
     if (arg == 'list') {
@@ -827,16 +847,20 @@ saltos.driver.__types.type3.init = arg => {
 };
 
 /**
- * TODO
+ * Driver type3 open
  *
- * TODO
+ * This function bypass to the type2 driver
+ *
+ * @arg => the desired url
  */
 saltos.driver.__types.type3.open = saltos.driver.__types.type2.open;
 
 /**
- * TODO
+ * Driver type3 close
  *
- * TODO
+ * This function close the three and/or two zone of the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type3.close = arg => {
     const arr = saltos.hash.get().split('/');
@@ -863,9 +887,11 @@ saltos.driver.__types.type3.close = arg => {
 saltos.driver.__types.type4 = {};
 
 /**
- * TODO
+ * Driver type4 template
  *
- * TODO
+ * This function returns the type4 template to mount the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type4.template = arg => {
     const obj = saltos.driver.__types.type1.template();
@@ -876,9 +902,11 @@ saltos.driver.__types.type4.template = arg => {
 };
 
 /**
- * TODO
+ * Driver type4 init
  *
- * TODO
+ * This function initialize the type4 driver screen for the arg requested
+ *
+ * @arg => the desired action to do
  */
 saltos.driver.__types.type4.init = arg => {
     if (arg == 'list') {
@@ -920,16 +948,20 @@ saltos.driver.__types.type4.init = arg => {
 };
 
 /**
- * TODO
+ * Driver type4 open
  *
- * TODO
+ * This function bypass to the type2 driver
+ *
+ * @arg => the desired url
  */
 saltos.driver.__types.type4.open = saltos.driver.__types.type2.open;
 
 /**
- * TODO
+ * Driver type4 close
  *
- * TODO
+ * This function close the modal
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type4.close = arg => {
     saltos.bootstrap.modal('close');
@@ -946,9 +978,11 @@ saltos.driver.__types.type4.close = arg => {
 saltos.driver.__types.type5 = {};
 
 /**
- * TODO
+ * Driver type5 template
  *
- * TODO
+ * This function returns the type5 template to mount the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type5.template = arg => {
     const obj = saltos.driver.__types.type2.template();
@@ -959,9 +993,11 @@ saltos.driver.__types.type5.template = arg => {
 };
 
 /**
- * TODO
+ * Driver type5 init
  *
- * TODO
+ * This function initialize the type5 driver screen for the arg requested
+ *
+ * @arg => the desired action to do
  */
 saltos.driver.__types.type5.init = arg => {
     if (arg == 'list') {
@@ -1010,16 +1046,20 @@ saltos.driver.__types.type5.init = arg => {
 };
 
 /**
- * TODO
+ * Driver type5 open
  *
- * TODO
+ * This function bypass to the type2 driver
+ *
+ * @arg => the desired url
  */
 saltos.driver.__types.type5.open = saltos.driver.__types.type2.open;
 
 /**
- * TODO
+ * Driver type5 close
  *
- * TODO
+ * This function close the modal and/or two zone of the screen
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.__types.type5.close = arg => {
     const arr = saltos.hash.get().split('/');
