@@ -178,6 +178,7 @@ function inline_img_style($html)
  */
 function __inline_img_helper($src)
 {
+    require_once "php/lib/gdlib.php";
     $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
     $scheme = parse_url($src, PHP_URL_SCHEME);
     if (in_array($scheme, ['data', 'cid'])) {
@@ -202,6 +203,12 @@ function __inline_img_helper($src)
                     $type = saltos_content_type_from_string($data['body']);
                 }
                 if (saltos_content_type0($type) == 'image') {
+                    $hash1 = md5($data['body']);
+                    $data['body'] = image_resize($data['body'], 1000);
+                    $hash2 = md5($data['body']);
+                    if ($hash1 != $hash2) {
+                        $type = 'image/jpeg';
+                    }
                     $img = mime_inline($type, $data['body']);
                 }
             }

@@ -57,3 +57,32 @@ function compute_width($text, $size)
     $width = abs($bbox[4] - $bbox[0]);
     return $width;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function image_resize($data, $size)
+{
+    $im = imagecreatefromstring($data);
+    if (!$im) {
+        return $data;
+    }
+    $width = imagesx($im);
+    $height = imagesy($im);
+    if ($width <= $size && $height <= $size) {
+        return $data;
+    }
+    $scale = min($size / $width, $size / $height);
+    $new_width = (int)($width * $scale);
+    $new_height = (int)($height * $scale);
+    $im2 = imagecreatetruecolor($new_width, $new_height);
+    imagecopyresampled($im2, $im, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+    ob_start();
+    imagejpeg($im2);
+    $img = ob_get_clean();
+    imagedestroy($im);
+    imagedestroy($im2);
+    return $img;
+}
