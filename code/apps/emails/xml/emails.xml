@@ -390,7 +390,8 @@
                 <button onclick="saltos.emails.init('close');saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <data eval="true">execute_query("SELECT `from`,`to`,cc,bcc,datetime,uidl,priority,sensitivity,state_sent,state_new,state_reply,state_forward,state_wait,state_spam,state_crt,subject,state_error
+        <data eval="true">execute_query("SELECT `from`, `to`, cc, bcc, datetime, CONCAT(account_id, '/', uidl) uidl, priority,
+            sensitivity, state_sent, state_new, state_reply, state_forward, state_wait, state_spam, state_crt, subject, state_error
             FROM app_emails WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/emails.js"))</file>
