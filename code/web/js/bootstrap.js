@@ -2927,9 +2927,12 @@ saltos.bootstrap.__field.onetag = field => {
 };
 
 /**
- * TODO
+ * Datalist helper
  *
- * TODO
+ * This function is a helper function used by the tags and onetag widgets
+ * and is intended to be used as load function by the tomselect library.
+ *
+ * @datalist => the original datalist that can be an string or an object
  */
 saltos.bootstrap.__datalist_helper = datalist => {
     let fn = null;
@@ -3025,9 +3028,13 @@ saltos.bootstrap.__datalist_helper = datalist => {
 };
 
 /**
- * TODO
+ * Value helper
  *
- * TODO
+ * This function is a helper function used by the tags widget and is intended
+ * to be used to convert a string into an array using the separator for split.
+ *
+ * @value     => the original value that must to be processed
+ * @separator => the separator string used in the split
  */
 saltos.bootstrap.__value_helper = (value, separator) => {
     value = value.toString().split(separator);

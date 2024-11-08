@@ -129,23 +129,28 @@ saltos.gettext.T = text => {
 };
 
 /**
- * TODO
+ * T function
  *
- * TODO
+ * This line allow to publish the saltos.gettext.T function in the global scope
  */
 window.T = saltos.gettext.T;
 
 /**
- * TODO
+ * Bootstrap gettext object
  *
- * TODO
+ * This object stores some bootstrap overloads that allow to other modules to
+ * access to the bootstrap modules using the gettext feature and translating
+ * texts.
  */
 saltos.gettext.bootstrap = {};
 
 /**
- * TODO
+ * Bootstrap field overload
  *
- * TODO
+ * This function overload the saltos.bootstrap.field funtion to add gettext
+ * features to the arguments depending the type of field.
+ *
+ * @field => the argument passed to the original bootstrap function
  */
 saltos.gettext.bootstrap.field = field => {
     // For all general bootstrap widgers
@@ -250,9 +255,12 @@ saltos.gettext.bootstrap.field = field => {
 };
 
 /**
- * TODO
+ * Bootstrap modal overload
  *
- * TODO
+ * This function overload the saltos.bootstrap.modal funtion to add gettext
+ * features to the arguments
+ *
+ * @arg => the argument passed to the original bootstrap function
  */
 saltos.gettext.bootstrap.modal = args => {
     const props = ['title', 'close', 'body', 'footer'];
@@ -267,9 +275,12 @@ saltos.gettext.bootstrap.modal = args => {
 };
 
 /**
- * TODO
+ * Bootstrap toast overload
  *
- * TODO
+ * This function overload the saltos.bootstrap.toast funtion to add gettext
+ * features to the arguments
+ *
+ * @arg => the argument passed to the original bootstrap function
  */
 saltos.gettext.bootstrap.toast = args => {
     const props = ['title', 'subtitle', 'close', 'body'];
@@ -284,9 +295,12 @@ saltos.gettext.bootstrap.toast = args => {
 };
 
 /**
- * TODO
+ * Bootstrap menu overload
  *
- * TODO
+ * This function overload the saltos.bootstrap.menu funtion to add gettext
+ * features to the arguments
+ *
+ * @arg => the argument passed to the original bootstrap function
  */
 saltos.gettext.bootstrap.menu = args => {
     if (args.hasOwnProperty('menu')) {
@@ -309,9 +323,12 @@ saltos.gettext.bootstrap.menu = args => {
 };
 
 /**
- * TODO
+ * Bootstrap offcanvas overload
  *
- * TODO
+ * This function overload the saltos.bootstrap.offcanvas funtion to add gettext
+ * features to the arguments
+ *
+ * @arg => the argument passed to the original bootstrap function
  */
 saltos.gettext.bootstrap.offcanvas = args => {
     const props = ['title', 'close', 'body'];

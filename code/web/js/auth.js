@@ -118,9 +118,14 @@ saltos.authenticate.deauthtoken = async () => {
 };
 
 /**
- * TODO
+ * Authenticate update function
  *
- * TODO
+ * This function is intended to be used in the profile feature to allow the password change
+ * by the user.
+ *
+ * @oldpass   => old password used to validate the correctness of the transaction
+ * @newpass   => new password used to update the old password
+ * @renewpass => repite the new password used to update the old password
  */
 saltos.authenticate.authupdate = (oldpass, newpass, renewpass) => {
     saltos.app.ajax({

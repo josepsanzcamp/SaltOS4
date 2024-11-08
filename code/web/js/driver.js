@@ -40,15 +40,19 @@
 saltos.driver = {};
 
 /**
- * TODO
+ * Driver init
  *
- * TODO
+ * This function initialize the driver screen, detects and replaces the styles, compute
+ * the paddings checking the contents of the top and bottom layouts, initialize the filter
+ * and the autosave features, and executes the specific init function.
+ *
+ * @arg => the desired action to do
  */
 saltos.driver.init = async arg => {
     if (document.getElementById('saltos-driver-styles')) {
         document.getElementById('saltos-driver-styles').remove();
     }
-    const obj = saltos.driver.styles('xl');
+    const obj = saltos.driver.styles();
     obj.setAttribute('id', 'saltos-driver-styles');
     document.getElementById('screen').append(obj);
     // Detect needed padding
@@ -90,9 +94,11 @@ saltos.driver.init = async arg => {
 };
 
 /**
- * TODO
+ * Driver open
  *
- * TODO
+ * This function launch the specific open action for the screen type
+ *
+ * @arg => this argument is bypassed to the destination
  */
 saltos.driver.open = arg => {
     const type = document.getElementById('screen').getAttribute('type');
@@ -100,9 +106,12 @@ saltos.driver.open = arg => {
 };
 
 /**
- * TODO
+ * Driver close
  *
- * TODO
+ * This function close the current app using the history back if it is available,
+ * otherwise use the specific close action for the screen type
+ *
+ * @arg => this argument forces to execute the specific driver close
  */
 saltos.driver.close = arg => {
     if (arg !== undefined && saltos.core.eval_bool(arg)) {
@@ -129,9 +138,19 @@ saltos.driver.close = arg => {
 };
 
 /**
- * TODO
+ * Driver cancel
  *
- * TODO
+ * This function works in conjuntion with the autosave module, and checks if the
+ * current screen contains new data, in this case ask to the user if they want
+ * continue.
+ *
+ * This function checks that modal is close, otherwise an old confirm is used
+ * to ask to the user.
+ *
+ * If the user decides continue to close, then the saltos.driver.close is executed
+ * bypassing the arg argument.
+ *
+ * @arg => this argument is bypassed to the destination
  */
 saltos.driver.cancel = arg => {
     saltos.backup.restore('two,one');
@@ -170,9 +189,12 @@ saltos.driver.cancel = arg => {
 };
 
 /**
- * TODO
+ * Driver search
  *
- * TODO
+ * This function implement the search feature associated to tables and lists
+ * using the filters fields
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
@@ -217,9 +239,11 @@ saltos.driver.search = arg => {
 };
 
 /**
- * TODO
+ * Driver search
  *
- * TODO
+ * This function implement the reset feature associated to the filters fields
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.reset = arg => {
     saltos.backup.restore('top+one');
@@ -247,9 +271,12 @@ saltos.driver.reset = arg => {
 };
 
 /**
- * TODO
+ * Driver more
  *
- * TODO
+ * This function implement the more feature associated to tables and lists
+ * using the filters fields
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.more = arg => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1;
@@ -296,9 +323,11 @@ saltos.driver.more = arg => {
 };
 
 /**
- * TODO
+ * Driver insert
  *
- * TODO
+ * This function implement the insert feature associated to the current app fields
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.insert = arg => {
     saltos.backup.restore('two,one');
@@ -334,9 +363,11 @@ saltos.driver.insert = arg => {
 };
 
 /**
- * TODO
+ * Driver update
  *
- * TODO
+ * This function implement the update feature associated to the current app fields
+ *
+ * @arg => unused at this scope
  */
 saltos.driver.update = arg => {
     saltos.backup.restore('two,one');
@@ -377,9 +408,11 @@ saltos.driver.update = arg => {
 };
 
 /**
- * TODO
+ * Driver delete
  *
- * TODO
+ * This function implement the delete feature associated to the current app register
+ *
+ * @arg => this field can contain the hash of the deletion
  */
 saltos.driver.delete = async arg => {
     if (saltos.bootstrap.modal('isopen')) {
@@ -443,9 +476,11 @@ saltos.driver.delete = async arg => {
 };
 
 /**
- * TODO
+ * Driver placeholder
  *
- * TODO
+ * This function sets a placeholder object in the element identified by the arg
+ *
+ * @arg => the id of the element where do you want to put the placeholder
  */
 saltos.driver.placeholder = arg => {
     const obj = saltos.core.html(`
@@ -470,11 +505,14 @@ saltos.driver.placeholder = arg => {
 };
 
 /**
- * TODO
+ * Driver styles
  *
- * TODO
+ * This function returns the style object that contains the tricks to do
+ * that the screen with verticals scrolls runs as expected
+ *
+ * @arg => the break-size used in the driver screen, xl as default
  */
-saltos.driver.styles = arg => {
+saltos.driver.styles = (arg = 'xl') => {
     const sizes = {
         xs: 0,
         sm: 576,
@@ -501,9 +539,14 @@ saltos.driver.styles = arg => {
 };
 
 /**
- * TODO
+ * Driver search if needed
  *
- * TODO
+ * This function launch the saltos.driver.search action if the action is the
+ * same before and after the setTimeout, too is launched if action source and
+ * the action destination complains with some pair of actions defined in the
+ * arg argument.
+ *
+ * @arg => an array with pairs of actions
  */
 saltos.driver.search_if_needed = arg => {
     const action1 = saltos.hash.get().split('/').at(2);

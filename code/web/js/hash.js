@@ -100,9 +100,11 @@ saltos.hash.add = hash => {
 };
 
 /**
- * TODO
+ * Hash helper
  *
- * TODO
+ * This function is used by all other functions to clean the hash
+ *
+ * @hash => the hash that you want to check and clean
  */
 saltos.hash.__helper = hash => {
     if (hash.length && hash.substr(0, 1) == '#') {
@@ -115,9 +117,11 @@ saltos.hash.__helper = hash => {
 };
 
 /**
- * TODO
+ * Url to hash
  *
- * TODO
+ * This function allow to convert and url string into a hash string
+ *
+ * @url => the url string that contains the hash that you want to retrieve
  */
 saltos.hash.url2hash = url => {
     return saltos.hash.__helper((new URL(url)).hash);
