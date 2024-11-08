@@ -90,9 +90,9 @@ saltos.invoices.compute_total = () => {
  * TODO
  */
 saltos.invoices.add_item = () => {
-    saltos.app.__backup.restore('two,one');
-    const layout = saltos.app.form.__layout_template_helper('detail', saltos.core.uniqid());
-    const obj = saltos.app.form.layout(layout, 'div');
+    saltos.backup.restore('two,one');
+    const layout = saltos.form.__layout_template_helper('detail', saltos.core.uniqid());
+    const obj = saltos.form.layout(layout, 'div');
     document.querySelector('.footer').before(obj);
     saltos.invoices.init('edit');
 };

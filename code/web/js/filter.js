@@ -86,7 +86,7 @@ saltos.filter.init = async () => {
  */
 saltos.filter.load = (name) => {
     if (saltos.filter.__cache.hasOwnProperty(name)) {
-        saltos.app.form.data(saltos.filter.__cache[name], false);
+        saltos.form.data(saltos.filter.__cache[name], false);
     }
     saltos.driver.search();
 };
@@ -159,7 +159,7 @@ saltos.filter.button = arg => {
     const form = document.getElementById('filter_form');
     const select = form.querySelector('select');
     const input = form.querySelector('input');
-    saltos.app.__backup.restore('top+one');
+    saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     switch (arg) {
         case 'load':

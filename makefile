@@ -22,7 +22,7 @@ web: clean
 	@for i in code/web/js/*.js; do \
 	cat $$i | php scripts/md5sum.php > code/web/js/.js/$${i##*/}; \
 	done
-	uglifyjs code/web/js/.js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,app}.js -c reduce_vars=false -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
+	uglifyjs code/web/js/.js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,backup,form,app}.js -c reduce_vars=false -m -o code/web/index.js --source-map filename=code/web/index.js.map,url=index.js.map
 	rm -f code/web/js/.js/*.js
 	rmdir code/web/js/.js
 	cat code/web/htm/index.htm | php scripts/sha384.php | minify --html > code/web/index.htm
@@ -40,7 +40,7 @@ devel: clean
 	cat code/web/htm/index.htm | \
 	php scripts/debug.php lib/index.css lib/bootstrap/bootstrap-icons.min.css lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css | \
 	php scripts/debug.php lib/index.js lib/bootstrap/bootstrap.bundle.min.js lib/md5/md5.min.js lib/sourcemap/sourcemapped-stacktrace.min.js | \
-	php scripts/debug.php index.js js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,app}.js > code/web/index.htm
+	php scripts/debug.php index.js js/{object,core,bootstrap,storage,hash,token,auth,window,gettext,driver,filter,backup,form,app}.js > code/web/index.htm
 
 	echo "importScripts('lib/md5/md5.min.js','js/proxy.js');" > code/web/proxy.js
 

@@ -140,8 +140,8 @@ saltos.hash.trigger = () => {
 window.addEventListener('hashchange', event => {
     if (event.oldURL != '') {
         const hash = saltos.hash.url2hash(event.oldURL);
-        saltos.app.autosave.save('two,one', hash);
-        saltos.app.autosave.purge('two,one', hash);
+        saltos.autosave.save('two,one', hash);
+        saltos.autosave.purge('two,one', hash);
     }
     // Ajax part
     for (const i in saltos.core.__ajax) {
@@ -173,6 +173,6 @@ window.addEventListener('hashchange', event => {
  * This function allow to SaltOS to update the contents when hash change
  */
 window.addEventListener('beforeunload', event => {
-    saltos.app.autosave.save('two,one');
-    saltos.app.autosave.purge('two,one');
+    saltos.autosave.save('two,one');
+    saltos.autosave.purge('two,one');
 });

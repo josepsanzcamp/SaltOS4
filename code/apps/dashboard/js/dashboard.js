@@ -82,7 +82,7 @@ saltos.dashboard.init = arg => {
  * TODO
  */
 saltos.dashboard.authupdate = () => {
-    saltos.app.__backup.restore('right');
+    saltos.backup.restore('right');
     if (!saltos.app.check_required()) {
         return;
     }

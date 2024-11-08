@@ -81,8 +81,8 @@ saltos.driver.init = async arg => {
     }
     // To check the autosave feature
     if (['create', 'edit'].includes(arg)) {
-        saltos.app.autosave.restore('two,one');
-        saltos.app.autosave.init('two,one');
+        saltos.autosave.restore('two,one');
+        saltos.autosave.init('two,one');
     }
     // Old feature
     const type = document.getElementById('screen').getAttribute('type');
@@ -134,13 +134,13 @@ saltos.driver.close = arg => {
  * TODO
  */
 saltos.driver.cancel = arg => {
-    saltos.app.__backup.restore('two,one');
+    saltos.backup.restore('two,one');
     const data = saltos.app.get_data();
     if (Object.keys(data).length) {
         if (saltos.bootstrap.modal('isopen')) {
             const bool = confirm('Do you want to close this screen???');
             if (bool) {
-                saltos.app.autosave.clear('two,one');
+                saltos.autosave.clear('two,one');
                 saltos.driver.close(arg);
             }
             return;
@@ -151,7 +151,7 @@ saltos.driver.cancel = arg => {
                 color: 'success',
                 icon: 'check-lg',
                 onclick: () => {
-                    saltos.app.autosave.clear('two,one');
+                    saltos.autosave.clear('two,one');
                     saltos.driver.close(arg);
                 },
             },{
@@ -165,7 +165,7 @@ saltos.driver.cancel = arg => {
         });
         return;
     }
-    saltos.app.autosave.clear('two,one');
+    saltos.autosave.clear('two,one');
     saltos.driver.close(arg);
 };
 
@@ -176,7 +176,7 @@ saltos.driver.cancel = arg => {
  */
 saltos.driver.search = arg => {
     document.getElementById('page').value = '0';
-    saltos.app.__backup.restore('top+one');
+    saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     saltos.filter.update('last', data);
     const app = saltos.hash.get().split('/').at(1);
@@ -222,11 +222,11 @@ saltos.driver.search = arg => {
  * TODO
  */
 saltos.driver.reset = arg => {
-    saltos.app.__backup.restore('top+one');
+    saltos.backup.restore('top+one');
     const types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
         'textarea', 'checkbox', 'password', 'file', 'select-one'];
-    for (const i in saltos.app.__form.fields) {
-        const field = saltos.app.__form.fields[i];
+    for (const i in saltos.form.__form.fields) {
+        const field = saltos.form.__form.fields[i];
         const obj = document.getElementById(field.id);
         if (!obj) {
             continue;
@@ -253,7 +253,7 @@ saltos.driver.reset = arg => {
  */
 saltos.driver.more = arg => {
     document.getElementById('page').value = parseInt(document.getElementById('page').value) + 1;
-    saltos.app.__backup.restore('top+one');
+    saltos.backup.restore('top+one');
     const data = saltos.app.get_data(true);
     const app = saltos.hash.get().split('/').at(1);
     let type = '';
@@ -301,7 +301,7 @@ saltos.driver.more = arg => {
  * TODO
  */
 saltos.driver.insert = arg => {
-    saltos.app.__backup.restore('two,one');
+    saltos.backup.restore('two,one');
     if (!saltos.app.check_required()) {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -318,7 +318,7 @@ saltos.driver.insert = arg => {
                     saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
-                saltos.app.autosave.clear('two,one');
+                saltos.autosave.clear('two,one');
                 saltos.driver.close();
                 return;
             }
@@ -339,7 +339,7 @@ saltos.driver.insert = arg => {
  * TODO
  */
 saltos.driver.update = arg => {
-    saltos.app.__backup.restore('two,one');
+    saltos.backup.restore('two,one');
     if (!saltos.app.check_required()) {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -361,7 +361,7 @@ saltos.driver.update = arg => {
                     saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
-                saltos.app.autosave.clear('two,one');
+                saltos.autosave.clear('two,one');
                 saltos.driver.close();
                 return;
             }
@@ -588,7 +588,7 @@ saltos.driver.__types.type1.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
-        saltos.app.__backup.restore('two,one');
+        saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -678,7 +678,7 @@ saltos.driver.__types.type2.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
-        saltos.app.__backup.restore('two,one');
+        saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -778,7 +778,7 @@ saltos.driver.__types.type3.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
-        saltos.app.__backup.restore('two,one');
+        saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -871,7 +871,7 @@ saltos.driver.__types.type4.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
-        saltos.app.__backup.restore('two,one');
+        saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };
@@ -961,7 +961,7 @@ saltos.driver.__types.type5.init = arg => {
     }
     if (arg == 'view') {
         // This disable the fields to use as readonly
-        saltos.app.__backup.restore('two,one');
+        saltos.backup.restore('two,one');
         saltos.app.form_disabled(true);
     }
 };

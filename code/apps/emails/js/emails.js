@@ -176,7 +176,7 @@ saltos.emails.delete2 = () => {
  * TODO
  */
 saltos.emails.send = () => {
-    saltos.app.__backup.restore('two,one');
+    saltos.backup.restore('two,one');
     if (!saltos.app.check_required()) {
         saltos.app.toast('Warning', 'Required fields not found', {color: 'danger'});
         return;
@@ -202,7 +202,7 @@ saltos.emails.send = () => {
             if (response.status == 'ok') {
                 saltos.app.toast('Response', response.text);
                 saltos.window.send('saltos.emails.update');
-                saltos.app.autosave.clear('two,one');
+                saltos.autosave.clear('two,one');
                 saltos.driver.close();
                 return;
             }
@@ -258,7 +258,7 @@ saltos.emails.signature = () => {
             'state_crt': state_crt,
         },
         success: response => {
-            saltos.app.form.data(response.data);
+            saltos.form.data(response.data);
         },
     });
 };
