@@ -608,9 +608,9 @@ saltos.app.form_disabled = bool => {
 };
 
 /**
- * TODO
+ * Profile screen
  *
- * TODO
+ * This function allow to open the profile screen in a offcanvas widget
  */
 saltos.app.profile = () => {
     if (saltos.bootstrap.offcanvas('isopen')) {
@@ -629,9 +629,9 @@ saltos.app.profile = () => {
 };
 
 /**
- * TODO
+ * Help screen
  *
- * TODO
+ * This function allow to open the help screen in a modal widget
  */
 saltos.app.help = () => {
     if (saltos.bootstrap.modal('isopen')) {
@@ -647,9 +647,9 @@ saltos.app.help = () => {
 };
 
 /**
- * TODO
+ * Logout feature
  *
- * TODO
+ * This function execute the deauthtoken action and jump to the login screen
  */
 saltos.app.logout = async () => {
     await saltos.authenticate.deauthtoken();
@@ -657,9 +657,9 @@ saltos.app.logout = async () => {
 };
 
 /**
- * TODO
+ * Filter screen
  *
- * TODO
+ * This function allow to open the filter screen in a offcanvas widget
  */
 saltos.app.filter = () => {
     if (saltos.bootstrap.offcanvas('isopen')) {
@@ -693,9 +693,13 @@ saltos.app.filter = () => {
 };
 
 /**
- * TODO
+ * Download helper
  *
- * TODO
+ * This function allow to download files, to do it, make the ajax request and
+ * using the base64 data response, sets the href of an anchor created dinamically
+ * to emulate the download action
+ *
+ * @file => the file data used to identify the desired file in the backend part
  */
 saltos.app.download = file => {
     saltos.app.ajax({
@@ -711,9 +715,11 @@ saltos.app.download = file => {
 };
 
 /**
- * TODO
+ * Delete helper
  *
- * TODO
+ * This function allow to remove the files and notes in the files and notes widgets
+ *
+ * @file => the file or note string path
  */
 saltos.app.delete = file => {
     const row = document.getElementById('all' + file.split('/').slice(3, 6).join('/'));
@@ -725,9 +731,19 @@ saltos.app.delete = file => {
 };
 
 /**
- * TODO
+ * Ajax helper
  *
- * TODO
+ * This function uses the saltos.core.ajax to implement the ajax feature, and in
+ * this scope, tries to simplify the needed configuration by provide a compound of
+ * defined features and code, intended to process the responses, the errors, to
+ * add the token, the lang.
+ *
+ * @url     => url of the ajax call
+ * @success => callback function for the success action (optional)
+ * @error   => callback function for the error action (optional)
+ * @abort   => callback function for the abort action (optional)
+ * @data    => data used in the body of the request
+ * @proxy   => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
  */
 saltos.app.ajax = args => {
     if (!args.hasOwnProperty('url')) {

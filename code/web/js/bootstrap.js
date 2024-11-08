@@ -2722,6 +2722,7 @@ saltos.bootstrap.__field.chartjs = field => {
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @separator   => the separator string used to split and join the tags
  * @onchange    => the function executed when onchange event is detected
+ * @create      => allow to specify if the widget can create new items
  *
  * Notes:
  *
@@ -2814,9 +2815,35 @@ saltos.bootstrap.__field.tags = field => {
 };
 
 /**
- * TODO
+ * One tag constructor helper
  *
- * TODO
+ * This function creates a select that allow to be used as a text input like a select widget and allow
+ * to create new items writing directly inside of the widget.
+ *
+ * @id          => the id used by the object
+ * @value       => the value of this field
+ * @datalist    => array with options for the datalist, used as autocomplete for the text input
+ * @label       => this parameter is used as text for the label
+ * @class       => allow to add more classes to the default form-control
+ * @placeholder => the text used as placeholder parameter
+ * @disabled    => this parameter raise the disabled flag
+ * @readonly    => this parameter raise the readonly flag
+ * @required    => this parameter raise the required flag
+ * @autofocus   => this parameter raise the autofocus flag
+ * @tooltip     => this parameter raise the title flag
+ * @accesskey   => the key used as accesskey parameter
+ * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
+ * @onchange    => the function executed when onchange event is detected
+ * @create      => allow to specify if the widget can create new items
+ *
+ * Notes:
+ *
+ * This widget contains a datalist with ajax autoload, this allow to send requests
+ * to the desired path to retrieve the contents of the datalist for the autocomplete,
+ * this request uses an historical keyword that can be retrieved in the json/term
+ *
+ * This widget uses the tom-select plugin, more info in their project website:
+ * - https://tom-select.js.org/
  */
 saltos.bootstrap.__field.onetag = field => {
     saltos.core.check_params(field, ['datalist', 'color', 'value']);

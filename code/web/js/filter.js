@@ -151,9 +151,13 @@ saltos.filter.save = (name, data) => {
 };
 
 /**
- * TODO
+ * Filter button helper
  *
- * TODO
+ * This function allow to manage the filters buttons, can process requests
+ * like load a filter, update a filter, delete a filter, create a filter and
+ * rename a filter.
+ *
+ * @arg => the desired action that you want to do
  */
 saltos.filter.button = arg => {
     const form = document.getElementById('filter_form');
@@ -209,9 +213,13 @@ saltos.filter.button = arg => {
 };
 
 /**
- * TODO
+ * Select button helper
  *
- * TODO
+ * This function updates the contents of the select button and the contents of
+ * the jstree widget, is executed when create a filter, rename a filter or delete
+ * a filter
+ *
+ * @arg => unused argument at the moment
  */
 saltos.filter.select = arg => {
     const form = document.getElementById('filter_form');

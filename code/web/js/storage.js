@@ -51,6 +51,8 @@ saltos.storage.pathname = saltos.core.encode_bad_chars(window.location.pathname)
  *
  * This function returns the real key used by localStorage to store a retrieve
  * the data.
+ *
+ * key => the desired key used to access to the local storage
  */
 saltos.storage.get_key = key => {
     return `${saltos.storage.pathname}/${key}`;
@@ -60,6 +62,8 @@ saltos.storage.get_key = key => {
  * Get Item
  *
  * This function is the same that localStorage.getItem but using the get_key as key
+ *
+ * key => the desired key used to access to the local storage
  */
 saltos.storage.getItem = key => {
     return window.localStorage.getItem(saltos.storage.get_key(key));
@@ -69,6 +73,9 @@ saltos.storage.getItem = key => {
  * Set Item
  *
  * This function is the same that localStorage.setItem but using the get_key as key
+ *
+ * key   => the desired key used to access to the local storage
+ * value => the value that you want to set
  */
 saltos.storage.setItem = (key, value) => {
     window.localStorage.setItem(saltos.storage.get_key(key), value);
@@ -78,13 +85,15 @@ saltos.storage.setItem = (key, value) => {
  * Remove Item
  *
  * This function is the same that localStorage.removeItem but using the get_key as key
+ *
+ * key => the desired key used to access to the local storage
  */
 saltos.storage.removeItem = key => {
     window.localStorage.removeItem(saltos.storage.get_key(key));
 },
 
 /**
- * Get Item
+ * Clear
  *
  * This function is the same that localStorage.clear but only removes the entries that
  * are using the same prefix that the current context, to do it, this code checks all
@@ -100,9 +109,12 @@ saltos.storage.clear = () => {
 };
 
 /**
- * TODO
+ * Get Item With Timestamp
  *
- * TODO
+ * This function tries to do the same thing that getItem but using a timestampd data
+ * structure, to do it, only returns the value entrie
+ *
+ * key => the desired key used to access to the local storage
  */
 saltos.storage.getItemWithTimestamp = key => {
     try {
@@ -114,9 +126,12 @@ saltos.storage.getItemWithTimestamp = key => {
 };
 
 /**
- * TODO
+ * Set Item With Timestamp
  *
- * TODO
+ * This function tries to do the same thing that setItem but using a timestampd data
+ * structure, to do it, sets an object with the timestamp and the original value.
+ *
+ * key => the desired key used to access to the local storage
  */
 saltos.storage.setItemWithTimestamp = (key, value) => {
     return saltos.storage.setItem(key, JSON.stringify({
@@ -126,9 +141,13 @@ saltos.storage.setItemWithTimestamp = (key, value) => {
 };
 
 /**
- * TODO
+ * Purge With Timestamp
  *
- * TODO
+ * This function tries to purge old data using the prefix and offset in the current
+ * timestamp.
+ *
+ * @prefix => the prefix used in the search process
+ * @offset => the offset used in the timestamp comparison
  */
 saltos.storage.purgeWithTimestamp = (prefix, offset) => {
     prefix = saltos.storage.get_key(prefix);

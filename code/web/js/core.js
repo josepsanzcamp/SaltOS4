@@ -776,9 +776,11 @@ saltos.core.__get_code_from_file_and_line = (file = 'unknown', line = 'unknown')
 };
 
 /**
- * TODO
+ * Timestamp helper
  *
- * TODO
+ * This function is a helper to obtain the timestamp in seconds with the desidet offset
+ *
+ * @offset => offset added to the timestamp, negative to go back in the time
  */
 saltos.core.timestamp = (offset = 0) => {
     return Date.now() / 1000 + offset;
