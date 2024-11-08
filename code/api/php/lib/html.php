@@ -112,6 +112,7 @@ function inline_img_tag($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('img');
+    $array = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $img = __inline_img_helper($src);
@@ -121,9 +122,10 @@ function inline_img_tag($html)
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
-            $html = str_replace($from, $img, $html);
+            $array[$from] = $img;
         }
     }
+    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -141,6 +143,7 @@ function inline_img_style($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('*');
+    $array = [];
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
         preg_match_all('/url\((.*?)\)/', $style, $matches);
@@ -159,11 +162,12 @@ function inline_img_style($html)
                     htmlspecialchars($src),
                 ];
                 foreach ($froms as $from) {
-                    $html = str_replace($from, $img, $html);
+                    $array[$from] = $img;
                 }
             }
         }
     }
+    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -285,6 +289,7 @@ function fix_img_tag($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('img');
+    $array = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $scheme = parse_url($src, PHP_URL_SCHEME);
@@ -298,9 +303,10 @@ function fix_img_tag($html)
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
-            $html = str_replace($from, $img, $html);
+            $array[$from] = $img;
         }
     }
+    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -316,6 +322,7 @@ function fix_img_style($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('*');
+    $array = [];
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
         preg_match_all('/url\((.*?)\)/', $style, $matches);
@@ -338,10 +345,11 @@ function fix_img_style($html)
                     htmlspecialchars($src),
                 ];
                 foreach ($froms as $from) {
-                    $html = str_replace($from, $img, $html);
+                    $array[$from] = $img;
                 }
             }
         }
     }
+    $html = str_replace_assoc($array, $html);
     return $html;
 }

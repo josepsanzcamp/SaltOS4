@@ -1091,8 +1091,8 @@ function __getmail_body_helper($decoded)
                 $temp = remove_comment_tag($temp);
                 $temp = remove_meta_tag($temp);
                 $temp = remove_link_tag($temp);
-                $temp = inline_img_tag($temp);
                 $temp = inline_img_style($temp);
+                $temp = inline_img_tag($temp);
             }
             foreach ($result as $index2 => $node2) {
                 $disp2 = $node2['disp'];
@@ -1111,8 +1111,8 @@ function __getmail_body_helper($decoded)
                 }
             }
             if ($type == 'html') {
-                $temp = fix_img_tag($temp);
                 $temp = fix_img_style($temp);
+                $temp = fix_img_tag($temp);
             }
             if (!$first) {
                 $buffer .= __HTML_SEPARATOR__;
