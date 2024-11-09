@@ -115,9 +115,9 @@ final class test_html extends TestCase
             inline_img_tag("<img src='$src'>")
         ));
 
-        $src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+        $src = 'data:image/gif;base64,nada';
         $this->assertTrue(words_exists(
-            'data image base64',
+            'data image base64 nada',
             inline_img_tag("<img src='$src'>")
         ));
     }

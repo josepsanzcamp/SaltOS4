@@ -65,7 +65,8 @@ function compute_width($text, $size)
  */
 function image_resize($data, $size)
 {
-    $im = imagecreatefromstring($data);
+    // The following @ is to suppress a unit test warning when invalid data is found
+    $im = @imagecreatefromstring($data);
     if (!$im) {
         return $data;
     }
