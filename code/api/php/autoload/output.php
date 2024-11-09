@@ -170,10 +170,16 @@ function __output_header($header, $replace = true)
  * requires is the data that you want to send
  *
  * @array => content to convert to json and send to the output channel
+ *
+ * Notes:
+ *
+ * This function is able to generate a pretty output when stdout is connected to
+ * a terminal, intended to be used by humans, in other cases, the output will be
+ * minified.
  */
 function output_handler_json($array)
 {
-    if (get_data('server/request_method') == 'CLI') {
+    if (function_exists('posix_isatty') && defined('STDOUT') && posix_isatty(STDOUT)) {
         $data = json_encode($array, JSON_PRETTY_PRINT) . PHP_EOL;
     } else {
         $data = json_encode($array);
