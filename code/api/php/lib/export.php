@@ -366,9 +366,9 @@ function __export_file_edi($matrix, $wrap = false)
 function __export_file_json($matrix, $indent = false)
 {
     if (eval_bool($indent)) {
-        $buffer = json_encode($matrix, JSON_PRETTY_PRINT) . "\n";
+        $buffer = json_encode($matrix, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . "\n";
     } else {
-        $buffer = json_encode($matrix);
+        $buffer = json_encode($matrix, JSON_UNESCAPED_UNICODE);
     }
     return $buffer;
 }
