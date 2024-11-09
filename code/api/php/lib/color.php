@@ -66,3 +66,24 @@ function color2dec($color, $component)
     }
     return hexdec(substr($color, $offset[$component], 2));
 }
+
+/**
+ * Json colorize
+ *
+ * This funcion is able to colorize a json fragment to dump into a tty terminal
+ *
+ * @json => the json code that you want to colorize
+ */
+function json_colorize($json)
+{
+    $patterns = [
+        '/"(.*?)"\s*:\s*/' => "\e[32m\"$1\"\e[0m: ", // keys in green
+        '/:\s*(".*?")/' => ": \e[34m$1\e[0m", // strings in blue
+        '/:\s*(\d+)/' => ": \e[35m$1\e[0m", // numbers in magenta
+        '/:\s*(true|false|null)/' => ": \e[31m$1\e[0m", // booleans and null in red
+    ];
+    foreach ($patterns as $pattern => $replacement) {
+        $json = preg_replace($pattern, $replacement, $json);
+    }
+    return $json;
+}
