@@ -30,14 +30,19 @@ function head($data, $lines)
     return $result;
 }
 
-function wget($url)
+function curl($url)
 {
-    $opt = '-O - -q -T 5 -t 1';
+    $opt = [
+        '-s', // silent/quiet
+        //~ '-m 5', // timeout
+        //~ '--retry 1', // retries
+    ];
     if (strpos($url, 'github') && strpos($url, 'atom')) {
-        $opt .= " --header='Accept:text/xml'";
+        $opt[] = " -H 'Accept:text/xml'";
     }
+    $opt = implode(' ', $opt);
     ob_start();
-    passthru("wget $opt $url");
+    passthru("curl $opt $url");
     $buffer = ob_get_clean();
     return $buffer;
 }
@@ -58,7 +63,7 @@ foreach ($libs as $key => $lib) {
     $lib = explode('|', $lib);
     if (count($lib) == 4 && $lib[0][0] != '#' && (count($argv) == 0 || in_array($lib[0], $argv))) {
         //~ $temp=@file_get_contents($lib[1]);
-        $temp = wget($lib[1]);
+        $temp = curl($lib[1]);
         $iserror = ($temp == '') ? 1 : 0;
         $temp = str_replace('<TD><span ', "<TD>\n<span ", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace('">', "\">\n", $temp); // FIX FOR WWW.PHPCLASSES.ORG
