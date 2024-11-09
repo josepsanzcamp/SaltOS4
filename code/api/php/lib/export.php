@@ -366,7 +366,7 @@ function __export_file_edi($matrix, $wrap = false)
 function __export_file_json($matrix, $indent = false)
 {
     if (eval_bool($indent)) {
-        $buffer = json_encode($matrix, JSON_PRETTY_PRINT) . PHP_EOL;
+        $buffer = json_encode($matrix, JSON_PRETTY_PRINT) . "\n";
     } else {
         $buffer = json_encode($matrix);
     }

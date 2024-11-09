@@ -297,7 +297,7 @@ final class test_export extends TestCase
         ]);
         $this->assertSame(is_string($buffer), true);
         $this->assertStringContainsString('JSON text data', get_mime($buffer));
-        $this->assertStringEndsWith(PHP_EOL, $buffer);
+        $this->assertStringEndsWith("\n", $buffer);
         $len1 = strlen($buffer);
 
         $buffer = export_file([
@@ -307,7 +307,7 @@ final class test_export extends TestCase
         ]);
         $this->assertSame(is_string($buffer), true);
         $this->assertStringContainsString('JSON text data', get_mime($buffer));
-        $this->assertStringEndsNotWith(PHP_EOL, $buffer);
+        $this->assertStringEndsNotWith("\n", $buffer);
         $len2 = strlen($buffer);
 
         $this->assertTrue($len1 > $len2, 'Error with intend and not indent');

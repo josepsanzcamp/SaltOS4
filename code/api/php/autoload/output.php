@@ -180,11 +180,11 @@ function __output_header($header, $replace = true)
 function output_handler_json($array)
 {
     if (function_exists('posix_isatty') && defined('STDOUT') && posix_isatty(STDOUT)) {
-        $data = json_encode($array, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . PHP_EOL;
+        $data = json_encode($array, JSON_PRETTY_PRINT) . "\n";
         require_once 'php/lib/color.php';
         $data = json_colorize($data);
     } else {
-        $data = json_encode($array, JSON_UNESCAPED_UNICODE);
+        $data = json_encode($array);
     }
     output_handler([
         'data' => $data,
