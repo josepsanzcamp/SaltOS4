@@ -91,7 +91,7 @@ function output_handler($array)
         }
     }
     if ($file != '' && $data == '') {
-        __output_header('Content-Encoding: none');
+        __output_header('Content-Encoding: identity');
     } else {
         $encoding = strval(get_server('HTTP_ACCEPT_ENCODING'));
         if (stripos($encoding, 'zstd') !== false && function_exists('zstd_compress')) {
@@ -104,7 +104,7 @@ function output_handler($array)
             __output_header('Content-Encoding: deflate');
             $data = gzdeflate($data);
         } else {
-            __output_header('Content-Encoding: none');
+            __output_header('Content-Encoding: identity');
         }
         __output_header('Vary: Accept-Encoding');
     }
