@@ -53,9 +53,9 @@ $time3 = microtime(true);
 semaphore_release('gc');
 output_handler_json([
     'gc_upload' => array_merge([
-        'time' => sprintf('%f', $time2 - $time1),
+        'time' => round($time2 - $time1, 6),
     ], $output1),
     'gc_exec' => array_merge([
-        'time' => sprintf('%f', $time3 - $time2),
+        'time' => round($time3 - $time2, 6),
     ], $output2),
 ]);

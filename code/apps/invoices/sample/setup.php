@@ -72,6 +72,6 @@ if (!$exists) {
 $time2 = microtime(true);
 output_handler_json([
     'setup' => array_merge([
-        'time' => sprintf('%f', $time2 - $time1),
+        'time' => round($time2 - $time1, 6),
     ], $output),
 ]);

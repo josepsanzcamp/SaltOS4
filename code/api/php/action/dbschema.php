@@ -59,16 +59,16 @@ $time4 = microtime(true);
 semaphore_release('dbschema');
 output_handler_json([
     'db_schema' => array_merge([
-        'time' => sprintf('%f', $time2 - $time1),
+        'time' => round($time2 - $time1, 6),
         'check' => $dbschema_check,
         'hash' => $dbschema_hash,
     ], $output1),
     'db_static' => array_merge([
-        'time' => sprintf('%f', $time3 - $time2),
+        'time' => round($time3 - $time2, 6),
         'check' => $dbstatic_check,
         'hash' => $dbstatic_hash,
     ], $output2),
     'setup' => array_merge([
-        'time' => sprintf('%f', $time4 - $time3),
+        'time' => round($time4 - $time3, 6),
     ], $output3),
 ]);

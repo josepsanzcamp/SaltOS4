@@ -77,10 +77,10 @@ function color2dec($color, $component)
 function json_colorize($json)
 {
     $patterns = [
-        '/"(.*?)"\s*:\s*/' => "\e[32m\"$1\"\e[0m: ", // keys in green
-        '/:\s*(".*?")/' => ": \e[34m$1\e[0m", // strings in blue
-        '/:\s*(\d+)/' => ": \e[35m$1\e[0m", // numbers in magenta
-        '/:\s*(true|false|null)/' => ": \e[31m$1\e[0m", // booleans and null in red
+        '/"(.*?)":\s/' => "\e[32m$1\e[0m: ", // keys in green
+        '/:\s"(.*?)"/' => ": \e[34m$1\e[0m", // strings in blue
+        '/:\s(\d+(\.\d+)?)/' => ": \e[35m$1\e[0m", // numbers in magenta
+        '/:\s(true|false|null)/' => ": \e[31m$1\e[0m", // booleans and null in red
     ];
     foreach ($patterns as $pattern => $replacement) {
         $json = preg_replace($pattern, $replacement, $json);

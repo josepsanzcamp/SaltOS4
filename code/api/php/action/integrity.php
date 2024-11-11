@@ -121,6 +121,6 @@ $time2 = microtime(true);
 semaphore_release('integrity');
 output_handler_json([
     'integrity' => array_merge([
-        'time' => sprintf('%f', $time2 - $time1),
+        'time' => round($time2 - $time1, 6),
     ], $output),
 ]);
