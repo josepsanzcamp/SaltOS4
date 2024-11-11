@@ -81,6 +81,9 @@ function json_colorize($json)
         '/:\s"(.*?)"/' => ": \e[34m$1\e[0m", // strings in blue
         '/:\s(\d+(\.\d+)?)/' => ": \e[35m$1\e[0m", // numbers in magenta
         '/:\s(true|false|null)/' => ": \e[31m$1\e[0m", // booleans and null in red
+        '/^(\s*?)"(.*?)"/m' => "$1\e[34m$2\e[0m", // strings in blue
+        '/^(\s*?)(\d+(\.\d+)?)/m' => "$1\e[35m$2\e[0m", // numbers in magenta
+        '/^(\s*?)(true|false|null)/m' => "$1\e[31m$2\e[0m", // booleans and null in red
     ];
     foreach ($patterns as $pattern => $replacement) {
         $json = preg_replace($pattern, $replacement, $json);
