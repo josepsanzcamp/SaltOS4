@@ -210,12 +210,12 @@ function __inline_img_helper($src)
                 }
                 if (saltos_content_type0($type) == 'image') {
                     $hash1 = md5($data['body']);
+                    require_once 'php/lib/gdlib.php';
                     $data['body'] = image_resize($data['body'], 1000);
                     $hash2 = md5($data['body']);
                     if ($hash1 != $hash2) {
                         $type = 'image/jpeg';
                     }
-                    require_once 'php/lib/gdlib.php';
                     $img = mime_inline($type, $data['body']);
                 }
             }
