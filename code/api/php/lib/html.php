@@ -34,6 +34,13 @@ declare(strict_types=1);
  */
 
 /**
+ * Defines section
+ *
+ * This defines allow to define some useful needed resources by this file.
+ */
+define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs=');
+
+/**
  * Remove Script Tag
  *
  * This function tries to remove all <script> tags of the string
@@ -178,12 +185,11 @@ function inline_img_style($html)
  */
 function __inline_img_helper($src)
 {
-    require_once "php/lib/gdlib.php";
-    $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
     $scheme = parse_url($src, PHP_URL_SCHEME);
     if (in_array($scheme, ['data', 'cid'])) {
         return $src;
     }
+    $img = __GIF_IMAGE__;
     if (in_array($scheme, ['https', 'http'])) {
         $cache = get_cache_file($src, '.b64');
         if (!file_exists($cache)) {
@@ -209,6 +215,7 @@ function __inline_img_helper($src)
                     if ($hash1 != $hash2) {
                         $type = 'image/jpeg';
                     }
+                    require_once 'php/lib/gdlib.php';
                     $img = mime_inline($type, $data['body']);
                 }
             }
@@ -303,14 +310,13 @@ function fix_img_tag($html)
         if (in_array($scheme, ['data'])) {
             continue;
         }
-        $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
         $froms = [
             $src,
             str_replace('&', '&amp;', $src),
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
-            $array[$from] = $img;
+            $array[$from] = __GIF_IMAGE__;
         }
     }
     $html = str_replace_assoc($array, $html);
@@ -345,14 +351,13 @@ function fix_img_style($html)
                 if (in_array($scheme, ['data'])) {
                     continue;
                 }
-                $img = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
                 $froms = [
                     $src,
                     str_replace('&', '&amp;', $src),
                     htmlspecialchars($src),
                 ];
                 foreach ($froms as $from) {
-                    $array[$from] = $img;
+                    $array[$from] = __GIF_IMAGE__;
                 }
             }
         }
