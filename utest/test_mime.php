@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once 'php/lib/html.php';
+
+/**
  * Main class of this unit test
  */
 final class test_mime extends TestCase
@@ -71,5 +78,23 @@ final class test_mime extends TestCase
         $files = glob('xml/config.xml');
         $buffer = file_get_contents($files[0]);
         $this->assertSame(saltos_content_type_from_string($buffer), 'text/xml');
+
+        $array = mime_extract(__GIF_IMAGE__);
+        $this->assertCount(2, $array);
+        $this->assertSame($array['type'], 'image/gif');
+        $this->assertSame($array['data'], base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+
+        $array = mime_extract('nada');
+        $this->assertCount(2, $array);
+        $this->assertSame(implode('', $array), '');
+
+        $name = mime2name('image/gif');
+        $this->assertSame($name, 'image.gif');
+
+        $name = mime2name('application/octet-stream');
+        $this->assertSame($name, 'application.bin');
+
+        $name = mime2name('image/svg+xml');
+        $this->assertSame($name, 'image.svg');
     }
 }

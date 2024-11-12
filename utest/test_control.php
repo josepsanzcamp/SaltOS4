@@ -71,7 +71,11 @@ final class test_control extends TestCase
         $this->assertSame(make_control('dashboard', -1), -1);
         $this->assertSame(make_index('dashboard', -1), -1);
         $this->assertSame(make_version('dashboard', -1), -1);
+        $this->assertSame(get_version('dashboard', -1), -1);
+        $this->assertSame(del_version('dashboard', -1), -1);
         $this->assertSame(make_version('emails', -1), -2);
+        $this->assertSame(get_version('emails', -1), -2);
+        $this->assertSame(del_version('emails', -1), -2);
 
         $this->assertSame(make_control('customers', -1), -3);
 

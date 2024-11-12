@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test math
+ * Test color
  *
  * This test performs some tests to validate the correctness
- * of the math functions
+ * of the color feature
  */
 
 /**
@@ -51,45 +51,61 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once 'php/lib/math.php';
+require_once 'lib/utestlib.php';
+require_once 'php/lib/color.php';
 
 /**
  * Main class of this unit test
  */
-final class test_math extends TestCase
+final class test_color extends TestCase
 {
-    #[testdox('math functions')]
+    #[testdox('color functions')]
     /**
-     * math test
+     * color test
      *
      * This test performs some tests to validate the correctness
-     * of the math functions
+     * of the color feature
      */
-    public function test_math(): void
+    public function test_color(): void
     {
-        $this->assertSame(sign(3), 1);
-        $this->assertSame(sign(0), 0);
-        $this->assertSame(sign(-7), -1);
+        $r = color2dec('#336699', 'R');
+        $this->assertSame($r, 51);
 
-        $this->assertSame(is_prime(1), false);
-        $this->assertSame(is_prime(4), false);
-        $this->assertSame(is_prime(9), false);
-        $this->assertSame(is_prime(25), false);
-        $this->assertSame(is_prime(49), false);
-        $this->assertSame(is_prime(2), true);
-        $this->assertSame(is_prime(121), false);
-        $this->assertSame(is_prime(67), true);
-        $this->assertSame(is_prime(169), false);
-        $this->assertSame(is_prime(149), true);
-        $this->assertSame(is_prime(289), false);
-        $this->assertSame(is_prime(197), true);
-        $this->assertSame(is_prime(361), false);
-        $this->assertSame(is_prime(331), true);
-        $this->assertSame(is_prime(529), false);
-        $this->assertSame(is_prime(401), true);
-        $this->assertSame(is_prime(841), false);
-        $this->assertSame(is_prime(577), true);
-        $this->assertSame(is_prime(961), false);
-        $this->assertSame(is_prime(907), true);
+        $g = color2dec('#336699', 'G');
+        $this->assertSame($g, 102);
+
+        $b = color2dec('#336699', 'B');
+        $this->assertSame($b, 153);
+
+        $r = color2dec('#369', 'R');
+        $this->assertSame($r, 51);
+
+        $g = color2dec('#369', 'G');
+        $this->assertSame($g, 102);
+
+        $b = color2dec('#369', 'B');
+        $this->assertSame($b, 153);
+
+        test_external_exec('php/color1.php', 'phperror.log', 'unknown color length');
+        test_external_exec('php/color2.php', 'phperror.log', 'unknown color component');
+
+        $array = [
+            'text' => 'josep sanz',
+            'int' => 123,
+            'float' => 123.456,
+            'true' => true,
+            'false' => false,
+            'null' => null,
+        ];
+        $json = json_encode($array, JSON_PRETTY_PRINT);
+        $buffer = json_colorize($json);
+
+        $this->assertStringContainsString("\e[32m\"text\"\e[0m", $buffer);
+        $this->assertStringContainsString("\e[34m\"josep sanz\"\e[0m", $buffer);
+        $this->assertStringContainsString("\e[35m123\e[0m", $buffer);
+        $this->assertStringContainsString("\e[35m123.456\e[0m", $buffer);
+        $this->assertStringContainsString("\e[31mtrue\e[0m", $buffer);
+        $this->assertStringContainsString("\e[31mfalse\e[0m", $buffer);
+        $this->assertStringContainsString("\e[31mnull\e[0m", $buffer);
     }
 }

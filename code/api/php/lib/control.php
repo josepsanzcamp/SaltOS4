@@ -163,6 +163,12 @@ function make_version($app, $reg_id)
     }
     // Compute the diff from old data and new data
     $data_old = get_version($app, $reg_id, INF);
+    if (!is_array($data_old)) {
+        if ($data_old != -3) {
+            show_php_error(['phperror' => "Internal error for $app:$reg_id"]);
+        }
+        $data_old = [];
+    }
     $query = "SELECT * FROM $table WHERE id = ?";
     $data_new = [];
     $data_new[$table] = [];
@@ -269,10 +275,27 @@ function make_version($app, $reg_id)
  * ver_id requested, it does an accumulative merge to get the register data
  * in the moment where the version will be stored, to do it, they must to
  * restore versions from 1 to ver_id, and must to discard the next versions
+ *
+ * This function returns an array or an integer as response about the control action:
+ *
+ * -1 => app not found, this is because the app requested not have a table in the apps config
+ * -2 => version table not found, this is because the has_version feature is disabled by dbstatic
+ * -3 => data not found, this is because the version requested not exists
+ *
+ * As you can see, negative values denotes an error and positive values denotes a successfully situation
  */
 function get_version($app, $reg_id, $ver_id = null)
 {
+    // Check the passed parameters
     $table = app2table($app);
+    if ($table == '') {
+        return -1;
+    }
+    // Check if version exists
+    $query = "SELECT id FROM {$table}_version LIMIT 1";
+    if (!db_check($query)) {
+        return -2;
+    }
     $query = "SELECT * FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
     $rows = execute_query_array($query, [$reg_id]);
     $data = [];
@@ -335,7 +358,7 @@ function get_version($app, $reg_id, $ver_id = null)
         $ver_id = $version_old;
     }
     if (!isset($result[$ver_id])) {
-        return [];
+        return -3;
     }
     return $result[$ver_id];
 }

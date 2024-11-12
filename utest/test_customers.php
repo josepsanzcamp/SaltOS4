@@ -83,13 +83,15 @@ final class test_customers extends TestCase
         $id = execute_query('SELECT MAX(id) FROM app_customers');
         $this->assertTrue($id > 0);
 
+        $this->assertSame(-3, del_version('customers', $id));
+
         $this->assertSame(make_control('customers', $id), 1);
         $this->assertSame(make_version('customers', $id), 1);
         $this->assertSame(make_index('customers', $id), 1);
 
-        $this->assertCount(0, get_version('customers', $id, 0));
+        $this->assertSame(-3, get_version('customers', $id, 0));
         $this->assertCount(4, get_version('customers', $id, 1));
-        $this->assertCount(0, get_version('customers', $id, 2));
+        $this->assertSame(-3, get_version('customers', $id, 2));
 
         $array = [
             'nombre1' => 'ASD',
@@ -104,10 +106,10 @@ final class test_customers extends TestCase
         $this->assertSame(make_version('customers', $id), 1);
         $this->assertSame(make_index('customers', $id), 2);
 
-        $this->assertCount(0, get_version('customers', $id, 0));
+        $this->assertSame(-3, get_version('customers', $id, 0));
         $this->assertCount(4, get_version('customers', $id, 1));
         $this->assertCount(4, get_version('customers', $id, 2));
-        $this->assertCount(0, get_version('customers', $id, 3));
+        $this->assertSame(-3, get_version('customers', $id, 3));
 
         $array = [
             'cif' => '123456789',
@@ -121,11 +123,11 @@ final class test_customers extends TestCase
         $this->assertSame(make_version('customers', $id), 1);
         $this->assertSame(make_index('customers', $id), 2);
 
-        $this->assertCount(0, get_version('customers', $id, 0));
+        $this->assertSame(-3, get_version('customers', $id, 0));
         $this->assertCount(4, get_version('customers', $id, 1));
         $this->assertCount(4, get_version('customers', $id, 2));
         $this->assertCount(4, get_version('customers', $id, 3));
-        $this->assertCount(0, get_version('customers', $id, 4));
+        $this->assertSame(-3, get_version('customers', $id, 4));
 
         // Check for hash blockchain integrity
         $oldhash = execute_query("SELECT hash
@@ -211,5 +213,7 @@ final class test_customers extends TestCase
         $this->assertSame(make_control('customers', $id), -3);
         $this->assertSame(make_version('customers', $id), -4);
         $this->assertSame(make_index('customers', $id), -3);
+
+        $this->assertSame(1, del_version('customers', $id));
     }
 }

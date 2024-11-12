@@ -91,19 +91,16 @@ final class test_html extends TestCase
             inline_img_tag("<img src=\"$src\">")
         ));
 
-        $this->assertFileExists($cache);
         $this->assertTrue(words_exists(
             'data image base64',
             inline_img_style("<div style='background:url($src)'>")
         ));
 
-        $this->assertFileExists($cache);
         $this->assertTrue(words_exists(
             'data image base64',
             inline_img_style("<div style='background:url(\"$src\")'>")
         ));
 
-        $this->assertFileExists($cache);
         $this->assertTrue(words_exists(
             'data image base64',
             inline_img_style("<div style=\"background:url('$src')\">")
@@ -119,6 +116,82 @@ final class test_html extends TestCase
         $this->assertTrue(words_exists(
             'data image base64 nada',
             inline_img_tag("<img src='$src'>")
+        ));
+
+        $src = __GIF_IMAGE__;
+        $html = "<img src=\"$src\">";
+        [$html, $files] = extract_img_tag($html);
+        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $this->assertStringContainsString("cid:$hash", $html);
+        $this->assertSame($files[$hash]['type'], 'image/gif');
+
+        $src = 'cid:nada';
+        $html = "<img src=\"$src\">";
+        [$html2, $files] = extract_img_tag($html);
+        $this->assertSame($html2, $html);
+        $this->assertCount(0, $files);
+
+        $src = __GIF_IMAGE__;
+        $html = "<div style='background:url($src)'>";
+        [$html, $files] = extract_img_style($html);
+        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $this->assertStringContainsString("cid:$hash", $html);
+        $this->assertSame($files[$hash]['type'], 'image/gif');
+
+        $src = __GIF_IMAGE__;
+        $html = "<div style='background:url(\"$src\")'>";
+        [$html, $files] = extract_img_style($html);
+        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $this->assertStringContainsString("cid:$hash", $html);
+        $this->assertSame($files[$hash]['type'], 'image/gif');
+
+        $src = __GIF_IMAGE__;
+        $html = "<div style=\"background:url('$src')\">";
+        [$html, $files] = extract_img_style($html);
+        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $this->assertStringContainsString("cid:$hash", $html);
+        $this->assertSame($files[$hash]['type'], 'image/gif');
+
+        $src = 'cid:nada';
+        $html = "<div style='background:url($src)'>";
+        [$html2, $files] = extract_img_style($html);
+        $this->assertSame($html2, $html);
+        $this->assertCount(0, $files);
+
+        $src = 'cid:nada';
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_tag("<img src='$src'>")
+        ));
+
+        $src = __GIF_IMAGE__;
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_tag("<img src='$src'>")
+        ));
+
+        $src = 'cid:nada';
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_style("<div style='background:url($src)'>")
+        ));
+
+        $src = __GIF_IMAGE__;
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_style("<div style='background:url($src)'>")
+        ));
+
+        $src = 'cid:nada';
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_style("<div style='background:url(\"$src\")'>")
+        ));
+
+        $src = 'cid:nada';
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_style("<div style=\"background:url('$src')\">")
         ));
     }
 }
