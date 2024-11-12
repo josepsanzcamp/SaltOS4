@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test color
+ * Test json
  *
  * This test performs some tests to validate the correctness
- * of the color feature
+ * of the json feature
  */
 
 /**
@@ -47,46 +47,36 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
- * Loading helper function
- *
- * This file contains the needed function used by the unit tests
- */
-require_once 'lib/utestlib.php';
-require_once 'php/lib/color.php';
-
-/**
  * Main class of this unit test
  */
-final class test_color extends TestCase
+final class test_json extends TestCase
 {
-    #[testdox('color functions')]
+    #[testdox('json functions')]
     /**
-     * color test
+     * json test
      *
      * This test performs some tests to validate the correctness
-     * of the color feature
+     * of the json feature
      */
-    public function test_color(): void
+    public function test_json(): void
     {
-        $r = color2dec('#336699', 'R');
-        $this->assertSame($r, 51);
+        $array = [
+            'text' => 'josep sanz',
+            'int' => 123,
+            'float' => 123.456,
+            'true' => true,
+            'false' => false,
+            'null' => null,
+        ];
+        $json = json_encode($array, JSON_PRETTY_PRINT);
+        $buffer = json_colorize($json);
 
-        $g = color2dec('#336699', 'G');
-        $this->assertSame($g, 102);
-
-        $b = color2dec('#336699', 'B');
-        $this->assertSame($b, 153);
-
-        $r = color2dec('#369', 'R');
-        $this->assertSame($r, 51);
-
-        $g = color2dec('#369', 'G');
-        $this->assertSame($g, 102);
-
-        $b = color2dec('#369', 'B');
-        $this->assertSame($b, 153);
-
-        test_external_exec('php/color1.php', 'phperror.log', 'unknown color length');
-        test_external_exec('php/color2.php', 'phperror.log', 'unknown color component');
+        $this->assertStringContainsString("\e[32m\"text\"\e[0m", $buffer);
+        $this->assertStringContainsString("\e[34m\"josep sanz\"\e[0m", $buffer);
+        $this->assertStringContainsString("\e[35m123\e[0m", $buffer);
+        $this->assertStringContainsString("\e[35m123.456\e[0m", $buffer);
+        $this->assertStringContainsString("\e[31mtrue\e[0m", $buffer);
+        $this->assertStringContainsString("\e[31mfalse\e[0m", $buffer);
+        $this->assertStringContainsString("\e[31mnull\e[0m", $buffer);
     }
 }

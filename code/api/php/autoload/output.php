@@ -182,7 +182,6 @@ function output_handler_json($array)
     $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
     if (function_exists('posix_isatty') && defined('STDOUT') && posix_isatty(STDOUT)) {
         $data = json_encode($array, $options | JSON_PRETTY_PRINT) . "\n";
-        require_once 'php/lib/color.php';
         $data = json_colorize($data);
     } else {
         $data = json_encode($array, $options);

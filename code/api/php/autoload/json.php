@@ -28,41 +28,31 @@
 declare(strict_types=1);
 
 /**
- * Color helper module
+ * Json helper module
  *
  * This fie contains useful functions related to colors
  */
 
 /**
- * Color To Dec function
+ * Json colorize
  *
- * This function is a helper that allow to get from a RGB hex color the value
- * in decimal of the specified component, useful to get the amount of color
- * red, green or blue in decimal base from an string
+ * This funcion is able to colorize a json fragment to dump into a tty terminal
  *
- * Is able to understand colors with the formats #abcdef, abcdef, #000, #fff
- *
- * @color     => The color that you want to parse
- * @component => The component that you want to retrieve their value
+ * @json => the json code that you want to colorize
  */
-function color2dec($color, $component)
+function json_colorize($json)
 {
-    if (substr($color, 0, 1) == '#') {
-        $color = substr($color, 1);
+    $patterns = [
+        '/(".*?")(:\s*?)/' => "\e[32m$1\e[0m$2", // keys in green
+        '/(:\s*?)(".*?")/' => "$1\e[34m$2\e[0m", // strings in blue
+        '/(:\s*?)(\d+(\.\d+)?)/' => "$1\e[35m$2\e[0m", // numbers in magenta
+        '/(:\s*?)(true|false|null)/' => "$1\e[31m$2\e[0m", // booleans and null in red
+        '/^(\s*?)(".*?")/m' => "$1\e[34m$2\e[0m", // strings in blue
+        '/^(\s*?)(\d+(\.\d+)?)/m' => "$1\e[35m$2\e[0m", // numbers in magenta
+        '/^(\s*?)(true|false|null)/m' => "$1\e[31m$2\e[0m", // booleans and null in red
+    ];
+    foreach ($patterns as $pattern => $replacement) {
+        $json = preg_replace($pattern, $replacement, $json);
     }
-    if (strlen($color) == 3) {
-        $R = substr($color, 0, 1);
-        $G = substr($color, 1, 1);
-        $B = substr($color, 2, 1);
-        $color = $R . $R . $G . $G . $B . $B;
-    }
-    if (strlen($color) != 6) {
-        show_php_error(['phperror' => 'Unknown color length']);
-    }
-    $offset = ['R' => 0, 'G' => 2, 'B' => 4];
-    $component = strtoupper(strval($component));
-    if (!isset($offset[$component])) {
-        show_php_error(['phperror' => 'Unknown color component']);
-    }
-    return hexdec(substr($color, $offset[$component], 2));
+    return $json;
 }
