@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
+require_once 'php/lib/auth.php';
 
 /**
  * Main class of this unit test
@@ -160,5 +161,7 @@ final class test_authupdate extends TestCase
         $this->assertSame($json2['status'], 'ok');
         $this->assertSame(count($json2), 4);
         $this->assertArrayHasKey('token', $json2);
+
+        $this->assertFalse(oldpass_check(0, ''));
     }
 }
