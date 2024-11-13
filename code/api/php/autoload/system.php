@@ -50,6 +50,7 @@ function check_system()
         ['class_exists', 'DomElement', 'Class', 'php-xml'],
         ['function_exists', 'imagecreatetruecolor', 'Function', 'php-gd'],
         ['function_exists', 'mb_check_encoding', 'Function', 'php-mbstring'],
+        ['function_exists', 'yaml_parse', 'Function', 'php-yaml'],
     ];
     foreach ($array as $a) {
         if (!$a[0]($a[1])) {
