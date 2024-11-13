@@ -61,7 +61,10 @@ function T($text = '')
     if (!isset($cache[$lang])) {
         $file = "locale/$lang/messages.yaml";
         if (file_exists($file)) {
-            $cache[$lang] = yaml_parse_file($file);
+            $temp = yaml_parse_file($file);
+            if (is_array($temp)) {
+                $cache[$lang] = $temp;
+            }
         }
     }
     $app = id2app(current_app());
@@ -69,7 +72,10 @@ function T($text = '')
         $dir = detect_app_folder($app);
         $file = "apps/$dir/locale/$lang/messages.yaml";
         if (file_exists($file)) {
-            $cache[$app][$lang] = yaml_parse_file($file);
+            $temp = yaml_parse_file($file);
+            if (is_array($temp)) {
+                $cache[$app][$lang] = $temp;
+            }
         }
     }
     if (!count(func_get_args())) {
