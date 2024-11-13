@@ -59,17 +59,17 @@ function T($text = '')
     static $cache = [];
     $lang = current_lang();
     if (!isset($cache[$lang])) {
-        $file = "locale/$lang/messages.xml";
+        $file = "locale/$lang/messages.yaml";
         if (file_exists($file)) {
-            $cache[$lang] = xmlfile2array($file);
+            $cache[$lang] = yaml_parse_file($file);
         }
     }
     $app = id2app(current_app());
     if (!isset($cache[$app][$lang])) {
         $dir = detect_app_folder($app);
-        $file = "apps/$dir/locale/$lang/messages.xml";
+        $file = "apps/$dir/locale/$lang/messages.yaml";
         if (file_exists($file)) {
-            $cache[$app][$lang] = xmlfile2array($file);
+            $cache[$app][$lang] = yaml_parse_file($file);
         }
     }
     if (!count(func_get_args())) {

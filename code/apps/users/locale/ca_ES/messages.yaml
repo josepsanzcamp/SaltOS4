@@ -1,0 +1,77 @@
+#  ____        _ _    ___  ____    _  _    ___
+# / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+# \___ \ / _` | | __| | | \___ \  | || |_| | | |
+#  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+# |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+#
+# SaltOS: Framework to develop Rich Internet Applications
+# Copyright (C) 2007-2024 by Josep Sanz Campderrós
+# More information in https://www.saltos.org or info@saltos.org
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+please_login: Iniciar sessió
+username: Usuari
+password: Clau
+language: Idioma
+login: Accès
+access_denied: Accès denegat
+incorrect_user_or_password_try_again: Usuari o clau incorrecte, torni-ho a probar
+monday: Dilluns
+tuesday: Dimarts
+wednesday: Dimecres
+thursday: Dijous
+friday: Divendres
+saturday: Dissabte
+sunday: Diumenge
+created_at: Creat al
+expires_at: Expira al
+passwords_history: Historic de contrasenyes
+new_password_differs: La nova contrasenya és diferent
+new_password_strength_error: La nova contrasenya és massa senzilla
+new_password: Nova clau
+retype_password: Torni a entrar la nova clau
+group: Grup
+start: Hora inici
+end: Hora final
+groups: Grups
+new_user: Nou usuari
+to_create_a_new_user: Per crear un nou usuari
+to_create_the_new_user: Per crear el nou usuari
+to_cancel_the_new_user: Per cancel·lar el nou usuari
+more_users: Més usuaris
+to_see_more_users_in_the_list: Per carregar més usuaris al llistat
+to_modify_this_user: Per modificar aquest usuari
+to_delete_this_user: Per esborrar aquest usuari
+to_save_the_user_changes: Per desar els canvis del usuari
+to_cancel_the_user_modification: Per cancel·lar la modificació del usuari
+users: Usuaris
+new_group: Nou grup
+to_create_a_new_group: Per crear un nou grup
+to_create_the_new_group: Per crear el nou grup
+to_cancel_the_new_group: Per cancel·lar el nou grup
+more_groups: Més grups
+to_see_more_groups_in_the_list: Per carregar més grups al llistat
+to_modify_this_group: Per modificar aquest grup
+to_delete_this_group: Per esborrar aquest grup
+to_save_the_group_changes: Per desar els canvis del grup
+to_cancel_the_group_modification: Per cancel·lar la modificació del grup
+newpass_not_found_or_void: Ha d'entrar la nova clau
+renewpass_not_found_or_void: Ha d'entrar la repetició de la nova clau
+applications_and_permissions: Aplicacions i permisos
+do_you_must_enter_the_new_passwords: Heu d'introduir les noves contrasenyes
+login_used_by_other_user: Login utilitzat per un altre usuari
+name_used_by_other_user: Nom utilitzat per un altre usuari
+code_used_by_other_group: Codi utilitzat per un altre grup
+name_used_by_other_group: Nom utilitzat per un altre grup
