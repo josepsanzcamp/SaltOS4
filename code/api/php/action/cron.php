@@ -46,20 +46,43 @@ $tasks = xmlfiles2array(detect_apps_files('xml/cron.xml'));
 require_once 'php/lib/cron.php';
 foreach ($tasks['tasks'] as $task) {
     $task = join_attr_value($task);
-    $task = array_merge([
-        'minute' => '*',
-        'hour' => '*',
-        'day' => '*',
-        'month' => '*',
-        'dow' => '*',
-    ], $task);
-    if (cron_if_time($task['minute'], $task['hour'], $task['day'], $task['month'], $task['dow'])) {
-        echo "{$task['cmd']} ok\n";
-    } else {
-        echo "{$task['cmd']} ko\n";
+    $bool = cron_if_time(
+        $task['minute'] ?? '*',
+        $task['hour'] ?? '*',
+        $task['day'] ?? '*',
+        $task['month'] ?? '*',
+        $task['dow'] ?? '*',
+    );
+    if (!$bool) {
+        continue;
     }
+    $cmds = [];
+    if (isset($task['cmd'])) {
+        $cmds[] = [
+            'cmd' => $task['cmd'],
+            'user' => $task['user'] ?? '',
+        ];
+    }
+    foreach ($task as $key => $val) {
+        if (fix_key($key) != 'task') {
+            continue;
+        }
+        $val = join_attr_value($val);
+        if (!isset($val['cmd'])) {
+            continue;
+        }
+        $cmds[] = [
+            'cmd' => $val['cmd'],
+            'user' => $val['user'] ?? '',
+        ];
+    }
+    if (!count($cmds)) {
+        show_php_error(['phperror' => 'Commands not found']);
+    }
+    print_r($cmds);
 }
 
 output_handler_json([
     'status' => 'ok',
+    'datetime' => current_datetime(),
 ]);

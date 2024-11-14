@@ -38,34 +38,34 @@ declare(strict_types=1);
  *
  * TODO
  */
-function __cron_field_compare($field, $value)
+function __cron_compare($val, $now)
 {
     // true case
-    if ($field == '*') {
+    if ($val == '*') {
         return true;
     }
     // list of options
-    if (strpos($field, ',') !== false) {
-        $fields = explode(',', $field);
-        foreach ($fields as $field) {
-            if (__cron_field_compare($field, $value)) {
+    if (strpos($val, ',') !== false) {
+        $vals = explode(',', $val);
+        foreach ($vals as $val) {
+            if (__cron_compare($val, $now)) {
                 return true;
             }
         }
         return false;
     }
     // using module
-    if (strpos($field, '*/') !== false) {
-        $module = intval(substr($field, 2)) ;
-        return $value % $module == 0;
+    if (strpos($val, '*/') !== false) {
+        $module = intval(substr($val, 2)) ;
+        return $now % $module == 0;
     }
     // using range
-    if (strpos($field, '-') !== false) {
-        $range = explode('-', $field, 2);
-        return $value >= intval($range[0]) && $value <= intval($range[1]);
+    if (strpos($val, '-') !== false) {
+        $range = explode('-', $val, 2);
+        return $now >= intval($range[0]) && $now <= intval($range[1]);
     }
     // direct case
-    return intval($field) === $value;
+    return intval($val) == $now;
 }
 
 /**
@@ -76,9 +76,9 @@ function __cron_field_compare($field, $value)
 function cron_if_time($minute, $hour, $day, $month, $dow)
 {
     $now = getdate();
-    return __cron_field_compare($minute, $now['minutes']) &&
-           __cron_field_compare($hour, $now['hours']) &&
-           __cron_field_compare($day, $now['mday']) &&
-           __cron_field_compare($month, $now['mon']) &&
-           __cron_field_compare($dow, $now['wday']);
+    return __cron_compare($minute, $now['minutes']) &&
+           __cron_compare($hour, $now['hours']) &&
+           __cron_compare($day, $now['mday']) &&
+           __cron_compare($month, $now['mon']) &&
+           __cron_compare($dow, $now['wday']);
 }

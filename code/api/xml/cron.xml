@@ -27,8 +27,10 @@
 
 <root>
     <tasks>
-        <task cmd="indexing" minute="*/5"/>
-        <task cmd="integrity" user="admin" minute="*/5"/>
+        <task minute="*/5">
+            <task cmd="indexing"/>
+            <task cmd="integrity" user="admin"/>
+        </task>
         <task cmd="gc" minute="0" hour="22"/>
     </tasks>
 </root>

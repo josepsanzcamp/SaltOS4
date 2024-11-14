@@ -27,7 +27,9 @@
 
 <root>
     <tasks>
-        <task cmd="app/emails/server" user="*" minute="*/5"/>
-        <task cmd="app/emails/indexing" minute="*/5"/>
+        <task minute="*/5">
+            <task cmd="app/emails/server" user="*"/>
+            <task cmd="app/emails/indexing"/>
+        </task>
     </tasks>
 </root>
