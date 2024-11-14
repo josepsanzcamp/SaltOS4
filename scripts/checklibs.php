@@ -32,17 +32,8 @@ function head($data, $lines)
 
 function curl($url)
 {
-    $opt = [
-        '-s', // silent/quiet
-        //~ '-m 5', // timeout
-        //~ '--retry 1', // retries
-    ];
-    if (strpos($url, 'github') && strpos($url, 'atom')) {
-        $opt[] = " -H 'Accept:text/xml'";
-    }
-    $opt = implode(' ', $opt);
     ob_start();
-    passthru("curl $opt $url");
+    passthru("curl -s $url");
     $buffer = ob_get_clean();
     return $buffer;
 }
