@@ -20,7 +20,7 @@ masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
 pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuOC42OSJ9
 sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|base64:eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS4zIn0=
-tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|base64:eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjMuMSJ9
+tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|base64:eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjQuMCJ9
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 
 httpclient|http://www.phpclasses.org/browse/file/5.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPg==
