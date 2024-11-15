@@ -159,9 +159,9 @@ setupclean:
 
 setupmysql:
 	php code/api/index.php dbschema
-	php code/api/index.php app/customers/setup
-	php code/api/index.php app/invoices/setup
-	php code/api/index.php app/emails/setup
+	user=admin php code/api/index.php app/customers/setup
+	user=admin php code/api/index.php app/invoices/setup
+	user=admin php code/api/index.php app/emails/setup
 
 setupsqlite:
 	echo '<root><db><type>pdo_sqlite</type></db></root>' > code/data/files/config.xml

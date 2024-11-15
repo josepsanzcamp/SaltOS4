@@ -73,7 +73,7 @@ function __cron_compare($val, $now)
  *
  * TODO
  */
-function cron_if_time($minute, $hour, $day, $month, $dow)
+function __cron_is_now($minute, $hour, $day, $month, $dow)
 {
     $now = getdate();
     return __cron_compare($minute, $now['minutes']) &&
@@ -81,4 +81,23 @@ function cron_if_time($minute, $hour, $day, $month, $dow)
            __cron_compare($day, $now['mday']) &&
            __cron_compare($month, $now['mon']) &&
            __cron_compare($dow, $now['wday']);
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __cron_users($arg)
+{
+    // all users
+    if ($arg == '*') {
+        return execute_query_array('SELECT login FROM tbl_users WHERE active = 1');
+    }
+    // list of users
+    if (strpos($arg, ',') !== false) {
+        return explode(',', $arg);
+    }
+    // default case
+    return [$arg];
 }

@@ -110,18 +110,18 @@ function check_lang_format($lang)
 {
     // First check
     if (!is_string($lang)) {
-        return '';
+        return null;
     }
     // Check the number of parts and the length of each parts
     $temp = explode(' ', str_replace(['-', '_', '.'], ' ', $lang));
     if (count($temp) < 2) {
-        return '';
+        return null;
     }
     if (strlen($temp[0]) != 2) {
-        return '';
+        return null;
     }
     if (strlen($temp[1]) != 2) {
-        return '';
+        return null;
     }
     // Build the output
     $temp[0] = strtolower($temp[0]);

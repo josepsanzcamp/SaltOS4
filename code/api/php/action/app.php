@@ -142,11 +142,6 @@ $array = join_attr_value($array);
 // Connect to the database
 db_connect();
 
-//~ set_data("server/token", execute_query("SELECT token FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/remote_addr", execute_query("SELECT remote_addr FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/user_agent", execute_query("SELECT user_agent FROM tbl_users_tokens WHERE active=1"));
-//~ set_data("server/lang", "ca_ES");
-
 // Eval the check/app/queries
 $first = true;
 foreach ($array as $key => $val) {

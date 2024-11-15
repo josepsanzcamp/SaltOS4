@@ -56,7 +56,7 @@ function check_token_format($token)
 {
     // First check
     if (!is_string($token)) {
-        return '';
+        return null;
     }
     // Check the number of parts and the length of each parts
     $parts = explode('-', $token);
@@ -64,11 +64,11 @@ function check_token_format($token)
         return strlen($val);
     }, $parts);
     if (implode('-', $lengths) != '8-4-4-4-12') {
-        return '';
+        return null;
     }
     // Check the type of each part
     if (!ctype_xdigit(implode('', $parts))) {
-        return '';
+        return null;
     }
     return $token;
 }

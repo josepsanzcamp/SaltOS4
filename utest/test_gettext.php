@@ -73,11 +73,11 @@ final class test_gettext extends TestCase
         $this->assertSame(T('Close'), 'Tancar');
         $this->assertSame(T('Nada'), 'Nada');
 
-        $this->assertSame(check_lang_format(null), '');
-        $this->assertSame(check_lang_format('AA'), '');
-        $this->assertSame(check_lang_format('AA.asd'), '');
-        $this->assertSame(check_lang_format('AAA-BB'), '');
-        $this->assertSame(check_lang_format('AA-BBB'), '');
+        $this->assertSame(check_lang_format(null), null);
+        $this->assertSame(check_lang_format('AA'), null);
+        $this->assertSame(check_lang_format('AA.asd'), null);
+        $this->assertSame(check_lang_format('AAA-BB'), null);
+        $this->assertSame(check_lang_format('AA-BBB'), null);
         $this->assertSame(check_lang_format('AA-BB'), 'aa_BB');
         $this->assertSame(check_lang_format('AA_BB'), 'aa_BB');
         $this->assertSame(check_lang_format('AA_BB.asd'), 'aa_BB');

@@ -71,15 +71,29 @@ function current_token()
  *
  * This function returns the id of the current user, this info is retrieved
  * using the token of the request
+ *
+ * Notes:
+ *
+ * This function allow to authenticate using the token_id provided by the
+ * current_token function and using the server/user variable in the data
+ * structure that contains the desired login when executed using the cli
+ * sapi.
  */
 function current_user()
 {
     static $user_id = null;
     static $token_id = null;
+    static $user = null;
     if ($user_id === null || $token_id != current_token()) {
         $token_id = current_token();
         $query = 'SELECT user_id FROM tbl_users_tokens WHERE id = ? AND active = 1';
         $user_id = execute_query($query, [$token_id]);
+        $user_id = intval($user_id);
+    }
+    if ($user_id === null || $user !== get_data('server/user')) {
+        $user = get_data('server/user');
+        $query = 'SELECT id FROM tbl_users WHERE login = ? AND active = 1';
+        $user_id = execute_query($query, [$user]);
         $user_id = intval($user_id);
     }
     return $user_id;

@@ -70,20 +70,20 @@ final class test_tokens extends TestCase
 
         // Check when parts is bad
         $token2 = check_token_format(substr($token, 0, 10));
-        $this->assertSame($token2, '');
+        $this->assertSame($token2, null);
 
         // Check when length is bad
         $token2 = check_token_format(substr($token, 0, -1));
-        $this->assertSame($token2, '');
+        $this->assertSame($token2, null);
 
         // Check when not hex is found
         $token2 = check_token_format(substr($token, 0, -1) . 'x');
-        $this->assertSame($token2, '');
+        $this->assertSame($token2, null);
 
         // Check lowercase patterns tokens
         $token = 'gggggggg-gggg-gggg-gggg-gggggggggggg';
         $token2 = check_token_format($token);
-        $this->assertSame($token2, '');
+        $this->assertSame($token2, null);
 
         // Check generic patterns tokens
         $token = '00000000-0000-0000-0000-000000000000';
@@ -107,15 +107,15 @@ final class test_tokens extends TestCase
 
         // Check when token is not an string
         $token2 = check_token_format(null);
-        $this->assertSame($token2, '');
+        $this->assertSame($token2, null);
 
         // Check when token is not an string
         $token2 = check_token_format(false);
-        $this->assertSame($token2, '');
+        $this->assertSame($token2, null);
 
         // Check when token is not an string
         $token2 = check_token_format([]);
-        $this->assertSame($token2, '');
+        $this->assertSame($token2, null);
 
         // Check for token collision
         $tokens1 = [];

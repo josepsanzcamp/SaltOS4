@@ -97,7 +97,6 @@
         <gd.jpeg_ignore_warning>1</gd.jpeg_ignore_warning>
     </iniset>
     <putenv>
-        <OLD_LANG eval="true">getenv("LANG")</OLD_LANG><!-- don't touch this, is used as lang in cli sapi mode -->
         <PATH>/bin:/usr/bin:/usr/local/bin</PATH>
         <LANG>es_ES.UTF-8</LANG>
         <HOME>/tmp/</HOME>

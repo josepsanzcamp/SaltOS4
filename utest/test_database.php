@@ -440,6 +440,9 @@ final class test_database extends TestCase
         $query = 'SELECT 1 UNION SELECT 2';
         $result = $obj->db_query($query, 'concat');
 
+        $query = 'SELECT 1 UNION SELECT 2';
+        $result = $obj->db_query($query, 'column');
+
         $this->assertSame(is_array($obj->db_query('')), true);
 
         if (function_exists('__libsqlite_group_concat_step')) {

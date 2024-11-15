@@ -170,6 +170,7 @@ function session_backtrace()
         'time' => current_datetime_decimals(),
         'rest' => implode('/', array_protected(get_data('rest'))),
         'token' => get_data('server/token'),
+        'user' => get_data('server/user'),
     ];
     $array = array_diff($array, ['']);
     return $array;

@@ -175,10 +175,10 @@ function test_cli_helper($rest, $data, $token, $lang)
     test_pcov_start();
     if ($data) {
         file_put_contents('/tmp/input', json_encode($data));
-        $response = ob_passthru("cat /tmp/input | TOKEN=$token LANG=$lang php index.php $rest");
+        $response = ob_passthru("cat /tmp/input | token=$token lang=$lang php index.php $rest");
         unlink('/tmp/input');
     } else {
-        $response = ob_passthru("TOKEN=$token LANG=$lang php index.php $rest");
+        $response = ob_passthru("token=$token lang=$lang php index.php $rest");
     }
     test_pcov_stop(2);
     $json = $response;

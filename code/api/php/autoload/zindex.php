@@ -104,32 +104,34 @@ eval_extras(get_config('extras'));
 // Collect all input data
 if (php_sapi_name() == 'cli') {
     // This allow to use SaltOS from the command line using the CLI SAPI
-    set_server('argv/0', null);
-    set_server('QUERY_STRING', implode('/', get_server('argv') ?? ''));
+    set_server('QUERY_STRING', implode('/', array_slice(get_server('argv'), 1)));
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
-        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING') ?? ''), [''])),
+        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
         'json' => array_protected(json_decode(file_get_contents('php://stdin'), true)),
         'server' => [
             'request_method' => 'CLI',
-            'content_type' => '',
-            'token' => check_token_format(getenv('TOKEN')),
-            'remote_addr' => getenv('USER'),
-            'user_agent' => 'PHP/' . phpversion(),
-            'lang' => check_lang_format(getenv('OLD_LANG')),
+            'lang' => check_lang_format(getenv('lang')) ?? '',
         ],
     ];
+    if (posix_getuid() === getmyuid() && getenv('user') !== false) {
+        set_data('server/user', getenv('user'));
+    } else {
+        set_data('server/token', check_token_format(getenv('token')) ?? '');
+        set_data('server/remote_addr', getenv('USER') ?? '');
+        set_data('server/user_agent', 'PHP/' . phpversion());
+    }
 } else {
     $_DATA = [
-        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING') ?? ''), [''])),
+        'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
         'json' => array_protected(json_decode(file_get_contents('php://input'), true)),
         'server' => [
             'request_method' => strtoupper(get_server('REQUEST_METHOD') ?? ''),
             'content_type' => strtolower(get_server('CONTENT_TYPE') ?? ''),
-            'token' => check_token_format(get_server('HTTP_TOKEN')),
+            'token' => check_token_format(get_server('HTTP_TOKEN')) ?? '',
             'remote_addr' => get_server('REMOTE_ADDR') ?? '',
             'user_agent' => get_server('HTTP_USER_AGENT') ?? '',
-            'lang' => check_lang_format(get_server('HTTP_LANG')),
+            'lang' => check_lang_format(get_server('HTTP_LANG')) ?? '',
         ],
     ];
 }

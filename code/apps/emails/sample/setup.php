@@ -39,7 +39,6 @@ if (get_data('server/request_method') != 'CLI') {
 
 require_once 'php/lib/control.php';
 require_once 'php/lib/indexing.php';
-
 require_once 'apps/emails/php/getmail.php';
 $time1 = microtime(true);
 $output = [
@@ -47,13 +46,6 @@ $output = [
     'files' => 0,
     'emails' => 0,
 ];
-
-$remote_addr = get_data('server/remote_addr');
-$user_agent = get_data('server/user_agent');
-$query = 'SELECT token FROM tbl_users_tokens
-    WHERE user_id = 1 AND active = 1 AND remote_addr = ? AND user_agent = ?';
-$token = execute_query($query, [$remote_addr, $user_agent]);
-set_data('server/token', $token);
 
 // Add a new email account
 $exists = execute_query('SELECT COUNT(*) FROM app_emails_accounts');

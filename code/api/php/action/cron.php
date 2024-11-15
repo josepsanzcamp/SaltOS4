@@ -46,7 +46,7 @@ $tasks = xmlfiles2array(detect_apps_files('xml/cron.xml'));
 require_once 'php/lib/cron.php';
 foreach ($tasks['tasks'] as $task) {
     $task = join_attr_value($task);
-    $bool = cron_if_time(
+    $bool = __cron_is_now(
         $task['minute'] ?? '*',
         $task['hour'] ?? '*',
         $task['day'] ?? '*',
@@ -79,7 +79,29 @@ foreach ($tasks['tasks'] as $task) {
     if (!count($cmds)) {
         show_php_error(['phperror' => 'Commands not found']);
     }
-    print_r($cmds);
+    $cmd = [];
+    foreach ($cmds as $val) {
+        $users = __cron_users($val['user']);
+        foreach ($users as $user) {
+            $cmd[] = "USER=$user php index.php {$val['cmd']}";
+        }
+    }
+    $cmd = implode(';', $cmd);
+    //~ $out = get_temp_file('.out');
+    //~ $err = get_temp_file('.err');
+    //~ $cmd = "($cmd) 1>$out 2>$err & echo \$!";
+    //~ $pid = ob_passthru($cmd);
+    //~ print_r([$pid, $out, $err]);
+    print_r([$cmd]);
+    print_r($_DATA);
+    db_connect();
+    print_r([
+        current_token(),
+        current_user(),
+        current_group(),
+        current_groups(),
+    ]);
+    die();
 }
 
 output_handler_json([
