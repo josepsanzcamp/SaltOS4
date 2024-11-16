@@ -34,7 +34,7 @@ declare(strict_types=1);
  * of this accion only is allowed from the command line
  */
 
-if (get_data('server/request_method') != 'CLI') {
+if (!get_data('server/xuid')) {
     show_php_error(['phperror' => 'Permission denied']);
 }
 
@@ -42,6 +42,7 @@ if (!semaphore_acquire('cron')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
+db_connect();
 $tasks = xmlfiles2array(detect_apps_files('xml/cron.xml'));
 require_once 'php/lib/cron.php';
 foreach ($tasks['tasks'] as $task) {
@@ -54,7 +55,7 @@ foreach ($tasks['tasks'] as $task) {
         $task['dow'] ?? '*',
     );
     if (!$bool) {
-        continue;
+        //~ continue;
     }
     $cmds = [];
     if (isset($task['cmd'])) {
@@ -79,29 +80,19 @@ foreach ($tasks['tasks'] as $task) {
     if (!count($cmds)) {
         show_php_error(['phperror' => 'Commands not found']);
     }
-    $cmd = [];
-    foreach ($cmds as $val) {
-        $users = __cron_users($val['user']);
-        foreach ($users as $user) {
-            $cmd[] = "USER=$user php index.php {$val['cmd']}";
+    foreach ($cmds as $key => $cmd) {
+        $users = __cron_users($cmd['user']);
+        foreach ($users as $key2 => $user) {
+            $users[$key2] = "user=$user php index.php {$cmd['cmd']}";
         }
+        $cmds[$key] = implode(';', $users);
     }
-    $cmd = implode(';', $cmd);
-    //~ $out = get_temp_file('.out');
-    //~ $err = get_temp_file('.err');
-    //~ $cmd = "($cmd) 1>$out 2>$err & echo \$!";
-    //~ $pid = ob_passthru($cmd);
-    //~ print_r([$pid, $out, $err]);
-    print_r([$cmd]);
-    print_r($_DATA);
-    db_connect();
-    print_r([
-        current_token(),
-        current_user(),
-        current_group(),
-        current_groups(),
-    ]);
-    die();
+    $cmds = implode(';', $cmds);
+    $out = get_temp_file('.out');
+    $err = get_temp_file('.err');
+    $cmds = "($cmds) 1>$out 2>$err & echo \$!";
+    $pid = ob_passthru($cmds);
+    print_r([$pid, $out, $err]);
 }
 
 output_handler_json([

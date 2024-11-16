@@ -34,7 +34,7 @@ declare(strict_types=1);
  * of this accion only is allowed from the command line
  */
 
-if (get_data('server/request_method') != 'CLI') {
+if (!get_data('server/xuid')) {
     show_php_error(['phperror' => 'Permission denied']);
 }
 
