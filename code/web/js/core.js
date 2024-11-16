@@ -90,12 +90,16 @@ saltos.core.adderror = async (message, source, lineno, colno, stack) => {
  * This code allow to capture the old errors triggered outside the fetch requests
  */
 window.addEventListener('error', event => {
+    let backtrace = 'unknown';
+    if (event.hasOwnProperty('error') && event.error.hasOwnProperty('stack')) {
+        backtrace = event.error.stack;
+    }
     saltos.core.adderror(
         event.message,
         event.filename,
         event.lineno,
         event.colno,
-        event.error.stack
+        backtrace
     );
 });
 
@@ -105,12 +109,16 @@ window.addEventListener('error', event => {
  * This code allow to capture the new errors triggered inside the fetch requests
  */
 window.addEventListener('unhandledrejection', event => {
+    let backtrace = 'unknown';
+    if (event.reason.hasOwnProperty('stack')) {
+        backtrace = event.reason.stack;
+    }
     saltos.core.adderror(
         event.reason.name + ': ' + event.reason.message,
         event.reason.fileName,
         event.reason.lineNumber,
         event.reason.columnNumber,
-        event.reason.stack
+        backtrace
     );
 });
 
