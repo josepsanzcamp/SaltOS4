@@ -38,7 +38,6 @@ pcov_start();
 program_handlers();
 init_timer();
 init_random();
-check_system();
 
 require_once 'php/lib/import.php';
 require_once 'php/lib/export.php';

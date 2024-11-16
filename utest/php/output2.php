@@ -38,7 +38,6 @@ pcov_start();
 program_handlers();
 init_timer();
 init_random();
-check_system();
 
 set_server('HTTP_ACCEPT_ENCODING', 'gzip');
 output_handler([

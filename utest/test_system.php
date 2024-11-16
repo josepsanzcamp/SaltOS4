@@ -52,6 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
+require_once 'php/lib/system.php';
 
 /**
  * Main class of this unit test
@@ -67,13 +68,15 @@ final class test_system extends TestCase
      */
     public function test_system(): void
     {
-        check_system();
-        $this->assertTrue(true);
+        $array = check_system();
+        $this->assertCount(0, $array);
 
-        test_external_exec('php/system1.php', 'phperror.log', 'data/nada not writable');
-
-        $this->assertFileExists('data/nada');
-        unlink('data/nada');
-        $this->assertFileDoesNotExist('data/nada');
+        mkdir('data/nada');
+        $array = check_system();
+        $this->assertCount(1, $array);
+        $this->assertStringContainsString('data/nada not writable', $array[0]['phperror']);
+        $this->assertDirectoryExists('data/nada');
+        rmdir('data/nada');
+        $this->assertDirectoryDoesNotExist('data/nada');
     }
 }

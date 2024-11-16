@@ -38,7 +38,6 @@ pcov_start();
 program_handlers();
 init_timer();
 init_random();
-check_system();
 
 $xml = '<a require="nada"></a>';
 $array = eval_attr(xml2array($xml));

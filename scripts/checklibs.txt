@@ -33,7 +33,7 @@ mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hc
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTEuNC4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMTAgLSAyMDI0LTExLTEyPC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMTEtMTIsIFZlcnNpb24gMTguMjAuNSAmIzM5O0h5ZHJvZ2VuJiMzOTsgKExUUyksIEBhZHVoOTU8L3RpdGxlPg==
-phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTEuMCAtIDIwMjQtMTEtMTI8L3RpdGxlPg==
+phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTEuMTwvdGl0bGU+
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMFJDNDwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuNC4zPC90aXRsZT4=
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+

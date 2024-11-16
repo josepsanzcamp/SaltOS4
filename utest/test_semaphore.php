@@ -98,7 +98,7 @@ final class test_semaphore extends TestCase
         // This part of the test is to cover the errors of the actions
         // when tries to acquire the semaphore
 
-        $file1 = semaphore_file('token');
+        $file1 = semaphore_file('auth');
         if (file_exists($file1)) {
             unlink($file1);
         }
@@ -135,7 +135,7 @@ final class test_semaphore extends TestCase
 
         unlink($file1);
 
-        $file1 = semaphore_file('dbschema');
+        $file1 = semaphore_file('setup');
         if (file_exists($file1)) {
             unlink($file1);
         }
@@ -143,7 +143,7 @@ final class test_semaphore extends TestCase
         chmod($file1, 0444);
         $this->assertFileExists($file1);
 
-        $json = test_cli_helper('dbschema', [], '', '');
+        $json = test_cli_helper('setup', [], '', '');
         $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file2);
         $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));

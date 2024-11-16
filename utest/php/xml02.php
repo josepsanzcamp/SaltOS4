@@ -38,7 +38,6 @@ pcov_start();
 program_handlers();
 init_timer();
 init_random();
-check_system();
 
 $file = '../../utest/files/numbers.xml';
 semaphore_acquire($file);

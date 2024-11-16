@@ -38,7 +38,6 @@ pcov_start();
 program_handlers();
 init_timer();
 init_random();
-check_system();
 
 global $_CONFIG;
 $_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));

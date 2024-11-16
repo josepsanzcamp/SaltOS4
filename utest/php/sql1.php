@@ -38,7 +38,6 @@ pcov_start();
 program_handlers();
 init_timer();
 init_random();
-check_system();
 
 set_config('db/type', 'nada');
 __parse_query_type();
