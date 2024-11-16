@@ -52,24 +52,24 @@ function check_system()
         ['function_exists', 'mb_check_encoding', 'Function', 'php-mbstring'],
         ['function_exists', 'yaml_parse', 'Function', 'php-yaml'],
     ];
+    $result = [];
     foreach ($array as $a) {
         if (!$a[0]($a[1])) {
-            // @codeCoverageIgnoreStart
-            show_php_error([
+            $result[] = [
                 'phperror' => "$a[2] $a[1] not found",
                 'details' => "Try to install $a[3] package",
-            ]);
-            // @codeCoverageIgnoreEnd
+            ];
         }
     }
     // DIRECTORIES CKECKS
     $dirs = glob('data/*');
     foreach ($dirs as $dir) {
-        if (!file_exists($dir) || !is_dir($dir) || !is_writable($dir)) {
-            show_php_error([
+        if (!file_exists($dir) || !is_dir($dir) || (fileperms($dir) & 0777) != 0777) {
+            $result[] = [
                 'phperror' => "$dir not writable",
                 'details' => "Try to set permissions to do writable the $dir directory",
-            ]);
+            ];
         }
     }
+    return $result;
 }

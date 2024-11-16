@@ -227,5 +227,20 @@ that maintain the database using as reference this file
             </fields>
         </table>
 
+        <!--
+        This table is intended to store the cron activity
+        -->
+        <table name="tbl_cron">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="cmd" type="TEXT"/>
+                <field name="pid" type="INT(11)"/>
+                <field name="out" type="TEXT"/>
+                <field name="err" type="TEXT"/>
+                <field name="start" type="DATETIME"/>
+                <field name="stop" type="DATETIME"/>
+            </fields>
+        </table>
+
     </tables>
 </root>

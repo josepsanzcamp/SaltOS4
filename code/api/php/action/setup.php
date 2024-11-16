@@ -38,17 +38,28 @@ if (!get_data('server/xuid')) {
     show_php_error(['phperror' => 'Permission denied']);
 }
 
-if (!semaphore_acquire('dbschema')) {
+if (!semaphore_acquire('setup')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
 db_connect();
+require_once 'php/lib/system.php';
 require_once 'php/lib/dbschema.php';
 require_once 'php/lib/setup.php';
+
+$output0 = check_system();
+if (count($output0)) {
+    semaphore_release('setup');
+    output_handler_json([
+        'system' => $output0,
+    ]);
+}
+
 $dbschema_check = __dbschema_check();
 $dbschema_hash = __dbschema_hash();
 $dbstatic_check = __dbstatic_check();
 $dbstatic_hash = __dbstatic_hash();
+
 $time1 = microtime(true);
 $output1 = db_schema();
 $time2 = microtime(true);
@@ -56,7 +67,8 @@ $output2 = db_static();
 $time3 = microtime(true);
 $output3 = setup();
 $time4 = microtime(true);
-semaphore_release('dbschema');
+
+semaphore_release('setup');
 output_handler_json([
     'db_schema' => array_merge([
         'time' => round($time2 - $time1, 6),

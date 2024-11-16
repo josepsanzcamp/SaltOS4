@@ -129,8 +129,8 @@ endif
 cloc:
 	cloc makefile scripts utest code/api/{index.php,php,xml} code/web/{js,htm} code/apps/*/{js,php,xml,locale,sample}
 
-dbschema:
-	php code/api/index.php dbschema
+setup:
+	php code/api/index.php setup
 
 gc:
 	php code/api/index.php gc
@@ -158,14 +158,14 @@ setupclean:
 	echo "CREATE DATABASE saltos;" | mariadb
 
 setupmysql:
-	php code/api/index.php dbschema
+	php code/api/index.php setup
 	user=admin php code/api/index.php app/customers/setup
 	user=admin php code/api/index.php app/invoices/setup
 	user=admin php code/api/index.php app/emails/setup
 
 setupsqlite:
 	echo '<root><db><type>pdo_sqlite</type></db></root>' > code/data/files/config.xml
-	php code/api/index.php dbschema
+	php code/api/index.php setup
 	rm -f code/data/files/config.xml
 
-setup: setupclean setupmysql setupsqlite
+setupinstall: setupclean setupmysql setupsqlite

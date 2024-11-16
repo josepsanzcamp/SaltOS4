@@ -38,7 +38,7 @@ if (get_data('server/request_method') != 'CLI') {
     show_php_error(['phperror' => 'Permission denied']);
 }
 
-if (!semaphore_acquire('indexing')) {
+if (!semaphore_acquire('app/emails/indexing')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
@@ -113,7 +113,7 @@ while ($row = db_fetch_row($result)) {
 }
 db_free($result);
 
-semaphore_release('indexing');
+semaphore_release('app/emails/indexing');
 
 $time2 = microtime(true);
 output_handler_json([

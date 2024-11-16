@@ -54,6 +54,7 @@
         <inboxdir eval="true">getcwd()."/data/inbox"</inboxdir>
         <outboxdir eval="true">getcwd()."/data/outbox"</outboxdir>
         <trashdir eval="true">getcwd()."/data/trash"</trashdir>
+        <crondir eval="true">getcwd()."/data/cron"</crondir>
     </dirs>
     <commands>
         <which>which</which><!-- for check commands -->

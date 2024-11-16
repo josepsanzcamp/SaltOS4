@@ -45,11 +45,13 @@ if (!semaphore_acquire('gc')) {
 db_connect();
 require_once 'php/lib/gc.php';
 require_once 'php/lib/upload.php';
+
 $time1 = microtime(true);
 $output1 = gc_upload();
 $time2 = microtime(true);
 $output2 = gc_exec();
 $time3 = microtime(true);
+
 semaphore_release('gc');
 output_handler_json([
     'gc_upload' => array_merge([

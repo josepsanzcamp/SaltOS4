@@ -35,7 +35,7 @@ declare(strict_types=1);
  * to control it.
  */
 
-if (!semaphore_acquire('token')) {
+if (!semaphore_acquire('auth')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
@@ -49,7 +49,7 @@ switch ($action) {
         // Check parameters
         foreach (['user', 'pass'] as $key) {
             if (get_data("json/$key") == '') {
-                semaphore_release('token');
+                semaphore_release('auth');
                 show_json_error("$key not found or void");
             }
         }
@@ -65,7 +65,7 @@ switch ($action) {
         // Check parameters
         foreach (['oldpass', 'newpass', 'renewpass'] as $key) {
             if (get_data("json/$key") == '') {
-                semaphore_release('token');
+                semaphore_release('auth');
                 show_json_error("$key not found or void");
             }
         }
@@ -75,5 +75,5 @@ switch ($action) {
         show_php_error(['phperror' => "Unknown action $action"]);
 }
 
-semaphore_release('token');
+semaphore_release('auth');
 output_handler_json($array);

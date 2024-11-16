@@ -43,10 +43,56 @@ if (!semaphore_acquire('cron')) {
 }
 
 db_connect();
-$tasks = xmlfiles2array(detect_apps_files('xml/cron.xml'));
 require_once 'php/lib/cron.php';
+
+// Check for the cron files
+$dir = get_directory('dirs/crondir') ?? getcwd_protected() . '/data/cron/';
+$pids = glob($dir . '*.pid');
+foreach ($pids as $file) {
+    $temp = unserialize(file_get_contents($file));
+    $pid = intval($temp['pid']);
+    if (!posix_kill($pid, 0)) {
+        $hash = pathinfo($file, PATHINFO_FILENAME);
+        $start = date('Y-m-d H:i:s', min(
+            filectime($dir . $hash . '.out'),
+            filectime($dir . $hash . '.err'),
+            filectime($dir . $hash . '.pid'),
+            filemtime($dir . $hash . '.out'),
+            filemtime($dir . $hash . '.err'),
+            filemtime($dir . $hash . '.pid')
+        ));
+        $stop = date('Y-m-d H:i:s', max(
+            filectime($dir . $hash . '.out'),
+            filectime($dir . $hash . '.err'),
+            filectime($dir . $hash . '.pid'),
+            filemtime($dir . $hash . '.out'),
+            filemtime($dir . $hash . '.err'),
+            filemtime($dir . $hash . '.pid')
+        ));
+        $out = file_get_contents($dir . $hash . '.out');
+        $err = file_get_contents($dir . $hash . '.err');
+        $cmd = $temp['cmd'];
+        unlink($dir . $hash . '.out');
+        unlink($dir . $hash . '.err');
+        unlink($dir . $hash . '.pid');
+        $query = prepare_insert_query('tbl_cron', [
+            'cmd' => $cmd,
+            'pid' => $pid,
+            'out' => $out,
+            'err' => $err,
+            'start' => $start,
+            'stop' => $stop,
+        ]);
+        db_query(...$query);
+    }
+}
+
+// Execute the real cron feature
+$tasks = xmlfiles2array(detect_apps_files('xml/cron.xml'));
 foreach ($tasks['tasks'] as $task) {
     $task = join_attr_value($task);
+
+    // Check for the cron time execution
     $bool = __cron_is_now(
         $task['minute'] ?? '*',
         $task['hour'] ?? '*',
@@ -55,8 +101,10 @@ foreach ($tasks['tasks'] as $task) {
         $task['dow'] ?? '*',
     );
     if (!$bool) {
-        //~ continue;
+        continue;
     }
+
+    // Prepare the commands that must to be executed
     $cmds = [];
     if (isset($task['cmd'])) {
         $cmds[] = [
@@ -80,6 +128,14 @@ foreach ($tasks['tasks'] as $task) {
     if (!count($cmds)) {
         show_php_error(['phperror' => 'Commands not found']);
     }
+
+    // Check for a previous running execution
+    $hash = md5(serialize($cmds));
+    if (file_exists($dir . $hash . '.pid')) {
+        continue;
+    }
+
+    // Launch the real commands
     foreach ($cmds as $key => $cmd) {
         $users = __cron_users($cmd['user']);
         foreach ($users as $key2 => $user) {
@@ -88,13 +144,17 @@ foreach ($tasks['tasks'] as $task) {
         $cmds[$key] = implode(';', $users);
     }
     $cmds = implode(';', $cmds);
-    $out = get_temp_file('.out');
-    $err = get_temp_file('.err');
-    $cmds = "($cmds) 1>$out 2>$err & echo \$!";
-    $pid = ob_passthru($cmds);
-    print_r([$pid, $out, $err]);
+    $out = $dir . $hash . '.out';
+    $err = $dir . $hash . '.err';
+    $temp = "($cmds) 1>$out 2>$err & echo \$!";
+    $pid = ob_passthru($temp);
+    file_put_contents($dir . $hash . '.pid', serialize([
+        'pid' => $pid,
+        'cmd' => $cmds,
+    ]));
 }
 
+semaphore_release('cron');
 output_handler_json([
     'status' => 'ok',
     'datetime' => current_datetime(),
