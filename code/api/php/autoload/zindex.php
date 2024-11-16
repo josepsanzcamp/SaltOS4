@@ -114,7 +114,7 @@ if (php_sapi_name() == 'cli') {
             'lang' => check_lang_format(getenv('lang')) ?? '',
         ],
     ];
-    if (get_data('server/xuid') && getenv('user') !== false) {
+    if (get_data('server/xuid') && getenv('user')) {
         set_data('server/user', getenv('user'));
     } else {
         set_data('server/token', check_token_format(getenv('token')) ?? '');

@@ -138,8 +138,13 @@ foreach ($tasks['tasks'] as $task) {
     // Launch the real commands
     foreach ($cmds as $key => $cmd) {
         $users = __cron_users($cmd['user']);
+        $cmd = $cmd['cmd'];
         foreach ($users as $key2 => $user) {
-            $users[$key2] = "user=$user php index.php {$cmd['cmd']}";
+            if ($user) {
+                $users[$key2] = "user=$user php index.php $cmd";
+            } else {
+                $users[$key2] = "php index.php $cmd";
+            }
         }
         $cmds[$key] = implode(';', $users);
     }
