@@ -169,3 +169,6 @@ setupsqlite:
 	rm -f code/data/files/config.xml
 
 setupinstall: setupclean setupmysql setupsqlite
+
+cron:
+	php code/api/index.php cron
