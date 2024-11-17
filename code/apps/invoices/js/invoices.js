@@ -127,7 +127,7 @@ saltos.invoices.viewpdf = () => {
             'Select invoices',
             'You must select the desired invoices that you want see in the PDF file',
             {
-                color: 'warning',
+                color: 'danger',
             },
         );
         return;
@@ -148,7 +148,7 @@ saltos.invoices.download = () => {
             'Select invoices',
             'You must select the desired invoices that you want download in the PDF file',
             {
-                color: 'warning',
+                color: 'danger',
             },
         );
         return;

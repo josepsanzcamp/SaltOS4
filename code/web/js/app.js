@@ -55,7 +55,7 @@ saltos.app.modal = (title, message, extra = {}) => {
     if (!extra.hasOwnProperty('buttons')) {
         extra.buttons = [{
             label: 'Close',
-            color: 'primary',
+            color: 'success',
             icon: 'x-lg',
             autofocus: true,
             onclick: () => {},
@@ -105,7 +105,7 @@ saltos.app.modal = (title, message, extra = {}) => {
  */
 saltos.app.toast = (title, message, extra = {}) => {
     if (!extra.hasOwnProperty('color')) {
-        extra.color = 'primary';
+        extra.color = 'success';
     }
     return saltos.gettext.bootstrap.toast({
         title: title,

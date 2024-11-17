@@ -4696,7 +4696,7 @@ saltos.bootstrap.toast = args => {
     saltos.core.check_params(args, ['id', 'class', 'close', 'title', 'subtitle', 'body', 'color']);
     if (document.querySelectorAll('.toast-container').length == 0) {
         document.body.append(saltos.core.html(`
-            <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+            <div class="toast-container position-fixed top-0 end-0 p-3"></div>
         `));
     }
     // Check for repetitions

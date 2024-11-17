@@ -104,7 +104,7 @@ saltos.emails.delete1 = () => {
             'Select emails',
             'You must select the desired emails to be deleted',
             {
-                color: 'warning',
+                color: 'danger',
             },
         );
         return;
@@ -275,7 +275,7 @@ saltos.emails.viewpdf = () => {
             'Select emails',
             'You must select the desired emails that you want see in the PDF file',
             {
-                color: 'warning',
+                color: 'danger',
             },
         );
         return;
@@ -296,7 +296,7 @@ saltos.emails.download = () => {
             'Select emails',
             'You must select the desired emails that you want download in the PDF file',
             {
-                color: 'warning',
+                color: 'danger',
             },
         );
         return;
