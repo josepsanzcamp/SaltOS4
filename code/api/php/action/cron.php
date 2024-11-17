@@ -152,7 +152,7 @@ foreach ($tasks['tasks'] as $task) {
     $out = $dir . $hash . '.out';
     $err = $dir . $hash . '.err';
     $temp = "($cmds) 1>$out 2>$err & echo \$!";
-    $pid = ob_passthru($temp);
+    $pid = intval(ob_passthru($temp));
     file_put_contents($dir . $hash . '.pid', serialize([
         'pid' => $pid,
         'cmd' => $cmds,
