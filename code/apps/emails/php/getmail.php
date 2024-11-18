@@ -1038,7 +1038,7 @@ function gzfilesize($filename)
  *
  * @id => id of the email
  */
-function getmail_body($id)
+function getmail_body($id, $images = false)
 {
     if (!__getmail_checkperm($id)) {
         show_php_error(['phperror' => 'Permission denied']);
@@ -1060,7 +1060,7 @@ function getmail_body($id)
         db_query(...$query);
     }
     // CONTINUE
-    $buffer = __getmail_body_helper($decoded);
+    $buffer = __getmail_body_helper($decoded, $images);
     return $buffer;
 }
 
@@ -1069,7 +1069,7 @@ function getmail_body($id)
  *
  * TODO
  */
-function __getmail_body_helper($decoded)
+function __getmail_body_helper($decoded, $images = false)
 {
     $buffer = '';
     $result = __getmail_getfullbody(__getmail_getnode('0', $decoded));
@@ -1091,8 +1091,10 @@ function __getmail_body_helper($decoded)
                 $temp = remove_comment_tag($temp);
                 $temp = remove_meta_tag($temp);
                 $temp = remove_link_tag($temp);
-                $temp = inline_img_style($temp);
-                $temp = inline_img_tag($temp);
+                if ($images) {
+                    $temp = inline_img_style($temp);
+                    $temp = inline_img_tag($temp);
+                }
             }
             foreach ($result as $index2 => $node2) {
                 $disp2 = $node2['disp'];

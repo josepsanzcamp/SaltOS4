@@ -666,7 +666,7 @@ function sendmail_prepare($action, $email_id)
                 $oldbody .= __HTML_BOX_CLOSE__;
                 $oldbody .= __HTML_SEPARATOR__;
             }
-            $oldbody .= __getmail_body_helper($decoded);
+            $oldbody .= __getmail_body_helper($decoded, true);
             $body_extra .= __HTML_NEWLINE__ . $oldhead . __HTML_NEWLINE__ .
                 __BLOCKQUOTE_OPEN__ . $oldbody . __BLOCKQUOTE_CLOSE__ . __HTML_NEWLINE__;
             unset($oldhead); // TRICK TO RELEASE MEMORY

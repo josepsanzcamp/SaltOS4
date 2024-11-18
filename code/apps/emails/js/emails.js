@@ -313,3 +313,18 @@ saltos.emails.download = () => {
 saltos.core.when_visible('from', () => {
     saltos.emails.old_account = document.getElementById('from').value;
 });
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.emails.images = () => {
+    const id = saltos.hash.get().split('/').at(3);
+    saltos.app.ajax({
+        url: `app/emails/view/body/${id}/true`,
+        success: response => {
+            document.getElementById('body').srcdoc = response.srcdoc;
+        },
+    });
+};

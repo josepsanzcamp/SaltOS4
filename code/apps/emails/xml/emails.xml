@@ -332,7 +332,9 @@
                 <switch id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
                 <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
                 <text id="state_error" label="Error" color="danger" ifeval="getmail_field('state_error',intval(get_data('rest/3')))"/>
-                <text id="subject" label="Subject"/>
+                <div col_class="col-12"/>
+                <text id="subject" label="Subject" col_class="col mb-3"/>
+                <button onclick="saltos.emails.images()" tooltip="To load the body images" icon="image" col_class="col-auto mb-3" addbr="true"/>
                 <iframe id="body" label="Body" height="10em">
                     <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
                 </iframe>
@@ -403,7 +405,7 @@
     <view id="body">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
-        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")))</srcdoc>
+        <srcdoc require="apps/emails/php/getmail.php" eval="true">getmail_body(intval(get_data("rest/4")), eval_bool(get_data("rest/5")))</srcdoc>
     </view>
 
     <view id="files" dropdown="false" type="table">
