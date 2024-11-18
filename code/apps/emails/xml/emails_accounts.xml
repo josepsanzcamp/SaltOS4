@@ -39,7 +39,7 @@
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
-                <button ifeval="check_user('emails_accounts', 'create')" onclick="saltos.driver.open('app/emails_accounts/create')" label="New email account" tooltip="To create a new email account" icon="plus-lg"/>
+                <button ifeval="check_user('emails_accounts', 'create')" onclick="saltos.driver.open('app/emails_accounts/create')" label="New email account" tooltip="To create a new email account" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
@@ -93,7 +93,7 @@
         <actions ifeval="false">
             <action app="emails_accounts" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
             <action app="emails_accounts" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-            <action app="emails_accounts" action="delete" icon="trash" tooltip="Delete" onclick="saltos.driver.delete"/>
+            <action app="emails_accounts" action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
         </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
@@ -184,8 +184,8 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new email account" icon="check-lg"/>
-                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the new email account" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new email account" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the new email account" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
         <javascript>
@@ -249,8 +249,8 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.update()" label="Save" tooltip="To save the email account changes" icon="check-lg"/>
-                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email account modification" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.update()" label="Save" tooltip="To save the email account changes" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email account modification" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array("apps/emails/xml/emails_accounts.xml")["data"]</data>

@@ -42,7 +42,7 @@
         <layout append="top">
             <row auto="true" row_class="row g-1 py-3" col_class="col-auto">
                 <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
-                <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg"/>
+                <button ifeval="check_user('emails', 'create')" onclick="saltos.driver.open('app/emails/create')" label="New email" tooltip="To send a new email" icon="plus-lg" color="success"/>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
@@ -232,8 +232,8 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.emails.send()" label="Send" tooltip="To send the email" icon="check-lg"/>
-                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.emails.send()" label="Send" tooltip="To send the email" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the email" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
         <data require="apps/emails/php/sendmail.php" eval="true">sendmail_prepare(get_data("rest/3"),intval(get_data("rest/4")))</data>

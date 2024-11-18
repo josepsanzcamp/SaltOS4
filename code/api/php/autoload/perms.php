@@ -346,10 +346,12 @@ function merge_data_actions($data, $actions)
                     strtok(strval($row['id']), '/')
                 )
             ) {
-                $action['url'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
+                $action['arg'] = "app/{$action["app"]}/{$action["action"]}/{$row["id"]}";
             } else {
-                $action['url'] = '';
+                $action['arg'] = '';
             }
+            unset($action['app']);
+            unset($action['action']);
             $merge[] = $action;
         }
         if (count($merge)) {

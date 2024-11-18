@@ -2167,7 +2167,7 @@ saltos.bootstrap.__field.pdfjs = field => {
  * @value   => the text used as label in the button of the action
  * @icon    => the icon used in the button of the action
  * @tooltip => the tooltip used in the button of the action
- * @onclick => the onclick function that receives as argument the url to access the action
+ * @onclick => the onclick function that receives as argument the arg to access the action
  *
  * Notes:
  *
@@ -2425,13 +2425,13 @@ saltos.bootstrap.__field.table = field => {
                 let first_action = saltos.core.eval_bool(field.first_action);
                 for (const key2 in val.actions) {
                     const val2 = val.actions[key2];
-                    if (val2.url == '') {
+                    if (!val2.hasOwnProperty('arg') || val2.arg == '') {
                         val2.disabled = true;
                     } else {
                         if (!val2.hasOwnProperty('onclick')) {
                             throw new Error('Table onclick not found');
                         }
-                        val2.onclick = `${val2.onclick}("${val2.url}")`;
+                        val2.onclick = `${val2.onclick}("${val2.arg}")`;
                     }
                     if (first_action) {
                         if (val2.onclick) {
@@ -2448,6 +2448,9 @@ saltos.bootstrap.__field.table = field => {
                             });
                         }
                         first_action = false;
+                    }
+                    if (val2.hasOwnProperty('color')) {
+                        val2.class = `text-${val2.color}`;
                     }
                     val2.color = 'none';
                     const button = saltos.bootstrap.__field.button(val2);
@@ -3216,18 +3219,18 @@ saltos.bootstrap.__field.list = field => {
             'header_text', 'header_icon', 'header_color',
             'body_text', 'body_icon', 'body_color',
             'footer_text', 'footer_icon', 'footer_color',
-            'onclick', 'url', 'active', 'disabled', 'actions', 'id']);
+            'onclick', 'arg', 'active', 'disabled', 'actions', 'id']);
         let item;
         if (saltos.core.eval_bool(field.onclick)) {
             item = saltos.core.html(`<button
                 class="list-group-item list-group-item-action ${val.class}"></button>`);
             if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
-                val.actions[0].hasOwnProperty('onclick') && val.actions[0].hasOwnProperty('url')) {
+                val.actions[0].hasOwnProperty('onclick') && val.actions[0].hasOwnProperty('arg')) {
                 val.onclick = val.actions[0].onclick;
-                val.url = val.actions[0].url;
+                val.arg = val.actions[0].arg;
             }
-            if (val.url != '') {
-                val.onclick = `${val.onclick}("${val.url}")`;
+            if (val.arg != '') {
+                val.onclick = `${val.onclick}("${val.arg}")`;
             }
             saltos.bootstrap.__onclick_helper(item, val.onclick);
             // To prevent that the button remain focused
