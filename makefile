@@ -150,6 +150,7 @@ setupclean:
 	rm -f code/data/files/*
 	-rmdir code/data/files/*
 	rm -f code/data/cache/*
+	rm -f code/data/cron/*
 	rm -f code/data/logs/*
 	rm -f code/data/temp/*
 	rm -f code/data/trash/*
