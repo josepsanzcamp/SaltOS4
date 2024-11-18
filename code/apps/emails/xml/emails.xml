@@ -332,9 +332,7 @@
                 <switch id="state_spam" label="SPAM" col_class="col-sm-3 col-md-2 col-lg-2 mb-3" ifeval="!getmail_field('is_outbox',intval(get_data('rest/3')))"/>
                 <switch id="state_crt" label="Request confirmation of receipt" col_class="col-sm-9 col-md-6 col-lg-6 mb-3"/>
                 <text id="state_error" label="Error" color="danger" ifeval="getmail_field('state_error',intval(get_data('rest/3')))"/>
-                <div col_class="col-12"/>
-                <text id="subject" label="Subject" col_class="col mb-3"/>
-                <button onclick="saltos.emails.images()" tooltip="To load the body images" icon="image" col_class="col-auto mb-3" addbr="true"/>
+                <text id="subject" label="Subject"/>
                 <iframe id="body" label="Body" height="10em">
                     <source eval="true">"app/emails/view/body/".intval(get_data("rest/3"))</source>
                 </iframe>

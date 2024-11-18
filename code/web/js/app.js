@@ -744,15 +744,19 @@ saltos.app.delete = file => {
  * @abort   => callback function for the abort action (optional)
  * @data    => data used in the body of the request
  * @proxy   => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
+ * @loading => enable or disable the loading feature, true by default
  */
 saltos.app.ajax = args => {
     if (!args.hasOwnProperty('url')) {
         throw new Error(`Url not found`);
     }
+    saltos.core.check_params(args, ['loading'], true);
     const temp = {
         url: 'api/?/' + args.url,
         success: response => {
-            saltos.form.screen('unloading');
+            if (args.loading) {
+                saltos.form.screen('unloading');
+            }
             if (!saltos.app.check_response(response)) {
                 return;
             }
@@ -761,7 +765,9 @@ saltos.app.ajax = args => {
             }
         },
         error: error => {
-            saltos.form.screen('unloading');
+            if (args.loading) {
+                saltos.form.screen('unloading');
+            }
             let text = 'unknown';
             if (error.status !== undefined && error.statusText !== undefined) {
                 text = error.status + ' ' + error.statusText;
@@ -777,7 +783,9 @@ saltos.app.ajax = args => {
             }
         },
         abort: error => {
-            saltos.form.screen('unloading');
+            if (args.loading) {
+                saltos.form.screen('unloading');
+            }
             if (typeof args.abort == 'function') {
                 args.abort(error);
             }
@@ -793,7 +801,9 @@ saltos.app.ajax = args => {
     if (args.hasOwnProperty('proxy')) {
         temp.proxy = args.proxy;
     }
-    saltos.form.screen('loading');
+    if (args.loading) {
+        saltos.form.screen('loading');
+    }
     return saltos.core.ajax(temp);
 };
 

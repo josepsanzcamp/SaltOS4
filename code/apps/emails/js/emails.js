@@ -319,12 +319,13 @@ saltos.core.when_visible('from', () => {
  *
  * TODO
  */
-saltos.emails.images = () => {
+saltos.core.when_visible('body', () => {
     const id = saltos.hash.get().split('/').at(3);
     saltos.app.ajax({
         url: `app/emails/view/body/${id}/true`,
         success: response => {
             document.getElementById('body').srcdoc = response.srcdoc;
         },
+        loading: false,
     });
-};
+});
