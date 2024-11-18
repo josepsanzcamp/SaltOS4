@@ -919,6 +919,9 @@ saltos.bootstrap.__field.iframe = field => {
         const _this = event.target;
         window.addEventListener('resize', event => {
             if (_this.contentWindow) {
+                // The next line sets the height to a small size to fix a resize bug when
+                // updates contents and new contents are more small of the old contents
+                _this.style.height = '1px';
                 const size = _this.contentWindow.document.documentElement.offsetHeight + 2;
                 _this.style.height = size + 'px';
             }
