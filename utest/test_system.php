@@ -74,8 +74,16 @@ final class test_system extends TestCase
         mkdir('data/nada');
         $array = check_system();
         $this->assertCount(1, $array);
-        $this->assertStringContainsString('data/nada not writable', $array[0]['phperror']);
+        $this->assertSame($array[0]['phperror'], 'data/nada not writable');
         $this->assertDirectoryExists('data/nada');
+
+        $json = test_cli_helper('setup', [], '', '');
+        $this->assertArrayHasKey('system', $json);
+        $this->assertCount(1, $json['system']);
+        $this->assertCount(2, $json['system'][0]);
+        $this->assertArrayHasKey('phperror', $json['system'][0]);
+        $this->assertSame($json['system'][0]['phperror'], 'data/nada not writable');
+
         rmdir('data/nada');
         $this->assertDirectoryDoesNotExist('data/nada');
     }
