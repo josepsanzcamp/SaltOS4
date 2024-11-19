@@ -52,7 +52,6 @@ function check_system()
         ['function_exists', 'mb_check_encoding', 'Function', 'php-mbstring', 'error'],
         ['function_exists', 'yaml_parse', 'Function', 'php-yaml', 'error'],
         ['function_exists', 'zstd_compress', 'Function', 'php-zstd', 'warning'],
-        ['function_exists', 'posix_isatty', 'Function', 'php-posix', 'warning'],
     ];
     $result = [];
     foreach ($items as $item) {
