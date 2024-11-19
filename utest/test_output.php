@@ -67,14 +67,15 @@ final class test_output extends TestCase
      */
     public function test_output(): void
     {
-        test_external_exec('php/output1.php', '', '');
-        test_external_exec('php/output2.php', '', '');
-        test_external_exec('php/output3.php', '', '');
-        test_external_exec('php/output4.php', '', '');
-        test_external_exec('php/output5.php', '', '');
-        test_external_exec('php/output6.php', '', '');
-        test_external_exec('php/output7.php', 'phperror.log', 'file nada not found');
-        test_external_exec('php/output8.php', 'phperror.log', 'output_handler requires the type parameter');
-        test_external_exec('php/output9.php', 'phperror.log', 'output_handler requires the cache parameter');
+        test_external_exec('php/output01.php', '', '');
+        test_external_exec('php/output02.php', '', '');
+        test_external_exec('php/output03.php', '', '');
+        test_external_exec('php/output04.php', '', '');
+        test_external_exec('php/output05.php', '', '');
+        test_external_exec('php/output06.php', '', '');
+        test_external_exec('php/output07.php', 'phperror.log', 'file nada not found');
+        test_external_exec('php/output08.php', 'phperror.log', 'output_handler requires the type parameter');
+        test_external_exec('php/output09.php', 'phperror.log', 'output_handler requires the cache parameter');
+        test_external_exec('php/output10.php', '', '');
     }
 }
