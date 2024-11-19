@@ -46,18 +46,20 @@ declare(strict_types=1);
 function check_system()
 {
     // PACKAGE CHECKS
-    $array = [
-        ['class_exists', 'DomElement', 'Class', 'php-xml'],
-        ['function_exists', 'imagecreatetruecolor', 'Function', 'php-gd'],
-        ['function_exists', 'mb_check_encoding', 'Function', 'php-mbstring'],
-        ['function_exists', 'yaml_parse', 'Function', 'php-yaml'],
+    $items = [
+        ['class_exists', 'DomElement', 'Class', 'php-xml', 'error'],
+        ['function_exists', 'imagecreatetruecolor', 'Function', 'php-gd', 'error'],
+        ['function_exists', 'mb_check_encoding', 'Function', 'php-mbstring', 'error'],
+        ['function_exists', 'yaml_parse', 'Function', 'php-yaml', 'error'],
+        ['function_exists', 'zstd_compress', 'Function', 'php-zstd', 'warning'],
+        ['function_exists', 'posix_isatty', 'Function', 'php-posix', 'warning'],
     ];
     $result = [];
-    foreach ($array as $a) {
-        if (!$a[0]($a[1])) {
+    foreach ($items as $item) {
+        if (!$item[0]($item[1])) {
             $result[] = [
-                'phperror' => "$a[2] $a[1] not found",
-                'details' => "Try to install $a[3] package",
+                $item[4] => "$item[2] $item[1] not found",
+                'details' => "Try to install $item[3] package",
             ];
         }
     }
@@ -66,7 +68,7 @@ function check_system()
     foreach ($dirs as $dir) {
         if (!file_exists($dir) || !is_dir($dir) || (fileperms($dir) & 0777) != 0777) {
             $result[] = [
-                'phperror' => "$dir not writable",
+                'error' => "$dir not writable",
                 'details' => "Try to set permissions to do writable the $dir directory",
             ];
         }

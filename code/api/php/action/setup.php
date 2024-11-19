@@ -47,19 +47,21 @@ require_once 'php/lib/system.php';
 require_once 'php/lib/dbschema.php';
 require_once 'php/lib/setup.php';
 
-$output0 = check_system();
-if (count($output0)) {
-    semaphore_release('setup');
-    output_handler_json([
-        'system' => $output0,
-    ]);
-}
-
 $dbschema_check = __dbschema_check();
 $dbschema_hash = __dbschema_hash();
 $dbstatic_check = __dbstatic_check();
 $dbstatic_hash = __dbstatic_hash();
 
+$time0 = microtime(true);
+$output0 = check_system();
+foreach ($output0 as $key => $val) {
+    if (isset($val['error'])) {
+        show_php_error([
+            'phperror' => $val['error'],
+            'details' => $val['details'],
+        ]);
+    }
+}
 $time1 = microtime(true);
 $output1 = db_schema();
 $time2 = microtime(true);
@@ -70,6 +72,10 @@ $time4 = microtime(true);
 
 semaphore_release('setup');
 output_handler_json([
+    'system' => [
+        'time' => round($time1 - $time0, 6),
+        'output' => $output0,
+    ],
     'db_schema' => array_merge([
         'time' => round($time2 - $time1, 6),
         'check' => $dbschema_check,

@@ -98,7 +98,7 @@ final class test_semaphore extends TestCase
         // This part of the test is to cover the errors of the actions
         // when tries to acquire the semaphore
 
-        foreach (['auth', 'setup', 'gc', 'cron'] as $action) {
+        foreach (['auth', 'setup', 'gc', 'cron', 'integrity', 'indexing'] as $action) {
             $file1 = semaphore_file($action);
             if (file_exists($file1)) {
                 unlink($file1);

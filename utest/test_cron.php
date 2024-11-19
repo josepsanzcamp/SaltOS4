@@ -99,6 +99,24 @@ final class test_cron extends TestCase
         $this->assertArrayHasKey('status', $json);
         $this->assertArrayHasKey('datetime', $json);
 
+        $pids = glob('data/cron/*.pid');
+        foreach ($pids as $key => $val) {
+            $pids[$key] = unserialize(file_get_contents($val))['pid'];
+        }
+
+        for ($i = 0; $i < 1000; $i++) {
+            foreach ($pids as $key => $val) {
+                if (!posix_kill($val, 0)) {
+                    unset($pids[$key]);
+                }
+            }
+            if (!count($pids)) {
+                break;
+            }
+            usleep(1000);
+        }
+        $this->assertCount(0, $pids);
+
         $json = test_cli_helper('cron', [], '', '');
         $this->assertArrayHasKey('status', $json);
         $this->assertArrayHasKey('datetime', $json);

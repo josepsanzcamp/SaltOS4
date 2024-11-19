@@ -86,17 +86,29 @@ final class test_indexing extends TestCase
         __make_index_helper('app_invoices_concepts', -1);
 
         $json = test_cli_helper('indexing', [], '', '');
-        $this->assertArrayHasKey('indexing', $json);
-        $this->assertArrayHasKey('files', $json['indexing']);
-        $this->assertArrayHasKey('apps', $json['indexing']);
-        $this->assertArrayHasKey('time', $json['indexing']['files']);
-        $this->assertArrayHasKey('total', $json['indexing']['files']);
-        $this->assertArrayHasKey('time', $json['indexing']['apps']);
-        $this->assertArrayHasKey('total', $json['indexing']['apps']);
+        $this->assertCount(2, $json);
+        $this->assertArrayHasKey('indexing_files', $json);
+        $this->assertArrayHasKey('indexing_apps', $json);
+        $this->assertArrayHasKey('time', $json['indexing_files']);
+        $this->assertArrayHasKey('total', $json['indexing_files']);
+        $this->assertArrayHasKey('time', $json['indexing_apps']);
+        $this->assertArrayHasKey('total', $json['indexing_apps']);
 
         $json = test_cli_helper('integrity', [], '', '');
+        $this->assertCount(1, $json);
         $this->assertArrayHasKey('integrity', $json);
         $this->assertArrayHasKey('time', $json['integrity']);
         $this->assertArrayHasKey('total', $json['integrity']);
+
+        foreach (['indexing', 'integrity'] as $action) {
+            $file = 'data/logs/phperror.log';
+            $this->assertFileDoesNotExist($file);
+
+            $json = test_web_helper($action, [], '', '');
+            $this->assertArrayHasKey('error', $json);
+            $this->assertFileExists($file);
+            $this->assertTrue(words_exists('permission denied', file_get_contents($file)));
+            unlink($file);
+        }
     }
 }

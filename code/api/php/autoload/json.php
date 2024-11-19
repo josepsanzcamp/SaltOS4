@@ -45,10 +45,10 @@ function json_colorize($json)
     $patterns = [
         '/(".*?")(:\s)/' => "\e[32m$1\e[0m$2", // keys in green
         '/(:\s)(".*")/' => "$1\e[34m$2\e[0m", // strings in blue
-        '/(:\s)(\d+(\.\d+)?)/' => "$1\e[35m$2\e[0m", // numbers in magenta
+        '/(:\s)(\d+(\.\d+)?([eE][+-]?\d+)?)/' => "$1\e[35m$2\e[0m", // numbers in magenta
         '/(:\s)(true|false|null)/' => "$1\e[31m$2\e[0m", // booleans and null in red
         '/^(\s*?)(".*")/m' => "$1\e[34m$2\e[0m", // strings in blue
-        '/^(\s*?)(\d+(\.\d+)?)/m' => "$1\e[35m$2\e[0m", // numbers in magenta
+        '/^(\s*?)(\d+(\.\d+)?([eE][+-]?\d+)?)/m' => "$1\e[35m$2\e[0m", // numbers in magenta
         '/^(\s*?)(true|false|null)/m' => "$1\e[31m$2\e[0m", // booleans and null in red
     ];
     foreach ($patterns as $pattern => $replacement) {

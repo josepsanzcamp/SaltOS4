@@ -173,9 +173,7 @@ function __captcha_image($code, $args = [])
     }
     // Apply blur
     if (eval_bool($blur)) {
-        if (function_exists('imagefilter')) {
-            imagefilter($im, IMG_FILTER_GAUSSIAN_BLUR);
-        }
+        imagefilter($im, IMG_FILTER_GAUSSIAN_BLUR);
     }
     // Continue
     ob_start();

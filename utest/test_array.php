@@ -174,5 +174,16 @@ final class test_array extends TestCase
         test_external_exec('php/array2.php', 'phperror.log', 'unknown nada for nada');
         test_external_exec('php/array3.php', 'phperror.log', 'invalid xml tag name');
         test_external_exec('php/array4.php', 'phperror.log', 'invalid xml attr name');
+
+        $array = array_transpose([
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+        ]);
+        $this->assertSame($array, [
+            [1, 4, 7],
+            [2, 5, 8],
+            [3, 6, 9],
+        ]);
     }
 }

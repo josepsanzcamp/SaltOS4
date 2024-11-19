@@ -53,14 +53,12 @@ $time3 = microtime(true);
 
 semaphore_release('indexing');
 output_handler_json([
-    'indexing' => [
-        'files' => [
-            'time' => round($time2 - $time1, 6),
-            'total' => $total1,
-        ],
-        'apps' => [
-            'time' => round($time3 - $time2, 6),
-            'total' => $total2,
-        ],
+    'indexing_files' => [
+        'time' => round($time2 - $time1, 6),
+        'total' => $total1,
+    ],
+    'indexing_apps' => [
+        'time' => round($time3 - $time2, 6),
+        'total' => $total2,
     ],
 ]);

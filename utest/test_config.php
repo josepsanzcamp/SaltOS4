@@ -93,5 +93,11 @@ final class test_config extends TestCase
 
         test_external_exec('php/config1.php', 'phperror.log', 'key nada/nada/nada not found');
         test_external_exec('php/config2.php', 'phperror.log', 'key nada/nada/nada not found');
+
+        $array = get_config_array('nada', '');
+        $this->assertCount(0, $array);
+
+        $array = get_config_array('xml/', '');
+        $this->assertCount(2, $array);
     }
 }
