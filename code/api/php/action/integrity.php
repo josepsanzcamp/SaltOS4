@@ -45,82 +45,13 @@ if (!semaphore_acquire('integrity')) {
 db_connect();
 require_once 'php/lib/control.php';
 $time1 = microtime(true);
-$output = ['total' => 0];
-
-$query = "SELECT id,code,`table` FROM tbl_apps WHERE `table`!=''";
-$apps = execute_query_array($query);
-
-// First part: fixing apps
-foreach ($apps as $app) {
-    if (time_get_usage() > get_config('server/percentstop')) {
-        break;
-    }
-    $table = $app['table'];
-    // Check if files exists
-    $query = "SELECT id FROM {$table}_control LIMIT 1";
-    if (!db_check($query)) {
-        continue;
-    }
-    $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}");
-    for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
-        if (time_get_usage() > get_config('server/percentstop')) {
-            break;
-        }
-        for (;;) {
-            if (time_get_usage() > get_config('server/percentstop')) {
-                break;
-            }
-            // Search ids of the main application table, that doesn't exists on the
-            // register table
-            $query = "SELECT a.id FROM {$table} a
-                LEFT JOIN {$table}_control b ON a.id=b.id
-                WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
-            $ids = execute_query_array($query);
-            if (!count($ids)) {
-                break;
-            }
-            foreach ($ids as $id) {
-                make_control($app['code'], $id);
-            }
-            $output['total'] += count($ids);
-            if (count($ids) < 1000) {
-                break;
-            }
-        }
-    }
-    $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}_control");
-    for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
-        if (time_get_usage() > get_config('server/percentstop')) {
-            break;
-        }
-        for (;;) {
-            if (time_get_usage() > get_config('server/percentstop')) {
-                break;
-            }
-            // Search ids of the register table, that doesn't exists on the
-            // main application table
-            $query = "SELECT a.id FROM {$table}_control a
-                LEFT JOIN {$table} b ON b.id=a.id
-                WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
-            $ids = execute_query_array($query);
-            if (!count($ids)) {
-                break;
-            }
-            foreach ($ids as $id) {
-                make_control($app['code'], $id);
-            }
-            $output['total'] += count($ids);
-            if (count($ids) < 1000) {
-                break;
-            }
-        }
-    }
-}
-
+$total = integrity();
 $time2 = microtime(true);
+
 semaphore_release('integrity');
 output_handler_json([
-    'integrity' => array_merge([
+    'integrity' => [
         'time' => round($time2 - $time1, 6),
-    ], $output),
+        'total' => $total,
+    ],
 ]);

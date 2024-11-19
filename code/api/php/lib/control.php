@@ -406,3 +406,81 @@ function del_version($app, $reg_id)
     db_query($query, [$version_id]);
     return 1;
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function integrity()
+{
+    $query = "SELECT id,code,`table` FROM tbl_apps WHERE `table`!=''";
+    $apps = execute_query_array($query);
+    $total = 0;
+    foreach ($apps as $app) {
+        if (time_get_usage() > get_config('server/percentstop')) {
+            break;
+        }
+        $table = $app['table'];
+        // Check if files exists
+        $query = "SELECT id FROM {$table}_control LIMIT 1";
+        if (!db_check($query)) {
+            continue;
+        }
+        $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}");
+        for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
+            if (time_get_usage() > get_config('server/percentstop')) {
+                break;
+            }
+            for (;;) {
+                if (time_get_usage() > get_config('server/percentstop')) {
+                    break;
+                }
+                // Search ids of the main application table, that doesn't exists on the
+                // register table
+                $query = "SELECT a.id FROM {$table} a
+                    LEFT JOIN {$table}_control b ON a.id=b.id
+                    WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
+                $ids = execute_query_array($query);
+                if (!count($ids)) {
+                    break;
+                }
+                foreach ($ids as $id) {
+                    make_control($app['code'], $id);
+                }
+                $total += count($ids);
+                if (count($ids) < 1000) {
+                    break;
+                }
+            }
+        }
+        $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}_control");
+        for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
+            if (time_get_usage() > get_config('server/percentstop')) {
+                break;
+            }
+            for (;;) {
+                if (time_get_usage() > get_config('server/percentstop')) {
+                    break;
+                }
+                // Search ids of the register table, that doesn't exists on the
+                // main application table
+                $query = "SELECT a.id FROM {$table}_control a
+                    LEFT JOIN {$table} b ON b.id=a.id
+                    WHERE b.id IS NULL AND a.id>=$i AND a.id<$i+100000 LIMIT 1000";
+                $ids = execute_query_array($query);
+                if (!count($ids)) {
+                    break;
+                }
+                foreach ($ids as $id) {
+                    make_control($app['code'], $id);
+                }
+                $total += count($ids);
+                if (count($ids) < 1000) {
+                    break;
+                }
+            }
+        }
+    }
+    return $total;
+}

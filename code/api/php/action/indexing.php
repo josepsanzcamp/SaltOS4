@@ -46,125 +46,21 @@ db_connect();
 require_once 'php/lib/unoconv.php';
 require_once 'php/lib/indexing.php';
 $time1 = microtime(true);
-$output = ['total' => 0];
-
-$query = "SELECT id,code,`table` FROM tbl_apps WHERE `table`!=''";
-$apps = execute_query_array($query);
-
-// First part: indexing files
-foreach ($apps as $app) {
-    if (time_get_usage() > get_config('server/percentstop')) {
-        break;
-    }
-    $table = $app['table'];
-    // Check if files exists
-    $query = "SELECT id FROM {$table}_files LIMIT 1";
-    if (!db_check($query)) {
-        continue;
-    }
-    // Search all pending files
-    $query = "SELECT id,reg_id,file FROM {$table}_files
-        WHERE indexed=0 AND retries<3 AND file!='' LIMIT 1000";
-    $result = db_query($query);
-    while ($row = db_fetch_row($result)) {
-        if (time_get_usage() > get_config('server/percentstop')) {
-            break;
-        }
-        // Check if exists
-        $query = "SELECT id FROM {$table}_files WHERE id = ?";
-        $exists = execute_query($query, [$row['id']]);
-        if (!$exists) {
-            continue;
-        }
-        // Continue
-        $query = "UPDATE {$table}_files SET retries = retries + 1 WHERE id = ?";
-        db_query($query, [$row['id']]);
-        $input = get_directory('dirs/filesdir') . $app['code'] . '/' . $row['file'];
-        $search = unoconv2txt($input);
-        $query = prepare_update_query("{$table}_files", [
-            'indexed' => 1,
-            'search' => $search,
-        ], [
-            'id' => $row['id'],
-        ]);
-        db_query(...$query);
-        make_index($app['code'], $row['reg_id']);
-        $output['total']++;
-    }
-    db_free($result);
-}
-
-// Second part: indexing apps contents
-foreach ($apps as $app) {
-    if (time_get_usage() > get_config('server/percentstop')) {
-        break;
-    }
-    $table = $app['table'];
-    // Check if index exists
-    $query = "SELECT id FROM {$table}_index LIMIT 1";
-    if (!db_check($query)) {
-        continue;
-    }
-    $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}");
-    for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
-        if (time_get_usage() > get_config('server/percentstop')) {
-            break;
-        }
-        for (;;) {
-            if (time_get_usage() > get_config('server/percentstop')) {
-                break;
-            }
-            // Search ids of the main application table, that doesn't exists on the
-            // partial indexing table
-            $query = "SELECT a.id FROM {$table} a
-                LEFT JOIN {$table}_index b ON a.id = b.id
-                WHERE b.id IS NULL AND a.id >= ? AND a.id < ? + 100000 LIMIT 1000";
-            $ids = execute_query_array($query, [$i, $i]);
-            if (!count($ids)) {
-                break;
-            }
-            foreach ($ids as $id) {
-                make_index($app['code'], $id);
-            }
-            $output['total'] += count($ids);
-            if (count($ids) < 1000) {
-                break;
-            }
-        }
-    }
-    $range = execute_query("SELECT MAX(id) maxim, MIN(id) minim FROM {$table}_index");
-    for ($i = $range['minim']; $i < $range['maxim']; $i += 100000) {
-        if (time_get_usage() > get_config('server/percentstop')) {
-            break;
-        }
-        for (;;) {
-            if (time_get_usage() > get_config('server/percentstop')) {
-                break;
-            }
-            // Search ids of the partial indexing table, that doesn't exists on the
-            // main application table
-            $query = "SELECT a.id FROM {$table}_index a
-                LEFT JOIN {$table} b ON b.id = a.id
-                WHERE b.id IS NULL AND a.id >= ? AND a.id < ? + 100000 LIMIT 1000";
-            $ids = execute_query_array($query, [$i, $i]);
-            if (!count($ids)) {
-                break;
-            }
-            foreach ($ids as $id) {
-                make_index($app['code'], $id);
-            }
-            $output['total'] += count($ids);
-            if (count($ids) < 1000) {
-                break;
-            }
-        }
-    }
-}
-
+$total1 = indexing_files();
 $time2 = microtime(true);
+$total2 = indexing_apps();
+$time3 = microtime(true);
+
 semaphore_release('indexing');
 output_handler_json([
-    'indexing' => array_merge([
-        'time' => round($time2 - $time1, 6),
-    ], $output),
+    'indexing' => [
+        'files' => [
+            'time' => round($time2 - $time1, 6),
+            'total' => $total1,
+        ],
+        'apps' => [
+            'time' => round($time3 - $time2, 6),
+            'total' => $total2,
+        ],
+    ],
 ]);

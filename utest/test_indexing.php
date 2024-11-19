@@ -87,8 +87,12 @@ final class test_indexing extends TestCase
 
         $json = test_cli_helper('indexing', [], '', '');
         $this->assertArrayHasKey('indexing', $json);
-        $this->assertArrayHasKey('time', $json['indexing']);
-        $this->assertArrayHasKey('total', $json['indexing']);
+        $this->assertArrayHasKey('files', $json['indexing']);
+        $this->assertArrayHasKey('apps', $json['indexing']);
+        $this->assertArrayHasKey('time', $json['indexing']['files']);
+        $this->assertArrayHasKey('total', $json['indexing']['files']);
+        $this->assertArrayHasKey('time', $json['indexing']['apps']);
+        $this->assertArrayHasKey('total', $json['indexing']['apps']);
 
         $json = test_cli_helper('integrity', [], '', '');
         $this->assertArrayHasKey('integrity', $json);
