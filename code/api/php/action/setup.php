@@ -75,6 +75,7 @@ output_handler_json([
     'system' => [
         'time' => round($time1 - $time0, 6),
         'output' => $output0,
+        'count' => count($output0),
     ],
     'db_schema' => array_merge([
         'time' => round($time2 - $time1, 6),
