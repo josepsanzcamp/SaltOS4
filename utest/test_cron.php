@@ -81,6 +81,9 @@ final class test_cron extends TestCase
         $this->assertArrayHasKey('status', $json);
         $this->assertArrayHasKey('datetime', $json);
 
+        if (file_exists('apps/common/xml/cron.xml')) {
+            unlink('apps/common/xml/cron.xml');
+        }
         $this->assertFileDoesNotExist('apps/common/xml/cron.xml');
         copy('../../utest/files/cron.xml', 'apps/common/xml/cron.xml');
         $this->assertFileExists('apps/common/xml/cron.xml');
@@ -104,7 +107,7 @@ final class test_cron extends TestCase
             $pids[$key] = unserialize(file_get_contents($val))['pid'];
         }
 
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 10000; $i++) {
             foreach ($pids as $key => $val) {
                 if (!posix_kill($val, 0)) {
                     unset($pids[$key]);
