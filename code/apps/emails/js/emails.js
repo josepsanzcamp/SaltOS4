@@ -320,11 +320,14 @@ saltos.core.when_visible('from', () => {
  * TODO
  */
 saltos.core.when_visible('body', () => {
-    const id = saltos.hash.get().split('/').at(3);
+    const id1 = saltos.hash.get().split('/').at(3);
     saltos.app.ajax({
-        url: `app/emails/view/body/${id}/true`,
+        url: `app/emails/view/body/${id1}/true`,
         success: response => {
-            document.getElementById('body').srcdoc = response.srcdoc;
+            const id2 = saltos.hash.get().split('/').at(3);
+            if (id1 == id2) {
+                document.getElementById('body').srcdoc = response.srcdoc;
+            }
         },
         loading: false,
     });
