@@ -39,6 +39,14 @@ declare(strict_types=1);
  * This funcion is able to colorize a json fragment to dump into a tty terminal
  *
  * @json => the json code that you want to colorize
+ *
+ * Notes:
+ *
+ * This function uses a trick to convert numbers in scientific notation to an old
+ * decimal style, to do it, detects numbers with the e letter and print using the
+ * %.15f, this is used in sprintf to format floating-point numbers with 15 decimal
+ * places, ensuring precision up to the typical limit of a double type in C, which
+ * supports approximately 15-17 significant digits
  */
 function json_colorize($json)
 {
@@ -59,8 +67,8 @@ function json_colorize($json)
     ];
     foreach ($patterns as $pattern => $replacement) {
         $json = preg_replace_callback($pattern, function ($matches) use ($replacement) {
-            if (is_numeric($matches[2]) && strpos($matches[2], 'e') !== false) {
-                $matches[2] = sprintf('%f', $matches[2]);
+            if (is_numeric($matches[2]) && stripos($matches[2], 'e') !== false) {
+                $matches[2] = rtrim(sprintf('%.15f', $matches[2]), '0');
             }
             return str_replace(['$1', '$2'], [$matches[1], $matches[2]], $replacement);
         }, $json);
