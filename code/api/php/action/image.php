@@ -124,6 +124,7 @@ switch ($action) {
         $image = __barcode_image($msg, $w, $h, $m, $s, $t);
         $output = [
             'msg' => $msg,
+            'image' => mime_inline('image/png', $image),
         ];
         break;
     case 'qrcode':
@@ -141,6 +142,7 @@ switch ($action) {
         $image = __qrcode_image($msg, $s, $m, $l);
         $output = [
             'msg' => $msg,
+            'image' => mime_inline('image/png', $image),
         ];
         break;
     case 'captcha':
@@ -174,6 +176,7 @@ switch ($action) {
         $image = __captcha_image($code, $args);
         $output = [
             'code' => $code,
+            'image' => mime_inline('image/png', $image),
         ];
         break;
     case 'score':
@@ -196,6 +199,7 @@ switch ($action) {
         $output = [
             'score' => $score . '%',
             'valid' => $valid,
+            'image' => mime_inline('image/png', $image),
         ];
         break;
     default:
@@ -215,6 +219,4 @@ if ($format == 'png') {
     ]);
 }
 // Dump json
-output_handler_json(array_merge([
-    'image' => mime_inline('image/png', $image),
-], $output));
+output_handler_json($output);
