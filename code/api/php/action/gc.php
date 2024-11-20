@@ -54,10 +54,14 @@ $time3 = microtime(true);
 
 semaphore_release('gc');
 output_handler_json([
-    'gc_upload' => array_merge([
+    'gc_upload' => [
         'time' => round($time2 - $time1, 6),
-    ], $output1),
-    'gc_exec' => array_merge([
+        'deleted' => $output1,
+        'count' => count($output1),
+    ],
+    'gc_exec' => [
         'time' => round($time3 - $time2, 6),
-    ], $output2),
+        'deleted' => $output2,
+        'count' => count($output2),
+    ],
 ]);

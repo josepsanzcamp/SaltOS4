@@ -45,11 +45,6 @@ declare(strict_types=1);
  */
 function gc_exec()
 {
-    $output = [
-        'deleted' => [],
-        'count' => 0,
-    ];
-
     $dirs = [
         get_directory('dirs/cachedir') ?? getcwd_protected() . '/data/cache/'
             => get_config('server/cachetimeout'),
@@ -60,6 +55,7 @@ function gc_exec()
         get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/'
             => get_config('server/trashtimeout'),
     ];
+    $output = [];
     foreach ($dirs as $dir => $timeout) {
         if ($dir == '') {
             show_php_error(['phperror' => 'Internal error']);
@@ -72,8 +68,7 @@ function gc_exec()
         foreach ($files as $file) {
             if (file_exists($file) && is_file($file) && filemtime($file) < $delta) {
                 unlink($file);
-                $output['deleted'][] = $file;
-                $output['count']++;
+                $output[] = $file;
             }
         }
     }

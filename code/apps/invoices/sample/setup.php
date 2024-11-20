@@ -33,18 +33,20 @@ declare(strict_types=1);
  * This file contains useful functions related to the setup process
  */
 
-if (get_data('server/request_method') != 'CLI') {
+if (!get_data('server/xuid')) {
     show_php_error(['phperror' => 'Permission denied']);
+}
+
+if (!semaphore_acquire('app/invoices/setup')) {
+    show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
 require_once 'php/lib/control.php';
 require_once 'php/lib/indexing.php';
 $time1 = microtime(true);
-$output = [
-    'total' => 0,
-];
 
 // Import invoices
+$total = 0;
 $exists = execute_query('SELECT COUNT(*) FROM app_invoices');
 if (!$exists) {
     $files = glob('apps/invoices/sample/*.sql.gz');
@@ -58,13 +60,15 @@ if (!$exists) {
         make_control('invoices', $id);
         make_version('invoices', $id);
         make_index('invoices', $id);
-        $output['total']++;
+        $total++;
     }
 }
 
 $time2 = microtime(true);
+semaphore_release('app/invoices/setup');
 output_handler_json([
-    'setup' => array_merge([
+    'setup' => [
         'time' => round($time2 - $time1, 6),
-    ], $output),
+        'total' => $total,
+    ],
 ]);

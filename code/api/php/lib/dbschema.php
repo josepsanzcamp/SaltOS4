@@ -46,10 +46,7 @@ function db_schema()
     $dbschema = __dbschema_auto_apps($dbschema);
     $dbschema = __dbschema_auto_fkey($dbschema);
     $dbschema = __dbschema_auto_name($dbschema);
-    $output = [
-        'history' => [],
-        'count' => 0,
-    ];
+    $output = [];
     if (is_array($dbschema) && isset($dbschema['tables']) && is_array($dbschema['tables'])) {
         $ignores = get_ignores_from_dbschema();
         $tables1 = array_diff(get_tables(), $ignores);
@@ -59,8 +56,7 @@ function db_schema()
             if (!$isbackup && !in_array($table, $tables2)) {
                 $backup = "__{$table}__";
                 db_query(__dbschema_alter_table($table, $backup));
-                $output['history'][] = "Rename $table to $backup";
-                $output['count']++;
+                $output[] = "Rename $table to $backup";
             }
         }
         foreach ($dbschema['tables'] as $tablespec) {
@@ -82,8 +78,7 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
-                    $output['history'][] = "Alter $table";
-                    $output['count']++;
+                    $output[] = "Alter $table";
                 }
             } elseif (in_array($backup, $tables1)) {
                 $fields1 = get_fields($backup);
@@ -97,28 +92,24 @@ function db_schema()
                     }
                     db_query(__dbschema_insert_from_select($table, $backup));
                     db_query(__dbschema_drop_table($backup));
-                    $output['history'][] = "Alter $table from $backup";
-                    $output['count']++;
+                    $output[] = "Alter $table from $backup";
                 } else {
                     db_query(__dbschema_alter_table($backup, $table));
-                    $output['history'][] = "Rename $backup to $table";
-                    $output['count']++;
+                    $output[] = "Rename $backup to $table";
                 }
             } else {
                 db_query(__dbschema_create_table($tablespec));
                 foreach (get_indexes($table) as $index => $fields) {
                     db_query(__dbschema_drop_index($index, $table));
                 }
-                $output['history'][] = "Create $table";
-                $output['count']++;
+                $output[] = "Create $table";
             }
             $indexes1 = get_indexes($table);
             $indexes2 = get_indexes_from_dbschema($table);
             foreach ($indexes1 as $index => $fields) {
                 if (!array_key_exists($index, $indexes2)) {
                     db_query(__dbschema_drop_index($index, $table));
-                    $output['history'][] = "Drop $index on $table";
-                    $output['count']++;
+                    $output[] = "Drop $index on $table";
                 }
             }
             if (isset($tablespec['value']['indexes']) && is_array($tablespec['value']['indexes'])) {
@@ -135,13 +126,11 @@ function db_schema()
                         if ($hash3 != $hash4) {
                             db_query(__dbschema_drop_index($index, $table));
                             db_query(__dbschema_create_index($indexspec));
-                            $output['history'][] = "Alter $index on $table";
-                            $output['count']++;
+                            $output[] = "Alter $index on $table";
                         }
                     } else {
                         db_query(__dbschema_create_index($indexspec));
-                        $output['history'][] = "Create $index on $table";
-                        $output['count']++;
+                        $output[] = "Create $index on $table";
                     }
                 }
             }
@@ -193,21 +182,18 @@ function db_static()
         xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
         __manifest2dbstatic(detect_apps_files('xml/manifest.xml')),
     ));
-    $output = [
-        'history' => [],
-        'count' => 0,
-    ];
+    $output = [];
     if (is_array($dbstatic) && isset($dbstatic['tables']) && is_array($dbstatic['tables'])) {
         $queries = [];
         foreach ($dbstatic['tables'] as $data) {
             $table = $data['#attr']['name'];
-            if (isset($output['history'][$table])) {
+            if (isset($output[$table])) {
                 continue;
             }
             $count = execute_query("SELECT COUNT(*) FROM $table");
             $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
             $queries[] = [$query, null];
-            $output['history'][$table] = [
+            $output[$table] = [
                 'from' => $count,
                 'to' => 0,
             ];
@@ -218,7 +204,7 @@ function db_static()
             foreach ($rows as $row) {
                 $temp = __dbstatic_insert($table, $row['#attr']);
                 $queries = array_merge($queries, $temp);
-                $output['history'][$table]['to'] += count($temp);
+                $output[$table]['to'] += count($temp);
             }
         }
         foreach ($queries as $query) {
@@ -227,12 +213,6 @@ function db_static()
     }
     __manifest_perms_check(detect_apps_files('xml/manifest.xml'));
     set_config('xml/dbstatic.xml', __dbstatic_hash(), 0);
-    foreach ($output['history'] as $key => $val) {
-        $from = $val['from'];
-        $to = $val['to'];
-        $output['history'][$key] = "from $from to $to";
-        $output['count'] += abs($to - $from);
-    }
     return $output;
 }
 

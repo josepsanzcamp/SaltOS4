@@ -40,10 +40,7 @@ declare(strict_types=1);
  */
 function setup()
 {
-    $output = [
-        'history' => [],
-        'count' => 0,
-    ];
+    $output = [];
 
     $array = [
         'tbl_users' => [
@@ -89,7 +86,7 @@ function setup()
     ];
 
     foreach ($array as $table => $rows) {
-        $output['history'][$table] = 0;
+        $output[$table] = 0;
         $exists = execute_query("SELECT COUNT(*) FROM $table");
         if ($exists) {
             continue;
@@ -97,21 +94,20 @@ function setup()
         foreach ($rows as $row) {
             $query = prepare_insert_query($table, $row);
             db_query(...$query);
-            $output['history'][$table]++;
-            $output['count']++;
+            $output[$table]++;
         }
     }
 
     require_once 'php/lib/control.php';
     require_once 'php/lib/indexing.php';
 
-    if ($output['history']['tbl_users']) {
+    if ($output['tbl_users']) {
         make_control('users', 1);
         make_version('users', 1);
         make_index('users', 1);
     }
 
-    if ($output['history']['tbl_groups']) {
+    if ($output['tbl_groups']) {
         make_control('groups', 1);
         make_version('groups', 1);
         make_index('groups', 1);
@@ -128,8 +124,7 @@ function setup()
         foreach ($rows as $row) {
             $query = "DELETE FROM $table WHERE id = ?";
             db_query($query, [$row['id']]);
-            $output['history'][$table]--;
-            $output['count']++;
+            $output[$table]--;
         }
     }
 

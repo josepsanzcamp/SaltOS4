@@ -206,18 +206,14 @@ function gc_upload()
     $query = 'SELECT id, file FROM tbl_uploads WHERE datetime < ?';
     $files = execute_query_array($query, [$delta]);
     $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
-    $output = [
-        'deleted' => [],
-        'count' => 0,
-    ];
+    $output = [];
     foreach ($files as $file) {
         if (file_exists($dir . $file['file']) && is_file($dir . $file['file'])) {
             unlink($dir . $file['file']);
         }
         $query = 'DELETE FROM tbl_uploads WHERE id = ?';
         db_query($query, [$file['id']]);
-        $output['deleted'][] = $dir . $file['file'];
-        $output['count']++;
+        $output[] = $dir . $file['file'];
     }
     return $output;
 }

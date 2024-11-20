@@ -33,21 +33,21 @@ declare(strict_types=1);
  * This file contains useful functions related to the setup process
  */
 
-if (get_data('server/request_method') != 'CLI') {
+if (!get_data('server/xuid')) {
     show_php_error(['phperror' => 'Permission denied']);
+}
+
+if (!semaphore_acquire('app/emails/setup')) {
+    show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
 require_once 'php/lib/control.php';
 require_once 'php/lib/indexing.php';
 require_once 'apps/emails/php/getmail.php';
 $time1 = microtime(true);
-$output = [
-    'account' => 0,
-    'files' => 0,
-    'emails' => 0,
-];
 
 // Add a new email account
+$account = 0;
 $exists = execute_query('SELECT COUNT(*) FROM app_emails_accounts');
 if (!$exists) {
     $query = prepare_insert_query('app_emails_accounts', [
@@ -71,37 +71,43 @@ if (!$exists) {
         'email_default' => 1,
     ]);
     db_query(...$query);
-    $output['account']++;
+    $account++;
     make_control('emails_accounts', 1);
     make_version('emails_accounts', 1);
     make_index('emails_accounts', 1);
 }
 
 // Create the account directory and copy all initial RFC822 files
+$files = 0;
 if (!file_exists('data/inbox/1')) {
     mkdir('data/inbox/1');
     chmod_protected('data/inbox/1', 0777);
     $files = glob('apps/emails/sample/inbox/1/*.eml.gz');
     foreach ($files as $file) {
         copy($file, 'data/inbox/1/' . basename($file));
-        $output['files']++;
+        $files++;
     }
 }
 
 // Import emails
+$emails = 0;
 $exists = execute_query('SELECT COUNT(*) FROM app_emails');
 if (!$exists) {
     $files = glob('data/inbox/1/*.eml.gz');
     foreach ($files as $file) {
         $msgid = str_replace(['data/inbox/', '.eml.gz'], '', $file);
         __getmail_insert($file, $msgid, 1, 0, 0, 0, 0, 0, 0, '');
-        $output['emails']++;
+        $emails++;
     }
 }
 
 $time2 = microtime(true);
+semaphore_release('app/emails/setup');
 output_handler_json([
-    'setup' => array_merge([
+    'setup' => [
         'time' => round($time2 - $time1, 6),
-    ], $output),
+        'account' => $account,
+        'files' => $files,
+        'emails' => $emails,
+    ],
 ]);

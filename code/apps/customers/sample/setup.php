@@ -33,18 +33,20 @@ declare(strict_types=1);
  * This file contains useful functions related to the setup process
  */
 
-if (get_data('server/request_method') != 'CLI') {
+if (!get_data('server/xuid')) {
     show_php_error(['phperror' => 'Permission denied']);
+}
+
+if (!semaphore_acquire('app/customers/setup')) {
+    show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
 require_once 'php/lib/control.php';
 require_once 'php/lib/indexing.php';
 $time1 = microtime(true);
-$output = [
-    'total' => 0,
-];
 
 // Import customers
+$total = 0;
 $exists = execute_query('SELECT COUNT(*) FROM app_customers');
 if (!$exists) {
     $files = glob('apps/customers/sample/*.sql.gz');
@@ -58,13 +60,15 @@ if (!$exists) {
         make_control('customers', $id);
         make_version('customers', $id);
         make_index('customers', $id);
-        $output['total']++;
+        $total++;
     }
 }
 
 $time2 = microtime(true);
+semaphore_release('app/customers/setup');
 output_handler_json([
-    'setup' => array_merge([
+    'setup' => [
         'time' => round($time2 - $time1, 6),
-    ], $output),
+        'total' => $total,
+    ],
 ]);

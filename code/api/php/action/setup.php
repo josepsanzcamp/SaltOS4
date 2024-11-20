@@ -66,6 +66,13 @@ $time1 = microtime(true);
 $output1 = db_schema();
 $time2 = microtime(true);
 $output2 = db_static();
+$total2 = 0;
+foreach ($output2 as $key => $val) {
+    $from = $val['from'];
+    $to = $val['to'];
+    $output2[$key] = "from $from to $to";
+    $total2 += abs($to - $from);
+}
 $time3 = microtime(true);
 $output3 = setup();
 $time4 = microtime(true);
@@ -77,17 +84,23 @@ output_handler_json([
         'output' => $output0,
         'count' => count($output0),
     ],
-    'db_schema' => array_merge([
+    'db_schema' => [
         'time' => round($time2 - $time1, 6),
         'check' => $dbschema_check,
         'hash' => $dbschema_hash,
-    ], $output1),
-    'db_static' => array_merge([
+        'history' => $output1,
+        'count' => count($output1),
+    ],
+    'db_static' => [
         'time' => round($time3 - $time2, 6),
         'check' => $dbstatic_check,
         'hash' => $dbstatic_hash,
-    ], $output2),
-    'setup' => array_merge([
+        'history' => $output2,
+        'count' => $total2,
+    ],
+    'setup' => [
         'time' => round($time4 - $time3, 6),
-    ], $output3),
+        'history' => $output3,
+        'count' => array_sum($output3),
+    ],
 ]);
