@@ -45,22 +45,25 @@ function json_colorize($json)
     $patterns = [
         '/(".*?")(:\s)/' => "\e[32m$1\e[0m$2", // keys in green
         '/(:\s)(".*")/' => "$1\e[34m$2\e[0m", // strings in blue
-        '/(:\s)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/' => "$1\e[35m$2\e[0m", // numbers in magenta
         '/(:\s)(true|false|null)/' => "$1\e[31m$2\e[0m", // booleans and null in red
         '/^(\s*?)(".*")/m' => "$1\e[34m$2\e[0m", // strings in blue
-        '/^(\s*?)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/m' => "$1\e[35m$2\e[0m", // numbers in magenta
         '/^(\s*?)(true|false|null)/m' => "$1\e[31m$2\e[0m", // booleans and null in red
     ];
     foreach ($patterns as $pattern => $replacement) {
         $json = preg_replace($pattern, $replacement, $json);
     }
-    // Fix for colorized numbers with cientific notation
-    $pattern = '/(\e\[35m)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)(\e\[0m)/m';
-    $json = preg_replace_callback($pattern, function ($matches) {
-        if (is_numeric($matches[2]) && strpos($matches[2], 'e') !== false) {
-            return $matches[1] . sprintf('%f', $matches[2]) . $matches[5];
-        }
-        return $matches[0];
-    }, $json);
+    // Trick for numbers with scientific notation
+    $patterns = [
+        '/(:\s)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/' => "$1\e[35m$2\e[0m", // numbers in magenta
+        '/^(\s*?)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/m' => "$1\e[35m$2\e[0m", // numbers in magenta
+    ];
+    foreach ($patterns as $pattern => $replacement) {
+        $json = preg_replace_callback($pattern, function ($matches) use ($replacement) {
+            if (is_numeric($matches[2]) && strpos($matches[2], 'e') !== false) {
+                $matches[2] = sprintf('%f', $matches[2]);
+            }
+            return str_replace(['$1', '$2'], [$matches[1], $matches[2]], $replacement);
+        }, $json);
+    }
     return $json;
 }
