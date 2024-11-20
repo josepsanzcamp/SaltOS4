@@ -78,8 +78,17 @@ final class test_cron extends TestCase
         unlink($file);
 
         $json = test_cli_helper('cron', [], '', '');
-        $this->assertArrayHasKey('status', $json);
-        $this->assertArrayHasKey('datetime', $json);
+        $this->assertCount(2, $json);
+        $this->assertArrayHasKey('cron_gc', $json);
+        $this->assertArrayHasKey('cron_exec', $json);
+        $this->assertCount(2, $json['cron_gc']);
+        $this->assertArrayHasKey('time', $json['cron_gc']);
+        $this->assertArrayHasKey('total', $json['cron_gc']);
+        $this->assertCount(2, $json['cron_exec']);
+        $this->assertArrayHasKey('time', $json['cron_exec']);
+        $this->assertArrayHasKey('total', $json['cron_exec']);
+
+        $this->wait_cron();
 
         if (file_exists('apps/common/xml/cron.xml')) {
             unlink('apps/common/xml/cron.xml');
@@ -88,25 +97,29 @@ final class test_cron extends TestCase
         copy('../../utest/files/cron.xml', 'apps/common/xml/cron.xml');
         $this->assertFileExists('apps/common/xml/cron.xml');
 
-        $dir = get_directory('dirs/crondir') ?? getcwd_protected() . '/data/cron/';
-        $files = glob($dir . '*');
-        foreach ($files as $file) {
-            unlink($file);
-        }
-
-        $dir = get_directory('dirs/crondir') ?? getcwd_protected() . '/data/cron/';
-        $files = glob($dir . '*');
-        $this->assertCount(0, $files);
-
         $json = test_cli_helper('cron', [], '', '');
-        $this->assertArrayHasKey('status', $json);
-        $this->assertArrayHasKey('datetime', $json);
+        $this->assertCount(2, $json);
+        $this->assertArrayHasKey('cron_gc', $json);
+        $this->assertArrayHasKey('cron_exec', $json);
+        $this->assertCount(2, $json['cron_gc']);
+        $this->assertArrayHasKey('time', $json['cron_gc']);
+        $this->assertArrayHasKey('total', $json['cron_gc']);
+        $this->assertCount(2, $json['cron_exec']);
+        $this->assertArrayHasKey('time', $json['cron_exec']);
+        $this->assertArrayHasKey('total', $json['cron_exec']);
 
         $this->wait_cron();
 
         $json = test_cli_helper('cron', [], '', '');
-        $this->assertArrayHasKey('status', $json);
-        $this->assertArrayHasKey('datetime', $json);
+        $this->assertCount(2, $json);
+        $this->assertArrayHasKey('cron_gc', $json);
+        $this->assertArrayHasKey('cron_exec', $json);
+        $this->assertCount(2, $json['cron_gc']);
+        $this->assertArrayHasKey('time', $json['cron_gc']);
+        $this->assertArrayHasKey('total', $json['cron_gc']);
+        $this->assertCount(2, $json['cron_exec']);
+        $this->assertArrayHasKey('time', $json['cron_exec']);
+        $this->assertArrayHasKey('total', $json['cron_exec']);
 
         $this->wait_cron();
 

@@ -45,122 +45,20 @@ if (!semaphore_acquire('cron')) {
 db_connect();
 require_once 'php/lib/cron.php';
 
-// Check for the cron files
-$dir = get_directory('dirs/crondir') ?? getcwd_protected() . '/data/cron/';
-$pids = glob($dir . '*.pid');
-foreach ($pids as $file) {
-    $temp = unserialize(file_get_contents($file));
-    $pid = intval($temp['pid']);
-    if (!posix_kill($pid, 0)) {
-        $hash = pathinfo($file, PATHINFO_FILENAME);
-        $start = date('Y-m-d H:i:s', min(
-            filectime($dir . $hash . '.out'),
-            filectime($dir . $hash . '.err'),
-            filectime($dir . $hash . '.pid'),
-            filemtime($dir . $hash . '.out'),
-            filemtime($dir . $hash . '.err'),
-            filemtime($dir . $hash . '.pid')
-        ));
-        $stop = date('Y-m-d H:i:s', max(
-            filectime($dir . $hash . '.out'),
-            filectime($dir . $hash . '.err'),
-            filectime($dir . $hash . '.pid'),
-            filemtime($dir . $hash . '.out'),
-            filemtime($dir . $hash . '.err'),
-            filemtime($dir . $hash . '.pid')
-        ));
-        $out = file_get_contents($dir . $hash . '.out');
-        $err = file_get_contents($dir . $hash . '.err');
-        $cmd = $temp['cmd'];
-        unlink($dir . $hash . '.out');
-        unlink($dir . $hash . '.err');
-        unlink($dir . $hash . '.pid');
-        $query = prepare_insert_query('tbl_cron', [
-            'cmd' => $cmd,
-            'pid' => $pid,
-            'out' => $out,
-            'err' => $err,
-            'start' => $start,
-            'stop' => $stop,
-        ]);
-        db_query(...$query);
-    }
-}
-
-// Execute the real cron feature
-$tasks = xmlfiles2array(detect_apps_files('xml/cron.xml'));
-foreach ($tasks['tasks'] as $task) {
-    $task = join_attr_value($task);
-
-    // Check for the cron time execution
-    $bool = __cron_is_now(
-        $task['minute'] ?? '*',
-        $task['hour'] ?? '*',
-        $task['day'] ?? '*',
-        $task['month'] ?? '*',
-        $task['dow'] ?? '*',
-    );
-    if (!$bool) {
-        continue;
-    }
-
-    // Prepare the commands that must to be executed
-    $cmds = [];
-    if (isset($task['cmd'])) {
-        $cmds[] = [
-            'cmd' => $task['cmd'],
-            'user' => $task['user'] ?? '',
-        ];
-    }
-    foreach ($task as $key => $val) {
-        if (fix_key($key) != 'task') {
-            continue;
-        }
-        $val = join_attr_value($val);
-        if (!isset($val['cmd'])) {
-            continue;
-        }
-        $cmds[] = [
-            'cmd' => $val['cmd'],
-            'user' => $val['user'] ?? '',
-        ];
-    }
-    if (!count($cmds)) {
-        show_php_error(['phperror' => 'Commands not found']);
-    }
-
-    // Check for a previous running execution
-    $hash = md5(serialize($cmds));
-    if (file_exists($dir . $hash . '.pid')) {
-        continue;
-    }
-
-    // Launch the real commands
-    foreach ($cmds as $key => $cmd) {
-        $users = __cron_users($cmd['user']);
-        $cmd = $cmd['cmd'];
-        foreach ($users as $key2 => $user) {
-            if ($user) {
-                $users[$key2] = "user=$user php index.php $cmd";
-            } else {
-                $users[$key2] = "php index.php $cmd";
-            }
-        }
-        $cmds[$key] = implode(';', $users);
-    }
-    $cmds = implode(';', $cmds);
-    $out = $dir . $hash . '.out';
-    $err = $dir . $hash . '.err';
-    $temp = "($cmds) 1>$out 2>$err & echo \$!";
-    $pid = intval(ob_passthru($temp));
-    file_put_contents($dir . $hash . '.pid', serialize([
-        'pid' => $pid,
-        'cmd' => $cmds,
-    ]));
-}
+$time1 = microtime(true);
+$total1 = cron_gc();
+$time2 = microtime(true);
+$total2 = cron_exec();
+$time3 = microtime(true);
 
 semaphore_release('cron');
 output_handler_json([
-    'status' => 'ok',
-    'datetime' => current_datetime(),
+    'cron_gc' => [
+        'time' => round($time2 - $time1, 6),
+        'total' => $total1,
+    ],
+    'cron_exec' => [
+        'time' => round($time3 - $time2, 6),
+        'total' => $total2,
+    ],
 ]);

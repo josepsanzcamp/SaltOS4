@@ -45,6 +45,7 @@ declare(strict_types=1);
  */
 function check_system()
 {
+    $result = [];
     // PACKAGE CHECKS
     $items = [
         ['class_exists', 'DomElement', 'Class', 'php-xml', 'error'],
@@ -53,7 +54,6 @@ function check_system()
         ['function_exists', 'yaml_parse', 'Function', 'php-yaml', 'error'],
         ['function_exists', 'zstd_compress', 'Function', 'php-zstd', 'warning'],
     ];
-    $result = [];
     foreach ($items as $item) {
         if (!$item[0]($item[1])) {
             $result[] = [
