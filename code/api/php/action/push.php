@@ -35,34 +35,30 @@ declare(strict_types=1);
  */
 
 db_connect();
-$user_id = current_user();
-if (!$user_id) {
-    show_json_error('Permission denied');
-}
-
 require_once 'php/lib/push.php';
 
-if (get_data('rest/1') == 'success') {
-    $timestamp = microtime(true) - 1e-3;
-    push_insert('success', 'This is a success test message');
-    output_handler_json(push_select($timestamp));
+$action = get_data('rest/1');
+switch ($action) {
+    case 'get':
+        if (!current_user()) {
+            show_json_error('Permission denied');
+        }
+        $timestamp = floatval(get_data('rest/2'));
+        if (!$timestamp) {
+            $timestamp = microtime(true);
+        }
+        $rows = push_select($timestamp);
+        break;
+    case 'set':
+        if (!get_data('server/xuid')) {
+            show_php_error(['phperror' => 'Permission denied']);
+        }
+        $timestamp = microtime(true) - 1e-3;
+        push_insert(get_data('rest/2'), get_data('rest/3'));
+        $rows = push_select($timestamp);
+        break;
+    default:
+        show_php_error(['phperror' => "Unknown action $action"]);
 }
 
-if (get_data('rest/1') == 'danger') {
-    $timestamp = microtime(true) - 1e-3;
-    push_insert('danger', 'This is a danger test message');
-    output_handler_json(push_select($timestamp));
-}
-
-if (get_data('rest/1') == 'email') {
-    $timestamp = microtime(true) - 1e-3;
-    push_insert('event', 'saltos.emails.update');
-    output_handler_json(push_select($timestamp));
-}
-
-$timestamp = floatval(get_data('rest/1'));
-if (!$timestamp) {
-    $timestamp = microtime(true);
-}
-$rows = push_select($timestamp);
 output_handler_json($rows);

@@ -64,13 +64,15 @@ saltos.core.adderror = async (message, source, lineno, colno, stack) => {
         details: `Error on file ${source}:${lineno}:${colno}, userAgent is ${navigator.userAgent}`,
         backtrace: 'unknown',
     };
+    let finished = false;
     window.sourceMappedStackTrace.mapStackTrace(stack, mappedStack => {
         mappedStack = mappedStack.map(line => line.trim());
         data.backtrace = mappedStack.join('\n');
+        finished = true;
     }, {
         filter: line => !line.includes(' > '),
     });
-    while (data.backtrace == 'unknown') {
+    while (!finished) {
         await new Promise(resolve => setTimeout(resolve, 1));
     }
     saltos.core.ajax({

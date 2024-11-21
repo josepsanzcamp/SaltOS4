@@ -60,7 +60,7 @@ function push_select($timestamp)
     $rows = [];
     $user_id = current_user();
     for (;;) {
-        if (time_get_usage(true) > 50) {
+        if (time_get_usage(true) > 300) {
             break;
         }
         $query = 'SELECT type, message, timestamp FROM tbl_push WHERE user_id = ? AND timestamp > ?';
