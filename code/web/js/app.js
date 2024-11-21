@@ -855,3 +855,69 @@ window.addEventListener('load', async event => {
     // Hash part
     saltos.hash.trigger();
 });
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.push = {
+    executing: false,
+    timestamp: 0,
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.push.fn = () => {
+    if (saltos.app.push.executing) {
+        return;
+    }
+    saltos.app.push.executing = true;
+    saltos.app.ajax({
+        url: 'push/' + saltos.app.push.timestamp,
+        success: response => {
+            for (const key in response) {
+                const val = response[key];
+                if (['success', 'danger'].includes(val.type)) {
+                    saltos.app.toast('Notification', val.message, {color: val.type});
+                } else if (['event'].includes(val.type)) {
+                    saltos.window.send(val.message);
+                } else {
+                    throw new Error(`Unknown response type ${val.type}`);
+                }
+                saltos.app.push.timestamp = Math.max(saltos.app.push.timestamp, val.timestamp);
+            }
+            saltos.app.push.executing = false;
+        },
+        error: error => {
+            saltos.app.push.executing = false;
+        },
+        abort: error => {
+            saltos.app.push.executing = false;
+        },
+        loading: false,
+        proxy: 'network',
+    });
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.push.start = () => {
+    saltos.app.push.timestamp = saltos.core.timestamp();
+    saltos.app.push.interval = setInterval(saltos.app.push.fn, 1000);
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.push.stop = () => {
+    clearInterval(saltos.app.push.interval);
+};

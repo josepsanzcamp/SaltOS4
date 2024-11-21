@@ -242,5 +242,19 @@ that maintain the database using as reference this file
             </fields>
         </table>
 
+        <!--
+        This table is intended to store the push notifications
+        -->
+        <table name="tbl_push">
+            <fields>
+                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                <field name="datetime" type="DATETIME"/>
+                <field name="type" type="VARCHAR(255)"/>
+                <field name="message" type="VARCHAR(255)"/>
+                <field name="timestamp" type="DECIMAL(16,6)"/>
+            </fields>
+        </table>
+
     </tables>
 </root>
