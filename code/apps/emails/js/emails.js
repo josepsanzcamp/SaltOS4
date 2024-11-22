@@ -72,6 +72,31 @@ saltos.emails.init = arg => {
             });
         }
     }
+
+    if (['create'].includes(arg)) {
+        saltos.core.when_visible('from', () => {
+            saltos.emails.old_account = document.getElementById('from').value;
+        });
+    }
+
+    if (['view'].includes(arg)) {
+        saltos.core.when_visible('body', () => {
+            const id1 = saltos.hash.get().split('/').at(3);
+            saltos.app.ajax({
+                url: `app/emails/view/body/${id1}/true`,
+                success: response => {
+                    const id2 = saltos.hash.get().split('/').at(3);
+                    if (id1 == id2) {
+                        const obj = document.getElementById('body');
+                        if (obj) {
+                            obj.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(response.srcdoc);
+                        }
+                    }
+                },
+                loading: false,
+            });
+        });
+    }
 };
 
 /**
@@ -304,34 +329,3 @@ saltos.emails.download = () => {
     ids = ids.join(',');
     saltos.app.download('app/emails/view/download/' + ids);
 };
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.core.when_visible('from', () => {
-    saltos.emails.old_account = document.getElementById('from').value;
-});
-
-/**
- * TODO
- *
- * TODO
- */
-saltos.core.when_visible('body', () => {
-    const id1 = saltos.hash.get().split('/').at(3);
-    saltos.app.ajax({
-        url: `app/emails/view/body/${id1}/true`,
-        success: response => {
-            const id2 = saltos.hash.get().split('/').at(3);
-            if (id1 == id2) {
-                const obj = document.getElementById('body');
-                if (obj) {
-                    obj.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(response.srcdoc);
-                }
-            }
-        },
-        loading: false,
-    });
-});
