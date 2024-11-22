@@ -326,7 +326,10 @@ saltos.core.when_visible('body', () => {
         success: response => {
             const id2 = saltos.hash.get().split('/').at(3);
             if (id1 == id2) {
-                document.getElementById('body').srcdoc = response.srcdoc;
+                const obj = document.getElementById('body');
+                if (obj) {
+                    obj.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(response.srcdoc);
+                }
             }
         },
         loading: false,

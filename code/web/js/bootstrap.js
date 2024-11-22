@@ -902,15 +902,7 @@ saltos.bootstrap.__field.iframe = field => {
         obj.src = field.src;
     }
     if (field.srcdoc) {
-        obj.srcdoc = `<!DOCTYPE html><html><head>
-        <style>body { margin: 0px; padding: 9px 12px; }</style>
-        <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
-        <style>:root { font-family: var(--bs-font-sans-serif); }</style>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self';
-            style-src 'self' 'unsafe-inline' ${window.location.origin};
-            font-src 'self' ${window.location.origin};
-            img-src 'self' data: ${window.location.origin};">
-        </head><body>${field.srcdoc}</body></html>`;
+        obj.srcdoc = saltos.bootstrap.__iframe_srcdoc_helper(field.srcdoc);
     }
     if (field.height) {
         obj.style.minHeight = field.height;
@@ -2930,6 +2922,24 @@ saltos.bootstrap.__field.onetag = field => {
         }
     };
     return obj;
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.bootstrap.__iframe_srcdoc_helper = html => {
+    return `<!doctype html><html><head>
+    <meta charset="utf-8">
+    <style>body { margin: 0px; padding: 9px 12px; }</style>
+    <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
+    <style>:root { font-family: var(--bs-font-sans-serif); }</style>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self';
+        style-src 'self' 'unsafe-inline' ${window.location.origin};
+        font-src 'self' ${window.location.origin};
+        img-src 'self' data: ${window.location.origin};">
+    </head><body>${html}</body></html>`;
 };
 
 /**
