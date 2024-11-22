@@ -889,7 +889,7 @@ saltos.app.push.fn = () => {
                 } else if (['event'].includes(val.type)) {
                     saltos.window.send(val.message);
                 } else {
-                    //~ throw new Error(`Unknown response type ${val.type}`);
+                    throw new Error(`Unknown response type ${val.type}`);
                 }
                 saltos.app.push.timestamp = Math.max(saltos.app.push.timestamp, val.timestamp);
             }

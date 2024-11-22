@@ -316,6 +316,12 @@ saltos.core.__ajax = [];
  *
  * The main idea of this function is to abstract the usage of the XMLHttpRequest in a simple
  * way as jQuery do but without using jQuery.
+ *
+ * The catch part is intended to control the errors caused during the ajax execution,
+ * in this case is important to understand that the catch can be triggered by errors
+ * caused by network errors or by other cases like a code error, a throw new error or
+ * something similar like this, to fix it, the error and abort arguments will be used
+ * only when abortError or typeError appear in the error.name
  */
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
@@ -384,14 +390,16 @@ saltos.core.ajax = args => {
             args.success(data);
         }
     }).catch(error => {
-        if (error.name === 'AbortError') {
+        if (error.name == 'AbortError') {
             if (typeof args.abort == 'function') {
                 args.abort(error);
             }
-        } else {
+        } else if (error.name == 'TypeError') {
             if (typeof args.error == 'function') {
                 args.error(error);
             }
+        } else {
+            throw new Error(error);
         }
     }).finally(() => {
         // Remove the element of the ajax request list
