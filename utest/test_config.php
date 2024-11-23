@@ -89,7 +89,18 @@ final class test_config extends TestCase
         set_config('test', null, -1);
         $this->assertSame(get_config('test', -1), null);
 
+        if (file_exists('apps/common/xml/config.xml')) {
+            unlink('apps/common/xml/config.xml');
+        }
+        $this->assertFileDoesNotExist('apps/common/xml/config.xml');
+        copy('../../utest/files/cron.xml', 'apps/common/xml/config.xml');
+        $this->assertFileExists('apps/common/xml/config.xml');
+
         $this->assertSame(count(detect_config_files('xml/config.xml')) > 1, true);
+
+        $this->assertFileExists('apps/common/xml/config.xml');
+        unlink('apps/common/xml/config.xml');
+        $this->assertFileDoesNotExist('apps/common/xml/config.xml');
 
         test_external_exec('php/config1.php', 'phperror.log', 'key nada/nada/nada not found');
         test_external_exec('php/config2.php', 'phperror.log', 'key nada/nada/nada not found');
