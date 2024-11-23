@@ -1356,13 +1356,19 @@ function getmail_server()
         return [T('Could not acquire the semaphore')];
     }
     // for debug purposes
-    if (get_config('emails/getmailmsgid')) {
-        $file = get_directory('dirs/inboxdir') . get_config('emails/getmailmsgid') . '.eml.gz';
+    if (get_data('server/xuid') && get_data('json/getmailmsgid')) {
+        $file = get_directory('dirs/inboxdir') . get_data('json/getmailmsgid') . '.eml.gz';
         if (!file_exists($file)) {
-            $file = get_directory('dirs/outboxdir') . get_config('emails/getmailmsgid') . '.eml.gz';
+            $file = get_directory('dirs/outboxdir') . get_data('json/getmailmsgid') . '.eml.gz';
         }
-        __getmail_insert($file, get_config('emails/getmailmsgid'), 1, 0, 0, 0, 0, 0, 0, '');
-        die();
+        __getmail_insert($file, get_data('json/getmailmsgid'), 1, 0, 0, 0, 0, 0, 0, '');
+        semaphore_release($semaphore);
+        output_handler_json([
+            'emails' => [
+                'getmailmsgid' => get_data('json/getmailmsgid'),
+                'file' => $file,
+            ],
+        ]);
     }
     // datos pop3
     $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND email_disabled = 0';
@@ -1518,7 +1524,8 @@ function getmail_server()
         }
     }
     $haserror[] = sprintf(T('%d email(s) received'), $newemail);
-    if ($newemail && get_data('server/xuid')) {
+    // intended to be used by cron feature
+    if (get_data('server/xuid') && $newemail) {
         require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }

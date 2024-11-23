@@ -79,6 +79,9 @@ function image_resize($data, $size)
     $new_width = (int)($width * $scale);
     $new_height = (int)($height * $scale);
     $im2 = imagecreatetruecolor($new_width, $new_height);
+    // Fill the new image with white to avoid black background on transparency
+    $white = imagecolorallocate($im2, 255, 255, 255);
+    imagefilledrectangle($im2, 0, 0, $new_width, $new_height, $white);
     imagecopyresampled($im2, $im, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
     ob_start();
     imagejpeg($im2);
