@@ -1517,9 +1517,13 @@ function getmail_server()
             );
         }
     }
+    $haserror[] = sprintf(T('%d email(s) received'), $newemail);
+    if ($newemail && get_data('server/xuid')) {
+        require_once 'php/lib/push.php';
+        push_insert('event', 'saltos.emails.update');
+    }
     // release semaphore
     semaphore_release($semaphore);
-    $haserror[] = sprintf(T('%d email(s) received'), $newemail);
     return $haserror;
 }
 
