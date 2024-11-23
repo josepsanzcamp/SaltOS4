@@ -275,12 +275,12 @@
     <eval>strpos($row["id"],",")===false</eval>
     <output>encode_bad_chars(execute_query("SELECT
         CASE num WHEN '' THEN
-            CONCAT('".T("Delivery note")."',' ',LPAD(id,5,0),' ',nombre)
+            CONCAT('".T('Delivery note')."',' ',id,' ',nombre)
         ELSE
-            CONCAT('".T("Invoice")."',' ',num,' ',nombre)
+            CONCAT('".T('Invoice')."',' ',num,' ',nombre)
         END subject
         FROM app_invoices
-        WHERE id IN ({$row["id"]})")).".pdf"</output>
+        WHERE id IN ({$row['id']})")).'.pdf'</output>
     <eval>true</eval>
-    <output>encode_bad_chars(T("Invoices")).".pdf"</output>
+    <output>encode_bad_chars(T('Invoices')).'.pdf'</output>
 </root>

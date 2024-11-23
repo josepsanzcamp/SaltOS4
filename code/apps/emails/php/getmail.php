@@ -156,7 +156,7 @@ function __getmail_checkperm($id)
                 (IFNULL(email_privated, 0) = 1 AND e.user_id = ?)
             )
             AND ' . check_sql('emails', 'view');
-    return execute_query($query, [abs($id), current_user()]);
+    return execute_query($query, [abs(intval($id)), current_user()]);
 }
 
 /**
@@ -1069,6 +1069,115 @@ function getmail_body($id, $images = false)
  *
  * TODO
  */
+function __getmail_head_helper($decoded, $email_id)
+{
+    $result = __getmail_getinfo(__getmail_getnode('0', $decoded));
+    $lista = ['from', 'to', 'cc', 'bcc'];
+    foreach ($lista as $temp) {
+        unset($result[$temp]);
+    }
+    foreach ($result['emails'] as $email) {
+        if ($email['name'] != '') {
+            $email['value'] = "{$email["name"]} <{$email["value"]}>";
+        }
+        if (!isset($result[$email['type']])) {
+            $result[$email['type']] = [];
+        }
+        $result[$email['type']][] = $email['value'];
+    }
+    if (isset($result['from'])) {
+        $result['from'] = implode('; ', $result['from']);
+    }
+    if (isset($result['to'])) {
+        $result['to'] = implode('; ', $result['to']);
+        $query = 'SELECT email_from FROM app_emails_accounts WHERE id=(
+            SELECT account_id FROM app_emails WHERE id = ? )';
+        $result['to'] = str_replace('<>', '<' .
+            execute_query($query, [$email_id]) . '>', $result['to']);
+    }
+    if (!isset($result['to'])) {
+        $query = "SELECT CASE
+            WHEN (
+                SELECT email_name FROM app_emails_accounts WHERE id=(
+                    SELECT account_id FROM app_emails WHERE id = ?
+                )
+            )=''
+            THEN (
+                SELECT email_from FROM app_emails_accounts WHERE id=(
+                    SELECT account_id FROM app_emails WHERE id = ?
+                )
+            )
+            ELSE (
+                SELECT CONCAT(email_name,' <',email_from,'>')
+                FROM app_emails_accounts WHERE id=(
+                    SELECT account_id FROM app_emails WHERE id = ?
+                )
+            ) END";
+        $result['to'] = execute_query($query, [$email_id, $email_id, $email_id]);
+    }
+    if (isset($result['cc'])) {
+        $result['cc'] = implode('; ', $result['cc']);
+    }
+    if (isset($result['bcc'])) {
+        $result['bcc'] = implode('; ', $result['bcc']);
+    }
+    $lista = [
+        'from' => T('From'),
+        'to' => T('To'),
+        'cc' => T('CC'),
+        'bcc' => T('BCC'),
+        'datetime' => T('Datetime'),
+        'subject' => T('Subject'),
+    ];
+    if (!isset($result['from'])) {
+        unset($lista['from']);
+    }
+    if (!isset($result['to'])) {
+        unset($lista['to']);
+    }
+    if (!isset($result['cc'])) {
+        unset($lista['cc']);
+    }
+    if (!isset($result['bcc'])) {
+        unset($lista['bcc']);
+    }
+    if (!$result['subject']) {
+        $result['subject'] = T('(no subject)');
+    }
+    $buffer = __HTML_BOX_OPEN__;
+    foreach ($lista as $key2 => $val2) {
+        $result[$key2] = str_replace(['<', '>'], ['&lt;', '&gt;'], $result[$key2]);
+        $buffer .= __HTML_TEXT_OPEN__;
+        $buffer .= $lista[$key2] . ': ';
+        $buffer .= '<b>' . $result[$key2] . '</b>';
+        $buffer .= __HTML_TEXT_CLOSE__;
+    }
+    $first = true;
+    foreach ($result['files'] as $file) {
+        $cname = $file['cname'];
+        $hsize = $file['hsize'];
+        if ($first) {
+            $buffer .= __HTML_TEXT_OPEN__;
+            $buffer .= T('Attachments') . ': ';
+        } else {
+            $buffer .= ' | ';
+        }
+        $buffer .= "<b>{$cname}</b> ({$hsize})";
+        $first = false;
+    }
+    if (!$first) {
+        $buffer .= __HTML_TEXT_CLOSE__;
+    }
+    $buffer .= __HTML_BOX_CLOSE__;
+    $buffer .= __HTML_SEPARATOR__;
+    return $buffer;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
 function __getmail_body_helper($decoded, $images = false)
 {
     $buffer = '';
@@ -1585,4 +1694,88 @@ function getmail_setter($ids, $what)
     }
     // return the response
     return sprintf(T('%d email(s) modified successfully'), $numids);
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function getmail_pdf($ids)
+{
+    static $cache = [];
+    $hash = md5(serialize($ids));
+    if (!isset($cache[$hash])) {
+        $ids = explode(',', $ids);
+        $pdfs = [];
+        foreach ($ids as $id) {
+            if (!__getmail_checkperm($id)) {
+                show_php_error(['phperror' => 'Permission denied']);
+            }
+            $input = get_cache_file([__FUNCTION__, $id], '.html');
+            if (!file_exists($input)) {
+                $decoded = __getmail_getmime($id);
+                if (!$decoded) {
+                    show_php_error(['phperror' => 'Could not decode de message']);
+                }
+                $buffer = '';
+                $buffer .= __getmail_head_helper($decoded, $id);
+                $buffer .= __getmail_body_helper($decoded, true);
+                $buffer = __iframe_srcdoc_helper($buffer);
+                file_put_contents($input, $buffer);
+                chmod_protected($input, 0666);
+            }
+            $output = get_cache_file([__FUNCTION__, $id], '.pdf');
+            if (!file_exists($output)) {
+                $options = '--enable-local-file-access';
+                ob_passthru("wkhtmltopdf $options $input $output");
+                chmod_protected($output, 0666);
+            }
+            $pdfs[] = $output;
+        }
+        if (count($pdfs) > 1) {
+            $input = implode(' ', $pdfs);
+            $output = get_cache_file([__FUNCTION__, $ids], '.pdf');
+            ob_passthru("pdfunite $input $output");
+            chmod_protected($output, 0666);
+        } else {
+            $output = $pdfs[0];
+        }
+        if (count($pdfs) > 1) {
+            $name = encode_bad_chars(T('Emails')) . '.pdf';
+        } else {
+            $name = encode_bad_chars(execute_query("SELECT CONCAT(
+                '" . T('Email') . "',' ',id,' ',
+                CASE WHEN subject='' THEN '" . T('sinsubject') . "' ELSE subject END
+            ) subject
+            FROM app_emails
+            WHERE id IN ({$ids[0]})")) . '.pdf';
+        }
+        $cache[$hash] = [
+            'name' => $name,
+            'type' => 'application/pdf',
+            'data' => base64_encode(file_get_contents($output)),
+        ];
+    }
+    return $cache[$hash];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __iframe_srcdoc_helper($html)
+{
+    $font = realpath('../web/lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css');
+    $html = '<!doctype html><html><head><meta charset="utf-8">
+    <style>body { margin: 0px; padding: 9px 12px; }</style>
+    <link href="' . $font . '" rel="stylesheet" integrity="">
+    <style>:root { font-family: var(--bs-font-sans-serif); }</style>
+    <meta http-equiv="Content-Security-Policy" content="default-src \'self\';
+        style-src \'self\' \'unsafe-inline\' ${window.location.origin};
+        font-src \'self\' ${window.location.origin};
+        img-src \'self\' data: ${window.location.origin};">
+    </head><body>' . $html . '</body></html>';
+    return $html;
 }

@@ -178,10 +178,12 @@
         <textarea>35,$row["y"],165,4,"L",trim($row["body"])</textarea>
     </foreach>
     <eval>strpos($row["id"],",")===false</eval>
-    <output>encode_bad_chars(execute_query("SELECT
-        CONCAT('".T("Email")."',' ',LPAD(id,5,0),' ',CASE WHEN subject='' THEN '".T("sinsubject")."' ELSE subject END) subject
+    <output>encode_bad_chars(execute_query("SELECT CONCAT(
+            '".T('Email')."',' ',id,' ',
+            CASE WHEN subject='' THEN '".T('sinsubject')."' ELSE subject END
+        ) subject
         FROM app_emails
-        WHERE id IN ({$row["id"]})")).".pdf"</output>
+        WHERE id IN ({$row['id']})")).'.pdf'</output>
     <eval>true</eval>
-    <output>encode_bad_chars(T("Emails")).".pdf"</output>
+    <output>encode_bad_chars(T('Emails')).'.pdf'</output>
 </root>

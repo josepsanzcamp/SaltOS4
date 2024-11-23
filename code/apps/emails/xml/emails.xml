@@ -460,9 +460,7 @@
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <gettext eval="true">T()</gettext>
         <title append="modal" ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_cid(intval(get_data("rest/4")),get_data("rest/5"))["name"]</title>
-        <title append="modal" ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/emails/xml/pdf.xml", [
-            "id" => check_ids(get_data("rest/4")),
-        ])["name"]</title>
+        <title append="modal" ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data("rest/4")))["name"]</title>
         <javascript>
             <file eval="true">file_with_hash(file_with_min("apps/emails/js/driver.js"))</file>
         </javascript>
@@ -472,9 +470,7 @@
             <row auto="true" col_class="col-12 mb-3">
                 <pdfjs>
                     <srcdoc ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_viewpdf(intval(get_data("rest/4")),get_data("rest/5"))</srcdoc>
-                    <srcdoc ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/emails/xml/pdf.xml", [
-                        "id" => check_ids(get_data("rest/4")),
-                    ])["data"]</srcdoc>
+                    <srcdoc ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data("rest/4")))["data"]</srcdoc>
                 </pdfjs>
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -495,9 +491,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <output ifeval="get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_download(intval(get_data("rest/4")),get_data("rest/5"))</output>
-        <output ifeval="!get_data('rest/5')" require="php/lib/pdf.php" eval="true">pdf("apps/emails/xml/pdf.xml", [
-            "id" => check_ids(get_data("rest/4")),
-        ])</output>
+        <output ifeval="!get_data('rest/5')" require="apps/emails/php/getmail.php" eval="true">getmail_pdf(check_ids(get_data("rest/4")))</output>
     </view>
 
     <delete>
