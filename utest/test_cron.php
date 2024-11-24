@@ -77,7 +77,7 @@ final class test_cron extends TestCase
         $this->assertTrue(words_exists('permission denied', file_get_contents($file)));
         unlink($file);
 
-        $json = test_cli_helper('cron', [], '', '');
+        $json = test_cli_helper('cron', [], '', '', '');
         $this->assertCount(2, $json);
         $this->assertArrayHasKey('cron_gc', $json);
         $this->assertArrayHasKey('cron_exec', $json);
@@ -97,7 +97,7 @@ final class test_cron extends TestCase
         copy('../../utest/files/cron.xml', 'apps/common/xml/cron.xml');
         $this->assertFileExists('apps/common/xml/cron.xml');
 
-        $json = test_cli_helper('cron', [], '', '');
+        $json = test_cli_helper('cron', [], '', '', '');
         $this->assertCount(2, $json);
         $this->assertArrayHasKey('cron_gc', $json);
         $this->assertArrayHasKey('cron_exec', $json);
@@ -110,7 +110,7 @@ final class test_cron extends TestCase
 
         $this->wait_cron();
 
-        $json = test_cli_helper('cron', [], '', '');
+        $json = test_cli_helper('cron', [], '', '', '');
         $this->assertCount(2, $json);
         $this->assertArrayHasKey('cron_gc', $json);
         $this->assertArrayHasKey('cron_exec', $json);

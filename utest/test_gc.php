@@ -99,7 +99,7 @@ final class test_gc extends TestCase
         $this->assertTrue(words_exists('permission denied', file_get_contents($file)));
         unlink($file);
 
-        $json = test_cli_helper('gc', [], '', '');
+        $json = test_cli_helper('gc', [], '', '', '');
         $this->assertArrayHasKey('gc_exec', $json);
         $this->assertArrayHasKey('gc_upload', $json);
     }

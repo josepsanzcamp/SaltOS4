@@ -110,7 +110,7 @@ final class test_semaphore extends TestCase
             $file2 = 'data/logs/phperror.log';
             $this->assertFileDoesNotExist($file2);
 
-            $json = test_cli_helper($action, [], '', '');
+            $json = test_cli_helper($action, [], '', '', '');
             $this->assertArrayHasKey('error', $json);
             $this->assertFileExists($file2);
             $this->assertTrue(words_exists('could not acquire the semaphore', file_get_contents($file2)));

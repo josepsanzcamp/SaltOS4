@@ -80,7 +80,7 @@ final class test_system extends TestCase
         $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
 
-        $json = test_cli_helper('setup', [], '', '');
+        $json = test_cli_helper('setup', [], '', '', '');
         $this->assertCount(1, $json);
         $this->assertArrayHasKey('error', $json);
         $this->assertCount(2, $json['error']);

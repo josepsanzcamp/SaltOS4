@@ -85,7 +85,7 @@ final class test_indexing extends TestCase
         __make_index_helper('app_invoices_concepts', 1);
         __make_index_helper('app_invoices_concepts', -1);
 
-        $json = test_cli_helper('indexing', [], '', '');
+        $json = test_cli_helper('indexing', [], '', '', '');
         $this->assertCount(2, $json);
         $this->assertArrayHasKey('indexing_files', $json);
         $this->assertArrayHasKey('indexing_apps', $json);
@@ -94,7 +94,7 @@ final class test_indexing extends TestCase
         $this->assertArrayHasKey('time', $json['indexing_apps']);
         $this->assertArrayHasKey('total', $json['indexing_apps']);
 
-        $json = test_cli_helper('integrity', [], '', '');
+        $json = test_cli_helper('integrity', [], '', '', '');
         $this->assertCount(1, $json);
         $this->assertArrayHasKey('integrity', $json);
         $this->assertArrayHasKey('time', $json['integrity']);

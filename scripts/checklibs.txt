@@ -6,7 +6,7 @@ locutus|https://github.com/locutusjs/locutus/tags.atom|<title>|base64:PHRpdGxlPn
 phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|base64:PHRpdGxlPjMuNS4wPC90aXRsZT4=
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|base64:PHVwZGF0ZWQ+MjAyNC0wMy0zMVQxNzoyMjo1Nlo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|base64:PHRpdGxlPjYuNy43PC90aXRsZT4=
-phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|base64:PHRpdGxlPlBIUE1haWxlciA2LjkuMjwvdGl0bGU+
+phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|base64:PHRpdGxlPlBIUE1haWxlciA2LjkuMzwvdGl0bGU+
 
 bootstrap|https://api.cdnjs.com/libraries/bootstrap?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN0cmFwIiwidmVyc2lvbiI6IjUuMy4zIn0=
 bootswatch|https://api.cdnjs.com/libraries/bootswatch?fields=name,version|version|base64:eyJuYW1lIjoiYm9vdHN3YXRjaCIsInZlcnNpb24iOiI1LjMuMyJ9
@@ -19,7 +19,7 @@ imaskjs|https://api.cdnjs.com/libraries/imask?fields=name,version|version|base64
 masonry|https://api.cdnjs.com/libraries/masonry?fields=name,version|version|base64:eyJuYW1lIjoibWFzb25yeSIsInZlcnNpb24iOiI0LjIuMiJ9
 md5|https://api.cdnjs.com/libraries/blueimp-md5?fields=name,version|version|base64:eyJuYW1lIjoiYmx1ZWltcC1tZDUiLCJ2ZXJzaW9uIjoiMi4xOS4wIn0=
 pdfjs|https://api.cdnjs.com/libraries/pdf.js?fields=name,version|version|base64:eyJuYW1lIjoicGRmLmpzIiwidmVyc2lvbiI6IjQuOC42OSJ9
-sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|base64:eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS4zIn0=
+sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|base64:eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS40In0=
 tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|base64:eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjQuMSJ9
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 

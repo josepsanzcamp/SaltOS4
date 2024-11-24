@@ -176,7 +176,7 @@ final class test_dbschema extends TestCase
         $this->assertTrue(words_exists('permission denied', file_get_contents($file)));
         unlink($file);
 
-        $json = test_cli_helper('setup', [], '', '');
+        $json = test_cli_helper('setup', [], '', '', '');
         $this->assertArrayHasKey('db_schema', $json);
         $this->assertArrayHasKey('db_static', $json);
     }
