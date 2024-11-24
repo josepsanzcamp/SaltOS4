@@ -246,7 +246,7 @@ function __import_csv2array($file, $sep)
     $sep = __import_specialchars($sep);
     $fd = fopen($file, 'r');
     $array = [];
-    while ($row = fgetcsv($fd, 0, $sep)) {
+    while ($row = fgetcsv($fd, 0, $sep, '"', '\\')) {
         foreach ($row as $key => $val) {
             $row[$key] = getutf8($val);
         }
