@@ -183,7 +183,7 @@ class database_pdo_mssql
             show_php_error([
                 'dberror' => $e->getMessage(),
                 'query' => $query,
-                'params' => $args,
+                'params' => $params
             ]);
         }
         // Dump result to matrix

@@ -168,10 +168,16 @@ function db_query($query, ...$args)
         $curtime = microtime(true) - $curtime;
         $maxtime = get_config('debug/slowquerytime');
         if ($curtime > $maxtime) {
+            $params = [];
+            foreach ($args as $arg) {
+                if (is_array($arg)) {
+                    $params = $arg;
+                }
+            }
             addtrace([
                 'dbwarning' => "Slow query requires $curtime seconds",
                 'query' => $query,
-                'params' => $args,
+                'params' => $params,
             ], get_config('debug/dbwarningfile') ?? 'dbwarning.log');
         }
     }

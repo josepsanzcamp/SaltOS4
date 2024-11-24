@@ -228,7 +228,7 @@ class database_sqlite3
             show_php_error([
                 'dberror' => 'Could not acquire the semaphore',
                 'query' => $query,
-                'params' => $args,
+                'params' => $params,
             ]);
         }
         // Do the query
@@ -245,7 +245,11 @@ class database_sqlite3
                 break;
             } catch (Exception $e) {
                 if ($timeout <= 0) {
-                    show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
+                    show_php_error([
+                        'dberror' => $e->getMessage(),
+                        'query' => $query,
+                        'params' => $params
+                    ]);
                 } elseif (stripos($e->getMessage(), 'database is locked') !== false) {
                     // @codeCoverageIgnoreStart
                     $timeout -= __semaphore_usleep(rand(0, 1000));
@@ -255,7 +259,11 @@ class database_sqlite3
                     $timeout -= __semaphore_usleep(rand(0, 1000));
                     // @codeCoverageIgnoreEnd
                 } else {
-                    show_php_error(['dberror' => $e->getMessage(), 'query' => $query]);
+                    show_php_error([
+                        'dberror' => $e->getMessage(),
+                        'query' => $query,
+                        'params' => $params
+                    ]);
                 }
             }
         }

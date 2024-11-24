@@ -187,7 +187,7 @@ class database_pdo_mysql
             show_php_error([
                 'dberror' => $e->getMessage(),
                 'query' => $query,
-                'params' => $args,
+                'params' => $params
             ]);
         }
         // Dump result to matrix
