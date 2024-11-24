@@ -193,7 +193,7 @@ class database_mysqli
             show_php_error([
                 'dberror' => $e->getMessage(),
                 'query' => $query,
-                'params' => $params
+                'params' => $params,
             ]);
         }
         // Dump result to matrix

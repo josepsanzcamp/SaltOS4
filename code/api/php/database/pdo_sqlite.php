@@ -242,7 +242,7 @@ class database_pdo_sqlite
                     show_php_error([
                         'dberror' => $e->getMessage(),
                         'query' => $query,
-                        'params' => $params
+                        'params' => $params,
                     ]);
                 } elseif (stripos($e->getMessage(), 'database is locked') !== false) {
                     // @codeCoverageIgnoreStart
@@ -256,7 +256,7 @@ class database_pdo_sqlite
                     show_php_error([
                         'dberror' => $e->getMessage(),
                         'query' => $query,
-                        'params' => $params
+                        'params' => $params,
                     ]);
                 }
             }
