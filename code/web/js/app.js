@@ -863,7 +863,6 @@ window.addEventListener('load', async event => {
  */
 saltos.app.push = {
     executing: false,
-    timestamp: 0,
 };
 
 /**
@@ -913,6 +912,12 @@ saltos.app.push.fn = () => {
  * TODO
  */
 window.addEventListener('load', async event => {
+    if (saltos.app.push.hasOwnProperty('timestamp')) {
+        throw new Error('saltos.app.push.timestamp found');
+    }
     saltos.app.push.timestamp = saltos.core.timestamp();
+    if (saltos.app.push.hasOwnProperty('interval')) {
+        throw new Error('saltos.app.push.interval found');
+    }
     saltos.app.push.interval = setInterval(saltos.app.push.fn, 1000);
 });
