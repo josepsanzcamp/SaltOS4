@@ -39,7 +39,6 @@ program_handlers();
 init_timer();
 init_random();
 
-ini_set('memory_limit', '6M');
 output_handler([
     'file' => '../../utest/files/bigsize.xlsx',
     'cache' => true,
