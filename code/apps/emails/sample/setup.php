@@ -47,7 +47,7 @@ require_once 'apps/emails/php/getmail.php';
 $time1 = microtime(true);
 
 // Add a new email account
-$account = 0;
+$numaccounts = 0;
 $exists = execute_query('SELECT COUNT(*) FROM app_emails_accounts');
 if (!$exists) {
     $query = prepare_insert_query('app_emails_accounts', [
@@ -71,33 +71,33 @@ if (!$exists) {
         'email_default' => 1,
     ]);
     db_query(...$query);
-    $account++;
+    $numaccounts++;
     make_control('emails_accounts', 1);
     make_version('emails_accounts', 1);
     make_index('emails_accounts', 1);
 }
 
 // Create the account directory and copy all initial RFC822 files
-$files = 0;
+$numfiles = 0;
 if (!file_exists('data/inbox/1')) {
     mkdir('data/inbox/1');
     chmod_protected('data/inbox/1', 0777);
     $files = glob('apps/emails/sample/inbox/1/*.eml.gz');
     foreach ($files as $file) {
         copy($file, 'data/inbox/1/' . basename($file));
-        $files++;
+        $numfiles++;
     }
 }
 
 // Import emails
-$emails = 0;
+$numemails = 0;
 $exists = execute_query('SELECT COUNT(*) FROM app_emails');
 if (!$exists) {
     $files = glob('data/inbox/1/*.eml.gz');
     foreach ($files as $file) {
         $msgid = str_replace(['data/inbox/', '.eml.gz'], '', $file);
         __getmail_insert($file, $msgid, 1, 0, 0, 0, 0, 0, 0, '');
-        $emails++;
+        $numemails++;
     }
 }
 
@@ -106,8 +106,8 @@ semaphore_release('app/emails/setup');
 output_handler_json([
     'setup' => [
         'time' => round($time2 - $time1, 6),
-        'account' => $account,
-        'files' => $files,
-        'emails' => $emails,
+        'accounts' => $numaccounts,
+        'files' => $numfiles,
+        'emails' => $numemails,
     ],
 ]);
