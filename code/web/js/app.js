@@ -877,6 +877,9 @@ saltos.app.push.fn = () => {
     if (!saltos.token.get()) {
         return;
     }
+    if (!navigator.onLine) {
+        return;
+    }
     saltos.app.push.executing = true;
     saltos.core.ajax({
         url: 'api/?/push/get/' + saltos.app.push.timestamp,
