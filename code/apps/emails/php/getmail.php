@@ -1529,7 +1529,7 @@ function getmail_server()
         require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }
-    // release semaphore
+    // release the semaphore
     semaphore_release($semaphore);
     return $haserror;
 }

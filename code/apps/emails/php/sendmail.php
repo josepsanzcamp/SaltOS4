@@ -846,9 +846,14 @@ function sendmail_server()
             $haserror[] = $error;
         }
     }
-    // RELEASE THE SEMAPHORE
-    semaphore_release($semaphore);
     $haserror[] = sprintf(T('%d email(s) sended'), $sended);
+    // intended to be used by cron feature
+    if (get_data('server/xuid') && $sended) {
+        require_once 'php/lib/push.php';
+        push_insert('event', 'saltos.emails.update');
+    }
+    // release the semaphore
+    semaphore_release($semaphore);
     return $haserror;
 }
 
