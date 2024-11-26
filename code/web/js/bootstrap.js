@@ -1629,6 +1629,7 @@ saltos.bootstrap.__field.file = field => {
             },
             token: saltos.token.get(),
             lang: saltos.gettext.get(),
+            abortable: true,
         });
     };
     // This helper paints each row of the table
@@ -1689,31 +1690,6 @@ saltos.bootstrap.__field.file = field => {
                 data.data = reader.result;
                 // This allow multiple uploads in parallel
                 ((data, row) => {
-                    /*saltos.core.ajax({
-                        url: 'api/?/upload/addfile',
-                        data: JSON.stringify(data),
-                        method: 'post',
-                        content_type: 'application/json',
-                        success: response => {
-                            if (!saltos.app.check_response(response)) {
-                                return;
-                            }
-                            row.data = response;
-                            __update_data_input_file(input);
-                        },
-                        error: error => {
-                            throw new Error(error);
-                        },
-                        progress: event => {
-                            if (event.lengthComputable) {
-                                const percent = Math.round((event.loaded / event.total) * 100);
-                                row.querySelector('.progress-bar').style.width = percent + '%';
-                                row.querySelector('.progress').setAttribute('aria-valuenow', percent);
-                            }
-                        },
-                        token: saltos.token.get(),
-                        lang: saltos.gettext.get(),
-                    });*/
                     const ajax = new XMLHttpRequest();
                     ajax.open('POST', 'api/?/upload/addfile');
                     ajax.setRequestHeader('Content-Type', 'application/json');
@@ -3000,6 +2976,7 @@ saltos.bootstrap.__datalist_helper = datalist => {
                 },
                 token: saltos.token.get(),
                 lang: saltos.gettext.get(),
+                abortable: true,
             });
         };
     }

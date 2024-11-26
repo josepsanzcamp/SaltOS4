@@ -307,7 +307,7 @@ saltos.core.__ajax = [];
  * @success      => callback function for the success action (optional)
  * @error        => callback function for the error action (optional)
  * @abort        => callback function for the abort action (optional)
- * @progress     => callback function to monitorize the progress of the upload/download (optional)
+ * @abortable    => boolean to enable or disable the abort feature (false by default)
  * @content_type => the content-type that you want to use in the transfer
  * @proxy        => add the Proxy header with the value passed, intended to be used by the SaltOS PROXY
  * @token        => add the Token header with the value passed, intended to be used by the SaltOS API
@@ -325,7 +325,7 @@ saltos.core.__ajax = [];
  */
 saltos.core.ajax = args => {
     saltos.core.check_params(args, ['url', 'data', 'method', 'success', 'error',
-        'abort', 'progress', 'content_type', 'proxy', 'token', 'lang', 'headers']);
+        'abort', 'abortable', 'content_type', 'proxy', 'token', 'lang', 'headers']);
     if (args.data == '') {
         args.data = null;
     }
@@ -351,13 +351,16 @@ saltos.core.ajax = args => {
     if (args.lang != '') {
         args.headers[`Lang`] = args.lang;
     }
-    const controller = new AbortController();
-    saltos.core.__ajax.push(controller);
-    let options = {
+    const options = {
         method: args.method,
         headers: new Headers(args.headers),
-        signal: controller.signal,
     };
+    let controller = null;
+    if (saltos.core.eval_bool(args.abortable)) {
+        controller = new AbortController();
+        saltos.core.__ajax.push(controller);
+        options.signal = controller.signal;
+    }
     if (args.method == 'POST') {
         options.body = args.data;
     }
@@ -403,9 +406,11 @@ saltos.core.ajax = args => {
         }
     }).finally(() => {
         // Remove the element of the ajax request list
-        for (const i in saltos.core.__ajax) {
-            if (saltos.core.__ajax[i] === controller) {
-                delete saltos.core.__ajax[i];
+        if (saltos.core.eval_bool(args.abortable)) {
+            for (const i in saltos.core.__ajax) {
+                if (saltos.core.__ajax[i] === controller) {
+                    delete saltos.core.__ajax[i];
+                }
             }
         }
     });

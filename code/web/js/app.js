@@ -792,6 +792,7 @@ saltos.app.ajax = args => {
         },
         token: saltos.token.get(),
         lang: saltos.gettext.get(),
+        abortable: true,
     };
     if (args.hasOwnProperty('data')) {
         temp.data = JSON.stringify(args.data);
