@@ -1168,8 +1168,8 @@ function __getmail_head_helper($decoded, $email_id)
     if (!$first) {
         $buffer .= __HTML_TEXT_CLOSE__;
     }
-    $buffer .= __HTML_BOX_CLOSE__;
     $buffer .= __HTML_SEPARATOR__;
+    $buffer .= __HTML_BOX_CLOSE__;
     return $buffer;
 }
 
