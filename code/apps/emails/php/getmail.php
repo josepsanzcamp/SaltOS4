@@ -1714,6 +1714,10 @@ function getmail_setter($ids, $what)
  */
 function getmail_pdf($ids)
 {
+    if (!check_commands('wkhtmltopdf', 60)) {
+        require_once 'php/lib/pdf.php';
+        return pdf('apps/emails/xml/pdf.xml', ['id' => $ids]);
+    }
     static $cache = [];
     $hash = md5(serialize($ids));
     if (!isset($cache[$hash])) {
