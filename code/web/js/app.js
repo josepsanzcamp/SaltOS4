@@ -885,6 +885,9 @@ saltos.app.push.fn = () => {
     saltos.core.ajax({
         url: 'api/?/push/get/' + saltos.app.push.timestamp,
         success: response => {
+            if (!saltos.app.check_response(response)) {
+                return;
+            }
             for (const key in response) {
                 const val = response[key];
                 if (['success', 'danger'].includes(val.type)) {

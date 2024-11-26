@@ -93,7 +93,7 @@ saltos.core.adderror = async (message, source, lineno, colno, stack) => {
  */
 window.addEventListener('error', event => {
     let backtrace = 'unknown';
-    if (event.hasOwnProperty('error') && event.error.hasOwnProperty('stack')) {
+    if (event.error && 'stack' in event.error) {
         backtrace = event.error.stack;
     }
     saltos.core.adderror(
@@ -112,7 +112,7 @@ window.addEventListener('error', event => {
  */
 window.addEventListener('unhandledrejection', event => {
     let backtrace = 'unknown';
-    if (event.reason.hasOwnProperty('stack')) {
+    if (event.reason && 'stack' in event.reason) {
         backtrace = event.reason.stack;
     }
     saltos.core.adderror(
