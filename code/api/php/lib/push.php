@@ -63,9 +63,26 @@ function push_select($timestamp)
         if (time_get_usage(true) > 300) {
             break;
         }
-        $query = 'SELECT type, message, timestamp FROM tbl_push WHERE user_id = ? AND timestamp > ?';
+        $query = 'SELECT type, message, timestamp
+            FROM tbl_push
+            WHERE user_id = ? AND timestamp > ?
+            ORDER BY id DESC';
         $rows = execute_query_array($query, [$user_id, $timestamp]);
         if (count($rows)) {
+            // remove repetitions
+            $used = [];
+            foreach ($rows as $key => $val) {
+                $hash = md5(serialize([
+                    $val['type'],
+                    $val['message'],
+                ]));
+                if (isset($used[$hash])) {
+                    unset($rows[$key]);
+                }
+                $used[$hash] = $hash;
+            }
+            // order by id asc
+            $rows = array_reverse($rows);
             break;
         }
         // Trick to detect server restart

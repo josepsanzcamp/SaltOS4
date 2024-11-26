@@ -91,6 +91,7 @@ final class test_push extends TestCase
         set_data('server/user', 'admin');
         $timestamp = microtime(true) - 1e-3;
         push_insert('success', 'test message');
+
         $rows = push_select($timestamp);
         $this->assertCount(1, $rows);
         $this->assertCount(3, $rows[0]);
@@ -117,5 +118,23 @@ final class test_push extends TestCase
         $this->assertArrayHasKey('timestamp', $json[0]);
         $this->assertSame('success', $json[0]['type']);
         $this->assertSame('test message', $json[0]['message']);
+
+        push_insert('danger', 'test message');
+        push_insert('danger', 'test message');
+
+        $rows = push_select($timestamp);
+        $this->assertCount(2, $rows);
+        $this->assertCount(3, $rows[0]);
+        $this->assertArrayHasKey('type', $rows[0]);
+        $this->assertArrayHasKey('message', $rows[0]);
+        $this->assertArrayHasKey('timestamp', $rows[0]);
+        $this->assertSame('success', $rows[0]['type']);
+        $this->assertSame('test message', $rows[0]['message']);
+        $this->assertCount(3, $rows[1]);
+        $this->assertArrayHasKey('type', $rows[1]);
+        $this->assertArrayHasKey('message', $rows[1]);
+        $this->assertArrayHasKey('timestamp', $rows[1]);
+        $this->assertSame('danger', $rows[1]['type']);
+        $this->assertSame('test message', $rows[1]['message']);
     }
 }
