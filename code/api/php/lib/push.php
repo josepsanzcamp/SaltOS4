@@ -40,6 +40,9 @@ declare(strict_types=1);
  */
 function push_insert($type, $message)
 {
+    if (!in_array($type, ['success', 'danger', 'event'])) {
+        show_php_error(['phperror' => "Unknown type $type"]);
+    }
     $query = prepare_insert_query('tbl_push', [
         'user_id' => current_user(),
         'datetime' => current_datetime(),

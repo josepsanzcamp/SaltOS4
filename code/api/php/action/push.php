@@ -50,7 +50,7 @@ switch ($action) {
         $rows = push_select($timestamp);
         break;
     case 'set':
-        if (!get_data('server/xuid')) {
+        if (!get_data('server/xuid') || !current_user()) {
             show_php_error(['phperror' => 'Permission denied']);
         }
         $timestamp = microtime(true) - 1e-3;

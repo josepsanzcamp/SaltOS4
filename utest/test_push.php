@@ -85,8 +85,21 @@ final class test_push extends TestCase
 
         $json = test_web_helper('push/get', [], '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertFileDoesNotExist($file);
         $this->assertCount(2, $json['error']);
         $this->assertTrue(words_exists('permission denied', $json['error']['text']));
+
+        $json = test_cli_helper('push/set', [], '', '', '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('permission denied', file_get_contents($file)));
+        unlink($file);
+
+        $json = test_cli_helper('push/set/nada/nada', [], '', '', 'admin');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown type nada', file_get_contents($file)));
+        unlink($file);
 
         set_data('server/user', 'admin');
         $timestamp = microtime(true) - 1e-3;
