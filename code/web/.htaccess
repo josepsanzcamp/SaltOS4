@@ -1,5 +1,6 @@
 Options -Indexes
 DirectoryIndex index.htm
+AddType application/javascript .mjs
 
 <Files "*">
     Require all granted

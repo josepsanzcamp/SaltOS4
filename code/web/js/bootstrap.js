@@ -2066,7 +2066,7 @@ saltos.bootstrap.__field.pdfjs = field => {
             await new Promise(resolve => setTimeout(resolve, 1));
         }
         // Continue
-        pdfjsLib.GlobalWorkerOptions.workerSrc = './lib/pdfjs/pdf.worker.min.mjs';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'lib/pdfjs/pdf.worker.min.mjs';
         pdfjsLib.getDocument(field.src).promise.then(pdf => {
             if (!pdf.numPages) {
                 return;
