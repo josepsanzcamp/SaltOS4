@@ -351,12 +351,17 @@ self.addEventListener('fetch', event => {
     //console.log('fetch ' + event.request.url);
     const order = event.request.headers.get('proxy');
     if (['no', 'omit', 'cancel', 'bypass'].includes(order)) {
+        if (event.clientId) {
+            event.waitUntil(
+                clients.get(event.clientId).then(client => {
+                    if (client) {
+                        client.postMessage(`fetch ${event.request.url}`);
+                    }
+                })
+            );
+        }
         return;
     }
-    /*const url = event.request.url;
-    if(['127.0.0.1', 'localhost'].includes((new URL(url)).hostname)) {
-        return;
-    }*/
     const start = Date.now();
     event.respondWith(
         proxy(event.request).then(result => {
