@@ -51,7 +51,6 @@ function check_system()
         ['class_exists', 'DomElement', 'Class', 'php-xml', 'error'],
         ['function_exists', 'imagecreatetruecolor', 'Function', 'php-gd', 'error'],
         ['function_exists', 'mb_check_encoding', 'Function', 'php-mbstring', 'error'],
-        ['function_exists', 'yaml_parse', 'Function', 'php-yaml', 'error'],
         ['function_exists', 'zstd_compress', 'Function', 'php-zstd', 'warning'],
     ];
     foreach ($items as $item) {
