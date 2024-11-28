@@ -1714,7 +1714,7 @@ function getmail_setter($ids, $what)
  */
 function getmail_pdf($ids)
 {
-    if (!check_commands('wkhtmltopdf', 60)) {
+    if (!check_commands('wkhtmltopdf')) {
         require_once 'php/lib/pdf.php';
         return pdf('apps/emails/xml/pdf.xml', ['id' => $ids]);
     }

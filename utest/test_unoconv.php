@@ -184,33 +184,10 @@ final class test_unoconv extends TestCase
      */
     public function test_commands(): void
     {
-        $old = get_config('unoconv/soffice');
-        set_config('unoconv/soffice', 'nada');
-        $this->assertSame(get_config('unoconv/soffice'), 'nada');
-        $this->assertSame(__unoconv_list(), []);
+        $this->assertCount(74, __unoconv_list());
         $this->assertSame(__unoconv_convert('', '', ''), null);
-        set_config('unoconv/soffice', $old);
-        $this->assertSame(get_config('unoconv/soffice'), $old);
-
-        $old = get_config('unoconv/pdftotext');
-        set_config('unoconv/pdftotext', 'nada');
-        $this->assertSame(get_config('unoconv/pdftotext'), 'nada');
         $this->assertSame(__unoconv_pdf2txt('', ''), null);
-        set_config('unoconv/pdftotext', $old);
-        $this->assertSame(get_config('unoconv/pdftotext'), $old);
-
-        $old = get_config('unoconv/convert');
-        set_config('unoconv/convert', 'nada');
-        $this->assertSame(get_config('unoconv/convert'), 'nada');
-        $this->assertSame(__unoconv_img2ocr(''), '');
-        set_config('unoconv/convert', $old);
-        $this->assertSame(get_config('unoconv/convert'), $old);
-
-        $old = get_config('unoconv/pdftoppm');
-        set_config('unoconv/pdftoppm', 'nada');
-        $this->assertSame(get_config('unoconv/pdftoppm'), 'nada');
-        $this->assertSame(__unoconv_pdf2ocr(''), '');
-        set_config('unoconv/pdftoppm', $old);
-        $this->assertSame(get_config('unoconv/pdftoppm'), $old);
+        $this->assertSame(__unoconv_img2ocr('../../utest/files/lorem.html'), '');
+        $this->assertSame(__unoconv_pdf2ocr('../../utest/files/lorem.html'), '');
     }
 }

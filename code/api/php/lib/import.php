@@ -300,7 +300,7 @@ function __import_xls2array($file, $sheet)
         }
     }
     // Trick for a big files
-    if (filesize($file) > 1048576 && check_commands(get_config('commands/xlsx2csv'), 60)) { // filesize > 1Mb
+    if (filesize($file) > 1048576 && check_commands('xlsxio_xlsx2csv')) { // filesize > 1Mb
         $csv = get_cache_file($file, 'csv');
         if (!file_exists($csv)) {
             $xlsx = get_cache_file($file, 'xlsx');
@@ -310,11 +310,9 @@ function __import_xls2array($file, $sheet)
             } else {
                 $xlsx = realpath($file);
             }
-            ob_passthru(str_replace(
-                ['__DIR__', '__INPUT__'],
-                [dirname($xlsx), basename($xlsx)],
-                get_config('commands/__xlsx2csv__')
-            ));
+            $dir = dirname($xlsx);
+            $base = basename($xlsx);
+            ob_passthru("cd $dir; xlsxio_xlsx2csv $base");
             if ($fix) {
                 unlink($xlsx);
             }

@@ -44,6 +44,8 @@
         <cachetimeout>86400</cachetimeout><!-- in seconds, 86400 is 1 day -->
         <trashtimeout eval="true">86400*30</trashtimeout><!-- in seconds, around one month -->
         <percentstop>90</percentstop><!-- long actions stop when reached the 90% of max_execution_time -->
+        <commandexpires>3600</commandexpires><!-- in seconds, 3600 is 1 hour -->
+        <commandtimeout>60</commandtimeout><!-- in seconds, 60 is 1 minute -->
     </server>
     <dirs>
         <logsdir eval="true">getcwd()."/data/logs"</logsdir>
@@ -56,20 +58,6 @@
         <trashdir eval="true">getcwd()."/data/trash"</trashdir>
         <crondir eval="true">getcwd()."/data/cron"</crondir>
     </dirs>
-    <commands>
-        <which>which</which><!-- for check commands -->
-        <__which__>which __INPUT__</__which__>
-        <timeout>timeout</timeout><!-- for ocr module -->
-        <__timeout__>timeout __TIMEOUT__ __COMMAND__</__timeout__>
-        <xlsx2csv>xlsxio_xlsx2csv</xlsx2csv><!-- for import optimization -->
-        <__xlsx2csv__>cd __DIR__; xlsxio_xlsx2csv __INPUT__</__xlsx2csv__>
-        <svnversion>svnversion</svnversion>
-        <__svnversion__>cd __DIR__; svnversion</__svnversion__>
-        <gitversion>git</gitversion>
-        <__gitversion__>cd __DIR__; git rev-list HEAD --count</__gitversion__>
-        <commandtimeout>60</commandtimeout><!-- in seconds, 60 is 1 minute -->
-        <commandexpires>3600</commandexpires><!-- in seconds, 3600 is 1 hour -->
-    </commands>
     <debug>
         <logfile>saltos.log</logfile>
         <errorfile>error.log</errorfile>
@@ -183,17 +171,4 @@
             <encoding>MacTurkish</encoding>      <!-- Turkish (Mac) -->
         </mb_detect_order>
     </extras>
-    <unoconv>
-        <soffice>soffice</soffice><!-- for unoconv module -->
-        <__soffice__>soffice --headless --convert-to __FORMAT__ --outdir __OUTDIR__ __INPUT__ 2>&amp;1</__soffice__>
-        <__soffice_formats__>bib,doc,xml,docx,fodt,html,ltx,txt,odt,ott,pdb,pdf,psw,rtf,sdw,stw,sxw,uot,vor,wps,bmp,emf,eps,fodg,gif,jpg,met,odd,otg,pbm,pct,pgm,png,ppm,ras,std,svg,svm,swf,sxd,tiff,wmf,xhtml,xpm,fodp,odg,odp,otp,potm,pot,pptx,pps,ppt,pwp,sda,sdd,sti,sxi,uop,csv,dbf,dif,fods,ods,xlsx,ots,pxl,sdc,slk,stc,sxc,uos,xls,xlt</__soffice_formats__>
-        <pdftotext>pdftotext</pdftotext><!-- for unoconv module -->
-        <__pdftotext__>pdftotext -nopgbrk -layout __INPUT__ __OUTPUT__ 2>&amp;1</__pdftotext__>
-        <pdftoppm>pdftoppm</pdftoppm><!-- for ocr module included in unoconv -->
-        <__pdftoppm__>pdftoppm -r 300 -l 1000 __INPUT__ __OUTPUT__ 2>&amp;1</__pdftoppm__>
-        <convert>convert</convert><!-- for ocr module included in unoconv -->
-        <__convert__>convert __INPUT__ -quality 100 __OUTPUT__ 2>&amp;1</__convert__>
-        <tesseract>tesseract</tesseract><!-- for ocr module included in unoconv -->
-        <__tesseract__>tesseract __INPUT__ __OUTPUT__ --psm 1 hocr 2>&amp;1</__tesseract__>
-    </unoconv>
 </root>

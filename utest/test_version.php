@@ -68,26 +68,8 @@ final class test_version extends TestCase
         $this->assertSame(svnversion('/tmp/'), 123);
         unlink('/tmp/svnversion');
 
-        $old = get_config('commands/svnversion');
-        set_config('commands/svnversion', 'nada');
-        $this->assertSame(svnversion('/tmp/'), 0);
-        set_config('commands/svnversion', $old);
-
-        $old = get_config('commands/__gitversion__');
-        set_config('commands/__gitversion__', 'ls');
-        $this->assertSame(gitversion(), 0);
-        set_config('commands/__gitversion__', $old);
-
         file_put_contents('/tmp/gitversion', '123');
         $this->assertSame(gitversion('/tmp/'), 123);
         unlink('/tmp/gitversion');
-
-        $old = get_config('commands/gitversion');
-        set_config('commands/gitversion', 'nada');
-        $this->assertSame(gitversion('/tmp/'), 0);
-        set_config('commands/gitversion', $old);
-
-        $this->assertSame(isphp(0), true);
-        $this->assertSame(isphp(99), false);
     }
 }

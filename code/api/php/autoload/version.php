@@ -91,17 +91,9 @@ function __svnversion_helper($dir)
         return intval(file_get_contents("{$dir}/svnversion"));
     }
     // Using svnversion
-    if (
-        check_commands(
-            get_config('commands/svnversion') ?? 'svnversion',
-            get_config('commands/commandexpires') ?? 60
-        )
-    ) {
-        return intval(ob_passthru(str_replace(
-            ['__DIR__'],
-            [$dir],
-            get_config('commands/__svnversion__') ?? 'cd __DIR__; svnversion'
-        ), get_config('commands/commandexpires') ?? 60));
+    if (check_commands('svnversion')) {
+        $expires = get_config('server/commandexpires') ?? 60;
+        return intval(ob_passthru("cd $dir; svnversion", $expires));
     }
     // Nothing to do
     return 0;
@@ -144,31 +136,10 @@ function __gitversion_helper($dir)
         return intval(file_get_contents("{$dir}/gitversion"));
     }
     // Using git
-    if (
-        check_commands(
-            get_config('commands/gitversion') ?? 'git',
-            get_config('commands/commandexpires') ?? 60
-        )
-    ) {
-        return intval(ob_passthru(str_replace(
-            ['__DIR__'],
-            [$dir],
-            get_config('commands/__gitversion__') ?? 'cd __DIR__; git rev-list HEAD --count'
-        ), get_config('commands/commandexpires') ?? 60));
+    if (check_commands('git')) {
+        $expires = get_config('server/commandexpires') ?? 60;
+        return intval(ob_passthru("cd $dir; git rev-list HEAD --count", $expires));
     }
     // Nothing to do
     return 0;
-}
-
-/**
- * IS PHP
- *
- * This function returns a boolean as a response about the comparison between the
- * version requested and the current version.
- *
- * @version => the version where do you want to compare
- */
-function isphp($version)
-{
-    return version_compare(PHP_VERSION, strval($version), '>=');
 }

@@ -95,18 +95,17 @@ function ob_passthru($cmd, $expires = 0)
  * @commands => the commands that you want to check if are they available
  * @expires  => the expires time used to compute if the cache is valid
  */
-function check_commands($commands, $expires = 0)
+function check_commands($commands, $expires = -1)
 {
+    if ($expires == -1) {
+        $expires = get_config('server/commandexpires') ?? 3600;
+    }
     if (!is_array($commands)) {
         $commands = explode(',', $commands);
     }
     $result = true;
     foreach ($commands as $command) {
-        $result &= ob_passthru(str_replace(
-            ['__INPUT__'],
-            [$command],
-            get_config('commands/__which__') ?? 'which __INPUT__'
-        ), $expires) ? true : false;
+        $result &= ob_passthru("which $command", $expires) ? true : false;
     }
     return $result;
 }
@@ -163,12 +162,9 @@ function is_disabled_function($fn)
  */
 function __exec_timeout($cmd)
 {
-    if (check_commands(get_config('commands/timeout'), get_config('commands/commandtimeout') ?? 60)) {
-        $cmd = str_replace(
-            ['__TIMEOUT__', '__COMMAND__'],
-            [get_config('commands/commandtimeout') ?? 60, $cmd],
-            get_config('commands/__timeout__') ?? 'timeout __TIMEOUT__ __COMMAND__'
-        );
+    if (check_commands('timeout')) {
+        $timeout = get_config('server/commandtimeout') ?? 60;
+        $cmd = "timeout $timeout $cmd";
     }
     return $cmd;
 }

@@ -123,10 +123,19 @@ function unoconv2txt($input)
  */
 function __unoconv_list()
 {
-    if (!check_commands(get_config('unoconv/soffice'), 60)) {
+    if (!check_commands('soffice')) {
         return [];
     }
-    return explode(',', get_config('unoconv/__soffice_formats__'));
+    return [
+        'bib', 'doc', 'xml', 'docx', 'fodt', 'html', 'ltx', 'txt', 'odt', 'ott',
+        'pdb', 'pdf', 'psw', 'rtf', 'sdw', 'stw', 'sxw', 'uot', 'vor', 'wps',
+        'bmp', 'emf', 'eps', 'fodg', 'gif', 'jpg', 'met', 'odd', 'otg', 'pbm',
+        'pct', 'pgm', 'png', 'ppm', 'ras', 'std', 'svg', 'svm', 'swf', 'sxd',
+        'tiff', 'wmf', 'xhtml', 'xpm', 'fodp', 'odg', 'odp', 'otp', 'potm', 'pot',
+        'pptx', 'pps', 'ppt', 'pwp', 'sda', 'sdd', 'sti', 'sxi', 'uop', 'csv',
+        'dbf', 'dif', 'fods', 'ods', 'xlsx', 'ots', 'pxl', 'sdc', 'slk', 'stc',
+        'sxc', 'uos', 'xls', 'xlt',
+    ];
 }
 
 /**
@@ -139,13 +148,10 @@ function __unoconv_list()
  */
 function __unoconv_pdf2txt($input, $output)
 {
-    if (!check_commands(get_config('unoconv/pdftotext'), 60)) {
+    if (!check_commands('pdftotext')) {
         return;
     }
-    ob_passthru(str_replace_assoc([
-        '__INPUT__' => $input,
-        '__OUTPUT__' => $output,
-    ], get_config('unoconv/__pdftotext__')));
+    ob_passthru("pdftotext -nopgbrk -layout $input $output 2>&1");
     if (file_exists($output)) {
         chmod_protected($output, 0666);
         $freq = count_chars(file_get_contents($output));
@@ -181,7 +187,7 @@ function __unoconv_all2pdf($input, $output)
  */
 function __unoconv_convert($input, $output, $format)
 {
-    if (!check_commands(get_config('unoconv/soffice'), 60)) {
+    if (!check_commands('soffice')) {
         return;
     }
     $input = realpath($input);
@@ -193,11 +199,8 @@ function __unoconv_convert($input, $output, $format)
     } else {
         $input2 = $input;
     }
-    ob_passthru(__exec_timeout(str_replace_assoc([
-        '__FORMAT__' => $format,
-        '__INPUT__' => $input2,
-        '__OUTDIR__' => dirname($input2),
-    ], get_config('unoconv/__soffice__'))));
+    $outdir = dirname($input2);
+    ob_passthru(__exec_timeout("soffice --headless --convert-to $format --outdir $outdir $input2 2>&1"));
     if ($fix) {
         unlink($input2);
     }
@@ -222,7 +225,7 @@ function __unoconv_convert($input, $output, $format)
  */
 function __unoconv_img2ocr($file)
 {
-    if (!check_commands([get_config('unoconv/convert'), get_config('unoconv/tesseract')], 60)) {
+    if (!check_commands(['convert', 'tesseract'])) {
         return '';
     }
     $type = saltos_content_type($file);
@@ -230,10 +233,7 @@ function __unoconv_img2ocr($file)
         $tiff = get_cache_file($file, '.tif');
         //~ if(file_exists($tiff)) unlink($tiff);
         if (!file_exists($tiff)) {
-            ob_passthru(str_replace_assoc([
-                '__INPUT__' => $file,
-                '__OUTPUT__' => $tiff,
-            ], get_config('unoconv/__convert__')));
+            ob_passthru("convert $file -quality 100 $tiff 2>&1");
             if (!file_exists($tiff)) {
                 return '';
             }
@@ -250,10 +250,7 @@ function __unoconv_img2ocr($file)
     //~ if(file_exists($hocr)) unlink($hocr);
     if (!file_exists($hocr)) {
         $base = str_replace(['.hocr', '.html'], '', $hocr);
-        ob_passthru(__exec_timeout(str_replace_assoc([
-            '__INPUT__' => $file,
-            '__OUTPUT__' => $base,
-        ], get_config('unoconv/__tesseract__'))));
+        ob_passthru(__exec_timeout("tesseract $file $base --psm 1 hocr 2>&1"));
         if (file_exists($html)) {
             $hocr = $html;
         }
@@ -287,7 +284,7 @@ function __unoconv_img2ocr($file)
  */
 function __unoconv_pdf2ocr($pdf)
 {
-    if (!check_commands(get_config('unoconv/pdftoppm'), 60)) {
+    if (!check_commands('pdftoppm')) {
         return '';
     }
     // EXTRACT ALL IMAGES FROM PDF
@@ -295,10 +292,7 @@ function __unoconv_pdf2ocr($pdf)
     $files = glob("{$root}-*");
     //~ foreach($files as $file) unlink(array_pop($files));
     if (!count($files)) {
-        ob_passthru(str_replace_assoc([
-            '__INPUT__' => $pdf,
-            '__OUTPUT__' => $root,
-        ], get_config('unoconv/__pdftoppm__')));
+        ob_passthru("pdftoppm -r 300 -l 1000 $pdf $root 2>&1");
     }
     // EXTRACT ALL TEXT FROM TIFF
     $files = glob("{$root}-*");
