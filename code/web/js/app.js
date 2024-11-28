@@ -899,6 +899,7 @@ saltos.app.push.fn = () => {
                     saltos.app.toast('Notification', val.message, {color: val.type});
                 } else if (['event'].includes(val.type)) {
                     saltos.window.send(val.message);
+                    saltos.app.favicon.run();
                 } else {
                     throw new Error(`Unknown response type ${val.type}`);
                 }
@@ -945,3 +946,56 @@ window.addEventListener('load', async event => {
 window.addEventListener('online', event => {
     saltos.app.push.count = 5;
 });
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.favicon = {
+    executing: false,
+    count: 0,
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.favicon.fn = bool => {
+    const icons = ['img/logo_red.svg', 'img/logo_grey.svg'];
+    if (bool && !saltos.app.favicon.executing) {
+        saltos.app.favicon.interval = setInterval(() => {
+            saltos.app.favicon.count = (saltos.app.favicon.count + 1) % icons.length;
+            document.querySelector('link[rel=icon]').href = icons[saltos.app.favicon.count];
+        }, 1000);
+        saltos.app.favicon.executing = true;
+    }
+    if (!bool && saltos.app.favicon.executing) {
+        clearInterval(saltos.app.favicon.interval);
+        document.querySelector('link[rel=icon]').href = icons[0];
+        saltos.app.favicon.executing = false;
+    }
+};
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        saltos.app.favicon.fn(false);
+    }
+});
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+saltos.app.favicon.run = () => {
+    if (document.visibilityState !== 'visible') {
+        saltos.app.favicon.fn(true);
+    }
+};
