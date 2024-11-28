@@ -124,7 +124,7 @@ const proxy = async request => {
             case 'network':
                 // Network feature
                 try {
-                    response = await fetch(request.clone());
+                    response = await fetch(request.clone(), {credentials: 'omit'});
                     (await caches.open('saltos')).put(new_request, response.clone());
                     return {
                         type: 'network',
@@ -448,7 +448,7 @@ self.addEventListener('message', async event => {
                 let response = null;
                 let type = 'error';
                 try {
-                    response = await fetch(request);
+                    response = await fetch(request, {credentials: 'omit'});
                     if (response.ok) {
                         type = 'network';
                     }

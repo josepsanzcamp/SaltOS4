@@ -354,6 +354,7 @@ saltos.core.ajax = args => {
     const options = {
         method: args.method,
         headers: new Headers(args.headers),
+        credentials: 'omit',
     };
     let controller = null;
     if (saltos.core.eval_bool(args.abortable)) {
@@ -502,7 +503,7 @@ saltos.core.require = (files, callback) => {
             saltos.core.__require[file] = 'loading';
             // Continue
             try {
-                const response = await fetch(file);
+                const response = await fetch(file, {credentials: 'omit'});
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${file}`);
                 }

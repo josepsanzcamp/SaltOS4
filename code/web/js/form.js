@@ -470,7 +470,7 @@ saltos.form.style = async data => {
         }
         if (key == 'file') {
             try {
-                const response = await fetch(val);
+                const response = await fetch(val, {credentials: 'omit'});
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${val}`);
                 }
@@ -504,7 +504,7 @@ saltos.form.javascript = async data => {
         }
         if (key == 'file') {
             try {
-                const response = await fetch(val);
+                const response = await fetch(val, {credentials: 'omit'});
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${val}`);
                 }

@@ -926,5 +926,5 @@ window.addEventListener('load', async event => {
     if (saltos.app.push.hasOwnProperty('interval')) {
         throw new Error('saltos.app.push.interval found');
     }
-    saltos.app.push.interval = setInterval(saltos.app.push.fn, 1000);
+    saltos.app.push.interval = setInterval(saltos.app.push.fn, 60000);
 });
