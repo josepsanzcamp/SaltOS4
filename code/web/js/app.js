@@ -928,3 +928,12 @@ window.addEventListener('load', async event => {
     }
     saltos.app.push.interval = setInterval(saltos.app.push.fn, 60000);
 });
+
+/**
+ * Online sync
+ *
+ * This function send a push request when navigator detects an online change
+ */
+window.addEventListener('online', event => {
+    saltos.app.push.fn();
+});
