@@ -864,6 +864,7 @@ window.addEventListener('load', async event => {
  */
 saltos.app.push = {
     executing: false,
+    count: 60,
 };
 
 /**
@@ -879,6 +880,10 @@ saltos.app.push.fn = () => {
         return;
     }
     if (!navigator.onLine) {
+        return;
+    }
+    saltos.app.push.count--;
+    if (saltos.app.push.count >= 0) {
         return;
     }
     saltos.app.push.executing = true;
@@ -899,12 +904,15 @@ saltos.app.push.fn = () => {
                 }
                 saltos.app.push.timestamp = Math.max(saltos.app.push.timestamp, val.timestamp);
             }
+            saltos.app.push.count = 60;
             saltos.app.push.executing = false;
         },
         error: error => {
+            saltos.app.push.count = 60;
             saltos.app.push.executing = false;
         },
         abort: error => {
+            saltos.app.push.count = 60;
             saltos.app.push.executing = false;
         },
         token: saltos.token.get(),
@@ -926,7 +934,7 @@ window.addEventListener('load', async event => {
     if (saltos.app.push.hasOwnProperty('interval')) {
         throw new Error('saltos.app.push.interval found');
     }
-    saltos.app.push.interval = setInterval(saltos.app.push.fn, 60000);
+    saltos.app.push.interval = setInterval(saltos.app.push.fn, 1000);
 });
 
 /**
@@ -935,5 +943,5 @@ window.addEventListener('load', async event => {
  * This function send a push request when navigator detects an online change
  */
 window.addEventListener('online', event => {
-    saltos.app.push.fn();
+    saltos.app.push.count = 5;
 });
