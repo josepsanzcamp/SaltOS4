@@ -119,30 +119,33 @@ const proxy = async request => {
     }
     order = order.split(',');
 
-    let response = null;
     for (const i in order) {
         switch (order[i]) {
-            case 'network':
+            case 'network': {
                 // Network feature
                 try {
-                    response = await fetch(request.clone(), {credentials: 'omit'});
+                    const start = Date.now();
+                    const response = await fetch(request.clone(), {credentials: 'omit'});
                     (await caches.open('saltos')).put(new_request, response.clone());
+                    const end = Date.now();
                     const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
                     const body2 = await response.clone().text();
                     const size2 = human_size(JSON.stringify([headers2, body2]).length);
                     return {
                         type: 'network',
                         response: response,
+                        duration: end - start,
                         size: `${size}/${size2}`,
                     };
                 } catch (error) {
                     //console.log(error);
                 }
                 break;
+            }
 
-            case 'cache':
+            case 'cache': {
                 // Cache feature
-                response = await caches.match(new_request);
+                const response = await caches.match(new_request);
                 if (response) {
                     const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
                     const body2 = await response.clone().text();
@@ -150,15 +153,17 @@ const proxy = async request => {
                     return {
                         type: 'cache',
                         response: response,
+                        duration: 0,
                         size: `${size}/${size2}`,
                     };
                 }
                 break;
+            }
 
-            case 'queue':
+            case 'queue': {
                 // Queue feature
                 queue_push(await request_serialize(request));
-                response = new Response(JSON.stringify({
+                const response = new Response(JSON.stringify({
                     'status': 'ok',
                 }), {
                     status: 200,
@@ -170,14 +175,16 @@ const proxy = async request => {
                 return {
                     type: 'queue',
                     response: response,
+                    duration: 0,
                     size: `${size}/${size2}`,
                 };
+            }
         }
     }
 
     // Error feature
     if (navigator.onLine) {
-        response = new Response(JSON.stringify({
+        const response = new Response(JSON.stringify({
             'error': {
                 'text': 'A network error occurred and the requested content is not cached.',
                 'code': 'proxy.js:170',
@@ -186,8 +193,17 @@ const proxy = async request => {
             status: 200,
             headers: {'Content-Type': 'application/json'},
         });
+        const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
+        const body2 = await response.clone().text();
+        const size2 = human_size(JSON.stringify([headers2, body2]).length);
+        return {
+            type: 'error',
+            response: response,
+            duration: 0,
+            size: `${size}/${size2}`,
+        };
     } else {
-        response = new Response(JSON.stringify({
+        const response = new Response(JSON.stringify({
             'error': {
                 'text': 'You are offline and the requested content is not cached',
                 'code': 'proxy.js:180',
@@ -196,15 +212,16 @@ const proxy = async request => {
             status: 200,
             headers: {'Content-Type': 'application/json'},
         });
+        const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
+        const body2 = await response.clone().text();
+        const size2 = human_size(JSON.stringify([headers2, body2]).length);
+        return {
+            type: 'error',
+            response: response,
+            duration: 0,
+            size: `${size}/${size2}`,
+        };
     }
-    const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
-    const body2 = await response.clone().text();
-    const size2 = human_size(JSON.stringify([headers2, body2]).length);
-    return {
-        type: 'error',
-        response: response,
-        size: `${size}/${size2}`,
-    };
 };
 
 /**
@@ -386,22 +403,11 @@ self.addEventListener('fetch', event => {
     //console.log('fetch ' + event.request.url);
     const order = event.request.headers.get('proxy');
     if (['no', 'omit', 'cancel', 'bypass'].includes(order)) {
-        if (event.clientId) {
-            event.waitUntil(
-                clients.get(event.clientId).then(client => {
-                    if (client) {
-                        client.postMessage(`fetch ${event.request.url}`);
-                    }
-                })
-            );
-        }
         return;
     }
-    const start = Date.now();
     event.respondWith(
         proxy(event.request).then(result => {
-            const end = Date.now();
-            const array = debug('fetch', event.request.url, result.type, end - start, result.size);
+            const array = debug('fetch', event.request.url, result.type, result.duration, result.size);
             if (event.clientId) {
                 event.waitUntil(
                     clients.get(event.clientId).then(client => {
@@ -411,7 +417,14 @@ self.addEventListener('fetch', event => {
                     })
                 );
             }
-            return result.response;
+            const response = new Response(result.response.body, {
+                ...result.response,
+                headers: {
+                    ...Object.fromEntries(result.response.headers.entries()),
+                    'Proxy': 'true',
+                },
+            });
+            return response;
         })
     );
 });
@@ -478,12 +491,12 @@ self.addEventListener('message', async event => {
         await queue_getall().then(async result => {
             total = result.length;
             for (const i in result) {
-                const start = Date.now();
                 const request = request_unserialize(result[i].value);
                 let response = null;
                 let type = 'error';
                 let headers = null;
                 let body = null;
+                const start = Date.now();
                 try {
                     response = await fetch(request, {credentials: 'omit'});
                     if (response.ok) {

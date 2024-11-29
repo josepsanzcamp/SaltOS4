@@ -365,7 +365,9 @@ saltos.core.ajax = args => {
     if (args.method == 'POST') {
         options.body = args.data;
     }
+    const start = Date.now();
     return fetch(args.url, options).then(async response => {
+        const end = Date.now();
         if (!response.ok) {
             args.error(response);
             return;
@@ -388,6 +390,21 @@ saltos.core.ajax = args => {
             data = parser.parseFromString(data, 'application/xml');
         } else {
             data = await response.text();
+        }
+        // Add the trace if no proxy is set
+        if (!response.headers.get('proxy')) {
+            const url = new URL(args.url, window.location.href).href;
+            const duration = end - start;
+            const size = saltos.core.human_size(JSON.stringify([url, options]).length);
+            const headers = JSON.stringify(Object.fromEntries([...response.headers]));
+            const size2 = saltos.core.human_size(JSON.stringify([headers, data]).length);
+            const black = 'color:white;background:dimgrey';
+            const reset = 'color:inherit;background:inherit';
+            const array = [
+                `%cCORE%c fetch ${url} duration %c${duration}ms%c size %c${size}/${size2}%c`,
+                black, reset, black, reset, black, reset,
+            ];
+            console.log(...array);
         }
         // Finish with success or return;
         if (typeof args.success == 'function') {
@@ -808,4 +825,22 @@ saltos.core.__get_code_from_file_and_line = (file = 'unknown', line = 'unknown')
  */
 saltos.core.timestamp = (offset = 0) => {
     return Date.now() / 1000 + offset;
+};
+
+/**
+ * Human Size
+ *
+ * Return the human size (G, M, K or original value)
+ *
+ * @size  => the size that you want convert to human size
+ */
+saltos.core.human_size = size => {
+    if (size >= 1073741824) {
+        size = (Math.round(size / 1073741824 * 100) / 100) + 'G';
+    } else if (size >= 1048576) {
+        size = (Math.round(size / 1048576 * 100) / 100) + 'M';
+    } else if (size >= 1024) {
+        size = (Math.round(size / 1024 * 100) / 100) + 'K';
+    }
+    return size;
 };
