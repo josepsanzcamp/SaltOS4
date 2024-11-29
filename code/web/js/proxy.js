@@ -68,7 +68,7 @@ const console_log = (message) => {
  * @type     => type of the request (network, cache or error)
  * @duration => duration of the entire task in milliseconds
  */
-const debug = (action, url, type, duration) => {
+const debug = (action, url, type, duration, size) => {
     const black = 'color:white;background:dimgrey';
     const types = {
         'network': 'green',
@@ -83,8 +83,8 @@ const debug = (action, url, type, duration) => {
     const color = `color:white;background:${temp}`;
     const reset = 'color:inherit;background:inherit';
     const array = [
-        `${action} ${url} type %c${type}%c duration %c${duration}ms%c`,
-        color, reset, black, reset,
+        `${action} ${url} type %c${type}%c duration %c${duration}ms%c size %c${size}%c`,
+        color, reset, black, reset, black, reset,
     ];
     //console.log(...array);
     return array;
@@ -110,6 +110,7 @@ const proxy = async request => {
     const headers = JSON.stringify(Object.fromEntries([...request.headers]));
     const body = await request.clone().text();
     const new_request = new Request([url, method, md5(headers), md5(body)].join('/'));
+    const size = human_size(JSON.stringify([url, method, headers, body]).length);
 
     // Prepare the order list used to solve the request
     let order = request.headers.get('proxy');
@@ -126,9 +127,13 @@ const proxy = async request => {
                 try {
                     response = await fetch(request.clone(), {credentials: 'omit'});
                     (await caches.open('saltos')).put(new_request, response.clone());
+                    const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
+                    const body2 = await response.clone().text();
+                    const size2 = human_size(JSON.stringify([headers2, body2]).length);
                     return {
                         type: 'network',
                         response: response,
+                        size: `${size}/${size2}`,
                     };
                 } catch (error) {
                     //console.log(error);
@@ -139,9 +144,13 @@ const proxy = async request => {
                 // Cache feature
                 response = await caches.match(new_request);
                 if (response) {
+                    const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
+                    const body2 = await response.clone().text();
+                    const size2 = human_size(JSON.stringify([headers2, body2]).length);
                     return {
                         type: 'cache',
                         response: response,
+                        size: `${size}/${size2}`,
                     };
                 }
                 break;
@@ -155,9 +164,13 @@ const proxy = async request => {
                     status: 200,
                     headers: {'Content-Type': 'application/json'},
                 });
+                const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
+                const body2 = await response.clone().text();
+                const size2 = human_size(JSON.stringify([headers2, body2]).length);
                 return {
                     type: 'queue',
                     response: response,
+                    size: `${size}/${size2}`,
                 };
         }
     }
@@ -184,9 +197,13 @@ const proxy = async request => {
             headers: {'Content-Type': 'application/json'},
         });
     }
+    const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
+    const body2 = await response.clone().text();
+    const size2 = human_size(JSON.stringify([headers2, body2]).length);
     return {
         type: 'error',
         response: response,
+        size: `${size}/${size2}`,
     };
 };
 
@@ -323,6 +340,24 @@ const request_unserialize = request => {
 };
 
 /**
+ * Human Size
+ *
+ * Return the human size (G, M, K or original value)
+ *
+ * @size  => the size that you want convert to human size
+ */
+const human_size = size => {
+    if (size >= 1073741824) {
+        size = (Math.round(size / 1073741824 * 100) / 100) + 'G';
+    } else if (size >= 1048576) {
+        size = (Math.round(size / 1048576 * 100) / 100) + 'M';
+    } else if (size >= 1024) {
+        size = (Math.round(size / 1024 * 100) / 100) + 'K';
+    }
+    return size;
+};
+
+/**
  * Install binding
  *
  * This code implements the install feature
@@ -366,7 +401,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         proxy(event.request).then(result => {
             const end = Date.now();
-            const array = debug('fetch', event.request.url, result.type, end - start);
+            const array = debug('fetch', event.request.url, result.type, end - start, result.size);
             if (event.clientId) {
                 event.waitUntil(
                     clients.get(event.clientId).then(client => {
@@ -447,16 +482,22 @@ self.addEventListener('message', async event => {
                 const request = request_unserialize(result[i].value);
                 let response = null;
                 let type = 'error';
+                let headers = null;
+                let body = null;
                 try {
                     response = await fetch(request, {credentials: 'omit'});
                     if (response.ok) {
                         type = 'network';
                     }
+                    headers = JSON.stringify(Object.fromEntries([...response.headers]));
+                    body = await response.text();
                 } catch (error) {
                     //console.log(error);
                 }
                 const end = Date.now();
-                const array = debug('sync', request.url, type, end - start);
+                const size = human_size(JSON.stringify(result[i].value).length);
+                const size2 = human_size(JSON.stringify([headers, body]).length);
+                const array = debug('sync', request.url, type, end - start, `${size}/${size2}`);
                 event.source.postMessage(array);
                 if (type == 'error') {
                     break;
