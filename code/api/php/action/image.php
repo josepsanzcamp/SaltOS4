@@ -110,7 +110,7 @@ switch ($action) {
     case 'barcode':
         // Check parameters
         $msg = get_data('json/msg');
-        if ($msg == '') {
+        if ($msg === null) {
             show_json_error('msg not found');
         }
         // Prepare parameters
@@ -130,7 +130,7 @@ switch ($action) {
     case 'qrcode':
         // Check parameters
         $msg = get_data('json/msg');
-        if ($msg == '') {
+        if ($msg === null) {
             show_json_error('msg not found');
         }
         // Prepare parameters
@@ -182,7 +182,7 @@ switch ($action) {
     case 'score':
         // Check parameters
         $pass = get_data('json/pass');
-        if ($pass == '') {
+        if ($pass === null) {
             show_json_error('pass not found');
         }
         // Prepare parameters

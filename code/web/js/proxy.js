@@ -119,6 +119,7 @@ const proxy = async request => {
     }
     order = order.split(',');
 
+    let duration = 0;
     for (const i in order) {
         switch (order[i]) {
             case 'network': {
@@ -126,15 +127,16 @@ const proxy = async request => {
                 try {
                     const start = Date.now();
                     const response = await fetch(request.clone(), {credentials: 'omit'});
-                    (await caches.open('saltos')).put(new_request, response.clone());
                     const end = Date.now();
+                    (await caches.open('saltos')).put(new_request, response.clone());
+                    duration += end - start;
                     const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
                     const body2 = await response.clone().text();
                     const size2 = human_size(JSON.stringify([headers2, body2]).length);
                     return {
                         type: 'network',
                         response: response,
-                        duration: end - start,
+                        duration: duration,
                         size: `${size}/${size2}`,
                     };
                 } catch (error) {
@@ -145,15 +147,18 @@ const proxy = async request => {
 
             case 'cache': {
                 // Cache feature
+                const start = Date.now();
                 const response = await caches.match(new_request);
+                const end = Date.now();
                 if (response) {
+                    duration += end - start;
                     const headers2 = JSON.stringify(Object.fromEntries([...response.headers]));
                     const body2 = await response.clone().text();
                     const size2 = human_size(JSON.stringify([headers2, body2]).length);
                     return {
                         type: 'cache',
                         response: response,
-                        duration: 0,
+                        duration: duration,
                         size: `${size}/${size2}`,
                     };
                 }
@@ -175,7 +180,7 @@ const proxy = async request => {
                 return {
                     type: 'queue',
                     response: response,
-                    duration: 0,
+                    duration: duration,
                     size: `${size}/${size2}`,
                 };
             }
@@ -199,7 +204,7 @@ const proxy = async request => {
         return {
             type: 'error',
             response: response,
-            duration: 0,
+            duration: duration,
             size: `${size}/${size2}`,
         };
     } else {
@@ -218,7 +223,7 @@ const proxy = async request => {
         return {
             type: 'error',
             response: response,
-            duration: 0,
+            duration: duration,
             size: `${size}/${size2}`,
         };
     }
@@ -496,18 +501,21 @@ self.addEventListener('message', async event => {
                 let type = 'error';
                 let headers = null;
                 let body = null;
-                const start = Date.now();
+                let start = 0;
+                let end = 0;
                 try {
+                    start = Date.now();
                     response = await fetch(request, {credentials: 'omit'});
+                    end = Date.now();
                     if (response.ok) {
                         type = 'network';
                     }
                     headers = JSON.stringify(Object.fromEntries([...response.headers]));
                     body = await response.text();
                 } catch (error) {
+                    end = Date.now();
                     //console.log(error);
                 }
-                const end = Date.now();
                 const size = human_size(JSON.stringify(result[i].value).length);
                 const size2 = human_size(JSON.stringify([headers, body]).length);
                 const array = debug('sync', request.url, type, end - start, `${size}/${size2}`);

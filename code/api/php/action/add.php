@@ -50,14 +50,14 @@ declare(strict_types=1);
 $action = get_data('rest/1');
 switch ($action) {
     case 'log':
-        if (get_data('json/msg') == '') {
+        if (get_data('json/msg') === null) {
             show_json_error('msg not found');
         }
         addlog(get_data('json/msg'));
         break;
     case 'error':
         foreach (['jserror', 'details', 'backtrace'] as $key) {
-            if (get_data("json/$key") == '') {
+            if (get_data("json/$key") === null) {
                 show_json_error("$key not found");
             }
         }
