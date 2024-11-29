@@ -41,11 +41,11 @@ $action = get_data('rest/1');
 switch ($action) {
     case 'get':
         if (!current_user()) {
-            show_json_error('Permission denied');
+            show_json_error('Permission denied', true);
         }
         $timestamp = floatval(get_data('rest/2'));
         if (!$timestamp) {
-            $timestamp = microtime(true);
+            show_php_error(['phperror' => "Unknown timestamp $timestamp"]);
         }
         $rows = push_select($timestamp);
         break;
