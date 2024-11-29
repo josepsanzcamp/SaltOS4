@@ -39,3 +39,4 @@ phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PH
 sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.atom|<updated>|base64:PHVwZGF0ZWQ+MjAxOS0wOS0wMVQwODowNTo1Mlo8L3VwZGF0ZWQ+
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|base64:PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|base64:PHRpdGxlPjMuMS4wPC90aXRsZT4=
+yaml|https://github.com/symfony/yaml/tags.atom|<title>|base64:PHRpdGxlPnY3LjIuMDwvdGl0bGU+
