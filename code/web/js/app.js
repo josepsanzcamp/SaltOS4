@@ -150,6 +150,8 @@ saltos.app.check_response = response => {
         bool = false;
     }
     if (response.hasOwnProperty('logout') && response.logout) {
+        saltos.autosave.save('two,one');
+        saltos.autosave.purge('two,one');
         saltos.app.send_request('app/login');
         bool = false;
     }
