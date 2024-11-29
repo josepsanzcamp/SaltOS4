@@ -6,4 +6,4 @@
 # - https://github.com/haltu/muuri
 # - https://github.com/metafizzy/packery
 
-wget -O sortable.min.js https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.5/Sortable.min.js
+wget -O sortable.min.js https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.6/Sortable.min.js
