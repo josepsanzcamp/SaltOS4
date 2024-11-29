@@ -1,7 +1,15 @@
 Options -Indexes
 DirectoryIndex index.htm
-AddType application/javascript .mjs
 
 <Files "*">
     Require all granted
 </Files>
+
+AddType text/html .htm .html
+AddType application/javascript .js .mjs
+AddType text/css .css
+AddType application/json .map
+AddType image/svg+xml .svg
+AddType image/png .png
+AddType image/jpeg .jpg .jpeg
+AddType application/pdf .pdf
