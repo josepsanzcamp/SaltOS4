@@ -78,6 +78,9 @@ final class test_pdf extends TestCase
         $pdf = pdf('apps/invoices/xml/pdf.xml', [
             'id' => $invoice_id,
         ]);
+        $pdf = pdf('apps/invoices/xml/pdf.xml', [
+            'id' => $invoice_id,
+        ]);
         $this->assertTrue(is_array($pdf));
         $this->assertArrayHasKey('name', $pdf);
         $this->assertArrayHasKey('data', $pdf);
@@ -89,6 +92,9 @@ final class test_pdf extends TestCase
         set_data('rest/0', 'app');
         set_data('rest/1', 'emails');
 
+        $pdf = pdf('apps/emails/xml/pdf.xml', [
+            'id' => $email_id,
+        ]);
         $pdf = pdf('apps/emails/xml/pdf.xml', [
             'id' => $email_id,
         ]);
