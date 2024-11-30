@@ -111,7 +111,7 @@ saltos.bootstrap.field = field => {
     // Fix when some attributes need the fix_key feature
     for (const key in field) {
         const new_key = saltos.core.fix_key(key);
-        if (new_key != key && !field.hasOwnProperty(new_key)) {
+        if (new_key != key && !(new_key in field)) {
             field[new_key] = field[key];
             delete field[key];
         }
@@ -691,11 +691,11 @@ saltos.bootstrap.__field.ckeditor = field => {
     // Program the set feature
     element.set = value => {
         if (typeof element.ckeditor != 'object') {
-            if (!element.hasOwnProperty('queue')) {
+            if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
-            if (!element.hasOwnProperty('timer')) {
+            if (!('timer' in element)) {
                 element.timer = setInterval(() => {
                     if (typeof element.ckeditor != 'object') {
                         return;
@@ -825,11 +825,11 @@ saltos.bootstrap.__field.codemirror = field => {
     // Program the set feature
     element.set = value => {
         if (typeof element.codemirror != 'object') {
-            if (!element.hasOwnProperty('queue')) {
+            if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
-            if (!element.hasOwnProperty('timer')) {
+            if (!('timer' in element)) {
                 element.timer = setInterval(() => {
                     if (typeof element.codemirror != 'object') {
                         return;
@@ -1985,14 +1985,14 @@ saltos.bootstrap.__field.excel = field => {
                         cell = saltos.core.copy_object(val);
                     }
                 }
-                if (cell.hasOwnProperty('readOnly')) {
+                if ('readOnly' in cell) {
                     // Nothing to do
                 } else {
                     cell.readOnly = bool;
                 }
-                if (cell.hasOwnProperty('className')) {
+                if ('className' in cell) {
                     // Nothing to do
-                } else if (cell.hasOwnProperty('readOnlyCellClassName')) {
+                } else if ('readOnlyCellClassName' in cell) {
                     // Nothing to do
                 } else if (bool) {
                     cell.readOnlyCellClassName = 'bg-body-secondary';
@@ -2221,15 +2221,15 @@ saltos.bootstrap.__field.table = field => {
             let th;
             if (typeof val == 'object' && val !== null) {
                 th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val.label}</th>`);
+                if ('align' in val) {
+                    th.classList.add('text-' + val.align);
+                }
             } else {
                 th = saltos.core.html('tr', `<th class="text-bg-${field.color}">${val}</th>`);
             }
-            if (val.hasOwnProperty('align')) {
-                th.classList.add('text-' + val.align);
-            }
             obj.querySelector('thead tr').append(th);
         }
-        if (field.data.length && field.data[0].hasOwnProperty('actions')) {
+        if (field.data.length && 'actions' in field.data[0]) {
             const th = saltos.core.html('tr', `<th class="text-bg-${field.color}" style="width: 1%"></th>`);
             obj.querySelector('thead tr').append(th);
         }
@@ -2325,7 +2325,7 @@ saltos.bootstrap.__field.table = field => {
                 let val2 = val[key2];
                 const td = saltos.core.html('tr', `<td></td>`);
                 if (typeof val2 == 'object' && val2 !== null) {
-                    if (val2.hasOwnProperty('type')) {
+                    if ('type' in val2) {
                         const temp = saltos.bootstrap.field(val2);
                         td.append(temp);
                     } else {
@@ -2335,7 +2335,7 @@ saltos.bootstrap.__field.table = field => {
                 } else {
                     val2 = saltos.core.toString(val2);
                     let type = 'text';
-                    if (iterator[key2].hasOwnProperty('type')) {
+                    if (typeof iterator[key2] == 'object' && 'type' in iterator[key2]) {
                         type = iterator[key2].type;
                     }
                     switch (type) {
@@ -2362,11 +2362,11 @@ saltos.bootstrap.__field.table = field => {
                             break;
                     }
                 }
-                if (iterator[key2].hasOwnProperty('align')) {
+                if (typeof iterator[key2] == 'object' && 'align' in iterator[key2]) {
                     td.classList.add('text-' + iterator[key2].align);
                 }
-                if (iterator[key2].hasOwnProperty('class')) {
-                    if (val.hasOwnProperty(iterator[key2].class)) {
+                if (typeof iterator[key2] == 'object' && 'class' in iterator[key2]) {
+                    if (iterator[key2].class in val) {
                         if (val[iterator[key2].class] != '') {
                             td.classList.add('text-bg-' + val[iterator[key2].class]);
                         }
@@ -2374,7 +2374,7 @@ saltos.bootstrap.__field.table = field => {
                 }
                 row.append(td);
             }
-            if (val.hasOwnProperty('actions')) {
+            if ('actions' in val) {
                 const td = saltos.core.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
                 let dropdown = val.actions.length > 1;
                 if (field.dropdown != '') {
@@ -2396,10 +2396,10 @@ saltos.bootstrap.__field.table = field => {
                 let first_action = saltos.core.eval_bool(field.first_action);
                 for (const key2 in val.actions) {
                     const val2 = val.actions[key2];
-                    if (!val2.hasOwnProperty('arg') || val2.arg == '') {
+                    if (!('arg' in val2) || val2.arg == '') {
                         val2.disabled = true;
                     } else {
-                        if (!val2.hasOwnProperty('onclick')) {
+                        if (!('onclick' in val2)) {
                             throw new Error('Table onclick not found');
                         }
                         val2.onclick = `${val2.onclick}("${val2.arg}")`;
@@ -2420,7 +2420,7 @@ saltos.bootstrap.__field.table = field => {
                         }
                         first_action = false;
                     }
-                    if (val2.hasOwnProperty('color')) {
+                    if ('color' in val2) {
                         val2.class = `text-${val2.color}`;
                     }
                     val2.color = 'none';
@@ -2473,12 +2473,12 @@ saltos.bootstrap.__field.table = field => {
                 } else {
                     td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val}</td>`);
                 }
-                if (iterator[key].hasOwnProperty('align')) {
+                if ('align' in iterator[key]) {
                     td.classList.add('text-' + iterator[key].align);
                 }
                 obj.querySelector('tfoot tr').append(td);
             }
-            if (field.data.length && field.data[0].hasOwnProperty('actions')) {
+            if (field.data.length && 'actions' in field.data[0]) {
                 obj.querySelector('tfoot tr').append(saltos.core.html(
                     'tr',
                     `<td class="bg-${field.color}-subtle"></td>`
@@ -2751,11 +2751,11 @@ saltos.bootstrap.__field.tags = field => {
     // Program the set in the input first
     element.set = value => {
         if (typeof element.tomselect != 'object') {
-            if (!element.hasOwnProperty('queue')) {
+            if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
-            if (!element.hasOwnProperty('timer')) {
+            if (!('timer' in element)) {
                 element.timer = setInterval(() => {
                     if (typeof element.tomselect != 'object') {
                         return;
@@ -2861,11 +2861,11 @@ saltos.bootstrap.__field.onetag = field => {
     // Program the set in the input first
     element.set = value => {
         if (typeof element.tomselect != 'object') {
-            if (!element.hasOwnProperty('queue')) {
+            if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(value);
-            if (!element.hasOwnProperty('timer')) {
+            if (!('timer' in element)) {
                 element.timer = setInterval(() => {
                     if (typeof element.tomselect != 'object') {
                         return;
@@ -2947,18 +2947,18 @@ saltos.bootstrap.__datalist_helper = datalist => {
                         const val = response.data[key];
                         if (typeof val == 'object') {
                             const temp = {};
-                            if (val.hasOwnProperty('text')) {
+                            if ('text' in val) {
                                 temp.text = val.text;
-                            } else if (val.hasOwnProperty('label')) {
+                            } else if ('label' in val) {
                                 temp.text = val.label;
-                            } else if (val.hasOwnProperty('value')) {
+                            } else if ('value' in val) {
                                 temp.text = val.value;
                             }
-                            if (val.hasOwnProperty('value')) {
+                            if ('value' in val) {
                                 temp.value = val.value;
-                            } else if (val.hasOwnProperty('label')) {
+                            } else if ('label' in val) {
                                 temp.value = val.label;
-                            } else if (val.hasOwnProperty('text')) {
+                            } else if ('text' in val) {
                                 temp.value = val.text;
                             }
                             array.push(temp);
@@ -2991,18 +2991,18 @@ saltos.bootstrap.__datalist_helper = datalist => {
                 const val = datalist[key];
                 if (typeof val == 'object') {
                     const temp = {};
-                    if (val.hasOwnProperty('text')) {
+                    if ('text' in val) {
                         temp.text = val.text;
-                    } else if (val.hasOwnProperty('label')) {
+                    } else if ('label' in val) {
                         temp.text = val.label;
-                    } else if (val.hasOwnProperty('value')) {
+                    } else if ('value' in val) {
                         temp.text = val.value;
                     }
-                    if (val.hasOwnProperty('value')) {
+                    if ('value' in val) {
                         temp.value = val.value;
-                    } else if (val.hasOwnProperty('label')) {
+                    } else if ('label' in val) {
                         temp.value = val.label;
-                    } else if (val.hasOwnProperty('text')) {
+                    } else if ('text' in val) {
                         temp.value = val.text;
                     }
                     array.push(temp);
@@ -3213,8 +3213,8 @@ saltos.bootstrap.__field.list = field => {
         if (saltos.core.eval_bool(field.onclick)) {
             item = saltos.core.html(`<button
                 class="list-group-item list-group-item-action ${val.class}"></button>`);
-            if (val.hasOwnProperty('actions') && val.actions.hasOwnProperty('0') &&
-                val.actions[0].hasOwnProperty('onclick') && val.actions[0].hasOwnProperty('arg')) {
+            if ('actions' in val && 0 in val.actions &&
+                'onclick' in val.actions[0] && 'arg' in val.actions[0]) {
                 val.onclick = val.actions[0].onclick;
                 val.arg = val.actions[0].arg;
             }
@@ -3698,7 +3698,7 @@ saltos.bootstrap.__field.jstree = field => {
         element.instance = instance;
         instance.on('select', event => {
             let val = event.node.data.text;
-            if (event.node.data.hasOwnProperty('id')) {
+            if ('id' in event.node.data) {
                 val = event.node.data.id;
             }
             if (!val) {
@@ -3732,11 +3732,11 @@ saltos.bootstrap.__field.jstree = field => {
     });
     element.set = data => {
         if (typeof element.instance != 'object') {
-            if (!element.hasOwnProperty('queue')) {
+            if (!('queue' in element)) {
                 element.queue = [];
             }
             element.queue.push(data);
-            if (!element.hasOwnProperty('timer')) {
+            if (!('timer' in element)) {
                 element.timer = setInterval(() => {
                     if (typeof element.instance != 'object') {
                         return;

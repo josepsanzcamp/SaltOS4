@@ -103,11 +103,11 @@ saltos.push.fn = () => {
  * TODO
  */
 window.addEventListener('load', async event => {
-    if (saltos.push.hasOwnProperty('timestamp')) {
+    if ('timestamp' in saltos.push) {
         throw new Error('saltos.push.timestamp found');
     }
     saltos.push.timestamp = saltos.core.timestamp();
-    if (saltos.push.hasOwnProperty('interval')) {
+    if ('interval' in saltos.push) {
         throw new Error('saltos.push.interval found');
     }
     saltos.push.interval = setInterval(saltos.push.fn, 1000);

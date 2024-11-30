@@ -65,7 +65,7 @@ saltos.form.data = (data, sync = true) => {
         return;
     }
     // Check for attr template_id
-    if (data.hasOwnProperty('#attr') && data['#attr'].hasOwnProperty('template_id')) {
+    if ('#attr' in data && 'template_id' in data['#attr']) {
         const template_id = data['#attr'].template_id;
         if (!Array.isArray(data.value)) {
             throw new Error(`Data for template ${template_id} is not an array of rows`);
@@ -109,7 +109,7 @@ saltos.form.data = (data, sync = true) => {
             obj.srcdoc = val;
         }
         // Special case for widgets with set
-        if (obj.hasOwnProperty('set') && typeof obj.set == 'function') {
+        if ('set' in obj && typeof obj.set == 'function') {
             obj.set(val);
         }
         if (!sync) {
@@ -160,7 +160,7 @@ saltos.form.__layout_template_helper = (template_id, index) => {
     template['#attr'].id = template_id + '.' + index;
     for (const key in template.value) {
         const val = template.value[key];
-        if (val['#attr'].hasOwnProperty('id')) {
+        if ('id' in val['#attr']) {
             const id = val['#attr'].id;
             val['#attr'].id = template_id + '.' + index + '.' + id;
         }
@@ -197,7 +197,7 @@ saltos.form.layout = (layout, extra) => {
     }
     // This code fix a problem when layout contains the append element
     let append = '';
-    if (saltos.core.is_attr_value(layout) && layout['#attr'].hasOwnProperty('append')) {
+    if (saltos.core.is_attr_value(layout) && 'append' in layout['#attr']) {
         append = layout['#attr'].append;
         layout = layout.value;
         const temp = append.split(',');
@@ -228,11 +228,11 @@ saltos.form.layout = (layout, extra) => {
             attr = val['#attr'];
             value = val.value;
         }
-        if (!attr.hasOwnProperty('type')) {
+        if (!('type' in attr)) {
             attr.type = key;
         }
         // Check for template_id attr
-        if (attr.hasOwnProperty('template_id')) {
+        if ('template_id' in attr) {
             // Store it in the templates container
             const template_id = attr.template_id;
             delete val['#attr'].template_id;
@@ -244,7 +244,7 @@ saltos.form.layout = (layout, extra) => {
         // Continue with original idea of use an entire specified layout
         if (
             ['container', 'col', 'row'].includes(key) &&
-            attr.hasOwnProperty('auto') && saltos.core.eval_bool(attr.auto)
+            'auto' in attr && saltos.core.eval_bool(attr.auto)
         ) {
             val = saltos.form.__layout_auto_helper[key](val);
             const temp = saltos.form.layout(val, 'arr');
@@ -261,11 +261,11 @@ saltos.form.layout = (layout, extra) => {
         } else {
             if (typeof value == 'object') {
                 for (const key2 in value) {
-                    if (!attr.hasOwnProperty(key2)) {
+                    if (!(key2 in attr)) {
                         attr[key2] = value[key2];
                     }
                 }
-            } else if (!attr.hasOwnProperty('value')) {
+            } else if (!('value' in attr)) {
                 attr.value = value;
             }
             saltos.core.check_params(attr, ['id', 'source']);
@@ -426,10 +426,10 @@ saltos.form.__layout_auto_helper.col = layout => {
         let col_class = attr.col_class;
         let col_style = attr.col_style;
         if (saltos.core.is_attr_value(item[1])) {
-            if (item[1]['#attr'].hasOwnProperty('col_class')) {
+            if ('col_class' in item[1]['#attr']) {
                 col_class = item[1]['#attr'].col_class;
             }
-            if (item[1]['#attr'].hasOwnProperty('col_style')) {
+            if ('col_style' in item[1]['#attr']) {
                 col_style = item[1]['#attr'].col_style;
             }
         }
@@ -531,7 +531,7 @@ saltos.form.javascript = async data => {
 saltos.form.title = title => {
     if (saltos.core.is_attr_value(title)) {
         const attr = title['#attr'];
-        if (attr.hasOwnProperty('append')) {
+        if ('append' in attr) {
             const append = attr.append.split(',');
             for (const i in append) {
                 if (append[i] == 'modal') {
@@ -565,7 +565,7 @@ saltos.form.title = title => {
         throw new Error(`Unknown attr`);
     }
     // Continue with default behaviour
-    if (saltos.core.hasOwnProperty('about')) {
+    if ('about' in saltos.core) {
         document.title = T(title) + ' - ' + saltos.core.about;
         return;
     }
@@ -636,12 +636,12 @@ saltos.form.screen = action => {
             obj.remove();
             return true;
     }
-    if (saltos.driver.hasOwnProperty('__types')) {
+    if ('__types' in saltos.driver) {
         const only = saltos.hash.get().split('/').at(-1);
         if (only == 'only') {
             action = 'type1';
         }
-        if (saltos.driver.__types.hasOwnProperty(action)) {
+        if (action in saltos.driver.__types) {
             const obj = document.getElementById('screen');
             if (obj) {
                 return false;
@@ -667,14 +667,14 @@ saltos.form.navbar = navbar => {
     if (document.getElementById(navbar.id)) {
         return;
     }
-    if (navbar.hasOwnProperty('items')) {
+    if ('items' in navbar) {
         for (const key in navbar.items) {
             let val = navbar.items[key];
             if (saltos.core.fix_key(key) == 'menu') {
                 let _class = '';
                 const menu = [];
                 if (saltos.core.is_attr_value(val)) {
-                    if (val['#attr'].hasOwnProperty('class')) {
+                    if ('class' in val['#attr']) {
                         _class = val['#attr'].class;
                     }
                     val = val.value;
@@ -687,7 +687,8 @@ saltos.form.navbar = navbar => {
                                       'active', 'onclick', 'dropdown_menu_end'];
                         for (const i in temp) {
                             const j = temp[i];
-                            if (val2.value.hasOwnProperty(j) && !val2['#attr'].hasOwnProperty(j)) {
+                            if (typeof val2.value == 'object' &&
+                                j in val2.value && !(j in val2['#attr'])) {
                                 val2['#attr'][j] = val2.value[j];
                                 delete val2.value[j];
                             }
@@ -696,7 +697,7 @@ saltos.form.navbar = navbar => {
                     // Continue
                     if (typeof val2.value == 'string') {
                         menu.push(val2['#attr']);
-                    } else if (val2.value.hasOwnProperty('menu')) {
+                    } else if ('menu' in val2.value) {
                         const menu2 = [];
                         for (const key3 in val2.value.menu) {
                             const val3 = val2.value.menu[key3];
@@ -704,7 +705,8 @@ saltos.form.navbar = navbar => {
                             const temp = ['label', 'id', 'icon', 'disabled', 'active', 'onclick', 'divider'];
                             for (const i in temp) {
                                 const j = temp[i];
-                                if (val3.value.hasOwnProperty(j) && !val3['#attr'].hasOwnProperty(j)) {
+                                if (typeof val3.value == 'object' &&
+                                    j in val3.value && !(j in val3['#attr'])) {
                                     val3['#attr'][j] = val3.value[j];
                                     delete val3.value[j];
                                 }
@@ -725,7 +727,7 @@ saltos.form.navbar = navbar => {
             } else if (saltos.core.fix_key(key) == 'form') {
                 let _class = '';
                 if (saltos.core.is_attr_value(val)) {
-                    if (val['#attr'].hasOwnProperty('class')) {
+                    if ('class' in val['#attr']) {
                         _class = val['#attr'].class;
                     }
                     val = val.value;
@@ -741,7 +743,7 @@ saltos.form.navbar = navbar => {
         }
     }
     const obj = saltos.bootstrap.navbar(navbar);
-    if (navbar.hasOwnProperty('append')) {
+    if ('append' in navbar) {
         const obj2 = document.getElementById(navbar.append);
         if (!obj2) {
             throw new Error(`Navbar append ${navbar.append} not found`);

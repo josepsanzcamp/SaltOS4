@@ -160,7 +160,7 @@ saltos.core.addlog = msg => {
  */
 saltos.core.check_params = (obj, params, value = '') => {
     for (const key in params) {
-        if (!obj.hasOwnProperty(params[key])) {
+        if (!(params[key] in obj)) {
             obj[params[key]] = value;
         } else if (obj[params[key]] === undefined) {
             obj[params[key]] = value;
@@ -373,7 +373,7 @@ saltos.core.ajax = args => {
             return;
         }
         // Check for the about in the response header
-        if (!saltos.core.hasOwnProperty('about')) {
+        if (!('about' in saltos.core)) {
             const about = response.headers.get('about');
             if (about) {
                 saltos.core.about = response.headers.get('about');
@@ -511,7 +511,7 @@ saltos.core.require = (files, callback) => {
     files.reduce((promiseChain, file) => {
         return promiseChain.then(async () => {
             // To prevent duplicates
-            if (saltos.core.__require.hasOwnProperty(file)) {
+            if (file in saltos.core.__require) {
                 while (saltos.core.__require[file] != 'load') {
                     await new Promise(resolve => setTimeout(resolve, 1));
                 }
@@ -604,7 +604,7 @@ saltos.core.eval_bool = arg => {
             'no': false,
         };
         const bool = arg.toLowerCase();
-        if (bools.hasOwnProperty(bool)) {
+        if (bool in bools) {
             return bools[bool];
         }
     }
@@ -644,7 +644,7 @@ saltos.core.toString = arg => {
  * @data => the data that wants to check
  */
 saltos.core.is_attr_value = data => {
-    return typeof data == 'object' && data.hasOwnProperty('#attr') && data.hasOwnProperty('value');
+    return typeof data == 'object' && '#attr' in data && 'value' in data;
 };
 
 /**

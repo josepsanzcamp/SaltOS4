@@ -161,7 +161,7 @@ window.addEventListener('storage', event => {
     }
     const name = saltos.storage.getItem('saltos.window.name');
     const data = saltos.storage.getItem('saltos.window.data');
-    if (!saltos.window.listeners.hasOwnProperty(name)) {
+    if (!(name in saltos.window.listeners)) {
         return;
     }
     saltos.window.listeners[name](data);

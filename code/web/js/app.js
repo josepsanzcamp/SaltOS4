@@ -52,7 +52,7 @@ saltos.app = {};
  * @extra   => object with array of buttons and color
  */
 saltos.app.modal = (title, message, extra = {}) => {
-    if (!extra.hasOwnProperty('buttons')) {
+    if (!('buttons' in extra)) {
         extra.buttons = [{
             label: 'Close',
             color: 'success',
@@ -61,7 +61,7 @@ saltos.app.modal = (title, message, extra = {}) => {
             onclick: () => {},
         }];
     }
-    if (!extra.hasOwnProperty('color')) {
+    if (!('color' in extra)) {
         extra.color = 'primary';
     }
     return saltos.gettext.bootstrap.modal({
@@ -104,7 +104,7 @@ saltos.app.modal = (title, message, extra = {}) => {
  * @extra   => object with array of buttons and color
  */
 saltos.app.toast = (title, message, extra = {}) => {
-    if (!extra.hasOwnProperty('color')) {
+    if (!('color' in extra)) {
         extra.color = 'success';
     }
     return saltos.gettext.bootstrap.toast({
@@ -145,11 +145,11 @@ saltos.app.check_response = response => {
         return false;
     }
     let bool = true;
-    if (response.hasOwnProperty('error') && typeof response.error == 'object') {
+    if ('error' in response && typeof response.error == 'object') {
         saltos.app.show_error(response.error);
         bool = false;
     }
-    if (response.hasOwnProperty('logout') && response.logout) {
+    if ('logout' in response && saltos.core.eval_bool(response.logout)) {
         saltos.autosave.save('two,one');
         saltos.autosave.purge('two,one');
         saltos.app.send_request('app/login');
@@ -265,7 +265,7 @@ saltos.app.get_data = full => {
             continue;
         }
         // This trick allow to ignore fields used only for presentation purposes
-        if (field.hasOwnProperty('ignore') && saltos.core.eval_bool(field.ignore)) {
+        if ('ignore' in field && saltos.core.eval_bool(field.ignore)) {
             continue;
         }
         // Continue
@@ -305,15 +305,15 @@ saltos.app.get_data = full => {
                 }
                 break;
             case 'select':
-                if (field.hasOwnProperty('multiple') && saltos.core.eval_bool(field.multiple)) {
-                    if (field.hasOwnProperty('separator')) {
+                if ('multiple' in field && saltos.core.eval_bool(field.multiple)) {
+                    if ('separator' in field) {
                         val = val.split(field.separator).sort().join(field.separator);
                         old = old.split(field.separator).sort().join(field.separator);
                     }
                 }
                 break;
             case 'multiselect':
-                if (field.hasOwnProperty('separator')) {
+                if ('separator' in field) {
                     val = val.split(field.separator).sort().join(field.separator);
                     old = old.split(field.separator).sort().join(field.separator);
                 }
@@ -359,7 +359,7 @@ saltos.app.__get_data_ids_helper = data => {
         if (id.length == 3 && id[2] != 'id') {
             id[2] = 'id';
             id = id.join('.');
-            if (!data.hasOwnProperty(id)) {
+            if (!(id in data)) {
                 const obj = document.getElementById(id);
                 if (obj) {
                     const val = obj.value;
@@ -396,7 +396,7 @@ saltos.app.__get_data_parser_helper = data => {
             const id0 = id[0];
             const id1 = id[1];
             const val = data[key];
-            if (!data.hasOwnProperty(id0)) {
+            if (!(id0 in data)) {
                 data[id0] = {};
             }
             data[id0][id1] = val;
@@ -407,10 +407,10 @@ saltos.app.__get_data_parser_helper = data => {
             const id1 = id[1];
             const id2 = id[2];
             const val = data[key];
-            if (!data.hasOwnProperty(id0)) {
+            if (!(id0 in data)) {
                 data[id0] = {};
             }
-            if (!data[id0].hasOwnProperty(id1)) {
+            if (!(id1 in data[id0])) {
                 data[id0][id1] = {};
             }
             data[id0][id1][id2] = val;
@@ -604,7 +604,7 @@ saltos.app.form_disabled = bool => {
             obj.removeAttribute('disabled');
             //~ obj.removeAttribute('readonly');
         }
-        if (obj.hasOwnProperty('set_disabled')) {
+        if ('set_disabled' in obj) {
             obj.set_disabled(bool);
         }
     }
@@ -678,7 +678,7 @@ saltos.app.filter = () => {
         resize: true,
     });
     const filter = document.getElementById('filter');
-    if (filter.hasOwnProperty('data-bs-title')) {
+    if ('data-bs-title' in filter) {
         document.querySelector('.offcanvas-title').innerHTML = T(filter['data-bs-title']);
     }
     const items = Array.prototype.slice.call(filter.childNodes);
@@ -750,7 +750,7 @@ saltos.app.delete = file => {
  * @loading => enable or disable the loading feature, true by default
  */
 saltos.app.ajax = args => {
-    if (!args.hasOwnProperty('url')) {
+    if (!('url' in args)) {
         throw new Error(`Url not found`);
     }
     saltos.core.check_params(args, ['loading'], true);
@@ -797,12 +797,12 @@ saltos.app.ajax = args => {
         lang: saltos.gettext.get(),
         abortable: true,
     };
-    if (args.hasOwnProperty('data')) {
+    if ('data' in args) {
         temp.data = JSON.stringify(args.data);
         temp.method = 'post';
         temp.content_type = 'application/json';
     }
-    if (args.hasOwnProperty('proxy')) {
+    if ('proxy' in args) {
         temp.proxy = args.proxy;
     }
     if (args.loading) {

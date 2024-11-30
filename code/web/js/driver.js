@@ -214,7 +214,7 @@ saltos.driver.search = arg => {
     }
     // Restore the more button
     const obj = document.getElementById('more');
-    if (obj && obj.hasOwnProperty('set_disabled') && typeof obj.set_disabled == 'function') {
+    if (obj && 'set_disabled' in obj && typeof obj.set_disabled == 'function') {
         obj.set_disabled(false);
     }
     // Continue
@@ -263,7 +263,7 @@ saltos.driver.reset = arg => {
             obj.value = field.value;
         }
         // Special case for widgets with set
-        if (obj.hasOwnProperty('set') && typeof obj.set == 'function') {
+        if ('set' in obj && typeof obj.set == 'function') {
             obj.set(field.value);
         }
     }
@@ -301,7 +301,7 @@ saltos.driver.more = arg => {
                 saltos.app.toast('Response', 'There is no more data', {color: 'warning'});
                 // Disable the more button
                 const obj = document.getElementById('more');
-                if (obj && obj.hasOwnProperty('set_disabled') && typeof obj.set_disabled == 'function') {
+                if (obj && 'set_disabled' in obj && typeof obj.set_disabled == 'function') {
                     obj.set_disabled(true);
                 }
                 // Continue
@@ -343,7 +343,7 @@ saltos.driver.insert = arg => {
         proxy: 'network,queue',
         success: response => {
             if (response.status == 'ok') {
-                if (response.hasOwnProperty('text')) {
+                if ('text' in response) {
                     saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
@@ -352,7 +352,7 @@ saltos.driver.insert = arg => {
                 return;
             }
             if (response.status == 'ko') {
-                if (response.hasOwnProperty('text')) {
+                if ('text' in response) {
                     saltos.app.toast('Response', response.text, {color: 'danger'});
                 }
                 return;
@@ -388,7 +388,7 @@ saltos.driver.update = arg => {
         proxy: 'network,queue',
         success: response => {
             if (response.status == 'ok') {
-                if (response.hasOwnProperty('text')) {
+                if ('text' in response) {
                     saltos.app.toast('Response', response.text);
                 }
                 saltos.window.send(`saltos.${app}.update`);
@@ -397,7 +397,7 @@ saltos.driver.update = arg => {
                 return;
             }
             if (response.status == 'ko') {
-                if (response.hasOwnProperty('text')) {
+                if ('text' in response) {
                     saltos.app.toast('Response', response.text, {color: 'danger'});
                 }
                 return;
@@ -444,7 +444,7 @@ saltos.driver.delete = async arg => {
                     proxy: 'network',
                     success: response => {
                         if (response.status == 'ok') {
-                            if (response.hasOwnProperty('text')) {
+                            if ('text' in response) {
                                 saltos.app.toast('Response', response.text);
                             }
                             saltos.window.send(`saltos.${app}.update`);
@@ -456,7 +456,7 @@ saltos.driver.delete = async arg => {
                             return;
                         }
                         if (response.status == 'ko') {
-                            if (response.hasOwnProperty('text')) {
+                            if ('text' in response) {
                                 saltos.app.toast('Response', response.text, {color: 'danger'});
                             }
                             return;

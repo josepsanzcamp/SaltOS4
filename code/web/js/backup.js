@@ -114,7 +114,7 @@ saltos.backup.__selector_helper = key => {
         key = key.split('+');
         let result = [];
         for (const i in key) {
-            if (saltos.backup.__forms.hasOwnProperty(key[i])) {
+            if (key[i] in saltos.backup.__forms) {
                 result.push(key[i]);
             }
         }
@@ -122,7 +122,7 @@ saltos.backup.__selector_helper = key => {
     }
     key = key.split(',');
     for (const i in key) {
-        if (saltos.backup.__forms.hasOwnProperty(key[i])) {
+        if (key[i] in saltos.backup.__forms) {
             return [key[i]];
         }
     }

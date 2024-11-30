@@ -85,7 +85,7 @@ saltos.filter.init = async () => {
  * @name => the name of the desired filter
  */
 saltos.filter.load = (name) => {
-    if (saltos.filter.__cache.hasOwnProperty(name)) {
+    if (name in saltos.filter.__cache) {
         saltos.form.data(saltos.filter.__cache[name], false);
     }
     saltos.driver.search();
@@ -125,7 +125,7 @@ saltos.filter.update = (name, data) => {
 saltos.filter.save = (name, data) => {
     // Check for detect if the filter is saved or deleted
     if (data !== null) {
-        if (saltos.filter.__cache.hasOwnProperty(name)) {
+        if (name in saltos.filter.__cache) {
             if (JSON.stringify(saltos.filter.__cache[name]) == JSON.stringify(data)) {
                 // In this case, the filter exists and contains the same data, nothing to do
                 return;
@@ -134,7 +134,7 @@ saltos.filter.save = (name, data) => {
         saltos.filter.__cache[name] = data;
         data = JSON.stringify(data);
     } else {
-        if (!saltos.filter.__cache.hasOwnProperty(name)) {
+        if (!(name in saltos.filter.__cache)) {
             // In this case, the filter does not exists, nothing to do
             return;
         }

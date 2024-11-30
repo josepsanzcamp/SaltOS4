@@ -77,7 +77,7 @@ const debug = (action, url, type, duration, size) => {
         'error': 'red',
     };
     let temp = 'dimgrey';
-    if (types.hasOwnProperty(type)) {
+    if (type in types) {
         temp = types[type];
     }
     const color = `color:white;background:${temp}`;
