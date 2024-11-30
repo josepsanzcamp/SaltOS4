@@ -2907,7 +2907,7 @@ saltos.bootstrap.__field.onetag = field => {
  */
 saltos.bootstrap.__iframe_srcdoc_helper = html => {
     return `<!doctype html><html><head><meta charset="utf-8">
-    <style>body { margin: 0px; padding: 9px 12px; }</style>
+    <style>body { margin: 0; padding: 9px 12px; }</style>
     <link href="lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css" rel="stylesheet" integrity="">
     <style>:root { font-family: var(--bs-font-sans-serif); }</style>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self';
@@ -4621,7 +4621,7 @@ saltos.bootstrap.offcanvas = args => {
                 item.style.left = `${width}px`;
             }
             if (args.pos == 'end') {
-                item.style.left = '0px';
+                item.style.left = '0';
             }
             item.style.width = `calc(100% - ${width}px)`;
         }

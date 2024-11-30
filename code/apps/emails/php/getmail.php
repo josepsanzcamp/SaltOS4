@@ -56,9 +56,9 @@ define('__HTML_TEXT_OPEN__', '<div style="color:#333;font-size:0.9rem;line-heigh
 define('__HTML_TEXT_CLOSE__', '</div>');
 define('__PLAIN_TEXT_OPEN__', '<div style="color:#333;font-family:monospace;font-size:0.9rem;line-height:1rem;">');
 define('__PLAIN_TEXT_CLOSE__', '</div>');
-define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0px;height:1px;"/>');
+define('__HTML_SEPARATOR__', '<hr style="background:#ccc;border:0;height:1px;"/>');
 define('__HTML_NEWLINE__', '<p>&nbsp;</p>');
-define('__BLOCKQUOTE_OPEN__', '<blockquote style="border-left:#ccc 1px solid;margin:0px 0px 0px 0.8ex;padding-left:1ex;">');
+define('__BLOCKQUOTE_OPEN__', '<blockquote style="border-left:#ccc 1px solid;margin:0 0 0 0.8ex;padding-left:1ex;">');
 define('__BLOCKQUOTE_CLOSE__', '</blockquote>');
 define('__SIGNATURE_OPEN__', '<div style="color:#ccc;font-size:0.8rem;line-height:1rem;"><p>--</p>');
 define('__SIGNATURE_CLOSE__', '</div>');
@@ -1720,58 +1720,65 @@ function getmail_pdf($ids)
     }
     static $cache = [];
     $hash = md5(serialize($ids));
-    if (!isset($cache[$hash])) {
-        $ids = explode(',', $ids);
-        $pdfs = [];
-        foreach ($ids as $id) {
-            if (!__getmail_checkperm($id)) {
-                show_php_error(['phperror' => 'Permission denied']);
-            }
-            $input = get_cache_file([__FUNCTION__, $id], '.html');
-            if (!file_exists($input)) {
-                $decoded = __getmail_getmime($id);
-                if (!$decoded) {
-                    show_php_error(['phperror' => 'Could not decode de message']);
-                }
-                $buffer = '';
-                $buffer .= __getmail_head_helper($decoded, $id);
-                $buffer .= __getmail_body_helper($decoded, true);
-                $buffer = __iframe_srcdoc_helper($buffer);
-                file_put_contents($input, $buffer);
-                chmod_protected($input, 0666);
-            }
-            $output = get_cache_file([__FUNCTION__, $id], '.pdf');
-            if (!file_exists($output)) {
-                $options = '--enable-local-file-access';
-                ob_passthru("wkhtmltopdf $options $input $output");
-                chmod_protected($output, 0666);
-            }
-            $pdfs[] = $output;
-        }
-        if (count($pdfs) > 1) {
-            $input = implode(' ', $pdfs);
-            $output = get_cache_file([__FUNCTION__, $ids], '.pdf');
-            ob_passthru("pdfunite $input $output");
-            chmod_protected($output, 0666);
-        } else {
-            $output = $pdfs[0];
-        }
-        if (count($pdfs) > 1) {
-            $name = encode_bad_chars(T('Emails')) . '.pdf';
-        } else {
-            $name = encode_bad_chars(execute_query("SELECT CONCAT(
-                '" . T('Email') . "',' ',id,' ',
-                CASE WHEN subject='' THEN '" . T('sinsubject') . "' ELSE subject END
-            ) subject
-            FROM app_emails
-            WHERE id IN ({$ids[0]})")) . '.pdf';
-        }
-        $cache[$hash] = [
-            'name' => $name,
-            'type' => 'application/pdf',
-            'data' => base64_encode(file_get_contents($output)),
-        ];
+    if (isset($cache[$hash])) {
+        return $cache[$hash];
     }
+    $ids = explode(',', $ids);
+    $pdfs = [];
+    foreach ($ids as $id) {
+        if (!__getmail_checkperm($id)) {
+            show_php_error(['phperror' => 'Permission denied']);
+        }
+        $input = get_cache_file([__FUNCTION__, $id], '.html');
+if (file_exists($input)) {
+    unlink($input);
+}
+        if (!file_exists($input)) {
+            $decoded = __getmail_getmime($id);
+            if (!$decoded) {
+                show_php_error(['phperror' => 'Could not decode de message']);
+            }
+            $buffer = '';
+            $buffer .= __getmail_head_helper($decoded, $id);
+            $buffer .= __getmail_body_helper($decoded, true);
+            $buffer = __iframe_srcdoc_helper($buffer);
+            file_put_contents($input, $buffer);
+            chmod_protected($input, 0666);
+        }
+        $output = get_cache_file([__FUNCTION__, $id], '.pdf');
+if (file_exists($output)) {
+    unlink($output);
+}
+        if (!file_exists($output)) {
+            $options = '--enable-local-file-access';
+            ob_passthru("wkhtmltopdf $options $input $output");
+            chmod_protected($output, 0666);
+        }
+        $pdfs[] = $output;
+    }
+    if (count($pdfs) > 1) {
+        $input = implode(' ', $pdfs);
+        $output = get_cache_file([__FUNCTION__, $ids], '.pdf');
+        ob_passthru("pdfunite $input $output");
+        chmod_protected($output, 0666);
+    } else {
+        $output = $pdfs[0];
+    }
+    if (count($pdfs) > 1) {
+        $name = encode_bad_chars(T('Emails')) . '.pdf';
+    } else {
+        $name = encode_bad_chars(execute_query("SELECT CONCAT(
+            '" . T('Email') . "',' ',id,' ',
+            CASE WHEN subject='' THEN '" . T('sinsubject') . "' ELSE subject END
+        ) subject
+        FROM app_emails
+        WHERE id IN ({$ids[0]})")) . '.pdf';
+    }
+    $cache[$hash] = [
+        'name' => $name,
+        'type' => 'application/pdf',
+        'data' => base64_encode(file_get_contents($output)),
+    ];
     return $cache[$hash];
 }
 
@@ -1784,7 +1791,7 @@ function __iframe_srcdoc_helper($html)
 {
     $font = realpath('../web/lib/atkinson-hyperlegible/atkinson-hyperlegible.min.css');
     $html = '<!doctype html><html><head><meta charset="utf-8">
-    <style>body { margin: 0px; padding: 9px 12px; }</style>
+    <style>body { margin: 0; padding: 0; }</style>
     <link href="' . $font . '" rel="stylesheet" integrity="">
     <style>:root { font-family: var(--bs-font-sans-serif); }</style>
     <meta http-equiv="Content-Security-Policy" content="default-src \'self\';

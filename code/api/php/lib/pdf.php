@@ -496,17 +496,18 @@ function pdf($file, $row = [])
 {
     static $cache = [];
     $hash = md5(serialize([$file, $row]));
-    if (!isset($cache[$hash])) {
-        $xml = xmlfile2array($file);
-        $pdf = __pdf_eval_pdftag($xml, $row);
-        if ($pdf instanceof MyPDF) {
-            show_php_error(['phperror' => 'Output node not found in template']);
-        }
-        $cache[$hash] = [
-            'name' => $pdf['name'],
-            'type' => 'application/pdf',
-            'data' => base64_encode($pdf['data']),
-        ];
+    if (isset($cache[$hash])) {
+        return $cache[$hash];
     }
+    $xml = xmlfile2array($file);
+    $pdf = __pdf_eval_pdftag($xml, $row);
+    if ($pdf instanceof MyPDF) {
+        show_php_error(['phperror' => 'Output node not found in template']);
+    }
+    $cache[$hash] = [
+        'name' => $pdf['name'],
+        'type' => 'application/pdf',
+        'data' => base64_encode($pdf['data']),
+    ];
     return $cache[$hash];
 }
