@@ -153,6 +153,7 @@ saltos.app.check_response = response => {
         saltos.autosave.save('two,one');
         saltos.autosave.purge('two,one');
         saltos.app.send_request('app/login');
+        saltos.app.favicon.run();
         bool = false;
     }
     return bool;
