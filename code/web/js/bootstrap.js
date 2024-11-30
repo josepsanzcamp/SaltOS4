@@ -2473,7 +2473,7 @@ saltos.bootstrap.__field.table = field => {
                 } else {
                     td = saltos.core.html('tr', `<td class="bg-${field.color}-subtle">${val}</td>`);
                 }
-                if ('align' in iterator[key]) {
+                if (typeof iterator[key] == 'object' && 'align' in iterator[key]) {
                     td.classList.add('text-' + iterator[key].align);
                 }
                 obj.querySelector('tfoot tr').append(td);
@@ -3213,7 +3213,7 @@ saltos.bootstrap.__field.list = field => {
         if (saltos.core.eval_bool(field.onclick)) {
             item = saltos.core.html(`<button
                 class="list-group-item list-group-item-action ${val.class}"></button>`);
-            if ('actions' in val && 0 in val.actions &&
+            if ('actions' in val && typeof val.actions == 'object' && 0 in val.actions &&
                 'onclick' in val.actions[0] && 'arg' in val.actions[0]) {
                 val.onclick = val.actions[0].onclick;
                 val.arg = val.actions[0].arg;
