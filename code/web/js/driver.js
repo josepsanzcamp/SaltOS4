@@ -494,10 +494,8 @@ saltos.driver.placeholder = arg => {
                 background-position: center;
                 background-size: 75% 75%;
             }
-            @media (prefers-color-scheme: dark) {
-                .driver-placeholder {
-                    background-image: url(img/logo_grey.svg);
-                }
+            html[data-bs-theme=dark] .driver-placeholder {
+                background-image: url(img/logo_black.svg);
             }
         </style>
     `));
