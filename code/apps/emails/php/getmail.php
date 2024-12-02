@@ -1730,9 +1730,6 @@ function getmail_pdf($ids)
             show_php_error(['phperror' => 'Permission denied']);
         }
         $input = get_cache_file([__FUNCTION__, $id], '.html');
-if (file_exists($input)) {
-    unlink($input);
-}
         if (!file_exists($input)) {
             $decoded = __getmail_getmime($id);
             if (!$decoded) {
@@ -1746,9 +1743,6 @@ if (file_exists($input)) {
             chmod_protected($input, 0666);
         }
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
-if (file_exists($output)) {
-    unlink($output);
-}
         if (!file_exists($output)) {
             $options = '--enable-local-file-access';
             ob_passthru("wkhtmltopdf $options $input $output");
