@@ -39,6 +39,7 @@ declare(strict_types=1);
  * This defines allow to define some useful needed resources by this file.
  */
 define('__GIF_IMAGE__', 'data:image/gif;base64,R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs=');
+define('__CHARS_MAP__', ['&' => '&amp;', '+' => '&#43;']);
 
 /**
  * Remove Script Tag
@@ -125,7 +126,7 @@ function inline_img_tag($html)
         $img = __inline_img_helper($src);
         $froms = [
             $src,
-            str_replace('&', '&amp;', $src),
+            str_replace_assoc(__CHARS_MAP__, $src),
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
@@ -165,7 +166,7 @@ function inline_img_style($html)
                 $img = __inline_img_helper($src);
                 $froms = [
                     $src,
-                    str_replace('&', '&amp;', $src),
+                    str_replace_assoc(__CHARS_MAP__, $src),
                     htmlspecialchars($src),
                 ];
                 foreach ($froms as $from) {
@@ -312,7 +313,7 @@ function fix_img_tag($html)
         }
         $froms = [
             $src,
-            str_replace('&', '&amp;', $src),
+            str_replace_assoc(__CHARS_MAP__, $src),
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
@@ -353,7 +354,7 @@ function fix_img_style($html)
                 }
                 $froms = [
                     $src,
-                    str_replace('&', '&amp;', $src),
+                    str_replace_assoc(__CHARS_MAP__, $src),
                     htmlspecialchars($src),
                 ];
                 foreach ($froms as $from) {
