@@ -43,7 +43,7 @@ function make_matrix_version($app, $id)
     // the table and fields are the hidden fields of files tables
     $table = app2table($app);
     // continue retrieving versions data
-    require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
     $data = array_values(get_version($app, $id));
     // compute the versions header used in the sheet
     $query = "SELECT (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, ver_id

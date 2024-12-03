@@ -44,7 +44,7 @@ declare(strict_types=1);
 function insert_group($data)
 {
     require_once 'php/lib/actions.php';
-    require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -100,7 +100,7 @@ function insert_group($data)
 function update_group($group_id, $data)
 {
     require_once 'php/lib/actions.php';
-    require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [

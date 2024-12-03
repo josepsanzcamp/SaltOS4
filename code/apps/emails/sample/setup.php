@@ -42,6 +42,7 @@ if (!semaphore_acquire('app/emails/setup')) {
 }
 
 require_once 'php/lib/control.php';
+require_once 'php/lib/version.php';
 require_once 'php/lib/indexing.php';
 require_once 'apps/emails/php/getmail.php';
 $time1 = microtime(true);

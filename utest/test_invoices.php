@@ -53,6 +53,7 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once 'lib/utestlib.php';
 require_once 'php/lib/control.php';
+require_once 'php/lib/version.php';
 require_once 'php/lib/indexing.php';
 
 /**

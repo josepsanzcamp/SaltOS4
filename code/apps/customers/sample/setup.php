@@ -42,6 +42,7 @@ if (!semaphore_acquire('app/customers/setup')) {
 }
 
 require_once 'php/lib/control.php';
+require_once 'php/lib/version.php';
 require_once 'php/lib/indexing.php';
 $time1 = microtime(true);
 

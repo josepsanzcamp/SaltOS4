@@ -44,6 +44,7 @@ declare(strict_types=1);
 function insert($app, $data)
 {
     require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/upload.php';
 
@@ -159,6 +160,7 @@ function insert($app, $data)
 function update($app, $id, $data)
 {
     require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/upload.php';
 
@@ -318,6 +320,7 @@ function update($app, $id, $data)
 function delete($app, $id)
 {
     require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/depend.php';
 

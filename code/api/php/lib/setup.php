@@ -99,6 +99,7 @@ function setup()
     }
 
     require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
 
     if ($output['tbl_users']) {

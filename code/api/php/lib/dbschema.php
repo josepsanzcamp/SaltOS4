@@ -538,6 +538,20 @@ function __dbschema_auto_apps($dbschema)
                 $array = xml2array($xml);
                 set_array($dbschema['tables'], 'table', $array['table']);
             }
+            if (eval_bool(get_field_from_dbstatic($table, 'has_log'))) {
+                $xml = '<table name="{$table}_log">
+                            <fields>
+                                <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
+                                <field name="user_id" type="INT(11)" fkey="tbl_users"/>
+                                <field name="datetime" type="DATETIME"/>
+                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
+                                <field name="code" type="VARCHAR(255)"/>
+                            </fields>
+                        </table>';
+                $xml = str_replace('{$table}', "{$table}", $xml);
+                $array = xml2array($xml);
+                set_array($dbschema['tables'], 'table', $array['table']);
+            }
         }
     }
     return $dbschema;

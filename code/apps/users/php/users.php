@@ -45,7 +45,7 @@ function insert_user($data)
 {
     require_once 'php/lib/actions.php';
     require_once 'php/lib/auth.php';
-    require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -134,7 +134,7 @@ function update_user($user_id, $data)
 {
     require_once 'php/lib/actions.php';
     require_once 'php/lib/auth.php';
-    require_once 'php/lib/control.php';
+    require_once 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [

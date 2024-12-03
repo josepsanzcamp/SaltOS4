@@ -41,6 +41,7 @@
             <has_version>1</has_version>
             <has_files>1</has_files>
             <has_notes>1</has_notes>
+            <has_log>1</has_log>
             <perms>
                 <perm>1,menu</perm>
                 <perm>2,create</perm>
