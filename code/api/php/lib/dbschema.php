@@ -545,7 +545,7 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="reg_id" type="INT(11)" fkey="{$table}"/>
-                                <field name="code" type="VARCHAR(255)"/>
+                                <field name="log" type="VARCHAR(255)"/>
                             </fields>
                         </table>';
                 $xml = str_replace('{$table}', "{$table}", $xml);

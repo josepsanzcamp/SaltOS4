@@ -78,7 +78,7 @@ function check_dependencies($app, $id)
         } elseif (subtable_exists($deptable)) {
             $result[$key]['app'] = subtable2app($deptable);
         } else {
-            $temp = str_replace(['_index', '_control', '_version', '_files', '_notes'], '', $deptable);
+            $temp = str_replace(['_index', '_control', '_version', '_files', '_notes', '_log'], '', $deptable);
             if (table_exists($temp)) {
                 $result[$key]['app'] = table2app($temp);
             }

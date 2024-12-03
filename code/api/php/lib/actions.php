@@ -44,6 +44,7 @@ declare(strict_types=1);
 function insert($app, $data)
 {
     require_once 'php/lib/control.php';
+    require_once 'php/lib/log.php';
     require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/upload.php';
@@ -140,6 +141,7 @@ function insert($app, $data)
     }
 
     make_control($app, $id);
+    make_log($app, $id, __FUNCTION__);
     make_version($app, $id);
     make_index($app, $id);
 
@@ -160,6 +162,7 @@ function insert($app, $data)
 function update($app, $id, $data)
 {
     require_once 'php/lib/control.php';
+    require_once 'php/lib/log.php';
     require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/upload.php';
@@ -300,6 +303,7 @@ function update($app, $id, $data)
     }
 
     make_control($app, $id);
+    make_log($app, $id, __FUNCTION__);
     make_version($app, $id);
     make_index($app, $id);
 
@@ -320,6 +324,7 @@ function update($app, $id, $data)
 function delete($app, $id)
 {
     require_once 'php/lib/control.php';
+    require_once 'php/lib/log.php';
     require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/depend.php';
@@ -395,6 +400,7 @@ function delete($app, $id)
     db_query($query, [$id]);
 
     make_control($app, $id);
+    make_log($app, $id, __FUNCTION__);
     make_version($app, $id);
     make_index($app, $id);
 

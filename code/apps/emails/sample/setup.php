@@ -42,6 +42,7 @@ if (!semaphore_acquire('app/emails/setup')) {
 }
 
 require_once 'php/lib/control.php';
+require_once 'php/lib/log.php';
 require_once 'php/lib/version.php';
 require_once 'php/lib/indexing.php';
 require_once 'apps/emails/php/getmail.php';
@@ -74,6 +75,7 @@ if (!$exists) {
     db_query(...$query);
     $numaccounts++;
     make_control('emails_accounts', 1);
+    make_log('emails_accounts', 1, 'setup');
     make_version('emails_accounts', 1);
     make_index('emails_accounts', 1);
 }

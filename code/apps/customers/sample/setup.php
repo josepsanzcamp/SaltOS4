@@ -42,6 +42,7 @@ if (!semaphore_acquire('app/customers/setup')) {
 }
 
 require_once 'php/lib/control.php';
+require_once 'php/lib/log.php';
 require_once 'php/lib/version.php';
 require_once 'php/lib/indexing.php';
 $time1 = microtime(true);
@@ -59,6 +60,7 @@ if (!$exists) {
     $ids = execute_query_array('SELECT id FROM app_customers');
     foreach ($ids as $id) {
         make_control('customers', $id);
+        make_log('customers', $id, 'setup');
         make_version('customers', $id);
         make_index('customers', $id);
         $total++;

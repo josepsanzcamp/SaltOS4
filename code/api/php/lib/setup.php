@@ -99,17 +99,20 @@ function setup()
     }
 
     require_once 'php/lib/control.php';
+    require_once 'php/lib/log.php';
     require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
 
     if ($output['tbl_users']) {
         make_control('users', 1);
+        make_log('users', 1, 'setup');
         make_version('users', 1);
         make_index('users', 1);
     }
 
     if ($output['tbl_groups']) {
         make_control('groups', 1);
+        make_log('groups', 1, 'setup');
         make_version('groups', 1);
         make_index('groups', 1);
     }
