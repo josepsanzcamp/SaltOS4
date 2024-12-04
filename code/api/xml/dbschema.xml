@@ -186,6 +186,7 @@ that maintain the database using as reference this file
                 <field name="perm_id" type="INT(11)" fkey="tbl_perms"/>
                 <field name="allow" type="INT(11)"/>
                 <field name="deny" type="INT(11)"/>
+                <field name="perms" type="VARCHAR(250)"/>
             </fields>
         </table>
         <table name="tbl_users_apps_perms">

@@ -27,15 +27,8 @@
 
 <root>
     <apps>
-        <app>
-            <id>3</id>
-            <active>1</active>
-            <code>tester</code>
-            <name>Tester</name>
-            <description>App para test</description>
-            <perms allow="1">
-                <perm>1,menu</perm>
-            </perms>
-        </app>
+        <app id="3" active="1"
+            code="tester" name="Tester" description="Tester app"
+            perms="menu" allow="1" deny="0"/>
     </apps>
 </root>

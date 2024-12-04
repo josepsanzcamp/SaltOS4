@@ -211,7 +211,37 @@ function db_static()
             db_query(...$query);
         }
     }
-    __manifest_perms_check(detect_apps_files('xml/manifest.xml'));
+    // This part fixes the perms in the tbl_apps_perms
+    $queries = [];
+    $table = 'tbl_apps_perms';
+    $query = "/*MYSQL TRUNCATE TABLE $table *//*SQLITE DELETE FROM $table */";
+    $queries[] = [$query, null];
+    $output[$table]['to'] = 0;
+    $query = "SELECT app_id, allow, deny, perms FROM $table";
+    $rows = execute_query_array($query);
+    foreach ($rows as $row) {
+        $perms = explode(',', $row['perms']);
+        $perms_id = [];
+        foreach ($perms as $perm) {
+            $perm = str_replace('*', '%', $perm);
+            $query = 'SELECT id FROM tbl_perms WHERE active=1 AND CONCAT(code,owner) LIKE ?';
+            $temp = execute_query_array($query, [$perm]);
+            $perms_id = array_merge($perms_id, $temp);
+            if (!count($temp)) {
+                show_php_error(['phperror' => "Unknown perm '$perm'"]);
+            }
+        }
+        $perms_id = implode(',', $perms_id);
+        unset($row['perms']);
+        $row['perm_id'] = $perms_id;
+        $temp = __dbstatic_insert($table, $row);
+        $queries = array_merge($queries, $temp);
+        $output[$table]['to'] += count($temp);
+    }
+    foreach ($queries as $query) {
+        db_query(...$query);
+    }
+    // Continue
     set_config('xml/dbstatic.xml', __dbstatic_hash(), 0);
     return $output;
 }
@@ -259,8 +289,8 @@ function __dbstatic_insert($table, $row)
 {
     foreach ($row as $field => $value) {
         if ($field == 'id' || substr($field, 0, 3) == 'id_' || substr($field, -3, 3) == '_id') {
-            if (strpos($value, ',') !== false) {
-                $a = explode(',', $row[$field]);
+            if (strpos(strval($value), ',') !== false) {
+                $a = explode(',', $value);
                 $queries = [];
                 foreach ($a as $b) {
                     $row[$field] = $b;
@@ -761,15 +791,27 @@ function __manifest2dbstatic($files)
             show_php_error(['phperror' => "File $file must contains a valid apps node"]);
         }
         foreach ($data['apps'] as $app) {
-            if (!isset($app['perms']) || !is_array($app['perms'])) {
-                show_php_error(['phperror' => "File $file must contains a valid perms node"]);
+            $app = join_attr_value($app);
+            $perms = '';
+            if (isset($app['perms'])) {
+                $perms = $app['perms'];
+                unset($app['perms']);
             }
-            $perms = $app['perms'];
-            unset($app['perms']);
+            $allow = 0;
+            if (isset($app['allow'])) {
+                $allow = $app['allow'];
+                unset($app['allow']);
+            }
+            $deny = 0;
+            if (isset($app['deny'])) {
+                $deny = $app['deny'];
+                unset($app['deny']);
+            }
             // Add the apps data package
             $xml = '<table name="tbl_apps">
                         <row id="" active="" code="" name="" description="" table="" subtables="" field=""
-                            has_index="0" has_control="0" has_version="0" has_files="0" has_notes="0"/>
+                            has_index="0" has_control="0" has_version="0" has_files="0" has_notes="0"
+                                has_log="0"/>
                     </table>';
             $array = xml2array($xml);
             foreach ($app as $key => $val) {
@@ -777,71 +819,18 @@ function __manifest2dbstatic($files)
             }
             set_array($dbstatic['tables'], 'table', $array['table']);
             // Add the perms data package
-            if (is_attr_value($perms)) {
-                $value = $perms['value'];
-                $attr = $perms['#attr'];
-            } else {
-                $value = $perms;
-                $attr = [];
-            }
-            $perm_id = [];
-            foreach ($value as $perm) {
-                $perm0 = strtok($perm, ',');
-                if (!is_numeric($perm0)) {
-                    show_php_error(['phperror' => "Unknown perm '$perm'"]);
-                }
-                $perm_id[] = $perm0;
-            }
-            $perm_id = implode(',', $perm_id);
             $xml = '<table name="tbl_apps_perms">
-                        <row app_id="" perm_id="" allow="0" deny="0"/>
+                        <row app_id="" perm_id="" allow="0" deny="0" perms=""/>
                     </table>';
             $array = xml2array($xml);
             $array['table']['value']['row']['#attr']['app_id'] = $app['id'];
-            $array['table']['value']['row']['#attr']['perm_id'] = $perm_id;
-            if (isset($attr['allow'])) {
-                $array['table']['value']['row']['#attr']['allow'] = $attr['allow'];
-            }
-            if (isset($attr['deny'])) {
-                $array['table']['value']['row']['#attr']['deny'] = $attr['deny'];
-            }
+            $array['table']['value']['row']['#attr']['perms'] = $perms;
+            $array['table']['value']['row']['#attr']['allow'] = $allow;
+            $array['table']['value']['row']['#attr']['deny'] = $deny;
             set_array($dbstatic['tables'], 'table', $array['table']);
         }
     }
     return $dbstatic;
-}
-
-/**
- * Manifest perms check
- *
- * This function checks the integrity of the perms nodes in all manifest files.
- *
- * @files => An array with all the manifests files
- */
-function __manifest_perms_check($files)
-{
-    foreach ($files as $file) {
-        $data = xmlfile2array($file);
-        foreach ($data['apps'] as $app) {
-            $perms = $app['perms'];
-            unset($app['perms']);
-            if (is_attr_value($perms)) {
-                $value = $perms['value'];
-                $attr = $perms['#attr'];
-            } else {
-                $value = $perms;
-                $attr = [];
-            }
-            foreach ($value as $perm) {
-                $perm_array = explode(',', $perm . ',,');
-                $query = 'SELECT id FROM tbl_perms WHERE id = ? AND code = ? AND owner = ?';
-                $exists = execute_query($query, [$perm_array[0], $perm_array[1], $perm_array[2]]);
-                if (!$exists) {
-                    show_php_error(['phperror' => "Perm '$perm' not found"]);
-                }
-            }
-        }
-    }
 }
 
 /**

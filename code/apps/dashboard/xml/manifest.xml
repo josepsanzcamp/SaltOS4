@@ -27,17 +27,8 @@
 
 <root>
     <apps>
-        <app>
-            <id>2</id>
-            <active>1</active>
-            <code>dashboard</code>
-            <name>Dashboard</name>
-            <description>Dashboard app</description>
-            <perms allow="1" deny="0">
-                <perm>1,menu</perm>
-                <perm>5,config</perm>
-                <perm>6,help</perm>
-            </perms>
-        </app>
+        <app id="2" active="1"
+            code="dashboard" name="Dashboard" description="Dashboard app"
+            perms="menu,config,help" allow="1" deny="0"/>
     </apps>
 </root>

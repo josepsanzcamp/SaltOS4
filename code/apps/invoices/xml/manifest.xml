@@ -27,42 +27,10 @@
 
 <root>
     <apps>
-        <app>
-            <id>12</id>
-            <active>1</active>
-            <code>invoices</code>
-            <name>Invoices</name>
-            <description>Invoices application</description>
-            <table>app_invoices</table>
-            <field>CONCAT(nombre,' - ',cif,' - ',num)</field>
-            <subtables>detail:app_invoices_concepts(id_factura),app_invoices_expirations(id_factura)</subtables>
-            <has_index>1</has_index>
-            <has_control>1</has_control>
-            <has_version>1</has_version>
-            <has_files>1</has_files>
-            <has_notes>1</has_notes>
-            <has_log>1</has_log>
-            <perms>
-                <perm>1,menu</perm>
-                <perm>2,create</perm>
-                <perm>3,widget</perm>
-                <perm>4,action</perm>
-                <perm>5,config</perm>
-                <perm>6,help</perm>
-                <perm>7,version</perm>
-                <perm>11,list,user</perm>
-                <perm>12,list,group</perm>
-                <perm>13,list,all</perm>
-                <perm>21,view,user</perm>
-                <perm>22,view,group</perm>
-                <perm>23,view,all</perm>
-                <perm>31,edit,user</perm>
-                <perm>32,edit,group</perm>
-                <perm>33,edit,all</perm>
-                <perm>41,delete,user</perm>
-                <perm>42,delete,group</perm>
-                <perm>43,delete,all</perm>
-            </perms>
-        </app>
+        <app id="12" active="1"
+            code="invoices" name="Invoices" description="Invoices application"
+            table="app_invoices" field="CONCAT(nombre,' - ',cif,' - ',num)" subtables="detail:app_invoices_concepts(id_factura),app_invoices_expirations(id_factura)"
+            has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
+            perms="*"/>
     </apps>
 </root>
