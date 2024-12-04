@@ -152,6 +152,7 @@ saltos.app.check_response = response => {
     if ('logout' in response && saltos.core.eval_bool(response.logout)) {
         saltos.autosave.save('two,one');
         saltos.autosave.purge('two,one');
+        saltos.token.unset();
         saltos.app.send_request('app/login');
         saltos.favicon.run();
         bool = false;

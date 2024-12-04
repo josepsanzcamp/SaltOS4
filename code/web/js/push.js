@@ -65,6 +65,8 @@ saltos.push.fn = () => {
     saltos.core.ajax({
         url: 'api/?/push/get/' + saltos.push.timestamp,
         success: response => {
+            saltos.push.count = 60;
+            saltos.push.executing = false;
             if (!saltos.app.check_response(response)) {
                 return;
             }
@@ -80,8 +82,6 @@ saltos.push.fn = () => {
                 }
                 saltos.push.timestamp = Math.max(saltos.push.timestamp, val.timestamp);
             }
-            saltos.push.count = 60;
-            saltos.push.executing = false;
         },
         error: error => {
             saltos.push.count = 60;
