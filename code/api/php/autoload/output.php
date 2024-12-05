@@ -97,15 +97,15 @@ function output_handler($array)
         if (stripos($encoding, 'zstd') !== false && function_exists('zstd_compress')) {
             __output_header('Content-Encoding: zstd');
             $data = zstd_compress($data, 1);
+        } elseif (stripos($encoding, 'br') !== false && function_exists('brotli_compress')) {
+            __output_header('Content-Encoding: br');
+            $data = brotli_compress($data, 1);
         } elseif (stripos($encoding, 'gzip') !== false && function_exists('gzencode')) {
             __output_header('Content-Encoding: gzip');
             $data = gzencode($data, 1);
         } elseif (stripos($encoding, 'deflate') !== false && function_exists('gzdeflate')) {
             __output_header('Content-Encoding: deflate');
             $data = gzdeflate($data, 1);
-        } elseif (stripos($encoding, 'br') !== false && function_exists('brotli_compress')) {
-            __output_header('Content-Encoding: br');
-            $data = brotli_compress($data, 1);
         } else {
             __output_header('Content-Encoding: identity');
         }
