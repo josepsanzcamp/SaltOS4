@@ -931,7 +931,7 @@ saltos.bootstrap.__field.iframe = field => {
             }));
         });
         // To open the links in a new window and prevent the same origin error
-        _this.contentWindow.document.querySelectorAll('a').forEach(link => {
+        _this.contentWindow.document.querySelectorAll('a, area').forEach(link => {
             link.setAttribute('target', '_blank');
         });
     });
@@ -1176,7 +1176,7 @@ saltos.bootstrap.__field.multiselect = field => {
     // Program the disabled feature
     obj.querySelector('input[type=hidden]').set_disabled = bool => {
         const temp = obj.querySelector('#' + field.id).parentElement.parentElement;
-        temp.querySelectorAll('select,button').forEach(_this => {
+        temp.querySelectorAll('select, button').forEach(_this => {
             _this.set_disabled(bool);
         });
     };
