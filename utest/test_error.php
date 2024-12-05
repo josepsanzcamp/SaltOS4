@@ -74,6 +74,7 @@ final class test_error extends TestCase
             'nada' => [],
             'nada2' => '',
             'code' => 'nada',
+            'params' => ['nada'],
         ]);
         $this->assertSame(is_array($buffer), true);
 
@@ -85,7 +86,8 @@ final class test_error extends TestCase
         test_external_exec('php/error2.php', 'phperror.log', 'test error');
         test_external_exec('php/error3.php', 'phperror.log', 'test error');
         test_external_exec('php/error4.php', 'phperror.log', 'unknown type nada');
-        test_external_exec('php/error5.php', 'phperror.log', 'failed to set memory limit to 0 bytes');
+        test_external_exec('php/error5.php', 'phperror.log', 'allowed memory size exhausted tried allocate');
         test_external_exec('php/error6.php', 'deprecated.log', 'deprecated');
+        test_external_exec('php/error7.php', 'phperror.log', 'test error');
     }
 }

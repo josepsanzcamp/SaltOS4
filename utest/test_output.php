@@ -77,5 +77,6 @@ final class test_output extends TestCase
         test_external_exec('php/output08.php', 'phperror.log', 'output_handler requires the type parameter');
         test_external_exec('php/output09.php', 'phperror.log', 'output_handler requires the cache parameter');
         test_external_exec('php/output10.php', '', '');
+        test_external_exec('php/output11.php', '', '');
     }
 }

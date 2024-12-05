@@ -132,7 +132,10 @@ function show_php_error($array)
     }
     // Check for previous headers sent
     if (headers_sent()) {
+        pcov_stop();
+        // @codeCoverageIgnoreStart
         die();
+        // @codeCoverageIgnoreEnd
     }
     // Trick to clear previous data
     while (ob_get_level()) {

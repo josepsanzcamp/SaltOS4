@@ -130,7 +130,10 @@ function __time_get_helper($fn, $secs)
  */
 function set_max_memory_limit()
 {
-    ini_set('memory_limit', get_config('server/maxmemorylimit'));
+    $val = get_config('server/maxmemorylimit');
+    if ($val) {
+        ini_set('memory_limit', $val);
+    }
 }
 
 /**
@@ -141,5 +144,8 @@ function set_max_memory_limit()
  */
 function set_max_execution_time()
 {
-    ini_set('max_execution_time', get_config('server/maxexecutiontime'));
+    $val = get_config('server/maxexecutiontime');
+    if ($val) {
+        ini_set('max_execution_time', $val);
+    }
 }

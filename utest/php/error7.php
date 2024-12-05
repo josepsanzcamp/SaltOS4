@@ -39,21 +39,7 @@ program_handlers();
 init_timer();
 init_random();
 
-global $_CONFIG;
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
-eval_iniset(get_config('iniset'));
-eval_putenv(get_config('putenv'));
-eval_extras(get_config('extras'));
-
-$cache = get_cache_file('../../utest/files/bigsize.xlsx');
-if (file_exists($cache)) {
-    unlink($cache);
-}
-$buffer = file_get_contents('../../utest/files/bigsize.xlsx');
-for ($i = 0; $i < 50; $i++) {
-    file_put_contents($cache, $buffer, FILE_APPEND);
-}
-output_handler([
-    'file' => $cache,
-    'cache' => true,
+echo 'nada';
+show_php_error([
+    'phperror' => 'test error',
 ]);
