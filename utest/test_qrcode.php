@@ -95,6 +95,11 @@ final class test_qrcode extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         $json = test_web_helper('image/qrcode', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+
+        $json = test_web_helper('image/qrcode', [
             'msg' => 'nada',
             'format' => 'png',
         ], $json2['token'], '');
@@ -114,5 +119,15 @@ final class test_qrcode extends TestCase
             'format' => 'png',
         ], $json2['token'], '');
         $this->assertArrayHasKey('error', $json);
+
+        $file = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file);
+        $json = test_web_helper('image/nada', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
+        unlink($file);
     }
 }

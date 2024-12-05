@@ -83,5 +83,13 @@ final class test_addlog extends TestCase
         $this->assertFileExists($file);
         $this->assertTrue(words_exists('hola mundo', file_get_contents($file)));
         unlink($file);
+
+        $file = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file);
+        $json = test_web_helper('add/nada', [], '', '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
+        unlink($file);
     }
 }

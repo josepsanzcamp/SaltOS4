@@ -63,7 +63,7 @@ if (!$user_id) {
 
 $action = get_data('rest/1');
 $file = get_data('json');
-if ($file === null) {
+if (!count($file)) {
     show_json_error('file not found');
 }
 

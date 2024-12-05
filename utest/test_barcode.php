@@ -98,6 +98,11 @@ final class test_barcode extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         $json = test_web_helper('image/barcode', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+
+        $json = test_web_helper('image/barcode', [
             'msg' => "\0",
             'format' => 'png',
         ], $json2['token'], '');
@@ -117,5 +122,15 @@ final class test_barcode extends TestCase
         $this->assertSame(count($json), 2);
         $this->assertArrayHasKey('msg', $json);
         $this->assertArrayHasKey('image', $json);
+
+        $file = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file);
+        $json = test_web_helper('image/nada', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
+        unlink($file);
     }
 }

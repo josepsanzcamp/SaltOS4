@@ -95,6 +95,11 @@ final class test_score extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         $json = test_web_helper('image/score', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+
+        $json = test_web_helper('image/score', [
             'pass' => 'nada',
             'format' => 'png',
         ], $json2['token'], '');
@@ -109,5 +114,15 @@ final class test_score extends TestCase
         $this->assertArrayHasKey('score', $json);
         $this->assertArrayHasKey('image', $json);
         $this->assertArrayHasKey('valid', $json);
+
+        $file = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file);
+        $json = test_web_helper('image/nada', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
+        unlink($file);
     }
 }

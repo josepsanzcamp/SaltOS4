@@ -109,6 +109,11 @@ final class test_captcha extends TestCase
         $this->assertArrayHasKey('error', $json);
 
         $json = test_web_helper('image/captcha', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+
+        $json = test_web_helper('image/captcha', [
             'type' => 'number',
             'format' => 'png',
         ], $json2['token'], '');
@@ -128,5 +133,15 @@ final class test_captcha extends TestCase
         $this->assertSame(count($json), 2);
         $this->assertArrayHasKey('code', $json);
         $this->assertArrayHasKey('image', $json);
+
+        $file = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file);
+        $json = test_web_helper('image/nada', [
+            'format' => 'png',
+        ], $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
+        unlink($file);
     }
 }

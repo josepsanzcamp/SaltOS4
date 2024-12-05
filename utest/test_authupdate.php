@@ -163,5 +163,13 @@ final class test_authupdate extends TestCase
         $this->assertArrayHasKey('token', $json2);
 
         $this->assertFalse(oldpass_check(0, ''));
+
+        $file = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file);
+        $json = test_web_helper('auth/nada', [], '', '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
+        unlink($file);
     }
 }
