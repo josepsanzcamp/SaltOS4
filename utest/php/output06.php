@@ -45,14 +45,12 @@ eval_iniset(get_config('iniset'));
 eval_putenv(get_config('putenv'));
 eval_extras(get_config('extras'));
 
-$cache = get_cache_file('../../utest/files/bigsize.xlsx');
+$cache = get_cache_file(__FILE__, '.tmp');
 if (file_exists($cache)) {
     unlink($cache);
 }
-$buffer = file_get_contents('../../utest/files/bigsize.xlsx');
-for ($i = 0; $i < 50; $i++) {
-    file_put_contents($cache, $buffer, FILE_APPEND);
-}
+$size = intval(memory_get_free(true) / 3) + 1;
+file_put_contents($cache, str_repeat('x', $size));
 output_handler([
     'file' => $cache,
     'cache' => true,
