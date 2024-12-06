@@ -1737,6 +1737,12 @@ saltos.bootstrap.__field.file = field => {
     });
     // Program the set function
     obj.querySelector('input').set = data => {
+        const input = obj.querySelector('input');
+        const tabla = input.nextElementSibling.querySelector('table');
+        tabla.querySelectorAll('tr').forEach(_this => {
+            _this.remove();
+        });
+        __update_data_input_file(input);
         for (const i in data) {
             const input = obj.querySelector('input');
             const table = input.nextElementSibling.querySelector('table');
