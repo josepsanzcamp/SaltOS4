@@ -458,6 +458,12 @@ final class test_database extends TestCase
         }
 
         // To test the prepared statements feature
+        $query = 'SELECT 1 WHERE ? =';
+        $this->assertEquals($obj->db_check($query, [1]), false);
+
+        $query = 'SELECT 1 WHERE ? = ?';
+        $this->assertEquals($obj->db_check($query, [1, 0]), true);
+
         $query = 'SELECT 1 WHERE ? = ?';
         $this->assertEquals($obj->db_check($query, [1, 1]), true);
 
@@ -473,6 +479,39 @@ final class test_database extends TestCase
                 ],
             ],
         ]);
+
+        // To test the types (int and string)
+        $query = 'SELECT * FROM tbl_users LIMIT 1';
+        $result = [
+            'total' => 1,
+            'header' => [
+                'id',
+                'active',
+                'group_id',
+                'login',
+                'name',
+                'description',
+                'start',
+                'end',
+                'days',
+                'groups_id',
+            ],
+            'rows' => [
+                [
+                    'id' => 1,
+                    'active' => 1,
+                    'group_id' => 1,
+                    'login' => 'admin',
+                    'name' => 'Admin',
+                    'description' => 'Admin user',
+                    'start' => '00:00:00',
+                    'end' => '23:59:59',
+                    'days' => '1111111',
+                    'groups_id' => '',
+                ],
+            ],
+        ];
+        $this->assertSame($obj->db_query($query), $result);
     }
 
     #[testdox('pdo_mysql driver')]
