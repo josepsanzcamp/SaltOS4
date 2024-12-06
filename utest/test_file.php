@@ -382,7 +382,7 @@ final class test_file extends TestCase
         // Search the good data to be used in the next steps of this utest
         $query = 'SELECT * FROM tbl_uploads WHERE ' . make_where_query('tbl_uploads', [
             'app' => 'app/test/file',
-        ]);
+        ]) . ' LIMIT 1';
         $file0 = execute_query($query);
 
         // Change the filename to break the filename integrity
