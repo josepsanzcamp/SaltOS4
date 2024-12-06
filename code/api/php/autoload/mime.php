@@ -120,7 +120,8 @@ function saltos_content_type1($mime)
  */
 function mime_inline($type, $data)
 {
-    return "data:$type;base64," . base64_encode($data);
+    $data = base64_encode($data);
+    return "data:$type;base64,$data";
 }
 
 /**

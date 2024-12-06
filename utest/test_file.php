@@ -273,7 +273,7 @@ final class test_file extends TestCase
         $name = basename($file);
         $size = filesize($file);
         $type = saltos_content_type($file);
-        $data = "data:$type;base64," . base64_encode(file_get_contents($file));
+        $data = mime_inline($type, file_get_contents($file));
         $files = [
             'id' => $id,
             'app' => $app,
@@ -292,7 +292,7 @@ final class test_file extends TestCase
         $this->assertSame($json2, $files);
 
         $count2 = count(glob('data/upload/*'));
-        $this->assertSame($count1, $count2 - 1);
+        $this->assertSame($count1 + 1, $count2);
 
         // To cover the first return of the function
         $type = 'text/plain';
