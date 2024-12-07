@@ -1418,13 +1418,7 @@ function getmail_server()
             // I have detected that stream_socket_client generates uncontrolable
             // errors, for this reason, I have overloaded the error handler to
             // manage this kind of errors
-            set_error_handler(function ($type, $message, $file, $line) {
-                if (words_exists('stream_socket_client', $message)) {
-                    error_clear_last();
-                    return true;
-                }
-                __error_handler($type, $message, $file, $line);
-            });
+            overload_error_handler('stream_socket_client');
             $error = $pop3->Open();
             restore_error_handler();
             // End of the overloaded error zone

@@ -469,3 +469,19 @@ function detect_recursion($fn)
     }
     return count($temp);
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function overload_error_handler($words)
+{
+    set_error_handler(function ($type, $message, $file, $line) use ($words) {
+        if (words_exists($words, $message)) {
+            error_clear_last();
+            return true;
+        }
+        __error_handler($type, $message, $file, $line);
+    });
+}

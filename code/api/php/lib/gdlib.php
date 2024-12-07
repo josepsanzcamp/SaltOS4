@@ -65,8 +65,13 @@ function compute_width($text, $size)
  */
 function image_resize($data, $size)
 {
-    // The following @ is to suppress a unit test warning when invalid data is found
-    $im = @imagecreatefromstring($data);
+    // I have detected that imagecreatefromstring generates uncontrolable
+    // errors, for this reason, I have overloaded the error handler to
+    // manage this kind of errors
+    overload_error_handler('imagecreatefromstring');
+    $im = imagecreatefromstring($data);
+    restore_error_handler();
+    // End of the overloaded error zone
     if (!$im) {
         return $data;
     }
