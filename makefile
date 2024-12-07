@@ -149,7 +149,7 @@ setupclean:
 	rm -f code/data/outbox/1/*
 	-rmdir code/data/outbox/1
 	rm -f code/data/files/*/*
-	rm -f code/data/files/*
+	-rm -f code/data/files/*
 	-rmdir code/data/files/*
 	rm -f code/data/cache/*
 	rm -f code/data/cron/*
