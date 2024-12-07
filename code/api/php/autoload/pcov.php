@@ -59,5 +59,6 @@ function pcov_stop()
     if (extension_loaded('pcov') && file_exists('pcov.out')) {
         \pcov\stop();
         file_put_contents('pcov.out', serialize(\pcov\collect(\pcov\all)));
+        chmod_protected('pcov.out', 0666);
     }
 }

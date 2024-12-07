@@ -67,6 +67,7 @@ function import_file($args)
         $args['file'] = get_cache_file($args['data'], 'tmp');
         if (!file_exists($args['file'])) {
             file_put_contents($args['file'], $args['data']);
+            chmod_protected($args['file'], 0666);
         }
     }
     if (!isset($args['file'])) {

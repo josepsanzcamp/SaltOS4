@@ -177,6 +177,7 @@ function export_file($args)
             $args['file'] .= '.' . $args['ext'];
         }
         file_put_contents($args['file'], $buffer);
+        chmod_protected($args['file'], 0666);
         return '';
     }
     return $buffer;

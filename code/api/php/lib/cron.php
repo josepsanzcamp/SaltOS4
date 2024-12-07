@@ -136,9 +136,6 @@ function cron_gc()
             $out = file_get_contents($dir . $hash . '.out');
             $err = file_get_contents($dir . $hash . '.err');
             $cmd = $temp['cmd'];
-            unlink($dir . $hash . '.out');
-            unlink($dir . $hash . '.err');
-            unlink($dir . $hash . '.pid');
             $query = prepare_insert_query('tbl_cron', [
                 'cmd' => $cmd,
                 'pid' => $pid,
@@ -148,6 +145,9 @@ function cron_gc()
                 'stop' => $stop,
             ]);
             db_query(...$query);
+            unlink($dir . $hash . '.out');
+            unlink($dir . $hash . '.err');
+            unlink($dir . $hash . '.pid');
             $total++;
         }
     }
@@ -232,6 +232,7 @@ function cron_exec()
             'pid' => $pid,
             'cmd' => $cmds,
         ]));
+        chmod_protected($dir . $hash . '.pid', 0666);
         $total++;
     }
     return $total;

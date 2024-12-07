@@ -59,6 +59,7 @@ function add_file($val)
     $val['file'] = time() . '_' . get_unique_id_md5() . '_' . encode_bad_chars_file($val['name']);
     $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     file_put_contents($dir . $val['file'], $data);
+    chmod_protected($dir . $val['file'], 0666);
     // Compute the hash
     $val['hash'] = md5($data);
     // Do the insert
@@ -175,6 +176,7 @@ function copy_file($val, $app, $id)
     // Copy the file to the app folder
     $upload = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     copy($upload . $val['file'], $files . $app . '/' . $val['file']);
+    chmod_protected($files . $app . '/' . $val['file'], 0666);
     // Create the app register
     $user_id = current_user();
     $datetime = current_datetime();
