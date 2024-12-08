@@ -729,9 +729,9 @@ saltos.app.delete = file => {
     const row = document.getElementById('all' + file.split('/').slice(3, 6).join('/'));
     row.remove();
     const obj = document.getElementById('del' + file.split('/').at(3));
-    let value = JSON.parse(obj.value);
+    let value = obj.value.split(',');
     value.push(file.split('/').at(-1));
-    obj.value = JSON.stringify(value);
+    obj.value = value.filter(arg => arg != '').join(',');
 };
 
 /**

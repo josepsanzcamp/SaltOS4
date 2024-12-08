@@ -27,7 +27,7 @@
 
 <root>
     <form>
-        <hidden id="delnotes" value="[]" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))"/>
+        <hidden id="delnotes" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))"/>
         <table id="allnotes" label="Notes" col_class="col-12 mb-3" require="php/lib/notes.php" ifeval="check_notes_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
             <source eval="true">"app/".get_data("rest/1")."/view/notes/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
         </table>

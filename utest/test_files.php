@@ -147,8 +147,8 @@ final class test_files extends TestCase
             'cif' => '12345678Z',
             'addnotes' => 'Test note number two',
             'addfiles' => [$file2],
-            'delnotes' => json_encode([$note_id]),
-            'delfiles' => json_encode([$file_id]),
+            'delnotes' => "$note_id, a, 0",
+            'delfiles' => "$file_id, a, 0",
         ], '', '', 'admin');
         $this->assertSame($json['status'], 'ok');
         $this->assertSame(count($json), 2);
