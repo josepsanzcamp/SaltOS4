@@ -78,6 +78,7 @@ function image_resize($data, $size)
     $width = imagesx($im);
     $height = imagesy($im);
     if ($width <= $size && $height <= $size) {
+        imagedestroy($im);
         return $data;
     }
     $scale = min($size / $width, $size / $height);

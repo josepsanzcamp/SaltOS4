@@ -209,7 +209,7 @@ function __inline_img_helper($src)
                 } else {
                     $type = saltos_content_type_from_string($data['body']);
                 }
-                if (saltos_content_type0($type) == 'image') {
+                if (in_array(saltos_content_type0($type), ['image', 'application'])) {
                     $hash1 = md5($data['body']);
                     require_once 'php/lib/gdlib.php';
                     $data['body'] = image_resize($data['body'], 1000);
