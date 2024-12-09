@@ -162,6 +162,7 @@ final class test_import extends TestCase
 
         $file = get_directory('dirs/cachedir') . get_unique_id_md5() . '.xlsx';
         copy('../../utest/files/bigsize.xlsx', $file);
+        chmod_protected($file, 0666);
         $rows = import_file([
             'file' => $file,
             'type' => 'xlsx',

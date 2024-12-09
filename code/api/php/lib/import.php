@@ -322,6 +322,7 @@ function __import_xls2array($file, $sheet)
                 if (file_exists($temp)) {
                     if ($key == $sheet) {
                         rename($temp, $csv);
+                        chmod_protected($csv, 0666);
                     } else {
                         unlink($xlsx . '.' . $val . '.csv');
                     }
