@@ -184,6 +184,18 @@ saltos.autosave.save = (key, hash = saltos.hash.get()) => {
         }
         saltos.backup.restore(key[i]);
         const data = saltos.app.get_data();
+        // Remove items with the autosave=false
+        for (const i in data) {
+            for (const j in saltos.form.__form.fields) {
+                const field = saltos.form.__form.fields[j];
+                if (i == field.id) {
+                    if ('autosave' in field && !saltos.core.eval_bool(field.autosave)) {
+                        delete data[i];
+                    }
+                }
+            }
+        }
+        // Continue with normal behaviour
         if (!Object.keys(data).length) {
             continue;
         }

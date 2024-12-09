@@ -3920,6 +3920,7 @@ saltos.bootstrap.__field.dropdown = field => {
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @onenter     => the function executed when enter key is pressed
  * @onchange    => the function executed when onchange event is detected
+ * @autosave    => allow to disable the autosave feature for this field, true by default
  *
  * Notes:
  *
@@ -3929,6 +3930,7 @@ saltos.bootstrap.__text_helper = field => {
     saltos.core.check_params(field, ['type', 'class', 'id', 'placeholder', 'value',
                                      'disabled', 'onenter', 'onchange', 'readonly', 'required',
                                      'autofocus', 'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['autosave'], true);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
@@ -3945,6 +3947,10 @@ saltos.bootstrap.__text_helper = field => {
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
+    let autosave = '';
+    if (!saltos.core.eval_bool(field.autosave)) {
+        autosave = 'autosave="false"';
+    }
     let color = field.color;
     if (!field.color) {
         color = 'primary';
@@ -3956,7 +3962,7 @@ saltos.bootstrap.__text_helper = field => {
     const obj = saltos.core.html(`
         <input type="${field.type}" class="form-control ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-            ${disabled} ${readonly} ${required} ${autofocus}
+            ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}" value="${field.value}" />
     `);
     if (field.tooltip != '') {
@@ -3987,6 +3993,7 @@ saltos.bootstrap.__text_helper = field => {
  * @tooltip     => this parameter raise the title flag
  * @color       => the color of the widget (primary, secondary, success, danger, warning, info, none)
  * @onchange    => the function executed when onchange event is detected
+ * @autosave    => allow to disable the autosave feature for this field, true by default
  *
  * Notes:
  *
@@ -3996,6 +4003,7 @@ saltos.bootstrap.__textarea_helper = field => {
     saltos.core.check_params(field, ['class', 'id', 'placeholder', 'value', 'onchange',
                                      'disabled', 'readonly', 'required', 'autofocus',
                                      'tooltip', 'accesskey', 'color']);
+    saltos.core.check_params(field, ['autosave'], true);
     let disabled = '';
     if (saltos.core.eval_bool(field.disabled)) {
         disabled = 'disabled';
@@ -4012,6 +4020,10 @@ saltos.bootstrap.__textarea_helper = field => {
     if (saltos.core.eval_bool(field.autofocus)) {
         autofocus = 'autofocus';
     }
+    let autosave = '';
+    if (!saltos.core.eval_bool(field.autosave)) {
+        autosave = 'autosave="false"';
+    }
     let color = field.color;
     if (!field.color) {
         color = 'primary';
@@ -4023,7 +4035,7 @@ saltos.bootstrap.__textarea_helper = field => {
     const obj = saltos.core.html(`
         <textarea class="form-control ${border} ${field.class}"
             placeholder="${field.placeholder}" data-bs-accesskey="${field.accesskey}"
-            ${disabled} ${readonly} ${required} ${autofocus}
+            ${disabled} ${readonly} ${required} ${autofocus} ${autosave}
             id="${field.id}" data-bs-title="${field.tooltip}">${field.value}</textarea>
     `);
     if (field.tooltip != '') {

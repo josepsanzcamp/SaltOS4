@@ -247,15 +247,16 @@ saltos.driver.search = arg => {
  */
 saltos.driver.reset = arg => {
     saltos.backup.restore('top+one');
-    const types = ['text', 'color', 'date', 'time', 'datetime-local', 'hidden',
-        'textarea', 'checkbox', 'password', 'file', 'select-one'];
+    const types = ['text', 'hidden', 'integer', 'float', 'color', 'date', 'time',
+        'datetime', 'textarea', 'ckeditor', 'codemirror', 'select', 'multiselect',
+        'checkbox', 'switch', 'password', 'file', 'excel', 'tags', 'onetag'];
     for (const i in saltos.form.__form.fields) {
         const field = saltos.form.__form.fields[i];
-        const obj = document.getElementById(field.id);
-        if (!obj) {
+        if (!types.includes(field.type)) {
             continue;
         }
-        if (!types.includes(obj.type)) {
+        const obj = document.getElementById(field.id);
+        if (!obj) {
             continue;
         }
         // Check to prevent objects in value

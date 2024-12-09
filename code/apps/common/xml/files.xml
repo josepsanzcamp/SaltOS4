@@ -27,7 +27,7 @@
 
 <root>
     <form>
-        <hidden id="delfiles" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))"/>
+        <hidden id="delfiles" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))" autosave="false"/>
         <table id="allfiles" label="Files" col_class="col-12 mb-3" require="php/lib/files.php" ifeval="check_files_old(get_data('rest/1'), get_data('rest/2'), get_data('rest/3'))">
             <source eval="true">"app/".get_data("rest/1")."/view/files/".intval(get_data("rest/3"))."/".get_data("rest/2")</source>
         </table>
