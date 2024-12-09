@@ -93,7 +93,7 @@ function __svnversion_helper($dir)
     // Using svnversion
     if (check_commands('svnversion')) {
         $expires = get_config('server/commandexpires') ?? 60;
-        return intval(ob_passthru("cd $dir; svnversion", $expires));
+        return intval(ob_passthru("cd $dir; svnversion 2>/dev/null", $expires));
     }
     // Nothing to do
     return 0;
@@ -138,7 +138,7 @@ function __gitversion_helper($dir)
     // Using git
     if (check_commands('git')) {
         $expires = get_config('server/commandexpires') ?? 60;
-        return intval(ob_passthru("cd $dir; git rev-list HEAD --count", $expires));
+        return intval(ob_passthru("cd $dir; git rev-list HEAD --count 2>/dev/null", $expires));
     }
     // Nothing to do
     return 0;
