@@ -80,47 +80,39 @@ final class test_image extends TestCase
         // This case is for the special case when tcpdf doesn't returns valid data
         $this->assertSame(__barcode_image(chr(0), 1, 30, 10, 8, 'C39'), '');
 
-        $json = test_web_helper('image/barcode', [], '', '');
+        $json = test_cli_helper('image/barcode', [], '', '', '');
         $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper('auth/login', [
-            'user' => 'admin',
-            'pass' => 'admin',
-        ], '', '');
-        $this->assertSame($json2['status'], 'ok');
-        $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey('token', $json2);
-
-        $json = test_web_helper('image/barcode', [], $json2['token'], '');
+        $json = test_cli_helper('image/barcode', [], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/barcode', [
+        $json = test_cli_helper('image/barcode', [
             'msg' => 'nada',
             'format' => 'nada',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/barcode', [
+        $json = test_cli_helper('image/barcode', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/barcode', [
+        $json = test_cli_helper('image/barcode', [
             'msg' => "\0",
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/barcode', [
+        $json = test_cli_helper('image/barcode', [
             'msg' => 'nada',
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper('image/barcode', [
+        $json = test_cli_helper('image/barcode', [
             'msg' => 'nada',
             'format' => 'json',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertIsArray($json);
         $this->assertSame(count($json), 2);
         $this->assertArrayHasKey('msg', $json);
@@ -128,9 +120,9 @@ final class test_image extends TestCase
 
         $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
-        $json = test_web_helper('image/nada', [
+        $json = test_cli_helper('image/nada', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
@@ -152,57 +144,49 @@ final class test_image extends TestCase
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
 
-        $json = test_web_helper('image/qrcode', [], '', '');
+        $json = test_cli_helper('image/qrcode', [], '', '', '');
         $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper('auth/login', [
-            'user' => 'admin',
-            'pass' => 'admin',
-        ], '', '');
-        $this->assertSame($json2['status'], 'ok');
-        $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey('token', $json2);
-
-        $json = test_web_helper('image/qrcode', [], $json2['token'], '');
+        $json = test_cli_helper('image/qrcode', [], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/qrcode', [
+        $json = test_cli_helper('image/qrcode', [
             'msg' => 'nada',
             'format' => 'nada',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/qrcode', [
+        $json = test_cli_helper('image/qrcode', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/qrcode', [
+        $json = test_cli_helper('image/qrcode', [
             'msg' => 'nada',
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper('image/qrcode', [
+        $json = test_cli_helper('image/qrcode', [
             'msg' => 'nada',
             'format' => 'json',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertIsArray($json);
         $this->assertSame(count($json), 2);
         $this->assertArrayHasKey('msg', $json);
         $this->assertArrayHasKey('image', $json);
 
-        $json = test_web_helper('image/qrcode', [
+        $json = test_cli_helper('image/qrcode', [
             'msg' => str_repeat('nada', 1000),
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
         $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
-        $json = test_web_helper('image/nada', [
+        $json = test_cli_helper('image/nada', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
@@ -232,53 +216,45 @@ final class test_image extends TestCase
         $this->assertSame(is_numeric($text), false);
         $this->assertSame(strlen($text), 5);
 
-        $json = test_web_helper('image/captcha', [], '', '');
+        $json = test_cli_helper('image/captcha', [], '', '', '');
         $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper('auth/login', [
-            'user' => 'admin',
-            'pass' => 'admin',
-        ], '', '');
-        $this->assertSame($json2['status'], 'ok');
-        $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey('token', $json2);
-
-        $json = test_web_helper('image/captcha', [], $json2['token'], '');
+        $json = test_cli_helper('image/captcha', [], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/captcha', [
+        $json = test_cli_helper('image/captcha', [
             'type' => 'nada',
             'format' => 'nada',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/captcha', [
+        $json = test_cli_helper('image/captcha', [
             'type' => 'number',
             'format' => 'nada',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/captcha', [
+        $json = test_cli_helper('image/captcha', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/captcha', [
+        $json = test_cli_helper('image/captcha', [
             'type' => 'number',
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper('image/captcha', [
+        $json = test_cli_helper('image/captcha', [
             'type' => 'math',
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper('image/captcha', [
+        $json = test_cli_helper('image/captcha', [
             'type' => 'number',
             'format' => 'json',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertIsArray($json);
         $this->assertSame(count($json), 2);
         $this->assertArrayHasKey('code', $json);
@@ -286,9 +262,9 @@ final class test_image extends TestCase
 
         $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
-        $json = test_web_helper('image/nada', [
+        $json = test_cli_helper('image/nada', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
@@ -310,41 +286,33 @@ final class test_image extends TestCase
         $this->assertInstanceOf(GdImage::class, $gd);
         imagedestroy($gd);
 
-        $json = test_web_helper('image/score', [], '', '');
+        $json = test_cli_helper('image/score', [], '', '', '');
         $this->assertArrayHasKey('error', $json);
 
-        $json2 = test_web_helper('auth/login', [
-            'user' => 'admin',
-            'pass' => 'admin',
-        ], '', '');
-        $this->assertSame($json2['status'], 'ok');
-        $this->assertSame(count($json2), 4);
-        $this->assertArrayHasKey('token', $json2);
-
-        $json = test_web_helper('image/score', [], $json2['token'], '');
+        $json = test_cli_helper('image/score', [], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/score', [
+        $json = test_cli_helper('image/score', [
             'pass' => 'nada',
             'format' => 'nada',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/score', [
+        $json = test_cli_helper('image/score', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
 
-        $json = test_web_helper('image/score', [
+        $json = test_cli_helper('image/score', [
             'pass' => 'nada',
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertStringContainsString('PNG image data', get_mime($json));
 
-        $json = test_web_helper('image/score', [
+        $json = test_cli_helper('image/score', [
             'pass' => 'nada',
             'format' => 'json',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertIsArray($json);
         $this->assertSame(count($json), 3);
         $this->assertArrayHasKey('score', $json);
@@ -353,9 +321,9 @@ final class test_image extends TestCase
 
         $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
-        $json = test_web_helper('image/nada', [
+        $json = test_cli_helper('image/nada', [
             'format' => 'png',
-        ], $json2['token'], '');
+        ], '', '', 'admin');
         $this->assertArrayHasKey('error', $json);
         $this->assertFileExists($file);
         $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
