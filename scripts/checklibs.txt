@@ -28,11 +28,12 @@ mimeparser|http://www.phpclasses.org/browse/file/14670.html|<span title=|base64:
 pop3|http://www.phpclasses.org/browse/file/3.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
 rfc822|http://www.phpclasses.org/browse/file/21704.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
 
+browscap|https://github.com/browscap/browscap-php/tags.atom|<title>|base64:PHRpdGxlPjcuNC4wPC90aXRsZT4=
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuNy4xPC90aXRsZT4=
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTIuMC4wPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMTAgLSAyMDI0LTExLTEyPC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMTItMDMsIFZlcnNpb24gMjIuMTIuMCAmIzM5O0pvZCYjMzk7IChMVFMpLCBAcnV5YWRvcm5vPC90aXRsZT4=
+node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMTItMTAgTm9kZS5qcyB2MjMuNC4wIChDdXJyZW50KSBSZWxlYXNlPC90aXRsZT4=
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTEuMSAtIDIwMjQtMTEtMTY8L3RpdGxlPg==
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPnBocC04LjQuMlJDMTwvdGl0bGU+
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|base64:PHRpdGxlPlBIUFVuaXQgMTEuNS4wPC90aXRsZT4=

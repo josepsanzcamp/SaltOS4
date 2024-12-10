@@ -135,13 +135,27 @@ final class test_user extends TestCase
         $groups = current_groups();
         $this->assertSame($groups, '0');
 
+        $browser = get_browser_platform_device_type();
+        $this->assertIsArray($browser);
+        $this->assertArrayHasKey('browser', $browser);
+        $this->assertArrayHasKey('platform', $browser);
+        $this->assertArrayHasKey('device_type', $browser);
+        $this->assertSame($browser['browser'], 'Default Browser');
+        $this->assertSame($browser['platform'], 'unknown');
+        $this->assertSame($browser['device_type'], 'unknown');
+
+        set_data(
+            'server/user_agent',
+            'Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0'
+        );
+
         $browser = get_browser_platform_device_type(get_data('server/user_agent'));
         $this->assertIsArray($browser);
         $this->assertArrayHasKey('browser', $browser);
         $this->assertArrayHasKey('platform', $browser);
         $this->assertArrayHasKey('device_type', $browser);
-        $this->assertTrue(in_array($browser['browser'], ['Default Browser', 'unknown']));
-        $this->assertTrue(in_array($browser['platform'], ['unknown']));
-        $this->assertTrue(in_array($browser['device_type'], ['unknown']));
+        $this->assertSame($browser['browser'], 'Firefox');
+        $this->assertSame($browser['platform'], 'Linux');
+        $this->assertSame($browser['device_type'], 'Desktop');
     }
 }
