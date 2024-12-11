@@ -41,21 +41,11 @@ declare(strict_types=1);
 function get_browser_platform_device_type($user_agent = null)
 {
     require 'lib/browscap/vendor/autoload.php';
-    $dir = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
-    $file = "$dir/browscap.sqlite";
-    $exists = file_exists($file);
-    if (!$exists) {
-        touch($file);
-        chmod_protected($file, 0666);
-    }
+    $file = "lib/browscap/vendor/browscap/browscap-php/resources/cache.sqlite";
     $db = new PDO("sqlite:$file");
     $adapter = new MatthiasMullie\Scrapbook\Adapters\SQLite($db);
     $cache = new MatthiasMullie\Scrapbook\Psr16\SimpleCache($adapter);
     $logger = new \Monolog\Logger('name');
-    if (!$exists) {
-        $bc = new \BrowscapPHP\BrowscapUpdater($cache, $logger);
-        $bc->update(BrowscapPHP\Helper\IniLoaderInterface::PHP_INI_LITE);
-    }
     $bc = new \BrowscapPHP\Browscap($cache, $logger);
     $result = $bc->getBrowser($user_agent);
     return [

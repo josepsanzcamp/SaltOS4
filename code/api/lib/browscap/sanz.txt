@@ -5,3 +5,5 @@ composer require browscap/browscap-php
 
 #vendor/bin/browscap-php browscap:fetch --remote-file=Lite_PHP_BrowscapINI
 #vendor/bin/browscap-php browscap:convert
+
+time php update.php
