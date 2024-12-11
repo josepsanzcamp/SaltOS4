@@ -70,6 +70,7 @@ final class test_apache extends TestCase
             'https://127.0.0.1/saltos/code4/api/lib/',
             'https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/',
             'https://127.0.0.1/saltos/code4/api/lib/tcpdf/vendor/tecnickcom/tcpdf/examples/index.php',
+            'https://127.0.0.1/saltos/code4/api/lib/browscap/update.php',
             'https://127.0.0.1/saltos/code4/api/xml/',
             'https://127.0.0.1/saltos/code4/api/xml/config.xml',
             'https://127.0.0.1/saltos/code4/apps/',
