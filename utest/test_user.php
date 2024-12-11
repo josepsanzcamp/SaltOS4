@@ -135,7 +135,22 @@ final class test_user extends TestCase
         $groups = current_groups();
         $this->assertSame($groups, '0');
 
+        $dir = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+        $file = "$dir/browscap.sqlite";
+        if (file_exists($file)) {
+            unlink($file);
+        }
+
         $browser = get_browser_platform_device_type();
+        $this->assertIsArray($browser);
+        $this->assertArrayHasKey('browser', $browser);
+        $this->assertArrayHasKey('platform', $browser);
+        $this->assertArrayHasKey('device_type', $browser);
+        $this->assertSame($browser['browser'], 'Default Browser');
+        $this->assertSame($browser['platform'], 'unknown');
+        $this->assertSame($browser['device_type'], 'unknown');
+
+        $browser = get_browser_platform_device_type('nada');
         $this->assertIsArray($browser);
         $this->assertArrayHasKey('browser', $browser);
         $this->assertArrayHasKey('platform', $browser);
