@@ -155,24 +155,59 @@ function inline_img_style($html)
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
         preg_match_all('/url\((.*?)\)/', $style, $matches);
-        if (count($matches[1])) {
-            foreach ($matches[1] as $src) {
-                if (in_array(substr($src, 0, 1), ['"', "'"])) {
-                    $src = substr($src, 1);
-                }
-                if (in_array(substr($src, -1, 1), ['"', "'"])) {
-                    $src = substr($src, 0, -1);
-                }
-                $img = __inline_img_helper($src);
-                $froms = [
-                    $src,
-                    str_replace_assoc(__CHARS_MAP__, $src),
-                    htmlspecialchars($src),
-                ];
-                foreach ($froms as $from) {
-                    $array[$from] = $img;
-                }
+        if (!count($matches[1])) {
+            continue;
+        }
+        foreach ($matches[1] as $src) {
+            if (in_array(substr($src, 0, 1), ['"', "'"])) {
+                $src = substr($src, 1);
             }
+            if (in_array(substr($src, -1, 1), ['"', "'"])) {
+                $src = substr($src, 0, -1);
+            }
+            $img = __inline_img_helper($src);
+            $froms = [
+                $src,
+                str_replace_assoc(__CHARS_MAP__, $src),
+                htmlspecialchars($src),
+            ];
+            foreach ($froms as $from) {
+                $array[$from] = $img;
+            }
+        }
+    }
+    $html = str_replace_assoc($array, $html);
+    return $html;
+}
+
+/**
+ * Inline Img Background
+ *
+ * This function tries to convert all imgs to an inline imgs
+ *
+ * @temp => the string that you want to process
+ */
+function inline_img_background($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('*');
+    $array = [];
+    foreach ($items as $item) {
+        $src = $item->getAttribute('background');
+        if ($src == '') {
+            continue;
+        }
+        $img = __inline_img_helper($src);
+        $froms = [
+            $src,
+            str_replace_assoc(__CHARS_MAP__, $src),
+            htmlspecialchars($src),
+        ];
+        foreach ($froms as $from) {
+            $array[$from] = $img;
         }
     }
     $html = str_replace_assoc($array, $html);
@@ -191,41 +226,42 @@ function __inline_img_helper($src)
         return $src;
     }
     $img = __GIF_IMAGE__;
-    if (in_array($scheme, ['https', 'http'])) {
-        $cache = get_cache_file($src, '.b64');
-        if (!file_exists($cache)) {
-            $data = __url_get_contents($src);
-            $valid = false;
-            foreach ($data['headers'] as $key => $val) {
-                $key = substr(strtolower($key), 0, 12);
-                $valid = in_array($key, ['http/1.1 200', 'http/2.0 200']);
-                if ($valid) {
-                    break;
-                }
-            }
-            if ($valid) {
-                if (isset($data['headers']['content-type'])) {
-                    $type = $data['headers']['content-type'];
-                } else {
-                    $type = saltos_content_type_from_string($data['body']);
-                }
-                if (in_array(saltos_content_type0($type), ['image', 'application'])) {
-                    $hash1 = md5($data['body']);
-                    require_once __ROOT__ . 'php/lib/gdlib.php';
-                    $data['body'] = image_resize($data['body'], 1000);
-                    $hash2 = md5($data['body']);
-                    if ($hash1 != $hash2) {
-                        $type = 'image/jpeg';
-                    }
-                    $img = mime_inline($type, $data['body']);
-                }
-            }
-            file_put_contents($cache, $img);
-            chmod_protected($cache, 0666);
-        } else {
-            $img = file_get_contents($cache);
+    if (!in_array($scheme, ['https', 'http'])) {
+        return $img;
+    }
+    $cache = get_cache_file($src, '.b64');
+    if (file_exists($cache)) {
+        $img = file_get_contents($cache);
+        return $img;
+    }
+    $data = __url_get_contents($src);
+    $valid = false;
+    foreach ($data['headers'] as $key => $val) {
+        $key = substr(strtolower($key), 0, 12);
+        $valid = in_array($key, ['http/1.1 200', 'http/2.0 200']);
+        if ($valid) {
+            break;
         }
     }
+    if ($valid) {
+        if (isset($data['headers']['content-type'])) {
+            $type = $data['headers']['content-type'];
+        } else {
+            $type = saltos_content_type_from_string($data['body']);
+        }
+        if (in_array(saltos_content_type0($type), ['image', 'application'])) {
+            $hash1 = md5($data['body']);
+            require_once __ROOT__ . 'php/lib/gdlib.php';
+            $data['body'] = image_resize($data['body'], 1000);
+            $hash2 = md5($data['body']);
+            if ($hash1 != $hash2) {
+                $type = 'image/jpeg';
+            }
+            $img = mime_inline($type, $data['body']);
+        }
+    }
+    file_put_contents($cache, $img);
+    chmod_protected($cache, 0666);
     return $img;
 }
 
@@ -271,23 +307,53 @@ function extract_img_style($html)
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
         preg_match_all('/url\((.*?)\)/', $style, $matches);
-        if (count($matches[1])) {
-            foreach ($matches[1] as $src) {
-                if (in_array(substr($src, 0, 1), ['"', "'"])) {
-                    $src = substr($src, 1);
-                }
-                if (in_array(substr($src, -1, 1), ['"', "'"])) {
-                    $src = substr($src, 0, -1);
-                }
-                $img = mime_extract(__inline_img_helper($src));
-                if ($img['data'] == '' || $img['type'] == '') {
-                    continue;
-                }
-                $hash = md5($img['data']);
-                $files[$hash] = $img;
-                $html = str_replace($src, "cid:$hash", $html);
-            }
+        if (!count($matches[1])) {
+            continue;
         }
+        foreach ($matches[1] as $src) {
+            if (in_array(substr($src, 0, 1), ['"', "'"])) {
+                $src = substr($src, 1);
+            }
+            if (in_array(substr($src, -1, 1), ['"', "'"])) {
+                $src = substr($src, 0, -1);
+            }
+            $img = mime_extract(__inline_img_helper($src));
+            if ($img['data'] == '' || $img['type'] == '') {
+                continue;
+            }
+            $hash = md5($img['data']);
+            $files[$hash] = $img;
+            $html = str_replace($src, "cid:$hash", $html);
+        }
+    }
+    return [$html, $files];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function extract_img_background($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('*');
+    $files = [];
+    foreach ($items as $item) {
+        $src = $item->getAttribute('background');
+        if ($src == '') {
+            continue;
+        }
+        $img = mime_extract(__inline_img_helper($src));
+        if ($img['data'] == '' || $img['type'] == '') {
+            continue;
+        }
+        $hash = md5($img['data']);
+        $files[$hash] = $img;
+        $html = str_replace($src, "cid:$hash", $html);
     }
     return [$html, $files];
 }
@@ -340,27 +406,63 @@ function fix_img_style($html)
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
         preg_match_all('/url\((.*?)\)/', $style, $matches);
-        if (count($matches[1])) {
-            foreach ($matches[1] as $src) {
-                if (in_array(substr($src, 0, 1), ['"', "'"])) {
-                    $src = substr($src, 1);
-                }
-                if (in_array(substr($src, -1, 1), ['"', "'"])) {
-                    $src = substr($src, 0, -1);
-                }
-                $scheme = parse_url($src, PHP_URL_SCHEME);
-                if (in_array($scheme, ['data'])) {
-                    continue;
-                }
-                $froms = [
-                    $src,
-                    str_replace_assoc(__CHARS_MAP__, $src),
-                    htmlspecialchars($src),
-                ];
-                foreach ($froms as $from) {
-                    $array[$from] = __GIF_IMAGE__;
-                }
+        if (!count($matches[1])) {
+            continue;
+        }
+        foreach ($matches[1] as $src) {
+            if (in_array(substr($src, 0, 1), ['"', "'"])) {
+                $src = substr($src, 1);
             }
+            if (in_array(substr($src, -1, 1), ['"', "'"])) {
+                $src = substr($src, 0, -1);
+            }
+            $scheme = parse_url($src, PHP_URL_SCHEME);
+            if (in_array($scheme, ['data'])) {
+                continue;
+            }
+            $froms = [
+                $src,
+                str_replace_assoc(__CHARS_MAP__, $src),
+                htmlspecialchars($src),
+            ];
+            foreach ($froms as $from) {
+                $array[$from] = __GIF_IMAGE__;
+            }
+        }
+    }
+    $html = str_replace_assoc($array, $html);
+    return $html;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function fix_img_background($html)
+{
+    $dom = new DOMDocument();
+    libxml_use_internal_errors(true); // Trick
+    $dom->loadHTML($html);
+    libxml_clear_errors(); // Trick
+    $items = $dom->getElementsByTagName('*');
+    $array = [];
+    foreach ($items as $item) {
+        $src = $item->getAttribute('background');
+        if ($src == '') {
+            continue;
+        }
+        $scheme = parse_url($src, PHP_URL_SCHEME);
+        if (in_array($scheme, ['data'])) {
+            continue;
+        }
+        $froms = [
+            $src,
+            str_replace_assoc(__CHARS_MAP__, $src),
+            htmlspecialchars($src),
+        ];
+        foreach ($froms as $from) {
+            $array[$from] = __GIF_IMAGE__;
         }
     }
     $html = str_replace_assoc($array, $html);

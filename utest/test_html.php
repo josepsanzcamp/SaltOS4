@@ -106,6 +106,16 @@ final class test_html extends TestCase
             inline_img_style("<div style=\"background:url('$src')\">")
         ));
 
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_background("<table background='$src'>")
+        ));
+
+        $this->assertTrue(words_exists(
+            'data image base64',
+            inline_img_background("<table background=\"$src\">")
+        ));
+
         $src = 'https://127.0.0.1/nada';
         $this->assertTrue(words_exists(
             'data image base64',
@@ -158,6 +168,19 @@ final class test_html extends TestCase
         $this->assertSame($html2, $html);
         $this->assertCount(0, $files);
 
+        $src = __GIF_IMAGE__;
+        $html = "<table background=\"$src\">";
+        [$html, $files] = extract_img_background($html);
+        $hash = md5(base64_decode('R0lGODdhAQABAIABAOns7wAAACwAAAAAAQABAAACAkQBADs='));
+        $this->assertStringContainsString("cid:$hash", $html);
+        $this->assertSame($files[$hash]['type'], 'image/gif');
+
+        $src = 'cid:nada';
+        $html = "<table background=\"$src\">";
+        [$html2, $files] = extract_img_background($html);
+        $this->assertSame($html2, $html);
+        $this->assertCount(0, $files);
+
         $src = 'cid:nada';
         $this->assertTrue(words_exists(
             'data image base64',
@@ -192,6 +215,18 @@ final class test_html extends TestCase
         $this->assertTrue(words_exists(
             'data image base64',
             fix_img_style("<div style=\"background:url('$src')\">")
+        ));
+
+        $src = 'cid:nada';
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_background("<table background='$src'>")
+        ));
+
+        $src = __GIF_IMAGE__;
+        $this->assertTrue(words_exists(
+            'data image base64',
+            fix_img_background("<table background='$src'>")
         ));
     }
 }

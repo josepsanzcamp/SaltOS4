@@ -677,7 +677,8 @@ function sendmail_action($json, $action, $email_id)
     require_once __ROOT__ . 'php/lib/html.php';
     [$body, $files1] = extract_img_tag($body);
     [$body, $files2] = extract_img_style($body);
-    foreach (array_merge($files1, $files2) as $hash => $file) {
+    [$body, $files3] = extract_img_background($body);
+    foreach (array_merge($files1, $files2, $files3) as $hash => $file) {
         $files[] = [
             'data' => $file['data'],
             'name' => mime2name($file['type']),

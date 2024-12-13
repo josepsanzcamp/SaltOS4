@@ -1204,8 +1204,9 @@ function __getmail_body_helper($decoded, $images = false)
                 $temp = remove_meta_tag($temp);
                 $temp = remove_link_tag($temp);
                 if ($images) {
-                    $temp = inline_img_style($temp);
                     $temp = inline_img_tag($temp);
+                    $temp = inline_img_style($temp);
+                    $temp = inline_img_background($temp);
                 }
             }
             foreach ($result as $index2 => $node2) {
@@ -1225,8 +1226,9 @@ function __getmail_body_helper($decoded, $images = false)
                 }
             }
             if ($type == 'html') {
-                $temp = fix_img_style($temp);
                 $temp = fix_img_tag($temp);
+                $temp = fix_img_style($temp);
+                $temp = fix_img_background($temp);
             }
             if (!$first) {
                 $buffer .= __HTML_SEPARATOR__;
