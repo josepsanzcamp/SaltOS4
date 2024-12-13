@@ -853,6 +853,7 @@ function __dbschema_create_table($tablespec)
         $name = $field['#attr']['name'];
         $type = $field['#attr']['type'];
         $type2 = get_field_type($type);
+        $def = null;
         if ($type2 == 'int') {
             $def = intval(0);
         } elseif ($type2 == 'float') {

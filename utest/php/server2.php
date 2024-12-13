@@ -27,11 +27,14 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Files.SideEffects
+
+define('__ROOT__', getcwd() . '/');
 foreach (glob('php/autoload/*.php') as $file) {
     if (basename($file) == 'zindex.php') {
         continue;
     }
-    require $file;
+    require __ROOT__ . $file;
 }
 
 pcov_start();
@@ -39,4 +42,4 @@ program_handlers();
 init_timer();
 init_random();
 
-get_server('asd/asd/asd', 'sdf');
+get_server('asd/asd/asd');

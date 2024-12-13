@@ -43,9 +43,9 @@ declare(strict_types=1);
  */
 function insert_user($data)
 {
-    require_once 'php/lib/actions.php';
-    require_once 'php/lib/auth.php';
-    require_once 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/actions.php';
+    require_once __ROOT__ . 'php/lib/auth.php';
+    require_once __ROOT__ . 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -132,9 +132,9 @@ function insert_user($data)
  */
 function update_user($user_id, $data)
 {
-    require_once 'php/lib/actions.php';
-    require_once 'php/lib/auth.php';
-    require_once 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/actions.php';
+    require_once __ROOT__ . 'php/lib/auth.php';
+    require_once __ROOT__ . 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -249,7 +249,7 @@ function update_user($user_id, $data)
  */
 function delete_user($user_id)
 {
-    require_once 'php/lib/actions.php';
+    require_once __ROOT__ . 'php/lib/actions.php';
 
     // Real delete using general delete action
     $array = delete('users', $user_id);

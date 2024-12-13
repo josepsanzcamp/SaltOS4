@@ -246,6 +246,7 @@ function xml2struct($xml, $file = '')
             $pos3 = strpos($tag, 'encoding=');
             if ($pos3 !== false) {
                 $pos4 = $pos3 + 9;
+                $pos5 = null;
                 if ($tag[$pos4] == '"') {
                     $pos4++;
                     $pos5 = strpos($tag, '"', $pos4);
@@ -428,7 +429,7 @@ function eval_attr($array)
                                 if (!file_exists($file)) {
                                     show_php_error(['xmlerror' => "Require '$file' not found"]);
                                 }
-                                require_once $file;
+                                require_once __ROOT__ . $file;
                             }
                             unset($attr[$key2]);
                             break;

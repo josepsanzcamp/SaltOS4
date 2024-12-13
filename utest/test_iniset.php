@@ -86,6 +86,7 @@ final class test_iniset extends TestCase
         eval_putenv(get_config('putenv'));
         $this->assertSame(getenv('LANG'), 'es_ES.UTF-8');
 
+        // @phpstan-ignore method.alreadyNarrowedType
         $this->assertSame(mb_internal_encoding('ISO-8859-1'), true);
         $this->assertSame(mb_internal_encoding(), 'ISO-8859-1');
         //~ eval_extras(get_config('extras'));

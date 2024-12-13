@@ -61,6 +61,6 @@ final class test_random extends TestCase
     public function test_random(): void
     {
         init_random();
-        $this->assertTrue(true);
+        $this->assertTrue(true); // @phpstan-ignore method.alreadyNarrowedType
     }
 }

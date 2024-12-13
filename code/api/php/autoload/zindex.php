@@ -107,31 +107,31 @@ if (php_sapi_name() == 'cli') {
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
         'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
-        'json' => array_protected(json_decode(file_get_contents('php://stdin'), true)),
+        'json' => array_protected(json_decode(strval(file_get_contents('php://stdin')), true)),
         'server' => [
             'request_method' => 'CLI',
             'xuid' => posix_getuid() === getmyuid(),
-            'lang' => check_lang_format(getenv('lang')) ?? '',
+            'lang' => check_lang_format(getenv('lang')),
         ],
     ];
     if (get_data('server/xuid') && getenv('user')) {
         set_data('server/user', getenv('user'));
     } else {
-        set_data('server/token', check_token_format(getenv('token')) ?? '');
-        set_data('server/remote_addr', getenv('USER') ?? '');
+        set_data('server/token', check_token_format(getenv('token')));
+        set_data('server/remote_addr', getenv('USER'));
         set_data('server/user_agent', 'PHP/' . phpversion());
     }
 } else {
     $_DATA = [
         'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
-        'json' => array_protected(json_decode(file_get_contents('php://input'), true)),
+        'json' => array_protected(json_decode(strval(file_get_contents('php://input')), true)),
         'server' => [
-            'request_method' => strtoupper(get_server('REQUEST_METHOD') ?? ''),
-            'content_type' => strtolower(get_server('CONTENT_TYPE') ?? ''),
-            'token' => check_token_format(get_server('HTTP_TOKEN')) ?? '',
-            'remote_addr' => get_server('REMOTE_ADDR') ?? '',
-            'user_agent' => get_server('HTTP_USER_AGENT') ?? '',
-            'lang' => check_lang_format(get_server('HTTP_LANG')) ?? '',
+            'request_method' => strtoupper(strval(get_server('REQUEST_METHOD'))),
+            'content_type' => strtolower(strval(get_server('CONTENT_TYPE'))),
+            'token' => check_token_format(get_server('HTTP_TOKEN')),
+            'remote_addr' => get_server('REMOTE_ADDR'),
+            'user_agent' => get_server('HTTP_USER_AGENT'),
+            'lang' => check_lang_format(get_server('HTTP_LANG')),
         ],
     ];
 }
@@ -170,7 +170,7 @@ if (get_data('server/request_method') == 'POST') {
 // Try to execute the rest/0 if exists
 $action = 'php/action/' . get_data('rest/0') . '.php';
 if (file_exists($action)) {
-    require $action;
+    require __ROOT__ . $action;
     show_php_error(['phperror' => 'Internal error']);
 }
 

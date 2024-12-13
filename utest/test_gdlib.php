@@ -52,7 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once 'php/lib/gdlib.php';
+require_once __ROOT__ . 'php/lib/gdlib.php';
 
 /**
  * Main class of this unit test

@@ -52,9 +52,9 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once 'php/lib/control.php';
-require_once 'php/lib/version.php';
-require_once 'php/lib/indexing.php';
+require_once __ROOT__ . 'php/lib/control.php';
+require_once __ROOT__ . 'php/lib/version.php';
+require_once __ROOT__ . 'php/lib/indexing.php';
 
 /**
  * Main class of this unit test
@@ -145,7 +145,7 @@ final class test_invoices extends TestCase
 
         $this->assertSame(-3, get_version('invoices', $id, 0));
         $this->assertCount(6, get_version('invoices', $id, 1));
-        $this->assertCount(6, get_version('invoices', $id, 2));
+        $this->assertCount(6, get_version('invoices', $id, 2 + 0));
         $this->assertSame(-3, get_version('invoices', $id, 3));
 
         $array = [
@@ -168,8 +168,8 @@ final class test_invoices extends TestCase
 
         $this->assertSame(-3, get_version('invoices', $id, 0));
         $this->assertCount(6, get_version('invoices', $id, 1));
-        $this->assertCount(6, get_version('invoices', $id, 2));
-        $this->assertCount(6, get_version('invoices', $id, 3));
+        $this->assertCount(6, get_version('invoices', $id, 2 + 0));
+        $this->assertCount(6, get_version('invoices', $id, 3 + 0));
         $this->assertSame(-3, get_version('invoices', $id, 4));
 
         $query = "DELETE FROM app_invoices WHERE id=$id";

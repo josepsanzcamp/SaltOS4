@@ -116,6 +116,7 @@ function import_file($args)
         return "Error: File '{$args["file"]}' not found";
     }
     // Continue
+    $array = null;
     switch ($args['type']) {
         case 'application/xml':
         case 'text/xml':
@@ -275,7 +276,7 @@ function __import_csv2array($file, $sep)
  */
 function __import_xls2array($file, $sheet)
 {
-    require_once 'lib/phpspreadsheet/vendor/autoload.php';
+    require_once __ROOT__ . 'lib/phpspreadsheet/vendor/autoload.php';
     $objReader = PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($file);
     // Check the sheet param
     //~ if (!method_exists($objReader, "listWorksheetNames")) {
@@ -283,6 +284,7 @@ function __import_xls2array($file, $sheet)
     //~ }
     // libxml_use_internal_errors is a trick to prevent the simplexml_load_string error when gets binary data
     libxml_use_internal_errors(true); // Trick
+    // @phpstan-ignore method.notFound
     $sheets = $objReader->listWorksheetNames($file);
     libxml_clear_errors(); // Trick
     if (is_numeric($sheet)) {
@@ -454,7 +456,7 @@ function __import_bytes2array($file, $map, $offset, $nomb)
  */
 function __import_edi2array($file)
 {
-    require_once 'lib/edifact/vendor/autoload.php';
+    require_once __ROOT__ . 'lib/edifact/vendor/autoload.php';
     $parser = new EDI\Parser();
     $parser->load($file);
     $array = $parser->get();

@@ -42,9 +42,9 @@ if (!semaphore_acquire('app/emails/indexing')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
-require_once 'apps/emails/php/getmail.php';
-require_once 'php/lib/unoconv.php';
-require_once 'php/lib/indexing.php';
+require_once __ROOT__ . 'apps/emails/php/getmail.php';
+require_once __ROOT__ . 'php/lib/unoconv.php';
+require_once __ROOT__ . 'php/lib/indexing.php';
 $time1 = microtime(true);
 $total = 0;
 
@@ -95,7 +95,7 @@ while ($row = db_fetch_row($result)) {
     }
     $ext = strtolower(extension($file['cname']));
     if (!$ext) {
-        $ext = strtolower(extension2($file['ctype']));
+        $ext = strtolower(saltos_content_type1($file['ctype']));
     }
     $input = get_cache_file($row['hash'], $ext);
     file_put_contents($input, $file['body']);

@@ -27,6 +27,8 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Files.SideEffects
+
 /**
  * This php comparison must be placed here to detect old versions that
  * breaks by the null coalescing operator found in other php scripts
@@ -40,7 +42,7 @@ if (version_compare(PHP_VERSION, '7.0', '<')) {
  * all filese needed for the correct execution
  */
 if (isset($argv) && defined('STDIN')) {
-    chdir(dirname($_SERVER['SCRIPT_FILENAME']));
+    chdir(__DIR__);
 }
 
 /**
@@ -49,8 +51,9 @@ if (isset($argv) && defined('STDIN')) {
  * and prevent errors with old php versions that not supports the null
  * coalescing operator
  */
+define('__ROOT__', __DIR__ . '/');
 foreach (glob('php/autoload/*.php') as $file) {
-    require $file;
+    require __ROOT__ . $file;
 }
 
 // You never must to see this error, some wrong thing was occurred in zindex

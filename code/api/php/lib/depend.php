@@ -40,7 +40,7 @@ declare(strict_types=1);
  */
 function check_dependencies($app, $id)
 {
-    require_once 'php/lib/dbschema.php';
+    require_once __ROOT__ . 'php/lib/dbschema.php';
     $dbschema = eval_attr(xmlfiles2array(detect_apps_files('xml/dbschema.xml')));
     $dbschema = __dbschema_auto_apps($dbschema);
     $dbschema = __dbschema_auto_fkey($dbschema);

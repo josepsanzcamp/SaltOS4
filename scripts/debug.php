@@ -16,5 +16,6 @@ foreach ($buffer as $key => $val) {
     }
     $buffer[$key] = implode("\n", $buffer[$key]);
 }
+$buffer = array_map('strval', $buffer);
 $buffer = implode("\n", $buffer);
 echo $buffer;

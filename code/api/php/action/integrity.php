@@ -43,7 +43,7 @@ if (!semaphore_acquire('integrity')) {
 }
 
 db_connect();
-require_once 'php/lib/control.php';
+require_once __ROOT__ . 'php/lib/control.php';
 $time1 = microtime(true);
 $total = integrity();
 $time2 = microtime(true);

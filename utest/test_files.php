@@ -52,7 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once 'php/lib/files.php';
+require_once __ROOT__ . 'php/lib/files.php';
 
 /**
  * Main class of this unit test
@@ -70,8 +70,8 @@ final class test_files extends TestCase
     {
         $this->assertFalse(check_files_old('dashboard', 'menu', 0));
         $this->assertFalse(check_files_old('dashboard', 'view', 0));
-        $this->assertFalse(check_files_new('dashboard', 'menu', 0));
-        $this->assertFalse(check_files_new('dashboard', 'view', 0));
+        $this->assertFalse(check_files_new('dashboard', 'menu'));
+        $this->assertFalse(check_files_new('dashboard', 'view'));
 
         // Add a file to the tbl_uploads
         $id = get_unique_id_md5();

@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once 'php/lib/math.php';
+require_once __ROOT__ . 'php/lib/math.php';
 
 /**
  * Main class of this unit test

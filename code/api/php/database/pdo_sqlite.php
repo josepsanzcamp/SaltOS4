@@ -72,7 +72,7 @@ class database_pdo_sqlite
      */
     public function __construct($args)
     {
-        require_once 'php/database/libsqlite.php';
+        require_once __ROOT__ . 'php/database/libsqlite.php';
         if (!class_exists('PDO')) {
             // @codeCoverageIgnoreStart
             show_php_error([
@@ -232,6 +232,7 @@ class database_pdo_sqlite
             ]);
         }
         // Do the query
+        $stmt = null;
         for (;;) {
             try {
                 $stmt = $this->link->prepare($query);

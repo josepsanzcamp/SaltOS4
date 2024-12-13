@@ -67,7 +67,7 @@ if (!count($file)) {
     show_json_error('file not found');
 }
 
-require_once 'php/lib/upload.php';
+require_once __ROOT__ . 'php/lib/upload.php';
 
 $array = ['id', 'app', 'name', 'size', 'type', 'data', 'error', 'file', 'hash'];
 foreach ($array as $key => $val) {

@@ -42,7 +42,8 @@ if (!semaphore_acquire('auth')) {
 db_connect();
 crontab_users();
 
-require_once 'php/lib/auth.php';
+require_once __ROOT__ . 'php/lib/auth.php';
+$array = [];
 $action = get_data('rest/1');
 switch ($action) {
     case 'login':

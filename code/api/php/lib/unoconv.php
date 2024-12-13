@@ -410,6 +410,7 @@ function __unoconv_node2value($node)
 function __unoconv_lines2matrix($lines, $width, $height)
 {
     $matrix = [];
+    $posy = null;
     foreach ($lines as $index => $line) {
         if ($line[0] == 'line') {
             $posy = round((($line[4] + $line[2]) / 2) / $height, 0);
@@ -468,7 +469,7 @@ function __unoconv_fixline($line, $pos1, $pos2, $pos3, $pos4)
 function __unoconv_hocr2txt($hocr)
 {
     // LOAD XML
-    require_once 'php/lib/import.php';
+    require_once __ROOT__ . 'php/lib/import.php';
     $array = __import_xml2array($hocr);
     $array = __array_getnode('html/body', $array);
     // PARTE XML
@@ -509,6 +510,7 @@ function __unoconv_hocr2txt($hocr)
     //~ echo "<pre>".sprintr($lines)."</pre>";
     // COMPUTE ANGLE
     $angles = [];
+    $pos1 = null;
     foreach ($lines as $line) {
         if ($line[0] == 'line') {
             $pos1 = null;
@@ -526,6 +528,7 @@ function __unoconv_hocr2txt($hocr)
     $angle = count($angles) ? __unoconv_histogram($angles, 0.25, 0) : 0;
     //~ echo "<pre>".sprintr(array($angle))."</pre>";
     // APPLY ANGLE CORRECTION
+    $quadrant = null;
     foreach ($lines as $index => $line) {
         if ($line[1] != 0 && $line[2] != 0) {
             list($line[1], $line[2]) = __unoconv_rotate($line[1], $line[2], -$angle);

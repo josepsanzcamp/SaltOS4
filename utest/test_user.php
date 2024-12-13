@@ -52,7 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once 'php/lib/browser.php';
+require_once __ROOT__ . 'php/lib/browser.php';
 
 /**
  * Main class of this unit test
@@ -102,7 +102,7 @@ final class test_user extends TestCase
         $this->assertSame(get_data('server/user_agent'), $row['user_agent']);
 
         crontab_users();
-        $this->assertTrue(true);
+        $this->assertTrue(true); // @phpstan-ignore method.alreadyNarrowedType
 
         $token = current_token();
         $this->assertSame($token, $row['id']);

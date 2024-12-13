@@ -90,7 +90,7 @@ function current_user()
         $user_id = execute_query($query, [$token_id]);
         $user_id = intval($user_id);
     }
-    if ($user_id === null || $user !== get_data('server/user')) {
+    if ($user !== get_data('server/user')) {
         $user = get_data('server/user');
         $query = 'SELECT id FROM tbl_users WHERE login = ? AND active = 1';
         $user_id = execute_query($query, [$user]);

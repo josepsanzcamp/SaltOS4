@@ -47,7 +47,7 @@ if (!function_exists('yaml_parse')) {
     function yaml_parse(string $yaml)
     {
         try {
-            require_once 'lib/yaml/vendor/autoload.php';
+            require_once __ROOT__ . 'lib/yaml/vendor/autoload.php';
             return Symfony\Component\Yaml\Yaml::parse($yaml);
         } catch (Exception $e) {
             return null;
@@ -65,10 +65,12 @@ if (!function_exists('yaml_parse_file')) {
      */
     function yaml_parse_file(string $filename)
     {
-        if (!file_exists($filename)) {
+        try {
+            require_once __ROOT__ . 'lib/yaml/vendor/autoload.php';
+            return Symfony\Component\Yaml\Yaml::parseFile($filename);
+        } catch (Exception $e) {
             return null;
         }
-        return yaml_parse(file_get_contents($filename));
     }
 }
 
@@ -85,8 +87,8 @@ if (!function_exists('yaml_emit')) {
     function yaml_emit(array $data, int $inline = 2, int $indent = 4)
     {
         try {
-            require_once 'lib/yaml/vendor/autoload.php';
-            return Symfony\Component\Yaml\Yaml::dump($data, $inline, $indent, Yaml::DUMP_OBJECT_AS_MAP);
+            require_once __ROOT__ . 'lib/yaml/vendor/autoload.php';
+            return Symfony\Component\Yaml\Yaml::dump($data, $inline, $indent);
         } catch (Exception $e) {
             return null;
         }
@@ -106,12 +108,13 @@ if (!function_exists('yaml_emit_file')) {
      */
     function yaml_emit_file(string $filename, array $data, int $inline = 2, int $indent = 4)
     {
-        $yaml = yaml_emit($data, $inline, $indent);
-        if ($yaml === null) {
+        try {
+            require_once __ROOT__ . 'lib/yaml/vendor/autoload.php';
+            file_put_contents($filename, Symfony\Component\Yaml\Yaml::dump($data, $inline, $indent));
+            chmod_protected($filename, 0666);
+            return true;
+        } catch (Exception $e) {
             return false;
         }
-        file_put_contents($filename, $yaml);
-        chmod_protected($filename, 0666);
-        return true;
     }
 }

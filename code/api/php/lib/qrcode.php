@@ -52,7 +52,7 @@ declare(strict_types=1);
  */
 function __qrcode_image($msg, $s, $m, $l)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
+    require_once __ROOT__ . 'lib/tcpdf/vendor/autoload.php';
     $barcode = new TCPDF2DBarcode($msg, "QRCODE,$l");
     $array = $barcode->getBarcodeArray();
     if (!isset($array['num_cols']) || !isset($array['num_rows'])) {

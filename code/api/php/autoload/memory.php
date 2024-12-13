@@ -111,6 +111,7 @@ function __time_get_helper($fn, $secs)
     if (!$max) {
         $max = get_config('iniset/max_execution_time');
     }
+    $diff = null;
     if (stripos($fn, 'usage') !== false) {
         $diff = $cur - $ini;
     } elseif (stripos($fn, 'free') !== false) {

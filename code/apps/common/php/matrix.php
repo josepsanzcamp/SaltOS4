@@ -43,7 +43,7 @@ function make_matrix_version($app, $id)
     // the table and fields are the hidden fields of files tables
     $table = app2table($app);
     // continue retrieving versions data
-    require_once 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/version.php';
     $data = array_values(get_version($app, $id));
     // compute the versions header used in the sheet
     $query = "SELECT (SELECT name FROM tbl_users b WHERE b.id=user_id) user, datetime, ver_id
@@ -87,6 +87,7 @@ function make_matrix_version($app, $id)
     $ranges = [];
     $old = [];
     $pos = [];
+    $key = null;
     foreach ($headers as $key => $val) {
         $temp = explode('.', $val);
         unset($temp[2]);
@@ -142,6 +143,7 @@ function make_matrix_version($app, $id)
         }
     }
     // define colors using diff detector
+    $val0 = null;
     foreach ($data as $key => $val) {
         foreach ($val as $key2 => $val2) {
             if (!$key2) {
@@ -171,7 +173,7 @@ function make_matrix_version($app, $id)
         }
     }
     // compute widths using atkinson hyperlegible font
-    require_once 'php/lib/gdlib.php';
+    require_once __ROOT__ . 'php/lib/gdlib.php';
     $widths = [0];
     $size = 12;
     $margin = 10;

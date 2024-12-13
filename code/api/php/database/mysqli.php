@@ -182,6 +182,7 @@ class database_mysqli
             return $result;
         }
         // Do the query
+        $stmt = null;
         try {
             $stmt = $this->link->prepare($query);
             if (count($params)) {

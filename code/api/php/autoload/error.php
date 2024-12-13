@@ -270,10 +270,7 @@ function do_message_error($array)
         if (!isset($types[$type])) {
             show_php_error(['phperror' => "Unknown type $type"]);
         }
-        $text[] = [$types[$type], $data];
-    }
-    foreach ($text as $key => $item) {
-        $text[$key] = '***** ' . $item[0] . ' *****' . "\n" . $item[1];
+        $text[] = '***** ' . $types[$type] . ' *****' . "\n" . $data;
     }
     $text = implode("\n", $text);
     return [
@@ -350,6 +347,7 @@ function __shutdown_handler()
 {
     semaphore_shutdown();
     $error = error_get_last();
+    // @phpstan-ignore isset.offset
     if (is_array($error) && isset($error['type']) && $error['type'] != 0) {
         show_php_error([
             'phperror' => "{$error["message"]}",
@@ -459,6 +457,7 @@ function detect_recursion($fn)
     }
     $temp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     foreach ($temp as $key => $val) {
+        // @phpstan-ignore isset.offset
         if (isset($val['function']) && in_array($val['function'], $fn)) {
             continue;
         }

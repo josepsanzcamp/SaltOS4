@@ -176,6 +176,7 @@ class database_pdo_mssql
             return $result;
         }
         // Do the query
+        $stmt = null;
         try {
             $stmt = $this->link->prepare($query);
             $stmt->execute($params);

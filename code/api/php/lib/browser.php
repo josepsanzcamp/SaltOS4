@@ -40,8 +40,8 @@ declare(strict_types=1);
  */
 function get_browser_platform_device_type($user_agent = null)
 {
-    require 'lib/browscap/vendor/autoload.php';
-    $file = "lib/browscap/vendor/browscap/browscap-php/resources/cache.sqlite";
+    require_once __ROOT__ . 'lib/browscap/vendor/autoload.php';
+    $file = 'lib/browscap/vendor/browscap/browscap-php/resources/cache.sqlite';
     $db = new PDO("sqlite:$file");
     $adapter = new MatthiasMullie\Scrapbook\Adapters\SQLite($db);
     $cache = new MatthiasMullie\Scrapbook\Psr16\SimpleCache($adapter);

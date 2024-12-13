@@ -223,6 +223,7 @@ function cron_exec()
             }
             $cmds[$key] = implode(';', $users);
         }
+        $cmds = array_map('strval', $cmds);
         $cmds = implode(';', $cmds);
         $out = $dir . $hash . '.out';
         $err = $dir . $hash . '.err';

@@ -66,6 +66,7 @@ endif
 	echo $$i; \
 	phpcs --colors --standard=scripts/phpcs.xml $$i; \
 	php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
+	phpstan -cscripts/phpstan.neon analyse $$i --error-format=github 2>/dev/null; \
 	done
 
 ifeq ($(file), ) # default behaviour

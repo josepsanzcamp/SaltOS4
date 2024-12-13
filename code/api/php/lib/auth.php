@@ -282,7 +282,7 @@ function authupdate($oldpass, $newpass, $renewpass)
 function score_check($newpass)
 {
     $minscore = intval(get_config('auth/passwordminscore'));
-    require_once 'php/lib/password.php';
+    require_once __ROOT__ . 'php/lib/password.php';
     return password_strength($newpass) >= $minscore;
 }
 

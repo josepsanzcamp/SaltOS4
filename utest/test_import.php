@@ -52,7 +52,7 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once 'php/lib/import.php';
+require_once __ROOT__ . 'php/lib/import.php';
 
 /**
  * Main class of this unit test
@@ -258,6 +258,7 @@ final class test_import extends TestCase
         foreach ($map as $key => $val) {
             $map[$key] = implode(';', $val);
         }
+        $map = array_map('strval', $map);
         $map = implode("\n", $map);
 
         $rows = import_file([

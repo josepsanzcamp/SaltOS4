@@ -646,6 +646,7 @@ final class test_database extends TestCase
         test_external_exec('php/database06_sqlite3.php', 'dberror.log', 'unable to prepare statement: no such table: nada');
     }
 
+    // @phpstan-ignore method.unused
     #[testdox('pdo_mssql driver')]
     /**
      * PDO mssql driver

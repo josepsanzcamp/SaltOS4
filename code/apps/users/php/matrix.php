@@ -186,6 +186,8 @@ function unmake_matrix_data($perms, $apps, $main, $json)
         foreach ($temp as $perm_pos => $val) {
             $app_id = $apps[$app_pos];
             $perm_id = $perms[$perm_pos];
+            $allow = 0;
+            $deny = 0;
             switch ($val) {
                 case 'Allow':
                     $allow = 1;

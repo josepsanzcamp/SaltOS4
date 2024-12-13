@@ -190,7 +190,7 @@ function url_get_contents($url)
  * @url     => the url that you want to retrieve
  * @args    => Array of arguments, explained in the follow lines
  * @cookies => an array with the cookies to be restored before send the request
- * @method  => method used in the request
+ * @_method => method used in the request
  * @values  => an array with the post values, useful when you want to send a POST
  *             request with pairs of variables and values
  * @referer => the referer string
@@ -211,7 +211,7 @@ function __url_get_contents($url, $args = [])
         'headers' => [],
         'cookies' => [],
     ];
-    require_once 'lib/httpclient/http.php';
+    require_once __ROOT__ . 'lib/httpclient/http.php';
     $http = new http_class();
     $http->user_agent = get_name_version_revision();
     $http->follow_redirect = 1;

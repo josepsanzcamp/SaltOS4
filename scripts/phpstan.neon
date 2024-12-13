@@ -1,0 +1,10 @@
+parameters:
+    level: 5
+    scanFiles:
+        - ../code/api/index.php
+    scanDirectories:
+        - ../code/api/php
+        - ../code/api/lib
+        - ../utest
+        - ../code/apps/emails/php
+        - ../code/apps/emails/lib

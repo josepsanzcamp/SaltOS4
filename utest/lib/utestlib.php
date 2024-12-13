@@ -89,6 +89,7 @@ function test_pcov_stop($index): void
     $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
     $method = 'unknown::unknown';
     if (isset($backtrace[$index])) {
+        // @phpstan-ignore isset.offset
         if (isset($backtrace[$index]['class']) && isset($backtrace[$index]['function'])) {
             $method = $backtrace[$index]['class'] . '::' . $backtrace[$index]['function'];
         }
@@ -221,7 +222,7 @@ function test_external_exec($test_file, $error_file, $error_words): void
         $file2 = "data/logs/$error_file";
         Assert::assertFileDoesNotExist($file2);
     } else {
-        Assert::assertTrue(true);
+        Assert::assertTrue(true); // @phpstan-ignore staticMethod.alreadyNarrowedType
     }
 
     test_pcov_start();
@@ -233,6 +234,6 @@ function test_external_exec($test_file, $error_file, $error_words): void
         Assert::assertTrue(words_exists($error_words, file_get_contents($file2)));
         unlink($file2);
     } else {
-        Assert::assertTrue(true);
+        Assert::assertTrue(true); // @phpstan-ignore staticMethod.alreadyNarrowedType
     }
 }

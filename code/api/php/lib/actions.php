@@ -43,11 +43,11 @@ declare(strict_types=1);
  */
 function insert($app, $data)
 {
-    require_once 'php/lib/control.php';
-    require_once 'php/lib/log.php';
-    require_once 'php/lib/version.php';
-    require_once 'php/lib/indexing.php';
-    require_once 'php/lib/upload.php';
+    require_once __ROOT__ . 'php/lib/control.php';
+    require_once __ROOT__ . 'php/lib/log.php';
+    require_once __ROOT__ . 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/indexing.php';
+    require_once __ROOT__ . 'php/lib/upload.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -161,11 +161,11 @@ function insert($app, $data)
  */
 function update($app, $id, $data)
 {
-    require_once 'php/lib/control.php';
-    require_once 'php/lib/log.php';
-    require_once 'php/lib/version.php';
-    require_once 'php/lib/indexing.php';
-    require_once 'php/lib/upload.php';
+    require_once __ROOT__ . 'php/lib/control.php';
+    require_once __ROOT__ . 'php/lib/log.php';
+    require_once __ROOT__ . 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/indexing.php';
+    require_once __ROOT__ . 'php/lib/upload.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -323,11 +323,11 @@ function update($app, $id, $data)
  */
 function delete($app, $id)
 {
-    require_once 'php/lib/control.php';
-    require_once 'php/lib/log.php';
-    require_once 'php/lib/version.php';
-    require_once 'php/lib/indexing.php';
-    require_once 'php/lib/depend.php';
+    require_once __ROOT__ . 'php/lib/control.php';
+    require_once __ROOT__ . 'php/lib/log.php';
+    require_once __ROOT__ . 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/indexing.php';
+    require_once __ROOT__ . 'php/lib/depend.php';
 
     $depend = check_dependencies($app, $id);
     // Remove this app in the dependencies array

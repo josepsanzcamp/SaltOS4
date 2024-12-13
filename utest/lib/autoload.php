@@ -27,6 +27,8 @@
 
 declare(strict_types=1);
 
+// phpcs:disable PSR1.Files.SideEffects
+
 /**
  * Autoload file for the unit tests
  *
@@ -48,11 +50,12 @@ use PHPUnit\Framework\Assert;
 set_include_path(get_include_path() . ':' . getcwd() . '/' . 'utest');
 
 chdir('code/api');
+define('__ROOT__', getcwd() . '/');
 foreach (glob('php/autoload/*.php') as $file) {
     if (basename($file) == 'zindex.php') {
         continue;
     }
-    require $file;
+    require __ROOT__ . $file;
 }
 
 init_timer();

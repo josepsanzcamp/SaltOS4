@@ -68,7 +68,7 @@ function bin2days($days)
     $days = str_split($days);
     $days = array_reverse($days);
     foreach ($days as $key => $val) {
-        $days[$key] = 2 ** $key * $val;
+        $days[$key] = 2 ** $key * intval($val);
     }
     $days = array_diff($days, [0]);
     $days = implode(',', $days);

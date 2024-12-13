@@ -43,8 +43,8 @@ if (!semaphore_acquire('gc')) {
 }
 
 db_connect();
-require_once 'php/lib/gc.php';
-require_once 'php/lib/upload.php';
+require_once __ROOT__ . 'php/lib/gc.php';
+require_once __ROOT__ . 'php/lib/upload.php';
 
 $time1 = microtime(true);
 $output1 = gc_upload();

@@ -51,8 +51,8 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once 'php/lib/unoconv.php';
-require_once 'php/lib/import.php';
+require_once __ROOT__ . 'php/lib/unoconv.php';
+require_once __ROOT__ . 'php/lib/import.php';
 
 /**
  * Main class of this unit test

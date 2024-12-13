@@ -53,9 +53,9 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once 'php/lib/control.php';
-require_once 'php/lib/version.php';
-require_once 'php/lib/indexing.php';
+require_once __ROOT__ . 'php/lib/control.php';
+require_once __ROOT__ . 'php/lib/version.php';
+require_once __ROOT__ . 'php/lib/indexing.php';
 
 /**
  * Main class of this unit test
@@ -109,7 +109,7 @@ final class test_customers extends TestCase
 
         $this->assertSame(-3, get_version('customers', $id, 0));
         $this->assertCount(4, get_version('customers', $id, 1));
-        $this->assertCount(4, get_version('customers', $id, 2));
+        $this->assertCount(4, get_version('customers', $id, 2 + 0));
         $this->assertSame(-3, get_version('customers', $id, 3));
 
         $array = [
@@ -126,8 +126,8 @@ final class test_customers extends TestCase
 
         $this->assertSame(-3, get_version('customers', $id, 0));
         $this->assertCount(4, get_version('customers', $id, 1));
-        $this->assertCount(4, get_version('customers', $id, 2));
-        $this->assertCount(4, get_version('customers', $id, 3));
+        $this->assertCount(4, get_version('customers', $id, 2 + 0));
+        $this->assertCount(4, get_version('customers', $id, 3 + 0));
         $this->assertSame(-3, get_version('customers', $id, 4));
 
         // Check for hash blockchain integrity

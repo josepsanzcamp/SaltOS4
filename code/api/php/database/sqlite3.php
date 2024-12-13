@@ -71,7 +71,7 @@ class database_sqlite3
      */
     public function __construct($args)
     {
-        require_once 'php/database/libsqlite.php';
+        require_once __ROOT__ . 'php/database/libsqlite.php';
         if (!class_exists('SQLite3')) {
             // @codeCoverageIgnoreStart
             show_php_error([
@@ -232,6 +232,7 @@ class database_sqlite3
             ]);
         }
         // Do the query
+        $stmt = null;
         for (;;) {
             try {
                 $stmt = $this->link->prepare($query);

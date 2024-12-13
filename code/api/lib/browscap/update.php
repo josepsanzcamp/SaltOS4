@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 $file = "vendor/browscap/browscap-php/resources/cache.sqlite";
 touch($file);
 $db = new PDO("sqlite:$file");

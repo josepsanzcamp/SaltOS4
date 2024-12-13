@@ -43,8 +43,8 @@ declare(strict_types=1);
  */
 function insert_group($data)
 {
-    require_once 'php/lib/actions.php';
-    require_once 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/actions.php';
+    require_once __ROOT__ . 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -99,8 +99,8 @@ function insert_group($data)
  */
 function update_group($group_id, $data)
 {
-    require_once 'php/lib/actions.php';
-    require_once 'php/lib/version.php';
+    require_once __ROOT__ . 'php/lib/actions.php';
+    require_once __ROOT__ . 'php/lib/version.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -178,7 +178,7 @@ function update_group($group_id, $data)
  */
 function delete_group($group_id)
 {
-    require_once 'php/lib/actions.php';
+    require_once __ROOT__ . 'php/lib/actions.php';
 
     // Real delete using general delete action
     $array = delete('groups', $group_id);

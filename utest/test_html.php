@@ -51,7 +51,7 @@ use PHPUnit\Framework\Attributes\Depends;
  *
  * This file contains the needed function used by the unit tests
  */
-require_once 'php/lib/html.php';
+require_once __ROOT__ . 'php/lib/html.php';
 
 /**
  * Main class of this unit test

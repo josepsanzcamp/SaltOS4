@@ -141,6 +141,7 @@ function export_file($args)
         //~ }
     }
     // Continue
+    $buffer = null;
     switch ($args['type']) {
         case 'xml':
             $buffer = __export_file_xml($args['data'], $args['eol'], $args['encoding']);
@@ -196,7 +197,7 @@ function export_file($args)
  */
 function __export_file_xml($matrix, $eol = "\n", $encoding = 'UTF-8')
 {
-    require_once 'php/lib/array2xml.php';
+    require_once __ROOT__ . 'php/lib/array2xml.php';
     $buffer = str_replace('UTF-8', $encoding, "<?xml version='1.0' encoding='UTF-8' ?>\n");
     $buffer .= __array2xml_write_nodes($matrix, 0);
     $buffer = str_replace("\n", $eol, $buffer);
@@ -270,7 +271,7 @@ function __export_file_csv(
  */
 function __export_file_excel($matrix, $title = '', $type = 'Xlsx')
 {
-    require_once 'lib/phpspreadsheet/vendor/autoload.php';
+    require_once __ROOT__ . 'lib/phpspreadsheet/vendor/autoload.php';
     $objPHPExcel = new PhpOffice\PhpSpreadsheet\Spreadsheet();
     $objPHPExcel->getProperties()->setCreator(get_name_version_revision());
     $objPHPExcel->getProperties()->setLastModifiedBy(current_datetime());
@@ -347,7 +348,7 @@ function __export_file_edi($matrix, $wrap = false)
         }
     }
     // Continue
-    require_once 'lib/edifact/vendor/autoload.php';
+    require_once __ROOT__ . 'lib/edifact/vendor/autoload.php';
     $encoder = new EDI\Encoder();
     $encoder->encode($matrix, $wrap);
     $buffer = $encoder->get();

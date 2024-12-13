@@ -35,8 +35,9 @@ declare(strict_types=1);
  */
 
 db_connect();
-require_once 'php/lib/push.php';
+require_once __ROOT__ . 'php/lib/push.php';
 
+$rows = [];
 $action = get_data('rest/1');
 switch ($action) {
     case 'get':
