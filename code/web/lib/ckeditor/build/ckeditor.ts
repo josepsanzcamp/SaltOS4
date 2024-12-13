@@ -122,6 +122,7 @@ export default class ClassicEditor extends ClassicEditorBase {
 				classes: true,
 				styles: true
 			}]
-		}
+		},
+		licenseKey: 'GPL'
 	};
 }
