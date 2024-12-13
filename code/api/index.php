@@ -38,12 +38,17 @@ if (version_compare(PHP_VERSION, '7.0', '<')) {
 }
 
 /**
- * This chdir allow to execute this script from a command line and locate
- * all filese needed for the correct execution
+ * This chdir allow to this script to locate all needed files. If you are
+ * using a saltos instance with symbolics links, this resolves the correct
+ * path for the instance and not for the real files
  */
-if (isset($argv) && defined('STDIN')) {
-    chdir(__DIR__);
-}
+chdir(dirname($_SERVER['SCRIPT_FILENAME']));
+
+/**
+ * This defines the __ROOT__ directory used in all included files, it uses
+ * the previous chdir that puts the working directory to the correct path
+ */
+define('__ROOT__', getcwd() . '/');
 
 /**
  * We include all core files, note that the last file (zindex.php) launches
@@ -51,7 +56,6 @@ if (isset($argv) && defined('STDIN')) {
  * and prevent errors with old php versions that not supports the null
  * coalescing operator
  */
-define('__ROOT__', __DIR__ . '/');
 foreach (glob('php/autoload/*.php') as $file) {
     require __ROOT__ . $file;
 }
