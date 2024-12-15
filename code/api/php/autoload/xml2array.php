@@ -136,23 +136,10 @@ function fix_key($arg)
 function xmlfiles2array($files, $usecache = true)
 {
     $result = [];
-    foreach ($files as $file) {
-        $array = xmlfile2array($file, $usecache);
-        foreach ($array as $key => $val) {
-            $key = fix_key($key);
-            if (is_array($val)) {
-                if (!isset($result[$key])) {
-                    $result[$key] = [];
-                }
-                foreach ($val as $key2 => $val2) {
-                    set_array($result[$key], $key2, $val2);
-                }
-            } else {
-                set_array($result, $key, $val);
-            }
-        }
+    foreach ($files as $index => $file) {
+        $files[$index] = xmlfile2array($file, $usecache);
     }
-    return $result;
+    return arrays2array(...$files);
 }
 
 /**

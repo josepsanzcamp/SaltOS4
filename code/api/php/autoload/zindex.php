@@ -95,7 +95,7 @@ init_timer();
 init_random();
 
 // Normal operation
-$_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
+$_CONFIG = eval_attr(prepare_config_files(xmlfiles2array(detect_config_files('xml/config.xml'))));
 eval_iniset(get_config('iniset'));
 eval_putenv(get_config('putenv'));
 eval_extras(get_config('extras'));
