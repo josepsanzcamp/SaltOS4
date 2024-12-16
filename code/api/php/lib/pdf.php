@@ -511,3 +511,67 @@ function pdf($file, $row = [])
     ];
     return $cache[$hash];
 }
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function __pdf_all2pdf($input)
+{
+    $type = saltos_content_type($input);
+    $type0 = saltos_content_type0($type);
+    $type1 = saltos_content_type1($type);
+
+    // For plain and html text
+    if (in_array($type0, ['text', 'message'])) {
+        $pdf = new TCPDF('P', 'mm', 'A4');
+        $pdf->SetCreator(get_name_version_revision());
+        $pdf->SetDisplayMode('fullwidth', 'continuous');
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetMargins(10, 10, 10);
+        $pdf->SetAutoPageBreak(true, 10);
+        $pdf->AddPage();
+        $pdf->SetFont('atkinsonhyperlegible', '', 10);
+        if ($type1 == 'html') {
+            $pdf->WriteHTML(file_get_contents($input));
+        } else {
+            $pdf->Write(0, file_get_contents($input));
+        }
+        $buffer = $pdf->Output('output.pdf', 'S');
+        return $buffer;
+    }
+
+    // For images
+    if ($type0 == 'image') {
+        list($width, $height) = getimagesize($input);
+        if (in_array($type1, ['jpeg', 'tiff'])) {
+            $exif = exif_read_data($input);
+            $orientation = $exif['Orientation'] ?? 1;
+            if (in_array($orientation, [6, 8])) {
+                list($width, $height) = [$height, $width];
+            }
+        }
+        $pdf = new TCPDF('', 'mm', [$width, $height]);
+        $pdf->SetCreator(get_name_version_revision());
+        $pdf->SetDisplayMode('fullwidth', 'continuous');
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetMargins(0, 0, 0);
+        $pdf->SetAutoPageBreak(false, 0);
+        $pdf->AddPage();
+        $pdf->Image($input, 0, 0, $width, $height);
+        $buffer = $pdf->Output('output.pdf', 'S');
+        return $buffer;
+    }
+
+    // Unsupported type
+    $pdf = new TCPDF('L', 'mm', 'A4');
+    $pdf->SetCreator(get_name_version_revision());
+    $pdf->SetDisplayMode('fullwidth', 'continuous');
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $buffer = $pdf->Output('output.pdf', 'S');
+    return $buffer;
+}

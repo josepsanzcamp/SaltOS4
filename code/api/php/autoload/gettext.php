@@ -78,7 +78,7 @@ function T($text = '')
             }
         }
     }
-    if (!count(func_get_args())) {
+    if (!func_num_args()) {
         return [
             'app' => $app,
             'lang' => $lang,

@@ -130,10 +130,11 @@ function is_disabled_function($fn)
 {
     static $array = null;
     if ($array === null) {
-        $array = array_diff(explode(',', implode(',', [
-            ini_get('disable_functions'),
-            ini_get('suhosin.executor.func.blacklist'),
-        ])), ['']);
+        $array = [ini_get('disable_functions'), ini_get('suhosin.executor.func.blacklist')];
+        $array = implode(',', $array);
+        $array = str_replace(' ', '', $array);
+        $array = explode(',', $array);
+        $array = array_diff($array, ['']);
     }
     if (func_num_args() == 2) {
         $fn = func_get_args();
