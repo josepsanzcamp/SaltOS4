@@ -130,6 +130,26 @@ final class test_pdf extends TestCase
             'tcpdf_config.php contains K_TCPDF_THROW_EXCEPTION_ERROR as false instead of true'
         );
 
+        $buffer = __pdf_all2pdf('../../utest/files/lorem.txt');
+        $this->assertStringContainsString('PDF document', get_mime($buffer));
+        $this->assertEqualsWithDelta(25000, strlen($buffer), 1000);
+
+        $buffer = __pdf_all2pdf('../../utest/files/lorem.html');
+        $this->assertStringContainsString('PDF document', get_mime($buffer));
+        $this->assertEqualsWithDelta(25000, strlen($buffer), 1000);
+
+        $buffer = __pdf_all2pdf('../../utest/files/lorem.png');
+        $this->assertStringContainsString('PDF document', get_mime($buffer));
+        $this->assertEqualsWithDelta(99000, strlen($buffer), 1000);
+
+        $buffer = __pdf_all2pdf('../../utest/files/lorem.jpg');
+        $this->assertStringContainsString('PDF document', get_mime($buffer));
+        $this->assertEqualsWithDelta(289000, strlen($buffer), 1000);
+
+        $buffer = __pdf_all2pdf('../../utest/files/lorem.odt');
+        $this->assertStringContainsString('PDF document', get_mime($buffer));
+        $this->assertEqualsWithDelta(6000, strlen($buffer), 1000);
+
         test_external_exec('php/pdf1.php', 'phperror.log', 'array not found');
         test_external_exec('php/pdf2.php', 'phperror.log', 'foreach without query');
         test_external_exec('php/pdf3.php', 'phperror.log', 'file nada not found');
