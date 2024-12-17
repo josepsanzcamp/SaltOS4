@@ -142,6 +142,7 @@ final class test_pdf extends TestCase
         $this->assertStringContainsString('PDF document', get_mime($buffer));
         $this->assertEqualsWithDelta(99000, strlen($buffer), 1000);
 
+        // Note: this file has the exif rotation to 90º: exiftool -n -Orientation=6 lorem.jpg
         $buffer = __pdf_all2pdf('../../utest/files/lorem.jpg');
         $this->assertStringContainsString('PDF document', get_mime($buffer));
         $this->assertEqualsWithDelta(289000, strlen($buffer), 1000);
