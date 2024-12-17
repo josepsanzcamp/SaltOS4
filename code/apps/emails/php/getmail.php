@@ -615,6 +615,17 @@ function __getmail_gettextbody($array, $level = 0)
             $recursive = array_merge($recursive, __getmail_gettextbody($node, $level + 1));
         }
         if ($type == 'alternative') {
+            // Remove repetitions detected in ajuntament.respon@bcn.cat
+            $hashes = [];
+            foreach ($recursive as $index => $node) {
+                $hash = md5(serialize($node));
+                if (isset($hashes[$hash])) {
+                    unset($recursive[$index]);
+                } else {
+                    $hashes[$hash] = $index;
+                }
+            }
+            // Priorize the html content in front of plain content
             $count_plain = 0;
             $count_html = 0;
             foreach ($recursive as $index => $node) {
@@ -625,13 +636,12 @@ function __getmail_gettextbody($array, $level = 0)
                 }
             }
             if ($count_plain == 1 && $count_html == 1) {
-                $index = null;
                 foreach ($recursive as $index => $node) {
                     if ($node['type'] == 'plain') {
+                        unset($recursive[$index]);
                         break;
                     }
                 }
-                unset($recursive[$index]);
             }
         }
         $result = array_merge($result, $recursive);
@@ -717,6 +727,17 @@ function __getmail_getfullbody($array)
             $recursive = array_merge($recursive, __getmail_getfullbody($node));
         }
         if ($type == 'alternative') {
+            // Remove repetitions detected in ajuntament.respon@bcn.cat
+            $hashes = [];
+            foreach ($recursive as $index => $node) {
+                $hash = md5(serialize($node));
+                if (isset($hashes[$hash])) {
+                    unset($recursive[$index]);
+                } else {
+                    $hashes[$hash] = $index;
+                }
+            }
+            // Priorize the html content in front of plain content
             $count_plain = 0;
             $count_html = 0;
             foreach ($recursive as $index => $node) {
@@ -727,13 +748,12 @@ function __getmail_getfullbody($array)
                 }
             }
             if ($count_plain == 1 && $count_html == 1) {
-                $index = null;
                 foreach ($recursive as $index => $node) {
                     if ($node['type'] == 'plain') {
+                        unset($recursive[$index]);
                         break;
                     }
                 }
-                unset($recursive[$index]);
             }
         }
         $result = array_merge($result, $recursive);
