@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test adderror
+ * Test addlog
  *
  * This test performs some tests to validate the correctness
- * of the adderror functions
+ * of the addlog functions
  */
 
 /**
@@ -56,8 +56,43 @@ require_once 'lib/utestlib.php';
 /**
  * Main class of this unit test
  */
-final class test_adderror extends TestCase
+final class test_add extends TestCase
 {
+    #[testdox('addlog functions')]
+    /**
+     * addlog test
+     *
+     * This test performs some tests to validate the correctness
+     * of the addlog functions
+     */
+    public function test_addlog(): void
+    {
+        $file = 'data/logs/saltos.log';
+        $this->assertFileDoesNotExist($file);
+
+        $json = test_web_helper('add/log', [], '', '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileDoesNotExist($file);
+
+        $json = test_web_helper('add/log', [
+            'msg' => 'hola mundo',
+        ], '', '');
+        $this->assertArrayHasKey('status', $json);
+        $this->assertSame($json['status'], 'ok');
+        $this->assertSame(count($json), 1);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('hola mundo', file_get_contents($file)));
+        unlink($file);
+
+        $file = 'data/logs/phperror.log';
+        $this->assertFileDoesNotExist($file);
+        $json = test_web_helper('add/nada', [], '', '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertFileExists($file);
+        $this->assertTrue(words_exists('unknown action nada', file_get_contents($file)));
+        unlink($file);
+    }
+
     #[testdox('adderror functions')]
     /**
      * adderror test

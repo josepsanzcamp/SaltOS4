@@ -448,3 +448,20 @@ function file_with_min($file)
     }
     return $file;
 }
+
+/**
+ * File Get Contents Protected
+ *
+ * This function call the original file_get_contents and returns the buffer
+ * returned by the original function, the main idea of this function is to
+ * protect the caller to prevent I/O errors like "nohup php index.php" when
+ *
+ * @args => the original arguments are passed to the file_get_contents
+ */
+function file_get_contents_protected(...$args)
+{
+    overload_error_handler('file_get_contents');
+    $buffer = file_get_contents(...$args);
+    restore_error_handler();
+    return $buffer;
+}

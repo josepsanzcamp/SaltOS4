@@ -80,5 +80,6 @@ final class test_datetime extends TestCase
         $this->assertSame(__secs2time(86400 - 1), '23:59:59');
         $this->assertSame(__secs2time(86400), '24:00:00');
         $this->assertSame(strlen(current_dow()), 1);
+        $this->assertSame(datetime_format('2024-01-01 12:00:00'), '01/01/2024 12:00:00');
     }
 }

@@ -74,9 +74,24 @@ final class test_output extends TestCase
         test_external_exec('php/output05.php', '', '');
         test_external_exec('php/output06.php', '', '');
         test_external_exec('php/output07.php', 'phperror.log', 'file nada not found');
-        test_external_exec('php/output08.php', 'phperror.log', 'output_handler requires the type parameter');
-        test_external_exec('php/output09.php', 'phperror.log', 'output_handler requires the cache parameter');
+        test_external_exec('php/output08.php', 'phperror.log', 'output_handler requires type parameter');
+        test_external_exec('php/output09.php', 'phperror.log', 'output_handler requires cache parameter');
         test_external_exec('php/output10.php', '', '');
         test_external_exec('php/output11.php', '', '');
+
+        test_pcov_start();
+        $data1 = ob_passthru('php index.php');
+        test_pcov_stop(1);
+        $data1 = json_decode($data1);
+        $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+        $data1 = json_encode($data1, $options | JSON_PRETTY_PRINT) . "\n";
+        $data1 = json_colorize($data1);
+
+        test_pcov_start();
+        $data2 = ob_passthru('unbuffer -p php index.php');
+        test_pcov_stop(1);
+        $data2 = str_replace("\r\n", "\n", $data2);
+
+        $this->assertSame($data1, $data2);
     }
 }

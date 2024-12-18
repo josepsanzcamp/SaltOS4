@@ -107,7 +107,7 @@ if (php_sapi_name() == 'cli') {
     stream_set_blocking(STDIN, false); // Important if stdin is not used
     $_DATA = [
         'rest' => array_values(array_diff(explode('/', get_server('QUERY_STRING')), [''])),
-        'json' => array_protected(json_decode(strval(file_get_contents('php://stdin')), true)),
+        'json' => array_protected(json_decode(strval(file_get_contents_protected('php://stdin')), true)),
         'server' => [
             'request_method' => 'CLI',
             'xuid' => posix_getuid() === getmyuid(),

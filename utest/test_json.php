@@ -67,6 +67,7 @@ final class test_json extends TestCase
             'true' => true,
             'false' => false,
             'null' => null,
+            'exp' => 3e-5,
         ];
         $json = json_encode($array, JSON_PRETTY_PRINT);
         $buffer = json_colorize($json);
@@ -78,5 +79,6 @@ final class test_json extends TestCase
         $this->assertStringContainsString("\e[31mtrue\e[0m", $buffer);
         $this->assertStringContainsString("\e[31mfalse\e[0m", $buffer);
         $this->assertStringContainsString("\e[31mnull\e[0m", $buffer);
+        $this->assertStringContainsString("\e[35m0.00003\e[0m", $buffer);
     }
 }

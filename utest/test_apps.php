@@ -67,9 +67,8 @@ final class test_apps extends TestCase
      */
     public function test_apps(): void
     {
+        $this->assertSame(id2app(12), 'invoices');
         $this->assertSame(app2id('invoices'), 12);
-        $this->assertSame(id2app(12), 'invoices');
-        $this->assertSame(id2app(12), 'invoices');
         $this->assertSame(id2table(12), 'app_invoices');
         $this->assertSame(app2table('invoices'), 'app_invoices');
         $this->assertSame(table2id('app_invoices'), 12);
@@ -78,12 +77,25 @@ final class test_apps extends TestCase
         $this->assertSame(count(app2subtables('invoices')), 2);
         $this->assertSame(count(table2subtables('app_invoices')), 2);
         $this->assertSame(app_exists('invoices'), true);
-        $this->assertSame(count(detect_apps_files('xml/dbschema.xml')) > 1, true);
         $this->assertSame(app2index('invoices'), 1);
         $this->assertSame(app2control('invoices'), 1);
         $this->assertSame(app2version('invoices'), 1);
         $this->assertSame(app2files('invoices'), 1);
         $this->assertSame(app2notes('invoices'), 1);
+        $this->assertSame(subtable2id('app_invoices_concepts'), 12);
+        $this->assertSame(subtable2app('app_invoices_concepts'), 'invoices');
+        $this->assertSame(subtable2table('app_invoices_concepts'), 'app_invoices');
+        $this->assertTrue(table_exists('app_invoices'));
+        $this->assertFalse(table_exists('app_invoices_concepts'));
+        $this->assertTrue(subtable_exists('app_invoices_concepts'));
+        $this->assertFalse(subtable_exists('app_invoices'));
+        $this->assertSame(count(detect_apps_files('xml/dbschema.xml')) > 1, true);
+        set_data('rest/0', 'app');
+        set_data('rest/1', 'invoices');
+        $this->assertSame(current_app(), 12);
+        set_data('rest', null);
+        $this->assertSame(detect_app_file('groups'), 'apps/users/xml/groups.xml');
+        $this->assertSame(detect_app_folder('groups'), 'users');
     }
 
     #[testdox('app functions')]

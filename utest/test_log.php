@@ -69,19 +69,19 @@ final class test_log extends TestCase
         $file2 = 'data/logs/saltos.log.2';
         $this->assertFileDoesNotExist($file2);
 
-        addlog('hola');
+        addlog(['hola']);
         $this->assertFileExists($file0);
 
         addlog(wordwrap(str_repeat('x', 1024 * 1024 * 100)));
         $this->assertSame(filesize($file0) > 1024 * 1024 * 100, true);
 
-        addlog('hola');
+        addlog(['hola']);
         $this->assertFileExists($file1);
 
         addlog(wordwrap(str_repeat('x', 1024 * 1024 * 100)));
         $this->assertSame(filesize($file0) > 1024 * 1024 * 100, true);
 
-        addlog('hola');
+        addlog(['hola']);
         $this->assertFileExists($file2);
 
         $this->assertSame(checklog('hola', 'saltos.log'), true);

@@ -316,5 +316,5 @@ function current_dow($offset = 0)
  */
 function datetime_format($x)
 {
-    return (new DateTime($x))->format('d/m/Y H:i:s');
+    return date('d/m/Y H:i:s', strtotime($x));
 }

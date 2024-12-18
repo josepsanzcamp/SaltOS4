@@ -821,7 +821,7 @@ final class test_database extends TestCase
         }
         $this->assertFileDoesNotExist('data/logs/dbwarning.log');
         set_config('debug/slowquerytime', 0);
-        $result = db_query('SELECT * FROM tbl_users_tokens');
+        $result = db_query('SELECT * FROM tbl_users_tokens WHERE id = ?', [0]);
         set_config('debug/slowquerytime', 5);
         db_free($result);
         $this->assertFileExists('data/logs/dbwarning.log');
@@ -833,10 +833,13 @@ final class test_database extends TestCase
         $this->assertSame(db_check('SELECT * FROM tbl_users_tokens'), false);
         db_connect();
 
+        $this->assertSame(db_escape('\'"%'), '\\\'\"%');
+
         test_external_exec('php/database07.php', 'dberror.log', 'database type nada not found');
         test_external_exec('php/database08.php', 'dberror.log', 'unknown database connector');
         test_external_exec('php/database09.php', 'dberror.log', 'unknown database connector');
         test_external_exec('php/database10.php', 'dberror.log', 'unknown field name at position nada');
         test_external_exec('php/database11.php', 'dberror.log', 'unknown database connector');
+        test_external_exec('php/database12.php', 'dberror.log', 'unknown database connector');
     }
 }

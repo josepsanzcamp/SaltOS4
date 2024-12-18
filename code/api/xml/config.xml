@@ -74,9 +74,6 @@
         <maxfilesize>100M</maxfilesize>
         <slowquerydebug>true</slowquerydebug>
         <slowquerytime>5</slowquerytime><!-- in seconds -->
-        <patternquerydebug>false</patternquerydebug>
-        <patternquerywords>from app_emails header</patternquerywords>
-        <patternqueryoutput>data/temp/query.sql</patternqueryoutput>
     </debug>
     <iniset>
         <memory_limit>128M</memory_limit>

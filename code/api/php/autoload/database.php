@@ -153,13 +153,6 @@ function db_query($query, ...$args)
     if (!get_config('db/obj') || !method_exists(get_config('db/obj'), 'db_query')) {
         show_php_error(['dberror' => 'Unknown database connector']);
     }
-    if (
-        eval_bool(get_config('debug/patternquerydebug')) &&
-        words_exists(get_config('debug/patternquerywords'), $query)
-    ) {
-        file_put_contents(get_config('debug/patternqueryoutput'), $query, FILE_APPEND);
-        chmod_protected(get_config('debug/patternqueryoutput'), 0666);
-    }
     if (eval_bool(get_config('debug/slowquerydebug'))) {
         $curtime = microtime(true);
     }
