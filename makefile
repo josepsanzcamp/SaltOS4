@@ -62,12 +62,9 @@ else # file=path
 	$(eval files := $(shell find $(file) -name *.php | sort))
 endif
 endif
-	@for i in ${files}; do \
-	echo $$i; \
-	phpcs --colors --standard=scripts/phpcs.xml $$i; \
-	phpstan -cscripts/phpstan.neon analyse $$i --error-format=github 2>/dev/null; \
-	php -l $$i 1>/dev/null 2>/dev/null || php -l $$i; \
-	done
+	@phpcs --colors -p --standard=scripts/phpcs.xml ${files}
+	@php -l ${files} 1>/dev/null 2>/dev/null || php -l ${files} | grep -v 'No syntax errors detected'
+	@phpstan -cscripts/phpstan.neon analyse --error-format=github ${files}
 
 ifeq ($(file), ) # default behaviour
 	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))
@@ -78,11 +75,8 @@ else # file=path
 	$(eval files := $(shell find $(file) -name *.js | grep -v '\.'min'\.'js$$ | sort))
 endif
 endif
-	@for i in ${files}; do \
-	echo $$i; \
-	jscs --config=scripts/jscs.json $$i 2>/dev/null; \
-	node -c $$i; \
-	done
+	@jscs --config=scripts/jscs.json ${files} 2>/dev/null
+	@node -c ${files}
 
 libs:
 	php scripts/checklibs.php scripts/checklibs.txt
