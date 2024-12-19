@@ -91,7 +91,19 @@ function eval_putenv($array)
                 $diff = 1;
             }
             if ($diff) {
-                if (putenv("$key=$val") === false) {
+                /**
+                 * According to the documentation, putenv must return false in error cases, but
+                 * unfortunately php does not return false and catch a fatal error like this:
+                 *
+                 * putenv(): Argument #1 ($assignment) must have a valid syntax (code 0)
+                 *
+                 * For this reason, the show_php_error placed after the putenv that must to
+                 * be executed when putenv returns false never can be executed.
+                 *
+                 * As trick, I have added the void key condition to force a case that executes
+                 * the show_php_error
+                 */
+                if ($key == '' || putenv("$key=$val") === false) {
                     show_php_error(['phperror' => "putenv fails to set '$key' from '$cur' to '$val'"]);
                 }
             }

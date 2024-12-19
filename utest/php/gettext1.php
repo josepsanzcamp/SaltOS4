@@ -46,5 +46,6 @@ global $_CONFIG;
 $_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
-set_config('putenv/', 'nada');
-eval_putenv(get_config('putenv'));
+set_data('rest/0', 'app');
+set_data('rest/1', 'invoices');
+T([]);

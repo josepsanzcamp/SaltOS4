@@ -47,6 +47,13 @@ use PHPUnit\Framework\Attributes\TestDox;
 use PHPUnit\Framework\Attributes\Depends;
 
 /**
+ * Loading helper function
+ *
+ * This file contains the needed function used by the unit tests
+ */
+require_once 'lib/utestlib.php';
+
+/**
  * Main class of this unit test
  */
 final class test_gettext extends TestCase
@@ -72,6 +79,9 @@ final class test_gettext extends TestCase
         $this->assertSame(get_data('server/lang'), 'ca_ES');
         $this->assertSame(T('Close'), 'Tancar');
         $this->assertSame(T('Nada'), 'Nada');
+        $this->assertSame(T('Nada'), 'Nada');
+        $this->assertIsArray(T());
+        $this->assertSame(T('Language'), 'Idioma');
 
         $this->assertSame(check_lang_format(null), null);
         $this->assertSame(check_lang_format('AA'), null);
@@ -81,5 +91,7 @@ final class test_gettext extends TestCase
         $this->assertSame(check_lang_format('AA-BB'), 'aa_BB');
         $this->assertSame(check_lang_format('AA_BB'), 'aa_BB');
         $this->assertSame(check_lang_format('AA_BB.asd'), 'aa_BB');
+
+        test_external_exec('php/gettext1.php', 'phperror.log', 'text is not string');
     }
 }

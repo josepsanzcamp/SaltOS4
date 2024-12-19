@@ -69,7 +69,6 @@ final class test_iniset extends TestCase
     public function test_iniset(): void
     {
         set_config('iniset/display_errors', 'On');
-        set_config('extras/ini_set', ['display_errors', 'Off']);
 
         $this->assertSame(ini_get('memory_limit'), '-1');
         $this->assertSame(ini_get('max_execution_time'), '0');
@@ -89,11 +88,11 @@ final class test_iniset extends TestCase
         // @phpstan-ignore method.alreadyNarrowedType
         $this->assertSame(mb_internal_encoding('ISO-8859-1'), true);
         $this->assertSame(mb_internal_encoding(), 'ISO-8859-1');
-        //~ eval_extras(get_config('extras'));
-        //~ $this->assertSame(mb_internal_encoding(), 'UTF-8');
+        eval_extras(get_config('extras'));
+        $this->assertSame(mb_internal_encoding(), 'UTF-8');
 
         test_external_exec('php/iniset1.php', 'phperror.log', 'ini_set fails to set nada from to nada');
-        test_external_exec('php/iniset2.php', 'phperror.log', 'putenv(): argument assignment must have a valid syntax');
-        test_external_exec('php/iniset5.php', 'phperror.log', 'is_array fails to set nada');
+        test_external_exec('php/iniset2.php', 'phperror.log', 'putenv fails to set from to nada');
+        test_external_exec('php/iniset3.php', 'phperror.log', 'is_array fails to set nada');
     }
 }
