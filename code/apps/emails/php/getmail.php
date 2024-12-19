@@ -354,9 +354,12 @@ function __getmail_getfiles($array, $level = 0)
             if (substr($cid, -1, 1) == '>') {
                 $cid = substr($cid, 0, -1);
             }
+            if ($cid != '') {
+                $cid = "cid:$cid";
+            }
             $cname = getutf8(__getmail_fixstring(__getmail_getnode('FileName', $array)));
             $location = __getmail_fixstring(__getmail_getnode('Headers/content-location:', $array));
-            if ($cid == '' && $cname == '' && $location != '') {
+            if ($cid == '' && $location != '') {
                 $cid = $location;
             }
             $ctype = __getmail_fixstring(__getmail_getnode('Headers/content-type:', $array));
@@ -418,7 +421,7 @@ function __getmail_getfiles($array, $level = 0)
                     if (__getmail_processfile($disp2, $type2)) {
                         $cid2 = $node2['cid'];
                         if ($cid2 != '') {
-                            if (strpos($temp, "cid:{$cid2}") !== false) {
+                            if (strpos($temp, $cid2) !== false) {
                                 unset($result[$index2]);
                             }
                         }
@@ -689,9 +692,12 @@ function __getmail_getfullbody($array)
             if (substr($cid, -1, 1) == '>') {
                 $cid = substr($cid, 0, -1);
             }
+            if ($cid != '') {
+                $cid = "cid:$cid";
+            }
             $cname = getutf8(__getmail_fixstring(__getmail_getnode('FileName', $array)));
             $location = __getmail_fixstring(__getmail_getnode('Headers/content-location:', $array));
-            if ($cid == '' && $cname == '' && $location != '') {
+            if ($cid == '' && $location != '') {
                 $cid = $location;
             }
             $ctype = __getmail_fixstring(__getmail_getnode('Headers/content-type:', $array));
@@ -792,9 +798,12 @@ function __getmail_getcid($array, $hash)
             if (substr($cid, -1, 1) == '>') {
                 $cid = substr($cid, 0, -1);
             }
+            if ($cid != '') {
+                $cid = "cid:$cid";
+            }
             $cname = getutf8(__getmail_fixstring(__getmail_getnode('FileName', $array)));
             $location = __getmail_fixstring(__getmail_getnode('Headers/content-location:', $array));
-            if ($cid == '' && $cname == '' && $location != '') {
+            if ($cid == '' && $location != '') {
                 $cid = $location;
             }
             $ctype = __getmail_fixstring(__getmail_getnode('Headers/content-type:', $array));
@@ -1241,7 +1250,7 @@ function __getmail_body_helper($decoded, $images = false)
                         $chash2 = $node2['chash'];
                         $ctype2 = $node2['ctype'];
                         $data = mime_inline($ctype2, $node2['body']);
-                        $temp = str_replace("cid:{$cid2}", $data, $temp);
+                        $temp = str_replace($cid2, $data, $temp);
                     }
                 }
             }

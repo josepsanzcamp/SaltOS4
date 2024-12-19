@@ -124,6 +124,9 @@ function inline_img_tag($html)
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $img = __inline_img_helper($src);
+        if ($img == $src) {
+            continue;
+        }
         $froms = [
             $src,
             str_replace_assoc(__CHARS_MAP__, $src),
@@ -166,6 +169,9 @@ function inline_img_style($html)
                 $src = substr($src, 0, -1);
             }
             $img = __inline_img_helper($src);
+            if ($img == $src) {
+                continue;
+            }
             $froms = [
                 $src,
                 str_replace_assoc(__CHARS_MAP__, $src),
@@ -201,6 +207,9 @@ function inline_img_background($html)
             continue;
         }
         $img = __inline_img_helper($src);
+        if ($img == $src) {
+            continue;
+        }
         $froms = [
             $src,
             str_replace_assoc(__CHARS_MAP__, $src),
@@ -222,18 +231,15 @@ function inline_img_background($html)
 function __inline_img_helper($src)
 {
     $scheme = parse_url($src, PHP_URL_SCHEME);
-    if (in_array($scheme, ['data', 'cid'])) {
-        return $src;
-    }
-    $img = __GIF_IMAGE__;
     if (!in_array($scheme, ['https', 'http'])) {
-        return $img;
+        return $src;
     }
     $cache = get_cache_file($src, '.b64');
     if (file_exists($cache)) {
         $img = file_get_contents($cache);
         return $img;
     }
+    $img = __GIF_IMAGE__;
     $data = __url_get_contents($src);
     $valid = false;
     foreach ($data['headers'] as $key => $val) {
