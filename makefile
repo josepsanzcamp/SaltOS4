@@ -53,30 +53,32 @@ clean:
 	rm -f code/web/proxy.{js,js.map}
 
 test:
-ifeq ($(file), ) # default behaviour
+ifeq ($(file),) # default behaviour
 	$(eval files := $(shell svn st code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample | grep -e ^A -e ^M -e ^? | grep '\.'php$$ | gawk '{print $$2}' | sort))
 else
-ifeq ($(file), all) # file=all
+ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/api/index.php code/api/php scripts utest code/apps/*/php code/apps/*/sample -name *.php | sort))
 else # file=path
 	$(eval files := $(shell find $(file) -name *.php | sort))
 endif
 endif
-	@phpcs --colors -p --standard=scripts/phpcs.xml ${files}
-	@php -l ${files} 1>/dev/null 2>/dev/null || php -l ${files} | grep -v 'No syntax errors detected'
-	@phpstan -cscripts/phpstan.neon analyse --error-format=github ${files}
+	@$(if $(files), \
+	phpcs --colors -p --standard=scripts/phpcs.xml ${files}; \
+	php -l ${files} 1>/dev/null 2>/dev/null || php -l ${files} | grep -v 'No syntax errors detected'; \
+	phpstan -cscripts/phpstan.neon analyse --error-format=github ${files}; )
 
-ifeq ($(file), ) # default behaviour
+ifeq ($(file),) # default behaviour
 	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))
 else
-ifeq ($(file), all) # file=all
+ifeq ($(file),all) # file=all
 	$(eval files := $(shell find code/web/js scripts code/apps/*/js -name *.js | grep -v '\.'min'\.'js$$ | sort))
 else # file=path
 	$(eval files := $(shell find $(file) -name *.js | grep -v '\.'min'\.'js$$ | sort))
 endif
 endif
-	@jscs --config=scripts/jscs.json ${files} 2>/dev/null
-	@node -c ${files}
+	@$(if $(files), \
+	jscs --config=scripts/jscs.json ${files} 2>/dev/null; \
+	node -c ${files}; )
 
 libs:
 	php scripts/checklibs.php scripts/checklibs.txt

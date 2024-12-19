@@ -236,10 +236,12 @@ function __inline_img_helper($src)
     }
     $cache = get_cache_file($src, '.b64');
     if (file_exists($cache)) {
-        $img = file_get_contents($cache);
-        return $img;
+        return file_get_contents($cache);
     }
-    $img = __GIF_IMAGE__;
+    $error = get_cache_file($src, '.err');
+    if (file_exists($error)) {
+        return __GIF_IMAGE__;
+    }
     // headers added to solve akamai 403 forbidden error
     $data = __url_get_contents($src, [
         'headers' => [
@@ -263,7 +265,8 @@ function __inline_img_helper($src)
         } else {
             $type = saltos_content_type_from_string($data['body']);
         }
-        if (in_array(saltos_content_type0($type), ['image', 'application'])) {
+        $type0 = saltos_content_type0($type);
+        if (in_array($type0, ['image', 'application'])) {
             $hash1 = md5($data['body']);
             require_once __ROOT__ . 'php/lib/gdlib.php';
             $data['body'] = image_resize($data['body'], 1000);
@@ -272,11 +275,17 @@ function __inline_img_helper($src)
                 $type = 'image/jpeg';
             }
             $img = mime_inline($type, $data['body']);
+            file_put_contents($cache, $img);
+            chmod_protected($cache, 0666);
+            return $img;
         }
     }
-    file_put_contents($cache, $img);
+    file_put_contents($error, sprintr([
+        'src' => $src,
+        'data' => $data,
+    ]));
     chmod_protected($cache, 0666);
-    return $img;
+    return __GIF_IMAGE__;
 }
 
 /**
