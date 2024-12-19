@@ -240,7 +240,15 @@ function __inline_img_helper($src)
         return $img;
     }
     $img = __GIF_IMAGE__;
-    $data = __url_get_contents($src);
+    // headers added to solve akamai 403 forbidden error
+    $data = __url_get_contents($src, [
+        'headers' => [
+            'User-Agent' => get_data('server/user_agent'),
+            'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language' => get_data('server/lang'),
+            'Accept-Encoding' => 'gzip, deflate, br, zstd',
+        ],
+    ]);
     $valid = false;
     foreach ($data['headers'] as $key => $val) {
         $key = substr(strtolower($key), 0, 12);
