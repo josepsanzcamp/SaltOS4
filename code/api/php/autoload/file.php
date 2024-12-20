@@ -199,11 +199,7 @@ function url_get_contents($url)
  * @body       => the full body used of the request, useful when you want to send a
  *                json file in the body instead of pairs of keys vals
  *
- * This function returns an array with three elements, body, headers and cookies
- *
- * Notes:
- *
- * This function uses the httpclient library
+ * This function returns an array with four elements, body, headers, cookies and code
  */
 function __url_get_contents($url, $args = [])
 {
@@ -211,6 +207,7 @@ function __url_get_contents($url, $args = [])
         'body' => '',
         'headers' => [],
         'cookies' => [],
+        'code' => 0,
     ];
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -260,6 +257,7 @@ function __url_get_contents($url, $args = [])
         curl_close($ch);
         return array_merge($void, ['error' => "error $errno: $error"]);
     }
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     curl_close($ch);
     $headers = substr($response, 0, $size);
@@ -306,6 +304,7 @@ function __url_get_contents($url, $args = [])
         'body' => $body,
         'headers' => $headers,
         'cookies' => $cookies,
+        'code' => $code,
     ];
 }
 

@@ -251,18 +251,7 @@ function __inline_img_helper($src)
             'Accept-Encoding' => 'gzip, deflate, br, zstd',
         ],
     ]);
-    $valid = false;
-    foreach ($data['headers'] as $key => $val) {
-        if (strpos($key, 'http/1.1 200') !== false) {
-            $valid = true;
-            break;
-        }
-        if (strpos($key, 'http/2 200') !== false) {
-            $valid = true;
-            break;
-        }
-    }
-    if ($valid) {
+    if ($data['code'] == 200) {
         if (isset($data['headers']['content-type'])) {
             $type = $data['headers']['content-type'];
         } else {

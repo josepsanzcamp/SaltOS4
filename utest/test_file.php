@@ -154,6 +154,7 @@ final class test_file extends TestCase
             'body' => '',
             'headers' => [],
             'cookies' => [],
+            'code' => 0,
             'error' => 'error 6: Could not resolve host: 127.0.0.1nada',
         ]);
 
@@ -162,12 +163,14 @@ final class test_file extends TestCase
             'body' => '',
             'headers' => [],
             'cookies' => [],
+            'code' => 0,
             'error' => 'error 1: Protocol "nada" not supported or disabled in libcurl',
         ]);
 
         $buffer = __url_get_contents('https://127.0.0.1/saltos/code4/api/?auth/check', [
             'method' => '',
         ]);
+        $this->assertSame($buffer['code'], 400);
         $this->assertSame(strlen($buffer['body']) > 0, true);
         $this->assertStringContainsString('400 Bad Request', $buffer['body']);
         $this->assertArrayHasKey('http/1.1 400 bad request', $buffer['headers']);
@@ -175,6 +178,7 @@ final class test_file extends TestCase
         $buffer = __url_get_contents('https://127.0.0.1/saltos/code4/api/?auth/check', [
             'method' => 'head',
         ]);
+        $this->assertSame($buffer['code'], 200);
         $this->assertSame($buffer['body'], '');
         $this->assertSame(count($buffer['headers']) > 0, true);
 
@@ -187,6 +191,7 @@ final class test_file extends TestCase
             'body' => 'nada',
             'user_agent' => 'nada',
         ]);
+        $this->assertSame($buffer['code'], 200);
         $this->assertSame(is_array($buffer), true);
         $this->assertSame(strlen($buffer['body']) > 0, true);
 
@@ -201,6 +206,7 @@ final class test_file extends TestCase
                 'OP' => 'add-printer',
             ],
         ]);
+        $this->assertSame($buffer['code'], 401);
         $this->assertSame(strlen($buffer['body']) > 0, true);
         $this->assertStringContainsString('Unauthorized', $buffer['body']);
         $this->assertArrayHasKey('http/1.1 401 unauthorized', $buffer['headers']);
