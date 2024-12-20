@@ -23,7 +23,6 @@ sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|
 tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|base64:eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjQuMSJ9
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|base64:eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 
-httpclient|http://www.phpclasses.org/browse/file/5.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjEtMDEtMDkgMDk6NDU6NTMiPg==
 mimeparser|http://www.phpclasses.org/browse/file/14670.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
 pop3|http://www.phpclasses.org/browse/file/3.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
 rfc822|http://www.phpclasses.org/browse/file/21704.html|<span title=|base64:PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==

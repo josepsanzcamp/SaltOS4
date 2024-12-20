@@ -187,16 +187,17 @@ function url_get_contents($url)
  * This file is an equivalent of the file_get_contents but intended to be used
  * for request remote files using protocols as http or https
  *
- * @url     => the url that you want to retrieve
- * @args    => Array of arguments, explained in the follow lines
- * @cookies => an array with the cookies to be restored before send the request
- * @_method => method used in the request
- * @values  => an array with the post values, useful when you want to send a POST
- *             request with pairs of variables and values
- * @referer => the referer string
- * @headers => an array with the headers to be send in the request
- * @body    => the full body used of the request, useful when you want to send a
- *             json file in the body instead of pairs of keys vals
+ * @url        => the url that you want to retrieve
+ * @args       => Array of arguments, explained in the follow lines
+ * @cookies    => an array with the cookies to be restored before send the request
+ * @_method    => method used in the request
+ * @values     => an array with the post values, useful when you want to send a POST
+ *                request with pairs of variables and values
+ * @referer    => the referer string
+ * @user_agent => the user_agent string
+ * @headers    => an array with the headers to be send in the request
+ * @body       => the full body used of the request, useful when you want to send a
+ *                json file in the body instead of pairs of keys vals
  *
  * This function returns an array with three elements, body, headers and cookies
  *
@@ -211,62 +212,96 @@ function __url_get_contents($url, $args = [])
         'headers' => [],
         'cookies' => [],
     ];
-    require_once __ROOT__ . 'lib/httpclient/http.php';
-    $http = new http_class();
-    $http->user_agent = get_name_version_revision();
-    $http->follow_redirect = 1;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    if (isset($args['user_agent'])) {
+        curl_setopt($ch, CURLOPT_USERAGENT, $args['user_agent']);
+    } else {
+        curl_setopt($ch, CURLOPT_USERAGENT, get_name_version_revision());
+    }
     if (isset($args['cookies'])) {
-        $http->RestoreCookies($args['cookies']);
-    }
-    $arguments = [];
-    $error = $http->GetRequestArguments($url, $arguments);
-    if ($error != '') {
-        return $void;
-    }
-    // I have detected that stream_socket_client generates uncontrolable
-    // errors, for this reason, I have overloaded the error handler to
-    // manage this kind of errors
-    overload_error_handler('stream_socket_client');
-    $error = $http->Open($arguments);
-    restore_error_handler();
-    // End of the overloaded error zone
-    if ($error != '') {
-        return $void;
+        $cookies = http_build_query($args['cookies'], '', '; ');
+        curl_setopt($ch, CURLOPT_COOKIE, $cookies);
     }
     if (isset($args['method'])) {
-        $arguments['RequestMethod'] = strtoupper($args['method']);
-    }
-    if (isset($args['values'])) {
-        $arguments['PostValues'] = $args['values'];
-    }
-    if (isset($args['referer'])) {
-        $arguments['Referer'] = $args['referer'];
-    }
-    if (isset($args['headers'])) {
-        foreach ($args['headers'] as $key => $val) {
-            $arguments['Headers'][$key] = $val;
+        $method = strtoupper($args['method']);
+        if ($method == 'HEAD') {
+            curl_setopt($ch, CURLOPT_NOBODY, true);
+        } else {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         }
     }
+    if (isset($args['values'])) {
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $args['values']);
+    }
     if (isset($args['body'])) {
-        $arguments['Body'] = $args['body'];
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $args['body']);
     }
-    $error = $http->SendRequest($arguments);
-    if ($error != '') {
-        return $void;
+    if (isset($args['referer'])) {
+        curl_setopt($ch, CURLOPT_REFERER, $args['referer']);
     }
-    $headers = [];
-    $error = $http->ReadReplyHeaders($headers);
-    if ($error != '') {
-        return $void;
+    if (isset($args['headers'])) {
+        $headers = [];
+        foreach ($args['headers'] as $key => $value) {
+            $headers[] = "$key: $value";
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     }
-    $body = '';
-    $error = $http->ReadWholeReplyBody($body);
-    if ($error != '') {
-        return $void;
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $response = curl_exec($ch);
+    if ($response === false) {
+        $errno = curl_errno($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
+        return array_merge($void, ['error' => "error $errno: $error"]);
     }
-    $http->Close();
-    $cookies = [];
-    $http->SaveCookies($cookies);
+    $size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    curl_close($ch);
+    $headers = substr($response, 0, $size);
+    $body = substr($response, $size);
+    // parse headers
+    $headers = explode("\r\n", trim($headers));
+    $temp = [];
+    foreach ($headers as $header) {
+        $header = explode(': ', $header, 2);
+        if (!isset($header[1])) {
+            $header[1] = '';
+        }
+        $header[0] = trim(strtolower($header[0]));
+        if ($header[0] == '') {
+            continue;
+        }
+        $header[1] = trim(strtolower($header[1]));
+        $temp[$header[0]] = $header[1];
+    }
+    $headers = $temp;
+    // parse cookies
+    $cookies = $headers['set-cookie'] ?? '';
+    $temp = [];
+    if ($cookies == '') {
+        $cookies = [];
+    } else {
+        $cookies = explode(';', $cookies);
+    }
+    foreach ($cookies as $cookie) {
+        $cookie = explode('=', $cookie, 2);
+        if (!isset($cookie[1])) {
+            $cookie[1] = '';
+        }
+        $cookie[0] = trim($cookie[0]);
+        if ($cookie[0] == '') {
+            continue;
+        }
+        $cookie[1] = trim($cookie[1]);
+        $temp[$cookie[0]] = $cookie[1];
+    }
+    $cookies = $temp;
+    // end
     return [
         'body' => $body,
         'headers' => $headers,

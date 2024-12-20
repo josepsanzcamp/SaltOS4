@@ -48,10 +48,11 @@ function check_system()
     $result = [];
     // PACKAGE CHECKS
     $items = [
-        ['class_exists', 'DomElement', 'Class', 'php-xml', 'error'],
-        ['function_exists', 'imagecreatetruecolor', 'Function', 'php-gd', 'error'],
-        ['function_exists', 'mb_check_encoding', 'Function', 'php-mbstring', 'error'],
-        ['function_exists', 'zstd_compress', 'Function', 'php-zstd', 'warning'],
+        ['extension_loaded', 'xml', 'Extension', 'php-xml', 'error'],
+        ['extension_loaded', 'gd', 'Extension', 'php-gd', 'error'],
+        ['extension_loaded', 'mbstring', 'Extension', 'php-mbstring', 'error'],
+        ['extension_loaded', 'curl', 'Extension', 'php-curl', 'error'],
+        ['extension_loaded', 'zstd', 'Extension', 'php-zstd', 'warning'],
     ];
     foreach ($items as $item) {
         if (!$item[0]($item[1])) {

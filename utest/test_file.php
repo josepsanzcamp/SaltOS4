@@ -154,6 +154,7 @@ final class test_file extends TestCase
             'body' => '',
             'headers' => [],
             'cookies' => [],
+            'error' => 'error 6: Could not resolve host: 127.0.0.1nada',
         ]);
 
         $buffer = __url_get_contents('nada://127.0.0.1/saltos/code4/api/?auth/check');
@@ -161,25 +162,21 @@ final class test_file extends TestCase
             'body' => '',
             'headers' => [],
             'cookies' => [],
+            'error' => 'error 1: Protocol "nada" not supported or disabled in libcurl',
         ]);
 
         $buffer = __url_get_contents('https://127.0.0.1/saltos/code4/api/?auth/check', [
             'method' => '',
         ]);
-        $this->assertSame($buffer, [
-            'body' => '',
-            'headers' => [],
-            'cookies' => [],
-        ]);
+        $this->assertSame(strlen($buffer['body']) > 0, true);
+        $this->assertStringContainsString('400 Bad Request', $buffer['body']);
+        $this->assertArrayHasKey('http/1.1 400 bad request', $buffer['headers']);
 
         $buffer = __url_get_contents('https://127.0.0.1/saltos/code4/api/?auth/check', [
             'method' => 'head',
         ]);
-        $this->assertSame($buffer, [
-            'body' => '',
-            'headers' => [],
-            'cookies' => [],
-        ]);
+        $this->assertSame($buffer['body'], '');
+        $this->assertSame(count($buffer['headers']) > 0, true);
 
         $buffer = __url_get_contents('https://127.0.0.1/saltos/code4/api/?auth/check', [
             'cookies' => ['nada' => 'nada'],
@@ -188,26 +185,25 @@ final class test_file extends TestCase
             'referer' => 'https://127.0.0.1/saltos/code4/api/',
             'headers' => ['nada' => 'nada'],
             'body' => 'nada',
+            'user_agent' => 'nada',
         ]);
         $this->assertSame(is_array($buffer), true);
         $this->assertSame(strlen($buffer['body']) > 0, true);
 
         $buffer = __url_get_contents('http://127.0.0.1:631/admin/');
-        $temp = $buffer['cookies'][0]['127.0.0.1:631']['/']['org.cups.sid'];
+        $temp = $buffer['cookies']['org.cups.sid'];
         $cookies = $buffer['cookies'];
         $buffer = __url_get_contents('http://127.0.0.1:631/admin/', [
             'cookies' => $cookies,
             'method' => 'post',
             'values' => [
-                $temp['name'] => $temp['value'],
+                'org.cups.sid' => $temp,
                 'OP' => 'add-printer',
             ],
         ]);
-        $this->assertSame($buffer, [
-            'body' => '',
-            'headers' => [],
-            'cookies' => [],
-        ]);
+        $this->assertSame(strlen($buffer['body']) > 0, true);
+        $this->assertStringContainsString('Unauthorized', $buffer['body']);
+        $this->assertArrayHasKey('http/1.1 401 unauthorized', $buffer['headers']);
     }
 
     #[testdox('authtoken action')]
@@ -241,9 +237,11 @@ final class test_file extends TestCase
     {
         $json2 = test_web_helper('upload/addfile', [], '', '');
         $this->assertArrayHasKey('error', $json2);
+        $this->assertSame($json2['error']['text'], 'Permission denied');
 
         $json2 = test_web_helper('upload/addfile', [], $json['token'], '');
         $this->assertArrayHasKey('error', $json2);
+        $this->assertSame($json2['error']['text'], 'file not found');
 
         $json2 = test_web_helper('upload/addfile', [
             'error' => 'nada',

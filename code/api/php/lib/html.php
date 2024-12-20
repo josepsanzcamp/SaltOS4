@@ -244,8 +244,8 @@ function __inline_img_helper($src)
     }
     // headers added to solve akamai 403 forbidden error
     $data = __url_get_contents($src, [
+        'user_agent' => get_data('server/user_agent'),
         'headers' => [
-            'User-Agent' => get_data('server/user_agent'),
             'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language' => get_data('server/lang'),
             'Accept-Encoding' => 'gzip, deflate, br, zstd',
@@ -253,9 +253,12 @@ function __inline_img_helper($src)
     ]);
     $valid = false;
     foreach ($data['headers'] as $key => $val) {
-        $key = substr(strtolower($key), 0, 12);
-        $valid = in_array($key, ['http/1.1 200', 'http/2.0 200']);
-        if ($valid) {
+        if (strpos($key, 'http/1.1 200') !== false) {
+            $valid = true;
+            break;
+        }
+        if (strpos($key, 'http/2 200') !== false) {
+            $valid = true;
             break;
         }
     }
