@@ -216,7 +216,7 @@ function __url_get_contents($url, $args = [])
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     if (isset($args['user_agent'])) {
         curl_setopt($ch, CURLOPT_USERAGENT, $args['user_agent']);
     } else {
