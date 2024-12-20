@@ -1,5 +1,5 @@
 {
     "require": {
-        "browscap/browscap-php": "^7.4"
+        "browscap/browscap-php": "^7.5"
     }
 }
