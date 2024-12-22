@@ -53,6 +53,7 @@ use PHPUnit\Framework\Attributes\Depends;
  */
 require_once 'lib/utestlib.php';
 require_once __ROOT__ . 'apps/emails/php/getmail.php';
+require_once __ROOT__ . 'apps/emails/php/sendmail.php';
 
 /**
  * Main class of this unit test
@@ -81,7 +82,7 @@ final class test_emails extends TestCase
             unlink($file);
         }
 
-        $decoded = __getmail_getmime(101);
+        $decoded = __getmail_getmime(-1);
         $this->assertSame($decoded, '');
 
         $decoded = __getmail_getmime(99);
@@ -178,6 +179,81 @@ final class test_emails extends TestCase
         $result = getmail_pdf('99,100');
         $this->assertIsArray($result);
 
+        $query = 'UPDATE app_emails_files SET indexed=0, retries = 0';
+        db_query($query);
+
+        $query = 'SELECT COUNT(*) FROM app_emails_files';
+        $total = execute_query($query);
+
+        $json = test_cli_helper('app/emails/action/indexing', [], '', '', 'admin');
+        $this->assertIsArray($json);
+        $this->assertSame($json['indexing']['total'], $total);
+
+        set_data('server/lang', 'en');
+
+        $result = sendmail(-1, '', '', '');
+        $this->assertStringContainsString('Id not found', $result);
+
+        $result = sendmail(1, '', '', '');
+        $this->assertStringContainsString('Invalid address', $result);
+
+        $result = sendmail(1, 'test@example.com', '', '');
+        $this->assertStringContainsString('Message body empty', $result);
+
+        $result = sendmail(1, ['to:'], '', 'nada');
+        $this->assertStringContainsString('Invalid address', $result);
+
+        $result = sendmail(1, ['cc:'], '', 'nada');
+        $this->assertStringContainsString('Invalid address', $result);
+
+        $result = sendmail(1, ['bcc:'], '', 'nada');
+        $this->assertStringContainsString('Invalid address', $result);
+
+        $result = sendmail(1, ['to:test@example.com', 'crt:1'], '', 'nada');
+        $this->assertStringContainsString('Invalid address', $result);
+
+        $result = sendmail(1, ['to:test@example.com', 'priority:100'], '', 'nada');
+        $this->assertSame($result, '');
+
+        $result = sendmail(1, ['to:test@example.com', 'sensitivity:100'], '', 'nada');
+        $this->assertSame($result, '');
+
+        $result = sendmail(1, ['to:test@example.com', 'replyto:'], '', 'nada');
+        $this->assertStringContainsString('Invalid address', $result);
+
+        $result = sendmail(1, [
+            'to:test@example.com',
+            'cc:test@example.com',
+            'bcc:test@example.com',
+            'crt:test@example.com',
+            'priority:1',
+            'sensitivity:1',
+            'replyto:test@example.com',
+        ], 'test email', 'body for the test email', [[
+            'data' => 'hola mundo',
+            'name' => 'file1.txt',
+            'mime' => 'text/plain',
+        ],[
+            'file' => '../../utest/files/lorem.txt',
+            'name' => 'lorem.txt',
+            'mime' => 'text/plain',
+        ],[
+            'data' => 'hola mundo',
+            'name' => 'file1.txt',
+            'mime' => 'text/plain',
+            'cid' => 'file1.txt',
+        ],[
+            'file' => '../../utest/files/lorem.txt',
+            'name' => 'lorem.txt',
+            'mime' => 'text/plain',
+            'cid' => 'lorem.txt',
+        ]]);
+        $this->assertSame($result, '');
+
+        $result = sendmail(1, 'test@example.com', 'nada', 'nada', [], false);
+        $this->assertStringContainsString('Connection refused', $result);
+
         set_data('server/user', null);
+        set_data('server/lang', null);
     }
 }
