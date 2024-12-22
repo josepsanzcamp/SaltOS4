@@ -21,6 +21,7 @@
     <source>
         <include>
             <directory suffix=".php">../code/api/php</directory>
+            <directory suffix=".php">../code/apps/*/php</directory>
         </include>
         <exclude>
             <file>../code/api/php/autoload/compat.php</file>

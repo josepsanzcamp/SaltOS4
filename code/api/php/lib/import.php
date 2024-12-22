@@ -315,7 +315,7 @@ function __import_xls2array($file, $sheet)
             }
             $dir = dirname($xlsx);
             $base = basename($xlsx);
-            ob_passthru("cd $dir; xlsxio_xlsx2csv $base");
+            ob_passthru("cd $dir; xlsxio_xlsx2csv $base 2>&1");
             if ($fix) {
                 unlink($xlsx);
             }

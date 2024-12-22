@@ -1763,6 +1763,7 @@ function getmail_pdf($ids)
     if (isset($cache[$hash])) {
         return $cache[$hash];
     }
+    $ids = check_ids($ids);
     $ids = explode(',', $ids);
     $pdfs = [];
     foreach ($ids as $id) {
@@ -1785,7 +1786,7 @@ function getmail_pdf($ids)
         $output = get_cache_file([__FUNCTION__, $id], '.pdf');
         if (!file_exists($output)) {
             $options = '--enable-local-file-access';
-            ob_passthru("wkhtmltopdf $options $input $output");
+            ob_passthru("wkhtmltopdf $options $input $output 2>&1");
             chmod_protected($output, 0666);
         }
         $pdfs[] = $output;
@@ -1793,7 +1794,7 @@ function getmail_pdf($ids)
     if (count($pdfs) > 1) {
         $input = implode(' ', $pdfs);
         $output = get_cache_file([__FUNCTION__, $ids], '.pdf');
-        ob_passthru("pdfunite $input $output");
+        ob_passthru("pdfunite $input $output 2>&1");
         chmod_protected($output, 0666);
     } else {
         $output = $pdfs[0];
