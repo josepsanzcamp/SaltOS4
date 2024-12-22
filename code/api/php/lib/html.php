@@ -115,6 +115,9 @@ function remove_link_tag($temp)
  */
 function inline_img_tag($html)
 {
+    if (trim($html) == '') {
+        return $html;
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -149,6 +152,9 @@ function inline_img_tag($html)
  */
 function inline_img_style($html)
 {
+    if (trim($html) == '') {
+        return $html;
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -195,6 +201,9 @@ function inline_img_style($html)
  */
 function inline_img_background($html)
 {
+    if (trim($html) == '') {
+        return $html;
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -287,6 +296,9 @@ function __inline_img_helper($src)
  */
 function extract_img_tag($html)
 {
+    if (trim($html) == '') {
+        return [$html, []];
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -313,6 +325,9 @@ function extract_img_tag($html)
  */
 function extract_img_style($html)
 {
+    if (trim($html) == '') {
+        return [$html, []];
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -351,6 +366,9 @@ function extract_img_style($html)
  */
 function extract_img_background($html)
 {
+    if (trim($html) == '') {
+        return [$html, []];
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -380,6 +398,9 @@ function extract_img_background($html)
  */
 function fix_img_tag($html)
 {
+    if (trim($html) == '') {
+        return $html;
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -412,6 +433,9 @@ function fix_img_tag($html)
  */
 function fix_img_style($html)
 {
+    if (trim($html) == '') {
+        return $html;
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);
@@ -456,6 +480,9 @@ function fix_img_style($html)
  */
 function fix_img_background($html)
 {
+    if (trim($html) == '') {
+        return $html;
+    }
     $dom = new DOMDocument();
     libxml_use_internal_errors(true); // Trick
     $dom->loadHTML($html);

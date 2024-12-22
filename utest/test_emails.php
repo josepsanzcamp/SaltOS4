@@ -253,7 +253,54 @@ final class test_emails extends TestCase
         $result = sendmail(1, 'test@example.com', 'nada', 'nada', [], false);
         $this->assertStringContainsString('Connection refused', $result);
 
+        set_server('QUERY_STRING', 'app/emails/create');
+
+        $result = sendmail_prepare('', '');
+        $this->assertIsArray($result);
+
+        $result = sendmail_prepare('reply', 100);
+        $this->assertIsArray($result);
+
+        $result = sendmail_prepare('replyall', 100);
+        $this->assertIsArray($result);
+
+        $result = sendmail_prepare('forward', 100);
+        $this->assertIsArray($result);
+
+        $result = sendmail_action([
+            'from' => 1,
+        ], '', '');
+        $this->assertIsArray($result);
+        $this->assertSame($result['status'], 'ko');
+
+        $result = sendmail_action([
+            'from' => 1,
+            'to' => 'test@example.com',
+            'subject' => 'test email',
+            'body' => 'hello world',
+        ], '', '');
+        $this->assertIsArray($result);
+        $this->assertSame($result['status'], 'ok');
+
+        $query = 'SELECT id FROM app_emails WHERE id > 100';
+        $ids = execute_query_array($query);
+
+        $result = getmail_delete($ids);
+        $this->assertSame(sprintf(T('%d email(s) deleted'), count($ids)), $result);
+
+        $result = sendmail_signature([
+            'old' => 1,
+            'new' => 1,
+        ]);
+        $this->assertIsArray($result);
+        $this->assertSame([
+            'body' => '',
+            'cc' => '',
+            'state_crt' => 0,
+        ], $result);
+
         set_data('server/user', null);
         set_data('server/lang', null);
+        set_server('QUERY_STRING', null);
     }
 }

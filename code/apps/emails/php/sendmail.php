@@ -605,7 +605,7 @@ function sendmail_action($json, $action, $email_id)
     $state_crt = intval($json['state_crt'] ?? 0);
     $priority = intval($json['priority'] ?? 0);
     $sensitivity = intval($json['sensitivity'] ?? 0);
-    $uploads = array_protected($json['files']) ?? [];
+    $uploads = array_protected($json['files'] ?? []);
     // SEARCH FROM
     $query = "SELECT CONCAT(email_name,' <',email_from,'>') email
         FROM app_emails_accounts WHERE user_id = ? AND id = ?";
