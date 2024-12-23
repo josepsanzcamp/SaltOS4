@@ -40,7 +40,7 @@ declare(strict_types=1);
  */
 function get_browser_platform_device_type($user_agent = null)
 {
-    require_once __ROOT__ . 'lib/browscap/vendor/autoload.php';
+    require_once 'lib/browscap/vendor/autoload.php';
     $file = 'lib/browscap/vendor/browscap/browscap-php/resources/cache.sqlite';
     $db = new PDO("sqlite:$file");
     // This oveload is found until this libraries fixes these deprecations

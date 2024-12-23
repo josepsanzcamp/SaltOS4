@@ -43,7 +43,7 @@ if (!semaphore_acquire('cron')) {
 }
 
 db_connect();
-require_once __ROOT__ . 'php/lib/cron.php';
+require_once 'php/lib/cron.php';
 
 $time1 = microtime(true);
 $total1 = cron_gc();

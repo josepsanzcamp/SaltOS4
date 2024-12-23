@@ -40,9 +40,9 @@ declare(strict_types=1);
  *
  * This requires loads the external libraries needed to run this library.
  */
-require_once __ROOT__ . 'apps/emails/lib/mimeparser/mime_parser.php';
-require_once __ROOT__ . 'apps/emails/lib/mimeparser/rfc822_addresses.php';
-require_once __ROOT__ . 'apps/emails/lib/pop3class/pop3.php';
+require_once 'apps/emails/lib/mimeparser/mime_parser.php';
+require_once 'apps/emails/lib/mimeparser/rfc822_addresses.php';
+require_once 'apps/emails/lib/pop3class/pop3.php';
 
 /**
  * Defines section
@@ -963,8 +963,8 @@ function __getmail_insert(
         db_query(...$query);
     }
     // Insert the control register
-    require_once __ROOT__ . 'php/lib/control.php';
-    require_once __ROOT__ . 'php/lib/indexing.php';
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/indexing.php';
     make_control('emails', $last_id);
     make_index('emails', $last_id);
     return $last_id;
@@ -1210,7 +1210,7 @@ function __getmail_body_helper($decoded, $images = false)
                 $temp = str_replace([' ', "\t", "\n"], ['&nbsp;', str_repeat('&nbsp;', 4), '<br>'], $temp);
             }
             if ($type == 'html') {
-                require_once __ROOT__ . 'php/lib/html.php';
+                require_once 'php/lib/html.php';
                 $temp = remove_script_tag($temp);
                 $temp = remove_style_tag($temp);
                 $temp = remove_comment_tag($temp);
@@ -1546,7 +1546,7 @@ function getmail_server()
     $haserror[] = sprintf(T('%d email(s) received'), $newemail);
     // intended to be used by cron feature
     if (get_data('server/xuid') && $newemail) {
-        require_once __ROOT__ . 'php/lib/push.php';
+        require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }
     // release the semaphore
@@ -1619,8 +1619,8 @@ function getmail_delete($ids)
     // BORRAR REGISTRO DE LOS CORREOS
     $ids = explode(',', $ids);
     foreach ($ids as $id) {
-        require_once __ROOT__ . 'php/lib/control.php';
-        require_once __ROOT__ . 'php/lib/indexing.php';
+        require_once 'php/lib/control.php';
+        require_once 'php/lib/indexing.php';
         make_control('emails', $id);
         make_index('emails', $id);
     }
@@ -1650,10 +1650,10 @@ function getmail_viewpdf($id, $cid)
     // CREAR THUMBS SI ES NECESARIO
     $cache2 = get_cache_file([$id, $cid], 'pdf');
     if (!file_exists($cache2)) {
-        require_once __ROOT__ . 'php/lib/unoconv.php';
+        require_once 'php/lib/unoconv.php';
         file_put_contents($cache2, unoconv2pdf($cache1));
         if (!filesize($cache2)) {
-            require_once __ROOT__ . 'php/lib/pdf.php';
+            require_once 'php/lib/pdf.php';
             file_put_contents($cache2, __pdf_all2pdf($cache1));
         }
         chmod_protected($cache2, 0666);
@@ -1739,7 +1739,7 @@ function getmail_setter($ids, $what)
 function getmail_pdf($ids)
 {
     if (!check_commands('wkhtmltopdf')) {
-        require_once __ROOT__ . 'php/lib/pdf.php';
+        require_once 'php/lib/pdf.php';
         return pdf('apps/emails/xml/pdf.xml', ['id' => $ids]);
     }
     static $cache = [];

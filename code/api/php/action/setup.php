@@ -43,9 +43,9 @@ if (!semaphore_acquire('setup')) {
 }
 
 db_connect();
-require_once __ROOT__ . 'php/lib/system.php';
-require_once __ROOT__ . 'php/lib/dbschema.php';
-require_once __ROOT__ . 'php/lib/setup.php';
+require_once 'php/lib/system.php';
+require_once 'php/lib/dbschema.php';
+require_once 'php/lib/setup.php';
 
 $dbschema_check = __dbschema_check();
 $dbschema_hash = __dbschema_hash();

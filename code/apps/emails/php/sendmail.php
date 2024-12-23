@@ -56,8 +56,8 @@ use PHPMailer\PHPMailer\SMTP;
  */
 function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
 {
-    require_once __ROOT__ . 'apps/emails/lib/phpmailer/vendor/autoload.php';
-    require_once __ROOT__ . 'apps/emails/php/getmail.php';
+    require_once 'apps/emails/lib/phpmailer/vendor/autoload.php';
+    require_once 'apps/emails/php/getmail.php';
     // FIND ACCOUNT DATA
     $query = 'SELECT * FROM app_emails_accounts WHERE id = ?';
     $result = execute_query($query, [$account_id]);
@@ -411,7 +411,7 @@ function __sendmail_objsaver($mail, $messageid)
  */
 function sendmail_prepare($action, $email_id)
 {
-    require_once __ROOT__ . 'apps/emails/php/getmail.php';
+    require_once 'apps/emails/php/getmail.php';
     $query = "SELECT id
         FROM app_emails_accounts
         WHERE user_id = ?
@@ -593,8 +593,8 @@ function sendmail_prepare($action, $email_id)
  */
 function sendmail_action($json, $action, $email_id)
 {
-    require_once __ROOT__ . 'apps/emails/php/getmail.php';
-    require_once __ROOT__ . 'php/lib/upload.php';
+    require_once 'apps/emails/php/getmail.php';
+    require_once 'php/lib/upload.php';
     // GET ALL DATA
     $account_id = intval($json['from'] ?? 0);
     $to = strval($json['to'] ?? '');
@@ -674,7 +674,7 @@ function sendmail_action($json, $action, $email_id)
         }
     }
     // TRY TO CONVERT THE INLINE IMAGES INTO ATTACHMENTS WITH CID
-    require_once __ROOT__ . 'php/lib/html.php';
+    require_once 'php/lib/html.php';
     [$body, $files1] = extract_img_tag($body);
     [$body, $files2] = extract_img_style($body);
     [$body, $files3] = extract_img_background($body);
@@ -741,8 +741,8 @@ function sendmail_server()
         LEFT JOIN app_emails_accounts c ON c.id = a.account_id
         WHERE c.user_id = ? AND a.is_outbox = 1 AND a.state_sent = 0';
     $result = execute_query_array($query, [current_user()]);
-    require_once __ROOT__ . 'apps/emails/lib/phpmailer/vendor/autoload.php';
-    require_once __ROOT__ . 'apps/emails/php/getmail.php';
+    require_once 'apps/emails/lib/phpmailer/vendor/autoload.php';
+    require_once 'apps/emails/php/getmail.php';
     $sended = 0;
     $haserror = [];
     foreach ($result as $row) {
@@ -849,7 +849,7 @@ function sendmail_server()
     $haserror[] = sprintf(T('%d email(s) sended'), $sended);
     // intended to be used by cron feature
     if (get_data('server/xuid') && $sended) {
-        require_once __ROOT__ . 'php/lib/push.php';
+        require_once 'php/lib/push.php';
         push_insert('event', 'saltos.emails.update');
     }
     // release the semaphore
@@ -865,8 +865,8 @@ function sendmail_server()
 function sendmail_files($action, $email_id)
 {
     if ($action == 'forward' && $email_id) {
-        require_once __ROOT__ . 'apps/emails/php/getmail.php';
-        require_once __ROOT__ . 'php/lib/upload.php';
+        require_once 'apps/emails/php/getmail.php';
+        require_once 'php/lib/upload.php';
         if (!__getmail_checkperm($email_id)) {
             show_php_error(['phperror' => 'Permission denied']);
         }
@@ -914,7 +914,7 @@ function sendmail_files($action, $email_id)
  */
 function sendmail_signature($json)
 {
-    require_once __ROOT__ . 'apps/emails/php/getmail.php';
+    require_once 'apps/emails/php/getmail.php';
     $old = intval($json['old'] ?? 0);
     $new = intval($json['new'] ?? 0);
     $body = strval($json['body'] ?? '');

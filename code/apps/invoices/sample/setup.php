@@ -41,10 +41,10 @@ if (!semaphore_acquire('app/invoices/setup')) {
     show_php_error(['phperror' => 'Could not acquire the semaphore']);
 }
 
-require_once __ROOT__ . 'php/lib/control.php';
-require_once __ROOT__ . 'php/lib/log.php';
-require_once __ROOT__ . 'php/lib/version.php';
-require_once __ROOT__ . 'php/lib/indexing.php';
+require_once 'php/lib/control.php';
+require_once 'php/lib/log.php';
+require_once 'php/lib/version.php';
+require_once 'php/lib/indexing.php';
 $time1 = microtime(true);
 
 // Import invoices

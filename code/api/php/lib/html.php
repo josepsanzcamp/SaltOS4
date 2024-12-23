@@ -269,7 +269,7 @@ function __inline_img_helper($src)
         $type0 = saltos_content_type0($type);
         if (in_array($type0, ['image', 'application'])) {
             $hash1 = md5($data['body']);
-            require_once __ROOT__ . 'php/lib/gdlib.php';
+            require_once 'php/lib/gdlib.php';
             $data['body'] = image_resize($data['body'], 1000);
             $hash2 = md5($data['body']);
             if ($hash1 != $hash2) {

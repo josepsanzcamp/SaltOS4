@@ -29,12 +29,11 @@ declare(strict_types=1);
 
 // phpcs:disable PSR1.Files.SideEffects
 
-define('__ROOT__', getcwd() . '/');
 foreach (glob('php/autoload/*.php') as $file) {
     if (basename($file) == 'zindex.php') {
         continue;
     }
-    require __ROOT__ . $file;
+    require $file;
 }
 
 pcov_start();

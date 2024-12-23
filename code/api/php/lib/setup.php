@@ -98,10 +98,10 @@ function setup()
         }
     }
 
-    require_once __ROOT__ . 'php/lib/control.php';
-    require_once __ROOT__ . 'php/lib/log.php';
-    require_once __ROOT__ . 'php/lib/version.php';
-    require_once __ROOT__ . 'php/lib/indexing.php';
+    require_once 'php/lib/control.php';
+    require_once 'php/lib/log.php';
+    require_once 'php/lib/version.php';
+    require_once 'php/lib/indexing.php';
 
     if ($output['tbl_users']) {
         make_control('users', 1);

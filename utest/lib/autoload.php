@@ -50,12 +50,11 @@ use PHPUnit\Framework\Assert;
 set_include_path(get_include_path() . ':' . getcwd() . '/' . 'utest');
 
 chdir('code/api');
-define('__ROOT__', getcwd() . '/');
 foreach (glob('php/autoload/*.php') as $file) {
     if (basename($file) == 'zindex.php') {
         continue;
     }
-    require __ROOT__ . $file;
+    require $file;
 }
 
 init_timer();

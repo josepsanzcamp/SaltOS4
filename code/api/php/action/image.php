@@ -121,7 +121,7 @@ switch ($action) {
         $s = get_data('json/s') ? get_data('json/s') : 8;
         $t = get_data('json/t') ? get_data('json/t') : 'C39';
         // Do image
-        require_once __ROOT__ . 'php/lib/barcode.php';
+        require_once 'php/lib/barcode.php';
         $image = __barcode_image($msg, $w, $h, $m, $s, $t);
         $output = [
             'msg' => $msg,
@@ -139,7 +139,7 @@ switch ($action) {
         $m = get_data('json/m') ? get_data('json/m') : 10;
         $l = get_data('json/l') ? get_data('json/l') : 'L';
         // Do image
-        require_once __ROOT__ . 'php/lib/qrcode.php';
+        require_once 'php/lib/qrcode.php';
         $image = __qrcode_image($msg, $s, $m, $l);
         $output = [
             'msg' => $msg,
@@ -167,7 +167,7 @@ switch ($action) {
         $args['amplitude'] = get_data('json/amplitude') ? get_data('json/amplitude') : 8;
         $args['blur'] = get_data('json/blur') ? get_data('json/blur') : 'true';
         // Do image
-        require_once __ROOT__ . 'php/lib/captcha.php';
+        require_once 'php/lib/captcha.php';
         $code = null;
         if ($type == 'number') {
             $code = __captcha_make_number($length);
@@ -192,8 +192,8 @@ switch ($action) {
         $height = get_data('json/height') ? get_data('json/height') : 16;
         $size = get_data('json/size') ? get_data('json/size') : 8;
         // Do image
-        require_once __ROOT__ . 'php/lib/password.php';
-        require_once __ROOT__ . 'php/lib/score.php';
+        require_once 'php/lib/password.php';
+        require_once 'php/lib/score.php';
         $score = password_strength($pass);
         $image = __score_image($score, $width, $height, $size);
         $minscore = intval(get_config('auth/passwordminscore'));

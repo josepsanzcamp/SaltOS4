@@ -52,10 +52,10 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once __ROOT__ . 'php/lib/barcode.php';
-require_once __ROOT__ . 'php/lib/qrcode.php';
-require_once __ROOT__ . 'php/lib/captcha.php';
-require_once __ROOT__ . 'php/lib/score.php';
+require_once 'php/lib/barcode.php';
+require_once 'php/lib/qrcode.php';
+require_once 'php/lib/captcha.php';
+require_once 'php/lib/score.php';
 
 /**
  * Main class of this unit test

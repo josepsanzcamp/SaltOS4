@@ -62,7 +62,7 @@ declare(strict_types=1);
  */
 function __captcha_image($code, $args = [])
 {
-    require_once __ROOT__ . 'php/lib/color.php';
+    require_once 'php/lib/color.php';
     $code = strval($code);
     $width = isset($args['width']) ? $args['width'] : 90;
     $height = isset($args['height']) ? $args['height'] : 45;
@@ -194,7 +194,7 @@ function __captcha_image($code, $args = [])
  */
 function __captcha_make_number($length)
 {
-    require_once __ROOT__ . 'php/lib/math.php';
+    require_once 'php/lib/math.php';
     do {
         $code = str_pad(strval(rand(0, pow(10, $length) - 1)), $length, '0', STR_PAD_LEFT);
     } while (!is_prime($code));
@@ -211,7 +211,7 @@ function __captcha_make_number($length)
  */
 function __captcha_make_math($length)
 {
-    require_once __ROOT__ . 'php/lib/math.php';
+    require_once 'php/lib/math.php';
     $max = pow(10, round($length / 2)) - 1;
     do {
         do {

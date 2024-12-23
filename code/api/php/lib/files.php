@@ -146,10 +146,10 @@ function files_viewpdf($app, $id, $cid)
     // CREAR THUMBS SI ES NECESARIO
     $cache2 = get_cache_file([$app, $id, $cid], 'pdf');
     if (!file_exists($cache2)) {
-        require_once __ROOT__ . 'php/lib/unoconv.php';
+        require_once 'php/lib/unoconv.php';
         file_put_contents($cache2, unoconv2pdf($cache1));
         if (!filesize($cache2)) {
-            require_once __ROOT__ . 'php/lib/pdf.php';
+            require_once 'php/lib/pdf.php';
             file_put_contents($cache2, __pdf_all2pdf($cache1));
         }
         chmod_protected($cache2, 0666);

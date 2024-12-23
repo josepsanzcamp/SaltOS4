@@ -52,10 +52,10 @@ use PHPUnit\Framework\Attributes\Depends;
  * This file contains the needed function used by the unit tests
  */
 require_once 'lib/utestlib.php';
-require_once __ROOT__ . 'apps/users/php/days.php';
-require_once __ROOT__ . 'apps/users/php/matrix.php';
-require_once __ROOT__ . 'apps/users/php/users.php';
-require_once __ROOT__ . 'apps/users/php/groups.php';
+require_once 'apps/users/php/days.php';
+require_once 'apps/users/php/matrix.php';
+require_once 'apps/users/php/users.php';
+require_once 'apps/users/php/groups.php';
 
 /**
  * Main class of this unit test

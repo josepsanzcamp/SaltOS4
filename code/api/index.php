@@ -45,19 +45,13 @@ if (version_compare(PHP_VERSION, '7.0', '<')) {
 chdir(dirname($_SERVER['SCRIPT_FILENAME']));
 
 /**
- * This defines the __ROOT__ directory used in all included files, it uses
- * the previous chdir that puts the working directory to the correct path
- */
-define('__ROOT__', getcwd() . '/');
-
-/**
  * We include all core files, note that the last file (zindex.php) launches
  * the old index.php code, this is separated to simplify the code structure
  * and prevent errors with old php versions that not supports the null
  * coalescing operator
  */
 foreach (glob('php/autoload/*.php') as $file) {
-    require __ROOT__ . $file;
+    require $file;
 }
 
 // You never must to see this error, some wrong thing was occurred in zindex

@@ -416,7 +416,7 @@ function eval_attr($array)
                                 if (!file_exists($file)) {
                                     show_php_error(['xmlerror' => "Require '$file' not found"]);
                                 }
-                                require_once __ROOT__ . $file;
+                                require_once $file;
                             }
                             unset($attr[$key2]);
                             break;

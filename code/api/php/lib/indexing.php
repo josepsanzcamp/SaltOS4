@@ -222,7 +222,7 @@ function __make_index_helper($table, $id = '')
  */
 function __get_field_helper($table)
 {
-    require_once __ROOT__ . 'php/lib/dbschema.php';
+    require_once 'php/lib/dbschema.php';
     return get_field_from_dbstatic($table);
 }
 
@@ -239,7 +239,7 @@ function __get_field_helper($table)
  */
 function __get_fkeys_helper($table)
 {
-    require_once __ROOT__ . 'php/lib/dbschema.php';
+    require_once 'php/lib/dbschema.php';
     return get_fkeys_from_dbschema($table);
 }
 

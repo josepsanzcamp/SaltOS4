@@ -37,7 +37,7 @@ declare(strict_types=1);
  * This file contains useful functions related to PDF using tcpdf
  */
 
-require_once __ROOT__ . 'lib/tcpdf/vendor/autoload.php';
+require_once 'lib/tcpdf/vendor/autoload.php';
 
 /**
  * TODO
@@ -215,7 +215,7 @@ function __pdf_eval_explode($separator, $str, $limit = 0)
  */
 function __pdf_eval_pdftag($array, $row = [])
 {
-    require_once __ROOT__ . 'php/lib/color.php';
+    require_once 'php/lib/color.php';
     static $pdf = null;
     // Support for ltr and rtl langs
     $dir = 'ltr';

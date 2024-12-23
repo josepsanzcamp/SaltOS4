@@ -29,12 +29,11 @@ declare(strict_types=1);
 
 // phpcs:disable PSR1.Files.SideEffects
 
-define('__ROOT__', getcwd() . '/');
 foreach (glob('php/autoload/*.php') as $file) {
     if (basename($file) == 'zindex.php') {
         continue;
     }
-    require __ROOT__ . $file;
+    require $file;
 }
 
 pcov_start();
@@ -47,5 +46,5 @@ $_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
 $array = ['node' => ['value' => 'a', '#attr' => ['\a' => 'a']]];
-require_once __ROOT__ . 'php/lib/array2xml.php';
+require_once 'php/lib/array2xml.php';
 echo array2xml($array) . "\n";

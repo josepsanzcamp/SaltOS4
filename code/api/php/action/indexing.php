@@ -43,8 +43,8 @@ if (!semaphore_acquire('indexing')) {
 }
 
 db_connect();
-require_once __ROOT__ . 'php/lib/unoconv.php';
-require_once __ROOT__ . 'php/lib/indexing.php';
+require_once 'php/lib/unoconv.php';
+require_once 'php/lib/indexing.php';
 $time1 = microtime(true);
 $total1 = indexing_files();
 $time2 = microtime(true);

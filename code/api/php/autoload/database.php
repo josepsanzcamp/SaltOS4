@@ -69,7 +69,7 @@ function db_connect($args = null)
     if (!file_exists($php)) {
         show_php_error(['dberror' => "Database type '$type' not found"]);
     }
-    require_once __ROOT__ . $php;
+    require_once $php;
     $driver = "database_$type";
     if (isset($config[$type])) {
         $config = array_merge(join_attr_value($config[$type]), $config);

@@ -170,7 +170,7 @@ if (get_data('server/request_method') == 'POST') {
 // Try to execute the rest/0 if exists
 $action = 'php/action/' . get_data('rest/0') . '.php';
 if (file_exists($action)) {
-    require __ROOT__ . $action;
+    require $action;
     show_php_error(['phperror' => 'Internal error']);
 }
 

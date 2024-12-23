@@ -29,12 +29,11 @@ declare(strict_types=1);
 
 // phpcs:disable PSR1.Files.SideEffects
 
-define('__ROOT__', getcwd() . '/');
 foreach (glob('php/autoload/*.php') as $file) {
     if (basename($file) == 'zindex.php') {
         continue;
     }
-    require __ROOT__ . $file;
+    require $file;
 }
 
 pcov_start();
@@ -46,7 +45,7 @@ global $_CONFIG;
 $_CONFIG = eval_attr(xmlfiles2array(detect_config_files('xml/config.xml')));
 db_connect();
 
-require_once __ROOT__ . 'php/lib/pdf.php';
+require_once 'php/lib/pdf.php';
 __pdf_eval_pdftag([
     'nada' => '1,2,3,4,"nada"',
 ]);

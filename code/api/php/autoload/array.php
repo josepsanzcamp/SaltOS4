@@ -268,7 +268,7 @@ function __array_filter($array, $filter, $eval = false)
  */
 function __array_filter_rec($node, $filter, $eval, $parent = [])
 {
-    require_once __ROOT__ . 'php/lib/import.php';
+    require_once 'php/lib/import.php';
     if (isset($node['row']) && isset($node['rows'])) {
         // Normal filter
         foreach ($node['row'] as $val) {

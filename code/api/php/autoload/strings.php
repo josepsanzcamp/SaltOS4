@@ -249,7 +249,7 @@ function html2text($html)
     if (!defined('RCUBE_CHARSET')) {
         define('RCUBE_CHARSET', 'UTF-8');
     }
-    require_once __ROOT__ . 'lib/roundcube/rcube_html2text.php';
+    require_once 'lib/roundcube/rcube_html2text.php';
     $obj = new rcube_html2text($html);
     // This oveload is found until this libraries fixes these deprecations
     overload_error_handler('deprecated');
