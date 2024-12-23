@@ -205,6 +205,46 @@ final class test_emails extends TestCase
         $this->assertIsArray($json);
         $this->assertSame($json['indexing']['total'], $total);
 
+        $this->assertFileDoesNotExist('data/logs/warning.log');
+
+        // !$decoded case
+        $query = prepare_insert_query('app_emails_files', [
+            'user_id' => current_user(),
+            'datetime' => current_datetime(),
+            'reg_id' => -1,
+            'uniqid' => 'nada',
+            'hash' => md5('nada'),
+        ]);
+        db_query(...$query);
+
+        $json = test_cli_helper('app/emails/action/indexing', [], '', '', 'admin');
+        $this->assertIsArray($json);
+        $this->assertSame($json['indexing']['total'], 0);
+
+        $this->assertFileExists('data/logs/warning.log');
+        unlink('data/logs/warning.log');
+
+        $this->assertFileDoesNotExist('data/logs/warning.log');
+
+        // !$file case
+        $query = prepare_update_query('app_emails_files', [
+            'reg_id' => 100,
+            'retries' => 0,
+        ], [
+            'uniqid' => 'nada',
+        ]);
+        db_query(...$query);
+
+        $json = test_cli_helper('app/emails/action/indexing', [], '', '', 'admin');
+        $this->assertIsArray($json);
+        $this->assertSame($json['indexing']['total'], 0);
+
+        $this->assertFileExists('data/logs/warning.log');
+        unlink('data/logs/warning.log');
+
+        $query = 'DELETE FROM app_emails_files WHERE reg_id = ? AND uniqid = ?';
+        db_query($query, [100, 'nada']);
+
         set_data('server/lang', 'en');
 
         $result = sendmail(-1, '', '', '');
