@@ -54,6 +54,7 @@ use PHPUnit\Framework\Attributes\Depends;
 require_once 'lib/utestlib.php';
 require_once __ROOT__ . 'apps/emails/php/getmail.php';
 require_once __ROOT__ . 'apps/emails/php/sendmail.php';
+require_once __ROOT__ . 'php/lib/html.php';
 
 /**
  * Main class of this unit test
@@ -71,13 +72,28 @@ final class test_emails extends TestCase
     {
         $json = test_cli_helper('app/emails', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/filter', [], '', '', 'admin');
+        $json = test_cli_helper('app/emails/list/list', [
+            'account_id' => 1,
+            'fields' => 'body',
+            'onlynew' => 1,
+            'onlywait' => 1,
+            'onlyspam' => 1,
+            'hidespam' => 1,
+            'withfiles' => 1,
+            'withoutfiles' => 1,
+            'onlyinbox' => 1,
+            'onlyoutbox' => 1,
+            'date1' => current_date(),
+            'date2' => current_date(),
+            'date3' => 'today',
+        ], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/list', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/view/99', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/view/files/99', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/view/body/99', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/view/body/99/true', [], '', '', 'admin');
 
-        $files = glob("data/cache/*.eml");
+        $files = glob('data/cache/*.eml');
         foreach ($files as $file) {
             unlink($file);
         }
@@ -133,7 +149,7 @@ final class test_emails extends TestCase
         $result = getmail_field('is_outbox', 99);
         $this->assertIsInt($result);
 
-        $files = glob("data/cache/*.pdf");
+        $files = glob('data/cache/*.pdf');
         foreach ($files as $file) {
             unlink($file);
         }
@@ -168,7 +184,7 @@ final class test_emails extends TestCase
         $result = getmail_setter('99', 'spam=0');
         $this->assertSame($result, sprintf(T('%d email(s) modified successfully'), 1));
 
-        $files = glob("data/cache/*.html");
+        $files = glob('data/cache/*.html');
         foreach ($files as $file) {
             unlink($file);
         }
@@ -229,25 +245,27 @@ final class test_emails extends TestCase
             'priority:1',
             'sensitivity:1',
             'replyto:test@example.com',
-        ], 'test email', 'body for the test email', [[
-            'data' => 'hola mundo',
-            'name' => 'file1.txt',
-            'mime' => 'text/plain',
-        ],[
-            'file' => '../../utest/files/lorem.txt',
-            'name' => 'lorem.txt',
-            'mime' => 'text/plain',
-        ],[
-            'data' => 'hola mundo',
-            'name' => 'file1.txt',
-            'mime' => 'text/plain',
-            'cid' => 'file1.txt',
-        ],[
-            'file' => '../../utest/files/lorem.txt',
-            'name' => 'lorem.txt',
-            'mime' => 'text/plain',
-            'cid' => 'lorem.txt',
-        ]]);
+        ], 'test email', 'body for the test email', [
+            [
+                'data' => 'hola mundo',
+                'name' => 'file1.txt',
+                'mime' => 'text/plain',
+            ], [
+                'file' => '../../utest/files/lorem.txt',
+                'name' => 'lorem.txt',
+                'mime' => 'text/plain',
+            ], [
+                'data' => 'hola mundo',
+                'name' => 'file1.txt',
+                'mime' => 'text/plain',
+                'cid' => 'file1.txt',
+            ], [
+                'file' => '../../utest/files/lorem.txt',
+                'name' => 'lorem.txt',
+                'mime' => 'text/plain',
+                'cid' => 'lorem.txt',
+            ],
+        ]);
         $this->assertSame($result, '');
 
         $result = sendmail(1, 'test@example.com', 'nada', 'nada', [], false);
@@ -273,14 +291,71 @@ final class test_emails extends TestCase
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ko');
 
+        // Add a file to the tbl_uploads
+        $id = get_unique_id_md5();
+        $file = '../../utest/files/lorem.html';
+        $app = 'app/emails/create';
+        $name = basename($file);
+        $size = filesize($file);
+        $type = saltos_content_type($file);
+        $data = mime_inline($type, file_get_contents($file));
+        $file1 = [
+            'id' => $id,
+            'app' => $app,
+            'name' => $name,
+            'size' => $size,
+            'type' => $type,
+            'data' => $data,
+            'error' => '',
+            'file' => '',
+            'hash' => '',
+        ];
+        $json = test_cli_helper('upload/addfile', $file1, '', '', 'admin');
+        $file1['data'] = '';
+        $file1['file'] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
+        $file1['hash'] = md5_file($file);
+        $this->assertSame($json, $file1);
+
+        $result = sendmail_action([
+            'from' => 1,
+            'to' => 'test@example.com',
+            'subject' => 'test email',
+            'body' => '<p>hello world</p><img src="' . __GIF_IMAGE__ . '"/>',
+            'files' => [$file1],
+        ], '', '');
+        $this->assertIsArray($result);
+        $this->assertSame($result['status'], 'ok');
+
         $result = sendmail_action([
             'from' => 1,
             'to' => 'test@example.com',
             'subject' => 'test email',
             'body' => 'hello world',
-        ], '', '');
+        ], 'reply', 100);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ok');
+
+        $result = sendmail_action([
+            'from' => 1,
+            'to' => 'test@example.com',
+            'subject' => 'test email',
+            'body' => 'hello world',
+        ], 'replyall', 100);
+        $this->assertIsArray($result);
+        $this->assertSame($result['status'], 'ok');
+
+        $result = sendmail_action([
+            'from' => 1,
+            'to' => 'test@example.com',
+            'subject' => 'test email',
+            'body' => 'hello world',
+        ], 'forward', 100);
+        $this->assertIsArray($result);
+        $this->assertSame($result['status'], 'ok');
+
+        $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
+        $this->assertIsArray($result);
+        $this->assertStringContainsString('Connection refused', $result[0]);
 
         $query = 'SELECT id FROM app_emails WHERE id > 100';
         $ids = execute_query_array($query);

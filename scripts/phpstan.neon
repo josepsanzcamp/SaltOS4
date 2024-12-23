@@ -6,5 +6,7 @@ parameters:
         - ../code/api/php
         - ../code/api/lib
         - ../utest
+        - ../code/apps/common/php
         - ../code/apps/emails/php
         - ../code/apps/emails/lib
+        - ../code/apps/users/php

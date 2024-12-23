@@ -991,22 +991,6 @@ function __getmail_update($field, $value, $id)
 }
 
 /**
- * Raw url decode
- *
- * This function tries to detect if the argument contains the %20 string
- * to try to detect url encoded strings and fix it if is needed
- *
- * @temp => the string that you want to check and fix
- */
-function __getmail_rawurldecode($temp)
-{
-    if (strpos($temp, '%20') !== false) {
-        $temp = rawurldecode($temp);
-    }
-    return $temp;
-}
-
-/**
  * Add bcc
  *
  * This function adds the bbc to the database, this is because the messages
