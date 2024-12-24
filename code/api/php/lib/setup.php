@@ -34,9 +34,12 @@ declare(strict_types=1);
  */
 
 /**
- * TODO
+ * Setup function
  *
- * TODO
+ * This function allow to create the minimal user and group information to do SaltOS
+ * usable by the admin user, only do things if the keys tables of the array are void,
+ * too is able to maintain the integrity of the tbl_{users,groups}_apps_perms tables
+ * by removing the unused registers, usefull when you modify the tbl_apps_perms rows
  */
 function setup()
 {

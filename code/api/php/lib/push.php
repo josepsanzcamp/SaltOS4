@@ -34,9 +34,12 @@ declare(strict_types=1);
  */
 
 /**
- * TODO
+ * Push insert
  *
- * TODO
+ * This function adds an entry to the push system using the type and message
+ *
+ * @type    => the type (one of this: success, danger or event)
+ * @message => the desired message that you want to put in the queue
  */
 function push_insert($type, $message)
 {
@@ -54,9 +57,17 @@ function push_insert($type, $message)
 }
 
 /**
- * TODO
+ * Push select
  *
- * TODO
+ * This function returns the push data found after the timestamp used
+ *
+ * @timestamp => the timestamp used to begin the search
+ *
+ * Notes:
+ *
+ * - This function returns the entries found without repetitions, to be
+ *   usefull, only uses the last entries removing the repeated entries and
+ *   using only the type and message to detect repetitions
  */
 function push_select($timestamp)
 {

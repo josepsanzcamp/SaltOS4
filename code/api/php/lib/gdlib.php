@@ -59,9 +59,15 @@ function compute_width($text, $size)
 }
 
 /**
- * TODO
+ * Image resize
  *
- * TODO
+ * This function is a helper for the html functions, and is intended to
+ * get images less than 1000x1000 pixels, to do it, maintain the width and
+ * height relation, the main idea is to get images scaled less that the size
+ * parameter
+ *
+ * @data => the data of the image
+ * @size => the size used in the control (size x size)
  */
 function image_resize($data, $size)
 {

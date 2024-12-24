@@ -125,9 +125,12 @@ function mime_inline($type, $data)
 }
 
 /**
- * TODO
+ * SaltOS Content Type from string
  *
- * TODO
+ * This function tries to return content-type of the buffer contents
+ *
+ * @buffer => the data that contains the image or other thing that you want to know
+ *            the content-type.
  */
 function saltos_content_type_from_string($buffer)
 {
@@ -141,9 +144,12 @@ function saltos_content_type_from_string($buffer)
 }
 
 /**
- * TODO
+ * Mime extract
  *
- * TODO
+ * This function tries to do the invert action that mime_inline, the main idea
+ * is to return the type and data used in the inline image, for example
+ *
+ * @data => an inline image in the format of data:image/png;base64,xxxxx
  */
 function mime_extract($data)
 {
@@ -160,9 +166,15 @@ function mime_extract($data)
 }
 
 /**
- * TODO
+ * Mime to name
  *
- * TODO
+ * This function returns a valid filename for the type used in the argument
+ *
+ * @type => the content-type that you want to use to get the filename
+ *
+ * Notes:
+ *
+ * - This function contains some special cases that contains special chars
  */
 function mime2name($type)
 {

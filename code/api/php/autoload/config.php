@@ -174,9 +174,17 @@ function get_config_array($prefix, $user_id)
 }
 
 /**
- * TODO
+ * Prepare Config Files
  *
- * TODO
+ * This function tries to join all config files into one unique structure, to do it
+ * joins nodes with the same key, for example, you can use the data/files/config.xml
+ * file to set the specific database configuration and overwrite the db/pdo_mysql or
+ * the db/type, the main idea is to replace the nodes of the second level because the
+ * arrays2array function join previously the differents files into one structure usin
+ * the first level to do the join, and only adds the repeated overload without take
+ * decisions about overwrite the contents like this function do
+ *
+ * @array => the main array that you want to prepare as config array
  */
 function prepare_config_files($array)
 {

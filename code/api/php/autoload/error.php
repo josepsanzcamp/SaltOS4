@@ -470,9 +470,14 @@ function detect_recursion($fn)
 }
 
 /**
- * TODO
+ * Overload error handler
  *
- * TODO
+ * This function allow to add a new error handler that is able to ignore certain errors
+ * that contains the words used as argument, this is usefull in cases where php trigger
+ * an uncontrolable error that not are possible to control using other techniques like
+ * try/catch or using the documented specification
+ *
+ * @words => the list of words that must to contain the error desired to be ignored
  */
 function overload_error_handler($words)
 {

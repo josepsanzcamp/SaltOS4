@@ -161,9 +161,14 @@ function check_file($val)
 }
 
 /**
- * TODO
+ * Copy file
  *
- * TODO
+ * This function copy the file contained in the val parameter to the
+ * app folder and create the files register using the id argument
+ *
+ * @val => the array with the file data
+ * @app => the app code that identify the application
+ * @id  => the id of the application register
  */
 function copy_file($val, $app, $id)
 {

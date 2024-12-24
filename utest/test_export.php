@@ -61,9 +61,14 @@ require_once 'php/lib/export.php';
 final class test_export extends TestCase
 {
     /**
-     * TODO
+     * Get data
      *
-     * TODO
+     * This function tries to create an array with rows using the numbers.csv file
+     * as source, it is able to add or remove the head row and to select the size
+     * of the result array of rows
+     *
+     * @nohead => the nohead field used in the import_file function
+     * @length => the size of the rows array
      */
     private function get_data($nohead, $length): array
     {

@@ -402,6 +402,8 @@ function is_attr_value($array)
  * Notes:
  * - This function is derived from the xmlfiles2array that get all files and process
  *   the contents to join with a certain logics
+ * - In a commit, this function become to be the main joining function and xmlfiles2array
+ *   uses it to do the real job
  */
 function arrays2array()
 {

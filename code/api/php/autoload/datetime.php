@@ -310,9 +310,11 @@ function current_dow($offset = 0)
 }
 
 /**
- * TODO
+ * Datetime format
  *
- * TODO
+ * This function returns the datetime using the europe format for d/m/Y instead of Y-m-d
+ *
+ * @x => the datetime string that you want to convert
  */
 function datetime_format($x)
 {

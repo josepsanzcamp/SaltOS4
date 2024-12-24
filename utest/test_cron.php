@@ -59,6 +59,32 @@ require_once 'php/lib/cron.php';
  */
 final class test_cron extends TestCase
 {
+    /**
+     * Wait cron
+     *
+     * This function waits 10 seconds until all cron processes are running
+     */
+    private function wait_cron(): void
+    {
+        $pids = glob('data/cron/*.pid');
+        foreach ($pids as $key => $val) {
+            $pids[$key] = unserialize(file_get_contents($val))['pid'];
+        }
+
+        for ($i = 0; $i < 10000; $i++) {
+            foreach ($pids as $key => $val) {
+                if (!posix_kill($val, 0)) {
+                    unset($pids[$key]);
+                }
+            }
+            if (!count($pids)) {
+                break;
+            }
+            usleep(1000);
+        }
+        $this->assertCount(0, $pids);
+    }
+
     #[testdox('cron function')]
     /**
      * cron
@@ -140,31 +166,5 @@ final class test_cron extends TestCase
         $dir = get_directory('dirs/crondir') ?? getcwd_protected() . '/data/cron/';
         $files = glob($dir . '*');
         $this->assertCount(0, $files);
-    }
-
-    /**
-     * TODO
-     *
-     * TODO
-     */
-    private function wait_cron(): void
-    {
-        $pids = glob('data/cron/*.pid');
-        foreach ($pids as $key => $val) {
-            $pids[$key] = unserialize(file_get_contents($val))['pid'];
-        }
-
-        for ($i = 0; $i < 10000; $i++) {
-            foreach ($pids as $key => $val) {
-                if (!posix_kill($val, 0)) {
-                    unset($pids[$key]);
-                }
-            }
-            if (!count($pids)) {
-                break;
-            }
-            usleep(1000);
-        }
-        $this->assertCount(0, $pids);
     }
 }

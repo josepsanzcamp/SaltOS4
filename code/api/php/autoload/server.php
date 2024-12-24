@@ -86,9 +86,10 @@ function set_server($key, $val)
 }
 
 /**
- * TODO
+ * Current hash
  *
- * TODO
+ * This function tries to do the same like current_user but for the hash parameter
+ * obtained from the QUERY_STRING server variable
  */
 function current_hash()
 {

@@ -60,9 +60,13 @@ require_once 'php/lib/import.php';
 final class test_unoconv extends TestCase
 {
     /**
-     * TODO
+     * Pdf test helper
      *
-     * TODO
+     * This function tries to do the test with unoconv2pdf, checks
+     * that the input not exists and the output exists to validate
+     * the correctness of the function
+     *
+     * @input => the input file to use in the test
      */
     private function test_pdf($input): void
     {
@@ -77,6 +81,15 @@ final class test_unoconv extends TestCase
         unlink($output);
     }
 
+    /**
+     * Txt test helper
+     *
+     * This function tries to do the test with unoconv2txt, checks
+     * that the input not exists and the output exists to validate
+     * the correctness of the function
+     *
+     * @input => the input file to use in the test
+     */
     private function test_txt($input): void
     {
         $output = get_cache_file($input, '.txt');
