@@ -253,8 +253,8 @@ function __inline_img_helper($src)
     }
     // headers added to solve akamai 403 forbidden error
     $data = __url_get_contents($src, [
-        'user_agent' => get_data('server/user_agent'),
         'headers' => [
+            'User-Agent' => get_data('server/user_agent'),
             'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language' => get_data('server/lang'),
             'Accept-Encoding' => 'gzip, deflate, br, zstd',

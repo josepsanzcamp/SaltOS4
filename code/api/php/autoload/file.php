@@ -187,17 +187,15 @@ function url_get_contents($url)
  * This file is an equivalent of the file_get_contents but intended to be used
  * for request remote files using protocols as http or https
  *
- * @url        => the url that you want to retrieve
- * @args       => Array of arguments, explained in the follow lines
- * @cookies    => an array with the cookies to be restored before send the request
- * @_method    => method used in the request
- * @values     => an array with the post values, useful when you want to send a POST
- *                request with pairs of variables and values
- * @referer    => the referer string
- * @user_agent => the user_agent string
- * @headers    => an array with the headers to be send in the request
- * @body       => the full body used of the request, useful when you want to send a
- *                json file in the body instead of pairs of keys vals
+ * @url     => the url that you want to retrieve
+ * @args    => Array of arguments, explained in the follow lines
+ * @cookies => an array with the cookies to be restored before send the request
+ * @_method => method used in the request
+ * @values  => an array with the post values, useful when you want to send a POST
+ *             request with pairs of variables and values
+ * @headers => an array with the headers to be send in the request
+ * @body    => the full body used of the request, useful when you want to send a
+ *             json file in the body instead of pairs of keys vals
  *
  * This function returns an array with four elements, body, headers, cookies and code
  */
@@ -212,13 +210,11 @@ function __url_get_contents($url, $args = [])
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    if (isset($args['user_agent'])) {
-        curl_setopt($ch, CURLOPT_USERAGENT, $args['user_agent']);
-    } else {
-        curl_setopt($ch, CURLOPT_USERAGENT, get_name_version_revision());
-    }
+    curl_setopt($ch, CURLOPT_SSL_ENABLE_ALPN, false); // to solve cloudflare 403 forbidden
     if (isset($args['cookies'])) {
         $cookies = http_build_query($args['cookies'], '', '; ');
         curl_setopt($ch, CURLOPT_COOKIE, $cookies);
@@ -238,18 +234,29 @@ function __url_get_contents($url, $args = [])
     if (isset($args['body'])) {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $args['body']);
     }
-    if (isset($args['referer'])) {
-        curl_setopt($ch, CURLOPT_REFERER, $args['referer']);
-    }
     if (isset($args['headers'])) {
         $headers = [];
-        foreach ($args['headers'] as $key => $value) {
-            $headers[] = "$key: $value";
+        $user_agent = false;
+        foreach ($args['headers'] as $key => $val) {
+            $key2 = strtolower($key);
+            if ($key2 == 'user-agent') {
+                curl_setopt($ch, CURLOPT_USERAGENT, $val);
+                $user_agent = true;
+            } elseif ($key2 == 'referer') {
+                curl_setopt($ch, CURLOPT_REFERER, $val);
+            } elseif ($key2 == 'accept-encoding') {
+                curl_setopt($ch, CURLOPT_ACCEPT_ENCODING, $val);
+            } else {
+                $headers[] = "$key: $val";
+            }
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        if (!$user_agent) {
+            curl_setopt($ch, CURLOPT_USERAGENT, get_name_version_revision());
+        }
+        if (count($headers)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
     }
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
     $response = curl_exec($ch);
     if ($response === false) {
         $errno = curl_errno($ch);
@@ -280,6 +287,7 @@ function __url_get_contents($url, $args = [])
     $headers = $temp;
     // parse cookies
     $cookies = $headers['set-cookie'] ?? '';
+    unset($headers['set-cookie']);
     $temp = [];
     if ($cookies == '') {
         $cookies = [];

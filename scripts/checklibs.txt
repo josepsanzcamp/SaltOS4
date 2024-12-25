@@ -34,7 +34,7 @@ browserify|https://github.com/browserify/browserify/tags.atom|<title>|base64:PHR
 libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|base64:PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi14ODZfNjQmdmVyc2lvbj0yNC44LjQmbGFuZz1lcyI+
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|base64:PHRpdGxlPm1hcmlhZGItMTEuOC4wOiBSZXZlcnQgJnF1b3Q7TURFVi0zMTM0MCBmaXh1cDogY2xhbmcrKy0yMCAtV2RlcHJlY2F0ZWQtbGl0ZXJhbC1vcGVyYXRvciZxdW90OzwvdGl0bGU+
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|base64:PHRpdGxlPm1pbmlmeSB2MTIuMC4wPC90aXRsZT4=
-mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMTAgLSAyMDI0LTExLTEyPC90aXRsZT4=
+mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|base64:PHRpdGxlPk1yb29uZ2EgMTQuMTIgLSAyMDI0LTEyLTI1PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|base64:PHRpdGxlPjIwMjQtMTItMTksIFZlcnNpb24gMjMuNS4wIChDdXJyZW50KSwgQGFkdWg5NTwvdGl0bGU+
 php|https://github.com/php/php-src/tags.atom|<title>|base64:PHRpdGxlPlBIUCA4LjQuMjwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|base64:PHRpdGxlPjMuMTEuMiAtIDIwMjQtMTItMTE8L3RpdGxlPg==
