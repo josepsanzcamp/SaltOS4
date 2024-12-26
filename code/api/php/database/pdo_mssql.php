@@ -66,7 +66,7 @@ class database_pdo_mssql
      */
     public function __construct($args)
     {
-        if (!class_exists('PDO')) {
+        if (!extension_loaded('pdo')) {
             // @codeCoverageIgnoreStart
             show_php_error([
                 'phperror' => 'Class PDO not found',

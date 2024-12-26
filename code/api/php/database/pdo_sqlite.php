@@ -73,7 +73,7 @@ class database_pdo_sqlite
     public function __construct($args)
     {
         require_once 'php/database/libsqlite.php';
-        if (!class_exists('PDO')) {
+        if (!extension_loaded('pdo')) {
             // @codeCoverageIgnoreStart
             show_php_error([
                 'dberror' => 'Class PDO not found',

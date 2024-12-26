@@ -72,7 +72,7 @@ class database_mysqli
      */
     public function __construct($args)
     {
-        if (!class_exists('mysqli')) {
+        if (!extension_loaded('mysqli')) {
             // @codeCoverageIgnoreStart
             show_php_error([
                 'phperror' => 'Class mysqli not found',

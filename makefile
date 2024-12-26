@@ -65,7 +65,7 @@ endif
 	@$(if $(files), \
 	phpcs --colors -p --standard=scripts/phpcs.xml ${files}; \
 	php -l ${files} 1>/dev/null 2>/dev/null || php -l ${files} | grep -v 'No syntax errors detected'; \
-	phpstan -cscripts/phpstan.neon analyse --error-format=github ${files}; )
+	phpstan -cscripts/phpstan.neon analyse ${files}; )
 
 ifeq ($(file),) # default behaviour
 	$(eval files := $(shell svn st code/web/js scripts code/apps/*/js | grep -e ^A -e ^M -e ^? | grep '\.'js$$ | grep -v '\.'min'\.'js$$ | gawk '{print $$2}' | sort))

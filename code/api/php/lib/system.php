@@ -48,17 +48,37 @@ function check_system()
     $result = [];
     // PACKAGE CHECKS
     $items = [
-        ['extension_loaded', 'xml', 'Extension', 'php-xml', 'error'],
-        ['extension_loaded', 'gd', 'Extension', 'php-gd', 'error'],
-        ['extension_loaded', 'mbstring', 'Extension', 'php-mbstring', 'error'],
-        ['extension_loaded', 'curl', 'Extension', 'php-curl', 'error'],
-        ['extension_loaded', 'zstd', 'Extension', 'php-zstd', 'warning'],
+        ['extension', 'xml', 'error', 'php-xml'],
+        ['extension', 'gd', 'error', 'php-gd'],
+        ['extension', 'mbstring', 'error', 'php-mbstring'],
+        ['extension', 'curl', 'error', 'php-curl'],
+        ['extension', 'pdo', 'warning', 'php-pdo'],
+        ['extension', 'mysqli', 'warning', 'php-mysql'],
+        ['extension', 'sqlite3', 'warning', 'php-sqlite3'],
+        ['extension', 'yaml', 'warning', 'php-yaml'],
+        ['extension', 'zstd', 'warning', 'php-zstd'],
+        ['extension', 'brotli', 'warning', 'php-brotli'],
     ];
     foreach ($items as $item) {
-        if (!$item[0]($item[1])) {
+        [$type, $name, $trigger, $package] = $item;
+        $bool = false;
+        switch ($type) {
+            case 'extension':
+                $bool = extension_loaded($name);
+                break;
+            case 'class':
+                $bool = class_exists($name);
+                break;
+            case 'function':
+                $bool = function_exists($name); // @phpstan-ignore function.impossibleType
+                break;
+        }
+        if (!$bool) {
+            $type = ucfirst($type);
+            $name = ucfirst($name);
             $result[] = [
-                $item[4] => "$item[2] $item[1] not found",
-                'details' => "Try to install $item[3] package",
+                $trigger => "$type $name not found",
+                'details' => "Try to install $package package",
             ];
         }
     }
