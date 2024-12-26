@@ -325,6 +325,16 @@ final class test_emails extends TestCase
         $result = sendmail_prepare('forward', 100);
         $this->assertIsArray($result);
 
+        // forward add an upload file that must to be removed
+        $id = execute_query('SELECT MAX(id) FROM tbl_uploads');
+        $query = 'SELECT uniqid id, app, name, size, type, file, hash
+            FROM tbl_uploads WHERE id = ?';
+        $file = execute_query($query, [$id]);
+        $result = del_file($file);
+        $file['file'] = '';
+        $file['hash'] = '';
+        $this->assertSame($result, $file);
+
         $result = sendmail_action([
             'from' => 1,
         ], '', '');
@@ -403,16 +413,21 @@ final class test_emails extends TestCase
         $result = getmail_delete($ids);
         $this->assertSame(sprintf(T('%d email(s) deleted'), count($ids)), $result);
 
+        $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
+        db_query($query, [1, 1]);
+
         $result = sendmail_signature([
             'old' => 1,
             'new' => 1,
+            'body' => '<section></section>',
+            'cc' => 'test@example.com;',
         ]);
         $this->assertIsArray($result);
-        $this->assertSame([
-            'body' => '',
-            'cc' => '',
-            'state_crt' => 0,
-        ], $result);
+        $this->assertStringContainsString('<section>', sprintr($result));
+        $this->assertStringContainsString('</section>', sprintr($result));
+
+        $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
+        db_query($query, [0, 1]);
 
         set_data('server/user', null);
         set_data('server/lang', null);
