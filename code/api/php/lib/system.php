@@ -66,12 +66,12 @@ function check_system()
             case 'extension':
                 $bool = extension_loaded($name);
                 break;
-            case 'class':
+            /*case 'class':
                 $bool = class_exists($name);
                 break;
             case 'function':
-                $bool = function_exists($name); // @phpstan-ignore function.impossibleType
-                break;
+                $bool = function_exists($name);
+                break;*/
         }
         if (!$bool) {
             $type = ucfirst($type);
