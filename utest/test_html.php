@@ -108,6 +108,16 @@ final class test_html extends TestCase
             inline_img_tag("<img src=\"$src\">")
         ));
 
+        $this->assertTrue(words_exists(
+            'data file/b64 base64',
+            inline_img_tag("<img src=\" $src \">")
+        ));
+
+        $this->assertTrue(words_exists(
+            'data file/b64 base64',
+            inline_img_tag("<img src=\"\n$src\n\">")
+        ));
+
         $this->assertSame(inline_img_style(''), '');
 
         $this->assertTrue(words_exists(

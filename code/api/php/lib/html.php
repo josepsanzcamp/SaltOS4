@@ -233,6 +233,7 @@ function inline_img_background($html)
  */
 function __inline_img_helper($src)
 {
+    $src = trim($src);
     $scheme = parse_url($src, PHP_URL_SCHEME);
     if (!in_array($scheme, ['https', 'http'])) {
         return $src;
