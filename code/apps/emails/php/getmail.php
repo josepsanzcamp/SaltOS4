@@ -1380,12 +1380,13 @@ function getmail_server()
         if (!file_exists($file)) {
             $file = get_directory('dirs/outboxdir') . get_data('json/getmailmsgid') . '.eml.gz';
         }
-        __getmail_insert($file, get_data('json/getmailmsgid'), 1, 0, 0, 0, 0, 0, 0, '');
+        $last_id = __getmail_insert($file, get_data('json/getmailmsgid'), 1, 0, 0, 0, 0, 0, 0, '');
         semaphore_release($semaphore);
         output_handler_json([
             'emails' => [
                 'getmailmsgid' => get_data('json/getmailmsgid'),
                 'file' => $file,
+                'last_id' => $last_id,
             ],
         ]);
     }

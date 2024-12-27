@@ -407,12 +407,6 @@ final class test_emails extends TestCase
         $this->assertIsArray($result);
         $this->assertStringContainsString('Connection refused', $result[0]);
 
-        $query = 'SELECT id FROM app_emails WHERE id > 100';
-        $ids = execute_query_array($query);
-
-        $result = getmail_delete($ids);
-        $this->assertSame(sprintf(T('%d email(s) deleted'), count($ids)), $result);
-
         $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
         db_query($query, [1, 1]);
 
@@ -428,6 +422,30 @@ final class test_emails extends TestCase
 
         $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
         db_query($query, [0, 1]);
+
+        copy('data/inbox/1/email_0100.eml.gz', 'data/inbox/1/email_0101.eml.gz');
+        $file = get_temp_file('json');
+        file_put_contents($file, json_encode([
+            'getmailmsgid' => '1/email_0101',
+        ]));
+
+        test_pcov_start();
+        $json = ob_passthru("cat $file | user=admin php index.php app/emails/server");
+        test_pcov_stop(1);
+        $this->assertIsString($json);
+        $json = json_decode($json, true);
+        $this->assertIsArray($json);
+        $this->assertArrayHasKey('emails', $json);
+        $this->assertArrayHasKey('getmailmsgid', $json['emails']);
+        $this->assertArrayHasKey('file', $json['emails']);
+        $this->assertArrayHasKey('last_id', $json['emails']);
+        $this->assertSame($json['emails']['getmailmsgid'], '1/email_0101');
+
+        $query = 'SELECT id FROM app_emails WHERE id > 100';
+        $ids = execute_query_array($query);
+
+        $result = getmail_delete($ids);
+        $this->assertSame(sprintf(T('%d email(s) deleted'), count($ids)), $result);
 
         set_data('server/user', null);
         set_data('server/lang', null);
