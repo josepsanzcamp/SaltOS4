@@ -1242,6 +1242,7 @@ function __getmail_body_helper($decoded, $images = false)
                 $temp = fix_img_tag($temp);
                 $temp = fix_img_style($temp);
                 $temp = fix_img_background($temp);
+                $temp = fix_file_b64($temp);
             }
             if (!$first) {
                 $buffer .= __HTML_SEPARATOR__;

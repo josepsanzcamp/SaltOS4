@@ -123,7 +123,6 @@ function inline_img_tag($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('img');
-    $array = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $img = __inline_img_helper($src);
@@ -136,10 +135,9 @@ function inline_img_tag($html)
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
-            $array[$from] = $img;
+            $html = str_replace($from, $img, $html);
         }
     }
-    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -160,7 +158,6 @@ function inline_img_style($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('*');
-    $array = [];
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
         preg_match_all('/url\((.*?)\)/', $style, $matches);
@@ -184,11 +181,10 @@ function inline_img_style($html)
                 htmlspecialchars($src),
             ];
             foreach ($froms as $from) {
-                $array[$from] = $img;
+                $html = str_replace($from, $img, $html);
             }
         }
     }
-    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -209,7 +205,6 @@ function inline_img_background($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('*');
-    $array = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('background');
         if ($src == '') {
@@ -225,10 +220,9 @@ function inline_img_background($html)
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
-            $array[$from] = $img;
+            $html = str_replace($from, $img, $html);
         }
     }
-    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -245,7 +239,7 @@ function __inline_img_helper($src)
     }
     $cache = get_cache_file($src, '.b64');
     if (file_exists($cache)) {
-        return file_get_contents($cache);
+        return mime_inline('file/b64', basename($cache));
     }
     $error = get_cache_file($src, '.err');
     if (file_exists($error)) {
@@ -278,7 +272,7 @@ function __inline_img_helper($src)
             $img = mime_inline($type, $data['body']);
             file_put_contents($cache, $img);
             chmod_protected($cache, 0666);
-            return $img;
+            return mime_inline('file/b64', basename($cache));
         }
     }
     file_put_contents($error, sprintr([
@@ -406,7 +400,6 @@ function fix_img_tag($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('img');
-    $array = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('src');
         $scheme = parse_url($src, PHP_URL_SCHEME);
@@ -419,10 +412,9 @@ function fix_img_tag($html)
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
-            $array[$from] = __GIF_IMAGE__;
+            $html = str_replace($from, __GIF_IMAGE__, $html);
         }
     }
-    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -441,7 +433,6 @@ function fix_img_style($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('*');
-    $array = [];
     foreach ($items as $item) {
         $style = $item->getAttribute('style');
         preg_match_all('/url\((.*?)\)/', $style, $matches);
@@ -465,11 +456,10 @@ function fix_img_style($html)
                 htmlspecialchars($src),
             ];
             foreach ($froms as $from) {
-                $array[$from] = __GIF_IMAGE__;
+                $html = str_replace($from, __GIF_IMAGE__, $html);
             }
         }
     }
-    $html = str_replace_assoc($array, $html);
     return $html;
 }
 
@@ -488,7 +478,6 @@ function fix_img_background($html)
     $dom->loadHTML($html);
     libxml_clear_errors(); // Trick
     $items = $dom->getElementsByTagName('*');
-    $array = [];
     foreach ($items as $item) {
         $src = $item->getAttribute('background');
         if ($src == '') {
@@ -504,9 +493,24 @@ function fix_img_background($html)
             htmlspecialchars($src),
         ];
         foreach ($froms as $from) {
-            $array[$from] = __GIF_IMAGE__;
+            $html = str_replace($from, __GIF_IMAGE__, $html);
         }
     }
-    $html = str_replace_assoc($array, $html);
+    return $html;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function fix_file_b64($html)
+{
+    $dir = get_directory('dirs/cachedir') ?? getcwd_protected() . '/data/cache/';
+    preg_match_all('/data:file\/b64;base64,[a-zA-Z0-9\+\/=]+/', $html, $matches);
+    foreach ($matches[0] as $mime) {
+        $file = mime_extract($mime)['data'];
+        $html = str_replace($mime, file_get_contents($dir . $file), $html);
+    }
     return $html;
 }
