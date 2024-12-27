@@ -112,7 +112,16 @@ final class test_users extends TestCase
      */
     public function test_users(): void
     {
+        $query = 'UPDATE tbl_apps_perms SET deny = 1 WHERE id = 1';
+        db_query($query);
+        $query = 'UPDATE tbl_users_apps_perms SET deny = 1 WHERE id = 1';
+        db_query($query);
+        $query = 'UPDATE tbl_users_apps_perms SET allow = 0 WHERE id = 2';
+        db_query($query);
+
         $result1 = make_matrix_perms('tbl_users_apps_perms', 'user_id', 1);
+
+        $this->assertSame(unmake_matrix_data([], [], [], null), null);
 
         $result2 = unmake_matrix_data(
             execute_query_array('SELECT id FROM tbl_perms WHERE active = 1 ORDER BY id ASC'),
@@ -120,6 +129,13 @@ final class test_users extends TestCase
             execute_query_array('SELECT * FROM tbl_apps_perms'),
             $result1['data']
         );
+
+        $query = 'UPDATE tbl_apps_perms SET deny = 0 WHERE id = 1';
+        db_query($query);
+        $query = 'UPDATE tbl_users_apps_perms SET deny = 0 WHERE id = 1';
+        db_query($query);
+        $query = 'UPDATE tbl_users_apps_perms SET allow = 1 WHERE id = 2';
+        db_query($query);
 
         $result = insert_user([]);
         $this->assertIsArray($result);

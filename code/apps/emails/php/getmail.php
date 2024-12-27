@@ -1660,9 +1660,6 @@ function getmail_viewpdf($id, $cid)
         }
         chmod_protected($cache2, 0666);
     }
-    if (!file_exists($cache2)) {
-        show_php_error(['phperror' => 'File not found']);
-    }
     return base64_encode(file_get_contents($cache2));
 }
 

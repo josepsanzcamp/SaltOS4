@@ -129,6 +129,24 @@ final class test_emails extends TestCase
         $this->assertIsArray($result);
         $this->assertSame($result['chash'], $hash);
 
+        $temp = $result['body'];
+        $cid = $result['cid'];
+        $cname = $result['cname'];
+        $ctype = $result['ctype'];
+        $csize = $result['csize'];
+        $hashes = [
+            md5(md5($temp) . md5($cid) . md5($cname) . md5($ctype) . md5(strval($csize))),
+            md5(serialize([$temp, $cid, $cname, $ctype, $csize])),
+            md5(serialize([md5($temp), $cid, $cname, $ctype, $csize])),
+            md5(serialize([md5($temp), null, $cname, $ctype, $csize])),
+            md5(json_encode([md5($temp), $cid, $cname, $ctype, $csize])),
+        ];
+        foreach ($hashes as $hash) {
+            $result2 = __getmail_getcid(__getmail_getnode('0', $decoded), $hash);
+            $this->assertIsArray($result2);
+            $this->assertSame($result2['chash'], $result['chash']);
+        }
+
         set_data('server/user', 'admin');
 
         $result = getmail_body(99);
@@ -156,6 +174,19 @@ final class test_emails extends TestCase
 
         $result = getmail_viewpdf(99, $hash);
         $this->assertIsString($result);
+
+        // This trick is for execute the __pdf_all2pdf inside getmail_viewpdf
+        $cache1 = get_cache_file([99, $hash], 'jpg');
+        unlink($cache1);
+        $output = get_cache_file($cache1, '.pdf');
+        file_put_contents($output, '');
+        $cache2 = get_cache_file([99, $hash], 'pdf');
+        unlink($cache2);
+        $result = getmail_viewpdf(99, $hash);
+        $this->assertIsString($result);
+        unlink($cache1);
+        unlink($output);
+        unlink($cache2);
 
         $result = getmail_download(99, $hash);
         $this->assertIsArray($result);
@@ -192,14 +223,28 @@ final class test_emails extends TestCase
         $result = getmail_pdf(99);
         $this->assertIsArray($result);
 
+        $result = getmail_pdf(99);
+        $this->assertIsArray($result);
+
         $result = getmail_pdf('99,100');
         $this->assertIsArray($result);
+
+        $cache = get_cache_file('which wkhtmltopdf', '.out');
+        $this->assertNotFalse(file_put_contents($cache, ''));
+        $result = getmail_pdf('99,100');
+        $this->assertIsArray($result);
+        $this->assertTrue(unlink($cache));
 
         $query = 'UPDATE app_emails_files SET indexed=0, retries = 0';
         db_query($query);
 
         $query = 'SELECT COUNT(*) FROM app_emails_files';
         $total = execute_query($query);
+
+        $this->assertFileDoesNotExist('data/logs/phperror.log');
+        $json = test_web_helper('app/emails/action/indexing', [], '', '');
+        $this->assertFileExists('data/logs/phperror.log');
+        unlink('data/logs/phperror.log');
 
         $json = test_cli_helper('app/emails/action/indexing', [], '', '', 'admin');
         $this->assertIsArray($json);
@@ -447,8 +492,41 @@ final class test_emails extends TestCase
         $result = getmail_delete($ids);
         $this->assertSame(sprintf(T('%d email(s) deleted'), count($ids)), $result);
 
+        $result = getmail_delete($ids);
+        $this->assertSame(T('Permission denied'), $result);
+
         set_data('server/user', null);
         set_data('server/lang', null);
         set_server('QUERY_STRING', null);
+
+        $this->assertSame(__getmail_getsource(101), '');
+        $this->assertSame(strlen(__getmail_getsource(100, 100)), 100 + 4);
+        $this->assertSame(__getmail_gethumansize(1073741824), '1 Gbytes');
+        $this->assertSame(__getmail_gethumansize(1073741823), '1024 Mbytes');
+        $this->assertSame(__getmail_gethumansize(1048576), '1 Mbytes');
+        $this->assertSame(__getmail_gethumansize(1048575), '1024 Kbytes');
+        $this->assertSame(__getmail_gethumansize(1024), '1 Kbytes');
+        $this->assertSame(__getmail_gethumansize(1023), '1023 bytes');
+        $this->assertSame(__getmail_fixstring([1, 2, 3]), 1);
+        $this->assertSame(gzfilesize('../../utest/files/lorem.txt'), 751);
+
+        $query = 'SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id = ?';
+        $row = execute_query($query, [98]);
+        $cache = get_cache_file($row, '.eml');
+        file_put_contents($cache, '');
+
+        test_external_exec('php/emails01.php', 'phperror.log', 'permission denied');
+        test_external_exec('php/emails02.php', 'phperror.log', 'could not decode de message');
+        test_external_exec('php/emails03.php', 'phperror.log', 'permission denied');
+        test_external_exec('php/emails04.php', 'phperror.log', 'permission denied');
+        test_external_exec('php/emails05.php', 'phperror.log', 'could not decode de message');
+        test_external_exec('php/emails06.php', 'phperror.log', 'permission denied');
+        test_external_exec('php/emails07.php', 'phperror.log', 'could not decode de message');
+        test_external_exec('php/emails08.php', 'phperror.log', 'cid not found in message');
+        test_external_exec('php/emails09.php', 'phperror.log', 'permission denied');
+        test_external_exec('php/emails10.php', 'phperror.log', 'permission denied');
+        test_external_exec('php/emails11.php', 'phperror.log', 'could not decode de message');
+
+        unlink($cache);
     }
 }
