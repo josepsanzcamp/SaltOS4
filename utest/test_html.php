@@ -80,39 +80,60 @@ final class test_html extends TestCase
         }
 
         $this->assertFileDoesNotExist($cache);
+        $this->assertStringContainsString(
+            mime_inline('file/b64', basename($cache)),
+            inline_img_tag("<img src='$src'>")
+        );
+        $this->assertFileExists($cache);
+
         $this->assertTrue(words_exists(
             'data image base64',
+            file_get_contents($cache)
+        ));
+
+        $this->assertTrue(words_exists(
+            file_get_contents($cache),
+            fix_file_b64(inline_img_tag("<img src='$src'>"))
+        ));
+
+        $this->assertTrue(words_exists(
+            'data file/b64 base64',
             inline_img_tag("<img src='$src'>")
         ));
 
-        $this->assertFileExists($cache);
+        $this->assertSame(inline_img_tag(''), '');
+
         $this->assertTrue(words_exists(
-            'data image base64',
+            'data file/b64 base64',
             inline_img_tag("<img src=\"$src\">")
         ));
 
+        $this->assertSame(inline_img_style(''), '');
+
         $this->assertTrue(words_exists(
-            'data image base64',
+            'data file/b64 base64',
             inline_img_style("<div style='background:url($src)'>")
         ));
 
         $this->assertTrue(words_exists(
-            'data image base64',
+            'data file/b64 base64',
             inline_img_style("<div style='background:url(\"$src\")'>")
         ));
 
         $this->assertTrue(words_exists(
-            'data image base64',
+            'data file/b64 base64',
             inline_img_style("<div style=\"background:url('$src')\">")
         ));
 
+        $this->assertSame(inline_img_background(''), '');
+
         $this->assertTrue(words_exists(
-            'data image base64',
+            'data file/b64 base64',
             inline_img_background("<table background='$src'>")
         ));
 
         $this->assertTrue(words_exists(
-            'data image base64',
+            'data file/b64 base64',
             inline_img_background("<table background=\"$src\">")
         ));
 
@@ -128,6 +149,8 @@ final class test_html extends TestCase
             inline_img_tag("<img src='$src'>")
         ));
 
+        $this->assertSame(extract_img_tag(''), ['', []]);
+
         $src = __GIF_IMAGE__;
         $html = "<img src=\"$src\">";
         [$html, $files] = extract_img_tag($html);
@@ -140,6 +163,8 @@ final class test_html extends TestCase
         [$html2, $files] = extract_img_tag($html);
         $this->assertSame($html2, $html);
         $this->assertCount(0, $files);
+
+        $this->assertSame(extract_img_style(''), ['', []]);
 
         $src = __GIF_IMAGE__;
         $html = "<div style='background:url($src)'>";
@@ -168,6 +193,8 @@ final class test_html extends TestCase
         $this->assertSame($html2, $html);
         $this->assertCount(0, $files);
 
+        $this->assertSame(extract_img_background(''), ['', []]);
+
         $src = __GIF_IMAGE__;
         $html = "<table background=\"$src\">";
         [$html, $files] = extract_img_background($html);
@@ -181,6 +208,8 @@ final class test_html extends TestCase
         $this->assertSame($html2, $html);
         $this->assertCount(0, $files);
 
+        $this->assertSame(fix_img_tag(''), '');
+
         $src = 'cid:nada';
         $this->assertTrue(words_exists(
             'data image base64',
@@ -192,6 +221,8 @@ final class test_html extends TestCase
             'data image base64',
             fix_img_tag("<img src='$src'>")
         ));
+
+        $this->assertSame(fix_img_style(''), '');
 
         $src = 'cid:nada';
         $this->assertTrue(words_exists(
@@ -217,6 +248,8 @@ final class test_html extends TestCase
             fix_img_style("<div style=\"background:url('$src')\">")
         ));
 
+        $this->assertSame(fix_img_background(''), '');
+
         $src = 'cid:nada';
         $this->assertTrue(words_exists(
             'data image base64',
@@ -228,5 +261,18 @@ final class test_html extends TestCase
             'data image base64',
             fix_img_background("<table background='$src'>")
         ));
+
+        $src = 'https://127.0.0.1/nada';
+        $cache = get_cache_file($src, '.err');
+        if (file_exists($cache)) {
+            unlink($cache);
+        }
+
+        $this->assertFileDoesNotExist($cache);
+        $this->assertSame(
+            __GIF_IMAGE__,
+            __inline_img_helper($src)
+        );
+        $this->assertFileExists($cache);
     }
 }
