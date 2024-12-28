@@ -426,7 +426,7 @@ self.addEventListener('fetch', event => {
                 ...result.response,
                 headers: {
                     ...Object.fromEntries(result.response.headers.entries()),
-                    'Proxy': 'true',
+                    'Proxy': result.type,
                 },
             });
             return response;

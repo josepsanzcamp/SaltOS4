@@ -763,19 +763,14 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  */
 document.addEventListener('DOMContentLoaded', async event => {
     if ('serviceWorker' in navigator) {
-        const check = {
-            install: null,
-            https: null,
-            http: null,
-        };
-
-        await navigator.serviceWorker.register('./proxy.js', {
+        let check = null;
+        await navigator.serviceWorker.register('./proxy.js?' + saltos.core.uniqid(), {
             updateViaCache: 'all',
         }).then(async registration => {
             await registration.update();
-            check.install = true;
+            check = true;
         }).catch(error => {
-            check.install = false;
+            check = false;
         });
 
         navigator.serviceWorker.addEventListener('message', event => {
@@ -790,30 +785,8 @@ document.addEventListener('DOMContentLoaded', async event => {
             console.log(...array);
         });
 
-        if (!check.install) {
-            var protocols = ['https', 'http'];
-            for (const i in protocols) {
-                const protocol = protocols[i];
-                const url = new URL(document.location);
-                url.protocol = protocol;
-                url.pathname += 'img/logo_saltos.svg';
-                url.search = saltos.core.uniqid();
-                url.hash = '';
-                await saltos.core.ajax({
-                    url: url.toString(),
-                    proxy: 'no',
-                    success: response => {
-                        check[protocol] = true;
-                    },
-                    error: error => {
-                        check[protocol] = false;
-                    },
-                    abort: error => {
-                        check[protocol] = false;
-                    },
-                });
-            }
-
+        if (!check) {
+            check = await saltos.core.check_network();
             if (check.http && !check.https) {
                 // In this scope, a certificate issue was found and a reload is neeced
                 saltos.core.proxy('stop');
@@ -825,6 +798,39 @@ document.addEventListener('DOMContentLoaded', async event => {
         }
     }
 });
+
+/**
+ * Check network
+ *
+ * This function checks the network state by sending a request over https and http
+ * channels, this is usefull to detect certificate issues
+ */
+saltos.core.check_network = async () => {
+    const check = {};
+    var protocols = ['https', 'http'];
+    for (const i in protocols) {
+        const protocol = protocols[i];
+        const url = new URL(document.location);
+        url.protocol = protocol;
+        url.pathname += 'img/logo_saltos.svg';
+        url.search = saltos.core.uniqid();
+        url.hash = '';
+        await saltos.core.ajax({
+            url: url.toString(),
+            proxy: 'no',
+            success: response => {
+                check[protocol] = true;
+            },
+            error: error => {
+                check[protocol] = false;
+            },
+            abort: error => {
+                check[protocol] = false;
+            },
+        });
+    }
+    return check;
+};
 
 /**
  * Proxy feature
