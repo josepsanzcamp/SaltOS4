@@ -77,7 +77,7 @@ else # file=path
 endif
 endif
 	@$(if $(files), \
-	jscs --config=scripts/jscs.json ${files} 2>/dev/null; \
+	jscs --config=scripts/jscs.json ${files}; \
 	node -c ${files}; )
 
 libs:

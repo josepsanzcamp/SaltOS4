@@ -761,12 +761,21 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-document.addEventListener('DOMContentLoaded', event => {
+document.addEventListener('DOMContentLoaded', async event => {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./proxy.js').then(registration => {
-            registration.update();
+        const check = {
+            install: null,
+            https: null,
+            http: null,
+        };
+
+        await navigator.serviceWorker.register('./proxy.js', {
+            updateViaCache: 'all',
+        }).then(async registration => {
+            await registration.update();
+            check.install = true;
         }).catch(error => {
-            throw new Error(error);
+            check.install = false;
         });
 
         navigator.serviceWorker.addEventListener('message', event => {
@@ -780,6 +789,40 @@ document.addEventListener('DOMContentLoaded', event => {
             }
             console.log(...array);
         });
+
+        if (!check.install) {
+            var protocols = ['https', 'http'];
+            for (const i in protocols) {
+                const protocol = protocols[i];
+                const url = new URL(document.location);
+                url.protocol = protocol;
+                url.pathname += 'img/logo_saltos.svg';
+                url.search = saltos.core.uniqid();
+                url.hash = '';
+                await saltos.core.ajax({
+                    url: url.toString(),
+                    proxy: 'no',
+                    success: response => {
+                        check[protocol] = true;
+                    },
+                    error: error => {
+                        check[protocol] = false;
+                    },
+                    abort: error => {
+                        check[protocol] = false;
+                    },
+                });
+            }
+
+            if (check.http && !check.https) {
+                // In this scope, a certificate issue was found and a reload is neeced
+                saltos.core.proxy('stop');
+                for (const i in saltos.core.__ajax) {
+                    saltos.core.__ajax[i].abort();
+                }
+                document.location.reload();
+            }
+        }
     }
 });
 
