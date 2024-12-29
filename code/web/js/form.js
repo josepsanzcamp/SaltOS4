@@ -470,7 +470,10 @@ saltos.form.style = async data => {
         }
         if (key == 'file') {
             try {
-                const response = await fetch(val, {credentials: 'omit'});
+                const response = await fetch(val, {
+                    credentials: 'omit',
+                    referrerPolicy: "no-referrer",
+                });
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${val}`);
                 }
@@ -504,7 +507,10 @@ saltos.form.javascript = async data => {
         }
         if (key == 'file') {
             try {
-                const response = await fetch(val, {credentials: 'omit'});
+                const response = await fetch(val, {
+                    credentials: 'omit',
+                    referrerPolicy: "no-referrer",
+                });
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${val}`);
                 }

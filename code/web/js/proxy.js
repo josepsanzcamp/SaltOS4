@@ -126,7 +126,10 @@ const proxy = async request => {
                 // Network feature
                 try {
                     const start = Date.now();
-                    const response = await fetch(request.clone(), {credentials: 'omit'});
+                    const response = await fetch(request.clone(), {
+                        credentials: 'omit',
+                        referrerPolicy: "no-referrer",
+                    });
                     const end = Date.now();
                     (await caches.open('saltos')).put(new_request, response.clone());
                     duration += end - start;
@@ -505,7 +508,10 @@ self.addEventListener('message', async event => {
                 let end = 0;
                 try {
                     start = Date.now();
-                    response = await fetch(request, {credentials: 'omit'});
+                    response = await fetch(request, {
+                        credentials: 'omit',
+                        referrerPolicy: "no-referrer",
+                    });
                     end = Date.now();
                     if (response.ok) {
                         type = 'network';
