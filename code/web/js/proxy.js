@@ -129,6 +129,7 @@ const proxy = async request => {
                     const response = await fetch(request.clone(), {
                         credentials: 'omit',
                         referrerPolicy: "no-referrer",
+                        mode: 'same-origin',
                     });
                     const end = Date.now();
                     (await caches.open('saltos')).put(new_request, response.clone());
@@ -511,6 +512,7 @@ self.addEventListener('message', async event => {
                     response = await fetch(request, {
                         credentials: 'omit',
                         referrerPolicy: "no-referrer",
+                        mode: 'same-origin',
                     });
                     end = Date.now();
                     if (response.ok) {

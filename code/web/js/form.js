@@ -473,6 +473,7 @@ saltos.form.style = async data => {
                 const response = await fetch(val, {
                     credentials: 'omit',
                     referrerPolicy: "no-referrer",
+                    mode: 'same-origin',
                 });
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${val}`);
@@ -510,6 +511,7 @@ saltos.form.javascript = async data => {
                 const response = await fetch(val, {
                     credentials: 'omit',
                     referrerPolicy: "no-referrer",
+                    mode: 'same-origin',
                 });
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${val}`);

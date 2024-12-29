@@ -356,6 +356,7 @@ saltos.core.ajax = args => {
         headers: new Headers(args.headers),
         credentials: 'omit',
         referrerPolicy: "no-referrer",
+        mode: 'same-origin',
     };
     let controller = null;
     if (saltos.core.eval_bool(args.abortable)) {
@@ -524,6 +525,7 @@ saltos.core.require = (files, callback) => {
                 const response = await fetch(file, {
                     credentials: 'omit',
                     referrerPolicy: "no-referrer",
+                    mode: 'same-origin',
                 });
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText} loading ${file}`);
