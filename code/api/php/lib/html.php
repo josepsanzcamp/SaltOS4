@@ -256,8 +256,9 @@ function __inline_img_helper($src)
         ],
     ]);
     if ($data['code'] == 200) {
-        if (isset($data['headers']['content-type'])) {
-            $type = $data['headers']['content-type'];
+        $key = array_key_search('content-type', $data['headers']);
+        if (isset($data['headers'][$key])) {
+            $type = $data['headers'][$key];
         } else {
             $type = saltos_content_type_from_string($data['body']);
         }

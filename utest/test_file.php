@@ -142,7 +142,16 @@ final class test_file extends TestCase
         $file = get_temp_file();
         file_put_contents($file, '');
         $this->assertSame(strlen($file) + 1 + 32, strlen(file_with_hash($file)));
+        $this->assertSame($file, file_with_min($file));
         unlink($file);
+
+        $file2 = str_replace('.tmp', '.min.tmp', $file);
+        file_put_contents($file2, '');
+        $this->assertSame($file2, file_with_min($file));
+        unlink($file2);
+
+        $this->assertSame(false, file_get_contents_protected($file));
+        $this->assertSame(false, file_get_contents_protected($file2));
 
         $errno = 0;
         $errstr = '';
@@ -173,7 +182,7 @@ final class test_file extends TestCase
         $this->assertSame($buffer['code'], 400);
         $this->assertSame(strlen($buffer['body']) > 0, true);
         $this->assertStringContainsString('400 Bad Request', $buffer['body']);
-        $this->assertArrayHasKey('http/1.1 400 bad request', $buffer['headers']);
+        $this->assertStringContainsString('HTTP/1.1 400 Bad Request', array_keys($buffer['headers'])[0]);
 
         $buffer = __url_get_contents('https://127.0.0.1/saltos/code4/api/?auth/check', [
             'method' => 'head',
@@ -186,10 +195,12 @@ final class test_file extends TestCase
             'cookies' => ['nada' => 'nada'],
             'method' => 'get',
             'values' => ['nada' => 'nada'],
-            'referer' => 'https://127.0.0.1/saltos/code4/api/',
-            'headers' => ['nada' => 'nada'],
+            'headers' => [
+                'nada' => 'nada',
+                'referer' => 'https://127.0.0.1/saltos/code4/api/',
+                'user-agent' => 'nada',
+            ],
             'body' => 'nada',
-            'user_agent' => 'nada',
         ]);
         $this->assertSame($buffer['code'], 200);
         $this->assertSame(is_array($buffer), true);
@@ -209,7 +220,7 @@ final class test_file extends TestCase
         $this->assertSame($buffer['code'], 401);
         $this->assertSame(strlen($buffer['body']) > 0, true);
         $this->assertStringContainsString('Unauthorized', $buffer['body']);
-        $this->assertArrayHasKey('http/1.1 401 unauthorized', $buffer['headers']);
+        $this->assertStringContainsString('HTTP/1.1 401 Unauthorized', array_keys($buffer['headers'])[0]);
     }
 
     #[testdox('authtoken action')]

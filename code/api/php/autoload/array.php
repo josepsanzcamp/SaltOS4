@@ -537,3 +537,56 @@ function array_transpose($input)
     }
     return $output;
 }
+
+/**
+ * Array lowercase
+ *
+ * This function do the same that strtolower but apply it to all array values
+ *
+ * @array => the array that you want to convert to lower case
+ */
+function array_lowercase($array)
+{
+    foreach ($array as $key => $val) {
+        $array[$key] = strtolower($val);
+    }
+    return $array;
+}
+
+/**
+ * Array key lowercase
+ *
+ * This function do the same that the array_lowercase but only apply to all
+ * keys of the array
+ *
+ * @array => the array that you want to convert to lower case
+ */
+function array_key_lowercase($array)
+{
+    $keys = array_lowercase(array_keys($array));
+    $values = array_values($array);
+    $array = array_combine($keys, $values);
+    return $array;
+}
+
+/**
+ * Array key search
+ *
+ * This function allow to search keys in the array using a case insensitive search
+ *
+ * @needed => the desired key used in the case insensitive search
+ * @array  => the array where do you want to found the key
+ *
+ * Notes:
+ *
+ * In case of not found the desired key, the original needed param is returned
+ */
+function array_key_search($needed, $array)
+{
+    foreach ($array as $key => $val) {
+        if (strcasecmp($key, $needed) == 0) {
+            return $key;
+        }
+    }
+    return $needed;
+}

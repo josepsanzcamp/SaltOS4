@@ -277,17 +277,18 @@ function __url_get_contents($url, $args = [])
         if (!isset($header[1])) {
             $header[1] = '';
         }
-        $header[0] = trim(strtolower($header[0]));
+        $header[0] = trim($header[0]);
         if ($header[0] == '') {
             continue;
         }
-        $header[1] = trim(strtolower($header[1]));
+        $header[1] = trim($header[1]);
         $temp[$header[0]] = $header[1];
     }
     $headers = $temp;
     // parse cookies
-    $cookies = $headers['set-cookie'] ?? '';
-    unset($headers['set-cookie']);
+    $key = array_key_search('set-cookie', $headers);
+    $cookies = $headers[$key] ?? '';
+    unset($headers[$key]);
     $temp = [];
     if ($cookies == '') {
         $cookies = [];

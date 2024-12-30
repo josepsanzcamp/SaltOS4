@@ -79,7 +79,7 @@ final class test_apache extends TestCase
         foreach ($urls as $url) {
             $response = __url_get_contents($url);
             $this->assertStringContainsString('403 Forbidden', $response['body']);
-            $this->assertStringContainsString('403 forbidden', array_keys($response['headers'])[0]);
+            $this->assertStringContainsString('403 Forbidden', array_keys($response['headers'])[0]);
         }
 
         $url = 'https://127.0.0.1/saltos/code4/api/';
@@ -90,6 +90,6 @@ final class test_apache extends TestCase
 
         // ServerSignature Off
         // ServerTokens Prod
-        $this->assertSame($response['headers']['server'], 'apache');
+        $this->assertSame($response['headers']['Server'], 'Apache');
     }
 }
