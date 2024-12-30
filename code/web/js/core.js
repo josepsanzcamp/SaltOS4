@@ -768,13 +768,23 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  * This is the code that must to be executed to initialize all requirements of this module
  */
 document.addEventListener('DOMContentLoaded', event => {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator && window.location.protocol == 'https:') {
         navigator.serviceWorker.register('./proxy.js', {
             updateViaCache: 'all',
         }).then(async registration => {
             await registration.update();
-        }).catch(error => {
-            throw new Error(error);
+        }).catch(async error => {
+            const check = await saltos.core.check_network();
+            if (check.http && !check.https) {
+                // In this scope, a certificate issue was found and a reload is neeced
+                saltos.core.proxy('stop');
+                for (const i in saltos.core.__ajax) {
+                    saltos.core.__ajax[i].abort();
+                }
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            }
         });
 
         navigator.serviceWorker.addEventListener('message', event => {
@@ -851,4 +861,51 @@ saltos.core.human_size = size => {
         size = (Math.round(size / 1024 * 100) / 100) + 'K';
     }
     return size;
+};
+
+/**
+ * Check network
+ *
+ * This function checks the network state by sending a request over https and http
+ * channels, this is usefull to detect certificate issues
+ *
+ * Notes:
+ *
+ * The first version uses fetch to the img/logo_saltos.svg but for securiry reasons,
+ * the browser never send the request to http from https or viceversa, the unique trick
+ * that I found to do it is to open a new window for each protocol and wait for the
+ * expected result
+ */
+saltos.core.check_network = async () => {
+    const check = {};
+    var protocols = ['https', 'http'];
+    for (const i in protocols) {
+        const protocol = protocols[i];
+        const url = new URL(window.location);
+        const uniqid = saltos.core.uniqid();
+        url.protocol = protocol;
+        url.pathname += 'api/';
+        url.search = '/ping/' + uniqid;
+        url.hash = '';
+        const win = window.open(url.toString(), uniqid, 'width=200,height=100');
+        let iter = 10;
+        const timer = setInterval(() => {
+            if (win.closed) {
+                check[protocol] = true;
+                clearInterval(timer);
+                return;
+            }
+            iter--;
+            if (!iter) {
+                win.close();
+                check[protocol] = false;
+                clearInterval(timer);
+                return;
+            }
+        }, 100);
+    }
+    while (Object.keys(check).length < 2) {
+        await new Promise(resolve => setTimeout(resolve, 1));
+    }
+    return check;
 };
