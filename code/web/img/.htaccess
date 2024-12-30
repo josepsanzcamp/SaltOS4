@@ -7,5 +7,5 @@ Options -Indexes
 <IfModule mod_headers.c>
     Header add Access-Control-Allow-Origin "*"
     Header add Access-Control-Allow-Headers "*"
-    Header add Access-Control-Allow-Methods "GET"
+    Header add Access-Control-Allow-Methods "*"
 </IfModule>

@@ -353,9 +353,9 @@ saltos.core.ajax = args => {
     }
     const options = {
         method: args.method,
-        headers: new Headers(args.headers),
+        headers: args.headers,
         credentials: 'omit',
-        referrerPolicy: "no-referrer",
+        referrerPolicy: 'no-referrer',
         mode: 'same-origin',
     };
     let controller = null;
@@ -524,7 +524,7 @@ saltos.core.require = (files, callback) => {
             try {
                 const response = await fetch(file, {
                     credentials: 'omit',
-                    referrerPolicy: "no-referrer",
+                    referrerPolicy: 'no-referrer',
                     mode: 'same-origin',
                 });
                 if (!response.ok) {
@@ -821,18 +821,17 @@ saltos.core.check_network = async () => {
         url.pathname += 'img/logo_saltos.svg';
         url.search = saltos.core.uniqid();
         url.hash = '';
-        await saltos.core.ajax({
-            url: url.toString(),
-            proxy: 'no',
-            success: response => {
-                check[protocol] = true;
+        await fetch(url.toString(), {
+            credentials: 'omit',
+            referrerPolicy: 'no-referrer',
+            mode: 'same-origin',
+            headers: {
+                'Proxy': 'no',
             },
-            error: error => {
-                check[protocol] = false;
-            },
-            abort: error => {
-                check[protocol] = false;
-            },
+        }).then(response => {
+            check[protocol] = true;
+        }).catch(error => {
+            check[protocol] = false;
         });
     }
     return check;

@@ -126,11 +126,7 @@ const proxy = async request => {
                 // Network feature
                 try {
                     const start = Date.now();
-                    const response = await fetch(request.clone(), {
-                        credentials: 'omit',
-                        referrerPolicy: "no-referrer",
-                        mode: 'same-origin',
-                    });
+                    const response = await fetch(request.clone());
                     const end = Date.now();
                     (await caches.open('saltos')).put(new_request, response.clone());
                     duration += end - start;
@@ -339,6 +335,9 @@ const request_serialize = async request => {
         url: request.url,
         method: request.method,
         headers: [...request.headers.entries()],
+        credentials: request.credentials,
+        referrerPolicy: request.referrerPolicy,
+        mode: request.mode,
     };
     if (request.method == 'POST') {
         result.body = await request.clone().text();
@@ -357,7 +356,10 @@ const request_serialize = async request => {
 const request_unserialize = request => {
     const options = {
         method: request.method,
-        headers: new Headers(request.headers),
+        headers: request.headers,
+        credentials: request.credentials,
+        referrerPolicy: request.referrerPolicy,
+        mode: request.mode,
     };
     if (request.method == 'POST') {
         options.body = request.body;
@@ -509,11 +511,7 @@ self.addEventListener('message', async event => {
                 let end = 0;
                 try {
                     start = Date.now();
-                    response = await fetch(request, {
-                        credentials: 'omit',
-                        referrerPolicy: "no-referrer",
-                        mode: 'same-origin',
-                    });
+                    response = await fetch(request);
                     end = Date.now();
                     if (response.ok) {
                         type = 'network';
