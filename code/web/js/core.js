@@ -770,7 +770,7 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
 document.addEventListener('DOMContentLoaded', event => {
     if ('serviceWorker' in navigator && window.location.protocol == 'https:') {
         navigator.serviceWorker.register('./proxy.js', {
-            updateViaCache: 'all',
+            updateViaCache: 'none',
         }).then(async registration => {
             await registration.update();
         }).catch(async error => {
