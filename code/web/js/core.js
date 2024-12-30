@@ -767,16 +767,14 @@ saltos.core.prepare_words = (cad, pad = ' ') => {
  *
  * This is the code that must to be executed to initialize all requirements of this module
  */
-document.addEventListener('DOMContentLoaded', async event => {
+document.addEventListener('DOMContentLoaded', event => {
     if ('serviceWorker' in navigator) {
-        let check = null;
-        await navigator.serviceWorker.register('./proxy.js?' + saltos.core.uniqid(), {
+        navigator.serviceWorker.register('./proxy.js', {
             updateViaCache: 'all',
         }).then(async registration => {
             await registration.update();
-            check = true;
         }).catch(error => {
-            check = false;
+            throw new Error(error);
         });
 
         navigator.serviceWorker.addEventListener('message', event => {
@@ -790,52 +788,8 @@ document.addEventListener('DOMContentLoaded', async event => {
             }
             console.log(...array);
         });
-
-        if (!check) {
-            check = await saltos.core.check_network();
-            if (check.http && !check.https) {
-                // In this scope, a certificate issue was found and a reload is neeced
-                saltos.core.proxy('stop');
-                for (const i in saltos.core.__ajax) {
-                    saltos.core.__ajax[i].abort();
-                }
-                document.location.reload();
-            }
-        }
     }
 });
-
-/**
- * Check network
- *
- * This function checks the network state by sending a request over https and http
- * channels, this is usefull to detect certificate issues
- */
-saltos.core.check_network = async () => {
-    const check = {};
-    var protocols = ['https', 'http'];
-    for (const i in protocols) {
-        const protocol = protocols[i];
-        const url = new URL(document.location);
-        url.protocol = protocol;
-        url.pathname += 'img/logo_saltos.svg';
-        url.search = saltos.core.uniqid();
-        url.hash = '';
-        await fetch(url.toString(), {
-            credentials: 'omit',
-            referrerPolicy: 'no-referrer',
-            mode: 'same-origin',
-            headers: {
-                'Proxy': 'no',
-            },
-        }).then(response => {
-            check[protocol] = true;
-        }).catch(error => {
-            check[protocol] = false;
-        });
-    }
-    return check;
-};
 
 /**
  * Proxy feature
