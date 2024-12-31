@@ -4856,6 +4856,12 @@ saltos.bootstrap.set_data_bs_theme = e => {
  * @theme => Can be auto, light or dark
  */
 saltos.bootstrap.set_bs_theme = theme => {
+    const themes = ['auto', 'light', 'dark'];
+    if (!themes.includes(theme)) {
+        throw new Error(`bs_theme ${theme} not found`);
+    }
+    saltos.bootstrap.window_match_media.removeEventListener(
+        'change', saltos.bootstrap.set_data_bs_theme);
     switch (theme) {
         case 'auto':
             saltos.bootstrap.set_data_bs_theme(saltos.bootstrap.window_match_media);
@@ -4864,13 +4870,9 @@ saltos.bootstrap.set_bs_theme = theme => {
             break;
         case 'light':
             saltos.bootstrap.set_data_bs_theme({matches: false});
-            saltos.bootstrap.window_match_media.removeEventListener(
-                'change', saltos.bootstrap.set_data_bs_theme);
             break;
         case 'dark':
             saltos.bootstrap.set_data_bs_theme({matches: true});
-            saltos.bootstrap.window_match_media.removeEventListener(
-                'change', saltos.bootstrap.set_data_bs_theme);
             break;
     }
     saltos.storage.setItem('saltos.bootstrap.bs_theme', theme);
@@ -4884,6 +4886,12 @@ saltos.bootstrap.set_bs_theme = theme => {
  * @theme => Can be default or one of the bootswatch themes
  */
 saltos.bootstrap.set_css_theme = theme => {
+    const themes = ['default', 'cerulean', 'cosmo', 'cyborg', 'darkly', 'flatly', 'journal', 'litera',
+        'lumen', 'lux', 'materia', 'minty', 'morph', 'pulse', 'quartz', 'sandstone', 'simplex',
+        'sketchy', 'slate', 'solar', 'spacelab', 'superhero', 'united', 'vapor', 'yeti', 'zephyr'];
+    if (!themes.includes(theme)) {
+        throw new Error(`css_theme ${theme} not found`);
+    }
     let file;
     if (theme == 'default') {
         file = 'lib/bootstrap/bootstrap.min.css';
