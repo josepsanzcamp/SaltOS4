@@ -191,8 +191,8 @@ const proxy = async request => {
     if (navigator.onLine) {
         const response = new Response(JSON.stringify({
             'error': {
-                'text': 'A network error occurred and the requested content is not cached.',
-                'code': 'proxy.js:170',
+                'text': 'There is an network issue and the requested content is not cached',
+                'code': 'proxy.js:195',
             }
         }), {
             status: 200,
@@ -211,7 +211,7 @@ const proxy = async request => {
         const response = new Response(JSON.stringify({
             'error': {
                 'text': 'You are offline and the requested content is not cached',
-                'code': 'proxy.js:180',
+                'code': 'proxy.js:214',
             }
         }), {
             status: 200,

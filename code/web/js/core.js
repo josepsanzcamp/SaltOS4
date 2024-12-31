@@ -410,7 +410,7 @@ saltos.core.ajax = args => {
         }
         // Finish with success or return;
         if (typeof args.success == 'function') {
-            args.success(data);
+            args.success(data, response);
         }
     }).catch(error => {
         if (error.name == 'AbortError') {

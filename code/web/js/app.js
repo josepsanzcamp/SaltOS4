@@ -757,15 +757,27 @@ saltos.app.ajax = args => {
     saltos.core.check_params(args, ['loading'], true);
     const temp = {
         url: 'api/?/' + args.url,
-        success: response => {
+        success: (data, response) => {
             if (args.loading) {
                 saltos.form.screen('unloading');
             }
-            if (!saltos.app.check_response(response)) {
+            const proxy = response.headers.get('proxy');
+            if (proxy == 'cache') {
+                if (navigator.onLine) {
+                    saltos.app.toast(T('Warning'),
+                        T('Content served from cache because there is an issue with the server'),
+                        {color: 'danger'});
+                } else {
+                    saltos.app.toast(T('Warning'),
+                        T('Content served from cache because navigator is offline'),
+                        {color: 'danger'});
+                }
+            }
+            if (!saltos.app.check_response(data)) {
                 return;
             }
             if (typeof args.success == 'function') {
-                args.success(response);
+                args.success(data);
             }
         },
         error: error => {
