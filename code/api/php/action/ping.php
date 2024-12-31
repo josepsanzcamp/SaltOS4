@@ -31,8 +31,11 @@ declare(strict_types=1);
  * Ping action
  *
  * This file implements the ping action, intended to be used by the check_network
- * feature from the web app
+ * feature from the web app that expects this specific output
  */
 
-echo '<script>close()</script>';
-die();
+output_handler([
+    'data' => '<script>close()</script>',
+    'type' => 'text/html',
+    'cache' => false,
+]);

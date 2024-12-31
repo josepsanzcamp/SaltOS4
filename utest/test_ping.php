@@ -33,10 +33,10 @@ declare(strict_types=1);
 // phpcs:disable PSR1.Files.SideEffects
 
 /**
- * Test zindex
+ * Test ping
  *
  * This test performs some tests to validate the correctness
- * of the zindex functions
+ * of the ping functions
  */
 
 /**
@@ -56,51 +56,42 @@ require_once 'lib/utestlib.php';
 /**
  * Main class of this unit test
  */
-final class test_zindex extends TestCase
+final class test_ping extends TestCase
 {
-    #[testdox('zindex functions')]
+    #[testdox('ping functions')]
     /**
-     * zindex test
+     * ping test
      *
      * This test performs some tests to validate the correctness
-     * of the zindex functions
+     * of the ping functions
      */
-    public function test_zindex(): void
+    public function test_ping(): void
     {
-        $json = test_web_helper('', [], '', '');
-        $this->assertArrayHasKey('error', $json);
+        $result = test_web_helper('ping', null, '', '');
+        $this->assertSame('<script>close()</script>', $result);
 
-        test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada', [
-            'method' => 'put',
-        ]);
-        test_pcov_stop(1);
-        $json = json_decode($response['body'], true);
-        $this->assertArrayHasKey('error', $json);
+        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/`ping');
+        $this->assertSame('<script>close()</script>', $response['body']);
 
-        test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada', [
-            'method' => 'get',
-            'headers' => [
-                'Content-Type' => 'application/json',
-            ],
-        ]);
-        test_pcov_stop(1);
-        $json = json_decode($response['body'], true);
-        $this->assertArrayHasKey('error', $json);
+        $key = array_key_search('content-type', $response['headers']);
+        $value = strtok($response['headers'][$key], ';');
+        $this->assertSame('text/html', $value);
 
-        test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada', [
-            'method' => 'post',
-        ]);
-        test_pcov_stop(1);
-        $json = json_decode($response['body'], true);
-        $this->assertArrayHasKey('error', $json);
+        $key = array_key_search('expires', $response['headers']);
+        $value = $response['headers'][$key];
+        $this->assertSame('-1', $value);
 
-        test_pcov_start();
-        $response = __url_get_contents('https://127.0.0.1/saltos/code4/api/?/nada');
-        test_pcov_stop(1);
-        $json = json_decode($response['body'], true);
-        $this->assertArrayHasKey('error', $json);
+        $key = array_key_search('cache-control', $response['headers']);
+        $value = $response['headers'][$key];
+        $this->assertStringContainsString('no-store', $value);
+        $this->assertStringContainsString('no-cache', $value);
+        $this->assertStringContainsString('must-revalidate', $value);
+        $this->assertStringContainsString('post-check=0', $value);
+        $this->assertStringContainsString('pre-check=0', $value);
+        $this->assertStringContainsString('no-transform', $value);
+
+        $key = array_key_search('pragma', $response['headers']);
+        $value = $response['headers'][$key];
+        $this->assertSame('no-cache', $value);
     }
 }

@@ -774,17 +774,21 @@ document.addEventListener('DOMContentLoaded', event => {
         }).then(async registration => {
             await registration.update();
         }).catch(async error => {
-            const check = await saltos.core.check_network();
-            if (check.http && !check.https) {
-                // In this scope, a certificate issue was found and a reload is neeced
-                saltos.core.proxy('stop');
-                for (const i in saltos.core.__ajax) {
-                    saltos.core.__ajax[i].abort();
-                }
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+            if (!navigator.serviceWorker.controller) {
+                return;
             }
+            const check = await saltos.core.check_network();
+            if (!check.http || check.https) {
+                return;
+            }
+            // In this scope, a certificate issue was found and a reload is neeced
+            saltos.core.proxy('stop');
+            for (const i in saltos.core.__ajax) {
+                saltos.core.__ajax[i].abort();
+            }
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         });
 
         navigator.serviceWorker.addEventListener('message', event => {
@@ -887,7 +891,12 @@ saltos.core.check_network = async () => {
         url.pathname += 'api/';
         url.search = '/ping/' + uniqid;
         url.hash = '';
-        const win = window.open(url.toString(), uniqid, 'width=200,height=100');
+        const options = 'popup,width=100,height=100,left=9999,top=9999';
+        const win = window.open(url.toString(), uniqid, options);
+        if (!win) {
+            check[protocol] = false;
+            continue;
+        }
         let iter = 10;
         const timer = setInterval(() => {
             if (win.closed) {
