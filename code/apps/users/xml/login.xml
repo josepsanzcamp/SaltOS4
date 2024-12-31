@@ -8,7 +8,7 @@
  - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
  -
  - SaltOS: Framework to develop Rich Internet Applications
- - Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
  - More information in https://www.saltos.org or info@saltos.org
  -
  - This program is free software: you can redistribute it and/or modify
@@ -35,12 +35,11 @@
         <layout>
             <div id="screen" class="vh-100 d-flex bg-body-secondary">
                 <container auto="true" container_class="container m-auto bg-body rounded p-5" col_class="col-12 mb-3" container_style="max-width:400px">
-                    <image width="100px" height="100px" value="img/logo_red.svg"  col_class="col-12 mb-3 text-center" color="none"/>
+                    <image width="100px" height="100px" value="img/logo_red.svg" col_class="col-12 mb-3 text-center" color="none"/>
                     <label class="fs-2 w-100 text-center" label="Please login"/>
                     <text id="user" label="Username" required="true" autofocus="true" onenter="document.getElementById('pass').focus()"/>
                     <password id="pass" label="Password" required="true" onenter="saltos.login.authenticate()"/>
                     <button class="w-100" onclick="saltos.login.authenticate()" label="Login" icon="box-arrow-in-right" col_class="col-12 my-3"/>
-                    <label class="w-100 text-center" label="(C) 2024 The SaltOS Project" col_class="col-12 mt-3"/>
                 </container>
             </div>
         </layout>

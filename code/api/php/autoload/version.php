@@ -8,7 +8,7 @@
  * |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
  *
  * SaltOS: Framework to develop Rich Internet Applications
- * Copyright (C) 2007-2024 by Josep Sanz Campderrós
+ * Copyright (C) 2007-2025 by Josep Sanz Campderrós
  * More information in https://www.saltos.org or info@saltos.org
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ function get_name_version_revision($copyright = false)
     $NAME = 'SaltOS';
     $VERSION = '4.0';
     $REVISION = svnversion();
-    $COPYRIGHT = 'Copyright (C) 2007-2024 by Josep Sanz Campderrós';
+    $COPYRIGHT = 'Copyright (C) 2007-2025 by Josep Sanz Campderrós';
     $result = "$NAME v$VERSION r$REVISION";
     if ($copyright) {
         $result .= ", $COPYRIGHT";
