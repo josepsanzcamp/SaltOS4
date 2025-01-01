@@ -752,98 +752,98 @@ function sendmail_server()
         $last_id = $row['id'];
         $messageid = $row['account_id'] . '/' . $row['uidl'];
         $file = get_directory('dirs/outboxdir') . $messageid . '.obj';
-        if (file_exists($file)) {
-            $mail = unserialize(file_get_contents($file));
-            ob_start();
-            $current = $mail->PostSend();
-            $error = ob_get_clean();
-            if (words_exists('PostSend non-object', $error)) {
-                $error = T('This email was not sent by an internal error');
-                __getmail_update('state_sent', 1, $last_id);
-                __getmail_update('state_error', $error, $last_id);
-                unlink($file);
-                $haserror[] = $error;
-            } else {
-                if ($current !== true) {
-                    $host = $mail->Host;
-                    $port = $mail->Port;
-                    $extra = $mail->SMTPSecure;
-                    $user = $mail->Username;
-                    $pass = $mail->Password;
-                    // FIND ACCOUNT DATA
-                    $query = 'SELECT * FROM app_emails_accounts WHERE id = ?';
-                    $result2 = execute_query($query, [$row['account_id']]);
-                    $current_host = $result2['smtp_host'];
-                    $current_port = $result2['smtp_port'] ? $result2['smtp_port'] : 25;
-                    $current_extra = $result2['smtp_extra'];
-                    $current_user = $result2['smtp_user'];
-                    $current_pass = $result2['smtp_pass'];
-                    // CONTINUE
-                    $idem = 1;
-                    if ($current_host != $host) {
-                        $idem = 0;
-                    }
-                    if ($current_port != $port) {
-                        $idem = 0;
-                    }
-                    if ($current_extra != $extra) {
-                        $idem = 0;
-                    }
-                    if ($current_user != $user) {
-                        $idem = 0;
-                    }
-                    if ($current_pass != $pass) {
-                        $idem = 0;
-                    }
-                    if (!$idem) {
-                        if (!in_array($current_host, ['mail', 'sendmail', 'qmail', ''])) {
-                            $mail->IsSMTP();
-                            $mail->set('Host', $current_host);
-                            $mail->set('Port', $current_port);
-                            $mail->set('SMTPSecure', $current_extra);
-                            $mail->set('Username', $current_user);
-                            $mail->set('Password', $current_pass);
-                            $mail->set('SMTPAuth', ($current_user != '' || $current_pass != ''));
-                            $mail->set('Hostname', $current_host);
-                        } else {
-                            if ($current_host == 'mail') {
-                                $mail->IsMail();
-                            } elseif ($current_host == 'sendmail') {
-                                $mail->IsSendmail();
-                            } elseif ($current_host == 'qmail') {
-                                $mail->IsQmail();
-                            }
-                        }
-                        ob_start();
-                        $current = $mail->PostSend();
-                        $error = ob_get_clean();
-                    }
-                }
-                if ($current !== true) {
-                    if (words_exists('connection refused', $error)) {
-                        $error = T('Connection refused by server');
-                    } elseif (words_exists('unable to connect', $error)) {
-                        $error = T('Can not connect to server');
-                    } else {
-                        $orig = ["\n", "\r", "'", '"'];
-                        $dest = [' ', '', '', ''];
-                        $error = str_replace($orig, $dest, $mail->ErrorInfo);
-                    }
-                    __getmail_update('state_sent', 0, $last_id);
-                    __getmail_update('state_error', $error, $last_id);
-                    $haserror[] = $error;
-                } else {
-                    __getmail_update('state_sent', 1, $last_id);
-                    __getmail_update('state_error', '', $last_id);
-                    unlink($file);
-                    $sended++;
-                }
-            }
-        } else {
+        if (!file_exists($file)) {
             $error = T('This email was not sent by an internal error');
             __getmail_update('state_sent', 1, $last_id);
             __getmail_update('state_error', $error, $last_id);
             $haserror[] = $error;
+            continue;
+        }
+        $mail = unserialize(file_get_contents($file));
+        ob_start();
+        $current = $mail->PostSend();
+        $error = ob_get_clean();
+        if (words_exists('PostSend non-object', $error)) {
+            $error = T('This email was not sent by an internal error');
+            __getmail_update('state_sent', 1, $last_id);
+            __getmail_update('state_error', $error, $last_id);
+            unlink($file);
+            $haserror[] = $error;
+            continue;
+        }
+        if ($current !== true) {
+            $host = $mail->Host;
+            $port = $mail->Port;
+            $extra = $mail->SMTPSecure;
+            $user = $mail->Username;
+            $pass = $mail->Password;
+            // FIND ACCOUNT DATA
+            $query = 'SELECT * FROM app_emails_accounts WHERE id = ?';
+            $result2 = execute_query($query, [$row['account_id']]);
+            $current_host = $result2['smtp_host'];
+            $current_port = $result2['smtp_port'] ? $result2['smtp_port'] : 25;
+            $current_extra = $result2['smtp_extra'];
+            $current_user = $result2['smtp_user'];
+            $current_pass = $result2['smtp_pass'];
+            // CONTINUE
+            $idem = 1;
+            if ($current_host != $host) {
+                $idem = 0;
+            }
+            if ($current_port != $port) {
+                $idem = 0;
+            }
+            if ($current_extra != $extra) {
+                $idem = 0;
+            }
+            if ($current_user != $user) {
+                $idem = 0;
+            }
+            if ($current_pass != $pass) {
+                $idem = 0;
+            }
+            if (!$idem) {
+                if (!in_array($current_host, ['mail', 'sendmail', 'qmail', ''])) {
+                    $mail->IsSMTP();
+                    $mail->set('Host', $current_host);
+                    $mail->set('Port', $current_port);
+                    $mail->set('SMTPSecure', $current_extra);
+                    $mail->set('Username', $current_user);
+                    $mail->set('Password', $current_pass);
+                    $mail->set('SMTPAuth', ($current_user != '' || $current_pass != ''));
+                    $mail->set('Hostname', $current_host);
+                } else {
+                    if ($current_host == 'mail') {
+                        $mail->IsMail();
+                    } elseif ($current_host == 'sendmail') {
+                        $mail->IsSendmail();
+                    } elseif ($current_host == 'qmail') {
+                        $mail->IsQmail();
+                    }
+                }
+                ob_start();
+                $current = $mail->PostSend();
+                $error = ob_get_clean();
+            }
+        }
+        if ($current !== true) {
+            if (words_exists('connection refused', $error)) {
+                $error = T('Connection refused by server');
+            } elseif (words_exists('unable to connect', $error)) {
+                $error = T('Can not connect to server');
+            } else {
+                $orig = ["\n", "\r", "'", '"'];
+                $dest = [' ', '', '', ''];
+                $error = str_replace($orig, $dest, $mail->ErrorInfo);
+            }
+            __getmail_update('state_sent', 0, $last_id);
+            __getmail_update('state_error', $error, $last_id);
+            $haserror[] = $error;
+        } else {
+            __getmail_update('state_sent', 1, $last_id);
+            __getmail_update('state_error', '', $last_id);
+            unlink($file);
+            $sended++;
         }
     }
     $haserror[] = sprintf(T('%d email(s) sended'), $sended);
