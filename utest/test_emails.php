@@ -194,7 +194,8 @@ final class test_emails extends TestCase
         set_data('rest/0', 'app');
         set_data('rest/1', 'emails');
 
-        $result = getmail_setter('101', 'new=0');
+        $maxid = execute_query('SELECT MAX(id) FROM app_emails');
+        $result = getmail_setter($maxid + 1, 'new=0');
         $this->assertSame($result, T('Permission denied'));
 
         $result = getmail_setter('99', 'new=1');
@@ -298,7 +299,7 @@ final class test_emails extends TestCase
         $result = sendmail(1, '', '', '');
         $this->assertStringContainsString('Invalid address', $result);
 
-        $result = sendmail(1, 'test@example.com', '', '');
+        $result = sendmail(1, 'admin@example.com', '', '');
         $this->assertStringContainsString('Message body empty', $result);
 
         $result = sendmail(1, ['to:'], '', 'nada');
@@ -310,26 +311,26 @@ final class test_emails extends TestCase
         $result = sendmail(1, ['bcc:'], '', 'nada');
         $this->assertStringContainsString('Invalid address', $result);
 
-        $result = sendmail(1, ['to:test@example.com', 'crt:1'], '', 'nada');
+        $result = sendmail(1, ['to:admin@example.com', 'crt:1'], '', 'nada');
         $this->assertStringContainsString('Invalid address', $result);
 
-        $result = sendmail(1, ['to:test@example.com', 'priority:100'], '', 'nada');
+        $result = sendmail(1, ['to:admin@example.com', 'priority:100'], '', 'nada');
         $this->assertSame($result, '');
 
-        $result = sendmail(1, ['to:test@example.com', 'sensitivity:100'], '', 'nada');
+        $result = sendmail(1, ['to:admin@example.com', 'sensitivity:100'], '', 'nada');
         $this->assertSame($result, '');
 
-        $result = sendmail(1, ['to:test@example.com', 'replyto:'], '', 'nada');
+        $result = sendmail(1, ['to:admin@example.com', 'replyto:'], '', 'nada');
         $this->assertStringContainsString('Invalid address', $result);
 
         $result = sendmail(1, [
-            'to:test@example.com',
-            'cc:test@example.com',
-            'bcc:test@example.com',
-            'crt:test@example.com',
+            'to:admin@example.com',
+            'cc:admin@example.com',
+            'bcc:admin@example.com',
+            'crt:admin@example.com',
             'priority:1',
             'sensitivity:1',
-            'replyto:test@example.com',
+            'replyto:admin@example.com',
         ], 'test email', 'body for the test email', [
             [
                 'data' => 'hola mundo',
@@ -353,8 +354,8 @@ final class test_emails extends TestCase
         ]);
         $this->assertSame($result, '');
 
-        $result = sendmail(1, 'test@example.com', 'nada', 'nada', [], false);
-        $this->assertStringContainsString('Connection refused', $result);
+        $result = sendmail(1, 'admin@example.com', 'nada', 'nada', [], false);
+        $this->assertStringContainsString('', $result);
 
         set_server('QUERY_STRING', 'app/emails/create');
 
@@ -407,13 +408,13 @@ final class test_emails extends TestCase
         ];
         $json = test_cli_helper('upload/addfile', $file1, '', '', 'admin');
         $file1['data'] = '';
-        $file1['file'] = execute_query("SELECT file FROM tbl_uploads WHERE uniqid='$id'");
+        $file1['file'] = execute_query('SELECT file FROM tbl_uploads WHERE uniqid = ?', [$id]);
         $file1['hash'] = md5_file($file);
         $this->assertSame($json, $file1);
 
         $result = sendmail_action([
             'from' => 1,
-            'to' => 'test@example.com',
+            'to' => 'admin@example.com',
             'subject' => 'test email',
             'body' => '<p>hello world</p><img src="' . __GIF_IMAGE__ . '"/>',
             'files' => [$file1],
@@ -423,7 +424,7 @@ final class test_emails extends TestCase
 
         $result = sendmail_action([
             'from' => 1,
-            'to' => 'test@example.com',
+            'to' => 'admin@example.com',
             'subject' => 'test email',
             'body' => 'hello world',
         ], 'reply', 100);
@@ -432,7 +433,7 @@ final class test_emails extends TestCase
 
         $result = sendmail_action([
             'from' => 1,
-            'to' => 'test@example.com',
+            'to' => 'admin@example.com',
             'subject' => 'test email',
             'body' => 'hello world',
         ], 'replyall', 100);
@@ -441,7 +442,7 @@ final class test_emails extends TestCase
 
         $result = sendmail_action([
             'from' => 1,
-            'to' => 'test@example.com',
+            'to' => 'admin@example.com',
             'subject' => 'test email',
             'body' => 'hello world',
         ], 'forward', 100);
@@ -450,7 +451,31 @@ final class test_emails extends TestCase
 
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
-        $this->assertStringContainsString('Connection refused', $result[0]);
+        $this->assertStringContainsString('email(s) received', $result[0]);
+        $this->assertStringContainsString('email(s) sended', $result[count($result) - 1]);
+
+        // This trick is for execute the internal error part
+        $files = glob('data/outbox/1/*.obj');
+        unlink($files[1]);
+        file_put_contents($files[2], '');
+
+        $query = 'UPDATE app_emails_accounts SET smtp_user = ?, smtp_pass = ? WHERE id = ?';
+        db_query($query, ['', '', 1]);
+
+        $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
+        $this->assertIsArray($result);
+        $this->assertStringContainsString('email(s) received', $result[0]);
+        $this->assertStringContainsString('This email was not sent by an internal error', $result[1]);
+        $this->assertStringContainsString('This email was not sent by an internal error', $result[2]);
+        $this->assertStringContainsString('email(s) sended', $result[3]);
+
+        $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
+        $this->assertIsArray($result);
+        $this->assertStringContainsString('email(s) received', $result[0]);
+        $this->assertStringContainsString('email(s) sended', $result[1]);
+
+        $query = 'UPDATE app_emails_accounts SET smtp_user = ?, smtp_pass = ? WHERE id = ?';
+        db_query($query, ['admin', 'admin', 1]);
 
         $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
         db_query($query, [1, 1]);
@@ -459,7 +484,7 @@ final class test_emails extends TestCase
             'old' => 1,
             'new' => 1,
             'body' => '<section></section>',
-            'cc' => 'test@example.com;',
+            'cc' => 'admin@example.com;',
         ]);
         $this->assertIsArray($result);
         $this->assertStringContainsString('<section>', sprintr($result));

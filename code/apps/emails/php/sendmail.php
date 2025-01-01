@@ -284,13 +284,6 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     ob_start();
     $current = $mail->PostSend();
     $error = ob_get_clean();
-    if (words_exists('PostSend non-object', $error)) {
-        $error = T('This email was not sent by an internal error');
-        __getmail_update('state_sent', 1, $last_id);
-        __getmail_update('state_error', $error, $last_id);
-        unlink($file2);
-        return $error;
-    }
     if (!$current) {
         if (words_exists('connection refused', $error)) {
             $error = T('Connection refused by server');
@@ -760,10 +753,7 @@ function sendmail_server()
             continue;
         }
         $mail = unserialize(file_get_contents($file));
-        ob_start();
-        $current = $mail->PostSend();
-        $error = ob_get_clean();
-        if (words_exists('PostSend non-object', $error)) {
+        if (!$mail || !method_exists($mail, 'PostSend')) {
             $error = T('This email was not sent by an internal error');
             __getmail_update('state_sent', 1, $last_id);
             __getmail_update('state_error', $error, $last_id);
@@ -771,6 +761,10 @@ function sendmail_server()
             $haserror[] = $error;
             continue;
         }
+        /** @var PHPMailer $mail */
+        ob_start();
+        $current = $mail->PostSend();
+        $error = ob_get_clean();
         if ($current !== true) {
             $host = $mail->Host;
             $port = $mail->Port;
