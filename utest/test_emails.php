@@ -293,8 +293,39 @@ final class test_emails extends TestCase
 
         set_data('server/lang', 'en');
 
+        if (file_exists('data/outbox/1')) {
+            rmdir('data/outbox/1');
+        }
+        $this->assertDirectoryDoesNotExist('data/outbox/1');
+
         $result = sendmail(-1, '', '', '');
         $this->assertStringContainsString('Id not found', $result);
+
+        $query = 'UPDATE app_emails_accounts SET email_from = ? WHERE id = ?';
+        db_query($query, ['nada', 1]);
+
+        $result = sendmail(1, '', '', '');
+        $this->assertStringContainsString('Invalid address', $result);
+
+        $query = 'UPDATE app_emails_accounts SET email_from = ? WHERE id = ?';
+        db_query($query, ['admin@example.com', 1]);
+
+        $query = 'UPDATE app_emails_accounts SET email_disabled = ? WHERE id = ?';
+        db_query($query, [1, 1]);
+
+        $result = sendmail(1, '', '', '');
+        $this->assertStringContainsString('Email disabled', $result);
+
+        $query = 'UPDATE app_emails_accounts SET email_disabled = ? WHERE id = ?';
+        db_query($query, [0, 1]);
+
+        set_data('server/lang', 'nada');
+
+        $result = sendmail(1, '', '', '');
+        print_r($result);
+        $this->assertStringContainsString('Lang nada not found', $result);
+
+        set_data('server/lang', 'en');
 
         $result = sendmail(1, '', '', '');
         $this->assertStringContainsString('Invalid address', $result);
@@ -314,17 +345,17 @@ final class test_emails extends TestCase
         $result = sendmail(1, ['to:admin@example.com', 'crt:1'], '', 'nada');
         $this->assertStringContainsString('Invalid address', $result);
 
-        $result = sendmail(1, ['to:admin@example.com', 'priority:100'], '', 'nada');
+        $result = sendmail(1, ['to:admin@example.com', 'priority:1'], '', 'nada');
         $this->assertSame($result, '');
 
-        $result = sendmail(1, ['to:admin@example.com', 'sensitivity:100'], '', 'nada');
+        $result = sendmail(1, ['to:admin@example.com', 'sensitivity:Personal'], '', 'nada');
         $this->assertSame($result, '');
 
         $result = sendmail(1, ['to:admin@example.com', 'replyto:'], '', 'nada');
         $this->assertStringContainsString('Invalid address', $result);
 
         $result = sendmail(1, [
-            'to:admin@example.com',
+            'to:Admin <admin@example.com>',
             'cc:admin@example.com',
             'bcc:admin@example.com',
             'crt:admin@example.com',
@@ -452,6 +483,16 @@ final class test_emails extends TestCase
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
         $this->assertStringContainsString('email(s) received', $result[0]);
+        $this->assertStringContainsString('Connection refused', $result[1]);
+        $this->assertStringContainsString('email(s) sended', $result[count($result) - 1]);
+
+        $query = 'UPDATE app_emails_accounts SET smtp_port = ?, smtp_extra = ? WHERE id = ?';
+        db_query($query, [25, '', 1]);
+
+        $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
+        $this->assertIsArray($result);
+        $this->assertStringContainsString('email(s) received', $result[0]);
+        $this->assertStringContainsString('Could not authenticate', $result[1]);
         $this->assertStringContainsString('email(s) sended', $result[count($result) - 1]);
 
         // This trick is for execute the internal error part
@@ -465,8 +506,8 @@ final class test_emails extends TestCase
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
         $this->assertStringContainsString('email(s) received', $result[0]);
-        $this->assertStringContainsString('This email was not sent by an internal error', $result[1]);
-        $this->assertStringContainsString('This email was not sent by an internal error', $result[2]);
+        $this->assertStringContainsString('internal error', $result[1]);
+        $this->assertStringContainsString('internal error', $result[2]);
         $this->assertStringContainsString('email(s) sended', $result[3]);
 
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
@@ -474,8 +515,10 @@ final class test_emails extends TestCase
         $this->assertStringContainsString('email(s) received', $result[0]);
         $this->assertStringContainsString('email(s) sended', $result[1]);
 
-        $query = 'UPDATE app_emails_accounts SET smtp_user = ?, smtp_pass = ? WHERE id = ?';
-        db_query($query, ['admin', 'admin', 1]);
+        $query = 'UPDATE app_emails_accounts
+            SET smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
+            WHERE id = ?';
+        db_query($query, ['admin', 'admin', 587, 'tls', 1]);
 
         $query = 'UPDATE app_emails_accounts SET email_addmetocc = ? WHERE id = ?';
         db_query($query, [1, 1]);

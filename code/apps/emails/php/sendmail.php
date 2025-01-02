@@ -76,29 +76,18 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     $fromname = $result['email_name'];
     // CONTINUE
     $mail = new PHPMailer();
-    if (!$mail->set('XMailer', get_name_version_revision())) {
-        return $mail->ErrorInfo;
-    }
-    if (!$mail->AddCustomHeader('X-Originating-IP', get_server('REMOTE_ADDR'))) {
-        if ($mail->ErrorInfo) {
-            return $mail->ErrorInfo;
-        }
-    }
+    $mail->set('XMailer', get_name_version_revision());
+    $mail->AddCustomHeader('X-Originating-IP', get_server('REMOTE_ADDR'));
+    $mail->SMTPDebug = 2;
+    $mail->Debugoutput = '__sendmail_debugoutput_helper';
     if (!$mail->SetLanguage(current_lang() ?? '')) {
-        if (!$mail->ErrorInfo) {
-            return sprintf(T('Lang %s not found'), current_lang());
-        }
-        return $mail->ErrorInfo;
+        return sprintf(T('Lang %s not found'), current_lang());
     }
-    if (!$mail->set('CharSet', 'UTF-8')) {
-        return $mail->ErrorInfo;
-    }
+    $mail->set('CharSet', 'UTF-8');
     if (!$mail->SetFrom($from, $fromname)) {
         return $mail->ErrorInfo;
     }
-    if (!$mail->set('WordWrap', 50)) {
-        return $mail->ErrorInfo;
-    }
+    $mail->set('WordWrap', 50);
     $options = [
         'ssl' => [
             'verify_peer' => false,
@@ -106,37 +95,21 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
             'allow_self_signed' => true,
         ],
     ];
-    if (!$mail->set('SMTPOptions', $options)) {
-        return $mail->ErrorInfo;
-    }
+    $mail->set('SMTPOptions', $options);
     $mail->IsHTML();
     if (!in_array($host, ['mail', 'sendmail', 'qmail', ''])) {
         $mail->IsSMTP();
-        if (!$mail->set('Host', $host)) {
-            return $mail->ErrorInfo;
-        }
+        $mail->set('Host', $host);
         if ($port != '') {
-            if (!$mail->set('Port', $port)) {
-                return $mail->ErrorInfo;
-            }
+            $mail->set('Port', $port);
         }
         if ($extra != '') {
-            if (!$mail->set('SMTPSecure', $extra)) {
-                return $mail->ErrorInfo;
-            }
+            $mail->set('SMTPSecure', $extra);
         }
-        if (!$mail->set('Username', $user)) {
-            return $mail->ErrorInfo;
-        }
-        if (!$mail->set('Password', $pass)) {
-            return $mail->ErrorInfo;
-        }
-        if (!$mail->set('SMTPAuth', ($user != '' || $pass != ''))) {
-            return $mail->ErrorInfo;
-        }
-        if (!$mail->set('Hostname', $host)) {
-            return $mail->ErrorInfo;
-        }
+        $mail->set('Username', $user);
+        $mail->set('Password', $pass);
+        $mail->set('SMTPAuth', ($user != '' || $pass != ''));
+        $mail->set('Hostname', $host);
     } else {
         if ($host == 'mail') {
             $mail->IsMail();
@@ -146,15 +119,9 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
             $mail->IsQmail();
         }
     }
-    if (!$mail->set('Subject', $subject)) {
-        return $mail->ErrorInfo;
-    }
-    if (!$mail->set('Body', $body)) {
-        return $mail->ErrorInfo;
-    }
-    if (!$mail->set('AltBody', html2text($body))) {
-        return $mail->ErrorInfo;
-    }
+    $mail->set('Subject', $subject);
+    $mail->set('Body', $body);
+    $mail->set('AltBody', html2text($body));
     if (is_array($files)) {
         foreach ($files as $file) {
             if (isset($file['data']) && !isset($file['cid'])) {
@@ -163,12 +130,9 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
                 );
             }
             if (isset($file['file']) && !isset($file['cid'])) {
-                $bool = $mail->AddAttachment(
+                $mail->AddAttachment(
                     $file['file'], $file['name'], 'base64', $file['mime']
                 );
-                if (!$bool) {
-                    return $mail->ErrorInfo;
-                }
             }
             if (isset($file['data']) && isset($file['cid'])) {
                 $mail->AddStringEmbeddedImage(
@@ -176,12 +140,9 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
                 );
             }
             if (isset($file['file']) && isset($file['cid'])) {
-                $bool = $mail->AddEmbeddedImage(
+                $mail->AddEmbeddedImage(
                     $file['file'], $file['cid'], $file['name'], 'base64', $file['mime']
                 );
-                if (!$bool) {
-                    return $mail->ErrorInfo;
-                }
             }
         }
     }
@@ -225,25 +186,13 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
                 }
             }
             if ($type == $valids[3]) {
-                if (!$mail->set('ConfirmReadingTo', $addr)) {
-                    if ($mail->ErrorInfo) {
-                        return $mail->ErrorInfo;
-                    }
-                }
+                $mail->set('ConfirmReadingTo', $addr);
             }
             if ($type == $valids[4]) {
-                if (!$mail->set('Priority', $addr)) {
-                    if ($mail->ErrorInfo) {
-                        return $mail->ErrorInfo;
-                    }
-                }
+                $mail->set('Priority', $addr);
             }
             if ($type == $valids[5]) {
-                if (!$mail->AddCustomHeader('Sensitivity', $addr)) {
-                    if ($mail->ErrorInfo) {
-                        return $mail->ErrorInfo;
-                    }
-                }
+                $mail->AddCustomHeader('Sensitivity', $addr);
             }
             if ($type == $valids[6]) {
                 if (!$mail->AddReplyTo($addr, $addrname)) {
@@ -259,9 +208,7 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
             return $mail->ErrorInfo;
         }
     }
-    ob_start();
     $current = $mail->PreSend();
-    ob_get_clean();
     if (!$current) {
         return $mail->ErrorInfo;
     }
@@ -285,14 +232,8 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     $current = $mail->PostSend();
     $error = ob_get_clean();
     if (!$current) {
-        if (words_exists('connection refused', $error)) {
-            $error = T('Connection refused by server');
-        } elseif (words_exists('unable to connect', $error)) {
-            $error = T('Can not connect to server');
-        } else {
-            $orig = ["\n", "\r", "'", '"'];
-            $dest = [' ', '', '', ''];
-            $error = str_replace($orig, $dest, $mail->ErrorInfo);
+        if (!$error) {
+            $error = $mail->ErrorInfo;
         }
         __getmail_update('state_sent', 0, $last_id);
         __getmail_update('state_error', $error, $last_id);
@@ -302,6 +243,25 @@ function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
     __getmail_update('state_error', '', $last_id);
     unlink($file2);
     return '';
+}
+
+/**
+ * Debugoutput helper
+ *
+ * This function tries to echoed all debug information with the SMTP Error: prefix,
+ * with this feature we can capture smtp errors with more details like the error
+ * stored in $mail->ErrorInfo that always contains SMTP connect() failed, the signature
+ * of this function will accomplish the neested callback arguments
+ *
+ * @str   => the debug trace string that can contain the errors
+ * @level => unused in this function
+ */
+function __sendmail_debugoutput_helper($str, $level)
+{
+    $fix = 'smtp error:';
+    if (strncasecmp($str, $fix, strlen($fix)) == 0) {
+        echo $str;
+    }
 }
 
 /**
@@ -448,14 +408,10 @@ function sendmail_prepare($action, $email_id)
         $cc_extra[] = $result2['email_name'] . ' <' . $result2['email_from'] . '>';
     }
     // GET THE DEFAULT CRT
-    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
-    $result2 = execute_query($query, [current_user(), $account_id]);
     if ($result2) {
         $state_crt = $result2['email_crt'];
     }
     // GET THE DEFAULT SIGNATURE
-    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
-    $result2 = execute_query($query, [current_user(), $account_id]);
     if ($result2) {
         $body_extra = __HTML_NEWLINE__ . __SECTION_OPEN__ . __SIGNATURE_OPEN__ .
             $result2['email_signature'] . __SIGNATURE_CLOSE__ . __SECTION_CLOSE__;
@@ -821,14 +777,8 @@ function sendmail_server()
             }
         }
         if ($current !== true) {
-            if (words_exists('connection refused', $error)) {
-                $error = T('Connection refused by server');
-            } elseif (words_exists('unable to connect', $error)) {
-                $error = T('Can not connect to server');
-            } else {
-                $orig = ["\n", "\r", "'", '"'];
-                $dest = [' ', '', '', ''];
-                $error = str_replace($orig, $dest, $mail->ErrorInfo);
+            if (!$error) {
+                $error = $mail->ErrorInfo;
             }
             __getmail_update('state_sent', 0, $last_id);
             __getmail_update('state_error', $error, $last_id);
@@ -917,7 +867,6 @@ function sendmail_signature($json)
     // FIND THE OLD AND NEW CC'S AND STATE_CRT'S
     $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
     $result_old = execute_query($query, [current_user(), $old]);
-    $query = 'SELECT * FROM app_emails_accounts WHERE user_id = ? AND id = ?';
     $result_new = execute_query($query, [current_user(), $new]);
     // REPLACE THE SIGNATURE BODY
     if ($result_new) {
