@@ -64,6 +64,7 @@ function eval_iniset($array)
             }
             if ($diff) {
                 if (ini_set($key, $val) === false) {
+                    exec_check_system();
                     show_php_error(['phperror' => "ini_set fails to set '$key' from '$cur' to '$val'"]);
                 }
             }
@@ -127,7 +128,8 @@ function eval_extras($array)
             if ($key == 'mb_detect_order') {
                 $val = array_intersect($val, mb_list_encodings());
             }
-            if ($key($val) === false) {
+            if (!function_exists($key) || $key($val) === false) {
+                exec_check_system();
                 show_php_error(['phperror' => "$key fails to set '$val'"]);
             }
         }

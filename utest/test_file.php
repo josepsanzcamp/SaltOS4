@@ -75,6 +75,9 @@ final class test_file extends TestCase
         set_config('dirs/tempdir2', ['#attr' => ['eval' => 'true'], 'value' => "getcwd().'/data/temp/'"]);
         $this->assertSame(get_directory('dirs/tempdir2'), getcwd() . '/data/temp/');
 
+        set_config('dirs/tempdir2', null);
+        $this->assertSame(get_directory('dirs/tempdir2'), null);
+
         $this->assertStringContainsString(getcwd() . '/data/temp/', get_temp_file());
         $this->assertSame(strlen(getcwd() . '/data/temp/') + 32 + 4, strlen(get_temp_file('tmp')));
 

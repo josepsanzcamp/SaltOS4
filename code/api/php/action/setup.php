@@ -43,7 +43,6 @@ if (!semaphore_acquire('setup')) {
 }
 
 db_connect();
-require_once 'php/lib/system.php';
 require_once 'php/lib/dbschema.php';
 require_once 'php/lib/setup.php';
 
@@ -53,7 +52,7 @@ $dbstatic_check = __dbstatic_check();
 $dbstatic_hash = __dbstatic_hash();
 
 $time0 = microtime(true);
-$output0 = check_system();
+$output0 = array_merge(check_system(), check_directories());
 foreach ($output0 as $key => $val) {
     if (isset($val['error'])) {
         show_php_error([

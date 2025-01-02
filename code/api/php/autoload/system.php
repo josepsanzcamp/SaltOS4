@@ -82,8 +82,14 @@ function check_system()
             ];
         }
     }
+    return $result;
+}
+
+function check_directories()
+{
+    $result = [];
     // DIRECTORIES CKECKS
-    $dirs = glob('data/*');
+    $dirs = array_merge(glob('data/*'), get_config('dirs'));
     foreach ($dirs as $dir) {
         if (!file_exists($dir) || !is_dir($dir) || (fileperms($dir) & 0777) != 0777) {
             $result[] = [
@@ -93,4 +99,22 @@ function check_system()
         }
     }
     return $result;
+}
+
+ /**
+ * TODO
+ *
+ * TODO
+ */
+function exec_check_system()
+{
+    $output = check_system();
+    foreach ($output as $key => $val) {
+        if (isset($val['error'])) {
+            show_php_error([
+                'phperror' => $val['error'],
+                'details' => $val['details'],
+            ]);
+        }
+    }
 }
