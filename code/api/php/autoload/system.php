@@ -94,7 +94,7 @@ function check_directories()
         if (!file_exists($dir) || !is_dir($dir) || (fileperms($dir) & 0777) != 0777) {
             $result[] = [
                 'error' => "$dir not writable",
-                'details' => "Try to set permissions to do writable the $dir directory",
+                'details' => "Try to set permissions to do the $dir directory writable",
             ];
         }
     }

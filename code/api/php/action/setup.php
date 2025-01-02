@@ -52,29 +52,41 @@ $dbstatic_check = __dbstatic_check();
 $dbstatic_hash = __dbstatic_hash();
 
 $time0 = microtime(true);
-$output0 = array_merge(check_system(), check_directories());
-foreach ($output0 as $key => $val) {
-    if (isset($val['error'])) {
-        show_php_error([
-            'phperror' => $val['error'],
-            'details' => $val['details'],
-        ]);
-    }
-}
+$output0 = check_system();
 $time1 = microtime(true);
-$output1 = db_schema();
+$output1 = check_directories();
 $time2 = microtime(true);
-$output2 = db_static();
-$total2 = 0;
-foreach ($output2 as $key => $val) {
+$errors = array_filter(array_merge($output0, $output1), function ($x) {
+    return isset($x['error']);
+});
+if (count($errors)) {
+    semaphore_release('setup');
+    output_handler_json([
+        'system' => [
+            'time' => round($time1 - $time0, 6),
+            'output' => $output0,
+            'count' => count($output0),
+        ],
+        'directories' => [
+            'time' => round($time2 - $time1, 6),
+            'output' => $output1,
+            'count' => count($output1),
+        ],
+    ]);
+}
+$output2 = db_schema();
+$time3 = microtime(true);
+$output3 = db_static();
+$total3 = 0;
+foreach ($output3 as $key => $val) {
     $from = $val['from'];
     $to = $val['to'];
-    $output2[$key] = "from $from to $to";
-    $total2 += abs($to - $from);
+    $output3[$key] = "from $from to $to";
+    $total3 += abs($to - $from);
 }
-$time3 = microtime(true);
-$output3 = setup();
 $time4 = microtime(true);
+$output4 = setup();
+$time5 = microtime(true);
 
 semaphore_release('setup');
 output_handler_json([
@@ -83,23 +95,28 @@ output_handler_json([
         'output' => $output0,
         'count' => count($output0),
     ],
-    'db_schema' => [
+    'directories' => [
         'time' => round($time2 - $time1, 6),
-        'check' => $dbschema_check,
-        'hash' => $dbschema_hash,
-        'history' => $output1,
+        'output' => $output1,
         'count' => count($output1),
     ],
-    'db_static' => [
+    'db_schema' => [
         'time' => round($time3 - $time2, 6),
+        'check' => $dbschema_check,
+        'hash' => $dbschema_hash,
+        'history' => $output2,
+        'count' => count($output2),
+    ],
+    'db_static' => [
+        'time' => round($time4 - $time3, 6),
         'check' => $dbstatic_check,
         'hash' => $dbstatic_hash,
-        'history' => $output2,
-        'count' => $total2,
+        'history' => $output3,
+        'count' => $total3,
     ],
     'setup' => [
-        'time' => round($time4 - $time3, 6),
-        'history' => $output3,
-        'count' => array_sum($output3),
+        'time' => round($time5 - $time4, 6),
+        'history' => $output4,
+        'count' => array_sum($output4),
     ],
 ]);
