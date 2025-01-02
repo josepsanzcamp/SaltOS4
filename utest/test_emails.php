@@ -322,7 +322,6 @@ final class test_emails extends TestCase
         set_data('server/lang', 'nada');
 
         $result = sendmail(1, '', '', '');
-        print_r($result);
         $this->assertStringContainsString('Lang nada not found', $result);
 
         set_data('server/lang', 'en');
