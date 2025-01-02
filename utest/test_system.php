@@ -70,29 +70,32 @@ final class test_system extends TestCase
         $array = check_system();
         $this->assertCount(0, $array);
 
+        if (file_exists('data/nada')) {
+            rmdir('data/nada');
+        }
+        $this->assertDirectoryDoesNotExist('data/nada');
         mkdir('data/nada');
+        $this->assertDirectoryExists('data/nada');
+
         $array = check_directories();
         $this->assertCount(1, $array);
         $this->assertSame($array[0]['error'], 'data/nada not writable');
         $this->assertDirectoryExists('data/nada');
 
-        $file = 'data/logs/phperror.log';
-        $this->assertFileDoesNotExist($file);
-
         $json = test_cli_helper('setup', [], '', '', '');
-        $this->assertCount(1, $json);
-        $this->assertArrayHasKey('error', $json);
-        $this->assertCount(2, $json['error']);
-        $this->assertArrayHasKey('text', $json['error']);
-        $this->assertArrayHasKey('code', $json['error']);
-        $this->assertSame($json['error']['text'], 'data/nada not writable');
+        $this->assertCount(2, $json);
+        $this->assertArrayHasKey('system', $json);
+        $this->assertCount(0, $json['system']['output']);
+        $this->assertArrayHasKey('directories', $json);
+        $this->assertArrayHasKey('error', $json['directories']['output']['0']);
+        $this->assertCount(2, $json['directories']['output']['0']);
+        $this->assertArrayHasKey('error', $json['directories']['output']['0']);
+        $this->assertArrayHasKey('details', $json['directories']['output']['0']);
+        $this->assertSame($json['directories']['output']['0']['error'], 'data/nada not writable');
 
         $this->assertDirectoryExists('data/nada');
         rmdir('data/nada');
-
-        $this->assertFileExists($file);
-        $this->assertTrue(words_exists('data/nada not writable', file_get_contents($file)));
-        unlink($file);
+        $this->assertDirectoryDoesNotExist('data/nada');
 
         exec_check_system();
     }
