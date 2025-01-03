@@ -76,7 +76,6 @@ saltos.push.fn = () => {
                     saltos.app.toast('Notification', val.message, {color: val.type});
                 } else if (['event'].includes(val.type)) {
                     saltos.window.send(val.message);
-                    saltos.favicon.run();
                 } else {
                     throw new Error(`Unknown response type ${val.type}`);
                 }

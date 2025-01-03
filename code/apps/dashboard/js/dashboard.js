@@ -64,6 +64,8 @@ saltos.dashboard.init = arg => {
                     document.getElementById('table2').replaceWith(temp);
                 },
             });
+
+            saltos.favicon.run();
         });
         Sortable.create(document.querySelector('.items'), {
             animation: 150,

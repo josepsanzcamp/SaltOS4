@@ -555,6 +555,7 @@ saltos.driver.search_if_needed = arg => {
         if (action1 == action2) {
             // Old feature
             saltos.driver.search();
+            saltos.favicon.run();
             return;
         }
         for (const key in arg) {
@@ -562,6 +563,7 @@ saltos.driver.search_if_needed = arg => {
             if (action1 == val[0] && action2 == val[1]) {
                 // Old feature
                 saltos.driver.search();
+                saltos.favicon.run();
                 return;
             }
         }
@@ -623,6 +625,7 @@ saltos.driver.__types.type1.init = arg => {
         const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.driver.search();
+            saltos.favicon.run();
         });
     }
     if (arg == 'view') {
@@ -630,6 +633,7 @@ saltos.driver.__types.type1.init = arg => {
         const app = saltos.hash.get().split('/').at(1);
         saltos.window.set_listener(`saltos.${app}.update`, event => {
             saltos.hash.trigger();
+            saltos.favicon.run();
         });
     }
     if (arg == 'view') {
