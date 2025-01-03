@@ -70,6 +70,11 @@ final class test_emails extends TestCase
      */
     public function test_emails(): void
     {
+        $query = 'UPDATE app_emails_accounts
+            SET smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
+            WHERE id = ?';
+        db_query($query, ['admin', 'admin', 587, 'tls', 1]);
+
         $json = test_cli_helper('app/emails', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/filter', [], '', '', 'admin');
         $json = test_cli_helper('app/emails/list/list', [
@@ -478,11 +483,6 @@ final class test_emails extends TestCase
         ], 'forward', 100);
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ok');
-
-        $query = 'UPDATE app_emails_accounts
-            SET smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
-            WHERE id = ?';
-        db_query($query, ['admin', 'admin', 587, 'tls', 1]);
 
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
