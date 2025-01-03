@@ -479,6 +479,11 @@ final class test_emails extends TestCase
         $this->assertIsArray($result);
         $this->assertSame($result['status'], 'ok');
 
+        $query = 'UPDATE app_emails_accounts
+            SET smtp_user = ?, smtp_pass = ?, smtp_port = ?, smtp_extra = ?
+            WHERE id = ?';
+        db_query($query, ['admin', 'admin', 587, 'tls', 1]);
+
         $result = test_cli_helper('app/emails/action/server', [], '', '', 'admin');
         $this->assertIsArray($result);
         $this->assertStringContainsString('email(s) received', $result[0]);
