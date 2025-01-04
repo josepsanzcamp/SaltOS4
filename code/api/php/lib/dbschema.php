@@ -147,11 +147,19 @@ function db_schema()
  */
 function __dbschema_hash()
 {
-    return md5(serialize([
-        xmlfiles2array(detect_apps_files('xml/dbschema.xml')),
-        xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
-        xmlfiles2array(detect_apps_files('xml/manifest.xml')),
-    ]));
+    static $cache = [];
+    $files = array_merge(
+        detect_apps_files('xml/dbschema.xml'),
+        detect_apps_files('xml/dbstatic.xml'),
+        detect_apps_files('xml/manifest.xml')
+    );
+    foreach ($files as $key => $val) {
+        if (!isset($cache[$val])) {
+            $cache[$val] = md5_file($val);
+        }
+        $files[$key] = $cache[$val];
+    }
+    return md5(implode('', $files));
 }
 
 /**
@@ -253,10 +261,18 @@ function db_static()
  */
 function __dbstatic_hash()
 {
-    return md5(serialize([
-        xmlfiles2array(detect_apps_files('xml/dbstatic.xml')),
-        xmlfiles2array(detect_apps_files('xml/manifest.xml')),
-    ]));
+    static $cache = [];
+    $files = array_merge(
+        detect_apps_files('xml/dbstatic.xml'),
+        detect_apps_files('xml/manifest.xml')
+    );
+    foreach ($files as $key => $val) {
+        if (!isset($cache[$val])) {
+            $cache[$val] = md5_file($val);
+        }
+        $files[$key] = $cache[$val];
+    }
+    return md5(implode('', $files));
 }
 
 /**

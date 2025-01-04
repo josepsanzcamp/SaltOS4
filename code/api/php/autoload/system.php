@@ -52,12 +52,12 @@ function check_system()
         ['extension', 'gd', 'error', 'php-gd'],
         ['extension', 'mbstring', 'error', 'php-mbstring'],
         ['extension', 'curl', 'error', 'php-curl'],
-        ['extension', 'pdo', 'warning', 'php-pdo'],
-        ['extension', 'mysqli', 'warning', 'php-mysql'],
-        ['extension', 'sqlite3', 'warning', 'php-sqlite3'],
         ['extension', 'yaml', 'warning', 'php-yaml'],
-        ['extension', 'zstd', 'warning', 'php-zstd'],
-        ['extension', 'brotli', 'warning', 'php-brotli'],
+        ['class', 'pdo', 'warning', 'php-pdo'],
+        ['class', 'mysqli', 'warning', 'php-mysql'],
+        ['class', 'sqlite3', 'warning', 'php-sqlite3'],
+        ['function', 'zstd_compress', 'warning', 'php-zstd'],
+        ['function', 'brotli_compress', 'warning', 'php-brotli'],
     ];
     foreach ($items as $item) {
         [$type, $name, $trigger, $package] = $item;
@@ -66,20 +66,22 @@ function check_system()
             case 'extension':
                 $bool = extension_loaded($name);
                 break;
-            /*case 'class':
+            case 'class':
                 $bool = class_exists($name);
                 break;
             case 'function':
                 $bool = function_exists($name);
-                break;*/
+                break;
         }
         if (!$bool) {
+            // @codeCoverageIgnoreStart
             $type = ucfirst($type);
             $name = ucfirst($name);
             $result[] = [
                 $trigger => "$type $name not found",
                 'details' => "Try to install $package package",
             ];
+            // @codeCoverageIgnoreEnd
         }
     }
     return $result;
@@ -110,11 +112,13 @@ function exec_check_system()
 {
     $output = check_system();
     foreach ($output as $key => $val) {
+        // @codeCoverageIgnoreStart
         if (isset($val['error'])) {
             show_php_error([
                 'phperror' => $val['error'],
                 'details' => $val['details'],
             ]);
         }
+        // @codeCoverageIgnoreEnd
     }
 }
