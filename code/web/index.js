@@ -409,7 +409,7 @@ const saltos={core:{}};saltos.core.adderror=async(e,t,o,s,a)=>{const l={jserror:
             }
         </style>
     `)),o.show(),!0},saltos.bootstrap.toast=e=>{saltos.core.check_params(e,["id","class","close","title","subtitle","body","color"]),0==document.querySelectorAll(".toast-container").length&&document.body.append(saltos.core.html(`
-            <div class="toast-container position-fixed top-0 end-0 p-3"></div>
+            <div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
         `));const t=md5(JSON.stringify(e));if(document.querySelector(`.toast[hash=x${t}]`))return!1;e.color||(e.color="primary");const o=saltos.core.html(`
         <div id="${e.id}" class="toast ${e.class}" role="alert" aria-live="assertive"
             aria-atomic="true" hash="x${t}">
