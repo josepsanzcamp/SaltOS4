@@ -32,8 +32,9 @@ function head($data, $lines)
 
 function curl($url)
 {
+    $firefox = '-H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"';
     ob_start();
-    passthru("curl -s $url");
+    passthru("curl $firefox -s $url");
     $buffer = ob_get_clean();
     return $buffer;
 }
@@ -55,26 +56,24 @@ foreach ($libs as $key => $lib) {
     if (count($lib) == 4 && $lib[0][0] != '#' && (count($argv) == 0 || in_array($lib[0], $argv))) {
         //~ $temp=@file_get_contents($lib[1]);
         $temp = curl($lib[1]);
-        $iserror = ($temp == '') ? 1 : 0;
+        $iserror = ($temp == '');
         $temp = str_replace('<TD><span ', "<TD>\n<span ", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace('">', "\">\n", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace('><svg', ">\n<svg", $temp); // FIX FOR SOURCEFORGE.NET
         $temp = str_replace('<title>Tags from', '', $temp); // FIX FOR GITHUB.COM
         $temp = grep($temp, $lib[2]);
         $temp = head($temp, 1);
-        if (substr($lib[3], 0, 7) != 'base64:') {
-            $temp2 = grep($temp, $lib[3]);
-        } else {
-            $temp2 = grep($temp, base64_decode(substr($lib[3], 7)));
-        }
-        $isko = ($temp2 == '') ? 1 : 0;
-        if ($iserror) {
+        $isvoid = ($temp == '');
+        $temp2 = grep($temp, base64_decode($lib[3]));
+        $isko = ($temp2 == '');
+        if ($iserror || $isvoid) {
             echo $lib[0] . ': ' . "\033[31m!file_get_contents(" . $lib[1] . ")\033[0m" . "\n";
         } elseif ($isko) {
             echo $lib[0] . ': ' . "\033[31mKO\033[0m" . ' (' . trim($temp) . ')' . "\n";
-            $lib[3] = 'base64:' . base64_encode(trim($temp));
+            $lib[3] = base64_encode(trim($temp));
         } else {
             echo $lib[0] . ': ' . "\033[32mOK\033[0m" . "\n";
+            $lib[3] = base64_encode(trim($temp));
         }
     }
     $lib = implode('|', $lib);
