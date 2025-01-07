@@ -34,7 +34,7 @@ function curl($url)
 {
     $firefox = '-H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"';
     ob_start();
-    passthru("curl $firefox -s $url");
+    passthru("timeout 5 curl $firefox -s $url");
     $buffer = ob_get_clean();
     return $buffer;
 }
