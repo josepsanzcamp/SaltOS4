@@ -81,7 +81,11 @@ endif
 	node -c ${files}; )
 
 libs:
+ifeq ($(libs),) # default behaviour
 	php scripts/checklibs.php scripts/checklibs.txt
+else # libs=lib[,lib,lib]
+	php scripts/checklibs.php scripts/checklibs.txt $(shell echo ${libs} | tr ',' ' ')
+endif
 
 docs:
 	php scripts/makedocs.php docs/code.t2t code/api/php code/web/js
