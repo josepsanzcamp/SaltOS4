@@ -55,7 +55,10 @@ foreach ($libs as $key => $lib) {
     $lib = explode('|', $lib);
     if (count($lib) == 4 && $lib[0][0] != '#' && (count($argv) == 0 || in_array($lib[0], $argv))) {
         //~ $temp=@file_get_contents($lib[1]);
+        $start = microtime(true);
         $temp = curl($lib[1]);
+        $end = microtime(true);
+        $istimeout = (($end - $start) >= 5);
         $iserror = ($temp == '');
         $temp = str_replace('<TD><span ', "<TD>\n<span ", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace('">', "\">\n", $temp); // FIX FOR WWW.PHPCLASSES.ORG
@@ -66,8 +69,12 @@ foreach ($libs as $key => $lib) {
         $isvoid = ($temp == '');
         $temp2 = grep($temp, base64_decode($lib[3]));
         $isko = ($temp2 == '');
-        if ($iserror || $isvoid) {
-            echo $lib[0] . ': ' . "\033[31m!file_get_contents(" . $lib[1] . ")\033[0m" . "\n";
+        if ($istimeout) {
+            echo $lib[0] . ': ' . "\033[31mtimeout curl(" . $lib[1] . ")\033[0m" . "\n";
+        } elseif ($iserror) {
+            echo $lib[0] . ': ' . "\033[31merror curl(" . $lib[1] . ")\033[0m" . "\n";
+        } elseif ($isvoid) {
+            echo $lib[0] . ': ' . "\033[31mvoid curl(" . $lib[1] . ")\033[0m" . "\n";
         } elseif ($isko) {
             echo $lib[0] . ': ' . "\033[31mKO\033[0m" . ' (' . trim($temp) . ')' . "\n";
             $lib[3] = base64_encode(trim($temp));

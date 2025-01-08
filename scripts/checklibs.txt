@@ -24,10 +24,10 @@ sourcemap|https://github.com/novocaine/sourcemapped-stacktrace/commits/master.at
 tomselect|https://api.cdnjs.com/libraries/tom-select?fields=name,version|version|eyJuYW1lIjoidG9tLXNlbGVjdCIsInZlcnNpb24iOiIyLjQuMSJ9
 venobox|https://api.cdnjs.com/libraries/venobox?fields=name,version|version|eyJuYW1lIjoidmVub2JveCIsInZlcnNpb24iOiIyLjEuOCJ9
 
-mimeparser|https://www.phpclasses.org/browse/file/14670.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
+mimeparser|https://phpclasses.org/browse/file/14670.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjQtMTEtMDMgMDk6MDg6MDYiPg==
 phpmailer|https://github.com/PHPMailer/PHPMailer/tags.atom|<title>|PHRpdGxlPlBIUE1haWxlciA2LjkuMzwvdGl0bGU+
-pop3|https://www.phpclasses.org/browse/file/3.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
-rfc822|https://www.phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
+pop3|https://phpclasses.org/browse/file/3.html|<span title=|PHNwYW4gdGl0bGU9IjIwMjItMTAtMDQgMDA6NTg6NTMiPg==
+rfc822|https://phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
 sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS42In0=
 
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
