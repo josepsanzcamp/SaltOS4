@@ -50,20 +50,25 @@ declare(strict_types=1);
  */
 function json_colorize($json)
 {
+    $reset = "\e[0m";
+    $red = "\e[31m";
+    $green = "\e[32m";
+    $blue = "\e[34m";
+    $magenta = "\e[35m";
     $patterns = [
-        '/(".*?")(:\s)/' => "\e[32m$1\e[0m$2", // keys in green
-        '/(:\s)(".*")/' => "$1\e[34m$2\e[0m", // strings in blue
-        '/(:\s)(true|false|null)/' => "$1\e[31m$2\e[0m", // booleans and null in red
-        '/^(\s*?)(".*")/m' => "$1\e[34m$2\e[0m", // strings in blue
-        '/^(\s*?)(true|false|null)/m' => "$1\e[31m$2\e[0m", // booleans and null in red
+        '/(".*?")(:\s)/' => "$green$1$reset$2", // keys in green
+        '/(:\s)(".*")/' => "$1$blue$2$reset", // strings in blue
+        '/(:\s)(true|false|null)/' => "$1$red$2$reset", // booleans and null in red
+        '/^(\s*?)(".*")/m' => "$1$blue$2$reset", // strings in blue
+        '/^(\s*?)(true|false|null)/m' => "$1$red$2$reset", // booleans and null in red
     ];
     foreach ($patterns as $pattern => $replacement) {
         $json = preg_replace($pattern, $replacement, $json);
     }
     // Trick for numbers with scientific notation
     $patterns = [
-        '/(:\s)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/' => "$1\e[35m$2\e[0m", // numbers in magenta
-        '/^(\s*?)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/m' => "$1\e[35m$2\e[0m", // numbers in magenta
+        '/(:\s)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/' => "$1$magenta$2$reset", // numbers in magenta
+        '/^(\s*?)([+-]?\d+(\.\d+)?([eE][+-]?\d+)?)/m' => "$1$magenta$2$reset", // numbers in magenta
     ];
     foreach ($patterns as $pattern => $replacement) {
         $json = preg_replace_callback($pattern, function ($matches) use ($replacement) {

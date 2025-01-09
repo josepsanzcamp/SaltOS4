@@ -30,11 +30,11 @@ function head($data, $lines)
     return $result;
 }
 
-function curl($url)
+function curl($url, $timeout)
 {
     $firefox = '-H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"';
     ob_start();
-    passthru("timeout 5 curl $firefox -s $url");
+    passthru("timeout $timeout curl $firefox -s $url");
     $buffer = ob_get_clean();
     return $buffer;
 }
@@ -51,14 +51,18 @@ $hash1 = md5($libs);
 $libs = explode("\n", $libs);
 array_shift($argv);
 array_shift($argv);
+$reset = "\e[0m";
+$red = "\e[31m";
+$green = "\e[32m";
 foreach ($libs as $key => $lib) {
     $lib = explode('|', $lib);
     if (count($lib) == 4 && $lib[0][0] != '#' && (count($argv) == 0 || in_array($lib[0], $argv))) {
         //~ $temp=@file_get_contents($lib[1]);
         $start = microtime(true);
-        $temp = curl($lib[1]);
+        $temp = curl($lib[1], 5);
         $end = microtime(true);
         $istimeout = (($end - $start) >= 5);
+        $temp = trim($temp);
         $iserror = ($temp == '');
         $temp = str_replace('<TD><span ', "<TD>\n<span ", $temp); // FIX FOR WWW.PHPCLASSES.ORG
         $temp = str_replace('">', "\">\n", $temp); // FIX FOR WWW.PHPCLASSES.ORG
@@ -66,21 +70,22 @@ foreach ($libs as $key => $lib) {
         $temp = str_replace('<title>Tags from', '', $temp); // FIX FOR GITHUB.COM
         $temp = grep($temp, $lib[2]);
         $temp = head($temp, 1);
+        $temp = trim($temp);
         $isvoid = ($temp == '');
         $temp2 = grep($temp, base64_decode($lib[3]));
         $isko = ($temp2 == '');
         if ($istimeout) {
-            echo $lib[0] . ': ' . "\033[31mtimeout curl(" . $lib[1] . ")\033[0m" . "\n";
+            echo "{$lib[0]}: {$red}timeout curl({$lib[1]}){$reset}\n";
         } elseif ($iserror) {
-            echo $lib[0] . ': ' . "\033[31merror curl(" . $lib[1] . ")\033[0m" . "\n";
+            echo "{$lib[0]}: {$red}error curl({$lib[1]}){$reset}\n";
         } elseif ($isvoid) {
-            echo $lib[0] . ': ' . "\033[31mvoid curl(" . $lib[1] . ")\033[0m" . "\n";
+            echo "{$lib[0]}: {$red}void curl({$lib[1]}){$reset}\n";
         } elseif ($isko) {
-            echo $lib[0] . ': ' . "\033[31mKO\033[0m" . ' (' . trim($temp) . ')' . "\n";
-            $lib[3] = base64_encode(trim($temp));
+            echo "{$lib[0]}: {$red}KO{$reset}($temp)\n";
+            $lib[3] = base64_encode($temp);
         } else {
-            echo $lib[0] . ': ' . "\033[32mOK\033[0m" . "\n";
-            $lib[3] = base64_encode(trim($temp));
+            echo "{$lib[0]}: {$green}OK{$reset}\n";
+            $lib[3] = base64_encode($temp);
         }
     }
     $lib = implode('|', $lib);
