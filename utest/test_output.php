@@ -78,7 +78,17 @@ final class test_output extends TestCase
         test_external_exec('php/output09.php', 'phperror.log', 'output_handler requires cache parameter');
         test_external_exec('php/output10.php', '', '');
         test_external_exec('php/output11.php', '', '');
+    }
 
+    #[testdox('colorize functions')]
+    /**
+     * colorize test
+     *
+     * This test performs some tests to validate the correctness
+     * of the colorize functions
+     */
+    public function test_colorize(): void
+    {
         test_pcov_start();
         $data1 = ob_passthru('php index.php');
         test_pcov_stop(1);
@@ -93,5 +103,28 @@ final class test_output extends TestCase
         $data2 = str_replace("\r\n", "\n", $data2);
 
         $this->assertSame($data1, $data2);
+
+        $array = [
+            'text' => 'josep sanz',
+            'int' => 123,
+            'float' => 123.456,
+            'true' => true,
+            'false' => false,
+            'null' => null,
+            'exp' => 3e-5,
+        ];
+        $json = json_encode($array, JSON_PRETTY_PRINT);
+        $buffer = json_colorize($json);
+
+        extract(__COLORS_MAP__);
+
+        $this->assertStringContainsString("{$green}\"text\"{$reset}", $buffer);
+        $this->assertStringContainsString("{$blue}\"josep sanz\"{$reset}", $buffer);
+        $this->assertStringContainsString("{$magenta}123{$reset}", $buffer);
+        $this->assertStringContainsString("{$magenta}123.456{$reset}", $buffer);
+        $this->assertStringContainsString("{$red}true{$reset}", $buffer);
+        $this->assertStringContainsString("{$red}false{$reset}", $buffer);
+        $this->assertStringContainsString("{$red}null{$reset}", $buffer);
+        $this->assertStringContainsString("{$magenta}0.00003{$reset}", $buffer);
     }
 }

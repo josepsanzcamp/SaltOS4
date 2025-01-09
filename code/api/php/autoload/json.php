@@ -34,6 +34,19 @@ declare(strict_types=1);
  */
 
 /**
+ * Terminal colors
+ *
+ * This define sets the colors array used in the next functions
+ */
+define('__COLORS_MAP__', [
+    'reset' => "\e[0m",
+    'red' => "\e[31m",
+    'green' => "\e[32m",
+    'blue' => "\e[34m",
+    'magenta' => "\e[35m",
+]);
+
+/**
  * Json colorize
  *
  * This funcion is able to colorize a json fragment to dump into a tty terminal
@@ -50,11 +63,7 @@ declare(strict_types=1);
  */
 function json_colorize($json)
 {
-    $reset = "\e[0m";
-    $red = "\e[31m";
-    $green = "\e[32m";
-    $blue = "\e[34m";
-    $magenta = "\e[35m";
+    extract(__COLORS_MAP__);
     $patterns = [
         '/(".*?")(:\s)/' => "$green$1$reset$2", // keys in green
         '/(:\s)(".*")/' => "$1$blue$2$reset", // strings in blue
