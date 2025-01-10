@@ -649,6 +649,10 @@ saltos.form.screen = action => {
         if (only == 'only') {
             action = 'type1';
         }
+        const width = window.innerWidth;
+        if (width < 1200) {
+            action = 'type1';
+        }
         if (action in saltos.driver.__types) {
             const obj = document.getElementById('screen');
             if (obj) {

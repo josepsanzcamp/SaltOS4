@@ -595,7 +595,7 @@ saltos.driver.__types.type1.template = arg => {
     const obj = saltos.core.html(`
         <div id="screen" type="type1">
             <div id="header" class="sticky-top"></div>
-            <div class="container">
+            <div class="container-xl">
                 <div class="row">
                     <div id="top" class="col-12"></div>
                 </div>
