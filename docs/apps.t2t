@@ -1,114 +1,35 @@
-Application Documentation
-SaltOS 4.0 r761
-March 2024
+Applications Documentation
+SaltOS 4.0 r1681
+January 2025
 
 
 
-+Javascript+
++Common+
 
-++Customers application++
-
-```
-apps/customers/js/app.js
-```
-
-This application implements the tipical features associated to customers
-
-
-+++Main object+++
+++Matrix functions++
 
 ```
-saltos.customers = {};
+apps/common/php/matrix.php
 ```
 
-This object contains all SaltOS code
+This file contain all functions needed by the excel widget
 
 
 +++TODO+++
 
 ```
-saltos.customers.initialize_update_list = ()
+function make_matrix_version($app, $id)
 ```
 
 TODO
 
 
-+++TODO+++
-
-```
-saltos.customers.initialize_update_view = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.insert = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.update = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.delete1 = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.customers.delete2 = ()
-```
-
-TODO
-
++Dashboard+
 
 ++Dashboard application++
 
 ```
-apps/dashboard/js/app.js
+apps/dashboard/js/dashboard.js
 ```
 
 This application implements the tipical features associated to dashboard
@@ -126,7 +47,54 @@ This object contains all SaltOS code
 +++TODO+++
 
 ```
-saltos.dashboard.initialize = ()
+saltos.dashboard.init = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.dashboard.authupdate = ()
+```
+
+TODO
+
+
++Emails+
+
+++Email application++
+
+```
+apps/emails/js/driver.js
+```
+
+This application implements the tipical features associated to emails
+
+
++++Driver emails object+++
+
+```
+saltos.driver.__types.emails = {};
+```
+
+This object stores the functions used by the emails driver
+
+
++++TODO+++
+
+```
+saltos.driver.__types.emails.template = arg
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.driver.__types.emails.init = saltos.driver.__types.type5.init;
 ```
 
 TODO
@@ -135,7 +103,7 @@ TODO
 ++Email application++
 
 ```
-apps/emails/js/app.js
+apps/emails/js/emails.js
 ```
 
 This application implements the tipical features associated to emails
@@ -150,19 +118,10 @@ saltos.emails = {};
 This object contains all SaltOS code
 
 
-+++Initialize emails app+++
-
-```
-saltos.emails.initialize = ()
-```
-
-This function initializes the emails app screen to improve the user experience.
-
-
 +++TODO+++
 
 ```
-saltos.emails.search = ()
+saltos.emails.init = arg
 ```
 
 TODO
@@ -171,25 +130,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.emails.getmail = ()
+saltos.emails.server = ()
 ```
 
 TODO
@@ -225,7 +166,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.download = (file)
+saltos.emails.setter = what
 ```
 
 TODO
@@ -234,13 +175,47 @@ TODO
 +++TODO+++
 
 ```
-saltos.emails.setter = what
+saltos.emails.signature = ()
 ```
 
 TODO
 
 
-+Emails+
++++TODO+++
+
+```
+saltos.emails.viewpdf = ()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+saltos.emails.download = ()
+```
+
+TODO
+
+
+++TODO++
+
+```
+apps/emails/php/filter.php
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function make_where_query_emails($json)
+```
+
+TODO
+
 
 ++Get email library++
 
@@ -254,7 +229,7 @@ This library provides the necesary functions to download, parse and manage email
 +++Requires section+++
 
 ```
-require_once "apps/emails/lib/mimeparser/mime_parser.php";
+require_once 'apps/emails/lib/mimeparser/mime_parser.php';
 ```
 
 This requires loads the external libraries needed to run this library.
@@ -263,10 +238,10 @@ This requires loads the external libraries needed to run this library.
 +++Defines section+++
 
 ```
-define("__HTML_PAGE_OPEN__", '<!DOCTYPE html><html><head><style type="text/css">body{margin:0px;padding:6px 12px;}</style></head><body>');
+// phpcs:disable Generic.Files.LineLength
 ```
 
-This defines allow to define some usefull standards to do html pages and more.
+This defines allow to define some useful standards to do html pages and more.
 
 
 +++Remove all body+++
@@ -519,18 +494,6 @@ register identified by the id argument.
 - @id    => id of the register to do the update
 
 
-+++Raw url decode+++
-
-```
-function __getmail_rawurldecode($temp)
-```
-
-This function tries to detect if the argument contains the %20 string
-to try to detect url encoded strings and fix it if is needed
-
-- @temp => the string that you want to check and fix
-
-
 +++Add bcc+++
 
 ```
@@ -560,13 +523,31 @@ and allow to know the file size of the file after a gzip descompression.
 +++Get email body+++
 
 ```
-function getmail_body($id)
+function getmail_body($id, $images = false)
 ```
 
 This function returns the string that contains the body of the email
 intended to be rendered in an iframe, for example
 
 - @id => id of the email
+
+
++++TODO+++
+
+```
+function __getmail_head_helper($decoded, $email_id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __getmail_body_helper($decoded, $images = false)
+```
+
+TODO
 
 
 +++Get email source+++
@@ -617,10 +598,10 @@ Returns the field of the email identified by the id argument
 - @id    => id of the email
 
 
-+++Receive+++
++++Server+++
 
 ```
-function getmail_receive()
+function getmail_server()
 ```
 
 This function implements the old getmail action of the old saltos.
@@ -666,10 +647,38 @@ in an array format for the download feature
 +++TODO+++
 
 ```
-function getmail_setter($ids, $action2)
+function getmail_setter($ids, $what)
 ```
 
 TODO
+
+
++++TODO+++
+
+```
+function getmail_pdf($ids)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function __iframe_srcdoc_helper($html)
+```
+
+TODO
+
+
+++Make indexing action++
+
+```
+apps/emails/php/indexing.php
+```
+
+This fie contains useful functions related to the indexing action that internally uses the
+mroonga engine to search in the fulltext string generated by this action
 
 
 ++Send email library++
@@ -693,7 +702,7 @@ This use loads the external libraries needed to run this library.
 +++Sendmail+++
 
 ```
-function sendmail($account_id, $to, $subject, $body, $files = "")
+function sendmail($account_id, $to, $subject, $body, $files = '', $async = true)
 ```
 
 This function send an email in synchronous and/or asynchronous mode
@@ -705,6 +714,21 @@ $to         => can be an string with the destination email or an array with
 $subject    => the subject string
 $body       => the body string
 $files      => an array with files
+
+
++++Debugoutput helper+++
+
+```
+function __sendmail_debugoutput_helper($str, $level)
+```
+
+This function tries to echoed all debug information with the SMTP Error: prefix,
+with this feature we can capture smtp errors with more details like the error
+stored in $mail->ErrorInfo that always contains SMTP connect() failed, the signature
+of this function will accomplish the neested callback arguments
+
+- @str   => the debug trace string that can contain the errors
+- @level => unused in this function
 
 
 +++Parser+++
@@ -758,12 +782,57 @@ This function is intended to save the PHPMailer object into the obj file
 - @messageid => the message id computed previously
 
 
-+Javascript+
++++TODO+++
+
+```
+function sendmail_prepare($action, $email_id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function sendmail_action($json, $action, $email_id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function sendmail_server()
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function sendmail_files($action, $email_id)
+```
+
+TODO
+
+
++++TODO+++
+
+```
+function sendmail_signature($json)
+```
+
+TODO
+
+
++Invoices+
 
 ++invoices application++
 
 ```
-apps/invoices/js/app.js
+apps/invoices/js/invoices.js
 ```
 
 This application implements the tipical features associated to invoices
@@ -781,34 +850,7 @@ This object contains all SaltOS code
 +++TODO+++
 
 ```
-saltos.invoices.initialize_update_list = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.initialize_update_view = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.initialize_buttons = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.initialize_inputs = ()
+saltos.invoices.init = arg
 ```
 
 TODO
@@ -844,7 +886,7 @@ TODO
 +++TODO+++
 
 ```
-saltos.invoices.search = ()
+saltos.invoices.viewpdf = ()
 ```
 
 TODO
@@ -853,98 +895,18 @@ TODO
 +++TODO+++
 
 ```
-saltos.invoices.reset = ()
+saltos.invoices.download = ()
 ```
 
 TODO
 
 
-+++TODO+++
-
-```
-saltos.invoices.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.insert = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.update = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.delete1 = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.invoices.delete2 = ()
-```
-
-TODO
-
-
-++Login application++
-
-```
-apps/login/js/app.js
-```
-
-This application implements the tipical features associated to login
-
-
-+++Main object+++
-
-```
-saltos.login = {};
-```
-
-This object contains all SaltOS code
-
-
-+++Authenticate login function+++
-
-```
-saltos.login.authenticate = ()
-```
-
-This function tries to authenticate the user using the user and pass fields of the form, to do
-it uses the authenticate function that send data to the authtoken action
-
-
-+++Access denied+++
-
-```
-saltos.login.access_denied = ()
-```
-
-This function displays a modal dialog with the tipical access denied message
-
++Tester+
 
 ++Tester application++
 
 ```
-apps/tester/js/app.new.js
+apps/tester/js/tester.js
 ```
 
 This application implements the tipical features associated to tester
@@ -1004,360 +966,209 @@ saltos.tester.campo22 = ()
 TODO
 
 
-++Tester application++
++Users+
+
+++Login application++
 
 ```
-apps/tester/js/app.old.js
+apps/users/js/login.js
 ```
 
-This application implements the tipical features associated to tester
-
-
-+++Main code+++
-
-```
-(function() {
-```
-
-This function executes the main code that allow to you to see the tester in action
-
-
-+Tester+
-
-++TODO++
-
-```
-apps/tester/php/indexing.php
-```
-
-
-++TODO++
-
-```
-apps/tester/php/insert.php
-```
-
-
-++TODO++
-
-```
-apps/tester/php/pepe.php
-```
-
-
-+Javascript+
-
-++Types application++
-
-```
-apps/types/js/app.1.js
-```
-
-This application implements the tipical features associated to types
+This application implements the tipical features associated to login
 
 
 +++Main object+++
 
 ```
-saltos.types = {};
+saltos.login = {};
 ```
 
 This object contains all SaltOS code
 
 
-+++Initialize types+++
++++Authenticate login function+++
 
 ```
-saltos.types.initialize = ()
+saltos.login.authenticate = async ()
 ```
 
-This function initializes the types screen to improve the user experience.
+This function tries to authenticate the user using the user and pass fields of the form, to do
+it uses the authenticate function that send data to the authtoken action
 
 
-+++TODO+++
+++Days functions++
 
 ```
-saltos.types.search = ()
+apps/users/php/days.php
+```
+
+This file contain all functions needed by the days feature
+
+
++++Days to bin+++
+
+```
+function days2bin($days)
+```
+
+This function tries to convert the days format used by the multiselect
+to the string expected by the database formed by ones and zeroes to
+represent if a day is operative for the user or not, for example, the
+selection 64,32,16,8,4 is returned like from monday to friday (1111100)
+
+- @days => the string containing the days in power of two separated by comma
+
+
++++Bin to days+++
+
+```
+function bin2days($days)
+```
+
+This function tries to do the reverse action that the previous function,
+is able to get an string like 1111100 and returns the list of all bits in
+decimal like 64,32,16,8,4.
+
+- @days => the string containing the days in binary format
+
+
++++Fix for days+++
+
+```
+function fix4days($data)
+```
+
+This function is intended to be used as wrapper in the result of the query
+that contains an element called days, in the database the days is stored
+using the binary notation like 1111100, and for the user interface, is needed
+to translate this string into a decimal string like 64,32,16,8,4.
+
+- @data => the data obtained from an execute_query, for example, they must contain
+         an entry called days.
+
+
+++Groups functions++
+
+```
+apps/users/php/groups.php
+```
+
+This file contain all functions needed by the groups app
+
+
++++Insert group action+++
+
+```
+function insert_group($data)
+```
+
+This action allow to insert registers in the database associated to
+the groups app and only requires the data.
+
+TODO
+
+
++++Update group action+++
+
+```
+function update_group($group_id, $data)
+```
+
+This action allow to update registers in the database associated to
+the groups app and requires the group_id and data.
+
+TODO
+
+
++++Delete group action+++
+
+```
+function delete_group($group_id)
+```
+
+This action allow to delete registers in the database associated to
+the groups app and only requires the group_id.
+
+TODO
+
+
+++Matrix functions++
+
+```
+apps/users/php/matrix.php
+```
+
+This file contain all functions needed by the excel widget
+
+
++++Make matrix+++
+
+```
+function make_matrix_data($perms, $apps, $main, $user)
 ```
 
 TODO
 
 
-+++TODO+++
++++Make matrix+++
 
 ```
-saltos.types.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.more = ()
+function make_matrix_cell($perms, $apps, $main, $user)
 ```
 
 TODO
 
 
-+++TODO+++
++++Make matrix+++
 
 ```
-saltos.types.open = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.__open_helper = arg
+function unmake_matrix_data($perms, $apps, $main, $json)
 ```
 
 TODO
 
 
-+++TODO+++
+++Users functions++
 
 ```
-saltos.types.close = ()
+apps/users/php/users.php
 ```
+
+This file contain all functions needed by the users app
+
+
++++Insert user action+++
+
+```
+function insert_user($data)
+```
+
+This action allow to insert registers in the database associated to
+the users app and only requires the data.
 
 TODO
 
 
-+++TODO+++
++++Update user action+++
 
 ```
-saltos.types.insert = arg
+function update_user($user_id, $data)
 ```
+
+This action allow to update registers in the database associated to
+the users app and requires the user_id and data.
 
 TODO
 
 
-+++TODO+++
++++Delete user action+++
 
 ```
-saltos.types.update = arg
+function delete_user($user_id)
 ```
 
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete = arg
-```
-
-TODO
-
-
-++types application++
-
-```
-apps/types/js/app.2.js
-```
-
-This application implements the tipical features associated to types
-
-
-+++Main object+++
-
-```
-saltos.types = {};
-```
-
-This object contains all SaltOS code
-
-
-+++Initialize types+++
-
-```
-saltos.types.initialize_update_list = ()
-```
-
-This function initializes the types screen to improve the user experience.
-
-
-+++TODO+++
-
-```
-saltos.types.initialize_update_view = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.insert = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.update = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete1 = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete2 = ()
-```
-
-TODO
-
-
-++Types application++
-
-```
-apps/types/js/app.3.js
-```
-
-This application implements the tipical features associated to types
-
-
-+++Main object+++
-
-```
-saltos.types = {};
-```
-
-This object contains all SaltOS code
-
-
-+++Initialize types+++
-
-```
-saltos.types.initialize = ()
-```
-
-This function initializes the types screen to improve the user experience.
-
-
-+++TODO+++
-
-```
-saltos.types.search = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.reset = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.more = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.open = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.__open_helper = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.close = ()
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.insert = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.update = arg
-```
-
-TODO
-
-
-+++TODO+++
-
-```
-saltos.types.delete = arg
-```
+This action allow to delete registers in the database associated to
+the users app and only requires the user_id.
 
 TODO
 

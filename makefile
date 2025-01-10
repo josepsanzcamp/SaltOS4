@@ -88,8 +88,8 @@ else # libs=lib[,lib,lib]
 endif
 
 docs:
-	php scripts/makedocs.php docs/code.t2t code/api/php code/web/js
-	php scripts/makedocs.php docs/apps.t2t code/apps/*/js code/apps/*/php
+	php scripts/makedocs.php docs/core.t2t code/api/php code/web/js
+	php scripts/makedocs.php docs/apps.t2t code/apps/*/php code/apps/*/js
 	php scripts/makedocs.php docs/utest.t2t utest/ utest/lib
 
 check:

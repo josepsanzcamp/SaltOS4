@@ -1,10 +1,8 @@
 Unit Test Documentation
-SaltOS 4.0 r761
-March 2024
+SaltOS 4.0 r1681
+January 2025
 
 
-
-+Lib+
 
 ++Autoload file for the unit tests++
 
@@ -15,27 +13,87 @@ lib/autoload.php
 This file contains the code that initialize the unit tests
 
 
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\Assert;
+```
+
+
 +++Main autoloader code+++
 
 This code emmulates the index.php by loading all autoload files excep
-the zindex.php, initialize the timer, the random and executes the
-check_system function.
+the zindex.php, initialize the timer and the random generator
 
 
-++CLI helper function++
+++Unit test helper functions++
 
 ```
-lib/clilib.php
+lib/utestlib.php
 ```
 
-This file contains the function used by the web unit tests to communicate with the
-SaltOS app, using the two interfaces that SaltOS provides.
+This file contains the functions used by the web and cli unit tests
+to get the coverage, too contains the pcov and mime helpers.
+
+
++++Importing namespaces+++
+
+```
+use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
+```
+
+
++++Test PCOV start helper+++
+
+```
+function test_pcov_start(): void
+```
+
+This function puts the flag needed to enable the pcov feature, to do it,
+the function creates a void file and puts permissions to allow that other
+procs can write inside of it
+
+
+
++++Test PCOV stop helper+++
+
+```
+function test_pcov_stop($index): void
+```
+
+This function gets the contents of the coverage file and removes it, too,
+it does all needed things to append the collected coverage to the current
+unit test coverage instance
+
+- @index => index used to get the backtrace, it depends from where you are
+          calling this function, generally is 2 but in some cases you need
+          to use another value like 1.
+
+
++++Test WEB helper+++
+
+```
+function test_web_helper($rest, $data, $token, $lang)
+```
+
+This function performs the action defined by the rest verb sendind the data if it is
+provided and using the token for authentication actions.
+
+As you can see in the code, the function detects if data is provided and send the request
+using GET or POST, in addition, an application/json content-type header is send when POST
+is used.
+
+The token is sent using the TOKEN header to be used in the authentication process.
+
+- @rest  => The rest request, like update/customers/3
+- @data  => The data used as json in the SaltOS app
+- @token => The token used if authentication is required
 
 
 +++Test CLI helper+++
 
 ```
-function test_cli_helper($rest, $data, $token): array
+function test_cli_helper($rest, $data, $token, $lang, $user)
 ```
 
 This function allow to execute SaltOS using the CLI SAPI, to do it, the function
@@ -59,37 +117,369 @@ the SaltOS app.
 - @token => The token used if authentication is required
 
 
-++WEB helper function++
++++Get Mime helper+++
 
 ```
-lib/weblib.php
+function get_mime($buffer): string
 ```
 
-This file contains the function used by the web unit tests to communicate with the
-SaltOS app, using the two interfaces that SaltOS provides.
+This function returns the content type of the contents of the buffer
+
+- @buffer => the contents that you want to check
 
 
-+++Test WEB helper+++
++++External tests+++
 
 ```
-function test_web_helper($rest, $data, $token): array
+function test_external_exec($test_file, $error_file, $error_words): void
 ```
 
-This function performs the action defined by the rest verb sendind the data if it is
-provided and using the token for authentication actions.
+This function tries to execute external php that triggers special conditions
+suck as errors, that are not allowed from the phpunit tests
 
-As you can see in the code, the function detects if data is provided and send the request
-using GET or POST, in addition, an application/json content-type header is send when POST
-is used.
-
-The token is sent using the TOKEN header to be used in the authentication process.
-
-- @rest  => The rest request, like update/customers/3
-- @data  => The data used as json in the SaltOS app
-- @token => The token used if authentication is required
+- @test_file   => the file that must be executed
+- @error_file  => the file that must contains the error_words
+- @error_words => the words that must exists in the error_file
 
 
-+Utest+
++Actions+
+
+++Test actions++
+
+```
+test_actions.php
+```
+
+This test performs some tests to validate the correctness
+of the actions functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_actions extends TestCase
+```
+
+
++++actions test+++
+
+```
+public function test_actions(): void
+```
+
+This test performs some tests to validate the correctness
+of the actions functions
+
+
++Add+
+
+++Test addlog++
+
+```
+test_add.php
+```
+
+This test performs some tests to validate the correctness
+of the addlog functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_add extends TestCase
+```
+
+
++++addlog test+++
+
+```
+public function test_addlog(): void
+```
+
+This test performs some tests to validate the correctness
+of the addlog functions
+
+
++++adderror test+++
+
+```
+public function test_adderror(): void
+```
+
+This test performs some tests to validate the correctness
+of the adderror functions
+
+
++Apache+
+
+++Test apache++
+
+```
+test_apache.php
+```
+
+This test performs some tests to validate the correctness
+of the apache configuration
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_apache extends TestCase
+```
+
+
++++addlog test+++
+
+```
+public function test_apache(): void
+```
+
+This test performs some tests to validate the correctness of the apache configuration,
+the main idea is that the path saltos/code4 of the web server must point to the web
+directory.
+
+
++Apps+
+
+++Test apps++
+
+```
+test_apps.php
+```
+
+This test performs some tests to validate the correctness
+of the apps functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_apps extends TestCase
+```
+
+
++++apps test+++
+
+```
+public function test_apps(): void
+```
+
+This test performs some tests to validate the correctness
+of the apps functions
+
+
++++app test+++
+
+```
+public function test_app(): void
+```
+
+This test performs some tests to validate the correctness
+of the app functions
+
+
++++list test+++
+
+```
+public function test_list(): void
+```
+
+This test performs some tests to validate the correctness
+of the list functions
+
+
++Array+
+
+++Test array++
+
+```
+test_array.php
+```
+
+This test performs some tests to validate the correctness
+of the array functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_array extends TestCase
+```
+
+
++++array test+++
+
+```
+public function test_array(): void
+```
+
+This test performs some tests to validate the correctness
+of the array functions
+
+
++Ascii+
+
+++Test ascii++
+
+```
+test_ascii.php
+```
+
+This test performs some tests to validate the correctness
+of the ascii functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/ascii.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_ascii extends TestCase
+```
+
+
++++ascii test+++
+
+```
+public function test_ascii(): void
+```
+
+This test performs some tests to validate the correctness
+of the ascii functions
+
+
++Authupdate+
+
+++Test authupdate++
+
+```
+test_authupdate.php
+```
+
+This test performs some tests to validate the correctness
+of the authupdate functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_authupdate extends TestCase
+```
+
+
++++authupdate test+++
+
+```
+public function test_authupdate(): void
+```
+
+This test performs some tests to validate the correctness
+of the authupdate functions
+
+
++Cli Customers+
 
 ++Test cli customers++
 
@@ -111,7 +501,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once "lib/clilib.php";
+require_once 'lib/utestlib.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -122,6 +512,16 @@ This file contains the needed function used by the unit tests
 ```
 final class test_cli_customers extends TestCase
 ```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
 
 
 +++Create+++
@@ -196,6 +596,8 @@ public function test_delete(array $json): void
 This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
+
++Cli Invoices+
 
 ++Test cli invoices++
 
@@ -217,7 +619,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once "lib/clilib.php";
+require_once 'lib/utestlib.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -228,6 +630,16 @@ This file contains the needed function used by the unit tests
 ```
 final class test_cli_invoices extends TestCase
 ```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
 
 
 +++Create+++
@@ -303,10 +715,12 @@ This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
 
++Cli Tokens+
+
 ++Test cli tokens (first part)++
 
 ```
-test_cli_tokens1.php
+test_cli_tokens.php
 ```
 
 This test performs some part of the actions related with the tokens suck
@@ -323,7 +737,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once "lib/clilib.php";
+require_once 'lib/utestlib.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -332,7 +746,7 @@ This file contains the needed function used by the unit tests
 +++Main class of this unit test+++
 
 ```
-final class test_cli_tokens1 extends TestCase
+final class test_cli_tokens extends TestCase
 ```
 
 
@@ -356,39 +770,6 @@ This function execute the checktoken rest request, and must to get the
 json with the ok about the valid token that you are trying to check
 
 
-++Test cli tokens (second part)++
-
-```
-test_cli_tokens2.php
-```
-
-This test performs some part of the actions related with the tokens suck
-as deauthtoken and checktoken, using the cli sapi interface
-
-
-+++Importing namespaces+++
-
-```
-use PHPUnit\Framework\TestCase;
-```
-
-
-+++Loading helper function+++
-
-```
-require_once "lib/clilib.php";
-```
-
-This file contains the needed function used by the unit tests
-
-
-+++Main class of this unit test+++
-
-```
-final class test_cli_tokens2 extends TestCase
-```
-
-
 +++Deauthtoken+++
 
 ```
@@ -409,6 +790,287 @@ This function execute the checktoken rest request, and must to get the
 json with the ko about the invalid token that you are trying to check
 
 
++Color+
+
+++Test color++
+
+```
+test_color.php
+```
+
+This test performs some tests to validate the correctness
+of the color feature
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_color extends TestCase
+```
+
+
++++color test+++
+
+```
+public function test_color(): void
+```
+
+This test performs some tests to validate the correctness
+of the color feature
+
+
++Common+
+
+++Test common++
+
+```
+test_common.php
+```
+
+This test performs some tests to validate the correctness
+of the common functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_common extends TestCase
+```
+
+
++++common test+++
+
+```
+public function test_common(): void
+```
+
+This test performs some tests to validate the correctness
+of the common functions
+
+
++Config+
+
+++Test config++
+
+```
+test_config.php
+```
+
+This test performs some tests to validate the correctness
+of the config functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_config extends TestCase
+```
+
+
++++config test+++
+
+```
+public function test_config(): void
+```
+
+This test performs some tests to validate the correctness
+of the config functions
+
+
++Control+
+
+++Test control++
+
+```
+test_control.php
+```
+
+This test performs some tests to validate the correctness
+of the control functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/control.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_control extends TestCase
+```
+
+
++++control test+++
+
+```
+public function test_control(): void
+```
+
+This test performs some tests to validate the correctness
+of the control functions
+
+
++Cron+
+
+++Test cron++
+
+```
+test_cron.php
+```
+
+This test performs some tests to validate the correctness
+of the cron functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_cron extends TestCase
+```
+
+
++++Wait cron+++
+
+```
+private function wait_cron(): void
+```
+
+This function waits 10 seconds until all cron processes are running
+
+
++++cron+++
+
+```
+public function test_cron(): void
+```
+
+This test performs some tests to validate the correctness
+of the cron functions
+
+
++Customers+
+
+++Test customers++
+
+```
+test_customers.php
+```
+
+This test performs some tests to validate the correctness
+of the customers functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_customers extends TestCase
+```
+
+
++++customers test+++
+
+```
+public function test_customers(): void
+```
+
+This test performs some tests to validate the correctness
+of the customers functions
+
+
++Database+
+
 ++Test database drivers++
 
 ```
@@ -421,6 +1083,15 @@ test_database.php
 ```
 use PHPUnit\Framework\TestCase;
 ```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
 
 
 +++Main class of this unit test+++
@@ -514,6 +1185,1675 @@ database connection, sendint queries validating the expected results and
 closing the connection.
 
 
++++PDO mssql driver+++
+
+```
+private function test_pdo_mssql(): void
+```
+
+This function checks the correctness of the sqlserver driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+
+
++++Database driver+++
+
+```
+public function test_database(): void
+```
+
+This function checks the correctness of the database driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+
+
++Datetime+
+
+++Test datetime++
+
+```
+test_datetime.php
+```
+
+This test performs some tests to validate the correctness
+of the datetime functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_datetime extends TestCase
+```
+
+
++++datetime test+++
+
+```
+public function test_datetime(): void
+```
+
+This test performs some tests to validate the correctness
+of the datetime functions
+
+
++Dbschema+
+
+++Test dbschema++
+
+```
+test_dbschema.php
+```
+
+This test performs some tests to validate the correctness
+of the dbschema functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_dbschema extends TestCase
+```
+
+
++++dbschema test+++
+
+```
+public function test_dbschema(): void
+```
+
+This test performs some tests to validate the correctness
+of the dbschema functions
+
+
++++sql test+++
+
+```
+public function test_sql(): void
+```
+
+This test performs some tests to validate the correctness
+of the sql functions
+
+
++Emails+
+
+++Test emails++
+
+```
+test_emails.php
+```
+
+This test performs some tests to validate the correctness
+of the emails functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_emails extends TestCase
+```
+
+
++++emails test+++
+
+```
+public function test_emails(): void
+```
+
+This test performs some tests to validate the correctness
+of the emails functions
+
+
++Error+
+
+++Test error++
+
+```
+test_error.php
+```
+
+This test performs some tests to validate the correctness
+of the error functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_error extends TestCase
+```
+
+
++++error function test+++
+
+```
+public function test_error(): void
+```
+
+This test performs some tests to validate the correctness
+of the error functions
+
+
++Exec+
+
+++Test exec++
+
+```
+test_exec.php
+```
+
+This test performs some tests to validate the correctness
+of the exec functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_exec extends TestCase
+```
+
+
++++exec test+++
+
+```
+public function test_exec(): void
+```
+
+This test performs some tests to validate the correctness
+of the exec functions
+
+
++Export+
+
+++Test export++
+
+```
+test_export.php
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_export extends TestCase
+```
+
+
++++Get data+++
+
+```
+private function get_data($nohead, $length): array
+```
+
+This function tries to create an array with rows using the numbers.csv file
+as source, it is able to add or remove the head row and to select the size
+of the result array of rows
+
+- @nohead => the nohead field used in the import_file function
+- @length => the size of the rows array
+
+
++++export xml test+++
+
+```
+public function test_export_xml(): void
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++export csv test+++
+
+```
+public function test_export_csv(): void
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++export xlsx test+++
+
+```
+public function test_export_xlsx(): void
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++export xls test+++
+
+```
+public function test_export_xls(): void
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++export ods test+++
+
+```
+public function test_export_ods(): void
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++//~ * export bytes test+++
+
+```
+//~ public function test_export_bytes(): void
+```
+
+//~ * This test performs some tests to validate the correctness
+//~ * of the export functions
+
+
++++export edi test+++
+
+```
+public function test_export_edi(): void
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++export json test+++
+
+```
+public function test_export_json(): void
+```
+
+This test performs some tests to validate the correctness
+of the export functions
+
+
++++tree2array test+++
+
+```
+public function test_export_tree2array(): void
+```
+
+This test performs some tests to validate the correctness
+of the tree2array function
+
+
++++getkeys test+++
+
+```
+public function test_export_getkeys(): void
+```
+
+This test performs some tests to validate the correctness
+of the getkeys function
+
+
++++external exec+++
+
+```
+public function test_export_external(): void
+```
+
+This test performs some tests to validate the correctness
+of the external exec
+
+
++File+
+
+++Test file++
+
+```
+test_file.php
+```
+
+This test performs some tests to validate the correctness
+of the file functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_file extends TestCase
+```
+
+
++++file test+++
+
+```
+public function test_file(): void
+```
+
+This test performs some tests to validate the correctness
+of the file functions
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+
++++Addfiles+++
+
+```
+public function test_addfiles(array $json): array
+```
+
+This function execute the addfiles rest request, and must to get the
+json with the correct data
+
+
++++Delfiles+++
+
+```
+public function test_delfiles(array $json): void
+```
+
+This function execute the delfiles rest request, and must to get the
+json with the correct data
+
+
++Files+
+
+++Test files++
+
+```
+test_files.php
+```
+
+This test performs some tests to validate the correctness
+of the files feature
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_files extends TestCase
+```
+
+
++++files test+++
+
+```
+public function test_files(): void
+```
+
+This test performs some tests to validate the correctness
+of the files feature
+
+
++Gc+
+
+++Test gc++
+
+```
+test_gc.php
+```
+
+This test performs some tests to validate the correctness
+of the gc functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_gc extends TestCase
+```
+
+
++++gc exec+++
+
+```
+public function test_gc_exec(): void
+```
+
+This test performs some tests to validate the correctness
+of the gc functions
+
+
++++gc upload+++
+
+```
+public function test_gc_upload(): void
+```
+
+This test performs some tests to validate the correctness
+of the gc functions
+
+
++Gdlib+
+
+++Test gdlib++
+
+```
+test_gdlib.php
+```
+
+This test performs some tests to validate the correctness
+of the gdlib feature
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_gdlib extends TestCase
+```
+
+
++++gdlib test+++
+
+```
+public function test_gdlib(): void
+```
+
+This test performs some tests to validate the correctness
+of the gdlib feature
+
+
++Getdata+
+
+++Test getdata++
+
+```
+test_getdata.php
+```
+
+This test performs some tests to validate the correctness
+of the getdata functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_getdata extends TestCase
+```
+
+
++++getdata test+++
+
+```
+public function test_getdata(): void
+```
+
+This test performs some tests to validate the correctness
+of the getdata functions
+
+
++Gettext+
+
+++Test gettext++
+
+```
+test_gettext.php
+```
+
+This test performs some tests to validate the correctness
+of the gettext functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_gettext extends TestCase
+```
+
+
++++gettext test+++
+
+```
+public function test_gettext(): void
+```
+
+This test performs some tests to validate the correctness
+of the gettext functions
+
+
++Help+
+
+++Test help++
+
+```
+test_help.php
+```
+
+This test performs some tests to validate the correctness
+of the help functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/help.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_help extends TestCase
+```
+
+
++++help test+++
+
+```
+public function test_help(): void
+```
+
+This test performs some tests to validate the correctness
+of the help functions
+
+
++Html+
+
+++Test html++
+
+```
+test_html.php
+```
+
+This test performs some tests to validate the correctness
+of the html functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/html.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_html extends TestCase
+```
+
+
++++html test+++
+
+```
+public function test_html(): void
+```
+
+This test performs some tests to validate the correctness
+of the html functions
+
+
++Ids+
+
+++Test IDs++
+
+```
+test_ids.php
+```
+
+This test performs some tests to validate the correctness
+of the check_ids feature
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_ids extends TestCase
+```
+
+
++++IDs test+++
+
+```
+public function test_ids(): void
+```
+
+This test performs some tests to validate the correctness
+of the check_ids feature
+
+
++Image+
+
+++Test image++
+
+```
+test_image.php
+```
+
+This test performs some tests to validate the correctness
+of the barcode, qrcode, captcha and score features
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_image extends TestCase
+```
+
+
++++barcode test+++
+
+```
+public function test_barcode(): void
+```
+
+This test performs some tests to validate the correctness
+of the barcode feature
+
+
++++qrcode test+++
+
+```
+public function test_qrcode(): void
+```
+
+This test performs some tests to validate the correctness
+of the qrcode feature
+
+
++++captcha test+++
+
+```
+public function test_captcha(): void
+```
+
+This test performs some tests to validate the correctness
+of the captcha feature
+
+
++++score test+++
+
+```
+public function test_score(): void
+```
+
+This test performs some tests to validate the correctness
+of the score feature
+
+
++Import+
+
+++Test import++
+
+```
+test_import.php
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_import extends TestCase
+```
+
+
++++import xml test+++
+
+```
+public function test_import_xml(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import csv test+++
+
+```
+public function test_import_csv(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import xlsx test+++
+
+```
+public function test_import_xlsx(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import xls test+++
+
+```
+public function test_import_xls(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import ods test+++
+
+```
+public function test_import_ods(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import bytes test+++
+
+```
+public function test_import_bytes(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import edi test+++
+
+```
+public function test_import_edi(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import json test+++
+
+```
+public function test_import_json(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++import helper test+++
+
+```
+public function test_import_helper(): void
+```
+
+This test performs some tests to validate the correctness
+of the import functions
+
+
++++external exec+++
+
+```
+public function test_import_external(): void
+```
+
+This test performs some tests to validate the correctness
+of the external exec
+
+
++Indexing+
+
+++Test indexing++
+
+```
+test_indexing.php
+```
+
+This test performs some tests to validate the correctness
+of the indexing functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_indexing extends TestCase
+```
+
+
++++indexing test+++
+
+```
+public function test_indexing(): void
+```
+
+This test performs some tests to validate the correctness
+of the indexing functions
+
+
++Iniset+
+
+++Test iniset++
+
+```
+test_iniset.php
+```
+
+This test performs some tests to validate the correctness
+of the iniset functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_iniset extends TestCase
+```
+
+
++++iniset test+++
+
+```
+public function test_iniset(): void
+```
+
+This test performs some tests to validate the correctness
+of the iniset functions
+
+
++Invoices+
+
+++Test invoices++
+
+```
+test_invoices.php
+```
+
+This test performs some tests to validate the correctness
+of the invoices functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_invoices extends TestCase
+```
+
+
++++invoices test+++
+
+```
+public function test_invoices(): void
+```
+
+This test performs some tests to validate the correctness
+of the invoices functions
+
+
++Log+
+
+++Test log++
+
+```
+test_log.php
+```
+
+This test performs some tests to validate the correctness
+of the log functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_log extends TestCase
+```
+
+
++++log test+++
+
+```
+public function test_log(): void
+```
+
+This test performs some tests to validate the correctness
+of the log functions
+
+
++Math+
+
+++Test math++
+
+```
+test_math.php
+```
+
+This test performs some tests to validate the correctness
+of the math functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/math.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_math extends TestCase
+```
+
+
++++math test+++
+
+```
+public function test_math(): void
+```
+
+This test performs some tests to validate the correctness
+of the math functions
+
+
++Memory+
+
+++Test memory++
+
+```
+test_memory.php
+```
+
+This test performs some tests to validate the correctness
+of the memory functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_memory extends TestCase
+```
+
+
++++memory test+++
+
+```
+public function test_memory(): void
+```
+
+This test performs some tests to validate the correctness
+of the memory functions
+
+
++Mime+
+
+++Test mime++
+
+```
+test_mime.php
+```
+
+This test performs some tests to validate the correctness
+of the mime functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/html.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_mime extends TestCase
+```
+
+
++++mime test+++
+
+```
+public function test_mime(): void
+```
+
+This test performs some tests to validate the correctness
+of the mime functions
+
+
++Output+
+
+++Test output++
+
+```
+test_output.php
+```
+
+This test performs some tests to validate the correctness
+of the output functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_output extends TestCase
+```
+
+
++++output test+++
+
+```
+public function test_output(): void
+```
+
+This test performs some tests to validate the correctness
+of the output functions
+
+
++++colorize test+++
+
+```
+public function test_colorize(): void
+```
+
+This test performs some tests to validate the correctness
+of the colorize functions
+
+
++Password+
+
+++Test password++
+
+```
+test_password.php
+```
+
+This test performs some tests to validate the correctness
+of the password functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/password.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_password extends TestCase
+```
+
+
++++password test+++
+
+```
+public function test_password(): void
+```
+
+This test performs some tests to validate the correctness
+of the password functions
+
+
++Pdf+
+
+++Test pdf++
+
+```
+test_pdf.php
+```
+
+This test performs some tests to validate the correctness
+of the pdf functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/pdf.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_pdf extends TestCase
+```
+
+
++++pdf test+++
+
+```
+public function test_pdf(): void
+```
+
+This test performs some tests to validate the correctness
+of the pdf functions
+
+
++Perms+
+
+++Test perms++
+
+```
+test_perms.php
+```
+
+This test performs some tests to validate the correctness
+of the perms functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_perms extends TestCase
+```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+
++++perms test+++
+
+```
+public function test_perms(array $json): void
+```
+
+This test performs some tests to validate the correctness
+of the perms functions
+
+
++Ping+
+
+++Test ping++
+
+```
+test_ping.php
+```
+
+This test performs some tests to validate the correctness
+of the ping functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_ping extends TestCase
+```
+
+
++++ping test+++
+
+```
+public function test_ping(): void
+```
+
+This test performs some tests to validate the correctness
+of the ping functions
+
+
++Push+
+
+++Test push++
+
+```
+test_push.php
+```
+
+This test performs some tests to validate the correctness
+of the push functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_push extends TestCase
+```
+
+
++++push+++
+
+```
+public function test_push(): void
+```
+
+This test performs some tests to validate the correctness
+of the push functions
+
+
++Random+
+
+++Test random++
+
+```
+test_random.php
+```
+
+This test performs some tests to validate the correctness
+of the random functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_random extends TestCase
+```
+
+
++++random test+++
+
+```
+public function test_random(): void
+```
+
+This test performs some tests to validate the correctness
+of the random functions
+
+
++Roundcube+
+
 ++Test roundcube library++
 
 ```
@@ -545,6 +2885,543 @@ This function checks the correctness of the html2text method provided by the
 roundcube library.
 
 
++Semaphore+
+
+++Test semaphore++
+
+```
+test_semaphore.php
+```
+
+This test performs some tests to validate the correctness
+of the semaphore functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_semaphore extends TestCase
+```
+
+
++++semaphore test+++
+
+```
+public function test_semaphore(): void
+```
+
+This test performs some tests to validate the correctness
+of the semaphore functions
+
+
++Server+
+
+++Test server++
+
+```
+test_server.php
+```
+
+This test performs some tests to validate the correctness
+of the server functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_server extends TestCase
+```
+
+
++++server test+++
+
+```
+public function test_server(): void
+```
+
+This test performs some tests to validate the correctness
+of the server functions
+
+
++Sql+
+
+++Test sql++
+
+```
+test_sql.php
+```
+
+This test performs some tests to validate the correctness
+of the sql functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_sql extends TestCase
+```
+
+
++++SQL test+++
+
+```
+public function test_sql(): void
+```
+
+This function performs some tests to validate the correctness
+of the sql functions
+
+
++Strings+
+
+++Test strings++
+
+```
+test_strings.php
+```
+
+This test performs some tests to validate the correctness
+of the strings functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_strings extends TestCase
+```
+
+
++++strings test+++
+
+```
+public function test_strings(): void
+```
+
+This test performs some tests to validate the correctness
+of the strings functions
+
+
++Strtr+
+
+++Test mime++
+
+```
+test_strtr.php
+```
+
+This test performs some tests to validate the correctness
+of the str_replace_assoc instead of the strtr function
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_strtr extends TestCase
+```
+
+
++++strtr test+++
+
+```
+public function test_strtr(): void
+```
+
+This test performs some tests to validate the correctness
+of the str_replace_assoc instead of the strtr function
+
+
++System+
+
+++Test system++
+
+```
+test_system.php
+```
+
+This test performs some tests to validate the correctness
+of the system functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_system extends TestCase
+```
+
+
++++system test+++
+
+```
+public function test_system(): void
+```
+
+This test performs some tests to validate the correctness
+of the system functions
+
+
++Tokens+
+
+++Test tokens++
+
+```
+test_tokens.php
+```
+
+This test performs some tests to validate the correctness
+of the token generator and the token format checker
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_tokens extends TestCase
+```
+
+
++++Tokens test+++
+
+```
+public function test_tokens(): void
+```
+
+This function performs some tests to validate the correctness
+of the token generator and the token format checker
+
+
++Unoconv+
+
+++Test unoconv++
+
+```
+test_unoconv.php
+```
+
+This test performs some tests to validate the correctness
+of the unoconv functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'php/lib/unoconv.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_unoconv extends TestCase
+```
+
+
++++Pdf test helper+++
+
+```
+private function test_pdf($input): void
+```
+
+This function tries to do the test with unoconv2pdf, checks
+that the input not exists and the output exists to validate
+the correctness of the function
+
+- @input => the input file to use in the test
+
+
++++Txt test helper+++
+
+```
+private function test_txt($input): void
+```
+
+This function tries to do the test with unoconv2txt, checks
+that the input not exists and the output exists to validate
+the correctness of the function
+
+- @input => the input file to use in the test
+
+
++++unoconv test+++
+
+```
+public function test_unoconv(): void
+```
+
+This test performs some tests to validate the correctness
+of the unoconv functions
+
+
++++ocr test+++
+
+```
+public function test_ocr(): void
+```
+
+This test performs some tests to validate the correctness
+of the ocr functions
+
+
++++commands test+++
+
+```
+public function test_commands(): void
+```
+
+This test performs some tests to validate the correctness
+of the commands functions
+
+
++User+
+
+++Test users++
+
+```
+test_user.php
+```
+
+This test performs some tests to validate the correctness
+of the users functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_user extends TestCase
+```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+
+
++++users test+++
+
+```
+public function test_user(array $json): void
+```
+
+This test performs some tests to validate the correctness
+of the users functions
+
+
++Users+
+
+++Test users++
+
+```
+test_users.php
+```
+
+This test performs some tests to validate the correctness
+of the users functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_users extends TestCase
+```
+
+
++++days test+++
+
+```
+public function test_days(): void
+```
+
+This test performs some tests to validate the correctness
+of the days functions
+
+
++++users test+++
+
+```
+public function test_users(): void
+```
+
+This test performs some tests to validate the correctness
+of the users functions
+
+
++++groups test+++
+
+```
+public function test_groups(): void
+```
+
+This test performs some tests to validate the correctness
+of the groups functions
+
+
++Version+
+
+++Test version++
+
+```
+test_version.php
+```
+
+This test performs some tests to validate the correctness
+of the version related functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Main class of this unit test+++
+
+```
+final class test_version extends TestCase
+```
+
+
++++version test+++
+
+```
+public function test_version(): void
+```
+
+This function performs some tests to validate the correctness
+of the version related functions
+
+
++Web Customers+
+
 ++Test web customers++
 
 ```
@@ -565,7 +3442,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once "lib/weblib.php";
+require_once 'lib/utestlib.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -576,6 +3453,16 @@ This file contains the needed function used by the unit tests
 ```
 final class test_web_customers extends TestCase
 ```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
 
 
 +++Create+++
@@ -650,6 +3537,8 @@ public function test_delete(array $json): void
 This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
+
++Web Invoices+
 
 ++Test web invoices++
 
@@ -671,7 +3560,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once "lib/weblib.php";
+require_once 'lib/utestlib.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -682,6 +3571,16 @@ This file contains the needed function used by the unit tests
 ```
 final class test_web_invoices extends TestCase
 ```
+
+
++++Authtoken+++
+
+```
+public function test_authtoken(): array
+```
+
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
 
 
 +++Create+++
@@ -757,10 +3656,12 @@ This function execute the delete rest request, they must to get the json
 with the status and the deleted_id.
 
 
++Web Tokens+
+
 ++Test web tokens (first part)++
 
 ```
-test_web_tokens1.php
+test_web_tokens.php
 ```
 
 This test performs some part of the actions related with the tokens suck
@@ -777,7 +3678,7 @@ use PHPUnit\Framework\TestCase;
 +++Loading helper function+++
 
 ```
-require_once "lib/weblib.php";
+require_once 'lib/utestlib.php';
 ```
 
 This file contains the needed function used by the unit tests
@@ -786,7 +3687,7 @@ This file contains the needed function used by the unit tests
 +++Main class of this unit test+++
 
 ```
-final class test_web_tokens1 extends TestCase
+final class test_web_tokens extends TestCase
 ```
 
 
@@ -810,39 +3711,6 @@ This function execute the checktoken rest request, and must to get the
 json with the ok about the valid token that you are trying to check
 
 
-++Test web tokens (second part)++
-
-```
-test_web_tokens2.php
-```
-
-This test performs some part of the actions related with the tokens suck
-as deauthtoken and checktoken, using the apache sapi interface
-
-
-+++Importing namespaces+++
-
-```
-use PHPUnit\Framework\TestCase;
-```
-
-
-+++Loading helper function+++
-
-```
-require_once "lib/weblib.php";
-```
-
-This file contains the needed function used by the unit tests
-
-
-+++Main class of this unit test+++
-
-```
-final class test_web_tokens2 extends TestCase
-```
-
-
 +++Deauthtoken+++
 
 ```
@@ -861,5 +3729,95 @@ public function test_checktoken_ko(array $json): void
 
 This function execute the checktoken rest request, and must to get the
 json with the ko about the invalid token that you are trying to check
+
+
++Xml+
+
+++Test XML++
+
+```
+test_xml.php
+```
+
+This test performs some tests to validate the correctness
+of the xml related functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_xml extends TestCase
+```
+
+
++++XML test+++
+
+```
+public function test_xml(): void
+```
+
+This function performs some tests to validate the correctness
+of the xml related functions
+
+
++Zindex+
+
+++Test zindex++
+
+```
+test_zindex.php
+```
+
+This test performs some tests to validate the correctness
+of the zindex functions
+
+
++++Importing namespaces+++
+
+```
+use PHPUnit\Framework\TestCase;
+```
+
+
++++Loading helper function+++
+
+```
+require_once 'lib/utestlib.php';
+```
+
+This file contains the needed function used by the unit tests
+
+
++++Main class of this unit test+++
+
+```
+final class test_zindex extends TestCase
+```
+
+
++++zindex test+++
+
+```
+public function test_zindex(): void
+```
+
+This test performs some tests to validate the correctness
+of the zindex functions
 
 

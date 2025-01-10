@@ -48,6 +48,10 @@ foreach ($files as $file => $temp) {
     while ($pos !== false) {
         $pos2 = strpos($buffer, $close, $pos + strlen($open));
         $pos3 = strpos($buffer, "\n", $pos2 + strlen($close));
+        if ($pos2 === false || $pos3 === false) {
+            echo "Internal error processing $file\n";
+            die();
+        }
         $a = trim(substr($buffer, $pos2 + strlen($close), $pos3 - $pos2 - strlen($close)));
         if (substr($a, -5, 5) == ' => {') {
             $a = substr($a, 0, -5);
@@ -88,24 +92,27 @@ foreach ($files as $file => $temp) {
         $matches[] = [$c, $a, $b];
         $pos = strpos($buffer, $open, $pos2 + strlen($close));
     }
+    array_shift($matches);
     if (!count($matches)) {
         unset($files[$file]);
         continue;
     }
-    array_shift($matches);
     $files[$file] = $matches;
 }
 //~ print_r($files);
+//~ print_r(array_keys($files));
 //~ die();
 
 // T2T Section
 ob_start();
 $title = str_replace('.t2t', '', $outfile);
-if ($title == 'apps') {
-    $title = 'application';
-}
-if ($title == 'utest') {
-    $title = 'unit test';
+$map = [
+    'core' => 'main',
+    'apps' => 'applications',
+    'utest' => 'unit test',
+];
+if (isset($map[$title])) {
+    $title = $map[$title];
 }
 $title .= ' documentation';
 echo ucwords($title) . "\n";
@@ -117,16 +124,29 @@ echo "\n";
 echo "\n";
 echo "\n";
 $path = '';
+$map = [
+    'action' => 'actions',
+    'js' => 'javascript',
+    'lib' => 'libraries',
+];
 foreach ($files as $file => $contents) {
-    $path2 = basename(dirname($file));
-    if ($path2 == 'php') {
-        $path2 = basename(dirname(dirname($file)));
+    if (substr($file, 0, 13) == 'code/api/php/') {
+        $path2 = explode('/', $file)[3];
+    } elseif (substr($file, 0, 12) == 'code/web/js/') {
+        $path2 = explode('/', $file)[2];
+    } elseif (substr($file, 0, 10) == 'code/apps/') {
+        $path2 = explode('/', $file)[2];
+    } elseif (substr($file, 0, 6) == 'utest/') {
+        $path2 = explode('/', $file)[1];
+        $path2 = substr($path2, 5, -4);
+        $path2 = str_replace('_', ' ', $path2);
+    } else {
+        ob_clean();
+        echo "Internal error processing $file\n";
+        die();
     }
-    if ($path2 == 'action') {
-        $path2 = 'actions';
-    }
-    if ($path2 == 'js') {
-        $path2 = 'javascript';
+    if (isset($map[$path2])) {
+        $path2 = $map[$path2];
     }
     $path2 = ucwords($path2);
     if ($path != $path2) {

@@ -25,8 +25,8 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <header>
 <hgroup>
 <h1>Unit Test Documentation</h1>
-<h2>SaltOS 4.0 r761</h2>
-<h3>March 2024</h3>
+<h2>SaltOS 4.0 r1681</h2>
+<h3>January 2025</h3>
 </hgroup>
 </header>
 <article>
@@ -34,208 +34,1209 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 <nav>
 <div class="body" id="body">
 
-  <ul>
-  <li><a href="#toc1">1. Lib</a>
     <ul>
-    <li><a href="#toc2">1.1. Autoload file for the unit tests</a>
+    <li><a href="#toc1">0.1. Autoload file for the unit tests</a>
       <ul>
-      <li><a href="#toc3">1.1.1. Main autoloader code</a>
+      <li><a href="#toc2">0.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc3">0.1.2. Main autoloader code</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc4">1.2. CLI helper function</a>
+    <li><a href="#toc4">0.2. Unit test helper functions</a>
       <ul>
-      <li><a href="#toc5">1.2.1. Test CLI helper</a>
+      <li><a href="#toc5">0.2.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc6">0.2.2. Test PCOV start helper</a>
+      </li>
+      <li><a href="#toc7">0.2.3. Test PCOV stop helper</a>
+      </li>
+      <li><a href="#toc8">0.2.4. Test WEB helper</a>
+      </li>
+      <li><a href="#toc9">0.2.5. Test CLI helper</a>
+      </li>
+      <li><a href="#toc10">0.2.6. Get Mime helper</a>
+      </li>
+      <li><a href="#toc11">0.2.7. External tests</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc6">1.3. WEB helper function</a>
+    </ul>
+
+  <ul>
+  <li><a href="#toc12">1. Actions</a>
+    <ul>
+    <li><a href="#toc13">1.1. Test actions</a>
       <ul>
-      <li><a href="#toc7">1.3.1. Test WEB helper</a>
+      <li><a href="#toc14">1.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc15">1.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc16">1.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc17">1.1.4. actions test</a>
       </li>
       </ul>
     </li>
     </ul>
   </li>
-  <li><a href="#toc8">2. Utest</a>
+  <li><a href="#toc18">2. Add</a>
     <ul>
-    <li><a href="#toc9">2.1. Test cli customers</a>
+    <li><a href="#toc19">2.1. Test addlog</a>
       <ul>
-      <li><a href="#toc10">2.1.1. Importing namespaces</a>
+      <li><a href="#toc20">2.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc11">2.1.2. Loading helper function</a>
+      <li><a href="#toc21">2.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc12">2.1.3. Main class of this unit test</a>
+      <li><a href="#toc22">2.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc13">2.1.4. Create</a>
+      <li><a href="#toc23">2.1.4. addlog test</a>
       </li>
-      <li><a href="#toc14">2.1.5. Insert</a>
-      </li>
-      <li><a href="#toc15">2.1.6. List</a>
-      </li>
-      <li><a href="#toc16">2.1.7. View</a>
-      </li>
-      <li><a href="#toc17">2.1.8. Edit</a>
-      </li>
-      <li><a href="#toc18">2.1.9. Upgrade</a>
-      </li>
-      <li><a href="#toc19">2.1.10. Delete</a>
+      <li><a href="#toc24">2.1.5. adderror test</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc20">2.2. Test cli invoices</a>
+    </ul>
+  </li>
+  <li><a href="#toc25">3. Apache</a>
+    <ul>
+    <li><a href="#toc26">3.1. Test apache</a>
       <ul>
-      <li><a href="#toc21">2.2.1. Importing namespaces</a>
+      <li><a href="#toc27">3.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc22">2.2.2. Loading helper function</a>
+      <li><a href="#toc28">3.1.2. Main class of this unit test</a>
       </li>
-      <li><a href="#toc23">2.2.3. Main class of this unit test</a>
-      </li>
-      <li><a href="#toc24">2.2.4. Create</a>
-      </li>
-      <li><a href="#toc25">2.2.5. Insert</a>
-      </li>
-      <li><a href="#toc26">2.2.6. List</a>
-      </li>
-      <li><a href="#toc27">2.2.7. View</a>
-      </li>
-      <li><a href="#toc28">2.2.8. Edit</a>
-      </li>
-      <li><a href="#toc29">2.2.9. Upgrade</a>
-      </li>
-      <li><a href="#toc30">2.2.10. Delete</a>
+      <li><a href="#toc29">3.1.3. addlog test</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc31">2.3. Test cli tokens (first part)</a>
+    </ul>
+  </li>
+  <li><a href="#toc30">4. Apps</a>
+    <ul>
+    <li><a href="#toc31">4.1. Test apps</a>
       <ul>
-      <li><a href="#toc32">2.3.1. Importing namespaces</a>
+      <li><a href="#toc32">4.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc33">2.3.2. Loading helper function</a>
+      <li><a href="#toc33">4.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc34">2.3.3. Main class of this unit test</a>
+      <li><a href="#toc34">4.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc35">2.3.4. Authtoken</a>
+      <li><a href="#toc35">4.1.4. apps test</a>
       </li>
-      <li><a href="#toc36">2.3.5. Checktoken</a>
+      <li><a href="#toc36">4.1.5. app test</a>
+      </li>
+      <li><a href="#toc37">4.1.6. list test</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc37">2.4. Test cli tokens (second part)</a>
+    </ul>
+  </li>
+  <li><a href="#toc38">5. Array</a>
+    <ul>
+    <li><a href="#toc39">5.1. Test array</a>
       <ul>
-      <li><a href="#toc38">2.4.1. Importing namespaces</a>
+      <li><a href="#toc40">5.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc39">2.4.2. Loading helper function</a>
+      <li><a href="#toc41">5.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc40">2.4.3. Main class of this unit test</a>
+      <li><a href="#toc42">5.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc41">2.4.4. Deauthtoken</a>
-      </li>
-      <li><a href="#toc42">2.4.5. Checktoken ko</a>
+      <li><a href="#toc43">5.1.4. array test</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc43">2.5. Test database drivers</a>
+    </ul>
+  </li>
+  <li><a href="#toc44">6. Ascii</a>
+    <ul>
+    <li><a href="#toc45">6.1. Test ascii</a>
       <ul>
-      <li><a href="#toc44">2.5.1. Importing namespaces</a>
+      <li><a href="#toc46">6.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc45">2.5.2. Main class of this unit test</a>
+      <li><a href="#toc47">6.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc46">2.5.3. Helper</a>
+      <li><a href="#toc48">6.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc47">2.5.4. PDO MySQL driver</a>
-      </li>
-      <li><a href="#toc48">2.5.5. MySQL improved driver</a>
-      </li>
-      <li><a href="#toc49">2.5.6. PDO SQLite driver</a>
-      </li>
-      <li><a href="#toc50">2.5.7. SQLite3 driver</a>
+      <li><a href="#toc49">6.1.4. ascii test</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc51">2.6. Test roundcube library</a>
+    </ul>
+  </li>
+  <li><a href="#toc50">7. Authupdate</a>
+    <ul>
+    <li><a href="#toc51">7.1. Test authupdate</a>
       <ul>
-      <li><a href="#toc52">2.6.1. Importing namespaces</a>
+      <li><a href="#toc52">7.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc53">2.6.2. Main class of this unit test</a>
+      <li><a href="#toc53">7.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc54">2.6.3. html2text</a>
+      <li><a href="#toc54">7.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc55">7.1.4. authupdate test</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc55">2.7. Test web customers</a>
+    </ul>
+  </li>
+  <li><a href="#toc56">8. Cli Customers</a>
+    <ul>
+    <li><a href="#toc57">8.1. Test cli customers</a>
       <ul>
-      <li><a href="#toc56">2.7.1. Importing namespaces</a>
+      <li><a href="#toc58">8.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc57">2.7.2. Loading helper function</a>
+      <li><a href="#toc59">8.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc58">2.7.3. Main class of this unit test</a>
+      <li><a href="#toc60">8.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc59">2.7.4. Create</a>
+      <li><a href="#toc61">8.1.4. Authtoken</a>
       </li>
-      <li><a href="#toc60">2.7.5. Insert</a>
+      <li><a href="#toc62">8.1.5. Create</a>
       </li>
-      <li><a href="#toc61">2.7.6. List</a>
+      <li><a href="#toc63">8.1.6. Insert</a>
       </li>
-      <li><a href="#toc62">2.7.7. View</a>
+      <li><a href="#toc64">8.1.7. List</a>
       </li>
-      <li><a href="#toc63">2.7.8. Edit</a>
+      <li><a href="#toc65">8.1.8. View</a>
       </li>
-      <li><a href="#toc64">2.7.9. Upgrade</a>
+      <li><a href="#toc66">8.1.9. Edit</a>
       </li>
-      <li><a href="#toc65">2.7.10. Delete</a>
+      <li><a href="#toc67">8.1.10. Upgrade</a>
+      </li>
+      <li><a href="#toc68">8.1.11. Delete</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc66">2.8. Test web invoices</a>
+    </ul>
+  </li>
+  <li><a href="#toc69">9. Cli Invoices</a>
+    <ul>
+    <li><a href="#toc70">9.1. Test cli invoices</a>
       <ul>
-      <li><a href="#toc67">2.8.1. Importing namespaces</a>
+      <li><a href="#toc71">9.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc68">2.8.2. Loading helper function</a>
+      <li><a href="#toc72">9.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc69">2.8.3. Main class of this unit test</a>
+      <li><a href="#toc73">9.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc70">2.8.4. Create</a>
+      <li><a href="#toc74">9.1.4. Authtoken</a>
       </li>
-      <li><a href="#toc71">2.8.5. Insert</a>
+      <li><a href="#toc75">9.1.5. Create</a>
       </li>
-      <li><a href="#toc72">2.8.6. List</a>
+      <li><a href="#toc76">9.1.6. Insert</a>
       </li>
-      <li><a href="#toc73">2.8.7. View</a>
+      <li><a href="#toc77">9.1.7. List</a>
       </li>
-      <li><a href="#toc74">2.8.8. Edit</a>
+      <li><a href="#toc78">9.1.8. View</a>
       </li>
-      <li><a href="#toc75">2.8.9. Upgrade</a>
+      <li><a href="#toc79">9.1.9. Edit</a>
       </li>
-      <li><a href="#toc76">2.8.10. Delete</a>
+      <li><a href="#toc80">9.1.10. Upgrade</a>
+      </li>
+      <li><a href="#toc81">9.1.11. Delete</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc77">2.9. Test web tokens (first part)</a>
+    </ul>
+  </li>
+  <li><a href="#toc82">10. Cli Tokens</a>
+    <ul>
+    <li><a href="#toc83">10.1. Test cli tokens (first part)</a>
       <ul>
-      <li><a href="#toc78">2.9.1. Importing namespaces</a>
+      <li><a href="#toc84">10.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc79">2.9.2. Loading helper function</a>
+      <li><a href="#toc85">10.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc80">2.9.3. Main class of this unit test</a>
+      <li><a href="#toc86">10.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc81">2.9.4. Authtoken</a>
+      <li><a href="#toc87">10.1.4. Authtoken</a>
       </li>
-      <li><a href="#toc82">2.9.5. Checktoken</a>
+      <li><a href="#toc88">10.1.5. Checktoken</a>
+      </li>
+      <li><a href="#toc89">10.1.6. Deauthtoken</a>
+      </li>
+      <li><a href="#toc90">10.1.7. Checktoken ko</a>
       </li>
       </ul>
     </li>
-    <li><a href="#toc83">2.10. Test web tokens (second part)</a>
+    </ul>
+  </li>
+  <li><a href="#toc91">11. Color</a>
+    <ul>
+    <li><a href="#toc92">11.1. Test color</a>
       <ul>
-      <li><a href="#toc84">2.10.1. Importing namespaces</a>
+      <li><a href="#toc93">11.1.1. Importing namespaces</a>
       </li>
-      <li><a href="#toc85">2.10.2. Loading helper function</a>
+      <li><a href="#toc94">11.1.2. Loading helper function</a>
       </li>
-      <li><a href="#toc86">2.10.3. Main class of this unit test</a>
+      <li><a href="#toc95">11.1.3. Main class of this unit test</a>
       </li>
-      <li><a href="#toc87">2.10.4. Deauthtoken</a>
+      <li><a href="#toc96">11.1.4. color test</a>
       </li>
-      <li><a href="#toc88">2.10.5. Checktoken ko</a>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc97">12. Common</a>
+    <ul>
+    <li><a href="#toc98">12.1. Test common</a>
+      <ul>
+      <li><a href="#toc99">12.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc100">12.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc101">12.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc102">12.1.4. common test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc103">13. Config</a>
+    <ul>
+    <li><a href="#toc104">13.1. Test config</a>
+      <ul>
+      <li><a href="#toc105">13.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc106">13.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc107">13.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc108">13.1.4. config test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc109">14. Control</a>
+    <ul>
+    <li><a href="#toc110">14.1. Test control</a>
+      <ul>
+      <li><a href="#toc111">14.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc112">14.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc113">14.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc114">14.1.4. control test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc115">15. Cron</a>
+    <ul>
+    <li><a href="#toc116">15.1. Test cron</a>
+      <ul>
+      <li><a href="#toc117">15.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc118">15.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc119">15.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc120">15.1.4. Wait cron</a>
+      </li>
+      <li><a href="#toc121">15.1.5. cron</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc122">16. Customers</a>
+    <ul>
+    <li><a href="#toc123">16.1. Test customers</a>
+      <ul>
+      <li><a href="#toc124">16.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc125">16.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc126">16.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc127">16.1.4. customers test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc128">17. Database</a>
+    <ul>
+    <li><a href="#toc129">17.1. Test database drivers</a>
+      <ul>
+      <li><a href="#toc130">17.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc131">17.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc132">17.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc133">17.1.4. Helper</a>
+      </li>
+      <li><a href="#toc134">17.1.5. PDO MySQL driver</a>
+      </li>
+      <li><a href="#toc135">17.1.6. MySQL improved driver</a>
+      </li>
+      <li><a href="#toc136">17.1.7. PDO SQLite driver</a>
+      </li>
+      <li><a href="#toc137">17.1.8. SQLite3 driver</a>
+      </li>
+      <li><a href="#toc138">17.1.9. PDO mssql driver</a>
+      </li>
+      <li><a href="#toc139">17.1.10. Database driver</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc140">18. Datetime</a>
+    <ul>
+    <li><a href="#toc141">18.1. Test datetime</a>
+      <ul>
+      <li><a href="#toc142">18.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc143">18.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc144">18.1.3. datetime test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc145">19. Dbschema</a>
+    <ul>
+    <li><a href="#toc146">19.1. Test dbschema</a>
+      <ul>
+      <li><a href="#toc147">19.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc148">19.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc149">19.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc150">19.1.4. dbschema test</a>
+      </li>
+      <li><a href="#toc151">19.1.5. sql test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc152">20. Emails</a>
+    <ul>
+    <li><a href="#toc153">20.1. Test emails</a>
+      <ul>
+      <li><a href="#toc154">20.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc155">20.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc156">20.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc157">20.1.4. emails test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc158">21. Error</a>
+    <ul>
+    <li><a href="#toc159">21.1. Test error</a>
+      <ul>
+      <li><a href="#toc160">21.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc161">21.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc162">21.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc163">21.1.4. error function test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc164">22. Exec</a>
+    <ul>
+    <li><a href="#toc165">22.1. Test exec</a>
+      <ul>
+      <li><a href="#toc166">22.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc167">22.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc168">22.1.3. exec test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc169">23. Export</a>
+    <ul>
+    <li><a href="#toc170">23.1. Test export</a>
+      <ul>
+      <li><a href="#toc171">23.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc172">23.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc173">23.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc174">23.1.4. Get data</a>
+      </li>
+      <li><a href="#toc175">23.1.5. export xml test</a>
+      </li>
+      <li><a href="#toc176">23.1.6. export csv test</a>
+      </li>
+      <li><a href="#toc177">23.1.7. export xlsx test</a>
+      </li>
+      <li><a href="#toc178">23.1.8. export xls test</a>
+      </li>
+      <li><a href="#toc179">23.1.9. export ods test</a>
+      </li>
+      <li><a href="#toc180">23.1.10. //~ * export bytes test</a>
+      </li>
+      <li><a href="#toc181">23.1.11. export edi test</a>
+      </li>
+      <li><a href="#toc182">23.1.12. export json test</a>
+      </li>
+      <li><a href="#toc183">23.1.13. tree2array test</a>
+      </li>
+      <li><a href="#toc184">23.1.14. getkeys test</a>
+      </li>
+      <li><a href="#toc185">23.1.15. external exec</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc186">24. File</a>
+    <ul>
+    <li><a href="#toc187">24.1. Test file</a>
+      <ul>
+      <li><a href="#toc188">24.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc189">24.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc190">24.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc191">24.1.4. file test</a>
+      </li>
+      <li><a href="#toc192">24.1.5. Authtoken</a>
+      </li>
+      <li><a href="#toc193">24.1.6. Addfiles</a>
+      </li>
+      <li><a href="#toc194">24.1.7. Delfiles</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc195">25. Files</a>
+    <ul>
+    <li><a href="#toc196">25.1. Test files</a>
+      <ul>
+      <li><a href="#toc197">25.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc198">25.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc199">25.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc200">25.1.4. files test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc201">26. Gc</a>
+    <ul>
+    <li><a href="#toc202">26.1. Test gc</a>
+      <ul>
+      <li><a href="#toc203">26.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc204">26.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc205">26.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc206">26.1.4. gc exec</a>
+      </li>
+      <li><a href="#toc207">26.1.5. gc upload</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc208">27. Gdlib</a>
+    <ul>
+    <li><a href="#toc209">27.1. Test gdlib</a>
+      <ul>
+      <li><a href="#toc210">27.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc211">27.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc212">27.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc213">27.1.4. gdlib test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc214">28. Getdata</a>
+    <ul>
+    <li><a href="#toc215">28.1. Test getdata</a>
+      <ul>
+      <li><a href="#toc216">28.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc217">28.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc218">28.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc219">28.1.4. getdata test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc220">29. Gettext</a>
+    <ul>
+    <li><a href="#toc221">29.1. Test gettext</a>
+      <ul>
+      <li><a href="#toc222">29.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc223">29.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc224">29.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc225">29.1.4. gettext test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc226">30. Help</a>
+    <ul>
+    <li><a href="#toc227">30.1. Test help</a>
+      <ul>
+      <li><a href="#toc228">30.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc229">30.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc230">30.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc231">30.1.4. help test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc232">31. Html</a>
+    <ul>
+    <li><a href="#toc233">31.1. Test html</a>
+      <ul>
+      <li><a href="#toc234">31.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc235">31.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc236">31.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc237">31.1.4. html test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc238">32. Ids</a>
+    <ul>
+    <li><a href="#toc239">32.1. Test IDs</a>
+      <ul>
+      <li><a href="#toc240">32.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc241">32.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc242">32.1.3. IDs test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc243">33. Image</a>
+    <ul>
+    <li><a href="#toc244">33.1. Test image</a>
+      <ul>
+      <li><a href="#toc245">33.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc246">33.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc247">33.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc248">33.1.4. barcode test</a>
+      </li>
+      <li><a href="#toc249">33.1.5. qrcode test</a>
+      </li>
+      <li><a href="#toc250">33.1.6. captcha test</a>
+      </li>
+      <li><a href="#toc251">33.1.7. score test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc252">34. Import</a>
+    <ul>
+    <li><a href="#toc253">34.1. Test import</a>
+      <ul>
+      <li><a href="#toc254">34.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc255">34.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc256">34.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc257">34.1.4. import xml test</a>
+      </li>
+      <li><a href="#toc258">34.1.5. import csv test</a>
+      </li>
+      <li><a href="#toc259">34.1.6. import xlsx test</a>
+      </li>
+      <li><a href="#toc260">34.1.7. import xls test</a>
+      </li>
+      <li><a href="#toc261">34.1.8. import ods test</a>
+      </li>
+      <li><a href="#toc262">34.1.9. import bytes test</a>
+      </li>
+      <li><a href="#toc263">34.1.10. import edi test</a>
+      </li>
+      <li><a href="#toc264">34.1.11. import json test</a>
+      </li>
+      <li><a href="#toc265">34.1.12. import helper test</a>
+      </li>
+      <li><a href="#toc266">34.1.13. external exec</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc267">35. Indexing</a>
+    <ul>
+    <li><a href="#toc268">35.1. Test indexing</a>
+      <ul>
+      <li><a href="#toc269">35.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc270">35.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc271">35.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc272">35.1.4. indexing test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc273">36. Iniset</a>
+    <ul>
+    <li><a href="#toc274">36.1. Test iniset</a>
+      <ul>
+      <li><a href="#toc275">36.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc276">36.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc277">36.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc278">36.1.4. iniset test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc279">37. Invoices</a>
+    <ul>
+    <li><a href="#toc280">37.1. Test invoices</a>
+      <ul>
+      <li><a href="#toc281">37.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc282">37.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc283">37.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc284">37.1.4. invoices test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc285">38. Log</a>
+    <ul>
+    <li><a href="#toc286">38.1. Test log</a>
+      <ul>
+      <li><a href="#toc287">38.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc288">38.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc289">38.1.3. log test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc290">39. Math</a>
+    <ul>
+    <li><a href="#toc291">39.1. Test math</a>
+      <ul>
+      <li><a href="#toc292">39.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc293">39.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc294">39.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc295">39.1.4. math test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc296">40. Memory</a>
+    <ul>
+    <li><a href="#toc297">40.1. Test memory</a>
+      <ul>
+      <li><a href="#toc298">40.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc299">40.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc300">40.1.3. memory test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc301">41. Mime</a>
+    <ul>
+    <li><a href="#toc302">41.1. Test mime</a>
+      <ul>
+      <li><a href="#toc303">41.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc304">41.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc305">41.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc306">41.1.4. mime test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc307">42. Output</a>
+    <ul>
+    <li><a href="#toc308">42.1. Test output</a>
+      <ul>
+      <li><a href="#toc309">42.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc310">42.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc311">42.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc312">42.1.4. output test</a>
+      </li>
+      <li><a href="#toc313">42.1.5. colorize test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc314">43. Password</a>
+    <ul>
+    <li><a href="#toc315">43.1. Test password</a>
+      <ul>
+      <li><a href="#toc316">43.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc317">43.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc318">43.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc319">43.1.4. password test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc320">44. Pdf</a>
+    <ul>
+    <li><a href="#toc321">44.1. Test pdf</a>
+      <ul>
+      <li><a href="#toc322">44.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc323">44.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc324">44.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc325">44.1.4. pdf test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc326">45. Perms</a>
+    <ul>
+    <li><a href="#toc327">45.1. Test perms</a>
+      <ul>
+      <li><a href="#toc328">45.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc329">45.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc330">45.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc331">45.1.4. Authtoken</a>
+      </li>
+      <li><a href="#toc332">45.1.5. perms test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc333">46. Ping</a>
+    <ul>
+    <li><a href="#toc334">46.1. Test ping</a>
+      <ul>
+      <li><a href="#toc335">46.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc336">46.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc337">46.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc338">46.1.4. ping test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc339">47. Push</a>
+    <ul>
+    <li><a href="#toc340">47.1. Test push</a>
+      <ul>
+      <li><a href="#toc341">47.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc342">47.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc343">47.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc344">47.1.4. push</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc345">48. Random</a>
+    <ul>
+    <li><a href="#toc346">48.1. Test random</a>
+      <ul>
+      <li><a href="#toc347">48.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc348">48.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc349">48.1.3. random test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc350">49. Roundcube</a>
+    <ul>
+    <li><a href="#toc351">49.1. Test roundcube library</a>
+      <ul>
+      <li><a href="#toc352">49.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc353">49.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc354">49.1.3. html2text</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc355">50. Semaphore</a>
+    <ul>
+    <li><a href="#toc356">50.1. Test semaphore</a>
+      <ul>
+      <li><a href="#toc357">50.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc358">50.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc359">50.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc360">50.1.4. semaphore test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc361">51. Server</a>
+    <ul>
+    <li><a href="#toc362">51.1. Test server</a>
+      <ul>
+      <li><a href="#toc363">51.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc364">51.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc365">51.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc366">51.1.4. server test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc367">52. Sql</a>
+    <ul>
+    <li><a href="#toc368">52.1. Test sql</a>
+      <ul>
+      <li><a href="#toc369">52.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc370">52.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc371">52.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc372">52.1.4. SQL test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc373">53. Strings</a>
+    <ul>
+    <li><a href="#toc374">53.1. Test strings</a>
+      <ul>
+      <li><a href="#toc375">53.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc376">53.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc377">53.1.3. strings test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc378">54. Strtr</a>
+    <ul>
+    <li><a href="#toc379">54.1. Test mime</a>
+      <ul>
+      <li><a href="#toc380">54.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc381">54.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc382">54.1.3. strtr test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc383">55. System</a>
+    <ul>
+    <li><a href="#toc384">55.1. Test system</a>
+      <ul>
+      <li><a href="#toc385">55.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc386">55.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc387">55.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc388">55.1.4. system test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc389">56. Tokens</a>
+    <ul>
+    <li><a href="#toc390">56.1. Test tokens</a>
+      <ul>
+      <li><a href="#toc391">56.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc392">56.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc393">56.1.3. Tokens test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc394">57. Unoconv</a>
+    <ul>
+    <li><a href="#toc395">57.1. Test unoconv</a>
+      <ul>
+      <li><a href="#toc396">57.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc397">57.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc398">57.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc399">57.1.4. Pdf test helper</a>
+      </li>
+      <li><a href="#toc400">57.1.5. Txt test helper</a>
+      </li>
+      <li><a href="#toc401">57.1.6. unoconv test</a>
+      </li>
+      <li><a href="#toc402">57.1.7. ocr test</a>
+      </li>
+      <li><a href="#toc403">57.1.8. commands test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc404">58. User</a>
+    <ul>
+    <li><a href="#toc405">58.1. Test users</a>
+      <ul>
+      <li><a href="#toc406">58.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc407">58.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc408">58.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc409">58.1.4. Authtoken</a>
+      </li>
+      <li><a href="#toc410">58.1.5. users test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc411">59. Users</a>
+    <ul>
+    <li><a href="#toc412">59.1. Test users</a>
+      <ul>
+      <li><a href="#toc413">59.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc414">59.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc415">59.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc416">59.1.4. days test</a>
+      </li>
+      <li><a href="#toc417">59.1.5. users test</a>
+      </li>
+      <li><a href="#toc418">59.1.6. groups test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc419">60. Version</a>
+    <ul>
+    <li><a href="#toc420">60.1. Test version</a>
+      <ul>
+      <li><a href="#toc421">60.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc422">60.1.2. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc423">60.1.3. version test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc424">61. Web Customers</a>
+    <ul>
+    <li><a href="#toc425">61.1. Test web customers</a>
+      <ul>
+      <li><a href="#toc426">61.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc427">61.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc428">61.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc429">61.1.4. Authtoken</a>
+      </li>
+      <li><a href="#toc430">61.1.5. Create</a>
+      </li>
+      <li><a href="#toc431">61.1.6. Insert</a>
+      </li>
+      <li><a href="#toc432">61.1.7. List</a>
+      </li>
+      <li><a href="#toc433">61.1.8. View</a>
+      </li>
+      <li><a href="#toc434">61.1.9. Edit</a>
+      </li>
+      <li><a href="#toc435">61.1.10. Upgrade</a>
+      </li>
+      <li><a href="#toc436">61.1.11. Delete</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc437">62. Web Invoices</a>
+    <ul>
+    <li><a href="#toc438">62.1. Test web invoices</a>
+      <ul>
+      <li><a href="#toc439">62.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc440">62.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc441">62.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc442">62.1.4. Authtoken</a>
+      </li>
+      <li><a href="#toc443">62.1.5. Create</a>
+      </li>
+      <li><a href="#toc444">62.1.6. Insert</a>
+      </li>
+      <li><a href="#toc445">62.1.7. List</a>
+      </li>
+      <li><a href="#toc446">62.1.8. View</a>
+      </li>
+      <li><a href="#toc447">62.1.9. Edit</a>
+      </li>
+      <li><a href="#toc448">62.1.10. Upgrade</a>
+      </li>
+      <li><a href="#toc449">62.1.11. Delete</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc450">63. Web Tokens</a>
+    <ul>
+    <li><a href="#toc451">63.1. Test web tokens (first part)</a>
+      <ul>
+      <li><a href="#toc452">63.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc453">63.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc454">63.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc455">63.1.4. Authtoken</a>
+      </li>
+      <li><a href="#toc456">63.1.5. Checktoken</a>
+      </li>
+      <li><a href="#toc457">63.1.6. Deauthtoken</a>
+      </li>
+      <li><a href="#toc458">63.1.7. Checktoken ko</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc459">64. Xml</a>
+    <ul>
+    <li><a href="#toc460">64.1. Test XML</a>
+      <ul>
+      <li><a href="#toc461">64.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc462">64.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc463">64.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc464">64.1.4. XML test</a>
+      </li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  <li><a href="#toc465">65. Zindex</a>
+    <ul>
+    <li><a href="#toc466">65.1. Test zindex</a>
+      <ul>
+      <li><a href="#toc467">65.1.1. Importing namespaces</a>
+      </li>
+      <li><a href="#toc468">65.1.2. Loading helper function</a>
+      </li>
+      <li><a href="#toc469">65.1.3. Main class of this unit test</a>
+      </li>
+      <li><a href="#toc470">65.1.4. zindex test</a>
       </li>
       </ul>
     </li>
@@ -247,11 +1248,10 @@ pre{background-color:#e6e6e6;padding:5px 3px}
 </nav>
 <div class="body" id="body">
 
+<section~A~>
+<h1></h1>
 <section id="toc1">
-<h1>1. Lib</h1>
-
-<section id="toc2">
-<h2>1.1. Autoload file for the unit tests</h2>
+<h2>0.1. Autoload file for the unit tests</h2>
 
 <pre>
 lib/autoload.php
@@ -261,34 +1261,114 @@ lib/autoload.php
 This file contains the code that initialize the unit tests
 </p>
 
+<section id="toc2">
+<h3>0.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\Assert;
+</pre>
+
+</section>
 <section id="toc3">
-<h3>1.1.1. Main autoloader code</h3>
+<h3>0.1.2. Main autoloader code</h3>
 
 <p>
 This code emmulates the index.php by loading all autoload files excep
-the zindex.php, initialize the timer, the random and executes the
-check_system function.
+the zindex.php, initialize the timer and the random generator
 </p>
 
 </section>
 </section>
 <section id="toc4">
-<h2>1.2. CLI helper function</h2>
+<h2>0.2. Unit test helper functions</h2>
 
 <pre>
-lib/clilib.php
+lib/utestlib.php
 </pre>
 
 <p>
-This file contains the function used by the web unit tests to communicate with the
-SaltOS app, using the two interfaces that SaltOS provides.
+This file contains the functions used by the web and cli unit tests
+to get the coverage, too contains the pcov and mime helpers.
 </p>
 
 <section id="toc5">
-<h3>1.2.1. Test CLI helper</h3>
+<h3>0.2.1. Importing namespaces</h3>
 
 <pre>
-function test_cli_helper($rest, $data, $token): array
+use SebastianBergmann\CodeCoverage\Data\RawCodeCoverageData;
+</pre>
+
+</section>
+<section id="toc6">
+<h3>0.2.2. Test PCOV start helper</h3>
+
+<pre>
+function test_pcov_start(): void
+</pre>
+
+<p>
+This function puts the flag needed to enable the pcov feature, to do it,
+the function creates a void file and puts permissions to allow that other
+procs can write inside of it
+</p>
+
+</section>
+<section id="toc7">
+<h3>0.2.3. Test PCOV stop helper</h3>
+
+<pre>
+function test_pcov_stop($index): void
+</pre>
+
+<p>
+This function gets the contents of the coverage file and removes it, too,
+it does all needed things to append the collected coverage to the current
+unit test coverage instance
+</p>
+
+<ul>
+<li>@index =&gt; index used to get the backtrace, it depends from where you are
+          calling this function, generally is 2 but in some cases you need
+          to use another value like 1.
+</li>
+</ul>
+
+</section>
+<section id="toc8">
+<h3>0.2.4. Test WEB helper</h3>
+
+<pre>
+function test_web_helper($rest, $data, $token, $lang)
+</pre>
+
+<p>
+This function performs the action defined by the rest verb sendind the data if it is
+provided and using the token for authentication actions.
+</p>
+<p>
+As you can see in the code, the function detects if data is provided and send the request
+using GET or POST, in addition, an application/json content-type header is send when POST
+is used.
+</p>
+<p>
+The token is sent using the TOKEN header to be used in the authentication process.
+</p>
+
+<ul>
+<li>@rest  =&gt; The rest request, like update/customers/3
+</li>
+<li>@data  =&gt; The data used as json in the SaltOS app
+</li>
+<li>@token =&gt; The token used if authentication is required
+</li>
+</ul>
+
+</section>
+<section id="toc9">
+<h3>0.2.5. Test CLI helper</h3>
+
+<pre>
+function test_cli_helper($rest, $data, $token, $lang, $user)
 </pre>
 
 <p>
@@ -323,56 +1403,486 @@ the SaltOS app.
 </ul>
 
 </section>
-</section>
-<section id="toc6">
-<h2>1.3. WEB helper function</h2>
+<section id="toc10">
+<h3>0.2.6. Get Mime helper</h3>
 
 <pre>
-lib/weblib.php
+function get_mime($buffer): string
 </pre>
 
 <p>
-This file contains the function used by the web unit tests to communicate with the
-SaltOS app, using the two interfaces that SaltOS provides.
-</p>
-
-<section id="toc7">
-<h3>1.3.1. Test WEB helper</h3>
-
-<pre>
-function test_web_helper($rest, $data, $token): array
-</pre>
-
-<p>
-This function performs the action defined by the rest verb sendind the data if it is
-provided and using the token for authentication actions.
-</p>
-<p>
-As you can see in the code, the function detects if data is provided and send the request
-using GET or POST, in addition, an application/json content-type header is send when POST
-is used.
-</p>
-<p>
-The token is sent using the TOKEN header to be used in the authentication process.
+This function returns the content type of the contents of the buffer
 </p>
 
 <ul>
-<li>@rest  =&gt; The rest request, like update/customers/3
+<li>@buffer =&gt; the contents that you want to check
 </li>
-<li>@data  =&gt; The data used as json in the SaltOS app
+</ul>
+
+</section>
+<section id="toc11">
+<h3>0.2.7. External tests</h3>
+
+<pre>
+function test_external_exec($test_file, $error_file, $error_words): void
+</pre>
+
+<p>
+This function tries to execute external php that triggers special conditions
+suck as errors, that are not allowed from the phpunit tests
+</p>
+
+<ul>
+<li>@test_file   =&gt; the file that must be executed
 </li>
-<li>@token =&gt; The token used if authentication is required
+<li>@error_file  =&gt; the file that must contains the error_words
+</li>
+<li>@error_words =&gt; the words that must exists in the error_file
 </li>
 </ul>
 
 </section>
 </section>
 </section>
-<section id="toc8">
-<h1>2. Utest</h1>
+<section id="toc12">
+<h1>1. Actions</h1>
 
-<section id="toc9">
-<h2>2.1. Test cli customers</h2>
+<section id="toc13">
+<h2>1.1. Test actions</h2>
+
+<pre>
+test_actions.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the actions functions
+</p>
+
+<section id="toc14">
+<h3>1.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc15">
+<h3>1.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc16">
+<h3>1.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_actions extends TestCase
+</pre>
+
+</section>
+<section id="toc17">
+<h3>1.1.4. actions test</h3>
+
+<pre>
+public function test_actions(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the actions functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc18">
+<h1>2. Add</h1>
+
+<section id="toc19">
+<h2>2.1. Test addlog</h2>
+
+<pre>
+test_add.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the addlog functions
+</p>
+
+<section id="toc20">
+<h3>2.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc21">
+<h3>2.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc22">
+<h3>2.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_add extends TestCase
+</pre>
+
+</section>
+<section id="toc23">
+<h3>2.1.4. addlog test</h3>
+
+<pre>
+public function test_addlog(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the addlog functions
+</p>
+
+</section>
+<section id="toc24">
+<h3>2.1.5. adderror test</h3>
+
+<pre>
+public function test_adderror(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the adderror functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc25">
+<h1>3. Apache</h1>
+
+<section id="toc26">
+<h2>3.1. Test apache</h2>
+
+<pre>
+test_apache.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the apache configuration
+</p>
+
+<section id="toc27">
+<h3>3.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc28">
+<h3>3.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_apache extends TestCase
+</pre>
+
+</section>
+<section id="toc29">
+<h3>3.1.3. addlog test</h3>
+
+<pre>
+public function test_apache(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness of the apache configuration,
+the main idea is that the path saltos/code4 of the web server must point to the web
+directory.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc30">
+<h1>4. Apps</h1>
+
+<section id="toc31">
+<h2>4.1. Test apps</h2>
+
+<pre>
+test_apps.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the apps functions
+</p>
+
+<section id="toc32">
+<h3>4.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc33">
+<h3>4.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc34">
+<h3>4.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_apps extends TestCase
+</pre>
+
+</section>
+<section id="toc35">
+<h3>4.1.4. apps test</h3>
+
+<pre>
+public function test_apps(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the apps functions
+</p>
+
+</section>
+<section id="toc36">
+<h3>4.1.5. app test</h3>
+
+<pre>
+public function test_app(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the app functions
+</p>
+
+</section>
+<section id="toc37">
+<h3>4.1.6. list test</h3>
+
+<pre>
+public function test_list(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the list functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc38">
+<h1>5. Array</h1>
+
+<section id="toc39">
+<h2>5.1. Test array</h2>
+
+<pre>
+test_array.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the array functions
+</p>
+
+<section id="toc40">
+<h3>5.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc41">
+<h3>5.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc42">
+<h3>5.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_array extends TestCase
+</pre>
+
+</section>
+<section id="toc43">
+<h3>5.1.4. array test</h3>
+
+<pre>
+public function test_array(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the array functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc44">
+<h1>6. Ascii</h1>
+
+<section id="toc45">
+<h2>6.1. Test ascii</h2>
+
+<pre>
+test_ascii.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the ascii functions
+</p>
+
+<section id="toc46">
+<h3>6.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc47">
+<h3>6.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/ascii.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc48">
+<h3>6.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_ascii extends TestCase
+</pre>
+
+</section>
+<section id="toc49">
+<h3>6.1.4. ascii test</h3>
+
+<pre>
+public function test_ascii(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the ascii functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc50">
+<h1>7. Authupdate</h1>
+
+<section id="toc51">
+<h2>7.1. Test authupdate</h2>
+
+<pre>
+test_authupdate.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the authupdate functions
+</p>
+
+<section id="toc52">
+<h3>7.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc53">
+<h3>7.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc54">
+<h3>7.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_authupdate extends TestCase
+</pre>
+
+</section>
+<section id="toc55">
+<h3>7.1.4. authupdate test</h3>
+
+<pre>
+public function test_authupdate(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the authupdate functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc56">
+<h1>8. Cli Customers</h1>
+
+<section id="toc57">
+<h2>8.1. Test cli customers</h2>
 
 <pre>
 test_cli_customers.php
@@ -383,19 +1893,19 @@ This test performs all actions of the customers app suck as: create, insert,
 list, view, edit, update and delete, using the cli sapi interface
 </p>
 
-<section id="toc10">
-<h3>2.1.1. Importing namespaces</h3>
+<section id="toc58">
+<h3>8.1.1. Importing namespaces</h3>
 
 <pre>
 use PHPUnit\Framework\TestCase;
 </pre>
 
 </section>
-<section id="toc11">
-<h3>2.1.2. Loading helper function</h3>
+<section id="toc59">
+<h3>8.1.2. Loading helper function</h3>
 
 <pre>
-require_once "lib/clilib.php";
+require_once 'lib/utestlib.php';
 </pre>
 
 <p>
@@ -403,286 +1913,16 @@ This file contains the needed function used by the unit tests
 </p>
 
 </section>
-<section id="toc12">
-<h3>2.1.3. Main class of this unit test</h3>
+<section id="toc60">
+<h3>8.1.3. Main class of this unit test</h3>
 
 <pre>
 final class test_cli_customers extends TestCase
 </pre>
 
 </section>
-<section id="toc13">
-<h3>2.1.4. Create</h3>
-
-<pre>
-public function test_create(array $json): array
-</pre>
-
-<p>
-This function execute the creates rest request, and must to get the
-json with the layout without data
-</p>
-
-</section>
-<section id="toc14">
-<h3>2.1.5. Insert</h3>
-
-<pre>
-public function test_insert(array $json): array
-</pre>
-
-<p>
-This function execute the insert rest request, to do it send the json with
-the data that they want to insert and must to get the json with the status
-and the create_id.
-</p>
-
-</section>
-<section id="toc15">
-<h3>2.1.6. List</h3>
-
-<pre>
-public function test_list(array $json): array
-</pre>
-
-<p>
-This function execute the list rest request, to do it send the json with
-the search that they want to use in the list filter and receives the json
-with the data used to populate the table.
-</p>
-
-</section>
-<section id="toc16">
-<h3>2.1.7. View</h3>
-
-<pre>
-public function test_view(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc17">
-<h3>2.1.8. Edit</h3>
-
-<pre>
-public function test_edit(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc18">
-<h3>2.1.9. Upgrade</h3>
-
-<pre>
-public function test_update(array $json): array
-</pre>
-
-<p>
-This function execute the update rest request, to do it send the json with
-the data that they want to update and must to get the json with the status
-and the updated_id.
-</p>
-
-</section>
-<section id="toc19">
-<h3>2.1.10. Delete</h3>
-
-<pre>
-public function test_delete(array $json): void
-</pre>
-
-<p>
-This function execute the delete rest request, they must to get the json
-with the status and the deleted_id.
-</p>
-
-</section>
-</section>
-<section id="toc20">
-<h2>2.2. Test cli invoices</h2>
-
-<pre>
-test_cli_invoices.php
-</pre>
-
-<p>
-This test performs all actions of the invoices app suck as: create, insert,
-list, view, edit, update and delete, using the cli sapi interface
-</p>
-
-<section id="toc21">
-<h3>2.2.1. Importing namespaces</h3>
-
-<pre>
-use PHPUnit\Framework\TestCase;
-</pre>
-
-</section>
-<section id="toc22">
-<h3>2.2.2. Loading helper function</h3>
-
-<pre>
-require_once "lib/clilib.php";
-</pre>
-
-<p>
-This file contains the needed function used by the unit tests
-</p>
-
-</section>
-<section id="toc23">
-<h3>2.2.3. Main class of this unit test</h3>
-
-<pre>
-final class test_cli_invoices extends TestCase
-</pre>
-
-</section>
-<section id="toc24">
-<h3>2.2.4. Create</h3>
-
-<pre>
-public function test_create(array $json): array
-</pre>
-
-<p>
-This function execute the creates rest request, and must to get the
-json with the layout without data
-</p>
-
-</section>
-<section id="toc25">
-<h3>2.2.5. Insert</h3>
-
-<pre>
-public function test_insert(array $json): array
-</pre>
-
-<p>
-This function execute the insert rest request, to do it send the json with
-the data that they want to insert and must to get the json with the status
-and the create_id.
-</p>
-
-</section>
-<section id="toc26">
-<h3>2.2.6. List</h3>
-
-<pre>
-public function test_list(array $json): array
-</pre>
-
-<p>
-This function execute the list rest request, to do it send the json with
-the search that they want to use in the list filter and receives the json
-with the data used to populate the table.
-</p>
-
-</section>
-<section id="toc27">
-<h3>2.2.7. View</h3>
-
-<pre>
-public function test_view(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc28">
-<h3>2.2.8. Edit</h3>
-
-<pre>
-public function test_edit(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc29">
-<h3>2.2.9. Upgrade</h3>
-
-<pre>
-public function test_update(array $json): array
-</pre>
-
-<p>
-This function execute the update rest request, to do it send the json with
-the data that they want to update and must to get the json with the status
-and the updated_id.
-</p>
-
-</section>
-<section id="toc30">
-<h3>2.2.10. Delete</h3>
-
-<pre>
-public function test_delete(array $json): void
-</pre>
-
-<p>
-This function execute the delete rest request, they must to get the json
-with the status and the deleted_id.
-</p>
-
-</section>
-</section>
-<section id="toc31">
-<h2>2.3. Test cli tokens (first part)</h2>
-
-<pre>
-test_cli_tokens1.php
-</pre>
-
-<p>
-This test performs some part of the actions related with the tokens suck
-as authtoken and checktoken, using the cli sapi interface
-</p>
-
-<section id="toc32">
-<h3>2.3.1. Importing namespaces</h3>
-
-<pre>
-use PHPUnit\Framework\TestCase;
-</pre>
-
-</section>
-<section id="toc33">
-<h3>2.3.2. Loading helper function</h3>
-
-<pre>
-require_once "lib/clilib.php";
-</pre>
-
-<p>
-This file contains the needed function used by the unit tests
-</p>
-
-</section>
-<section id="toc34">
-<h3>2.3.3. Main class of this unit test</h3>
-
-<pre>
-final class test_cli_tokens1 extends TestCase
-</pre>
-
-</section>
-<section id="toc35">
-<h3>2.3.4. Authtoken</h3>
+<section id="toc61">
+<h3>8.1.4. Authtoken</h3>
 
 <pre>
 public function test_authtoken(): array
@@ -694,8 +1934,312 @@ json with the valid token to continue in the nexts unit tests
 </p>
 
 </section>
-<section id="toc36">
-<h3>2.3.5. Checktoken</h3>
+<section id="toc62">
+<h3>8.1.5. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc63">
+<h3>8.1.6. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc64">
+<h3>8.1.7. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc65">
+<h3>8.1.8. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc66">
+<h3>8.1.9. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc67">
+<h3>8.1.10. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc68">
+<h3>8.1.11. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc69">
+<h1>9. Cli Invoices</h1>
+
+<section id="toc70">
+<h2>9.1. Test cli invoices</h2>
+
+<pre>
+test_cli_invoices.php
+</pre>
+
+<p>
+This test performs all actions of the invoices app suck as: create, insert,
+list, view, edit, update and delete, using the cli sapi interface
+</p>
+
+<section id="toc71">
+<h3>9.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc72">
+<h3>9.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc73">
+<h3>9.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_cli_invoices extends TestCase
+</pre>
+
+</section>
+<section id="toc74">
+<h3>9.1.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc75">
+<h3>9.1.5. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc76">
+<h3>9.1.6. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc77">
+<h3>9.1.7. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc78">
+<h3>9.1.8. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc79">
+<h3>9.1.9. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc80">
+<h3>9.1.10. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc81">
+<h3>9.1.11. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc82">
+<h1>10. Cli Tokens</h1>
+
+<section id="toc83">
+<h2>10.1. Test cli tokens (first part)</h2>
+
+<pre>
+test_cli_tokens.php
+</pre>
+
+<p>
+This test performs some part of the actions related with the tokens suck
+as authtoken and checktoken, using the cli sapi interface
+</p>
+
+<section id="toc84">
+<h3>10.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc85">
+<h3>10.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc86">
+<h3>10.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_cli_tokens extends TestCase
+</pre>
+
+</section>
+<section id="toc87">
+<h3>10.1.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc88">
+<h3>10.1.5. Checktoken</h3>
 
 <pre>
 public function test_checktoken(array $json): array
@@ -707,49 +2251,8 @@ json with the ok about the valid token that you are trying to check
 </p>
 
 </section>
-</section>
-<section id="toc37">
-<h2>2.4. Test cli tokens (second part)</h2>
-
-<pre>
-test_cli_tokens2.php
-</pre>
-
-<p>
-This test performs some part of the actions related with the tokens suck
-as deauthtoken and checktoken, using the cli sapi interface
-</p>
-
-<section id="toc38">
-<h3>2.4.1. Importing namespaces</h3>
-
-<pre>
-use PHPUnit\Framework\TestCase;
-</pre>
-
-</section>
-<section id="toc39">
-<h3>2.4.2. Loading helper function</h3>
-
-<pre>
-require_once "lib/clilib.php";
-</pre>
-
-<p>
-This file contains the needed function used by the unit tests
-</p>
-
-</section>
-<section id="toc40">
-<h3>2.4.3. Main class of this unit test</h3>
-
-<pre>
-final class test_cli_tokens2 extends TestCase
-</pre>
-
-</section>
-<section id="toc41">
-<h3>2.4.4. Deauthtoken</h3>
+<section id="toc89">
+<h3>10.1.6. Deauthtoken</h3>
 
 <pre>
 public function test_deauthtoken(array $json): array
@@ -761,8 +2264,8 @@ json with the ok about the valid token that you are deauthenticate
 </p>
 
 </section>
-<section id="toc42">
-<h3>2.4.5. Checktoken ko</h3>
+<section id="toc90">
+<h3>10.1.7. Checktoken ko</h3>
 
 <pre>
 public function test_checktoken_ko(array $json): void
@@ -775,31 +2278,407 @@ json with the ko about the invalid token that you are trying to check
 
 </section>
 </section>
-<section id="toc43">
-<h2>2.5. Test database drivers</h2>
+</section>
+<section id="toc91">
+<h1>11. Color</h1>
+
+<section id="toc92">
+<h2>11.1. Test color</h2>
 
 <pre>
-test_database.php
+test_color.php
 </pre>
 
-<section id="toc44">
-<h3>2.5.1. Importing namespaces</h3>
+<p>
+This test performs some tests to validate the correctness
+of the color feature
+</p>
+
+<section id="toc93">
+<h3>11.1.1. Importing namespaces</h3>
 
 <pre>
 use PHPUnit\Framework\TestCase;
 </pre>
 
 </section>
-<section id="toc45">
-<h3>2.5.2. Main class of this unit test</h3>
+<section id="toc94">
+<h3>11.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc95">
+<h3>11.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_color extends TestCase
+</pre>
+
+</section>
+<section id="toc96">
+<h3>11.1.4. color test</h3>
+
+<pre>
+public function test_color(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the color feature
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc97">
+<h1>12. Common</h1>
+
+<section id="toc98">
+<h2>12.1. Test common</h2>
+
+<pre>
+test_common.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the common functions
+</p>
+
+<section id="toc99">
+<h3>12.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc100">
+<h3>12.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc101">
+<h3>12.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_common extends TestCase
+</pre>
+
+</section>
+<section id="toc102">
+<h3>12.1.4. common test</h3>
+
+<pre>
+public function test_common(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the common functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc103">
+<h1>13. Config</h1>
+
+<section id="toc104">
+<h2>13.1. Test config</h2>
+
+<pre>
+test_config.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the config functions
+</p>
+
+<section id="toc105">
+<h3>13.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc106">
+<h3>13.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc107">
+<h3>13.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_config extends TestCase
+</pre>
+
+</section>
+<section id="toc108">
+<h3>13.1.4. config test</h3>
+
+<pre>
+public function test_config(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the config functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc109">
+<h1>14. Control</h1>
+
+<section id="toc110">
+<h2>14.1. Test control</h2>
+
+<pre>
+test_control.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the control functions
+</p>
+
+<section id="toc111">
+<h3>14.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc112">
+<h3>14.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/control.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc113">
+<h3>14.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_control extends TestCase
+</pre>
+
+</section>
+<section id="toc114">
+<h3>14.1.4. control test</h3>
+
+<pre>
+public function test_control(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the control functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc115">
+<h1>15. Cron</h1>
+
+<section id="toc116">
+<h2>15.1. Test cron</h2>
+
+<pre>
+test_cron.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the cron functions
+</p>
+
+<section id="toc117">
+<h3>15.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc118">
+<h3>15.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc119">
+<h3>15.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_cron extends TestCase
+</pre>
+
+</section>
+<section id="toc120">
+<h3>15.1.4. Wait cron</h3>
+
+<pre>
+private function wait_cron(): void
+</pre>
+
+<p>
+This function waits 10 seconds until all cron processes are running
+</p>
+
+</section>
+<section id="toc121">
+<h3>15.1.5. cron</h3>
+
+<pre>
+public function test_cron(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the cron functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc122">
+<h1>16. Customers</h1>
+
+<section id="toc123">
+<h2>16.1. Test customers</h2>
+
+<pre>
+test_customers.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the customers functions
+</p>
+
+<section id="toc124">
+<h3>16.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc125">
+<h3>16.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc126">
+<h3>16.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_customers extends TestCase
+</pre>
+
+</section>
+<section id="toc127">
+<h3>16.1.4. customers test</h3>
+
+<pre>
+public function test_customers(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the customers functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc128">
+<h1>17. Database</h1>
+
+<section id="toc129">
+<h2>17.1. Test database drivers</h2>
+
+<pre>
+test_database.php
+</pre>
+
+<section id="toc130">
+<h3>17.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc131">
+<h3>17.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc132">
+<h3>17.1.3. Main class of this unit test</h3>
 
 <pre>
 final class test_database extends TestCase
 </pre>
 
 </section>
-<section id="toc46">
-<h3>2.5.3. Helper</h3>
+<section id="toc133">
+<h3>17.1.4. Helper</h3>
 
 <pre>
 private function test_helper($obj): void
@@ -873,8 +2752,8 @@ The tests that performs are the follow:
 </ul>
 
 </section>
-<section id="toc47">
-<h3>2.5.4. PDO MySQL driver</h3>
+<section id="toc134">
+<h3>17.1.5. PDO MySQL driver</h3>
 
 <pre>
 public function test_pdo_mysql(): void
@@ -887,8 +2766,8 @@ closing the connection.
 </p>
 
 </section>
-<section id="toc48">
-<h3>2.5.5. MySQL improved driver</h3>
+<section id="toc135">
+<h3>17.1.6. MySQL improved driver</h3>
 
 <pre>
 public function test_mysqli(): void
@@ -901,8 +2780,8 @@ closing the connection.
 </p>
 
 </section>
-<section id="toc49">
-<h3>2.5.6. PDO SQLite driver</h3>
+<section id="toc136">
+<h3>17.1.7. PDO SQLite driver</h3>
 
 <pre>
 public function test_pdo_sqlite(): void
@@ -915,8 +2794,8 @@ closing the connection.
 </p>
 
 </section>
-<section id="toc50">
-<h3>2.5.7. SQLite3 driver</h3>
+<section id="toc137">
+<h3>17.1.8. SQLite3 driver</h3>
 
 <pre>
 public function test_sqlite3(): void
@@ -929,32 +2808,2188 @@ closing the connection.
 </p>
 
 </section>
-</section>
-<section id="toc51">
-<h2>2.6. Test roundcube library</h2>
+<section id="toc138">
+<h3>17.1.9. PDO mssql driver</h3>
 
 <pre>
-test_roundcube.php
+private function test_pdo_mssql(): void
 </pre>
 
-<section id="toc52">
-<h3>2.6.1. Importing namespaces</h3>
+<p>
+This function checks the correctness of the sqlserver driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+</p>
+
+</section>
+<section id="toc139">
+<h3>17.1.10. Database driver</h3>
+
+<pre>
+public function test_database(): void
+</pre>
+
+<p>
+This function checks the correctness of the database driver by creating a
+database connection, sendint queries validating the expected results and
+closing the connection.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc140">
+<h1>18. Datetime</h1>
+
+<section id="toc141">
+<h2>18.1. Test datetime</h2>
+
+<pre>
+test_datetime.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the datetime functions
+</p>
+
+<section id="toc142">
+<h3>18.1.1. Importing namespaces</h3>
 
 <pre>
 use PHPUnit\Framework\TestCase;
 </pre>
 
 </section>
-<section id="toc53">
-<h3>2.6.2. Main class of this unit test</h3>
+<section id="toc143">
+<h3>18.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_datetime extends TestCase
+</pre>
+
+</section>
+<section id="toc144">
+<h3>18.1.3. datetime test</h3>
+
+<pre>
+public function test_datetime(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the datetime functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc145">
+<h1>19. Dbschema</h1>
+
+<section id="toc146">
+<h2>19.1. Test dbschema</h2>
+
+<pre>
+test_dbschema.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the dbschema functions
+</p>
+
+<section id="toc147">
+<h3>19.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc148">
+<h3>19.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc149">
+<h3>19.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_dbschema extends TestCase
+</pre>
+
+</section>
+<section id="toc150">
+<h3>19.1.4. dbschema test</h3>
+
+<pre>
+public function test_dbschema(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the dbschema functions
+</p>
+
+</section>
+<section id="toc151">
+<h3>19.1.5. sql test</h3>
+
+<pre>
+public function test_sql(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the sql functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc152">
+<h1>20. Emails</h1>
+
+<section id="toc153">
+<h2>20.1. Test emails</h2>
+
+<pre>
+test_emails.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the emails functions
+</p>
+
+<section id="toc154">
+<h3>20.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc155">
+<h3>20.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc156">
+<h3>20.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_emails extends TestCase
+</pre>
+
+</section>
+<section id="toc157">
+<h3>20.1.4. emails test</h3>
+
+<pre>
+public function test_emails(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the emails functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc158">
+<h1>21. Error</h1>
+
+<section id="toc159">
+<h2>21.1. Test error</h2>
+
+<pre>
+test_error.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the error functions
+</p>
+
+<section id="toc160">
+<h3>21.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc161">
+<h3>21.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc162">
+<h3>21.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_error extends TestCase
+</pre>
+
+</section>
+<section id="toc163">
+<h3>21.1.4. error function test</h3>
+
+<pre>
+public function test_error(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the error functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc164">
+<h1>22. Exec</h1>
+
+<section id="toc165">
+<h2>22.1. Test exec</h2>
+
+<pre>
+test_exec.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the exec functions
+</p>
+
+<section id="toc166">
+<h3>22.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc167">
+<h3>22.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_exec extends TestCase
+</pre>
+
+</section>
+<section id="toc168">
+<h3>22.1.3. exec test</h3>
+
+<pre>
+public function test_exec(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the exec functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc169">
+<h1>23. Export</h1>
+
+<section id="toc170">
+<h2>23.1. Test export</h2>
+
+<pre>
+test_export.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+<section id="toc171">
+<h3>23.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc172">
+<h3>23.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc173">
+<h3>23.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_export extends TestCase
+</pre>
+
+</section>
+<section id="toc174">
+<h3>23.1.4. Get data</h3>
+
+<pre>
+private function get_data($nohead, $length): array
+</pre>
+
+<p>
+This function tries to create an array with rows using the numbers.csv file
+as source, it is able to add or remove the head row and to select the size
+of the result array of rows
+</p>
+
+<ul>
+<li>@nohead =&gt; the nohead field used in the import_file function
+</li>
+<li>@length =&gt; the size of the rows array
+</li>
+</ul>
+
+</section>
+<section id="toc175">
+<h3>23.1.5. export xml test</h3>
+
+<pre>
+public function test_export_xml(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+</section>
+<section id="toc176">
+<h3>23.1.6. export csv test</h3>
+
+<pre>
+public function test_export_csv(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+</section>
+<section id="toc177">
+<h3>23.1.7. export xlsx test</h3>
+
+<pre>
+public function test_export_xlsx(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+</section>
+<section id="toc178">
+<h3>23.1.8. export xls test</h3>
+
+<pre>
+public function test_export_xls(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+</section>
+<section id="toc179">
+<h3>23.1.9. export ods test</h3>
+
+<pre>
+public function test_export_ods(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+</section>
+<section id="toc180">
+<h3>23.1.10. //~ * export bytes test</h3>
+
+<pre>
+//~ public function test_export_bytes(): void
+</pre>
+
+<p>
+//~ * This test performs some tests to validate the correctness
+//~ * of the export functions
+</p>
+
+</section>
+<section id="toc181">
+<h3>23.1.11. export edi test</h3>
+
+<pre>
+public function test_export_edi(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+</section>
+<section id="toc182">
+<h3>23.1.12. export json test</h3>
+
+<pre>
+public function test_export_json(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the export functions
+</p>
+
+</section>
+<section id="toc183">
+<h3>23.1.13. tree2array test</h3>
+
+<pre>
+public function test_export_tree2array(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the tree2array function
+</p>
+
+</section>
+<section id="toc184">
+<h3>23.1.14. getkeys test</h3>
+
+<pre>
+public function test_export_getkeys(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the getkeys function
+</p>
+
+</section>
+<section id="toc185">
+<h3>23.1.15. external exec</h3>
+
+<pre>
+public function test_export_external(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the external exec
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc186">
+<h1>24. File</h1>
+
+<section id="toc187">
+<h2>24.1. Test file</h2>
+
+<pre>
+test_file.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the file functions
+</p>
+
+<section id="toc188">
+<h3>24.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc189">
+<h3>24.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc190">
+<h3>24.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_file extends TestCase
+</pre>
+
+</section>
+<section id="toc191">
+<h3>24.1.4. file test</h3>
+
+<pre>
+public function test_file(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the file functions
+</p>
+
+</section>
+<section id="toc192">
+<h3>24.1.5. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc193">
+<h3>24.1.6. Addfiles</h3>
+
+<pre>
+public function test_addfiles(array $json): array
+</pre>
+
+<p>
+This function execute the addfiles rest request, and must to get the
+json with the correct data
+</p>
+
+</section>
+<section id="toc194">
+<h3>24.1.7. Delfiles</h3>
+
+<pre>
+public function test_delfiles(array $json): void
+</pre>
+
+<p>
+This function execute the delfiles rest request, and must to get the
+json with the correct data
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc195">
+<h1>25. Files</h1>
+
+<section id="toc196">
+<h2>25.1. Test files</h2>
+
+<pre>
+test_files.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the files feature
+</p>
+
+<section id="toc197">
+<h3>25.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc198">
+<h3>25.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc199">
+<h3>25.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_files extends TestCase
+</pre>
+
+</section>
+<section id="toc200">
+<h3>25.1.4. files test</h3>
+
+<pre>
+public function test_files(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the files feature
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc201">
+<h1>26. Gc</h1>
+
+<section id="toc202">
+<h2>26.1. Test gc</h2>
+
+<pre>
+test_gc.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the gc functions
+</p>
+
+<section id="toc203">
+<h3>26.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc204">
+<h3>26.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc205">
+<h3>26.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_gc extends TestCase
+</pre>
+
+</section>
+<section id="toc206">
+<h3>26.1.4. gc exec</h3>
+
+<pre>
+public function test_gc_exec(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the gc functions
+</p>
+
+</section>
+<section id="toc207">
+<h3>26.1.5. gc upload</h3>
+
+<pre>
+public function test_gc_upload(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the gc functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc208">
+<h1>27. Gdlib</h1>
+
+<section id="toc209">
+<h2>27.1. Test gdlib</h2>
+
+<pre>
+test_gdlib.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the gdlib feature
+</p>
+
+<section id="toc210">
+<h3>27.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc211">
+<h3>27.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc212">
+<h3>27.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_gdlib extends TestCase
+</pre>
+
+</section>
+<section id="toc213">
+<h3>27.1.4. gdlib test</h3>
+
+<pre>
+public function test_gdlib(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the gdlib feature
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc214">
+<h1>28. Getdata</h1>
+
+<section id="toc215">
+<h2>28.1. Test getdata</h2>
+
+<pre>
+test_getdata.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the getdata functions
+</p>
+
+<section id="toc216">
+<h3>28.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc217">
+<h3>28.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc218">
+<h3>28.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_getdata extends TestCase
+</pre>
+
+</section>
+<section id="toc219">
+<h3>28.1.4. getdata test</h3>
+
+<pre>
+public function test_getdata(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the getdata functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc220">
+<h1>29. Gettext</h1>
+
+<section id="toc221">
+<h2>29.1. Test gettext</h2>
+
+<pre>
+test_gettext.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the gettext functions
+</p>
+
+<section id="toc222">
+<h3>29.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc223">
+<h3>29.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc224">
+<h3>29.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_gettext extends TestCase
+</pre>
+
+</section>
+<section id="toc225">
+<h3>29.1.4. gettext test</h3>
+
+<pre>
+public function test_gettext(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the gettext functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc226">
+<h1>30. Help</h1>
+
+<section id="toc227">
+<h2>30.1. Test help</h2>
+
+<pre>
+test_help.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the help functions
+</p>
+
+<section id="toc228">
+<h3>30.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc229">
+<h3>30.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/help.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc230">
+<h3>30.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_help extends TestCase
+</pre>
+
+</section>
+<section id="toc231">
+<h3>30.1.4. help test</h3>
+
+<pre>
+public function test_help(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the help functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc232">
+<h1>31. Html</h1>
+
+<section id="toc233">
+<h2>31.1. Test html</h2>
+
+<pre>
+test_html.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the html functions
+</p>
+
+<section id="toc234">
+<h3>31.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc235">
+<h3>31.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/html.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc236">
+<h3>31.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_html extends TestCase
+</pre>
+
+</section>
+<section id="toc237">
+<h3>31.1.4. html test</h3>
+
+<pre>
+public function test_html(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the html functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc238">
+<h1>32. Ids</h1>
+
+<section id="toc239">
+<h2>32.1. Test IDs</h2>
+
+<pre>
+test_ids.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the check_ids feature
+</p>
+
+<section id="toc240">
+<h3>32.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc241">
+<h3>32.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_ids extends TestCase
+</pre>
+
+</section>
+<section id="toc242">
+<h3>32.1.3. IDs test</h3>
+
+<pre>
+public function test_ids(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the check_ids feature
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc243">
+<h1>33. Image</h1>
+
+<section id="toc244">
+<h2>33.1. Test image</h2>
+
+<pre>
+test_image.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the barcode, qrcode, captcha and score features
+</p>
+
+<section id="toc245">
+<h3>33.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc246">
+<h3>33.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc247">
+<h3>33.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_image extends TestCase
+</pre>
+
+</section>
+<section id="toc248">
+<h3>33.1.4. barcode test</h3>
+
+<pre>
+public function test_barcode(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the barcode feature
+</p>
+
+</section>
+<section id="toc249">
+<h3>33.1.5. qrcode test</h3>
+
+<pre>
+public function test_qrcode(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the qrcode feature
+</p>
+
+</section>
+<section id="toc250">
+<h3>33.1.6. captcha test</h3>
+
+<pre>
+public function test_captcha(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the captcha feature
+</p>
+
+</section>
+<section id="toc251">
+<h3>33.1.7. score test</h3>
+
+<pre>
+public function test_score(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the score feature
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc252">
+<h1>34. Import</h1>
+
+<section id="toc253">
+<h2>34.1. Test import</h2>
+
+<pre>
+test_import.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+<section id="toc254">
+<h3>34.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc255">
+<h3>34.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc256">
+<h3>34.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_import extends TestCase
+</pre>
+
+</section>
+<section id="toc257">
+<h3>34.1.4. import xml test</h3>
+
+<pre>
+public function test_import_xml(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc258">
+<h3>34.1.5. import csv test</h3>
+
+<pre>
+public function test_import_csv(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc259">
+<h3>34.1.6. import xlsx test</h3>
+
+<pre>
+public function test_import_xlsx(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc260">
+<h3>34.1.7. import xls test</h3>
+
+<pre>
+public function test_import_xls(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc261">
+<h3>34.1.8. import ods test</h3>
+
+<pre>
+public function test_import_ods(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc262">
+<h3>34.1.9. import bytes test</h3>
+
+<pre>
+public function test_import_bytes(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc263">
+<h3>34.1.10. import edi test</h3>
+
+<pre>
+public function test_import_edi(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc264">
+<h3>34.1.11. import json test</h3>
+
+<pre>
+public function test_import_json(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc265">
+<h3>34.1.12. import helper test</h3>
+
+<pre>
+public function test_import_helper(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the import functions
+</p>
+
+</section>
+<section id="toc266">
+<h3>34.1.13. external exec</h3>
+
+<pre>
+public function test_import_external(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the external exec
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc267">
+<h1>35. Indexing</h1>
+
+<section id="toc268">
+<h2>35.1. Test indexing</h2>
+
+<pre>
+test_indexing.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the indexing functions
+</p>
+
+<section id="toc269">
+<h3>35.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc270">
+<h3>35.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc271">
+<h3>35.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_indexing extends TestCase
+</pre>
+
+</section>
+<section id="toc272">
+<h3>35.1.4. indexing test</h3>
+
+<pre>
+public function test_indexing(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the indexing functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc273">
+<h1>36. Iniset</h1>
+
+<section id="toc274">
+<h2>36.1. Test iniset</h2>
+
+<pre>
+test_iniset.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the iniset functions
+</p>
+
+<section id="toc275">
+<h3>36.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc276">
+<h3>36.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc277">
+<h3>36.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_iniset extends TestCase
+</pre>
+
+</section>
+<section id="toc278">
+<h3>36.1.4. iniset test</h3>
+
+<pre>
+public function test_iniset(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the iniset functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc279">
+<h1>37. Invoices</h1>
+
+<section id="toc280">
+<h2>37.1. Test invoices</h2>
+
+<pre>
+test_invoices.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the invoices functions
+</p>
+
+<section id="toc281">
+<h3>37.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc282">
+<h3>37.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc283">
+<h3>37.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_invoices extends TestCase
+</pre>
+
+</section>
+<section id="toc284">
+<h3>37.1.4. invoices test</h3>
+
+<pre>
+public function test_invoices(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the invoices functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc285">
+<h1>38. Log</h1>
+
+<section id="toc286">
+<h2>38.1. Test log</h2>
+
+<pre>
+test_log.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the log functions
+</p>
+
+<section id="toc287">
+<h3>38.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc288">
+<h3>38.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_log extends TestCase
+</pre>
+
+</section>
+<section id="toc289">
+<h3>38.1.3. log test</h3>
+
+<pre>
+public function test_log(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the log functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc290">
+<h1>39. Math</h1>
+
+<section id="toc291">
+<h2>39.1. Test math</h2>
+
+<pre>
+test_math.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the math functions
+</p>
+
+<section id="toc292">
+<h3>39.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc293">
+<h3>39.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/math.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc294">
+<h3>39.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_math extends TestCase
+</pre>
+
+</section>
+<section id="toc295">
+<h3>39.1.4. math test</h3>
+
+<pre>
+public function test_math(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the math functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc296">
+<h1>40. Memory</h1>
+
+<section id="toc297">
+<h2>40.1. Test memory</h2>
+
+<pre>
+test_memory.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the memory functions
+</p>
+
+<section id="toc298">
+<h3>40.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc299">
+<h3>40.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_memory extends TestCase
+</pre>
+
+</section>
+<section id="toc300">
+<h3>40.1.3. memory test</h3>
+
+<pre>
+public function test_memory(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the memory functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc301">
+<h1>41. Mime</h1>
+
+<section id="toc302">
+<h2>41.1. Test mime</h2>
+
+<pre>
+test_mime.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the mime functions
+</p>
+
+<section id="toc303">
+<h3>41.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc304">
+<h3>41.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/html.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc305">
+<h3>41.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_mime extends TestCase
+</pre>
+
+</section>
+<section id="toc306">
+<h3>41.1.4. mime test</h3>
+
+<pre>
+public function test_mime(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the mime functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc307">
+<h1>42. Output</h1>
+
+<section id="toc308">
+<h2>42.1. Test output</h2>
+
+<pre>
+test_output.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the output functions
+</p>
+
+<section id="toc309">
+<h3>42.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc310">
+<h3>42.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc311">
+<h3>42.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_output extends TestCase
+</pre>
+
+</section>
+<section id="toc312">
+<h3>42.1.4. output test</h3>
+
+<pre>
+public function test_output(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the output functions
+</p>
+
+</section>
+<section id="toc313">
+<h3>42.1.5. colorize test</h3>
+
+<pre>
+public function test_colorize(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the colorize functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc314">
+<h1>43. Password</h1>
+
+<section id="toc315">
+<h2>43.1. Test password</h2>
+
+<pre>
+test_password.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the password functions
+</p>
+
+<section id="toc316">
+<h3>43.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc317">
+<h3>43.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/password.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc318">
+<h3>43.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_password extends TestCase
+</pre>
+
+</section>
+<section id="toc319">
+<h3>43.1.4. password test</h3>
+
+<pre>
+public function test_password(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the password functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc320">
+<h1>44. Pdf</h1>
+
+<section id="toc321">
+<h2>44.1. Test pdf</h2>
+
+<pre>
+test_pdf.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the pdf functions
+</p>
+
+<section id="toc322">
+<h3>44.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc323">
+<h3>44.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/pdf.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc324">
+<h3>44.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_pdf extends TestCase
+</pre>
+
+</section>
+<section id="toc325">
+<h3>44.1.4. pdf test</h3>
+
+<pre>
+public function test_pdf(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the pdf functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc326">
+<h1>45. Perms</h1>
+
+<section id="toc327">
+<h2>45.1. Test perms</h2>
+
+<pre>
+test_perms.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the perms functions
+</p>
+
+<section id="toc328">
+<h3>45.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc329">
+<h3>45.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc330">
+<h3>45.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_perms extends TestCase
+</pre>
+
+</section>
+<section id="toc331">
+<h3>45.1.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc332">
+<h3>45.1.5. perms test</h3>
+
+<pre>
+public function test_perms(array $json): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the perms functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc333">
+<h1>46. Ping</h1>
+
+<section id="toc334">
+<h2>46.1. Test ping</h2>
+
+<pre>
+test_ping.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the ping functions
+</p>
+
+<section id="toc335">
+<h3>46.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc336">
+<h3>46.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc337">
+<h3>46.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_ping extends TestCase
+</pre>
+
+</section>
+<section id="toc338">
+<h3>46.1.4. ping test</h3>
+
+<pre>
+public function test_ping(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the ping functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc339">
+<h1>47. Push</h1>
+
+<section id="toc340">
+<h2>47.1. Test push</h2>
+
+<pre>
+test_push.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the push functions
+</p>
+
+<section id="toc341">
+<h3>47.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc342">
+<h3>47.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc343">
+<h3>47.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_push extends TestCase
+</pre>
+
+</section>
+<section id="toc344">
+<h3>47.1.4. push</h3>
+
+<pre>
+public function test_push(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the push functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc345">
+<h1>48. Random</h1>
+
+<section id="toc346">
+<h2>48.1. Test random</h2>
+
+<pre>
+test_random.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the random functions
+</p>
+
+<section id="toc347">
+<h3>48.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc348">
+<h3>48.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_random extends TestCase
+</pre>
+
+</section>
+<section id="toc349">
+<h3>48.1.3. random test</h3>
+
+<pre>
+public function test_random(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the random functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc350">
+<h1>49. Roundcube</h1>
+
+<section id="toc351">
+<h2>49.1. Test roundcube library</h2>
+
+<pre>
+test_roundcube.php
+</pre>
+
+<section id="toc352">
+<h3>49.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc353">
+<h3>49.1.2. Main class of this unit test</h3>
 
 <pre>
 final class test_roundcube extends TestCase
 </pre>
 
 </section>
-<section id="toc54">
-<h3>2.6.3. html2text</h3>
+<section id="toc354">
+<h3>49.1.3. html2text</h3>
 
 <pre>
 public function test_html2text(): void
@@ -967,31 +5002,35 @@ roundcube library.
 
 </section>
 </section>
-<section id="toc55">
-<h2>2.7. Test web customers</h2>
+</section>
+<section id="toc355">
+<h1>50. Semaphore</h1>
+
+<section id="toc356">
+<h2>50.1. Test semaphore</h2>
 
 <pre>
-test_web_customers.php
+test_semaphore.php
 </pre>
 
 <p>
-This test performs all actions of the customers app suck as: create, insert,
-list, view, edit, update and delete, using the apache sapi interface
+This test performs some tests to validate the correctness
+of the semaphore functions
 </p>
 
-<section id="toc56">
-<h3>2.7.1. Importing namespaces</h3>
+<section id="toc357">
+<h3>50.1.1. Importing namespaces</h3>
 
 <pre>
 use PHPUnit\Framework\TestCase;
 </pre>
 
 </section>
-<section id="toc57">
-<h3>2.7.2. Loading helper function</h3>
+<section id="toc358">
+<h3>50.1.2. Loading helper function</h3>
 
 <pre>
-require_once "lib/weblib.php";
+require_once 'lib/utestlib.php';
 </pre>
 
 <p>
@@ -999,134 +5038,57 @@ This file contains the needed function used by the unit tests
 </p>
 
 </section>
-<section id="toc58">
-<h3>2.7.3. Main class of this unit test</h3>
+<section id="toc359">
+<h3>50.1.3. Main class of this unit test</h3>
 
 <pre>
-final class test_web_customers extends TestCase
+final class test_semaphore extends TestCase
 </pre>
 
 </section>
-<section id="toc59">
-<h3>2.7.4. Create</h3>
+<section id="toc360">
+<h3>50.1.4. semaphore test</h3>
 
 <pre>
-public function test_create(array $json): array
+public function test_semaphore(): void
 </pre>
 
 <p>
-This function execute the creates rest request, and must to get the
-json with the layout without data
-</p>
-
-</section>
-<section id="toc60">
-<h3>2.7.5. Insert</h3>
-
-<pre>
-public function test_insert(array $json): array
-</pre>
-
-<p>
-This function execute the insert rest request, to do it send the json with
-the data that they want to insert and must to get the json with the status
-and the create_id.
-</p>
-
-</section>
-<section id="toc61">
-<h3>2.7.6. List</h3>
-
-<pre>
-public function test_list(array $json): array
-</pre>
-
-<p>
-This function execute the list rest request, to do it send the json with
-the search that they want to use in the list filter and receives the json
-with the data used to populate the table.
-</p>
-
-</section>
-<section id="toc62">
-<h3>2.7.7. View</h3>
-
-<pre>
-public function test_view(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc63">
-<h3>2.7.8. Edit</h3>
-
-<pre>
-public function test_edit(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc64">
-<h3>2.7.9. Upgrade</h3>
-
-<pre>
-public function test_update(array $json): array
-</pre>
-
-<p>
-This function execute the update rest request, to do it send the json with
-the data that they want to update and must to get the json with the status
-and the updated_id.
-</p>
-
-</section>
-<section id="toc65">
-<h3>2.7.10. Delete</h3>
-
-<pre>
-public function test_delete(array $json): void
-</pre>
-
-<p>
-This function execute the delete rest request, they must to get the json
-with the status and the deleted_id.
+This test performs some tests to validate the correctness
+of the semaphore functions
 </p>
 
 </section>
 </section>
-<section id="toc66">
-<h2>2.8. Test web invoices</h2>
+</section>
+<section id="toc361">
+<h1>51. Server</h1>
+
+<section id="toc362">
+<h2>51.1. Test server</h2>
 
 <pre>
-test_web_invoices.php
+test_server.php
 </pre>
 
 <p>
-This test performs all actions of the invoices app suck as: create, insert,
-list, view, edit, update and delete, using the apache sapi interface
+This test performs some tests to validate the correctness
+of the server functions
 </p>
 
-<section id="toc67">
-<h3>2.8.1. Importing namespaces</h3>
+<section id="toc363">
+<h3>51.1.1. Importing namespaces</h3>
 
 <pre>
 use PHPUnit\Framework\TestCase;
 </pre>
 
 </section>
-<section id="toc68">
-<h3>2.8.2. Loading helper function</h3>
+<section id="toc364">
+<h3>51.1.2. Loading helper function</h3>
 
 <pre>
-require_once "lib/weblib.php";
+require_once 'lib/utestlib.php';
 </pre>
 
 <p>
@@ -1134,134 +5096,57 @@ This file contains the needed function used by the unit tests
 </p>
 
 </section>
-<section id="toc69">
-<h3>2.8.3. Main class of this unit test</h3>
+<section id="toc365">
+<h3>51.1.3. Main class of this unit test</h3>
 
 <pre>
-final class test_web_invoices extends TestCase
+final class test_server extends TestCase
 </pre>
 
 </section>
-<section id="toc70">
-<h3>2.8.4. Create</h3>
+<section id="toc366">
+<h3>51.1.4. server test</h3>
 
 <pre>
-public function test_create(array $json): array
+public function test_server(): void
 </pre>
 
 <p>
-This function execute the creates rest request, and must to get the
-json with the layout without data
-</p>
-
-</section>
-<section id="toc71">
-<h3>2.8.5. Insert</h3>
-
-<pre>
-public function test_insert(array $json): array
-</pre>
-
-<p>
-This function execute the insert rest request, to do it send the json with
-the data that they want to insert and must to get the json with the status
-and the create_id.
-</p>
-
-</section>
-<section id="toc72">
-<h3>2.8.6. List</h3>
-
-<pre>
-public function test_list(array $json): array
-</pre>
-
-<p>
-This function execute the list rest request, to do it send the json with
-the search that they want to use in the list filter and receives the json
-with the data used to populate the table.
-</p>
-
-</section>
-<section id="toc73">
-<h3>2.8.7. View</h3>
-
-<pre>
-public function test_view(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc74">
-<h3>2.8.8. Edit</h3>
-
-<pre>
-public function test_edit(array $json): array
-</pre>
-
-<p>
-This function execute the view rest request, intended to retrieve the detail
-of the app with the layout needed to render it.
-</p>
-
-</section>
-<section id="toc75">
-<h3>2.8.9. Upgrade</h3>
-
-<pre>
-public function test_update(array $json): array
-</pre>
-
-<p>
-This function execute the update rest request, to do it send the json with
-the data that they want to update and must to get the json with the status
-and the updated_id.
-</p>
-
-</section>
-<section id="toc76">
-<h3>2.8.10. Delete</h3>
-
-<pre>
-public function test_delete(array $json): void
-</pre>
-
-<p>
-This function execute the delete rest request, they must to get the json
-with the status and the deleted_id.
+This test performs some tests to validate the correctness
+of the server functions
 </p>
 
 </section>
 </section>
-<section id="toc77">
-<h2>2.9. Test web tokens (first part)</h2>
+</section>
+<section id="toc367">
+<h1>52. Sql</h1>
+
+<section id="toc368">
+<h2>52.1. Test sql</h2>
 
 <pre>
-test_web_tokens1.php
+test_sql.php
 </pre>
 
 <p>
-This test performs some part of the actions related with the tokens suck
-as authtoken and checktoken, using the apache sapi interface
+This test performs some tests to validate the correctness
+of the sql functions
 </p>
 
-<section id="toc78">
-<h3>2.9.1. Importing namespaces</h3>
+<section id="toc369">
+<h3>52.1.1. Importing namespaces</h3>
 
 <pre>
 use PHPUnit\Framework\TestCase;
 </pre>
 
 </section>
-<section id="toc79">
-<h3>2.9.2. Loading helper function</h3>
+<section id="toc370">
+<h3>52.1.2. Loading helper function</h3>
 
 <pre>
-require_once "lib/weblib.php";
+require_once 'lib/utestlib.php';
 </pre>
 
 <p>
@@ -1269,16 +5154,392 @@ This file contains the needed function used by the unit tests
 </p>
 
 </section>
-<section id="toc80">
-<h3>2.9.3. Main class of this unit test</h3>
+<section id="toc371">
+<h3>52.1.3. Main class of this unit test</h3>
 
 <pre>
-final class test_web_tokens1 extends TestCase
+final class test_sql extends TestCase
 </pre>
 
 </section>
-<section id="toc81">
-<h3>2.9.4. Authtoken</h3>
+<section id="toc372">
+<h3>52.1.4. SQL test</h3>
+
+<pre>
+public function test_sql(): void
+</pre>
+
+<p>
+This function performs some tests to validate the correctness
+of the sql functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc373">
+<h1>53. Strings</h1>
+
+<section id="toc374">
+<h2>53.1. Test strings</h2>
+
+<pre>
+test_strings.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the strings functions
+</p>
+
+<section id="toc375">
+<h3>53.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc376">
+<h3>53.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_strings extends TestCase
+</pre>
+
+</section>
+<section id="toc377">
+<h3>53.1.3. strings test</h3>
+
+<pre>
+public function test_strings(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the strings functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc378">
+<h1>54. Strtr</h1>
+
+<section id="toc379">
+<h2>54.1. Test mime</h2>
+
+<pre>
+test_strtr.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the str_replace_assoc instead of the strtr function
+</p>
+
+<section id="toc380">
+<h3>54.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc381">
+<h3>54.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_strtr extends TestCase
+</pre>
+
+</section>
+<section id="toc382">
+<h3>54.1.3. strtr test</h3>
+
+<pre>
+public function test_strtr(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the str_replace_assoc instead of the strtr function
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc383">
+<h1>55. System</h1>
+
+<section id="toc384">
+<h2>55.1. Test system</h2>
+
+<pre>
+test_system.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the system functions
+</p>
+
+<section id="toc385">
+<h3>55.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc386">
+<h3>55.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc387">
+<h3>55.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_system extends TestCase
+</pre>
+
+</section>
+<section id="toc388">
+<h3>55.1.4. system test</h3>
+
+<pre>
+public function test_system(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the system functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc389">
+<h1>56. Tokens</h1>
+
+<section id="toc390">
+<h2>56.1. Test tokens</h2>
+
+<pre>
+test_tokens.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the token generator and the token format checker
+</p>
+
+<section id="toc391">
+<h3>56.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc392">
+<h3>56.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_tokens extends TestCase
+</pre>
+
+</section>
+<section id="toc393">
+<h3>56.1.3. Tokens test</h3>
+
+<pre>
+public function test_tokens(): void
+</pre>
+
+<p>
+This function performs some tests to validate the correctness
+of the token generator and the token format checker
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc394">
+<h1>57. Unoconv</h1>
+
+<section id="toc395">
+<h2>57.1. Test unoconv</h2>
+
+<pre>
+test_unoconv.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the unoconv functions
+</p>
+
+<section id="toc396">
+<h3>57.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc397">
+<h3>57.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'php/lib/unoconv.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc398">
+<h3>57.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_unoconv extends TestCase
+</pre>
+
+</section>
+<section id="toc399">
+<h3>57.1.4. Pdf test helper</h3>
+
+<pre>
+private function test_pdf($input): void
+</pre>
+
+<p>
+This function tries to do the test with unoconv2pdf, checks
+that the input not exists and the output exists to validate
+the correctness of the function
+</p>
+
+<ul>
+<li>@input =&gt; the input file to use in the test
+</li>
+</ul>
+
+</section>
+<section id="toc400">
+<h3>57.1.5. Txt test helper</h3>
+
+<pre>
+private function test_txt($input): void
+</pre>
+
+<p>
+This function tries to do the test with unoconv2txt, checks
+that the input not exists and the output exists to validate
+the correctness of the function
+</p>
+
+<ul>
+<li>@input =&gt; the input file to use in the test
+</li>
+</ul>
+
+</section>
+<section id="toc401">
+<h3>57.1.6. unoconv test</h3>
+
+<pre>
+public function test_unoconv(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the unoconv functions
+</p>
+
+</section>
+<section id="toc402">
+<h3>57.1.7. ocr test</h3>
+
+<pre>
+public function test_ocr(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the ocr functions
+</p>
+
+</section>
+<section id="toc403">
+<h3>57.1.8. commands test</h3>
+
+<pre>
+public function test_commands(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the commands functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc404">
+<h1>58. User</h1>
+
+<section id="toc405">
+<h2>58.1. Test users</h2>
+
+<pre>
+test_user.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the users functions
+</p>
+
+<section id="toc406">
+<h3>58.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc407">
+<h3>58.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc408">
+<h3>58.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_user extends TestCase
+</pre>
+
+</section>
+<section id="toc409">
+<h3>58.1.4. Authtoken</h3>
 
 <pre>
 public function test_authtoken(): array
@@ -1290,8 +5551,513 @@ json with the valid token to continue in the nexts unit tests
 </p>
 
 </section>
-<section id="toc82">
-<h3>2.9.5. Checktoken</h3>
+<section id="toc410">
+<h3>58.1.5. users test</h3>
+
+<pre>
+public function test_user(array $json): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the users functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc411">
+<h1>59. Users</h1>
+
+<section id="toc412">
+<h2>59.1. Test users</h2>
+
+<pre>
+test_users.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the users functions
+</p>
+
+<section id="toc413">
+<h3>59.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc414">
+<h3>59.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc415">
+<h3>59.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_users extends TestCase
+</pre>
+
+</section>
+<section id="toc416">
+<h3>59.1.4. days test</h3>
+
+<pre>
+public function test_days(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the days functions
+</p>
+
+</section>
+<section id="toc417">
+<h3>59.1.5. users test</h3>
+
+<pre>
+public function test_users(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the users functions
+</p>
+
+</section>
+<section id="toc418">
+<h3>59.1.6. groups test</h3>
+
+<pre>
+public function test_groups(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the groups functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc419">
+<h1>60. Version</h1>
+
+<section id="toc420">
+<h2>60.1. Test version</h2>
+
+<pre>
+test_version.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the version related functions
+</p>
+
+<section id="toc421">
+<h3>60.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc422">
+<h3>60.1.2. Main class of this unit test</h3>
+
+<pre>
+final class test_version extends TestCase
+</pre>
+
+</section>
+<section id="toc423">
+<h3>60.1.3. version test</h3>
+
+<pre>
+public function test_version(): void
+</pre>
+
+<p>
+This function performs some tests to validate the correctness
+of the version related functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc424">
+<h1>61. Web Customers</h1>
+
+<section id="toc425">
+<h2>61.1. Test web customers</h2>
+
+<pre>
+test_web_customers.php
+</pre>
+
+<p>
+This test performs all actions of the customers app suck as: create, insert,
+list, view, edit, update and delete, using the apache sapi interface
+</p>
+
+<section id="toc426">
+<h3>61.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc427">
+<h3>61.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc428">
+<h3>61.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_web_customers extends TestCase
+</pre>
+
+</section>
+<section id="toc429">
+<h3>61.1.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc430">
+<h3>61.1.5. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc431">
+<h3>61.1.6. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc432">
+<h3>61.1.7. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc433">
+<h3>61.1.8. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc434">
+<h3>61.1.9. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc435">
+<h3>61.1.10. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc436">
+<h3>61.1.11. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc437">
+<h1>62. Web Invoices</h1>
+
+<section id="toc438">
+<h2>62.1. Test web invoices</h2>
+
+<pre>
+test_web_invoices.php
+</pre>
+
+<p>
+This test performs all actions of the invoices app suck as: create, insert,
+list, view, edit, update and delete, using the apache sapi interface
+</p>
+
+<section id="toc439">
+<h3>62.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc440">
+<h3>62.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc441">
+<h3>62.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_web_invoices extends TestCase
+</pre>
+
+</section>
+<section id="toc442">
+<h3>62.1.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc443">
+<h3>62.1.5. Create</h3>
+
+<pre>
+public function test_create(array $json): array
+</pre>
+
+<p>
+This function execute the creates rest request, and must to get the
+json with the layout without data
+</p>
+
+</section>
+<section id="toc444">
+<h3>62.1.6. Insert</h3>
+
+<pre>
+public function test_insert(array $json): array
+</pre>
+
+<p>
+This function execute the insert rest request, to do it send the json with
+the data that they want to insert and must to get the json with the status
+and the create_id.
+</p>
+
+</section>
+<section id="toc445">
+<h3>62.1.7. List</h3>
+
+<pre>
+public function test_list(array $json): array
+</pre>
+
+<p>
+This function execute the list rest request, to do it send the json with
+the search that they want to use in the list filter and receives the json
+with the data used to populate the table.
+</p>
+
+</section>
+<section id="toc446">
+<h3>62.1.8. View</h3>
+
+<pre>
+public function test_view(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc447">
+<h3>62.1.9. Edit</h3>
+
+<pre>
+public function test_edit(array $json): array
+</pre>
+
+<p>
+This function execute the view rest request, intended to retrieve the detail
+of the app with the layout needed to render it.
+</p>
+
+</section>
+<section id="toc448">
+<h3>62.1.10. Upgrade</h3>
+
+<pre>
+public function test_update(array $json): array
+</pre>
+
+<p>
+This function execute the update rest request, to do it send the json with
+the data that they want to update and must to get the json with the status
+and the updated_id.
+</p>
+
+</section>
+<section id="toc449">
+<h3>62.1.11. Delete</h3>
+
+<pre>
+public function test_delete(array $json): void
+</pre>
+
+<p>
+This function execute the delete rest request, they must to get the json
+with the status and the deleted_id.
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc450">
+<h1>63. Web Tokens</h1>
+
+<section id="toc451">
+<h2>63.1. Test web tokens (first part)</h2>
+
+<pre>
+test_web_tokens.php
+</pre>
+
+<p>
+This test performs some part of the actions related with the tokens suck
+as authtoken and checktoken, using the apache sapi interface
+</p>
+
+<section id="toc452">
+<h3>63.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc453">
+<h3>63.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc454">
+<h3>63.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_web_tokens extends TestCase
+</pre>
+
+</section>
+<section id="toc455">
+<h3>63.1.4. Authtoken</h3>
+
+<pre>
+public function test_authtoken(): array
+</pre>
+
+<p>
+This function execute the authtoken rest request, and must to get the
+json with the valid token to continue in the nexts unit tests
+</p>
+
+</section>
+<section id="toc456">
+<h3>63.1.5. Checktoken</h3>
 
 <pre>
 public function test_checktoken(array $json): array
@@ -1303,49 +6069,8 @@ json with the ok about the valid token that you are trying to check
 </p>
 
 </section>
-</section>
-<section id="toc83">
-<h2>2.10. Test web tokens (second part)</h2>
-
-<pre>
-test_web_tokens2.php
-</pre>
-
-<p>
-This test performs some part of the actions related with the tokens suck
-as deauthtoken and checktoken, using the apache sapi interface
-</p>
-
-<section id="toc84">
-<h3>2.10.1. Importing namespaces</h3>
-
-<pre>
-use PHPUnit\Framework\TestCase;
-</pre>
-
-</section>
-<section id="toc85">
-<h3>2.10.2. Loading helper function</h3>
-
-<pre>
-require_once "lib/weblib.php";
-</pre>
-
-<p>
-This file contains the needed function used by the unit tests
-</p>
-
-</section>
-<section id="toc86">
-<h3>2.10.3. Main class of this unit test</h3>
-
-<pre>
-final class test_web_tokens2 extends TestCase
-</pre>
-
-</section>
-<section id="toc87">
-<h3>2.10.4. Deauthtoken</h3>
+<section id="toc457">
+<h3>63.1.6. Deauthtoken</h3>
 
 <pre>
 public function test_deauthtoken(array $json): array
@@ -1357,8 +6082,8 @@ json with the ok about the valid token that you are deauthenticate
 </p>
 
 </section>
-<section id="toc88">
-<h3>2.10.5. Checktoken ko</h3>
+<section id="toc458">
+<h3>63.1.7. Checktoken ko</h3>
 
 <pre>
 public function test_checktoken_ko(array $json): void
@@ -1367,6 +6092,122 @@ public function test_checktoken_ko(array $json): void
 <p>
 This function execute the checktoken rest request, and must to get the
 json with the ko about the invalid token that you are trying to check
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc459">
+<h1>64. Xml</h1>
+
+<section id="toc460">
+<h2>64.1. Test XML</h2>
+
+<pre>
+test_xml.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the xml related functions
+</p>
+
+<section id="toc461">
+<h3>64.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc462">
+<h3>64.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc463">
+<h3>64.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_xml extends TestCase
+</pre>
+
+</section>
+<section id="toc464">
+<h3>64.1.4. XML test</h3>
+
+<pre>
+public function test_xml(): void
+</pre>
+
+<p>
+This function performs some tests to validate the correctness
+of the xml related functions
+</p>
+
+</section>
+</section>
+</section>
+<section id="toc465">
+<h1>65. Zindex</h1>
+
+<section id="toc466">
+<h2>65.1. Test zindex</h2>
+
+<pre>
+test_zindex.php
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the zindex functions
+</p>
+
+<section id="toc467">
+<h3>65.1.1. Importing namespaces</h3>
+
+<pre>
+use PHPUnit\Framework\TestCase;
+</pre>
+
+</section>
+<section id="toc468">
+<h3>65.1.2. Loading helper function</h3>
+
+<pre>
+require_once 'lib/utestlib.php';
+</pre>
+
+<p>
+This file contains the needed function used by the unit tests
+</p>
+
+</section>
+<section id="toc469">
+<h3>65.1.3. Main class of this unit test</h3>
+
+<pre>
+final class test_zindex extends TestCase
+</pre>
+
+</section>
+<section id="toc470">
+<h3>65.1.4. zindex test</h3>
+
+<pre>
+public function test_zindex(): void
+</pre>
+
+<p>
+This test performs some tests to validate the correctness
+of the zindex functions
 </p>
 </section>
 </section>

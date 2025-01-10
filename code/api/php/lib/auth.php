@@ -328,12 +328,12 @@ function newpass_check($user_id, $newpass)
 }
 
 /**
-* Old password disable
-*
-* This function disable all passwords associated to the user_id
-*
+ * Old password disable
+ *
+ * This function disable all passwords associated to the user_id
+ *
  * @user_id => the user_id to use in the check task
-*/
+ */
 function oldpass_disable($user_id)
 {
     $query = prepare_update_query('tbl_users_passwords', [
@@ -346,17 +346,17 @@ function oldpass_disable($user_id)
 }
 
 /**
-* New password insert
-*
-* This function inserts a new password record to the database
-*
+ * New password insert
+ *
+ * This function inserts a new password record to the database
+ *
  * @user_id => the user_id to use in the insert task
  * @newpass => the password to use in the insert task
  *
  * Notes:
  *
  * This function returns the created and expires timestamps
-*/
+ */
 function newpass_insert($user_id, $newpass)
 {
     $newpass = password_hash($newpass, PASSWORD_DEFAULT);
