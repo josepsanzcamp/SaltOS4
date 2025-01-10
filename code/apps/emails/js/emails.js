@@ -77,6 +77,10 @@ saltos.emails.init = arg => {
         saltos.core.when_visible('from', () => {
             saltos.emails.old_account = document.getElementById('from').value;
         });
+        const type = document.getElementById('screen').getAttribute('type');
+        if (type == 'type1') {
+            document.getElementById('only').parentElement.parentElement.remove();
+        }
     }
 
     if (['view'].includes(arg)) {
@@ -96,6 +100,10 @@ saltos.emails.init = arg => {
                 loading: false,
             });
         });
+        const type = document.getElementById('screen').getAttribute('type');
+        if (type == 'type1') {
+            document.getElementById('only').parentElement.parentElement.remove();
+        }
     }
 };
 

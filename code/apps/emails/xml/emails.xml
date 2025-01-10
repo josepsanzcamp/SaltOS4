@@ -206,7 +206,7 @@
                     ", [current_user()])</rows>
                 </select>
                 <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
-                    icon="arrows-fullscreen" col_class="col-auto mb-3" ifeval="get_data('rest/-1')!='only'" addbr="true"/>
+                    icon="arrows-fullscreen" col_class="col-auto mb-3" addbr="true" id="only"/>
                 <tags id="to" label="To" separator=";" datalist="app/emails/create/emails" required="true"/>
                 <tags id="cc" label="CC" separator=";" datalist="app/emails/create/emails"/>
                 <tags id="bcc" label="BCC" separator=";" datalist="app/emails/create/emails"/>
@@ -303,7 +303,7 @@
             <row auto="true" col_class="col-12 mb-3">
                 <text id="from" label="From" col_class="col mb-3"/>
                 <button onclick="saltos.window.open(saltos.hash.get()+'/only');saltos.driver.close()" tooltip="To open this content in a new window"
-                    icon="arrows-fullscreen" col_class="col-auto mb-3" ifeval="get_data('rest/-1')!='only'" addbr="true"/>
+                    icon="arrows-fullscreen" col_class="col-auto mb-3" addbr="true" id="only"/>
                 <text id="to" label="To" require="apps/emails/php/getmail.php"/>
                 <text id="cc" label="CC" ifeval="getmail_field('cc',intval(get_data('rest/3')))"/>
                 <text id="bcc" label="BCC" ifeval="getmail_field('bcc',intval(get_data('rest/3')))"/>
