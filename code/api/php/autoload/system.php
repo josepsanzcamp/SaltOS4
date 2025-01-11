@@ -40,8 +40,6 @@ declare(strict_types=1);
  * This function checks the system to detect if all knowed dependencies are found in the system, to do it,
  * defines an array with the type (class or function), the name and some extra info for the error message
  * that is triggered if the dependency is not satisfied
- *
- * Too, check all directories of the data directory to validate that the process can write inside it
  */
 function check_system()
 {
@@ -87,6 +85,11 @@ function check_system()
     return $result;
 }
 
+ /**
+ * Check Directories
+ *
+ * Check all directories of the data directory to validate that the process can write inside it
+ */
 function check_directories()
 {
     $result = [];
@@ -94,19 +97,21 @@ function check_directories()
     $dirs = array_merge(glob('data/*'), get_config('dirs'));
     foreach ($dirs as $dir) {
         if (!file_exists($dir) || !is_dir($dir) || (fileperms($dir) & 0777) != 0777) {
-            $result[] = [
+            $dir = str_replace(getcwd() . '/', '', $dir);
+            $result[$dir] = [
                 'error' => "$dir not writable",
                 'details' => "Try to set permissions to do the $dir directory writable",
             ];
         }
     }
+    $result = array_values($result);
     return $result;
 }
 
  /**
- * TODO
+ * Exec Check System
  *
- * TODO
+ * This function executes the check system function and trigger an error if needed
  */
 function exec_check_system()
 {
