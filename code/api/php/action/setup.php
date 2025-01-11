@@ -104,19 +104,19 @@ output_handler_json([
         'time' => round($time3 - $time2, 6),
         'check' => $dbschema_check,
         'hash' => $dbschema_hash,
-        'history' => $output2,
+        'output' => $output2,
         'count' => count($output2),
     ],
     'db_static' => [
         'time' => round($time4 - $time3, 6),
         'check' => $dbstatic_check,
         'hash' => $dbstatic_hash,
-        'history' => $output3,
+        'output' => $output3,
         'count' => $total3,
     ],
     'setup' => [
         'time' => round($time5 - $time4, 6),
-        'history' => $output4,
+        'output' => $output4,
         'count' => array_sum($output4),
     ],
 ]);
