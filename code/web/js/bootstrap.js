@@ -1912,6 +1912,14 @@ saltos.bootstrap.__field.excel = field => {
             <div></div>
         </div>
     `);
+    // Fix for dark mode
+    obj.append(saltos.core.html(`
+        <style>
+            .handsontable td {
+                color: #222;
+            }
+        </style>
+    `));
     const input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
     obj.prepend(input);
     field.numcols = parseInt(field.numcols);
