@@ -30,6 +30,7 @@ pop3|https://phpclasses.org/browse/file/3.html|<span title=|PHNwYW4gdGl0bGU9IjIw
 rfc822|https://phpclasses.org/browse/file/21704.html|<span title=|PHNwYW4gdGl0bGU9IjIwMTYtMDctMjIgMjA6NTk6MDUiPg==
 sortablejs|https://api.cdnjs.com/libraries/Sortable?fields=name,version|version|eyJuYW1lIjoiU29ydGFibGUiLCJ2ZXJzaW9uIjoiMS4xNS42In0=
 
+brotli|https://github.com/kjdev/php-ext-brotli/tags.atom|<title>|PHRpdGxlPjAuMTUuMjwvdGl0bGU+
 browserify|https://github.com/browserify/browserify/tags.atom|<title>|PHRpdGxlPnYxNy4wLjE8L3RpdGxlPg==
 libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbiB2YWx1ZT0iL2Rlc2NhcmdhL2xpYnJlb2ZmaWNlLz90eXBlPWRlYi14ODZfNjQmdmVyc2lvbj0yNC44LjQmbGFuZz1lcyI+
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPm1hcmlhZGItMTEuOC4wOiBSZXZlcnQgJnF1b3Q7TURFVi0zMTM0MCBmaXh1cDogY2xhbmcrKy0yMCAtV2RlcHJlY2F0ZWQtbGl0ZXJhbC1vcGVyYXRvciZxdW90OzwvdGl0bGU+
