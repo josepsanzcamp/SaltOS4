@@ -1,7 +1,7 @@
 
 browscap|https://github.com/browscap/browscap-php/tags.atom|<title>|PHRpdGxlPjcuNS4wPC90aXRsZT4=
 edifact|https://github.com/php-edifact/edifact/tags.atom|<title>|PHRpdGxlPjEuMi4xPC90aXRsZT4=
-phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjMuNy4wPC90aXRsZT4=
+phpspreadsheet|https://github.com/PHPOffice/PhpSpreadsheet/tags.atom|<title>|PHRpdGxlPjMuOC4wPC90aXRsZT4=
 roundcube|https://github.com/roundcube/roundcubemail/commits/master/program/lib/Roundcube/rcube_html2text.php.atom|<updated>|PHVwZGF0ZWQ+MjAyNC0wMy0zMVQxNzoyMjo1Nlo8L3VwZGF0ZWQ+
 tcpdf|https://github.com/tecnickcom/TCPDF/tags.atom|<title>|PHRpdGxlPjYuOC4wPC90aXRsZT4=
 yaml|https://github.com/symfony/yaml/tags.atom|<title>|PHRpdGxlPnY3LjIuMDwvdGl0bGU+
