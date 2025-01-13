@@ -54,6 +54,8 @@ function check_system()
         ['class', 'pdo', 'warning', 'php-pdo'],
         ['class', 'mysqli', 'warning', 'php-mysql'],
         ['class', 'sqlite3', 'warning', 'php-sqlite3'],
+        ['function', 'gzencode', 'warning', 'php-zlib'],
+        ['function', 'gzdeflate', 'warning', 'php-zlib'],
         ['function', 'zstd_compress', 'warning', 'php-zstd'],
         ['function', 'brotli_compress', 'warning', 'php-brotli'],
     ];
