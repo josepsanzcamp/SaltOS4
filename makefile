@@ -168,6 +168,7 @@ setupmysql:
 	user=admin php code/api/index.php app/customers/setup
 	user=admin php code/api/index.php app/invoices/setup
 	user=admin php code/api/index.php app/emails/setup
+	user=admin php code/api/index.php app/types/setup
 
 setupsqlite:
 	echo '<root><db><type>pdo_sqlite</type></db></root>' > code/data/files/config.xml
@@ -175,6 +176,7 @@ setupsqlite:
 	user=admin php code/api/index.php app/customers/setup
 	user=admin php code/api/index.php app/invoices/setup
 	user=admin php code/api/index.php app/emails/setup
+	user=admin php code/api/index.php app/types/setup
 	rm -f code/data/files/config.xml
 
 setupinstall: setupclean setupmysql setupsqlite
