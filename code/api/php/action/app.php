@@ -51,24 +51,18 @@ declare(strict_types=1);
 // Check for rest/1, that is the name of the app to load
 set_data('rest/1', encode_bad_chars(strval(get_data('rest/1'))));
 if (get_data('rest/1') == '') {
-    show_json_error('app not found');
+    show_json_error('App not found');
 }
 
-$file = 'apps/' . get_data('rest/1') . '/xml/' . get_data('rest/1') . '.xml';
+$file = detect_app_file(get_data('rest/1'));
 if (!file_exists($file)) {
-    $files = glob('apps/*/xml/' . get_data('rest/1') . '.xml');
-    if (count($files) == 1) {
-        $file = $files[0];
-    }
-}
-if (!file_exists($file)) {
-    show_json_error('app ' . get_data('rest/1') . ' not found');
+    show_json_error('App ' . get_data('rest/1') . ' not found');
 }
 
 // Load the app xml file
 $array = xmlfile2array($file);
 if (!is_array($array) || !count($array)) {
-    show_json_error('internal error');
+    show_json_error('Internal error');
 }
 
 // Check for rest/2, that is the name of the subapp to load
@@ -87,7 +81,7 @@ if (get_data('rest/2') == '') {
 }
 
 if (get_data('rest/2') == '') {
-    show_json_error('subapp not found');
+    show_json_error('Subapp not found');
 }
 
 if (!isset($array[get_data('rest/2')])) {
@@ -115,7 +109,7 @@ if (!isset($array[get_data('rest/2')])) {
 }
 
 if (!isset($array[get_data('rest/2')])) {
-    show_json_error('subapp ' . get_data('rest/2') . ' not found');
+    show_json_error('Subapp ' . get_data('rest/2') . ' not found');
 }
 
 // Get only the subapp part

@@ -27,10 +27,13 @@
 
 <root>
     <apps>
-        <app id="14" active="1"
-            code="types" name="Types" description="Types application"
-            table="app_types" field="name"
-            has_index="1" has_control="1" has_version="1" has_files="1" has_notes="1" has_log="1"
-            perms="*"/>
+        <app id="16" active="1"
+            code="pushlog" name="Push log" description="Push log application"
+            table="tbl_push" field="CONCAT(datetime, ' ', type, ' ', message)"
+            perms="menu,widget,help,list*,view*"/>
+        <app id="17" active="1"
+            code="cronlog" name="Cron log" description="Cron log application"
+            table="tbl_cron" field="id"
+            perms="menu,widget,help,list*,view*"/>
     </apps>
 </root>

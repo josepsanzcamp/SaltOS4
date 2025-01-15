@@ -221,10 +221,10 @@ function cron_exec()
                     $users[$key2] = "php index.php $cmd";
                 }
             }
-            $cmds[$key] = implode(';', $users);
+            $cmds[$key] = implode('; ', $users);
         }
         $cmds = array_map('strval', $cmds);
-        $cmds = implode(';', $cmds);
+        $cmds = implode('; ', $cmds);
         $out = $dir . $hash . '.out';
         $err = $dir . $hash . '.err';
         $temp = "($cmds) 1>$out 2>$err & echo \$!";

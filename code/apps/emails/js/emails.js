@@ -114,7 +114,7 @@ saltos.emails.init = arg => {
  */
 saltos.emails.server = () => {
     saltos.app.ajax({
-        url: `app/emails/action/server`,
+        url: 'app/emails/action/server',
         proxy: 'network',
         success: response => {
             for (const key in response) {
@@ -282,7 +282,7 @@ saltos.emails.signature = () => {
     const state_crt = document.getElementById('state_crt').value;
     saltos.emails.old_account = new_account;
     saltos.app.ajax({
-        url: `app/emails/create/signature`,
+        url: 'app/emails/create/signature',
         data: {
             'old': old_account,
             'new': new_account,

@@ -86,7 +86,7 @@ function __array2xml_write_nodes(&$array, $level = null)
         $prefix = '';
         $postfix = '';
     } else {
-        $prefix = str_repeat("\t", $level);
+        $prefix = str_repeat(' ', 4 * $level);
         $postfix = "\n";
         $level++;
     }

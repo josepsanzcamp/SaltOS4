@@ -26,20 +26,22 @@
 -->
 
 <root>
-    <screen>type4</screen>
+    <screen>TODO</screen>
 
     <!-- List part -->
     <list default="true">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Types list</title>
-        <screen eval="true">xmlfile2array("apps/types/xml/types.xml")["screen"]</screen>
+        <title>List of registers</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <button onclick="saltos.app.filter()" tooltip="Show and hide the search form" icon="funnel" col_class="col-auto"/>
-                <button ifeval="check_user('types', 'create')" onclick="saltos.driver.open('app/types/create')" label="New type" tooltip="To create a new type" icon="plus-lg" color="success"/>
+                <button ifeval="check_user(get_data('rest/1'), 'create')" label="New register" tooltip="To create a new register" icon="plus-lg" color="success">
+                    <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/create')"</onclick>
+                </button>
                 <div col_class="col"/>
                 <hidden id="page" value="0"/>
                 <text placeholder="Search" tooltip="To search in all contents" id="search" accesskey="ctrl+shift+f" onenter="document.getElementById('search_extra').value=this.value;saltos.driver.search()" autofocus="true" onchange="document.getElementById('search_extra').value=this.value"/>
@@ -63,11 +65,7 @@
     <list id="table" dropdown="false" type="table" nodata="Data not found">
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
-        <header>
-            <name label="Name"/>
-            <description label="Description"/>
-            <active label="Active" type="icon"/>
-        </header>
+        <header>TODO</header>
         <temp eval="true">[
             set_config("app/".get_data("rest/1")."/list/filter/last", json_encode(get_data("json"), JSON_FORCE_OBJECT), current_user()),
             set_data("json/search", strval(get_data("json/search"))),
@@ -78,50 +76,51 @@
         ]</temp>
         <data eval="true">merge_data_actions(
             execute_query_array("
-                SELECT id, name, description,
-                CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
-                FROM app_types
+                SELECT id, TODO
+                FROM ".app2table(get_data("rest/1"))."
                 WHERE 1 = 1
-                AND ".make_fulltext_query(get_data("json/search"), "types", ["minsize" => 1, "default" => "1=1"])."
-                AND ".check_sql("types", "list")."
+                AND ".make_fulltext_query(get_data("json/search"), get_data("rest/1"), ["minsize" => 1, "default" => "1=1"])."
+                AND ".check_sql(get_data("rest/1"), "list")."
                 ORDER BY ".get_data("json/order")."
                 LIMIT ".get_data("json/offset").",".get_data("json/limit")),
-            xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/types/xml/types.xml"))
+            xpath_search_first_value("list[id=table]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
         )</data>
         <actions ifeval="false">
-            <action app="types" action="view" icon="search" tooltip="View" onclick="saltos.driver.open"/>
-            <action app="types" action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open"/>
-            <action app="types" action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete"/>
+            <action action="view" icon="search" tooltip="View" onclick="saltos.driver.open">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+            <action action="edit" icon="pencil" tooltip="Edit" onclick="saltos.driver.open">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
+            <action action="delete" icon="trash" color="danger" tooltip="Delete" onclick="saltos.driver.delete">
+                <app eval="true">get_data("rest/1")</app>
+            </action>
         </actions>
         <footer ifeval="!get_data('json/page')" eval="true">"Total: " . execute_query("
             SELECT COUNT(*) total
-            FROM app_types
+            FROM ".app2table(get_data("rest/1"))."
             WHERE 1 = 1
-            AND ".make_fulltext_query(get_data("json/search"), "types", ["minsize" => 1, "default" => "1=1"])."
-            AND ".check_sql("types", "list")."
+            AND ".make_fulltext_query(get_data("json/search"), get_data("rest/1"), ["minsize" => 1, "default" => "1=1"])."
+            AND ".check_sql(get_data("rest/1"), "list")."
         ")</footer>
     </list>
 
     <list id="filter" eval="true">xmlfile2array("apps/common/xml/filter.xml")["list"]</list>
 
     <!-- Form part -->
-    <form>
-        <switch id="active" label="Active"/>
-        <text id="name" label="Name" required="true" autofocus="true"/>
-        <textarea id="description" label="Description" required="true" height="10em"/>
-    </form>
-    <data eval="true">execute_query("SELECT * FROM app_types
+    <form>TODO</form>
+    <data eval="true">execute_query("SELECT * FROM ".app2table(get_data("rest/1"))."
         WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
-        <title>New type</title>
-        <screen eval="true">xmlfile2array("apps/types/xml/types.xml")["screen"]</screen>
+        <title>New register</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/types.xml")["form"]</row>
+            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -145,11 +144,11 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Detail of the type</title>
-        <screen eval="true">xmlfile2array("apps/types/xml/types.xml")["screen"]</screen>
+        <title>Detail of the register</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/types.xml")["form"]</row>
+            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -158,14 +157,14 @@
                 </button>
                 <div col_class="col"/>
                 <button label="Editar" tooltip="Para editar el tipo" icon="pencil">
-                    <onclick eval="true">"saltos.driver.open('app/types/edit/".intval(get_data("rest/3"))."')"</onclick>
+                    <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <button onclick="saltos.driver.delete()" color="danger" label="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
                 <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg" autoclose="true"/>
                 <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
-        <data eval="true">xmlfile2array("apps/types/xml/types.xml")["data"]</data>
+        <data eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["data"]</data>
         <javascript>
             <inline>saltos.driver.init("view")</inline>
         </javascript>
@@ -181,11 +180,11 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Modify this type</title>
-        <screen eval="true">xmlfile2array("apps/types/xml/types.xml")["screen"]</screen>
+        <title>Modify this register</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
-            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array("apps/types/xml/types.xml")["form"]</row>
+            <row auto="true" col_class="col-md-12 mb-3" eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
@@ -194,7 +193,7 @@
                 <button onclick="saltos.driver.cancel()" label="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
-        <data eval="true">xmlfile2array("apps/types/xml/types.xml")["data"]</data>
+        <data eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["data"]</data>
         <javascript>
             <inline>saltos.driver.init("edit")</inline>
         </javascript>
@@ -211,4 +210,9 @@
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <output require="php/lib/actions.php" eval="true">delete(get_data("rest/1"), intval(get_data("rest/3")))</output>
     </delete>
+
+    <action id="setup">
+        <check eval="true">file_exists("apps/".get_data("rest/1")."/sample/setup.php")</check>
+        <output eval="true">require_once "apps/".get_data("rest/1")."/sample/setup.php"</output>
+    </action>
 </root>

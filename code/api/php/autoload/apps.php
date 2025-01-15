@@ -66,6 +66,9 @@ function __apps($fn, $arg)
         $dict['subtable2id'] = [];
         $dict['subtable2app'] = [];
         $dict['subtable2table'] = [];
+        $dict['id2field'] = [];
+        $dict['app2field'] = [];
+        $dict['table2field'] = [];
         while ($row = db_fetch_row($result)) {
             $row['subtables'] = __apps_subtables_helper($row['subtables']);
             $dict['id2app'][$row['id']] = $row['code'];
@@ -87,6 +90,9 @@ function __apps($fn, $arg)
                 $dict['subtable2app'][$subtable['subtable']] = $row['code'];
                 $dict['subtable2table'][$subtable['subtable']] = $row['table'];
             }
+            $dict['id2field'][$row['id']] = $row['field'];
+            $dict['app2field'][$row['code']] = $row['field'];
+            $dict['table2field'][$row['table']] = $row['field'];
         }
         db_free($result);
     }
@@ -376,6 +382,42 @@ function subtable_exists($subtable)
 }
 
 /**
+ * Id to Field
+ *
+ * This function resolves the field of the app from the app id
+ *
+ * @id => the app id used to resolve the field
+ */
+function id2field($id)
+{
+    return __apps(__FUNCTION__, $id);
+}
+
+/**
+ * App to Field
+ *
+ * This function resolves the field of the app from the app code
+ *
+ * @app => the app code used to resolve the field
+ */
+function app2field($app)
+{
+    return __apps(__FUNCTION__, $app);
+}
+
+/**
+ * Table to Field
+ *
+ * This function resolves the field of the app from the app table
+ *
+ * @table => the app table used to resolve the field
+ */
+function table2field($table)
+{
+    return __apps(__FUNCTION__, $table);
+}
+
+/**
  * Detect apps files
  *
  * This function returns the files found in the main path and in the apps path
@@ -384,7 +426,7 @@ function subtable_exists($subtable)
  */
 function detect_apps_files($file)
 {
-    $files = array_merge(glob($file), glob("apps/*/{$file}"));
+    $files = array_merge(glob($file), glob("apps/*/$file"));
     return $files;
 }
 
@@ -407,11 +449,31 @@ function current_app()
  * This function returns the path found for the requested app
  *
  * @app => the app that wants to retrieve the file path
+ *
+ * Notes:
+ *
+ * If the app uses the yaml specification instead of the xml, this
+ * function call the make_app_file function defined in the required
+ * field of the yaml file to generate the equivalent xml file used
+ * as app file and returns the path to the cache file
  */
 function detect_app_file($app)
 {
     $dir = detect_app_folder($app);
     $file = "apps/$dir/xml/$app.xml";
+    if (!file_exists($file)) {
+        $file2 = "apps/$dir/xml/$app.yaml";
+        if (file_exists($file2)) {
+            $file = get_cache_file($file, 'xml');
+            if (!cache_exists($file, $file2)) {
+                $data = yaml_parse_file($file2);
+                require_once $data['require'];
+                $xml = make_app_file($data);
+                file_put_contents($file, $xml);
+                chmod_protected($file, 0666);
+            }
+        }
+    }
     return $file;
 }
 
@@ -426,15 +488,22 @@ function detect_app_folder($app)
 {
     $file = "apps/$app/xml/$app.xml";
     if (!file_exists($file)) {
+        $file = "apps/$app/xml/$app.yaml";
+    }
+    if (!file_exists($file)) {
         $files = glob("apps/*/xml/$app.xml");
         if (count($files) == 1) {
-            $temp = explode('/', $files[0])[1];
-            $file = "apps/$temp/xml/$app.xml";
+            $dir = explode('/', $files[0])[1];
+            $file = "apps/$dir/xml/$app.xml";
         }
     }
     if (!file_exists($file)) {
-        show_php_error(['phperror' => "path not found for $app"]);
+        $files = glob("apps/*/xml/$app.yaml");
+        if (count($files) == 1) {
+            $dir = explode('/', $files[0])[1];
+            $file = "apps/$dir/xml/$app.yaml";
+        }
     }
-    $temp = explode('/', $file)[1];
-    return $temp;
+    $dir = explode('/', $file)[1];
+    return $dir;
 }
