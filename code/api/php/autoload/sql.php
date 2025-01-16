@@ -704,6 +704,23 @@ function make_fulltext_query($values, $app, $args = [])
     $default = $args['default'] ?? '1=0';
     // Continue
     $table = app2table($app);
+    $index = app2index($app);
+    if (!$index) {
+        // Special case when index is not found
+        $fields = get_fields($table);
+        $fields = array_column($fields, 'name');
+        foreach ($fields as $key => $val) {
+            $fields[$key] = escape_reserved_word($val);
+        }
+        $fields = implode(',', $fields);
+        $where = make_like_query($fields, $values, $args);
+        if ($where == $default) {
+            return $where;
+        }
+        $query = "{$prefix}id IN (SELECT id FROM {$table} WHERE $where)";
+        return $query;
+    }
+    // Default behaviour, index table is found
     $engine = strtolower(get_engine("{$table}_index"));
     if ($engine == 'mroonga') {
         $where = __make_fulltext_query_helper($values, $args);
