@@ -704,6 +704,10 @@ function make_fulltext_query($values, $app, $args = [])
     $default = $args['default'] ?? '1=0';
     // Continue
     $table = app2table($app);
+    if (!$table) {
+        // Special case when table is not found
+        return $default;
+    }
     $index = app2index($app);
     if (!$index) {
         // Special case when index is not found
@@ -715,12 +719,12 @@ function make_fulltext_query($values, $app, $args = [])
         $fields = implode(',', $fields);
         $where = make_like_query($fields, $values, $args);
         if ($where == $default) {
-            return $where;
+            return $default;
         }
         $query = "{$prefix}id IN (SELECT id FROM {$table} WHERE $where)";
         return $query;
     }
-    // Default behaviour, index table is found
+    // Default behaviour, table_index is found
     $engine = strtolower(get_engine("{$table}_index"));
     if ($engine == 'mroonga') {
         $where = __make_fulltext_query_helper($values, $args);
@@ -728,7 +732,7 @@ function make_fulltext_query($values, $app, $args = [])
         $where = make_like_query('search', $values, $args);
     }
     if ($where == $default) {
-        return $where;
+        return $default;
     }
     $query = "{$prefix}id IN (SELECT id FROM {$table}_index WHERE $where)";
     return $query;
