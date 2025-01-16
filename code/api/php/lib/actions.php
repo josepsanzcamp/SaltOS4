@@ -276,6 +276,12 @@ function update($app, $id, $data)
             $dir1 = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
             $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
             rename($dir1 . $app . '/' . $file, $dir2 . $file);
+            $app_id = app2id($app);
+            $query = "SELECT id old_id, user_id, datetime, reg_id, '$app_id' app_id, uniqid,
+                name, size, type, file, hash FROM {$table}_files WHERE reg_id = ? AND id = ?";
+            $row = execute_query($query, [$id, $id2]);
+            $query = prepare_insert_query('tbl_trash', $row);
+            db_query(...$query);
             $query = "DELETE FROM {$table}_files WHERE reg_id = ? AND id = ?";
             db_query($query, [$id, $id2]);
         }
@@ -395,6 +401,14 @@ function delete($app, $id)
     $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
     foreach ($files as $file) {
         rename($dir1 . $app . '/' . $file, $dir2 . $file);
+    }
+    $app_id = app2id($app);
+    $query = "SELECT id old_id, user_id, datetime, reg_id, '$app_id' app_id, uniqid,
+        name, size, type, file, hash FROM {$table}_files WHERE reg_id = ?";
+    $rows = execute_query_array($query, [$id]);
+    foreach ($rows as $row) {
+        $query = prepare_insert_query('tbl_trash', $row);
+        db_query(...$query);
     }
     $query = "DELETE FROM {$table}_files WHERE reg_id = ?";
     db_query($query, [$id]);

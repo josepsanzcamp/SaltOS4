@@ -27,21 +27,25 @@
 
 <root>
     <apps>
-        <app id="16" active="1"
+        <app id="21" active="1"
             code="pushlog" name="Push log" description="Push log application"
             table="tbl_push" field="CONCAT(datetime, ' ', type, ' ', message)"
             perms="menu,widget,help,list*,view*"/>
-        <app id="17" active="1"
+        <app id="22" active="1"
             code="cronlog" name="Cron log" description="Cron log application"
             table="tbl_cron" field="id"
             perms="menu,widget,help,list*,view*"/>
-        <app id="18" active="1"
+        <app id="23" active="1"
             code="uploadlog" name="Upload log" description="Upload log application"
             table="tbl_uploads" field="id"
             perms="menu,widget,help,list*,view*"/>
-        <app id="19" active="1"
+        <app id="24" active="1"
             code="configlog" name="Config log" description="Config log application"
             table="tbl_config" field="id"
+            perms="menu,widget,help,list*,view*"/>
+        <app id="25" active="1"
+            code="trashlog" name="Trash log" description="Trash log application"
+            table="tbl_trash" field="id"
             perms="menu,widget,help,list*,view*"/>
     </apps>
 </root>

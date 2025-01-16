@@ -54,7 +54,7 @@
             </row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button id="more" onclick="saltos.driver.more()" label="Ver más tipos" tooltip="Para cargar mas tipos en el listado" icon="plus-lg"/>
+                <button id="more" onclick="saltos.driver.more()" label="Load more registers" tooltip="To load more registers to the list" icon="plus-lg"/>
             </row>
         </layout>
         <javascript>
@@ -125,8 +125,8 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.insert()" label="Crear" tooltip="Para crear el nuevo cliente" icon="check-lg" color="success"/>
-                <button onclick="saltos.driver.cancel()" label="Cancelar" tooltip="Para cancelar la creación del nuevo cliente" icon="x-lg" autoclose="true" color="danger"/>
+                <button onclick="saltos.driver.insert()" label="Create" tooltip="To create the new register" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the new register creation" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
         <javascript>
@@ -156,11 +156,11 @@
                     <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/version/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <div col_class="col"/>
-                <button label="Editar" tooltip="Para editar el tipo" icon="pencil">
+                <button label="Edit" tooltip="To edit this register" icon="pencil" ifeval="check_user(get_data('rest/1'), 'edit')">
                     <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/edit/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
-                <button onclick="saltos.driver.delete()" color="danger" label="Borrar" tooltip="Para borrar el cliente" icon="trash"/>
-                <button onclick="saltos.driver.close()" label="Cerrar" tooltip="Para cerrar el detalle del cliente" icon="x-lg" autoclose="true"/>
+                <button onclick="saltos.driver.delete()" color="danger" label="Delete" tooltip="To delete this register" icon="trash" ifeval="check_user(get_data('rest/1'), 'delete')"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close the detail of this register" icon="x-lg" autoclose="true"/>
                 <button onclick="saltos.driver.close(true)" col_class="d-none" accesskey="escape"/>
             </row>
         </layout>
@@ -189,8 +189,8 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
                 <div col_class="col"/>
-                <button onclick="saltos.driver.update()" label="Guardar" tooltip="Para guardar los cambios del cliente" icon="check-lg" color="success"/>
-                <button onclick="saltos.driver.cancel()" label="Cancelar" tooltip="Para cancelar la edición del cliente" icon="x-lg" autoclose="true" color="danger"/>
+                <button onclick="saltos.driver.update()" label="Save" tooltip="To save the changes of this register" icon="check-lg" color="success"/>
+                <button onclick="saltos.driver.cancel()" label="Cancel" tooltip="To cancel the register modification" icon="x-lg" autoclose="true" color="danger"/>
             </row>
         </layout>
         <data eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["data"]</data>
