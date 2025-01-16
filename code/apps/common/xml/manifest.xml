@@ -35,5 +35,13 @@
             code="cronlog" name="Cron log" description="Cron log application"
             table="tbl_cron" field="id"
             perms="menu,widget,help,list*,view*"/>
+        <app id="18" active="1"
+            code="uploadlog" name="Upload log" description="Upload log application"
+            table="tbl_uploads" field="id"
+            perms="menu,widget,help,list*,view*"/>
+        <app id="19" active="1"
+            code="configlog" name="Config log" description="Config log application"
+            table="tbl_config" field="id"
+            perms="menu,widget,help,list*,view*"/>
     </apps>
 </root>

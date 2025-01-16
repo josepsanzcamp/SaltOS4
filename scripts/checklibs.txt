@@ -37,7 +37,7 @@ mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPm1hcmlhZGIt
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTIuMC4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTQuMTIgLSAyMDI0LTEyLTI1PC90aXRsZT4=
 node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDEtMDcsIFZlcnNpb24gMjMuNi4wIChDdXJyZW50KSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=
-php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuM1JDMTwvdGl0bGU+
+php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPnBocC04LjQuMzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTEuMiAtIDIwMjQtMTItMTE8L3RpdGxlPg==
 phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xPC90aXRsZT4=
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTEuNS4zPC90aXRsZT4=

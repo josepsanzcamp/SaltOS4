@@ -333,7 +333,11 @@ function merge_data_actions($data, $actions)
     foreach ($actions as $key => $action) {
         $action = join_attr_value($action);
         $action = eval_attr($action);
-        $actions[$key] = $action;
+        if (__app_has_perm($action['app'], strtok($action['action'], '/'))) {
+            $actions[$key] = $action;
+        } else {
+            unset($actions[$key]);
+        }
     }
     // Add the actions to each row checking each permissions's row
     foreach ($data as $key => $row) {
@@ -359,4 +363,37 @@ function merge_data_actions($data, $actions)
         }
     }
     return $data;
+}
+
+/**
+ * App has perm
+ *
+ * This function checks that the app has the requested perm, used by the
+ * merge_data_actions to validate the existence of a permission in the
+ * application.
+ *
+ * @app  => the app to check
+ * @perm => the perm to check
+ */
+function __app_has_perm($app, $perm)
+{
+    static $cache = null;
+    if ($cache === null) {
+        $query = "SELECT CONCAT(app_id, '|', perm_id) FROM tbl_apps_perms";
+        $cache = array_flip(execute_query_array($query));
+    }
+    $app_id = app2id($app);
+    $perm_id = perm2id($perm);
+    if (is_array($perm_id)) {
+        foreach ($perm_id as $temp) {
+            $key = $app_id . '|' . $temp;
+            if (isset($cache[$key])) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // Return the result if exists
+    $key = $app_id . '|' . $perm_id;
+    return isset($cache[$key]);
 }
