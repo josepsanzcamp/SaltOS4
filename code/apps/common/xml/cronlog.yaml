@@ -34,3 +34,5 @@ fields:
     - [stop, datetime, Stop]
 list: [cmd, out, start]
 form: [cmd, pid, out, err, start, stop]
+out:
+    mode: application/json

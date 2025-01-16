@@ -31,3 +31,8 @@ fields:
     - [description, textarea, Description]
 list: [name, description, active]
 form: [active, name, description]
+name:
+    required: true
+    autofocus: true
+description:
+    required: true

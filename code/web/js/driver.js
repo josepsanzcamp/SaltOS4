@@ -337,6 +337,10 @@ saltos.driver.insert = arg => {
         return;
     }
     const data = saltos.app.get_data();
+    if (!Object.keys(data).length) {
+        saltos.app.toast('Warning', 'No data found', {color: 'danger'});
+        return;
+    }
     const app = saltos.hash.get().split('/').at(1);
     saltos.app.ajax({
         url: `app/${app}/insert`,
