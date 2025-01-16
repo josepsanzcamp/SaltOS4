@@ -28,48 +28,26 @@
 declare(strict_types=1);
 
 /**
- * Garbage Collector action
+ * Garbage Collector Trash
  *
- * This action executes the gc_exec function in the gc.php library, the execution
- * of this accion only is allowed from the command line
+ * This function tries to clean the trash database of old files, the parameters
+ * that this function uses is defined in the config file, only uses the timeout
+ * that is getted from the server/trashtimeout
  */
-
-if (!get_data('server/xuid')) {
-    show_php_error(['phperror' => 'Permission denied']);
+function gc_trash()
+{
+    $delta = current_datetime(-intval(get_config('server/trashtimeout')));
+    $query = 'SELECT id, file FROM tbl_trash WHERE datetime < ?';
+    $files = execute_query_array($query, [$delta]);
+    $dir = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
+    $output = [];
+    foreach ($files as $file) {
+        if (file_exists($dir . $file['file']) && is_file($dir . $file['file'])) {
+            unlink($dir . $file['file']);
+        }
+        $query = 'DELETE FROM tbl_trash WHERE id = ?';
+        db_query($query, [$file['id']]);
+        $output[] = $dir . $file['file'];
+    }
+    return $output;
 }
-
-if (!semaphore_acquire('gc')) {
-    show_php_error(['phperror' => 'Could not acquire the semaphore']);
-}
-
-db_connect();
-require_once 'php/lib/upload.php';
-require_once 'php/lib/trash.php';
-require_once 'php/lib/gc.php';
-
-$time1 = microtime(true);
-$output1 = gc_upload();
-$time2 = microtime(true);
-$output2 = gc_trash();
-$time3 = microtime(true);
-$output3 = gc_exec();
-$time4 = microtime(true);
-
-semaphore_release('gc');
-output_handler_json([
-    'gc_upload' => [
-        'time' => round($time2 - $time1, 6),
-        'deleted' => $output1,
-        'count' => count($output1),
-    ],
-    'gc_trash' => [
-        'time' => round($time3 - $time2, 6),
-        'deleted' => $output2,
-        'count' => count($output2),
-    ],
-    'gc_exec' => [
-        'time' => round($time4 - $time3, 6),
-        'deleted' => $output3,
-        'count' => count($output3),
-    ],
-]);
