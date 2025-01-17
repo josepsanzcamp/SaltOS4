@@ -411,7 +411,7 @@ final class test_emails extends TestCase
         $query = 'SELECT uniqid id, app, name, size, type, file, hash
             FROM tbl_uploads WHERE id = ?';
         $file = execute_query($query, [$id]);
-        $result = del_file($file);
+        $result = del_upload_file($file);
         $file['file'] = '';
         $file['hash'] = '';
         $this->assertSame($result, $file);

@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * Add file
+ * Add upload file
  *
  * This function is intended to add files to the upload mecano
  *
@@ -39,7 +39,7 @@ declare(strict_types=1);
  * @type => mime type of the file
  * @data => the inline data in base64 form, with the mime type prefix
  */
-function add_file($val)
+function add_upload_file($val)
 {
     // Get data and remove it from files[key]
     $data = $val['data'];
@@ -81,7 +81,7 @@ function add_file($val)
 }
 
 /**
- * Del file
+ * Del upload file
  *
  * This function is intended to del files in the upload mecano
  *
@@ -93,11 +93,11 @@ function add_file($val)
  * @file => the inline data in base64 form, with the mime type prefix
  * @hash => the hash of the binary data contents
  */
-function del_file($val)
+function del_upload_file($val)
 {
     $user_id = current_user();
     // Check integrity with the database entry
-    $id = check_file([
+    $id = check_upload_file([
         'user_id' => $user_id,
         'uniqid' => $val['id'],
         'app' => $val['app'],
@@ -139,7 +139,7 @@ function del_file($val)
 }
 
 /**
- * Check file
+ * Check upload file
  *
  * This function is intended to check files in the upload mecano
  *
@@ -152,7 +152,7 @@ function del_file($val)
  * @file    => the inline data in base64 form, with the mime type prefix
  * @hash    => the hash of the binary data contents
  */
-function check_file($val)
+function check_upload_file($val)
 {
     [$where, $values] = prepare_where_query('tbl_uploads', $val);
     $query = 'SELECT id FROM tbl_uploads WHERE ' . $where;
@@ -161,7 +161,7 @@ function check_file($val)
 }
 
 /**
- * Copy file
+ * Copy upload file
  *
  * This function copy the file contained in the val parameter to the
  * app folder and create the files register using the id argument
@@ -170,7 +170,7 @@ function check_file($val)
  * @app => the app code that identify the application
  * @id  => the id of the application register
  */
-function copy_file($val, $app, $id)
+function copy_upload_file($val, $app, $id)
 {
     // check that app folder exists
     $files = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';

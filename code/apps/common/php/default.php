@@ -71,9 +71,14 @@ function make_app_file($data)
         // as an additional feature, tries to resolve the field if there is not found
         foreach ($data['select'] as $key => $val) {
             if (!isset($val['field'])) {
-                db_connect();
+                $bool = get_config('db/obj');
+                if (!$bool) {
+                    db_connect();
+                }
                 $data['select'][$key]['field'] = table2field($val['table']);
-                db_disconnect();
+                if (!$bool) {
+                    db_disconnect();
+                }
             }
         }
     }

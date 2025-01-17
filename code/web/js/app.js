@@ -653,7 +653,7 @@ saltos.app.help = () => {
  */
 saltos.app.logout = async () => {
     await saltos.authenticate.deauthtoken();
-    saltos.app.send_request('app/login');
+    saltos.window.send('saltos.app.logout');
 };
 
 /**
@@ -871,6 +871,12 @@ window.addEventListener('load', async event => {
         saltos.autosave.purge('two,one');
         saltos.token.unset();
         saltos.app.send_request('app/login');
+        saltos.favicon.run();
+    });
+    // Add the auto login feature
+    saltos.window.set_listener('saltos.app.login', event => {
+        saltos.form.screen('clear');
+        saltos.hash.trigger();
         saltos.favicon.run();
     });
     // Hash part

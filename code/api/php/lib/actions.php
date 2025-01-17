@@ -123,7 +123,7 @@ function insert($app, $data)
     if (isset($filesdata['addfiles'])) {
         foreach ($filesdata['addfiles'] as $file) {
             if (
-                check_file([
+                check_upload_file([
                     'user_id' => current_user(),
                     'uniqid' => $file['id'],
                     'app' => $file['app'],
@@ -134,8 +134,8 @@ function insert($app, $data)
                     'hash' => $file['hash'],
                 ])
             ) {
-                copy_file($file, $app, $id);
-                del_file($file);
+                copy_upload_file($file, $app, $id);
+                del_upload_file($file);
             }
         }
     }
@@ -166,6 +166,7 @@ function update($app, $id, $data)
     require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/upload.php';
+    require_once 'php/lib/trash.php';
 
     if (!is_array($data) || !count($data)) {
         return [
@@ -271,19 +272,7 @@ function update($app, $id, $data)
     if (isset($filesdata['delfiles'])) {
         $ids = array_diff(explode(',', check_ids($filesdata['delfiles'])), [0]);
         foreach ($ids as $id2) {
-            $query = "SELECT file FROM {$table}_files WHERE reg_id = ? AND id = ?";
-            $file = execute_query($query, [$id, $id2]);
-            $dir1 = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
-            $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
-            rename($dir1 . $app . '/' . $file, $dir2 . $file);
-            $app_id = app2id($app);
-            $query = "SELECT id old_id, user_id, datetime, reg_id, '$app_id' app_id, uniqid,
-                name, size, type, file, hash FROM {$table}_files WHERE reg_id = ? AND id = ?";
-            $row = execute_query($query, [$id, $id2]);
-            $query = prepare_insert_query('tbl_trash', $row);
-            db_query(...$query);
-            $query = "DELETE FROM {$table}_files WHERE reg_id = ? AND id = ?";
-            db_query($query, [$id, $id2]);
+            send_trash_file($app, $id, $id2);
         }
     }
 
@@ -291,7 +280,7 @@ function update($app, $id, $data)
     if (isset($filesdata['addfiles'])) {
         foreach ($filesdata['addfiles'] as $file) {
             if (
-                check_file([
+                check_upload_file([
                     'user_id' => current_user(),
                     'uniqid' => $file['id'],
                     'app' => $file['app'],
@@ -302,8 +291,8 @@ function update($app, $id, $data)
                     'hash' => $file['hash'],
                 ])
             ) {
-                copy_file($file, $app, $id);
-                del_file($file);
+                copy_upload_file($file, $app, $id);
+                del_upload_file($file);
             }
         }
     }
@@ -334,6 +323,7 @@ function delete($app, $id)
     require_once 'php/lib/version.php';
     require_once 'php/lib/indexing.php';
     require_once 'php/lib/depend.php';
+    require_once 'php/lib/trash.php';
 
     $depend = check_dependencies($app, $id);
     // Remove this app in the dependencies array
@@ -395,23 +385,11 @@ function delete($app, $id)
     db_query($query, [$id]);
 
     // Remove all files
-    $query = "SELECT file FROM {$table}_files WHERE reg_id = ?";
-    $files = execute_query_array($query, [$id]);
-    $dir1 = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
-    $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
-    foreach ($files as $file) {
-        rename($dir1 . $app . '/' . $file, $dir2 . $file);
+    $query = "SELECT id FROM {$table}_files WHERE reg_id = ?";
+    $ids = execute_query_array($query, [$id]);
+    foreach ($ids as $id2) {
+        send_trash_file($app, $id, $id2);
     }
-    $app_id = app2id($app);
-    $query = "SELECT id old_id, user_id, datetime, reg_id, '$app_id' app_id, uniqid,
-        name, size, type, file, hash FROM {$table}_files WHERE reg_id = ?";
-    $rows = execute_query_array($query, [$id]);
-    foreach ($rows as $row) {
-        $query = prepare_insert_query('tbl_trash', $row);
-        db_query(...$query);
-    }
-    $query = "DELETE FROM {$table}_files WHERE reg_id = ?";
-    db_query($query, [$id]);
 
     make_control($app, $id);
     make_log($app, $id, __FUNCTION__);

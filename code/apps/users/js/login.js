@@ -59,6 +59,5 @@ saltos.login.authenticate = async () => {
     if (['', 'app/login'].includes(saltos.hash.get())) {
         saltos.hash.set('app/dashboard');
     }
-    saltos.form.screen('clear');
-    saltos.hash.trigger();
+    saltos.window.send('saltos.app.login');
 };

@@ -147,5 +147,13 @@ final class test_perms extends TestCase
         set_data('server/user_agent', 'c');
 
         $this->assertSame(__user_is_admin('users'), false);
+
+        $this->assertSame(merge_data_actions([], ''), []);
+        $this->assertSame(merge_data_actions([], [
+            [
+                'app' => 'configlog',
+                'action' => 'create',
+            ],
+        ]), []);
     }
 }

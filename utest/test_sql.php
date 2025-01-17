@@ -194,6 +194,12 @@ final class test_sql extends TestCase
         $query = make_fulltext_query('', 'dashboard');
         $this->assertSame($query, '1=0');
 
+        $query = make_fulltext_query('', 'configlog');
+        $this->assertSame($query, '1=0');
+
+        $query = make_fulltext_query('nada', 'configlog');
+        $this->assertNotSame($query, '1=0');
+
         $query = make_fulltext_query('+hola -mundo', 'customers');
         $this->assertSame($query, 'id IN (SELECT id FROM app_customers_index ' .
             "WHERE MATCH(search) AGAINST('+(+\"hola\" -\"mundo\")' IN BOOLEAN MODE))");

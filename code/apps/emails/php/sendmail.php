@@ -604,7 +604,7 @@ function sendmail_action($json, $action, $email_id)
     $dir = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
     foreach ($uploads as $file) {
         if (
-            check_file([
+            check_upload_file([
                 'user_id' => current_user(),
                 'uniqid' => $file['id'],
                 'app' => $file['app'],
@@ -663,7 +663,7 @@ function sendmail_action($json, $action, $email_id)
     }
     // REMOVE THE UPLOADED FILES
     foreach ($uploads as $file) {
-        del_file($file);
+        del_upload_file($file);
     }
     // FINISH THE ACTION
     return [
@@ -822,7 +822,7 @@ function sendmail_files($action, $email_id)
         $result = __getmail_getfiles(__getmail_getnode('0', $decoded));
         foreach ($result as $val) {
             // Check that attachment is not found in the upload table
-            $id = check_file([
+            $id = check_upload_file([
                 'user_id' => current_user(),
                 'uniqid' => $val['chash'],
                 'app' => current_hash(),
@@ -835,7 +835,7 @@ function sendmail_files($action, $email_id)
                 continue;
             }
             // Store it in a local file and do the insert
-            add_file([
+            add_upload_file([
                 'id' => $val['chash'],
                 'app' => current_hash(),
                 'name' => $val['cname'],

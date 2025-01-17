@@ -33,7 +33,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
-        <title>List of registers</title>
+        <title eval="true">T(app2name(get_data("rest/1"))) . ' - ' . T("List of registers")</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="one">
@@ -116,7 +116,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"))</check>
         <gettext eval="true">T()</gettext>
-        <title>New register</title>
+        <title eval="true">T(app2name(get_data("rest/1"))) . ' - ' . T("New register")</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
@@ -144,7 +144,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Detail of the register</title>
+        <title eval="true">T(app2name(get_data("rest/1"))) . ' - ' . T("Detail of the register")</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">
@@ -180,7 +180,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/3"))</check>
         <gettext eval="true">T()</gettext>
-        <title>Modify this register</title>
+        <title eval="true">T(app2name(get_data("rest/1"))) . ' - ' . T("Modify this register")</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
         <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
         <layout append="two,one">

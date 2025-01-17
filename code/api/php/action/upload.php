@@ -85,10 +85,10 @@ if ($file['error'] != '') {
 // Do the action
 switch ($action) {
     case 'addfile':
-        $file = add_file($file);
+        $file = add_upload_file($file);
         break;
     case 'delfile':
-        $file = del_file($file);
+        $file = del_upload_file($file);
         break;
     default:
         show_php_error(['phperror' => "Unknown action $action"]);

@@ -69,6 +69,9 @@ function __apps($fn, $arg)
         $dict['id2field'] = [];
         $dict['app2field'] = [];
         $dict['table2field'] = [];
+        $dict['id2name'] = [];
+        $dict['app2name'] = [];
+        $dict['table2name'] = [];
         while ($row = db_fetch_row($result)) {
             $row['subtables'] = __apps_subtables_helper($row['subtables']);
             $dict['id2app'][$row['id']] = $row['code'];
@@ -93,6 +96,9 @@ function __apps($fn, $arg)
             $dict['id2field'][$row['id']] = $row['field'];
             $dict['app2field'][$row['code']] = $row['field'];
             $dict['table2field'][$row['table']] = $row['field'];
+            $dict['id2name'][$row['id']] = $row['name'];
+            $dict['app2name'][$row['code']] = $row['name'];
+            $dict['table2name'][$row['table']] = $row['name'];
         }
         db_free($result);
     }
@@ -413,6 +419,42 @@ function app2field($app)
  * @table => the app table used to resolve the field
  */
 function table2field($table)
+{
+    return __apps(__FUNCTION__, $table);
+}
+
+/**
+ * Id to Name
+ *
+ * This function resolves the name of the app from the app id
+ *
+ * @id => the app id used to resolve the name
+ */
+function id2name($id)
+{
+    return __apps(__FUNCTION__, $id);
+}
+
+/**
+ * App to Name
+ *
+ * This function resolves the name of the app from the app code
+ *
+ * @app => the app code used to resolve the name
+ */
+function app2name($app)
+{
+    return __apps(__FUNCTION__, $app);
+}
+
+/**
+ * Table to Name
+ *
+ * This function resolves the name of the app from the app table
+ *
+ * @table => the app table used to resolve the name
+ */
+function table2name($table)
 {
     return __apps(__FUNCTION__, $table);
 }

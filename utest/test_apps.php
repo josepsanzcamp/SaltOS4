@@ -96,6 +96,24 @@ final class test_apps extends TestCase
         set_data('rest', null);
         $this->assertSame(detect_app_file('groups'), 'apps/users/xml/groups.xml');
         $this->assertSame(detect_app_folder('groups'), 'users');
+
+        $this->assertSame(id2field(12), "CONCAT(nombre,' - ',cif,' - ',num)");
+        $this->assertSame(app2field('invoices'), "CONCAT(nombre,' - ',cif,' - ',num)");
+        $this->assertSame(table2field('app_invoices'), "CONCAT(nombre,' - ',cif,' - ',num)");
+
+        $file = detect_app_file('configlog');
+        unlink($file);
+        $this->assertFileDoesNotExist($file);
+
+        $this->assertStringContainsString('data/cache/', detect_app_file('configlog'));
+        $this->assertStringEndsWith('.xml', detect_app_file('configlog'));
+        $this->assertSame(detect_app_folder('configlog'), 'common');
+
+        $this->assertSame(id2name(12), 'Invoices');
+        $this->assertSame(app2name('invoices'), 'Invoices');
+        $this->assertSame(table2name('app_invoices'), 'Invoices');
+
+        test_external_exec('php/apps2.php', 'phperror.log', 'unknown app in rest args');
     }
 
     #[testdox('app functions')]

@@ -323,7 +323,7 @@ final class test_file extends TestCase
             'size' => strlen($data),
             'data' => mime_inline($type, $data),
         ];
-        $file2 = add_file($file1);
+        $file2 = add_upload_file($file1);
         $file1['data'] = '';
         $this->assertSame($file2, $file1);
 
@@ -338,7 +338,7 @@ final class test_file extends TestCase
             'size' => 0,
             'data' => mime_inline($type, $data),
         ];
-        $file2 = add_file($file1);
+        $file2 = add_upload_file($file1);
         $file1['data'] = '';
         $this->assertSame($file2, $file1);
 
@@ -394,7 +394,7 @@ final class test_file extends TestCase
             'file' => '',
             'hash' => '',
         ];
-        $file2 = del_file($file1);
+        $file2 = del_upload_file($file1);
         $this->assertSame($file2, $file1);
 
         // Search the good data to be used in the next steps of this utest
@@ -422,7 +422,7 @@ final class test_file extends TestCase
             'file' => 'pepe/pepe.txt',
             'hash' => $file0['hash'],
         ];
-        $file2 = del_file($file1);
+        $file2 = del_upload_file($file1);
         $this->assertSame($file2, $file1);
 
         // Change the filename to break the file_exists integrity
@@ -442,7 +442,7 @@ final class test_file extends TestCase
             'file' => 'pepe_pepe.txt',
             'hash' => $file0['hash'],
         ];
-        $file2 = del_file($file1);
+        $file2 = del_upload_file($file1);
         $this->assertSame($file2, $file1);
 
         // Change to break the filesize integrity
@@ -463,7 +463,7 @@ final class test_file extends TestCase
             'file' => $file0['file'],
             'hash' => $file0['hash'],
         ];
-        $file2 = del_file($file1);
+        $file2 = del_upload_file($file1);
         $this->assertSame($file2, $file1);
 
         // Change to break the hash integrity
@@ -484,7 +484,7 @@ final class test_file extends TestCase
             'file' => $file0['file'],
             'hash' => 'nada',
         ];
-        $file2 = del_file($file1);
+        $file2 = del_upload_file($file1);
         $this->assertSame($file2, $file1);
 
         // Restore all previous changed data

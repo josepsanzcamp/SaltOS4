@@ -28,6 +28,31 @@
 declare(strict_types=1);
 
 /**
+ * Send file to trash
+ *
+ * This function tries to implement the send to trash feature, to do it, move the
+ * requested files to the trash folder, execute the insert in the tbl_trash with
+ * the new file and delete the file from the files app table.
+ */
+function send_trash_file($app, $id, $id2)
+{
+    $table = app2table($app);
+    $query = "SELECT file FROM {$table}_files WHERE reg_id = ? AND id = ?";
+    $file = execute_query($query, [$id, $id2]);
+    $dir1 = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+    $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
+    rename($dir1 . $app . '/' . $file, $dir2 . $file);
+    $app_id = app2id($app);
+    $query = "SELECT id old_id, user_id, datetime, reg_id, '$app_id' app_id, uniqid,
+        name, size, type, file, hash FROM {$table}_files WHERE reg_id = ? AND id = ?";
+    $row = execute_query($query, [$id, $id2]);
+    $query = prepare_insert_query('tbl_trash', $row);
+    db_query(...$query);
+    $query = "DELETE FROM {$table}_files WHERE reg_id = ? AND id = ?";
+    db_query($query, [$id, $id2]);
+}
+
+/**
  * Garbage Collector Trash
  *
  * This function tries to clean the trash database of old files, the parameters

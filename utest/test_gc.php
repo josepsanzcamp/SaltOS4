@@ -54,6 +54,7 @@ use PHPUnit\Framework\Attributes\Depends;
 require_once 'lib/utestlib.php';
 require_once 'php/lib/gc.php';
 require_once 'php/lib/upload.php';
+require_once 'php/lib/trash.php';
 
 /**
  * Main class of this unit test
@@ -100,8 +101,9 @@ final class test_gc extends TestCase
         unlink($file);
 
         $json = test_cli_helper('gc', [], '', '', '');
-        $this->assertArrayHasKey('gc_exec', $json);
         $this->assertArrayHasKey('gc_upload', $json);
+        $this->assertArrayHasKey('gc_trash', $json);
+        $this->assertArrayHasKey('gc_exec', $json);
     }
 
     #[testdox('gc_upload function')]
@@ -125,10 +127,10 @@ final class test_gc extends TestCase
             'size' => strlen($data),
             'data' => mime_inline($type, $data),
         ];
-        $file2 = add_file($file1);
+        $file2 = add_upload_file($file1);
         $this->assertSame(count(glob('data/upload/*')), 1);
 
-        $id = check_file([
+        $id = check_upload_file([
             'uniqid' => 'idtest',
             'app' => 'apptest',
             'name' => 'file.txt',
@@ -151,5 +153,25 @@ final class test_gc extends TestCase
 
         gc_upload();
         $this->assertSame(count(glob('data/upload/*')), 0);
+    }
+
+    #[testdox('gc_upload function')]
+    /**
+     * gc upload
+     *
+     * This test performs some tests to validate the correctness
+     * of the gc functions
+     */
+    public function test_gc_trash(): void
+    {
+        $this->assertSame(count(glob('data/trash/*')), 2);
+
+        $query = make_update_query('tbl_trash', [
+            'datetime' => '0000-00-00 00:00:00',
+        ], []);
+        db_query($query);
+
+        gc_trash();
+        $this->assertSame(count(glob('data/trash/*')), 0);
     }
 }
