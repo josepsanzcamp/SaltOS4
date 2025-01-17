@@ -150,11 +150,7 @@ saltos.app.check_response = response => {
         bool = false;
     }
     if ('logout' in response && saltos.core.eval_bool(response.logout)) {
-        saltos.autosave.save('two,one');
-        saltos.autosave.purge('two,one');
-        saltos.token.unset();
-        saltos.app.send_request('app/login');
-        saltos.favicon.run();
+        saltos.window.send('saltos.app.logout');
         bool = false;
     }
     return bool;
@@ -869,6 +865,14 @@ window.addEventListener('load', async event => {
     if (saltos.token.get()) {
         await saltos.authenticate.checktoken();
     }
+    // Add the auto logout feature
+    saltos.window.set_listener('saltos.app.logout', event => {
+        saltos.autosave.save('two,one');
+        saltos.autosave.purge('two,one');
+        saltos.token.unset();
+        saltos.app.send_request('app/login');
+        saltos.favicon.run();
+    });
     // Hash part
     saltos.hash.trigger();
 });
