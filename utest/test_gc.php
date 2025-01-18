@@ -155,7 +155,7 @@ final class test_gc extends TestCase
         $this->assertSame(count(glob('data/upload/*')), 0);
     }
 
-    #[testdox('gc_upload function')]
+    #[testdox('gc_trash function')]
     /**
      * gc upload
      *
