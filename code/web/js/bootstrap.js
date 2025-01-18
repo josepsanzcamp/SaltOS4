@@ -747,6 +747,14 @@ saltos.bootstrap.__field.ckeditor = field => {
             </style>
         `));
     }
+    // Fix for dark mode
+    obj.append(saltos.core.html(`
+        <style>
+            :root[data-bs-theme="dark"] .ck-editor__editable_inline {
+                color: #000;
+            }
+        </style>
+    `));
     return obj;
 };
 
@@ -1912,14 +1920,6 @@ saltos.bootstrap.__field.excel = field => {
             <div></div>
         </div>
     `);
-    // Fix for dark mode
-    obj.append(saltos.core.html(`
-        <style>
-            .handsontable td {
-                color: #222;
-            }
-        </style>
-    `));
     const input = saltos.bootstrap.__field.hidden(saltos.core.copy_object(field));
     obj.prepend(input);
     field.numcols = parseInt(field.numcols);
@@ -2020,6 +2020,14 @@ saltos.bootstrap.__field.excel = field => {
     if (saltos.core.eval_bool(field.disabled)) {
         input.set_disabled(true);
     }
+    // Fix for dark mode
+    obj.append(saltos.core.html(`
+        <style>
+            :root[data-bs-theme="dark"] .handsontable td {
+                color: #000;
+            }
+        </style>
+    `));
     obj = saltos.bootstrap.__label_combine(field, obj);
     return obj;
 };
@@ -2799,6 +2807,16 @@ saltos.bootstrap.__field.tags = field => {
             element.tomselect.enable();
         }
     };
+    // Fix for dark mode
+    obj.append(saltos.core.html(`
+        <style>
+            :root[data-bs-theme="dark"] .ts-control input,
+            :root[data-bs-theme="dark"] .ts-control,
+            :root[data-bs-theme="dark"] .ts-dropdown {
+                color: #fff;
+            }
+        </style>
+    `));
     return obj;
 };
 
@@ -2911,6 +2929,16 @@ saltos.bootstrap.__field.onetag = field => {
             element.tomselect.enable();
         }
     };
+    // Fix for dark mode
+    obj.append(saltos.core.html(`
+        <style>
+            :root[data-bs-theme="dark"] .ts-control input,
+            :root[data-bs-theme="dark"] .ts-control,
+            :root[data-bs-theme="dark"] .ts-dropdown {
+                color: #fff;
+            }
+        </style>
+    `));
     return obj;
 };
 
