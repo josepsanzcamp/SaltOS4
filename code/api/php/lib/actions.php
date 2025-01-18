@@ -134,8 +134,7 @@ function insert($app, $data)
                     'hash' => $file['hash'],
                 ])
             ) {
-                copy_upload_file($file, $app, $id);
-                del_upload_file($file);
+                rename_upload_file($file, $app, $id);
             }
         }
     }
@@ -291,8 +290,7 @@ function update($app, $id, $data)
                     'hash' => $file['hash'],
                 ])
             ) {
-                copy_upload_file($file, $app, $id);
-                del_upload_file($file);
+                rename_upload_file($file, $app, $id);
             }
         }
     }

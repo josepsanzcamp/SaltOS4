@@ -39,9 +39,10 @@ function send_trash_file($app, $id, $id2)
     $table = app2table($app);
     $query = "SELECT file FROM {$table}_files WHERE reg_id = ? AND id = ?";
     $file = execute_query($query, [$id, $id2]);
-    $dir1 = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
-    $dir2 = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
-    rename($dir1 . $app . '/' . $file, $dir2 . $file);
+    $files = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
+    $trash = get_directory('dirs/trashdir') ?? getcwd_protected() . '/data/trash/';
+    rename($files . $app . '/' . $file, $trash . $file);
+    touch($trash . $file);
     $app_id = app2id($app);
     $query = "SELECT id old_id, user_id, datetime, reg_id, '$app_id' app_id, uniqid,
         name, size, type, file, hash FROM {$table}_files WHERE reg_id = ? AND id = ?";

@@ -161,7 +161,7 @@ function check_upload_file($val)
 }
 
 /**
- * Copy upload file
+ * Rename upload file
  *
  * This function copy the file contained in the val parameter to the
  * app folder and create the files register using the id argument
@@ -170,7 +170,7 @@ function check_upload_file($val)
  * @app => the app code that identify the application
  * @id  => the id of the application register
  */
-function copy_upload_file($val, $app, $id)
+function rename_upload_file($val, $app, $id)
 {
     // check that app folder exists
     $files = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
@@ -180,8 +180,8 @@ function copy_upload_file($val, $app, $id)
     }
     // Copy the file to the app folder
     $upload = get_directory('dirs/uploaddir') ?? getcwd_protected() . '/data/upload/';
-    copy($upload . $val['file'], $files . $app . '/' . $val['file']);
-    chmod_protected($files . $app . '/' . $val['file'], 0666);
+    rename($upload . $val['file'], $files . $app . '/' . $val['file']);
+    touch($files . $app . '/' . $val['file']);
     // Create the app register
     $user_id = current_user();
     $datetime = current_datetime();
@@ -198,6 +198,19 @@ function copy_upload_file($val, $app, $id)
         'hash' => $val['hash'],
     ]);
     db_query(...$query);
+    // Remove the database entry
+    $id = check_upload_file([
+        'user_id' => $user_id,
+        'uniqid' => $val['id'],
+        'app' => $val['app'],
+        'name' => $val['name'],
+        'size' => $val['size'],
+        'type' => $val['type'],
+        'file' => $val['file'],
+        'hash' => $val['hash'],
+    ]);
+    $query = 'DELETE FROM tbl_uploads WHERE id = ?';
+    db_query($query, [$id]);
 }
 
 /**
