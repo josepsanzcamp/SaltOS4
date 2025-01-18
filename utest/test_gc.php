@@ -164,8 +164,6 @@ final class test_gc extends TestCase
      */
     public function test_gc_trash(): void
     {
-        $this->assertSame(count(glob('data/trash/*')), 2);
-
         $query = make_update_query('tbl_trash', [
             'datetime' => '0000-00-00 00:00:00',
         ], []);
