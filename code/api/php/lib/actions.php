@@ -108,7 +108,7 @@ function insert($app, $data)
     }
 
     // Prepare notes
-    if (isset($notesdata['addnotes'])) {
+    if (app2notes($app) && isset($notesdata['addnotes'])) {
         $temp = [
             'user_id' => current_user(),
             'datetime' => current_datetime(),
@@ -120,7 +120,7 @@ function insert($app, $data)
     }
 
     // Prepare files
-    if (isset($filesdata['addfiles'])) {
+    if (app2files($app) && isset($filesdata['addfiles'])) {
         foreach ($filesdata['addfiles'] as $file) {
             if (
                 check_upload_file([
@@ -247,7 +247,7 @@ function update($app, $id, $data)
     }
 
     // Remove selected notes
-    if (isset($notesdata['delnotes'])) {
+    if (app2notes($app) && isset($notesdata['delnotes'])) {
         $ids = array_diff(explode(',', check_ids($notesdata['delnotes'])), [0]);
         foreach ($ids as $id2) {
             $query = "DELETE FROM {$table}_notes WHERE reg_id = ? AND id = ?";
@@ -256,7 +256,7 @@ function update($app, $id, $data)
     }
 
     // Prepare notes
-    if (isset($notesdata['addnotes'])) {
+    if (app2notes($app) && isset($notesdata['addnotes'])) {
         $temp = [
             'user_id' => current_user(),
             'datetime' => current_datetime(),
@@ -268,7 +268,7 @@ function update($app, $id, $data)
     }
 
     // Remove selected files
-    if (isset($filesdata['delfiles'])) {
+    if (app2files($app) && isset($filesdata['delfiles'])) {
         $ids = array_diff(explode(',', check_ids($filesdata['delfiles'])), [0]);
         foreach ($ids as $id2) {
             send_trash_file($app, $id, $id2);
@@ -276,7 +276,7 @@ function update($app, $id, $data)
     }
 
     // Prepare files
-    if (isset($filesdata['addfiles'])) {
+    if (app2files($app) && isset($filesdata['addfiles'])) {
         foreach ($filesdata['addfiles'] as $file) {
             if (
                 check_upload_file([
@@ -379,14 +379,18 @@ function delete($app, $id)
     }
 
     // Remove all notes
-    $query = "DELETE FROM {$table}_notes WHERE reg_id = ?";
-    db_query($query, [$id]);
+    if (app2notes($app)) {
+        $query = "DELETE FROM {$table}_notes WHERE reg_id = ?";
+        db_query($query, [$id]);
+    }
 
     // Remove all files
-    $query = "SELECT id FROM {$table}_files WHERE reg_id = ?";
-    $ids = execute_query_array($query, [$id]);
-    foreach ($ids as $id2) {
-        send_trash_file($app, $id, $id2);
+    if (app2files($app)) {
+        $query = "SELECT id FROM {$table}_files WHERE reg_id = ?";
+        $ids = execute_query_array($query, [$id]);
+        foreach ($ids as $id2) {
+            send_trash_file($app, $id, $id2);
+        }
     }
 
     make_control($app, $id);

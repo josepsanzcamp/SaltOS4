@@ -33,5 +33,9 @@ list: [user_id, key]
 form: [user_id, key, val]
 select:
     - [user_id, tbl_users]
+key:
+    required: true
+    autofocus: true
 val:
+    required: true
     mode: application/json

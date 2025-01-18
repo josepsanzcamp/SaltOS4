@@ -152,7 +152,7 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="check_user(get_data('rest/1'), 'version')">
+                <button label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1')) * check_user(get_data('rest/1'), 'version')">
                     <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/version/".intval(get_data("rest/3"))."')"</onclick>
                 </button>
                 <div col_class="col"/>

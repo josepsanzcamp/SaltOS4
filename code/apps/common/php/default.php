@@ -133,7 +133,7 @@ function make_app_file($data)
             case 'select':
                 $field2 = $data['select'][$field]['field'];
                 $table2 = $data['select'][$field]['table'];
-                $fields[] = "(SELECT $field2 FROM $table2 WHERE $table2.id = $fixed) $fixed";
+                $fields[] = "IFNULL((SELECT $field2 FROM $table2 WHERE $table2.id = $fixed), '') $fixed";
                 break;
             default:
                 show_php_error(['phperror' => "$type not found"]);
