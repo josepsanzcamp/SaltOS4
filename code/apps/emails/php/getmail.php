@@ -1739,15 +1739,14 @@ function getmail_pdf($ids)
 {
     if (!check_commands('wkhtmltopdf')) {
         require_once 'php/lib/pdf.php';
-        return pdf('apps/emails/xml/pdf.xml', ['id' => $ids]);
+        return pdf('apps/emails/xml/pdf.xml', ['id' => check_ids($ids)]);
     }
     static $cache = [];
     $hash = md5(serialize($ids));
     if (isset($cache[$hash])) {
         return $cache[$hash];
     }
-    $ids = check_ids($ids);
-    $ids = explode(',', $ids);
+    $ids = check_ids_array($ids);
     $pdfs = [];
     foreach ($ids as $id) {
         if (!__getmail_checkperm($id)) {

@@ -248,7 +248,7 @@ function update($app, $id, $data)
 
     // Remove selected notes
     if (app2notes($app) && isset($notesdata['delnotes'])) {
-        $ids = array_diff(explode(',', check_ids($notesdata['delnotes'])), [0]);
+        $ids = check_ids_array($notesdata['delnotes']);
         foreach ($ids as $id2) {
             $query = "DELETE FROM {$table}_notes WHERE reg_id = ? AND id = ?";
             db_query($query, [$id, $id2]);
@@ -269,7 +269,7 @@ function update($app, $id, $data)
 
     // Remove selected files
     if (app2files($app) && isset($filesdata['delfiles'])) {
-        $ids = array_diff(explode(',', check_ids($filesdata['delfiles'])), [0]);
+        $ids = check_ids_array($filesdata['delfiles']);
         foreach ($ids as $id2) {
             send_trash_file($app, $id, $id2);
         }

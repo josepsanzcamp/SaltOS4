@@ -335,14 +335,14 @@ function get_part_from_string($input, $delim, $index)
 }
 
 /**
- * Check IDS
+ * Check IDS Helper
  *
- * This function checks the correctness of the list of ids and returns
- * a valid list available to be used in sql queries
+ * This function checks the correctness of the list of ids and returns a valid
+ * list available to be used in sql queries or as an array of valid ids
  *
  * @ids => the string containing the list of ids
  */
-function check_ids()
+function __check_ids_helper()
 {
     $value = [];
     foreach (func_get_args() as $arg) {
@@ -354,6 +354,35 @@ function check_ids()
     }
     $value = array_flip(array_flip($value)); // Remove repetitions
     $value = array_diff($value, [0]); // Remove zeroes
+    return $value;
+}
+
+/**
+ * Check IDS
+ *
+ * This function checks the correctness of the list of ids and returns a valid
+ * list available to be used in sql queries
+ *
+ * @ids => the string containing the list of ids
+ */
+function check_ids(...$args)
+{
+    $value = __check_ids_helper(...$args);
     $value = count($value) ? implode(',', $value) : '0';
+    return $value;
+}
+
+/**
+ * Check IDS Array
+ *
+ * This function checks the correctness of the list of ids and returns a valid
+ * list available to be used as array of valid ids
+ *
+ * @ids => the string containing the list of ids
+ */
+function check_ids_array(...$args)
+{
+    $value = __check_ids_helper(...$args);
+    $value = array_values($value);
     return $value;
 }

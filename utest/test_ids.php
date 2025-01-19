@@ -60,28 +60,22 @@ final class test_ids extends TestCase
      */
     public function test_ids(): void
     {
-        $ids = check_ids(null);
-        $this->assertSame($ids, '0');
+        $this->assertSame(check_ids(null), '0');
+        $this->assertSame(check_ids(true), '1');
+        $this->assertSame(check_ids(false), '0');
+        $this->assertSame(check_ids([]), '0');
+        $this->assertSame(check_ids(''), '0');
+        $this->assertSame(check_ids(), '0');
+        $this->assertSame(check_ids('1,2,3', '2,1'), '1,2,3');
+        $this->assertSame(check_ids('a,b,c', 'b,a'), '0');
 
-        $ids = check_ids(true);
-        $this->assertSame($ids, '1');
-
-        $ids = check_ids(false);
-        $this->assertSame($ids, '0');
-
-        $ids = check_ids([]);
-        $this->assertSame($ids, '0');
-
-        $ids = check_ids('');
-        $this->assertSame($ids, '0');
-
-        $ids = check_ids();
-        $this->assertSame($ids, '0');
-
-        $ids = check_ids('1,2,3', '2,1');
-        $this->assertSame($ids, '1,2,3');
-
-        $ids = check_ids('a,b,c', 'b,a');
-        $this->assertSame($ids, '0');
+        $this->assertSame(check_ids_array(null), []);
+        $this->assertSame(check_ids_array(true), [1]);
+        $this->assertSame(check_ids_array(false), []);
+        $this->assertSame(check_ids_array([]), []);
+        $this->assertSame(check_ids_array(''), []);
+        $this->assertSame(check_ids_array(), []);
+        $this->assertSame(check_ids_array('1,2,3', '2,1'), [1, 2, 3]);
+        $this->assertSame(check_ids_array('a,b,c', 'b,a'), []);
     }
 }
