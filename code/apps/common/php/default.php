@@ -47,59 +47,44 @@ function make_app_file($data)
     $array['screen'] = $data['screen'];
     // convert the fields array into a key => val array using the id as key
     $keys = ['id', 'type', 'label'];
-    foreach ($data['fields'] as $key => $val) {
-        foreach ($keys as $key2 => $val2) {
-            if (isset($val[$key2])) {
-                $data['fields'][$key][$val2] = $val[$key2];
-                unset($data['fields'][$key][$key2]);
-            }
+    $views = ['list', 'form'];
+    foreach ($views as $view) {
+        foreach ($data[$view] as $key => $val) {
+            $data[$view][$key] = array_combine($keys, $val);
         }
     }
-    $data['fields'] = array_combine(array_column($data['fields'], 'id'), $data['fields']);
     // convert the select array into a key => val array using id as key
     if (isset($data['select'])) {
         $keys = ['id', 'table', 'field'];
         foreach ($data['select'] as $key => $val) {
-            foreach ($keys as $key2 => $val2) {
-                if (isset($val[$key2])) {
-                    $data['select'][$key][$val2] = $val[$key2];
-                    unset($data['select'][$key][$key2]);
-                }
-            }
-        }
-        $data['select'] = array_combine(array_column($data['select'], 'id'), $data['select']);
-        // as an additional feature, tries to resolve the field if there is not found
-        foreach ($data['select'] as $key => $val) {
-            if (!isset($val['field'])) {
+            // as an additional feature, tries to resolve the field if there is not found
+            if (!isset($val[2])) {
                 $bool = get_config('db/obj');
                 if (!$bool) {
                     db_connect();
                 }
-                $data['select'][$key]['field'] = table2field($val['table']);
+                $val[2] = table2field($val[1]);
                 if (!$bool) {
                     db_disconnect();
                 }
             }
+            $data['select'][$key] = array_combine($keys, $val);
         }
+        $data['select'] = array_combine(array_column($data['select'], 'id'), $data['select']);
     }
     // set the list header
     $xml = [];
     foreach ($data['list'] as $field) {
-        $id = $data['fields'][$field]['id'];
-        $type = $data['fields'][$field]['type'];
-        $label = $data['fields'][$field]['label'];
+        $id = $field['id'];
+        $type = $field['type'];
+        $label = $field['label'];
         switch ($type) {
             case 'text':
-            case 'textarea':
-            case 'ckeditor':
-            case 'codemirror':
             case 'select':
-            case 'date':
-            case 'time':
-            case 'datetime':
                 $xml[] = "<$id label=\"$label\"/>";
                 break;
             case 'boolean':
+            case 'hastext':
                 $xml[] = "<$id label=\"$label\" type=\"icon\"/>";
                 break;
             default:
@@ -112,27 +97,25 @@ function make_app_file($data)
     $query = $array['list#1']['value']['data']['value'];
     $fields = [];
     foreach ($data['list'] as $field) {
-        $id = $data['fields'][$field]['id'];
-        $type = $data['fields'][$field]['type'];
-        $label = $data['fields'][$field]['label'];
+        $id = $field['id'];
+        $type = $field['type'];
+        $label = $field['label'];
         $fixed = escape_reserved_word($id);
         switch ($type) {
             case 'text':
-            case 'textarea':
-            case 'ckeditor':
-            case 'codemirror':
-            case 'date':
-            case 'time':
-            case 'datetime':
                 $fields[] = $fixed;
                 break;
             case 'boolean':
                 $fields[] = "CASE $fixed
                     WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END $fixed";
                 break;
+            case 'hastext':
+                $fields[] = "CASE $fixed
+                    WHEN '' THEN 'x-lg text-danger' ELSE 'check-lg text-success' END $fixed";
+                break;
             case 'select':
-                $field2 = $data['select'][$field]['field'];
-                $table2 = $data['select'][$field]['table'];
+                $field2 = $data['select'][$id]['field'];
+                $table2 = $data['select'][$id]['table'];
                 $fields[] = "IFNULL((SELECT $field2 FROM $table2 WHERE $table2.id = $fixed), '') $fixed";
                 break;
             default:
@@ -145,33 +128,32 @@ function make_app_file($data)
     // set the form fields
     $xml = [];
     foreach ($data['form'] as $field) {
-        $id = $data['fields'][$field]['id'];
-        $type = $data['fields'][$field]['type'];
-        $label = $data['fields'][$field]['label'];
-        $extras = $data[$field] ?? [];
-        foreach ($extras as $key => $val) {
-            $extras[$key] = "$key=\"$val\"";
+        $id = $field['id'];
+        $type = $field['type'];
+        $label = $field['label'];
+        $extra = $data['extra'][$id] ?? [];
+        foreach ($extra as $key => $val) {
+            $extra[$key] = "$key=\"$val\"";
         }
-        $extras = implode(' ', $extras);
+        $extra = implode(' ', $extra);
         switch ($type) {
             case 'text':
             case 'date':
             case 'time':
             case 'datetime':
-                $xml[] = "<$type id=\"$id\" label=\"$label\" $extras/>";
+            case 'checkbox':
+            case 'switch':
+                $xml[] = "<$type id=\"$id\" label=\"$label\" $extra/>";
                 break;
             case 'textarea':
             case 'ckeditor':
             case 'codemirror':
-                $xml[] = "<$type id=\"$id\" label=\"$label\" height=\"10em\" $extras/>";
-                break;
-            case 'boolean':
-                $xml[] = "<switch id=\"$id\" label=\"$label\" $extras/>";
+                $xml[] = "<$type id=\"$id\" label=\"$label\" height=\"10em\" $extra/>";
                 break;
             case 'select':
-                $field2 = $data['select'][$field]['field'];
-                $table2 = $data['select'][$field]['table'];
-                $xml[] = "<select id=\"$id\" label=\"$label\" $extras>";
+                $field2 = $data['select'][$id]['field'];
+                $table2 = $data['select'][$id]['table'];
+                $xml[] = "<select id=\"$id\" label=\"$label\" $extra>";
                 $xml[] = "<rows eval=\"true\">execute_query_array(\"SELECT $field2 label, id value
                     FROM $table2\")</rows>";
                 $xml[] = '</select>';
