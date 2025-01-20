@@ -1646,15 +1646,15 @@ saltos.bootstrap.__field.file = field => {
         table.classList.remove('d-none');
         // Add the row for the new file
         const row = saltos.core.html('tbody', `
-            <tr id="${file.id}">
+            <tr id="${file.id}" class="align-middle">
                 <td class="text-break">${file.name}</td>
-                <td class="w-25 align-middle">
+                <td class="w-25">
                     <div class="progress" role="progressbar" aria-label="Upload percent"
                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                         <div class="progress-bar" style="width: 0%"></div>
                     </div>
                 </td>
-                <td class="p-0 align-middle" style="width: 1%"><button
+                <td class="p-0" style="width: 1%"><button
                     class="btn bi-trash border-0" type="button"></button></td>
             </tr>
         `);
@@ -2269,7 +2269,7 @@ saltos.bootstrap.__field.table = field => {
         };
         for (const key in field.data) {
             const val = field.data[key];
-            const row = saltos.core.html('tbody', `<tr></tr>`);
+            const row = saltos.core.html('tbody', `<tr class="align-middle"></tr>`);
             if (field.checkbox) {
                 row.append(saltos.core.html('tr', `<td><input type="checkbox" value="${val.id}" /></td>`));
                 row.querySelector('input[type=checkbox]').addEventListener('change', event => {
@@ -2397,7 +2397,7 @@ saltos.bootstrap.__field.table = field => {
                 row.append(td);
             }
             if ('actions' in val) {
-                const td = saltos.core.html('tr', `<td class="p-0 align-middle text-nowrap"></td>`);
+                const td = saltos.core.html('tr', `<td class="p-0 text-nowrap"></td>`);
                 let dropdown = val.actions.length > 1;
                 if (field.dropdown != '') {
                     dropdown = saltos.core.eval_bool(field.dropdown);
