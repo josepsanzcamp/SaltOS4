@@ -85,7 +85,9 @@ saltos.driver.init = async arg => {
     }
     // To check the autosave feature
     if (['create', 'edit'].includes(arg)) {
-        saltos.autosave.restore('two,one');
+        if (saltos.autosave.restore('two,one')) {
+            saltos.app.modal('Attention', 'Data restored from the previous session', {color: 'danger'});
+        }
         saltos.autosave.init('two,one');
     }
     // Old feature

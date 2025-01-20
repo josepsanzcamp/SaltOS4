@@ -158,13 +158,15 @@ saltos.autosave = {};
  */
 saltos.autosave.init = (key, hash = saltos.hash.get()) => {
     key = saltos.backup.__selector_helper(key);
+    let total = 0;
     for (const i in key) {
         if (saltos.storage.getItem(`saltos.autosave/${hash}/${key[i]}`)) {
             continue;
         }
         saltos.storage.setItemWithTimestamp(`saltos.autosave/${hash}/${key[i]}`, {});
+        total++;
     }
-    return key.length > 0;
+    return total;
 };
 
 /**
@@ -178,6 +180,7 @@ saltos.autosave.init = (key, hash = saltos.hash.get()) => {
  */
 saltos.autosave.save = (key, hash = saltos.hash.get()) => {
     key = saltos.backup.__selector_helper(key);
+    let total = 0;
     for (const i in key) {
         if (!saltos.storage.getItem(`saltos.autosave/${hash}/${key[i]}`)) {
             continue;
@@ -200,8 +203,9 @@ saltos.autosave.save = (key, hash = saltos.hash.get()) => {
             continue;
         }
         saltos.storage.setItemWithTimestamp(`saltos.autosave/${hash}/${key[i]}`, data);
+        total++;
     }
-    return key.length > 0;
+    return total;
 };
 
 /**
@@ -215,6 +219,7 @@ saltos.autosave.save = (key, hash = saltos.hash.get()) => {
  */
 saltos.autosave.restore = (key, hash = saltos.hash.get()) => {
     key = saltos.backup.__selector_helper(key);
+    let total = 0;
     for (const i in key) {
         if (!saltos.storage.getItem(`saltos.autosave/${hash}/${key[i]}`)) {
             continue;
@@ -225,8 +230,9 @@ saltos.autosave.restore = (key, hash = saltos.hash.get()) => {
         }
         saltos.backup.restore(key[i]);
         saltos.form.data(data, false);
+        total++;
     }
-    return key.length > 0;
+    return total;
 };
 
 /**
@@ -239,10 +245,12 @@ saltos.autosave.restore = (key, hash = saltos.hash.get()) => {
  */
 saltos.autosave.clear = (key, hash = saltos.hash.get()) => {
     key = saltos.backup.__selector_helper(key);
+    let total = 0;
     for (const i in key) {
         saltos.storage.removeItem(`saltos.autosave/${hash}/${key[i]}`);
+        total++;
     }
-    return key.length > 0;
+    return total;
 };
 
 /**
@@ -259,6 +267,7 @@ saltos.autosave.clear = (key, hash = saltos.hash.get()) => {
  */
 saltos.autosave.purge = (key, hash = saltos.hash.get()) => {
     key = saltos.backup.__selector_helper(key);
+    let total = 0;
     for (const i in key) {
         if (!saltos.storage.getItem(`saltos.autosave/${hash}/${key[i]}`)) {
             continue;
@@ -268,7 +277,8 @@ saltos.autosave.purge = (key, hash = saltos.hash.get()) => {
             continue;
         }
         saltos.storage.removeItem(`saltos.autosave/${hash}/${key[i]}`);
+        total++;
     }
     saltos.storage.purgeWithTimestamp('saltos.autosave', -86400);
-    return key.length > 0;
+    return total;
 };
