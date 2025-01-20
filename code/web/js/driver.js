@@ -433,7 +433,7 @@ saltos.driver.delete = async arg => {
             await new Promise(resolve => setTimeout(resolve, 1));
         }
     }
-    saltos.app.modal('Delete this register???', 'Do you want to delete this register???', {
+    saltos.app.modal('Delete???', 'Do you want to delete this register???', {
         buttons: [{
             label: 'Yes',
             color: 'success',

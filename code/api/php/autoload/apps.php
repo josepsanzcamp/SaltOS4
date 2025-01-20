@@ -507,8 +507,9 @@ function detect_app_file($app)
         $file2 = "apps/$dir/xml/$app.yaml";
         if (file_exists($file2)) {
             $file = get_cache_file($file, 'xml');
-            if (!cache_exists($file, $file2)) {
-                $data = yaml_parse_file($file2);
+            $data = yaml_parse_file($file2);
+            $files = [$file2, $data['require'], $data['template']];
+            if (!cache_exists($file, $files)) {
                 require_once $data['require'];
                 $xml = make_app_file($data);
                 file_put_contents($file, $xml);
