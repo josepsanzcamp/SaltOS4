@@ -40,8 +40,13 @@
                 <button ifeval="check_user('emails', 'menu')" onclick="saltos.window.open('app/emails')" color="success" class="fs-1 w-100 h-100" label="Emails"/>
                 <button ifeval="check_user('users', 'menu')" onclick="saltos.window.open('app/users')" color="warning" class="fs-1 w-100 h-100" label="Users"/>
                 <button ifeval="check_user('groups', 'menu')" onclick="saltos.window.open('app/groups')" color="warning" class="fs-1 w-100 h-100" label="Groups"/>
+                <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" color="info" class="fs-1 w-100 h-100" label="Types"/>
                 <button ifeval="check_user('tester', 'menu')" onclick="saltos.window.open('app/tester')" color="danger" class="fs-1 w-100 h-100" label="Tester"/>
-                <button ifeval="check_user('types', 'menu')" onclick="saltos.window.open('app/types')" class="fs-1 w-100 h-100" label="Types"/>
+                <button ifeval="check_user('configlog', 'menu')" onclick="saltos.window.open('app/configlog')" color="dark" class="fs-1 w-100 h-100" label="Config"/>
+                <button ifeval="check_user('cronlog', 'menu')" onclick="saltos.window.open('app/cronlog')" color="dark" class="fs-1 w-100 h-100" label="Cron"/>
+                <button ifeval="check_user('pushlog', 'menu')" onclick="saltos.window.open('app/pushlog')" color="dark" class="fs-1 w-100 h-100" label="Push"/>
+                <button ifeval="check_user('trashlog', 'menu')" onclick="saltos.window.open('app/trashlog')" color="dark" class="fs-1 w-100 h-100" label="Trash"/>
+                <button ifeval="check_user('uploadlog', 'menu')" onclick="saltos.window.open('app/uploadlog')" color="dark" class="fs-1 w-100 h-100" label="Upload"/>
                 <div col_class="col-12"/><!-- this act as break line -->
                 <table id="table1" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table1" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
                 <table id="table2" ifeval="check_user('customers', 'widget')" source="app/customers/widget/table2" col_class="col-xl-6 col-md-12 mb-3" nodata="Data not found"/>
