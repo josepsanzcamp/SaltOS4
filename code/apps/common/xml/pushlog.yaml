@@ -33,7 +33,7 @@ form:
     - [user_id, select, User]
     - [datetime, datetime, Datetime]
     - [type, text, Type]
-    - [message, textarea, Message]
+    - [message, text, Message]
     - [timestamp, text, Timestamp]
 select:
     - [user_id, tbl_users]

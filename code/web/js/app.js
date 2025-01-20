@@ -308,6 +308,12 @@ saltos.app.get_data = full => {
                         old = old.split(field.separator).sort().join(field.separator);
                     }
                 }
+                if (val == '0' && old == '') {
+                    old = val;
+                }
+                if (val == '' && old == '0') {
+                    val = old;
+                }
                 break;
             case 'multiselect':
                 if ('separator' in field) {

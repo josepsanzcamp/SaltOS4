@@ -154,8 +154,8 @@ function make_app_file($data)
                 $field2 = $data['select'][$id]['field'];
                 $table2 = $data['select'][$id]['table'];
                 $xml[] = "<select id=\"$id\" label=\"$label\" $extra>";
-                $xml[] = "<rows eval=\"true\">execute_query_array(\"SELECT $field2 label, id value
-                    FROM $table2\")</rows>";
+                $xml[] = "<rows eval=\"true\">execute_query_array(\"SELECT '' label, '0' value
+                    UNION SELECT $field2 label, id value FROM $table2\")</rows>";
                 $xml[] = '</select>';
                 break;
             default:
