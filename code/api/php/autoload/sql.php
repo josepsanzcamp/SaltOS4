@@ -721,7 +721,7 @@ function make_fulltext_query($values, $app, $args = [])
         if ($where == $default) {
             return $default;
         }
-        $query = "{$prefix}id IN (SELECT id FROM {$table} WHERE $where)";
+        $query = "{$prefix}id IN (SELECT id FROM $table WHERE $where)";
         return $query;
     }
     // Default behaviour, table_index is found

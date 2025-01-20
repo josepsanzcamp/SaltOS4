@@ -149,7 +149,7 @@ function set_config($key, $val, $user_id = -1)
  */
 function detect_config_files($file)
 {
-    $files = array_merge(glob($file), glob("apps/*/{$file}"), glob('data/files/' . basename($file)));
+    $files = array_merge(glob($file), glob("apps/*/$file"), glob('data/files/' . basename($file)));
     return $files;
 }
 

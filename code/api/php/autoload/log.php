@@ -126,7 +126,7 @@ function addtrace($array, $file)
     if (!checklog($hash, $file)) {
         addlog($msg_text, $file);
     }
-    addlog("***** {$hash} *****", $file);
+    addlog("***** $hash *****", $file);
 }
 
 /**

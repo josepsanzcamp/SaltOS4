@@ -490,7 +490,7 @@ function __getmail_getinfo($array)
         7 => 'disposition-notification-to',
     ];
     foreach ($lista as $key => $val) {
-        $addresses = __getmail_getnode("ExtractedAddresses/{$val}:", $array);
+        $addresses = __getmail_getnode("ExtractedAddresses/$val:", $array);
         if ($addresses) {
             $temp = [];
             foreach ($addresses as $a) {
@@ -1178,7 +1178,7 @@ function __getmail_head_helper($decoded, $email_id)
         } else {
             $buffer .= ' | ';
         }
-        $buffer .= "<b>{$cname}</b> ({$hsize})";
+        $buffer .= "<b>$cname</b> ($hsize)";
         $first = false;
     }
     if (!$first) {

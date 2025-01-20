@@ -46,7 +46,7 @@ declare(strict_types=1);
 function __array2xml_check_node_name($name)
 {
     try {
-        new DOMElement(":{$name}");
+        new DOMElement(":$name");
         return true;
     } catch (DOMException $e) {
         return false;
@@ -94,7 +94,7 @@ function __array2xml_write_nodes(&$array, $level = null)
     foreach ($array as $key => $val) {
         $key = fix_key($key);
         if (!__array2xml_check_node_name($key)) {
-            show_php_error(['phperror' => "Invalid XML tag name '{$key}'"]);
+            show_php_error(['phperror' => "Invalid XML tag name '$key'"]);
         }
         $attr = '';
         if (is_attr_value($val)) {
@@ -102,18 +102,18 @@ function __array2xml_write_nodes(&$array, $level = null)
             foreach ($val['#attr'] as $key2 => $val2) {
                 $key2 = fix_key($key2);
                 if (!__array2xml_check_node_attr($key2)) {
-                    show_php_error(['phperror' => "Invalid XML attr name '{$key2}'"]);
+                    show_php_error(['phperror' => "Invalid XML attr name '$key2'"]);
                 }
                 $val2 = str_replace('&', '&amp;', strval($val2));
-                $attr[] = "{$key2}=\"{$val2}\"";
+                $attr[] = "$key2=\"$val2\"";
             }
             $attr = ' ' . implode(' ', $attr);
             $val = $val['value'];
         }
         if (is_array($val)) {
-            $buffer .= "{$prefix}<{$key}{$attr}>{$postfix}";
+            $buffer .= "$prefix<$key$attr>$postfix";
             $buffer .= __array2xml_write_nodes($val, $level);
-            $buffer .= "{$prefix}</{$key}>{$postfix}";
+            $buffer .= "$prefix</$key>$postfix";
         } else {
             $val = remove_bad_chars(strval($val));
             if (strpos($val, '<') !== false || strpos($val, '&') !== false) {
@@ -121,12 +121,12 @@ function __array2xml_write_nodes(&$array, $level = null)
                 while ($count) {
                     $val = str_replace(['<![CDATA[', ']]>'], '', $val, $count);
                 }
-                $val = "<![CDATA[{$val}]]>";
+                $val = "<![CDATA[$val]]>";
             }
             if ($val != '') {
-                $buffer .= "{$prefix}<{$key}{$attr}>{$val}</{$key}>{$postfix}";
+                $buffer .= "$prefix<$key$attr>$val</$key>$postfix";
             } else {
-                $buffer .= "{$prefix}<{$key}{$attr}/>{$postfix}";
+                $buffer .= "$prefix<$key$attr/>$postfix";
             }
         }
     }

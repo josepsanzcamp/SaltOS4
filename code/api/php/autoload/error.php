@@ -128,7 +128,7 @@ function show_php_error($array)
         if (!checklog($hash, $file)) {
             addlog($msg_text, $file);
         }
-        addlog("***** {$hash} *****", $file);
+        addlog("***** $hash *****", $file);
     }
     // Check for previous headers sent
     if (headers_sent()) {
@@ -257,7 +257,7 @@ function do_message_error($array)
             case 'debug':
                 if (is_array($data)) {
                     foreach ($data as $key => $item) {
-                        $data[$key] = "{$key} => {$item}";
+                        $data[$key] = "$key => $item";
                     }
                     $data = implode("\n", $data);
                 }
@@ -307,7 +307,7 @@ function program_handlers()
 function __error_handler($type, $message, $file, $line)
 {
     show_php_error([
-        'phperror' => "{$message} (code {$type})",
+        'phperror' => "$message (code $type)",
         'details' => 'Error on file ' . basename($file) . ':' . $line,
         'backtrace' => debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
         'code' => __get_code_from_file_and_line($file, $line),

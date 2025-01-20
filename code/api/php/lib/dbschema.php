@@ -159,7 +159,7 @@ function __dbschema_hash()
         }
         $files[$key] = $cache[$val];
     }
-    return md5(implode('', $files));
+    return md5(serialize($files));
 }
 
 /**
@@ -272,7 +272,7 @@ function __dbstatic_hash()
         }
         $files[$key] = $cache[$val];
     }
-    return md5(implode('', $files));
+    return md5(serialize($files));
 }
 
 /**
@@ -501,7 +501,7 @@ function __dbschema_auto_apps($dbschema)
                             </indexes>
                         </table>';
                 // phpcs:enable Generic.Files.LineLength
-                $xml = str_replace('{$table}', "{$table}", $xml);
+                $xml = str_replace('{$table}', $table, $xml);
                 $array = xml2array($xml);
                 set_array($dbschema['tables'], 'table', $array['table']);
             }
@@ -522,7 +522,7 @@ function __dbschema_auto_apps($dbschema)
                             </indexes>
                         </table>';
                 // phpcs:enable Generic.Files.LineLength
-                $xml = str_replace('{$table}', "{$table}", $xml);
+                $xml = str_replace('{$table}', $table, $xml);
                 $array = xml2array($xml);
                 set_array($dbschema['tables'], 'table', $array['table']);
             }
@@ -544,7 +544,7 @@ function __dbschema_auto_apps($dbschema)
                                 <index fields="reg_id,ver_id"/>
                             </indexes>
                         </table>';
-                $xml = str_replace('{$table}', "{$table}", $xml);
+                $xml = str_replace('{$table}', $table, $xml);
                 $array = xml2array($xml);
                 set_array($dbschema['tables'], 'table', $array['table']);
             }
@@ -566,7 +566,7 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="retries" type="INT(11)"/>
                             </fields>
                         </table>';
-                $xml = str_replace('{$table}', "{$table}", $xml);
+                $xml = str_replace('{$table}', $table, $xml);
                 $array = xml2array($xml);
                 set_array($dbschema['tables'], 'table', $array['table']);
             }
@@ -580,7 +580,7 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="note" type="TEXT"/>
                             </fields>
                         </table>';
-                $xml = str_replace('{$table}', "{$table}", $xml);
+                $xml = str_replace('{$table}', $table, $xml);
                 $array = xml2array($xml);
                 set_array($dbschema['tables'], 'table', $array['table']);
             }
@@ -594,7 +594,7 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="log" type="VARCHAR(255)"/>
                             </fields>
                         </table>';
-                $xml = str_replace('{$table}', "{$table}", $xml);
+                $xml = str_replace('{$table}', $table, $xml);
                 $array = xml2array($xml);
                 set_array($dbschema['tables'], 'table', $array['table']);
             }

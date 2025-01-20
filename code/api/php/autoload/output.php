@@ -59,7 +59,7 @@ function output_handler($array)
     $extra = isset($array['extra']) ? $array['extra'] : [];
     if ($file != '') {
         if (!file_exists($file) || !is_file($file)) {
-            show_php_error(['phperror' => "file {$file} not found"]);
+            show_php_error(['phperror' => "file $file not found"]);
         }
         if ($data == '' && filesize($file) < memory_get_free(true) / 3) {
             $data = file_get_contents($file);
@@ -122,7 +122,7 @@ function output_handler($array)
         );
         __output_header('Cache-Control: max-age=' . get_config('server/cachetimeout') . ', no-transform');
         __output_header('Pragma: public');
-        __output_header("ETag: {$hash2}");
+        __output_header("ETag: $hash2");
     } else {
         __output_header('Expires: -1');
         __output_header(
@@ -130,10 +130,10 @@ function output_handler($array)
         );
         __output_header('Pragma: no-cache');
     }
-    __output_header("Content-Type: {$type}");
-    __output_header("Content-Length: {$size}");
+    __output_header("Content-Type: $type");
+    __output_header("Content-Length: $size");
     if ($name != '') {
-        __output_header("Content-disposition: attachment; filename=\"{$name}\"");
+        __output_header("Content-disposition: attachment; filename=\"$name\"");
     }
     foreach ($extra as $temp) {
         __output_header($temp, false);

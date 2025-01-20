@@ -289,7 +289,7 @@ function __import_xls2array($file, $sheet)
     libxml_clear_errors(); // Trick
     if (is_numeric($sheet)) {
         if (!isset($sheets[$sheet])) {
-            return "Error: Sheet number '{$sheet}' not found";
+            return "Error: Sheet number '$sheet' not found";
         }
     } else {
         foreach ($sheets as $key => $val) {
@@ -299,7 +299,7 @@ function __import_xls2array($file, $sheet)
             }
         }
         if (!is_numeric($sheet)) {
-            return "Error: Sheet named '{$sheet}' not found";
+            return "Error: Sheet named '$sheet' not found";
         }
     }
     // Trick for a big files
@@ -476,7 +476,7 @@ function __import_json2array($file)
     if (!is_array($array)) {
         $code = json_last_error();
         $msg = json_last_error_msg();
-        return "Error: {$msg} ({$code})";
+        return "Error: $msg ($code)";
     }
     return $array;
 }

@@ -87,8 +87,8 @@ function svnversion($dir = null)
 function __svnversion_helper($dir)
 {
     // Using regular file
-    if (file_exists("{$dir}/svnversion")) {
-        return intval(file_get_contents("{$dir}/svnversion"));
+    if (file_exists("$dir/svnversion")) {
+        return intval(file_get_contents("$dir/svnversion"));
     }
     // Using svnversion
     if (check_commands('svnversion')) {
@@ -132,8 +132,8 @@ function gitversion($dir = null)
 function __gitversion_helper($dir)
 {
     // Using regular file
-    if (file_exists("{$dir}/gitversion")) {
-        return intval(file_get_contents("{$dir}/gitversion"));
+    if (file_exists("$dir/gitversion")) {
+        return intval(file_get_contents("$dir/gitversion"));
     }
     // Using git
     if (check_commands('git')) {
