@@ -63,6 +63,7 @@ function __apps($fn, $arg)
         $dict['app2version'] = [];
         $dict['app2files'] = [];
         $dict['app2notes'] = [];
+        $dict['app2log'] = [];
         $dict['subtable2id'] = [];
         $dict['subtable2app'] = [];
         $dict['subtable2table'] = [];
@@ -88,6 +89,7 @@ function __apps($fn, $arg)
             $dict['app2version'][$row['code']] = $row['has_version'];
             $dict['app2files'][$row['code']] = $row['has_files'];
             $dict['app2notes'][$row['code']] = $row['has_notes'];
+            $dict['app2log'][$row['code']] = $row['has_log'];
             foreach ($row['subtables'] as $subtable) {
                 $dict['subtable2id'][$subtable['subtable']] = $row['id'];
                 $dict['subtable2app'][$subtable['subtable']] = $row['code'];
@@ -323,6 +325,18 @@ function app2files($app)
  * @app => the app code used to resolve the notes
  */
 function app2notes($app)
+{
+    return __apps(__FUNCTION__, $app);
+}
+
+/**
+ * App to Log
+ *
+ * This function returns the has_log of the app
+ *
+ * @app => the app code used to resolve the log
+ */
+function app2log($app)
 {
     return __apps(__FUNCTION__, $app);
 }

@@ -74,15 +74,15 @@
             set_data("json/limit", 25),
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
-        <data eval="true">merge_data_actions(
-            execute_query_array("
+        <data require="php/lib/log.php" eval="true">merge_data_actions(
+            make_log_array(get_data("rest/1"), execute_query_array("
                 SELECT id, TODO
                 FROM ".app2table(get_data("rest/1"))."
                 WHERE 1 = 1
                 AND ".make_fulltext_query(get_data("json/search"), get_data("rest/1"), ["minsize" => 1, "default" => "1=1"])."
                 AND ".check_sql(get_data("rest/1"), "list")."
                 ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit")),
+                LIMIT ".get_data("json/offset").",".get_data("json/limit")), get_data("rest/2")),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array(detect_app_file(get_data("rest/1"))))
         )</data>
         <actions ifeval="false">
@@ -109,8 +109,8 @@
 
     <!-- Form part -->
     <form>TODO</form>
-    <data eval="true">execute_query("SELECT * FROM ".app2table(get_data("rest/1"))."
-        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data>
+    <data require="php/lib/log.php" eval="true">make_log_array(get_data("rest/1"), execute_query("SELECT * FROM ".app2table(get_data("rest/1"))."
+        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))]), get_data("rest/2"))</data>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
@@ -152,9 +152,16 @@
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/files.xml")["form"]</row>
             <row auto="true" col_class="col-md-6 mb-3" eval="true">xmlfile2array("apps/common/xml/notes.xml")["form"]</row>
             <row auto="true" row_class="row g-1" col_class="col-auto">
-                <button label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1')) * check_user(get_data('rest/1'), 'version')">
-                    <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/version/".intval(get_data("rest/3"))."')"</onclick>
-                </button>
+                <dropdown label="Info" icon="file-text" tooltip="Information of this register" ifeval="check_user(get_data('rest/1'), 'info')">
+                    <menu>
+                        <button label="History" tooltip="To see the history of the changes" icon="file-text" ifeval="app2version(get_data('rest/1'))">
+                            <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/version/".intval(get_data("rest/3"))."')"</onclick>
+                        </button>
+                        <button label="Log" tooltip="To see the history of the changes" icon="file-text" ifeval="app2log(get_data('rest/1'))">
+                            <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/view/log/".intval(get_data("rest/3"))."')"</onclick>
+                        </button>
+                    </menu>
+                </dropdown>
                 <div col_class="col"/>
                 <button label="Edit" tooltip="To edit this register" icon="pencil" ifeval="check_user(get_data('rest/1'), 'edit')">
                     <onclick eval="true">"saltos.driver.open('app/".get_data("rest/1")."/edit/".intval(get_data("rest/3"))."')"</onclick>

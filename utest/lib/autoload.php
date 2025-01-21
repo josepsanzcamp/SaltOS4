@@ -67,6 +67,8 @@ db_connect();
 $files = glob('data/logs/*');
 if (count($files)) {
     echo "\033[0;31mLog files found: " . implode(', ', $files) . "\033[0m\n";
+    echo "Push enter to continue or ctrl+c to break\n";
+    readline();
     echo "\033[0;33mRemoving files ...\033[0m\n";
     foreach ($files as $file) {
         unlink($file);
@@ -76,6 +78,8 @@ if (count($files)) {
 $files = glob('pcov.out');
 if (count($files)) {
     echo "\033[0;31mCoverage pipe found: " . implode(', ', $files) . "\033[0m\n";
+    echo "Push enter to continue or ctrl+c to break\n";
+    readline();
     echo "\033[0;33mRemoving files ...\033[0m\n";
     foreach ($files as $file) {
         unlink($file);

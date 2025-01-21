@@ -75,3 +75,36 @@ function make_log($app, $reg_id, $log)
     db_query(...$query);
     return 1;
 }
+
+/**
+ * Make Log Array function
+ *
+ * This function is intended to be used as wrapper between the caller and the
+ * execute_query or execute_query_array function, the main idea is to do the
+ * same that make_log but uses the reg_id from the array data, and this array
+ * can be an array with the contents of one register with an id field, or an
+ * array of rows where each item must contain an id field
+ *
+ * @app  => code of the application where you want to add the log
+ * @data => data with the register or registers of the app where you want to
+ *          add the log, remember that an id field is needed
+ * @log  => the log message that you want to add to the log register
+ *
+ * Notes:
+ *
+ * This function always returns the input data
+ */
+function make_log_array($app, $data, $log)
+{
+    if (app2log($app)) {
+        if (isset($data['id'])) {
+            make_log($app, $data['id'], $log);
+        } else {
+            $ids = array_column($data, 'id');
+            foreach ($ids as $id) {
+                make_log($app, $id, $log);
+            }
+        }
+    }
+    return $data;
+}

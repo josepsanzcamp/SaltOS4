@@ -140,7 +140,7 @@ function insert($app, $data)
     }
 
     make_control($app, $id);
-    make_log($app, $id, __FUNCTION__);
+    make_log($app, $id, 'insert');
     make_version($app, $id);
     make_index($app, $id);
 
@@ -296,7 +296,7 @@ function update($app, $id, $data)
     }
 
     make_control($app, $id);
-    make_log($app, $id, __FUNCTION__);
+    make_log($app, $id, 'update');
     make_version($app, $id);
     make_index($app, $id);
 
@@ -394,7 +394,7 @@ function delete($app, $id)
     }
 
     make_control($app, $id);
-    make_log($app, $id, __FUNCTION__);
+    make_log($app, $id, 'delete');
     make_version($app, $id);
     make_index($app, $id);
 
