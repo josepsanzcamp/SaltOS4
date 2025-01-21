@@ -75,9 +75,9 @@ if (!$exists) {
     db_query(...$query);
     $numaccounts++;
     make_control('emails_accounts', 1);
-    make_log('emails_accounts', 1, 'setup');
     make_version('emails_accounts', 1);
     make_index('emails_accounts', 1);
+    make_log('emails_accounts', 1, 'setup');
 }
 
 // Create the account directory and copy all initial RFC822 files

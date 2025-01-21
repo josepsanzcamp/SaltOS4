@@ -60,11 +60,11 @@ if (!$exists) {
     $ids = execute_query_array('SELECT id FROM app_invoices');
     foreach ($ids as $id) {
         make_control('invoices', $id);
-        make_log('invoices', $id, 'setup');
         make_version('invoices', $id);
         make_index('invoices', $id);
         $total++;
     }
+    make_log('invoices', $ids, 'setup');
 }
 
 $time2 = microtime(true);

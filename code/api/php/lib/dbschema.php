@@ -590,7 +590,7 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="id" type="/*MYSQL INT(11) *//*SQLITE INTEGER */" pkey="true"/>
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
-                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
+                                <field name="reg_ids" type="TEXT" fkey="{$table}"/>
                                 <field name="log" type="VARCHAR(255)"/>
                             </fields>
                         </table>';

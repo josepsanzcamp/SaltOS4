@@ -78,7 +78,7 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_array(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), execute_query_array("
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
@@ -127,7 +127,7 @@
         <text id="tel_movil" label="Tel movil"/>
         <text id="fax" label="Fax"/>
     </form>
-    <data require="php/lib/log.php" eval="true">make_log_array(get_data("rest/1"), execute_query("SELECT * FROM ".app2table(get_data("rest/1"))."
+    <data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), execute_query("SELECT * FROM ".app2table(get_data("rest/1"))."
         WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))]), get_data("rest/2"))</data>
 
     <create>
@@ -253,7 +253,7 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_array(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), execute_query_array("
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
@@ -289,7 +289,7 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_array(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), execute_query_array("
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1

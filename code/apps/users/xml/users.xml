@@ -79,7 +79,7 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_array(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), execute_query_array("
                 SELECT id, login, name, description,
                 (SELECT CONCAT(name,' (',code,')') FROM tbl_groups a WHERE a.id=group_id) `group`,
                 CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
@@ -157,7 +157,7 @@
                 ORDER BY id DESC", [intval(get_data("rest/3"))])</data>
         </table>
     </form>
-    <data require="apps/users/php/days.php,php/lib/log.php" eval="true">make_log_array(get_data("rest/1"), fix4days(execute_query("SELECT * FROM tbl_users
+    <data require="apps/users/php/days.php,php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), fix4days(execute_query("SELECT * FROM tbl_users
         WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])), get_data("rest/2"))</data>
 
     <create>

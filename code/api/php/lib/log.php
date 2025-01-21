@@ -69,7 +69,7 @@ function make_log($app, $reg_id, $log)
     $query = prepare_insert_query("{$table}_log", [
         'user_id' => $user_id,
         'datetime' => $datetime,
-        'reg_id' => $reg_id,
+        'reg_ids' => check_ids($reg_id),
         'log' => $log,
     ]);
     db_query(...$query);
@@ -77,7 +77,7 @@ function make_log($app, $reg_id, $log)
 }
 
 /**
- * Make Log Array function
+ * Make Log Bypass function
  *
  * This function is intended to be used as wrapper between the caller and the
  * execute_query or execute_query_array function, the main idea is to do the
@@ -94,15 +94,15 @@ function make_log($app, $reg_id, $log)
  *
  * This function always returns the input data
  */
-function make_log_array($app, $data, $log)
+function make_log_bypass($app, $data, $log)
 {
     if (app2log($app)) {
         if (isset($data['id'])) {
             make_log($app, $data['id'], $log);
         } else {
             $ids = array_column($data, 'id');
-            foreach ($ids as $id) {
-                make_log($app, $id, $log);
+            if (count($ids)) {
+                make_log($app, $ids, $log);
             }
         }
     }
