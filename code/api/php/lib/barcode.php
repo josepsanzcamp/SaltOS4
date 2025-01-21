@@ -54,50 +54,92 @@ declare(strict_types=1);
  */
 function __barcode_image($msg, $w, $h, $m, $s, $t)
 {
-    require_once 'lib/tcpdf/vendor/autoload.php';
-    $barcode = new TCPDFBarcode($msg, $t);
-    $array = $barcode->getBarcodeArray();
-    if (!isset($array['maxw'])) {
-        return '';
+    $png = __barcode_image_png($msg, $w, $h, $t);
+    if (!$png) {
+        return $png;
     }
-    $width = $array['maxw'] * $w;
-    $height = $h;
+    $im1 = imagecreatefromstring($png);
+    $width = imagesx($im1);
+    $height = imagesy($im1);
     $extra = $s;
     if ($s) {
         $font = getcwd() . '/lib/fonts/DejaVuSans.ttf';
         $bbox = imagettfbbox($s, 0, $font, $msg);
         $extra = abs($bbox[5] - $bbox[1]) + $m;
     }
-    $im = imagecreatetruecolor($width + 2 * $m, $height + 2 * $m + $extra);
-    $bgcol = imagecolorallocate($im, 255, 255, 255);
-    imagefilledrectangle($im, 0, 0, $width + 2 * $m, $height + 2 * $m + $extra, $bgcol);
-    $fgcol = imagecolorallocate($im, 0, 0, 0);
-    $x = 0;
-    foreach ($array['bcode'] as $key => $val) {
-        $bw = round(($val['w'] * $w), 3);
-        $bh = round(($val['h'] * $h / $array['maxh']), 3);
-        if ($val['t']) {
-            $y = round(($val['p'] * $h / $array['maxh']), 3);
-            imagefilledrectangle(
-                $im,
-                (int)($x + $m),
-                (int)($y + $m),
-                (int)(($x + $bw - 1) + $m),
-                (int)(($y + $bh - 1) + $m),
-                $fgcol
-            );
-        }
-        $x += $bw;
-    }
+    $im2 = imagecreatetruecolor($width + 2 * $m, $height + 2 * $m + $extra);
+    $bgcol = imagecolorallocate($im2, 255, 255, 255);
+    imagefilledrectangle($im2, 0, 0, $width + 2 * $m, $height + 2 * $m + $extra, $bgcol);
+    imagecopy($im2, $im1, $m, $m, 0, 0, $width, $height);
     if ($s) {
         // add msg to the image footer
         $px = ($width + 2 * $m) / 2 - ($bbox[4] - $bbox[0]) / 2;
         $py = $m + $h + 1 + $m + $s;
-        imagettftext($im, $s, 0, (int)$px, (int)$py, $fgcol, $font, $msg);
+        $fgcol = imagecolorallocate($im2, 0, 0, 0);
+        imagettftext($im2, $s, 0, (int)$px, (int)$py, $fgcol, $font, $msg);
     }
     ob_start();
-    imagepng($im);
+    imagepng($im2);
     $buffer = ob_get_clean();
-    imagedestroy($im);
+    imagedestroy($im1);
+    imagedestroy($im2);
+    return $buffer;
+}
+
+/**
+ * BarCode image png function
+ *
+ * This function allow to generate a barcode, you can pass the desired
+ * message that you want to convert in barcode and it returns an image
+ * with the data
+ *
+ * @msg => Contents of the barcode
+ * @w   => width of each unit's bar of the barcode
+ * @h   => height of the barcode (without margins and text footer)
+ * @t   => type of the barcode, C128 is the most common type used
+ *
+ * Notes:
+ *
+ * The normal behavior is returns a png image without margins and text,
+ * but if something was wrong, the function can returns an empty string
+ */
+function __barcode_image_png($msg, $w, $h, $t)
+{
+    require_once 'lib/tcpdf/vendor/autoload.php';
+    $barcode = new TCPDFBarcode($msg, $t);
+    $array = $barcode->getBarcodeArray();
+    if (!isset($array['maxw'])) {
+        return '';
+    }
+    $buffer = $barcode->getBarcodePngData($w, $h);
+    return $buffer;
+}
+
+/**
+ * BarCode image svg function
+ *
+ * This function allow to generate a barcode, you can pass the desired
+ * message that you want to convert in barcode and it returns an image
+ * with the data
+ *
+ * @msg => Contents of the barcode
+ * @w   => width of each unit's bar of the barcode
+ * @h   => height of the barcode (without margins and text footer)
+ * @t   => type of the barcode, C128 is the most common type used
+ *
+ * Notes:
+ *
+ * The normal behavior is returns a svg image without margins and text,
+ * but if something was wrong, the function can returns an empty string
+ */
+function __barcode_image_svg($msg, $w, $h, $t)
+{
+    require_once 'lib/tcpdf/vendor/autoload.php';
+    $barcode = new TCPDFBarcode($msg, $t);
+    $array = $barcode->getBarcodeArray();
+    if (!isset($array['maxw'])) {
+        return '';
+    }
+    $buffer = $barcode->getBarcodeSVGcode($w, $h);
     return $buffer;
 }

@@ -53,7 +53,7 @@ declare(strict_types=1);
  *
  * @s => size of each pixel used in the qrcode
  * @m => margin of the qrcode (white area that that surround the qrcode)
- * @l => error correction: L (low), M (medium), Q (better), H (best)
+ * @l => level error correction: L (low), M (medium), Q (better), H (best)
  *
  * Captcha action
  *
@@ -123,9 +123,13 @@ switch ($action) {
         // Do image
         require_once 'php/lib/barcode.php';
         $image = __barcode_image($msg, $w, $h, $m, $s, $t);
+        $png = __barcode_image_png($msg, $w, $h, $t);
+        $svg = __barcode_image_svg($msg, $w, $h, $t);
         $output = [
             'msg' => $msg,
             'image' => mime_inline('image/png', $image),
+            'png' => mime_inline('image/png', $png),
+            'svg' => mime_inline('image/svg+xml', $svg),
         ];
         break;
     case 'qrcode':
@@ -141,9 +145,13 @@ switch ($action) {
         // Do image
         require_once 'php/lib/qrcode.php';
         $image = __qrcode_image($msg, $s, $m, $l);
+        $png = __qrcode_image_png($msg, $s, $l);
+        $svg = __qrcode_image_svg($msg, $s, $l);
         $output = [
             'msg' => $msg,
             'image' => mime_inline('image/png', $image),
+            'png' => mime_inline('image/png', $png),
+            'svg' => mime_inline('image/svg+xml', $svg),
         ];
         break;
     case 'captcha':

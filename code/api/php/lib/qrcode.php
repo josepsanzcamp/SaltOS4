@@ -43,7 +43,7 @@ declare(strict_types=1);
  * @msg => Contents of the qrcode
  * @s   => size of each pixel used in the qrcode
  * @m   => margin of the qrcode (white area that that surround the qrcode)
- * @l   => error correction: L (low), M (medium), Q (better), H (best)
+ * @l   => level error correction: L (low), M (medium), Q (better), H (best)
  *
  * Notes:
  *
@@ -52,35 +52,77 @@ declare(strict_types=1);
  */
 function __qrcode_image($msg, $s, $m, $l)
 {
+    $png = __qrcode_image_png($msg, $s, $l);
+    if (!$png) {
+        return $png;
+    }
+    $im1 = imagecreatefromstring($png);
+    $width = imagesx($im1);
+    $height = imagesy($im1);
+    $im2 = imagecreatetruecolor($width + 2 * $m, $height + 2 * $m);
+    $bgcol = imagecolorallocate($im2, 255, 255, 255);
+    imagefilledrectangle($im2, 0, 0, $width + 2 * $m, $height + 2 * $m, $bgcol);
+    imagecopy($im2, $im1, $m, $m, 0, 0, $width, $height);
+    ob_start();
+    imagepng($im2);
+    $buffer = ob_get_clean();
+    imagedestroy($im1);
+    imagedestroy($im2);
+    return $buffer;
+}
+
+/**
+ * QRCode image function
+ *
+ * This function allow to generate a qrcode with the SaltOS logo embedded
+ * in the center of the image, you can pass the desired message that you
+ * want to convert in qrcode and it returns an image with the data
+ *
+ * @msg => Contents of the qrcode
+ * @s   => size of each pixel used in the qrcode
+ * @l   => level error correction: L (low), M (medium), Q (better), H (best)
+ *
+ * Notes:
+ *
+ * The normal behavior is returns a png image without margins, but if something
+ * was wrong, the function can returns an empty string
+ */
+function __qrcode_image_png($msg, $s, $l)
+{
     require_once 'lib/tcpdf/vendor/autoload.php';
     $barcode = new TCPDF2DBarcode($msg, "QRCODE,$l");
     $array = $barcode->getBarcodeArray();
     if (!isset($array['num_cols']) || !isset($array['num_rows'])) {
         return '';
     }
-    $width = ($array['num_cols'] * $s);
-    $height = ($array['num_rows'] * $s);
-    $im = imagecreatetruecolor($width + 2 * $m, $height + 2 * $m);
-    $bgcol = imagecolorallocate($im, 255, 255, 255);
-    imagefilledrectangle($im, 0, 0, $width + 2 * $m, $height + 2 * $m, $bgcol);
-    $fgcol = imagecolorallocate($im, 0, 0, 0);
-    foreach ($array['bcode'] as $key => $val) {
-        foreach ($val as $key2 => $val2) {
-            if ($val2) {
-                imagefilledrectangle(
-                    $im,
-                    (int)($key2 * $s + $m),
-                    (int)($key * $s + $m),
-                    (int)(($key2 + 1) * $s + $m - 1),
-                    (int)(($key + 1) * $s + $m - 1),
-                    $fgcol
-                );
-            }
-        }
+    $buffer = $barcode->getBarcodePngData($s, $s);
+    return $buffer;
+}
+
+/**
+ * QRCode image function
+ *
+ * This function allow to generate a qrcode with the SaltOS logo embedded
+ * in the center of the image, you can pass the desired message that you
+ * want to convert in qrcode and it returns an image with the data
+ *
+ * @msg => Contents of the qrcode
+ * @s   => size of each pixel used in the qrcode
+ * @l   => level error correction: L (low), M (medium), Q (better), H (best)
+ *
+ * Notes:
+ *
+ * The normal behavior is returns a svg image without margins, but if something
+ * was wrong, the function can returns an empty string
+ */
+function __qrcode_image_svg($msg, $s, $l)
+{
+    require_once 'lib/tcpdf/vendor/autoload.php';
+    $barcode = new TCPDF2DBarcode($msg, "QRCODE,$l");
+    $array = $barcode->getBarcodeArray();
+    if (!isset($array['num_cols']) || !isset($array['num_rows'])) {
+        return '';
     }
-    ob_start();
-    imagepng($im);
-    $buffer = ob_get_clean();
-    imagedestroy($im);
+    $buffer = $barcode->getBarcodeSVGcode($s, $s);
     return $buffer;
 }

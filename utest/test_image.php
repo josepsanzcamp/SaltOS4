@@ -114,9 +114,11 @@ final class test_image extends TestCase
             'format' => 'json',
         ], '', '', 'admin');
         $this->assertIsArray($json);
-        $this->assertSame(count($json), 2);
+        $this->assertSame(count($json), 4);
         $this->assertArrayHasKey('msg', $json);
         $this->assertArrayHasKey('image', $json);
+        $this->assertArrayHasKey('png', $json);
+        $this->assertArrayHasKey('svg', $json);
 
         $file = 'data/logs/phperror.log';
         $this->assertFileDoesNotExist($file);
@@ -172,9 +174,11 @@ final class test_image extends TestCase
             'format' => 'json',
         ], '', '', 'admin');
         $this->assertIsArray($json);
-        $this->assertSame(count($json), 2);
+        $this->assertSame(count($json), 4);
         $this->assertArrayHasKey('msg', $json);
         $this->assertArrayHasKey('image', $json);
+        $this->assertArrayHasKey('png', $json);
+        $this->assertArrayHasKey('svg', $json);
 
         $json = test_cli_helper('image/qrcode', [
             'msg' => str_repeat('nada', 1000),
