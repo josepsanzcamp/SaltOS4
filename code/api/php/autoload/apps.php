@@ -522,6 +522,13 @@ function detect_app_file($app)
         if (file_exists($file2)) {
             $file = get_cache_file($file, 'xml');
             $data = yaml_parse_file($file2);
+            $data['source'] = $file2;
+            $items = ['require', 'template'];
+            foreach ($items as $item) {
+                if (!isset($data[$item])) {
+                    show_php_error(['phperror' => "$item not found in $file2"]);
+                }
+            }
             $files = [$file2, $data['require'], $data['template']];
             if (!cache_exists($file, $files)) {
                 require_once $data['require'];

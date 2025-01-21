@@ -184,6 +184,10 @@ function make_app_file($data)
         $xml .= $header[1];
         $xml .= "\n\n";
     }
+    $xml .= "<!-- source: {$data['source']} -->";
+    if ($data['indent'] ?? false) {
+        $xml .= "\n\n";
+    }
     $xml .= array2xml(['root' => $array], $data['indent'] ?? false);
     return $xml;
 }
