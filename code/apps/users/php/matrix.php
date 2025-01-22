@@ -238,8 +238,6 @@ function make_matrix_perms($table, $field, $id)
     $data = make_matrix_data($perms_id, $apps_id, $apps_perms, $reg_apps_perms);
     $cell = make_matrix_cell($perms_id, $apps_id, $apps_perms, $reg_apps_perms);
     return [
-        'numcols' => count($perms),
-        'numrows' => count($apps),
         'colHeaders' => $perms_code,
         'rowHeaders' => $apps_code,
         'data' => $data,

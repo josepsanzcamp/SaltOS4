@@ -200,13 +200,66 @@ function make_matrix_version($app, $id)
     $matrix = array_merge(...$matrix);
     // return the excel field
     return [
-        'numcols' => count($versions),
-        'numrows' => count($headers),
         'colHeaders' => $versions,
         'rowHeaders' => $headers,
         'data' => $data,
         'cell' => $matrix,
         'rowHeaderWidth' => $widths[0],
         'colWidths' => array_slice($widths, 1),
+    ];
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function make_matrix_log($app, $id)
+{
+    // the table and fields are the hidden fields of files tables
+    $table = app2table($app);
+    // continue retrieving logs data
+    require_once 'php/lib/log.php';
+    $data = get_logs($app, $id);
+    $users = [];
+    foreach ($data as $key => $val) {
+        $user_id = $val['user_id'];
+        unset($val['id']);
+        unset($val['user_id']);
+        if (!isset($users[$user_id])) {
+            $users[$user_id] = execute_query('SELECT name FROM tbl_users WHERE id = ?', [$user_id]);
+        }
+        $val = array_merge(['user' => $users[$user_id]], $val);
+        $data[$key] = $val;
+    }
+    // Set the headers
+    $headers = array_combine(array_keys($data[0]), array_keys($data[0]));
+    foreach ($headers as $key => $val) {
+        $headers[$key] = ucwords(str_replace('_', ' ', $val));
+    }
+    // compute widths using atkinson hyperlegible font
+    require_once 'php/lib/gdlib.php';
+    $widths = [0];
+    $size = 12;
+    $margin = 10;
+    foreach ($headers as $key => $val) {
+        $width = compute_width($val, $size);
+        $widths[$key] = $width + $margin;
+    }
+    foreach ($data as $key => $val) {
+        foreach ($val as $key2 => $val2) {
+            $width = compute_width(strval($val2), $size);
+            $widths[$key2] = max($widths[$key2], $width + $margin);
+        }
+    }
+    $maxwidth = 1000;
+    foreach ($widths as $key => $val) {
+        $widths[$key] = min($maxwidth, $val);
+    }
+    // return the excel field
+    return [
+        'colHeaders' => array_values($headers),
+        'data' => $data,
+        'colWidths' => array_slice(array_values($widths), 1),
     ];
 }

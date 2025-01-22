@@ -69,8 +69,8 @@ function make_log($app, $reg_id, $log)
     $query = prepare_insert_query("{$table}_log", [
         'user_id' => $user_id,
         'datetime' => $datetime,
-        'reg_ids' => check_ids($reg_id),
         'log' => $log,
+        'reg_ids' => check_ids($reg_id),
     ]);
     db_query(...$query);
     return 1;
@@ -107,4 +107,27 @@ function make_log_bypass($app, $data, $log)
         }
     }
     return $data;
+}
+
+/**
+ * TODO
+ *
+ * TODO
+ */
+function get_logs($app, $reg_id)
+{
+    // Check the passed parameters
+    $table = app2table($app);
+    if ($table == '') {
+        return -1;
+    }
+    // Check if version exists
+    $query = "SELECT id FROM {$table}_log LIMIT 1";
+    if (!db_check($query)) {
+        return -2;
+    }
+    $query = "SELECT id, user_id, datetime, log, reg_ids
+        FROM {$table}_log WHERE FIND_IN_SET(?, reg_ids) ORDER BY id ASC";
+    $rows = execute_query_array($query, [$reg_id]);
+    return $rows;
 }

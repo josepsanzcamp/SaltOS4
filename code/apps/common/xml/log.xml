@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ -  ____        _ _    ___  ____    _  _    ___
+ - / ___|  __ _| | |_ / _ \/ ___|  | || |  / _ \
+ - \___ \ / _` | | __| | | \___ \  | || |_| | | |
+ -  ___) | (_| | | |_| |_| |___) | |__   _| |_| |
+ - |____/ \__,_|_|\__|\___/|____/     |_|(_)___/
+ -
+ - SaltOS: Framework to develop Rich Internet Applications
+ - Copyright (C) 2007-2025 by Josep Sanz Campderrós
+ - More information in https://www.saltos.org or info@saltos.org
+ -
+ - This program is free software: you can redistribute it and/or modify
+ - it under the terms of the GNU General Public License as published by
+ - the Free Software Foundation, either version 3 of the License, or
+ - (at your option) any later version.
+ -
+ - This program is distributed in the hope that it will be useful,
+ - but WITHOUT ANY WARRANTY; without even the implied warranty of
+ - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ - GNU General Public License for more details.
+ -
+ - You should have received a copy of the GNU General Public License
+ - along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <view id="log">
+        <check eval="true" logout="true">current_user()</check>
+        <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
+        <check eval="true">check_user(get_data("rest/1"), 'info')</check>
+        <gettext eval="true">T()</gettext>
+        <title append="modal">Access log</title>
+        <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>
+        <navbar eval="true">xmlfile2array("apps/common/xml/navbar.xml")["navbar"]</navbar>
+        <layout append="three,two,one">
+            <row auto="true" col_class="col-12 mb-3">
+                <excel id="log" col_class="col-12 mb-3" disabled="true" height="calc(100vh - 200px)"
+                    require="apps/common/php/matrix.php" eval="true">make_matrix_log(get_data('rest/1'), get_data('rest/4'))
+                </excel>
+            </row>
+            <row auto="true" row_class="row g-1" col_class="col-auto">
+                <div col_class="col"/>
+                <button onclick="saltos.driver.close()" label="Close" tooltip="To close this list" icon="x-lg" autoclose="true"/>
+            </row>
+        </layout>
+        <javascript>
+            <inline>saltos.driver.init("view")</inline>
+        </javascript>
+    </view>
+</root>
