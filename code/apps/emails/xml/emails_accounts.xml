@@ -242,6 +242,7 @@
     <view id="viewpdf" eval="true">xpath_search_first("view[id=viewpdf]", xmlfile2array("apps/common/xml/files.xml"))</view>
     <view id="download" eval="true">xpath_search_first("view[id=download]", xmlfile2array("apps/common/xml/files.xml"))</view>
     <view id="version" eval="true">xpath_search_first("view[id=version]", xmlfile2array("apps/common/xml/version.xml"))</view>
+    <view id="log" eval="true">xpath_search_first("view[id=log]", xmlfile2array("apps/common/xml/log.xml"))</view>
 
     <edit>
         <check eval="true" logout="true">current_user()</check>
