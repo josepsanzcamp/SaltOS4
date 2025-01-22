@@ -176,7 +176,7 @@ function make_matrix_version($app, $id)
     require_once 'php/lib/gdlib.php';
     $widths = [0];
     $size = 12;
-    $margin = 10;
+    $margin = 20;
     foreach ($headers as $key => $val) {
         $width = compute_width(strval($val), $size);
         $widths[0] = max($widths[0], $width + $margin);
@@ -241,7 +241,7 @@ function make_matrix_log($app, $id)
     require_once 'php/lib/gdlib.php';
     $widths = [0];
     $size = 12;
-    $margin = 10;
+    $margin = 20;
     foreach ($headers as $key => $val) {
         $width = compute_width($val, $size);
         $widths[$key] = $width + $margin;
