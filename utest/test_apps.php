@@ -101,13 +101,20 @@ final class test_apps extends TestCase
         $this->assertSame(app2field('invoices'), "CONCAT(nombre,' - ',cif,' - ',num)");
         $this->assertSame(table2field('app_invoices'), "CONCAT(nombre,' - ',cif,' - ',num)");
 
-        $file = detect_app_file('configlog');
-        unlink($file);
-        $this->assertFileDoesNotExist($file);
+        $files = glob('apps/*/xml/*.yaml');
+        foreach ($files as $file) {
+            $temp = explode('/', $file);
+            $dir = $temp[1];
+            $app = str_replace('.yaml', '', $temp[3]);
 
-        $this->assertStringContainsString('data/cache/', detect_app_file('configlog'));
-        $this->assertStringEndsWith('.xml', detect_app_file('configlog'));
-        $this->assertSame(detect_app_folder('configlog'), 'common');
+            $file2 = detect_app_file($app);
+            unlink($file2);
+            $this->assertFileDoesNotExist($file2);
+
+            $this->assertStringContainsString('data/cache/', detect_app_file($app));
+            $this->assertStringEndsWith('.xml', detect_app_file($app));
+            $this->assertSame(detect_app_folder($app), $dir);
+        }
 
         $this->assertSame(id2name(12), 'Invoices');
         $this->assertSame(app2name('invoices'), 'Invoices');

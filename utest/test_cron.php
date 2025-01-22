@@ -166,5 +166,17 @@ final class test_cron extends TestCase
         $dir = get_directory('dirs/crondir') ?? getcwd_protected() . '/data/cron/';
         $files = glob($dir . '*');
         $this->assertCount(0, $files);
+
+        $this->assertSame(__cron_users('a,b'), ['a', 'b']);
+
+        $this->assertSame(__cron_compare('1,2', '0'), false);
+        $this->assertSame(__cron_compare('1,2', '1'), true);
+        $this->assertSame(__cron_compare('1,2', '2'), true);
+        $this->assertSame(__cron_compare('1,2', '3'), false);
+
+        $this->assertSame(__cron_compare('1-2', '0'), false);
+        $this->assertSame(__cron_compare('1-2', '1'), true);
+        $this->assertSame(__cron_compare('1-2', '2'), true);
+        $this->assertSame(__cron_compare('1-2', '3'), false);
     }
 }

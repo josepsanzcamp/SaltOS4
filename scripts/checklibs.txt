@@ -36,10 +36,10 @@ libreoffice|https://es.libreoffice.org/descarga/libreoffice/|type=deb|PG9wdGlvbi
 mariadb|https://github.com/MariaDB/server/tags.atom|<title>|PHRpdGxlPm1hcmlhZGItMTEuOC4wOiBSZXZlcnQgJnF1b3Q7TURFVi0zMTM0MCBmaXh1cDogY2xhbmcrKy0yMCAtV2RlcHJlY2F0ZWQtbGl0ZXJhbC1vcGVyYXRvciZxdW90OzwvdGl0bGU+
 minify|https://github.com/coderaiser/minify/tags.atom|<title>|PHRpdGxlPm1pbmlmeSB2MTIuMC4xPC90aXRsZT4=
 mroonga|https://github.com/mroonga/mroonga/tags.atom|<title>|PHRpdGxlPk1yb29uZ2EgMTQuMTIgLSAyMDI0LTEyLTI1PC90aXRsZT4=
-node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDEtMDcsIFZlcnNpb24gMjMuNi4wIChDdXJyZW50KSwgQG1hcmNvLWlwcG9saXRvPC90aXRsZT4=
+node|https://github.com/nodejs/node/tags.atom|<title>|PHRpdGxlPjIwMjUtMDEtMjEsIFZlcnNpb24gMjMuNi4xIChDdXJyZW50KSwgQFJhZmFlbEdTUzwvdGl0bGU+
 php|https://github.com/php/php-src/tags.atom|<title>|PHRpdGxlPlBIUCA4LjQuMzwvdGl0bGU+
 phpcs|https://github.com/PHPCSStandards/PHP_CodeSniffer/tags.atom|<title>|PHRpdGxlPjMuMTEuMiAtIDIwMjQtMTItMTE8L3RpdGxlPg==
-phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4xPC90aXRsZT4=
+phpstan|https://github.com/phpstan/phpstan/tags.atom|<title>|PHRpdGxlPjIuMS4yPC90aXRsZT4=
 phpunit|https://github.com/sebastianbergmann/phpunit/tags.atom|<title>|PHRpdGxlPlBIUFVuaXQgMTEuNS4zPC90aXRsZT4=
 uglifyjs|https://github.com/mishoo/UglifyJS/tags.atom|<title>|PHRpdGxlPnYzLjE5LjM8L3RpdGxlPg==
 wpcs|https://github.com/WordPress/WordPress-Coding-Standards/tags.atom|<title>|PHRpdGxlPjMuMS4wPC90aXRsZT4=
