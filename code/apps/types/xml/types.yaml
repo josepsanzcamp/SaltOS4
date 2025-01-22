@@ -26,14 +26,18 @@ template: apps/common/xml/default.xml
 indent: true
 screen: type5
 list:
+    # [id, type, label]
     - [name, text, Name]
     - [description, text, Description]
     - [active, boolean, Active]
 form:
+    # [id, type, label]
     - [active, switch, Active]
     - [name, text, Name]
     - [description, textarea, Description]
 extra:
+    # field:
+    #     attr: value
     name:
         required: true
         autofocus: true

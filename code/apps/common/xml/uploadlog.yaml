@@ -26,11 +26,13 @@ template: apps/common/xml/default.xml
 indent: true
 screen: type2
 list:
+    # [id, type, label]
     - [user_id, select, User]
     - [datetime, text, Datetime]
     - [app, text, App]
     - [name, text, Name]
 form:
+    # [id, type, label]
     - [user_id, select, User]
     - [datetime, datetime, Datetime]
     - [uniqid, text, Uniq ID]
@@ -41,4 +43,5 @@ form:
     - [file, text, File]
     - [hash, text, Hash]
 select:
+    # [id, table, optional field]
     - [user_id, tbl_users]

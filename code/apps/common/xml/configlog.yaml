@@ -26,15 +26,20 @@ template: apps/common/xml/default.xml
 indent: true
 screen: type2
 list:
+    # [id, type, label]
     - [user_id, select, User]
     - [key, text, Key]
 form:
+    # [id, type, label]
     - [user_id, select, User]
     - [key, text, Key]
     - [val, codemirror, Value]
 select:
+    # [id, table, optional field]
     - [user_id, tbl_users]
 extra:
+    # field:
+    #     attr: value
     key:
         required: true
         autofocus: true

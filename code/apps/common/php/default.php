@@ -30,14 +30,45 @@ declare(strict_types=1);
 /**
  * Apps helper module
  *
- * This file contains functions intended to be used as hepers of other functions, allowing to convert
- * between formats as the name of the app to and app id, or viceversa
+ * This file contains functions intended to be used as hepers of other functions,
+ * allowing to convert between formats like yaml to xml using a small specification
  */
 
 /**
- * TODO
+ * Make app file
  *
- * TODO
+ * This function returns the xml of an app using the follow specs passed in @data:
+ *
+ * @source    => this data is defined by the caller, used internally to add a comment
+ *               with the source file used in the xml generation
+ * @require   => this field defines the required php that contains the make_app_file
+ *               function like this file
+ * @_template => the xml app file used as template, this file contains the default
+ *               specification of the app used in the quick apps defined in the yaml
+ * @screen    => the screen used by the template
+ * @list      => the list of fields used in the list screen, this must be a list of
+ *               arrays with 3 elements: id, type and label, types can be as follow:
+ *               -text    => default field with text
+ *               -select  => this field resolves the text from a table and field, see
+ *                           the @select spec
+ *               -boolean => this field uses an icon with V o X in green or red to
+ *                           see the value of the field (generaly 1 or 0)
+ *               -hastext => this field is similar to boolean but the true or false
+ *                           is detedmined using the contents of the text, no text is
+ *                           false and some text is true
+ * @form      => the list of fields used in the form screen, this must be a list of
+ *               arrays with 3 elements: id, type and label, types can be as follow:
+ *               - text, date, time, datetime, checkbox, switch => default widget
+ *               - textarea, ckeditor, codemirror => widget with 10em of height
+ *               - select => widget that uses the select spec to resolve the contents
+ * @select    => this spec is intended to defined the selects used in the list and
+ *               forms, requires an array of 3 elements: id, table and field, if the
+ *               last field is not specified, saltos tries to resolve it using the
+ *               manifest information (internally use the table2field feature)
+ * @extra     => this part contain an array with extra features added to the forms
+ *               widgets, the spec requires to use a named array that defines the
+ *               id of the field and each array entry must to be another pair of
+ *               key and val with the name of the property and the value of it
  */
 function make_app_file($data)
 {

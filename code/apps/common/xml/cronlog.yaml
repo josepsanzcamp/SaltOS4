@@ -26,11 +26,13 @@ template: apps/common/xml/default.xml
 indent: true
 screen: type2
 list:
+    # [id, type, label]
     - [cmd, text, Command]
     - [out, hastext, Out]
     - [err, hastext, Err]
     - [start, text, Start]
 form:
+    # [id, type, label]
     - [cmd, codemirror, Command]
     - [pid, text, PID]
     - [out, codemirror, STDOUT]
@@ -38,6 +40,8 @@ form:
     - [start, datetime, Start]
     - [stop, datetime, Stop]
 extra:
+    # field:
+    #     attr: value
     out:
         mode: application/json
     err:
