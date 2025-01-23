@@ -160,14 +160,13 @@ function __getmail_checkperm($id)
 }
 
 /**
- * Get source
+ * Get GZ File
  *
- * This function returns the original RFC822 message as string
+ * This function returns the file that contains the email
  *
- * @id  => id of the email
- * @max => max size that can be processed
+ * @id => id of the email
  */
-function __getmail_getsource($id, $max = 0)
+function __getmail_gzfile($id)
 {
     $query = 'SELECT account_id, uidl, is_outbox FROM app_emails WHERE id = ?';
     $row = execute_query($query, [$id]);
@@ -175,26 +174,29 @@ function __getmail_getsource($id, $max = 0)
         return '';
     }
     $email = $row['account_id'] . '/' . $row['uidl'];
-    $file = (
-        $row['is_outbox'] ?
-            get_directory('dirs/outboxdir') :
-                get_directory('dirs/inboxdir')
-    ) . $email . '.eml.gz';
+    $inout = $row['is_outbox'] ? 'out' : 'in';
+    $file = get_directory("dirs/{$inout}boxdir") . $email . '.eml.gz';
     if (!file_exists($file)) {
         return '';
     }
-    $fp = gzopen($file, 'r');
-    $message = '';
-    if (!$max) {
-        $max = gzfilesize($file) + 1;
+    return $file;
+}
+
+/**
+ * Get source
+ *
+ * This function returns the original RFC822 message as string
+ *
+ * @id => id of the email
+ */
+function __getmail_getsource($id)
+{
+    $file = __getmail_gzfile($id);
+    if ($file == '') {
+        return '';
     }
-    while (!feof($fp) && strlen($message) < $max) {
-        $message .= gzread($fp, min(8192, $max - strlen($message)));
-    }
-    if (!feof($fp)) {
-        $message .= "\n...";
-    }
-    gzclose($fp);
+    $message = file_get_contents('compress.zlib://' . $file);
+    // TODO: REMOVE ALL BASE64 DATA
     return $message;
 }
 
@@ -229,22 +231,14 @@ function __getmail_mime_decode_protected($input)
  */
 function __getmail_getmime($id)
 {
-    $query = 'SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id = ?';
-    $row = execute_query($query, [$id]);
-    if (!$row) {
+    $file = __getmail_gzfile($id);
+    if ($file == '') {
         return '';
     }
-    $email = $row['account_id'] . '/' . $row['uidl'];
+    $query = 'SELECT account_id,uidl,is_outbox,datetime,size FROM app_emails WHERE id = ?';
+    $row = execute_query($query, [$id]);
     $cache = get_cache_file($row, '.eml');
     if (!file_exists($cache)) {
-        $file = (
-            $row['is_outbox'] ?
-                get_directory('dirs/outboxdir') :
-                    get_directory('dirs/inboxdir')
-        ) . $email . '.eml.gz';
-        if (!file_exists($file)) {
-            return '';
-        }
         $decoded = __getmail_mime_decode_protected(['File' => 'compress.zlib://' . $file]);
         file_put_contents($cache, serialize($decoded));
         chmod_protected($cache, 0666);
