@@ -141,9 +141,9 @@
         ]</temp>
         <data require="apps/emails/php/filter.php" eval="true">merge_data_actions(
             execute_query_array("
-                SELECT id, IF(is_outbox, IF(`to` != '', `to`, '.'), IF(`from` != '', `from`, '.')) header,
+                SELECT id, IF(is_outbox, IF(`to` != '', `to`, '-'), IF(`from` != '', `from`, '-')) header,
                     IF(DATE(datetime) = DATE('".current_date()."'), DATE_FORMAT(datetime,'%H:%i:%s'), DATE_FORMAT(datetime,'%d/%m/%y')) header_text,
-                    IF(subject!='', subject, '.') body,
+                    IF(subject!='', subject, '-') body,
                     TRIM(CONCAT_WS(' ',
                         CASE state_sent WHEN 1 THEN 'Sent' ELSE '' END,
                         CASE state_error WHEN '' THEN '' ELSE 'Error' END,
@@ -163,7 +163,7 @@
                         WHEN state_wait=1 THEN 'primary'
                         ELSE ''
                     END body_color,
-                    SUBSTR(IF(body != '', body, '.'),1,250) footer,
+                    SUBSTR(IF(body != '', body, '-'),1,250) footer,
                     CASE WHEN files THEN files ELSE '' END footer_text,
                     CASE WHEN files THEN 'paperclip' ELSE '' END footer_icon,
                     CASE WHEN state_new=1 THEN 'fw-bold' ELSE '' END class

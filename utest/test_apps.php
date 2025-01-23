@@ -134,15 +134,19 @@ final class test_apps extends TestCase
     {
         $json = test_web_helper('app', null, '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'App not found');
 
         $json = test_web_helper('app/nada', '', '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'App nada not found');
 
         $json = test_web_helper('app/customers/nada', '', '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'Subapp nada not found');
 
         $json = test_web_helper('app/customers', '', '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'Permission denied');
 
         $json = test_web_helper('app/login', '', '', '');
         $this->assertArrayHasKey('layout', $json);
@@ -178,11 +182,13 @@ final class test_apps extends TestCase
 
         $json = test_web_helper('app/nada2', '', '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'App nada2 not found');
 
         file_put_contents('apps/nada2/xml/app.xml', '<root><nada3></nada3><nada4></nada4></root>');
 
         $json = test_web_helper('app/nada2', '', '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'App nada2 not found');
 
         if (file_exists('apps/nada2/xml/app.xml')) {
             unlink('apps/nada2/xml/app.xml');
@@ -193,6 +199,22 @@ final class test_apps extends TestCase
         if (file_exists('apps/nada2')) {
             rmdir('apps/nada2');
         }
+
+        $file = detect_app_file('types');
+        file_put_contents($file, '<root></root>');
+
+        $json = test_web_helper('app/types', '', $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'Internal error');
+
+        file_put_contents($file, '<root><nada3></nada3><nada4></nada4></root>');
+
+        $json = test_web_helper('app/types', '', $json2['token'], '');
+        $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'Subapp not found');
+
+        unlink($file);
+        $this->assertFileDoesNotExist($file);
     }
 
     #[testdox('list functions')]
@@ -219,11 +241,13 @@ final class test_apps extends TestCase
 
         $json = test_web_helper('list/nada2', '', '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'Unknown request');
 
         file_put_contents('apps/nada2/xml/list.xml', '<root><nada3></nada3><nada4></nada4></root>');
 
         $json = test_web_helper('list/nada2', '', '', '');
         $this->assertArrayHasKey('error', $json);
+        $this->assertSame($json['error']['text'], 'Unknown request');
 
         if (file_exists('apps/nada2/xml/list.xml')) {
             unlink('apps/nada2/xml/list.xml');

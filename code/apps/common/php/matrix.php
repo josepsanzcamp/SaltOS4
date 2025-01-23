@@ -50,7 +50,7 @@ function make_matrix_version($app, $id)
         FROM {$table}_version WHERE reg_id = ? ORDER BY id ASC";
     $versions = execute_query_array($query, [$id]);
     foreach ($versions as $key => $val) {
-        $val['user'] = $val['user']  ?? '-';
+        $val['user'] = $val['user'] ?? '-';
         $val['datetime'] = datetime_format($val['datetime']);
         $val['ver_id'] = 'v' . $val['ver_id'];
         $versions[$key] = implode('<br/>', $val);
@@ -230,6 +230,7 @@ function make_matrix_log($app, $id)
             $users[$user_id] = execute_query('SELECT name FROM tbl_users WHERE id = ?', [$user_id]);
         }
         $val = array_merge(['user' => $users[$user_id]], $val);
+        $val['datetime'] = datetime_format($val['datetime']);
         $data[$key] = $val;
     }
     // Set the headers
