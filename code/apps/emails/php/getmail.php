@@ -188,6 +188,10 @@ function __getmail_gzfile($id)
  * This function returns the original RFC822 message as string
  *
  * @id => id of the email
+ *
+ * Notes:
+ *
+ * This function returns the email source without the base64 attachments
  */
 function __getmail_getsource($id)
 {
@@ -196,7 +200,29 @@ function __getmail_getsource($id)
         return '';
     }
     $message = file_get_contents('compress.zlib://' . $file);
-    // TODO: REMOVE ALL BASE64 DATA
+    $pos = stripos($message, 'content-transfer-encoding: base64');
+    while ($pos !== false) {
+        $pos2 = strpos($message, "\r\n\r\n", $pos);
+        $size2 = 4;
+        if ($pos2 === false) {
+            $pos2 = strpos($message, "\n\n", $pos);
+            $size2 = 2;
+        }
+        if ($pos2 === false) {
+            break;
+        }
+        $pos3 = strpos($message, "\r\n--", $pos2);
+        $size3 = 2;
+        if ($pos3 === false) {
+            $pos3 = strpos($message, "\n--", $pos2);
+            $size3 = 1;
+        }
+        if ($pos3 === false) {
+            break;
+        }
+        $message = substr($message, 0, $pos2 + $size2) . substr($message, $pos3 + $size3);
+        $pos = stripos($message, 'content-transfer-encoding: base64', $pos + 1);
+    }
     return $message;
 }
 
