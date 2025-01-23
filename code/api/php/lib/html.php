@@ -512,7 +512,10 @@ function fix_file_b64($html)
     preg_match_all('/data:file\/b64;base64,[a-zA-Z0-9\+\/=]+/', $html, $matches);
     foreach ($matches[0] as $mime) {
         $file = mime_extract($mime)['data'];
-        $html = str_replace($mime, file_get_contents($dir . $file), $html);
+        if (file_exists($dir . $file)) {
+            $img = file_get_contents($dir . $file);
+            $html = str_replace($mime, $img, $html);
+        }
     }
     return $html;
 }
