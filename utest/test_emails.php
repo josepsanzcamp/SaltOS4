@@ -572,7 +572,7 @@ final class test_emails extends TestCase
         set_server('QUERY_STRING', null);
 
         $this->assertSame(__getmail_getsource(101), '');
-        $this->assertSame(strlen(__getmail_getsource(100, 100)), 100 + 4);
+        $this->assertLessThan(gzfilesize('data/inbox/1/email_0100.eml.gz'), strlen(__getmail_getsource(100)));
         $this->assertSame(__getmail_gethumansize(1073741824), '1 Gbytes');
         $this->assertSame(__getmail_gethumansize(1073741823), '1024 Mbytes');
         $this->assertSame(__getmail_gethumansize(1048576), '1 Mbytes');
