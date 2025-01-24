@@ -310,8 +310,7 @@ function words_exists($words, $buffer)
  * difference is that str_replace is more efficient that strtr because the
  * strtr tries to prepare the replacement list by ordering by size the
  * replace_pairs and too to prevent repeated replacements in previously
- * replacements, if you write a utest as I, you can see how this function
- * is more quickly that strtr and for this reason, I maintain this code.
+ * replacements, you can see test_strtr.php for more info
  */
 function str_replace_assoc($array, $cad)
 {
@@ -385,4 +384,28 @@ function check_ids_array(...$args)
     $value = __check_ids_helper(...$args);
     $value = array_values($value);
     return $value;
+}
+
+/**
+ * String Replace One
+ *
+ * This function tries to do the same that str_repalce but only for the first
+ * occurrence
+ *
+ * @from => the string used as search
+ * @to   => the string that you want to use as replacement
+ * @cad  => the string that you want to modify
+ *
+ * Notes:
+ *
+ * This function can be replaced by preg_replace, but this implementation is
+ * more efficient, see the test_replace.php for more info
+ */
+function str_replace_one($from, $to, $cad)
+{
+    $pos = strpos($cad, $from);
+    if ($pos !== false) {
+        $cad = substr_replace($cad, $to, $pos, strlen($from));
+    }
+    return $cad;
 }

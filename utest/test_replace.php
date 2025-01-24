@@ -36,7 +36,7 @@ declare(strict_types=1);
  * Test mime
  *
  * This test performs some tests to validate the correctness
- * of the str_replace_assoc instead of the strtr function
+ * of the str_replace instead of the preg_replace
  */
 
 /**
@@ -49,68 +49,61 @@ use PHPUnit\Framework\Attributes\Depends;
 /**
  * Main class of this unit test
  */
-final class test_strtr extends TestCase
+final class test_replace extends TestCase
 {
-    #[testdox('strtr functions')]
+    #[testdox('replace functions')]
     /**
-     * strtr test
+     * replace test
      *
      * This test performs some tests to validate the correctness
-     * of the str_replace_assoc instead of the strtr function
+     * of the str_replace_assoc instead of the replace function
      */
-    public function test_strtr(): void
+    public function test_replace(): void
     {
-        // phpcs:disable Generic.Files.LineLength
-        $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-        // phpcs:enable Generic.Files.LineLength
+        $lorem = [];
+        for ($i = 0; $i < 1000; $i++) {
+            $lorem[] = "Lorem$i ipsum dolor sit amet.";
+        }
+        $lorem = implode(' ', $lorem);
         $iterations = 100000;
-        $expected = str_replace_assoc([
-            'a' => 'b',
-            'e' => 'f',
-            'i' => 'j',
-            'o' => 'p',
-            'u' => 'v',
-        ], $lorem);
+        $from = 'Lorem777';
+        $to = 'Ipsum777';
+        $expected = preg_replace('/' . preg_quote($from, '/') . '/', $to, $lorem, 1);
 
         $time0 = microtime(true);
 
         for ($i = 0; $i < $iterations; $i++) {
-            $output = str_replace([
-                'a', 'e', 'i', 'o', 'u',
-            ], [
-                'b', 'f', 'j', 'p', 'v',
-            ], $lorem);
+            $output = preg_replace('/' . $from . '/', $to, $lorem, 1);
         }
         $this->assertSame($output, $expected);
 
         $time1 = microtime(true);
 
         for ($i = 0; $i < $iterations; $i++) {
-            $output = strtr($lorem, [
-                'a' => 'b',
-                'e' => 'f',
-                'i' => 'j',
-                'o' => 'p',
-                'u' => 'v',
-            ]);
+            $output = preg_replace('/' . preg_quote($from, '/') . '/', $to, $lorem, 1);
         }
         $this->assertSame($output, $expected);
 
         $time2 = microtime(true);
 
         for ($i = 0; $i < $iterations; $i++) {
-            $output = str_replace_assoc([
-                'a' => 'b',
-                'e' => 'f',
-                'i' => 'j',
-                'o' => 'p',
-                'u' => 'v',
-            ], $lorem);
+            $pos = strpos($lorem, $from);
+            if ($pos !== false) {
+                $output = substr_replace($lorem, $to, $pos, strlen($from));
+            }
         }
         $this->assertSame($output, $expected);
 
         $time3 = microtime(true);
 
+        for ($i = 0; $i < $iterations; $i++) {
+            $output = str_replace_one($from, $to, $lorem);
+        }
+        $this->assertSame($output, $expected);
+
+        $time4 = microtime(true);
+
+        $time4 = $time4 - $time3;
         $time3 = $time3 - $time2;
         $time2 = $time2 - $time1;
         $time1 = $time1 - $time0;
@@ -119,10 +112,14 @@ final class test_strtr extends TestCase
             //~ 'time1' => sprintf('%f', $time1),
             //~ 'time2' => sprintf('%f', $time2),
             //~ 'time3' => sprintf('%f', $time3),
+            //~ 'time4' => sprintf('%f', $time4),
         //~ ]);
 
         $this->assertTrue($time1 < $time2);
+        $this->assertTrue($time3 < $time1);
         $this->assertTrue($time3 < $time2);
-        $this->assertTrue($time1 < $time3);
+        $this->assertTrue($time3 < $time4);
+        $this->assertTrue($time4 < $time1);
+        $this->assertTrue($time4 < $time2);
     }
 }

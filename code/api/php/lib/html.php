@@ -134,8 +134,9 @@ function inline_img_tag($html)
             str_replace_assoc(__CHARS_MAP__, $src),
             htmlspecialchars($src),
         ];
+        $froms = array_unique($froms);
         foreach ($froms as $from) {
-            $html = str_replace($from, $img, $html);
+            $html = str_replace_one($from, $img, $html);
         }
     }
     return $html;
@@ -180,8 +181,9 @@ function inline_img_style($html)
                 str_replace_assoc(__CHARS_MAP__, $src),
                 htmlspecialchars($src),
             ];
+            $froms = array_unique($froms);
             foreach ($froms as $from) {
-                $html = str_replace($from, $img, $html);
+                $html = str_replace_one($from, $img, $html);
             }
         }
     }
@@ -219,8 +221,9 @@ function inline_img_background($html)
             str_replace_assoc(__CHARS_MAP__, $src),
             htmlspecialchars($src),
         ];
+        $froms = array_unique($froms);
         foreach ($froms as $from) {
-            $html = str_replace($from, $img, $html);
+            $html = str_replace_one($from, $img, $html);
         }
     }
     return $html;
@@ -309,7 +312,7 @@ function extract_img_tag($html)
         }
         $hash = md5($img['data']);
         $files[$hash] = $img;
-        $html = str_replace($src, "cid:$hash", $html);
+        $html = str_replace_one($src, "cid:$hash", $html);
     }
     return [$html, $files];
 }
@@ -349,7 +352,7 @@ function extract_img_style($html)
             }
             $hash = md5($img['data']);
             $files[$hash] = $img;
-            $html = str_replace($src, "cid:$hash", $html);
+            $html = str_replace_one($src, "cid:$hash", $html);
         }
     }
     return [$html, $files];
@@ -382,7 +385,7 @@ function extract_img_background($html)
         }
         $hash = md5($img['data']);
         $files[$hash] = $img;
-        $html = str_replace($src, "cid:$hash", $html);
+        $html = str_replace_one($src, "cid:$hash", $html);
     }
     return [$html, $files];
 }
@@ -413,8 +416,9 @@ function fix_img_tag($html)
             str_replace_assoc(__CHARS_MAP__, $src),
             htmlspecialchars($src),
         ];
+        $froms = array_unique($froms);
         foreach ($froms as $from) {
-            $html = str_replace($from, __GIF_IMAGE__, $html);
+            $html = str_replace_one($from, __GIF_IMAGE__, $html);
         }
     }
     return $html;
@@ -457,8 +461,9 @@ function fix_img_style($html)
                 str_replace_assoc(__CHARS_MAP__, $src),
                 htmlspecialchars($src),
             ];
+            $froms = array_unique($froms);
             foreach ($froms as $from) {
-                $html = str_replace($from, __GIF_IMAGE__, $html);
+                $html = str_replace_one($from, __GIF_IMAGE__, $html);
             }
         }
     }
@@ -494,8 +499,9 @@ function fix_img_background($html)
             str_replace_assoc(__CHARS_MAP__, $src),
             htmlspecialchars($src),
         ];
+        $froms = array_unique($froms);
         foreach ($froms as $from) {
-            $html = str_replace($from, __GIF_IMAGE__, $html);
+            $html = str_replace_one($from, __GIF_IMAGE__, $html);
         }
     }
     return $html;
@@ -505,16 +511,23 @@ function fix_img_background($html)
  * TODO
  *
  * TODO
+ *
+ * Notes:
+ *
+ * We are using {48} to force to search a base64 data of 48 of bytes, where decoded
+ * must to be a 36 bytes string, this match with the cache style file like a md5 hash
+ * of 32 bytes with 4 bytes more by the extension file (.b64)
+ *
  */
 function fix_file_b64($html)
 {
     $dir = get_directory('dirs/cachedir') ?? getcwd_protected() . '/data/cache/';
-    preg_match_all('/data:file\/b64;base64,[a-zA-Z0-9\+\/=]+/', $html, $matches);
+    preg_match_all('/data:file\/b64;base64,[a-zA-Z0-9\+\/=]{48}/', $html, $matches);
     foreach ($matches[0] as $mime) {
         $file = mime_extract($mime)['data'];
         if (file_exists($dir . $file)) {
             $img = file_get_contents($dir . $file);
-            $html = str_replace($mime, $img, $html);
+            $html = str_replace_one($mime, $img, $html);
         }
     }
     return $html;
