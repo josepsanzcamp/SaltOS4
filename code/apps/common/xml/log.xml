@@ -30,7 +30,7 @@
         <check eval="true" logout="true">current_user()</check>
         <check eval="true">check_app_perm_id(get_data("rest/1"), get_data("rest/2"), get_data("rest/4"))</check>
         <check eval="true">check_user(get_data("rest/1"), 'info')</check>
-        <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/4'), get_data('rest/3'))</temp>
+        <temp require="php/lib/log.php" eval="true">make_log(get_data('rest/1'), get_data('rest/3'), get_data('rest/4'))</temp>
         <gettext eval="true">T()</gettext>
         <title append="modal">Access log</title>
         <screen eval="true">xmlfile2array(detect_app_file(get_data("rest/1")))["screen"]</screen>

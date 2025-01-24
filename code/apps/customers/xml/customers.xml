@@ -78,14 +78,14 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
                 AND ".make_fulltext_query(get_data("json/search"), "customers", ["minsize" => 1, "default" => "1=1"])."
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit")), get_data("rest/2")),
+                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions ifeval="false">
@@ -127,8 +127,9 @@
         <text id="tel_movil" label="Tel movil"/>
         <text id="fax" label="Fax"/>
     </form>
-    <data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), execute_query("SELECT * FROM ".app2table(get_data("rest/1"))."
-        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))]), get_data("rest/2"))</data>
+    <data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
+        SELECT * FROM ".app2table(get_data("rest/1"))." WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
+        [intval(get_data("rest/3"))]))</data>
 
     <create>
         <check eval="true" logout="true">current_user()</check>
@@ -254,13 +255,13 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit")), get_data("rest/2")),
+                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
             xpath_search_first_value("widget[id=table1]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions ifeval="false">
@@ -290,13 +291,13 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal
                 FROM app_customers
                 WHERE 1 = 1
                 AND ".check_sql("customers", "list")."
                 ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit")), get_data("rest/2")),
+                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
             xpath_search_first_value("widget[id=table2]/actions", xmlfile2array("apps/customers/xml/customers.xml"))
         )</data>
         <actions ifeval="false">

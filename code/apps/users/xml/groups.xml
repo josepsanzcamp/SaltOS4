@@ -78,7 +78,7 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
                 SELECT id, code, name, description,
                 CASE active WHEN 1 THEN 'check-lg text-success' ELSE 'x-lg text-danger' END active
                 FROM tbl_groups
@@ -86,7 +86,7 @@
                 AND ".make_fulltext_query(get_data("json/search"), "groups", ["minsize" => 1, "default" => "1=1"])."
                 AND ".check_sql("groups", "list")."
                 ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit")), get_data("rest/2")),
+                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/users/xml/groups.xml"))
         )</data>
         <actions ifeval="false">
@@ -118,8 +118,9 @@
             require="apps/users/php/matrix.php" eval="true">make_matrix_perms('tbl_groups_apps_perms', 'group_id', intval(get_data('rest/3')))
         </excel>
     </form>
-    <data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), execute_query("SELECT * FROM ".app2table(get_data("rest/1"))."
-        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))]), get_data("rest/2"))</data>
+    <data require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
+        SELECT * FROM ".app2table(get_data("rest/1"))." WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
+        [intval(get_data("rest/3"))]))</data>
 
     <create>
         <check eval="true" logout="true">current_user()</check>

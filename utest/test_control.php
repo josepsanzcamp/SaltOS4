@@ -71,13 +71,13 @@ final class test_control extends TestCase
     public function test_control(): void
     {
         $this->assertSame(make_control('dashboard', -1), -1);
-        $this->assertSame(make_log('dashboard', -1, 'utest'), -1);
+        $this->assertSame(make_log('dashboard', 'utest', -1), -1);
         $this->assertSame(get_logs('dashboard', -1), -1);
         $this->assertSame(make_index('dashboard', -1), -1);
         $this->assertSame(make_version('dashboard', -1), -1);
         $this->assertSame(get_version('dashboard', -1), -1);
         $this->assertSame(del_version('dashboard', -1), -1);
-        $this->assertSame(make_log('emails', -1, 'utest'), -2);
+        $this->assertSame(make_log('emails', 'utest', -1), -2);
         $this->assertSame(get_logs('emails', -1), -2);
         $this->assertSame(make_version('emails', -1), -2);
         $this->assertSame(get_version('emails', -1), -2);

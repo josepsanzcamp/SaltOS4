@@ -108,14 +108,14 @@ function setup()
 
     if ($output['tbl_users']) {
         make_control('users', 1);
-        make_log('users', 1, 'setup');
+        make_log('users', 'setup', 1);
         make_version('users', 1);
         make_index('users', 1);
     }
 
     if ($output['tbl_groups']) {
         make_control('groups', 1);
-        make_log('groups', 1, 'setup');
+        make_log('groups', 'setup', 1);
         make_version('groups', 1);
         make_index('groups', 1);
     }

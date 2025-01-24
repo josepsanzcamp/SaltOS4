@@ -64,7 +64,7 @@ if (!$exists) {
         make_index('types', $id);
         $total++;
     }
-    make_log('types', $ids, 'setup');
+    make_log('types', 'setup', $ids);
 }
 
 $time2 = microtime(true);

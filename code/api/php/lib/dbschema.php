@@ -591,7 +591,10 @@ function __dbschema_auto_apps($dbschema)
                                 <field name="user_id" type="INT(11)" fkey="tbl_users"/>
                                 <field name="datetime" type="DATETIME"/>
                                 <field name="log" type="VARCHAR(255)"/>
-                                <field name="reg_ids" type="TEXT" fkey="{$table}"/>
+                                <field name="reg_id" type="INT(11)" fkey="{$table}"/>
+                                <field name="reg_ids" type="TEXT"/>
+                                <field name="extra_id" type="INT(11)"/>
+                                <field name="extra_ids" type="TEXT"/>
                             </fields>
                         </table>';
                 $xml = str_replace('{$table}', $table, $xml);

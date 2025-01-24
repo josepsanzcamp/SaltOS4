@@ -90,7 +90,7 @@
             set_data("json/offset", intval(get_data("json/page") * get_data("json/limit"))),
         ]</temp>
         <data require="php/lib/log.php" eval="true">merge_data_actions(
-            make_log_bypass(get_data("rest/1"), execute_query_array("
+            make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query_array("
                 SELECT id, nombre, cif, nombre_poblacion, nombre_codpostal, num, fecha,
                     ROUND((SELECT sum(unidades * precio * (1 - (descuento / 100))) FROM app_invoices_concepts b WHERE a.id = b.id_factura),2) total,
                     IF(cerrado, 'check-lg text-success', 'x-lg text-danger') cerrado,
@@ -100,7 +100,7 @@
                 AND ".make_fulltext_query(get_data("json/search"), "invoices", ["minsize" => 1, "default" => "1=1"])."
                 AND ".check_sql("invoices", "list")."
                 ORDER BY ".get_data("json/order")."
-                LIMIT ".get_data("json/offset").",".get_data("json/limit")), get_data("rest/2")),
+                LIMIT ".get_data("json/offset").",".get_data("json/limit"))),
             xpath_search_first_value("list[id=table]/actions", xmlfile2array("apps/invoices/xml/invoices.xml"))
         )</data>
         <actions ifeval="false">
@@ -151,12 +151,15 @@
         <text id="total" label="total" col_class="col-md-1 mb-3" ignore="true"/>
         <button onclick="saltos.invoices.add_item()" icon="plus-lg" col_class="col-auto mb-3" tooltip="Añadir mas conceptos" addbr="true"/>
     </form_footer>
-    <data_header require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), execute_query("SELECT * FROM app_invoices
-        WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))]), get_data("rest/2"))</data_header>
+    <data_header require="php/lib/log.php" eval="true">make_log_bypass(get_data("rest/1"), get_data("rest/2"), execute_query("
+        SELECT * FROM app_invoices WHERE id = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
+        [intval(get_data("rest/3"))]))</data_header>
     <data_detail eval="true">execute_query_array("SELECT *, ROUND(unidades * precio * (1 - (descuento / 100)),2) total
-        FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC", [intval(get_data("rest/3"))])</data_detail>
+        FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2"))." ORDER BY id ASC",
+        [intval(get_data("rest/3"))])</data_detail>
     <data_footer eval="true">execute_query("SELECT id, ROUND(SUM(unidades * precio * (1 - (descuento / 100))),2) total
-        FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")), [intval(get_data("rest/3"))])</data_footer>
+        FROM app_invoices_concepts WHERE id_factura = ? AND ".check_sql(get_data("rest/1"), get_data("rest/2")),
+        [intval(get_data("rest/3"))])</data_footer>
 
     <create>
         <check eval="true" logout="true">current_user()</check>

@@ -39,9 +39,10 @@ declare(strict_types=1);
  * This function adds a log register to the associated log table for each
  * application.
  *
- * @app    => code of the application where you want to add the log
- * @reg_id => register of the app where you want to add the log
- * @log    => the log message that you want to add to the log register
+ * @app      => code of the application where you want to add the log
+ * @log      => the log message that you want to add to the log register
+ * @reg_id   => register ids of the app where you want to add the log
+ * @extra_id => extra ids of the app where you want to add the log
  *
  * Notes:
  *
@@ -51,7 +52,7 @@ declare(strict_types=1);
  * -1 => app not found, this is because the app requested not have a table in the apps config
  * -2 => log table not found, this is because the has_log feature is disabled by dbstatic
  */
-function make_log($app, $reg_id, $log)
+function make_log($app, $log, $reg_ids, $extra_ids = '')
 {
     // Check the passed parameters
     $table = app2table($app);
@@ -66,11 +67,41 @@ function make_log($app, $reg_id, $log)
     // Normal operation
     $user_id = current_user();
     $datetime = current_datetime();
+    // Prepare reg data
+    $reg_array = check_ids_array($reg_ids);
+    $reg_count = count($reg_array);
+    if ($reg_count == 0) {
+        $reg_id = 0;
+        $reg_ids = '';
+    } elseif ($reg_count == 1) {
+        $reg_id = $reg_array[0];
+        $reg_ids = '';
+    } else {
+        $reg_id = 0;
+        $reg_ids = implode(',', $reg_array);
+    }
+    // Prepare extra data
+    $extra_array = check_ids_array($extra_ids);
+    $extra_count = count($extra_array);
+    if ($extra_count == 0) {
+        $extra_id = 0;
+        $extra_ids = '';
+    } elseif ($extra_count == 1) {
+        $extra_id = $extra_array[0];
+        $extra_ids = '';
+    } else {
+        $extra_id = 0;
+        $extra_ids = implode(',', $extra_array);
+    }
+    // Continue
     $query = prepare_insert_query("{$table}_log", [
         'user_id' => $user_id,
         'datetime' => $datetime,
         'log' => $log,
-        'reg_ids' => check_ids($reg_id),
+        'reg_id' => $reg_id,
+        'reg_ids' => $reg_ids,
+        'extra_id' => $extra_id,
+        'extra_ids' => $extra_ids,
     ]);
     db_query(...$query);
     return 1;
@@ -94,15 +125,15 @@ function make_log($app, $reg_id, $log)
  *
  * This function always returns the input data
  */
-function make_log_bypass($app, $data, $log)
+function make_log_bypass($app, $log, $data)
 {
     if (app2log($app)) {
         if (isset($data['id'])) {
-            make_log($app, $data['id'], $log);
+            make_log($app, $log, $data['id']);
         } else {
             $ids = array_column($data, 'id');
             if (count($ids)) {
-                make_log($app, $ids, $log);
+                make_log($app, $log, $ids);
             }
         }
     }
@@ -126,8 +157,9 @@ function get_logs($app, $reg_id)
     if (!db_check($query)) {
         return -2;
     }
-    $query = "SELECT id, user_id, datetime, log, reg_ids
-        FROM {$table}_log WHERE FIND_IN_SET(?, reg_ids) ORDER BY id ASC";
-    $rows = execute_query_array($query, [$reg_id]);
+    $query = "SELECT id, user_id, datetime, log,
+        IF(reg_id, reg_id, '') reg_id, IF(extra_id, extra_id, '') extra_id, reg_ids, extra_ids
+        FROM {$table}_log WHERE reg_id = ? OR FIND_IN_SET(?, reg_ids) ORDER BY id ASC";
+    $rows = execute_query_array($query, [$reg_id, $reg_id]);
     return $rows;
 }
