@@ -70,12 +70,11 @@ function parse_query($query, $type = '')
                 $pos3 = __parse_query_strpos($query, '/*', $pos + 2);
             }
             if (substr($query, $pos + 2, $len) == $type) {
-                $query = substr($query, 0, $pos) .
-                    trim(substr($query, $pos + 2 + $len, $pos2 - $pos - 2 - $len)) .
-                    substr($query, $pos2 + 2);
+                $replacement = trim(substr($query, $pos + 2 + $len, $pos2 - $pos - 2 - $len));
             } else {
-                $query = substr($query, 0, $pos) . substr($query, $pos2 + 2);
+                $replacement = '';
             }
+            $query = substr_replace($query, $replacement, $pos, $pos2 + 2 - $pos);
             $pos = __parse_query_strpos($query, '/*', $pos);
         } else {
             $pos = __parse_query_strpos($query, '/*', $pos + 2);
@@ -122,27 +121,23 @@ function __parse_query_strpos($haystack, $needle, $offset = 0)
 {
     $len = strlen($needle);
     $pos = strpos($haystack, $needle, $offset);
-    if ($pos !== false) {
+    if ($pos !== false && $pos > $offset) {
         $len2 = $pos - $offset;
-        if ($len2 > 0) {
-            $count1 = substr_count($haystack, "'", $offset, $len2) -
-                      substr_count($haystack, "\\'", $offset, $len2);
-            $count2 = substr_count($haystack, '"', $offset, $len2) -
-                      substr_count($haystack, '\\"', $offset, $len2);
-            while ($pos !== false && ($count1 % 2 != 0 || $count2 % 2 != 0)) {
-                $offset = $pos + $len;
-                $pos = strpos($haystack, $needle, $offset);
-                if ($pos !== false) {
-                    $len2 = $pos - $offset;
-                    if ($len2 > 0) {
-                        $count1 +=
-                            substr_count($haystack, "'", $offset, $len2) -
-                            substr_count($haystack, "\\'", $offset, $len2);
-                        $count2 +=
-                            substr_count($haystack, '"', $offset, $len2) -
-                            substr_count($haystack, '\\"', $offset, $len2);
-                    }
-                }
+        $count1 = substr_count($haystack, "'", $offset, $len2) -
+                  substr_count($haystack, "\\'", $offset, $len2);
+        $count2 = substr_count($haystack, '"', $offset, $len2) -
+                  substr_count($haystack, '\\"', $offset, $len2);
+        while ($pos !== false && ($count1 % 2 != 0 || $count2 % 2 != 0)) {
+            $offset = $pos + $len;
+            $pos = strpos($haystack, $needle, $offset);
+            if ($pos !== false && $pos > $offset) {
+                $len2 = $pos - $offset;
+                $count1 +=
+                    substr_count($haystack, "'", $offset, $len2) -
+                    substr_count($haystack, "\\'", $offset, $len2);
+                $count2 +=
+                    substr_count($haystack, '"', $offset, $len2) -
+                    substr_count($haystack, '\\"', $offset, $len2);
             }
         }
     }
@@ -292,10 +287,8 @@ function get_indexes($table)
  */
 function get_tables()
 {
-    $query = "/*MYSQL SHOW TABLES *//*SQLITE SELECT name
-        FROM sqlite_master
-        WHERE type='table'
-            AND name NOT LIKE 'sqlite_%' */";
+    $query = "/*MYSQL SHOW TABLES *//*SQLITE SELECT name FROM sqlite_master
+        WHERE type='table' AND name NOT LIKE 'sqlite_%' */";
     $result = db_query($query);
     $tables = [];
     while ($row = db_fetch_row($result)) {

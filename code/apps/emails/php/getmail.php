@@ -220,7 +220,7 @@ function __getmail_getsource($id)
         if ($pos3 === false) {
             break;
         }
-        $message = substr($message, 0, $pos2 + $size2) . substr($message, $pos3 + $size3);
+        $message = substr_replace($message, '', $pos2 + $size2, $pos3 + $size3 - $pos2 - $size2);
         $pos = stripos($message, 'content-transfer-encoding: base64', $pos + 1);
     }
     return $message;
