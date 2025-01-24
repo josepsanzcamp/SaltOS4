@@ -107,7 +107,7 @@ function files_cid($app, $id, $cid)
     // check that app folder exists
     $files = get_directory('dirs/filesdir') ?? getcwd_protected() . '/data/files/';
     if (!file_exists($files . $app)) {
-        show_php_error(['phperror' => 'dir not found']);
+        show_json_error('file not found');
     }
     // Prepare the output
     $result = execute_query("SELECT * FROM {$table}_files WHERE id = ? AND reg_id = ?", [$cid, $id]);
