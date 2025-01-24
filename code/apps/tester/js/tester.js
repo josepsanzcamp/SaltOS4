@@ -150,6 +150,6 @@ saltos.tester.campo11 = () => {
  *
  * TODO
  */
-saltos.tester.campo22 = () => {
+saltos.tester.campo23 = () => {
     window.open('https://www.saltos.org/portal/es/estadisticas');
 };
